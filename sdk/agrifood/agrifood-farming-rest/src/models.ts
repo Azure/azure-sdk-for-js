@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export interface ApplicationData extends Record<string, unknown> {
+/** Schema of application data resource. */
+export interface ApplicationData {
   /** Application product details. */
   applicationProductDetails?: Array<ApplicationProductDetail>;
   /** Schema for storing measurement reading and unit. */
@@ -19,22 +20,10 @@ export interface ApplicationData extends Record<string, unknown> {
   operationStartDateTime?: Date | string;
   /** End date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ. */
   operationEndDateTime?: Date | string;
-  /** Link for attachments. */
-  attachmentsLink?: string;
   /** Optional boundary ID of the field for which operation was applied. */
   associatedBoundaryId?: string;
-  /** Farmer ID which belongs to the operation data. */
-  farmerId?: string;
-  /** Unique resource ID. */
-  id?: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag?: string;
   /** Status of the resource. */
   status?: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date | string;
   /** Source of the resource. */
   source?: string;
   /** Name to identify resource. */
@@ -51,6 +40,7 @@ export interface ApplicationData extends Record<string, unknown> {
   properties?: Record<string, any>;
 }
 
+/** Schema of product used during application. */
 export interface ApplicationProductDetail {
   /** Name of the product applied. */
   productName?: string;
@@ -62,6 +52,7 @@ export interface ApplicationProductDetail {
   totalMaterial?: Measure;
 }
 
+/** Schema for storing measurement reading and unit. */
 export interface Measure {
   /** Data unit. */
   unit?: string;
@@ -69,6 +60,7 @@ export interface Measure {
   value?: number;
 }
 
+/** SearchAllBoundaries and SearchBoundaries parameters. */
 export interface SearchBoundaryQuery {
   /** Ids of the resource. */
   ids?: Array<string>;
@@ -93,11 +85,9 @@ export interface SearchBoundaryQuery {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
-  /** Is the boundary primary. */
-  isPrimary?: boolean;
+  skipToken?: string;
   /** Type of the parent it belongs to. */
   parentType?:
     | "Field"
@@ -109,31 +99,37 @@ export interface SearchBoundaryQuery {
     | "PlantingData"
     | "TillageData"
     | "HarvestData";
+  /** Type it belongs to. */
+  type?: string;
   /** Parent Ids of the resource. */
   parentIds?: Array<string>;
   /** Minimum acreage of the boundary (inclusive). */
-  minAcreage?: number;
+  minArea?: number;
   /** Maximum acreage of the boundary (inclusive). */
-  maxAcreage?: number;
+  maxArea?: number;
   /** GeoJSON (For more details: https://geojson.org/). Note: Coordinates are expected in [Longitude, Latitude] format. */
   intersectsWithGeometry?: GeoJsonObject;
 }
 
-export interface GeoJsonObjectBase {
+/** GeoJSON (For more details: https://geojson.org/). Note: Coordinates are expected in [Longitude, Latitude] format. */
+export interface GeoJsonObjectParent {
   type: "GeoJsonObject" | "MultiPolygon" | "Point" | "Polygon";
 }
 
-export interface Boundary extends Record<string, unknown> {
+/** Schema of boundary resource. */
+export interface Boundary {
   /** GeoJSON (For more details: https://geojson.org/). Note: Coordinates are expected in [Longitude, Latitude] format. */
   geometry?: GeoJsonObject;
-  /** Farmer Id. */
-  farmerId?: string;
+  /** Indicates the type of boundary belonging to a parent. */
+  type?: string;
+  /** GeoJSON (For more details: https://geojson.org/). Note: Coordinates are expected in [Longitude, Latitude] format. */
+  centroid?: GeoJsonObject;
+  /** GeoJSON (For more details: https://geojson.org/). Note: Coordinates are expected in [Longitude, Latitude] format. */
+  bbox?: GeoJsonObject;
   /** Id of the parent it belongs to. */
   parentId?: string;
-  /** Is the boundary primary. */
-  isPrimary?: boolean;
-  /** Boundary area in acres. */
-  acreage?: number;
+  /** Schema for storing measurement reading and unit. */
+  area?: Measure;
   /**
    * Type of the parent it belongs to.
    * i.e. Field, SeasonalField, Zone, Prescription, PlantTissueAnalysis, ApplicationData, HarvestData, TillageData, PlantingData.
@@ -148,16 +144,8 @@ export interface Boundary extends Record<string, unknown> {
     | "PlantingData"
     | "TillageData"
     | "HarvestData";
-  /** Unique resource ID. */
-  id?: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag?: string;
   /** Status of the resource. */
   status?: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date | string;
   /** Source of the resource. */
   source?: string;
   /** Name to identify resource. */
@@ -174,55 +162,25 @@ export interface Boundary extends Record<string, unknown> {
   properties?: Record<string, any>;
 }
 
-export interface Crop extends Record<string, unknown> {
-  /** Crop phenotype. */
-  phenotype?: string;
-  /** Unique resource ID. */
-  id?: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag?: string;
-  /** Status of the resource. */
-  status?: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date | string;
-  /** Source of the resource. */
-  source?: string;
-  /** Name to identify resource. */
-  name?: string;
-  /** Textual description of the resource. */
-  description?: string;
-  /**
-   * A collection of key value pairs that belongs to the resource.
-   * Each pair must not have a key greater than 50 characters
-   * and must not have a value greater than 150 characters.
-   * Note: A maximum of 25 key value pairs can be provided for a resource and only string,
-   * numeral and datetime (yyyy-MM-ddTHH:mm:ssZ) values are supported.
-   */
-  properties?: Record<string, any>;
-}
-
-export interface CropVariety extends Record<string, unknown> {
+/** Schema of crop product resource. */
+export interface CropProduct {
   /**
    * Ids of the crops it belongs to.
-   * Note: A maximum of 25 crops can be associated with a cropVariety.
+   * Note: A maximum of 25 crops can be associated with a cropProduct.
    */
   cropIds?: Array<string>;
-  /** CropVariety Brand. */
+  /** CropProduct Brand. */
   brand?: string;
-  /** CropVariety product. */
+  /** CropProduct product. */
   product?: string;
-  /** Unique resource ID. */
-  id?: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag?: string;
+  /** CropProduct trait. */
+  trait?: string;
+  /** Schema for storing measurement reading and unit. */
+  relativeMaturity?: Measure;
+  /** CropProduct treatments. */
+  treatments?: Array<string>;
   /** Status of the resource. */
   status?: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date | string;
   /** Source of the resource. */
   source?: string;
   /** Name to identify resource. */
@@ -239,7 +197,34 @@ export interface CropVariety extends Record<string, unknown> {
   properties?: Record<string, any>;
 }
 
-export interface DeviceDataModel extends Record<string, unknown> {
+/** Schema of crop resource. */
+export interface Crop {
+  /** Crop phenotype. */
+  phenotype?: string;
+  /** Breeding Method. */
+  breedingMethod?: "VARIETY" | "HYBRID" | "UNKNOWN";
+  /** Measurements. */
+  measurements?: Record<string, Measure>;
+  /** Status of the resource. */
+  status?: string;
+  /** Source of the resource. */
+  source?: string;
+  /** Name to identify resource. */
+  name?: string;
+  /** Textual description of the resource. */
+  description?: string;
+  /**
+   * A collection of key value pairs that belongs to the resource.
+   * Each pair must not have a key greater than 50 characters
+   * and must not have a value greater than 150 characters.
+   * Note: A maximum of 25 key value pairs can be provided for a resource and only string,
+   * numeral and datetime (yyyy-MM-ddTHH:mm:ssZ) values are supported.
+   */
+  properties?: Record<string, any>;
+}
+
+/** DeviceDataModel API model. */
+export interface DeviceDataModel {
   /** Type of device. */
   type?: string;
   /** Device manufacturer. */
@@ -248,18 +233,8 @@ export interface DeviceDataModel extends Record<string, unknown> {
   productCode?: string;
   /** List of device ports supported. */
   ports?: Array<Port>;
-  /** Id of the associated sensor partner. */
-  sensorPartnerId?: string;
-  /** Id of the resource. */
-  id?: string;
   /** Status of the resource. */
   status?: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date | string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag?: string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -274,6 +249,7 @@ export interface DeviceDataModel extends Record<string, unknown> {
   properties?: Record<string, any>;
 }
 
+/** Schema for storing port values. */
 export interface Port {
   /** Name of the port. */
   name?: string;
@@ -281,7 +257,8 @@ export interface Port {
   type?: string;
 }
 
-export interface Device extends Record<string, unknown> {
+/** Device API model. */
+export interface Device {
   /** Id of the associated device data model. */
   deviceDataModelId?: string;
   /** Integration id for the device. */
@@ -296,18 +273,8 @@ export interface Device extends Record<string, unknown> {
   parentDeviceId?: string;
   /** Location model class. */
   location?: Location;
-  /** Id of the associated sensor partner. */
-  sensorPartnerId?: string;
-  /** Id of the resource. */
-  id?: string;
   /** Status of the resource. */
   status?: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date | string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag?: string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -322,6 +289,7 @@ export interface Device extends Record<string, unknown> {
   properties?: Record<string, any>;
 }
 
+/** Location model class. */
 export interface Location {
   /** Latitude of the location. */
   latitude: number;
@@ -329,36 +297,10 @@ export interface Location {
   longitude: number;
 }
 
-export interface Farmer extends Record<string, unknown> {
-  /** Unique resource ID. */
-  id?: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag?: string;
-  /** Status of the resource. */
-  status?: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date | string;
-  /** Source of the resource. */
-  source?: string;
-  /** Name to identify resource. */
-  name?: string;
-  /** Textual description of the resource. */
-  description?: string;
-  /**
-   * A collection of key value pairs that belongs to the resource.
-   * Each pair must not have a key greater than 50 characters
-   * and must not have a value greater than 150 characters.
-   * Note: A maximum of 25 key value pairs can be provided for a resource and only string,
-   * numeral and datetime (yyyy-MM-ddTHH:mm:ssZ) values are supported.
-   */
-  properties?: Record<string, any>;
-}
-
-export interface FarmOperationDataIngestionJob extends Record<string, unknown> {
-  /** Farmer Id. */
-  farmerId: string;
+/** Schema of farm operation data ingestion job. */
+export interface FarmOperationDataIngestionJob {
+  /** Party Id. */
+  partyId: string;
   /** Authentication provider Id. */
   authProviderId: string;
   /** List of operation types for which data needs to be downloaded. Available values: AllOperations, Application, Planting, Harvest, Tillage. */
@@ -367,25 +309,6 @@ export interface FarmOperationDataIngestionJob extends Record<string, unknown> {
   startYear: number;
   /** Use this to pull only the incremental changes from the last run. */
   isIncremental?: boolean;
-  /** Unique job id. */
-  id?: string;
-  /**
-   * Status of the job.
-   * Possible values: 'Waiting', 'Running', 'Succeeded', 'Failed', 'Cancelled'.
-   */
-  status?: string;
-  /** Duration of the job in seconds. */
-  durationInSeconds?: number;
-  /** Status message to capture more details of the job. */
-  message?: string;
-  /** Job created at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Job was last acted upon at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  lastActionDateTime?: Date | string;
-  /** Job start time when available. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  startTime?: Date | string;
-  /** Job end time when available. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  endTime?: Date | string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -400,19 +323,10 @@ export interface FarmOperationDataIngestionJob extends Record<string, unknown> {
   properties?: Record<string, any>;
 }
 
-export interface Farm extends Record<string, unknown> {
-  /** Farmer Id. */
-  farmerId?: string;
-  /** Unique resource ID. */
-  id?: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag?: string;
+/** Schema of farm resource. */
+export interface Farm {
   /** Status of the resource. */
   status?: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date | string;
   /** Source of the resource. */
   source?: string;
   /** Name to identify resource. */
@@ -429,25 +343,12 @@ export interface Farm extends Record<string, unknown> {
   properties?: Record<string, any>;
 }
 
-export interface Field extends Record<string, unknown> {
+/** Schema of field resource. */
+export interface Field {
   /** Id of the associated Farm. */
   farmId?: string;
-  /** Farmer Id. */
-  farmerId?: string;
-  /** Primary boundary id. */
-  primaryBoundaryId?: string;
-  /** Boundary Ids. */
-  boundaryIds?: Array<string>;
-  /** Unique resource ID. */
-  id?: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag?: string;
   /** Status of the resource. */
   status?: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date | string;
   /** Source of the resource. */
   source?: string;
   /** Name to identify resource. */
@@ -464,7 +365,8 @@ export interface Field extends Record<string, unknown> {
   properties?: Record<string, any>;
 }
 
-export interface HarvestData extends Record<string, unknown> {
+/** Schema of harvest data resource. */
+export interface HarvestData {
   /** Schema for storing measurement reading and unit. */
   totalYield?: Measure;
   /** Schema for storing measurement reading and unit. */
@@ -490,22 +392,10 @@ export interface HarvestData extends Record<string, unknown> {
   operationStartDateTime?: Date | string;
   /** End date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ. */
   operationEndDateTime?: Date | string;
-  /** Link for attachments. */
-  attachmentsLink?: string;
   /** Optional boundary ID of the field for which operation was applied. */
   associatedBoundaryId?: string;
-  /** Farmer ID which belongs to the operation data. */
-  farmerId?: string;
-  /** Unique resource ID. */
-  id?: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag?: string;
   /** Status of the resource. */
   status?: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date | string;
   /** Source of the resource. */
   source?: string;
   /** Name to identify resource. */
@@ -522,6 +412,7 @@ export interface HarvestData extends Record<string, unknown> {
   properties?: Record<string, any>;
 }
 
+/** Schema of product used during harvesting. */
 export interface HarvestProductDetail {
   /** Name of the product. */
   productName?: string;
@@ -539,32 +430,14 @@ export interface HarvestProductDetail {
   avgWetMass?: Measure;
 }
 
-export interface ImageProcessingRasterizeJob extends Record<string, unknown> {
-  /** Farmer Id. */
-  farmerId: string;
+/** Image Processing Rasterize Job to convert shapefile into tiff file. */
+export interface ImageProcessingRasterizeJob {
+  /** Party Id. */
+  partyId: string;
   /** Shapefile attachment Id. */
   shapefileAttachmentId: string;
   /** List of shapefile column names to create raster attachments. */
   shapefileColumnNames: Array<string>;
-  /** Unique job id. */
-  id?: string;
-  /**
-   * Status of the job.
-   * Possible values: 'Waiting', 'Running', 'Succeeded', 'Failed', 'Cancelled'.
-   */
-  status?: string;
-  /** Duration of the job in seconds. */
-  durationInSeconds?: number;
-  /** Status message to capture more details of the job. */
-  message?: string;
-  /** Job created at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Job was last acted upon at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  lastActionDateTime?: Date | string;
-  /** Job start time when available. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  startTime?: Date | string;
-  /** Job end time when available. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  endTime?: Date | string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -579,35 +452,18 @@ export interface ImageProcessingRasterizeJob extends Record<string, unknown> {
   properties?: Record<string, any>;
 }
 
-export interface Insight extends Record<string, unknown> {
-  /** Id of the associated farmer. */
-  farmerId?: string;
-  /** Id of the associated model. */
-  modelId?: string;
-  /** Resource type associated with the record. */
-  resourceType?: "Farmer" | "Farm" | "Field" | "SeasonalField" | "Boundary";
-  /** Id of the associated resource. */
-  resourceId?: string;
+/** Schema of insight resource. */
+export interface Insight {
   /** Version of the associated model. */
   modelVersion?: string;
-  /** Gets link for attachments. */
-  attachmentsLink?: string;
   /** Start date to which the insight is related. */
   insightStartDateTime?: Date | string;
   /** End date to which the insight is related. */
   insightEndDateTime?: Date | string;
   /** Measures to capture insights results. */
-  measures?: Record<string, Measure>;
-  /** Id of the resource. */
-  id?: string;
+  measurements?: Record<string, Measure>;
   /** Status of the resource. */
   status?: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date | string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag?: string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -622,9 +478,8 @@ export interface Insight extends Record<string, unknown> {
   properties?: Record<string, any>;
 }
 
-export interface ManagementZone extends Record<string, unknown> {
-  /** Farmer Id associated with the ManagementZone. */
-  farmerId?: string;
+/** Api Model for ManagementZone object. */
+export interface ManagementZone {
   /** Type of the ManagementZone. */
   type?: string;
   /** Season Id associated with the ManagementZone. */
@@ -633,16 +488,8 @@ export interface ManagementZone extends Record<string, unknown> {
   cropId?: string;
   /** Field Id associated with the ManagementZone. */
   fieldId?: string;
-  /** Unique resource ID. */
-  id?: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag?: string;
   /** Status of the resource. */
   status?: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date | string;
   /** Source of the resource. */
   source?: string;
   /** Name to identify resource. */
@@ -659,9 +506,10 @@ export interface ManagementZone extends Record<string, unknown> {
   properties?: Record<string, any>;
 }
 
-export interface BiomassModelJob extends Record<string, unknown> {
-  /** Farmer Id. */
-  farmerId: string;
+/** Schema of biomass model job. */
+export interface BiomassModelJob {
+  /** Party Id. */
+  partyId: string;
   /** The id of the boundary object for which biomass is being calculated. */
   boundaryId: string;
   /** The version of the biomass model to be run. Available Value: 1.0 . */
@@ -677,30 +525,11 @@ export interface BiomassModelJob extends Record<string, unknown> {
   /** Provider of satellite data. Available Value: Microsoft. */
   satelliteProvider: "Microsoft";
   /** Source of satellite data. Available Value: Sentinel_2_L2A. */
-  satelliteSource: "Sentinel_2_L2A";
+  satelliteSource: "Sentinel_2_L2A" | "Sentinel_2_L1C";
   /** ImageResolution in meters. Available values: 10, 20, 60. */
   imageResolution: number;
   /** ImageFormat. Available value: TIF. */
   imageFormat: "TIF";
-  /** Unique job id. */
-  id?: string;
-  /**
-   * Status of the job.
-   * Possible values: 'Waiting', 'Running', 'Succeeded', 'Failed', 'Cancelled'.
-   */
-  status?: string;
-  /** Duration of the job in seconds. */
-  durationInSeconds?: number;
-  /** Status message to capture more details of the job. */
-  message?: string;
-  /** Job created at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Job was last acted upon at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  lastActionDateTime?: Date | string;
-  /** Job start time when available. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  startTime?: Date | string;
-  /** Job end time when available. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  endTime?: Date | string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -715,9 +544,44 @@ export interface BiomassModelJob extends Record<string, unknown> {
   properties?: Record<string, any>;
 }
 
-export interface SoilMoistureModelJob extends Record<string, unknown> {
-  /** Farmer Id. */
-  farmerId: string;
+/** Schema of sensor placement model job. */
+export interface SensorPlacementModelJob {
+  /** Party Id. */
+  partyId: string;
+  /** The id of the boundary object for which sensor placement is being calculated. */
+  boundaryId: string;
+  /** The version of the sensor placement model to be run. */
+  modelVersion: string;
+  /** Start datetime for satellite data to be pulled. */
+  inferenceStartDateTime: Date | string;
+  /** End datetime for satellite data to be pulled. */
+  inferenceEndDateTime: Date | string;
+  /** Provider of satellite data. Available Value: Microsoft. */
+  satelliteProvider: "Microsoft";
+  /** Source of satellite data. Available Value: Sentinel_2_L2A. */
+  satelliteSource: "Sentinel_2_L2A" | "Sentinel_2_L1C";
+  /** SensorType. The sensor placement map generated for sensor type (e.g., soil moisture, soil temperature, npk). Available Value: SoilMoisture. */
+  sensorType: string;
+  /** IsRanked, if True the sensor placements will be ranked. */
+  isRanked: boolean;
+  /** Name to identify resource. */
+  name?: string;
+  /** Textual description of the resource. */
+  description?: string;
+  /**
+   * A collection of key value pairs that belongs to the resource.
+   * Each pair must not have a key greater than 50 characters
+   * and must not have a value greater than 150 characters.
+   * Note: A maximum of 25 key value pairs can be provided for a resource and only string,
+   * numeral and datetime (yyyy-MM-ddTHH:mm:ssZ) values are supported.
+   */
+  properties?: Record<string, any>;
+}
+
+/** Schema of soil moisture model job. */
+export interface SoilMoistureModelJob {
+  /** Party Id. */
+  partyId: string;
   /** The id of the boundary object for which soil moisture is being calculated. */
   boundaryId: string;
   /** Sensor data model Id. */
@@ -731,7 +595,7 @@ export interface SoilMoistureModelJob extends Record<string, unknown> {
   /** Provider of satellite data. Available Value: Microsoft. */
   satelliteProvider: "Microsoft";
   /** Source of satellite data. Available Value: Sentinel_2_L2A. */
-  satelliteSource: "Sentinel_2_L2A";
+  satelliteSource: "Sentinel_2_L2A" | "Sentinel_2_L1C";
   /** ImageResolution in meters. Available values: 10, 20, 60. */
   imageResolution: number;
   /** ImageFormat. Available value: TIF. */
@@ -740,25 +604,6 @@ export interface SoilMoistureModelJob extends Record<string, unknown> {
   modelVersion: string;
   /** Schema for storing sensor definition keywords. */
   sensorDefinition: SoilMoistureModelSensorDefinition;
-  /** Unique job id. */
-  id?: string;
-  /**
-   * Status of the job.
-   * Possible values: 'Waiting', 'Running', 'Succeeded', 'Failed', 'Cancelled'.
-   */
-  status?: string;
-  /** Duration of the job in seconds. */
-  durationInSeconds?: number;
-  /** Status message to capture more details of the job. */
-  message?: string;
-  /** Job created at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Job was last acted upon at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  lastActionDateTime?: Date | string;
-  /** Job start time when available. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  startTime?: Date | string;
-  /** Job end time when available. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  endTime?: Date | string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -773,6 +618,7 @@ export interface SoilMoistureModelJob extends Record<string, unknown> {
   properties?: Record<string, any>;
 }
 
+/** Schema for storing sensor definition keywords. */
 export interface SoilMoistureModelSensorDefinition {
   /** The measurement name for sensor measure in sensorDataModel. */
   sensorMeasurement: string;
@@ -782,9 +628,8 @@ export interface SoilMoistureModelSensorDefinition {
   maxProperty: string;
 }
 
-export interface NutrientAnalysis extends Record<string, unknown> {
-  /** Farmer id for this nutrient analysis. */
-  farmerId?: string;
+/** Api Model for nutrient analysis object. */
+export interface NutrientAnalysis {
   /** Parent id for this nutrient analysis. */
   parentId?: string;
   /**
@@ -806,16 +651,8 @@ export interface NutrientAnalysis extends Record<string, unknown> {
   recommendation?: string;
   /** Products for this nutrient analysis. */
   products?: Array<ProductDetails>;
-  /** Unique resource ID. */
-  id?: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag?: string;
   /** Status of the resource. */
   status?: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date | string;
   /** Source of the resource. */
   source?: string;
   /** Name to identify resource. */
@@ -832,6 +669,7 @@ export interface NutrientAnalysis extends Record<string, unknown> {
   properties?: Record<string, any>;
 }
 
+/** Model for representing ProductDetails object. */
 export interface ProductDetails {
   /** Rate of the product. */
   rate?: string;
@@ -841,6 +679,7 @@ export interface ProductDetails {
   product?: string;
 }
 
+/** Schema of OAuth provider resource. */
 export interface OAuthProvider {
   /** OAuth App Id for given OAuth Provider. */
   appId?: string;
@@ -859,14 +698,6 @@ export interface OAuthProvider {
    * Note: Currently applicable for JohnDeere.
    */
   isProductionApp?: boolean;
-  /** Unique OAuth provider ID. */
-  id?: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag?: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date | string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -881,9 +712,10 @@ export interface OAuthProvider {
   properties?: Record<string, any>;
 }
 
+/** Get OAuth config query parameters. */
 export interface OAuthConnectRequest {
-  /** Id of the farmer. */
-  farmerId: string;
+  /** Id of the party. */
+  partyId: string;
   /** Id of the OAuthProvider. */
   oAuthProviderId: string;
   /** Link to redirect the user to, at the end of the oauth flow. */
@@ -892,7 +724,28 @@ export interface OAuthConnectRequest {
   userRedirectState?: string;
 }
 
-export interface PlantingData extends Record<string, unknown> {
+/** Schema of party resource. */
+export interface Party {
+  /** Status of the resource. */
+  status?: string;
+  /** Source of the resource. */
+  source?: string;
+  /** Name to identify resource. */
+  name?: string;
+  /** Textual description of the resource. */
+  description?: string;
+  /**
+   * A collection of key value pairs that belongs to the resource.
+   * Each pair must not have a key greater than 50 characters
+   * and must not have a value greater than 150 characters.
+   * Note: A maximum of 25 key value pairs can be provided for a resource and only string,
+   * numeral and datetime (yyyy-MM-ddTHH:mm:ssZ) values are supported.
+   */
+  properties?: Record<string, any>;
+}
+
+/** Schema of planting data resource. */
+export interface PlantingData {
   /** Schema for storing measurement reading and unit. */
   avgPlantingRate?: Measure;
   /** Schema for storing measurement reading and unit. */
@@ -912,22 +765,10 @@ export interface PlantingData extends Record<string, unknown> {
   operationStartDateTime?: Date | string;
   /** End date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ. */
   operationEndDateTime?: Date | string;
-  /** Link for attachments. */
-  attachmentsLink?: string;
   /** Optional boundary ID of the field for which operation was applied. */
   associatedBoundaryId?: string;
-  /** Farmer ID which belongs to the operation data. */
-  farmerId?: string;
-  /** Unique resource ID. */
-  id?: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag?: string;
   /** Status of the resource. */
   status?: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date | string;
   /** Source of the resource. */
   source?: string;
   /** Name to identify resource. */
@@ -944,6 +785,7 @@ export interface PlantingData extends Record<string, unknown> {
   properties?: Record<string, any>;
 }
 
+/** Schema for Planting product detail. */
 export interface PlantingProductDetail {
   /** Name of the product. */
   productName?: string;
@@ -955,15 +797,14 @@ export interface PlantingProductDetail {
   avgMaterial?: Measure;
 }
 
-export interface PlantTissueAnalysis extends Record<string, unknown> {
-  /** Id of the associated Farmer. */
-  farmerId?: string;
+/** Api Model for plant tissue analysis object. */
+export interface PlantTissueAnalysis {
   /** Id of the associated Field. */
   fieldId?: string;
   /** Id of the associated Crop. */
   cropId?: string;
-  /** Id of the associated Crop variety. */
-  cropVarietyId?: string;
+  /** Id of the associated Crop product. */
+  cropProductId?: string;
   /** Id of the associated Season. */
   seasonId?: string;
   /** Planting datetime for this plant tissue analysis. */
@@ -986,18 +827,8 @@ export interface PlantTissueAnalysis extends Record<string, unknown> {
   sampleTestResultDateTime?: Date | string;
   /** Model for representing LabDetails object. */
   labDetails?: LabDetails;
-  /** Link for attachments. */
-  attachmentsLink?: string;
-  /** Unique resource ID. */
-  id?: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag?: string;
   /** Status of the resource. */
   status?: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date | string;
   /** Source of the resource. */
   source?: string;
   /** Name to identify resource. */
@@ -1014,6 +845,7 @@ export interface PlantTissueAnalysis extends Record<string, unknown> {
   properties?: Record<string, any>;
 }
 
+/** Model for representing LabDetails object. */
 export interface LabDetails {
   /** Code of the resource. */
   code?: string;
@@ -1025,9 +857,8 @@ export interface LabDetails {
   address?: string;
 }
 
-export interface PrescriptionMap extends Record<string, unknown> {
-  /** Farmer Id. */
-  farmerId?: string;
+/** Api Model for Prescription Map object. */
+export interface PrescriptionMap {
   /** Prescription map type. */
   type?: string;
   /** Season Id. */
@@ -1036,16 +867,8 @@ export interface PrescriptionMap extends Record<string, unknown> {
   cropId?: string;
   /** Field Id. */
   fieldId?: string;
-  /** Unique resource ID. */
-  id?: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag?: string;
   /** Status of the resource. */
   status?: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date | string;
   /** Source of the resource. */
   source?: string;
   /** Name to identify resource. */
@@ -1062,9 +885,8 @@ export interface PrescriptionMap extends Record<string, unknown> {
   properties?: Record<string, any>;
 }
 
-export interface Prescription extends Record<string, unknown> {
-  /** Farmer Id. */
-  farmerId?: string;
+/** Api Model for Prescription object. */
+export interface Prescription {
   /** Prescription map Id. */
   prescriptionMapId?: string;
   /** Product Code. */
@@ -1074,17 +896,9 @@ export interface Prescription extends Record<string, unknown> {
   /** Prescription type. */
   type?: string;
   /** Measures. */
-  measures?: Record<string, Measure>;
-  /** Unique resource ID. */
-  id?: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag?: string;
+  measurements?: Record<string, Measure>;
   /** Status of the resource. */
   status?: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date | string;
   /** Source of the resource. */
   source?: string;
   /** Name to identify resource. */
@@ -1101,9 +915,10 @@ export interface Prescription extends Record<string, unknown> {
   properties?: Record<string, any>;
 }
 
-export interface SatelliteDataIngestionJob extends Record<string, unknown> {
-  /** Farmer Id. */
-  farmerId: string;
+/** Schema of satellite data ingestion job. */
+export interface SatelliteDataIngestionJob {
+  /** Party Id. */
+  partyId: string;
   /** The id of the boundary object for which satellite data is being fetched. */
   boundaryId: string;
   /** Start Date. */
@@ -1113,28 +928,9 @@ export interface SatelliteDataIngestionJob extends Record<string, unknown> {
   /** Provider of satellite data. Available Value: Microsoft. */
   provider?: "Microsoft";
   /** Source of satellite data. Available Value: Sentinel_2_L2A. */
-  source?: "Sentinel_2_L2A";
+  source: "Sentinel_2_L2A" | "Sentinel_2_L1C";
   /** Data Model for SatelliteIngestionJobRequest. */
   data?: SatelliteData;
-  /** Unique job id. */
-  id?: string;
-  /**
-   * Status of the job.
-   * Possible values: 'Waiting', 'Running', 'Succeeded', 'Failed', 'Cancelled'.
-   */
-  status?: string;
-  /** Duration of the job in seconds. */
-  durationInSeconds?: number;
-  /** Status message to capture more details of the job. */
-  message?: string;
-  /** Job created at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Job was last acted upon at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  lastActionDateTime?: Date | string;
-  /** Job start time when available. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  startTime?: Date | string;
-  /** Job end time when available. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  endTime?: Date | string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -1149,6 +945,7 @@ export interface SatelliteDataIngestionJob extends Record<string, unknown> {
   properties?: Record<string, any>;
 }
 
+/** Data Model for SatelliteIngestionJobRequest. */
 export interface SatelliteData {
   /** List of ImageNames. */
   imageNames?: Array<string>;
@@ -1158,43 +955,37 @@ export interface SatelliteData {
   imageResolutions?: Array<number>;
 }
 
-export interface SeasonalField extends Record<string, unknown> {
-  /** Farmer Id. */
-  farmerId?: string;
-  /** Primary boundary id. */
-  primaryBoundaryId?: string;
-  /** Boundary Ids. */
-  boundaryIds?: Array<string>;
+/** Search stac Features parameters. */
+export interface SearchFeaturesQuery {
+  /** Start datetime of the time interval in which to search for Features. */
+  startDateTime: Date | string;
+  /** End datetime of the time interval in which to search for Features. */
+  endDateTime: Date | string;
+  /** GeoJSON (For more details: https://geojson.org/). Note: Coordinates are expected in [Longitude, Latitude] format. */
+  intersects?: GeoJsonObject;
+  /**
+   * Only features that have a geometry that intersects the bounding box are selected.
+   * The bounding box is provided as four numbers. The coordinate reference system of the values is WGS84 longitude/latitude.
+   */
+  bbox?: Array<number>;
+  /** Array of feature ids to return. */
+  featureIds?: Array<string>;
+}
+
+/** Schema of seasonal field resource. */
+export interface SeasonalField {
   /** Id of the associated Farm. */
   farmId?: string;
   /** Id of the associated Field. */
   fieldId?: string;
   /** Id of the season it belongs to. */
   seasonId?: string;
-  /** CropVariety ids. */
-  cropVarietyIds?: Array<string>;
+  /** CropProduct ids. */
+  cropProductIds?: Array<string>;
   /** Id of the crop it belongs to. */
   cropId?: string;
-  /** Average yield value of the seasonal field. */
-  avgYieldValue?: number;
-  /** Unit of the average yield value attribute. */
-  avgYieldUnit?: string;
-  /** Average seed population value of the seasonal field. */
-  avgSeedPopulationValue?: number;
-  /** Unit of average seed population value attribute. */
-  avgSeedPopulationUnit?: string;
-  /** Planting datetime, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  plantingDateTime?: Date | string;
-  /** Unique resource ID. */
-  id?: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag?: string;
   /** Status of the resource. */
   status?: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date | string;
   /** Source of the resource. */
   source?: string;
   /** Name to identify resource. */
@@ -1211,23 +1002,18 @@ export interface SeasonalField extends Record<string, unknown> {
   properties?: Record<string, any>;
 }
 
-export interface Season extends Record<string, unknown> {
+/** Schema of season resource. */
+export interface Season {
   /** Season start datetime, sample format: yyyy-MM-ddTHH:mm:ssZ. */
   startDateTime?: Date | string;
   /** Season end datetime, sample format: yyyy-MM-ddTHH:mm:ssZ. */
   endDateTime?: Date | string;
   /** Season year. */
   year?: number;
-  /** Unique resource ID. */
-  id?: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag?: string;
+  /** Geographic Identifier. */
+  geographicIdentifier?: string;
   /** Status of the resource. */
   status?: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date | string;
   /** Source of the resource. */
   source?: string;
   /** Name to identify resource. */
@@ -1244,7 +1030,8 @@ export interface Season extends Record<string, unknown> {
   properties?: Record<string, any>;
 }
 
-export interface SensorDataModel extends Record<string, unknown> {
+/** SensorModel API model. */
+export interface SensorDataModel {
   /** Type of sensor. */
   type?: string;
   /** Sensor manufacturer. */
@@ -1253,18 +1040,8 @@ export interface SensorDataModel extends Record<string, unknown> {
   productCode?: string;
   /** Map of sensor type to sensor measures. */
   measures: Record<string, SensorDataModelMeasure>;
-  /** Id of the associated sensor partner. */
-  sensorPartnerId?: string;
-  /** Id of the resource. */
-  id?: string;
   /** Status of the resource. */
   status?: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date | string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag?: string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -1279,6 +1056,7 @@ export interface SensorDataModel extends Record<string, unknown> {
   properties?: Record<string, any>;
 }
 
+/** Sensor model measure details. */
 export interface SensorDataModelMeasure {
   /** Description of sensor measure. */
   description?: string;
@@ -1298,25 +1076,18 @@ export interface SensorDataModelMeasure {
   properties?: Record<string, any>;
 }
 
-export interface SensorMapping extends Record<string, unknown> {
+/** SensorMapping API model. */
+export interface SensorMapping {
   /** Id of the associated sensor. */
   sensorId?: string;
   /** Id of the associated sensor partner. */
   sensorPartnerId?: string;
-  /** Id of the associated farmer. */
-  farmerId?: string;
+  /** Id of the associated party. */
+  partyId?: string;
   /** Id of the associated boundary. */
   boundaryId?: string;
-  /** Id of the resource. */
-  id?: string;
   /** Status of the resource. */
   status?: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date | string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag?: string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -1331,23 +1102,12 @@ export interface SensorMapping extends Record<string, unknown> {
   properties?: Record<string, any>;
 }
 
-export interface SensorPartnerIntegrationModel extends Record<string, unknown> {
-  /** Id of the integration. */
-  integrationId?: string;
-  /** Id of the farmer. */
-  farmerId?: string;
-  /** Id of the associated sensor partner. */
-  sensorPartnerId?: string;
-  /** Id of the resource. */
-  id?: string;
+/** Sensor partner integration model. */
+export interface SensorPartnerIntegrationModel {
+  /** Id of the party. */
+  partyId?: string;
   /** Status of the resource. */
   status?: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date | string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag?: string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -1362,7 +1122,8 @@ export interface SensorPartnerIntegrationModel extends Record<string, unknown> {
   properties?: Record<string, any>;
 }
 
-export interface Sensor extends Record<string, unknown> {
+/** Sensor API model. */
+export interface Sensor {
   /** Id of the associated sensor data model. */
   sensorDataModelId?: string;
   /** Integration id for the device. */
@@ -1382,18 +1143,8 @@ export interface Sensor extends Record<string, unknown> {
    * Like sensor moisture at 2m, 4m, 6m.
    */
   depthInMeters?: Array<number>;
-  /** Id of the associated sensor partner. */
-  sensorPartnerId?: string;
-  /** Id of the resource. */
-  id?: string;
   /** Status of the resource. */
   status?: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date | string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag?: string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -1408,11 +1159,13 @@ export interface Sensor extends Record<string, unknown> {
   properties?: Record<string, any>;
 }
 
+/** Model for renewing sensor's connection string. */
 export interface SensorRenewConnectionStringModel {
   /** Specifies the type of connection string key to be renewed valid values - Primary/Secondary/Both. */
   connectionStringType: "Primary" | "Secondary" | "Both";
 }
 
+/** SolutionInference request model. */
 export interface SolutionInference {
   /**
    * RequestPath containing the api-version, query parameters and path route to be called for partner request.
@@ -1424,7 +1177,8 @@ export interface SolutionInference {
   partnerRequestBody?: Record<string, any>;
 }
 
-export interface TillageData extends Record<string, unknown> {
+/** Schema of tillage data resource. */
+export interface TillageData {
   /** Schema for storing measurement reading and unit. */
   tillageDepth?: Measure;
   /** Schema for storing measurement reading and unit. */
@@ -1440,22 +1194,10 @@ export interface TillageData extends Record<string, unknown> {
   operationStartDateTime?: Date | string;
   /** End date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ. */
   operationEndDateTime?: Date | string;
-  /** Link for attachments. */
-  attachmentsLink?: string;
   /** Optional boundary ID of the field for which operation was applied. */
   associatedBoundaryId?: string;
-  /** Farmer ID which belongs to the operation data. */
-  farmerId?: string;
-  /** Unique resource ID. */
-  id?: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag?: string;
   /** Status of the resource. */
   status?: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date | string;
   /** Source of the resource. */
   source?: string;
   /** Name to identify resource. */
@@ -1472,11 +1214,12 @@ export interface TillageData extends Record<string, unknown> {
   properties?: Record<string, any>;
 }
 
-export interface WeatherDataDeleteJob extends Record<string, unknown> {
+/** Schema of weather data delete job. */
+export interface WeatherDataDeleteJob {
   /** Id of the extension to be used for the providerInput. eg. DTN.ClearAg. */
   extensionId: string;
-  /** The id of the farmer object for which weather data is being fetched. */
-  farmerId: string;
+  /** The id of the party for which weather data is being fetched. */
+  partyId: string;
   /** The id of the boundary object for which weather data is being fetched. */
   boundaryId: string;
   /** Type of weather data. Possible values include: 'forecast' , 'historical'. */
@@ -1487,25 +1230,6 @@ export interface WeatherDataDeleteJob extends Record<string, unknown> {
   startDateTime?: Date | string;
   /** Weather data end UTC date-time (inclusive), sample format: yyyy-MM-ddTHH:mm:ssZ. */
   endDateTime?: Date | string;
-  /** Unique job id. */
-  id?: string;
-  /**
-   * Status of the job.
-   * Possible values: 'Waiting', 'Running', 'Succeeded', 'Failed', 'Cancelled'.
-   */
-  status?: string;
-  /** Duration of the job in seconds. */
-  durationInSeconds?: number;
-  /** Status message to capture more details of the job. */
-  message?: string;
-  /** Job created at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Job was last acted upon at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  lastActionDateTime?: Date | string;
-  /** Job start time when available. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  startTime?: Date | string;
-  /** Job end time when available. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  endTime?: Date | string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -1520,11 +1244,12 @@ export interface WeatherDataDeleteJob extends Record<string, unknown> {
   properties?: Record<string, any>;
 }
 
-export interface WeatherDataIngestionJob extends Record<string, unknown> {
+/** Schema of weather ingestion job. */
+export interface WeatherDataIngestionJob {
   /** The id of the boundary object for which weather data is being fetched. */
   boundaryId: string;
-  /** The id of the farmer object for which weather data is being fetched. */
-  farmerId: string;
+  /** The id of the party for which weather data is being fetched. */
+  partyId: string;
   /** Id of the extension to be used for the providerInput. eg. DTN.ClearAg. */
   extensionId: string;
   /** Extension api name to which request is to be made. */
@@ -1535,25 +1260,6 @@ export interface WeatherDataIngestionJob extends Record<string, unknown> {
   extensionDataProviderAppId?: string;
   /** Api key of the weather data provider. */
   extensionDataProviderApiKey?: string;
-  /** Unique job id. */
-  id?: string;
-  /**
-   * Status of the job.
-   * Possible values: 'Waiting', 'Running', 'Succeeded', 'Failed', 'Cancelled'.
-   */
-  status?: string;
-  /** Duration of the job in seconds. */
-  durationInSeconds?: number;
-  /** Status message to capture more details of the job. */
-  message?: string;
-  /** Job created at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Job was last acted upon at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  lastActionDateTime?: Date | string;
-  /** Job start time when available. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  startTime?: Date | string;
-  /** Job end time when available. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  endTime?: Date | string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -1568,23 +1274,56 @@ export interface WeatherDataIngestionJob extends Record<string, unknown> {
   properties?: Record<string, any>;
 }
 
-export interface Zone extends Record<string, unknown> {
-  /** Farmer Id associated with the Zone. */
-  farmerId?: string;
+/** Schema of weather data provider request. */
+export interface WeatherDataProviderRequest {
+  /** List of locations for which weather data need to be fetched from the provider. */
+  locations?: Array<WeatherLocation>;
+  /** App id of the weather data provider. */
+  providerAppId?: string;
+  /** Api key of the weather data provider. */
+  providerApiKey: string;
+  /** Id of the extension to be used for the providerInput. eg. DTN.ClearAg. */
+  extensionId: string;
+  /** Extension api name to which request is to be made. */
+  extensionApiName: string;
+  /** Language (IETF BCP 47 language tag) in which search results should be returned by the data provider. Examples: 'en-US', 'es', 'es-MX', 'fr-FR'. */
+  language?: string;
+  /** Start of time range. Hour 0 represents the current hour. (Only applicable for DTN.ClearAg extension.) */
+  startTimeHours?: number;
+  /** End of time range. Supported ranges are from 0 to 240. (Only applicable for DTN.ClearAg extension.) */
+  endTimeHours?: number;
+  /** Specifies for how many days the daily forecast responses are returned. Available values are 1, 5, 10, 25 and 45. (Only applicable for Azure Weather Maps extension.) */
+  duration?: number;
+  /** Units for which request to data provider is to be sent. Supported values are 'e' for English units, 'm' for Metric units, 'h' for Hybrid units (UK) and 's' for Metric SI units. */
+  units: string;
+  /** Schema of additional parameters for weather data provider request. */
+  additionalParams?: AdditionalProviderParameters;
+}
+
+/** Schema of Location data. */
+export interface WeatherLocation {
+  /** Location Type eg. LatLong/IataCode/IcaoCode/Placeid/PostalKey. */
+  type: "LatLong" | "IataCode" | "IcaoCode" | "PlaceId" | "PostalKey";
+  /** Location Value eg. "10,-25" for LocationType Type "LatLong". */
+  value: string;
+}
+
+/** Schema of additional parameters for weather data provider request. */
+export interface AdditionalProviderParameters {
+  /** Icon Resolution (Only applicable for AzureWeatherMaps). */
+  iconResolution?: string;
+  /** Details (Only applicable for AzureWeatherMaps). */
+  details?: boolean;
+}
+
+/** Api Model for Zone object. */
+export interface Zone {
   /** Type of the Zone. */
   type?: string;
   /** Management Zone Id associated with the Zone. */
   managementZoneId?: string;
-  /** Unique resource ID. */
-  id?: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag?: string;
   /** Status of the resource. */
   status?: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date | string;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date | string;
   /** Source of the resource. */
   source?: string;
   /** Name to identify resource. */
@@ -1601,39 +1340,30 @@ export interface Zone extends Record<string, unknown> {
   properties?: Record<string, any>;
 }
 
-export interface MultiPolygon
-  extends GeoJsonObjectBase,
-    MultiPolygonCoordinates {
-  type: "MultiPolygon";
-}
-
-export interface MultiPolygonCoordinates {
+/** MultiPolygon geometry. */
+export interface MultiPolygon extends GeoJsonObjectParent {
   /**
-   * Gets or sets coordinates of GeoJSON Object.
+   * Gets or sets Coordinates of GeoJSON Object.
    * It must be an array of polygons, each polygon contains list of linear rings.
    * For Polygons with more than one of these rings, the first MUST be the exterior ring,
    * and any others MUST be interior rings.
    */
   coordinates: Array<Array<Array<Array<number>>>>;
+  type: "MultiPolygon";
 }
 
-export interface Point extends GeoJsonObjectBase, PointCoordinates {
+/** Point geometry. */
+export interface Point extends GeoJsonObjectParent {
+  /**
+   * Gets or sets the coordinate of this point.
+   * It must be an array of 2 or 3 elements for a 2D or 3D system.
+   */
+  coordinates: Array<number>;
   type: "Point";
 }
 
-export interface PointCoordinates {
-  /**
-   * Gets or sets the coordinate of this point.
-   * It must be an array of 2 or 3 elements for a 2D or 3D system respectively.
-   */
-  coordinates: Array<number>;
-}
-
-export interface Polygon extends GeoJsonObjectBase, PolygonCoordinates {
-  type: "Polygon";
-}
-
-export interface PolygonCoordinates {
+/** Polygon geometry. */
+export interface Polygon extends GeoJsonObjectParent {
   /**
    * Gets or sets type of the GeoJSON Object.
    * It must be an array of linear ring coordinate arrays.
@@ -1641,6 +1371,8 @@ export interface PolygonCoordinates {
    * and any others MUST be interior rings.
    */
   coordinates: Array<Array<Array<number>>>;
+  type: "Polygon";
 }
 
+/** GeoJSON (For more details: https://geojson.org/). Note: Coordinates are expected in [Longitude, Latitude] format. */
 export type GeoJsonObject = MultiPolygon | Point | Polygon;

@@ -13,16 +13,14 @@ import {
   BoundaryMetadataListResponseOutput,
   BoundaryOutput,
   BoundaryOverlapResponseOutput,
+  CropProductListResponseOutput,
+  CropProductOutput,
   CropListResponseOutput,
   CropOutput,
-  CropVarietyListResponseOutput,
-  CropVarietyOutput,
   DeviceDataModelListResponseOutput,
   DeviceDataModelOutput,
   DeviceListResponseOutput,
   DeviceOutput,
-  FarmerListResponseOutput,
-  FarmerOutput,
   FarmOperationDataIngestionJobOutput,
   FarmListResponseOutput,
   FarmOutput,
@@ -38,6 +36,7 @@ import {
   ManagementZoneListResponseOutput,
   ManagementZoneOutput,
   BiomassModelJobOutput,
+  SensorPlacementModelJobOutput,
   SoilMoistureModelJobOutput,
   NutrientAnalysisListResponseOutput,
   NutrientAnalysisOutput,
@@ -45,6 +44,8 @@ import {
   OAuthProviderOutput,
   OAuthProviderCascadeDeleteJobOutput,
   OAuthTokenListResponseOutput,
+  PartyListResponseOutput,
+  PartyOutput,
   PlantingDataListResponseOutput,
   PlantingDataOutput,
   PlantTissueAnalysisListResponseOutput,
@@ -55,6 +56,8 @@ import {
   PrescriptionOutput,
   SceneListResponseOutput,
   SatelliteDataIngestionJobOutput,
+  SearchFeaturesResponseOutput,
+  StacFeatureOutput,
   SeasonalFieldListResponseOutput,
   SeasonalFieldOutput,
   SeasonListResponseOutput,
@@ -76,25 +79,26 @@ import {
   WeatherDataListResponseOutput,
   WeatherDataDeleteJobOutput,
   WeatherDataIngestionJobOutput,
+  WeatherDataProviderResponseOutput,
   ZoneListResponseOutput,
   ZoneOutput
 } from "./outputModels";
 
-/** Returns a paginated list of application data resources across all farmers. */
+/** Returns a paginated list of application data resources across all parties. */
 export interface ApplicationDataList200Response extends HttpResponse {
   status: "200";
   body: ApplicationDataListResponseOutput;
 }
 
-export interface ApplicationDataListdefaultHeaders {
+export interface ApplicationDataListDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Returns a paginated list of application data resources across all farmers. */
-export interface ApplicationDataListdefaultResponse extends HttpResponse {
+/** Returns a paginated list of application data resources across all parties. */
+export interface ApplicationDataListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & ApplicationDataListdefaultHeaders;
+  headers: RawHttpHeaders & ApplicationDataListDefaultHeaders;
 }
 
 /** Create cascade delete job for application data resource. */
@@ -104,16 +108,16 @@ export interface ApplicationDataCreateCascadeDeleteJob202Response
   body: CascadeDeleteJobOutput;
 }
 
-export interface ApplicationDataCreateCascadeDeleteJobdefaultHeaders {
+export interface ApplicationDataCreateCascadeDeleteJobDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Create cascade delete job for application data resource. */
-export interface ApplicationDataCreateCascadeDeleteJobdefaultResponse
+export interface ApplicationDataCreateCascadeDeleteJobDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & ApplicationDataCreateCascadeDeleteJobdefaultHeaders;
+  headers: RawHttpHeaders & ApplicationDataCreateCascadeDeleteJobDefaultHeaders;
 }
 
 /** Get cascade delete job for application data resource. */
@@ -123,167 +127,167 @@ export interface ApplicationDataGetCascadeDeleteJobDetails200Response
   body: CascadeDeleteJobOutput;
 }
 
-export interface ApplicationDataGetCascadeDeleteJobDetailsdefaultHeaders {
+export interface ApplicationDataGetCascadeDeleteJobDetailsDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Get cascade delete job for application data resource. */
-export interface ApplicationDataGetCascadeDeleteJobDetailsdefaultResponse
+export interface ApplicationDataGetCascadeDeleteJobDetailsDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders &
-    ApplicationDataGetCascadeDeleteJobDetailsdefaultHeaders;
+    ApplicationDataGetCascadeDeleteJobDetailsDefaultHeaders;
 }
 
-/** Returns a paginated list of application data resources under a particular farm. */
-export interface ApplicationDataListByFarmerId200Response extends HttpResponse {
+/** Returns a paginated list of application data resources under a particular party. */
+export interface ApplicationDataListByPartyId200Response extends HttpResponse {
   status: "200";
   body: ApplicationDataListResponseOutput;
 }
 
-export interface ApplicationDataListByFarmerIddefaultHeaders {
+export interface ApplicationDataListByPartyIdDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Returns a paginated list of application data resources under a particular farm. */
-export interface ApplicationDataListByFarmerIddefaultResponse
+/** Returns a paginated list of application data resources under a particular party. */
+export interface ApplicationDataListByPartyIdDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & ApplicationDataListByFarmerIddefaultHeaders;
+  headers: RawHttpHeaders & ApplicationDataListByPartyIdDefaultHeaders;
 }
 
-/** Get a specified application data resource under a particular farmer. */
+/** Get a specified application data resource under a particular party. */
 export interface ApplicationDataGet200Response extends HttpResponse {
   status: "200";
   body: ApplicationDataOutput;
 }
 
-export interface ApplicationDataGetdefaultHeaders {
+export interface ApplicationDataGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Get a specified application data resource under a particular farmer. */
-export interface ApplicationDataGetdefaultResponse extends HttpResponse {
+/** Get a specified application data resource under a particular party. */
+export interface ApplicationDataGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & ApplicationDataGetdefaultHeaders;
+  headers: RawHttpHeaders & ApplicationDataGetDefaultHeaders;
 }
 
-/** Creates or updates an application data resource under a particular farmer. */
+/** Creates or updates an application data resource under a particular party. */
 export interface ApplicationDataCreateOrUpdate200Response extends HttpResponse {
   status: "200";
   body: ApplicationDataOutput;
 }
 
-/** Creates or updates an application data resource under a particular farmer. */
+/** Creates or updates an application data resource under a particular party. */
 export interface ApplicationDataCreateOrUpdate201Response extends HttpResponse {
   status: "201";
   body: ApplicationDataOutput;
 }
 
-export interface ApplicationDataCreateOrUpdatedefaultHeaders {
+export interface ApplicationDataCreateOrUpdateDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Creates or updates an application data resource under a particular farmer. */
-export interface ApplicationDataCreateOrUpdatedefaultResponse
+/** Creates or updates an application data resource under a particular party. */
+export interface ApplicationDataCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & ApplicationDataCreateOrUpdatedefaultHeaders;
+  headers: RawHttpHeaders & ApplicationDataCreateOrUpdateDefaultHeaders;
 }
 
-/** Deletes a specified application data resource under a particular farmer. */
+/** Deletes a specified application data resource under a particular party. */
 export interface ApplicationDataDelete204Response extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
 
-export interface ApplicationDataDeletedefaultHeaders {
+export interface ApplicationDataDeleteDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Deletes a specified application data resource under a particular farmer. */
-export interface ApplicationDataDeletedefaultResponse extends HttpResponse {
+/** Deletes a specified application data resource under a particular party. */
+export interface ApplicationDataDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & ApplicationDataDeletedefaultHeaders;
+  headers: RawHttpHeaders & ApplicationDataDeleteDefaultHeaders;
 }
 
-/** Returns a paginated list of attachment resources under a particular farmer. */
-export interface AttachmentsListByFarmerId200Response extends HttpResponse {
+/** Returns a paginated list of attachment resources under a particular party. */
+export interface AttachmentsListByPartyId200Response extends HttpResponse {
   status: "200";
   body: AttachmentListResponseOutput;
 }
 
-export interface AttachmentsListByFarmerIddefaultHeaders {
+export interface AttachmentsListByPartyIdDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Returns a paginated list of attachment resources under a particular farmer. */
-export interface AttachmentsListByFarmerIddefaultResponse extends HttpResponse {
+/** Returns a paginated list of attachment resources under a particular party. */
+export interface AttachmentsListByPartyIdDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & AttachmentsListByFarmerIddefaultHeaders;
+  headers: RawHttpHeaders & AttachmentsListByPartyIdDefaultHeaders;
 }
 
-/** Gets a specified attachment resource under a particular farmer. */
+/** Gets a specified attachment resource under a particular party. */
 export interface AttachmentsGet200Response extends HttpResponse {
   status: "200";
   body: AttachmentOutput;
 }
 
-export interface AttachmentsGetdefaultHeaders {
+export interface AttachmentsGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Gets a specified attachment resource under a particular farmer. */
-export interface AttachmentsGetdefaultResponse extends HttpResponse {
+/** Gets a specified attachment resource under a particular party. */
+export interface AttachmentsGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & AttachmentsGetdefaultHeaders;
+  headers: RawHttpHeaders & AttachmentsGetDefaultHeaders;
 }
 
-/** Creates or updates an attachment resource under a particular farmer. */
+/** Creates or updates an attachment resource under a particular party. */
 export interface AttachmentsCreateOrUpdate200Response extends HttpResponse {
   status: "200";
   body: AttachmentOutput;
 }
 
-/** Creates or updates an attachment resource under a particular farmer. */
+/** Creates or updates an attachment resource under a particular party. */
 export interface AttachmentsCreateOrUpdate201Response extends HttpResponse {
   status: "201";
   body: AttachmentOutput;
 }
 
-export interface AttachmentsCreateOrUpdatedefaultHeaders {
+export interface AttachmentsCreateOrUpdateDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Creates or updates an attachment resource under a particular farmer. */
-export interface AttachmentsCreateOrUpdatedefaultResponse extends HttpResponse {
+/** Creates or updates an attachment resource under a particular party. */
+export interface AttachmentsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & AttachmentsCreateOrUpdatedefaultHeaders;
+  headers: RawHttpHeaders & AttachmentsCreateOrUpdateDefaultHeaders;
 }
 
-/** Deletes a specified attachment resource under a particular farmer. */
+/** Deletes a specified attachment resource under a particular party. */
 export interface AttachmentsDelete204Response extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
 
-export interface AttachmentsDeletedefaultHeaders {
+export interface AttachmentsDeleteDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Deletes a specified attachment resource under a particular farmer. */
-export interface AttachmentsDeletedefaultResponse extends HttpResponse {
+/** Deletes a specified attachment resource under a particular party. */
+export interface AttachmentsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & AttachmentsDeletedefaultHeaders;
+  headers: RawHttpHeaders & AttachmentsDeleteDefaultHeaders;
 }
 
 /** Downloads and returns attachment as response for the given input filePath. */
@@ -293,49 +297,49 @@ export interface AttachmentsDownload200Response extends HttpResponse {
   body: Uint8Array;
 }
 
-export interface AttachmentsDownloaddefaultHeaders {
+export interface AttachmentsDownloadDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Downloads and returns attachment as response for the given input filePath. */
-export interface AttachmentsDownloaddefaultResponse extends HttpResponse {
+export interface AttachmentsDownloadDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & AttachmentsDownloaddefaultHeaders;
+  headers: RawHttpHeaders & AttachmentsDownloadDefaultHeaders;
 }
 
-/** Returns a paginated list of boundary resources across all farmers. */
+/** Returns a paginated list of boundary resources across all parties. */
 export interface BoundariesList200Response extends HttpResponse {
   status: "200";
   body: BoundaryMetadataListResponseOutput;
 }
 
-export interface BoundariesListdefaultHeaders {
+export interface BoundariesListDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Returns a paginated list of boundary resources across all farmers. */
-export interface BoundariesListdefaultResponse extends HttpResponse {
+/** Returns a paginated list of boundary resources across all parties. */
+export interface BoundariesListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & BoundariesListdefaultHeaders;
+  headers: RawHttpHeaders & BoundariesListDefaultHeaders;
 }
 
-/** Search for boundaries across all farmers by fields and intersecting geometry. */
+/** Search for boundaries across all parties by fields and intersecting geometry. */
 export interface BoundariesSearch200Response extends HttpResponse {
   status: "200";
   body: BoundaryMetadataListResponseOutput;
 }
 
-export interface BoundariesSearchdefaultHeaders {
+export interface BoundariesSearchDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Search for boundaries across all farmers by fields and intersecting geometry. */
-export interface BoundariesSearchdefaultResponse extends HttpResponse {
+/** Search for boundaries across all parties by fields and intersecting geometry. */
+export interface BoundariesSearchDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & BoundariesSearchdefaultHeaders;
+  headers: RawHttpHeaders & BoundariesSearchDefaultHeaders;
 }
 
 /** Create a cascade delete job for specified boundary. */
@@ -345,16 +349,16 @@ export interface BoundariesCreateCascadeDeleteJob202Response
   body: CascadeDeleteJobOutput;
 }
 
-export interface BoundariesCreateCascadeDeleteJobdefaultHeaders {
+export interface BoundariesCreateCascadeDeleteJobDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Create a cascade delete job for specified boundary. */
-export interface BoundariesCreateCascadeDeleteJobdefaultResponse
+export interface BoundariesCreateCascadeDeleteJobDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & BoundariesCreateCascadeDeleteJobdefaultHeaders;
+  headers: RawHttpHeaders & BoundariesCreateCascadeDeleteJobDefaultHeaders;
 }
 
 /** Get cascade delete job for specified boundary. */
@@ -364,51 +368,50 @@ export interface BoundariesGetCascadeDeleteJobDetails200Response
   body: CascadeDeleteJobOutput;
 }
 
-export interface BoundariesGetCascadeDeleteJobDetailsdefaultHeaders {
+export interface BoundariesGetCascadeDeleteJobDetailsDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Get cascade delete job for specified boundary. */
-export interface BoundariesGetCascadeDeleteJobDetailsdefaultResponse
+export interface BoundariesGetCascadeDeleteJobDetailsDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & BoundariesGetCascadeDeleteJobDetailsdefaultHeaders;
+  headers: RawHttpHeaders & BoundariesGetCascadeDeleteJobDetailsDefaultHeaders;
 }
 
-/** Returns a paginated list of boundary resources under a particular farmer. */
-export interface BoundariesListByFarmerId200Response extends HttpResponse {
+/** Returns a paginated list of boundary resources under a particular party. */
+export interface BoundariesListByPartyId200Response extends HttpResponse {
   status: "200";
   body: BoundaryMetadataListResponseOutput;
 }
 
-export interface BoundariesListByFarmerIddefaultHeaders {
+export interface BoundariesListByPartyIdDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Returns a paginated list of boundary resources under a particular farmer. */
-export interface BoundariesListByFarmerIddefaultResponse extends HttpResponse {
+/** Returns a paginated list of boundary resources under a particular party. */
+export interface BoundariesListByPartyIdDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & BoundariesListByFarmerIddefaultHeaders;
+  headers: RawHttpHeaders & BoundariesListByPartyIdDefaultHeaders;
 }
 
 /** Search for boundaries by fields and intersecting geometry. */
-export interface BoundariesSearchByFarmerId200Response extends HttpResponse {
+export interface BoundariesSearchByPartyId200Response extends HttpResponse {
   status: "200";
   body: BoundaryMetadataListResponseOutput;
 }
 
-export interface BoundariesSearchByFarmerIddefaultHeaders {
+export interface BoundariesSearchByPartyIdDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Search for boundaries by fields and intersecting geometry. */
-export interface BoundariesSearchByFarmerIddefaultResponse
-  extends HttpResponse {
+export interface BoundariesSearchByPartyIdDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & BoundariesSearchByFarmerIddefaultHeaders;
+  headers: RawHttpHeaders & BoundariesSearchByPartyIdDefaultHeaders;
 }
 
 /** Creates or updates a boundary resource. */
@@ -423,66 +426,141 @@ export interface BoundariesCreateOrUpdate201Response extends HttpResponse {
   body: BoundaryOutput;
 }
 
-export interface BoundariesCreateOrUpdatedefaultHeaders {
+export interface BoundariesCreateOrUpdateDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Creates or updates a boundary resource. */
-export interface BoundariesCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface BoundariesCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & BoundariesCreateOrUpdatedefaultHeaders;
+  headers: RawHttpHeaders & BoundariesCreateOrUpdateDefaultHeaders;
 }
 
-/** Gets a specified boundary resource under a particular farmer. */
+/** Gets a specified boundary resource under a particular party. */
 export interface BoundariesGet200Response extends HttpResponse {
   status: "200";
   body: BoundaryOutput;
 }
 
-export interface BoundariesGetdefaultHeaders {
+export interface BoundariesGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Gets a specified boundary resource under a particular farmer. */
-export interface BoundariesGetdefaultResponse extends HttpResponse {
+/** Gets a specified boundary resource under a particular party. */
+export interface BoundariesGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & BoundariesGetdefaultHeaders;
+  headers: RawHttpHeaders & BoundariesGetDefaultHeaders;
 }
 
-/** Deletes a specified boundary resource under a particular farmer. */
+/** Deletes a specified boundary resource under a particular party. */
 export interface BoundariesDelete204Response extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
 
-export interface BoundariesDeletedefaultHeaders {
+export interface BoundariesDeleteDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Deletes a specified boundary resource under a particular farmer. */
-export interface BoundariesDeletedefaultResponse extends HttpResponse {
+/** Deletes a specified boundary resource under a particular party. */
+export interface BoundariesDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & BoundariesDeletedefaultHeaders;
+  headers: RawHttpHeaders & BoundariesDeleteDefaultHeaders;
 }
 
-/** Returns overlapping acreage between two boundary Ids. */
+/** Returns overlapping area between two boundary Ids. */
 export interface BoundariesGetOverlap200Response extends HttpResponse {
   status: "200";
   body: BoundaryOverlapResponseOutput;
 }
 
-export interface BoundariesGetOverlapdefaultHeaders {
+export interface BoundariesGetOverlapDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Returns overlapping acreage between two boundary Ids. */
-export interface BoundariesGetOverlapdefaultResponse extends HttpResponse {
+/** Returns overlapping area between two boundary Ids. */
+export interface BoundariesGetOverlapDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & BoundariesGetOverlapdefaultHeaders;
+  headers: RawHttpHeaders & BoundariesGetOverlapDefaultHeaders;
+}
+
+/** Returns a paginated list of crop product resources. */
+export interface CropProductsList200Response extends HttpResponse {
+  status: "200";
+  body: CropProductListResponseOutput;
+}
+
+export interface CropProductsListDefaultHeaders {
+  "x-ms-error-code"?: string;
+}
+
+/** Returns a paginated list of crop product resources. */
+export interface CropProductsListDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+  headers: RawHttpHeaders & CropProductsListDefaultHeaders;
+}
+
+/** Gets a specified crop Product resource. */
+export interface CropProductsGet200Response extends HttpResponse {
+  status: "200";
+  body: CropProductOutput;
+}
+
+export interface CropProductsGetDefaultHeaders {
+  "x-ms-error-code"?: string;
+}
+
+/** Gets a specified crop Product resource. */
+export interface CropProductsGetDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+  headers: RawHttpHeaders & CropProductsGetDefaultHeaders;
+}
+
+/** Creates or updates a crop Product resource. */
+export interface CropProductsCreateOrUpdate200Response extends HttpResponse {
+  status: "200";
+  body: CropProductOutput;
+}
+
+/** Creates or updates a crop Product resource. */
+export interface CropProductsCreateOrUpdate201Response extends HttpResponse {
+  status: "201";
+  body: CropProductOutput;
+}
+
+export interface CropProductsCreateOrUpdateDefaultHeaders {
+  "x-ms-error-code"?: string;
+}
+
+/** Creates or updates a crop Product resource. */
+export interface CropProductsCreateOrUpdateDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+  headers: RawHttpHeaders & CropProductsCreateOrUpdateDefaultHeaders;
+}
+
+/** Deletes a specified crop Product resource. */
+export interface CropProductsDelete204Response extends HttpResponse {
+  status: "204";
+  body: Record<string, unknown>;
+}
+
+export interface CropProductsDeleteDefaultHeaders {
+  "x-ms-error-code"?: string;
+}
+
+/** Deletes a specified crop Product resource. */
+export interface CropProductsDeleteDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+  headers: RawHttpHeaders & CropProductsDeleteDefaultHeaders;
 }
 
 /** Returns a paginated list of crop resources. */
@@ -491,15 +569,15 @@ export interface CropsList200Response extends HttpResponse {
   body: CropListResponseOutput;
 }
 
-export interface CropsListdefaultHeaders {
+export interface CropsListDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Returns a paginated list of crop resources. */
-export interface CropsListdefaultResponse extends HttpResponse {
+export interface CropsListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & CropsListdefaultHeaders;
+  headers: RawHttpHeaders & CropsListDefaultHeaders;
 }
 
 /** Gets a specified crop resource. */
@@ -508,15 +586,15 @@ export interface CropsGet200Response extends HttpResponse {
   body: CropOutput;
 }
 
-export interface CropsGetdefaultHeaders {
+export interface CropsGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Gets a specified crop resource. */
-export interface CropsGetdefaultResponse extends HttpResponse {
+export interface CropsGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & CropsGetdefaultHeaders;
+  headers: RawHttpHeaders & CropsGetDefaultHeaders;
 }
 
 /** Creates or updates a crop resource. */
@@ -531,15 +609,15 @@ export interface CropsCreateOrUpdate201Response extends HttpResponse {
   body: CropOutput;
 }
 
-export interface CropsCreateOrUpdatedefaultHeaders {
+export interface CropsCreateOrUpdateDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Creates or updates a crop resource. */
-export interface CropsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface CropsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & CropsCreateOrUpdatedefaultHeaders;
+  headers: RawHttpHeaders & CropsCreateOrUpdateDefaultHeaders;
 }
 
 /** Deletes Crop for given crop id. */
@@ -548,90 +626,15 @@ export interface CropsDelete204Response extends HttpResponse {
   body: Record<string, unknown>;
 }
 
-export interface CropsDeletedefaultHeaders {
+export interface CropsDeleteDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Deletes Crop for given crop id. */
-export interface CropsDeletedefaultResponse extends HttpResponse {
+export interface CropsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & CropsDeletedefaultHeaders;
-}
-
-/** Returns a paginated list of crop variety resources. */
-export interface CropVarietiesList200Response extends HttpResponse {
-  status: "200";
-  body: CropVarietyListResponseOutput;
-}
-
-export interface CropVarietiesListdefaultHeaders {
-  "x-ms-error-code"?: string;
-}
-
-/** Returns a paginated list of crop variety resources. */
-export interface CropVarietiesListdefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
-  headers: RawHttpHeaders & CropVarietiesListdefaultHeaders;
-}
-
-/** Gets a specified crop variety resource. */
-export interface CropVarietiesGet200Response extends HttpResponse {
-  status: "200";
-  body: CropVarietyOutput;
-}
-
-export interface CropVarietiesGetdefaultHeaders {
-  "x-ms-error-code"?: string;
-}
-
-/** Gets a specified crop variety resource. */
-export interface CropVarietiesGetdefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
-  headers: RawHttpHeaders & CropVarietiesGetdefaultHeaders;
-}
-
-/** Creates or updates a crop variety resource. */
-export interface CropVarietiesCreateOrUpdate200Response extends HttpResponse {
-  status: "200";
-  body: CropVarietyOutput;
-}
-
-/** Creates or updates a crop variety resource. */
-export interface CropVarietiesCreateOrUpdate201Response extends HttpResponse {
-  status: "201";
-  body: CropVarietyOutput;
-}
-
-export interface CropVarietiesCreateOrUpdatedefaultHeaders {
-  "x-ms-error-code"?: string;
-}
-
-/** Creates or updates a crop variety resource. */
-export interface CropVarietiesCreateOrUpdatedefaultResponse
-  extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
-  headers: RawHttpHeaders & CropVarietiesCreateOrUpdatedefaultHeaders;
-}
-
-/** Deletes a specified crop variety resource. */
-export interface CropVarietiesDelete204Response extends HttpResponse {
-  status: "204";
-  body: Record<string, unknown>;
-}
-
-export interface CropVarietiesDeletedefaultHeaders {
-  "x-ms-error-code"?: string;
-}
-
-/** Deletes a specified crop variety resource. */
-export interface CropVarietiesDeletedefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
-  headers: RawHttpHeaders & CropVarietiesDeletedefaultHeaders;
+  headers: RawHttpHeaders & CropsDeleteDefaultHeaders;
 }
 
 /** Returns a paginated list of device data model resources. */
@@ -640,15 +643,15 @@ export interface DeviceDataModelsList200Response extends HttpResponse {
   body: DeviceDataModelListResponseOutput;
 }
 
-export interface DeviceDataModelsListdefaultHeaders {
+export interface DeviceDataModelsListDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Returns a paginated list of device data model resources. */
-export interface DeviceDataModelsListdefaultResponse extends HttpResponse {
+export interface DeviceDataModelsListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & DeviceDataModelsListdefaultHeaders;
+  headers: RawHttpHeaders & DeviceDataModelsListDefaultHeaders;
 }
 
 /** Create a device data model entity. */
@@ -665,16 +668,16 @@ export interface DeviceDataModelsCreateOrUpdate201Response
   body: DeviceDataModelOutput;
 }
 
-export interface DeviceDataModelsCreateOrUpdatedefaultHeaders {
+export interface DeviceDataModelsCreateOrUpdateDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Create a device data model entity. */
-export interface DeviceDataModelsCreateOrUpdatedefaultResponse
+export interface DeviceDataModelsCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & DeviceDataModelsCreateOrUpdatedefaultHeaders;
+  headers: RawHttpHeaders & DeviceDataModelsCreateOrUpdateDefaultHeaders;
 }
 
 /** Gets a device data model entity. */
@@ -683,15 +686,15 @@ export interface DeviceDataModelsGet200Response extends HttpResponse {
   body: DeviceDataModelOutput;
 }
 
-export interface DeviceDataModelsGetdefaultHeaders {
+export interface DeviceDataModelsGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Gets a device data model entity. */
-export interface DeviceDataModelsGetdefaultResponse extends HttpResponse {
+export interface DeviceDataModelsGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & DeviceDataModelsGetdefaultHeaders;
+  headers: RawHttpHeaders & DeviceDataModelsGetDefaultHeaders;
 }
 
 /** Deletes a device data model entity. */
@@ -700,15 +703,15 @@ export interface DeviceDataModelsDelete204Response extends HttpResponse {
   body: Record<string, unknown>;
 }
 
-export interface DeviceDataModelsDeletedefaultHeaders {
+export interface DeviceDataModelsDeleteDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Deletes a device data model entity. */
-export interface DeviceDataModelsDeletedefaultResponse extends HttpResponse {
+export interface DeviceDataModelsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & DeviceDataModelsDeletedefaultHeaders;
+  headers: RawHttpHeaders & DeviceDataModelsDeleteDefaultHeaders;
 }
 
 /** Returns a paginated list of device resources. */
@@ -717,15 +720,15 @@ export interface DevicesList200Response extends HttpResponse {
   body: DeviceListResponseOutput;
 }
 
-export interface DevicesListdefaultHeaders {
+export interface DevicesListDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Returns a paginated list of device resources. */
-export interface DevicesListdefaultResponse extends HttpResponse {
+export interface DevicesListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & DevicesListdefaultHeaders;
+  headers: RawHttpHeaders & DevicesListDefaultHeaders;
 }
 
 /** Create a device entity. */
@@ -740,15 +743,15 @@ export interface DevicesCreateOrUpdate201Response extends HttpResponse {
   body: DeviceOutput;
 }
 
-export interface DevicesCreateOrUpdatedefaultHeaders {
+export interface DevicesCreateOrUpdateDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Create a device entity. */
-export interface DevicesCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface DevicesCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & DevicesCreateOrUpdatedefaultHeaders;
+  headers: RawHttpHeaders & DevicesCreateOrUpdateDefaultHeaders;
 }
 
 /** Gets a device entity. */
@@ -757,15 +760,15 @@ export interface DevicesGet200Response extends HttpResponse {
   body: DeviceOutput;
 }
 
-export interface DevicesGetdefaultHeaders {
+export interface DevicesGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Gets a device entity. */
-export interface DevicesGetdefaultResponse extends HttpResponse {
+export interface DevicesGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & DevicesGetdefaultHeaders;
+  headers: RawHttpHeaders & DevicesGetDefaultHeaders;
 }
 
 /** Deletes a device entity. */
@@ -774,126 +777,15 @@ export interface DevicesDelete204Response extends HttpResponse {
   body: Record<string, unknown>;
 }
 
-export interface DevicesDeletedefaultHeaders {
+export interface DevicesDeleteDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Deletes a device entity. */
-export interface DevicesDeletedefaultResponse extends HttpResponse {
+export interface DevicesDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & DevicesDeletedefaultHeaders;
-}
-
-/** Returns a paginated list of farmer resources. */
-export interface FarmersList200Response extends HttpResponse {
-  status: "200";
-  body: FarmerListResponseOutput;
-}
-
-export interface FarmersListdefaultHeaders {
-  "x-ms-error-code"?: string;
-}
-
-/** Returns a paginated list of farmer resources. */
-export interface FarmersListdefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
-  headers: RawHttpHeaders & FarmersListdefaultHeaders;
-}
-
-/** Gets a specified farmer resource. */
-export interface FarmersGet200Response extends HttpResponse {
-  status: "200";
-  body: FarmerOutput;
-}
-
-export interface FarmersGetdefaultHeaders {
-  "x-ms-error-code"?: string;
-}
-
-/** Gets a specified farmer resource. */
-export interface FarmersGetdefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
-  headers: RawHttpHeaders & FarmersGetdefaultHeaders;
-}
-
-/** Creates or updates a farmer resource. */
-export interface FarmersCreateOrUpdate200Response extends HttpResponse {
-  status: "200";
-  body: FarmerOutput;
-}
-
-/** Creates or updates a farmer resource. */
-export interface FarmersCreateOrUpdate201Response extends HttpResponse {
-  status: "201";
-  body: FarmerOutput;
-}
-
-export interface FarmersCreateOrUpdatedefaultHeaders {
-  "x-ms-error-code"?: string;
-}
-
-/** Creates or updates a farmer resource. */
-export interface FarmersCreateOrUpdatedefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
-  headers: RawHttpHeaders & FarmersCreateOrUpdatedefaultHeaders;
-}
-
-/** Deletes a specified farmer resource. */
-export interface FarmersDelete204Response extends HttpResponse {
-  status: "204";
-  body: Record<string, unknown>;
-}
-
-export interface FarmersDeletedefaultHeaders {
-  "x-ms-error-code"?: string;
-}
-
-/** Deletes a specified farmer resource. */
-export interface FarmersDeletedefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
-  headers: RawHttpHeaders & FarmersDeletedefaultHeaders;
-}
-
-/** Create a cascade delete job for specified farmer. */
-export interface FarmersCreateCascadeDeleteJob202Response extends HttpResponse {
-  status: "202";
-  body: CascadeDeleteJobOutput;
-}
-
-export interface FarmersCreateCascadeDeleteJobdefaultHeaders {
-  "x-ms-error-code"?: string;
-}
-
-/** Create a cascade delete job for specified farmer. */
-export interface FarmersCreateCascadeDeleteJobdefaultResponse
-  extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
-  headers: RawHttpHeaders & FarmersCreateCascadeDeleteJobdefaultHeaders;
-}
-
-/** Get a cascade delete job for specified farmer. */
-export interface FarmersGetCascadeDeleteJobDetails200Response
-  extends HttpResponse {
-  status: "200";
-  body: CascadeDeleteJobOutput;
-}
-
-export interface FarmersGetCascadeDeleteJobDetailsdefaultHeaders {
-  "x-ms-error-code"?: string;
-}
-
-/** Get a cascade delete job for specified farmer. */
-export interface FarmersGetCascadeDeleteJobDetailsdefaultResponse
-  extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
-  headers: RawHttpHeaders & FarmersGetCascadeDeleteJobDetailsdefaultHeaders;
+  headers: RawHttpHeaders & DevicesDeleteDefaultHeaders;
 }
 
 /** Create a farm operation data ingestion job. */
@@ -903,16 +795,16 @@ export interface FarmOperationsCreateDataIngestionJob202Response
   body: FarmOperationDataIngestionJobOutput;
 }
 
-export interface FarmOperationsCreateDataIngestionJobdefaultHeaders {
+export interface FarmOperationsCreateDataIngestionJobDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Create a farm operation data ingestion job. */
-export interface FarmOperationsCreateDataIngestionJobdefaultResponse
+export interface FarmOperationsCreateDataIngestionJobDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & FarmOperationsCreateDataIngestionJobdefaultHeaders;
+  headers: RawHttpHeaders & FarmOperationsCreateDataIngestionJobDefaultHeaders;
 }
 
 /** Get a farm operation data ingestion job. */
@@ -922,108 +814,34 @@ export interface FarmOperationsGetDataIngestionJobDetails200Response
   body: FarmOperationDataIngestionJobOutput;
 }
 
-export interface FarmOperationsGetDataIngestionJobDetailsdefaultHeaders {
+export interface FarmOperationsGetDataIngestionJobDetailsDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Get a farm operation data ingestion job. */
-export interface FarmOperationsGetDataIngestionJobDetailsdefaultResponse
+export interface FarmOperationsGetDataIngestionJobDetailsDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders &
-    FarmOperationsGetDataIngestionJobDetailsdefaultHeaders;
+    FarmOperationsGetDataIngestionJobDetailsDefaultHeaders;
 }
 
-/** Returns a paginated list of farm resources under a particular farmer. */
-export interface FarmsListByFarmerId200Response extends HttpResponse {
-  status: "200";
-  body: FarmListResponseOutput;
-}
-
-export interface FarmsListByFarmerIddefaultHeaders {
-  "x-ms-error-code"?: string;
-}
-
-/** Returns a paginated list of farm resources under a particular farmer. */
-export interface FarmsListByFarmerIddefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
-  headers: RawHttpHeaders & FarmsListByFarmerIddefaultHeaders;
-}
-
-/** Gets a specified farm resource under a particular farmer. */
-export interface FarmsGet200Response extends HttpResponse {
-  status: "200";
-  body: FarmOutput;
-}
-
-export interface FarmsGetdefaultHeaders {
-  "x-ms-error-code"?: string;
-}
-
-/** Gets a specified farm resource under a particular farmer. */
-export interface FarmsGetdefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
-  headers: RawHttpHeaders & FarmsGetdefaultHeaders;
-}
-
-/** Creates or updates a farm resource under a particular farmer. */
-export interface FarmsCreateOrUpdate200Response extends HttpResponse {
-  status: "200";
-  body: FarmOutput;
-}
-
-/** Creates or updates a farm resource under a particular farmer. */
-export interface FarmsCreateOrUpdate201Response extends HttpResponse {
-  status: "201";
-  body: FarmOutput;
-}
-
-export interface FarmsCreateOrUpdatedefaultHeaders {
-  "x-ms-error-code"?: string;
-}
-
-/** Creates or updates a farm resource under a particular farmer. */
-export interface FarmsCreateOrUpdatedefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
-  headers: RawHttpHeaders & FarmsCreateOrUpdatedefaultHeaders;
-}
-
-/** Deletes a specified farm resource under a particular farmer. */
-export interface FarmsDelete204Response extends HttpResponse {
-  status: "204";
-  body: Record<string, unknown>;
-}
-
-export interface FarmsDeletedefaultHeaders {
-  "x-ms-error-code"?: string;
-}
-
-/** Deletes a specified farm resource under a particular farmer. */
-export interface FarmsDeletedefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
-  headers: RawHttpHeaders & FarmsDeletedefaultHeaders;
-}
-
-/** Returns a paginated list of farm resources across all farmers. */
+/** Returns a paginated list of farm resources across all parties. */
 export interface FarmsList200Response extends HttpResponse {
   status: "200";
   body: FarmListResponseOutput;
 }
 
-export interface FarmsListdefaultHeaders {
+export interface FarmsListDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Returns a paginated list of farm resources across all farmers. */
-export interface FarmsListdefaultResponse extends HttpResponse {
+/** Returns a paginated list of farm resources across all parties. */
+export interface FarmsListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & FarmsListdefaultHeaders;
+  headers: RawHttpHeaders & FarmsListDefaultHeaders;
 }
 
 /** Create a cascade delete job for specified farm. */
@@ -1032,16 +850,16 @@ export interface FarmsCreateCascadeDeleteJob202Response extends HttpResponse {
   body: CascadeDeleteJobOutput;
 }
 
-export interface FarmsCreateCascadeDeleteJobdefaultHeaders {
+export interface FarmsCreateCascadeDeleteJobDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Create a cascade delete job for specified farm. */
-export interface FarmsCreateCascadeDeleteJobdefaultResponse
+export interface FarmsCreateCascadeDeleteJobDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & FarmsCreateCascadeDeleteJobdefaultHeaders;
+  headers: RawHttpHeaders & FarmsCreateCascadeDeleteJobDefaultHeaders;
 }
 
 /** Get a cascade delete job for specified farm. */
@@ -1051,125 +869,107 @@ export interface FarmsGetCascadeDeleteJobDetails200Response
   body: CascadeDeleteJobOutput;
 }
 
-export interface FarmsGetCascadeDeleteJobDetailsdefaultHeaders {
+export interface FarmsGetCascadeDeleteJobDetailsDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Get a cascade delete job for specified farm. */
-export interface FarmsGetCascadeDeleteJobDetailsdefaultResponse
+export interface FarmsGetCascadeDeleteJobDetailsDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & FarmsGetCascadeDeleteJobDetailsdefaultHeaders;
+  headers: RawHttpHeaders & FarmsGetCascadeDeleteJobDetailsDefaultHeaders;
 }
 
-/** Returns a paginated list of field resources under a particular farmer. */
-export interface FieldsListByFarmerId200Response extends HttpResponse {
+/** Returns a paginated list of farm resources under a particular party. */
+export interface FarmsListByPartyId200Response extends HttpResponse {
   status: "200";
-  body: FieldListResponseOutput;
+  body: FarmListResponseOutput;
 }
 
-export interface FieldsListByFarmerIddefaultHeaders {
+export interface FarmsListByPartyIdDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Returns a paginated list of field resources under a particular farmer. */
-export interface FieldsListByFarmerIddefaultResponse extends HttpResponse {
+/** Returns a paginated list of farm resources under a particular party. */
+export interface FarmsListByPartyIdDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & FieldsListByFarmerIddefaultHeaders;
+  headers: RawHttpHeaders & FarmsListByPartyIdDefaultHeaders;
 }
 
-/** Gets a specified field resource under a particular farmer. */
-export interface FieldsGet200Response extends HttpResponse {
+/** Gets a specified farm resource under a particular party. */
+export interface FarmsGet200Response extends HttpResponse {
   status: "200";
-  body: FieldOutput;
+  body: FarmOutput;
 }
 
-export interface FieldsGetdefaultHeaders {
+export interface FarmsGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Gets a specified field resource under a particular farmer. */
-export interface FieldsGetdefaultResponse extends HttpResponse {
+/** Gets a specified farm resource under a particular party. */
+export interface FarmsGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & FieldsGetdefaultHeaders;
+  headers: RawHttpHeaders & FarmsGetDefaultHeaders;
 }
 
-/** Creates or Updates a field resource under a particular farmer. */
-export interface FieldsCreateOrUpdate200Response extends HttpResponse {
+/** Creates or updates a farm resource under a particular party. */
+export interface FarmsCreateOrUpdate200Response extends HttpResponse {
   status: "200";
-  body: FieldOutput;
+  body: FarmOutput;
 }
 
-/** Creates or Updates a field resource under a particular farmer. */
-export interface FieldsCreateOrUpdate201Response extends HttpResponse {
+/** Creates or updates a farm resource under a particular party. */
+export interface FarmsCreateOrUpdate201Response extends HttpResponse {
   status: "201";
-  body: FieldOutput;
+  body: FarmOutput;
 }
 
-export interface FieldsCreateOrUpdatedefaultHeaders {
+export interface FarmsCreateOrUpdateDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Creates or Updates a field resource under a particular farmer. */
-export interface FieldsCreateOrUpdatedefaultResponse extends HttpResponse {
+/** Creates or updates a farm resource under a particular party. */
+export interface FarmsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & FieldsCreateOrUpdatedefaultHeaders;
+  headers: RawHttpHeaders & FarmsCreateOrUpdateDefaultHeaders;
 }
 
-/** Deletes a specified field resource under a particular farmer. */
-export interface FieldsDelete204Response extends HttpResponse {
+/** Deletes a specified farm resource under a particular party. */
+export interface FarmsDelete204Response extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
 
-export interface FieldsDeletedefaultHeaders {
+export interface FarmsDeleteDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Deletes a specified field resource under a particular farmer. */
-export interface FieldsDeletedefaultResponse extends HttpResponse {
+/** Deletes a specified farm resource under a particular party. */
+export interface FarmsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & FieldsDeletedefaultHeaders;
+  headers: RawHttpHeaders & FarmsDeleteDefaultHeaders;
 }
 
-/** Returns a paginated list of field resources across all farmers. */
+/** Returns a paginated list of field resources across all parties. */
 export interface FieldsList200Response extends HttpResponse {
   status: "200";
   body: FieldListResponseOutput;
 }
 
-export interface FieldsListdefaultHeaders {
+export interface FieldsListDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Returns a paginated list of field resources across all farmers. */
-export interface FieldsListdefaultResponse extends HttpResponse {
+/** Returns a paginated list of field resources across all parties. */
+export interface FieldsListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & FieldsListdefaultHeaders;
-}
-
-/** Create a cascade delete job for specified field. */
-export interface FieldsCreateCascadeDeleteJob202Response extends HttpResponse {
-  status: "202";
-  body: CascadeDeleteJobOutput;
-}
-
-export interface FieldsCreateCascadeDeleteJobdefaultHeaders {
-  "x-ms-error-code"?: string;
-}
-
-/** Create a cascade delete job for specified field. */
-export interface FieldsCreateCascadeDeleteJobdefaultResponse
-  extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
-  headers: RawHttpHeaders & FieldsCreateCascadeDeleteJobdefaultHeaders;
+  headers: RawHttpHeaders & FieldsListDefaultHeaders;
 }
 
 /** Get a cascade delete job for specified field. */
@@ -1179,107 +979,125 @@ export interface FieldsGetCascadeDeleteJobDetails200Response
   body: CascadeDeleteJobOutput;
 }
 
-export interface FieldsGetCascadeDeleteJobDetailsdefaultHeaders {
+export interface FieldsGetCascadeDeleteJobDetailsDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Get a cascade delete job for specified field. */
-export interface FieldsGetCascadeDeleteJobDetailsdefaultResponse
+export interface FieldsGetCascadeDeleteJobDetailsDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & FieldsGetCascadeDeleteJobDetailsdefaultHeaders;
+  headers: RawHttpHeaders & FieldsGetCascadeDeleteJobDetailsDefaultHeaders;
 }
 
-/** Returns a paginated list of harvest data resources under a particular farm. */
-export interface HarvestDataListByFarmerId200Response extends HttpResponse {
-  status: "200";
-  body: HarvestDataListResponseOutput;
+/** Create a cascade delete job for specified field. */
+export interface FieldsCreateCascadeDeleteJob202Response extends HttpResponse {
+  status: "202";
+  body: CascadeDeleteJobOutput;
 }
 
-export interface HarvestDataListByFarmerIddefaultHeaders {
+export interface FieldsCreateCascadeDeleteJobDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Returns a paginated list of harvest data resources under a particular farm. */
-export interface HarvestDataListByFarmerIddefaultResponse extends HttpResponse {
+/** Create a cascade delete job for specified field. */
+export interface FieldsCreateCascadeDeleteJobDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & HarvestDataListByFarmerIddefaultHeaders;
+  headers: RawHttpHeaders & FieldsCreateCascadeDeleteJobDefaultHeaders;
 }
 
-/** Get a specified harvest data resource under a particular farmer. */
-export interface HarvestDataGet200Response extends HttpResponse {
+/** Returns a paginated list of field resources under a particular party. */
+export interface FieldsListByPartyId200Response extends HttpResponse {
   status: "200";
-  body: HarvestDataOutput;
+  body: FieldListResponseOutput;
 }
 
-export interface HarvestDataGetdefaultHeaders {
+export interface FieldsListByPartyIdDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Get a specified harvest data resource under a particular farmer. */
-export interface HarvestDataGetdefaultResponse extends HttpResponse {
+/** Returns a paginated list of field resources under a particular party. */
+export interface FieldsListByPartyIdDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & HarvestDataGetdefaultHeaders;
+  headers: RawHttpHeaders & FieldsListByPartyIdDefaultHeaders;
 }
 
-/** Creates or updates harvest data resource under a particular farmer. */
-export interface HarvestDataCreateOrUpdate200Response extends HttpResponse {
+/** Gets a specified field resource under a particular party. */
+export interface FieldsGet200Response extends HttpResponse {
   status: "200";
-  body: HarvestDataOutput;
+  body: FieldOutput;
 }
 
-/** Creates or updates harvest data resource under a particular farmer. */
-export interface HarvestDataCreateOrUpdate201Response extends HttpResponse {
+export interface FieldsGetDefaultHeaders {
+  "x-ms-error-code"?: string;
+}
+
+/** Gets a specified field resource under a particular party. */
+export interface FieldsGetDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+  headers: RawHttpHeaders & FieldsGetDefaultHeaders;
+}
+
+/** Creates or Updates a field resource under a particular party. */
+export interface FieldsCreateOrUpdate200Response extends HttpResponse {
+  status: "200";
+  body: FieldOutput;
+}
+
+/** Creates or Updates a field resource under a particular party. */
+export interface FieldsCreateOrUpdate201Response extends HttpResponse {
   status: "201";
-  body: HarvestDataOutput;
+  body: FieldOutput;
 }
 
-export interface HarvestDataCreateOrUpdatedefaultHeaders {
+export interface FieldsCreateOrUpdateDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Creates or updates harvest data resource under a particular farmer. */
-export interface HarvestDataCreateOrUpdatedefaultResponse extends HttpResponse {
+/** Creates or Updates a field resource under a particular party. */
+export interface FieldsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & HarvestDataCreateOrUpdatedefaultHeaders;
+  headers: RawHttpHeaders & FieldsCreateOrUpdateDefaultHeaders;
 }
 
-/** Deletes a specified harvest data resource under a particular farmer. */
-export interface HarvestDataDelete204Response extends HttpResponse {
+/** Deletes a specified field resource under a particular party. */
+export interface FieldsDelete204Response extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
 
-export interface HarvestDataDeletedefaultHeaders {
+export interface FieldsDeleteDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Deletes a specified harvest data resource under a particular farmer. */
-export interface HarvestDataDeletedefaultResponse extends HttpResponse {
+/** Deletes a specified field resource under a particular party. */
+export interface FieldsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & HarvestDataDeletedefaultHeaders;
+  headers: RawHttpHeaders & FieldsDeleteDefaultHeaders;
 }
 
-/** Returns a paginated list of harvest data resources across all farmers. */
+/** Returns a paginated list of harvest data resources across all parties. */
 export interface HarvestDataList200Response extends HttpResponse {
   status: "200";
   body: HarvestDataListResponseOutput;
 }
 
-export interface HarvestDataListdefaultHeaders {
+export interface HarvestDataListDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Returns a paginated list of harvest data resources across all farmers. */
-export interface HarvestDataListdefaultResponse extends HttpResponse {
+/** Returns a paginated list of harvest data resources across all parties. */
+export interface HarvestDataListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & HarvestDataListdefaultHeaders;
+  headers: RawHttpHeaders & HarvestDataListDefaultHeaders;
 }
 
 /** Create cascade delete job for harvest data resource. */
@@ -1289,16 +1107,16 @@ export interface HarvestDataCreateCascadeDeleteJob202Response
   body: CascadeDeleteJobOutput;
 }
 
-export interface HarvestDataCreateCascadeDeleteJobdefaultHeaders {
+export interface HarvestDataCreateCascadeDeleteJobDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Create cascade delete job for harvest data resource. */
-export interface HarvestDataCreateCascadeDeleteJobdefaultResponse
+export interface HarvestDataCreateCascadeDeleteJobDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & HarvestDataCreateCascadeDeleteJobdefaultHeaders;
+  headers: RawHttpHeaders & HarvestDataCreateCascadeDeleteJobDefaultHeaders;
 }
 
 /** Get cascade delete job for harvest data resource. */
@@ -1308,16 +1126,90 @@ export interface HarvestDataGetCascadeDeleteJobDetails200Response
   body: CascadeDeleteJobOutput;
 }
 
-export interface HarvestDataGetCascadeDeleteJobDetailsdefaultHeaders {
+export interface HarvestDataGetCascadeDeleteJobDetailsDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Get cascade delete job for harvest data resource. */
-export interface HarvestDataGetCascadeDeleteJobDetailsdefaultResponse
+export interface HarvestDataGetCascadeDeleteJobDetailsDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & HarvestDataGetCascadeDeleteJobDetailsdefaultHeaders;
+  headers: RawHttpHeaders & HarvestDataGetCascadeDeleteJobDetailsDefaultHeaders;
+}
+
+/** Returns a paginated list of harvest data resources under a particular farm. */
+export interface HarvestDataListByPartyId200Response extends HttpResponse {
+  status: "200";
+  body: HarvestDataListResponseOutput;
+}
+
+export interface HarvestDataListByPartyIdDefaultHeaders {
+  "x-ms-error-code"?: string;
+}
+
+/** Returns a paginated list of harvest data resources under a particular farm. */
+export interface HarvestDataListByPartyIdDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+  headers: RawHttpHeaders & HarvestDataListByPartyIdDefaultHeaders;
+}
+
+/** Get a specified harvest data resource under a particular party. */
+export interface HarvestDataGet200Response extends HttpResponse {
+  status: "200";
+  body: HarvestDataOutput;
+}
+
+export interface HarvestDataGetDefaultHeaders {
+  "x-ms-error-code"?: string;
+}
+
+/** Get a specified harvest data resource under a particular party. */
+export interface HarvestDataGetDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+  headers: RawHttpHeaders & HarvestDataGetDefaultHeaders;
+}
+
+/** Creates or updates harvest data resource under a particular party. */
+export interface HarvestDataCreateOrUpdate200Response extends HttpResponse {
+  status: "200";
+  body: HarvestDataOutput;
+}
+
+/** Creates or updates harvest data resource under a particular party. */
+export interface HarvestDataCreateOrUpdate201Response extends HttpResponse {
+  status: "201";
+  body: HarvestDataOutput;
+}
+
+export interface HarvestDataCreateOrUpdateDefaultHeaders {
+  "x-ms-error-code"?: string;
+}
+
+/** Creates or updates harvest data resource under a particular party. */
+export interface HarvestDataCreateOrUpdateDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+  headers: RawHttpHeaders & HarvestDataCreateOrUpdateDefaultHeaders;
+}
+
+/** Deletes a specified harvest data resource under a particular party. */
+export interface HarvestDataDelete204Response extends HttpResponse {
+  status: "204";
+  body: Record<string, unknown>;
+}
+
+export interface HarvestDataDeleteDefaultHeaders {
+  "x-ms-error-code"?: string;
+}
+
+/** Deletes a specified harvest data resource under a particular party. */
+export interface HarvestDataDeleteDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+  headers: RawHttpHeaders & HarvestDataDeleteDefaultHeaders;
 }
 
 /** Create a ImageProcessing Rasterize job. */
@@ -1327,16 +1219,16 @@ export interface ImageProcessingCreateRasterizeJob202Response
   body: ImageProcessingRasterizeJobOutput;
 }
 
-export interface ImageProcessingCreateRasterizeJobdefaultHeaders {
+export interface ImageProcessingCreateRasterizeJobDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Create a ImageProcessing Rasterize job. */
-export interface ImageProcessingCreateRasterizeJobdefaultResponse
+export interface ImageProcessingCreateRasterizeJobDefaultResponse
   extends HttpResponse {
   status: string;
-  body: Record<string, unknown>;
-  headers: RawHttpHeaders & ImageProcessingCreateRasterizeJobdefaultHeaders;
+  body: ErrorResponseOutput;
+  headers: RawHttpHeaders & ImageProcessingCreateRasterizeJobDefaultHeaders;
 }
 
 /** Get ImageProcessing Rasterize job's details. */
@@ -1346,24 +1238,36 @@ export interface ImageProcessingGetRasterizeJob200Response
   body: ImageProcessingRasterizeJobOutput;
 }
 
+export interface ImageProcessingGetRasterizeJobDefaultHeaders {
+  "x-ms-error-code"?: string;
+}
+
+/** Get ImageProcessing Rasterize job's details. */
+export interface ImageProcessingGetRasterizeJobDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+  headers: RawHttpHeaders & ImageProcessingGetRasterizeJobDefaultHeaders;
+}
+
 /** Returns a paginated list of insight resources. */
-export interface InsightAttachmentsListByFarmerIdModelIdAndResource200Response
+export interface InsightAttachmentsListByPartyIdModelIdAndResource200Response
   extends HttpResponse {
   status: "200";
   body: InsightAttachmentListResponseOutput;
 }
 
-export interface InsightAttachmentsListByFarmerIdModelIdAndResourcedefaultHeaders {
+export interface InsightAttachmentsListByPartyIdModelIdAndResourceDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Returns a paginated list of insight resources. */
-export interface InsightAttachmentsListByFarmerIdModelIdAndResourcedefaultResponse
+export interface InsightAttachmentsListByPartyIdModelIdAndResourceDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders &
-    InsightAttachmentsListByFarmerIdModelIdAndResourcedefaultHeaders;
+    InsightAttachmentsListByPartyIdModelIdAndResourceDefaultHeaders;
 }
 
 /** Creates or updates insight entity. */
@@ -1380,33 +1284,33 @@ export interface InsightAttachmentsCreateOrUpdate201Response
   body: InsightAttachmentOutput;
 }
 
-export interface InsightAttachmentsCreateOrUpdatedefaultHeaders {
+export interface InsightAttachmentsCreateOrUpdateDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Creates or updates insight entity. */
-export interface InsightAttachmentsCreateOrUpdatedefaultResponse
+export interface InsightAttachmentsCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & InsightAttachmentsCreateOrUpdatedefaultHeaders;
+  headers: RawHttpHeaders & InsightAttachmentsCreateOrUpdateDefaultHeaders;
 }
 
-/** Gets a specified insight resource under a particular farmer. */
+/** Gets a specified insight resource under a particular party. */
 export interface InsightAttachmentsGet200Response extends HttpResponse {
   status: "200";
   body: InsightAttachmentOutput;
 }
 
-export interface InsightAttachmentsGetdefaultHeaders {
+export interface InsightAttachmentsGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Gets a specified insight resource under a particular farmer. */
-export interface InsightAttachmentsGetdefaultResponse extends HttpResponse {
+/** Gets a specified insight resource under a particular party. */
+export interface InsightAttachmentsGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & InsightAttachmentsGetdefaultHeaders;
+  headers: RawHttpHeaders & InsightAttachmentsGetDefaultHeaders;
 }
 
 /** Deletes a specified insight resource. */
@@ -1415,15 +1319,15 @@ export interface InsightAttachmentsDelete204Response extends HttpResponse {
   body: Record<string, unknown>;
 }
 
-export interface InsightAttachmentsDeletedefaultHeaders {
+export interface InsightAttachmentsDeleteDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Deletes a specified insight resource. */
-export interface InsightAttachmentsDeletedefaultResponse extends HttpResponse {
+export interface InsightAttachmentsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & InsightAttachmentsDeletedefaultHeaders;
+  headers: RawHttpHeaders & InsightAttachmentsDeleteDefaultHeaders;
 }
 
 /** Downloads and returns insight-attachment as response for the given input filePath. */
@@ -1433,36 +1337,74 @@ export interface InsightAttachmentsDownload200Response extends HttpResponse {
   body: Uint8Array;
 }
 
-export interface InsightAttachmentsDownloaddefaultHeaders {
+export interface InsightAttachmentsDownloadDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Downloads and returns insight-attachment as response for the given input filePath. */
-export interface InsightAttachmentsDownloaddefaultResponse
+export interface InsightAttachmentsDownloadDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & InsightAttachmentsDownloaddefaultHeaders;
+  headers: RawHttpHeaders & InsightAttachmentsDownloadDefaultHeaders;
+}
+
+/** Create a cascade delete job for insights specified partyId/modelId/resourceType/resourceId. */
+export interface InsightsCreateCascadeDeleteJob202Response
+  extends HttpResponse {
+  status: "202";
+  body: CascadeDeleteJobOutput;
+}
+
+export interface InsightsCreateCascadeDeleteJobDefaultHeaders {
+  "x-ms-error-code"?: string;
+}
+
+/** Create a cascade delete job for insights specified partyId/modelId/resourceType/resourceId. */
+export interface InsightsCreateCascadeDeleteJobDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+  headers: RawHttpHeaders & InsightsCreateCascadeDeleteJobDefaultHeaders;
+}
+
+/** Get a cascade delete job for specified insight. */
+export interface InsightsGetCascadeDeleteJobDetails200Response
+  extends HttpResponse {
+  status: "200";
+  body: CascadeDeleteJobOutput;
+}
+
+export interface InsightsGetCascadeDeleteJobDetailsDefaultHeaders {
+  "x-ms-error-code"?: string;
+}
+
+/** Get a cascade delete job for specified insight. */
+export interface InsightsGetCascadeDeleteJobDetailsDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+  headers: RawHttpHeaders & InsightsGetCascadeDeleteJobDetailsDefaultHeaders;
 }
 
 /** Returns a paginated list of insight resources. */
-export interface InsightsListByFarmerIdModelIdAndResource200Response
+export interface InsightsListByPartyIdModelIdAndResource200Response
   extends HttpResponse {
   status: "200";
   body: InsightListResponseOutput;
 }
 
-export interface InsightsListByFarmerIdModelIdAndResourcedefaultHeaders {
+export interface InsightsListByPartyIdModelIdAndResourceDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Returns a paginated list of insight resources. */
-export interface InsightsListByFarmerIdModelIdAndResourcedefaultResponse
+export interface InsightsListByPartyIdModelIdAndResourceDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders &
-    InsightsListByFarmerIdModelIdAndResourcedefaultHeaders;
+    InsightsListByPartyIdModelIdAndResourceDefaultHeaders;
 }
 
 /** Creates or updates insight entity. */
@@ -1477,32 +1419,32 @@ export interface InsightsCreateOrUpdate201Response extends HttpResponse {
   body: InsightOutput;
 }
 
-export interface InsightsCreateOrUpdatedefaultHeaders {
+export interface InsightsCreateOrUpdateDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Creates or updates insight entity. */
-export interface InsightsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface InsightsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & InsightsCreateOrUpdatedefaultHeaders;
+  headers: RawHttpHeaders & InsightsCreateOrUpdateDefaultHeaders;
 }
 
-/** Gets a specified insight resource under a particular farmer. */
+/** Gets a specified insight resource under a particular party. */
 export interface InsightsGet200Response extends HttpResponse {
   status: "200";
   body: InsightOutput;
 }
 
-export interface InsightsGetdefaultHeaders {
+export interface InsightsGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Gets a specified insight resource under a particular farmer. */
-export interface InsightsGetdefaultResponse extends HttpResponse {
+/** Gets a specified insight resource under a particular party. */
+export interface InsightsGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & InsightsGetdefaultHeaders;
+  headers: RawHttpHeaders & InsightsGetDefaultHeaders;
 }
 
 /** Deletes a specified insight resource. */
@@ -1511,88 +1453,106 @@ export interface InsightsDelete204Response extends HttpResponse {
   body: Record<string, unknown>;
 }
 
-export interface InsightsDeletedefaultHeaders {
+export interface InsightsDeleteDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Deletes a specified insight resource. */
-export interface InsightsDeletedefaultResponse extends HttpResponse {
+export interface InsightsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & InsightsDeletedefaultHeaders;
+  headers: RawHttpHeaders & InsightsDeleteDefaultHeaders;
 }
 
-/** Create a cascade delete job for insights specified farmerId/modelId/resourceType/resourceId. */
-export interface InsightsCreateCascadeDeleteJob202Response
+/** Returns a paginated list of management zone resources across all parties. */
+export interface ManagementZonesList200Response extends HttpResponse {
+  status: "200";
+  body: ManagementZoneListResponseOutput;
+}
+
+export interface ManagementZonesListDefaultHeaders {
+  "x-ms-error-code"?: string;
+}
+
+/** Returns a paginated list of management zone resources across all parties. */
+export interface ManagementZonesListDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+  headers: RawHttpHeaders & ManagementZonesListDefaultHeaders;
+}
+
+/** Get a cascade delete job for specified job id. */
+export interface ManagementZonesGetCascadeDeleteJobDetails200Response
+  extends HttpResponse {
+  status: "200";
+  body: CascadeDeleteJobOutput;
+}
+
+export interface ManagementZonesGetCascadeDeleteJobDetailsDefaultHeaders {
+  "x-ms-error-code"?: string;
+}
+
+/** Get a cascade delete job for specified job id. */
+export interface ManagementZonesGetCascadeDeleteJobDetailsDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+  headers: RawHttpHeaders &
+    ManagementZonesGetCascadeDeleteJobDetailsDefaultHeaders;
+}
+
+/** Create a cascade delete job for specified management zone. */
+export interface ManagementZonesCreateCascadeDeleteJob202Response
   extends HttpResponse {
   status: "202";
   body: CascadeDeleteJobOutput;
 }
 
-export interface InsightsCreateCascadeDeleteJobdefaultHeaders {
+export interface ManagementZonesCreateCascadeDeleteJobDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Create a cascade delete job for insights specified farmerId/modelId/resourceType/resourceId. */
-export interface InsightsCreateCascadeDeleteJobdefaultResponse
+/** Create a cascade delete job for specified management zone. */
+export interface ManagementZonesCreateCascadeDeleteJobDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & InsightsCreateCascadeDeleteJobdefaultHeaders;
+  headers: RawHttpHeaders & ManagementZonesCreateCascadeDeleteJobDefaultHeaders;
 }
 
-/** Get a cascade delete job for specified insight. */
-export interface InsightsGetCascadeDeleteJobDetails200Response
-  extends HttpResponse {
-  status: "200";
-  body: CascadeDeleteJobOutput;
-}
-
-export interface InsightsGetCascadeDeleteJobDetailsdefaultHeaders {
-  "x-ms-error-code"?: string;
-}
-
-/** Get a cascade delete job for specified insight. */
-export interface InsightsGetCascadeDeleteJobDetailsdefaultResponse
-  extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
-  headers: RawHttpHeaders & InsightsGetCascadeDeleteJobDetailsdefaultHeaders;
-}
-
-/** Returns a paginated list of management zone resources under a particular farmer. */
-export interface ManagementZonesListByFarmerId200Response extends HttpResponse {
+/** Returns a paginated list of management zone resources under a particular party. */
+export interface ManagementZonesListByPartyId200Response extends HttpResponse {
   status: "200";
   body: ManagementZoneListResponseOutput;
 }
 
-export interface ManagementZonesListByFarmerIddefaultHeaders {
+export interface ManagementZonesListByPartyIdDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Returns a paginated list of management zone resources under a particular farmer. */
-export interface ManagementZonesListByFarmerIddefaultResponse
+/** Returns a paginated list of management zone resources under a particular party. */
+export interface ManagementZonesListByPartyIdDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & ManagementZonesListByFarmerIddefaultHeaders;
+  headers: RawHttpHeaders & ManagementZonesListByPartyIdDefaultHeaders;
 }
 
-/** Gets a specified management zone resource under a particular farmer. */
+/** Gets a specified management zone resource under a particular party. */
 export interface ManagementZonesGet200Response extends HttpResponse {
   status: "200";
   body: ManagementZoneOutput;
 }
 
-export interface ManagementZonesGetdefaultHeaders {
+export interface ManagementZonesGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Gets a specified management zone resource under a particular farmer. */
-export interface ManagementZonesGetdefaultResponse extends HttpResponse {
+/** Gets a specified management zone resource under a particular party. */
+export interface ManagementZonesGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & ManagementZonesGetdefaultHeaders;
+  headers: RawHttpHeaders & ManagementZonesGetDefaultHeaders;
 }
 
 /** Creates or updates a management zone resource. */
@@ -1607,89 +1567,33 @@ export interface ManagementZonesCreateOrUpdate201Response extends HttpResponse {
   body: ManagementZoneOutput;
 }
 
-export interface ManagementZonesCreateOrUpdatedefaultHeaders {
+export interface ManagementZonesCreateOrUpdateDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Creates or updates a management zone resource. */
-export interface ManagementZonesCreateOrUpdatedefaultResponse
+export interface ManagementZonesCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & ManagementZonesCreateOrUpdatedefaultHeaders;
+  headers: RawHttpHeaders & ManagementZonesCreateOrUpdateDefaultHeaders;
 }
 
-/** Deletes a specified management zone resource under a particular farmer. */
+/** Deletes a specified management zone resource under a particular party. */
 export interface ManagementZonesDelete204Response extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
 
-export interface ManagementZonesDeletedefaultHeaders {
+export interface ManagementZonesDeleteDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Deletes a specified management zone resource under a particular farmer. */
-export interface ManagementZonesDeletedefaultResponse extends HttpResponse {
+/** Deletes a specified management zone resource under a particular party. */
+export interface ManagementZonesDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & ManagementZonesDeletedefaultHeaders;
-}
-
-/** Returns a paginated list of management zone resources across all farmers. */
-export interface ManagementZonesList200Response extends HttpResponse {
-  status: "200";
-  body: ManagementZoneListResponseOutput;
-}
-
-export interface ManagementZonesListdefaultHeaders {
-  "x-ms-error-code"?: string;
-}
-
-/** Returns a paginated list of management zone resources across all farmers. */
-export interface ManagementZonesListdefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
-  headers: RawHttpHeaders & ManagementZonesListdefaultHeaders;
-}
-
-/** Get a cascade delete job for specified job id. */
-export interface ManagementZonesGetCascadeDeleteJobDetails200Response
-  extends HttpResponse {
-  status: "200";
-  body: CascadeDeleteJobOutput;
-}
-
-export interface ManagementZonesGetCascadeDeleteJobDetailsdefaultHeaders {
-  "x-ms-error-code"?: string;
-}
-
-/** Get a cascade delete job for specified job id. */
-export interface ManagementZonesGetCascadeDeleteJobDetailsdefaultResponse
-  extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
-  headers: RawHttpHeaders &
-    ManagementZonesGetCascadeDeleteJobDetailsdefaultHeaders;
-}
-
-/** Create a cascade delete job for specified management zone. */
-export interface ManagementZonesCreateCascadeDeleteJob202Response
-  extends HttpResponse {
-  status: "202";
-  body: CascadeDeleteJobOutput;
-}
-
-export interface ManagementZonesCreateCascadeDeleteJobdefaultHeaders {
-  "x-ms-error-code"?: string;
-}
-
-/** Create a cascade delete job for specified management zone. */
-export interface ManagementZonesCreateCascadeDeleteJobdefaultResponse
-  extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
-  headers: RawHttpHeaders & ManagementZonesCreateCascadeDeleteJobdefaultHeaders;
+  headers: RawHttpHeaders & ManagementZonesDeleteDefaultHeaders;
 }
 
 /** Create a Biomass Model job. */
@@ -1699,16 +1603,16 @@ export interface ModelInferenceCreateBiomassModelJob202Response
   body: BiomassModelJobOutput;
 }
 
-export interface ModelInferenceCreateBiomassModelJobdefaultHeaders {
+export interface ModelInferenceCreateBiomassModelJobDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Create a Biomass Model job. */
-export interface ModelInferenceCreateBiomassModelJobdefaultResponse
+export interface ModelInferenceCreateBiomassModelJobDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & ModelInferenceCreateBiomassModelJobdefaultHeaders;
+  headers: RawHttpHeaders & ModelInferenceCreateBiomassModelJobDefaultHeaders;
 }
 
 /** Get Biomass Model job's details. */
@@ -1718,16 +1622,56 @@ export interface ModelInferenceGetBiomassModelJob200Response
   body: BiomassModelJobOutput;
 }
 
-export interface ModelInferenceGetBiomassModelJobdefaultHeaders {
+export interface ModelInferenceGetBiomassModelJobDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Get Biomass Model job's details. */
-export interface ModelInferenceGetBiomassModelJobdefaultResponse
+export interface ModelInferenceGetBiomassModelJobDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & ModelInferenceGetBiomassModelJobdefaultHeaders;
+  headers: RawHttpHeaders & ModelInferenceGetBiomassModelJobDefaultHeaders;
+}
+
+/** Create a Sensor Placement Model job. */
+export interface ModelInferenceCreateSensorPlacementModelJob202Response
+  extends HttpResponse {
+  status: "202";
+  body: SensorPlacementModelJobOutput;
+}
+
+export interface ModelInferenceCreateSensorPlacementModelJobDefaultHeaders {
+  "x-ms-error-code"?: string;
+}
+
+/** Create a Sensor Placement Model job. */
+export interface ModelInferenceCreateSensorPlacementModelJobDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+  headers: RawHttpHeaders &
+    ModelInferenceCreateSensorPlacementModelJobDefaultHeaders;
+}
+
+/** Get Sensor Placement Model job's details. */
+export interface ModelInferenceGetSensorPlacementModelJob200Response
+  extends HttpResponse {
+  status: "200";
+  body: SensorPlacementModelJobOutput;
+}
+
+export interface ModelInferenceGetSensorPlacementModelJobDefaultHeaders {
+  "x-ms-error-code"?: string;
+}
+
+/** Get Sensor Placement Model job's details. */
+export interface ModelInferenceGetSensorPlacementModelJobDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+  headers: RawHttpHeaders &
+    ModelInferenceGetSensorPlacementModelJobDefaultHeaders;
 }
 
 /** Create a SoilMoisture Model job. */
@@ -1737,17 +1681,17 @@ export interface ModelInferenceCreateSoilMoistureModelJob202Response
   body: SoilMoistureModelJobOutput;
 }
 
-export interface ModelInferenceCreateSoilMoistureModelJobdefaultHeaders {
+export interface ModelInferenceCreateSoilMoistureModelJobDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Create a SoilMoisture Model job. */
-export interface ModelInferenceCreateSoilMoistureModelJobdefaultResponse
+export interface ModelInferenceCreateSoilMoistureModelJobDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders &
-    ModelInferenceCreateSoilMoistureModelJobdefaultHeaders;
+    ModelInferenceCreateSoilMoistureModelJobDefaultHeaders;
 }
 
 /** Get SoilMoisture Model job's details. */
@@ -1757,52 +1701,68 @@ export interface ModelInferenceGetSoilMoistureModelJob200Response
   body: SoilMoistureModelJobOutput;
 }
 
-export interface ModelInferenceGetSoilMoistureModelJobdefaultHeaders {
+export interface ModelInferenceGetSoilMoistureModelJobDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Get SoilMoisture Model job's details. */
-export interface ModelInferenceGetSoilMoistureModelJobdefaultResponse
+export interface ModelInferenceGetSoilMoistureModelJobDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & ModelInferenceGetSoilMoistureModelJobdefaultHeaders;
+  headers: RawHttpHeaders & ModelInferenceGetSoilMoistureModelJobDefaultHeaders;
 }
 
-/** Returns a paginated list of nutrient analysis resources under a particular farmer. */
-export interface NutrientAnalysesListByFarmerId200Response
-  extends HttpResponse {
+/** Returns a paginated list of nutrient analysis resources across all parties. */
+export interface NutrientAnalysesList200Response extends HttpResponse {
   status: "200";
   body: NutrientAnalysisListResponseOutput;
 }
 
-export interface NutrientAnalysesListByFarmerIddefaultHeaders {
+export interface NutrientAnalysesListDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Returns a paginated list of nutrient analysis resources under a particular farmer. */
-export interface NutrientAnalysesListByFarmerIddefaultResponse
+/** Returns a paginated list of nutrient analysis resources across all parties. */
+export interface NutrientAnalysesListDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+  headers: RawHttpHeaders & NutrientAnalysesListDefaultHeaders;
+}
+
+/** Returns a paginated list of nutrient analysis resources under a particular party. */
+export interface NutrientAnalysesListByPartyId200Response extends HttpResponse {
+  status: "200";
+  body: NutrientAnalysisListResponseOutput;
+}
+
+export interface NutrientAnalysesListByPartyIdDefaultHeaders {
+  "x-ms-error-code"?: string;
+}
+
+/** Returns a paginated list of nutrient analysis resources under a particular party. */
+export interface NutrientAnalysesListByPartyIdDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & NutrientAnalysesListByFarmerIddefaultHeaders;
+  headers: RawHttpHeaders & NutrientAnalysesListByPartyIdDefaultHeaders;
 }
 
-/** Gets a specified nutrient analysis resource under a particular farmer. */
+/** Gets a specified nutrient analysis resource under a particular party. */
 export interface NutrientAnalysesGet200Response extends HttpResponse {
   status: "200";
   body: NutrientAnalysisOutput;
 }
 
-export interface NutrientAnalysesGetdefaultHeaders {
+export interface NutrientAnalysesGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Gets a specified nutrient analysis resource under a particular farmer. */
-export interface NutrientAnalysesGetdefaultResponse extends HttpResponse {
+/** Gets a specified nutrient analysis resource under a particular party. */
+export interface NutrientAnalysesGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & NutrientAnalysesGetdefaultHeaders;
+  headers: RawHttpHeaders & NutrientAnalysesGetDefaultHeaders;
 }
 
 /** Creates or updates a nutrient analysis resource. */
@@ -1819,50 +1779,33 @@ export interface NutrientAnalysesCreateOrUpdate201Response
   body: NutrientAnalysisOutput;
 }
 
-export interface NutrientAnalysesCreateOrUpdatedefaultHeaders {
+export interface NutrientAnalysesCreateOrUpdateDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Creates or updates a nutrient analysis resource. */
-export interface NutrientAnalysesCreateOrUpdatedefaultResponse
+export interface NutrientAnalysesCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & NutrientAnalysesCreateOrUpdatedefaultHeaders;
+  headers: RawHttpHeaders & NutrientAnalysesCreateOrUpdateDefaultHeaders;
 }
 
-/** Deletes a specified nutrient analysis resource under a particular farmer. */
+/** Deletes a specified nutrient analysis resource under a particular party. */
 export interface NutrientAnalysesDelete204Response extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
 
-export interface NutrientAnalysesDeletedefaultHeaders {
+export interface NutrientAnalysesDeleteDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Deletes a specified nutrient analysis resource under a particular farmer. */
-export interface NutrientAnalysesDeletedefaultResponse extends HttpResponse {
+/** Deletes a specified nutrient analysis resource under a particular party. */
+export interface NutrientAnalysesDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & NutrientAnalysesDeletedefaultHeaders;
-}
-
-/** Returns a paginated list of nutrient analysis resources across all farmers. */
-export interface NutrientAnalysesList200Response extends HttpResponse {
-  status: "200";
-  body: NutrientAnalysisListResponseOutput;
-}
-
-export interface NutrientAnalysesListdefaultHeaders {
-  "x-ms-error-code"?: string;
-}
-
-/** Returns a paginated list of nutrient analysis resources across all farmers. */
-export interface NutrientAnalysesListdefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
-  headers: RawHttpHeaders & NutrientAnalysesListdefaultHeaders;
+  headers: RawHttpHeaders & NutrientAnalysesDeleteDefaultHeaders;
 }
 
 /** Returns a paginated list of oauthProvider resources. */
@@ -1871,15 +1814,15 @@ export interface OAuthProvidersList200Response extends HttpResponse {
   body: OAuthProviderListResponseOutput;
 }
 
-export interface OAuthProvidersListdefaultHeaders {
+export interface OAuthProvidersListDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Returns a paginated list of oauthProvider resources. */
-export interface OAuthProvidersListdefaultResponse extends HttpResponse {
+export interface OAuthProvidersListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & OAuthProvidersListdefaultHeaders;
+  headers: RawHttpHeaders & OAuthProvidersListDefaultHeaders;
 }
 
 /** Get a specified oauthProvider resource. */
@@ -1888,15 +1831,15 @@ export interface OAuthProvidersGet200Response extends HttpResponse {
   body: OAuthProviderOutput;
 }
 
-export interface OAuthProvidersGetdefaultHeaders {
+export interface OAuthProvidersGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Get a specified oauthProvider resource. */
-export interface OAuthProvidersGetdefaultResponse extends HttpResponse {
+export interface OAuthProvidersGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & OAuthProvidersGetdefaultHeaders;
+  headers: RawHttpHeaders & OAuthProvidersGetDefaultHeaders;
 }
 
 /** Creates or updates an oauthProvider resource. */
@@ -1911,16 +1854,16 @@ export interface OAuthProvidersCreateOrUpdate201Response extends HttpResponse {
   body: OAuthProviderOutput;
 }
 
-export interface OAuthProvidersCreateOrUpdatedefaultHeaders {
+export interface OAuthProvidersCreateOrUpdateDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Creates or updates an oauthProvider resource. */
-export interface OAuthProvidersCreateOrUpdatedefaultResponse
+export interface OAuthProvidersCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & OAuthProvidersCreateOrUpdatedefaultHeaders;
+  headers: RawHttpHeaders & OAuthProvidersCreateOrUpdateDefaultHeaders;
 }
 
 /** Deletes an specified oauthProvider resource. */
@@ -1929,15 +1872,15 @@ export interface OAuthProvidersDelete204Response extends HttpResponse {
   body: Record<string, unknown>;
 }
 
-export interface OAuthProvidersDeletedefaultHeaders {
+export interface OAuthProvidersDeleteDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Deletes an specified oauthProvider resource. */
-export interface OAuthProvidersDeletedefaultResponse extends HttpResponse {
+export interface OAuthProvidersDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & OAuthProvidersDeletedefaultHeaders;
+  headers: RawHttpHeaders & OAuthProvidersDeleteDefaultHeaders;
 }
 
 /** Get cascade delete job for oauthProvider resource. */
@@ -1947,17 +1890,17 @@ export interface OAuthProvidersGetCascadeDeleteJobDetails200Response
   body: OAuthProviderCascadeDeleteJobOutput;
 }
 
-export interface OAuthProvidersGetCascadeDeleteJobDetailsdefaultHeaders {
+export interface OAuthProvidersGetCascadeDeleteJobDetailsDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Get cascade delete job for oauthProvider resource. */
-export interface OAuthProvidersGetCascadeDeleteJobDetailsdefaultResponse
+export interface OAuthProvidersGetCascadeDeleteJobDetailsDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders &
-    OAuthProvidersGetCascadeDeleteJobDetailsdefaultHeaders;
+    OAuthProvidersGetCascadeDeleteJobDetailsDefaultHeaders;
 }
 
 /** Create cascade delete job for oauthProvider resource. */
@@ -1967,16 +1910,16 @@ export interface OAuthProvidersCreateCascadeDeleteJob202Response
   body: OAuthProviderCascadeDeleteJobOutput;
 }
 
-export interface OAuthProvidersCreateCascadeDeleteJobdefaultHeaders {
+export interface OAuthProvidersCreateCascadeDeleteJobDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Create cascade delete job for oauthProvider resource. */
-export interface OAuthProvidersCreateCascadeDeleteJobdefaultResponse
+export interface OAuthProvidersCreateCascadeDeleteJobDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & OAuthProvidersCreateCascadeDeleteJobdefaultHeaders;
+  headers: RawHttpHeaders & OAuthProvidersCreateCascadeDeleteJobDefaultHeaders;
 }
 
 /** Returns a list of OAuthToken documents. */
@@ -1985,15 +1928,15 @@ export interface OAuthTokensList200Response extends HttpResponse {
   body: OAuthTokenListResponseOutput;
 }
 
-export interface OAuthTokensListdefaultHeaders {
+export interface OAuthTokensListDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Returns a list of OAuthToken documents. */
-export interface OAuthTokensListdefaultResponse extends HttpResponse {
+export interface OAuthTokensListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & OAuthTokensListdefaultHeaders;
+  headers: RawHttpHeaders & OAuthTokensListDefaultHeaders;
 }
 
 /** Returns Connection link needed in the OAuth flow. */
@@ -2003,35 +1946,16 @@ export interface OAuthTokensGetOAuthConnectionLink200Response
   body: string;
 }
 
-export interface OAuthTokensGetOAuthConnectionLinkdefaultHeaders {
+export interface OAuthTokensGetOAuthConnectionLinkDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Returns Connection link needed in the OAuth flow. */
-export interface OAuthTokensGetOAuthConnectionLinkdefaultResponse
+export interface OAuthTokensGetOAuthConnectionLinkDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & OAuthTokensGetOAuthConnectionLinkdefaultHeaders;
-}
-
-/** Create remove job for OAuth token. */
-export interface OAuthTokensCreateCascadeDeleteJob202Response
-  extends HttpResponse {
-  status: "202";
-  body: CascadeDeleteJobOutput;
-}
-
-export interface OAuthTokensCreateCascadeDeleteJobdefaultHeaders {
-  "x-ms-error-code"?: string;
-}
-
-/** Create remove job for OAuth token. */
-export interface OAuthTokensCreateCascadeDeleteJobdefaultResponse
-  extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
-  headers: RawHttpHeaders & OAuthTokensCreateCascadeDeleteJobdefaultHeaders;
+  headers: RawHttpHeaders & OAuthTokensGetOAuthConnectionLinkDefaultHeaders;
 }
 
 /** Get remove job for OAuth token. */
@@ -2041,109 +1965,238 @@ export interface OAuthTokensGetCascadeDeleteJobDetails200Response
   body: CascadeDeleteJobOutput;
 }
 
-export interface OAuthTokensGetCascadeDeleteJobDetailsdefaultHeaders {
+export interface OAuthTokensGetCascadeDeleteJobDetailsDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Get remove job for OAuth token. */
-export interface OAuthTokensGetCascadeDeleteJobDetailsdefaultResponse
+export interface OAuthTokensGetCascadeDeleteJobDetailsDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & OAuthTokensGetCascadeDeleteJobDetailsdefaultHeaders;
+  headers: RawHttpHeaders & OAuthTokensGetCascadeDeleteJobDetailsDefaultHeaders;
 }
 
-/** Returns a paginated list of planting data resources under a particular farm. */
-export interface PlantingDataListByFarmerId200Response extends HttpResponse {
+/** Create remove job for OAuth token. */
+export interface OAuthTokensCreateCascadeDeleteJob202Response
+  extends HttpResponse {
+  status: "202";
+  body: CascadeDeleteJobOutput;
+}
+
+export interface OAuthTokensCreateCascadeDeleteJobDefaultHeaders {
+  "x-ms-error-code"?: string;
+}
+
+/** Create remove job for OAuth token. */
+export interface OAuthTokensCreateCascadeDeleteJobDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+  headers: RawHttpHeaders & OAuthTokensCreateCascadeDeleteJobDefaultHeaders;
+}
+
+/** Returns a paginated list of party resources. */
+export interface PartiesList200Response extends HttpResponse {
+  status: "200";
+  body: PartyListResponseOutput;
+}
+
+export interface PartiesListDefaultHeaders {
+  "x-ms-error-code"?: string;
+}
+
+/** Returns a paginated list of party resources. */
+export interface PartiesListDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+  headers: RawHttpHeaders & PartiesListDefaultHeaders;
+}
+
+/** Gets a specified party resource. */
+export interface PartiesGet200Response extends HttpResponse {
+  status: "200";
+  body: PartyOutput;
+}
+
+export interface PartiesGetDefaultHeaders {
+  "x-ms-error-code"?: string;
+}
+
+/** Gets a specified party resource. */
+export interface PartiesGetDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+  headers: RawHttpHeaders & PartiesGetDefaultHeaders;
+}
+
+/** Creates or updates a party resource. */
+export interface PartiesCreateOrUpdate200Response extends HttpResponse {
+  status: "200";
+  body: PartyOutput;
+}
+
+/** Creates or updates a party resource. */
+export interface PartiesCreateOrUpdate201Response extends HttpResponse {
+  status: "201";
+  body: PartyOutput;
+}
+
+export interface PartiesCreateOrUpdateDefaultHeaders {
+  "x-ms-error-code"?: string;
+}
+
+/** Creates or updates a party resource. */
+export interface PartiesCreateOrUpdateDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+  headers: RawHttpHeaders & PartiesCreateOrUpdateDefaultHeaders;
+}
+
+/** Deletes a specified party resource. */
+export interface PartiesDelete204Response extends HttpResponse {
+  status: "204";
+  body: Record<string, unknown>;
+}
+
+export interface PartiesDeleteDefaultHeaders {
+  "x-ms-error-code"?: string;
+}
+
+/** Deletes a specified party resource. */
+export interface PartiesDeleteDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+  headers: RawHttpHeaders & PartiesDeleteDefaultHeaders;
+}
+
+/** Get a cascade delete job for specified party. */
+export interface PartiesGetCascadeDeleteJobDetails200Response
+  extends HttpResponse {
+  status: "200";
+  body: CascadeDeleteJobOutput;
+}
+
+export interface PartiesGetCascadeDeleteJobDetailsDefaultHeaders {
+  "x-ms-error-code"?: string;
+}
+
+/** Get a cascade delete job for specified party. */
+export interface PartiesGetCascadeDeleteJobDetailsDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+  headers: RawHttpHeaders & PartiesGetCascadeDeleteJobDetailsDefaultHeaders;
+}
+
+/** Create a cascade delete job for specified party. */
+export interface PartiesCreateCascadeDeleteJob202Response extends HttpResponse {
+  status: "202";
+  body: CascadeDeleteJobOutput;
+}
+
+export interface PartiesCreateCascadeDeleteJobDefaultHeaders {
+  "x-ms-error-code"?: string;
+}
+
+/** Create a cascade delete job for specified party. */
+export interface PartiesCreateCascadeDeleteJobDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+  headers: RawHttpHeaders & PartiesCreateCascadeDeleteJobDefaultHeaders;
+}
+
+/** Returns a paginated list of planting data resources under a particular party. */
+export interface PlantingDataListByPartyId200Response extends HttpResponse {
   status: "200";
   body: PlantingDataListResponseOutput;
 }
 
-export interface PlantingDataListByFarmerIddefaultHeaders {
+export interface PlantingDataListByPartyIdDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Returns a paginated list of planting data resources under a particular farm. */
-export interface PlantingDataListByFarmerIddefaultResponse
-  extends HttpResponse {
+/** Returns a paginated list of planting data resources under a particular party. */
+export interface PlantingDataListByPartyIdDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & PlantingDataListByFarmerIddefaultHeaders;
+  headers: RawHttpHeaders & PlantingDataListByPartyIdDefaultHeaders;
 }
 
-/** Get a specified planting data resource under a particular farmer. */
+/** Get a specified planting data resource under a particular party. */
 export interface PlantingDataGet200Response extends HttpResponse {
   status: "200";
   body: PlantingDataOutput;
 }
 
-export interface PlantingDataGetdefaultHeaders {
+export interface PlantingDataGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Get a specified planting data resource under a particular farmer. */
-export interface PlantingDataGetdefaultResponse extends HttpResponse {
+/** Get a specified planting data resource under a particular party. */
+export interface PlantingDataGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & PlantingDataGetdefaultHeaders;
+  headers: RawHttpHeaders & PlantingDataGetDefaultHeaders;
 }
 
-/** Creates or updates an planting data resource under a particular farmer. */
+/** Creates or updates an planting data resource under a particular party. */
 export interface PlantingDataCreateOrUpdate200Response extends HttpResponse {
   status: "200";
   body: PlantingDataOutput;
 }
 
-/** Creates or updates an planting data resource under a particular farmer. */
+/** Creates or updates an planting data resource under a particular party. */
 export interface PlantingDataCreateOrUpdate201Response extends HttpResponse {
   status: "201";
   body: PlantingDataOutput;
 }
 
-export interface PlantingDataCreateOrUpdatedefaultHeaders {
+export interface PlantingDataCreateOrUpdateDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Creates or updates an planting data resource under a particular farmer. */
-export interface PlantingDataCreateOrUpdatedefaultResponse
+/** Creates or updates an planting data resource under a particular party. */
+export interface PlantingDataCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & PlantingDataCreateOrUpdatedefaultHeaders;
+  headers: RawHttpHeaders & PlantingDataCreateOrUpdateDefaultHeaders;
 }
 
-/** Deletes a specified planting data resource under a particular farmer. */
+/** Deletes a specified planting data resource under a particular party. */
 export interface PlantingDataDelete204Response extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
 
-export interface PlantingDataDeletedefaultHeaders {
+export interface PlantingDataDeleteDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Deletes a specified planting data resource under a particular farmer. */
-export interface PlantingDataDeletedefaultResponse extends HttpResponse {
+/** Deletes a specified planting data resource under a particular party. */
+export interface PlantingDataDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & PlantingDataDeletedefaultHeaders;
+  headers: RawHttpHeaders & PlantingDataDeleteDefaultHeaders;
 }
 
-/** Returns a paginated list of planting data resources across all farmers. */
+/** Returns a paginated list of planting data resources across all parties. */
 export interface PlantingDataList200Response extends HttpResponse {
   status: "200";
   body: PlantingDataListResponseOutput;
 }
 
-export interface PlantingDataListdefaultHeaders {
+export interface PlantingDataListDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Returns a paginated list of planting data resources across all farmers. */
-export interface PlantingDataListdefaultResponse extends HttpResponse {
+/** Returns a paginated list of planting data resources across all parties. */
+export interface PlantingDataListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & PlantingDataListdefaultHeaders;
+  headers: RawHttpHeaders & PlantingDataListDefaultHeaders;
 }
 
 /** Create cascade delete job for planting data resource. */
@@ -2153,16 +2206,16 @@ export interface PlantingDataCreateCascadeDeleteJob202Response
   body: CascadeDeleteJobOutput;
 }
 
-export interface PlantingDataCreateCascadeDeleteJobdefaultHeaders {
+export interface PlantingDataCreateCascadeDeleteJobDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Create cascade delete job for planting data resource. */
-export interface PlantingDataCreateCascadeDeleteJobdefaultResponse
+export interface PlantingDataCreateCascadeDeleteJobDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & PlantingDataCreateCascadeDeleteJobdefaultHeaders;
+  headers: RawHttpHeaders & PlantingDataCreateCascadeDeleteJobDefaultHeaders;
 }
 
 /** Get cascade delete job for planting data resource. */
@@ -2172,53 +2225,53 @@ export interface PlantingDataGetCascadeDeleteJobDetails200Response
   body: CascadeDeleteJobOutput;
 }
 
-export interface PlantingDataGetCascadeDeleteJobDetailsdefaultHeaders {
+export interface PlantingDataGetCascadeDeleteJobDetailsDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Get cascade delete job for planting data resource. */
-export interface PlantingDataGetCascadeDeleteJobDetailsdefaultResponse
+export interface PlantingDataGetCascadeDeleteJobDetailsDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders &
-    PlantingDataGetCascadeDeleteJobDetailsdefaultHeaders;
+    PlantingDataGetCascadeDeleteJobDetailsDefaultHeaders;
 }
 
-/** Returns a paginated list of plant tissue analysis resources under a particular farmer. */
-export interface PlantTissueAnalysesListByFarmerId200Response
+/** Returns a paginated list of plant tissue analysis resources under a particular party. */
+export interface PlantTissueAnalysesListByPartyId200Response
   extends HttpResponse {
   status: "200";
   body: PlantTissueAnalysisListResponseOutput;
 }
 
-export interface PlantTissueAnalysesListByFarmerIddefaultHeaders {
+export interface PlantTissueAnalysesListByPartyIdDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Returns a paginated list of plant tissue analysis resources under a particular farmer. */
-export interface PlantTissueAnalysesListByFarmerIddefaultResponse
+/** Returns a paginated list of plant tissue analysis resources under a particular party. */
+export interface PlantTissueAnalysesListByPartyIdDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & PlantTissueAnalysesListByFarmerIddefaultHeaders;
+  headers: RawHttpHeaders & PlantTissueAnalysesListByPartyIdDefaultHeaders;
 }
 
-/** Gets a specified plant tissue analysis resource under a particular farmer. */
+/** Gets a specified plant tissue analysis resource under a particular party. */
 export interface PlantTissueAnalysesGet200Response extends HttpResponse {
   status: "200";
   body: PlantTissueAnalysisOutput;
 }
 
-export interface PlantTissueAnalysesGetdefaultHeaders {
+export interface PlantTissueAnalysesGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Gets a specified plant tissue analysis resource under a particular farmer. */
-export interface PlantTissueAnalysesGetdefaultResponse extends HttpResponse {
+/** Gets a specified plant tissue analysis resource under a particular party. */
+export interface PlantTissueAnalysesGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & PlantTissueAnalysesGetdefaultHeaders;
+  headers: RawHttpHeaders & PlantTissueAnalysesGetDefaultHeaders;
 }
 
 /** Creates or updates a plant tissue analysis resource. */
@@ -2235,50 +2288,50 @@ export interface PlantTissueAnalysesCreateOrUpdate201Response
   body: PlantTissueAnalysisOutput;
 }
 
-export interface PlantTissueAnalysesCreateOrUpdatedefaultHeaders {
+export interface PlantTissueAnalysesCreateOrUpdateDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Creates or updates a plant tissue analysis resource. */
-export interface PlantTissueAnalysesCreateOrUpdatedefaultResponse
+export interface PlantTissueAnalysesCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & PlantTissueAnalysesCreateOrUpdatedefaultHeaders;
+  headers: RawHttpHeaders & PlantTissueAnalysesCreateOrUpdateDefaultHeaders;
 }
 
-/** Deletes a specified plant tissue analysis resource under a particular farmer. */
+/** Deletes a specified plant tissue analysis resource under a particular party. */
 export interface PlantTissueAnalysesDelete204Response extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
 
-export interface PlantTissueAnalysesDeletedefaultHeaders {
+export interface PlantTissueAnalysesDeleteDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Deletes a specified plant tissue analysis resource under a particular farmer. */
-export interface PlantTissueAnalysesDeletedefaultResponse extends HttpResponse {
+/** Deletes a specified plant tissue analysis resource under a particular party. */
+export interface PlantTissueAnalysesDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & PlantTissueAnalysesDeletedefaultHeaders;
+  headers: RawHttpHeaders & PlantTissueAnalysesDeleteDefaultHeaders;
 }
 
-/** Returns a paginated list of plant tissue analysis resources across all farmers. */
+/** Returns a paginated list of plant tissue analysis resources across all parties. */
 export interface PlantTissueAnalysesList200Response extends HttpResponse {
   status: "200";
   body: PlantTissueAnalysisListResponseOutput;
 }
 
-export interface PlantTissueAnalysesListdefaultHeaders {
+export interface PlantTissueAnalysesListDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Returns a paginated list of plant tissue analysis resources across all farmers. */
-export interface PlantTissueAnalysesListdefaultResponse extends HttpResponse {
+/** Returns a paginated list of plant tissue analysis resources across all parties. */
+export interface PlantTissueAnalysesListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & PlantTissueAnalysesListdefaultHeaders;
+  headers: RawHttpHeaders & PlantTissueAnalysesListDefaultHeaders;
 }
 
 /** Create a cascade delete job for specified plant tissue analysis. */
@@ -2288,17 +2341,17 @@ export interface PlantTissueAnalysesCreateCascadeDeleteJob202Response
   body: CascadeDeleteJobOutput;
 }
 
-export interface PlantTissueAnalysesCreateCascadeDeleteJobdefaultHeaders {
+export interface PlantTissueAnalysesCreateCascadeDeleteJobDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Create a cascade delete job for specified plant tissue analysis. */
-export interface PlantTissueAnalysesCreateCascadeDeleteJobdefaultResponse
+export interface PlantTissueAnalysesCreateCascadeDeleteJobDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders &
-    PlantTissueAnalysesCreateCascadeDeleteJobdefaultHeaders;
+    PlantTissueAnalysesCreateCascadeDeleteJobDefaultHeaders;
 }
 
 /** Get a cascade delete job for specified plant tissue analysis. */
@@ -2308,113 +2361,112 @@ export interface PlantTissueAnalysesGetCascadeDeleteJobDetails200Response
   body: CascadeDeleteJobOutput;
 }
 
-export interface PlantTissueAnalysesGetCascadeDeleteJobDetailsdefaultHeaders {
+export interface PlantTissueAnalysesGetCascadeDeleteJobDetailsDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Get a cascade delete job for specified plant tissue analysis. */
-export interface PlantTissueAnalysesGetCascadeDeleteJobDetailsdefaultResponse
+export interface PlantTissueAnalysesGetCascadeDeleteJobDetailsDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders &
-    PlantTissueAnalysesGetCascadeDeleteJobDetailsdefaultHeaders;
+    PlantTissueAnalysesGetCascadeDeleteJobDetailsDefaultHeaders;
 }
 
-/** Returns a paginated list of prescription map resources under a particular farmer. */
-export interface PrescriptionMapsListByFarmerId200Response
-  extends HttpResponse {
+/** Returns a paginated list of prescription map resources under a particular party. */
+export interface PrescriptionMapsListByPartyId200Response extends HttpResponse {
   status: "200";
   body: PrescriptionMapListResponseOutput;
 }
 
-export interface PrescriptionMapsListByFarmerIddefaultHeaders {
+export interface PrescriptionMapsListByPartyIdDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Returns a paginated list of prescription map resources under a particular farmer. */
-export interface PrescriptionMapsListByFarmerIddefaultResponse
+/** Returns a paginated list of prescription map resources under a particular party. */
+export interface PrescriptionMapsListByPartyIdDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & PrescriptionMapsListByFarmerIddefaultHeaders;
+  headers: RawHttpHeaders & PrescriptionMapsListByPartyIdDefaultHeaders;
 }
 
-/** Gets a specified prescription map resource under a particular farmer. */
+/** Gets a specified prescription map resource under a particular party. */
 export interface PrescriptionMapsGet200Response extends HttpResponse {
   status: "200";
   body: PrescriptionMapOutput;
 }
 
-export interface PrescriptionMapsGetdefaultHeaders {
+export interface PrescriptionMapsGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Gets a specified prescription map resource under a particular farmer. */
-export interface PrescriptionMapsGetdefaultResponse extends HttpResponse {
+/** Gets a specified prescription map resource under a particular party. */
+export interface PrescriptionMapsGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & PrescriptionMapsGetdefaultHeaders;
+  headers: RawHttpHeaders & PrescriptionMapsGetDefaultHeaders;
 }
 
-/** Creates or Updates a prescription map resource under a particular farmer. */
+/** Creates or Updates a prescription map resource under a particular party. */
 export interface PrescriptionMapsCreateOrUpdate200Response
   extends HttpResponse {
   status: "200";
   body: PrescriptionMapOutput;
 }
 
-/** Creates or Updates a prescription map resource under a particular farmer. */
+/** Creates or Updates a prescription map resource under a particular party. */
 export interface PrescriptionMapsCreateOrUpdate201Response
   extends HttpResponse {
   status: "201";
   body: PrescriptionMapOutput;
 }
 
-export interface PrescriptionMapsCreateOrUpdatedefaultHeaders {
+export interface PrescriptionMapsCreateOrUpdateDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Creates or Updates a prescription map resource under a particular farmer. */
-export interface PrescriptionMapsCreateOrUpdatedefaultResponse
+/** Creates or Updates a prescription map resource under a particular party. */
+export interface PrescriptionMapsCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & PrescriptionMapsCreateOrUpdatedefaultHeaders;
+  headers: RawHttpHeaders & PrescriptionMapsCreateOrUpdateDefaultHeaders;
 }
 
-/** Deletes a specified prescription map resource under a particular farmer. */
+/** Deletes a specified prescription map resource under a particular party. */
 export interface PrescriptionMapsDelete204Response extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
 
-export interface PrescriptionMapsDeletedefaultHeaders {
+export interface PrescriptionMapsDeleteDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Deletes a specified prescription map resource under a particular farmer. */
-export interface PrescriptionMapsDeletedefaultResponse extends HttpResponse {
+/** Deletes a specified prescription map resource under a particular party. */
+export interface PrescriptionMapsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & PrescriptionMapsDeletedefaultHeaders;
+  headers: RawHttpHeaders & PrescriptionMapsDeleteDefaultHeaders;
 }
 
-/** Returns a paginated list of prescription map resources across all farmers. */
+/** Returns a paginated list of prescription map resources across all parties. */
 export interface PrescriptionMapsList200Response extends HttpResponse {
   status: "200";
   body: PrescriptionMapListResponseOutput;
 }
 
-export interface PrescriptionMapsListdefaultHeaders {
+export interface PrescriptionMapsListDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Returns a paginated list of prescription map resources across all farmers. */
-export interface PrescriptionMapsListdefaultResponse extends HttpResponse {
+/** Returns a paginated list of prescription map resources across all parties. */
+export interface PrescriptionMapsListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & PrescriptionMapsListdefaultHeaders;
+  headers: RawHttpHeaders & PrescriptionMapsListDefaultHeaders;
 }
 
 /** Get a cascade delete job for specified prescription map. */
@@ -2424,17 +2476,17 @@ export interface PrescriptionMapsGetCascadeDeleteJobDetails200Response
   body: CascadeDeleteJobOutput;
 }
 
-export interface PrescriptionMapsGetCascadeDeleteJobDetailsdefaultHeaders {
+export interface PrescriptionMapsGetCascadeDeleteJobDetailsDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Get a cascade delete job for specified prescription map. */
-export interface PrescriptionMapsGetCascadeDeleteJobDetailsdefaultResponse
+export interface PrescriptionMapsGetCascadeDeleteJobDetailsDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders &
-    PrescriptionMapsGetCascadeDeleteJobDetailsdefaultHeaders;
+    PrescriptionMapsGetCascadeDeleteJobDetailsDefaultHeaders;
 }
 
 /** Create a cascade delete job for specified prescription map. */
@@ -2444,110 +2496,110 @@ export interface PrescriptionMapsCreateCascadeDeleteJob202Response
   body: CascadeDeleteJobOutput;
 }
 
-export interface PrescriptionMapsCreateCascadeDeleteJobdefaultHeaders {
+export interface PrescriptionMapsCreateCascadeDeleteJobDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Create a cascade delete job for specified prescription map. */
-export interface PrescriptionMapsCreateCascadeDeleteJobdefaultResponse
+export interface PrescriptionMapsCreateCascadeDeleteJobDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders &
-    PrescriptionMapsCreateCascadeDeleteJobdefaultHeaders;
+    PrescriptionMapsCreateCascadeDeleteJobDefaultHeaders;
 }
 
-/** Returns a paginated list of prescription resources under a particular farmer. */
-export interface PrescriptionsListByFarmerId200Response extends HttpResponse {
+/** Returns a paginated list of prescription resources under a particular party. */
+export interface PrescriptionsListByPartyId200Response extends HttpResponse {
   status: "200";
   body: PrescriptionListResponseOutput;
 }
 
-export interface PrescriptionsListByFarmerIddefaultHeaders {
+export interface PrescriptionsListByPartyIdDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Returns a paginated list of prescription resources under a particular farmer. */
-export interface PrescriptionsListByFarmerIddefaultResponse
+/** Returns a paginated list of prescription resources under a particular party. */
+export interface PrescriptionsListByPartyIdDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & PrescriptionsListByFarmerIddefaultHeaders;
+  headers: RawHttpHeaders & PrescriptionsListByPartyIdDefaultHeaders;
 }
 
-/** Gets a specified prescription resource under a particular farmer. */
+/** Gets a specified prescription resource under a particular party. */
 export interface PrescriptionsGet200Response extends HttpResponse {
   status: "200";
   body: PrescriptionOutput;
 }
 
-export interface PrescriptionsGetdefaultHeaders {
+export interface PrescriptionsGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Gets a specified prescription resource under a particular farmer. */
-export interface PrescriptionsGetdefaultResponse extends HttpResponse {
+/** Gets a specified prescription resource under a particular party. */
+export interface PrescriptionsGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & PrescriptionsGetdefaultHeaders;
+  headers: RawHttpHeaders & PrescriptionsGetDefaultHeaders;
 }
 
-/** Creates or Updates a prescription resource under a particular farmer. */
+/** Creates or Updates a prescription resource under a particular party. */
 export interface PrescriptionsCreateOrUpdate200Response extends HttpResponse {
   status: "200";
   body: PrescriptionOutput;
 }
 
-/** Creates or Updates a prescription resource under a particular farmer. */
+/** Creates or Updates a prescription resource under a particular party. */
 export interface PrescriptionsCreateOrUpdate201Response extends HttpResponse {
   status: "201";
   body: PrescriptionOutput;
 }
 
-export interface PrescriptionsCreateOrUpdatedefaultHeaders {
+export interface PrescriptionsCreateOrUpdateDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Creates or Updates a prescription resource under a particular farmer. */
-export interface PrescriptionsCreateOrUpdatedefaultResponse
+/** Creates or Updates a prescription resource under a particular party. */
+export interface PrescriptionsCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & PrescriptionsCreateOrUpdatedefaultHeaders;
+  headers: RawHttpHeaders & PrescriptionsCreateOrUpdateDefaultHeaders;
 }
 
-/** Deletes a specified prescription resource under a particular farmer. */
+/** Deletes a specified prescription resource under a particular party. */
 export interface PrescriptionsDelete204Response extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
 
-export interface PrescriptionsDeletedefaultHeaders {
+export interface PrescriptionsDeleteDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Deletes a specified prescription resource under a particular farmer. */
-export interface PrescriptionsDeletedefaultResponse extends HttpResponse {
+/** Deletes a specified prescription resource under a particular party. */
+export interface PrescriptionsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & PrescriptionsDeletedefaultHeaders;
+  headers: RawHttpHeaders & PrescriptionsDeleteDefaultHeaders;
 }
 
-/** Returns a paginated list of prescription resources across all farmers. */
+/** Returns a paginated list of prescription resources across all parties. */
 export interface PrescriptionsList200Response extends HttpResponse {
   status: "200";
   body: PrescriptionListResponseOutput;
 }
 
-export interface PrescriptionsListdefaultHeaders {
+export interface PrescriptionsListDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Returns a paginated list of prescription resources across all farmers. */
-export interface PrescriptionsListdefaultResponse extends HttpResponse {
+/** Returns a paginated list of prescription resources across all parties. */
+export interface PrescriptionsListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & PrescriptionsListdefaultHeaders;
+  headers: RawHttpHeaders & PrescriptionsListDefaultHeaders;
 }
 
 /** Get a cascade delete job for specified prescription. */
@@ -2557,17 +2609,17 @@ export interface PrescriptionsGetCascadeDeleteJobDetails200Response
   body: CascadeDeleteJobOutput;
 }
 
-export interface PrescriptionsGetCascadeDeleteJobDetailsdefaultHeaders {
+export interface PrescriptionsGetCascadeDeleteJobDetailsDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Get a cascade delete job for specified prescription. */
-export interface PrescriptionsGetCascadeDeleteJobDetailsdefaultResponse
+export interface PrescriptionsGetCascadeDeleteJobDetailsDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders &
-    PrescriptionsGetCascadeDeleteJobDetailsdefaultHeaders;
+    PrescriptionsGetCascadeDeleteJobDetailsDefaultHeaders;
 }
 
 /** Create a cascade delete job for specified prescription. */
@@ -2577,16 +2629,16 @@ export interface PrescriptionsCreateCascadeDeleteJob202Response
   body: CascadeDeleteJobOutput;
 }
 
-export interface PrescriptionsCreateCascadeDeleteJobdefaultHeaders {
+export interface PrescriptionsCreateCascadeDeleteJobDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Create a cascade delete job for specified prescription. */
-export interface PrescriptionsCreateCascadeDeleteJobdefaultResponse
+export interface PrescriptionsCreateCascadeDeleteJobDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & PrescriptionsCreateCascadeDeleteJobdefaultHeaders;
+  headers: RawHttpHeaders & PrescriptionsCreateCascadeDeleteJobDefaultHeaders;
 }
 
 /** Returns a paginated list of scene resources. */
@@ -2595,15 +2647,15 @@ export interface ScenesList200Response extends HttpResponse {
   body: SceneListResponseOutput;
 }
 
-export interface ScenesListdefaultHeaders {
+export interface ScenesListDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Returns a paginated list of scene resources. */
-export interface ScenesListdefaultResponse extends HttpResponse {
+export interface ScenesListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & ScenesListdefaultHeaders;
+  headers: RawHttpHeaders & ScenesListDefaultHeaders;
 }
 
 /** Downloads and returns file Stream as response for the given input filePath. */
@@ -2613,15 +2665,15 @@ export interface ScenesDownload200Response extends HttpResponse {
   body: Uint8Array;
 }
 
-export interface ScenesDownloaddefaultHeaders {
+export interface ScenesDownloadDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Downloads and returns file Stream as response for the given input filePath. */
-export interface ScenesDownloaddefaultResponse extends HttpResponse {
+export interface ScenesDownloadDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & ScenesDownloaddefaultHeaders;
+  headers: RawHttpHeaders & ScenesDownloadDefaultHeaders;
 }
 
 /** Create a satellite data ingestion job. */
@@ -2631,16 +2683,16 @@ export interface ScenesCreateSatelliteDataIngestionJob202Response
   body: SatelliteDataIngestionJobOutput;
 }
 
-export interface ScenesCreateSatelliteDataIngestionJobdefaultHeaders {
+export interface ScenesCreateSatelliteDataIngestionJobDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Create a satellite data ingestion job. */
-export interface ScenesCreateSatelliteDataIngestionJobdefaultResponse
+export interface ScenesCreateSatelliteDataIngestionJobDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & ScenesCreateSatelliteDataIngestionJobdefaultHeaders;
+  headers: RawHttpHeaders & ScenesCreateSatelliteDataIngestionJobDefaultHeaders;
 }
 
 /** Get a satellite data ingestion job. */
@@ -2650,129 +2702,144 @@ export interface ScenesGetSatelliteDataIngestionJobDetails200Response
   body: SatelliteDataIngestionJobOutput;
 }
 
-export interface ScenesGetSatelliteDataIngestionJobDetailsdefaultHeaders {
+export interface ScenesGetSatelliteDataIngestionJobDetailsDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Get a satellite data ingestion job. */
-export interface ScenesGetSatelliteDataIngestionJobDetailsdefaultResponse
+export interface ScenesGetSatelliteDataIngestionJobDetailsDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders &
-    ScenesGetSatelliteDataIngestionJobDetailsdefaultHeaders;
+    ScenesGetSatelliteDataIngestionJobDetailsDefaultHeaders;
 }
 
-/** Returns a paginated list of seasonal field resources under a particular farmer. */
-export interface SeasonalFieldsListByFarmerId200Response extends HttpResponse {
+/** Search for STAC features by collection id, bbox, intersecting geometry, start and end datetime. */
+export interface ScenesSearchFeatures200Response extends HttpResponse {
+  status: "200";
+  body: SearchFeaturesResponseOutput;
+}
+
+export interface ScenesSearchFeaturesDefaultHeaders {
+  "x-ms-error-code"?: string;
+}
+
+/** Search for STAC features by collection id, bbox, intersecting geometry, start and end datetime. */
+export interface ScenesSearchFeaturesDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+  headers: RawHttpHeaders & ScenesSearchFeaturesDefaultHeaders;
+}
+
+/** Get a feature(SpatioTemporal Asset Catalog (STAC) Item) for given collection and feature id. */
+export interface ScenesGetStacFeature200Response extends HttpResponse {
+  status: "200";
+  body: StacFeatureOutput;
+}
+
+export interface ScenesGetStacFeatureDefaultHeaders {
+  "x-ms-error-code"?: string;
+}
+
+/** Get a feature(SpatioTemporal Asset Catalog (STAC) Item) for given collection and feature id. */
+export interface ScenesGetStacFeatureDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+  headers: RawHttpHeaders & ScenesGetStacFeatureDefaultHeaders;
+}
+
+/** Returns a paginated list of seasonal field resources under a particular party. */
+export interface SeasonalFieldsListByPartyId200Response extends HttpResponse {
   status: "200";
   body: SeasonalFieldListResponseOutput;
 }
 
-export interface SeasonalFieldsListByFarmerIddefaultHeaders {
+export interface SeasonalFieldsListByPartyIdDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Returns a paginated list of seasonal field resources under a particular farmer. */
-export interface SeasonalFieldsListByFarmerIddefaultResponse
+/** Returns a paginated list of seasonal field resources under a particular party. */
+export interface SeasonalFieldsListByPartyIdDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SeasonalFieldsListByFarmerIddefaultHeaders;
+  headers: RawHttpHeaders & SeasonalFieldsListByPartyIdDefaultHeaders;
 }
 
-/** Gets a specified seasonal field resource under a particular farmer. */
+/** Gets a specified seasonal field resource under a particular party. */
 export interface SeasonalFieldsGet200Response extends HttpResponse {
   status: "200";
   body: SeasonalFieldOutput;
 }
 
-export interface SeasonalFieldsGetdefaultHeaders {
+export interface SeasonalFieldsGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Gets a specified seasonal field resource under a particular farmer. */
-export interface SeasonalFieldsGetdefaultResponse extends HttpResponse {
+/** Gets a specified seasonal field resource under a particular party. */
+export interface SeasonalFieldsGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SeasonalFieldsGetdefaultHeaders;
+  headers: RawHttpHeaders & SeasonalFieldsGetDefaultHeaders;
 }
 
-/** Creates or Updates a seasonal field resource under a particular farmer. */
+/** Creates or Updates a seasonal field resource under a particular party. */
 export interface SeasonalFieldsCreateOrUpdate200Response extends HttpResponse {
   status: "200";
   body: SeasonalFieldOutput;
 }
 
-/** Creates or Updates a seasonal field resource under a particular farmer. */
+/** Creates or Updates a seasonal field resource under a particular party. */
 export interface SeasonalFieldsCreateOrUpdate201Response extends HttpResponse {
   status: "201";
   body: SeasonalFieldOutput;
 }
 
-export interface SeasonalFieldsCreateOrUpdatedefaultHeaders {
+export interface SeasonalFieldsCreateOrUpdateDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Creates or Updates a seasonal field resource under a particular farmer. */
-export interface SeasonalFieldsCreateOrUpdatedefaultResponse
+/** Creates or Updates a seasonal field resource under a particular party. */
+export interface SeasonalFieldsCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SeasonalFieldsCreateOrUpdatedefaultHeaders;
+  headers: RawHttpHeaders & SeasonalFieldsCreateOrUpdateDefaultHeaders;
 }
 
-/** Deletes a specified seasonal-field resource under a particular farmer. */
+/** Deletes a specified seasonal-field resource under a particular party. */
 export interface SeasonalFieldsDelete204Response extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
 
-export interface SeasonalFieldsDeletedefaultHeaders {
+export interface SeasonalFieldsDeleteDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Deletes a specified seasonal-field resource under a particular farmer. */
-export interface SeasonalFieldsDeletedefaultResponse extends HttpResponse {
+/** Deletes a specified seasonal-field resource under a particular party. */
+export interface SeasonalFieldsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SeasonalFieldsDeletedefaultHeaders;
+  headers: RawHttpHeaders & SeasonalFieldsDeleteDefaultHeaders;
 }
 
-/** Returns a paginated list of seasonal field resources across all farmers. */
+/** Returns a paginated list of seasonal field resources across all parties. */
 export interface SeasonalFieldsList200Response extends HttpResponse {
   status: "200";
   body: SeasonalFieldListResponseOutput;
 }
 
-export interface SeasonalFieldsListdefaultHeaders {
+export interface SeasonalFieldsListDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Returns a paginated list of seasonal field resources across all farmers. */
-export interface SeasonalFieldsListdefaultResponse extends HttpResponse {
+/** Returns a paginated list of seasonal field resources across all parties. */
+export interface SeasonalFieldsListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SeasonalFieldsListdefaultHeaders;
-}
-
-/** Create a cascade delete job for specified seasonal field. */
-export interface SeasonalFieldsCreateCascadeDeleteJob202Response
-  extends HttpResponse {
-  status: "202";
-  body: CascadeDeleteJobOutput;
-}
-
-export interface SeasonalFieldsCreateCascadeDeleteJobdefaultHeaders {
-  "x-ms-error-code"?: string;
-}
-
-/** Create a cascade delete job for specified seasonal field. */
-export interface SeasonalFieldsCreateCascadeDeleteJobdefaultResponse
-  extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SeasonalFieldsCreateCascadeDeleteJobdefaultHeaders;
+  headers: RawHttpHeaders & SeasonalFieldsListDefaultHeaders;
 }
 
 /** Get cascade delete job for specified seasonal field. */
@@ -2782,17 +2849,36 @@ export interface SeasonalFieldsGetCascadeDeleteJobDetails200Response
   body: CascadeDeleteJobOutput;
 }
 
-export interface SeasonalFieldsGetCascadeDeleteJobDetailsdefaultHeaders {
+export interface SeasonalFieldsGetCascadeDeleteJobDetailsDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Get cascade delete job for specified seasonal field. */
-export interface SeasonalFieldsGetCascadeDeleteJobDetailsdefaultResponse
+export interface SeasonalFieldsGetCascadeDeleteJobDetailsDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders &
-    SeasonalFieldsGetCascadeDeleteJobDetailsdefaultHeaders;
+    SeasonalFieldsGetCascadeDeleteJobDetailsDefaultHeaders;
+}
+
+/** Create a cascade delete job for specified seasonal field. */
+export interface SeasonalFieldsCreateCascadeDeleteJob202Response
+  extends HttpResponse {
+  status: "202";
+  body: CascadeDeleteJobOutput;
+}
+
+export interface SeasonalFieldsCreateCascadeDeleteJobDefaultHeaders {
+  "x-ms-error-code"?: string;
+}
+
+/** Create a cascade delete job for specified seasonal field. */
+export interface SeasonalFieldsCreateCascadeDeleteJobDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+  headers: RawHttpHeaders & SeasonalFieldsCreateCascadeDeleteJobDefaultHeaders;
 }
 
 /** Returns a paginated list of season resources. */
@@ -2801,15 +2887,15 @@ export interface SeasonsList200Response extends HttpResponse {
   body: SeasonListResponseOutput;
 }
 
-export interface SeasonsListdefaultHeaders {
+export interface SeasonsListDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Returns a paginated list of season resources. */
-export interface SeasonsListdefaultResponse extends HttpResponse {
+export interface SeasonsListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SeasonsListdefaultHeaders;
+  headers: RawHttpHeaders & SeasonsListDefaultHeaders;
 }
 
 /** Gets a specified season resource. */
@@ -2818,15 +2904,15 @@ export interface SeasonsGet200Response extends HttpResponse {
   body: SeasonOutput;
 }
 
-export interface SeasonsGetdefaultHeaders {
+export interface SeasonsGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Gets a specified season resource. */
-export interface SeasonsGetdefaultResponse extends HttpResponse {
+export interface SeasonsGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SeasonsGetdefaultHeaders;
+  headers: RawHttpHeaders & SeasonsGetDefaultHeaders;
 }
 
 /** Creates or updates a season resource. */
@@ -2841,15 +2927,15 @@ export interface SeasonsCreateOrUpdate201Response extends HttpResponse {
   body: SeasonOutput;
 }
 
-export interface SeasonsCreateOrUpdatedefaultHeaders {
+export interface SeasonsCreateOrUpdateDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Creates or updates a season resource. */
-export interface SeasonsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface SeasonsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SeasonsCreateOrUpdatedefaultHeaders;
+  headers: RawHttpHeaders & SeasonsCreateOrUpdateDefaultHeaders;
 }
 
 /** Deletes a specified season resource. */
@@ -2858,15 +2944,15 @@ export interface SeasonsDelete204Response extends HttpResponse {
   body: Record<string, unknown>;
 }
 
-export interface SeasonsDeletedefaultHeaders {
+export interface SeasonsDeleteDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Deletes a specified season resource. */
-export interface SeasonsDeletedefaultResponse extends HttpResponse {
+export interface SeasonsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SeasonsDeletedefaultHeaders;
+  headers: RawHttpHeaders & SeasonsDeleteDefaultHeaders;
 }
 
 /** Returns a paginated list of sensor data model resources. */
@@ -2875,15 +2961,15 @@ export interface SensorDataModelsList200Response extends HttpResponse {
   body: SensorDataModelListResponseOutput;
 }
 
-export interface SensorDataModelsListdefaultHeaders {
+export interface SensorDataModelsListDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Returns a paginated list of sensor data model resources. */
-export interface SensorDataModelsListdefaultResponse extends HttpResponse {
+export interface SensorDataModelsListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SensorDataModelsListdefaultHeaders;
+  headers: RawHttpHeaders & SensorDataModelsListDefaultHeaders;
 }
 
 /** Create a sensor data model entity. */
@@ -2900,16 +2986,16 @@ export interface SensorDataModelsCreateOrUpdate201Response
   body: SensorDataModelOutput;
 }
 
-export interface SensorDataModelsCreateOrUpdatedefaultHeaders {
+export interface SensorDataModelsCreateOrUpdateDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Create a sensor data model entity. */
-export interface SensorDataModelsCreateOrUpdatedefaultResponse
+export interface SensorDataModelsCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SensorDataModelsCreateOrUpdatedefaultHeaders;
+  headers: RawHttpHeaders & SensorDataModelsCreateOrUpdateDefaultHeaders;
 }
 
 /** Gets a sensor data model entity. */
@@ -2918,15 +3004,15 @@ export interface SensorDataModelsGet200Response extends HttpResponse {
   body: SensorDataModelOutput;
 }
 
-export interface SensorDataModelsGetdefaultHeaders {
+export interface SensorDataModelsGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Gets a sensor data model entity. */
-export interface SensorDataModelsGetdefaultResponse extends HttpResponse {
+export interface SensorDataModelsGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SensorDataModelsGetdefaultHeaders;
+  headers: RawHttpHeaders & SensorDataModelsGetDefaultHeaders;
 }
 
 /** Deletes a sensor data model entity. */
@@ -2935,15 +3021,15 @@ export interface SensorDataModelsDelete204Response extends HttpResponse {
   body: Record<string, unknown>;
 }
 
-export interface SensorDataModelsDeletedefaultHeaders {
+export interface SensorDataModelsDeleteDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Deletes a sensor data model entity. */
-export interface SensorDataModelsDeletedefaultResponse extends HttpResponse {
+export interface SensorDataModelsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SensorDataModelsDeletedefaultHeaders;
+  headers: RawHttpHeaders & SensorDataModelsDeleteDefaultHeaders;
 }
 
 /**
@@ -2955,7 +3041,7 @@ export interface SensorEventsList200Response extends HttpResponse {
   body: SensorEventListResponseOutput;
 }
 
-export interface SensorEventsListdefaultHeaders {
+export interface SensorEventsListDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
@@ -2963,10 +3049,10 @@ export interface SensorEventsListdefaultHeaders {
  * Returns a list of sensor events data. Time span for query is limited to 90 days at a time.
  * Returns last 90 days events when startDateTime and endDateTime are not provided.
  */
-export interface SensorEventsListdefaultResponse extends HttpResponse {
+export interface SensorEventsListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SensorEventsListdefaultHeaders;
+  headers: RawHttpHeaders & SensorEventsListDefaultHeaders;
 }
 
 /** Returns a paginated list of sensor mapping resources. */
@@ -2975,15 +3061,15 @@ export interface SensorMappingsList200Response extends HttpResponse {
   body: SensorMappingListResponseOutput;
 }
 
-export interface SensorMappingsListdefaultHeaders {
+export interface SensorMappingsListDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Returns a paginated list of sensor mapping resources. */
-export interface SensorMappingsListdefaultResponse extends HttpResponse {
+export interface SensorMappingsListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SensorMappingsListdefaultHeaders;
+  headers: RawHttpHeaders & SensorMappingsListDefaultHeaders;
 }
 
 /** Create a sensor mapping entity. */
@@ -2998,16 +3084,16 @@ export interface SensorMappingsCreateOrUpdate201Response extends HttpResponse {
   body: SensorMappingOutput;
 }
 
-export interface SensorMappingsCreateOrUpdatedefaultHeaders {
+export interface SensorMappingsCreateOrUpdateDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Create a sensor mapping entity. */
-export interface SensorMappingsCreateOrUpdatedefaultResponse
+export interface SensorMappingsCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SensorMappingsCreateOrUpdatedefaultHeaders;
+  headers: RawHttpHeaders & SensorMappingsCreateOrUpdateDefaultHeaders;
 }
 
 /** Gets a sensor mapping entity. */
@@ -3016,15 +3102,15 @@ export interface SensorMappingsGet200Response extends HttpResponse {
   body: SensorMappingOutput;
 }
 
-export interface SensorMappingsGetdefaultHeaders {
+export interface SensorMappingsGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Gets a sensor mapping entity. */
-export interface SensorMappingsGetdefaultResponse extends HttpResponse {
+export interface SensorMappingsGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SensorMappingsGetdefaultHeaders;
+  headers: RawHttpHeaders & SensorMappingsGetDefaultHeaders;
 }
 
 /** Deletes a sensor mapping entity. */
@@ -3033,15 +3119,15 @@ export interface SensorMappingsDelete204Response extends HttpResponse {
   body: Record<string, unknown>;
 }
 
-export interface SensorMappingsDeletedefaultHeaders {
+export interface SensorMappingsDeleteDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Deletes a sensor mapping entity. */
-export interface SensorMappingsDeletedefaultResponse extends HttpResponse {
+export interface SensorMappingsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SensorMappingsDeletedefaultHeaders;
+  headers: RawHttpHeaders & SensorMappingsDeleteDefaultHeaders;
 }
 
 /** Gets partner integration models. */
@@ -3050,16 +3136,16 @@ export interface SensorPartnerIntegrationsList200Response extends HttpResponse {
   body: SensorPartnerIntegrationModelListResponseOutput;
 }
 
-export interface SensorPartnerIntegrationsListdefaultHeaders {
+export interface SensorPartnerIntegrationsListDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Gets partner integration models. */
-export interface SensorPartnerIntegrationsListdefaultResponse
+export interface SensorPartnerIntegrationsListDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SensorPartnerIntegrationsListdefaultHeaders;
+  headers: RawHttpHeaders & SensorPartnerIntegrationsListDefaultHeaders;
 }
 
 /** Create or update an integration with a sensor partner. */
@@ -3076,17 +3162,17 @@ export interface SensorPartnerIntegrationsCreateOrUpdate201Response
   body: SensorPartnerIntegrationModelOutput;
 }
 
-export interface SensorPartnerIntegrationsCreateOrUpdatedefaultHeaders {
+export interface SensorPartnerIntegrationsCreateOrUpdateDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Create or update an integration with a sensor partner. */
-export interface SensorPartnerIntegrationsCreateOrUpdatedefaultResponse
+export interface SensorPartnerIntegrationsCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders &
-    SensorPartnerIntegrationsCreateOrUpdatedefaultHeaders;
+    SensorPartnerIntegrationsCreateOrUpdateDefaultHeaders;
 }
 
 /** Gets a partner integration model entity. */
@@ -3095,16 +3181,16 @@ export interface SensorPartnerIntegrationsGet200Response extends HttpResponse {
   body: SensorPartnerIntegrationModelOutput;
 }
 
-export interface SensorPartnerIntegrationsGetdefaultHeaders {
+export interface SensorPartnerIntegrationsGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Gets a partner integration model entity. */
-export interface SensorPartnerIntegrationsGetdefaultResponse
+export interface SensorPartnerIntegrationsGetDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SensorPartnerIntegrationsGetdefaultHeaders;
+  headers: RawHttpHeaders & SensorPartnerIntegrationsGetDefaultHeaders;
 }
 
 /** Deletes a partner integration model entity. */
@@ -3114,16 +3200,16 @@ export interface SensorPartnerIntegrationsDelete204Response
   body: Record<string, unknown>;
 }
 
-export interface SensorPartnerIntegrationsDeletedefaultHeaders {
+export interface SensorPartnerIntegrationsDeleteDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Deletes a partner integration model entity. */
-export interface SensorPartnerIntegrationsDeletedefaultResponse
+export interface SensorPartnerIntegrationsDeleteDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SensorPartnerIntegrationsDeletedefaultHeaders;
+  headers: RawHttpHeaders & SensorPartnerIntegrationsDeleteDefaultHeaders;
 }
 
 /** Checks consent for partner integration. */
@@ -3133,16 +3219,16 @@ export interface SensorPartnerIntegrationsCheckConsent200Response
   body: SensorPartnerIntegrationCheckConsentResponseOutput;
 }
 
-export interface SensorPartnerIntegrationsCheckConsentdefaultHeaders {
+export interface SensorPartnerIntegrationsCheckConsentDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Checks consent for partner integration. */
-export interface SensorPartnerIntegrationsCheckConsentdefaultResponse
+export interface SensorPartnerIntegrationsCheckConsentDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SensorPartnerIntegrationsCheckConsentdefaultHeaders;
+  headers: RawHttpHeaders & SensorPartnerIntegrationsCheckConsentDefaultHeaders;
 }
 
 /** Generates partner integration consent link. */
@@ -3152,17 +3238,17 @@ export interface SensorPartnerIntegrationsGenerateConsentLink200Response
   body: SensorPartnerIntegrationGenerateConsentLinkResponseOutput;
 }
 
-export interface SensorPartnerIntegrationsGenerateConsentLinkdefaultHeaders {
+export interface SensorPartnerIntegrationsGenerateConsentLinkDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Generates partner integration consent link. */
-export interface SensorPartnerIntegrationsGenerateConsentLinkdefaultResponse
+export interface SensorPartnerIntegrationsGenerateConsentLinkDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders &
-    SensorPartnerIntegrationsGenerateConsentLinkdefaultHeaders;
+    SensorPartnerIntegrationsGenerateConsentLinkDefaultHeaders;
 }
 
 /** Returns a paginated list of sensor resources. */
@@ -3171,15 +3257,15 @@ export interface SensorsList200Response extends HttpResponse {
   body: SensorListResponseOutput;
 }
 
-export interface SensorsListdefaultHeaders {
+export interface SensorsListDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Returns a paginated list of sensor resources. */
-export interface SensorsListdefaultResponse extends HttpResponse {
+export interface SensorsListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SensorsListdefaultHeaders;
+  headers: RawHttpHeaders & SensorsListDefaultHeaders;
 }
 
 /** Create a sensor entity. */
@@ -3194,15 +3280,15 @@ export interface SensorsCreateOrUpdate201Response extends HttpResponse {
   body: SensorOutput;
 }
 
-export interface SensorsCreateOrUpdatedefaultHeaders {
+export interface SensorsCreateOrUpdateDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Create a sensor entity. */
-export interface SensorsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface SensorsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SensorsCreateOrUpdatedefaultHeaders;
+  headers: RawHttpHeaders & SensorsCreateOrUpdateDefaultHeaders;
 }
 
 /** Gets a sensor entity. */
@@ -3211,15 +3297,15 @@ export interface SensorsGet200Response extends HttpResponse {
   body: SensorOutput;
 }
 
-export interface SensorsGetdefaultHeaders {
+export interface SensorsGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Gets a sensor entity. */
-export interface SensorsGetdefaultResponse extends HttpResponse {
+export interface SensorsGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SensorsGetdefaultHeaders;
+  headers: RawHttpHeaders & SensorsGetDefaultHeaders;
 }
 
 /** Deletes a sensor entity. */
@@ -3228,15 +3314,15 @@ export interface SensorsDelete204Response extends HttpResponse {
   body: Record<string, unknown>;
 }
 
-export interface SensorsDeletedefaultHeaders {
+export interface SensorsDeleteDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Deletes a sensor entity. */
-export interface SensorsDeletedefaultResponse extends HttpResponse {
+export interface SensorsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SensorsDeletedefaultHeaders;
+  headers: RawHttpHeaders & SensorsDeleteDefaultHeaders;
 }
 
 /** Gets a sensor connection string. */
@@ -3245,16 +3331,16 @@ export interface SensorsGetConnectionString200Response extends HttpResponse {
   body: IoTHubDeviceAuthenticationOutput;
 }
 
-export interface SensorsGetConnectionStringdefaultHeaders {
+export interface SensorsGetConnectionStringDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Gets a sensor connection string. */
-export interface SensorsGetConnectionStringdefaultResponse
+export interface SensorsGetConnectionStringDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SensorsGetConnectionStringdefaultHeaders;
+  headers: RawHttpHeaders & SensorsGetConnectionStringDefaultHeaders;
 }
 
 /** Renews a sensor connection string. */
@@ -3263,16 +3349,16 @@ export interface SensorsRenewConnectionString200Response extends HttpResponse {
   body: IoTHubDeviceAuthenticationOutput;
 }
 
-export interface SensorsRenewConnectionStringdefaultHeaders {
+export interface SensorsRenewConnectionStringDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Renews a sensor connection string. */
-export interface SensorsRenewConnectionStringdefaultResponse
+export interface SensorsRenewConnectionStringDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SensorsRenewConnectionStringdefaultHeaders;
+  headers: RawHttpHeaders & SensorsRenewConnectionStringDefaultHeaders;
 }
 
 /** Cancels a job for given solution id. */
@@ -3281,15 +3367,15 @@ export interface SolutionInferenceCancel200Response extends HttpResponse {
   body: Record<string, any>;
 }
 
-export interface SolutionInferenceCanceldefaultHeaders {
+export interface SolutionInferenceCancelDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Cancels a job for given solution id. */
-export interface SolutionInferenceCanceldefaultResponse extends HttpResponse {
+export interface SolutionInferenceCancelDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SolutionInferenceCanceldefaultHeaders;
+  headers: RawHttpHeaders & SolutionInferenceCancelDefaultHeaders;
 }
 
 /** Creates a job trigger for a solution. */
@@ -3299,16 +3385,16 @@ export interface SolutionInferenceCreateOrUpdate202Response
   body: Record<string, any>;
 }
 
-export interface SolutionInferenceCreateOrUpdatedefaultHeaders {
+export interface SolutionInferenceCreateOrUpdateDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Creates a job trigger for a solution. */
-export interface SolutionInferenceCreateOrUpdatedefaultResponse
+export interface SolutionInferenceCreateOrUpdateDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SolutionInferenceCreateOrUpdatedefaultHeaders;
+  headers: RawHttpHeaders & SolutionInferenceCreateOrUpdateDefaultHeaders;
 }
 
 /** Fetches details of triggered job for a solution. */
@@ -3317,106 +3403,106 @@ export interface SolutionInferenceFetch200Response extends HttpResponse {
   body: Record<string, any>;
 }
 
-export interface SolutionInferenceFetchdefaultHeaders {
+export interface SolutionInferenceFetchDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Fetches details of triggered job for a solution. */
-export interface SolutionInferenceFetchdefaultResponse extends HttpResponse {
+export interface SolutionInferenceFetchDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & SolutionInferenceFetchdefaultHeaders;
+  headers: RawHttpHeaders & SolutionInferenceFetchDefaultHeaders;
 }
 
 /** Returns a paginated list of tillage data resources under a particular farm. */
-export interface TillageDataListByFarmerId200Response extends HttpResponse {
+export interface TillageDataListByPartyId200Response extends HttpResponse {
   status: "200";
   body: TillageDataListResponseOutput;
 }
 
-export interface TillageDataListByFarmerIddefaultHeaders {
+export interface TillageDataListByPartyIdDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Returns a paginated list of tillage data resources under a particular farm. */
-export interface TillageDataListByFarmerIddefaultResponse extends HttpResponse {
+export interface TillageDataListByPartyIdDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & TillageDataListByFarmerIddefaultHeaders;
+  headers: RawHttpHeaders & TillageDataListByPartyIdDefaultHeaders;
 }
 
-/** Get a specified tillage data resource under a particular farmer. */
+/** Get a specified tillage data resource under a particular party. */
 export interface TillageDataGet200Response extends HttpResponse {
   status: "200";
   body: TillageDataOutput;
 }
 
-export interface TillageDataGetdefaultHeaders {
+export interface TillageDataGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Get a specified tillage data resource under a particular farmer. */
-export interface TillageDataGetdefaultResponse extends HttpResponse {
+/** Get a specified tillage data resource under a particular party. */
+export interface TillageDataGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & TillageDataGetdefaultHeaders;
+  headers: RawHttpHeaders & TillageDataGetDefaultHeaders;
 }
 
-/** Creates or updates an tillage data resource under a particular farmer. */
+/** Creates or updates an tillage data resource under a particular party. */
 export interface TillageDataCreateOrUpdate200Response extends HttpResponse {
   status: "200";
   body: TillageDataOutput;
 }
 
-/** Creates or updates an tillage data resource under a particular farmer. */
+/** Creates or updates an tillage data resource under a particular party. */
 export interface TillageDataCreateOrUpdate201Response extends HttpResponse {
   status: "201";
   body: TillageDataOutput;
 }
 
-export interface TillageDataCreateOrUpdatedefaultHeaders {
+export interface TillageDataCreateOrUpdateDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Creates or updates an tillage data resource under a particular farmer. */
-export interface TillageDataCreateOrUpdatedefaultResponse extends HttpResponse {
+/** Creates or updates an tillage data resource under a particular party. */
+export interface TillageDataCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & TillageDataCreateOrUpdatedefaultHeaders;
+  headers: RawHttpHeaders & TillageDataCreateOrUpdateDefaultHeaders;
 }
 
-/** Deletes a specified tillage data resource under a particular farmer. */
+/** Deletes a specified tillage data resource under a particular party. */
 export interface TillageDataDelete204Response extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
 
-export interface TillageDataDeletedefaultHeaders {
+export interface TillageDataDeleteDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Deletes a specified tillage data resource under a particular farmer. */
-export interface TillageDataDeletedefaultResponse extends HttpResponse {
+/** Deletes a specified tillage data resource under a particular party. */
+export interface TillageDataDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & TillageDataDeletedefaultHeaders;
+  headers: RawHttpHeaders & TillageDataDeleteDefaultHeaders;
 }
 
-/** Returns a paginated list of tillage data resources across all farmers. */
+/** Returns a paginated list of tillage data resources across all parties. */
 export interface TillageDataList200Response extends HttpResponse {
   status: "200";
   body: TillageDataListResponseOutput;
 }
 
-export interface TillageDataListdefaultHeaders {
+export interface TillageDataListDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Returns a paginated list of tillage data resources across all farmers. */
-export interface TillageDataListdefaultResponse extends HttpResponse {
+/** Returns a paginated list of tillage data resources across all parties. */
+export interface TillageDataListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & TillageDataListdefaultHeaders;
+  headers: RawHttpHeaders & TillageDataListDefaultHeaders;
 }
 
 /** Create cascade delete job for tillage data resource. */
@@ -3426,16 +3512,16 @@ export interface TillageDataCreateCascadeDeleteJob202Response
   body: CascadeDeleteJobOutput;
 }
 
-export interface TillageDataCreateCascadeDeleteJobdefaultHeaders {
+export interface TillageDataCreateCascadeDeleteJobDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Create cascade delete job for tillage data resource. */
-export interface TillageDataCreateCascadeDeleteJobdefaultResponse
+export interface TillageDataCreateCascadeDeleteJobDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & TillageDataCreateCascadeDeleteJobdefaultHeaders;
+  headers: RawHttpHeaders & TillageDataCreateCascadeDeleteJobDefaultHeaders;
 }
 
 /** Get cascade delete job for tillage data resource. */
@@ -3445,16 +3531,16 @@ export interface TillageDataGetCascadeDeleteJobDetails200Response
   body: CascadeDeleteJobOutput;
 }
 
-export interface TillageDataGetCascadeDeleteJobDetailsdefaultHeaders {
+export interface TillageDataGetCascadeDeleteJobDetailsDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Get cascade delete job for tillage data resource. */
-export interface TillageDataGetCascadeDeleteJobDetailsdefaultResponse
+export interface TillageDataGetCascadeDeleteJobDetailsDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & TillageDataGetCascadeDeleteJobDetailsdefaultHeaders;
+  headers: RawHttpHeaders & TillageDataGetCascadeDeleteJobDetailsDefaultHeaders;
 }
 
 /** Returns a paginated list of weather data. */
@@ -3463,15 +3549,15 @@ export interface WeatherList200Response extends HttpResponse {
   body: WeatherDataListResponseOutput;
 }
 
-export interface WeatherListdefaultHeaders {
+export interface WeatherListDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Returns a paginated list of weather data. */
-export interface WeatherListdefaultResponse extends HttpResponse {
+export interface WeatherListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & WeatherListdefaultHeaders;
+  headers: RawHttpHeaders & WeatherListDefaultHeaders;
 }
 
 /** Get weather data delete job. */
@@ -3481,16 +3567,16 @@ export interface WeatherGetDataDeleteJobDetails200Response
   body: WeatherDataDeleteJobOutput;
 }
 
-export interface WeatherGetDataDeleteJobDetailsdefaultHeaders {
+export interface WeatherGetDataDeleteJobDetailsDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Get weather data delete job. */
-export interface WeatherGetDataDeleteJobDetailsdefaultResponse
+export interface WeatherGetDataDeleteJobDetailsDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & WeatherGetDataDeleteJobDetailsdefaultHeaders;
+  headers: RawHttpHeaders & WeatherGetDataDeleteJobDetailsDefaultHeaders;
 }
 
 /** Create a weather data delete job. */
@@ -3499,16 +3585,16 @@ export interface WeatherCreateDataDeleteJob202Response extends HttpResponse {
   body: WeatherDataDeleteJobOutput;
 }
 
-export interface WeatherCreateDataDeleteJobdefaultHeaders {
+export interface WeatherCreateDataDeleteJobDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Create a weather data delete job. */
-export interface WeatherCreateDataDeleteJobdefaultResponse
+export interface WeatherCreateDataDeleteJobDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & WeatherCreateDataDeleteJobdefaultHeaders;
+  headers: RawHttpHeaders & WeatherCreateDataDeleteJobDefaultHeaders;
 }
 
 /** Get weather ingestion job. */
@@ -3518,16 +3604,16 @@ export interface WeatherGetDataIngestionJobDetails200Response
   body: WeatherDataIngestionJobOutput;
 }
 
-export interface WeatherGetDataIngestionJobDetailsdefaultHeaders {
+export interface WeatherGetDataIngestionJobDetailsDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Get weather ingestion job. */
-export interface WeatherGetDataIngestionJobDetailsdefaultResponse
+export interface WeatherGetDataIngestionJobDetailsDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & WeatherGetDataIngestionJobDetailsdefaultHeaders;
+  headers: RawHttpHeaders & WeatherGetDataIngestionJobDetailsDefaultHeaders;
 }
 
 /** Create a weather data ingestion job. */
@@ -3536,50 +3622,75 @@ export interface WeatherCreateDataIngestionJob202Response extends HttpResponse {
   body: WeatherDataIngestionJobOutput;
 }
 
-export interface WeatherCreateDataIngestionJobdefaultHeaders {
+export interface WeatherCreateDataIngestionJobDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Create a weather data ingestion job. */
-export interface WeatherCreateDataIngestionJobdefaultResponse
+export interface WeatherCreateDataIngestionJobDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & WeatherCreateDataIngestionJobdefaultHeaders;
+  headers: RawHttpHeaders & WeatherCreateDataIngestionJobDefaultHeaders;
 }
 
-/** Returns a paginated list of zone resources under a particular farmer. */
-export interface ZonesListByFarmerId200Response extends HttpResponse {
+export interface WeatherDataGet200Headers {
+  /** Indicate whether the request was cache hit or cache miss. */
+  "x-ms-cache-hit"?: boolean;
+  /** Time taken in milliseconds for processing the request at server side. */
+  "x-ms-response-latency-in-milliseconds"?: number;
+}
+
+/** Returns a list of WeatherData. */
+export interface WeatherDataGet200Response extends HttpResponse {
+  status: "200";
+  body: WeatherDataProviderResponseOutput;
+  headers: RawHttpHeaders & WeatherDataGet200Headers;
+}
+
+export interface WeatherDataGetDefaultHeaders {
+  "x-ms-error-code"?: string;
+}
+
+/** Returns a list of WeatherData. */
+export interface WeatherDataGetDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+  headers: RawHttpHeaders & WeatherDataGetDefaultHeaders;
+}
+
+/** Returns a paginated list of zone resources under a particular party. */
+export interface ZonesListByPartyId200Response extends HttpResponse {
   status: "200";
   body: ZoneListResponseOutput;
 }
 
-export interface ZonesListByFarmerIddefaultHeaders {
+export interface ZonesListByPartyIdDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Returns a paginated list of zone resources under a particular farmer. */
-export interface ZonesListByFarmerIddefaultResponse extends HttpResponse {
+/** Returns a paginated list of zone resources under a particular party. */
+export interface ZonesListByPartyIdDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & ZonesListByFarmerIddefaultHeaders;
+  headers: RawHttpHeaders & ZonesListByPartyIdDefaultHeaders;
 }
 
-/** Gets a specified zone resource under a particular farmer. */
+/** Gets a specified zone resource under a particular party. */
 export interface ZonesGet200Response extends HttpResponse {
   status: "200";
   body: ZoneOutput;
 }
 
-export interface ZonesGetdefaultHeaders {
+export interface ZonesGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Gets a specified zone resource under a particular farmer. */
-export interface ZonesGetdefaultResponse extends HttpResponse {
+/** Gets a specified zone resource under a particular party. */
+export interface ZonesGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & ZonesGetdefaultHeaders;
+  headers: RawHttpHeaders & ZonesGetDefaultHeaders;
 }
 
 /** Creates or updates a Zone resource. */
@@ -3594,49 +3705,49 @@ export interface ZonesCreateOrUpdate201Response extends HttpResponse {
   body: ZoneOutput;
 }
 
-export interface ZonesCreateOrUpdatedefaultHeaders {
+export interface ZonesCreateOrUpdateDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Creates or updates a Zone resource. */
-export interface ZonesCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface ZonesCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & ZonesCreateOrUpdatedefaultHeaders;
+  headers: RawHttpHeaders & ZonesCreateOrUpdateDefaultHeaders;
 }
 
-/** Deletes a specified zone resource under a particular farmer. */
+/** Deletes a specified zone resource under a particular party. */
 export interface ZonesDelete204Response extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
 
-export interface ZonesDeletedefaultHeaders {
+export interface ZonesDeleteDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Deletes a specified zone resource under a particular farmer. */
-export interface ZonesDeletedefaultResponse extends HttpResponse {
+/** Deletes a specified zone resource under a particular party. */
+export interface ZonesDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & ZonesDeletedefaultHeaders;
+  headers: RawHttpHeaders & ZonesDeleteDefaultHeaders;
 }
 
-/** Returns a paginated list of zone resources across all farmers. */
+/** Returns a paginated list of zone resources across all parties. */
 export interface ZonesList200Response extends HttpResponse {
   status: "200";
   body: ZoneListResponseOutput;
 }
 
-export interface ZonesListdefaultHeaders {
+export interface ZonesListDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-/** Returns a paginated list of zone resources across all farmers. */
-export interface ZonesListdefaultResponse extends HttpResponse {
+/** Returns a paginated list of zone resources across all parties. */
+export interface ZonesListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & ZonesListdefaultHeaders;
+  headers: RawHttpHeaders & ZonesListDefaultHeaders;
 }
 
 /** Get a cascade delete job for specified job id. */
@@ -3646,16 +3757,16 @@ export interface ZonesGetCascadeDeleteJobDetails200Response
   body: CascadeDeleteJobOutput;
 }
 
-export interface ZonesGetCascadeDeleteJobDetailsdefaultHeaders {
+export interface ZonesGetCascadeDeleteJobDetailsDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Get a cascade delete job for specified job id. */
-export interface ZonesGetCascadeDeleteJobDetailsdefaultResponse
+export interface ZonesGetCascadeDeleteJobDetailsDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & ZonesGetCascadeDeleteJobDetailsdefaultHeaders;
+  headers: RawHttpHeaders & ZonesGetCascadeDeleteJobDetailsDefaultHeaders;
 }
 
 /** Create a cascade delete job for specified zone. */
@@ -3664,14 +3775,14 @@ export interface ZonesCreateCascadeDeleteJob202Response extends HttpResponse {
   body: CascadeDeleteJobOutput;
 }
 
-export interface ZonesCreateCascadeDeleteJobdefaultHeaders {
+export interface ZonesCreateCascadeDeleteJobDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
 /** Create a cascade delete job for specified zone. */
-export interface ZonesCreateCascadeDeleteJobdefaultResponse
+export interface ZonesCreateCascadeDeleteJobDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders & ZonesCreateCascadeDeleteJobdefaultHeaders;
+  headers: RawHttpHeaders & ZonesCreateCascadeDeleteJobDefaultHeaders;
 }

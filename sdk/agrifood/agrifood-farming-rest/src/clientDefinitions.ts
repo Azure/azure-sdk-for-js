@@ -5,11 +5,11 @@ import {
   ApplicationDataListParameters,
   ApplicationDataCreateCascadeDeleteJobParameters,
   ApplicationDataGetCascadeDeleteJobDetailsParameters,
-  ApplicationDataListByFarmerIdParameters,
+  ApplicationDataListByPartyIdParameters,
   ApplicationDataGetParameters,
   ApplicationDataCreateOrUpdateParameters,
   ApplicationDataDeleteParameters,
-  AttachmentsListByFarmerIdParameters,
+  AttachmentsListByPartyIdParameters,
   AttachmentsGetParameters,
   AttachmentsCreateOrUpdateParameters,
   AttachmentsDeleteParameters,
@@ -18,20 +18,20 @@ import {
   BoundariesSearchParameters,
   BoundariesCreateCascadeDeleteJobParameters,
   BoundariesGetCascadeDeleteJobDetailsParameters,
-  BoundariesListByFarmerIdParameters,
-  BoundariesSearchByFarmerIdParameters,
+  BoundariesListByPartyIdParameters,
+  BoundariesSearchByPartyIdParameters,
   BoundariesCreateOrUpdateParameters,
   BoundariesGetParameters,
   BoundariesDeleteParameters,
   BoundariesGetOverlapParameters,
+  CropProductsListParameters,
+  CropProductsGetParameters,
+  CropProductsCreateOrUpdateParameters,
+  CropProductsDeleteParameters,
   CropsListParameters,
   CropsGetParameters,
   CropsCreateOrUpdateParameters,
   CropsDeleteParameters,
-  CropVarietiesListParameters,
-  CropVarietiesGetParameters,
-  CropVarietiesCreateOrUpdateParameters,
-  CropVarietiesDeleteParameters,
   DeviceDataModelsListParameters,
   DeviceDataModelsCreateOrUpdateParameters,
   DeviceDataModelsGetParameters,
@@ -40,64 +40,60 @@ import {
   DevicesCreateOrUpdateParameters,
   DevicesGetParameters,
   DevicesDeleteParameters,
-  FarmersListParameters,
-  FarmersGetParameters,
-  FarmersCreateOrUpdateParameters,
-  FarmersDeleteParameters,
-  FarmersCreateCascadeDeleteJobParameters,
-  FarmersGetCascadeDeleteJobDetailsParameters,
   FarmOperationsCreateDataIngestionJobParameters,
   FarmOperationsGetDataIngestionJobDetailsParameters,
-  FarmsListByFarmerIdParameters,
-  FarmsGetParameters,
-  FarmsCreateOrUpdateParameters,
-  FarmsDeleteParameters,
   FarmsListParameters,
   FarmsCreateCascadeDeleteJobParameters,
   FarmsGetCascadeDeleteJobDetailsParameters,
-  FieldsListByFarmerIdParameters,
+  FarmsListByPartyIdParameters,
+  FarmsGetParameters,
+  FarmsCreateOrUpdateParameters,
+  FarmsDeleteParameters,
+  FieldsListParameters,
+  FieldsGetCascadeDeleteJobDetailsParameters,
+  FieldsCreateCascadeDeleteJobParameters,
+  FieldsListByPartyIdParameters,
   FieldsGetParameters,
   FieldsCreateOrUpdateParameters,
   FieldsDeleteParameters,
-  FieldsListParameters,
-  FieldsCreateCascadeDeleteJobParameters,
-  FieldsGetCascadeDeleteJobDetailsParameters,
-  HarvestDataListByFarmerIdParameters,
-  HarvestDataGetParameters,
-  HarvestDataCreateOrUpdateParameters,
-  HarvestDataDeleteParameters,
   HarvestDataListParameters,
   HarvestDataCreateCascadeDeleteJobParameters,
   HarvestDataGetCascadeDeleteJobDetailsParameters,
+  HarvestDataListByPartyIdParameters,
+  HarvestDataGetParameters,
+  HarvestDataCreateOrUpdateParameters,
+  HarvestDataDeleteParameters,
   ImageProcessingCreateRasterizeJobParameters,
   ImageProcessingGetRasterizeJobParameters,
-  InsightAttachmentsListByFarmerIdModelIdAndResourceParameters,
+  InsightAttachmentsListByPartyIdModelIdAndResourceParameters,
   InsightAttachmentsCreateOrUpdateParameters,
   InsightAttachmentsGetParameters,
   InsightAttachmentsDeleteParameters,
   InsightAttachmentsDownloadParameters,
-  InsightsListByFarmerIdModelIdAndResourceParameters,
+  InsightsCreateCascadeDeleteJobParameters,
+  InsightsGetCascadeDeleteJobDetailsParameters,
+  InsightsListByPartyIdModelIdAndResourceParameters,
   InsightsCreateOrUpdateParameters,
   InsightsGetParameters,
   InsightsDeleteParameters,
-  InsightsCreateCascadeDeleteJobParameters,
-  InsightsGetCascadeDeleteJobDetailsParameters,
-  ManagementZonesListByFarmerIdParameters,
-  ManagementZonesGetParameters,
-  ManagementZonesCreateOrUpdateParameters,
-  ManagementZonesDeleteParameters,
   ManagementZonesListParameters,
   ManagementZonesGetCascadeDeleteJobDetailsParameters,
   ManagementZonesCreateCascadeDeleteJobParameters,
+  ManagementZonesListByPartyIdParameters,
+  ManagementZonesGetParameters,
+  ManagementZonesCreateOrUpdateParameters,
+  ManagementZonesDeleteParameters,
   ModelInferenceCreateBiomassModelJobParameters,
   ModelInferenceGetBiomassModelJobParameters,
+  ModelInferenceCreateSensorPlacementModelJobParameters,
+  ModelInferenceGetSensorPlacementModelJobParameters,
   ModelInferenceCreateSoilMoistureModelJobParameters,
   ModelInferenceGetSoilMoistureModelJobParameters,
-  NutrientAnalysesListByFarmerIdParameters,
+  NutrientAnalysesListParameters,
+  NutrientAnalysesListByPartyIdParameters,
   NutrientAnalysesGetParameters,
   NutrientAnalysesCreateOrUpdateParameters,
   NutrientAnalysesDeleteParameters,
-  NutrientAnalysesListParameters,
   OAuthProvidersListParameters,
   OAuthProvidersGetParameters,
   OAuthProvidersCreateOrUpdateParameters,
@@ -106,30 +102,36 @@ import {
   OAuthProvidersCreateCascadeDeleteJobParameters,
   OAuthTokensListParameters,
   OAuthTokensGetOAuthConnectionLinkParameters,
-  OAuthTokensCreateCascadeDeleteJobParameters,
   OAuthTokensGetCascadeDeleteJobDetailsParameters,
-  PlantingDataListByFarmerIdParameters,
+  OAuthTokensCreateCascadeDeleteJobParameters,
+  PartiesListParameters,
+  PartiesGetParameters,
+  PartiesCreateOrUpdateParameters,
+  PartiesDeleteParameters,
+  PartiesGetCascadeDeleteJobDetailsParameters,
+  PartiesCreateCascadeDeleteJobParameters,
+  PlantingDataListByPartyIdParameters,
   PlantingDataGetParameters,
   PlantingDataCreateOrUpdateParameters,
   PlantingDataDeleteParameters,
   PlantingDataListParameters,
   PlantingDataCreateCascadeDeleteJobParameters,
   PlantingDataGetCascadeDeleteJobDetailsParameters,
-  PlantTissueAnalysesListByFarmerIdParameters,
+  PlantTissueAnalysesListByPartyIdParameters,
   PlantTissueAnalysesGetParameters,
   PlantTissueAnalysesCreateOrUpdateParameters,
   PlantTissueAnalysesDeleteParameters,
   PlantTissueAnalysesListParameters,
   PlantTissueAnalysesCreateCascadeDeleteJobParameters,
   PlantTissueAnalysesGetCascadeDeleteJobDetailsParameters,
-  PrescriptionMapsListByFarmerIdParameters,
+  PrescriptionMapsListByPartyIdParameters,
   PrescriptionMapsGetParameters,
   PrescriptionMapsCreateOrUpdateParameters,
   PrescriptionMapsDeleteParameters,
   PrescriptionMapsListParameters,
   PrescriptionMapsGetCascadeDeleteJobDetailsParameters,
   PrescriptionMapsCreateCascadeDeleteJobParameters,
-  PrescriptionsListByFarmerIdParameters,
+  PrescriptionsListByPartyIdParameters,
   PrescriptionsGetParameters,
   PrescriptionsCreateOrUpdateParameters,
   PrescriptionsDeleteParameters,
@@ -140,13 +142,15 @@ import {
   ScenesDownloadParameters,
   ScenesCreateSatelliteDataIngestionJobParameters,
   ScenesGetSatelliteDataIngestionJobDetailsParameters,
-  SeasonalFieldsListByFarmerIdParameters,
+  ScenesSearchFeaturesParameters,
+  ScenesGetStacFeatureParameters,
+  SeasonalFieldsListByPartyIdParameters,
   SeasonalFieldsGetParameters,
   SeasonalFieldsCreateOrUpdateParameters,
   SeasonalFieldsDeleteParameters,
   SeasonalFieldsListParameters,
-  SeasonalFieldsCreateCascadeDeleteJobParameters,
   SeasonalFieldsGetCascadeDeleteJobDetailsParameters,
+  SeasonalFieldsCreateCascadeDeleteJobParameters,
   SeasonsListParameters,
   SeasonsGetParameters,
   SeasonsCreateOrUpdateParameters,
@@ -175,7 +179,7 @@ import {
   SolutionInferenceCancelParameters,
   SolutionInferenceCreateOrUpdateParameters,
   SolutionInferenceFetchParameters,
-  TillageDataListByFarmerIdParameters,
+  TillageDataListByPartyIdParameters,
   TillageDataGetParameters,
   TillageDataCreateOrUpdateParameters,
   TillageDataDeleteParameters,
@@ -187,7 +191,8 @@ import {
   WeatherCreateDataDeleteJobParameters,
   WeatherGetDataIngestionJobDetailsParameters,
   WeatherCreateDataIngestionJobParameters,
-  ZonesListByFarmerIdParameters,
+  WeatherDataGetParameters,
+  ZonesListByPartyIdParameters,
   ZonesGetParameters,
   ZonesCreateOrUpdateParameters,
   ZonesDeleteParameters,
@@ -197,425 +202,436 @@ import {
 } from "./parameters";
 import {
   ApplicationDataList200Response,
-  ApplicationDataListdefaultResponse,
+  ApplicationDataListDefaultResponse,
   ApplicationDataCreateCascadeDeleteJob202Response,
-  ApplicationDataCreateCascadeDeleteJobdefaultResponse,
+  ApplicationDataCreateCascadeDeleteJobDefaultResponse,
   ApplicationDataGetCascadeDeleteJobDetails200Response,
-  ApplicationDataGetCascadeDeleteJobDetailsdefaultResponse,
-  ApplicationDataListByFarmerId200Response,
-  ApplicationDataListByFarmerIddefaultResponse,
+  ApplicationDataGetCascadeDeleteJobDetailsDefaultResponse,
+  ApplicationDataListByPartyId200Response,
+  ApplicationDataListByPartyIdDefaultResponse,
   ApplicationDataGet200Response,
-  ApplicationDataGetdefaultResponse,
+  ApplicationDataGetDefaultResponse,
   ApplicationDataCreateOrUpdate200Response,
   ApplicationDataCreateOrUpdate201Response,
-  ApplicationDataCreateOrUpdatedefaultResponse,
+  ApplicationDataCreateOrUpdateDefaultResponse,
   ApplicationDataDelete204Response,
-  ApplicationDataDeletedefaultResponse,
-  AttachmentsListByFarmerId200Response,
-  AttachmentsListByFarmerIddefaultResponse,
+  ApplicationDataDeleteDefaultResponse,
+  AttachmentsListByPartyId200Response,
+  AttachmentsListByPartyIdDefaultResponse,
   AttachmentsGet200Response,
-  AttachmentsGetdefaultResponse,
+  AttachmentsGetDefaultResponse,
   AttachmentsCreateOrUpdate200Response,
   AttachmentsCreateOrUpdate201Response,
-  AttachmentsCreateOrUpdatedefaultResponse,
+  AttachmentsCreateOrUpdateDefaultResponse,
   AttachmentsDelete204Response,
-  AttachmentsDeletedefaultResponse,
+  AttachmentsDeleteDefaultResponse,
   AttachmentsDownload200Response,
-  AttachmentsDownloaddefaultResponse,
+  AttachmentsDownloadDefaultResponse,
   BoundariesList200Response,
-  BoundariesListdefaultResponse,
+  BoundariesListDefaultResponse,
   BoundariesSearch200Response,
-  BoundariesSearchdefaultResponse,
+  BoundariesSearchDefaultResponse,
   BoundariesCreateCascadeDeleteJob202Response,
-  BoundariesCreateCascadeDeleteJobdefaultResponse,
+  BoundariesCreateCascadeDeleteJobDefaultResponse,
   BoundariesGetCascadeDeleteJobDetails200Response,
-  BoundariesGetCascadeDeleteJobDetailsdefaultResponse,
-  BoundariesListByFarmerId200Response,
-  BoundariesListByFarmerIddefaultResponse,
-  BoundariesSearchByFarmerId200Response,
-  BoundariesSearchByFarmerIddefaultResponse,
+  BoundariesGetCascadeDeleteJobDetailsDefaultResponse,
+  BoundariesListByPartyId200Response,
+  BoundariesListByPartyIdDefaultResponse,
+  BoundariesSearchByPartyId200Response,
+  BoundariesSearchByPartyIdDefaultResponse,
   BoundariesCreateOrUpdate200Response,
   BoundariesCreateOrUpdate201Response,
-  BoundariesCreateOrUpdatedefaultResponse,
+  BoundariesCreateOrUpdateDefaultResponse,
   BoundariesGet200Response,
-  BoundariesGetdefaultResponse,
+  BoundariesGetDefaultResponse,
   BoundariesDelete204Response,
-  BoundariesDeletedefaultResponse,
+  BoundariesDeleteDefaultResponse,
   BoundariesGetOverlap200Response,
-  BoundariesGetOverlapdefaultResponse,
+  BoundariesGetOverlapDefaultResponse,
+  CropProductsList200Response,
+  CropProductsListDefaultResponse,
+  CropProductsGet200Response,
+  CropProductsGetDefaultResponse,
+  CropProductsCreateOrUpdate200Response,
+  CropProductsCreateOrUpdate201Response,
+  CropProductsCreateOrUpdateDefaultResponse,
+  CropProductsDelete204Response,
+  CropProductsDeleteDefaultResponse,
   CropsList200Response,
-  CropsListdefaultResponse,
+  CropsListDefaultResponse,
   CropsGet200Response,
-  CropsGetdefaultResponse,
+  CropsGetDefaultResponse,
   CropsCreateOrUpdate200Response,
   CropsCreateOrUpdate201Response,
-  CropsCreateOrUpdatedefaultResponse,
+  CropsCreateOrUpdateDefaultResponse,
   CropsDelete204Response,
-  CropsDeletedefaultResponse,
-  CropVarietiesList200Response,
-  CropVarietiesListdefaultResponse,
-  CropVarietiesGet200Response,
-  CropVarietiesGetdefaultResponse,
-  CropVarietiesCreateOrUpdate200Response,
-  CropVarietiesCreateOrUpdate201Response,
-  CropVarietiesCreateOrUpdatedefaultResponse,
-  CropVarietiesDelete204Response,
-  CropVarietiesDeletedefaultResponse,
+  CropsDeleteDefaultResponse,
   DeviceDataModelsList200Response,
-  DeviceDataModelsListdefaultResponse,
+  DeviceDataModelsListDefaultResponse,
   DeviceDataModelsCreateOrUpdate200Response,
   DeviceDataModelsCreateOrUpdate201Response,
-  DeviceDataModelsCreateOrUpdatedefaultResponse,
+  DeviceDataModelsCreateOrUpdateDefaultResponse,
   DeviceDataModelsGet200Response,
-  DeviceDataModelsGetdefaultResponse,
+  DeviceDataModelsGetDefaultResponse,
   DeviceDataModelsDelete204Response,
-  DeviceDataModelsDeletedefaultResponse,
+  DeviceDataModelsDeleteDefaultResponse,
   DevicesList200Response,
-  DevicesListdefaultResponse,
+  DevicesListDefaultResponse,
   DevicesCreateOrUpdate200Response,
   DevicesCreateOrUpdate201Response,
-  DevicesCreateOrUpdatedefaultResponse,
+  DevicesCreateOrUpdateDefaultResponse,
   DevicesGet200Response,
-  DevicesGetdefaultResponse,
+  DevicesGetDefaultResponse,
   DevicesDelete204Response,
-  DevicesDeletedefaultResponse,
-  FarmersList200Response,
-  FarmersListdefaultResponse,
-  FarmersGet200Response,
-  FarmersGetdefaultResponse,
-  FarmersCreateOrUpdate200Response,
-  FarmersCreateOrUpdate201Response,
-  FarmersCreateOrUpdatedefaultResponse,
-  FarmersDelete204Response,
-  FarmersDeletedefaultResponse,
-  FarmersCreateCascadeDeleteJob202Response,
-  FarmersCreateCascadeDeleteJobdefaultResponse,
-  FarmersGetCascadeDeleteJobDetails200Response,
-  FarmersGetCascadeDeleteJobDetailsdefaultResponse,
+  DevicesDeleteDefaultResponse,
   FarmOperationsCreateDataIngestionJob202Response,
-  FarmOperationsCreateDataIngestionJobdefaultResponse,
+  FarmOperationsCreateDataIngestionJobDefaultResponse,
   FarmOperationsGetDataIngestionJobDetails200Response,
-  FarmOperationsGetDataIngestionJobDetailsdefaultResponse,
-  FarmsListByFarmerId200Response,
-  FarmsListByFarmerIddefaultResponse,
+  FarmOperationsGetDataIngestionJobDetailsDefaultResponse,
+  FarmsList200Response,
+  FarmsListDefaultResponse,
+  FarmsCreateCascadeDeleteJob202Response,
+  FarmsCreateCascadeDeleteJobDefaultResponse,
+  FarmsGetCascadeDeleteJobDetails200Response,
+  FarmsGetCascadeDeleteJobDetailsDefaultResponse,
+  FarmsListByPartyId200Response,
+  FarmsListByPartyIdDefaultResponse,
   FarmsGet200Response,
-  FarmsGetdefaultResponse,
+  FarmsGetDefaultResponse,
   FarmsCreateOrUpdate200Response,
   FarmsCreateOrUpdate201Response,
-  FarmsCreateOrUpdatedefaultResponse,
+  FarmsCreateOrUpdateDefaultResponse,
   FarmsDelete204Response,
-  FarmsDeletedefaultResponse,
-  FarmsList200Response,
-  FarmsListdefaultResponse,
-  FarmsCreateCascadeDeleteJob202Response,
-  FarmsCreateCascadeDeleteJobdefaultResponse,
-  FarmsGetCascadeDeleteJobDetails200Response,
-  FarmsGetCascadeDeleteJobDetailsdefaultResponse,
-  FieldsListByFarmerId200Response,
-  FieldsListByFarmerIddefaultResponse,
+  FarmsDeleteDefaultResponse,
+  FieldsList200Response,
+  FieldsListDefaultResponse,
+  FieldsGetCascadeDeleteJobDetails200Response,
+  FieldsGetCascadeDeleteJobDetailsDefaultResponse,
+  FieldsCreateCascadeDeleteJob202Response,
+  FieldsCreateCascadeDeleteJobDefaultResponse,
+  FieldsListByPartyId200Response,
+  FieldsListByPartyIdDefaultResponse,
   FieldsGet200Response,
-  FieldsGetdefaultResponse,
+  FieldsGetDefaultResponse,
   FieldsCreateOrUpdate200Response,
   FieldsCreateOrUpdate201Response,
-  FieldsCreateOrUpdatedefaultResponse,
+  FieldsCreateOrUpdateDefaultResponse,
   FieldsDelete204Response,
-  FieldsDeletedefaultResponse,
-  FieldsList200Response,
-  FieldsListdefaultResponse,
-  FieldsCreateCascadeDeleteJob202Response,
-  FieldsCreateCascadeDeleteJobdefaultResponse,
-  FieldsGetCascadeDeleteJobDetails200Response,
-  FieldsGetCascadeDeleteJobDetailsdefaultResponse,
-  HarvestDataListByFarmerId200Response,
-  HarvestDataListByFarmerIddefaultResponse,
+  FieldsDeleteDefaultResponse,
+  HarvestDataList200Response,
+  HarvestDataListDefaultResponse,
+  HarvestDataCreateCascadeDeleteJob202Response,
+  HarvestDataCreateCascadeDeleteJobDefaultResponse,
+  HarvestDataGetCascadeDeleteJobDetails200Response,
+  HarvestDataGetCascadeDeleteJobDetailsDefaultResponse,
+  HarvestDataListByPartyId200Response,
+  HarvestDataListByPartyIdDefaultResponse,
   HarvestDataGet200Response,
-  HarvestDataGetdefaultResponse,
+  HarvestDataGetDefaultResponse,
   HarvestDataCreateOrUpdate200Response,
   HarvestDataCreateOrUpdate201Response,
-  HarvestDataCreateOrUpdatedefaultResponse,
+  HarvestDataCreateOrUpdateDefaultResponse,
   HarvestDataDelete204Response,
-  HarvestDataDeletedefaultResponse,
-  HarvestDataList200Response,
-  HarvestDataListdefaultResponse,
-  HarvestDataCreateCascadeDeleteJob202Response,
-  HarvestDataCreateCascadeDeleteJobdefaultResponse,
-  HarvestDataGetCascadeDeleteJobDetails200Response,
-  HarvestDataGetCascadeDeleteJobDetailsdefaultResponse,
+  HarvestDataDeleteDefaultResponse,
   ImageProcessingCreateRasterizeJob202Response,
-  ImageProcessingCreateRasterizeJobdefaultResponse,
+  ImageProcessingCreateRasterizeJobDefaultResponse,
   ImageProcessingGetRasterizeJob200Response,
-  InsightAttachmentsListByFarmerIdModelIdAndResource200Response,
-  InsightAttachmentsListByFarmerIdModelIdAndResourcedefaultResponse,
+  ImageProcessingGetRasterizeJobDefaultResponse,
+  InsightAttachmentsListByPartyIdModelIdAndResource200Response,
+  InsightAttachmentsListByPartyIdModelIdAndResourceDefaultResponse,
   InsightAttachmentsCreateOrUpdate200Response,
   InsightAttachmentsCreateOrUpdate201Response,
-  InsightAttachmentsCreateOrUpdatedefaultResponse,
+  InsightAttachmentsCreateOrUpdateDefaultResponse,
   InsightAttachmentsGet200Response,
-  InsightAttachmentsGetdefaultResponse,
+  InsightAttachmentsGetDefaultResponse,
   InsightAttachmentsDelete204Response,
-  InsightAttachmentsDeletedefaultResponse,
+  InsightAttachmentsDeleteDefaultResponse,
   InsightAttachmentsDownload200Response,
-  InsightAttachmentsDownloaddefaultResponse,
-  InsightsListByFarmerIdModelIdAndResource200Response,
-  InsightsListByFarmerIdModelIdAndResourcedefaultResponse,
+  InsightAttachmentsDownloadDefaultResponse,
+  InsightsCreateCascadeDeleteJob202Response,
+  InsightsCreateCascadeDeleteJobDefaultResponse,
+  InsightsGetCascadeDeleteJobDetails200Response,
+  InsightsGetCascadeDeleteJobDetailsDefaultResponse,
+  InsightsListByPartyIdModelIdAndResource200Response,
+  InsightsListByPartyIdModelIdAndResourceDefaultResponse,
   InsightsCreateOrUpdate200Response,
   InsightsCreateOrUpdate201Response,
-  InsightsCreateOrUpdatedefaultResponse,
+  InsightsCreateOrUpdateDefaultResponse,
   InsightsGet200Response,
-  InsightsGetdefaultResponse,
+  InsightsGetDefaultResponse,
   InsightsDelete204Response,
-  InsightsDeletedefaultResponse,
-  InsightsCreateCascadeDeleteJob202Response,
-  InsightsCreateCascadeDeleteJobdefaultResponse,
-  InsightsGetCascadeDeleteJobDetails200Response,
-  InsightsGetCascadeDeleteJobDetailsdefaultResponse,
-  ManagementZonesListByFarmerId200Response,
-  ManagementZonesListByFarmerIddefaultResponse,
+  InsightsDeleteDefaultResponse,
+  ManagementZonesList200Response,
+  ManagementZonesListDefaultResponse,
+  ManagementZonesGetCascadeDeleteJobDetails200Response,
+  ManagementZonesGetCascadeDeleteJobDetailsDefaultResponse,
+  ManagementZonesCreateCascadeDeleteJob202Response,
+  ManagementZonesCreateCascadeDeleteJobDefaultResponse,
+  ManagementZonesListByPartyId200Response,
+  ManagementZonesListByPartyIdDefaultResponse,
   ManagementZonesGet200Response,
-  ManagementZonesGetdefaultResponse,
+  ManagementZonesGetDefaultResponse,
   ManagementZonesCreateOrUpdate200Response,
   ManagementZonesCreateOrUpdate201Response,
-  ManagementZonesCreateOrUpdatedefaultResponse,
+  ManagementZonesCreateOrUpdateDefaultResponse,
   ManagementZonesDelete204Response,
-  ManagementZonesDeletedefaultResponse,
-  ManagementZonesList200Response,
-  ManagementZonesListdefaultResponse,
-  ManagementZonesGetCascadeDeleteJobDetails200Response,
-  ManagementZonesGetCascadeDeleteJobDetailsdefaultResponse,
-  ManagementZonesCreateCascadeDeleteJob202Response,
-  ManagementZonesCreateCascadeDeleteJobdefaultResponse,
+  ManagementZonesDeleteDefaultResponse,
   ModelInferenceCreateBiomassModelJob202Response,
-  ModelInferenceCreateBiomassModelJobdefaultResponse,
+  ModelInferenceCreateBiomassModelJobDefaultResponse,
   ModelInferenceGetBiomassModelJob200Response,
-  ModelInferenceGetBiomassModelJobdefaultResponse,
+  ModelInferenceGetBiomassModelJobDefaultResponse,
+  ModelInferenceCreateSensorPlacementModelJob202Response,
+  ModelInferenceCreateSensorPlacementModelJobDefaultResponse,
+  ModelInferenceGetSensorPlacementModelJob200Response,
+  ModelInferenceGetSensorPlacementModelJobDefaultResponse,
   ModelInferenceCreateSoilMoistureModelJob202Response,
-  ModelInferenceCreateSoilMoistureModelJobdefaultResponse,
+  ModelInferenceCreateSoilMoistureModelJobDefaultResponse,
   ModelInferenceGetSoilMoistureModelJob200Response,
-  ModelInferenceGetSoilMoistureModelJobdefaultResponse,
-  NutrientAnalysesListByFarmerId200Response,
-  NutrientAnalysesListByFarmerIddefaultResponse,
+  ModelInferenceGetSoilMoistureModelJobDefaultResponse,
+  NutrientAnalysesList200Response,
+  NutrientAnalysesListDefaultResponse,
+  NutrientAnalysesListByPartyId200Response,
+  NutrientAnalysesListByPartyIdDefaultResponse,
   NutrientAnalysesGet200Response,
-  NutrientAnalysesGetdefaultResponse,
+  NutrientAnalysesGetDefaultResponse,
   NutrientAnalysesCreateOrUpdate200Response,
   NutrientAnalysesCreateOrUpdate201Response,
-  NutrientAnalysesCreateOrUpdatedefaultResponse,
+  NutrientAnalysesCreateOrUpdateDefaultResponse,
   NutrientAnalysesDelete204Response,
-  NutrientAnalysesDeletedefaultResponse,
-  NutrientAnalysesList200Response,
-  NutrientAnalysesListdefaultResponse,
+  NutrientAnalysesDeleteDefaultResponse,
   OAuthProvidersList200Response,
-  OAuthProvidersListdefaultResponse,
+  OAuthProvidersListDefaultResponse,
   OAuthProvidersGet200Response,
-  OAuthProvidersGetdefaultResponse,
+  OAuthProvidersGetDefaultResponse,
   OAuthProvidersCreateOrUpdate200Response,
   OAuthProvidersCreateOrUpdate201Response,
-  OAuthProvidersCreateOrUpdatedefaultResponse,
+  OAuthProvidersCreateOrUpdateDefaultResponse,
   OAuthProvidersDelete204Response,
-  OAuthProvidersDeletedefaultResponse,
+  OAuthProvidersDeleteDefaultResponse,
   OAuthProvidersGetCascadeDeleteJobDetails200Response,
-  OAuthProvidersGetCascadeDeleteJobDetailsdefaultResponse,
+  OAuthProvidersGetCascadeDeleteJobDetailsDefaultResponse,
   OAuthProvidersCreateCascadeDeleteJob202Response,
-  OAuthProvidersCreateCascadeDeleteJobdefaultResponse,
+  OAuthProvidersCreateCascadeDeleteJobDefaultResponse,
   OAuthTokensList200Response,
-  OAuthTokensListdefaultResponse,
+  OAuthTokensListDefaultResponse,
   OAuthTokensGetOAuthConnectionLink200Response,
-  OAuthTokensGetOAuthConnectionLinkdefaultResponse,
-  OAuthTokensCreateCascadeDeleteJob202Response,
-  OAuthTokensCreateCascadeDeleteJobdefaultResponse,
+  OAuthTokensGetOAuthConnectionLinkDefaultResponse,
   OAuthTokensGetCascadeDeleteJobDetails200Response,
-  OAuthTokensGetCascadeDeleteJobDetailsdefaultResponse,
-  PlantingDataListByFarmerId200Response,
-  PlantingDataListByFarmerIddefaultResponse,
+  OAuthTokensGetCascadeDeleteJobDetailsDefaultResponse,
+  OAuthTokensCreateCascadeDeleteJob202Response,
+  OAuthTokensCreateCascadeDeleteJobDefaultResponse,
+  PartiesList200Response,
+  PartiesListDefaultResponse,
+  PartiesGet200Response,
+  PartiesGetDefaultResponse,
+  PartiesCreateOrUpdate200Response,
+  PartiesCreateOrUpdate201Response,
+  PartiesCreateOrUpdateDefaultResponse,
+  PartiesDelete204Response,
+  PartiesDeleteDefaultResponse,
+  PartiesGetCascadeDeleteJobDetails200Response,
+  PartiesGetCascadeDeleteJobDetailsDefaultResponse,
+  PartiesCreateCascadeDeleteJob202Response,
+  PartiesCreateCascadeDeleteJobDefaultResponse,
+  PlantingDataListByPartyId200Response,
+  PlantingDataListByPartyIdDefaultResponse,
   PlantingDataGet200Response,
-  PlantingDataGetdefaultResponse,
+  PlantingDataGetDefaultResponse,
   PlantingDataCreateOrUpdate200Response,
   PlantingDataCreateOrUpdate201Response,
-  PlantingDataCreateOrUpdatedefaultResponse,
+  PlantingDataCreateOrUpdateDefaultResponse,
   PlantingDataDelete204Response,
-  PlantingDataDeletedefaultResponse,
+  PlantingDataDeleteDefaultResponse,
   PlantingDataList200Response,
-  PlantingDataListdefaultResponse,
+  PlantingDataListDefaultResponse,
   PlantingDataCreateCascadeDeleteJob202Response,
-  PlantingDataCreateCascadeDeleteJobdefaultResponse,
+  PlantingDataCreateCascadeDeleteJobDefaultResponse,
   PlantingDataGetCascadeDeleteJobDetails200Response,
-  PlantingDataGetCascadeDeleteJobDetailsdefaultResponse,
-  PlantTissueAnalysesListByFarmerId200Response,
-  PlantTissueAnalysesListByFarmerIddefaultResponse,
+  PlantingDataGetCascadeDeleteJobDetailsDefaultResponse,
+  PlantTissueAnalysesListByPartyId200Response,
+  PlantTissueAnalysesListByPartyIdDefaultResponse,
   PlantTissueAnalysesGet200Response,
-  PlantTissueAnalysesGetdefaultResponse,
+  PlantTissueAnalysesGetDefaultResponse,
   PlantTissueAnalysesCreateOrUpdate200Response,
   PlantTissueAnalysesCreateOrUpdate201Response,
-  PlantTissueAnalysesCreateOrUpdatedefaultResponse,
+  PlantTissueAnalysesCreateOrUpdateDefaultResponse,
   PlantTissueAnalysesDelete204Response,
-  PlantTissueAnalysesDeletedefaultResponse,
+  PlantTissueAnalysesDeleteDefaultResponse,
   PlantTissueAnalysesList200Response,
-  PlantTissueAnalysesListdefaultResponse,
+  PlantTissueAnalysesListDefaultResponse,
   PlantTissueAnalysesCreateCascadeDeleteJob202Response,
-  PlantTissueAnalysesCreateCascadeDeleteJobdefaultResponse,
+  PlantTissueAnalysesCreateCascadeDeleteJobDefaultResponse,
   PlantTissueAnalysesGetCascadeDeleteJobDetails200Response,
-  PlantTissueAnalysesGetCascadeDeleteJobDetailsdefaultResponse,
-  PrescriptionMapsListByFarmerId200Response,
-  PrescriptionMapsListByFarmerIddefaultResponse,
+  PlantTissueAnalysesGetCascadeDeleteJobDetailsDefaultResponse,
+  PrescriptionMapsListByPartyId200Response,
+  PrescriptionMapsListByPartyIdDefaultResponse,
   PrescriptionMapsGet200Response,
-  PrescriptionMapsGetdefaultResponse,
+  PrescriptionMapsGetDefaultResponse,
   PrescriptionMapsCreateOrUpdate200Response,
   PrescriptionMapsCreateOrUpdate201Response,
-  PrescriptionMapsCreateOrUpdatedefaultResponse,
+  PrescriptionMapsCreateOrUpdateDefaultResponse,
   PrescriptionMapsDelete204Response,
-  PrescriptionMapsDeletedefaultResponse,
+  PrescriptionMapsDeleteDefaultResponse,
   PrescriptionMapsList200Response,
-  PrescriptionMapsListdefaultResponse,
+  PrescriptionMapsListDefaultResponse,
   PrescriptionMapsGetCascadeDeleteJobDetails200Response,
-  PrescriptionMapsGetCascadeDeleteJobDetailsdefaultResponse,
+  PrescriptionMapsGetCascadeDeleteJobDetailsDefaultResponse,
   PrescriptionMapsCreateCascadeDeleteJob202Response,
-  PrescriptionMapsCreateCascadeDeleteJobdefaultResponse,
-  PrescriptionsListByFarmerId200Response,
-  PrescriptionsListByFarmerIddefaultResponse,
+  PrescriptionMapsCreateCascadeDeleteJobDefaultResponse,
+  PrescriptionsListByPartyId200Response,
+  PrescriptionsListByPartyIdDefaultResponse,
   PrescriptionsGet200Response,
-  PrescriptionsGetdefaultResponse,
+  PrescriptionsGetDefaultResponse,
   PrescriptionsCreateOrUpdate200Response,
   PrescriptionsCreateOrUpdate201Response,
-  PrescriptionsCreateOrUpdatedefaultResponse,
+  PrescriptionsCreateOrUpdateDefaultResponse,
   PrescriptionsDelete204Response,
-  PrescriptionsDeletedefaultResponse,
+  PrescriptionsDeleteDefaultResponse,
   PrescriptionsList200Response,
-  PrescriptionsListdefaultResponse,
+  PrescriptionsListDefaultResponse,
   PrescriptionsGetCascadeDeleteJobDetails200Response,
-  PrescriptionsGetCascadeDeleteJobDetailsdefaultResponse,
+  PrescriptionsGetCascadeDeleteJobDetailsDefaultResponse,
   PrescriptionsCreateCascadeDeleteJob202Response,
-  PrescriptionsCreateCascadeDeleteJobdefaultResponse,
+  PrescriptionsCreateCascadeDeleteJobDefaultResponse,
   ScenesList200Response,
-  ScenesListdefaultResponse,
+  ScenesListDefaultResponse,
   ScenesDownload200Response,
-  ScenesDownloaddefaultResponse,
+  ScenesDownloadDefaultResponse,
   ScenesCreateSatelliteDataIngestionJob202Response,
-  ScenesCreateSatelliteDataIngestionJobdefaultResponse,
+  ScenesCreateSatelliteDataIngestionJobDefaultResponse,
   ScenesGetSatelliteDataIngestionJobDetails200Response,
-  ScenesGetSatelliteDataIngestionJobDetailsdefaultResponse,
-  SeasonalFieldsListByFarmerId200Response,
-  SeasonalFieldsListByFarmerIddefaultResponse,
+  ScenesGetSatelliteDataIngestionJobDetailsDefaultResponse,
+  ScenesSearchFeatures200Response,
+  ScenesSearchFeaturesDefaultResponse,
+  ScenesGetStacFeature200Response,
+  ScenesGetStacFeatureDefaultResponse,
+  SeasonalFieldsListByPartyId200Response,
+  SeasonalFieldsListByPartyIdDefaultResponse,
   SeasonalFieldsGet200Response,
-  SeasonalFieldsGetdefaultResponse,
+  SeasonalFieldsGetDefaultResponse,
   SeasonalFieldsCreateOrUpdate200Response,
   SeasonalFieldsCreateOrUpdate201Response,
-  SeasonalFieldsCreateOrUpdatedefaultResponse,
+  SeasonalFieldsCreateOrUpdateDefaultResponse,
   SeasonalFieldsDelete204Response,
-  SeasonalFieldsDeletedefaultResponse,
+  SeasonalFieldsDeleteDefaultResponse,
   SeasonalFieldsList200Response,
-  SeasonalFieldsListdefaultResponse,
-  SeasonalFieldsCreateCascadeDeleteJob202Response,
-  SeasonalFieldsCreateCascadeDeleteJobdefaultResponse,
+  SeasonalFieldsListDefaultResponse,
   SeasonalFieldsGetCascadeDeleteJobDetails200Response,
-  SeasonalFieldsGetCascadeDeleteJobDetailsdefaultResponse,
+  SeasonalFieldsGetCascadeDeleteJobDetailsDefaultResponse,
+  SeasonalFieldsCreateCascadeDeleteJob202Response,
+  SeasonalFieldsCreateCascadeDeleteJobDefaultResponse,
   SeasonsList200Response,
-  SeasonsListdefaultResponse,
+  SeasonsListDefaultResponse,
   SeasonsGet200Response,
-  SeasonsGetdefaultResponse,
+  SeasonsGetDefaultResponse,
   SeasonsCreateOrUpdate200Response,
   SeasonsCreateOrUpdate201Response,
-  SeasonsCreateOrUpdatedefaultResponse,
+  SeasonsCreateOrUpdateDefaultResponse,
   SeasonsDelete204Response,
-  SeasonsDeletedefaultResponse,
+  SeasonsDeleteDefaultResponse,
   SensorDataModelsList200Response,
-  SensorDataModelsListdefaultResponse,
+  SensorDataModelsListDefaultResponse,
   SensorDataModelsCreateOrUpdate200Response,
   SensorDataModelsCreateOrUpdate201Response,
-  SensorDataModelsCreateOrUpdatedefaultResponse,
+  SensorDataModelsCreateOrUpdateDefaultResponse,
   SensorDataModelsGet200Response,
-  SensorDataModelsGetdefaultResponse,
+  SensorDataModelsGetDefaultResponse,
   SensorDataModelsDelete204Response,
-  SensorDataModelsDeletedefaultResponse,
+  SensorDataModelsDeleteDefaultResponse,
   SensorEventsList200Response,
-  SensorEventsListdefaultResponse,
+  SensorEventsListDefaultResponse,
   SensorMappingsList200Response,
-  SensorMappingsListdefaultResponse,
+  SensorMappingsListDefaultResponse,
   SensorMappingsCreateOrUpdate200Response,
   SensorMappingsCreateOrUpdate201Response,
-  SensorMappingsCreateOrUpdatedefaultResponse,
+  SensorMappingsCreateOrUpdateDefaultResponse,
   SensorMappingsGet200Response,
-  SensorMappingsGetdefaultResponse,
+  SensorMappingsGetDefaultResponse,
   SensorMappingsDelete204Response,
-  SensorMappingsDeletedefaultResponse,
+  SensorMappingsDeleteDefaultResponse,
   SensorPartnerIntegrationsList200Response,
-  SensorPartnerIntegrationsListdefaultResponse,
+  SensorPartnerIntegrationsListDefaultResponse,
   SensorPartnerIntegrationsCreateOrUpdate200Response,
   SensorPartnerIntegrationsCreateOrUpdate201Response,
-  SensorPartnerIntegrationsCreateOrUpdatedefaultResponse,
+  SensorPartnerIntegrationsCreateOrUpdateDefaultResponse,
   SensorPartnerIntegrationsGet200Response,
-  SensorPartnerIntegrationsGetdefaultResponse,
+  SensorPartnerIntegrationsGetDefaultResponse,
   SensorPartnerIntegrationsDelete204Response,
-  SensorPartnerIntegrationsDeletedefaultResponse,
+  SensorPartnerIntegrationsDeleteDefaultResponse,
   SensorPartnerIntegrationsCheckConsent200Response,
-  SensorPartnerIntegrationsCheckConsentdefaultResponse,
+  SensorPartnerIntegrationsCheckConsentDefaultResponse,
   SensorPartnerIntegrationsGenerateConsentLink200Response,
-  SensorPartnerIntegrationsGenerateConsentLinkdefaultResponse,
+  SensorPartnerIntegrationsGenerateConsentLinkDefaultResponse,
   SensorsList200Response,
-  SensorsListdefaultResponse,
+  SensorsListDefaultResponse,
   SensorsCreateOrUpdate200Response,
   SensorsCreateOrUpdate201Response,
-  SensorsCreateOrUpdatedefaultResponse,
+  SensorsCreateOrUpdateDefaultResponse,
   SensorsGet200Response,
-  SensorsGetdefaultResponse,
+  SensorsGetDefaultResponse,
   SensorsDelete204Response,
-  SensorsDeletedefaultResponse,
+  SensorsDeleteDefaultResponse,
   SensorsGetConnectionString200Response,
-  SensorsGetConnectionStringdefaultResponse,
+  SensorsGetConnectionStringDefaultResponse,
   SensorsRenewConnectionString200Response,
-  SensorsRenewConnectionStringdefaultResponse,
+  SensorsRenewConnectionStringDefaultResponse,
   SolutionInferenceCancel200Response,
-  SolutionInferenceCanceldefaultResponse,
+  SolutionInferenceCancelDefaultResponse,
   SolutionInferenceCreateOrUpdate202Response,
-  SolutionInferenceCreateOrUpdatedefaultResponse,
+  SolutionInferenceCreateOrUpdateDefaultResponse,
   SolutionInferenceFetch200Response,
-  SolutionInferenceFetchdefaultResponse,
-  TillageDataListByFarmerId200Response,
-  TillageDataListByFarmerIddefaultResponse,
+  SolutionInferenceFetchDefaultResponse,
+  TillageDataListByPartyId200Response,
+  TillageDataListByPartyIdDefaultResponse,
   TillageDataGet200Response,
-  TillageDataGetdefaultResponse,
+  TillageDataGetDefaultResponse,
   TillageDataCreateOrUpdate200Response,
   TillageDataCreateOrUpdate201Response,
-  TillageDataCreateOrUpdatedefaultResponse,
+  TillageDataCreateOrUpdateDefaultResponse,
   TillageDataDelete204Response,
-  TillageDataDeletedefaultResponse,
+  TillageDataDeleteDefaultResponse,
   TillageDataList200Response,
-  TillageDataListdefaultResponse,
+  TillageDataListDefaultResponse,
   TillageDataCreateCascadeDeleteJob202Response,
-  TillageDataCreateCascadeDeleteJobdefaultResponse,
+  TillageDataCreateCascadeDeleteJobDefaultResponse,
   TillageDataGetCascadeDeleteJobDetails200Response,
-  TillageDataGetCascadeDeleteJobDetailsdefaultResponse,
+  TillageDataGetCascadeDeleteJobDetailsDefaultResponse,
   WeatherList200Response,
-  WeatherListdefaultResponse,
+  WeatherListDefaultResponse,
   WeatherGetDataDeleteJobDetails200Response,
-  WeatherGetDataDeleteJobDetailsdefaultResponse,
+  WeatherGetDataDeleteJobDetailsDefaultResponse,
   WeatherCreateDataDeleteJob202Response,
-  WeatherCreateDataDeleteJobdefaultResponse,
+  WeatherCreateDataDeleteJobDefaultResponse,
   WeatherGetDataIngestionJobDetails200Response,
-  WeatherGetDataIngestionJobDetailsdefaultResponse,
+  WeatherGetDataIngestionJobDetailsDefaultResponse,
   WeatherCreateDataIngestionJob202Response,
-  WeatherCreateDataIngestionJobdefaultResponse,
-  ZonesListByFarmerId200Response,
-  ZonesListByFarmerIddefaultResponse,
+  WeatherCreateDataIngestionJobDefaultResponse,
+  WeatherDataGet200Response,
+  WeatherDataGetDefaultResponse,
+  ZonesListByPartyId200Response,
+  ZonesListByPartyIdDefaultResponse,
   ZonesGet200Response,
-  ZonesGetdefaultResponse,
+  ZonesGetDefaultResponse,
   ZonesCreateOrUpdate200Response,
   ZonesCreateOrUpdate201Response,
-  ZonesCreateOrUpdatedefaultResponse,
+  ZonesCreateOrUpdateDefaultResponse,
   ZonesDelete204Response,
-  ZonesDeletedefaultResponse,
+  ZonesDeleteDefaultResponse,
   ZonesList200Response,
-  ZonesListdefaultResponse,
+  ZonesListDefaultResponse,
   ZonesGetCascadeDeleteJobDetails200Response,
-  ZonesGetCascadeDeleteJobDetailsdefaultResponse,
+  ZonesGetCascadeDeleteJobDetailsDefaultResponse,
   ZonesCreateCascadeDeleteJob202Response,
-  ZonesCreateCascadeDeleteJobdefaultResponse
+  ZonesCreateCascadeDeleteJobDefaultResponse
 } from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface ApplicationDataList {
-  /** Returns a paginated list of application data resources across all farmers. */
+  /** Returns a paginated list of application data resources across all parties. */
   get(
     options?: ApplicationDataListParameters
   ): StreamableMethod<
-    ApplicationDataList200Response | ApplicationDataListdefaultResponse
+    ApplicationDataList200Response | ApplicationDataListDefaultResponse
   >;
 }
 
@@ -625,80 +641,80 @@ export interface ApplicationDataCreateCascadeDeleteJob {
     options: ApplicationDataCreateCascadeDeleteJobParameters
   ): StreamableMethod<
     | ApplicationDataCreateCascadeDeleteJob202Response
-    | ApplicationDataCreateCascadeDeleteJobdefaultResponse
+    | ApplicationDataCreateCascadeDeleteJobDefaultResponse
   >;
   /** Get cascade delete job for application data resource. */
   get(
     options?: ApplicationDataGetCascadeDeleteJobDetailsParameters
   ): StreamableMethod<
     | ApplicationDataGetCascadeDeleteJobDetails200Response
-    | ApplicationDataGetCascadeDeleteJobDetailsdefaultResponse
+    | ApplicationDataGetCascadeDeleteJobDetailsDefaultResponse
   >;
 }
 
-export interface ApplicationDataListByFarmerId {
-  /** Returns a paginated list of application data resources under a particular farm. */
+export interface ApplicationDataListByPartyId {
+  /** Returns a paginated list of application data resources under a particular party. */
   get(
-    options?: ApplicationDataListByFarmerIdParameters
+    options?: ApplicationDataListByPartyIdParameters
   ): StreamableMethod<
-    | ApplicationDataListByFarmerId200Response
-    | ApplicationDataListByFarmerIddefaultResponse
+    | ApplicationDataListByPartyId200Response
+    | ApplicationDataListByPartyIdDefaultResponse
   >;
 }
 
 export interface ApplicationDataGet {
-  /** Get a specified application data resource under a particular farmer. */
+  /** Get a specified application data resource under a particular party. */
   get(
     options?: ApplicationDataGetParameters
   ): StreamableMethod<
-    ApplicationDataGet200Response | ApplicationDataGetdefaultResponse
+    ApplicationDataGet200Response | ApplicationDataGetDefaultResponse
   >;
-  /** Creates or updates an application data resource under a particular farmer. */
+  /** Creates or updates an application data resource under a particular party. */
   patch(
     options: ApplicationDataCreateOrUpdateParameters
   ): StreamableMethod<
     | ApplicationDataCreateOrUpdate200Response
     | ApplicationDataCreateOrUpdate201Response
-    | ApplicationDataCreateOrUpdatedefaultResponse
+    | ApplicationDataCreateOrUpdateDefaultResponse
   >;
-  /** Deletes a specified application data resource under a particular farmer. */
+  /** Deletes a specified application data resource under a particular party. */
   delete(
     options?: ApplicationDataDeleteParameters
   ): StreamableMethod<
-    ApplicationDataDelete204Response | ApplicationDataDeletedefaultResponse
+    ApplicationDataDelete204Response | ApplicationDataDeleteDefaultResponse
   >;
 }
 
-export interface AttachmentsListByFarmerId {
-  /** Returns a paginated list of attachment resources under a particular farmer. */
+export interface AttachmentsListByPartyId {
+  /** Returns a paginated list of attachment resources under a particular party. */
   get(
-    options?: AttachmentsListByFarmerIdParameters
+    options?: AttachmentsListByPartyIdParameters
   ): StreamableMethod<
-    | AttachmentsListByFarmerId200Response
-    | AttachmentsListByFarmerIddefaultResponse
+    | AttachmentsListByPartyId200Response
+    | AttachmentsListByPartyIdDefaultResponse
   >;
 }
 
 export interface AttachmentsGet {
-  /** Gets a specified attachment resource under a particular farmer. */
+  /** Gets a specified attachment resource under a particular party. */
   get(
     options?: AttachmentsGetParameters
   ): StreamableMethod<
-    AttachmentsGet200Response | AttachmentsGetdefaultResponse
+    AttachmentsGet200Response | AttachmentsGetDefaultResponse
   >;
-  /** Creates or updates an attachment resource under a particular farmer. */
+  /** Creates or updates an attachment resource under a particular party. */
   patch(
     options?: AttachmentsCreateOrUpdateParameters
   ): StreamableMethod<
     | AttachmentsCreateOrUpdate200Response
     | AttachmentsCreateOrUpdate201Response
-    | AttachmentsCreateOrUpdatedefaultResponse
+    | AttachmentsCreateOrUpdateDefaultResponse
   >;
-  /** Deletes a specified attachment resource under a particular farmer. */
+  /** Deletes a specified attachment resource under a particular party. */
   delete(
     options?: AttachmentsDeleteParameters
   ): StreamableMethod<
-    AttachmentsDelete204Response | AttachmentsDeletedefaultResponse
+    AttachmentsDelete204Response | AttachmentsDeleteDefaultResponse
   >;
 }
 
@@ -707,22 +723,22 @@ export interface AttachmentsDownload {
   get(
     options?: AttachmentsDownloadParameters
   ): StreamableMethod<
-    AttachmentsDownload200Response | AttachmentsDownloaddefaultResponse
+    AttachmentsDownload200Response | AttachmentsDownloadDefaultResponse
   >;
 }
 
 export interface BoundariesList {
-  /** Returns a paginated list of boundary resources across all farmers. */
+  /** Returns a paginated list of boundary resources across all parties. */
   get(
     options?: BoundariesListParameters
   ): StreamableMethod<
-    BoundariesList200Response | BoundariesListdefaultResponse
+    BoundariesList200Response | BoundariesListDefaultResponse
   >;
-  /** Search for boundaries across all farmers by fields and intersecting geometry. */
+  /** Search for boundaries across all parties by fields and intersecting geometry. */
   post(
     options: BoundariesSearchParameters
   ): StreamableMethod<
-    BoundariesSearch200Response | BoundariesSearchdefaultResponse
+    BoundariesSearch200Response | BoundariesSearchDefaultResponse
   >;
 }
 
@@ -732,31 +748,30 @@ export interface BoundariesCreateCascadeDeleteJob {
     options: BoundariesCreateCascadeDeleteJobParameters
   ): StreamableMethod<
     | BoundariesCreateCascadeDeleteJob202Response
-    | BoundariesCreateCascadeDeleteJobdefaultResponse
+    | BoundariesCreateCascadeDeleteJobDefaultResponse
   >;
   /** Get cascade delete job for specified boundary. */
   get(
     options?: BoundariesGetCascadeDeleteJobDetailsParameters
   ): StreamableMethod<
     | BoundariesGetCascadeDeleteJobDetails200Response
-    | BoundariesGetCascadeDeleteJobDetailsdefaultResponse
+    | BoundariesGetCascadeDeleteJobDetailsDefaultResponse
   >;
 }
 
-export interface BoundariesListByFarmerId {
-  /** Returns a paginated list of boundary resources under a particular farmer. */
+export interface BoundariesListByPartyId {
+  /** Returns a paginated list of boundary resources under a particular party. */
   get(
-    options?: BoundariesListByFarmerIdParameters
+    options?: BoundariesListByPartyIdParameters
   ): StreamableMethod<
-    | BoundariesListByFarmerId200Response
-    | BoundariesListByFarmerIddefaultResponse
+    BoundariesListByPartyId200Response | BoundariesListByPartyIdDefaultResponse
   >;
   /** Search for boundaries by fields and intersecting geometry. */
   post(
-    options: BoundariesSearchByFarmerIdParameters
+    options: BoundariesSearchByPartyIdParameters
   ): StreamableMethod<
-    | BoundariesSearchByFarmerId200Response
-    | BoundariesSearchByFarmerIddefaultResponse
+    | BoundariesSearchByPartyId200Response
+    | BoundariesSearchByPartyIdDefaultResponse
   >;
 }
 
@@ -767,26 +782,58 @@ export interface BoundariesCreateOrUpdate {
   ): StreamableMethod<
     | BoundariesCreateOrUpdate200Response
     | BoundariesCreateOrUpdate201Response
-    | BoundariesCreateOrUpdatedefaultResponse
+    | BoundariesCreateOrUpdateDefaultResponse
   >;
-  /** Gets a specified boundary resource under a particular farmer. */
+  /** Gets a specified boundary resource under a particular party. */
   get(
     options?: BoundariesGetParameters
-  ): StreamableMethod<BoundariesGet200Response | BoundariesGetdefaultResponse>;
-  /** Deletes a specified boundary resource under a particular farmer. */
+  ): StreamableMethod<BoundariesGet200Response | BoundariesGetDefaultResponse>;
+  /** Deletes a specified boundary resource under a particular party. */
   delete(
     options?: BoundariesDeleteParameters
   ): StreamableMethod<
-    BoundariesDelete204Response | BoundariesDeletedefaultResponse
+    BoundariesDelete204Response | BoundariesDeleteDefaultResponse
   >;
 }
 
 export interface BoundariesGetOverlap {
-  /** Returns overlapping acreage between two boundary Ids. */
+  /** Returns overlapping area between two boundary Ids. */
   get(
     options: BoundariesGetOverlapParameters
   ): StreamableMethod<
-    BoundariesGetOverlap200Response | BoundariesGetOverlapdefaultResponse
+    BoundariesGetOverlap200Response | BoundariesGetOverlapDefaultResponse
+  >;
+}
+
+export interface CropProductsList {
+  /** Returns a paginated list of crop product resources. */
+  get(
+    options?: CropProductsListParameters
+  ): StreamableMethod<
+    CropProductsList200Response | CropProductsListDefaultResponse
+  >;
+}
+
+export interface CropProductsGet {
+  /** Gets a specified crop Product resource. */
+  get(
+    options?: CropProductsGetParameters
+  ): StreamableMethod<
+    CropProductsGet200Response | CropProductsGetDefaultResponse
+  >;
+  /** Creates or updates a crop Product resource. */
+  patch(
+    options: CropProductsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | CropProductsCreateOrUpdate200Response
+    | CropProductsCreateOrUpdate201Response
+    | CropProductsCreateOrUpdateDefaultResponse
+  >;
+  /** Deletes a specified crop Product resource. */
+  delete(
+    options?: CropProductsDeleteParameters
+  ): StreamableMethod<
+    CropProductsDelete204Response | CropProductsDeleteDefaultResponse
   >;
 }
 
@@ -794,58 +841,26 @@ export interface CropsList {
   /** Returns a paginated list of crop resources. */
   get(
     options?: CropsListParameters
-  ): StreamableMethod<CropsList200Response | CropsListdefaultResponse>;
+  ): StreamableMethod<CropsList200Response | CropsListDefaultResponse>;
 }
 
 export interface CropsGet {
   /** Gets a specified crop resource. */
   get(
     options?: CropsGetParameters
-  ): StreamableMethod<CropsGet200Response | CropsGetdefaultResponse>;
+  ): StreamableMethod<CropsGet200Response | CropsGetDefaultResponse>;
   /** Creates or updates a crop resource. */
   patch(
     options: CropsCreateOrUpdateParameters
   ): StreamableMethod<
     | CropsCreateOrUpdate200Response
     | CropsCreateOrUpdate201Response
-    | CropsCreateOrUpdatedefaultResponse
+    | CropsCreateOrUpdateDefaultResponse
   >;
   /** Deletes Crop for given crop id. */
   delete(
     options?: CropsDeleteParameters
-  ): StreamableMethod<CropsDelete204Response | CropsDeletedefaultResponse>;
-}
-
-export interface CropVarietiesList {
-  /** Returns a paginated list of crop variety resources. */
-  get(
-    options?: CropVarietiesListParameters
-  ): StreamableMethod<
-    CropVarietiesList200Response | CropVarietiesListdefaultResponse
-  >;
-}
-
-export interface CropVarietiesGet {
-  /** Gets a specified crop variety resource. */
-  get(
-    options?: CropVarietiesGetParameters
-  ): StreamableMethod<
-    CropVarietiesGet200Response | CropVarietiesGetdefaultResponse
-  >;
-  /** Creates or updates a crop variety resource. */
-  patch(
-    options: CropVarietiesCreateOrUpdateParameters
-  ): StreamableMethod<
-    | CropVarietiesCreateOrUpdate200Response
-    | CropVarietiesCreateOrUpdate201Response
-    | CropVarietiesCreateOrUpdatedefaultResponse
-  >;
-  /** Deletes a specified crop variety resource. */
-  delete(
-    options?: CropVarietiesDeleteParameters
-  ): StreamableMethod<
-    CropVarietiesDelete204Response | CropVarietiesDeletedefaultResponse
-  >;
+  ): StreamableMethod<CropsDelete204Response | CropsDeleteDefaultResponse>;
 }
 
 export interface DeviceDataModelsList {
@@ -853,7 +868,7 @@ export interface DeviceDataModelsList {
   get(
     options?: DeviceDataModelsListParameters
   ): StreamableMethod<
-    DeviceDataModelsList200Response | DeviceDataModelsListdefaultResponse
+    DeviceDataModelsList200Response | DeviceDataModelsListDefaultResponse
   >;
 }
 
@@ -864,19 +879,19 @@ export interface DeviceDataModelsCreateOrUpdate {
   ): StreamableMethod<
     | DeviceDataModelsCreateOrUpdate200Response
     | DeviceDataModelsCreateOrUpdate201Response
-    | DeviceDataModelsCreateOrUpdatedefaultResponse
+    | DeviceDataModelsCreateOrUpdateDefaultResponse
   >;
   /** Gets a device data model entity. */
   get(
     options?: DeviceDataModelsGetParameters
   ): StreamableMethod<
-    DeviceDataModelsGet200Response | DeviceDataModelsGetdefaultResponse
+    DeviceDataModelsGet200Response | DeviceDataModelsGetDefaultResponse
   >;
   /** Deletes a device data model entity. */
   delete(
     options?: DeviceDataModelsDeleteParameters
   ): StreamableMethod<
-    DeviceDataModelsDelete204Response | DeviceDataModelsDeletedefaultResponse
+    DeviceDataModelsDelete204Response | DeviceDataModelsDeleteDefaultResponse
   >;
 }
 
@@ -884,7 +899,7 @@ export interface DevicesList {
   /** Returns a paginated list of device resources. */
   get(
     options?: DevicesListParameters
-  ): StreamableMethod<DevicesList200Response | DevicesListdefaultResponse>;
+  ): StreamableMethod<DevicesList200Response | DevicesListDefaultResponse>;
 }
 
 export interface DevicesCreateOrUpdate {
@@ -894,59 +909,16 @@ export interface DevicesCreateOrUpdate {
   ): StreamableMethod<
     | DevicesCreateOrUpdate200Response
     | DevicesCreateOrUpdate201Response
-    | DevicesCreateOrUpdatedefaultResponse
+    | DevicesCreateOrUpdateDefaultResponse
   >;
   /** Gets a device entity. */
   get(
     options?: DevicesGetParameters
-  ): StreamableMethod<DevicesGet200Response | DevicesGetdefaultResponse>;
+  ): StreamableMethod<DevicesGet200Response | DevicesGetDefaultResponse>;
   /** Deletes a device entity. */
   delete(
     options?: DevicesDeleteParameters
-  ): StreamableMethod<DevicesDelete204Response | DevicesDeletedefaultResponse>;
-}
-
-export interface FarmersList {
-  /** Returns a paginated list of farmer resources. */
-  get(
-    options?: FarmersListParameters
-  ): StreamableMethod<FarmersList200Response | FarmersListdefaultResponse>;
-}
-
-export interface FarmersGet {
-  /** Gets a specified farmer resource. */
-  get(
-    options?: FarmersGetParameters
-  ): StreamableMethod<FarmersGet200Response | FarmersGetdefaultResponse>;
-  /** Creates or updates a farmer resource. */
-  patch(
-    options: FarmersCreateOrUpdateParameters
-  ): StreamableMethod<
-    | FarmersCreateOrUpdate200Response
-    | FarmersCreateOrUpdate201Response
-    | FarmersCreateOrUpdatedefaultResponse
-  >;
-  /** Deletes a specified farmer resource. */
-  delete(
-    options?: FarmersDeleteParameters
-  ): StreamableMethod<FarmersDelete204Response | FarmersDeletedefaultResponse>;
-}
-
-export interface FarmersCreateCascadeDeleteJob {
-  /** Create a cascade delete job for specified farmer. */
-  put(
-    options: FarmersCreateCascadeDeleteJobParameters
-  ): StreamableMethod<
-    | FarmersCreateCascadeDeleteJob202Response
-    | FarmersCreateCascadeDeleteJobdefaultResponse
-  >;
-  /** Get a cascade delete job for specified farmer. */
-  get(
-    options?: FarmersGetCascadeDeleteJobDetailsParameters
-  ): StreamableMethod<
-    | FarmersGetCascadeDeleteJobDetails200Response
-    | FarmersGetCascadeDeleteJobDetailsdefaultResponse
-  >;
+  ): StreamableMethod<DevicesDelete204Response | DevicesDeleteDefaultResponse>;
 }
 
 export interface FarmOperationsCreateDataIngestionJob {
@@ -955,50 +927,22 @@ export interface FarmOperationsCreateDataIngestionJob {
     options: FarmOperationsCreateDataIngestionJobParameters
   ): StreamableMethod<
     | FarmOperationsCreateDataIngestionJob202Response
-    | FarmOperationsCreateDataIngestionJobdefaultResponse
+    | FarmOperationsCreateDataIngestionJobDefaultResponse
   >;
   /** Get a farm operation data ingestion job. */
   get(
     options?: FarmOperationsGetDataIngestionJobDetailsParameters
   ): StreamableMethod<
     | FarmOperationsGetDataIngestionJobDetails200Response
-    | FarmOperationsGetDataIngestionJobDetailsdefaultResponse
+    | FarmOperationsGetDataIngestionJobDetailsDefaultResponse
   >;
-}
-
-export interface FarmsListByFarmerId {
-  /** Returns a paginated list of farm resources under a particular farmer. */
-  get(
-    options?: FarmsListByFarmerIdParameters
-  ): StreamableMethod<
-    FarmsListByFarmerId200Response | FarmsListByFarmerIddefaultResponse
-  >;
-}
-
-export interface FarmsGet {
-  /** Gets a specified farm resource under a particular farmer. */
-  get(
-    options?: FarmsGetParameters
-  ): StreamableMethod<FarmsGet200Response | FarmsGetdefaultResponse>;
-  /** Creates or updates a farm resource under a particular farmer. */
-  patch(
-    options: FarmsCreateOrUpdateParameters
-  ): StreamableMethod<
-    | FarmsCreateOrUpdate200Response
-    | FarmsCreateOrUpdate201Response
-    | FarmsCreateOrUpdatedefaultResponse
-  >;
-  /** Deletes a specified farm resource under a particular farmer. */
-  delete(
-    options?: FarmsDeleteParameters
-  ): StreamableMethod<FarmsDelete204Response | FarmsDeletedefaultResponse>;
 }
 
 export interface FarmsList {
-  /** Returns a paginated list of farm resources across all farmers. */
+  /** Returns a paginated list of farm resources across all parties. */
   get(
     options?: FarmsListParameters
-  ): StreamableMethod<FarmsList200Response | FarmsListdefaultResponse>;
+  ): StreamableMethod<FarmsList200Response | FarmsListDefaultResponse>;
 }
 
 export interface FarmsCreateCascadeDeleteJob {
@@ -1007,108 +951,103 @@ export interface FarmsCreateCascadeDeleteJob {
     options: FarmsCreateCascadeDeleteJobParameters
   ): StreamableMethod<
     | FarmsCreateCascadeDeleteJob202Response
-    | FarmsCreateCascadeDeleteJobdefaultResponse
+    | FarmsCreateCascadeDeleteJobDefaultResponse
   >;
   /** Get a cascade delete job for specified farm. */
   get(
     options?: FarmsGetCascadeDeleteJobDetailsParameters
   ): StreamableMethod<
     | FarmsGetCascadeDeleteJobDetails200Response
-    | FarmsGetCascadeDeleteJobDetailsdefaultResponse
+    | FarmsGetCascadeDeleteJobDetailsDefaultResponse
   >;
 }
 
-export interface FieldsListByFarmerId {
-  /** Returns a paginated list of field resources under a particular farmer. */
+export interface FarmsListByPartyId {
+  /** Returns a paginated list of farm resources under a particular party. */
   get(
-    options?: FieldsListByFarmerIdParameters
+    options?: FarmsListByPartyIdParameters
   ): StreamableMethod<
-    FieldsListByFarmerId200Response | FieldsListByFarmerIddefaultResponse
+    FarmsListByPartyId200Response | FarmsListByPartyIdDefaultResponse
   >;
 }
 
-export interface FieldsGet {
-  /** Gets a specified field resource under a particular farmer. */
+export interface FarmsGet {
+  /** Gets a specified farm resource under a particular party. */
   get(
-    options?: FieldsGetParameters
-  ): StreamableMethod<FieldsGet200Response | FieldsGetdefaultResponse>;
-  /** Creates or Updates a field resource under a particular farmer. */
+    options?: FarmsGetParameters
+  ): StreamableMethod<FarmsGet200Response | FarmsGetDefaultResponse>;
+  /** Creates or updates a farm resource under a particular party. */
   patch(
-    options: FieldsCreateOrUpdateParameters
+    options: FarmsCreateOrUpdateParameters
   ): StreamableMethod<
-    | FieldsCreateOrUpdate200Response
-    | FieldsCreateOrUpdate201Response
-    | FieldsCreateOrUpdatedefaultResponse
+    | FarmsCreateOrUpdate200Response
+    | FarmsCreateOrUpdate201Response
+    | FarmsCreateOrUpdateDefaultResponse
   >;
-  /** Deletes a specified field resource under a particular farmer. */
+  /** Deletes a specified farm resource under a particular party. */
   delete(
-    options?: FieldsDeleteParameters
-  ): StreamableMethod<FieldsDelete204Response | FieldsDeletedefaultResponse>;
+    options?: FarmsDeleteParameters
+  ): StreamableMethod<FarmsDelete204Response | FarmsDeleteDefaultResponse>;
 }
 
 export interface FieldsList {
-  /** Returns a paginated list of field resources across all farmers. */
+  /** Returns a paginated list of field resources across all parties. */
   get(
     options?: FieldsListParameters
-  ): StreamableMethod<FieldsList200Response | FieldsListdefaultResponse>;
+  ): StreamableMethod<FieldsList200Response | FieldsListDefaultResponse>;
 }
 
-export interface FieldsCreateCascadeDeleteJob {
-  /** Create a cascade delete job for specified field. */
-  put(
-    options: FieldsCreateCascadeDeleteJobParameters
-  ): StreamableMethod<
-    | FieldsCreateCascadeDeleteJob202Response
-    | FieldsCreateCascadeDeleteJobdefaultResponse
-  >;
+export interface FieldsGetCascadeDeleteJobDetails {
   /** Get a cascade delete job for specified field. */
   get(
     options?: FieldsGetCascadeDeleteJobDetailsParameters
   ): StreamableMethod<
     | FieldsGetCascadeDeleteJobDetails200Response
-    | FieldsGetCascadeDeleteJobDetailsdefaultResponse
+    | FieldsGetCascadeDeleteJobDetailsDefaultResponse
+  >;
+  /** Create a cascade delete job for specified field. */
+  put(
+    options: FieldsCreateCascadeDeleteJobParameters
+  ): StreamableMethod<
+    | FieldsCreateCascadeDeleteJob202Response
+    | FieldsCreateCascadeDeleteJobDefaultResponse
   >;
 }
 
-export interface HarvestDataListByFarmerId {
-  /** Returns a paginated list of harvest data resources under a particular farm. */
+export interface FieldsListByPartyId {
+  /** Returns a paginated list of field resources under a particular party. */
   get(
-    options?: HarvestDataListByFarmerIdParameters
+    options?: FieldsListByPartyIdParameters
   ): StreamableMethod<
-    | HarvestDataListByFarmerId200Response
-    | HarvestDataListByFarmerIddefaultResponse
+    FieldsListByPartyId200Response | FieldsListByPartyIdDefaultResponse
   >;
 }
 
-export interface HarvestDataGet {
-  /** Get a specified harvest data resource under a particular farmer. */
+export interface FieldsGet {
+  /** Gets a specified field resource under a particular party. */
   get(
-    options?: HarvestDataGetParameters
-  ): StreamableMethod<
-    HarvestDataGet200Response | HarvestDataGetdefaultResponse
-  >;
-  /** Creates or updates harvest data resource under a particular farmer. */
+    options?: FieldsGetParameters
+  ): StreamableMethod<FieldsGet200Response | FieldsGetDefaultResponse>;
+  /** Creates or Updates a field resource under a particular party. */
   patch(
-    options: HarvestDataCreateOrUpdateParameters
+    options: FieldsCreateOrUpdateParameters
   ): StreamableMethod<
-    | HarvestDataCreateOrUpdate200Response
-    | HarvestDataCreateOrUpdate201Response
-    | HarvestDataCreateOrUpdatedefaultResponse
+    | FieldsCreateOrUpdate200Response
+    | FieldsCreateOrUpdate201Response
+    | FieldsCreateOrUpdateDefaultResponse
   >;
-  /** Deletes a specified harvest data resource under a particular farmer. */
+  /** Deletes a specified field resource under a particular party. */
   delete(
-    options?: HarvestDataDeleteParameters
-  ): StreamableMethod<
-    HarvestDataDelete204Response | HarvestDataDeletedefaultResponse
-  >;
+    options?: FieldsDeleteParameters
+  ): StreamableMethod<FieldsDelete204Response | FieldsDeleteDefaultResponse>;
 }
 
 export interface HarvestDataList {
-  /** Returns a paginated list of harvest data resources across all farmers. */
+  /** Returns a paginated list of harvest data resources across all parties. */
   get(
     options?: HarvestDataListParameters
   ): StreamableMethod<
-    HarvestDataList200Response | HarvestDataListdefaultResponse
+    HarvestDataList200Response | HarvestDataListDefaultResponse
   >;
 }
 
@@ -1118,14 +1057,47 @@ export interface HarvestDataCreateCascadeDeleteJob {
     options: HarvestDataCreateCascadeDeleteJobParameters
   ): StreamableMethod<
     | HarvestDataCreateCascadeDeleteJob202Response
-    | HarvestDataCreateCascadeDeleteJobdefaultResponse
+    | HarvestDataCreateCascadeDeleteJobDefaultResponse
   >;
   /** Get cascade delete job for harvest data resource. */
   get(
     options?: HarvestDataGetCascadeDeleteJobDetailsParameters
   ): StreamableMethod<
     | HarvestDataGetCascadeDeleteJobDetails200Response
-    | HarvestDataGetCascadeDeleteJobDetailsdefaultResponse
+    | HarvestDataGetCascadeDeleteJobDetailsDefaultResponse
+  >;
+}
+
+export interface HarvestDataListByPartyId {
+  /** Returns a paginated list of harvest data resources under a particular farm. */
+  get(
+    options?: HarvestDataListByPartyIdParameters
+  ): StreamableMethod<
+    | HarvestDataListByPartyId200Response
+    | HarvestDataListByPartyIdDefaultResponse
+  >;
+}
+
+export interface HarvestDataGet {
+  /** Get a specified harvest data resource under a particular party. */
+  get(
+    options?: HarvestDataGetParameters
+  ): StreamableMethod<
+    HarvestDataGet200Response | HarvestDataGetDefaultResponse
+  >;
+  /** Creates or updates harvest data resource under a particular party. */
+  patch(
+    options: HarvestDataCreateOrUpdateParameters
+  ): StreamableMethod<
+    | HarvestDataCreateOrUpdate200Response
+    | HarvestDataCreateOrUpdate201Response
+    | HarvestDataCreateOrUpdateDefaultResponse
+  >;
+  /** Deletes a specified harvest data resource under a particular party. */
+  delete(
+    options?: HarvestDataDeleteParameters
+  ): StreamableMethod<
+    HarvestDataDelete204Response | HarvestDataDeleteDefaultResponse
   >;
 }
 
@@ -1135,21 +1107,24 @@ export interface ImageProcessingCreateRasterizeJob {
     options: ImageProcessingCreateRasterizeJobParameters
   ): StreamableMethod<
     | ImageProcessingCreateRasterizeJob202Response
-    | ImageProcessingCreateRasterizeJobdefaultResponse
+    | ImageProcessingCreateRasterizeJobDefaultResponse
   >;
   /** Get ImageProcessing Rasterize job's details. */
   get(
     options?: ImageProcessingGetRasterizeJobParameters
-  ): StreamableMethod<ImageProcessingGetRasterizeJob200Response>;
+  ): StreamableMethod<
+    | ImageProcessingGetRasterizeJob200Response
+    | ImageProcessingGetRasterizeJobDefaultResponse
+  >;
 }
 
-export interface InsightAttachmentsListByFarmerIdModelIdAndResource {
+export interface InsightAttachmentsListByPartyIdModelIdAndResource {
   /** Returns a paginated list of insight resources. */
   get(
-    options?: InsightAttachmentsListByFarmerIdModelIdAndResourceParameters
+    options?: InsightAttachmentsListByPartyIdModelIdAndResourceParameters
   ): StreamableMethod<
-    | InsightAttachmentsListByFarmerIdModelIdAndResource200Response
-    | InsightAttachmentsListByFarmerIdModelIdAndResourcedefaultResponse
+    | InsightAttachmentsListByPartyIdModelIdAndResource200Response
+    | InsightAttachmentsListByPartyIdModelIdAndResourceDefaultResponse
   >;
 }
 
@@ -1160,20 +1135,20 @@ export interface InsightAttachmentsCreateOrUpdate {
   ): StreamableMethod<
     | InsightAttachmentsCreateOrUpdate200Response
     | InsightAttachmentsCreateOrUpdate201Response
-    | InsightAttachmentsCreateOrUpdatedefaultResponse
+    | InsightAttachmentsCreateOrUpdateDefaultResponse
   >;
-  /** Gets a specified insight resource under a particular farmer. */
+  /** Gets a specified insight resource under a particular party. */
   get(
     options?: InsightAttachmentsGetParameters
   ): StreamableMethod<
-    InsightAttachmentsGet200Response | InsightAttachmentsGetdefaultResponse
+    InsightAttachmentsGet200Response | InsightAttachmentsGetDefaultResponse
   >;
   /** Deletes a specified insight resource. */
   delete(
     options?: InsightAttachmentsDeleteParameters
   ): StreamableMethod<
     | InsightAttachmentsDelete204Response
-    | InsightAttachmentsDeletedefaultResponse
+    | InsightAttachmentsDeleteDefaultResponse
   >;
 }
 
@@ -1183,17 +1158,34 @@ export interface InsightAttachmentsDownload {
     options?: InsightAttachmentsDownloadParameters
   ): StreamableMethod<
     | InsightAttachmentsDownload200Response
-    | InsightAttachmentsDownloaddefaultResponse
+    | InsightAttachmentsDownloadDefaultResponse
   >;
 }
 
-export interface InsightsListByFarmerIdModelIdAndResource {
+export interface InsightsCreateCascadeDeleteJob {
+  /** Create a cascade delete job for insights specified partyId/modelId/resourceType/resourceId. */
+  put(
+    options: InsightsCreateCascadeDeleteJobParameters
+  ): StreamableMethod<
+    | InsightsCreateCascadeDeleteJob202Response
+    | InsightsCreateCascadeDeleteJobDefaultResponse
+  >;
+  /** Get a cascade delete job for specified insight. */
+  get(
+    options?: InsightsGetCascadeDeleteJobDetailsParameters
+  ): StreamableMethod<
+    | InsightsGetCascadeDeleteJobDetails200Response
+    | InsightsGetCascadeDeleteJobDetailsDefaultResponse
+  >;
+}
+
+export interface InsightsListByPartyIdModelIdAndResource {
   /** Returns a paginated list of insight resources. */
   get(
-    options?: InsightsListByFarmerIdModelIdAndResourceParameters
+    options?: InsightsListByPartyIdModelIdAndResourceParameters
   ): StreamableMethod<
-    | InsightsListByFarmerIdModelIdAndResource200Response
-    | InsightsListByFarmerIdModelIdAndResourcedefaultResponse
+    | InsightsListByPartyIdModelIdAndResource200Response
+    | InsightsListByPartyIdModelIdAndResourceDefaultResponse
   >;
 }
 
@@ -1204,76 +1196,26 @@ export interface InsightsCreateOrUpdate {
   ): StreamableMethod<
     | InsightsCreateOrUpdate200Response
     | InsightsCreateOrUpdate201Response
-    | InsightsCreateOrUpdatedefaultResponse
+    | InsightsCreateOrUpdateDefaultResponse
   >;
-  /** Gets a specified insight resource under a particular farmer. */
+  /** Gets a specified insight resource under a particular party. */
   get(
     options?: InsightsGetParameters
-  ): StreamableMethod<InsightsGet200Response | InsightsGetdefaultResponse>;
+  ): StreamableMethod<InsightsGet200Response | InsightsGetDefaultResponse>;
   /** Deletes a specified insight resource. */
   delete(
     options?: InsightsDeleteParameters
   ): StreamableMethod<
-    InsightsDelete204Response | InsightsDeletedefaultResponse
-  >;
-}
-
-export interface InsightsCreateCascadeDeleteJob {
-  /** Create a cascade delete job for insights specified farmerId/modelId/resourceType/resourceId. */
-  put(
-    options: InsightsCreateCascadeDeleteJobParameters
-  ): StreamableMethod<
-    | InsightsCreateCascadeDeleteJob202Response
-    | InsightsCreateCascadeDeleteJobdefaultResponse
-  >;
-  /** Get a cascade delete job for specified insight. */
-  get(
-    options?: InsightsGetCascadeDeleteJobDetailsParameters
-  ): StreamableMethod<
-    | InsightsGetCascadeDeleteJobDetails200Response
-    | InsightsGetCascadeDeleteJobDetailsdefaultResponse
-  >;
-}
-
-export interface ManagementZonesListByFarmerId {
-  /** Returns a paginated list of management zone resources under a particular farmer. */
-  get(
-    options?: ManagementZonesListByFarmerIdParameters
-  ): StreamableMethod<
-    | ManagementZonesListByFarmerId200Response
-    | ManagementZonesListByFarmerIddefaultResponse
-  >;
-}
-
-export interface ManagementZonesGet {
-  /** Gets a specified management zone resource under a particular farmer. */
-  get(
-    options?: ManagementZonesGetParameters
-  ): StreamableMethod<
-    ManagementZonesGet200Response | ManagementZonesGetdefaultResponse
-  >;
-  /** Creates or updates a management zone resource. */
-  patch(
-    options: ManagementZonesCreateOrUpdateParameters
-  ): StreamableMethod<
-    | ManagementZonesCreateOrUpdate200Response
-    | ManagementZonesCreateOrUpdate201Response
-    | ManagementZonesCreateOrUpdatedefaultResponse
-  >;
-  /** Deletes a specified management zone resource under a particular farmer. */
-  delete(
-    options?: ManagementZonesDeleteParameters
-  ): StreamableMethod<
-    ManagementZonesDelete204Response | ManagementZonesDeletedefaultResponse
+    InsightsDelete204Response | InsightsDeleteDefaultResponse
   >;
 }
 
 export interface ManagementZonesList {
-  /** Returns a paginated list of management zone resources across all farmers. */
+  /** Returns a paginated list of management zone resources across all parties. */
   get(
     options?: ManagementZonesListParameters
   ): StreamableMethod<
-    ManagementZonesList200Response | ManagementZonesListdefaultResponse
+    ManagementZonesList200Response | ManagementZonesListDefaultResponse
   >;
 }
 
@@ -1283,14 +1225,47 @@ export interface ManagementZonesGetCascadeDeleteJobDetails {
     options?: ManagementZonesGetCascadeDeleteJobDetailsParameters
   ): StreamableMethod<
     | ManagementZonesGetCascadeDeleteJobDetails200Response
-    | ManagementZonesGetCascadeDeleteJobDetailsdefaultResponse
+    | ManagementZonesGetCascadeDeleteJobDetailsDefaultResponse
   >;
   /** Create a cascade delete job for specified management zone. */
   put(
     options: ManagementZonesCreateCascadeDeleteJobParameters
   ): StreamableMethod<
     | ManagementZonesCreateCascadeDeleteJob202Response
-    | ManagementZonesCreateCascadeDeleteJobdefaultResponse
+    | ManagementZonesCreateCascadeDeleteJobDefaultResponse
+  >;
+}
+
+export interface ManagementZonesListByPartyId {
+  /** Returns a paginated list of management zone resources under a particular party. */
+  get(
+    options?: ManagementZonesListByPartyIdParameters
+  ): StreamableMethod<
+    | ManagementZonesListByPartyId200Response
+    | ManagementZonesListByPartyIdDefaultResponse
+  >;
+}
+
+export interface ManagementZonesGet {
+  /** Gets a specified management zone resource under a particular party. */
+  get(
+    options?: ManagementZonesGetParameters
+  ): StreamableMethod<
+    ManagementZonesGet200Response | ManagementZonesGetDefaultResponse
+  >;
+  /** Creates or updates a management zone resource. */
+  patch(
+    options: ManagementZonesCreateOrUpdateParameters
+  ): StreamableMethod<
+    | ManagementZonesCreateOrUpdate200Response
+    | ManagementZonesCreateOrUpdate201Response
+    | ManagementZonesCreateOrUpdateDefaultResponse
+  >;
+  /** Deletes a specified management zone resource under a particular party. */
+  delete(
+    options?: ManagementZonesDeleteParameters
+  ): StreamableMethod<
+    ManagementZonesDelete204Response | ManagementZonesDeleteDefaultResponse
   >;
 }
 
@@ -1300,14 +1275,31 @@ export interface ModelInferenceCreateBiomassModelJob {
     options: ModelInferenceCreateBiomassModelJobParameters
   ): StreamableMethod<
     | ModelInferenceCreateBiomassModelJob202Response
-    | ModelInferenceCreateBiomassModelJobdefaultResponse
+    | ModelInferenceCreateBiomassModelJobDefaultResponse
   >;
   /** Get Biomass Model job's details. */
   get(
     options?: ModelInferenceGetBiomassModelJobParameters
   ): StreamableMethod<
     | ModelInferenceGetBiomassModelJob200Response
-    | ModelInferenceGetBiomassModelJobdefaultResponse
+    | ModelInferenceGetBiomassModelJobDefaultResponse
+  >;
+}
+
+export interface ModelInferenceCreateSensorPlacementModelJob {
+  /** Create a Sensor Placement Model job. */
+  put(
+    options: ModelInferenceCreateSensorPlacementModelJobParameters
+  ): StreamableMethod<
+    | ModelInferenceCreateSensorPlacementModelJob202Response
+    | ModelInferenceCreateSensorPlacementModelJobDefaultResponse
+  >;
+  /** Get Sensor Placement Model job's details. */
+  get(
+    options?: ModelInferenceGetSensorPlacementModelJobParameters
+  ): StreamableMethod<
+    | ModelInferenceGetSensorPlacementModelJob200Response
+    | ModelInferenceGetSensorPlacementModelJobDefaultResponse
   >;
 }
 
@@ -1317,33 +1309,42 @@ export interface ModelInferenceCreateSoilMoistureModelJob {
     options: ModelInferenceCreateSoilMoistureModelJobParameters
   ): StreamableMethod<
     | ModelInferenceCreateSoilMoistureModelJob202Response
-    | ModelInferenceCreateSoilMoistureModelJobdefaultResponse
+    | ModelInferenceCreateSoilMoistureModelJobDefaultResponse
   >;
   /** Get SoilMoisture Model job's details. */
   get(
     options?: ModelInferenceGetSoilMoistureModelJobParameters
   ): StreamableMethod<
     | ModelInferenceGetSoilMoistureModelJob200Response
-    | ModelInferenceGetSoilMoistureModelJobdefaultResponse
+    | ModelInferenceGetSoilMoistureModelJobDefaultResponse
   >;
 }
 
-export interface NutrientAnalysesListByFarmerId {
-  /** Returns a paginated list of nutrient analysis resources under a particular farmer. */
+export interface NutrientAnalysesList {
+  /** Returns a paginated list of nutrient analysis resources across all parties. */
   get(
-    options?: NutrientAnalysesListByFarmerIdParameters
+    options?: NutrientAnalysesListParameters
   ): StreamableMethod<
-    | NutrientAnalysesListByFarmerId200Response
-    | NutrientAnalysesListByFarmerIddefaultResponse
+    NutrientAnalysesList200Response | NutrientAnalysesListDefaultResponse
+  >;
+}
+
+export interface NutrientAnalysesListByPartyId {
+  /** Returns a paginated list of nutrient analysis resources under a particular party. */
+  get(
+    options?: NutrientAnalysesListByPartyIdParameters
+  ): StreamableMethod<
+    | NutrientAnalysesListByPartyId200Response
+    | NutrientAnalysesListByPartyIdDefaultResponse
   >;
 }
 
 export interface NutrientAnalysesGet {
-  /** Gets a specified nutrient analysis resource under a particular farmer. */
+  /** Gets a specified nutrient analysis resource under a particular party. */
   get(
     options?: NutrientAnalysesGetParameters
   ): StreamableMethod<
-    NutrientAnalysesGet200Response | NutrientAnalysesGetdefaultResponse
+    NutrientAnalysesGet200Response | NutrientAnalysesGetDefaultResponse
   >;
   /** Creates or updates a nutrient analysis resource. */
   patch(
@@ -1351,22 +1352,13 @@ export interface NutrientAnalysesGet {
   ): StreamableMethod<
     | NutrientAnalysesCreateOrUpdate200Response
     | NutrientAnalysesCreateOrUpdate201Response
-    | NutrientAnalysesCreateOrUpdatedefaultResponse
+    | NutrientAnalysesCreateOrUpdateDefaultResponse
   >;
-  /** Deletes a specified nutrient analysis resource under a particular farmer. */
+  /** Deletes a specified nutrient analysis resource under a particular party. */
   delete(
     options?: NutrientAnalysesDeleteParameters
   ): StreamableMethod<
-    NutrientAnalysesDelete204Response | NutrientAnalysesDeletedefaultResponse
-  >;
-}
-
-export interface NutrientAnalysesList {
-  /** Returns a paginated list of nutrient analysis resources across all farmers. */
-  get(
-    options?: NutrientAnalysesListParameters
-  ): StreamableMethod<
-    NutrientAnalysesList200Response | NutrientAnalysesListdefaultResponse
+    NutrientAnalysesDelete204Response | NutrientAnalysesDeleteDefaultResponse
   >;
 }
 
@@ -1375,7 +1367,7 @@ export interface OAuthProvidersList {
   get(
     options?: OAuthProvidersListParameters
   ): StreamableMethod<
-    OAuthProvidersList200Response | OAuthProvidersListdefaultResponse
+    OAuthProvidersList200Response | OAuthProvidersListDefaultResponse
   >;
 }
 
@@ -1384,7 +1376,7 @@ export interface OAuthProvidersGet {
   get(
     options?: OAuthProvidersGetParameters
   ): StreamableMethod<
-    OAuthProvidersGet200Response | OAuthProvidersGetdefaultResponse
+    OAuthProvidersGet200Response | OAuthProvidersGetDefaultResponse
   >;
   /** Creates or updates an oauthProvider resource. */
   patch(
@@ -1392,13 +1384,13 @@ export interface OAuthProvidersGet {
   ): StreamableMethod<
     | OAuthProvidersCreateOrUpdate200Response
     | OAuthProvidersCreateOrUpdate201Response
-    | OAuthProvidersCreateOrUpdatedefaultResponse
+    | OAuthProvidersCreateOrUpdateDefaultResponse
   >;
   /** Deletes an specified oauthProvider resource. */
   delete(
     options?: OAuthProvidersDeleteParameters
   ): StreamableMethod<
-    OAuthProvidersDelete204Response | OAuthProvidersDeletedefaultResponse
+    OAuthProvidersDelete204Response | OAuthProvidersDeleteDefaultResponse
   >;
 }
 
@@ -1408,14 +1400,14 @@ export interface OAuthProvidersGetCascadeDeleteJobDetails {
     options?: OAuthProvidersGetCascadeDeleteJobDetailsParameters
   ): StreamableMethod<
     | OAuthProvidersGetCascadeDeleteJobDetails200Response
-    | OAuthProvidersGetCascadeDeleteJobDetailsdefaultResponse
+    | OAuthProvidersGetCascadeDeleteJobDetailsDefaultResponse
   >;
   /** Create cascade delete job for oauthProvider resource. */
   put(
     options: OAuthProvidersCreateCascadeDeleteJobParameters
   ): StreamableMethod<
     | OAuthProvidersCreateCascadeDeleteJob202Response
-    | OAuthProvidersCreateCascadeDeleteJobdefaultResponse
+    | OAuthProvidersCreateCascadeDeleteJobDefaultResponse
   >;
 }
 
@@ -1424,7 +1416,7 @@ export interface OAuthTokensList {
   get(
     options?: OAuthTokensListParameters
   ): StreamableMethod<
-    OAuthTokensList200Response | OAuthTokensListdefaultResponse
+    OAuthTokensList200Response | OAuthTokensListDefaultResponse
   >;
 }
 
@@ -1434,66 +1426,109 @@ export interface OAuthTokensGetOAuthConnectionLink {
     options: OAuthTokensGetOAuthConnectionLinkParameters
   ): StreamableMethod<
     | OAuthTokensGetOAuthConnectionLink200Response
-    | OAuthTokensGetOAuthConnectionLinkdefaultResponse
+    | OAuthTokensGetOAuthConnectionLinkDefaultResponse
   >;
 }
 
-export interface OAuthTokensCreateCascadeDeleteJob {
-  /** Create remove job for OAuth token. */
-  put(
-    options: OAuthTokensCreateCascadeDeleteJobParameters
-  ): StreamableMethod<
-    | OAuthTokensCreateCascadeDeleteJob202Response
-    | OAuthTokensCreateCascadeDeleteJobdefaultResponse
-  >;
+export interface OAuthTokensGetCascadeDeleteJobDetails {
   /** Get remove job for OAuth token. */
   get(
     options?: OAuthTokensGetCascadeDeleteJobDetailsParameters
   ): StreamableMethod<
     | OAuthTokensGetCascadeDeleteJobDetails200Response
-    | OAuthTokensGetCascadeDeleteJobDetailsdefaultResponse
+    | OAuthTokensGetCascadeDeleteJobDetailsDefaultResponse
+  >;
+  /** Create remove job for OAuth token. */
+  put(
+    options: OAuthTokensCreateCascadeDeleteJobParameters
+  ): StreamableMethod<
+    | OAuthTokensCreateCascadeDeleteJob202Response
+    | OAuthTokensCreateCascadeDeleteJobDefaultResponse
   >;
 }
 
-export interface PlantingDataListByFarmerId {
-  /** Returns a paginated list of planting data resources under a particular farm. */
+export interface PartiesList {
+  /** Returns a paginated list of party resources. */
   get(
-    options?: PlantingDataListByFarmerIdParameters
+    options?: PartiesListParameters
+  ): StreamableMethod<PartiesList200Response | PartiesListDefaultResponse>;
+}
+
+export interface PartiesGet {
+  /** Gets a specified party resource. */
+  get(
+    options?: PartiesGetParameters
+  ): StreamableMethod<PartiesGet200Response | PartiesGetDefaultResponse>;
+  /** Creates or updates a party resource. */
+  patch(
+    options: PartiesCreateOrUpdateParameters
   ): StreamableMethod<
-    | PlantingDataListByFarmerId200Response
-    | PlantingDataListByFarmerIddefaultResponse
+    | PartiesCreateOrUpdate200Response
+    | PartiesCreateOrUpdate201Response
+    | PartiesCreateOrUpdateDefaultResponse
+  >;
+  /** Deletes a specified party resource. */
+  delete(
+    options?: PartiesDeleteParameters
+  ): StreamableMethod<PartiesDelete204Response | PartiesDeleteDefaultResponse>;
+}
+
+export interface PartiesGetCascadeDeleteJobDetails {
+  /** Get a cascade delete job for specified party. */
+  get(
+    options?: PartiesGetCascadeDeleteJobDetailsParameters
+  ): StreamableMethod<
+    | PartiesGetCascadeDeleteJobDetails200Response
+    | PartiesGetCascadeDeleteJobDetailsDefaultResponse
+  >;
+  /** Create a cascade delete job for specified party. */
+  put(
+    options: PartiesCreateCascadeDeleteJobParameters
+  ): StreamableMethod<
+    | PartiesCreateCascadeDeleteJob202Response
+    | PartiesCreateCascadeDeleteJobDefaultResponse
+  >;
+}
+
+export interface PlantingDataListByPartyId {
+  /** Returns a paginated list of planting data resources under a particular party. */
+  get(
+    options?: PlantingDataListByPartyIdParameters
+  ): StreamableMethod<
+    | PlantingDataListByPartyId200Response
+    | PlantingDataListByPartyIdDefaultResponse
   >;
 }
 
 export interface PlantingDataGet {
-  /** Get a specified planting data resource under a particular farmer. */
+  /** Get a specified planting data resource under a particular party. */
   get(
     options?: PlantingDataGetParameters
   ): StreamableMethod<
-    PlantingDataGet200Response | PlantingDataGetdefaultResponse
+    PlantingDataGet200Response | PlantingDataGetDefaultResponse
   >;
-  /** Creates or updates an planting data resource under a particular farmer. */
+  /** Creates or updates an planting data resource under a particular party. */
   patch(
     options: PlantingDataCreateOrUpdateParameters
   ): StreamableMethod<
     | PlantingDataCreateOrUpdate200Response
     | PlantingDataCreateOrUpdate201Response
-    | PlantingDataCreateOrUpdatedefaultResponse
+    | PlantingDataCreateOrUpdateDefaultResponse
   >;
-  /** Deletes a specified planting data resource under a particular farmer. */
+  /** Deletes a specified planting data resource under a particular party. */
   delete(
     options?: PlantingDataDeleteParameters
   ): StreamableMethod<
-    PlantingDataDelete204Response | PlantingDataDeletedefaultResponse
+    PlantingDataDelete204Response | PlantingDataDeleteDefaultResponse
   >;
 }
 
 export interface PlantingDataList {
-  /** Returns a paginated list of planting data resources across all farmers. */
+  /** Returns a paginated list of planting data resources across all parties. */
   get(
     options?: PlantingDataListParameters
   ): StreamableMethod<
-    PlantingDataList200Response | PlantingDataListdefaultResponse
+    PlantingDataList200Response | PlantingDataListDefaultResponse
   >;
 }
 
@@ -1503,33 +1538,33 @@ export interface PlantingDataCreateCascadeDeleteJob {
     options: PlantingDataCreateCascadeDeleteJobParameters
   ): StreamableMethod<
     | PlantingDataCreateCascadeDeleteJob202Response
-    | PlantingDataCreateCascadeDeleteJobdefaultResponse
+    | PlantingDataCreateCascadeDeleteJobDefaultResponse
   >;
   /** Get cascade delete job for planting data resource. */
   get(
     options?: PlantingDataGetCascadeDeleteJobDetailsParameters
   ): StreamableMethod<
     | PlantingDataGetCascadeDeleteJobDetails200Response
-    | PlantingDataGetCascadeDeleteJobDetailsdefaultResponse
+    | PlantingDataGetCascadeDeleteJobDetailsDefaultResponse
   >;
 }
 
-export interface PlantTissueAnalysesListByFarmerId {
-  /** Returns a paginated list of plant tissue analysis resources under a particular farmer. */
+export interface PlantTissueAnalysesListByPartyId {
+  /** Returns a paginated list of plant tissue analysis resources under a particular party. */
   get(
-    options?: PlantTissueAnalysesListByFarmerIdParameters
+    options?: PlantTissueAnalysesListByPartyIdParameters
   ): StreamableMethod<
-    | PlantTissueAnalysesListByFarmerId200Response
-    | PlantTissueAnalysesListByFarmerIddefaultResponse
+    | PlantTissueAnalysesListByPartyId200Response
+    | PlantTissueAnalysesListByPartyIdDefaultResponse
   >;
 }
 
 export interface PlantTissueAnalysesGet {
-  /** Gets a specified plant tissue analysis resource under a particular farmer. */
+  /** Gets a specified plant tissue analysis resource under a particular party. */
   get(
     options?: PlantTissueAnalysesGetParameters
   ): StreamableMethod<
-    PlantTissueAnalysesGet200Response | PlantTissueAnalysesGetdefaultResponse
+    PlantTissueAnalysesGet200Response | PlantTissueAnalysesGetDefaultResponse
   >;
   /** Creates or updates a plant tissue analysis resource. */
   patch(
@@ -1537,23 +1572,23 @@ export interface PlantTissueAnalysesGet {
   ): StreamableMethod<
     | PlantTissueAnalysesCreateOrUpdate200Response
     | PlantTissueAnalysesCreateOrUpdate201Response
-    | PlantTissueAnalysesCreateOrUpdatedefaultResponse
+    | PlantTissueAnalysesCreateOrUpdateDefaultResponse
   >;
-  /** Deletes a specified plant tissue analysis resource under a particular farmer. */
+  /** Deletes a specified plant tissue analysis resource under a particular party. */
   delete(
     options?: PlantTissueAnalysesDeleteParameters
   ): StreamableMethod<
     | PlantTissueAnalysesDelete204Response
-    | PlantTissueAnalysesDeletedefaultResponse
+    | PlantTissueAnalysesDeleteDefaultResponse
   >;
 }
 
 export interface PlantTissueAnalysesList {
-  /** Returns a paginated list of plant tissue analysis resources across all farmers. */
+  /** Returns a paginated list of plant tissue analysis resources across all parties. */
   get(
     options?: PlantTissueAnalysesListParameters
   ): StreamableMethod<
-    PlantTissueAnalysesList200Response | PlantTissueAnalysesListdefaultResponse
+    PlantTissueAnalysesList200Response | PlantTissueAnalysesListDefaultResponse
   >;
 }
 
@@ -1563,56 +1598,56 @@ export interface PlantTissueAnalysesCreateCascadeDeleteJob {
     options: PlantTissueAnalysesCreateCascadeDeleteJobParameters
   ): StreamableMethod<
     | PlantTissueAnalysesCreateCascadeDeleteJob202Response
-    | PlantTissueAnalysesCreateCascadeDeleteJobdefaultResponse
+    | PlantTissueAnalysesCreateCascadeDeleteJobDefaultResponse
   >;
   /** Get a cascade delete job for specified plant tissue analysis. */
   get(
     options?: PlantTissueAnalysesGetCascadeDeleteJobDetailsParameters
   ): StreamableMethod<
     | PlantTissueAnalysesGetCascadeDeleteJobDetails200Response
-    | PlantTissueAnalysesGetCascadeDeleteJobDetailsdefaultResponse
+    | PlantTissueAnalysesGetCascadeDeleteJobDetailsDefaultResponse
   >;
 }
 
-export interface PrescriptionMapsListByFarmerId {
-  /** Returns a paginated list of prescription map resources under a particular farmer. */
+export interface PrescriptionMapsListByPartyId {
+  /** Returns a paginated list of prescription map resources under a particular party. */
   get(
-    options?: PrescriptionMapsListByFarmerIdParameters
+    options?: PrescriptionMapsListByPartyIdParameters
   ): StreamableMethod<
-    | PrescriptionMapsListByFarmerId200Response
-    | PrescriptionMapsListByFarmerIddefaultResponse
+    | PrescriptionMapsListByPartyId200Response
+    | PrescriptionMapsListByPartyIdDefaultResponse
   >;
 }
 
 export interface PrescriptionMapsGet {
-  /** Gets a specified prescription map resource under a particular farmer. */
+  /** Gets a specified prescription map resource under a particular party. */
   get(
     options?: PrescriptionMapsGetParameters
   ): StreamableMethod<
-    PrescriptionMapsGet200Response | PrescriptionMapsGetdefaultResponse
+    PrescriptionMapsGet200Response | PrescriptionMapsGetDefaultResponse
   >;
-  /** Creates or Updates a prescription map resource under a particular farmer. */
+  /** Creates or Updates a prescription map resource under a particular party. */
   patch(
     options: PrescriptionMapsCreateOrUpdateParameters
   ): StreamableMethod<
     | PrescriptionMapsCreateOrUpdate200Response
     | PrescriptionMapsCreateOrUpdate201Response
-    | PrescriptionMapsCreateOrUpdatedefaultResponse
+    | PrescriptionMapsCreateOrUpdateDefaultResponse
   >;
-  /** Deletes a specified prescription map resource under a particular farmer. */
+  /** Deletes a specified prescription map resource under a particular party. */
   delete(
     options?: PrescriptionMapsDeleteParameters
   ): StreamableMethod<
-    PrescriptionMapsDelete204Response | PrescriptionMapsDeletedefaultResponse
+    PrescriptionMapsDelete204Response | PrescriptionMapsDeleteDefaultResponse
   >;
 }
 
 export interface PrescriptionMapsList {
-  /** Returns a paginated list of prescription map resources across all farmers. */
+  /** Returns a paginated list of prescription map resources across all parties. */
   get(
     options?: PrescriptionMapsListParameters
   ): StreamableMethod<
-    PrescriptionMapsList200Response | PrescriptionMapsListdefaultResponse
+    PrescriptionMapsList200Response | PrescriptionMapsListDefaultResponse
   >;
 }
 
@@ -1622,56 +1657,56 @@ export interface PrescriptionMapsGetCascadeDeleteJobDetails {
     options?: PrescriptionMapsGetCascadeDeleteJobDetailsParameters
   ): StreamableMethod<
     | PrescriptionMapsGetCascadeDeleteJobDetails200Response
-    | PrescriptionMapsGetCascadeDeleteJobDetailsdefaultResponse
+    | PrescriptionMapsGetCascadeDeleteJobDetailsDefaultResponse
   >;
   /** Create a cascade delete job for specified prescription map. */
   put(
     options: PrescriptionMapsCreateCascadeDeleteJobParameters
   ): StreamableMethod<
     | PrescriptionMapsCreateCascadeDeleteJob202Response
-    | PrescriptionMapsCreateCascadeDeleteJobdefaultResponse
+    | PrescriptionMapsCreateCascadeDeleteJobDefaultResponse
   >;
 }
 
-export interface PrescriptionsListByFarmerId {
-  /** Returns a paginated list of prescription resources under a particular farmer. */
+export interface PrescriptionsListByPartyId {
+  /** Returns a paginated list of prescription resources under a particular party. */
   get(
-    options?: PrescriptionsListByFarmerIdParameters
+    options?: PrescriptionsListByPartyIdParameters
   ): StreamableMethod<
-    | PrescriptionsListByFarmerId200Response
-    | PrescriptionsListByFarmerIddefaultResponse
+    | PrescriptionsListByPartyId200Response
+    | PrescriptionsListByPartyIdDefaultResponse
   >;
 }
 
 export interface PrescriptionsGet {
-  /** Gets a specified prescription resource under a particular farmer. */
+  /** Gets a specified prescription resource under a particular party. */
   get(
     options?: PrescriptionsGetParameters
   ): StreamableMethod<
-    PrescriptionsGet200Response | PrescriptionsGetdefaultResponse
+    PrescriptionsGet200Response | PrescriptionsGetDefaultResponse
   >;
-  /** Creates or Updates a prescription resource under a particular farmer. */
+  /** Creates or Updates a prescription resource under a particular party. */
   patch(
     options: PrescriptionsCreateOrUpdateParameters
   ): StreamableMethod<
     | PrescriptionsCreateOrUpdate200Response
     | PrescriptionsCreateOrUpdate201Response
-    | PrescriptionsCreateOrUpdatedefaultResponse
+    | PrescriptionsCreateOrUpdateDefaultResponse
   >;
-  /** Deletes a specified prescription resource under a particular farmer. */
+  /** Deletes a specified prescription resource under a particular party. */
   delete(
     options?: PrescriptionsDeleteParameters
   ): StreamableMethod<
-    PrescriptionsDelete204Response | PrescriptionsDeletedefaultResponse
+    PrescriptionsDelete204Response | PrescriptionsDeleteDefaultResponse
   >;
 }
 
 export interface PrescriptionsList {
-  /** Returns a paginated list of prescription resources across all farmers. */
+  /** Returns a paginated list of prescription resources across all parties. */
   get(
     options?: PrescriptionsListParameters
   ): StreamableMethod<
-    PrescriptionsList200Response | PrescriptionsListdefaultResponse
+    PrescriptionsList200Response | PrescriptionsListDefaultResponse
   >;
 }
 
@@ -1681,14 +1716,14 @@ export interface PrescriptionsGetCascadeDeleteJobDetails {
     options?: PrescriptionsGetCascadeDeleteJobDetailsParameters
   ): StreamableMethod<
     | PrescriptionsGetCascadeDeleteJobDetails200Response
-    | PrescriptionsGetCascadeDeleteJobDetailsdefaultResponse
+    | PrescriptionsGetCascadeDeleteJobDetailsDefaultResponse
   >;
   /** Create a cascade delete job for specified prescription. */
   put(
     options: PrescriptionsCreateCascadeDeleteJobParameters
   ): StreamableMethod<
     | PrescriptionsCreateCascadeDeleteJob202Response
-    | PrescriptionsCreateCascadeDeleteJobdefaultResponse
+    | PrescriptionsCreateCascadeDeleteJobDefaultResponse
   >;
 }
 
@@ -1696,7 +1731,7 @@ export interface ScenesList {
   /** Returns a paginated list of scene resources. */
   get(
     options: ScenesListParameters
-  ): StreamableMethod<ScenesList200Response | ScenesListdefaultResponse>;
+  ): StreamableMethod<ScenesList200Response | ScenesListDefaultResponse>;
 }
 
 export interface ScenesDownload {
@@ -1704,7 +1739,7 @@ export interface ScenesDownload {
   get(
     options: ScenesDownloadParameters
   ): StreamableMethod<
-    ScenesDownload200Response | ScenesDownloaddefaultResponse
+    ScenesDownload200Response | ScenesDownloadDefaultResponse
   >;
 }
 
@@ -1714,73 +1749,91 @@ export interface ScenesCreateSatelliteDataIngestionJob {
     options: ScenesCreateSatelliteDataIngestionJobParameters
   ): StreamableMethod<
     | ScenesCreateSatelliteDataIngestionJob202Response
-    | ScenesCreateSatelliteDataIngestionJobdefaultResponse
+    | ScenesCreateSatelliteDataIngestionJobDefaultResponse
   >;
   /** Get a satellite data ingestion job. */
   get(
     options?: ScenesGetSatelliteDataIngestionJobDetailsParameters
   ): StreamableMethod<
     | ScenesGetSatelliteDataIngestionJobDetails200Response
-    | ScenesGetSatelliteDataIngestionJobDetailsdefaultResponse
+    | ScenesGetSatelliteDataIngestionJobDetailsDefaultResponse
   >;
 }
 
-export interface SeasonalFieldsListByFarmerId {
-  /** Returns a paginated list of seasonal field resources under a particular farmer. */
-  get(
-    options?: SeasonalFieldsListByFarmerIdParameters
+export interface ScenesSearchFeatures {
+  /** Search for STAC features by collection id, bbox, intersecting geometry, start and end datetime. */
+  post(
+    options: ScenesSearchFeaturesParameters
   ): StreamableMethod<
-    | SeasonalFieldsListByFarmerId200Response
-    | SeasonalFieldsListByFarmerIddefaultResponse
+    ScenesSearchFeatures200Response | ScenesSearchFeaturesDefaultResponse
+  >;
+}
+
+export interface ScenesGetStacFeature {
+  /** Get a feature(SpatioTemporal Asset Catalog (STAC) Item) for given collection and feature id. */
+  get(
+    options?: ScenesGetStacFeatureParameters
+  ): StreamableMethod<
+    ScenesGetStacFeature200Response | ScenesGetStacFeatureDefaultResponse
+  >;
+}
+
+export interface SeasonalFieldsListByPartyId {
+  /** Returns a paginated list of seasonal field resources under a particular party. */
+  get(
+    options?: SeasonalFieldsListByPartyIdParameters
+  ): StreamableMethod<
+    | SeasonalFieldsListByPartyId200Response
+    | SeasonalFieldsListByPartyIdDefaultResponse
   >;
 }
 
 export interface SeasonalFieldsGet {
-  /** Gets a specified seasonal field resource under a particular farmer. */
+  /** Gets a specified seasonal field resource under a particular party. */
   get(
     options?: SeasonalFieldsGetParameters
   ): StreamableMethod<
-    SeasonalFieldsGet200Response | SeasonalFieldsGetdefaultResponse
+    SeasonalFieldsGet200Response | SeasonalFieldsGetDefaultResponse
   >;
-  /** Creates or Updates a seasonal field resource under a particular farmer. */
+  /** Creates or Updates a seasonal field resource under a particular party. */
   patch(
     options: SeasonalFieldsCreateOrUpdateParameters
   ): StreamableMethod<
     | SeasonalFieldsCreateOrUpdate200Response
     | SeasonalFieldsCreateOrUpdate201Response
-    | SeasonalFieldsCreateOrUpdatedefaultResponse
+    | SeasonalFieldsCreateOrUpdateDefaultResponse
   >;
-  /** Deletes a specified seasonal-field resource under a particular farmer. */
+  /** Deletes a specified seasonal-field resource under a particular party. */
   delete(
     options?: SeasonalFieldsDeleteParameters
   ): StreamableMethod<
-    SeasonalFieldsDelete204Response | SeasonalFieldsDeletedefaultResponse
+    SeasonalFieldsDelete204Response | SeasonalFieldsDeleteDefaultResponse
   >;
 }
 
 export interface SeasonalFieldsList {
-  /** Returns a paginated list of seasonal field resources across all farmers. */
+  /** Returns a paginated list of seasonal field resources across all parties. */
   get(
     options?: SeasonalFieldsListParameters
   ): StreamableMethod<
-    SeasonalFieldsList200Response | SeasonalFieldsListdefaultResponse
+    SeasonalFieldsList200Response | SeasonalFieldsListDefaultResponse
   >;
 }
 
-export interface SeasonalFieldsCreateCascadeDeleteJob {
-  /** Create a cascade delete job for specified seasonal field. */
-  put(
-    options: SeasonalFieldsCreateCascadeDeleteJobParameters
-  ): StreamableMethod<
-    | SeasonalFieldsCreateCascadeDeleteJob202Response
-    | SeasonalFieldsCreateCascadeDeleteJobdefaultResponse
-  >;
+export interface SeasonalFieldsGetCascadeDeleteJobDetails {
   /** Get cascade delete job for specified seasonal field. */
   get(
     options?: SeasonalFieldsGetCascadeDeleteJobDetailsParameters
   ): StreamableMethod<
     | SeasonalFieldsGetCascadeDeleteJobDetails200Response
-    | SeasonalFieldsGetCascadeDeleteJobDetailsdefaultResponse
+    | SeasonalFieldsGetCascadeDeleteJobDetailsDefaultResponse
+  >;
+  /** Create a cascade delete job for specified seasonal field. */
+  put(
+    options: SeasonalFieldsCreateCascadeDeleteJobParameters
+  ): StreamableMethod<
+    | SeasonalFieldsCreateCascadeDeleteJob202Response
+    | SeasonalFieldsCreateCascadeDeleteJobDefaultResponse
   >;
 }
 
@@ -1788,26 +1841,26 @@ export interface SeasonsList {
   /** Returns a paginated list of season resources. */
   get(
     options?: SeasonsListParameters
-  ): StreamableMethod<SeasonsList200Response | SeasonsListdefaultResponse>;
+  ): StreamableMethod<SeasonsList200Response | SeasonsListDefaultResponse>;
 }
 
 export interface SeasonsGet {
   /** Gets a specified season resource. */
   get(
     options?: SeasonsGetParameters
-  ): StreamableMethod<SeasonsGet200Response | SeasonsGetdefaultResponse>;
+  ): StreamableMethod<SeasonsGet200Response | SeasonsGetDefaultResponse>;
   /** Creates or updates a season resource. */
   patch(
     options: SeasonsCreateOrUpdateParameters
   ): StreamableMethod<
     | SeasonsCreateOrUpdate200Response
     | SeasonsCreateOrUpdate201Response
-    | SeasonsCreateOrUpdatedefaultResponse
+    | SeasonsCreateOrUpdateDefaultResponse
   >;
   /** Deletes a specified season resource. */
   delete(
     options?: SeasonsDeleteParameters
-  ): StreamableMethod<SeasonsDelete204Response | SeasonsDeletedefaultResponse>;
+  ): StreamableMethod<SeasonsDelete204Response | SeasonsDeleteDefaultResponse>;
 }
 
 export interface SensorDataModelsList {
@@ -1815,7 +1868,7 @@ export interface SensorDataModelsList {
   get(
     options?: SensorDataModelsListParameters
   ): StreamableMethod<
-    SensorDataModelsList200Response | SensorDataModelsListdefaultResponse
+    SensorDataModelsList200Response | SensorDataModelsListDefaultResponse
   >;
 }
 
@@ -1826,19 +1879,19 @@ export interface SensorDataModelsCreateOrUpdate {
   ): StreamableMethod<
     | SensorDataModelsCreateOrUpdate200Response
     | SensorDataModelsCreateOrUpdate201Response
-    | SensorDataModelsCreateOrUpdatedefaultResponse
+    | SensorDataModelsCreateOrUpdateDefaultResponse
   >;
   /** Gets a sensor data model entity. */
   get(
     options?: SensorDataModelsGetParameters
   ): StreamableMethod<
-    SensorDataModelsGet200Response | SensorDataModelsGetdefaultResponse
+    SensorDataModelsGet200Response | SensorDataModelsGetDefaultResponse
   >;
   /** Deletes a sensor data model entity. */
   delete(
     options?: SensorDataModelsDeleteParameters
   ): StreamableMethod<
-    SensorDataModelsDelete204Response | SensorDataModelsDeletedefaultResponse
+    SensorDataModelsDelete204Response | SensorDataModelsDeleteDefaultResponse
   >;
 }
 
@@ -1850,7 +1903,7 @@ export interface SensorEventsList {
   get(
     options: SensorEventsListParameters
   ): StreamableMethod<
-    SensorEventsList200Response | SensorEventsListdefaultResponse
+    SensorEventsList200Response | SensorEventsListDefaultResponse
   >;
 }
 
@@ -1859,7 +1912,7 @@ export interface SensorMappingsList {
   get(
     options?: SensorMappingsListParameters
   ): StreamableMethod<
-    SensorMappingsList200Response | SensorMappingsListdefaultResponse
+    SensorMappingsList200Response | SensorMappingsListDefaultResponse
   >;
 }
 
@@ -1870,19 +1923,19 @@ export interface SensorMappingsCreateOrUpdate {
   ): StreamableMethod<
     | SensorMappingsCreateOrUpdate200Response
     | SensorMappingsCreateOrUpdate201Response
-    | SensorMappingsCreateOrUpdatedefaultResponse
+    | SensorMappingsCreateOrUpdateDefaultResponse
   >;
   /** Gets a sensor mapping entity. */
   get(
     options?: SensorMappingsGetParameters
   ): StreamableMethod<
-    SensorMappingsGet200Response | SensorMappingsGetdefaultResponse
+    SensorMappingsGet200Response | SensorMappingsGetDefaultResponse
   >;
   /** Deletes a sensor mapping entity. */
   delete(
     options?: SensorMappingsDeleteParameters
   ): StreamableMethod<
-    SensorMappingsDelete204Response | SensorMappingsDeletedefaultResponse
+    SensorMappingsDelete204Response | SensorMappingsDeleteDefaultResponse
   >;
 }
 
@@ -1892,7 +1945,7 @@ export interface SensorPartnerIntegrationsList {
     options?: SensorPartnerIntegrationsListParameters
   ): StreamableMethod<
     | SensorPartnerIntegrationsList200Response
-    | SensorPartnerIntegrationsListdefaultResponse
+    | SensorPartnerIntegrationsListDefaultResponse
   >;
 }
 
@@ -1903,21 +1956,21 @@ export interface SensorPartnerIntegrationsCreateOrUpdate {
   ): StreamableMethod<
     | SensorPartnerIntegrationsCreateOrUpdate200Response
     | SensorPartnerIntegrationsCreateOrUpdate201Response
-    | SensorPartnerIntegrationsCreateOrUpdatedefaultResponse
+    | SensorPartnerIntegrationsCreateOrUpdateDefaultResponse
   >;
   /** Gets a partner integration model entity. */
   get(
     options?: SensorPartnerIntegrationsGetParameters
   ): StreamableMethod<
     | SensorPartnerIntegrationsGet200Response
-    | SensorPartnerIntegrationsGetdefaultResponse
+    | SensorPartnerIntegrationsGetDefaultResponse
   >;
   /** Deletes a partner integration model entity. */
   delete(
     options?: SensorPartnerIntegrationsDeleteParameters
   ): StreamableMethod<
     | SensorPartnerIntegrationsDelete204Response
-    | SensorPartnerIntegrationsDeletedefaultResponse
+    | SensorPartnerIntegrationsDeleteDefaultResponse
   >;
 }
 
@@ -1927,7 +1980,7 @@ export interface SensorPartnerIntegrationsCheckConsent {
     options: SensorPartnerIntegrationsCheckConsentParameters
   ): StreamableMethod<
     | SensorPartnerIntegrationsCheckConsent200Response
-    | SensorPartnerIntegrationsCheckConsentdefaultResponse
+    | SensorPartnerIntegrationsCheckConsentDefaultResponse
   >;
 }
 
@@ -1937,7 +1990,7 @@ export interface SensorPartnerIntegrationsGenerateConsentLink {
     options?: SensorPartnerIntegrationsGenerateConsentLinkParameters
   ): StreamableMethod<
     | SensorPartnerIntegrationsGenerateConsentLink200Response
-    | SensorPartnerIntegrationsGenerateConsentLinkdefaultResponse
+    | SensorPartnerIntegrationsGenerateConsentLinkDefaultResponse
   >;
 }
 
@@ -1945,7 +1998,7 @@ export interface SensorsList {
   /** Returns a paginated list of sensor resources. */
   get(
     options?: SensorsListParameters
-  ): StreamableMethod<SensorsList200Response | SensorsListdefaultResponse>;
+  ): StreamableMethod<SensorsList200Response | SensorsListDefaultResponse>;
 }
 
 export interface SensorsCreateOrUpdate {
@@ -1955,16 +2008,16 @@ export interface SensorsCreateOrUpdate {
   ): StreamableMethod<
     | SensorsCreateOrUpdate200Response
     | SensorsCreateOrUpdate201Response
-    | SensorsCreateOrUpdatedefaultResponse
+    | SensorsCreateOrUpdateDefaultResponse
   >;
   /** Gets a sensor entity. */
   get(
     options?: SensorsGetParameters
-  ): StreamableMethod<SensorsGet200Response | SensorsGetdefaultResponse>;
+  ): StreamableMethod<SensorsGet200Response | SensorsGetDefaultResponse>;
   /** Deletes a sensor entity. */
   delete(
     options?: SensorsDeleteParameters
-  ): StreamableMethod<SensorsDelete204Response | SensorsDeletedefaultResponse>;
+  ): StreamableMethod<SensorsDelete204Response | SensorsDeleteDefaultResponse>;
 }
 
 export interface SensorsGetConnectionString {
@@ -1973,7 +2026,7 @@ export interface SensorsGetConnectionString {
     options?: SensorsGetConnectionStringParameters
   ): StreamableMethod<
     | SensorsGetConnectionString200Response
-    | SensorsGetConnectionStringdefaultResponse
+    | SensorsGetConnectionStringDefaultResponse
   >;
 }
 
@@ -1983,7 +2036,7 @@ export interface SensorsRenewConnectionString {
     options: SensorsRenewConnectionStringParameters
   ): StreamableMethod<
     | SensorsRenewConnectionString200Response
-    | SensorsRenewConnectionStringdefaultResponse
+    | SensorsRenewConnectionStringDefaultResponse
   >;
 }
 
@@ -1992,7 +2045,7 @@ export interface SolutionInferenceCancel {
   post(
     options: SolutionInferenceCancelParameters
   ): StreamableMethod<
-    SolutionInferenceCancel200Response | SolutionInferenceCanceldefaultResponse
+    SolutionInferenceCancel200Response | SolutionInferenceCancelDefaultResponse
   >;
 }
 
@@ -2002,7 +2055,7 @@ export interface SolutionInferenceCreateOrUpdate {
     options: SolutionInferenceCreateOrUpdateParameters
   ): StreamableMethod<
     | SolutionInferenceCreateOrUpdate202Response
-    | SolutionInferenceCreateOrUpdatedefaultResponse
+    | SolutionInferenceCreateOrUpdateDefaultResponse
   >;
 }
 
@@ -2011,49 +2064,49 @@ export interface SolutionInferenceFetch {
   post(
     options: SolutionInferenceFetchParameters
   ): StreamableMethod<
-    SolutionInferenceFetch200Response | SolutionInferenceFetchdefaultResponse
+    SolutionInferenceFetch200Response | SolutionInferenceFetchDefaultResponse
   >;
 }
 
-export interface TillageDataListByFarmerId {
+export interface TillageDataListByPartyId {
   /** Returns a paginated list of tillage data resources under a particular farm. */
   get(
-    options?: TillageDataListByFarmerIdParameters
+    options?: TillageDataListByPartyIdParameters
   ): StreamableMethod<
-    | TillageDataListByFarmerId200Response
-    | TillageDataListByFarmerIddefaultResponse
+    | TillageDataListByPartyId200Response
+    | TillageDataListByPartyIdDefaultResponse
   >;
 }
 
 export interface TillageDataGet {
-  /** Get a specified tillage data resource under a particular farmer. */
+  /** Get a specified tillage data resource under a particular party. */
   get(
     options?: TillageDataGetParameters
   ): StreamableMethod<
-    TillageDataGet200Response | TillageDataGetdefaultResponse
+    TillageDataGet200Response | TillageDataGetDefaultResponse
   >;
-  /** Creates or updates an tillage data resource under a particular farmer. */
+  /** Creates or updates an tillage data resource under a particular party. */
   patch(
     options: TillageDataCreateOrUpdateParameters
   ): StreamableMethod<
     | TillageDataCreateOrUpdate200Response
     | TillageDataCreateOrUpdate201Response
-    | TillageDataCreateOrUpdatedefaultResponse
+    | TillageDataCreateOrUpdateDefaultResponse
   >;
-  /** Deletes a specified tillage data resource under a particular farmer. */
+  /** Deletes a specified tillage data resource under a particular party. */
   delete(
     options?: TillageDataDeleteParameters
   ): StreamableMethod<
-    TillageDataDelete204Response | TillageDataDeletedefaultResponse
+    TillageDataDelete204Response | TillageDataDeleteDefaultResponse
   >;
 }
 
 export interface TillageDataList {
-  /** Returns a paginated list of tillage data resources across all farmers. */
+  /** Returns a paginated list of tillage data resources across all parties. */
   get(
     options?: TillageDataListParameters
   ): StreamableMethod<
-    TillageDataList200Response | TillageDataListdefaultResponse
+    TillageDataList200Response | TillageDataListDefaultResponse
   >;
 }
 
@@ -2063,14 +2116,14 @@ export interface TillageDataCreateCascadeDeleteJob {
     options: TillageDataCreateCascadeDeleteJobParameters
   ): StreamableMethod<
     | TillageDataCreateCascadeDeleteJob202Response
-    | TillageDataCreateCascadeDeleteJobdefaultResponse
+    | TillageDataCreateCascadeDeleteJobDefaultResponse
   >;
   /** Get cascade delete job for tillage data resource. */
   get(
     options?: TillageDataGetCascadeDeleteJobDetailsParameters
   ): StreamableMethod<
     | TillageDataGetCascadeDeleteJobDetails200Response
-    | TillageDataGetCascadeDeleteJobDetailsdefaultResponse
+    | TillageDataGetCascadeDeleteJobDetailsDefaultResponse
   >;
 }
 
@@ -2078,7 +2131,7 @@ export interface WeatherList {
   /** Returns a paginated list of weather data. */
   get(
     options: WeatherListParameters
-  ): StreamableMethod<WeatherList200Response | WeatherListdefaultResponse>;
+  ): StreamableMethod<WeatherList200Response | WeatherListDefaultResponse>;
 }
 
 export interface WeatherGetDataDeleteJobDetails {
@@ -2087,14 +2140,14 @@ export interface WeatherGetDataDeleteJobDetails {
     options?: WeatherGetDataDeleteJobDetailsParameters
   ): StreamableMethod<
     | WeatherGetDataDeleteJobDetails200Response
-    | WeatherGetDataDeleteJobDetailsdefaultResponse
+    | WeatherGetDataDeleteJobDetailsDefaultResponse
   >;
   /** Create a weather data delete job. */
   put(
     options: WeatherCreateDataDeleteJobParameters
   ): StreamableMethod<
     | WeatherCreateDataDeleteJob202Response
-    | WeatherCreateDataDeleteJobdefaultResponse
+    | WeatherCreateDataDeleteJobDefaultResponse
   >;
 }
 
@@ -2104,50 +2157,59 @@ export interface WeatherGetDataIngestionJobDetails {
     options?: WeatherGetDataIngestionJobDetailsParameters
   ): StreamableMethod<
     | WeatherGetDataIngestionJobDetails200Response
-    | WeatherGetDataIngestionJobDetailsdefaultResponse
+    | WeatherGetDataIngestionJobDetailsDefaultResponse
   >;
   /** Create a weather data ingestion job. */
   put(
     options: WeatherCreateDataIngestionJobParameters
   ): StreamableMethod<
     | WeatherCreateDataIngestionJob202Response
-    | WeatherCreateDataIngestionJobdefaultResponse
+    | WeatherCreateDataIngestionJobDefaultResponse
   >;
 }
 
-export interface ZonesListByFarmerId {
-  /** Returns a paginated list of zone resources under a particular farmer. */
-  get(
-    options?: ZonesListByFarmerIdParameters
+export interface WeatherDataGet {
+  /** Returns a list of WeatherData. */
+  post(
+    options: WeatherDataGetParameters
   ): StreamableMethod<
-    ZonesListByFarmerId200Response | ZonesListByFarmerIddefaultResponse
+    WeatherDataGet200Response | WeatherDataGetDefaultResponse
+  >;
+}
+
+export interface ZonesListByPartyId {
+  /** Returns a paginated list of zone resources under a particular party. */
+  get(
+    options?: ZonesListByPartyIdParameters
+  ): StreamableMethod<
+    ZonesListByPartyId200Response | ZonesListByPartyIdDefaultResponse
   >;
 }
 
 export interface ZonesGet {
-  /** Gets a specified zone resource under a particular farmer. */
+  /** Gets a specified zone resource under a particular party. */
   get(
     options?: ZonesGetParameters
-  ): StreamableMethod<ZonesGet200Response | ZonesGetdefaultResponse>;
+  ): StreamableMethod<ZonesGet200Response | ZonesGetDefaultResponse>;
   /** Creates or updates a Zone resource. */
   patch(
     options: ZonesCreateOrUpdateParameters
   ): StreamableMethod<
     | ZonesCreateOrUpdate200Response
     | ZonesCreateOrUpdate201Response
-    | ZonesCreateOrUpdatedefaultResponse
+    | ZonesCreateOrUpdateDefaultResponse
   >;
-  /** Deletes a specified zone resource under a particular farmer. */
+  /** Deletes a specified zone resource under a particular party. */
   delete(
     options?: ZonesDeleteParameters
-  ): StreamableMethod<ZonesDelete204Response | ZonesDeletedefaultResponse>;
+  ): StreamableMethod<ZonesDelete204Response | ZonesDeleteDefaultResponse>;
 }
 
 export interface ZonesList {
-  /** Returns a paginated list of zone resources across all farmers. */
+  /** Returns a paginated list of zone resources across all parties. */
   get(
     options?: ZonesListParameters
-  ): StreamableMethod<ZonesList200Response | ZonesListdefaultResponse>;
+  ): StreamableMethod<ZonesList200Response | ZonesListDefaultResponse>;
 }
 
 export interface ZonesGetCascadeDeleteJobDetails {
@@ -2156,14 +2218,14 @@ export interface ZonesGetCascadeDeleteJobDetails {
     options?: ZonesGetCascadeDeleteJobDetailsParameters
   ): StreamableMethod<
     | ZonesGetCascadeDeleteJobDetails200Response
-    | ZonesGetCascadeDeleteJobDetailsdefaultResponse
+    | ZonesGetCascadeDeleteJobDetailsDefaultResponse
   >;
   /** Create a cascade delete job for specified zone. */
   put(
     options: ZonesCreateCascadeDeleteJobParameters
   ): StreamableMethod<
     | ZonesCreateCascadeDeleteJob202Response
-    | ZonesCreateCascadeDeleteJobdefaultResponse
+    | ZonesCreateCascadeDeleteJobDefaultResponse
   >;
 }
 
@@ -2175,32 +2237,32 @@ export interface Routes {
     path: "/application-data/cascade-delete/{jobId}",
     jobId: string
   ): ApplicationDataCreateCascadeDeleteJob;
-  /** Resource for '/farmers/\{farmerId\}/application-data' has methods for the following verbs: get */
+  /** Resource for '/parties/\{partyId\}/application-data' has methods for the following verbs: get */
   (
-    path: "/farmers/{farmerId}/application-data",
-    farmerId: string
-  ): ApplicationDataListByFarmerId;
-  /** Resource for '/farmers/\{farmerId\}/application-data/\{applicationDataId\}' has methods for the following verbs: get, patch, delete */
+    path: "/parties/{partyId}/application-data",
+    partyId: string
+  ): ApplicationDataListByPartyId;
+  /** Resource for '/parties/\{partyId\}/application-data/\{applicationDataId\}' has methods for the following verbs: get, patch, delete */
   (
-    path: "/farmers/{farmerId}/application-data/{applicationDataId}",
-    farmerId: string,
+    path: "/parties/{partyId}/application-data/{applicationDataId}",
+    partyId: string,
     applicationDataId: string
   ): ApplicationDataGet;
-  /** Resource for '/farmers/\{farmerId\}/attachments' has methods for the following verbs: get */
+  /** Resource for '/parties/\{partyId\}/attachments' has methods for the following verbs: get */
   (
-    path: "/farmers/{farmerId}/attachments",
-    farmerId: string
-  ): AttachmentsListByFarmerId;
-  /** Resource for '/farmers/\{farmerId\}/attachments/\{attachmentId\}' has methods for the following verbs: get, patch, delete */
+    path: "/parties/{partyId}/attachments",
+    partyId: string
+  ): AttachmentsListByPartyId;
+  /** Resource for '/parties/\{partyId\}/attachments/\{attachmentId\}' has methods for the following verbs: get, patch, delete */
   (
-    path: "/farmers/{farmerId}/attachments/{attachmentId}",
-    farmerId: string,
+    path: "/parties/{partyId}/attachments/{attachmentId}",
+    partyId: string,
     attachmentId: string
   ): AttachmentsGet;
-  /** Resource for '/farmers/\{farmerId\}/attachments/\{attachmentId\}/file' has methods for the following verbs: get */
+  /** Resource for '/parties/\{partyId\}/attachments/\{attachmentId\}/file' has methods for the following verbs: get */
   (
-    path: "/farmers/{farmerId}/attachments/{attachmentId}/file",
-    farmerId: string,
+    path: "/parties/{partyId}/attachments/{attachmentId}/file",
+    partyId: string,
     attachmentId: string
   ): AttachmentsDownload;
   /** Resource for '/boundaries' has methods for the following verbs: get, post */
@@ -2210,34 +2272,34 @@ export interface Routes {
     path: "/boundaries/cascade-delete/{jobId}",
     jobId: string
   ): BoundariesCreateCascadeDeleteJob;
-  /** Resource for '/farmers/\{farmerId\}/boundaries' has methods for the following verbs: get, post */
+  /** Resource for '/parties/\{partyId\}/boundaries' has methods for the following verbs: get, post */
   (
-    path: "/farmers/{farmerId}/boundaries",
-    farmerId: string
-  ): BoundariesListByFarmerId;
-  /** Resource for '/farmers/\{farmerId\}/boundaries/\{boundaryId\}' has methods for the following verbs: patch, get, delete */
+    path: "/parties/{partyId}/boundaries",
+    partyId: string
+  ): BoundariesListByPartyId;
+  /** Resource for '/parties/\{partyId\}/boundaries/\{boundaryId\}' has methods for the following verbs: patch, get, delete */
   (
-    path: "/farmers/{farmerId}/boundaries/{boundaryId}",
-    farmerId: string,
+    path: "/parties/{partyId}/boundaries/{boundaryId}",
+    partyId: string,
     boundaryId: string
   ): BoundariesCreateOrUpdate;
-  /** Resource for '/farmers/\{farmerId\}/boundaries/\{boundaryId\}/overlap' has methods for the following verbs: get */
+  /** Resource for '/parties/\{partyId\}/boundaries/\{boundaryId\}/overlap' has methods for the following verbs: get */
   (
-    path: "/farmers/{farmerId}/boundaries/{boundaryId}/overlap",
-    farmerId: string,
+    path: "/parties/{partyId}/boundaries/{boundaryId}/overlap",
+    partyId: string,
     boundaryId: string
   ): BoundariesGetOverlap;
+  /** Resource for '/crop-products' has methods for the following verbs: get */
+  (path: "/crop-products"): CropProductsList;
+  /** Resource for '/crop-products/\{cropProductId\}' has methods for the following verbs: get, patch, delete */
+  (
+    path: "/crop-products/{cropProductId}",
+    cropProductId: string
+  ): CropProductsGet;
   /** Resource for '/crops' has methods for the following verbs: get */
   (path: "/crops"): CropsList;
   /** Resource for '/crops/\{cropId\}' has methods for the following verbs: get, patch, delete */
   (path: "/crops/{cropId}", cropId: string): CropsGet;
-  /** Resource for '/crop-varieties' has methods for the following verbs: get */
-  (path: "/crop-varieties"): CropVarietiesList;
-  /** Resource for '/crop-varieties/\{cropVarietyId\}' has methods for the following verbs: get, patch, delete */
-  (
-    path: "/crop-varieties/{cropVarietyId}",
-    cropVarietyId: string
-  ): CropVarietiesGet;
   /** Resource for '/sensor-partners/\{sensorPartnerId\}/device-data-models' has methods for the following verbs: get */
   (
     path: "/sensor-partners/{sensorPartnerId}/device-data-models",
@@ -2260,28 +2322,11 @@ export interface Routes {
     sensorPartnerId: string,
     deviceId: string
   ): DevicesCreateOrUpdate;
-  /** Resource for '/farmers' has methods for the following verbs: get */
-  (path: "/farmers"): FarmersList;
-  /** Resource for '/farmers/\{farmerId\}' has methods for the following verbs: get, patch, delete */
-  (path: "/farmers/{farmerId}", farmerId: string): FarmersGet;
-  /** Resource for '/farmers/cascade-delete/\{jobId\}' has methods for the following verbs: put, get */
-  (
-    path: "/farmers/cascade-delete/{jobId}",
-    jobId: string
-  ): FarmersCreateCascadeDeleteJob;
   /** Resource for '/farm-operations/ingest-data/\{jobId\}' has methods for the following verbs: put, get */
   (
     path: "/farm-operations/ingest-data/{jobId}",
     jobId: string
   ): FarmOperationsCreateDataIngestionJob;
-  /** Resource for '/farmers/\{farmerId\}/farms' has methods for the following verbs: get */
-  (path: "/farmers/{farmerId}/farms", farmerId: string): FarmsListByFarmerId;
-  /** Resource for '/farmers/\{farmerId\}/farms/\{farmId\}' has methods for the following verbs: get, patch, delete */
-  (
-    path: "/farmers/{farmerId}/farms/{farmId}",
-    farmerId: string,
-    farmId: string
-  ): FarmsGet;
   /** Resource for '/farms' has methods for the following verbs: get */
   (path: "/farms"): FarmsList;
   /** Resource for '/farms/cascade-delete/\{jobId\}' has methods for the following verbs: put, get */
@@ -2289,32 +2334,29 @@ export interface Routes {
     path: "/farms/cascade-delete/{jobId}",
     jobId: string
   ): FarmsCreateCascadeDeleteJob;
-  /** Resource for '/farmers/\{farmerId\}/fields' has methods for the following verbs: get */
-  (path: "/farmers/{farmerId}/fields", farmerId: string): FieldsListByFarmerId;
-  /** Resource for '/farmers/\{farmerId\}/fields/\{fieldId\}' has methods for the following verbs: get, patch, delete */
+  /** Resource for '/parties/\{partyId\}/farms' has methods for the following verbs: get */
+  (path: "/parties/{partyId}/farms", partyId: string): FarmsListByPartyId;
+  /** Resource for '/parties/\{partyId\}/farms/\{farmId\}' has methods for the following verbs: get, patch, delete */
   (
-    path: "/farmers/{farmerId}/fields/{fieldId}",
-    farmerId: string,
-    fieldId: string
-  ): FieldsGet;
+    path: "/parties/{partyId}/farms/{farmId}",
+    partyId: string,
+    farmId: string
+  ): FarmsGet;
   /** Resource for '/fields' has methods for the following verbs: get */
   (path: "/fields"): FieldsList;
-  /** Resource for '/fields/cascade-delete/\{jobId\}' has methods for the following verbs: put, get */
+  /** Resource for '/fields/cascade-delete/\{jobId\}' has methods for the following verbs: get, put */
   (
     path: "/fields/cascade-delete/{jobId}",
     jobId: string
-  ): FieldsCreateCascadeDeleteJob;
-  /** Resource for '/farmers/\{farmerId\}/harvest-data' has methods for the following verbs: get */
+  ): FieldsGetCascadeDeleteJobDetails;
+  /** Resource for '/parties/\{partyId\}/fields' has methods for the following verbs: get */
+  (path: "/parties/{partyId}/fields", partyId: string): FieldsListByPartyId;
+  /** Resource for '/parties/\{partyId\}/fields/\{fieldId\}' has methods for the following verbs: get, patch, delete */
   (
-    path: "/farmers/{farmerId}/harvest-data",
-    farmerId: string
-  ): HarvestDataListByFarmerId;
-  /** Resource for '/farmers/\{farmerId\}/harvest-data/\{harvestDataId\}' has methods for the following verbs: get, patch, delete */
-  (
-    path: "/farmers/{farmerId}/harvest-data/{harvestDataId}",
-    farmerId: string,
-    harvestDataId: string
-  ): HarvestDataGet;
+    path: "/parties/{partyId}/fields/{fieldId}",
+    partyId: string,
+    fieldId: string
+  ): FieldsGet;
   /** Resource for '/harvest-data' has methods for the following verbs: get */
   (path: "/harvest-data"): HarvestDataList;
   /** Resource for '/harvest-data/cascade-delete/\{jobId\}' has methods for the following verbs: put, get */
@@ -2322,70 +2364,70 @@ export interface Routes {
     path: "/harvest-data/cascade-delete/{jobId}",
     jobId: string
   ): HarvestDataCreateCascadeDeleteJob;
+  /** Resource for '/parties/\{partyId\}/harvest-data' has methods for the following verbs: get */
+  (
+    path: "/parties/{partyId}/harvest-data",
+    partyId: string
+  ): HarvestDataListByPartyId;
+  /** Resource for '/parties/\{partyId\}/harvest-data/\{harvestDataId\}' has methods for the following verbs: get, patch, delete */
+  (
+    path: "/parties/{partyId}/harvest-data/{harvestDataId}",
+    partyId: string,
+    harvestDataId: string
+  ): HarvestDataGet;
   /** Resource for '/image-processing/rasterize/\{jobId\}' has methods for the following verbs: put, get */
   (
     path: "/image-processing/rasterize/{jobId}",
     jobId: string
   ): ImageProcessingCreateRasterizeJob;
-  /** Resource for '/farmers/\{farmerId\}/models/\{modelId\}/resource-types/\{resourceType\}/resources/\{resourceId\}/insight-attachments' has methods for the following verbs: get */
+  /** Resource for '/parties/\{partyId\}/models/\{modelId\}/resource-types/\{resourceType\}/resources/\{resourceId\}/insight-attachments' has methods for the following verbs: get */
   (
-    path: "/farmers/{farmerId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insight-attachments",
-    farmerId: string,
+    path: "/parties/{partyId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insight-attachments",
+    partyId: string,
     modelId: string,
     resourceType: string,
     resourceId: string
-  ): InsightAttachmentsListByFarmerIdModelIdAndResource;
-  /** Resource for '/farmers/\{farmerId\}/models/\{modelId\}/resource-types/\{resourceType\}/resources/\{resourceId\}/insight-attachments/\{insightAttachmentId\}' has methods for the following verbs: patch, get, delete */
+  ): InsightAttachmentsListByPartyIdModelIdAndResource;
+  /** Resource for '/parties/\{partyId\}/models/\{modelId\}/resource-types/\{resourceType\}/resources/\{resourceId\}/insight-attachments/\{insightAttachmentId\}' has methods for the following verbs: patch, get, delete */
   (
-    path: "/farmers/{farmerId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insight-attachments/{insightAttachmentId}",
-    farmerId: string,
+    path: "/parties/{partyId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insight-attachments/{insightAttachmentId}",
+    partyId: string,
     modelId: string,
     resourceType: string,
     resourceId: string,
     insightAttachmentId: string
   ): InsightAttachmentsCreateOrUpdate;
-  /** Resource for '/farmers/\{farmerId\}/models/\{modelId\}/resource-types/\{resourceType\}/resources/\{resourceId\}/insight-attachments/\{insightAttachmentId\}/file' has methods for the following verbs: get */
+  /** Resource for '/parties/\{partyId\}/models/\{modelId\}/resource-types/\{resourceType\}/resources/\{resourceId\}/insight-attachments/\{insightAttachmentId\}/file' has methods for the following verbs: get */
   (
-    path: "/farmers/{farmerId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insight-attachments/{insightAttachmentId}/file",
-    farmerId: string,
+    path: "/parties/{partyId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insight-attachments/{insightAttachmentId}/file",
+    partyId: string,
     modelId: string,
     resourceType: string,
     resourceId: string,
     insightAttachmentId: string
   ): InsightAttachmentsDownload;
-  /** Resource for '/farmers/\{farmerId\}/models/\{modelId\}/resource-types/\{resourceType\}/resources/\{resourceId\}/insights' has methods for the following verbs: get */
-  (
-    path: "/farmers/{farmerId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insights",
-    farmerId: string,
-    modelId: string,
-    resourceType: string,
-    resourceId: string
-  ): InsightsListByFarmerIdModelIdAndResource;
-  /** Resource for '/farmers/\{farmerId\}/models/\{modelId\}/resource-types/\{resourceType\}/resources/\{resourceId\}/insights/\{insightId\}' has methods for the following verbs: patch, get, delete */
-  (
-    path: "/farmers/{farmerId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insights/{insightId}",
-    farmerId: string,
-    modelId: string,
-    resourceType: string,
-    resourceId: string,
-    insightId: string
-  ): InsightsCreateOrUpdate;
   /** Resource for '/insights/cascade-delete/\{jobId\}' has methods for the following verbs: put, get */
   (
     path: "/insights/cascade-delete/{jobId}",
     jobId: string
   ): InsightsCreateCascadeDeleteJob;
-  /** Resource for '/farmers/\{farmerId\}/management-zones' has methods for the following verbs: get */
+  /** Resource for '/parties/\{partyId\}/models/\{modelId\}/resource-types/\{resourceType\}/resources/\{resourceId\}/insights' has methods for the following verbs: get */
   (
-    path: "/farmers/{farmerId}/management-zones",
-    farmerId: string
-  ): ManagementZonesListByFarmerId;
-  /** Resource for '/farmers/\{farmerId\}/management-zones/\{managementZoneId\}' has methods for the following verbs: get, patch, delete */
+    path: "/parties/{partyId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insights",
+    partyId: string,
+    modelId: string,
+    resourceType: string,
+    resourceId: string
+  ): InsightsListByPartyIdModelIdAndResource;
+  /** Resource for '/parties/\{partyId\}/models/\{modelId\}/resource-types/\{resourceType\}/resources/\{resourceId\}/insights/\{insightId\}' has methods for the following verbs: patch, get, delete */
   (
-    path: "/farmers/{farmerId}/management-zones/{managementZoneId}",
-    farmerId: string,
-    managementZoneId: string
-  ): ManagementZonesGet;
+    path: "/parties/{partyId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insights/{insightId}",
+    partyId: string,
+    modelId: string,
+    resourceType: string,
+    resourceId: string,
+    insightId: string
+  ): InsightsCreateOrUpdate;
   /** Resource for '/management-zones' has methods for the following verbs: get */
   (path: "/management-zones"): ManagementZonesList;
   /** Resource for '/management-zones/cascade-delete/\{jobId\}' has methods for the following verbs: get, put */
@@ -2393,29 +2435,45 @@ export interface Routes {
     path: "/management-zones/cascade-delete/{jobId}",
     jobId: string
   ): ManagementZonesGetCascadeDeleteJobDetails;
+  /** Resource for '/parties/\{partyId\}/management-zones' has methods for the following verbs: get */
+  (
+    path: "/parties/{partyId}/management-zones",
+    partyId: string
+  ): ManagementZonesListByPartyId;
+  /** Resource for '/parties/\{partyId\}/management-zones/\{managementZoneId\}' has methods for the following verbs: get, patch, delete */
+  (
+    path: "/parties/{partyId}/management-zones/{managementZoneId}",
+    partyId: string,
+    managementZoneId: string
+  ): ManagementZonesGet;
   /** Resource for '/model-inference/models/microsoft-biomass/infer-data/\{jobId\}' has methods for the following verbs: put, get */
   (
     path: "/model-inference/models/microsoft-biomass/infer-data/{jobId}",
     jobId: string
   ): ModelInferenceCreateBiomassModelJob;
+  /** Resource for '/model-inference/models/microsoft-sensor-placement/infer-data/\{jobId\}' has methods for the following verbs: put, get */
+  (
+    path: "/model-inference/models/microsoft-sensor-placement/infer-data/{jobId}",
+    jobId: string
+  ): ModelInferenceCreateSensorPlacementModelJob;
   /** Resource for '/model-inference/models/microsoft-soil-moisture/infer-data/\{jobId\}' has methods for the following verbs: put, get */
   (
     path: "/model-inference/models/microsoft-soil-moisture/infer-data/{jobId}",
     jobId: string
   ): ModelInferenceCreateSoilMoistureModelJob;
-  /** Resource for '/farmers/\{farmerId\}/nutrient-analyses' has methods for the following verbs: get */
-  (
-    path: "/farmers/{farmerId}/nutrient-analyses",
-    farmerId: string
-  ): NutrientAnalysesListByFarmerId;
-  /** Resource for '/farmers/\{farmerId\}/nutrient-analyses/\{nutrientAnalysisId\}' has methods for the following verbs: get, patch, delete */
-  (
-    path: "/farmers/{farmerId}/nutrient-analyses/{nutrientAnalysisId}",
-    farmerId: string,
-    nutrientAnalysisId: string
-  ): NutrientAnalysesGet;
   /** Resource for '/nutrient-analyses' has methods for the following verbs: get */
   (path: "/nutrient-analyses"): NutrientAnalysesList;
+  /** Resource for '/parties/\{partyId\}/nutrient-analyses' has methods for the following verbs: get */
+  (
+    path: "/parties/{partyId}/nutrient-analyses",
+    partyId: string
+  ): NutrientAnalysesListByPartyId;
+  /** Resource for '/parties/\{partyId\}/nutrient-analyses/\{nutrientAnalysisId\}' has methods for the following verbs: get, patch, delete */
+  (
+    path: "/parties/{partyId}/nutrient-analyses/{nutrientAnalysisId}",
+    partyId: string,
+    nutrientAnalysisId: string
+  ): NutrientAnalysesGet;
   /** Resource for '/oauth/providers' has methods for the following verbs: get */
   (path: "/oauth/providers"): OAuthProvidersList;
   /** Resource for '/oauth/providers/\{oauthProviderId\}' has methods for the following verbs: get, patch, delete */
@@ -2432,20 +2490,29 @@ export interface Routes {
   (path: "/oauth/tokens"): OAuthTokensList;
   /** Resource for '/oauth/tokens/:connect' has methods for the following verbs: post */
   (path: "/oauth/tokens/:connect"): OAuthTokensGetOAuthConnectionLink;
-  /** Resource for '/oauth/tokens/remove/\{jobId\}' has methods for the following verbs: put, get */
+  /** Resource for '/oauth/tokens/remove/\{jobId\}' has methods for the following verbs: get, put */
   (
     path: "/oauth/tokens/remove/{jobId}",
     jobId: string
-  ): OAuthTokensCreateCascadeDeleteJob;
-  /** Resource for '/farmers/\{farmerId\}/planting-data' has methods for the following verbs: get */
+  ): OAuthTokensGetCascadeDeleteJobDetails;
+  /** Resource for '/parties' has methods for the following verbs: get */
+  (path: "/parties"): PartiesList;
+  /** Resource for '/parties/\{partyId\}' has methods for the following verbs: get, patch, delete */
+  (path: "/parties/{partyId}", partyId: string): PartiesGet;
+  /** Resource for '/parties/cascade-delete/\{jobId\}' has methods for the following verbs: get, put */
   (
-    path: "/farmers/{farmerId}/planting-data",
-    farmerId: string
-  ): PlantingDataListByFarmerId;
-  /** Resource for '/farmers/\{farmerId\}/planting-data/\{plantingDataId\}' has methods for the following verbs: get, patch, delete */
+    path: "/parties/cascade-delete/{jobId}",
+    jobId: string
+  ): PartiesGetCascadeDeleteJobDetails;
+  /** Resource for '/parties/\{partyId\}/planting-data' has methods for the following verbs: get */
   (
-    path: "/farmers/{farmerId}/planting-data/{plantingDataId}",
-    farmerId: string,
+    path: "/parties/{partyId}/planting-data",
+    partyId: string
+  ): PlantingDataListByPartyId;
+  /** Resource for '/parties/\{partyId\}/planting-data/\{plantingDataId\}' has methods for the following verbs: get, patch, delete */
+  (
+    path: "/parties/{partyId}/planting-data/{plantingDataId}",
+    partyId: string,
     plantingDataId: string
   ): PlantingDataGet;
   /** Resource for '/planting-data' has methods for the following verbs: get */
@@ -2455,15 +2522,15 @@ export interface Routes {
     path: "/planting-data/cascade-delete/{jobId}",
     jobId: string
   ): PlantingDataCreateCascadeDeleteJob;
-  /** Resource for '/farmers/\{farmerId\}/plant-tissue-analyses' has methods for the following verbs: get */
+  /** Resource for '/parties/\{partyId\}/plant-tissue-analyses' has methods for the following verbs: get */
   (
-    path: "/farmers/{farmerId}/plant-tissue-analyses",
-    farmerId: string
-  ): PlantTissueAnalysesListByFarmerId;
-  /** Resource for '/farmers/\{farmerId\}/plant-tissue-analyses/\{plantTissueAnalysisId\}' has methods for the following verbs: get, patch, delete */
+    path: "/parties/{partyId}/plant-tissue-analyses",
+    partyId: string
+  ): PlantTissueAnalysesListByPartyId;
+  /** Resource for '/parties/\{partyId\}/plant-tissue-analyses/\{plantTissueAnalysisId\}' has methods for the following verbs: get, patch, delete */
   (
-    path: "/farmers/{farmerId}/plant-tissue-analyses/{plantTissueAnalysisId}",
-    farmerId: string,
+    path: "/parties/{partyId}/plant-tissue-analyses/{plantTissueAnalysisId}",
+    partyId: string,
     plantTissueAnalysisId: string
   ): PlantTissueAnalysesGet;
   /** Resource for '/plant-tissue-analyses' has methods for the following verbs: get */
@@ -2473,15 +2540,15 @@ export interface Routes {
     path: "/plant-tissue-analyses/cascade-delete/{jobId}",
     jobId: string
   ): PlantTissueAnalysesCreateCascadeDeleteJob;
-  /** Resource for '/farmers/\{farmerId\}/prescription-maps' has methods for the following verbs: get */
+  /** Resource for '/parties/\{partyId\}/prescription-maps' has methods for the following verbs: get */
   (
-    path: "/farmers/{farmerId}/prescription-maps",
-    farmerId: string
-  ): PrescriptionMapsListByFarmerId;
-  /** Resource for '/farmers/\{farmerId\}/prescription-maps/\{prescriptionMapId\}' has methods for the following verbs: get, patch, delete */
+    path: "/parties/{partyId}/prescription-maps",
+    partyId: string
+  ): PrescriptionMapsListByPartyId;
+  /** Resource for '/parties/\{partyId\}/prescription-maps/\{prescriptionMapId\}' has methods for the following verbs: get, patch, delete */
   (
-    path: "/farmers/{farmerId}/prescription-maps/{prescriptionMapId}",
-    farmerId: string,
+    path: "/parties/{partyId}/prescription-maps/{prescriptionMapId}",
+    partyId: string,
     prescriptionMapId: string
   ): PrescriptionMapsGet;
   /** Resource for '/prescription-maps' has methods for the following verbs: get */
@@ -2491,15 +2558,15 @@ export interface Routes {
     path: "/prescription-maps/cascade-delete/{jobId}",
     jobId: string
   ): PrescriptionMapsGetCascadeDeleteJobDetails;
-  /** Resource for '/farmers/\{farmerId\}/prescriptions' has methods for the following verbs: get */
+  /** Resource for '/parties/\{partyId\}/prescriptions' has methods for the following verbs: get */
   (
-    path: "/farmers/{farmerId}/prescriptions",
-    farmerId: string
-  ): PrescriptionsListByFarmerId;
-  /** Resource for '/farmers/\{farmerId\}/prescriptions/\{prescriptionId\}' has methods for the following verbs: get, patch, delete */
+    path: "/parties/{partyId}/prescriptions",
+    partyId: string
+  ): PrescriptionsListByPartyId;
+  /** Resource for '/parties/\{partyId\}/prescriptions/\{prescriptionId\}' has methods for the following verbs: get, patch, delete */
   (
-    path: "/farmers/{farmerId}/prescriptions/{prescriptionId}",
-    farmerId: string,
+    path: "/parties/{partyId}/prescriptions/{prescriptionId}",
+    partyId: string,
     prescriptionId: string
   ): PrescriptionsGet;
   /** Resource for '/prescriptions' has methods for the following verbs: get */
@@ -2518,24 +2585,35 @@ export interface Routes {
     path: "/scenes/satellite/ingest-data/{jobId}",
     jobId: string
   ): ScenesCreateSatelliteDataIngestionJob;
-  /** Resource for '/farmers/\{farmerId\}/seasonal-fields' has methods for the following verbs: get */
+  /** Resource for '/scenes/stac-collections/\{collectionId\}:search' has methods for the following verbs: post */
   (
-    path: "/farmers/{farmerId}/seasonal-fields",
-    farmerId: string
-  ): SeasonalFieldsListByFarmerId;
-  /** Resource for '/farmers/\{farmerId\}/seasonal-fields/\{seasonalFieldId\}' has methods for the following verbs: get, patch, delete */
+    path: "/scenes/stac-collections/{collectionId}:search",
+    collectionId: "Sentinel_2_L2A" | "Sentinel_2_L1C"
+  ): ScenesSearchFeatures;
+  /** Resource for '/scenes/stac-collections/\{collectionId\}/features/\{featureId\}' has methods for the following verbs: get */
   (
-    path: "/farmers/{farmerId}/seasonal-fields/{seasonalFieldId}",
-    farmerId: string,
+    path: "/scenes/stac-collections/{collectionId}/features/{featureId}",
+    collectionId: "Sentinel_2_L2A" | "Sentinel_2_L1C",
+    featureId: string
+  ): ScenesGetStacFeature;
+  /** Resource for '/parties/\{partyId\}/seasonal-fields' has methods for the following verbs: get */
+  (
+    path: "/parties/{partyId}/seasonal-fields",
+    partyId: string
+  ): SeasonalFieldsListByPartyId;
+  /** Resource for '/parties/\{partyId\}/seasonal-fields/\{seasonalFieldId\}' has methods for the following verbs: get, patch, delete */
+  (
+    path: "/parties/{partyId}/seasonal-fields/{seasonalFieldId}",
+    partyId: string,
     seasonalFieldId: string
   ): SeasonalFieldsGet;
   /** Resource for '/seasonal-fields' has methods for the following verbs: get */
   (path: "/seasonal-fields"): SeasonalFieldsList;
-  /** Resource for '/seasonal-fields/cascade-delete/\{jobId\}' has methods for the following verbs: put, get */
+  /** Resource for '/seasonal-fields/cascade-delete/\{jobId\}' has methods for the following verbs: get, put */
   (
     path: "/seasonal-fields/cascade-delete/{jobId}",
     jobId: string
-  ): SeasonalFieldsCreateCascadeDeleteJob;
+  ): SeasonalFieldsGetCascadeDeleteJobDetails;
   /** Resource for '/seasons' has methods for the following verbs: get */
   (path: "/seasons"): SeasonsList;
   /** Resource for '/seasons/\{seasonId\}' has methods for the following verbs: get, patch, delete */
@@ -2621,15 +2699,15 @@ export interface Routes {
     path: "/solutions/{solutionId}:fetch",
     solutionId: string
   ): SolutionInferenceFetch;
-  /** Resource for '/farmers/\{farmerId\}/tillage-data' has methods for the following verbs: get */
+  /** Resource for '/parties/\{partyId\}/tillage-data' has methods for the following verbs: get */
   (
-    path: "/farmers/{farmerId}/tillage-data",
-    farmerId: string
-  ): TillageDataListByFarmerId;
-  /** Resource for '/farmers/\{farmerId\}/tillage-data/\{tillageDataId\}' has methods for the following verbs: get, patch, delete */
+    path: "/parties/{partyId}/tillage-data",
+    partyId: string
+  ): TillageDataListByPartyId;
+  /** Resource for '/parties/\{partyId\}/tillage-data/\{tillageDataId\}' has methods for the following verbs: get, patch, delete */
   (
-    path: "/farmers/{farmerId}/tillage-data/{tillageDataId}",
-    farmerId: string,
+    path: "/parties/{partyId}/tillage-data/{tillageDataId}",
+    partyId: string,
     tillageDataId: string
   ): TillageDataGet;
   /** Resource for '/tillage-data' has methods for the following verbs: get */
@@ -2651,12 +2729,14 @@ export interface Routes {
     path: "/weather/ingest-data/{jobId}",
     jobId: string
   ): WeatherGetDataIngestionJobDetails;
-  /** Resource for '/farmers/\{farmerId\}/zones' has methods for the following verbs: get */
-  (path: "/farmers/{farmerId}/zones", farmerId: string): ZonesListByFarmerId;
-  /** Resource for '/farmers/\{farmerId\}/zones/\{zoneId\}' has methods for the following verbs: get, patch, delete */
+  /** Resource for '/weather-data/:fetch' has methods for the following verbs: post */
+  (path: "/weather-data/:fetch"): WeatherDataGet;
+  /** Resource for '/parties/\{partyId\}/zones' has methods for the following verbs: get */
+  (path: "/parties/{partyId}/zones", partyId: string): ZonesListByPartyId;
+  /** Resource for '/parties/\{partyId\}/zones/\{zoneId\}' has methods for the following verbs: get, patch, delete */
   (
-    path: "/farmers/{farmerId}/zones/{zoneId}",
-    farmerId: string,
+    path: "/parties/{partyId}/zones/{zoneId}",
+    partyId: string,
     zoneId: string
   ): ZonesGet;
   /** Resource for '/zones' has methods for the following verbs: get */

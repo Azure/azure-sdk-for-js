@@ -3,451 +3,463 @@
 
 import {
   ApplicationDataList200Response,
-  ApplicationDataListdefaultResponse,
+  ApplicationDataListDefaultResponse,
   ApplicationDataCreateCascadeDeleteJob202Response,
-  ApplicationDataCreateCascadeDeleteJobdefaultResponse,
+  ApplicationDataCreateCascadeDeleteJobDefaultResponse,
   ApplicationDataGetCascadeDeleteJobDetails200Response,
-  ApplicationDataGetCascadeDeleteJobDetailsdefaultResponse,
-  ApplicationDataListByFarmerId200Response,
-  ApplicationDataListByFarmerIddefaultResponse,
+  ApplicationDataGetCascadeDeleteJobDetailsDefaultResponse,
+  ApplicationDataListByPartyId200Response,
+  ApplicationDataListByPartyIdDefaultResponse,
   ApplicationDataGet200Response,
-  ApplicationDataGetdefaultResponse,
+  ApplicationDataGetDefaultResponse,
   ApplicationDataCreateOrUpdate200Response,
   ApplicationDataCreateOrUpdate201Response,
-  ApplicationDataCreateOrUpdatedefaultResponse,
+  ApplicationDataCreateOrUpdateDefaultResponse,
   ApplicationDataDelete204Response,
-  ApplicationDataDeletedefaultResponse,
-  AttachmentsListByFarmerId200Response,
-  AttachmentsListByFarmerIddefaultResponse,
+  ApplicationDataDeleteDefaultResponse,
+  AttachmentsListByPartyId200Response,
+  AttachmentsListByPartyIdDefaultResponse,
   AttachmentsGet200Response,
-  AttachmentsGetdefaultResponse,
+  AttachmentsGetDefaultResponse,
   AttachmentsCreateOrUpdate200Response,
   AttachmentsCreateOrUpdate201Response,
-  AttachmentsCreateOrUpdatedefaultResponse,
+  AttachmentsCreateOrUpdateDefaultResponse,
   AttachmentsDelete204Response,
-  AttachmentsDeletedefaultResponse,
+  AttachmentsDeleteDefaultResponse,
   AttachmentsDownload200Response,
-  AttachmentsDownloaddefaultResponse,
+  AttachmentsDownloadDefaultResponse,
   BoundariesList200Response,
-  BoundariesListdefaultResponse,
+  BoundariesListDefaultResponse,
   BoundariesSearch200Response,
-  BoundariesSearchdefaultResponse,
+  BoundariesSearchDefaultResponse,
   BoundariesCreateCascadeDeleteJob202Response,
-  BoundariesCreateCascadeDeleteJobdefaultResponse,
+  BoundariesCreateCascadeDeleteJobDefaultResponse,
   BoundariesGetCascadeDeleteJobDetails200Response,
-  BoundariesGetCascadeDeleteJobDetailsdefaultResponse,
-  BoundariesListByFarmerId200Response,
-  BoundariesListByFarmerIddefaultResponse,
-  BoundariesSearchByFarmerId200Response,
-  BoundariesSearchByFarmerIddefaultResponse,
+  BoundariesGetCascadeDeleteJobDetailsDefaultResponse,
+  BoundariesListByPartyId200Response,
+  BoundariesListByPartyIdDefaultResponse,
+  BoundariesSearchByPartyId200Response,
+  BoundariesSearchByPartyIdDefaultResponse,
   BoundariesCreateOrUpdate200Response,
   BoundariesCreateOrUpdate201Response,
-  BoundariesCreateOrUpdatedefaultResponse,
+  BoundariesCreateOrUpdateDefaultResponse,
   BoundariesGet200Response,
-  BoundariesGetdefaultResponse,
+  BoundariesGetDefaultResponse,
   BoundariesDelete204Response,
-  BoundariesDeletedefaultResponse,
+  BoundariesDeleteDefaultResponse,
   BoundariesGetOverlap200Response,
-  BoundariesGetOverlapdefaultResponse,
+  BoundariesGetOverlapDefaultResponse,
+  CropProductsList200Response,
+  CropProductsListDefaultResponse,
+  CropProductsGet200Response,
+  CropProductsGetDefaultResponse,
+  CropProductsCreateOrUpdate200Response,
+  CropProductsCreateOrUpdate201Response,
+  CropProductsCreateOrUpdateDefaultResponse,
+  CropProductsDelete204Response,
+  CropProductsDeleteDefaultResponse,
   CropsList200Response,
-  CropsListdefaultResponse,
+  CropsListDefaultResponse,
   CropsGet200Response,
-  CropsGetdefaultResponse,
+  CropsGetDefaultResponse,
   CropsCreateOrUpdate200Response,
   CropsCreateOrUpdate201Response,
-  CropsCreateOrUpdatedefaultResponse,
+  CropsCreateOrUpdateDefaultResponse,
   CropsDelete204Response,
-  CropsDeletedefaultResponse,
-  CropVarietiesList200Response,
-  CropVarietiesListdefaultResponse,
-  CropVarietiesGet200Response,
-  CropVarietiesGetdefaultResponse,
-  CropVarietiesCreateOrUpdate200Response,
-  CropVarietiesCreateOrUpdate201Response,
-  CropVarietiesCreateOrUpdatedefaultResponse,
-  CropVarietiesDelete204Response,
-  CropVarietiesDeletedefaultResponse,
+  CropsDeleteDefaultResponse,
   DeviceDataModelsList200Response,
-  DeviceDataModelsListdefaultResponse,
+  DeviceDataModelsListDefaultResponse,
   DeviceDataModelsCreateOrUpdate200Response,
   DeviceDataModelsCreateOrUpdate201Response,
-  DeviceDataModelsCreateOrUpdatedefaultResponse,
+  DeviceDataModelsCreateOrUpdateDefaultResponse,
   DeviceDataModelsGet200Response,
-  DeviceDataModelsGetdefaultResponse,
+  DeviceDataModelsGetDefaultResponse,
   DeviceDataModelsDelete204Response,
-  DeviceDataModelsDeletedefaultResponse,
+  DeviceDataModelsDeleteDefaultResponse,
   DevicesList200Response,
-  DevicesListdefaultResponse,
+  DevicesListDefaultResponse,
   DevicesCreateOrUpdate200Response,
   DevicesCreateOrUpdate201Response,
-  DevicesCreateOrUpdatedefaultResponse,
+  DevicesCreateOrUpdateDefaultResponse,
   DevicesGet200Response,
-  DevicesGetdefaultResponse,
+  DevicesGetDefaultResponse,
   DevicesDelete204Response,
-  DevicesDeletedefaultResponse,
-  FarmersList200Response,
-  FarmersListdefaultResponse,
-  FarmersGet200Response,
-  FarmersGetdefaultResponse,
-  FarmersCreateOrUpdate200Response,
-  FarmersCreateOrUpdate201Response,
-  FarmersCreateOrUpdatedefaultResponse,
-  FarmersDelete204Response,
-  FarmersDeletedefaultResponse,
-  FarmersCreateCascadeDeleteJob202Response,
-  FarmersCreateCascadeDeleteJobdefaultResponse,
-  FarmersGetCascadeDeleteJobDetails200Response,
-  FarmersGetCascadeDeleteJobDetailsdefaultResponse,
+  DevicesDeleteDefaultResponse,
   FarmOperationsCreateDataIngestionJob202Response,
-  FarmOperationsCreateDataIngestionJobdefaultResponse,
+  FarmOperationsCreateDataIngestionJobDefaultResponse,
   FarmOperationsGetDataIngestionJobDetails200Response,
-  FarmOperationsGetDataIngestionJobDetailsdefaultResponse,
-  FarmsListByFarmerId200Response,
-  FarmsListByFarmerIddefaultResponse,
+  FarmOperationsGetDataIngestionJobDetailsDefaultResponse,
+  FarmsList200Response,
+  FarmsListDefaultResponse,
+  FarmsCreateCascadeDeleteJob202Response,
+  FarmsCreateCascadeDeleteJobDefaultResponse,
+  FarmsGetCascadeDeleteJobDetails200Response,
+  FarmsGetCascadeDeleteJobDetailsDefaultResponse,
+  FarmsListByPartyId200Response,
+  FarmsListByPartyIdDefaultResponse,
   FarmsGet200Response,
-  FarmsGetdefaultResponse,
+  FarmsGetDefaultResponse,
   FarmsCreateOrUpdate200Response,
   FarmsCreateOrUpdate201Response,
-  FarmsCreateOrUpdatedefaultResponse,
+  FarmsCreateOrUpdateDefaultResponse,
   FarmsDelete204Response,
-  FarmsDeletedefaultResponse,
-  FarmsList200Response,
-  FarmsListdefaultResponse,
-  FarmsCreateCascadeDeleteJob202Response,
-  FarmsCreateCascadeDeleteJobdefaultResponse,
-  FarmsGetCascadeDeleteJobDetails200Response,
-  FarmsGetCascadeDeleteJobDetailsdefaultResponse,
-  FieldsListByFarmerId200Response,
-  FieldsListByFarmerIddefaultResponse,
+  FarmsDeleteDefaultResponse,
+  FieldsList200Response,
+  FieldsListDefaultResponse,
+  FieldsGetCascadeDeleteJobDetails200Response,
+  FieldsGetCascadeDeleteJobDetailsDefaultResponse,
+  FieldsCreateCascadeDeleteJob202Response,
+  FieldsCreateCascadeDeleteJobDefaultResponse,
+  FieldsListByPartyId200Response,
+  FieldsListByPartyIdDefaultResponse,
   FieldsGet200Response,
-  FieldsGetdefaultResponse,
+  FieldsGetDefaultResponse,
   FieldsCreateOrUpdate200Response,
   FieldsCreateOrUpdate201Response,
-  FieldsCreateOrUpdatedefaultResponse,
+  FieldsCreateOrUpdateDefaultResponse,
   FieldsDelete204Response,
-  FieldsDeletedefaultResponse,
-  FieldsList200Response,
-  FieldsListdefaultResponse,
-  FieldsCreateCascadeDeleteJob202Response,
-  FieldsCreateCascadeDeleteJobdefaultResponse,
-  FieldsGetCascadeDeleteJobDetails200Response,
-  FieldsGetCascadeDeleteJobDetailsdefaultResponse,
-  HarvestDataListByFarmerId200Response,
-  HarvestDataListByFarmerIddefaultResponse,
+  FieldsDeleteDefaultResponse,
+  HarvestDataList200Response,
+  HarvestDataListDefaultResponse,
+  HarvestDataCreateCascadeDeleteJob202Response,
+  HarvestDataCreateCascadeDeleteJobDefaultResponse,
+  HarvestDataGetCascadeDeleteJobDetails200Response,
+  HarvestDataGetCascadeDeleteJobDetailsDefaultResponse,
+  HarvestDataListByPartyId200Response,
+  HarvestDataListByPartyIdDefaultResponse,
   HarvestDataGet200Response,
-  HarvestDataGetdefaultResponse,
+  HarvestDataGetDefaultResponse,
   HarvestDataCreateOrUpdate200Response,
   HarvestDataCreateOrUpdate201Response,
-  HarvestDataCreateOrUpdatedefaultResponse,
+  HarvestDataCreateOrUpdateDefaultResponse,
   HarvestDataDelete204Response,
-  HarvestDataDeletedefaultResponse,
-  HarvestDataList200Response,
-  HarvestDataListdefaultResponse,
-  HarvestDataCreateCascadeDeleteJob202Response,
-  HarvestDataCreateCascadeDeleteJobdefaultResponse,
-  HarvestDataGetCascadeDeleteJobDetails200Response,
-  HarvestDataGetCascadeDeleteJobDetailsdefaultResponse,
+  HarvestDataDeleteDefaultResponse,
   ImageProcessingCreateRasterizeJob202Response,
-  ImageProcessingCreateRasterizeJobdefaultResponse,
-  InsightAttachmentsListByFarmerIdModelIdAndResource200Response,
-  InsightAttachmentsListByFarmerIdModelIdAndResourcedefaultResponse,
+  ImageProcessingCreateRasterizeJobDefaultResponse,
+  ImageProcessingGetRasterizeJob200Response,
+  ImageProcessingGetRasterizeJobDefaultResponse,
+  InsightAttachmentsListByPartyIdModelIdAndResource200Response,
+  InsightAttachmentsListByPartyIdModelIdAndResourceDefaultResponse,
   InsightAttachmentsCreateOrUpdate200Response,
   InsightAttachmentsCreateOrUpdate201Response,
-  InsightAttachmentsCreateOrUpdatedefaultResponse,
+  InsightAttachmentsCreateOrUpdateDefaultResponse,
   InsightAttachmentsGet200Response,
-  InsightAttachmentsGetdefaultResponse,
+  InsightAttachmentsGetDefaultResponse,
   InsightAttachmentsDelete204Response,
-  InsightAttachmentsDeletedefaultResponse,
+  InsightAttachmentsDeleteDefaultResponse,
   InsightAttachmentsDownload200Response,
-  InsightAttachmentsDownloaddefaultResponse,
-  InsightsListByFarmerIdModelIdAndResource200Response,
-  InsightsListByFarmerIdModelIdAndResourcedefaultResponse,
+  InsightAttachmentsDownloadDefaultResponse,
+  InsightsCreateCascadeDeleteJob202Response,
+  InsightsCreateCascadeDeleteJobDefaultResponse,
+  InsightsGetCascadeDeleteJobDetails200Response,
+  InsightsGetCascadeDeleteJobDetailsDefaultResponse,
+  InsightsListByPartyIdModelIdAndResource200Response,
+  InsightsListByPartyIdModelIdAndResourceDefaultResponse,
   InsightsCreateOrUpdate200Response,
   InsightsCreateOrUpdate201Response,
-  InsightsCreateOrUpdatedefaultResponse,
+  InsightsCreateOrUpdateDefaultResponse,
   InsightsGet200Response,
-  InsightsGetdefaultResponse,
+  InsightsGetDefaultResponse,
   InsightsDelete204Response,
-  InsightsDeletedefaultResponse,
-  InsightsCreateCascadeDeleteJob202Response,
-  InsightsCreateCascadeDeleteJobdefaultResponse,
-  InsightsGetCascadeDeleteJobDetails200Response,
-  InsightsGetCascadeDeleteJobDetailsdefaultResponse,
-  ManagementZonesListByFarmerId200Response,
-  ManagementZonesListByFarmerIddefaultResponse,
+  InsightsDeleteDefaultResponse,
+  ManagementZonesList200Response,
+  ManagementZonesListDefaultResponse,
+  ManagementZonesGetCascadeDeleteJobDetails200Response,
+  ManagementZonesGetCascadeDeleteJobDetailsDefaultResponse,
+  ManagementZonesCreateCascadeDeleteJob202Response,
+  ManagementZonesCreateCascadeDeleteJobDefaultResponse,
+  ManagementZonesListByPartyId200Response,
+  ManagementZonesListByPartyIdDefaultResponse,
   ManagementZonesGet200Response,
-  ManagementZonesGetdefaultResponse,
+  ManagementZonesGetDefaultResponse,
   ManagementZonesCreateOrUpdate200Response,
   ManagementZonesCreateOrUpdate201Response,
-  ManagementZonesCreateOrUpdatedefaultResponse,
+  ManagementZonesCreateOrUpdateDefaultResponse,
   ManagementZonesDelete204Response,
-  ManagementZonesDeletedefaultResponse,
-  ManagementZonesList200Response,
-  ManagementZonesListdefaultResponse,
-  ManagementZonesGetCascadeDeleteJobDetails200Response,
-  ManagementZonesGetCascadeDeleteJobDetailsdefaultResponse,
-  ManagementZonesCreateCascadeDeleteJob202Response,
-  ManagementZonesCreateCascadeDeleteJobdefaultResponse,
+  ManagementZonesDeleteDefaultResponse,
   ModelInferenceCreateBiomassModelJob202Response,
-  ModelInferenceCreateBiomassModelJobdefaultResponse,
+  ModelInferenceCreateBiomassModelJobDefaultResponse,
   ModelInferenceGetBiomassModelJob200Response,
-  ModelInferenceGetBiomassModelJobdefaultResponse,
+  ModelInferenceGetBiomassModelJobDefaultResponse,
+  ModelInferenceCreateSensorPlacementModelJob202Response,
+  ModelInferenceCreateSensorPlacementModelJobDefaultResponse,
+  ModelInferenceGetSensorPlacementModelJob200Response,
+  ModelInferenceGetSensorPlacementModelJobDefaultResponse,
   ModelInferenceCreateSoilMoistureModelJob202Response,
-  ModelInferenceCreateSoilMoistureModelJobdefaultResponse,
+  ModelInferenceCreateSoilMoistureModelJobDefaultResponse,
   ModelInferenceGetSoilMoistureModelJob200Response,
-  ModelInferenceGetSoilMoistureModelJobdefaultResponse,
-  NutrientAnalysesListByFarmerId200Response,
-  NutrientAnalysesListByFarmerIddefaultResponse,
+  ModelInferenceGetSoilMoistureModelJobDefaultResponse,
+  NutrientAnalysesList200Response,
+  NutrientAnalysesListDefaultResponse,
+  NutrientAnalysesListByPartyId200Response,
+  NutrientAnalysesListByPartyIdDefaultResponse,
   NutrientAnalysesGet200Response,
-  NutrientAnalysesGetdefaultResponse,
+  NutrientAnalysesGetDefaultResponse,
   NutrientAnalysesCreateOrUpdate200Response,
   NutrientAnalysesCreateOrUpdate201Response,
-  NutrientAnalysesCreateOrUpdatedefaultResponse,
+  NutrientAnalysesCreateOrUpdateDefaultResponse,
   NutrientAnalysesDelete204Response,
-  NutrientAnalysesDeletedefaultResponse,
-  NutrientAnalysesList200Response,
-  NutrientAnalysesListdefaultResponse,
+  NutrientAnalysesDeleteDefaultResponse,
   OAuthProvidersList200Response,
-  OAuthProvidersListdefaultResponse,
+  OAuthProvidersListDefaultResponse,
   OAuthProvidersGet200Response,
-  OAuthProvidersGetdefaultResponse,
+  OAuthProvidersGetDefaultResponse,
   OAuthProvidersCreateOrUpdate200Response,
   OAuthProvidersCreateOrUpdate201Response,
-  OAuthProvidersCreateOrUpdatedefaultResponse,
+  OAuthProvidersCreateOrUpdateDefaultResponse,
   OAuthProvidersDelete204Response,
-  OAuthProvidersDeletedefaultResponse,
+  OAuthProvidersDeleteDefaultResponse,
   OAuthProvidersGetCascadeDeleteJobDetails200Response,
-  OAuthProvidersGetCascadeDeleteJobDetailsdefaultResponse,
+  OAuthProvidersGetCascadeDeleteJobDetailsDefaultResponse,
   OAuthProvidersCreateCascadeDeleteJob202Response,
-  OAuthProvidersCreateCascadeDeleteJobdefaultResponse,
+  OAuthProvidersCreateCascadeDeleteJobDefaultResponse,
   OAuthTokensList200Response,
-  OAuthTokensListdefaultResponse,
+  OAuthTokensListDefaultResponse,
   OAuthTokensGetOAuthConnectionLink200Response,
-  OAuthTokensGetOAuthConnectionLinkdefaultResponse,
-  OAuthTokensCreateCascadeDeleteJob202Response,
-  OAuthTokensCreateCascadeDeleteJobdefaultResponse,
+  OAuthTokensGetOAuthConnectionLinkDefaultResponse,
   OAuthTokensGetCascadeDeleteJobDetails200Response,
-  OAuthTokensGetCascadeDeleteJobDetailsdefaultResponse,
-  PlantingDataListByFarmerId200Response,
-  PlantingDataListByFarmerIddefaultResponse,
+  OAuthTokensGetCascadeDeleteJobDetailsDefaultResponse,
+  OAuthTokensCreateCascadeDeleteJob202Response,
+  OAuthTokensCreateCascadeDeleteJobDefaultResponse,
+  PartiesList200Response,
+  PartiesListDefaultResponse,
+  PartiesGet200Response,
+  PartiesGetDefaultResponse,
+  PartiesCreateOrUpdate200Response,
+  PartiesCreateOrUpdate201Response,
+  PartiesCreateOrUpdateDefaultResponse,
+  PartiesDelete204Response,
+  PartiesDeleteDefaultResponse,
+  PartiesGetCascadeDeleteJobDetails200Response,
+  PartiesGetCascadeDeleteJobDetailsDefaultResponse,
+  PartiesCreateCascadeDeleteJob202Response,
+  PartiesCreateCascadeDeleteJobDefaultResponse,
+  PlantingDataListByPartyId200Response,
+  PlantingDataListByPartyIdDefaultResponse,
   PlantingDataGet200Response,
-  PlantingDataGetdefaultResponse,
+  PlantingDataGetDefaultResponse,
   PlantingDataCreateOrUpdate200Response,
   PlantingDataCreateOrUpdate201Response,
-  PlantingDataCreateOrUpdatedefaultResponse,
+  PlantingDataCreateOrUpdateDefaultResponse,
   PlantingDataDelete204Response,
-  PlantingDataDeletedefaultResponse,
+  PlantingDataDeleteDefaultResponse,
   PlantingDataList200Response,
-  PlantingDataListdefaultResponse,
+  PlantingDataListDefaultResponse,
   PlantingDataCreateCascadeDeleteJob202Response,
-  PlantingDataCreateCascadeDeleteJobdefaultResponse,
+  PlantingDataCreateCascadeDeleteJobDefaultResponse,
   PlantingDataGetCascadeDeleteJobDetails200Response,
-  PlantingDataGetCascadeDeleteJobDetailsdefaultResponse,
-  PlantTissueAnalysesListByFarmerId200Response,
-  PlantTissueAnalysesListByFarmerIddefaultResponse,
+  PlantingDataGetCascadeDeleteJobDetailsDefaultResponse,
+  PlantTissueAnalysesListByPartyId200Response,
+  PlantTissueAnalysesListByPartyIdDefaultResponse,
   PlantTissueAnalysesGet200Response,
-  PlantTissueAnalysesGetdefaultResponse,
+  PlantTissueAnalysesGetDefaultResponse,
   PlantTissueAnalysesCreateOrUpdate200Response,
   PlantTissueAnalysesCreateOrUpdate201Response,
-  PlantTissueAnalysesCreateOrUpdatedefaultResponse,
+  PlantTissueAnalysesCreateOrUpdateDefaultResponse,
   PlantTissueAnalysesDelete204Response,
-  PlantTissueAnalysesDeletedefaultResponse,
+  PlantTissueAnalysesDeleteDefaultResponse,
   PlantTissueAnalysesList200Response,
-  PlantTissueAnalysesListdefaultResponse,
+  PlantTissueAnalysesListDefaultResponse,
   PlantTissueAnalysesCreateCascadeDeleteJob202Response,
-  PlantTissueAnalysesCreateCascadeDeleteJobdefaultResponse,
+  PlantTissueAnalysesCreateCascadeDeleteJobDefaultResponse,
   PlantTissueAnalysesGetCascadeDeleteJobDetails200Response,
-  PlantTissueAnalysesGetCascadeDeleteJobDetailsdefaultResponse,
-  PrescriptionMapsListByFarmerId200Response,
-  PrescriptionMapsListByFarmerIddefaultResponse,
+  PlantTissueAnalysesGetCascadeDeleteJobDetailsDefaultResponse,
+  PrescriptionMapsListByPartyId200Response,
+  PrescriptionMapsListByPartyIdDefaultResponse,
   PrescriptionMapsGet200Response,
-  PrescriptionMapsGetdefaultResponse,
+  PrescriptionMapsGetDefaultResponse,
   PrescriptionMapsCreateOrUpdate200Response,
   PrescriptionMapsCreateOrUpdate201Response,
-  PrescriptionMapsCreateOrUpdatedefaultResponse,
+  PrescriptionMapsCreateOrUpdateDefaultResponse,
   PrescriptionMapsDelete204Response,
-  PrescriptionMapsDeletedefaultResponse,
+  PrescriptionMapsDeleteDefaultResponse,
   PrescriptionMapsList200Response,
-  PrescriptionMapsListdefaultResponse,
+  PrescriptionMapsListDefaultResponse,
   PrescriptionMapsGetCascadeDeleteJobDetails200Response,
-  PrescriptionMapsGetCascadeDeleteJobDetailsdefaultResponse,
+  PrescriptionMapsGetCascadeDeleteJobDetailsDefaultResponse,
   PrescriptionMapsCreateCascadeDeleteJob202Response,
-  PrescriptionMapsCreateCascadeDeleteJobdefaultResponse,
-  PrescriptionsListByFarmerId200Response,
-  PrescriptionsListByFarmerIddefaultResponse,
+  PrescriptionMapsCreateCascadeDeleteJobDefaultResponse,
+  PrescriptionsListByPartyId200Response,
+  PrescriptionsListByPartyIdDefaultResponse,
   PrescriptionsGet200Response,
-  PrescriptionsGetdefaultResponse,
+  PrescriptionsGetDefaultResponse,
   PrescriptionsCreateOrUpdate200Response,
   PrescriptionsCreateOrUpdate201Response,
-  PrescriptionsCreateOrUpdatedefaultResponse,
+  PrescriptionsCreateOrUpdateDefaultResponse,
   PrescriptionsDelete204Response,
-  PrescriptionsDeletedefaultResponse,
+  PrescriptionsDeleteDefaultResponse,
   PrescriptionsList200Response,
-  PrescriptionsListdefaultResponse,
+  PrescriptionsListDefaultResponse,
   PrescriptionsGetCascadeDeleteJobDetails200Response,
-  PrescriptionsGetCascadeDeleteJobDetailsdefaultResponse,
+  PrescriptionsGetCascadeDeleteJobDetailsDefaultResponse,
   PrescriptionsCreateCascadeDeleteJob202Response,
-  PrescriptionsCreateCascadeDeleteJobdefaultResponse,
+  PrescriptionsCreateCascadeDeleteJobDefaultResponse,
   ScenesList200Response,
-  ScenesListdefaultResponse,
+  ScenesListDefaultResponse,
   ScenesDownload200Response,
-  ScenesDownloaddefaultResponse,
+  ScenesDownloadDefaultResponse,
   ScenesCreateSatelliteDataIngestionJob202Response,
-  ScenesCreateSatelliteDataIngestionJobdefaultResponse,
+  ScenesCreateSatelliteDataIngestionJobDefaultResponse,
   ScenesGetSatelliteDataIngestionJobDetails200Response,
-  ScenesGetSatelliteDataIngestionJobDetailsdefaultResponse,
-  SeasonalFieldsListByFarmerId200Response,
-  SeasonalFieldsListByFarmerIddefaultResponse,
+  ScenesGetSatelliteDataIngestionJobDetailsDefaultResponse,
+  ScenesSearchFeatures200Response,
+  ScenesSearchFeaturesDefaultResponse,
+  ScenesGetStacFeature200Response,
+  ScenesGetStacFeatureDefaultResponse,
+  SeasonalFieldsListByPartyId200Response,
+  SeasonalFieldsListByPartyIdDefaultResponse,
   SeasonalFieldsGet200Response,
-  SeasonalFieldsGetdefaultResponse,
+  SeasonalFieldsGetDefaultResponse,
   SeasonalFieldsCreateOrUpdate200Response,
   SeasonalFieldsCreateOrUpdate201Response,
-  SeasonalFieldsCreateOrUpdatedefaultResponse,
+  SeasonalFieldsCreateOrUpdateDefaultResponse,
   SeasonalFieldsDelete204Response,
-  SeasonalFieldsDeletedefaultResponse,
+  SeasonalFieldsDeleteDefaultResponse,
   SeasonalFieldsList200Response,
-  SeasonalFieldsListdefaultResponse,
-  SeasonalFieldsCreateCascadeDeleteJob202Response,
-  SeasonalFieldsCreateCascadeDeleteJobdefaultResponse,
+  SeasonalFieldsListDefaultResponse,
   SeasonalFieldsGetCascadeDeleteJobDetails200Response,
-  SeasonalFieldsGetCascadeDeleteJobDetailsdefaultResponse,
+  SeasonalFieldsGetCascadeDeleteJobDetailsDefaultResponse,
+  SeasonalFieldsCreateCascadeDeleteJob202Response,
+  SeasonalFieldsCreateCascadeDeleteJobDefaultResponse,
   SeasonsList200Response,
-  SeasonsListdefaultResponse,
+  SeasonsListDefaultResponse,
   SeasonsGet200Response,
-  SeasonsGetdefaultResponse,
+  SeasonsGetDefaultResponse,
   SeasonsCreateOrUpdate200Response,
   SeasonsCreateOrUpdate201Response,
-  SeasonsCreateOrUpdatedefaultResponse,
+  SeasonsCreateOrUpdateDefaultResponse,
   SeasonsDelete204Response,
-  SeasonsDeletedefaultResponse,
+  SeasonsDeleteDefaultResponse,
   SensorDataModelsList200Response,
-  SensorDataModelsListdefaultResponse,
+  SensorDataModelsListDefaultResponse,
   SensorDataModelsCreateOrUpdate200Response,
   SensorDataModelsCreateOrUpdate201Response,
-  SensorDataModelsCreateOrUpdatedefaultResponse,
+  SensorDataModelsCreateOrUpdateDefaultResponse,
   SensorDataModelsGet200Response,
-  SensorDataModelsGetdefaultResponse,
+  SensorDataModelsGetDefaultResponse,
   SensorDataModelsDelete204Response,
-  SensorDataModelsDeletedefaultResponse,
+  SensorDataModelsDeleteDefaultResponse,
   SensorEventsList200Response,
-  SensorEventsListdefaultResponse,
+  SensorEventsListDefaultResponse,
   SensorMappingsList200Response,
-  SensorMappingsListdefaultResponse,
+  SensorMappingsListDefaultResponse,
   SensorMappingsCreateOrUpdate200Response,
   SensorMappingsCreateOrUpdate201Response,
-  SensorMappingsCreateOrUpdatedefaultResponse,
+  SensorMappingsCreateOrUpdateDefaultResponse,
   SensorMappingsGet200Response,
-  SensorMappingsGetdefaultResponse,
+  SensorMappingsGetDefaultResponse,
   SensorMappingsDelete204Response,
-  SensorMappingsDeletedefaultResponse,
+  SensorMappingsDeleteDefaultResponse,
   SensorPartnerIntegrationsList200Response,
-  SensorPartnerIntegrationsListdefaultResponse,
+  SensorPartnerIntegrationsListDefaultResponse,
   SensorPartnerIntegrationsCreateOrUpdate200Response,
   SensorPartnerIntegrationsCreateOrUpdate201Response,
-  SensorPartnerIntegrationsCreateOrUpdatedefaultResponse,
+  SensorPartnerIntegrationsCreateOrUpdateDefaultResponse,
   SensorPartnerIntegrationsGet200Response,
-  SensorPartnerIntegrationsGetdefaultResponse,
+  SensorPartnerIntegrationsGetDefaultResponse,
   SensorPartnerIntegrationsDelete204Response,
-  SensorPartnerIntegrationsDeletedefaultResponse,
+  SensorPartnerIntegrationsDeleteDefaultResponse,
   SensorPartnerIntegrationsCheckConsent200Response,
-  SensorPartnerIntegrationsCheckConsentdefaultResponse,
+  SensorPartnerIntegrationsCheckConsentDefaultResponse,
   SensorPartnerIntegrationsGenerateConsentLink200Response,
-  SensorPartnerIntegrationsGenerateConsentLinkdefaultResponse,
+  SensorPartnerIntegrationsGenerateConsentLinkDefaultResponse,
   SensorsList200Response,
-  SensorsListdefaultResponse,
+  SensorsListDefaultResponse,
   SensorsCreateOrUpdate200Response,
   SensorsCreateOrUpdate201Response,
-  SensorsCreateOrUpdatedefaultResponse,
+  SensorsCreateOrUpdateDefaultResponse,
   SensorsGet200Response,
-  SensorsGetdefaultResponse,
+  SensorsGetDefaultResponse,
   SensorsDelete204Response,
-  SensorsDeletedefaultResponse,
+  SensorsDeleteDefaultResponse,
   SensorsGetConnectionString200Response,
-  SensorsGetConnectionStringdefaultResponse,
+  SensorsGetConnectionStringDefaultResponse,
   SensorsRenewConnectionString200Response,
-  SensorsRenewConnectionStringdefaultResponse,
+  SensorsRenewConnectionStringDefaultResponse,
   SolutionInferenceCancel200Response,
-  SolutionInferenceCanceldefaultResponse,
+  SolutionInferenceCancelDefaultResponse,
   SolutionInferenceCreateOrUpdate202Response,
-  SolutionInferenceCreateOrUpdatedefaultResponse,
+  SolutionInferenceCreateOrUpdateDefaultResponse,
   SolutionInferenceFetch200Response,
-  SolutionInferenceFetchdefaultResponse,
-  TillageDataListByFarmerId200Response,
-  TillageDataListByFarmerIddefaultResponse,
+  SolutionInferenceFetchDefaultResponse,
+  TillageDataListByPartyId200Response,
+  TillageDataListByPartyIdDefaultResponse,
   TillageDataGet200Response,
-  TillageDataGetdefaultResponse,
+  TillageDataGetDefaultResponse,
   TillageDataCreateOrUpdate200Response,
   TillageDataCreateOrUpdate201Response,
-  TillageDataCreateOrUpdatedefaultResponse,
+  TillageDataCreateOrUpdateDefaultResponse,
   TillageDataDelete204Response,
-  TillageDataDeletedefaultResponse,
+  TillageDataDeleteDefaultResponse,
   TillageDataList200Response,
-  TillageDataListdefaultResponse,
+  TillageDataListDefaultResponse,
   TillageDataCreateCascadeDeleteJob202Response,
-  TillageDataCreateCascadeDeleteJobdefaultResponse,
+  TillageDataCreateCascadeDeleteJobDefaultResponse,
   TillageDataGetCascadeDeleteJobDetails200Response,
-  TillageDataGetCascadeDeleteJobDetailsdefaultResponse,
+  TillageDataGetCascadeDeleteJobDetailsDefaultResponse,
   WeatherList200Response,
-  WeatherListdefaultResponse,
+  WeatherListDefaultResponse,
   WeatherGetDataDeleteJobDetails200Response,
-  WeatherGetDataDeleteJobDetailsdefaultResponse,
+  WeatherGetDataDeleteJobDetailsDefaultResponse,
   WeatherCreateDataDeleteJob202Response,
-  WeatherCreateDataDeleteJobdefaultResponse,
+  WeatherCreateDataDeleteJobDefaultResponse,
   WeatherGetDataIngestionJobDetails200Response,
-  WeatherGetDataIngestionJobDetailsdefaultResponse,
+  WeatherGetDataIngestionJobDetailsDefaultResponse,
   WeatherCreateDataIngestionJob202Response,
-  WeatherCreateDataIngestionJobdefaultResponse,
-  ZonesListByFarmerId200Response,
-  ZonesListByFarmerIddefaultResponse,
+  WeatherCreateDataIngestionJobDefaultResponse,
+  WeatherDataGet200Response,
+  WeatherDataGetDefaultResponse,
+  ZonesListByPartyId200Response,
+  ZonesListByPartyIdDefaultResponse,
   ZonesGet200Response,
-  ZonesGetdefaultResponse,
+  ZonesGetDefaultResponse,
   ZonesCreateOrUpdate200Response,
   ZonesCreateOrUpdate201Response,
-  ZonesCreateOrUpdatedefaultResponse,
+  ZonesCreateOrUpdateDefaultResponse,
   ZonesDelete204Response,
-  ZonesDeletedefaultResponse,
+  ZonesDeleteDefaultResponse,
   ZonesList200Response,
-  ZonesListdefaultResponse,
+  ZonesListDefaultResponse,
   ZonesGetCascadeDeleteJobDetails200Response,
-  ZonesGetCascadeDeleteJobDetailsdefaultResponse,
+  ZonesGetCascadeDeleteJobDetailsDefaultResponse,
   ZonesCreateCascadeDeleteJob202Response,
-  ZonesCreateCascadeDeleteJobdefaultResponse
+  ZonesCreateCascadeDeleteJobDefaultResponse
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
   "GET /application-data": ["200"],
   "PUT /application-data/cascade-delete/{jobId}": ["202"],
   "GET /application-data/cascade-delete/{jobId}": ["200"],
-  "GET /farmers/{farmerId}/application-data": ["200"],
-  "GET /farmers/{farmerId}/application-data/{applicationDataId}": ["200"],
-  "PATCH /farmers/{farmerId}/application-data/{applicationDataId}": [
+  "GET /parties/{partyId}/application-data": ["200"],
+  "GET /parties/{partyId}/application-data/{applicationDataId}": ["200"],
+  "PATCH /parties/{partyId}/application-data/{applicationDataId}": [
     "200",
     "201"
   ],
-  "DELETE /farmers/{farmerId}/application-data/{applicationDataId}": ["204"],
-  "GET /farmers/{farmerId}/attachments": ["200"],
-  "GET /farmers/{farmerId}/attachments/{attachmentId}": ["200"],
-  "PATCH /farmers/{farmerId}/attachments/{attachmentId}": ["200", "201"],
-  "DELETE /farmers/{farmerId}/attachments/{attachmentId}": ["204"],
-  "GET /farmers/{farmerId}/attachments/{attachmentId}/file": ["200"],
+  "DELETE /parties/{partyId}/application-data/{applicationDataId}": ["204"],
+  "GET /parties/{partyId}/attachments": ["200"],
+  "GET /parties/{partyId}/attachments/{attachmentId}": ["200"],
+  "PATCH /parties/{partyId}/attachments/{attachmentId}": ["200", "201"],
+  "DELETE /parties/{partyId}/attachments/{attachmentId}": ["204"],
+  "GET /parties/{partyId}/attachments/{attachmentId}/file": ["200"],
   "GET /boundaries": ["200"],
   "POST /boundaries": ["200"],
   "PUT /boundaries/cascade-delete/{jobId}": ["202"],
   "GET /boundaries/cascade-delete/{jobId}": ["200"],
-  "GET /farmers/{farmerId}/boundaries": ["200"],
-  "POST /farmers/{farmerId}/boundaries": ["200"],
-  "PATCH /farmers/{farmerId}/boundaries/{boundaryId}": ["200", "201"],
-  "GET /farmers/{farmerId}/boundaries/{boundaryId}": ["200"],
-  "DELETE /farmers/{farmerId}/boundaries/{boundaryId}": ["204"],
-  "GET /farmers/{farmerId}/boundaries/{boundaryId}/overlap": ["200"],
+  "GET /parties/{partyId}/boundaries": ["200"],
+  "POST /parties/{partyId}/boundaries": ["200"],
+  "PATCH /parties/{partyId}/boundaries/{boundaryId}": ["200", "201"],
+  "GET /parties/{partyId}/boundaries/{boundaryId}": ["200"],
+  "DELETE /parties/{partyId}/boundaries/{boundaryId}": ["204"],
+  "GET /parties/{partyId}/boundaries/{boundaryId}/overlap": ["200"],
+  "GET /crop-products": ["200"],
+  "GET /crop-products/{cropProductId}": ["200"],
+  "PATCH /crop-products/{cropProductId}": ["200", "201"],
+  "DELETE /crop-products/{cropProductId}": ["204"],
   "GET /crops": ["200"],
   "GET /crops/{cropId}": ["200"],
   "PATCH /crops/{cropId}": ["200", "201"],
   "DELETE /crops/{cropId}": ["204"],
-  "GET /crop-varieties": ["200"],
-  "GET /crop-varieties/{cropVarietyId}": ["200"],
-  "PATCH /crop-varieties/{cropVarietyId}": ["200", "201"],
-  "DELETE /crop-varieties/{cropVarietyId}": ["204"],
   "GET /sensor-partners/{sensorPartnerId}/device-data-models": ["200"],
   "PATCH /sensor-partners/{sensorPartnerId}/device-data-models/{deviceDataModelId}": [
     "200",
@@ -463,94 +475,94 @@ const responseMap: Record<string, string[]> = {
   "PATCH /sensor-partners/{sensorPartnerId}/devices/{deviceId}": ["200", "201"],
   "GET /sensor-partners/{sensorPartnerId}/devices/{deviceId}": ["200"],
   "DELETE /sensor-partners/{sensorPartnerId}/devices/{deviceId}": ["204"],
-  "GET /farmers": ["200"],
-  "GET /farmers/{farmerId}": ["200"],
-  "PATCH /farmers/{farmerId}": ["200", "201"],
-  "DELETE /farmers/{farmerId}": ["204"],
-  "PUT /farmers/cascade-delete/{jobId}": ["202"],
-  "GET /farmers/cascade-delete/{jobId}": ["200"],
   "PUT /farm-operations/ingest-data/{jobId}": ["202"],
   "GET /farm-operations/ingest-data/{jobId}": ["200"],
-  "GET /farmers/{farmerId}/farms": ["200"],
-  "GET /farmers/{farmerId}/farms/{farmId}": ["200"],
-  "PATCH /farmers/{farmerId}/farms/{farmId}": ["200", "201"],
-  "DELETE /farmers/{farmerId}/farms/{farmId}": ["204"],
   "GET /farms": ["200"],
   "PUT /farms/cascade-delete/{jobId}": ["202"],
   "GET /farms/cascade-delete/{jobId}": ["200"],
-  "GET /farmers/{farmerId}/fields": ["200"],
-  "GET /farmers/{farmerId}/fields/{fieldId}": ["200"],
-  "PATCH /farmers/{farmerId}/fields/{fieldId}": ["200", "201"],
-  "DELETE /farmers/{farmerId}/fields/{fieldId}": ["204"],
+  "GET /parties/{partyId}/farms": ["200"],
+  "GET /parties/{partyId}/farms/{farmId}": ["200"],
+  "PATCH /parties/{partyId}/farms/{farmId}": ["200", "201"],
+  "DELETE /parties/{partyId}/farms/{farmId}": ["204"],
   "GET /fields": ["200"],
-  "PUT /fields/cascade-delete/{jobId}": ["202"],
   "GET /fields/cascade-delete/{jobId}": ["200"],
-  "GET /farmers/{farmerId}/harvest-data": ["200"],
-  "GET /farmers/{farmerId}/harvest-data/{harvestDataId}": ["200"],
-  "PATCH /farmers/{farmerId}/harvest-data/{harvestDataId}": ["200", "201"],
-  "DELETE /farmers/{farmerId}/harvest-data/{harvestDataId}": ["204"],
+  "PUT /fields/cascade-delete/{jobId}": ["202"],
+  "GET /parties/{partyId}/fields": ["200"],
+  "GET /parties/{partyId}/fields/{fieldId}": ["200"],
+  "PATCH /parties/{partyId}/fields/{fieldId}": ["200", "201"],
+  "DELETE /parties/{partyId}/fields/{fieldId}": ["204"],
   "GET /harvest-data": ["200"],
   "PUT /harvest-data/cascade-delete/{jobId}": ["202"],
   "GET /harvest-data/cascade-delete/{jobId}": ["200"],
+  "GET /parties/{partyId}/harvest-data": ["200"],
+  "GET /parties/{partyId}/harvest-data/{harvestDataId}": ["200"],
+  "PATCH /parties/{partyId}/harvest-data/{harvestDataId}": ["200", "201"],
+  "DELETE /parties/{partyId}/harvest-data/{harvestDataId}": ["204"],
   "PUT /image-processing/rasterize/{jobId}": ["202"],
   "GET /image-processing/rasterize/{jobId}": ["200"],
-  "GET /farmers/{farmerId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insight-attachments": [
+  "GET /parties/{partyId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insight-attachments": [
     "200"
   ],
-  "PATCH /farmers/{farmerId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insight-attachments/{insightAttachmentId}": [
+  "PATCH /parties/{partyId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insight-attachments/{insightAttachmentId}": [
     "200",
     "201"
   ],
-  "GET /farmers/{farmerId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insight-attachments/{insightAttachmentId}": [
+  "GET /parties/{partyId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insight-attachments/{insightAttachmentId}": [
     "200"
   ],
-  "DELETE /farmers/{farmerId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insight-attachments/{insightAttachmentId}": [
+  "DELETE /parties/{partyId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insight-attachments/{insightAttachmentId}": [
     "204"
   ],
-  "GET /farmers/{farmerId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insight-attachments/{insightAttachmentId}/file": [
+  "GET /parties/{partyId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insight-attachments/{insightAttachmentId}/file": [
     "200"
-  ],
-  "GET /farmers/{farmerId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insights": [
-    "200"
-  ],
-  "PATCH /farmers/{farmerId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insights/{insightId}": [
-    "200",
-    "201"
-  ],
-  "GET /farmers/{farmerId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insights/{insightId}": [
-    "200"
-  ],
-  "DELETE /farmers/{farmerId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insights/{insightId}": [
-    "204"
   ],
   "PUT /insights/cascade-delete/{jobId}": ["202"],
   "GET /insights/cascade-delete/{jobId}": ["200"],
-  "GET /farmers/{farmerId}/management-zones": ["200"],
-  "GET /farmers/{farmerId}/management-zones/{managementZoneId}": ["200"],
-  "PATCH /farmers/{farmerId}/management-zones/{managementZoneId}": [
+  "GET /parties/{partyId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insights": [
+    "200"
+  ],
+  "PATCH /parties/{partyId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insights/{insightId}": [
     "200",
     "201"
   ],
-  "DELETE /farmers/{farmerId}/management-zones/{managementZoneId}": ["204"],
+  "GET /parties/{partyId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insights/{insightId}": [
+    "200"
+  ],
+  "DELETE /parties/{partyId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insights/{insightId}": [
+    "204"
+  ],
   "GET /management-zones": ["200"],
   "GET /management-zones/cascade-delete/{jobId}": ["200"],
   "PUT /management-zones/cascade-delete/{jobId}": ["202"],
+  "GET /parties/{partyId}/management-zones": ["200"],
+  "GET /parties/{partyId}/management-zones/{managementZoneId}": ["200"],
+  "PATCH /parties/{partyId}/management-zones/{managementZoneId}": [
+    "200",
+    "201"
+  ],
+  "DELETE /parties/{partyId}/management-zones/{managementZoneId}": ["204"],
   "PUT /model-inference/models/microsoft-biomass/infer-data/{jobId}": ["202"],
   "GET /model-inference/models/microsoft-biomass/infer-data/{jobId}": ["200"],
+  "PUT /model-inference/models/microsoft-sensor-placement/infer-data/{jobId}": [
+    "202"
+  ],
+  "GET /model-inference/models/microsoft-sensor-placement/infer-data/{jobId}": [
+    "200"
+  ],
   "PUT /model-inference/models/microsoft-soil-moisture/infer-data/{jobId}": [
     "202"
   ],
   "GET /model-inference/models/microsoft-soil-moisture/infer-data/{jobId}": [
     "200"
   ],
-  "GET /farmers/{farmerId}/nutrient-analyses": ["200"],
-  "GET /farmers/{farmerId}/nutrient-analyses/{nutrientAnalysisId}": ["200"],
-  "PATCH /farmers/{farmerId}/nutrient-analyses/{nutrientAnalysisId}": [
+  "GET /nutrient-analyses": ["200"],
+  "GET /parties/{partyId}/nutrient-analyses": ["200"],
+  "GET /parties/{partyId}/nutrient-analyses/{nutrientAnalysisId}": ["200"],
+  "PATCH /parties/{partyId}/nutrient-analyses/{nutrientAnalysisId}": [
     "200",
     "201"
   ],
-  "DELETE /farmers/{farmerId}/nutrient-analyses/{nutrientAnalysisId}": ["204"],
-  "GET /nutrient-analyses": ["200"],
+  "DELETE /parties/{partyId}/nutrient-analyses/{nutrientAnalysisId}": ["204"],
   "GET /oauth/providers": ["200"],
   "GET /oauth/providers/{oauthProviderId}": ["200"],
   "PATCH /oauth/providers/{oauthProviderId}": ["200", "201"],
@@ -559,43 +571,49 @@ const responseMap: Record<string, string[]> = {
   "PUT /oauth/providers/cascade-delete/{jobId}": ["202"],
   "GET /oauth/tokens": ["200"],
   "POST /oauth/tokens/:connect": ["200"],
-  "PUT /oauth/tokens/remove/{jobId}": ["202"],
   "GET /oauth/tokens/remove/{jobId}": ["200"],
-  "GET /farmers/{farmerId}/planting-data": ["200"],
-  "GET /farmers/{farmerId}/planting-data/{plantingDataId}": ["200"],
-  "PATCH /farmers/{farmerId}/planting-data/{plantingDataId}": ["200", "201"],
-  "DELETE /farmers/{farmerId}/planting-data/{plantingDataId}": ["204"],
+  "PUT /oauth/tokens/remove/{jobId}": ["202"],
+  "GET /parties": ["200"],
+  "GET /parties/{partyId}": ["200"],
+  "PATCH /parties/{partyId}": ["200", "201"],
+  "DELETE /parties/{partyId}": ["204"],
+  "GET /parties/cascade-delete/{jobId}": ["200"],
+  "PUT /parties/cascade-delete/{jobId}": ["202"],
+  "GET /parties/{partyId}/planting-data": ["200"],
+  "GET /parties/{partyId}/planting-data/{plantingDataId}": ["200"],
+  "PATCH /parties/{partyId}/planting-data/{plantingDataId}": ["200", "201"],
+  "DELETE /parties/{partyId}/planting-data/{plantingDataId}": ["204"],
   "GET /planting-data": ["200"],
   "PUT /planting-data/cascade-delete/{jobId}": ["202"],
   "GET /planting-data/cascade-delete/{jobId}": ["200"],
-  "GET /farmers/{farmerId}/plant-tissue-analyses": ["200"],
-  "GET /farmers/{farmerId}/plant-tissue-analyses/{plantTissueAnalysisId}": [
+  "GET /parties/{partyId}/plant-tissue-analyses": ["200"],
+  "GET /parties/{partyId}/plant-tissue-analyses/{plantTissueAnalysisId}": [
     "200"
   ],
-  "PATCH /farmers/{farmerId}/plant-tissue-analyses/{plantTissueAnalysisId}": [
+  "PATCH /parties/{partyId}/plant-tissue-analyses/{plantTissueAnalysisId}": [
     "200",
     "201"
   ],
-  "DELETE /farmers/{farmerId}/plant-tissue-analyses/{plantTissueAnalysisId}": [
+  "DELETE /parties/{partyId}/plant-tissue-analyses/{plantTissueAnalysisId}": [
     "204"
   ],
   "GET /plant-tissue-analyses": ["200"],
   "PUT /plant-tissue-analyses/cascade-delete/{jobId}": ["202"],
   "GET /plant-tissue-analyses/cascade-delete/{jobId}": ["200"],
-  "GET /farmers/{farmerId}/prescription-maps": ["200"],
-  "GET /farmers/{farmerId}/prescription-maps/{prescriptionMapId}": ["200"],
-  "PATCH /farmers/{farmerId}/prescription-maps/{prescriptionMapId}": [
+  "GET /parties/{partyId}/prescription-maps": ["200"],
+  "GET /parties/{partyId}/prescription-maps/{prescriptionMapId}": ["200"],
+  "PATCH /parties/{partyId}/prescription-maps/{prescriptionMapId}": [
     "200",
     "201"
   ],
-  "DELETE /farmers/{farmerId}/prescription-maps/{prescriptionMapId}": ["204"],
+  "DELETE /parties/{partyId}/prescription-maps/{prescriptionMapId}": ["204"],
   "GET /prescription-maps": ["200"],
   "GET /prescription-maps/cascade-delete/{jobId}": ["200"],
   "PUT /prescription-maps/cascade-delete/{jobId}": ["202"],
-  "GET /farmers/{farmerId}/prescriptions": ["200"],
-  "GET /farmers/{farmerId}/prescriptions/{prescriptionId}": ["200"],
-  "PATCH /farmers/{farmerId}/prescriptions/{prescriptionId}": ["200", "201"],
-  "DELETE /farmers/{farmerId}/prescriptions/{prescriptionId}": ["204"],
+  "GET /parties/{partyId}/prescriptions": ["200"],
+  "GET /parties/{partyId}/prescriptions/{prescriptionId}": ["200"],
+  "PATCH /parties/{partyId}/prescriptions/{prescriptionId}": ["200", "201"],
+  "DELETE /parties/{partyId}/prescriptions/{prescriptionId}": ["204"],
   "GET /prescriptions": ["200"],
   "GET /prescriptions/cascade-delete/{jobId}": ["200"],
   "PUT /prescriptions/cascade-delete/{jobId}": ["202"],
@@ -603,13 +621,15 @@ const responseMap: Record<string, string[]> = {
   "GET /scenes/downloadFiles": ["200"],
   "PUT /scenes/satellite/ingest-data/{jobId}": ["202"],
   "GET /scenes/satellite/ingest-data/{jobId}": ["200"],
-  "GET /farmers/{farmerId}/seasonal-fields": ["200"],
-  "GET /farmers/{farmerId}/seasonal-fields/{seasonalFieldId}": ["200"],
-  "PATCH /farmers/{farmerId}/seasonal-fields/{seasonalFieldId}": ["200", "201"],
-  "DELETE /farmers/{farmerId}/seasonal-fields/{seasonalFieldId}": ["204"],
+  "POST /scenes/stac-collections/{collectionId}:search": ["200"],
+  "GET /scenes/stac-collections/{collectionId}/features/{featureId}": ["200"],
+  "GET /parties/{partyId}/seasonal-fields": ["200"],
+  "GET /parties/{partyId}/seasonal-fields/{seasonalFieldId}": ["200"],
+  "PATCH /parties/{partyId}/seasonal-fields/{seasonalFieldId}": ["200", "201"],
+  "DELETE /parties/{partyId}/seasonal-fields/{seasonalFieldId}": ["204"],
   "GET /seasonal-fields": ["200"],
-  "PUT /seasonal-fields/cascade-delete/{jobId}": ["202"],
   "GET /seasonal-fields/cascade-delete/{jobId}": ["200"],
+  "PUT /seasonal-fields/cascade-delete/{jobId}": ["202"],
   "GET /seasons": ["200"],
   "GET /seasons/{seasonId}": ["200"],
   "PATCH /seasons/{seasonId}": ["200", "201"],
@@ -661,10 +681,10 @@ const responseMap: Record<string, string[]> = {
   "POST /solutions/{solutionId}:create": ["202"],
   "GET /solutions/{solutionId}:create": ["202"],
   "POST /solutions/{solutionId}:fetch": ["200"],
-  "GET /farmers/{farmerId}/tillage-data": ["200"],
-  "GET /farmers/{farmerId}/tillage-data/{tillageDataId}": ["200"],
-  "PATCH /farmers/{farmerId}/tillage-data/{tillageDataId}": ["200", "201"],
-  "DELETE /farmers/{farmerId}/tillage-data/{tillageDataId}": ["204"],
+  "GET /parties/{partyId}/tillage-data": ["200"],
+  "GET /parties/{partyId}/tillage-data/{tillageDataId}": ["200"],
+  "PATCH /parties/{partyId}/tillage-data/{tillageDataId}": ["200", "201"],
+  "DELETE /parties/{partyId}/tillage-data/{tillageDataId}": ["204"],
   "GET /tillage-data": ["200"],
   "PUT /tillage-data/cascade-delete/{jobId}": ["202"],
   "GET /tillage-data/cascade-delete/{jobId}": ["200"],
@@ -673,1528 +693,1585 @@ const responseMap: Record<string, string[]> = {
   "PUT /weather/delete-data/{jobId}": ["202"],
   "GET /weather/ingest-data/{jobId}": ["200"],
   "PUT /weather/ingest-data/{jobId}": ["202"],
-  "GET /farmers/{farmerId}/zones": ["200"],
-  "GET /farmers/{farmerId}/zones/{zoneId}": ["200"],
-  "PATCH /farmers/{farmerId}/zones/{zoneId}": ["200", "201"],
-  "DELETE /farmers/{farmerId}/zones/{zoneId}": ["204"],
+  "POST /weather-data/:fetch": ["200"],
+  "GET /parties/{partyId}/zones": ["200"],
+  "GET /parties/{partyId}/zones/{zoneId}": ["200"],
+  "PATCH /parties/{partyId}/zones/{zoneId}": ["200", "201"],
+  "DELETE /parties/{partyId}/zones/{zoneId}": ["204"],
   "GET /zones": ["200"],
   "GET /zones/cascade-delete/{jobId}": ["200"],
   "PUT /zones/cascade-delete/{jobId}": ["202"]
 };
 
 export function isUnexpected(
-  response: ApplicationDataList200Response | ApplicationDataListdefaultResponse
-): response is ApplicationDataListdefaultResponse;
+  response: ApplicationDataList200Response | ApplicationDataListDefaultResponse
+): response is ApplicationDataListDefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationDataCreateCascadeDeleteJob202Response
-    | ApplicationDataCreateCascadeDeleteJobdefaultResponse
-): response is ApplicationDataCreateCascadeDeleteJobdefaultResponse;
+    | ApplicationDataCreateCascadeDeleteJobDefaultResponse
+): response is ApplicationDataCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationDataGetCascadeDeleteJobDetails200Response
-    | ApplicationDataGetCascadeDeleteJobDetailsdefaultResponse
-): response is ApplicationDataGetCascadeDeleteJobDetailsdefaultResponse;
+    | ApplicationDataGetCascadeDeleteJobDetailsDefaultResponse
+): response is ApplicationDataGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
   response:
-    | ApplicationDataListByFarmerId200Response
-    | ApplicationDataListByFarmerIddefaultResponse
-): response is ApplicationDataListByFarmerIddefaultResponse;
+    | ApplicationDataListByPartyId200Response
+    | ApplicationDataListByPartyIdDefaultResponse
+): response is ApplicationDataListByPartyIdDefaultResponse;
 export function isUnexpected(
-  response: ApplicationDataGet200Response | ApplicationDataGetdefaultResponse
-): response is ApplicationDataGetdefaultResponse;
+  response: ApplicationDataGet200Response | ApplicationDataGetDefaultResponse
+): response is ApplicationDataGetDefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationDataCreateOrUpdate200Response
     | ApplicationDataCreateOrUpdate201Response
-    | ApplicationDataCreateOrUpdatedefaultResponse
-): response is ApplicationDataCreateOrUpdatedefaultResponse;
+    | ApplicationDataCreateOrUpdateDefaultResponse
+): response is ApplicationDataCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationDataDelete204Response
-    | ApplicationDataDeletedefaultResponse
-): response is ApplicationDataDeletedefaultResponse;
+    | ApplicationDataDeleteDefaultResponse
+): response is ApplicationDataDeleteDefaultResponse;
 export function isUnexpected(
   response:
-    | AttachmentsListByFarmerId200Response
-    | AttachmentsListByFarmerIddefaultResponse
-): response is AttachmentsListByFarmerIddefaultResponse;
+    | AttachmentsListByPartyId200Response
+    | AttachmentsListByPartyIdDefaultResponse
+): response is AttachmentsListByPartyIdDefaultResponse;
 export function isUnexpected(
-  response: AttachmentsGet200Response | AttachmentsGetdefaultResponse
-): response is AttachmentsGetdefaultResponse;
+  response: AttachmentsGet200Response | AttachmentsGetDefaultResponse
+): response is AttachmentsGetDefaultResponse;
 export function isUnexpected(
   response:
     | AttachmentsCreateOrUpdate200Response
     | AttachmentsCreateOrUpdate201Response
-    | AttachmentsCreateOrUpdatedefaultResponse
-): response is AttachmentsCreateOrUpdatedefaultResponse;
+    | AttachmentsCreateOrUpdateDefaultResponse
+): response is AttachmentsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: AttachmentsDelete204Response | AttachmentsDeletedefaultResponse
-): response is AttachmentsDeletedefaultResponse;
+  response: AttachmentsDelete204Response | AttachmentsDeleteDefaultResponse
+): response is AttachmentsDeleteDefaultResponse;
 export function isUnexpected(
-  response: AttachmentsDownload200Response | AttachmentsDownloaddefaultResponse
-): response is AttachmentsDownloaddefaultResponse;
+  response: AttachmentsDownload200Response | AttachmentsDownloadDefaultResponse
+): response is AttachmentsDownloadDefaultResponse;
 export function isUnexpected(
-  response: BoundariesList200Response | BoundariesListdefaultResponse
-): response is BoundariesListdefaultResponse;
+  response: BoundariesList200Response | BoundariesListDefaultResponse
+): response is BoundariesListDefaultResponse;
 export function isUnexpected(
-  response: BoundariesSearch200Response | BoundariesSearchdefaultResponse
-): response is BoundariesSearchdefaultResponse;
+  response: BoundariesSearch200Response | BoundariesSearchDefaultResponse
+): response is BoundariesSearchDefaultResponse;
 export function isUnexpected(
   response:
     | BoundariesCreateCascadeDeleteJob202Response
-    | BoundariesCreateCascadeDeleteJobdefaultResponse
-): response is BoundariesCreateCascadeDeleteJobdefaultResponse;
+    | BoundariesCreateCascadeDeleteJobDefaultResponse
+): response is BoundariesCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
   response:
     | BoundariesGetCascadeDeleteJobDetails200Response
-    | BoundariesGetCascadeDeleteJobDetailsdefaultResponse
-): response is BoundariesGetCascadeDeleteJobDetailsdefaultResponse;
+    | BoundariesGetCascadeDeleteJobDetailsDefaultResponse
+): response is BoundariesGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
   response:
-    | BoundariesListByFarmerId200Response
-    | BoundariesListByFarmerIddefaultResponse
-): response is BoundariesListByFarmerIddefaultResponse;
+    | BoundariesListByPartyId200Response
+    | BoundariesListByPartyIdDefaultResponse
+): response is BoundariesListByPartyIdDefaultResponse;
 export function isUnexpected(
   response:
-    | BoundariesSearchByFarmerId200Response
-    | BoundariesSearchByFarmerIddefaultResponse
-): response is BoundariesSearchByFarmerIddefaultResponse;
+    | BoundariesSearchByPartyId200Response
+    | BoundariesSearchByPartyIdDefaultResponse
+): response is BoundariesSearchByPartyIdDefaultResponse;
 export function isUnexpected(
   response:
     | BoundariesCreateOrUpdate200Response
     | BoundariesCreateOrUpdate201Response
-    | BoundariesCreateOrUpdatedefaultResponse
-): response is BoundariesCreateOrUpdatedefaultResponse;
+    | BoundariesCreateOrUpdateDefaultResponse
+): response is BoundariesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: BoundariesGet200Response | BoundariesGetdefaultResponse
-): response is BoundariesGetdefaultResponse;
+  response: BoundariesGet200Response | BoundariesGetDefaultResponse
+): response is BoundariesGetDefaultResponse;
 export function isUnexpected(
-  response: BoundariesDelete204Response | BoundariesDeletedefaultResponse
-): response is BoundariesDeletedefaultResponse;
+  response: BoundariesDelete204Response | BoundariesDeleteDefaultResponse
+): response is BoundariesDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | BoundariesGetOverlap200Response
-    | BoundariesGetOverlapdefaultResponse
-): response is BoundariesGetOverlapdefaultResponse;
+    | BoundariesGetOverlapDefaultResponse
+): response is BoundariesGetOverlapDefaultResponse;
 export function isUnexpected(
-  response: CropsList200Response | CropsListdefaultResponse
-): response is CropsListdefaultResponse;
+  response: CropProductsList200Response | CropProductsListDefaultResponse
+): response is CropProductsListDefaultResponse;
 export function isUnexpected(
-  response: CropsGet200Response | CropsGetdefaultResponse
-): response is CropsGetdefaultResponse;
+  response: CropProductsGet200Response | CropProductsGetDefaultResponse
+): response is CropProductsGetDefaultResponse;
+export function isUnexpected(
+  response:
+    | CropProductsCreateOrUpdate200Response
+    | CropProductsCreateOrUpdate201Response
+    | CropProductsCreateOrUpdateDefaultResponse
+): response is CropProductsCreateOrUpdateDefaultResponse;
+export function isUnexpected(
+  response: CropProductsDelete204Response | CropProductsDeleteDefaultResponse
+): response is CropProductsDeleteDefaultResponse;
+export function isUnexpected(
+  response: CropsList200Response | CropsListDefaultResponse
+): response is CropsListDefaultResponse;
+export function isUnexpected(
+  response: CropsGet200Response | CropsGetDefaultResponse
+): response is CropsGetDefaultResponse;
 export function isUnexpected(
   response:
     | CropsCreateOrUpdate200Response
     | CropsCreateOrUpdate201Response
-    | CropsCreateOrUpdatedefaultResponse
-): response is CropsCreateOrUpdatedefaultResponse;
+    | CropsCreateOrUpdateDefaultResponse
+): response is CropsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: CropsDelete204Response | CropsDeletedefaultResponse
-): response is CropsDeletedefaultResponse;
-export function isUnexpected(
-  response: CropVarietiesList200Response | CropVarietiesListdefaultResponse
-): response is CropVarietiesListdefaultResponse;
-export function isUnexpected(
-  response: CropVarietiesGet200Response | CropVarietiesGetdefaultResponse
-): response is CropVarietiesGetdefaultResponse;
-export function isUnexpected(
-  response:
-    | CropVarietiesCreateOrUpdate200Response
-    | CropVarietiesCreateOrUpdate201Response
-    | CropVarietiesCreateOrUpdatedefaultResponse
-): response is CropVarietiesCreateOrUpdatedefaultResponse;
-export function isUnexpected(
-  response: CropVarietiesDelete204Response | CropVarietiesDeletedefaultResponse
-): response is CropVarietiesDeletedefaultResponse;
+  response: CropsDelete204Response | CropsDeleteDefaultResponse
+): response is CropsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceDataModelsList200Response
-    | DeviceDataModelsListdefaultResponse
-): response is DeviceDataModelsListdefaultResponse;
+    | DeviceDataModelsListDefaultResponse
+): response is DeviceDataModelsListDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceDataModelsCreateOrUpdate200Response
     | DeviceDataModelsCreateOrUpdate201Response
-    | DeviceDataModelsCreateOrUpdatedefaultResponse
-): response is DeviceDataModelsCreateOrUpdatedefaultResponse;
+    | DeviceDataModelsCreateOrUpdateDefaultResponse
+): response is DeviceDataModelsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: DeviceDataModelsGet200Response | DeviceDataModelsGetdefaultResponse
-): response is DeviceDataModelsGetdefaultResponse;
+  response: DeviceDataModelsGet200Response | DeviceDataModelsGetDefaultResponse
+): response is DeviceDataModelsGetDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceDataModelsDelete204Response
-    | DeviceDataModelsDeletedefaultResponse
-): response is DeviceDataModelsDeletedefaultResponse;
+    | DeviceDataModelsDeleteDefaultResponse
+): response is DeviceDataModelsDeleteDefaultResponse;
 export function isUnexpected(
-  response: DevicesList200Response | DevicesListdefaultResponse
-): response is DevicesListdefaultResponse;
+  response: DevicesList200Response | DevicesListDefaultResponse
+): response is DevicesListDefaultResponse;
 export function isUnexpected(
   response:
     | DevicesCreateOrUpdate200Response
     | DevicesCreateOrUpdate201Response
-    | DevicesCreateOrUpdatedefaultResponse
-): response is DevicesCreateOrUpdatedefaultResponse;
+    | DevicesCreateOrUpdateDefaultResponse
+): response is DevicesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: DevicesGet200Response | DevicesGetdefaultResponse
-): response is DevicesGetdefaultResponse;
+  response: DevicesGet200Response | DevicesGetDefaultResponse
+): response is DevicesGetDefaultResponse;
 export function isUnexpected(
-  response: DevicesDelete204Response | DevicesDeletedefaultResponse
-): response is DevicesDeletedefaultResponse;
-export function isUnexpected(
-  response: FarmersList200Response | FarmersListdefaultResponse
-): response is FarmersListdefaultResponse;
-export function isUnexpected(
-  response: FarmersGet200Response | FarmersGetdefaultResponse
-): response is FarmersGetdefaultResponse;
-export function isUnexpected(
-  response:
-    | FarmersCreateOrUpdate200Response
-    | FarmersCreateOrUpdate201Response
-    | FarmersCreateOrUpdatedefaultResponse
-): response is FarmersCreateOrUpdatedefaultResponse;
-export function isUnexpected(
-  response: FarmersDelete204Response | FarmersDeletedefaultResponse
-): response is FarmersDeletedefaultResponse;
-export function isUnexpected(
-  response:
-    | FarmersCreateCascadeDeleteJob202Response
-    | FarmersCreateCascadeDeleteJobdefaultResponse
-): response is FarmersCreateCascadeDeleteJobdefaultResponse;
-export function isUnexpected(
-  response:
-    | FarmersGetCascadeDeleteJobDetails200Response
-    | FarmersGetCascadeDeleteJobDetailsdefaultResponse
-): response is FarmersGetCascadeDeleteJobDetailsdefaultResponse;
+  response: DevicesDelete204Response | DevicesDeleteDefaultResponse
+): response is DevicesDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | FarmOperationsCreateDataIngestionJob202Response
-    | FarmOperationsCreateDataIngestionJobdefaultResponse
-): response is FarmOperationsCreateDataIngestionJobdefaultResponse;
+    | FarmOperationsCreateDataIngestionJobDefaultResponse
+): response is FarmOperationsCreateDataIngestionJobDefaultResponse;
 export function isUnexpected(
   response:
     | FarmOperationsGetDataIngestionJobDetails200Response
-    | FarmOperationsGetDataIngestionJobDetailsdefaultResponse
-): response is FarmOperationsGetDataIngestionJobDetailsdefaultResponse;
+    | FarmOperationsGetDataIngestionJobDetailsDefaultResponse
+): response is FarmOperationsGetDataIngestionJobDetailsDefaultResponse;
 export function isUnexpected(
-  response: FarmsListByFarmerId200Response | FarmsListByFarmerIddefaultResponse
-): response is FarmsListByFarmerIddefaultResponse;
+  response: FarmsList200Response | FarmsListDefaultResponse
+): response is FarmsListDefaultResponse;
 export function isUnexpected(
-  response: FarmsGet200Response | FarmsGetdefaultResponse
-): response is FarmsGetdefaultResponse;
+  response:
+    | FarmsCreateCascadeDeleteJob202Response
+    | FarmsCreateCascadeDeleteJobDefaultResponse
+): response is FarmsCreateCascadeDeleteJobDefaultResponse;
+export function isUnexpected(
+  response:
+    | FarmsGetCascadeDeleteJobDetails200Response
+    | FarmsGetCascadeDeleteJobDetailsDefaultResponse
+): response is FarmsGetCascadeDeleteJobDetailsDefaultResponse;
+export function isUnexpected(
+  response: FarmsListByPartyId200Response | FarmsListByPartyIdDefaultResponse
+): response is FarmsListByPartyIdDefaultResponse;
+export function isUnexpected(
+  response: FarmsGet200Response | FarmsGetDefaultResponse
+): response is FarmsGetDefaultResponse;
 export function isUnexpected(
   response:
     | FarmsCreateOrUpdate200Response
     | FarmsCreateOrUpdate201Response
-    | FarmsCreateOrUpdatedefaultResponse
-): response is FarmsCreateOrUpdatedefaultResponse;
+    | FarmsCreateOrUpdateDefaultResponse
+): response is FarmsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: FarmsDelete204Response | FarmsDeletedefaultResponse
-): response is FarmsDeletedefaultResponse;
+  response: FarmsDelete204Response | FarmsDeleteDefaultResponse
+): response is FarmsDeleteDefaultResponse;
 export function isUnexpected(
-  response: FarmsList200Response | FarmsListdefaultResponse
-): response is FarmsListdefaultResponse;
-export function isUnexpected(
-  response:
-    | FarmsCreateCascadeDeleteJob202Response
-    | FarmsCreateCascadeDeleteJobdefaultResponse
-): response is FarmsCreateCascadeDeleteJobdefaultResponse;
+  response: FieldsList200Response | FieldsListDefaultResponse
+): response is FieldsListDefaultResponse;
 export function isUnexpected(
   response:
-    | FarmsGetCascadeDeleteJobDetails200Response
-    | FarmsGetCascadeDeleteJobDetailsdefaultResponse
-): response is FarmsGetCascadeDeleteJobDetailsdefaultResponse;
+    | FieldsGetCascadeDeleteJobDetails200Response
+    | FieldsGetCascadeDeleteJobDetailsDefaultResponse
+): response is FieldsGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
   response:
-    | FieldsListByFarmerId200Response
-    | FieldsListByFarmerIddefaultResponse
-): response is FieldsListByFarmerIddefaultResponse;
+    | FieldsCreateCascadeDeleteJob202Response
+    | FieldsCreateCascadeDeleteJobDefaultResponse
+): response is FieldsCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
-  response: FieldsGet200Response | FieldsGetdefaultResponse
-): response is FieldsGetdefaultResponse;
+  response: FieldsListByPartyId200Response | FieldsListByPartyIdDefaultResponse
+): response is FieldsListByPartyIdDefaultResponse;
+export function isUnexpected(
+  response: FieldsGet200Response | FieldsGetDefaultResponse
+): response is FieldsGetDefaultResponse;
 export function isUnexpected(
   response:
     | FieldsCreateOrUpdate200Response
     | FieldsCreateOrUpdate201Response
-    | FieldsCreateOrUpdatedefaultResponse
-): response is FieldsCreateOrUpdatedefaultResponse;
+    | FieldsCreateOrUpdateDefaultResponse
+): response is FieldsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: FieldsDelete204Response | FieldsDeletedefaultResponse
-): response is FieldsDeletedefaultResponse;
+  response: FieldsDelete204Response | FieldsDeleteDefaultResponse
+): response is FieldsDeleteDefaultResponse;
 export function isUnexpected(
-  response: FieldsList200Response | FieldsListdefaultResponse
-): response is FieldsListdefaultResponse;
-export function isUnexpected(
-  response:
-    | FieldsCreateCascadeDeleteJob202Response
-    | FieldsCreateCascadeDeleteJobdefaultResponse
-): response is FieldsCreateCascadeDeleteJobdefaultResponse;
+  response: HarvestDataList200Response | HarvestDataListDefaultResponse
+): response is HarvestDataListDefaultResponse;
 export function isUnexpected(
   response:
-    | FieldsGetCascadeDeleteJobDetails200Response
-    | FieldsGetCascadeDeleteJobDetailsdefaultResponse
-): response is FieldsGetCascadeDeleteJobDetailsdefaultResponse;
+    | HarvestDataCreateCascadeDeleteJob202Response
+    | HarvestDataCreateCascadeDeleteJobDefaultResponse
+): response is HarvestDataCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
   response:
-    | HarvestDataListByFarmerId200Response
-    | HarvestDataListByFarmerIddefaultResponse
-): response is HarvestDataListByFarmerIddefaultResponse;
+    | HarvestDataGetCascadeDeleteJobDetails200Response
+    | HarvestDataGetCascadeDeleteJobDetailsDefaultResponse
+): response is HarvestDataGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
-  response: HarvestDataGet200Response | HarvestDataGetdefaultResponse
-): response is HarvestDataGetdefaultResponse;
+  response:
+    | HarvestDataListByPartyId200Response
+    | HarvestDataListByPartyIdDefaultResponse
+): response is HarvestDataListByPartyIdDefaultResponse;
+export function isUnexpected(
+  response: HarvestDataGet200Response | HarvestDataGetDefaultResponse
+): response is HarvestDataGetDefaultResponse;
 export function isUnexpected(
   response:
     | HarvestDataCreateOrUpdate200Response
     | HarvestDataCreateOrUpdate201Response
-    | HarvestDataCreateOrUpdatedefaultResponse
-): response is HarvestDataCreateOrUpdatedefaultResponse;
+    | HarvestDataCreateOrUpdateDefaultResponse
+): response is HarvestDataCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: HarvestDataDelete204Response | HarvestDataDeletedefaultResponse
-): response is HarvestDataDeletedefaultResponse;
-export function isUnexpected(
-  response: HarvestDataList200Response | HarvestDataListdefaultResponse
-): response is HarvestDataListdefaultResponse;
-export function isUnexpected(
-  response:
-    | HarvestDataCreateCascadeDeleteJob202Response
-    | HarvestDataCreateCascadeDeleteJobdefaultResponse
-): response is HarvestDataCreateCascadeDeleteJobdefaultResponse;
-export function isUnexpected(
-  response:
-    | HarvestDataGetCascadeDeleteJobDetails200Response
-    | HarvestDataGetCascadeDeleteJobDetailsdefaultResponse
-): response is HarvestDataGetCascadeDeleteJobDetailsdefaultResponse;
+  response: HarvestDataDelete204Response | HarvestDataDeleteDefaultResponse
+): response is HarvestDataDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | ImageProcessingCreateRasterizeJob202Response
-    | ImageProcessingCreateRasterizeJobdefaultResponse
-): response is ImageProcessingCreateRasterizeJobdefaultResponse;
+    | ImageProcessingCreateRasterizeJobDefaultResponse
+): response is ImageProcessingCreateRasterizeJobDefaultResponse;
 export function isUnexpected(
   response:
-    | InsightAttachmentsListByFarmerIdModelIdAndResource200Response
-    | InsightAttachmentsListByFarmerIdModelIdAndResourcedefaultResponse
-): response is InsightAttachmentsListByFarmerIdModelIdAndResourcedefaultResponse;
+    | ImageProcessingGetRasterizeJob200Response
+    | ImageProcessingGetRasterizeJobDefaultResponse
+): response is ImageProcessingGetRasterizeJobDefaultResponse;
+export function isUnexpected(
+  response:
+    | InsightAttachmentsListByPartyIdModelIdAndResource200Response
+    | InsightAttachmentsListByPartyIdModelIdAndResourceDefaultResponse
+): response is InsightAttachmentsListByPartyIdModelIdAndResourceDefaultResponse;
 export function isUnexpected(
   response:
     | InsightAttachmentsCreateOrUpdate200Response
     | InsightAttachmentsCreateOrUpdate201Response
-    | InsightAttachmentsCreateOrUpdatedefaultResponse
-): response is InsightAttachmentsCreateOrUpdatedefaultResponse;
+    | InsightAttachmentsCreateOrUpdateDefaultResponse
+): response is InsightAttachmentsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | InsightAttachmentsGet200Response
-    | InsightAttachmentsGetdefaultResponse
-): response is InsightAttachmentsGetdefaultResponse;
+    | InsightAttachmentsGetDefaultResponse
+): response is InsightAttachmentsGetDefaultResponse;
 export function isUnexpected(
   response:
     | InsightAttachmentsDelete204Response
-    | InsightAttachmentsDeletedefaultResponse
-): response is InsightAttachmentsDeletedefaultResponse;
+    | InsightAttachmentsDeleteDefaultResponse
+): response is InsightAttachmentsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | InsightAttachmentsDownload200Response
-    | InsightAttachmentsDownloaddefaultResponse
-): response is InsightAttachmentsDownloaddefaultResponse;
+    | InsightAttachmentsDownloadDefaultResponse
+): response is InsightAttachmentsDownloadDefaultResponse;
 export function isUnexpected(
   response:
-    | InsightsListByFarmerIdModelIdAndResource200Response
-    | InsightsListByFarmerIdModelIdAndResourcedefaultResponse
-): response is InsightsListByFarmerIdModelIdAndResourcedefaultResponse;
+    | InsightsCreateCascadeDeleteJob202Response
+    | InsightsCreateCascadeDeleteJobDefaultResponse
+): response is InsightsCreateCascadeDeleteJobDefaultResponse;
+export function isUnexpected(
+  response:
+    | InsightsGetCascadeDeleteJobDetails200Response
+    | InsightsGetCascadeDeleteJobDetailsDefaultResponse
+): response is InsightsGetCascadeDeleteJobDetailsDefaultResponse;
+export function isUnexpected(
+  response:
+    | InsightsListByPartyIdModelIdAndResource200Response
+    | InsightsListByPartyIdModelIdAndResourceDefaultResponse
+): response is InsightsListByPartyIdModelIdAndResourceDefaultResponse;
 export function isUnexpected(
   response:
     | InsightsCreateOrUpdate200Response
     | InsightsCreateOrUpdate201Response
-    | InsightsCreateOrUpdatedefaultResponse
-): response is InsightsCreateOrUpdatedefaultResponse;
+    | InsightsCreateOrUpdateDefaultResponse
+): response is InsightsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: InsightsGet200Response | InsightsGetdefaultResponse
-): response is InsightsGetdefaultResponse;
+  response: InsightsGet200Response | InsightsGetDefaultResponse
+): response is InsightsGetDefaultResponse;
 export function isUnexpected(
-  response: InsightsDelete204Response | InsightsDeletedefaultResponse
-): response is InsightsDeletedefaultResponse;
+  response: InsightsDelete204Response | InsightsDeleteDefaultResponse
+): response is InsightsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | InsightsCreateCascadeDeleteJob202Response
-    | InsightsCreateCascadeDeleteJobdefaultResponse
-): response is InsightsCreateCascadeDeleteJobdefaultResponse;
+  response: ManagementZonesList200Response | ManagementZonesListDefaultResponse
+): response is ManagementZonesListDefaultResponse;
 export function isUnexpected(
   response:
-    | InsightsGetCascadeDeleteJobDetails200Response
-    | InsightsGetCascadeDeleteJobDetailsdefaultResponse
-): response is InsightsGetCascadeDeleteJobDetailsdefaultResponse;
+    | ManagementZonesGetCascadeDeleteJobDetails200Response
+    | ManagementZonesGetCascadeDeleteJobDetailsDefaultResponse
+): response is ManagementZonesGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
   response:
-    | ManagementZonesListByFarmerId200Response
-    | ManagementZonesListByFarmerIddefaultResponse
-): response is ManagementZonesListByFarmerIddefaultResponse;
+    | ManagementZonesCreateCascadeDeleteJob202Response
+    | ManagementZonesCreateCascadeDeleteJobDefaultResponse
+): response is ManagementZonesCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
-  response: ManagementZonesGet200Response | ManagementZonesGetdefaultResponse
-): response is ManagementZonesGetdefaultResponse;
+  response:
+    | ManagementZonesListByPartyId200Response
+    | ManagementZonesListByPartyIdDefaultResponse
+): response is ManagementZonesListByPartyIdDefaultResponse;
+export function isUnexpected(
+  response: ManagementZonesGet200Response | ManagementZonesGetDefaultResponse
+): response is ManagementZonesGetDefaultResponse;
 export function isUnexpected(
   response:
     | ManagementZonesCreateOrUpdate200Response
     | ManagementZonesCreateOrUpdate201Response
-    | ManagementZonesCreateOrUpdatedefaultResponse
-): response is ManagementZonesCreateOrUpdatedefaultResponse;
+    | ManagementZonesCreateOrUpdateDefaultResponse
+): response is ManagementZonesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | ManagementZonesDelete204Response
-    | ManagementZonesDeletedefaultResponse
-): response is ManagementZonesDeletedefaultResponse;
-export function isUnexpected(
-  response: ManagementZonesList200Response | ManagementZonesListdefaultResponse
-): response is ManagementZonesListdefaultResponse;
-export function isUnexpected(
-  response:
-    | ManagementZonesGetCascadeDeleteJobDetails200Response
-    | ManagementZonesGetCascadeDeleteJobDetailsdefaultResponse
-): response is ManagementZonesGetCascadeDeleteJobDetailsdefaultResponse;
-export function isUnexpected(
-  response:
-    | ManagementZonesCreateCascadeDeleteJob202Response
-    | ManagementZonesCreateCascadeDeleteJobdefaultResponse
-): response is ManagementZonesCreateCascadeDeleteJobdefaultResponse;
+    | ManagementZonesDeleteDefaultResponse
+): response is ManagementZonesDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | ModelInferenceCreateBiomassModelJob202Response
-    | ModelInferenceCreateBiomassModelJobdefaultResponse
-): response is ModelInferenceCreateBiomassModelJobdefaultResponse;
+    | ModelInferenceCreateBiomassModelJobDefaultResponse
+): response is ModelInferenceCreateBiomassModelJobDefaultResponse;
 export function isUnexpected(
   response:
     | ModelInferenceGetBiomassModelJob200Response
-    | ModelInferenceGetBiomassModelJobdefaultResponse
-): response is ModelInferenceGetBiomassModelJobdefaultResponse;
+    | ModelInferenceGetBiomassModelJobDefaultResponse
+): response is ModelInferenceGetBiomassModelJobDefaultResponse;
+export function isUnexpected(
+  response:
+    | ModelInferenceCreateSensorPlacementModelJob202Response
+    | ModelInferenceCreateSensorPlacementModelJobDefaultResponse
+): response is ModelInferenceCreateSensorPlacementModelJobDefaultResponse;
+export function isUnexpected(
+  response:
+    | ModelInferenceGetSensorPlacementModelJob200Response
+    | ModelInferenceGetSensorPlacementModelJobDefaultResponse
+): response is ModelInferenceGetSensorPlacementModelJobDefaultResponse;
 export function isUnexpected(
   response:
     | ModelInferenceCreateSoilMoistureModelJob202Response
-    | ModelInferenceCreateSoilMoistureModelJobdefaultResponse
-): response is ModelInferenceCreateSoilMoistureModelJobdefaultResponse;
+    | ModelInferenceCreateSoilMoistureModelJobDefaultResponse
+): response is ModelInferenceCreateSoilMoistureModelJobDefaultResponse;
 export function isUnexpected(
   response:
     | ModelInferenceGetSoilMoistureModelJob200Response
-    | ModelInferenceGetSoilMoistureModelJobdefaultResponse
-): response is ModelInferenceGetSoilMoistureModelJobdefaultResponse;
+    | ModelInferenceGetSoilMoistureModelJobDefaultResponse
+): response is ModelInferenceGetSoilMoistureModelJobDefaultResponse;
 export function isUnexpected(
   response:
-    | NutrientAnalysesListByFarmerId200Response
-    | NutrientAnalysesListByFarmerIddefaultResponse
-): response is NutrientAnalysesListByFarmerIddefaultResponse;
+    | NutrientAnalysesList200Response
+    | NutrientAnalysesListDefaultResponse
+): response is NutrientAnalysesListDefaultResponse;
 export function isUnexpected(
-  response: NutrientAnalysesGet200Response | NutrientAnalysesGetdefaultResponse
-): response is NutrientAnalysesGetdefaultResponse;
+  response:
+    | NutrientAnalysesListByPartyId200Response
+    | NutrientAnalysesListByPartyIdDefaultResponse
+): response is NutrientAnalysesListByPartyIdDefaultResponse;
+export function isUnexpected(
+  response: NutrientAnalysesGet200Response | NutrientAnalysesGetDefaultResponse
+): response is NutrientAnalysesGetDefaultResponse;
 export function isUnexpected(
   response:
     | NutrientAnalysesCreateOrUpdate200Response
     | NutrientAnalysesCreateOrUpdate201Response
-    | NutrientAnalysesCreateOrUpdatedefaultResponse
-): response is NutrientAnalysesCreateOrUpdatedefaultResponse;
+    | NutrientAnalysesCreateOrUpdateDefaultResponse
+): response is NutrientAnalysesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | NutrientAnalysesDelete204Response
-    | NutrientAnalysesDeletedefaultResponse
-): response is NutrientAnalysesDeletedefaultResponse;
+    | NutrientAnalysesDeleteDefaultResponse
+): response is NutrientAnalysesDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | NutrientAnalysesList200Response
-    | NutrientAnalysesListdefaultResponse
-): response is NutrientAnalysesListdefaultResponse;
+  response: OAuthProvidersList200Response | OAuthProvidersListDefaultResponse
+): response is OAuthProvidersListDefaultResponse;
 export function isUnexpected(
-  response: OAuthProvidersList200Response | OAuthProvidersListdefaultResponse
-): response is OAuthProvidersListdefaultResponse;
-export function isUnexpected(
-  response: OAuthProvidersGet200Response | OAuthProvidersGetdefaultResponse
-): response is OAuthProvidersGetdefaultResponse;
+  response: OAuthProvidersGet200Response | OAuthProvidersGetDefaultResponse
+): response is OAuthProvidersGetDefaultResponse;
 export function isUnexpected(
   response:
     | OAuthProvidersCreateOrUpdate200Response
     | OAuthProvidersCreateOrUpdate201Response
-    | OAuthProvidersCreateOrUpdatedefaultResponse
-): response is OAuthProvidersCreateOrUpdatedefaultResponse;
+    | OAuthProvidersCreateOrUpdateDefaultResponse
+): response is OAuthProvidersCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | OAuthProvidersDelete204Response
-    | OAuthProvidersDeletedefaultResponse
-): response is OAuthProvidersDeletedefaultResponse;
+    | OAuthProvidersDeleteDefaultResponse
+): response is OAuthProvidersDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | OAuthProvidersGetCascadeDeleteJobDetails200Response
-    | OAuthProvidersGetCascadeDeleteJobDetailsdefaultResponse
-): response is OAuthProvidersGetCascadeDeleteJobDetailsdefaultResponse;
+    | OAuthProvidersGetCascadeDeleteJobDetailsDefaultResponse
+): response is OAuthProvidersGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
   response:
     | OAuthProvidersCreateCascadeDeleteJob202Response
-    | OAuthProvidersCreateCascadeDeleteJobdefaultResponse
-): response is OAuthProvidersCreateCascadeDeleteJobdefaultResponse;
+    | OAuthProvidersCreateCascadeDeleteJobDefaultResponse
+): response is OAuthProvidersCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
-  response: OAuthTokensList200Response | OAuthTokensListdefaultResponse
-): response is OAuthTokensListdefaultResponse;
+  response: OAuthTokensList200Response | OAuthTokensListDefaultResponse
+): response is OAuthTokensListDefaultResponse;
 export function isUnexpected(
   response:
     | OAuthTokensGetOAuthConnectionLink200Response
-    | OAuthTokensGetOAuthConnectionLinkdefaultResponse
-): response is OAuthTokensGetOAuthConnectionLinkdefaultResponse;
-export function isUnexpected(
-  response:
-    | OAuthTokensCreateCascadeDeleteJob202Response
-    | OAuthTokensCreateCascadeDeleteJobdefaultResponse
-): response is OAuthTokensCreateCascadeDeleteJobdefaultResponse;
+    | OAuthTokensGetOAuthConnectionLinkDefaultResponse
+): response is OAuthTokensGetOAuthConnectionLinkDefaultResponse;
 export function isUnexpected(
   response:
     | OAuthTokensGetCascadeDeleteJobDetails200Response
-    | OAuthTokensGetCascadeDeleteJobDetailsdefaultResponse
-): response is OAuthTokensGetCascadeDeleteJobDetailsdefaultResponse;
+    | OAuthTokensGetCascadeDeleteJobDetailsDefaultResponse
+): response is OAuthTokensGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
   response:
-    | PlantingDataListByFarmerId200Response
-    | PlantingDataListByFarmerIddefaultResponse
-): response is PlantingDataListByFarmerIddefaultResponse;
+    | OAuthTokensCreateCascadeDeleteJob202Response
+    | OAuthTokensCreateCascadeDeleteJobDefaultResponse
+): response is OAuthTokensCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
-  response: PlantingDataGet200Response | PlantingDataGetdefaultResponse
-): response is PlantingDataGetdefaultResponse;
+  response: PartiesList200Response | PartiesListDefaultResponse
+): response is PartiesListDefaultResponse;
+export function isUnexpected(
+  response: PartiesGet200Response | PartiesGetDefaultResponse
+): response is PartiesGetDefaultResponse;
+export function isUnexpected(
+  response:
+    | PartiesCreateOrUpdate200Response
+    | PartiesCreateOrUpdate201Response
+    | PartiesCreateOrUpdateDefaultResponse
+): response is PartiesCreateOrUpdateDefaultResponse;
+export function isUnexpected(
+  response: PartiesDelete204Response | PartiesDeleteDefaultResponse
+): response is PartiesDeleteDefaultResponse;
+export function isUnexpected(
+  response:
+    | PartiesGetCascadeDeleteJobDetails200Response
+    | PartiesGetCascadeDeleteJobDetailsDefaultResponse
+): response is PartiesGetCascadeDeleteJobDetailsDefaultResponse;
+export function isUnexpected(
+  response:
+    | PartiesCreateCascadeDeleteJob202Response
+    | PartiesCreateCascadeDeleteJobDefaultResponse
+): response is PartiesCreateCascadeDeleteJobDefaultResponse;
+export function isUnexpected(
+  response:
+    | PlantingDataListByPartyId200Response
+    | PlantingDataListByPartyIdDefaultResponse
+): response is PlantingDataListByPartyIdDefaultResponse;
+export function isUnexpected(
+  response: PlantingDataGet200Response | PlantingDataGetDefaultResponse
+): response is PlantingDataGetDefaultResponse;
 export function isUnexpected(
   response:
     | PlantingDataCreateOrUpdate200Response
     | PlantingDataCreateOrUpdate201Response
-    | PlantingDataCreateOrUpdatedefaultResponse
-): response is PlantingDataCreateOrUpdatedefaultResponse;
+    | PlantingDataCreateOrUpdateDefaultResponse
+): response is PlantingDataCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: PlantingDataDelete204Response | PlantingDataDeletedefaultResponse
-): response is PlantingDataDeletedefaultResponse;
+  response: PlantingDataDelete204Response | PlantingDataDeleteDefaultResponse
+): response is PlantingDataDeleteDefaultResponse;
 export function isUnexpected(
-  response: PlantingDataList200Response | PlantingDataListdefaultResponse
-): response is PlantingDataListdefaultResponse;
+  response: PlantingDataList200Response | PlantingDataListDefaultResponse
+): response is PlantingDataListDefaultResponse;
 export function isUnexpected(
   response:
     | PlantingDataCreateCascadeDeleteJob202Response
-    | PlantingDataCreateCascadeDeleteJobdefaultResponse
-): response is PlantingDataCreateCascadeDeleteJobdefaultResponse;
+    | PlantingDataCreateCascadeDeleteJobDefaultResponse
+): response is PlantingDataCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
   response:
     | PlantingDataGetCascadeDeleteJobDetails200Response
-    | PlantingDataGetCascadeDeleteJobDetailsdefaultResponse
-): response is PlantingDataGetCascadeDeleteJobDetailsdefaultResponse;
+    | PlantingDataGetCascadeDeleteJobDetailsDefaultResponse
+): response is PlantingDataGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
   response:
-    | PlantTissueAnalysesListByFarmerId200Response
-    | PlantTissueAnalysesListByFarmerIddefaultResponse
-): response is PlantTissueAnalysesListByFarmerIddefaultResponse;
+    | PlantTissueAnalysesListByPartyId200Response
+    | PlantTissueAnalysesListByPartyIdDefaultResponse
+): response is PlantTissueAnalysesListByPartyIdDefaultResponse;
 export function isUnexpected(
   response:
     | PlantTissueAnalysesGet200Response
-    | PlantTissueAnalysesGetdefaultResponse
-): response is PlantTissueAnalysesGetdefaultResponse;
+    | PlantTissueAnalysesGetDefaultResponse
+): response is PlantTissueAnalysesGetDefaultResponse;
 export function isUnexpected(
   response:
     | PlantTissueAnalysesCreateOrUpdate200Response
     | PlantTissueAnalysesCreateOrUpdate201Response
-    | PlantTissueAnalysesCreateOrUpdatedefaultResponse
-): response is PlantTissueAnalysesCreateOrUpdatedefaultResponse;
+    | PlantTissueAnalysesCreateOrUpdateDefaultResponse
+): response is PlantTissueAnalysesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | PlantTissueAnalysesDelete204Response
-    | PlantTissueAnalysesDeletedefaultResponse
-): response is PlantTissueAnalysesDeletedefaultResponse;
+    | PlantTissueAnalysesDeleteDefaultResponse
+): response is PlantTissueAnalysesDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | PlantTissueAnalysesList200Response
-    | PlantTissueAnalysesListdefaultResponse
-): response is PlantTissueAnalysesListdefaultResponse;
+    | PlantTissueAnalysesListDefaultResponse
+): response is PlantTissueAnalysesListDefaultResponse;
 export function isUnexpected(
   response:
     | PlantTissueAnalysesCreateCascadeDeleteJob202Response
-    | PlantTissueAnalysesCreateCascadeDeleteJobdefaultResponse
-): response is PlantTissueAnalysesCreateCascadeDeleteJobdefaultResponse;
+    | PlantTissueAnalysesCreateCascadeDeleteJobDefaultResponse
+): response is PlantTissueAnalysesCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
   response:
     | PlantTissueAnalysesGetCascadeDeleteJobDetails200Response
-    | PlantTissueAnalysesGetCascadeDeleteJobDetailsdefaultResponse
-): response is PlantTissueAnalysesGetCascadeDeleteJobDetailsdefaultResponse;
+    | PlantTissueAnalysesGetCascadeDeleteJobDetailsDefaultResponse
+): response is PlantTissueAnalysesGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
   response:
-    | PrescriptionMapsListByFarmerId200Response
-    | PrescriptionMapsListByFarmerIddefaultResponse
-): response is PrescriptionMapsListByFarmerIddefaultResponse;
+    | PrescriptionMapsListByPartyId200Response
+    | PrescriptionMapsListByPartyIdDefaultResponse
+): response is PrescriptionMapsListByPartyIdDefaultResponse;
 export function isUnexpected(
-  response: PrescriptionMapsGet200Response | PrescriptionMapsGetdefaultResponse
-): response is PrescriptionMapsGetdefaultResponse;
+  response: PrescriptionMapsGet200Response | PrescriptionMapsGetDefaultResponse
+): response is PrescriptionMapsGetDefaultResponse;
 export function isUnexpected(
   response:
     | PrescriptionMapsCreateOrUpdate200Response
     | PrescriptionMapsCreateOrUpdate201Response
-    | PrescriptionMapsCreateOrUpdatedefaultResponse
-): response is PrescriptionMapsCreateOrUpdatedefaultResponse;
+    | PrescriptionMapsCreateOrUpdateDefaultResponse
+): response is PrescriptionMapsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | PrescriptionMapsDelete204Response
-    | PrescriptionMapsDeletedefaultResponse
-): response is PrescriptionMapsDeletedefaultResponse;
+    | PrescriptionMapsDeleteDefaultResponse
+): response is PrescriptionMapsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | PrescriptionMapsList200Response
-    | PrescriptionMapsListdefaultResponse
-): response is PrescriptionMapsListdefaultResponse;
+    | PrescriptionMapsListDefaultResponse
+): response is PrescriptionMapsListDefaultResponse;
 export function isUnexpected(
   response:
     | PrescriptionMapsGetCascadeDeleteJobDetails200Response
-    | PrescriptionMapsGetCascadeDeleteJobDetailsdefaultResponse
-): response is PrescriptionMapsGetCascadeDeleteJobDetailsdefaultResponse;
+    | PrescriptionMapsGetCascadeDeleteJobDetailsDefaultResponse
+): response is PrescriptionMapsGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
   response:
     | PrescriptionMapsCreateCascadeDeleteJob202Response
-    | PrescriptionMapsCreateCascadeDeleteJobdefaultResponse
-): response is PrescriptionMapsCreateCascadeDeleteJobdefaultResponse;
+    | PrescriptionMapsCreateCascadeDeleteJobDefaultResponse
+): response is PrescriptionMapsCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
   response:
-    | PrescriptionsListByFarmerId200Response
-    | PrescriptionsListByFarmerIddefaultResponse
-): response is PrescriptionsListByFarmerIddefaultResponse;
+    | PrescriptionsListByPartyId200Response
+    | PrescriptionsListByPartyIdDefaultResponse
+): response is PrescriptionsListByPartyIdDefaultResponse;
 export function isUnexpected(
-  response: PrescriptionsGet200Response | PrescriptionsGetdefaultResponse
-): response is PrescriptionsGetdefaultResponse;
+  response: PrescriptionsGet200Response | PrescriptionsGetDefaultResponse
+): response is PrescriptionsGetDefaultResponse;
 export function isUnexpected(
   response:
     | PrescriptionsCreateOrUpdate200Response
     | PrescriptionsCreateOrUpdate201Response
-    | PrescriptionsCreateOrUpdatedefaultResponse
-): response is PrescriptionsCreateOrUpdatedefaultResponse;
+    | PrescriptionsCreateOrUpdateDefaultResponse
+): response is PrescriptionsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: PrescriptionsDelete204Response | PrescriptionsDeletedefaultResponse
-): response is PrescriptionsDeletedefaultResponse;
+  response: PrescriptionsDelete204Response | PrescriptionsDeleteDefaultResponse
+): response is PrescriptionsDeleteDefaultResponse;
 export function isUnexpected(
-  response: PrescriptionsList200Response | PrescriptionsListdefaultResponse
-): response is PrescriptionsListdefaultResponse;
+  response: PrescriptionsList200Response | PrescriptionsListDefaultResponse
+): response is PrescriptionsListDefaultResponse;
 export function isUnexpected(
   response:
     | PrescriptionsGetCascadeDeleteJobDetails200Response
-    | PrescriptionsGetCascadeDeleteJobDetailsdefaultResponse
-): response is PrescriptionsGetCascadeDeleteJobDetailsdefaultResponse;
+    | PrescriptionsGetCascadeDeleteJobDetailsDefaultResponse
+): response is PrescriptionsGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
   response:
     | PrescriptionsCreateCascadeDeleteJob202Response
-    | PrescriptionsCreateCascadeDeleteJobdefaultResponse
-): response is PrescriptionsCreateCascadeDeleteJobdefaultResponse;
+    | PrescriptionsCreateCascadeDeleteJobDefaultResponse
+): response is PrescriptionsCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
-  response: ScenesList200Response | ScenesListdefaultResponse
-): response is ScenesListdefaultResponse;
+  response: ScenesList200Response | ScenesListDefaultResponse
+): response is ScenesListDefaultResponse;
 export function isUnexpected(
-  response: ScenesDownload200Response | ScenesDownloaddefaultResponse
-): response is ScenesDownloaddefaultResponse;
+  response: ScenesDownload200Response | ScenesDownloadDefaultResponse
+): response is ScenesDownloadDefaultResponse;
 export function isUnexpected(
   response:
     | ScenesCreateSatelliteDataIngestionJob202Response
-    | ScenesCreateSatelliteDataIngestionJobdefaultResponse
-): response is ScenesCreateSatelliteDataIngestionJobdefaultResponse;
+    | ScenesCreateSatelliteDataIngestionJobDefaultResponse
+): response is ScenesCreateSatelliteDataIngestionJobDefaultResponse;
 export function isUnexpected(
   response:
     | ScenesGetSatelliteDataIngestionJobDetails200Response
-    | ScenesGetSatelliteDataIngestionJobDetailsdefaultResponse
-): response is ScenesGetSatelliteDataIngestionJobDetailsdefaultResponse;
+    | ScenesGetSatelliteDataIngestionJobDetailsDefaultResponse
+): response is ScenesGetSatelliteDataIngestionJobDetailsDefaultResponse;
 export function isUnexpected(
   response:
-    | SeasonalFieldsListByFarmerId200Response
-    | SeasonalFieldsListByFarmerIddefaultResponse
-): response is SeasonalFieldsListByFarmerIddefaultResponse;
+    | ScenesSearchFeatures200Response
+    | ScenesSearchFeaturesDefaultResponse
+): response is ScenesSearchFeaturesDefaultResponse;
 export function isUnexpected(
-  response: SeasonalFieldsGet200Response | SeasonalFieldsGetdefaultResponse
-): response is SeasonalFieldsGetdefaultResponse;
+  response:
+    | ScenesGetStacFeature200Response
+    | ScenesGetStacFeatureDefaultResponse
+): response is ScenesGetStacFeatureDefaultResponse;
+export function isUnexpected(
+  response:
+    | SeasonalFieldsListByPartyId200Response
+    | SeasonalFieldsListByPartyIdDefaultResponse
+): response is SeasonalFieldsListByPartyIdDefaultResponse;
+export function isUnexpected(
+  response: SeasonalFieldsGet200Response | SeasonalFieldsGetDefaultResponse
+): response is SeasonalFieldsGetDefaultResponse;
 export function isUnexpected(
   response:
     | SeasonalFieldsCreateOrUpdate200Response
     | SeasonalFieldsCreateOrUpdate201Response
-    | SeasonalFieldsCreateOrUpdatedefaultResponse
-): response is SeasonalFieldsCreateOrUpdatedefaultResponse;
+    | SeasonalFieldsCreateOrUpdateDefaultResponse
+): response is SeasonalFieldsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | SeasonalFieldsDelete204Response
-    | SeasonalFieldsDeletedefaultResponse
-): response is SeasonalFieldsDeletedefaultResponse;
+    | SeasonalFieldsDeleteDefaultResponse
+): response is SeasonalFieldsDeleteDefaultResponse;
 export function isUnexpected(
-  response: SeasonalFieldsList200Response | SeasonalFieldsListdefaultResponse
-): response is SeasonalFieldsListdefaultResponse;
-export function isUnexpected(
-  response:
-    | SeasonalFieldsCreateCascadeDeleteJob202Response
-    | SeasonalFieldsCreateCascadeDeleteJobdefaultResponse
-): response is SeasonalFieldsCreateCascadeDeleteJobdefaultResponse;
+  response: SeasonalFieldsList200Response | SeasonalFieldsListDefaultResponse
+): response is SeasonalFieldsListDefaultResponse;
 export function isUnexpected(
   response:
     | SeasonalFieldsGetCascadeDeleteJobDetails200Response
-    | SeasonalFieldsGetCascadeDeleteJobDetailsdefaultResponse
-): response is SeasonalFieldsGetCascadeDeleteJobDetailsdefaultResponse;
+    | SeasonalFieldsGetCascadeDeleteJobDetailsDefaultResponse
+): response is SeasonalFieldsGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
-  response: SeasonsList200Response | SeasonsListdefaultResponse
-): response is SeasonsListdefaultResponse;
+  response:
+    | SeasonalFieldsCreateCascadeDeleteJob202Response
+    | SeasonalFieldsCreateCascadeDeleteJobDefaultResponse
+): response is SeasonalFieldsCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
-  response: SeasonsGet200Response | SeasonsGetdefaultResponse
-): response is SeasonsGetdefaultResponse;
+  response: SeasonsList200Response | SeasonsListDefaultResponse
+): response is SeasonsListDefaultResponse;
+export function isUnexpected(
+  response: SeasonsGet200Response | SeasonsGetDefaultResponse
+): response is SeasonsGetDefaultResponse;
 export function isUnexpected(
   response:
     | SeasonsCreateOrUpdate200Response
     | SeasonsCreateOrUpdate201Response
-    | SeasonsCreateOrUpdatedefaultResponse
-): response is SeasonsCreateOrUpdatedefaultResponse;
+    | SeasonsCreateOrUpdateDefaultResponse
+): response is SeasonsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: SeasonsDelete204Response | SeasonsDeletedefaultResponse
-): response is SeasonsDeletedefaultResponse;
+  response: SeasonsDelete204Response | SeasonsDeleteDefaultResponse
+): response is SeasonsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | SensorDataModelsList200Response
-    | SensorDataModelsListdefaultResponse
-): response is SensorDataModelsListdefaultResponse;
+    | SensorDataModelsListDefaultResponse
+): response is SensorDataModelsListDefaultResponse;
 export function isUnexpected(
   response:
     | SensorDataModelsCreateOrUpdate200Response
     | SensorDataModelsCreateOrUpdate201Response
-    | SensorDataModelsCreateOrUpdatedefaultResponse
-): response is SensorDataModelsCreateOrUpdatedefaultResponse;
+    | SensorDataModelsCreateOrUpdateDefaultResponse
+): response is SensorDataModelsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: SensorDataModelsGet200Response | SensorDataModelsGetdefaultResponse
-): response is SensorDataModelsGetdefaultResponse;
+  response: SensorDataModelsGet200Response | SensorDataModelsGetDefaultResponse
+): response is SensorDataModelsGetDefaultResponse;
 export function isUnexpected(
   response:
     | SensorDataModelsDelete204Response
-    | SensorDataModelsDeletedefaultResponse
-): response is SensorDataModelsDeletedefaultResponse;
+    | SensorDataModelsDeleteDefaultResponse
+): response is SensorDataModelsDeleteDefaultResponse;
 export function isUnexpected(
-  response: SensorEventsList200Response | SensorEventsListdefaultResponse
-): response is SensorEventsListdefaultResponse;
+  response: SensorEventsList200Response | SensorEventsListDefaultResponse
+): response is SensorEventsListDefaultResponse;
 export function isUnexpected(
-  response: SensorMappingsList200Response | SensorMappingsListdefaultResponse
-): response is SensorMappingsListdefaultResponse;
+  response: SensorMappingsList200Response | SensorMappingsListDefaultResponse
+): response is SensorMappingsListDefaultResponse;
 export function isUnexpected(
   response:
     | SensorMappingsCreateOrUpdate200Response
     | SensorMappingsCreateOrUpdate201Response
-    | SensorMappingsCreateOrUpdatedefaultResponse
-): response is SensorMappingsCreateOrUpdatedefaultResponse;
+    | SensorMappingsCreateOrUpdateDefaultResponse
+): response is SensorMappingsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: SensorMappingsGet200Response | SensorMappingsGetdefaultResponse
-): response is SensorMappingsGetdefaultResponse;
+  response: SensorMappingsGet200Response | SensorMappingsGetDefaultResponse
+): response is SensorMappingsGetDefaultResponse;
 export function isUnexpected(
   response:
     | SensorMappingsDelete204Response
-    | SensorMappingsDeletedefaultResponse
-): response is SensorMappingsDeletedefaultResponse;
+    | SensorMappingsDeleteDefaultResponse
+): response is SensorMappingsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | SensorPartnerIntegrationsList200Response
-    | SensorPartnerIntegrationsListdefaultResponse
-): response is SensorPartnerIntegrationsListdefaultResponse;
+    | SensorPartnerIntegrationsListDefaultResponse
+): response is SensorPartnerIntegrationsListDefaultResponse;
 export function isUnexpected(
   response:
     | SensorPartnerIntegrationsCreateOrUpdate200Response
     | SensorPartnerIntegrationsCreateOrUpdate201Response
-    | SensorPartnerIntegrationsCreateOrUpdatedefaultResponse
-): response is SensorPartnerIntegrationsCreateOrUpdatedefaultResponse;
+    | SensorPartnerIntegrationsCreateOrUpdateDefaultResponse
+): response is SensorPartnerIntegrationsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | SensorPartnerIntegrationsGet200Response
-    | SensorPartnerIntegrationsGetdefaultResponse
-): response is SensorPartnerIntegrationsGetdefaultResponse;
+    | SensorPartnerIntegrationsGetDefaultResponse
+): response is SensorPartnerIntegrationsGetDefaultResponse;
 export function isUnexpected(
   response:
     | SensorPartnerIntegrationsDelete204Response
-    | SensorPartnerIntegrationsDeletedefaultResponse
-): response is SensorPartnerIntegrationsDeletedefaultResponse;
+    | SensorPartnerIntegrationsDeleteDefaultResponse
+): response is SensorPartnerIntegrationsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | SensorPartnerIntegrationsCheckConsent200Response
-    | SensorPartnerIntegrationsCheckConsentdefaultResponse
-): response is SensorPartnerIntegrationsCheckConsentdefaultResponse;
+    | SensorPartnerIntegrationsCheckConsentDefaultResponse
+): response is SensorPartnerIntegrationsCheckConsentDefaultResponse;
 export function isUnexpected(
   response:
     | SensorPartnerIntegrationsGenerateConsentLink200Response
-    | SensorPartnerIntegrationsGenerateConsentLinkdefaultResponse
-): response is SensorPartnerIntegrationsGenerateConsentLinkdefaultResponse;
+    | SensorPartnerIntegrationsGenerateConsentLinkDefaultResponse
+): response is SensorPartnerIntegrationsGenerateConsentLinkDefaultResponse;
 export function isUnexpected(
-  response: SensorsList200Response | SensorsListdefaultResponse
-): response is SensorsListdefaultResponse;
+  response: SensorsList200Response | SensorsListDefaultResponse
+): response is SensorsListDefaultResponse;
 export function isUnexpected(
   response:
     | SensorsCreateOrUpdate200Response
     | SensorsCreateOrUpdate201Response
-    | SensorsCreateOrUpdatedefaultResponse
-): response is SensorsCreateOrUpdatedefaultResponse;
+    | SensorsCreateOrUpdateDefaultResponse
+): response is SensorsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: SensorsGet200Response | SensorsGetdefaultResponse
-): response is SensorsGetdefaultResponse;
+  response: SensorsGet200Response | SensorsGetDefaultResponse
+): response is SensorsGetDefaultResponse;
 export function isUnexpected(
-  response: SensorsDelete204Response | SensorsDeletedefaultResponse
-): response is SensorsDeletedefaultResponse;
+  response: SensorsDelete204Response | SensorsDeleteDefaultResponse
+): response is SensorsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | SensorsGetConnectionString200Response
-    | SensorsGetConnectionStringdefaultResponse
-): response is SensorsGetConnectionStringdefaultResponse;
+    | SensorsGetConnectionStringDefaultResponse
+): response is SensorsGetConnectionStringDefaultResponse;
 export function isUnexpected(
   response:
     | SensorsRenewConnectionString200Response
-    | SensorsRenewConnectionStringdefaultResponse
-): response is SensorsRenewConnectionStringdefaultResponse;
+    | SensorsRenewConnectionStringDefaultResponse
+): response is SensorsRenewConnectionStringDefaultResponse;
 export function isUnexpected(
   response:
     | SolutionInferenceCancel200Response
-    | SolutionInferenceCanceldefaultResponse
-): response is SolutionInferenceCanceldefaultResponse;
+    | SolutionInferenceCancelDefaultResponse
+): response is SolutionInferenceCancelDefaultResponse;
 export function isUnexpected(
   response:
     | SolutionInferenceCreateOrUpdate202Response
-    | SolutionInferenceCreateOrUpdatedefaultResponse
-): response is SolutionInferenceCreateOrUpdatedefaultResponse;
+    | SolutionInferenceCreateOrUpdateDefaultResponse
+): response is SolutionInferenceCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | SolutionInferenceFetch200Response
-    | SolutionInferenceFetchdefaultResponse
-): response is SolutionInferenceFetchdefaultResponse;
+    | SolutionInferenceFetchDefaultResponse
+): response is SolutionInferenceFetchDefaultResponse;
 export function isUnexpected(
   response:
-    | TillageDataListByFarmerId200Response
-    | TillageDataListByFarmerIddefaultResponse
-): response is TillageDataListByFarmerIddefaultResponse;
+    | TillageDataListByPartyId200Response
+    | TillageDataListByPartyIdDefaultResponse
+): response is TillageDataListByPartyIdDefaultResponse;
 export function isUnexpected(
-  response: TillageDataGet200Response | TillageDataGetdefaultResponse
-): response is TillageDataGetdefaultResponse;
+  response: TillageDataGet200Response | TillageDataGetDefaultResponse
+): response is TillageDataGetDefaultResponse;
 export function isUnexpected(
   response:
     | TillageDataCreateOrUpdate200Response
     | TillageDataCreateOrUpdate201Response
-    | TillageDataCreateOrUpdatedefaultResponse
-): response is TillageDataCreateOrUpdatedefaultResponse;
+    | TillageDataCreateOrUpdateDefaultResponse
+): response is TillageDataCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: TillageDataDelete204Response | TillageDataDeletedefaultResponse
-): response is TillageDataDeletedefaultResponse;
+  response: TillageDataDelete204Response | TillageDataDeleteDefaultResponse
+): response is TillageDataDeleteDefaultResponse;
 export function isUnexpected(
-  response: TillageDataList200Response | TillageDataListdefaultResponse
-): response is TillageDataListdefaultResponse;
+  response: TillageDataList200Response | TillageDataListDefaultResponse
+): response is TillageDataListDefaultResponse;
 export function isUnexpected(
   response:
     | TillageDataCreateCascadeDeleteJob202Response
-    | TillageDataCreateCascadeDeleteJobdefaultResponse
-): response is TillageDataCreateCascadeDeleteJobdefaultResponse;
+    | TillageDataCreateCascadeDeleteJobDefaultResponse
+): response is TillageDataCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
   response:
     | TillageDataGetCascadeDeleteJobDetails200Response
-    | TillageDataGetCascadeDeleteJobDetailsdefaultResponse
-): response is TillageDataGetCascadeDeleteJobDetailsdefaultResponse;
+    | TillageDataGetCascadeDeleteJobDetailsDefaultResponse
+): response is TillageDataGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
-  response: WeatherList200Response | WeatherListdefaultResponse
-): response is WeatherListdefaultResponse;
+  response: WeatherList200Response | WeatherListDefaultResponse
+): response is WeatherListDefaultResponse;
 export function isUnexpected(
   response:
     | WeatherGetDataDeleteJobDetails200Response
-    | WeatherGetDataDeleteJobDetailsdefaultResponse
-): response is WeatherGetDataDeleteJobDetailsdefaultResponse;
+    | WeatherGetDataDeleteJobDetailsDefaultResponse
+): response is WeatherGetDataDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
   response:
     | WeatherCreateDataDeleteJob202Response
-    | WeatherCreateDataDeleteJobdefaultResponse
-): response is WeatherCreateDataDeleteJobdefaultResponse;
+    | WeatherCreateDataDeleteJobDefaultResponse
+): response is WeatherCreateDataDeleteJobDefaultResponse;
 export function isUnexpected(
   response:
     | WeatherGetDataIngestionJobDetails200Response
-    | WeatherGetDataIngestionJobDetailsdefaultResponse
-): response is WeatherGetDataIngestionJobDetailsdefaultResponse;
+    | WeatherGetDataIngestionJobDetailsDefaultResponse
+): response is WeatherGetDataIngestionJobDetailsDefaultResponse;
 export function isUnexpected(
   response:
     | WeatherCreateDataIngestionJob202Response
-    | WeatherCreateDataIngestionJobdefaultResponse
-): response is WeatherCreateDataIngestionJobdefaultResponse;
+    | WeatherCreateDataIngestionJobDefaultResponse
+): response is WeatherCreateDataIngestionJobDefaultResponse;
 export function isUnexpected(
-  response: ZonesListByFarmerId200Response | ZonesListByFarmerIddefaultResponse
-): response is ZonesListByFarmerIddefaultResponse;
+  response: WeatherDataGet200Response | WeatherDataGetDefaultResponse
+): response is WeatherDataGetDefaultResponse;
 export function isUnexpected(
-  response: ZonesGet200Response | ZonesGetdefaultResponse
-): response is ZonesGetdefaultResponse;
+  response: ZonesListByPartyId200Response | ZonesListByPartyIdDefaultResponse
+): response is ZonesListByPartyIdDefaultResponse;
+export function isUnexpected(
+  response: ZonesGet200Response | ZonesGetDefaultResponse
+): response is ZonesGetDefaultResponse;
 export function isUnexpected(
   response:
     | ZonesCreateOrUpdate200Response
     | ZonesCreateOrUpdate201Response
-    | ZonesCreateOrUpdatedefaultResponse
-): response is ZonesCreateOrUpdatedefaultResponse;
+    | ZonesCreateOrUpdateDefaultResponse
+): response is ZonesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: ZonesDelete204Response | ZonesDeletedefaultResponse
-): response is ZonesDeletedefaultResponse;
+  response: ZonesDelete204Response | ZonesDeleteDefaultResponse
+): response is ZonesDeleteDefaultResponse;
 export function isUnexpected(
-  response: ZonesList200Response | ZonesListdefaultResponse
-): response is ZonesListdefaultResponse;
+  response: ZonesList200Response | ZonesListDefaultResponse
+): response is ZonesListDefaultResponse;
 export function isUnexpected(
   response:
     | ZonesGetCascadeDeleteJobDetails200Response
-    | ZonesGetCascadeDeleteJobDetailsdefaultResponse
-): response is ZonesGetCascadeDeleteJobDetailsdefaultResponse;
+    | ZonesGetCascadeDeleteJobDetailsDefaultResponse
+): response is ZonesGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
   response:
     | ZonesCreateCascadeDeleteJob202Response
-    | ZonesCreateCascadeDeleteJobdefaultResponse
-): response is ZonesCreateCascadeDeleteJobdefaultResponse;
+    | ZonesCreateCascadeDeleteJobDefaultResponse
+): response is ZonesCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationDataList200Response
-    | ApplicationDataListdefaultResponse
+    | ApplicationDataListDefaultResponse
     | ApplicationDataCreateCascadeDeleteJob202Response
-    | ApplicationDataCreateCascadeDeleteJobdefaultResponse
+    | ApplicationDataCreateCascadeDeleteJobDefaultResponse
     | ApplicationDataGetCascadeDeleteJobDetails200Response
-    | ApplicationDataGetCascadeDeleteJobDetailsdefaultResponse
-    | ApplicationDataListByFarmerId200Response
-    | ApplicationDataListByFarmerIddefaultResponse
+    | ApplicationDataGetCascadeDeleteJobDetailsDefaultResponse
+    | ApplicationDataListByPartyId200Response
+    | ApplicationDataListByPartyIdDefaultResponse
     | ApplicationDataGet200Response
-    | ApplicationDataGetdefaultResponse
+    | ApplicationDataGetDefaultResponse
     | ApplicationDataCreateOrUpdate200Response
     | ApplicationDataCreateOrUpdate201Response
-    | ApplicationDataCreateOrUpdatedefaultResponse
+    | ApplicationDataCreateOrUpdateDefaultResponse
     | ApplicationDataDelete204Response
-    | ApplicationDataDeletedefaultResponse
-    | AttachmentsListByFarmerId200Response
-    | AttachmentsListByFarmerIddefaultResponse
+    | ApplicationDataDeleteDefaultResponse
+    | AttachmentsListByPartyId200Response
+    | AttachmentsListByPartyIdDefaultResponse
     | AttachmentsGet200Response
-    | AttachmentsGetdefaultResponse
+    | AttachmentsGetDefaultResponse
     | AttachmentsCreateOrUpdate200Response
     | AttachmentsCreateOrUpdate201Response
-    | AttachmentsCreateOrUpdatedefaultResponse
+    | AttachmentsCreateOrUpdateDefaultResponse
     | AttachmentsDelete204Response
-    | AttachmentsDeletedefaultResponse
+    | AttachmentsDeleteDefaultResponse
     | AttachmentsDownload200Response
-    | AttachmentsDownloaddefaultResponse
+    | AttachmentsDownloadDefaultResponse
     | BoundariesList200Response
-    | BoundariesListdefaultResponse
+    | BoundariesListDefaultResponse
     | BoundariesSearch200Response
-    | BoundariesSearchdefaultResponse
+    | BoundariesSearchDefaultResponse
     | BoundariesCreateCascadeDeleteJob202Response
-    | BoundariesCreateCascadeDeleteJobdefaultResponse
+    | BoundariesCreateCascadeDeleteJobDefaultResponse
     | BoundariesGetCascadeDeleteJobDetails200Response
-    | BoundariesGetCascadeDeleteJobDetailsdefaultResponse
-    | BoundariesListByFarmerId200Response
-    | BoundariesListByFarmerIddefaultResponse
-    | BoundariesSearchByFarmerId200Response
-    | BoundariesSearchByFarmerIddefaultResponse
+    | BoundariesGetCascadeDeleteJobDetailsDefaultResponse
+    | BoundariesListByPartyId200Response
+    | BoundariesListByPartyIdDefaultResponse
+    | BoundariesSearchByPartyId200Response
+    | BoundariesSearchByPartyIdDefaultResponse
     | BoundariesCreateOrUpdate200Response
     | BoundariesCreateOrUpdate201Response
-    | BoundariesCreateOrUpdatedefaultResponse
+    | BoundariesCreateOrUpdateDefaultResponse
     | BoundariesGet200Response
-    | BoundariesGetdefaultResponse
+    | BoundariesGetDefaultResponse
     | BoundariesDelete204Response
-    | BoundariesDeletedefaultResponse
+    | BoundariesDeleteDefaultResponse
     | BoundariesGetOverlap200Response
-    | BoundariesGetOverlapdefaultResponse
+    | BoundariesGetOverlapDefaultResponse
+    | CropProductsList200Response
+    | CropProductsListDefaultResponse
+    | CropProductsGet200Response
+    | CropProductsGetDefaultResponse
+    | CropProductsCreateOrUpdate200Response
+    | CropProductsCreateOrUpdate201Response
+    | CropProductsCreateOrUpdateDefaultResponse
+    | CropProductsDelete204Response
+    | CropProductsDeleteDefaultResponse
     | CropsList200Response
-    | CropsListdefaultResponse
+    | CropsListDefaultResponse
     | CropsGet200Response
-    | CropsGetdefaultResponse
+    | CropsGetDefaultResponse
     | CropsCreateOrUpdate200Response
     | CropsCreateOrUpdate201Response
-    | CropsCreateOrUpdatedefaultResponse
+    | CropsCreateOrUpdateDefaultResponse
     | CropsDelete204Response
-    | CropsDeletedefaultResponse
-    | CropVarietiesList200Response
-    | CropVarietiesListdefaultResponse
-    | CropVarietiesGet200Response
-    | CropVarietiesGetdefaultResponse
-    | CropVarietiesCreateOrUpdate200Response
-    | CropVarietiesCreateOrUpdate201Response
-    | CropVarietiesCreateOrUpdatedefaultResponse
-    | CropVarietiesDelete204Response
-    | CropVarietiesDeletedefaultResponse
+    | CropsDeleteDefaultResponse
     | DeviceDataModelsList200Response
-    | DeviceDataModelsListdefaultResponse
+    | DeviceDataModelsListDefaultResponse
     | DeviceDataModelsCreateOrUpdate200Response
     | DeviceDataModelsCreateOrUpdate201Response
-    | DeviceDataModelsCreateOrUpdatedefaultResponse
+    | DeviceDataModelsCreateOrUpdateDefaultResponse
     | DeviceDataModelsGet200Response
-    | DeviceDataModelsGetdefaultResponse
+    | DeviceDataModelsGetDefaultResponse
     | DeviceDataModelsDelete204Response
-    | DeviceDataModelsDeletedefaultResponse
+    | DeviceDataModelsDeleteDefaultResponse
     | DevicesList200Response
-    | DevicesListdefaultResponse
+    | DevicesListDefaultResponse
     | DevicesCreateOrUpdate200Response
     | DevicesCreateOrUpdate201Response
-    | DevicesCreateOrUpdatedefaultResponse
+    | DevicesCreateOrUpdateDefaultResponse
     | DevicesGet200Response
-    | DevicesGetdefaultResponse
+    | DevicesGetDefaultResponse
     | DevicesDelete204Response
-    | DevicesDeletedefaultResponse
-    | FarmersList200Response
-    | FarmersListdefaultResponse
-    | FarmersGet200Response
-    | FarmersGetdefaultResponse
-    | FarmersCreateOrUpdate200Response
-    | FarmersCreateOrUpdate201Response
-    | FarmersCreateOrUpdatedefaultResponse
-    | FarmersDelete204Response
-    | FarmersDeletedefaultResponse
-    | FarmersCreateCascadeDeleteJob202Response
-    | FarmersCreateCascadeDeleteJobdefaultResponse
-    | FarmersGetCascadeDeleteJobDetails200Response
-    | FarmersGetCascadeDeleteJobDetailsdefaultResponse
+    | DevicesDeleteDefaultResponse
     | FarmOperationsCreateDataIngestionJob202Response
-    | FarmOperationsCreateDataIngestionJobdefaultResponse
+    | FarmOperationsCreateDataIngestionJobDefaultResponse
     | FarmOperationsGetDataIngestionJobDetails200Response
-    | FarmOperationsGetDataIngestionJobDetailsdefaultResponse
-    | FarmsListByFarmerId200Response
-    | FarmsListByFarmerIddefaultResponse
+    | FarmOperationsGetDataIngestionJobDetailsDefaultResponse
+    | FarmsList200Response
+    | FarmsListDefaultResponse
+    | FarmsCreateCascadeDeleteJob202Response
+    | FarmsCreateCascadeDeleteJobDefaultResponse
+    | FarmsGetCascadeDeleteJobDetails200Response
+    | FarmsGetCascadeDeleteJobDetailsDefaultResponse
+    | FarmsListByPartyId200Response
+    | FarmsListByPartyIdDefaultResponse
     | FarmsGet200Response
-    | FarmsGetdefaultResponse
+    | FarmsGetDefaultResponse
     | FarmsCreateOrUpdate200Response
     | FarmsCreateOrUpdate201Response
-    | FarmsCreateOrUpdatedefaultResponse
+    | FarmsCreateOrUpdateDefaultResponse
     | FarmsDelete204Response
-    | FarmsDeletedefaultResponse
-    | FarmsList200Response
-    | FarmsListdefaultResponse
-    | FarmsCreateCascadeDeleteJob202Response
-    | FarmsCreateCascadeDeleteJobdefaultResponse
-    | FarmsGetCascadeDeleteJobDetails200Response
-    | FarmsGetCascadeDeleteJobDetailsdefaultResponse
-    | FieldsListByFarmerId200Response
-    | FieldsListByFarmerIddefaultResponse
+    | FarmsDeleteDefaultResponse
+    | FieldsList200Response
+    | FieldsListDefaultResponse
+    | FieldsGetCascadeDeleteJobDetails200Response
+    | FieldsGetCascadeDeleteJobDetailsDefaultResponse
+    | FieldsCreateCascadeDeleteJob202Response
+    | FieldsCreateCascadeDeleteJobDefaultResponse
+    | FieldsListByPartyId200Response
+    | FieldsListByPartyIdDefaultResponse
     | FieldsGet200Response
-    | FieldsGetdefaultResponse
+    | FieldsGetDefaultResponse
     | FieldsCreateOrUpdate200Response
     | FieldsCreateOrUpdate201Response
-    | FieldsCreateOrUpdatedefaultResponse
+    | FieldsCreateOrUpdateDefaultResponse
     | FieldsDelete204Response
-    | FieldsDeletedefaultResponse
-    | FieldsList200Response
-    | FieldsListdefaultResponse
-    | FieldsCreateCascadeDeleteJob202Response
-    | FieldsCreateCascadeDeleteJobdefaultResponse
-    | FieldsGetCascadeDeleteJobDetails200Response
-    | FieldsGetCascadeDeleteJobDetailsdefaultResponse
-    | HarvestDataListByFarmerId200Response
-    | HarvestDataListByFarmerIddefaultResponse
+    | FieldsDeleteDefaultResponse
+    | HarvestDataList200Response
+    | HarvestDataListDefaultResponse
+    | HarvestDataCreateCascadeDeleteJob202Response
+    | HarvestDataCreateCascadeDeleteJobDefaultResponse
+    | HarvestDataGetCascadeDeleteJobDetails200Response
+    | HarvestDataGetCascadeDeleteJobDetailsDefaultResponse
+    | HarvestDataListByPartyId200Response
+    | HarvestDataListByPartyIdDefaultResponse
     | HarvestDataGet200Response
-    | HarvestDataGetdefaultResponse
+    | HarvestDataGetDefaultResponse
     | HarvestDataCreateOrUpdate200Response
     | HarvestDataCreateOrUpdate201Response
-    | HarvestDataCreateOrUpdatedefaultResponse
+    | HarvestDataCreateOrUpdateDefaultResponse
     | HarvestDataDelete204Response
-    | HarvestDataDeletedefaultResponse
-    | HarvestDataList200Response
-    | HarvestDataListdefaultResponse
-    | HarvestDataCreateCascadeDeleteJob202Response
-    | HarvestDataCreateCascadeDeleteJobdefaultResponse
-    | HarvestDataGetCascadeDeleteJobDetails200Response
-    | HarvestDataGetCascadeDeleteJobDetailsdefaultResponse
+    | HarvestDataDeleteDefaultResponse
     | ImageProcessingCreateRasterizeJob202Response
-    | ImageProcessingCreateRasterizeJobdefaultResponse
-    | InsightAttachmentsListByFarmerIdModelIdAndResource200Response
-    | InsightAttachmentsListByFarmerIdModelIdAndResourcedefaultResponse
+    | ImageProcessingCreateRasterizeJobDefaultResponse
+    | ImageProcessingGetRasterizeJob200Response
+    | ImageProcessingGetRasterizeJobDefaultResponse
+    | InsightAttachmentsListByPartyIdModelIdAndResource200Response
+    | InsightAttachmentsListByPartyIdModelIdAndResourceDefaultResponse
     | InsightAttachmentsCreateOrUpdate200Response
     | InsightAttachmentsCreateOrUpdate201Response
-    | InsightAttachmentsCreateOrUpdatedefaultResponse
+    | InsightAttachmentsCreateOrUpdateDefaultResponse
     | InsightAttachmentsGet200Response
-    | InsightAttachmentsGetdefaultResponse
+    | InsightAttachmentsGetDefaultResponse
     | InsightAttachmentsDelete204Response
-    | InsightAttachmentsDeletedefaultResponse
+    | InsightAttachmentsDeleteDefaultResponse
     | InsightAttachmentsDownload200Response
-    | InsightAttachmentsDownloaddefaultResponse
-    | InsightsListByFarmerIdModelIdAndResource200Response
-    | InsightsListByFarmerIdModelIdAndResourcedefaultResponse
+    | InsightAttachmentsDownloadDefaultResponse
+    | InsightsCreateCascadeDeleteJob202Response
+    | InsightsCreateCascadeDeleteJobDefaultResponse
+    | InsightsGetCascadeDeleteJobDetails200Response
+    | InsightsGetCascadeDeleteJobDetailsDefaultResponse
+    | InsightsListByPartyIdModelIdAndResource200Response
+    | InsightsListByPartyIdModelIdAndResourceDefaultResponse
     | InsightsCreateOrUpdate200Response
     | InsightsCreateOrUpdate201Response
-    | InsightsCreateOrUpdatedefaultResponse
+    | InsightsCreateOrUpdateDefaultResponse
     | InsightsGet200Response
-    | InsightsGetdefaultResponse
+    | InsightsGetDefaultResponse
     | InsightsDelete204Response
-    | InsightsDeletedefaultResponse
-    | InsightsCreateCascadeDeleteJob202Response
-    | InsightsCreateCascadeDeleteJobdefaultResponse
-    | InsightsGetCascadeDeleteJobDetails200Response
-    | InsightsGetCascadeDeleteJobDetailsdefaultResponse
-    | ManagementZonesListByFarmerId200Response
-    | ManagementZonesListByFarmerIddefaultResponse
+    | InsightsDeleteDefaultResponse
+    | ManagementZonesList200Response
+    | ManagementZonesListDefaultResponse
+    | ManagementZonesGetCascadeDeleteJobDetails200Response
+    | ManagementZonesGetCascadeDeleteJobDetailsDefaultResponse
+    | ManagementZonesCreateCascadeDeleteJob202Response
+    | ManagementZonesCreateCascadeDeleteJobDefaultResponse
+    | ManagementZonesListByPartyId200Response
+    | ManagementZonesListByPartyIdDefaultResponse
     | ManagementZonesGet200Response
-    | ManagementZonesGetdefaultResponse
+    | ManagementZonesGetDefaultResponse
     | ManagementZonesCreateOrUpdate200Response
     | ManagementZonesCreateOrUpdate201Response
-    | ManagementZonesCreateOrUpdatedefaultResponse
+    | ManagementZonesCreateOrUpdateDefaultResponse
     | ManagementZonesDelete204Response
-    | ManagementZonesDeletedefaultResponse
-    | ManagementZonesList200Response
-    | ManagementZonesListdefaultResponse
-    | ManagementZonesGetCascadeDeleteJobDetails200Response
-    | ManagementZonesGetCascadeDeleteJobDetailsdefaultResponse
-    | ManagementZonesCreateCascadeDeleteJob202Response
-    | ManagementZonesCreateCascadeDeleteJobdefaultResponse
+    | ManagementZonesDeleteDefaultResponse
     | ModelInferenceCreateBiomassModelJob202Response
-    | ModelInferenceCreateBiomassModelJobdefaultResponse
+    | ModelInferenceCreateBiomassModelJobDefaultResponse
     | ModelInferenceGetBiomassModelJob200Response
-    | ModelInferenceGetBiomassModelJobdefaultResponse
+    | ModelInferenceGetBiomassModelJobDefaultResponse
+    | ModelInferenceCreateSensorPlacementModelJob202Response
+    | ModelInferenceCreateSensorPlacementModelJobDefaultResponse
+    | ModelInferenceGetSensorPlacementModelJob200Response
+    | ModelInferenceGetSensorPlacementModelJobDefaultResponse
     | ModelInferenceCreateSoilMoistureModelJob202Response
-    | ModelInferenceCreateSoilMoistureModelJobdefaultResponse
+    | ModelInferenceCreateSoilMoistureModelJobDefaultResponse
     | ModelInferenceGetSoilMoistureModelJob200Response
-    | ModelInferenceGetSoilMoistureModelJobdefaultResponse
-    | NutrientAnalysesListByFarmerId200Response
-    | NutrientAnalysesListByFarmerIddefaultResponse
+    | ModelInferenceGetSoilMoistureModelJobDefaultResponse
+    | NutrientAnalysesList200Response
+    | NutrientAnalysesListDefaultResponse
+    | NutrientAnalysesListByPartyId200Response
+    | NutrientAnalysesListByPartyIdDefaultResponse
     | NutrientAnalysesGet200Response
-    | NutrientAnalysesGetdefaultResponse
+    | NutrientAnalysesGetDefaultResponse
     | NutrientAnalysesCreateOrUpdate200Response
     | NutrientAnalysesCreateOrUpdate201Response
-    | NutrientAnalysesCreateOrUpdatedefaultResponse
+    | NutrientAnalysesCreateOrUpdateDefaultResponse
     | NutrientAnalysesDelete204Response
-    | NutrientAnalysesDeletedefaultResponse
-    | NutrientAnalysesList200Response
-    | NutrientAnalysesListdefaultResponse
+    | NutrientAnalysesDeleteDefaultResponse
     | OAuthProvidersList200Response
-    | OAuthProvidersListdefaultResponse
+    | OAuthProvidersListDefaultResponse
     | OAuthProvidersGet200Response
-    | OAuthProvidersGetdefaultResponse
+    | OAuthProvidersGetDefaultResponse
     | OAuthProvidersCreateOrUpdate200Response
     | OAuthProvidersCreateOrUpdate201Response
-    | OAuthProvidersCreateOrUpdatedefaultResponse
+    | OAuthProvidersCreateOrUpdateDefaultResponse
     | OAuthProvidersDelete204Response
-    | OAuthProvidersDeletedefaultResponse
+    | OAuthProvidersDeleteDefaultResponse
     | OAuthProvidersGetCascadeDeleteJobDetails200Response
-    | OAuthProvidersGetCascadeDeleteJobDetailsdefaultResponse
+    | OAuthProvidersGetCascadeDeleteJobDetailsDefaultResponse
     | OAuthProvidersCreateCascadeDeleteJob202Response
-    | OAuthProvidersCreateCascadeDeleteJobdefaultResponse
+    | OAuthProvidersCreateCascadeDeleteJobDefaultResponse
     | OAuthTokensList200Response
-    | OAuthTokensListdefaultResponse
+    | OAuthTokensListDefaultResponse
     | OAuthTokensGetOAuthConnectionLink200Response
-    | OAuthTokensGetOAuthConnectionLinkdefaultResponse
-    | OAuthTokensCreateCascadeDeleteJob202Response
-    | OAuthTokensCreateCascadeDeleteJobdefaultResponse
+    | OAuthTokensGetOAuthConnectionLinkDefaultResponse
     | OAuthTokensGetCascadeDeleteJobDetails200Response
-    | OAuthTokensGetCascadeDeleteJobDetailsdefaultResponse
-    | PlantingDataListByFarmerId200Response
-    | PlantingDataListByFarmerIddefaultResponse
+    | OAuthTokensGetCascadeDeleteJobDetailsDefaultResponse
+    | OAuthTokensCreateCascadeDeleteJob202Response
+    | OAuthTokensCreateCascadeDeleteJobDefaultResponse
+    | PartiesList200Response
+    | PartiesListDefaultResponse
+    | PartiesGet200Response
+    | PartiesGetDefaultResponse
+    | PartiesCreateOrUpdate200Response
+    | PartiesCreateOrUpdate201Response
+    | PartiesCreateOrUpdateDefaultResponse
+    | PartiesDelete204Response
+    | PartiesDeleteDefaultResponse
+    | PartiesGetCascadeDeleteJobDetails200Response
+    | PartiesGetCascadeDeleteJobDetailsDefaultResponse
+    | PartiesCreateCascadeDeleteJob202Response
+    | PartiesCreateCascadeDeleteJobDefaultResponse
+    | PlantingDataListByPartyId200Response
+    | PlantingDataListByPartyIdDefaultResponse
     | PlantingDataGet200Response
-    | PlantingDataGetdefaultResponse
+    | PlantingDataGetDefaultResponse
     | PlantingDataCreateOrUpdate200Response
     | PlantingDataCreateOrUpdate201Response
-    | PlantingDataCreateOrUpdatedefaultResponse
+    | PlantingDataCreateOrUpdateDefaultResponse
     | PlantingDataDelete204Response
-    | PlantingDataDeletedefaultResponse
+    | PlantingDataDeleteDefaultResponse
     | PlantingDataList200Response
-    | PlantingDataListdefaultResponse
+    | PlantingDataListDefaultResponse
     | PlantingDataCreateCascadeDeleteJob202Response
-    | PlantingDataCreateCascadeDeleteJobdefaultResponse
+    | PlantingDataCreateCascadeDeleteJobDefaultResponse
     | PlantingDataGetCascadeDeleteJobDetails200Response
-    | PlantingDataGetCascadeDeleteJobDetailsdefaultResponse
-    | PlantTissueAnalysesListByFarmerId200Response
-    | PlantTissueAnalysesListByFarmerIddefaultResponse
+    | PlantingDataGetCascadeDeleteJobDetailsDefaultResponse
+    | PlantTissueAnalysesListByPartyId200Response
+    | PlantTissueAnalysesListByPartyIdDefaultResponse
     | PlantTissueAnalysesGet200Response
-    | PlantTissueAnalysesGetdefaultResponse
+    | PlantTissueAnalysesGetDefaultResponse
     | PlantTissueAnalysesCreateOrUpdate200Response
     | PlantTissueAnalysesCreateOrUpdate201Response
-    | PlantTissueAnalysesCreateOrUpdatedefaultResponse
+    | PlantTissueAnalysesCreateOrUpdateDefaultResponse
     | PlantTissueAnalysesDelete204Response
-    | PlantTissueAnalysesDeletedefaultResponse
+    | PlantTissueAnalysesDeleteDefaultResponse
     | PlantTissueAnalysesList200Response
-    | PlantTissueAnalysesListdefaultResponse
+    | PlantTissueAnalysesListDefaultResponse
     | PlantTissueAnalysesCreateCascadeDeleteJob202Response
-    | PlantTissueAnalysesCreateCascadeDeleteJobdefaultResponse
+    | PlantTissueAnalysesCreateCascadeDeleteJobDefaultResponse
     | PlantTissueAnalysesGetCascadeDeleteJobDetails200Response
-    | PlantTissueAnalysesGetCascadeDeleteJobDetailsdefaultResponse
-    | PrescriptionMapsListByFarmerId200Response
-    | PrescriptionMapsListByFarmerIddefaultResponse
+    | PlantTissueAnalysesGetCascadeDeleteJobDetailsDefaultResponse
+    | PrescriptionMapsListByPartyId200Response
+    | PrescriptionMapsListByPartyIdDefaultResponse
     | PrescriptionMapsGet200Response
-    | PrescriptionMapsGetdefaultResponse
+    | PrescriptionMapsGetDefaultResponse
     | PrescriptionMapsCreateOrUpdate200Response
     | PrescriptionMapsCreateOrUpdate201Response
-    | PrescriptionMapsCreateOrUpdatedefaultResponse
+    | PrescriptionMapsCreateOrUpdateDefaultResponse
     | PrescriptionMapsDelete204Response
-    | PrescriptionMapsDeletedefaultResponse
+    | PrescriptionMapsDeleteDefaultResponse
     | PrescriptionMapsList200Response
-    | PrescriptionMapsListdefaultResponse
+    | PrescriptionMapsListDefaultResponse
     | PrescriptionMapsGetCascadeDeleteJobDetails200Response
-    | PrescriptionMapsGetCascadeDeleteJobDetailsdefaultResponse
+    | PrescriptionMapsGetCascadeDeleteJobDetailsDefaultResponse
     | PrescriptionMapsCreateCascadeDeleteJob202Response
-    | PrescriptionMapsCreateCascadeDeleteJobdefaultResponse
-    | PrescriptionsListByFarmerId200Response
-    | PrescriptionsListByFarmerIddefaultResponse
+    | PrescriptionMapsCreateCascadeDeleteJobDefaultResponse
+    | PrescriptionsListByPartyId200Response
+    | PrescriptionsListByPartyIdDefaultResponse
     | PrescriptionsGet200Response
-    | PrescriptionsGetdefaultResponse
+    | PrescriptionsGetDefaultResponse
     | PrescriptionsCreateOrUpdate200Response
     | PrescriptionsCreateOrUpdate201Response
-    | PrescriptionsCreateOrUpdatedefaultResponse
+    | PrescriptionsCreateOrUpdateDefaultResponse
     | PrescriptionsDelete204Response
-    | PrescriptionsDeletedefaultResponse
+    | PrescriptionsDeleteDefaultResponse
     | PrescriptionsList200Response
-    | PrescriptionsListdefaultResponse
+    | PrescriptionsListDefaultResponse
     | PrescriptionsGetCascadeDeleteJobDetails200Response
-    | PrescriptionsGetCascadeDeleteJobDetailsdefaultResponse
+    | PrescriptionsGetCascadeDeleteJobDetailsDefaultResponse
     | PrescriptionsCreateCascadeDeleteJob202Response
-    | PrescriptionsCreateCascadeDeleteJobdefaultResponse
+    | PrescriptionsCreateCascadeDeleteJobDefaultResponse
     | ScenesList200Response
-    | ScenesListdefaultResponse
+    | ScenesListDefaultResponse
     | ScenesDownload200Response
-    | ScenesDownloaddefaultResponse
+    | ScenesDownloadDefaultResponse
     | ScenesCreateSatelliteDataIngestionJob202Response
-    | ScenesCreateSatelliteDataIngestionJobdefaultResponse
+    | ScenesCreateSatelliteDataIngestionJobDefaultResponse
     | ScenesGetSatelliteDataIngestionJobDetails200Response
-    | ScenesGetSatelliteDataIngestionJobDetailsdefaultResponse
-    | SeasonalFieldsListByFarmerId200Response
-    | SeasonalFieldsListByFarmerIddefaultResponse
+    | ScenesGetSatelliteDataIngestionJobDetailsDefaultResponse
+    | ScenesSearchFeatures200Response
+    | ScenesSearchFeaturesDefaultResponse
+    | ScenesGetStacFeature200Response
+    | ScenesGetStacFeatureDefaultResponse
+    | SeasonalFieldsListByPartyId200Response
+    | SeasonalFieldsListByPartyIdDefaultResponse
     | SeasonalFieldsGet200Response
-    | SeasonalFieldsGetdefaultResponse
+    | SeasonalFieldsGetDefaultResponse
     | SeasonalFieldsCreateOrUpdate200Response
     | SeasonalFieldsCreateOrUpdate201Response
-    | SeasonalFieldsCreateOrUpdatedefaultResponse
+    | SeasonalFieldsCreateOrUpdateDefaultResponse
     | SeasonalFieldsDelete204Response
-    | SeasonalFieldsDeletedefaultResponse
+    | SeasonalFieldsDeleteDefaultResponse
     | SeasonalFieldsList200Response
-    | SeasonalFieldsListdefaultResponse
-    | SeasonalFieldsCreateCascadeDeleteJob202Response
-    | SeasonalFieldsCreateCascadeDeleteJobdefaultResponse
+    | SeasonalFieldsListDefaultResponse
     | SeasonalFieldsGetCascadeDeleteJobDetails200Response
-    | SeasonalFieldsGetCascadeDeleteJobDetailsdefaultResponse
+    | SeasonalFieldsGetCascadeDeleteJobDetailsDefaultResponse
+    | SeasonalFieldsCreateCascadeDeleteJob202Response
+    | SeasonalFieldsCreateCascadeDeleteJobDefaultResponse
     | SeasonsList200Response
-    | SeasonsListdefaultResponse
+    | SeasonsListDefaultResponse
     | SeasonsGet200Response
-    | SeasonsGetdefaultResponse
+    | SeasonsGetDefaultResponse
     | SeasonsCreateOrUpdate200Response
     | SeasonsCreateOrUpdate201Response
-    | SeasonsCreateOrUpdatedefaultResponse
+    | SeasonsCreateOrUpdateDefaultResponse
     | SeasonsDelete204Response
-    | SeasonsDeletedefaultResponse
+    | SeasonsDeleteDefaultResponse
     | SensorDataModelsList200Response
-    | SensorDataModelsListdefaultResponse
+    | SensorDataModelsListDefaultResponse
     | SensorDataModelsCreateOrUpdate200Response
     | SensorDataModelsCreateOrUpdate201Response
-    | SensorDataModelsCreateOrUpdatedefaultResponse
+    | SensorDataModelsCreateOrUpdateDefaultResponse
     | SensorDataModelsGet200Response
-    | SensorDataModelsGetdefaultResponse
+    | SensorDataModelsGetDefaultResponse
     | SensorDataModelsDelete204Response
-    | SensorDataModelsDeletedefaultResponse
+    | SensorDataModelsDeleteDefaultResponse
     | SensorEventsList200Response
-    | SensorEventsListdefaultResponse
+    | SensorEventsListDefaultResponse
     | SensorMappingsList200Response
-    | SensorMappingsListdefaultResponse
+    | SensorMappingsListDefaultResponse
     | SensorMappingsCreateOrUpdate200Response
     | SensorMappingsCreateOrUpdate201Response
-    | SensorMappingsCreateOrUpdatedefaultResponse
+    | SensorMappingsCreateOrUpdateDefaultResponse
     | SensorMappingsGet200Response
-    | SensorMappingsGetdefaultResponse
+    | SensorMappingsGetDefaultResponse
     | SensorMappingsDelete204Response
-    | SensorMappingsDeletedefaultResponse
+    | SensorMappingsDeleteDefaultResponse
     | SensorPartnerIntegrationsList200Response
-    | SensorPartnerIntegrationsListdefaultResponse
+    | SensorPartnerIntegrationsListDefaultResponse
     | SensorPartnerIntegrationsCreateOrUpdate200Response
     | SensorPartnerIntegrationsCreateOrUpdate201Response
-    | SensorPartnerIntegrationsCreateOrUpdatedefaultResponse
+    | SensorPartnerIntegrationsCreateOrUpdateDefaultResponse
     | SensorPartnerIntegrationsGet200Response
-    | SensorPartnerIntegrationsGetdefaultResponse
+    | SensorPartnerIntegrationsGetDefaultResponse
     | SensorPartnerIntegrationsDelete204Response
-    | SensorPartnerIntegrationsDeletedefaultResponse
+    | SensorPartnerIntegrationsDeleteDefaultResponse
     | SensorPartnerIntegrationsCheckConsent200Response
-    | SensorPartnerIntegrationsCheckConsentdefaultResponse
+    | SensorPartnerIntegrationsCheckConsentDefaultResponse
     | SensorPartnerIntegrationsGenerateConsentLink200Response
-    | SensorPartnerIntegrationsGenerateConsentLinkdefaultResponse
+    | SensorPartnerIntegrationsGenerateConsentLinkDefaultResponse
     | SensorsList200Response
-    | SensorsListdefaultResponse
+    | SensorsListDefaultResponse
     | SensorsCreateOrUpdate200Response
     | SensorsCreateOrUpdate201Response
-    | SensorsCreateOrUpdatedefaultResponse
+    | SensorsCreateOrUpdateDefaultResponse
     | SensorsGet200Response
-    | SensorsGetdefaultResponse
+    | SensorsGetDefaultResponse
     | SensorsDelete204Response
-    | SensorsDeletedefaultResponse
+    | SensorsDeleteDefaultResponse
     | SensorsGetConnectionString200Response
-    | SensorsGetConnectionStringdefaultResponse
+    | SensorsGetConnectionStringDefaultResponse
     | SensorsRenewConnectionString200Response
-    | SensorsRenewConnectionStringdefaultResponse
+    | SensorsRenewConnectionStringDefaultResponse
     | SolutionInferenceCancel200Response
-    | SolutionInferenceCanceldefaultResponse
+    | SolutionInferenceCancelDefaultResponse
     | SolutionInferenceCreateOrUpdate202Response
-    | SolutionInferenceCreateOrUpdatedefaultResponse
+    | SolutionInferenceCreateOrUpdateDefaultResponse
     | SolutionInferenceFetch200Response
-    | SolutionInferenceFetchdefaultResponse
-    | TillageDataListByFarmerId200Response
-    | TillageDataListByFarmerIddefaultResponse
+    | SolutionInferenceFetchDefaultResponse
+    | TillageDataListByPartyId200Response
+    | TillageDataListByPartyIdDefaultResponse
     | TillageDataGet200Response
-    | TillageDataGetdefaultResponse
+    | TillageDataGetDefaultResponse
     | TillageDataCreateOrUpdate200Response
     | TillageDataCreateOrUpdate201Response
-    | TillageDataCreateOrUpdatedefaultResponse
+    | TillageDataCreateOrUpdateDefaultResponse
     | TillageDataDelete204Response
-    | TillageDataDeletedefaultResponse
+    | TillageDataDeleteDefaultResponse
     | TillageDataList200Response
-    | TillageDataListdefaultResponse
+    | TillageDataListDefaultResponse
     | TillageDataCreateCascadeDeleteJob202Response
-    | TillageDataCreateCascadeDeleteJobdefaultResponse
+    | TillageDataCreateCascadeDeleteJobDefaultResponse
     | TillageDataGetCascadeDeleteJobDetails200Response
-    | TillageDataGetCascadeDeleteJobDetailsdefaultResponse
+    | TillageDataGetCascadeDeleteJobDetailsDefaultResponse
     | WeatherList200Response
-    | WeatherListdefaultResponse
+    | WeatherListDefaultResponse
     | WeatherGetDataDeleteJobDetails200Response
-    | WeatherGetDataDeleteJobDetailsdefaultResponse
+    | WeatherGetDataDeleteJobDetailsDefaultResponse
     | WeatherCreateDataDeleteJob202Response
-    | WeatherCreateDataDeleteJobdefaultResponse
+    | WeatherCreateDataDeleteJobDefaultResponse
     | WeatherGetDataIngestionJobDetails200Response
-    | WeatherGetDataIngestionJobDetailsdefaultResponse
+    | WeatherGetDataIngestionJobDetailsDefaultResponse
     | WeatherCreateDataIngestionJob202Response
-    | WeatherCreateDataIngestionJobdefaultResponse
-    | ZonesListByFarmerId200Response
-    | ZonesListByFarmerIddefaultResponse
+    | WeatherCreateDataIngestionJobDefaultResponse
+    | WeatherDataGet200Response
+    | WeatherDataGetDefaultResponse
+    | ZonesListByPartyId200Response
+    | ZonesListByPartyIdDefaultResponse
     | ZonesGet200Response
-    | ZonesGetdefaultResponse
+    | ZonesGetDefaultResponse
     | ZonesCreateOrUpdate200Response
     | ZonesCreateOrUpdate201Response
-    | ZonesCreateOrUpdatedefaultResponse
+    | ZonesCreateOrUpdateDefaultResponse
     | ZonesDelete204Response
-    | ZonesDeletedefaultResponse
+    | ZonesDeleteDefaultResponse
     | ZonesList200Response
-    | ZonesListdefaultResponse
+    | ZonesListDefaultResponse
     | ZonesGetCascadeDeleteJobDetails200Response
-    | ZonesGetCascadeDeleteJobDetailsdefaultResponse
+    | ZonesGetCascadeDeleteJobDetailsDefaultResponse
     | ZonesCreateCascadeDeleteJob202Response
-    | ZonesCreateCascadeDeleteJobdefaultResponse
+    | ZonesCreateCascadeDeleteJobDefaultResponse
 ): response is
-  | ApplicationDataListdefaultResponse
-  | ApplicationDataCreateCascadeDeleteJobdefaultResponse
-  | ApplicationDataGetCascadeDeleteJobDetailsdefaultResponse
-  | ApplicationDataListByFarmerIddefaultResponse
-  | ApplicationDataGetdefaultResponse
-  | ApplicationDataCreateOrUpdatedefaultResponse
-  | ApplicationDataDeletedefaultResponse
-  | AttachmentsListByFarmerIddefaultResponse
-  | AttachmentsGetdefaultResponse
-  | AttachmentsCreateOrUpdatedefaultResponse
-  | AttachmentsDeletedefaultResponse
-  | AttachmentsDownloaddefaultResponse
-  | BoundariesListdefaultResponse
-  | BoundariesSearchdefaultResponse
-  | BoundariesCreateCascadeDeleteJobdefaultResponse
-  | BoundariesGetCascadeDeleteJobDetailsdefaultResponse
-  | BoundariesListByFarmerIddefaultResponse
-  | BoundariesSearchByFarmerIddefaultResponse
-  | BoundariesCreateOrUpdatedefaultResponse
-  | BoundariesGetdefaultResponse
-  | BoundariesDeletedefaultResponse
-  | BoundariesGetOverlapdefaultResponse
-  | CropsListdefaultResponse
-  | CropsGetdefaultResponse
-  | CropsCreateOrUpdatedefaultResponse
-  | CropsDeletedefaultResponse
-  | CropVarietiesListdefaultResponse
-  | CropVarietiesGetdefaultResponse
-  | CropVarietiesCreateOrUpdatedefaultResponse
-  | CropVarietiesDeletedefaultResponse
-  | DeviceDataModelsListdefaultResponse
-  | DeviceDataModelsCreateOrUpdatedefaultResponse
-  | DeviceDataModelsGetdefaultResponse
-  | DeviceDataModelsDeletedefaultResponse
-  | DevicesListdefaultResponse
-  | DevicesCreateOrUpdatedefaultResponse
-  | DevicesGetdefaultResponse
-  | DevicesDeletedefaultResponse
-  | FarmersListdefaultResponse
-  | FarmersGetdefaultResponse
-  | FarmersCreateOrUpdatedefaultResponse
-  | FarmersDeletedefaultResponse
-  | FarmersCreateCascadeDeleteJobdefaultResponse
-  | FarmersGetCascadeDeleteJobDetailsdefaultResponse
-  | FarmOperationsCreateDataIngestionJobdefaultResponse
-  | FarmOperationsGetDataIngestionJobDetailsdefaultResponse
-  | FarmsListByFarmerIddefaultResponse
-  | FarmsGetdefaultResponse
-  | FarmsCreateOrUpdatedefaultResponse
-  | FarmsDeletedefaultResponse
-  | FarmsListdefaultResponse
-  | FarmsCreateCascadeDeleteJobdefaultResponse
-  | FarmsGetCascadeDeleteJobDetailsdefaultResponse
-  | FieldsListByFarmerIddefaultResponse
-  | FieldsGetdefaultResponse
-  | FieldsCreateOrUpdatedefaultResponse
-  | FieldsDeletedefaultResponse
-  | FieldsListdefaultResponse
-  | FieldsCreateCascadeDeleteJobdefaultResponse
-  | FieldsGetCascadeDeleteJobDetailsdefaultResponse
-  | HarvestDataListByFarmerIddefaultResponse
-  | HarvestDataGetdefaultResponse
-  | HarvestDataCreateOrUpdatedefaultResponse
-  | HarvestDataDeletedefaultResponse
-  | HarvestDataListdefaultResponse
-  | HarvestDataCreateCascadeDeleteJobdefaultResponse
-  | HarvestDataGetCascadeDeleteJobDetailsdefaultResponse
-  | ImageProcessingCreateRasterizeJobdefaultResponse
-  | InsightAttachmentsListByFarmerIdModelIdAndResourcedefaultResponse
-  | InsightAttachmentsCreateOrUpdatedefaultResponse
-  | InsightAttachmentsGetdefaultResponse
-  | InsightAttachmentsDeletedefaultResponse
-  | InsightAttachmentsDownloaddefaultResponse
-  | InsightsListByFarmerIdModelIdAndResourcedefaultResponse
-  | InsightsCreateOrUpdatedefaultResponse
-  | InsightsGetdefaultResponse
-  | InsightsDeletedefaultResponse
-  | InsightsCreateCascadeDeleteJobdefaultResponse
-  | InsightsGetCascadeDeleteJobDetailsdefaultResponse
-  | ManagementZonesListByFarmerIddefaultResponse
-  | ManagementZonesGetdefaultResponse
-  | ManagementZonesCreateOrUpdatedefaultResponse
-  | ManagementZonesDeletedefaultResponse
-  | ManagementZonesListdefaultResponse
-  | ManagementZonesGetCascadeDeleteJobDetailsdefaultResponse
-  | ManagementZonesCreateCascadeDeleteJobdefaultResponse
-  | ModelInferenceCreateBiomassModelJobdefaultResponse
-  | ModelInferenceGetBiomassModelJobdefaultResponse
-  | ModelInferenceCreateSoilMoistureModelJobdefaultResponse
-  | ModelInferenceGetSoilMoistureModelJobdefaultResponse
-  | NutrientAnalysesListByFarmerIddefaultResponse
-  | NutrientAnalysesGetdefaultResponse
-  | NutrientAnalysesCreateOrUpdatedefaultResponse
-  | NutrientAnalysesDeletedefaultResponse
-  | NutrientAnalysesListdefaultResponse
-  | OAuthProvidersListdefaultResponse
-  | OAuthProvidersGetdefaultResponse
-  | OAuthProvidersCreateOrUpdatedefaultResponse
-  | OAuthProvidersDeletedefaultResponse
-  | OAuthProvidersGetCascadeDeleteJobDetailsdefaultResponse
-  | OAuthProvidersCreateCascadeDeleteJobdefaultResponse
-  | OAuthTokensListdefaultResponse
-  | OAuthTokensGetOAuthConnectionLinkdefaultResponse
-  | OAuthTokensCreateCascadeDeleteJobdefaultResponse
-  | OAuthTokensGetCascadeDeleteJobDetailsdefaultResponse
-  | PlantingDataListByFarmerIddefaultResponse
-  | PlantingDataGetdefaultResponse
-  | PlantingDataCreateOrUpdatedefaultResponse
-  | PlantingDataDeletedefaultResponse
-  | PlantingDataListdefaultResponse
-  | PlantingDataCreateCascadeDeleteJobdefaultResponse
-  | PlantingDataGetCascadeDeleteJobDetailsdefaultResponse
-  | PlantTissueAnalysesListByFarmerIddefaultResponse
-  | PlantTissueAnalysesGetdefaultResponse
-  | PlantTissueAnalysesCreateOrUpdatedefaultResponse
-  | PlantTissueAnalysesDeletedefaultResponse
-  | PlantTissueAnalysesListdefaultResponse
-  | PlantTissueAnalysesCreateCascadeDeleteJobdefaultResponse
-  | PlantTissueAnalysesGetCascadeDeleteJobDetailsdefaultResponse
-  | PrescriptionMapsListByFarmerIddefaultResponse
-  | PrescriptionMapsGetdefaultResponse
-  | PrescriptionMapsCreateOrUpdatedefaultResponse
-  | PrescriptionMapsDeletedefaultResponse
-  | PrescriptionMapsListdefaultResponse
-  | PrescriptionMapsGetCascadeDeleteJobDetailsdefaultResponse
-  | PrescriptionMapsCreateCascadeDeleteJobdefaultResponse
-  | PrescriptionsListByFarmerIddefaultResponse
-  | PrescriptionsGetdefaultResponse
-  | PrescriptionsCreateOrUpdatedefaultResponse
-  | PrescriptionsDeletedefaultResponse
-  | PrescriptionsListdefaultResponse
-  | PrescriptionsGetCascadeDeleteJobDetailsdefaultResponse
-  | PrescriptionsCreateCascadeDeleteJobdefaultResponse
-  | ScenesListdefaultResponse
-  | ScenesDownloaddefaultResponse
-  | ScenesCreateSatelliteDataIngestionJobdefaultResponse
-  | ScenesGetSatelliteDataIngestionJobDetailsdefaultResponse
-  | SeasonalFieldsListByFarmerIddefaultResponse
-  | SeasonalFieldsGetdefaultResponse
-  | SeasonalFieldsCreateOrUpdatedefaultResponse
-  | SeasonalFieldsDeletedefaultResponse
-  | SeasonalFieldsListdefaultResponse
-  | SeasonalFieldsCreateCascadeDeleteJobdefaultResponse
-  | SeasonalFieldsGetCascadeDeleteJobDetailsdefaultResponse
-  | SeasonsListdefaultResponse
-  | SeasonsGetdefaultResponse
-  | SeasonsCreateOrUpdatedefaultResponse
-  | SeasonsDeletedefaultResponse
-  | SensorDataModelsListdefaultResponse
-  | SensorDataModelsCreateOrUpdatedefaultResponse
-  | SensorDataModelsGetdefaultResponse
-  | SensorDataModelsDeletedefaultResponse
-  | SensorEventsListdefaultResponse
-  | SensorMappingsListdefaultResponse
-  | SensorMappingsCreateOrUpdatedefaultResponse
-  | SensorMappingsGetdefaultResponse
-  | SensorMappingsDeletedefaultResponse
-  | SensorPartnerIntegrationsListdefaultResponse
-  | SensorPartnerIntegrationsCreateOrUpdatedefaultResponse
-  | SensorPartnerIntegrationsGetdefaultResponse
-  | SensorPartnerIntegrationsDeletedefaultResponse
-  | SensorPartnerIntegrationsCheckConsentdefaultResponse
-  | SensorPartnerIntegrationsGenerateConsentLinkdefaultResponse
-  | SensorsListdefaultResponse
-  | SensorsCreateOrUpdatedefaultResponse
-  | SensorsGetdefaultResponse
-  | SensorsDeletedefaultResponse
-  | SensorsGetConnectionStringdefaultResponse
-  | SensorsRenewConnectionStringdefaultResponse
-  | SolutionInferenceCanceldefaultResponse
-  | SolutionInferenceCreateOrUpdatedefaultResponse
-  | SolutionInferenceFetchdefaultResponse
-  | TillageDataListByFarmerIddefaultResponse
-  | TillageDataGetdefaultResponse
-  | TillageDataCreateOrUpdatedefaultResponse
-  | TillageDataDeletedefaultResponse
-  | TillageDataListdefaultResponse
-  | TillageDataCreateCascadeDeleteJobdefaultResponse
-  | TillageDataGetCascadeDeleteJobDetailsdefaultResponse
-  | WeatherListdefaultResponse
-  | WeatherGetDataDeleteJobDetailsdefaultResponse
-  | WeatherCreateDataDeleteJobdefaultResponse
-  | WeatherGetDataIngestionJobDetailsdefaultResponse
-  | WeatherCreateDataIngestionJobdefaultResponse
-  | ZonesListByFarmerIddefaultResponse
-  | ZonesGetdefaultResponse
-  | ZonesCreateOrUpdatedefaultResponse
-  | ZonesDeletedefaultResponse
-  | ZonesListdefaultResponse
-  | ZonesGetCascadeDeleteJobDetailsdefaultResponse
-  | ZonesCreateCascadeDeleteJobdefaultResponse {
+  | ApplicationDataListDefaultResponse
+  | ApplicationDataCreateCascadeDeleteJobDefaultResponse
+  | ApplicationDataGetCascadeDeleteJobDetailsDefaultResponse
+  | ApplicationDataListByPartyIdDefaultResponse
+  | ApplicationDataGetDefaultResponse
+  | ApplicationDataCreateOrUpdateDefaultResponse
+  | ApplicationDataDeleteDefaultResponse
+  | AttachmentsListByPartyIdDefaultResponse
+  | AttachmentsGetDefaultResponse
+  | AttachmentsCreateOrUpdateDefaultResponse
+  | AttachmentsDeleteDefaultResponse
+  | AttachmentsDownloadDefaultResponse
+  | BoundariesListDefaultResponse
+  | BoundariesSearchDefaultResponse
+  | BoundariesCreateCascadeDeleteJobDefaultResponse
+  | BoundariesGetCascadeDeleteJobDetailsDefaultResponse
+  | BoundariesListByPartyIdDefaultResponse
+  | BoundariesSearchByPartyIdDefaultResponse
+  | BoundariesCreateOrUpdateDefaultResponse
+  | BoundariesGetDefaultResponse
+  | BoundariesDeleteDefaultResponse
+  | BoundariesGetOverlapDefaultResponse
+  | CropProductsListDefaultResponse
+  | CropProductsGetDefaultResponse
+  | CropProductsCreateOrUpdateDefaultResponse
+  | CropProductsDeleteDefaultResponse
+  | CropsListDefaultResponse
+  | CropsGetDefaultResponse
+  | CropsCreateOrUpdateDefaultResponse
+  | CropsDeleteDefaultResponse
+  | DeviceDataModelsListDefaultResponse
+  | DeviceDataModelsCreateOrUpdateDefaultResponse
+  | DeviceDataModelsGetDefaultResponse
+  | DeviceDataModelsDeleteDefaultResponse
+  | DevicesListDefaultResponse
+  | DevicesCreateOrUpdateDefaultResponse
+  | DevicesGetDefaultResponse
+  | DevicesDeleteDefaultResponse
+  | FarmOperationsCreateDataIngestionJobDefaultResponse
+  | FarmOperationsGetDataIngestionJobDetailsDefaultResponse
+  | FarmsListDefaultResponse
+  | FarmsCreateCascadeDeleteJobDefaultResponse
+  | FarmsGetCascadeDeleteJobDetailsDefaultResponse
+  | FarmsListByPartyIdDefaultResponse
+  | FarmsGetDefaultResponse
+  | FarmsCreateOrUpdateDefaultResponse
+  | FarmsDeleteDefaultResponse
+  | FieldsListDefaultResponse
+  | FieldsGetCascadeDeleteJobDetailsDefaultResponse
+  | FieldsCreateCascadeDeleteJobDefaultResponse
+  | FieldsListByPartyIdDefaultResponse
+  | FieldsGetDefaultResponse
+  | FieldsCreateOrUpdateDefaultResponse
+  | FieldsDeleteDefaultResponse
+  | HarvestDataListDefaultResponse
+  | HarvestDataCreateCascadeDeleteJobDefaultResponse
+  | HarvestDataGetCascadeDeleteJobDetailsDefaultResponse
+  | HarvestDataListByPartyIdDefaultResponse
+  | HarvestDataGetDefaultResponse
+  | HarvestDataCreateOrUpdateDefaultResponse
+  | HarvestDataDeleteDefaultResponse
+  | ImageProcessingCreateRasterizeJobDefaultResponse
+  | ImageProcessingGetRasterizeJobDefaultResponse
+  | InsightAttachmentsListByPartyIdModelIdAndResourceDefaultResponse
+  | InsightAttachmentsCreateOrUpdateDefaultResponse
+  | InsightAttachmentsGetDefaultResponse
+  | InsightAttachmentsDeleteDefaultResponse
+  | InsightAttachmentsDownloadDefaultResponse
+  | InsightsCreateCascadeDeleteJobDefaultResponse
+  | InsightsGetCascadeDeleteJobDetailsDefaultResponse
+  | InsightsListByPartyIdModelIdAndResourceDefaultResponse
+  | InsightsCreateOrUpdateDefaultResponse
+  | InsightsGetDefaultResponse
+  | InsightsDeleteDefaultResponse
+  | ManagementZonesListDefaultResponse
+  | ManagementZonesGetCascadeDeleteJobDetailsDefaultResponse
+  | ManagementZonesCreateCascadeDeleteJobDefaultResponse
+  | ManagementZonesListByPartyIdDefaultResponse
+  | ManagementZonesGetDefaultResponse
+  | ManagementZonesCreateOrUpdateDefaultResponse
+  | ManagementZonesDeleteDefaultResponse
+  | ModelInferenceCreateBiomassModelJobDefaultResponse
+  | ModelInferenceGetBiomassModelJobDefaultResponse
+  | ModelInferenceCreateSensorPlacementModelJobDefaultResponse
+  | ModelInferenceGetSensorPlacementModelJobDefaultResponse
+  | ModelInferenceCreateSoilMoistureModelJobDefaultResponse
+  | ModelInferenceGetSoilMoistureModelJobDefaultResponse
+  | NutrientAnalysesListDefaultResponse
+  | NutrientAnalysesListByPartyIdDefaultResponse
+  | NutrientAnalysesGetDefaultResponse
+  | NutrientAnalysesCreateOrUpdateDefaultResponse
+  | NutrientAnalysesDeleteDefaultResponse
+  | OAuthProvidersListDefaultResponse
+  | OAuthProvidersGetDefaultResponse
+  | OAuthProvidersCreateOrUpdateDefaultResponse
+  | OAuthProvidersDeleteDefaultResponse
+  | OAuthProvidersGetCascadeDeleteJobDetailsDefaultResponse
+  | OAuthProvidersCreateCascadeDeleteJobDefaultResponse
+  | OAuthTokensListDefaultResponse
+  | OAuthTokensGetOAuthConnectionLinkDefaultResponse
+  | OAuthTokensGetCascadeDeleteJobDetailsDefaultResponse
+  | OAuthTokensCreateCascadeDeleteJobDefaultResponse
+  | PartiesListDefaultResponse
+  | PartiesGetDefaultResponse
+  | PartiesCreateOrUpdateDefaultResponse
+  | PartiesDeleteDefaultResponse
+  | PartiesGetCascadeDeleteJobDetailsDefaultResponse
+  | PartiesCreateCascadeDeleteJobDefaultResponse
+  | PlantingDataListByPartyIdDefaultResponse
+  | PlantingDataGetDefaultResponse
+  | PlantingDataCreateOrUpdateDefaultResponse
+  | PlantingDataDeleteDefaultResponse
+  | PlantingDataListDefaultResponse
+  | PlantingDataCreateCascadeDeleteJobDefaultResponse
+  | PlantingDataGetCascadeDeleteJobDetailsDefaultResponse
+  | PlantTissueAnalysesListByPartyIdDefaultResponse
+  | PlantTissueAnalysesGetDefaultResponse
+  | PlantTissueAnalysesCreateOrUpdateDefaultResponse
+  | PlantTissueAnalysesDeleteDefaultResponse
+  | PlantTissueAnalysesListDefaultResponse
+  | PlantTissueAnalysesCreateCascadeDeleteJobDefaultResponse
+  | PlantTissueAnalysesGetCascadeDeleteJobDetailsDefaultResponse
+  | PrescriptionMapsListByPartyIdDefaultResponse
+  | PrescriptionMapsGetDefaultResponse
+  | PrescriptionMapsCreateOrUpdateDefaultResponse
+  | PrescriptionMapsDeleteDefaultResponse
+  | PrescriptionMapsListDefaultResponse
+  | PrescriptionMapsGetCascadeDeleteJobDetailsDefaultResponse
+  | PrescriptionMapsCreateCascadeDeleteJobDefaultResponse
+  | PrescriptionsListByPartyIdDefaultResponse
+  | PrescriptionsGetDefaultResponse
+  | PrescriptionsCreateOrUpdateDefaultResponse
+  | PrescriptionsDeleteDefaultResponse
+  | PrescriptionsListDefaultResponse
+  | PrescriptionsGetCascadeDeleteJobDetailsDefaultResponse
+  | PrescriptionsCreateCascadeDeleteJobDefaultResponse
+  | ScenesListDefaultResponse
+  | ScenesDownloadDefaultResponse
+  | ScenesCreateSatelliteDataIngestionJobDefaultResponse
+  | ScenesGetSatelliteDataIngestionJobDetailsDefaultResponse
+  | ScenesSearchFeaturesDefaultResponse
+  | ScenesGetStacFeatureDefaultResponse
+  | SeasonalFieldsListByPartyIdDefaultResponse
+  | SeasonalFieldsGetDefaultResponse
+  | SeasonalFieldsCreateOrUpdateDefaultResponse
+  | SeasonalFieldsDeleteDefaultResponse
+  | SeasonalFieldsListDefaultResponse
+  | SeasonalFieldsGetCascadeDeleteJobDetailsDefaultResponse
+  | SeasonalFieldsCreateCascadeDeleteJobDefaultResponse
+  | SeasonsListDefaultResponse
+  | SeasonsGetDefaultResponse
+  | SeasonsCreateOrUpdateDefaultResponse
+  | SeasonsDeleteDefaultResponse
+  | SensorDataModelsListDefaultResponse
+  | SensorDataModelsCreateOrUpdateDefaultResponse
+  | SensorDataModelsGetDefaultResponse
+  | SensorDataModelsDeleteDefaultResponse
+  | SensorEventsListDefaultResponse
+  | SensorMappingsListDefaultResponse
+  | SensorMappingsCreateOrUpdateDefaultResponse
+  | SensorMappingsGetDefaultResponse
+  | SensorMappingsDeleteDefaultResponse
+  | SensorPartnerIntegrationsListDefaultResponse
+  | SensorPartnerIntegrationsCreateOrUpdateDefaultResponse
+  | SensorPartnerIntegrationsGetDefaultResponse
+  | SensorPartnerIntegrationsDeleteDefaultResponse
+  | SensorPartnerIntegrationsCheckConsentDefaultResponse
+  | SensorPartnerIntegrationsGenerateConsentLinkDefaultResponse
+  | SensorsListDefaultResponse
+  | SensorsCreateOrUpdateDefaultResponse
+  | SensorsGetDefaultResponse
+  | SensorsDeleteDefaultResponse
+  | SensorsGetConnectionStringDefaultResponse
+  | SensorsRenewConnectionStringDefaultResponse
+  | SolutionInferenceCancelDefaultResponse
+  | SolutionInferenceCreateOrUpdateDefaultResponse
+  | SolutionInferenceFetchDefaultResponse
+  | TillageDataListByPartyIdDefaultResponse
+  | TillageDataGetDefaultResponse
+  | TillageDataCreateOrUpdateDefaultResponse
+  | TillageDataDeleteDefaultResponse
+  | TillageDataListDefaultResponse
+  | TillageDataCreateCascadeDeleteJobDefaultResponse
+  | TillageDataGetCascadeDeleteJobDetailsDefaultResponse
+  | WeatherListDefaultResponse
+  | WeatherGetDataDeleteJobDetailsDefaultResponse
+  | WeatherCreateDataDeleteJobDefaultResponse
+  | WeatherGetDataIngestionJobDetailsDefaultResponse
+  | WeatherCreateDataIngestionJobDefaultResponse
+  | WeatherDataGetDefaultResponse
+  | ZonesListByPartyIdDefaultResponse
+  | ZonesGetDefaultResponse
+  | ZonesCreateOrUpdateDefaultResponse
+  | ZonesDeleteDefaultResponse
+  | ZonesListDefaultResponse
+  | ZonesGetCascadeDeleteJobDetailsDefaultResponse
+  | ZonesCreateCascadeDeleteJobDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;
   let pathDetails = responseMap[`${method} ${url.pathname}`];
   if (!pathDetails) {
-    pathDetails = geParametrizedPathSuccess(url.pathname);
+    pathDetails = getParametrizedPathSuccess(method, url.pathname);
   }
   return !pathDetails.includes(response.status);
 }
 
-function geParametrizedPathSuccess(path: string): string[] {
+function getParametrizedPathSuccess(method: string, path: string): string[] {
   const pathParts = path.split("/");
+
+  // Traverse list to match the longest candidate
+  // matchedLen: the length of candidate path
+  // matchedValue: the matched status code array
+  let matchedLen = -1,
+    matchedValue: string[] = [];
 
   // Iterate the responseMap to find a match
   for (const [key, value] of Object.entries(responseMap)) {
     // Extracting the path from the map key which is in format
     // GET /path/foo
+    if (!key.startsWith(method)) {
+      continue;
+    }
     const candidatePath = getPathFromMapKey(key);
     // Get each part of the url path
     const candidateParts = candidatePath.split("/");
 
-    // If the candidate and actual paths don't match in size
-    // we move on to the next candidate path
-    if (
-      candidateParts.length === pathParts.length &&
-      hasParametrizedPath(key)
+    // track if we have found a match to return the values found.
+    let found = true;
+    for (
+      let i = candidateParts.length - 1, j = pathParts.length - 1;
+      i >= 1 && j >= 1;
+      i--, j--
     ) {
-      // track if we have found a match to return the values found.
-      let found = true;
-      for (let i = 0; i < candidateParts.length; i++) {
-        if (
-          candidateParts[i].startsWith("{") &&
-          candidateParts[i].endsWith("}")
-        ) {
-          // If the current part of the candidate is a "template" part
-          // it is a match with the actual path part on hand
-          // skip as the parameterized part can match anything
-          continue;
-        }
+      if (
+        candidateParts[i]?.startsWith("{") &&
+        candidateParts[i]?.indexOf("}") !== -1
+      ) {
+        const start = candidateParts[i]!.indexOf("}") + 1,
+          end = candidateParts[i]?.length;
+        // If the current part of the candidate is a "template" part
+        // Try to use the suffix of pattern to match the path
+        // {guid} ==> $
+        // {guid}:export ==> :export$
+        const isMatched = new RegExp(
+          `${candidateParts[i]?.slice(start, end)}`
+        ).test(pathParts[j] || "");
 
-        // If the candidate part is not a template and
-        // the parts don't match mark the candidate as not found
-        // to move on with the next candidate path.
-        if (candidateParts[i] !== pathParts[i]) {
+        if (!isMatched) {
           found = false;
           break;
         }
+        continue;
       }
 
-      // We finished evaluating the current candidate parts
-      // if all parts matched we return the success values form
-      // the path mapping.
-      if (found) {
-        return value;
+      // If the candidate part is not a template and
+      // the parts don't match mark the candidate as not found
+      // to move on with the next candidate path.
+      if (candidateParts[i] !== pathParts[j]) {
+        found = false;
+        break;
       }
+    }
+
+    // We finished evaluating the current candidate parts
+    // Update the matched value if and only if we found the longer pattern
+    if (found && candidatePath.length > matchedLen) {
+      matchedLen = candidatePath.length;
+      matchedValue = value;
     }
   }
 
-  // No match was found, return an empty array.
-  return [];
-}
-
-function hasParametrizedPath(path: string): boolean {
-  return path.includes("/{");
+  return matchedValue;
 }
 
 function getPathFromMapKey(mapKey: string): string {

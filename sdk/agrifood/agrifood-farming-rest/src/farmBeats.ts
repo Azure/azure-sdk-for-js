@@ -5,13 +5,19 @@ import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 import { FarmBeatsClient } from "./clientDefinitions";
 
+/**
+ * Initialize a new instance of `FarmBeatsClient`
+ * @param $host type: string, server parameter
+ * @param credentials type: TokenCredential, uniquely identify client credential
+ * @param options type: ClientOptions, the parameter for all optional parameters
+ */
 export default function createClient(
   $host: string,
   credentials: TokenCredential,
   options: ClientOptions = {}
 ): FarmBeatsClient {
   const baseUrl = options.baseUrl ?? `${$host}`;
-  options.apiVersion = options.apiVersion ?? "2021-07-31-preview";
+  options.apiVersion = options.apiVersion ?? "2022-11-01-preview";
   options = {
     ...options,
     credentials: {

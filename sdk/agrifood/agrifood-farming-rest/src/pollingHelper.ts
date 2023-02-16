@@ -3,14 +3,13 @@
 
 import { Client, HttpResponse } from "@azure-rest/core-client";
 import {
+  CreateHttpPollerOptions,
   LongRunningOperation,
-  LroEngine,
-  LroEngineOptions,
   LroResponse,
-  PollerLike,
-  PollOperationState
+  OperationState,
+  SimplePollerLike,
+  createHttpPoller
 } from "@azure/core-lro";
-
 /**
  * Helper function that builds a Poller object to help polling a long running operation.
  * @param client - Client to use for sending the request to get additional pages.
@@ -18,11 +17,11 @@ import {
  * @param options - Options to set a resume state or custom polling interval.
  * @returns - A poller object to poll for operation state updates and eventually get the final response.
  */
-export function getLongRunningPoller<TResult extends HttpResponse>(
+export async function getLongRunningPoller<TResult extends HttpResponse>(
   client: Client,
   initialResponse: TResult,
-  options: LroEngineOptions<TResult, PollOperationState<TResult>> = {}
-): PollerLike<PollOperationState<TResult>, TResult> {
+  options: CreateHttpPollerOptions<TResult, OperationState<TResult>> = {}
+): Promise<SimplePollerLike<OperationState<TResult>, TResult>> {
   const poller: LongRunningOperation<TResult> = {
     requestMethod: initialResponse.request.method,
     requestPath: initialResponse.request.url,
@@ -47,13 +46,14 @@ export function getLongRunningPoller<TResult extends HttpResponse>(
     }
   };
 
-  return new LroEngine(poller, options);
+  options.resolveOnUnsuccessful = options.resolveOnUnsuccessful ?? true;
+  return await createHttpPoller(poller, options);
 }
 
 /**
- * Converts a Rest Client response to a response that the LRO engine knows about
+ * Converts a Rest Client response to a response that the LRO implementation understands
  * @param response - a rest client http response
- * @returns - An LRO response that the LRO engine can work with
+ * @returns - An LRO response that the LRO implementation understands
  */
 function getLroResponse<TResult extends HttpResponse>(
   response: TResult

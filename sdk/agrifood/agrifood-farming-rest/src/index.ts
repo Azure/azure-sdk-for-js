@@ -12,5 +12,6 @@ export * from "./models";
 export * from "./outputModels";
 export * from "./paginateHelper";
 export * from "./pollingHelper";
+export * from "./serializeHelper";
 
 export default FarmBeats;

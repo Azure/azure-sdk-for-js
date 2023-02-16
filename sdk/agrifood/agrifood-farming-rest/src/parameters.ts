@@ -6,11 +6,10 @@ import {
   ApplicationData,
   SearchBoundaryQuery,
   Boundary,
+  CropProduct,
   Crop,
-  CropVariety,
   DeviceDataModel,
   Device,
-  Farmer,
   FarmOperationDataIngestionJob,
   Farm,
   Field,
@@ -19,15 +18,18 @@ import {
   Insight,
   ManagementZone,
   BiomassModelJob,
+  SensorPlacementModelJob,
   SoilMoistureModelJob,
   NutrientAnalysis,
   OAuthProvider,
   OAuthConnectRequest,
+  Party,
   PlantingData,
   PlantTissueAnalysis,
   PrescriptionMap,
   Prescription,
   SatelliteDataIngestionJob,
+  SearchFeaturesQuery,
   SeasonalField,
   Season,
   SensorDataModel,
@@ -39,6 +41,7 @@ import {
   TillageData,
   WeatherDataDeleteJob,
   WeatherDataIngestionJob,
+  WeatherDataProviderRequest,
   Zone
 } from "./models";
 
@@ -51,10 +54,10 @@ export interface ApplicationDataListQueryParamProperties {
   minTotalMaterial?: number;
   /** Maximum total amount of material applied during the application (inclusive). */
   maxTotalMaterial?: number;
-  /** Sources of the operation data. */
-  sources?: Array<string>;
-  /** Boundary IDs associated with operation data. */
-  associatedBoundaryIds?: Array<string>;
+  /** Sources of the operation data. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  sources?: string;
+  /** Boundary IDs associated with operation data. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  associatedBoundaryIds?: string;
   /** Minimum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
   minOperationStartDateTime?: Date | string;
   /** Maximum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
@@ -71,17 +74,17 @@ export interface ApplicationDataListQueryParamProperties {
   minArea?: number;
   /** Maximum area for which operation was applied (inclusive). */
   maxArea?: number;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -94,9 +97,9 @@ export interface ApplicationDataListQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
 export interface ApplicationDataListQueryParam {
@@ -107,8 +110,8 @@ export type ApplicationDataListParameters = ApplicationDataListQueryParam &
   RequestParameters;
 
 export interface ApplicationDataCreateCascadeDeleteJobQueryParamProperties {
-  /** Id of the farmer. */
-  farmerId: string;
+  /** Id of the party. */
+  partyId: string;
   /** Id of the application data. */
   applicationDataId: string;
 }
@@ -121,7 +124,7 @@ export type ApplicationDataCreateCascadeDeleteJobParameters = ApplicationDataCre
   RequestParameters;
 export type ApplicationDataGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
-export interface ApplicationDataListByFarmerIdQueryParamProperties {
+export interface ApplicationDataListByPartyIdQueryParamProperties {
   /** Minimum average amount of material applied during the application (inclusive). */
   minAvgMaterial?: number;
   /** Maximum average amount of material applied during the application (inclusive). */
@@ -130,10 +133,10 @@ export interface ApplicationDataListByFarmerIdQueryParamProperties {
   minTotalMaterial?: number;
   /** Maximum total amount of material applied during the application (inclusive). */
   maxTotalMaterial?: number;
-  /** Sources of the operation data. */
-  sources?: Array<string>;
-  /** Boundary IDs associated with operation data. */
-  associatedBoundaryIds?: Array<string>;
+  /** Sources of the operation data. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  sources?: string;
+  /** Boundary IDs associated with operation data. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  associatedBoundaryIds?: string;
   /** Minimum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
   minOperationStartDateTime?: Date | string;
   /** Maximum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
@@ -150,17 +153,17 @@ export interface ApplicationDataListByFarmerIdQueryParamProperties {
   minArea?: number;
   /** Maximum area for which operation was applied (inclusive). */
   maxArea?: number;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -173,22 +176,24 @@ export interface ApplicationDataListByFarmerIdQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
-export interface ApplicationDataListByFarmerIdQueryParam {
-  queryParameters?: ApplicationDataListByFarmerIdQueryParamProperties;
+export interface ApplicationDataListByPartyIdQueryParam {
+  queryParameters?: ApplicationDataListByPartyIdQueryParamProperties;
 }
 
-export type ApplicationDataListByFarmerIdParameters = ApplicationDataListByFarmerIdQueryParam &
+export type ApplicationDataListByPartyIdParameters = ApplicationDataListByPartyIdQueryParam &
   RequestParameters;
 export type ApplicationDataGetParameters = RequestParameters;
+/** Application data resource payload to create or update. */
+export type ApplicationDataResourceMergeAndPatch = Partial<ApplicationData>;
 
 export interface ApplicationDataCreateOrUpdateBodyParam {
   /** Application data resource payload to create or update. */
-  body: ApplicationData;
+  body: ApplicationDataResourceMergeAndPatch;
 }
 
 export interface ApplicationDataCreateOrUpdateMediaTypesParam {
@@ -201,25 +206,25 @@ export type ApplicationDataCreateOrUpdateParameters = ApplicationDataCreateOrUpd
   RequestParameters;
 export type ApplicationDataDeleteParameters = RequestParameters;
 
-export interface AttachmentsListByFarmerIdQueryParamProperties {
-  /** Resource Ids of the resource. */
-  resourceIds?: Array<string>;
+export interface AttachmentsListByPartyIdQueryParamProperties {
+  /** Resource Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  resourceIds?: string;
   /**
    * Resource Types of the resource.
-   * i.e. Farmer, Farm, Field, SeasonalField, Boundary, ApplicationData, HarvestData, TillageData, PlantingData, PlantTissueAnalysis.
+   * i.e. Party, Farm, Field, SeasonalField, Boundary, ApplicationData, HarvestData, TillageData, PlantingData, PlantTissueAnalysis. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  resourceTypes?: Array<string>;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+  resourceTypes?: string;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -232,16 +237,16 @@ export interface AttachmentsListByFarmerIdQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
-export interface AttachmentsListByFarmerIdQueryParam {
-  queryParameters?: AttachmentsListByFarmerIdQueryParamProperties;
+export interface AttachmentsListByPartyIdQueryParam {
+  queryParameters?: AttachmentsListByPartyIdQueryParamProperties;
 }
 
-export type AttachmentsListByFarmerIdParameters = AttachmentsListByFarmerIdQueryParam &
+export type AttachmentsListByPartyIdParameters = AttachmentsListByPartyIdQueryParam &
   RequestParameters;
 export type AttachmentsGetParameters = RequestParameters;
 
@@ -251,7 +256,7 @@ export interface AttachmentsCreateOrUpdateBodyParam {
 
 export interface AttachmentsCreateOrUpdateFormBody {
   /**
-   * file
+   * File to be uploaded.
    *
    * Value may contain any sequence of octets
    */
@@ -261,29 +266,29 @@ export interface AttachmentsCreateOrUpdateFormBody {
     | ReadableStream<Uint8Array>
     | NodeJS.ReadableStream;
   /** Associated Resource id for this attachment. */
-  ResourceId?: string;
+  resourceId?: string;
   /** Associated Resource type for this attachment. */
-  ResourceType?: string;
+  resourceType?: string;
   /** Original File Name for this attachment. */
-  OriginalFileName?: string;
-  /** Farmer id for this attachment. */
-  FarmerId?: string;
+  originalFileName?: string;
   /** Unique id. */
-  Id?: string;
+  id?: string;
   /** Status of the resource. */
-  Status?: string;
+  status?: string;
   /** Date when resource was created. */
-  CreatedDateTime?: string;
+  createdDateTime?: string;
   /** Date when resource was last modified. */
-  ModifiedDateTime?: string;
+  modifiedDateTime?: string;
   /** Source of the resource. */
-  Source?: string;
+  source?: string;
   /** Name to identify resource. */
-  Name?: string;
+  name?: string;
   /** Textual description of resource. */
-  Description?: string;
-  /** The ETag value to implement optimistic concurrency. */
-  ETag?: string;
+  description?: string;
+  /** Created by user/tenant id. */
+  createdBy?: string;
+  /** Modified by user/tenant id. */
+  modifiedBy?: string;
 }
 
 export interface AttachmentsCreateOrUpdateMediaTypesParam {
@@ -298,27 +303,27 @@ export type AttachmentsDeleteParameters = RequestParameters;
 export type AttachmentsDownloadParameters = RequestParameters;
 
 export interface BoundariesListQueryParamProperties {
-  /** Is the boundary primary. */
-  isPrimary?: boolean;
   /** Type of the parent it belongs to. */
   parentType?: string;
-  /** Parent Ids of the resource. */
-  parentIds?: Array<string>;
-  /** Minimum acreage of the boundary (inclusive). */
-  minAcreage?: number;
+  /** Type it belongs to. */
+  type?: string;
+  /** Parent Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  parentIds?: string;
+  /** Minimum area of the boundary (inclusive). */
+  minArea?: number;
   /** Maximum acreage of the boundary (inclusive). */
-  maxAcreage?: number;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+  maxArea?: number;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -331,9 +336,9 @@ export interface BoundariesListQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
 export interface BoundariesListQueryParam {
@@ -358,8 +363,8 @@ export type BoundariesSearchParameters = BoundariesSearchMediaTypesParam &
   RequestParameters;
 
 export interface BoundariesCreateCascadeDeleteJobQueryParamProperties {
-  /** ID of the associated farmer. */
-  farmerId: string;
+  /** ID of the associated party. */
+  partyId: string;
   /** ID of the boundary to be deleted. */
   boundaryId: string;
 }
@@ -372,28 +377,28 @@ export type BoundariesCreateCascadeDeleteJobParameters = BoundariesCreateCascade
   RequestParameters;
 export type BoundariesGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
-export interface BoundariesListByFarmerIdQueryParamProperties {
-  /** Is the boundary primary. */
-  isPrimary?: boolean;
+export interface BoundariesListByPartyIdQueryParamProperties {
   /** Type of the parent it belongs to. */
   parentType?: string;
-  /** Parent Ids of the resource. */
-  parentIds?: Array<string>;
-  /** Minimum acreage of the boundary (inclusive). */
-  minAcreage?: number;
+  /** Type it belongs to. */
+  type?: string;
+  /** Parent Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  parentIds?: string;
+  /** Minimum area of the boundary (inclusive). */
+  minArea?: number;
   /** Maximum acreage of the boundary (inclusive). */
-  maxAcreage?: number;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+  maxArea?: number;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -406,35 +411,37 @@ export interface BoundariesListByFarmerIdQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
-export interface BoundariesListByFarmerIdQueryParam {
-  queryParameters?: BoundariesListByFarmerIdQueryParamProperties;
+export interface BoundariesListByPartyIdQueryParam {
+  queryParameters?: BoundariesListByPartyIdQueryParamProperties;
 }
 
-export type BoundariesListByFarmerIdParameters = BoundariesListByFarmerIdQueryParam &
+export type BoundariesListByPartyIdParameters = BoundariesListByPartyIdQueryParam &
   RequestParameters;
 
-export interface BoundariesSearchByFarmerIdBodyParam {
+export interface BoundariesSearchByPartyIdBodyParam {
   /** Query filters. */
   body: SearchBoundaryQuery;
 }
 
-export interface BoundariesSearchByFarmerIdMediaTypesParam {
+export interface BoundariesSearchByPartyIdMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
 }
 
-export type BoundariesSearchByFarmerIdParameters = BoundariesSearchByFarmerIdMediaTypesParam &
-  BoundariesSearchByFarmerIdBodyParam &
+export type BoundariesSearchByPartyIdParameters = BoundariesSearchByPartyIdMediaTypesParam &
+  BoundariesSearchByPartyIdBodyParam &
   RequestParameters;
+/** Boundary resource payload to create or update. */
+export type BoundaryResourceMergeAndPatch = Partial<Boundary>;
 
 export interface BoundariesCreateOrUpdateBodyParam {
   /** Boundary resource payload to create or update. */
-  body: Boundary;
+  body: BoundaryResourceMergeAndPatch;
 }
 
 export interface BoundariesCreateOrUpdateMediaTypesParam {
@@ -449,8 +456,8 @@ export type BoundariesGetParameters = RequestParameters;
 export type BoundariesDeleteParameters = RequestParameters;
 
 export interface BoundariesGetOverlapQueryParamProperties {
-  /** FarmerId of the other field. */
-  otherFarmerId: string;
+  /** PartyId of the other field. */
+  otherPartyId: string;
   /** Id of the other boundary. */
   otherBoundaryId: string;
 }
@@ -462,20 +469,26 @@ export interface BoundariesGetOverlapQueryParam {
 export type BoundariesGetOverlapParameters = BoundariesGetOverlapQueryParam &
   RequestParameters;
 
-export interface CropsListQueryParamProperties {
-  /** Crop phenotypes of the resource. */
-  phenotypes?: Array<string>;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+export interface CropProductsListQueryParamProperties {
+  /** CropIds of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  cropIds?: string;
+  /** Brands of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  brands?: string;
+  /** Products of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  products?: string;
+  /** Traits of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  traits?: string;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -488,9 +501,67 @@ export interface CropsListQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
+}
+
+export interface CropProductsListQueryParam {
+  queryParameters?: CropProductsListQueryParamProperties;
+}
+
+export type CropProductsListParameters = CropProductsListQueryParam &
+  RequestParameters;
+export type CropProductsGetParameters = RequestParameters;
+/** Crop Product resource payload to create or update. */
+export type CropProductResourceMergeAndPatch = Partial<CropProduct>;
+
+export interface CropProductsCreateOrUpdateBodyParam {
+  /** Crop Product resource payload to create or update. */
+  body: CropProductResourceMergeAndPatch;
+}
+
+export interface CropProductsCreateOrUpdateMediaTypesParam {
+  /** Request content type */
+  contentType?: "application/merge-patch+json";
+}
+
+export type CropProductsCreateOrUpdateParameters = CropProductsCreateOrUpdateMediaTypesParam &
+  CropProductsCreateOrUpdateBodyParam &
+  RequestParameters;
+export type CropProductsDeleteParameters = RequestParameters;
+
+export interface CropsListQueryParamProperties {
+  /** Crop phenotypes of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  phenotypes?: string;
+  /** Breeding method of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  breedingMethods?: string;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
+  /**
+   * Filters on key-value pairs within the Properties object.
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
+   */
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
+  /** Minimum creation date of resource (inclusive). */
+  minCreatedDateTime?: Date | string;
+  /** Maximum creation date of resource (inclusive). */
+  maxCreatedDateTime?: Date | string;
+  /** Minimum last modified date of resource (inclusive). */
+  minLastModifiedDateTime?: Date | string;
+  /** Maximum last modified date of resource (inclusive). */
+  maxLastModifiedDateTime?: Date | string;
+  /**
+   * Maximum number of items needed (inclusive).
+   * Minimum = 10, Maximum = 1000, Default value = 50.
+   */
+  maxPageSize?: number;
+  /** Skip token for getting next set of results. */
+  skipToken?: string;
 }
 
 export interface CropsListQueryParam {
@@ -499,10 +570,12 @@ export interface CropsListQueryParam {
 
 export type CropsListParameters = CropsListQueryParam & RequestParameters;
 export type CropsGetParameters = RequestParameters;
+/** Crop resource payload to create or update. */
+export type CropResourceMergeAndPatch = Partial<Crop>;
 
 export interface CropsCreateOrUpdateBodyParam {
   /** Crop resource payload to create or update. */
-  body: Crop;
+  body: CropResourceMergeAndPatch;
 }
 
 export interface CropsCreateOrUpdateMediaTypesParam {
@@ -515,76 +588,18 @@ export type CropsCreateOrUpdateParameters = CropsCreateOrUpdateMediaTypesParam &
   RequestParameters;
 export type CropsDeleteParameters = RequestParameters;
 
-export interface CropVarietiesListQueryParamProperties {
-  /** CropIds of the resource. */
-  cropIds?: Array<string>;
-  /** Brands of the resource. */
-  brands?: Array<string>;
-  /** Products of the resource. */
-  products?: Array<string>;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
-  /**
-   * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
-   */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
-  /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date | string;
-  /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date | string;
-  /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date | string;
-  /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date | string;
-  /**
-   * Maximum number of items needed (inclusive).
-   * Minimum = 10, Maximum = 1000, Default value = 50.
-   */
-  $maxPageSize?: number;
-  /** Skip token for getting next set of results. */
-  $skipToken?: string;
-}
-
-export interface CropVarietiesListQueryParam {
-  queryParameters?: CropVarietiesListQueryParamProperties;
-}
-
-export type CropVarietiesListParameters = CropVarietiesListQueryParam &
-  RequestParameters;
-export type CropVarietiesGetParameters = RequestParameters;
-
-export interface CropVarietiesCreateOrUpdateBodyParam {
-  /** Crop variety resource payload to create or update. */
-  body: CropVariety;
-}
-
-export interface CropVarietiesCreateOrUpdateMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/merge-patch+json";
-}
-
-export type CropVarietiesCreateOrUpdateParameters = CropVarietiesCreateOrUpdateMediaTypesParam &
-  CropVarietiesCreateOrUpdateBodyParam &
-  RequestParameters;
-export type CropVarietiesDeleteParameters = RequestParameters;
-
 export interface DeviceDataModelsListQueryParamProperties {
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -597,9 +612,9 @@ export interface DeviceDataModelsListQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
 export interface DeviceDataModelsListQueryParam {
@@ -608,10 +623,12 @@ export interface DeviceDataModelsListQueryParam {
 
 export type DeviceDataModelsListParameters = DeviceDataModelsListQueryParam &
   RequestParameters;
+/** Device data model object details. */
+export type DeviceDataModelResourceMergeAndPatch = Partial<DeviceDataModel>;
 
 export interface DeviceDataModelsCreateOrUpdateBodyParam {
   /** Device data model object details. */
-  body: DeviceDataModel;
+  body: DeviceDataModelResourceMergeAndPatch;
 }
 
 export interface DeviceDataModelsCreateOrUpdateMediaTypesParam {
@@ -626,21 +643,21 @@ export type DeviceDataModelsGetParameters = RequestParameters;
 export type DeviceDataModelsDeleteParameters = RequestParameters;
 
 export interface DevicesListQueryParamProperties {
-  /** Id's of the parent devices. */
-  parentDeviceIds?: Array<string>;
-  /** Id's of the device data models. */
-  deviceDataModelIds?: Array<string>;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+  /** Id's of the parent devices. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  parentDeviceIds?: string;
+  /** Id's of the device data models. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  deviceDataModelIds?: string;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -653,9 +670,9 @@ export interface DevicesListQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
 export interface DevicesListQueryParam {
@@ -663,10 +680,12 @@ export interface DevicesListQueryParam {
 }
 
 export type DevicesListParameters = DevicesListQueryParam & RequestParameters;
+/** Device object details. */
+export type DeviceResourceMergeAndPatch = Partial<Device>;
 
 export interface DevicesCreateOrUpdateBodyParam {
   /** Device object details. */
-  body: Device;
+  body: DeviceResourceMergeAndPatch;
 }
 
 export interface DevicesCreateOrUpdateMediaTypesParam {
@@ -679,70 +698,6 @@ export type DevicesCreateOrUpdateParameters = DevicesCreateOrUpdateMediaTypesPar
   RequestParameters;
 export type DevicesGetParameters = RequestParameters;
 export type DevicesDeleteParameters = RequestParameters;
-
-export interface FarmersListQueryParamProperties {
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
-  /**
-   * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
-   */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
-  /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date | string;
-  /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date | string;
-  /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date | string;
-  /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date | string;
-  /**
-   * Maximum number of items needed (inclusive).
-   * Minimum = 10, Maximum = 1000, Default value = 50.
-   */
-  $maxPageSize?: number;
-  /** Skip token for getting next set of results. */
-  $skipToken?: string;
-}
-
-export interface FarmersListQueryParam {
-  queryParameters?: FarmersListQueryParamProperties;
-}
-
-export type FarmersListParameters = FarmersListQueryParam & RequestParameters;
-export type FarmersGetParameters = RequestParameters;
-
-export interface FarmersCreateOrUpdateBodyParam {
-  /** Farmer resource payload to create or update. */
-  body: Farmer;
-}
-
-export interface FarmersCreateOrUpdateMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/merge-patch+json";
-}
-
-export type FarmersCreateOrUpdateParameters = FarmersCreateOrUpdateMediaTypesParam &
-  FarmersCreateOrUpdateBodyParam &
-  RequestParameters;
-export type FarmersDeleteParameters = RequestParameters;
-
-export interface FarmersCreateCascadeDeleteJobQueryParamProperties {
-  /** ID of the farmer to be deleted. */
-  farmerId: string;
-}
-
-export interface FarmersCreateCascadeDeleteJobQueryParam {
-  queryParameters: FarmersCreateCascadeDeleteJobQueryParamProperties;
-}
-
-export type FarmersCreateCascadeDeleteJobParameters = FarmersCreateCascadeDeleteJobQueryParam &
-  RequestParameters;
-export type FarmersGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
 export interface FarmOperationsCreateDataIngestionJobBodyParam {
   /** Job parameters supplied by user. */
@@ -759,70 +714,18 @@ export type FarmOperationsCreateDataIngestionJobParameters = FarmOperationsCreat
   RequestParameters;
 export type FarmOperationsGetDataIngestionJobDetailsParameters = RequestParameters;
 
-export interface FarmsListByFarmerIdQueryParamProperties {
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
-  /**
-   * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
-   */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
-  /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date | string;
-  /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date | string;
-  /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date | string;
-  /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date | string;
-  /**
-   * Maximum number of items needed (inclusive).
-   * Minimum = 10, Maximum = 1000, Default value = 50.
-   */
-  $maxPageSize?: number;
-  /** Skip token for getting next set of results. */
-  $skipToken?: string;
-}
-
-export interface FarmsListByFarmerIdQueryParam {
-  queryParameters?: FarmsListByFarmerIdQueryParamProperties;
-}
-
-export type FarmsListByFarmerIdParameters = FarmsListByFarmerIdQueryParam &
-  RequestParameters;
-export type FarmsGetParameters = RequestParameters;
-
-export interface FarmsCreateOrUpdateBodyParam {
-  /** Farm resource payload to create or update. */
-  body: Farm;
-}
-
-export interface FarmsCreateOrUpdateMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/merge-patch+json";
-}
-
-export type FarmsCreateOrUpdateParameters = FarmsCreateOrUpdateMediaTypesParam &
-  FarmsCreateOrUpdateBodyParam &
-  RequestParameters;
-export type FarmsDeleteParameters = RequestParameters;
-
 export interface FarmsListQueryParamProperties {
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -835,9 +738,9 @@ export interface FarmsListQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
 export interface FarmsListQueryParam {
@@ -847,8 +750,8 @@ export interface FarmsListQueryParam {
 export type FarmsListParameters = FarmsListQueryParam & RequestParameters;
 
 export interface FarmsCreateCascadeDeleteJobQueryParamProperties {
-  /** ID of the associated farmer. */
-  farmerId: string;
+  /** ID of the associated party. */
+  partyId: string;
   /** ID of the farm to be deleted. */
   farmId: string;
 }
@@ -861,20 +764,18 @@ export type FarmsCreateCascadeDeleteJobParameters = FarmsCreateCascadeDeleteJobQ
   RequestParameters;
 export type FarmsGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
-export interface FieldsListByFarmerIdQueryParamProperties {
-  /** Farm Ids of the resource. */
-  farmIds?: Array<string>;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+export interface FarmsListByPartyIdQueryParamProperties {
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -887,22 +788,132 @@ export interface FieldsListByFarmerIdQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
-export interface FieldsListByFarmerIdQueryParam {
-  queryParameters?: FieldsListByFarmerIdQueryParamProperties;
+export interface FarmsListByPartyIdQueryParam {
+  queryParameters?: FarmsListByPartyIdQueryParamProperties;
 }
 
-export type FieldsListByFarmerIdParameters = FieldsListByFarmerIdQueryParam &
+export type FarmsListByPartyIdParameters = FarmsListByPartyIdQueryParam &
+  RequestParameters;
+export type FarmsGetParameters = RequestParameters;
+/** Farm resource payload to create or update. */
+export type FarmResourceMergeAndPatch = Partial<Farm>;
+
+export interface FarmsCreateOrUpdateBodyParam {
+  /** Farm resource payload to create or update. */
+  body: FarmResourceMergeAndPatch;
+}
+
+export interface FarmsCreateOrUpdateMediaTypesParam {
+  /** Request content type */
+  contentType?: "application/merge-patch+json";
+}
+
+export type FarmsCreateOrUpdateParameters = FarmsCreateOrUpdateMediaTypesParam &
+  FarmsCreateOrUpdateBodyParam &
+  RequestParameters;
+export type FarmsDeleteParameters = RequestParameters;
+
+export interface FieldsListQueryParamProperties {
+  /** Farm Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  farmIds?: string;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
+  /**
+   * Filters on key-value pairs within the Properties object.
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
+   */
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
+  /** Minimum creation date of resource (inclusive). */
+  minCreatedDateTime?: Date | string;
+  /** Maximum creation date of resource (inclusive). */
+  maxCreatedDateTime?: Date | string;
+  /** Minimum last modified date of resource (inclusive). */
+  minLastModifiedDateTime?: Date | string;
+  /** Maximum last modified date of resource (inclusive). */
+  maxLastModifiedDateTime?: Date | string;
+  /**
+   * Maximum number of items needed (inclusive).
+   * Minimum = 10, Maximum = 1000, Default value = 50.
+   */
+  maxPageSize?: number;
+  /** Skip token for getting next set of results. */
+  skipToken?: string;
+}
+
+export interface FieldsListQueryParam {
+  queryParameters?: FieldsListQueryParamProperties;
+}
+
+export type FieldsListParameters = FieldsListQueryParam & RequestParameters;
+export type FieldsGetCascadeDeleteJobDetailsParameters = RequestParameters;
+
+export interface FieldsCreateCascadeDeleteJobQueryParamProperties {
+  /** ID of the associated party. */
+  partyId: string;
+  /** ID of the field to be deleted. */
+  fieldId: string;
+}
+
+export interface FieldsCreateCascadeDeleteJobQueryParam {
+  queryParameters: FieldsCreateCascadeDeleteJobQueryParamProperties;
+}
+
+export type FieldsCreateCascadeDeleteJobParameters = FieldsCreateCascadeDeleteJobQueryParam &
+  RequestParameters;
+
+export interface FieldsListByPartyIdQueryParamProperties {
+  /** Farm Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  farmIds?: string;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
+  /**
+   * Filters on key-value pairs within the Properties object.
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
+   */
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
+  /** Minimum creation date of resource (inclusive). */
+  minCreatedDateTime?: Date | string;
+  /** Maximum creation date of resource (inclusive). */
+  maxCreatedDateTime?: Date | string;
+  /** Minimum last modified date of resource (inclusive). */
+  minLastModifiedDateTime?: Date | string;
+  /** Maximum last modified date of resource (inclusive). */
+  maxLastModifiedDateTime?: Date | string;
+  /**
+   * Maximum number of items needed (inclusive).
+   * Minimum = 10, Maximum = 1000, Default value = 50.
+   */
+  maxPageSize?: number;
+  /** Skip token for getting next set of results. */
+  skipToken?: string;
+}
+
+export interface FieldsListByPartyIdQueryParam {
+  queryParameters?: FieldsListByPartyIdQueryParamProperties;
+}
+
+export type FieldsListByPartyIdParameters = FieldsListByPartyIdQueryParam &
   RequestParameters;
 export type FieldsGetParameters = RequestParameters;
+/** Field resource payload to create or update. */
+export type FieldResourceMergeAndPatch = Partial<Field>;
 
 export interface FieldsCreateOrUpdateBodyParam {
   /** Field resource payload to create or update. */
-  body: Field;
+  body: FieldResourceMergeAndPatch;
 }
 
 export interface FieldsCreateOrUpdateMediaTypesParam {
@@ -914,154 +925,6 @@ export type FieldsCreateOrUpdateParameters = FieldsCreateOrUpdateMediaTypesParam
   FieldsCreateOrUpdateBodyParam &
   RequestParameters;
 export type FieldsDeleteParameters = RequestParameters;
-
-export interface FieldsListQueryParamProperties {
-  /** Farm Ids of the resource. */
-  farmIds?: Array<string>;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
-  /**
-   * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
-   */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
-  /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date | string;
-  /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date | string;
-  /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date | string;
-  /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date | string;
-  /**
-   * Maximum number of items needed (inclusive).
-   * Minimum = 10, Maximum = 1000, Default value = 50.
-   */
-  $maxPageSize?: number;
-  /** Skip token for getting next set of results. */
-  $skipToken?: string;
-}
-
-export interface FieldsListQueryParam {
-  queryParameters?: FieldsListQueryParamProperties;
-}
-
-export type FieldsListParameters = FieldsListQueryParam & RequestParameters;
-
-export interface FieldsCreateCascadeDeleteJobQueryParamProperties {
-  /** ID of the associated farmer. */
-  farmerId: string;
-  /** ID of the field to be deleted. */
-  fieldId: string;
-}
-
-export interface FieldsCreateCascadeDeleteJobQueryParam {
-  queryParameters: FieldsCreateCascadeDeleteJobQueryParamProperties;
-}
-
-export type FieldsCreateCascadeDeleteJobParameters = FieldsCreateCascadeDeleteJobQueryParam &
-  RequestParameters;
-export type FieldsGetCascadeDeleteJobDetailsParameters = RequestParameters;
-
-export interface HarvestDataListByFarmerIdQueryParamProperties {
-  /** Minimum Yield value(inclusive). */
-  minTotalYield?: number;
-  /** Maximum Yield value (inclusive). */
-  maxTotalYield?: number;
-  /** Minimum AvgYield value(inclusive). */
-  minAvgYield?: number;
-  /** Maximum AvgYield value (inclusive). */
-  maxAvgYield?: number;
-  /** Minimum Total WetMass value(inclusive). */
-  minTotalWetMass?: number;
-  /** Maximum Total WetMass value (inclusive). */
-  maxTotalWetMass?: number;
-  /** Minimum AvgWetMass value(inclusive). */
-  minAvgWetMass?: number;
-  /** Maximum AvgWetMass value (inclusive). */
-  maxAvgWetMass?: number;
-  /** Minimum AvgMoisture value(inclusive). */
-  minAvgMoisture?: number;
-  /** Maximum AvgMoisture value (inclusive). */
-  maxAvgMoisture?: number;
-  /** Minimum AvgSpeed value(inclusive). */
-  minAvgSpeed?: number;
-  /** Maximum AvgSpeed value (inclusive). */
-  maxAvgSpeed?: number;
-  /** Sources of the operation data. */
-  sources?: Array<string>;
-  /** Boundary IDs associated with operation data. */
-  associatedBoundaryIds?: Array<string>;
-  /** Minimum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  minOperationStartDateTime?: Date | string;
-  /** Maximum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  maxOperationStartDateTime?: Date | string;
-  /** Minimum end date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  minOperationEndDateTime?: Date | string;
-  /** Maximum end date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  maxOperationEndDateTime?: Date | string;
-  /** Minimum modified date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  minOperationModifiedDateTime?: Date | string;
-  /** Maximum modified date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  maxOperationModifiedDateTime?: Date | string;
-  /** Minimum area for which operation was applied (inclusive). */
-  minArea?: number;
-  /** Maximum area for which operation was applied (inclusive). */
-  maxArea?: number;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
-  /**
-   * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
-   */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
-  /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date | string;
-  /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date | string;
-  /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date | string;
-  /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date | string;
-  /**
-   * Maximum number of items needed (inclusive).
-   * Minimum = 10, Maximum = 1000, Default value = 50.
-   */
-  $maxPageSize?: number;
-  /** Skip token for getting next set of results. */
-  $skipToken?: string;
-}
-
-export interface HarvestDataListByFarmerIdQueryParam {
-  queryParameters?: HarvestDataListByFarmerIdQueryParamProperties;
-}
-
-export type HarvestDataListByFarmerIdParameters = HarvestDataListByFarmerIdQueryParam &
-  RequestParameters;
-export type HarvestDataGetParameters = RequestParameters;
-
-export interface HarvestDataCreateOrUpdateBodyParam {
-  /** Harvest data resource payload to create or update. */
-  body: HarvestData;
-}
-
-export interface HarvestDataCreateOrUpdateMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/merge-patch+json";
-}
-
-export type HarvestDataCreateOrUpdateParameters = HarvestDataCreateOrUpdateMediaTypesParam &
-  HarvestDataCreateOrUpdateBodyParam &
-  RequestParameters;
-export type HarvestDataDeleteParameters = RequestParameters;
 
 export interface HarvestDataListQueryParamProperties {
   /** Minimum Yield value(inclusive). */
@@ -1088,10 +951,10 @@ export interface HarvestDataListQueryParamProperties {
   minAvgSpeed?: number;
   /** Maximum AvgSpeed value (inclusive). */
   maxAvgSpeed?: number;
-  /** Sources of the operation data. */
-  sources?: Array<string>;
-  /** Boundary IDs associated with operation data. */
-  associatedBoundaryIds?: Array<string>;
+  /** Sources of the operation data. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  sources?: string;
+  /** Boundary IDs associated with operation data. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  associatedBoundaryIds?: string;
   /** Minimum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
   minOperationStartDateTime?: Date | string;
   /** Maximum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
@@ -1108,17 +971,17 @@ export interface HarvestDataListQueryParamProperties {
   minArea?: number;
   /** Maximum area for which operation was applied (inclusive). */
   maxArea?: number;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -1131,9 +994,9 @@ export interface HarvestDataListQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
 export interface HarvestDataListQueryParam {
@@ -1144,8 +1007,8 @@ export type HarvestDataListParameters = HarvestDataListQueryParam &
   RequestParameters;
 
 export interface HarvestDataCreateCascadeDeleteJobQueryParamProperties {
-  /** Id of the farmer. */
-  farmerId: string;
+  /** Id of the party. */
+  partyId: string;
   /** Id of the harvest data. */
   harvestDataId: string;
 }
@@ -1157,6 +1020,104 @@ export interface HarvestDataCreateCascadeDeleteJobQueryParam {
 export type HarvestDataCreateCascadeDeleteJobParameters = HarvestDataCreateCascadeDeleteJobQueryParam &
   RequestParameters;
 export type HarvestDataGetCascadeDeleteJobDetailsParameters = RequestParameters;
+
+export interface HarvestDataListByPartyIdQueryParamProperties {
+  /** Minimum Yield value(inclusive). */
+  minTotalYield?: number;
+  /** Maximum Yield value (inclusive). */
+  maxTotalYield?: number;
+  /** Minimum AvgYield value(inclusive). */
+  minAvgYield?: number;
+  /** Maximum AvgYield value (inclusive). */
+  maxAvgYield?: number;
+  /** Minimum Total WetMass value(inclusive). */
+  minTotalWetMass?: number;
+  /** Maximum Total WetMass value (inclusive). */
+  maxTotalWetMass?: number;
+  /** Minimum AvgWetMass value(inclusive). */
+  minAvgWetMass?: number;
+  /** Maximum AvgWetMass value (inclusive). */
+  maxAvgWetMass?: number;
+  /** Minimum AvgMoisture value(inclusive). */
+  minAvgMoisture?: number;
+  /** Maximum AvgMoisture value (inclusive). */
+  maxAvgMoisture?: number;
+  /** Minimum AvgSpeed value(inclusive). */
+  minAvgSpeed?: number;
+  /** Maximum AvgSpeed value (inclusive). */
+  maxAvgSpeed?: number;
+  /** Sources of the operation data. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  sources?: string;
+  /** Boundary IDs associated with operation data. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  associatedBoundaryIds?: string;
+  /** Minimum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
+  minOperationStartDateTime?: Date | string;
+  /** Maximum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
+  maxOperationStartDateTime?: Date | string;
+  /** Minimum end date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
+  minOperationEndDateTime?: Date | string;
+  /** Maximum end date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
+  maxOperationEndDateTime?: Date | string;
+  /** Minimum modified date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
+  minOperationModifiedDateTime?: Date | string;
+  /** Maximum modified date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
+  maxOperationModifiedDateTime?: Date | string;
+  /** Minimum area for which operation was applied (inclusive). */
+  minArea?: number;
+  /** Maximum area for which operation was applied (inclusive). */
+  maxArea?: number;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
+  /**
+   * Filters on key-value pairs within the Properties object.
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
+   */
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
+  /** Minimum creation date of resource (inclusive). */
+  minCreatedDateTime?: Date | string;
+  /** Maximum creation date of resource (inclusive). */
+  maxCreatedDateTime?: Date | string;
+  /** Minimum last modified date of resource (inclusive). */
+  minLastModifiedDateTime?: Date | string;
+  /** Maximum last modified date of resource (inclusive). */
+  maxLastModifiedDateTime?: Date | string;
+  /**
+   * Maximum number of items needed (inclusive).
+   * Minimum = 10, Maximum = 1000, Default value = 50.
+   */
+  maxPageSize?: number;
+  /** Skip token for getting next set of results. */
+  skipToken?: string;
+}
+
+export interface HarvestDataListByPartyIdQueryParam {
+  queryParameters?: HarvestDataListByPartyIdQueryParamProperties;
+}
+
+export type HarvestDataListByPartyIdParameters = HarvestDataListByPartyIdQueryParam &
+  RequestParameters;
+export type HarvestDataGetParameters = RequestParameters;
+/** Harvest data resource payload to create or update. */
+export type HarvestDataResourceMergeAndPatch = Partial<HarvestData>;
+
+export interface HarvestDataCreateOrUpdateBodyParam {
+  /** Harvest data resource payload to create or update. */
+  body: HarvestDataResourceMergeAndPatch;
+}
+
+export interface HarvestDataCreateOrUpdateMediaTypesParam {
+  /** Request content type */
+  contentType?: "application/merge-patch+json";
+}
+
+export type HarvestDataCreateOrUpdateParameters = HarvestDataCreateOrUpdateMediaTypesParam &
+  HarvestDataCreateOrUpdateBodyParam &
+  RequestParameters;
+export type HarvestDataDeleteParameters = RequestParameters;
 
 export interface ImageProcessingCreateRasterizeJobBodyParam {
   /** Job parameters supplied by user. */
@@ -1173,20 +1134,20 @@ export type ImageProcessingCreateRasterizeJobParameters = ImageProcessingCreateR
   RequestParameters;
 export type ImageProcessingGetRasterizeJobParameters = RequestParameters;
 
-export interface InsightAttachmentsListByFarmerIdModelIdAndResourceQueryParamProperties {
-  /** List of insight IDs. */
-  insightIds?: Array<string>;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+export interface InsightAttachmentsListByPartyIdModelIdAndResourceQueryParamProperties {
+  /** List of insight IDs. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  insightIds?: string;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -1199,16 +1160,16 @@ export interface InsightAttachmentsListByFarmerIdModelIdAndResourceQueryParamPro
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
-export interface InsightAttachmentsListByFarmerIdModelIdAndResourceQueryParam {
-  queryParameters?: InsightAttachmentsListByFarmerIdModelIdAndResourceQueryParamProperties;
+export interface InsightAttachmentsListByPartyIdModelIdAndResourceQueryParam {
+  queryParameters?: InsightAttachmentsListByPartyIdModelIdAndResourceQueryParamProperties;
 }
 
-export type InsightAttachmentsListByFarmerIdModelIdAndResourceParameters = InsightAttachmentsListByFarmerIdModelIdAndResourceQueryParam &
+export type InsightAttachmentsListByPartyIdModelIdAndResourceParameters = InsightAttachmentsListByPartyIdModelIdAndResourceQueryParam &
   RequestParameters;
 
 export interface InsightAttachmentsCreateOrUpdateBodyParam {
@@ -1217,7 +1178,7 @@ export interface InsightAttachmentsCreateOrUpdateBodyParam {
 
 export interface InsightAttachmentsCreateOrUpdateFormBody {
   /**
-   * abcd
+   * File to be uploaded.
    *
    * Value may contain any sequence of octets
    */
@@ -1228,32 +1189,26 @@ export interface InsightAttachmentsCreateOrUpdateFormBody {
     | NodeJS.ReadableStream;
   /** InsightID for this InsightAttachment. */
   insightId: string;
-  /** ModelID for this InsightAttachment. */
-  ModelId?: string;
-  /** Associated Resource type for this attachment. */
-  ResourceType?: string;
-  /** Associated Resource id for this attachment. */
-  ResourceId?: string;
   /** Original File Name for this attachment. */
-  OriginalFileName?: string;
-  /** Farmer id for this attachment. */
-  FarmerId?: string;
+  originalFileName?: string;
   /** Unique id. */
-  Id?: string;
+  id?: string;
   /** Status of the resource. */
-  Status?: string;
+  status?: string;
   /** Date when resource was created. */
-  CreatedDateTime?: string;
+  createdDateTime?: string;
   /** Date when resource was last modified. */
-  ModifiedDateTime?: string;
+  modifiedDateTime?: string;
   /** Source of the resource. */
-  Source?: string;
+  source?: string;
   /** Name to identify resource. */
-  Name?: string;
+  name?: string;
   /** Textual description of resource. */
-  Description?: string;
-  /** The ETag value to implement optimistic concurrency. */
-  ETag?: string;
+  description?: string;
+  /** Created by user/tenant id. */
+  createdBy?: string;
+  /** Modified by user/tenant id. */
+  modifiedBy?: string;
 }
 
 export interface InsightAttachmentsCreateOrUpdateMediaTypesParam {
@@ -1268,75 +1223,9 @@ export type InsightAttachmentsGetParameters = RequestParameters;
 export type InsightAttachmentsDeleteParameters = RequestParameters;
 export type InsightAttachmentsDownloadParameters = RequestParameters;
 
-export interface InsightsListByFarmerIdModelIdAndResourceQueryParamProperties {
-  /** Minimum insightStartDateTime time of insight resources (inclusive), sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  minInsightStartDateTime?: Date | string;
-  /** Maximum insightStartDateTime time of insight resources (inclusive), sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  maxInsightStartDateTime?: Date | string;
-  /** Minimum insightEndDateTime time of insight resources (inclusive), sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  minInsightEndDateTime?: Date | string;
-  /** Maximum insightEndDateTime time of insight resources (inclusive), sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  maxInsightEndDateTime?: Date | string;
-  /**
-   * Filters on measureKey.unit/unitValue or measureKey.value/value pairs within the Measures object.
-   * eg. "measureKey.unit eq {testValue}" where testValue is string.
-   * eg. "measureKey.value eq {testValue}" where testValue = double.
-   */
-  measureFilters?: Array<string>;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
-  /**
-   * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
-   */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
-  /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date | string;
-  /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date | string;
-  /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date | string;
-  /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date | string;
-  /**
-   * Maximum number of items needed (inclusive).
-   * Minimum = 10, Maximum = 1000, Default value = 50.
-   */
-  $maxPageSize?: number;
-  /** Skip token for getting next set of results. */
-  $skipToken?: string;
-}
-
-export interface InsightsListByFarmerIdModelIdAndResourceQueryParam {
-  queryParameters?: InsightsListByFarmerIdModelIdAndResourceQueryParamProperties;
-}
-
-export type InsightsListByFarmerIdModelIdAndResourceParameters = InsightsListByFarmerIdModelIdAndResourceQueryParam &
-  RequestParameters;
-
-export interface InsightsCreateOrUpdateBodyParam {
-  /** Insight data. */
-  body: Insight;
-}
-
-export interface InsightsCreateOrUpdateMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/merge-patch+json";
-}
-
-export type InsightsCreateOrUpdateParameters = InsightsCreateOrUpdateMediaTypesParam &
-  InsightsCreateOrUpdateBodyParam &
-  RequestParameters;
-export type InsightsGetParameters = RequestParameters;
-export type InsightsDeleteParameters = RequestParameters;
-
 export interface InsightsCreateCascadeDeleteJobQueryParamProperties {
-  /** ID of the associated farmer. */
-  farmerId: string;
+  /** ID of the associated party. */
+  partyId: string;
   /** Id of the associated model. */
   modelId: string;
   /** Resource Type. */
@@ -1355,28 +1244,32 @@ export type InsightsCreateCascadeDeleteJobParameters = InsightsCreateCascadeDele
   RequestParameters;
 export type InsightsGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
-export interface ManagementZonesListByFarmerIdQueryParamProperties {
-  /** Types of the ManagementZone. */
-  types?: Array<string>;
-  /** CropIds of the ManagementZone. */
-  cropIds?: Array<string>;
-  /** SeasonIds of the ManagementZone. */
-  seasonIds?: Array<string>;
-  /** FieldIds of the ManagementZone. */
-  fieldIds?: Array<string>;
-  /** Sources of the ManagementZone. */
-  sources?: Array<string>;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+export interface InsightsListByPartyIdModelIdAndResourceQueryParamProperties {
+  /** Minimum insightStartDateTime time of insight resources (inclusive), sample format: yyyy-MM-ddTHH:mm:ssZ. */
+  minInsightStartDateTime?: Date | string;
+  /** Maximum insightStartDateTime time of insight resources (inclusive), sample format: yyyy-MM-ddTHH:mm:ssZ. */
+  maxInsightStartDateTime?: Date | string;
+  /** Minimum insightEndDateTime time of insight resources (inclusive), sample format: yyyy-MM-ddTHH:mm:ssZ. */
+  minInsightEndDateTime?: Date | string;
+  /** Maximum insightEndDateTime time of insight resources (inclusive), sample format: yyyy-MM-ddTHH:mm:ssZ. */
+  maxInsightEndDateTime?: Date | string;
+  /**
+   * Filters on measureKey.unit/unitValue or measureKey.value/value pairs within the Measures object.
+   * eg. "measureKey.unit eq {testValue}" where testValue is string.
+   * eg. "measureKey.value eq {testValue}" where testValue = double. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
+   */
+  measurementFilters?: string;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -1389,56 +1282,58 @@ export interface ManagementZonesListByFarmerIdQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
-export interface ManagementZonesListByFarmerIdQueryParam {
-  queryParameters?: ManagementZonesListByFarmerIdQueryParamProperties;
+export interface InsightsListByPartyIdModelIdAndResourceQueryParam {
+  queryParameters?: InsightsListByPartyIdModelIdAndResourceQueryParamProperties;
 }
 
-export type ManagementZonesListByFarmerIdParameters = ManagementZonesListByFarmerIdQueryParam &
+export type InsightsListByPartyIdModelIdAndResourceParameters = InsightsListByPartyIdModelIdAndResourceQueryParam &
   RequestParameters;
-export type ManagementZonesGetParameters = RequestParameters;
+/** Insight data. */
+export type InsightResourceMergeAndPatch = Partial<Insight>;
 
-export interface ManagementZonesCreateOrUpdateBodyParam {
-  /** ManagementZone resource payload to create or update. */
-  body: ManagementZone;
+export interface InsightsCreateOrUpdateBodyParam {
+  /** Insight data. */
+  body: InsightResourceMergeAndPatch;
 }
 
-export interface ManagementZonesCreateOrUpdateMediaTypesParam {
+export interface InsightsCreateOrUpdateMediaTypesParam {
   /** Request content type */
   contentType?: "application/merge-patch+json";
 }
 
-export type ManagementZonesCreateOrUpdateParameters = ManagementZonesCreateOrUpdateMediaTypesParam &
-  ManagementZonesCreateOrUpdateBodyParam &
+export type InsightsCreateOrUpdateParameters = InsightsCreateOrUpdateMediaTypesParam &
+  InsightsCreateOrUpdateBodyParam &
   RequestParameters;
-export type ManagementZonesDeleteParameters = RequestParameters;
+export type InsightsGetParameters = RequestParameters;
+export type InsightsDeleteParameters = RequestParameters;
 
 export interface ManagementZonesListQueryParamProperties {
-  /** Types of the ManagementZone. */
-  types?: Array<string>;
-  /** CropIds of the ManagementZone. */
-  cropIds?: Array<string>;
-  /** SeasonIds of the ManagementZone. */
-  seasonIds?: Array<string>;
-  /** FieldIds of the ManagementZone. */
-  fieldIds?: Array<string>;
-  /** Sources of the ManagementZone. */
-  sources?: Array<string>;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+  /** Types of the ManagementZone. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  types?: string;
+  /** CropIds of the ManagementZone. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  cropIds?: string;
+  /** SeasonIds of the ManagementZone. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  seasonIds?: string;
+  /** FieldIds of the ManagementZone. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  fieldIds?: string;
+  /** Sources of the ManagementZone. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  sources?: string;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -1451,9 +1346,9 @@ export interface ManagementZonesListQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
 export interface ManagementZonesListQueryParam {
@@ -1465,8 +1360,8 @@ export type ManagementZonesListParameters = ManagementZonesListQueryParam &
 export type ManagementZonesGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
 export interface ManagementZonesCreateCascadeDeleteJobQueryParamProperties {
-  /** ID of the associated farmer. */
-  farmerId: string;
+  /** ID of the associated party. */
+  partyId: string;
   /** ID of the management zone to be deleted. */
   managementZoneId: string;
 }
@@ -1477,6 +1372,70 @@ export interface ManagementZonesCreateCascadeDeleteJobQueryParam {
 
 export type ManagementZonesCreateCascadeDeleteJobParameters = ManagementZonesCreateCascadeDeleteJobQueryParam &
   RequestParameters;
+
+export interface ManagementZonesListByPartyIdQueryParamProperties {
+  /** Types of the ManagementZone. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  types?: string;
+  /** CropIds of the ManagementZone. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  cropIds?: string;
+  /** SeasonIds of the ManagementZone. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  seasonIds?: string;
+  /** FieldIds of the ManagementZone. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  fieldIds?: string;
+  /** Sources of the ManagementZone. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  sources?: string;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
+  /**
+   * Filters on key-value pairs within the Properties object.
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
+   */
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
+  /** Minimum creation date of resource (inclusive). */
+  minCreatedDateTime?: Date | string;
+  /** Maximum creation date of resource (inclusive). */
+  maxCreatedDateTime?: Date | string;
+  /** Minimum last modified date of resource (inclusive). */
+  minLastModifiedDateTime?: Date | string;
+  /** Maximum last modified date of resource (inclusive). */
+  maxLastModifiedDateTime?: Date | string;
+  /**
+   * Maximum number of items needed (inclusive).
+   * Minimum = 10, Maximum = 1000, Default value = 50.
+   */
+  maxPageSize?: number;
+  /** Skip token for getting next set of results. */
+  skipToken?: string;
+}
+
+export interface ManagementZonesListByPartyIdQueryParam {
+  queryParameters?: ManagementZonesListByPartyIdQueryParamProperties;
+}
+
+export type ManagementZonesListByPartyIdParameters = ManagementZonesListByPartyIdQueryParam &
+  RequestParameters;
+export type ManagementZonesGetParameters = RequestParameters;
+/** ManagementZone resource payload to create or update. */
+export type ManagementZoneResourceMergeAndPatch = Partial<ManagementZone>;
+
+export interface ManagementZonesCreateOrUpdateBodyParam {
+  /** ManagementZone resource payload to create or update. */
+  body: ManagementZoneResourceMergeAndPatch;
+}
+
+export interface ManagementZonesCreateOrUpdateMediaTypesParam {
+  /** Request content type */
+  contentType?: "application/merge-patch+json";
+}
+
+export type ManagementZonesCreateOrUpdateParameters = ManagementZonesCreateOrUpdateMediaTypesParam &
+  ManagementZonesCreateOrUpdateBodyParam &
+  RequestParameters;
+export type ManagementZonesDeleteParameters = RequestParameters;
 
 export interface ModelInferenceCreateBiomassModelJobBodyParam {
   /** Job parameters supplied by user. */
@@ -1493,6 +1452,21 @@ export type ModelInferenceCreateBiomassModelJobParameters = ModelInferenceCreate
   RequestParameters;
 export type ModelInferenceGetBiomassModelJobParameters = RequestParameters;
 
+export interface ModelInferenceCreateSensorPlacementModelJobBodyParam {
+  /** Job parameters supplied by user. */
+  body: SensorPlacementModelJob;
+}
+
+export interface ModelInferenceCreateSensorPlacementModelJobMediaTypesParam {
+  /** Request content type */
+  contentType?: "application/json";
+}
+
+export type ModelInferenceCreateSensorPlacementModelJobParameters = ModelInferenceCreateSensorPlacementModelJobMediaTypesParam &
+  ModelInferenceCreateSensorPlacementModelJobBodyParam &
+  RequestParameters;
+export type ModelInferenceGetSensorPlacementModelJobParameters = RequestParameters;
+
 export interface ModelInferenceCreateSoilMoistureModelJobBodyParam {
   /** Job parameters supplied by user. */
   body: SoilMoistureModelJob;
@@ -1508,27 +1482,27 @@ export type ModelInferenceCreateSoilMoistureModelJobParameters = ModelInferenceC
   RequestParameters;
 export type ModelInferenceGetSoilMoistureModelJobParameters = RequestParameters;
 
-export interface NutrientAnalysesListByFarmerIdQueryParamProperties {
+export interface NutrientAnalysesListQueryParamProperties {
   /**
    * Type of the parent it belongs to.
    * i.e. PlantTissueAnalysis.
    */
   parentType?: string;
-  /** Parent ids of the resource. */
-  parentIds?: Array<string>;
-  /** Classifications for nutrient analyses. */
-  classifications?: Array<string>;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+  /** Parent ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  parentIds?: string;
+  /** Classifications for nutrient analyses. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  classifications?: string;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -1541,22 +1515,69 @@ export interface NutrientAnalysesListByFarmerIdQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
-export interface NutrientAnalysesListByFarmerIdQueryParam {
-  queryParameters?: NutrientAnalysesListByFarmerIdQueryParamProperties;
+export interface NutrientAnalysesListQueryParam {
+  queryParameters?: NutrientAnalysesListQueryParamProperties;
 }
 
-export type NutrientAnalysesListByFarmerIdParameters = NutrientAnalysesListByFarmerIdQueryParam &
+export type NutrientAnalysesListParameters = NutrientAnalysesListQueryParam &
+  RequestParameters;
+
+export interface NutrientAnalysesListByPartyIdQueryParamProperties {
+  /**
+   * Type of the parent it belongs to.
+   * i.e. PlantTissueAnalysis.
+   */
+  parentType?: string;
+  /** Parent ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  parentIds?: string;
+  /** Classifications for nutrient analyses. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  classifications?: string;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
+  /**
+   * Filters on key-value pairs within the Properties object.
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
+   */
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
+  /** Minimum creation date of resource (inclusive). */
+  minCreatedDateTime?: Date | string;
+  /** Maximum creation date of resource (inclusive). */
+  maxCreatedDateTime?: Date | string;
+  /** Minimum last modified date of resource (inclusive). */
+  minLastModifiedDateTime?: Date | string;
+  /** Maximum last modified date of resource (inclusive). */
+  maxLastModifiedDateTime?: Date | string;
+  /**
+   * Maximum number of items needed (inclusive).
+   * Minimum = 10, Maximum = 1000, Default value = 50.
+   */
+  maxPageSize?: number;
+  /** Skip token for getting next set of results. */
+  skipToken?: string;
+}
+
+export interface NutrientAnalysesListByPartyIdQueryParam {
+  queryParameters?: NutrientAnalysesListByPartyIdQueryParamProperties;
+}
+
+export type NutrientAnalysesListByPartyIdParameters = NutrientAnalysesListByPartyIdQueryParam &
   RequestParameters;
 export type NutrientAnalysesGetParameters = RequestParameters;
+/** NutrientAnalysis resource payload to create or update. */
+export type NutrientAnalysisResourceMergeAndPatch = Partial<NutrientAnalysis>;
 
 export interface NutrientAnalysesCreateOrUpdateBodyParam {
   /** NutrientAnalysis resource payload to create or update. */
-  body: NutrientAnalysis;
+  body: NutrientAnalysisResourceMergeAndPatch;
 }
 
 export interface NutrientAnalysesCreateOrUpdateMediaTypesParam {
@@ -1569,63 +1590,18 @@ export type NutrientAnalysesCreateOrUpdateParameters = NutrientAnalysesCreateOrU
   RequestParameters;
 export type NutrientAnalysesDeleteParameters = RequestParameters;
 
-export interface NutrientAnalysesListQueryParamProperties {
-  /**
-   * Type of the parent it belongs to.
-   * i.e. PlantTissueAnalysis.
-   */
-  parentType?: string;
-  /** Parent ids of the resource. */
-  parentIds?: Array<string>;
-  /** Classifications for nutrient analyses. */
-  classifications?: Array<string>;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
-  /**
-   * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
-   */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
-  /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date | string;
-  /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date | string;
-  /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date | string;
-  /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date | string;
-  /**
-   * Maximum number of items needed (inclusive).
-   * Minimum = 10, Maximum = 1000, Default value = 50.
-   */
-  $maxPageSize?: number;
-  /** Skip token for getting next set of results. */
-  $skipToken?: string;
-}
-
-export interface NutrientAnalysesListQueryParam {
-  queryParameters?: NutrientAnalysesListQueryParamProperties;
-}
-
-export type NutrientAnalysesListParameters = NutrientAnalysesListQueryParam &
-  RequestParameters;
-
 export interface OAuthProvidersListQueryParamProperties {
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -1638,9 +1614,9 @@ export interface OAuthProvidersListQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
 export interface OAuthProvidersListQueryParam {
@@ -1650,10 +1626,12 @@ export interface OAuthProvidersListQueryParam {
 export type OAuthProvidersListParameters = OAuthProvidersListQueryParam &
   RequestParameters;
 export type OAuthProvidersGetParameters = RequestParameters;
+/** OauthProvider resource payload to create or update. */
+export type OAuthProviderResourceMergeAndPatch = Partial<OAuthProvider>;
 
 export interface OAuthProvidersCreateOrUpdateBodyParam {
   /** OauthProvider resource payload to create or update. */
-  body: OAuthProvider;
+  body: OAuthProviderResourceMergeAndPatch;
 }
 
 export interface OAuthProvidersCreateOrUpdateMediaTypesParam {
@@ -1680,10 +1658,10 @@ export type OAuthProvidersCreateCascadeDeleteJobParameters = OAuthProvidersCreat
   RequestParameters;
 
 export interface OAuthTokensListQueryParamProperties {
-  /** Name of AuthProvider. */
-  authProviderIds?: Array<string>;
-  /** List of farmers. */
-  farmerIds?: Array<string>;
+  /** Name of AuthProvider. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  authProviderIds?: string;
+  /** List of parties. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  partyIds?: string;
   /** If the token object is valid. */
   isValid?: boolean;
   /** Minimum creation date of resource (inclusive). */
@@ -1698,9 +1676,9 @@ export interface OAuthTokensListQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
 export interface OAuthTokensListQueryParam {
@@ -1723,10 +1701,11 @@ export interface OAuthTokensGetOAuthConnectionLinkMediaTypesParam {
 export type OAuthTokensGetOAuthConnectionLinkParameters = OAuthTokensGetOAuthConnectionLinkMediaTypesParam &
   OAuthTokensGetOAuthConnectionLinkBodyParam &
   RequestParameters;
+export type OAuthTokensGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
 export interface OAuthTokensCreateCascadeDeleteJobQueryParamProperties {
-  /** Id of the farmer. */
-  farmerId: string;
+  /** Id of the party. */
+  partyId: string;
   /** Id of the OAuthProvider. */
   oauthProviderId: string;
 }
@@ -1737,9 +1716,74 @@ export interface OAuthTokensCreateCascadeDeleteJobQueryParam {
 
 export type OAuthTokensCreateCascadeDeleteJobParameters = OAuthTokensCreateCascadeDeleteJobQueryParam &
   RequestParameters;
-export type OAuthTokensGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
-export interface PlantingDataListByFarmerIdQueryParamProperties {
+export interface PartiesListQueryParamProperties {
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
+  /**
+   * Filters on key-value pairs within the Properties object.
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
+   */
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
+  /** Minimum creation date of resource (inclusive). */
+  minCreatedDateTime?: Date | string;
+  /** Maximum creation date of resource (inclusive). */
+  maxCreatedDateTime?: Date | string;
+  /** Minimum last modified date of resource (inclusive). */
+  minLastModifiedDateTime?: Date | string;
+  /** Maximum last modified date of resource (inclusive). */
+  maxLastModifiedDateTime?: Date | string;
+  /**
+   * Maximum number of items needed (inclusive).
+   * Minimum = 10, Maximum = 1000, Default value = 50.
+   */
+  maxPageSize?: number;
+  /** Skip token for getting next set of results. */
+  skipToken?: string;
+}
+
+export interface PartiesListQueryParam {
+  queryParameters?: PartiesListQueryParamProperties;
+}
+
+export type PartiesListParameters = PartiesListQueryParam & RequestParameters;
+export type PartiesGetParameters = RequestParameters;
+/** Party resource payload to create or update. */
+export type PartyResourceMergeAndPatch = Partial<Party>;
+
+export interface PartiesCreateOrUpdateBodyParam {
+  /** Party resource payload to create or update. */
+  body: PartyResourceMergeAndPatch;
+}
+
+export interface PartiesCreateOrUpdateMediaTypesParam {
+  /** Request content type */
+  contentType?: "application/merge-patch+json";
+}
+
+export type PartiesCreateOrUpdateParameters = PartiesCreateOrUpdateMediaTypesParam &
+  PartiesCreateOrUpdateBodyParam &
+  RequestParameters;
+export type PartiesDeleteParameters = RequestParameters;
+export type PartiesGetCascadeDeleteJobDetailsParameters = RequestParameters;
+
+export interface PartiesCreateCascadeDeleteJobQueryParamProperties {
+  /** ID of the party to be deleted. */
+  partyId: string;
+}
+
+export interface PartiesCreateCascadeDeleteJobQueryParam {
+  queryParameters: PartiesCreateCascadeDeleteJobQueryParamProperties;
+}
+
+export type PartiesCreateCascadeDeleteJobParameters = PartiesCreateCascadeDeleteJobQueryParam &
+  RequestParameters;
+
+export interface PlantingDataListByPartyIdQueryParamProperties {
   /** Minimum AvgPlantingRate value(inclusive). */
   minAvgPlantingRate?: number;
   /** Maximum AvgPlantingRate value (inclusive). */
@@ -1752,10 +1796,10 @@ export interface PlantingDataListByFarmerIdQueryParamProperties {
   minAvgMaterial?: number;
   /** Maximum AvgMaterial value (inclusive). */
   maxAvgMaterial?: number;
-  /** Sources of the operation data. */
-  sources?: Array<string>;
-  /** Boundary IDs associated with operation data. */
-  associatedBoundaryIds?: Array<string>;
+  /** Sources of the operation data. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  sources?: string;
+  /** Boundary IDs associated with operation data. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  associatedBoundaryIds?: string;
   /** Minimum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
   minOperationStartDateTime?: Date | string;
   /** Maximum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
@@ -1772,17 +1816,17 @@ export interface PlantingDataListByFarmerIdQueryParamProperties {
   minArea?: number;
   /** Maximum area for which operation was applied (inclusive). */
   maxArea?: number;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -1795,22 +1839,24 @@ export interface PlantingDataListByFarmerIdQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
-export interface PlantingDataListByFarmerIdQueryParam {
-  queryParameters?: PlantingDataListByFarmerIdQueryParamProperties;
+export interface PlantingDataListByPartyIdQueryParam {
+  queryParameters?: PlantingDataListByPartyIdQueryParamProperties;
 }
 
-export type PlantingDataListByFarmerIdParameters = PlantingDataListByFarmerIdQueryParam &
+export type PlantingDataListByPartyIdParameters = PlantingDataListByPartyIdQueryParam &
   RequestParameters;
 export type PlantingDataGetParameters = RequestParameters;
+/** Planting data resource payload to create or update. */
+export type PlantingDataResourceMergeAndPatch = Partial<PlantingData>;
 
 export interface PlantingDataCreateOrUpdateBodyParam {
   /** Planting data resource payload to create or update. */
-  body: PlantingData;
+  body: PlantingDataResourceMergeAndPatch;
 }
 
 export interface PlantingDataCreateOrUpdateMediaTypesParam {
@@ -1836,10 +1882,10 @@ export interface PlantingDataListQueryParamProperties {
   minAvgMaterial?: number;
   /** Maximum AvgMaterial value (inclusive). */
   maxAvgMaterial?: number;
-  /** Sources of the operation data. */
-  sources?: Array<string>;
-  /** Boundary IDs associated with operation data. */
-  associatedBoundaryIds?: Array<string>;
+  /** Sources of the operation data. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  sources?: string;
+  /** Boundary IDs associated with operation data. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  associatedBoundaryIds?: string;
   /** Minimum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
   minOperationStartDateTime?: Date | string;
   /** Maximum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
@@ -1856,17 +1902,17 @@ export interface PlantingDataListQueryParamProperties {
   minArea?: number;
   /** Maximum area for which operation was applied (inclusive). */
   maxArea?: number;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -1879,9 +1925,9 @@ export interface PlantingDataListQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
 export interface PlantingDataListQueryParam {
@@ -1892,8 +1938,8 @@ export type PlantingDataListParameters = PlantingDataListQueryParam &
   RequestParameters;
 
 export interface PlantingDataCreateCascadeDeleteJobQueryParamProperties {
-  /** Id of the farmer. */
-  farmerId: string;
+  /** Id of the party. */
+  partyId: string;
   /** Id of the planting data. */
   plantingDataId: string;
 }
@@ -1906,26 +1952,26 @@ export type PlantingDataCreateCascadeDeleteJobParameters = PlantingDataCreateCas
   RequestParameters;
 export type PlantingDataGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
-export interface PlantTissueAnalysesListByFarmerIdQueryParamProperties {
-  /** Season ids of the plant tissue analyses. */
-  seasonIds?: Array<string>;
-  /** Crop ids of the plant tissue analyses. */
-  cropIds?: Array<string>;
-  /** Crop varieties ids of the plant tissue analyses. */
-  cropVarietiesIds?: Array<string>;
-  /** Field ids of the plant tissue analyses. */
-  fieldIds?: Array<string>;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+export interface PlantTissueAnalysesListByPartyIdQueryParamProperties {
+  /** Season ids of the plant tissue analyses. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  seasonIds?: string;
+  /** Crop ids of the plant tissue analyses. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  cropIds?: string;
+  /** Crop products ids of the plant tissue analyses. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  cropProductsIds?: string;
+  /** Field ids of the plant tissue analyses. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  fieldIds?: string;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -1938,22 +1984,26 @@ export interface PlantTissueAnalysesListByFarmerIdQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
-export interface PlantTissueAnalysesListByFarmerIdQueryParam {
-  queryParameters?: PlantTissueAnalysesListByFarmerIdQueryParamProperties;
+export interface PlantTissueAnalysesListByPartyIdQueryParam {
+  queryParameters?: PlantTissueAnalysesListByPartyIdQueryParamProperties;
 }
 
-export type PlantTissueAnalysesListByFarmerIdParameters = PlantTissueAnalysesListByFarmerIdQueryParam &
+export type PlantTissueAnalysesListByPartyIdParameters = PlantTissueAnalysesListByPartyIdQueryParam &
   RequestParameters;
 export type PlantTissueAnalysesGetParameters = RequestParameters;
+/** PlantTissueAnalysis resource payload to create or update. */
+export type PlantTissueAnalysisResourceMergeAndPatch = Partial<
+  PlantTissueAnalysis
+>;
 
 export interface PlantTissueAnalysesCreateOrUpdateBodyParam {
   /** PlantTissueAnalysis resource payload to create or update. */
-  body: PlantTissueAnalysis;
+  body: PlantTissueAnalysisResourceMergeAndPatch;
 }
 
 export interface PlantTissueAnalysesCreateOrUpdateMediaTypesParam {
@@ -1967,25 +2017,25 @@ export type PlantTissueAnalysesCreateOrUpdateParameters = PlantTissueAnalysesCre
 export type PlantTissueAnalysesDeleteParameters = RequestParameters;
 
 export interface PlantTissueAnalysesListQueryParamProperties {
-  /** Season ids of the plant tissue analyses. */
-  seasonIds?: Array<string>;
-  /** Crop ids of the plant tissue analyses. */
-  cropIds?: Array<string>;
-  /** Crop varieties ids of the plant tissue analyses. */
-  cropVarietiesIds?: Array<string>;
-  /** Field ids of the plant tissue analyses. */
-  fieldIds?: Array<string>;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+  /** Season ids of the plant tissue analyses. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  seasonIds?: string;
+  /** Crop ids of the plant tissue analyses. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  cropIds?: string;
+  /** Crop products ids of the plant tissue analyses. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  cropProductsIds?: string;
+  /** Field ids of the plant tissue analyses. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  fieldIds?: string;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -1998,9 +2048,9 @@ export interface PlantTissueAnalysesListQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
 export interface PlantTissueAnalysesListQueryParam {
@@ -2011,8 +2061,8 @@ export type PlantTissueAnalysesListParameters = PlantTissueAnalysesListQueryPara
   RequestParameters;
 
 export interface PlantTissueAnalysesCreateCascadeDeleteJobQueryParamProperties {
-  /** ID of the associated farmer. */
-  farmerId: string;
+  /** ID of the associated party. */
+  partyId: string;
   /** ID of the plant tissue analysis to be deleted. */
   plantTissueAnalysisId: string;
 }
@@ -2025,28 +2075,28 @@ export type PlantTissueAnalysesCreateCascadeDeleteJobParameters = PlantTissueAna
   RequestParameters;
 export type PlantTissueAnalysesGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
-export interface PrescriptionMapsListByFarmerIdQueryParamProperties {
-  /** Types of the resource. */
-  types?: Array<string>;
-  /** Crop Ids of the resource. */
-  cropIds?: Array<string>;
-  /** Season Ids of the resource. */
-  seasonIds?: Array<string>;
-  /** Field Ids of the resource. */
-  fieldIds?: Array<string>;
-  /** Sources for the resource. */
-  sources?: Array<string>;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+export interface PrescriptionMapsListByPartyIdQueryParamProperties {
+  /** Types of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  types?: string;
+  /** Crop Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  cropIds?: string;
+  /** Season Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  seasonIds?: string;
+  /** Field Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  fieldIds?: string;
+  /** Sources for the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  sources?: string;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -2059,22 +2109,24 @@ export interface PrescriptionMapsListByFarmerIdQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
-export interface PrescriptionMapsListByFarmerIdQueryParam {
-  queryParameters?: PrescriptionMapsListByFarmerIdQueryParamProperties;
+export interface PrescriptionMapsListByPartyIdQueryParam {
+  queryParameters?: PrescriptionMapsListByPartyIdQueryParamProperties;
 }
 
-export type PrescriptionMapsListByFarmerIdParameters = PrescriptionMapsListByFarmerIdQueryParam &
+export type PrescriptionMapsListByPartyIdParameters = PrescriptionMapsListByPartyIdQueryParam &
   RequestParameters;
 export type PrescriptionMapsGetParameters = RequestParameters;
+/** PrescriptionMap resource payload to create or update. */
+export type PrescriptionMapResourceMergeAndPatch = Partial<PrescriptionMap>;
 
 export interface PrescriptionMapsCreateOrUpdateBodyParam {
   /** PrescriptionMap resource payload to create or update. */
-  body: PrescriptionMap;
+  body: PrescriptionMapResourceMergeAndPatch;
 }
 
 export interface PrescriptionMapsCreateOrUpdateMediaTypesParam {
@@ -2088,27 +2140,27 @@ export type PrescriptionMapsCreateOrUpdateParameters = PrescriptionMapsCreateOrU
 export type PrescriptionMapsDeleteParameters = RequestParameters;
 
 export interface PrescriptionMapsListQueryParamProperties {
-  /** Types of the resource. */
-  types?: Array<string>;
-  /** Crop Ids of the resource. */
-  cropIds?: Array<string>;
-  /** Season Ids of the resource. */
-  seasonIds?: Array<string>;
-  /** Field Ids of the resource. */
-  fieldIds?: Array<string>;
-  /** Sources for the resource. */
-  sources?: Array<string>;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+  /** Types of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  types?: string;
+  /** Crop Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  cropIds?: string;
+  /** Season Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  seasonIds?: string;
+  /** Field Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  fieldIds?: string;
+  /** Sources for the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  sources?: string;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -2121,9 +2173,9 @@ export interface PrescriptionMapsListQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
 export interface PrescriptionMapsListQueryParam {
@@ -2135,8 +2187,8 @@ export type PrescriptionMapsListParameters = PrescriptionMapsListQueryParam &
 export type PrescriptionMapsGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
 export interface PrescriptionMapsCreateCascadeDeleteJobQueryParamProperties {
-  /** ID of the associated farmer. */
-  farmerId: string;
+  /** ID of the associated party. */
+  partyId: string;
   /** ID of the prescription map to be deleted. */
   prescriptionMapId: string;
 }
@@ -2148,28 +2200,28 @@ export interface PrescriptionMapsCreateCascadeDeleteJobQueryParam {
 export type PrescriptionMapsCreateCascadeDeleteJobParameters = PrescriptionMapsCreateCascadeDeleteJobQueryParam &
   RequestParameters;
 
-export interface PrescriptionsListByFarmerIdQueryParamProperties {
-  /** Prescription Map Ids of the resource. */
-  prescriptionMapIds?: Array<string>;
-  /** Types of the resource. */
-  types?: Array<string>;
-  /** Product Codes of the resource. */
-  productCodes?: Array<string>;
-  /** Product Names of the resource. */
-  productNames?: Array<string>;
-  /** Sources for the resource. */
-  sources?: Array<string>;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+export interface PrescriptionsListByPartyIdQueryParamProperties {
+  /** Prescription Map Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  prescriptionMapIds?: string;
+  /** Types of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  types?: string;
+  /** Product Codes of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  productCodes?: string;
+  /** Product Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  productNames?: string;
+  /** Sources for the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  sources?: string;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -2182,22 +2234,24 @@ export interface PrescriptionsListByFarmerIdQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
-export interface PrescriptionsListByFarmerIdQueryParam {
-  queryParameters?: PrescriptionsListByFarmerIdQueryParamProperties;
+export interface PrescriptionsListByPartyIdQueryParam {
+  queryParameters?: PrescriptionsListByPartyIdQueryParamProperties;
 }
 
-export type PrescriptionsListByFarmerIdParameters = PrescriptionsListByFarmerIdQueryParam &
+export type PrescriptionsListByPartyIdParameters = PrescriptionsListByPartyIdQueryParam &
   RequestParameters;
 export type PrescriptionsGetParameters = RequestParameters;
+/** Prescription resource payload to create or update. */
+export type PrescriptionResourceMergeAndPatch = Partial<Prescription>;
 
 export interface PrescriptionsCreateOrUpdateBodyParam {
   /** Prescription resource payload to create or update. */
-  body: Prescription;
+  body: PrescriptionResourceMergeAndPatch;
 }
 
 export interface PrescriptionsCreateOrUpdateMediaTypesParam {
@@ -2211,27 +2265,27 @@ export type PrescriptionsCreateOrUpdateParameters = PrescriptionsCreateOrUpdateM
 export type PrescriptionsDeleteParameters = RequestParameters;
 
 export interface PrescriptionsListQueryParamProperties {
-  /** Prescription Map Ids of the resource. */
-  prescriptionMapIds?: Array<string>;
-  /** Types of the resource. */
-  types?: Array<string>;
-  /** Product Codes of the resource. */
-  productCodes?: Array<string>;
-  /** Product Names of the resource. */
-  productNames?: Array<string>;
-  /** Sources for the resource. */
-  sources?: Array<string>;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+  /** Prescription Map Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  prescriptionMapIds?: string;
+  /** Types of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  types?: string;
+  /** Product Codes of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  productCodes?: string;
+  /** Product Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  productNames?: string;
+  /** Sources for the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  sources?: string;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -2244,9 +2298,9 @@ export interface PrescriptionsListQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
 export interface PrescriptionsListQueryParam {
@@ -2258,8 +2312,8 @@ export type PrescriptionsListParameters = PrescriptionsListQueryParam &
 export type PrescriptionsGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
 export interface PrescriptionsCreateCascadeDeleteJobQueryParamProperties {
-  /** ID of the associated farmer. */
-  farmerId: string;
+  /** ID of the associated party. */
+  partyId: string;
   /** ID of the prescription to be deleted. */
   prescriptionId: string;
 }
@@ -2274,12 +2328,12 @@ export type PrescriptionsCreateCascadeDeleteJobParameters = PrescriptionsCreateC
 export interface ScenesListQueryParamProperties {
   /** Provider name of scene data. */
   provider: string;
-  /** FarmerId. */
-  farmerId: string;
+  /** PartyId. */
+  partyId: string;
   /** BoundaryId. */
   boundaryId: string;
-  /** Source name of scene data, default value Sentinel_2_L2A (Sentinel 2 L2A). */
-  source?: string;
+  /** Source name of scene data, Available Values: Sentinel_2_L2A, Sentinel_2_L1C. */
+  source: string;
   /** Scene start UTC datetime (inclusive), sample format: yyyy-MM-ddThh:mm:ssZ. */
   startDateTime?: Date | string;
   /** Scene end UTC datetime (inclusive), sample format: yyyy-MM-dThh:mm:ssZ. */
@@ -2288,19 +2342,19 @@ export interface ScenesListQueryParamProperties {
   maxCloudCoveragePercentage?: number;
   /** Filter scenes with dark pixel coverage percentage less than max value. Range [0 to 100.0]. */
   maxDarkPixelCoveragePercentage?: number;
-  /** List of image names to be filtered. */
-  imageNames?: Array<string>;
+  /** List of image names to be filtered. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  imageNames?: string;
   /** List of image resolutions in meters to be filtered. */
   imageResolutions?: Array<number>;
-  /** List of image formats to be filtered. */
-  imageFormats?: Array<string>;
+  /** List of image formats to be filtered. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  imageFormats?: string;
   /**
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
 export interface ScenesListQueryParam {
@@ -2336,44 +2390,55 @@ export type ScenesCreateSatelliteDataIngestionJobParameters = ScenesCreateSatell
   RequestParameters;
 export type ScenesGetSatelliteDataIngestionJobDetailsParameters = RequestParameters;
 
-export interface SeasonalFieldsListByFarmerIdQueryParamProperties {
-  /** Farm Ids of the resource. */
-  farmIds?: Array<string>;
-  /** Field Ids of the resource. */
-  fieldIds?: Array<string>;
-  /** Season Ids of the resource. */
-  seasonIds?: Array<string>;
-  /** CropVarietyIds of the resource. */
-  cropVarietyIds?: Array<string>;
-  /** Ids of the crop it belongs to. */
-  cropIds?: Array<string>;
-  /** Minimum average yield value of the seasonal field(inclusive). */
-  minAvgYieldValue?: number;
-  /** Maximum average yield value of the seasonal field(inclusive). */
-  maxAvgYieldValue?: number;
-  /** Unit of the average yield value attribute. */
-  avgYieldUnit?: string;
-  /** Minimum average seed population value of the seasonal field(inclusive). */
-  minAvgSeedPopulationValue?: number;
-  /** Maximum average seed population value of the seasonal field(inclusive). */
-  maxAvgSeedPopulationValue?: number;
-  /** Unit of average seed population value attribute. */
-  avgSeedPopulationUnit?: string;
-  /** Minimum planting datetime, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  minPlantingDateTime?: Date | string;
-  /** Maximum planting datetime, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  maxPlantingDateTime?: Date | string;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+export interface ScenesSearchFeaturesBodyParam {
+  /** Query filters. */
+  body: SearchFeaturesQuery;
+}
+
+export interface ScenesSearchFeaturesQueryParamProperties {
+  /** Maximum number of features needed (inclusive). Minimum = 1, Maximum = 100, Default value = 10. */
+  maxpagesize?: number;
+  /** Skip token for getting next set of results. */
+  skip?: number;
+}
+
+export interface ScenesSearchFeaturesQueryParam {
+  queryParameters?: ScenesSearchFeaturesQueryParamProperties;
+}
+
+export interface ScenesSearchFeaturesMediaTypesParam {
+  /** Request content type */
+  contentType?: "application/json";
+}
+
+export type ScenesSearchFeaturesParameters = ScenesSearchFeaturesQueryParam &
+  ScenesSearchFeaturesMediaTypesParam &
+  ScenesSearchFeaturesBodyParam &
+  RequestParameters;
+export type ScenesGetStacFeatureParameters = RequestParameters;
+
+export interface SeasonalFieldsListByPartyIdQueryParamProperties {
+  /** Farm Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  farmIds?: string;
+  /** Field Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  fieldIds?: string;
+  /** Season Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  seasonIds?: string;
+  /** CropProductIds of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  cropProductIds?: string;
+  /** Ids of the crop it belongs to. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  cropIds?: string;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -2386,22 +2451,24 @@ export interface SeasonalFieldsListByFarmerIdQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
-export interface SeasonalFieldsListByFarmerIdQueryParam {
-  queryParameters?: SeasonalFieldsListByFarmerIdQueryParamProperties;
+export interface SeasonalFieldsListByPartyIdQueryParam {
+  queryParameters?: SeasonalFieldsListByPartyIdQueryParamProperties;
 }
 
-export type SeasonalFieldsListByFarmerIdParameters = SeasonalFieldsListByFarmerIdQueryParam &
+export type SeasonalFieldsListByPartyIdParameters = SeasonalFieldsListByPartyIdQueryParam &
   RequestParameters;
 export type SeasonalFieldsGetParameters = RequestParameters;
+/** Seasonal field resource payload to create or update. */
+export type SeasonalFieldResourceMergeAndPatch = Partial<SeasonalField>;
 
 export interface SeasonalFieldsCreateOrUpdateBodyParam {
   /** Seasonal field resource payload to create or update. */
-  body: SeasonalField;
+  body: SeasonalFieldResourceMergeAndPatch;
 }
 
 export interface SeasonalFieldsCreateOrUpdateMediaTypesParam {
@@ -2415,43 +2482,27 @@ export type SeasonalFieldsCreateOrUpdateParameters = SeasonalFieldsCreateOrUpdat
 export type SeasonalFieldsDeleteParameters = RequestParameters;
 
 export interface SeasonalFieldsListQueryParamProperties {
-  /** Farm Ids of the resource. */
-  farmIds?: Array<string>;
-  /** Field Ids of the resource. */
-  fieldIds?: Array<string>;
-  /** Season Ids of the resource. */
-  seasonIds?: Array<string>;
-  /** CropVarietyIds of the resource. */
-  cropVarietyIds?: Array<string>;
-  /** Ids of the crop it belongs to. */
-  cropIds?: Array<string>;
-  /** Minimum average yield value of the seasonal field(inclusive). */
-  minAvgYieldValue?: number;
-  /** Maximum average yield value of the seasonal field(inclusive). */
-  maxAvgYieldValue?: number;
-  /** Unit of the average yield value attribute. */
-  avgYieldUnit?: string;
-  /** Minimum average seed population value of the seasonal field(inclusive). */
-  minAvgSeedPopulationValue?: number;
-  /** Maximum average seed population value of the seasonal field(inclusive). */
-  maxAvgSeedPopulationValue?: number;
-  /** Unit of average seed population value attribute. */
-  avgSeedPopulationUnit?: string;
-  /** Minimum planting datetime, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  minPlantingDateTime?: Date | string;
-  /** Maximum planting datetime, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  maxPlantingDateTime?: Date | string;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+  /** Farm Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  farmIds?: string;
+  /** Field Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  fieldIds?: string;
+  /** Season Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  seasonIds?: string;
+  /** CropProductIds of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  cropProductIds?: string;
+  /** Ids of the crop it belongs to. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  cropIds?: string;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -2464,9 +2515,9 @@ export interface SeasonalFieldsListQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
 export interface SeasonalFieldsListQueryParam {
@@ -2475,10 +2526,11 @@ export interface SeasonalFieldsListQueryParam {
 
 export type SeasonalFieldsListParameters = SeasonalFieldsListQueryParam &
   RequestParameters;
+export type SeasonalFieldsGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
 export interface SeasonalFieldsCreateCascadeDeleteJobQueryParamProperties {
-  /** ID of the associated farmer. */
-  farmerId: string;
+  /** ID of the associated party. */
+  partyId: string;
   /** ID of the seasonalField to be deleted. */
   seasonalFieldId: string;
 }
@@ -2489,7 +2541,6 @@ export interface SeasonalFieldsCreateCascadeDeleteJobQueryParam {
 
 export type SeasonalFieldsCreateCascadeDeleteJobParameters = SeasonalFieldsCreateCascadeDeleteJobQueryParam &
   RequestParameters;
-export type SeasonalFieldsGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
 export interface SeasonsListQueryParamProperties {
   /** Minimum season start datetime, sample format: yyyy-MM-ddTHH:mm:ssZ. */
@@ -2502,17 +2553,17 @@ export interface SeasonsListQueryParamProperties {
   maxEndDateTime?: Date | string;
   /** Years of the resource. */
   years?: Array<number>;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -2525,9 +2576,9 @@ export interface SeasonsListQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
 export interface SeasonsListQueryParam {
@@ -2536,10 +2587,12 @@ export interface SeasonsListQueryParam {
 
 export type SeasonsListParameters = SeasonsListQueryParam & RequestParameters;
 export type SeasonsGetParameters = RequestParameters;
+/** Season resource payload to create or update. */
+export type SeasonResourceMergeAndPatch = Partial<Season>;
 
 export interface SeasonsCreateOrUpdateBodyParam {
   /** Season resource payload to create or update. */
-  body: Season;
+  body: SeasonResourceMergeAndPatch;
 }
 
 export interface SeasonsCreateOrUpdateMediaTypesParam {
@@ -2553,17 +2606,17 @@ export type SeasonsCreateOrUpdateParameters = SeasonsCreateOrUpdateMediaTypesPar
 export type SeasonsDeleteParameters = RequestParameters;
 
 export interface SensorDataModelsListQueryParamProperties {
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -2576,9 +2629,9 @@ export interface SensorDataModelsListQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
 export interface SensorDataModelsListQueryParam {
@@ -2587,10 +2640,12 @@ export interface SensorDataModelsListQueryParam {
 
 export type SensorDataModelsListParameters = SensorDataModelsListQueryParam &
   RequestParameters;
+/** Sensor data model object details. */
+export type SensorDataModelResourceMergeAndPatch = Partial<SensorDataModel>;
 
 export interface SensorDataModelsCreateOrUpdateBodyParam {
   /** Sensor data model object details. */
-  body: SensorDataModel;
+  body: SensorDataModelResourceMergeAndPatch;
 }
 
 export interface SensorDataModelsCreateOrUpdateMediaTypesParam {
@@ -2631,25 +2686,25 @@ export type SensorEventsListParameters = SensorEventsListQueryParam &
   RequestParameters;
 
 export interface SensorMappingsListQueryParamProperties {
-  /** Id of the sensors. */
-  sensorIds?: Array<string>;
-  /** Id of the sensor partners. */
-  sensorPartnerIds?: Array<string>;
-  /** Id of the farmers. */
-  farmerIds?: Array<string>;
-  /** Id of the boundaries. */
-  boundaryIds?: Array<string>;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+  /** Id of the sensors. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  sensorIds?: string;
+  /** Id of the sensor partners. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  sensorPartnerIds?: string;
+  /** Id of the parties. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  partyIds?: string;
+  /** Id of the boundaries. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  boundaryIds?: string;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -2662,9 +2717,9 @@ export interface SensorMappingsListQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
 export interface SensorMappingsListQueryParam {
@@ -2673,10 +2728,12 @@ export interface SensorMappingsListQueryParam {
 
 export type SensorMappingsListParameters = SensorMappingsListQueryParam &
   RequestParameters;
+/** Sensor mapping object details. */
+export type SensorMappingResourceMergeAndPatch = Partial<SensorMapping>;
 
 export interface SensorMappingsCreateOrUpdateBodyParam {
   /** Sensor mapping object details. */
-  body: SensorMapping;
+  body: SensorMappingResourceMergeAndPatch;
 }
 
 export interface SensorMappingsCreateOrUpdateMediaTypesParam {
@@ -2691,21 +2748,21 @@ export type SensorMappingsGetParameters = RequestParameters;
 export type SensorMappingsDeleteParameters = RequestParameters;
 
 export interface SensorPartnerIntegrationsListQueryParamProperties {
-  /** Ids of the partner integration models. */
-  integrationIds?: Array<string>;
-  /** Ids of the farmers. */
-  farmerIds?: Array<string>;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+  /** Ids of the partner integration models. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  integrationIds?: string;
+  /** Ids of the parties. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  partyIds?: string;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -2718,9 +2775,9 @@ export interface SensorPartnerIntegrationsListQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
 export interface SensorPartnerIntegrationsListQueryParam {
@@ -2729,10 +2786,14 @@ export interface SensorPartnerIntegrationsListQueryParam {
 
 export type SensorPartnerIntegrationsListParameters = SensorPartnerIntegrationsListQueryParam &
   RequestParameters;
+/** Partner integration model. */
+export type SensorPartnerIntegrationModelResourceMergeAndPatch = Partial<
+  SensorPartnerIntegrationModel
+>;
 
 export interface SensorPartnerIntegrationsCreateOrUpdateBodyParam {
   /** Partner integration model. */
-  body: SensorPartnerIntegrationModel;
+  body: SensorPartnerIntegrationModelResourceMergeAndPatch;
 }
 
 export interface SensorPartnerIntegrationsCreateOrUpdateMediaTypesParam {
@@ -2760,23 +2821,23 @@ export type SensorPartnerIntegrationsCheckConsentParameters = SensorPartnerInteg
 export type SensorPartnerIntegrationsGenerateConsentLinkParameters = RequestParameters;
 
 export interface SensorsListQueryParamProperties {
-  /** Id's of the sensor data models. */
-  sensorDataModelIds?: Array<string>;
-  /** Ids of the sensor mappings. */
-  sensorMappingIds?: Array<string>;
-  /** Id's of the devices. */
-  deviceIds?: Array<string>;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+  /** Id's of the sensor data models. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  sensorDataModelIds?: string;
+  /** Ids of the sensor mappings. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  sensorMappingIds?: string;
+  /** Id's of the devices. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  deviceIds?: string;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -2789,9 +2850,9 @@ export interface SensorsListQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
 export interface SensorsListQueryParam {
@@ -2799,10 +2860,12 @@ export interface SensorsListQueryParam {
 }
 
 export type SensorsListParameters = SensorsListQueryParam & RequestParameters;
+/** Sensor object details. */
+export type SensorResourceMergeAndPatch = Partial<Sensor>;
 
 export interface SensorsCreateOrUpdateBodyParam {
   /** Sensor object details. */
-  body: Sensor;
+  body: SensorResourceMergeAndPatch;
 }
 
 export interface SensorsCreateOrUpdateMediaTypesParam {
@@ -2873,7 +2936,7 @@ export type SolutionInferenceFetchParameters = SolutionInferenceFetchMediaTypesP
   SolutionInferenceFetchBodyParam &
   RequestParameters;
 
-export interface TillageDataListByFarmerIdQueryParamProperties {
+export interface TillageDataListByPartyIdQueryParamProperties {
   /** Minimum measured tillage depth (inclusive). */
   minTillageDepth?: number;
   /** Maximum measured tillage depth (inclusive). */
@@ -2882,10 +2945,10 @@ export interface TillageDataListByFarmerIdQueryParamProperties {
   minTillagePressure?: number;
   /** Maximum pressure applied to a tillage implement (inclusive). */
   maxTillagePressure?: number;
-  /** Sources of the operation data. */
-  sources?: Array<string>;
-  /** Boundary IDs associated with operation data. */
-  associatedBoundaryIds?: Array<string>;
+  /** Sources of the operation data. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  sources?: string;
+  /** Boundary IDs associated with operation data. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  associatedBoundaryIds?: string;
   /** Minimum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
   minOperationStartDateTime?: Date | string;
   /** Maximum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
@@ -2902,17 +2965,17 @@ export interface TillageDataListByFarmerIdQueryParamProperties {
   minArea?: number;
   /** Maximum area for which operation was applied (inclusive). */
   maxArea?: number;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -2925,22 +2988,24 @@ export interface TillageDataListByFarmerIdQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
-export interface TillageDataListByFarmerIdQueryParam {
-  queryParameters?: TillageDataListByFarmerIdQueryParamProperties;
+export interface TillageDataListByPartyIdQueryParam {
+  queryParameters?: TillageDataListByPartyIdQueryParamProperties;
 }
 
-export type TillageDataListByFarmerIdParameters = TillageDataListByFarmerIdQueryParam &
+export type TillageDataListByPartyIdParameters = TillageDataListByPartyIdQueryParam &
   RequestParameters;
 export type TillageDataGetParameters = RequestParameters;
+/** Tillage data resource payload to create or update. */
+export type TillageDataResourceMergeAndPatch = Partial<TillageData>;
 
 export interface TillageDataCreateOrUpdateBodyParam {
   /** Tillage data resource payload to create or update. */
-  body: TillageData;
+  body: TillageDataResourceMergeAndPatch;
 }
 
 export interface TillageDataCreateOrUpdateMediaTypesParam {
@@ -2962,10 +3027,10 @@ export interface TillageDataListQueryParamProperties {
   minTillagePressure?: number;
   /** Maximum pressure applied to a tillage implement (inclusive). */
   maxTillagePressure?: number;
-  /** Sources of the operation data. */
-  sources?: Array<string>;
-  /** Boundary IDs associated with operation data. */
-  associatedBoundaryIds?: Array<string>;
+  /** Sources of the operation data. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  sources?: string;
+  /** Boundary IDs associated with operation data. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  associatedBoundaryIds?: string;
   /** Minimum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
   minOperationStartDateTime?: Date | string;
   /** Maximum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
@@ -2982,17 +3047,17 @@ export interface TillageDataListQueryParamProperties {
   minArea?: number;
   /** Maximum area for which operation was applied (inclusive). */
   maxArea?: number;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -3005,9 +3070,9 @@ export interface TillageDataListQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
 export interface TillageDataListQueryParam {
@@ -3018,8 +3083,8 @@ export type TillageDataListParameters = TillageDataListQueryParam &
   RequestParameters;
 
 export interface TillageDataCreateCascadeDeleteJobQueryParamProperties {
-  /** Id of the farmer. */
-  farmerId: string;
+  /** Id of the party. */
+  partyId: string;
   /** Id of the tillage data. */
   tillageDataId: string;
 }
@@ -3033,8 +3098,8 @@ export type TillageDataCreateCascadeDeleteJobParameters = TillageDataCreateCasca
 export type TillageDataGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
 export interface WeatherListQueryParamProperties {
-  /** Farmer ID. */
-  farmerId: string;
+  /** Party ID. */
+  partyId: string;
   /** Boundary ID. */
   boundaryId: string;
   /** ID of the weather extension. */
@@ -3051,9 +3116,9 @@ export interface WeatherListQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
 export interface WeatherListQueryParam {
@@ -3092,24 +3157,38 @@ export type WeatherCreateDataIngestionJobParameters = WeatherCreateDataIngestion
   WeatherCreateDataIngestionJobBodyParam &
   RequestParameters;
 
-export interface ZonesListByFarmerIdQueryParamProperties {
-  /** Types of the Zones. */
-  types?: Array<string>;
-  /** ManagementZoneIds of the Zones. */
-  managementZoneIds?: Array<string>;
-  /** Sources of the Zones. */
-  sources?: Array<string>;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+export interface WeatherDataGetBodyParam {
+  /** Weather data provider request. */
+  body: WeatherDataProviderRequest;
+}
+
+export interface WeatherDataGetMediaTypesParam {
+  /** Request content type */
+  contentType?: "application/json";
+}
+
+export type WeatherDataGetParameters = WeatherDataGetMediaTypesParam &
+  WeatherDataGetBodyParam &
+  RequestParameters;
+
+export interface ZonesListByPartyIdQueryParamProperties {
+  /** Types of the Zones. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  types?: string;
+  /** ManagementZoneIds of the Zones. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  managementZoneIds?: string;
+  /** Sources of the Zones. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  sources?: string;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -3122,22 +3201,24 @@ export interface ZonesListByFarmerIdQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
-export interface ZonesListByFarmerIdQueryParam {
-  queryParameters?: ZonesListByFarmerIdQueryParamProperties;
+export interface ZonesListByPartyIdQueryParam {
+  queryParameters?: ZonesListByPartyIdQueryParamProperties;
 }
 
-export type ZonesListByFarmerIdParameters = ZonesListByFarmerIdQueryParam &
+export type ZonesListByPartyIdParameters = ZonesListByPartyIdQueryParam &
   RequestParameters;
 export type ZonesGetParameters = RequestParameters;
+/** Zone resource payload to create or update. */
+export type ZoneResourceMergeAndPatch = Partial<Zone>;
 
 export interface ZonesCreateOrUpdateBodyParam {
   /** Zone resource payload to create or update. */
-  body: Zone;
+  body: ZoneResourceMergeAndPatch;
 }
 
 export interface ZonesCreateOrUpdateMediaTypesParam {
@@ -3151,23 +3232,23 @@ export type ZonesCreateOrUpdateParameters = ZonesCreateOrUpdateMediaTypesParam &
 export type ZonesDeleteParameters = RequestParameters;
 
 export interface ZonesListQueryParamProperties {
-  /** Types of the Zones. */
-  types?: Array<string>;
-  /** ManagementZoneIds of the Zones. */
-  managementZoneIds?: Array<string>;
-  /** Sources of the Zones. */
-  sources?: Array<string>;
-  /** Ids of the resource. */
-  ids?: Array<string>;
-  /** Names of the resource. */
-  names?: Array<string>;
+  /** Types of the Zones. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  types?: string;
+  /** ManagementZoneIds of the Zones. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  managementZoneIds?: string;
+  /** Sources of the Zones. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  sources?: string;
+  /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  ids?: string;
+  /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  names?: string;
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "{testKey} eq {testValue}". This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
    */
-  propertyFilters?: Array<string>;
-  /** Statuses of the resource. */
-  statuses?: Array<string>;
+  propertyFilters?: string;
+  /** Statuses of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  statuses?: string;
   /** Minimum creation date of resource (inclusive). */
   minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
@@ -3180,9 +3261,9 @@ export interface ZonesListQueryParamProperties {
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  $maxPageSize?: number;
+  maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  $skipToken?: string;
+  skipToken?: string;
 }
 
 export interface ZonesListQueryParam {
@@ -3193,8 +3274,8 @@ export type ZonesListParameters = ZonesListQueryParam & RequestParameters;
 export type ZonesGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
 export interface ZonesCreateCascadeDeleteJobQueryParamProperties {
-  /** ID of the associated farmer. */
-  farmerId: string;
+  /** ID of the associated party. */
+  partyId: string;
   /** ID of the zone to be deleted. */
   zoneId: string;
 }
