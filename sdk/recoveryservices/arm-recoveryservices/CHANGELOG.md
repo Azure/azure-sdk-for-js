@@ -1,15 +1,32 @@
 # Release History
+    
+## 5.2.0 (2023-02-07)
+    
+**Features**
 
-## 5.1.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation RecoveryServices.capabilities
+  - Added Interface CapabilitiesProperties
+  - Added Interface CapabilitiesResponse
+  - Added Interface CapabilitiesResponseProperties
+  - Added Interface DNSZone
+  - Added Interface DNSZoneResponse
+  - Added Interface ImmutabilitySettings
+  - Added Interface RecoveryServicesCapabilitiesOptionalParams
+  - Added Interface ResourceCapabilities
+  - Added Interface ResourceCapabilitiesBase
+  - Added Interface SecuritySettings
+  - Added Type Alias ImmutabilityState
+  - Added Type Alias PublicNetworkAccess
+  - Added Type Alias RecoveryServicesCapabilitiesResponse
+  - Added Type Alias VaultSubResourceType
+  - Interface PrivateEndpointConnection has a new optional parameter groupIds
+  - Interface VaultProperties has a new optional parameter publicNetworkAccess
+  - Interface VaultProperties has a new optional parameter securitySettings
+  - Added Enum KnownImmutabilityState
+  - Added Enum KnownPublicNetworkAccess
+  - Added Enum KnownVaultSubResourceType
+    
+    
 ## 5.1.1 (2023-01-31)
 
 **Features**

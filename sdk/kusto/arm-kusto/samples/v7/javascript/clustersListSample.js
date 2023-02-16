@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all Kusto clusters within a subscription.
  *
  * @summary Lists all Kusto clusters within a subscription.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoClustersList.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoClustersList.json
  */
 async function kustoClustersList() {
   const subscriptionId =

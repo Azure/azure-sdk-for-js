@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists all the container registries under the specified subscription.
  *
  * @summary Lists all the container registries under the specified subscription.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2022-02-01-preview/examples/RegistryList.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-01-01-preview/examples/RegistryList.json
  */
 async function registryList() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +30,8 @@ async function registryList() {
   console.log(resArray);
 }
 
-registryList().catch(console.error);
+async function main() {
+  registryList();
+}
+
+main().catch(console.error);

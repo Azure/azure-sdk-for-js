@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the network endpoints of all outbound dependencies of a Kusto cluster
  *
  * @summary Gets the network endpoints of all outbound dependencies of a Kusto cluster
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoOutboundNetworkDependenciesList.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoOutboundNetworkDependenciesList.json
  */
 async function getKustoClusterOutboundNetworkDependencies() {
   const subscriptionId =

@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the properties of the specified replication.
  *
  * @summary Gets the properties of the specified replication.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2022-02-01-preview/examples/ReplicationGet.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-01-01-preview/examples/ReplicationGet.json
  */
 async function replicationGet() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const replicationName = "myReplication";
   const credential = new DefaultAzureCredential();
@@ -28,4 +30,8 @@ async function replicationGet() {
   console.log(result);
 }
 
-replicationGet().catch(console.error);
+async function main() {
+  replicationGet();
+}
+
+main().catch(console.error);

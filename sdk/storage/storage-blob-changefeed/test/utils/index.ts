@@ -9,7 +9,7 @@ import {
   StoragePipelineOptions,
 } from "@azure/storage-blob";
 import { BlobChangeFeedClient } from "../../src";
-import { TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
 import { env } from "@azure-tools/test-recorder";
 
 config();

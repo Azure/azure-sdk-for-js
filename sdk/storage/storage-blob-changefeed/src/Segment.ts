@@ -5,7 +5,7 @@ import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
 import { Shard } from "./Shard";
 import { SegmentCursor, ShardCursor } from "./models/ChangeFeedCursor";
 import { CommonOptions } from "@azure/storage-blob";
-import { AbortSignalLike } from "@azure/core-http";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { createSpan } from "./utils/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
 

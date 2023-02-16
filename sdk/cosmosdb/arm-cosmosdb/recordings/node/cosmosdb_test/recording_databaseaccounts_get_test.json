@@ -31,7 +31,7 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230105T013832Z:ae483d40-a9a7-4254-b4e6-f3678bf2c8aa"
       },
       "ResponseBody": {
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.DocumentDB/databaseAccounts/myaccountxxyy2",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DocumentDB/databaseAccounts/myaccountxxyy2",
         "name": "myaccountxxyy2",
         "location": "East US",
         "type": "Microsoft.DocumentDB/databaseAccounts",

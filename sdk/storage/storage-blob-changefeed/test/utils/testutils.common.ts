@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
+import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 import { isPlaybackMode, env, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import { Readable } from "stream";
 

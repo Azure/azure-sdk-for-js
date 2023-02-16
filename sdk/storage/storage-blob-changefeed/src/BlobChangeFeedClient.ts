@@ -14,7 +14,7 @@ import { ChangeFeedFactory } from "./ChangeFeedFactory";
 import { ChangeFeed } from "./ChangeFeed";
 import { CHANGE_FEED_MAX_PAGE_SIZE, SDK_VERSION } from "./utils/constants";
 import { BlobChangeFeedListChangesOptions } from "./models/models";
-import { TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
 
 /**
  * Contains paged response data for the {@link BlobChangeFeedClient.listChanges} operation.

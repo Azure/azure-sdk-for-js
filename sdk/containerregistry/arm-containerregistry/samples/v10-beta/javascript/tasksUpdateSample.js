@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates a task with the specified parameters.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/TasksUpdate.json
  */
 async function tasksUpdate() {
-  const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const taskName = "myTask";
   const taskUpdateParameters = {
@@ -67,8 +69,6 @@ async function tasksUpdate() {
   console.log(result);
 }
 
-tasksUpdate().catch(console.error);
-
 /**
  * This sample demonstrates how to Updates a task with the specified parameters.
  *
@@ -76,8 +76,9 @@ tasksUpdate().catch(console.error);
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/TasksUpdate_QuickTask.json
  */
 async function tasksUpdateQuickTask() {
-  const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const taskName = "quicktask";
   const taskUpdateParameters = {
@@ -96,8 +97,6 @@ async function tasksUpdateQuickTask() {
   console.log(result);
 }
 
-tasksUpdateQuickTask().catch(console.error);
-
 /**
  * This sample demonstrates how to Updates a task with the specified parameters.
  *
@@ -105,8 +104,9 @@ tasksUpdateQuickTask().catch(console.error);
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/ManagedIdentity/TasksUpdate_WithKeyVaultCustomCredentials.json
  */
 async function tasksUpdateWithKeyVaultCustomCredentials() {
-  const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const taskName = "myTask";
   const taskUpdateParameters = {
@@ -157,8 +157,6 @@ async function tasksUpdateWithKeyVaultCustomCredentials() {
   console.log(result);
 }
 
-tasksUpdateWithKeyVaultCustomCredentials().catch(console.error);
-
 /**
  * This sample demonstrates how to Updates a task with the specified parameters.
  *
@@ -166,8 +164,9 @@ tasksUpdateWithKeyVaultCustomCredentials().catch(console.error);
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/ManagedIdentity/TasksUpdate_WithMSICustomCredentials.json
  */
 async function tasksUpdateWithMsiCustomCredentials() {
-  const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const taskName = "myTask";
   const taskUpdateParameters = {
@@ -206,8 +205,6 @@ async function tasksUpdateWithMsiCustomCredentials() {
   console.log(result);
 }
 
-tasksUpdateWithMsiCustomCredentials().catch(console.error);
-
 /**
  * This sample demonstrates how to Updates a task with the specified parameters.
  *
@@ -215,8 +212,9 @@ tasksUpdateWithMsiCustomCredentials().catch(console.error);
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/TasksUpdate_WithOpaqueCustomCredentials.json
  */
 async function tasksUpdateWithOpaqueCustomCredentials() {
-  const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const taskName = "myTask";
   const taskUpdateParameters = {
@@ -260,4 +258,12 @@ async function tasksUpdateWithOpaqueCustomCredentials() {
   console.log(result);
 }
 
-tasksUpdateWithOpaqueCustomCredentials().catch(console.error);
+async function main() {
+  tasksUpdate();
+  tasksUpdateQuickTask();
+  tasksUpdateWithKeyVaultCustomCredentials();
+  tasksUpdateWithMsiCustomCredentials();
+  tasksUpdateWithOpaqueCustomCredentials();
+}
+
+main().catch(console.error);

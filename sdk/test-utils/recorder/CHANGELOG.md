@@ -9,6 +9,7 @@
 - Allow mapping the test-proxy tool to ports other than just 5000(for HTTP) using the environment variable `TEST_PROXY_HTTP_PORT`(and `TEST_PROXY_HTTPS_PORT` for 5001(for HTTPS)).
   - If `TEST_PROXY_HTTP_PORT` is undefined, we'll try for 5000 as usual.
   - For browsers, this variable has to be added as part of the environment variables listed under `envPreprocessor` array in `karma.conf.js` so that the recorder knows the port to hit.
+- Added support for the asset sync tool. If an `assets.json` exists in the package directory, the recorder will fetch recordings from the external repo.
 
 ### Breaking Changes
 
