@@ -18,7 +18,7 @@ async function testWorkloadCredential() {
   const credential = new WorkloadIdentityCredential(
     process.env.AZURE_TENANT_ID!,
     process.env.AZURE_CLIENT_ID!,
-    process.env.AZURE_FEDERATED_TOKEN_FILE_PATH!
+    process.env.AZURE_FEDERATED_TOKEN_FILE!
   );
 
   try {
