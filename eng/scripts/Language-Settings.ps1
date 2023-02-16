@@ -90,8 +90,8 @@ function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory) {
   Write-Host "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
   Write-Host "workFolder"
   Write-Host $workFolder
-  dir $workFolder
-  Get-ChildItem $workFolder -Recurse
+  dir
+  Get-ChildItem -Recurse
   Write-Host "changeLogLoc"
   Write-Host $changeLogLoc
   if ($changeLogLoc) {
