@@ -63,7 +63,7 @@
     "position": "12",
     "action": "flush"
    },
-   "requestBody": null,
+   "requestBody": "",
    "status": 200,
    "response": "",
    "responseHeaders": {

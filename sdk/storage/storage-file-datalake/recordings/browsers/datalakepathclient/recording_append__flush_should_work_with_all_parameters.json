@@ -67,7 +67,7 @@
     "position": "11",
     "action": "flush"
    },
-   "requestBody": null,
+   "requestBody": "",
    "status": 200,
    "response": "",
    "responseHeaders": {
@@ -227,7 +227,7 @@
     "close": "true",
     "action": "flush"
    },
-   "requestBody": null,
+   "requestBody": "",
    "status": 200,
    "response": "",
    "responseHeaders": {

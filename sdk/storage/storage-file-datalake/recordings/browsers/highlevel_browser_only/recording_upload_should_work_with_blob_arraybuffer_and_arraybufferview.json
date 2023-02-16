@@ -67,7 +67,7 @@
     "position": "10",
     "action": "flush"
    },
-   "requestBody": null,
+   "requestBody": "",
    "status": 200,
    "response": "",
    "responseHeaders": {
@@ -154,7 +154,7 @@
     "position": "10",
     "action": "flush"
    },
-   "requestBody": null,
+   "requestBody": "",
    "status": 200,
    "response": "",
    "responseHeaders": {
@@ -241,7 +241,7 @@
     "position": "3",
     "action": "flush"
    },
-   "requestBody": null,
+   "requestBody": "",
    "status": 200,
    "response": "",
    "responseHeaders": {
@@ -328,7 +328,7 @@
     "position": "4",
     "action": "flush"
    },
-   "requestBody": null,
+   "requestBody": "",
    "status": 200,
    "response": "",
    "responseHeaders": {
