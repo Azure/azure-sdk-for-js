@@ -58,6 +58,13 @@ steps:
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
     displayName: "Analyze library dependencies"
 
+  - task: PowerShell@2
+    inputs:
+      filePath: eng/scripts/Verify-PreviewDependency.ps1
+      arguments: -ServiceDirectory ${{ parameters.ServiceDirectory }}
+      pwsh: true
+    displayName: "Verify Preview Dependency"
+
   - template: /eng/pipelines/templates/steps/run-eslint.yml
     parameters:
       ServiceDirectory: ${{ parameters.ServiceDirectory }}
