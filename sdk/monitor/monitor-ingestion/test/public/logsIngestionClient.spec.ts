@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isAggregateUploadLogsError, LogsIngestionClient, UploadLogsFailure } from "../../src";
+import { isAggregateLogsUploadError, LogsIngestionClient, LogsUploadFailure } from "../../src";
 import { Context } from "mocha";
 import { assert } from "chai";
 import { AdditionalPolicyConfig } from "@azure/core-client";
@@ -99,7 +99,7 @@ describe("LogsIngestionClient live tests", function () {
         maxConcurrency: 3,
       });
     } catch (e: any) {
-      const result = isAggregateUploadLogsError(e) ? e.errors : [];
+      const result = isAggregateLogsUploadError(e) ? e.errors : [];
       if (result.length > 0) {
         result.forEach((err) => {
           assert.equal(
@@ -128,7 +128,7 @@ describe("LogsIngestionClient live tests", function () {
         maxConcurrency: 3,
       });
     } catch (e: any) {
-      const result = isAggregateUploadLogsError(e) ? e.errors : [];
+      const result = isAggregateLogsUploadError(e) ? e.errors : [];
       if (result.length > 0) {
         result.forEach((err) => {
           assert.equal(
@@ -150,7 +150,7 @@ describe("LogsIngestionClient live tests", function () {
     let errorCallbackCount = 0;
     const failedLogs: Record<string, unknown>[] = [];
 
-    function errorCallback(uploadLogsError: UploadLogsFailure): void {
+    function errorCallback(uploadLogsError: LogsUploadFailure): void {
       if (
         (uploadLogsError.cause as Error).message ===
         "Data collection rule with immutable Id 'immutable-id-123' not found."
@@ -166,7 +166,7 @@ describe("LogsIngestionClient live tests", function () {
         onError: errorCallback,
       });
     } catch (e: any) {
-      const result = isAggregateUploadLogsError(e) ? e.errors : [];
+      const result = isAggregateLogsUploadError(e) ? e.errors : [];
       if (result.length > 0) {
         result.forEach((err) => {
           assert.equal(
@@ -207,7 +207,7 @@ describe("LogsIngestionClient live tests", function () {
           abortSignal: abortController.signal,
         });
       } catch (e: any) {
-        const result = isAggregateUploadLogsError(e) ? e.errors : [];
+        const result = isAggregateLogsUploadError(e) ? e.errors : [];
         let error = result.shift();
         assert.equal(error?.cause.name, "RestError")
         assert.equal(error?.cause.message,"Data collection rule with immutable Id 'immutable-id-123' not found.")

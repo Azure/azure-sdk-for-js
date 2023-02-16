@@ -9,21 +9,21 @@ import { OperationOptions } from '@azure/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export class AggregateUploadLogsError extends Error {
-    constructor(errors: UploadLogsFailure[], errorMessage?: string);
-    errors: UploadLogsFailure[];
+export class AggregateLogsUploadError extends Error {
+    constructor(errors: LogsUploadFailure[], errorMessage?: string);
+    errors: LogsUploadFailure[];
 }
 
 // @public
-export const AggregateUploadLogsErrorName = "AggregateUploadLogsError";
+export const AggregateLogsUploadErrorName = "AggregateLogsUploadError";
 
 // @public
-export function isAggregateUploadLogsError(e: unknown): e is AggregateUploadLogsError;
+export function isAggregateLogsUploadError(e: unknown): e is AggregateLogsUploadError;
 
 // @public
 export class LogsIngestionClient {
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: LogsIngestionClientOptions);
-    upload(ruleId: string, streamName: string, logs: Record<string, unknown>[], options?: UploadLogsOptions): Promise<void>;
+    upload(ruleId: string, streamName: string, logs: Record<string, unknown>[], options?: LogsUploadOptions): Promise<void>;
 }
 
 // @public
@@ -32,15 +32,15 @@ export interface LogsIngestionClientOptions extends CommonClientOptions {
 }
 
 // @public
-export interface UploadLogsFailure {
+export interface LogsUploadFailure {
     cause: Error;
     failedLogs: Record<string, unknown>[];
 }
 
 // @public
-export interface UploadLogsOptions extends OperationOptions {
+export interface LogsUploadOptions extends OperationOptions {
     maxConcurrency?: number;
-    onError?: (uploadLogsError: UploadLogsFailure) => void;
+    onError?: (uploadLogsError: LogsUploadFailure) => void;
 }
 
 ```

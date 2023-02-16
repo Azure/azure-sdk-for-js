@@ -5,13 +5,12 @@
  * @summary Demonstrates how to upload logs to a Monitor Resource (Log Analytics workspace).
  * The user can track failed log entries and the associated error message via the AggregateUploadLogsError Object.
  */
-import { DefaultAzureCredential } from "@azure/identity";
-import { isAggregateLogsUploadError, LogsIngestionClient } from "@azure/monitor-ingestion";
+const { DefaultAzureCredential } = require("@azure/identity");
+const { isAggregateLogsUploadError, LogsIngestionClient } = require("@azure/monitor-ingestion");
 
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
-export async function main() {
+async function main() {
   const logsIngestionEndpoint = process.env.LOGS_INGESTION_ENDPOINT || "logs_ingestion_endpoint";
   const ruleId = process.env.DATA_COLLECTION_RULE_ID || "data_collection_rule_id";
   const streamName = process.env.STREAM_NAME || "data_stream_name";
@@ -47,3 +46,5 @@ main().catch((err) => {
   console.error("The sample encountered an error:", err);
   process.exit(1);
 });
+
+module.exports = { main };

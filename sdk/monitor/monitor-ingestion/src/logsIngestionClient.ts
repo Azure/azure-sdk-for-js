@@ -4,7 +4,7 @@
 import { TokenCredential } from "@azure/core-auth";
 import { CommonClientOptions } from "@azure/core-client";
 import { GeneratedMonitorIngestionClient } from "./generated";
-import { AggregateUploadLogsError, UploadLogsFailure, UploadLogsOptions } from "./models";
+import { AggregateLogsUploadError, LogsUploadFailure, LogsUploadOptions } from "./models";
 import { GZippingPolicy } from "./gZippingPolicy";
 import { concurrentRun } from "./utils/concurrentPoolHelper";
 import { splitDataToChunks } from "./utils/splitDataToChunksHelper";
@@ -61,7 +61,7 @@ export class LogsIngestionClient {
     streamName: string,
     logs: Record<string, unknown>[],
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: UploadLogsOptions
+    options?: LogsUploadOptions
   ): Promise<void> {
     // TODO: Do we need to worry about memory issues when loading data for 100GB ?? JS max allocation is 1 or 2GB
 
@@ -69,7 +69,7 @@ export class LogsIngestionClient {
     const chunkArray = splitDataToChunks(logs);
     const concurrency = Math.max(options?.maxConcurrency ?? DEFAULT_MAX_CONCURRENCY, 1);
 
-    const uploadResultErrors: Array<UploadLogsFailure> = [];
+    const uploadResultErrors: Array<LogsUploadFailure> = [];
     await concurrentRun(
       concurrency,
       chunkArray,
@@ -92,7 +92,7 @@ export class LogsIngestionClient {
       options?.abortSignal
     );
     if (uploadResultErrors.length > 0) {
-      throw new AggregateUploadLogsError(uploadResultErrors);
+      throw new AggregateLogsUploadError(uploadResultErrors);
     }
   }
 }

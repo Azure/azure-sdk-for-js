@@ -6,12 +6,8 @@
  * User can track failed log entries with each error handler.
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
-import {
-  isAggregateLogsUploadError,
-  LogsIngestionClient,
-  LogsUploadFailure,
-} from "@azure/monitor-ingestion";
+const { DefaultAzureCredential } = require("@azure/identity");
+const { isAggregateLogsUploadError, LogsIngestionClient } = require("@azure/monitor-ingestion");
 
 require("dotenv").config();
 
@@ -31,10 +27,10 @@ async function main() {
     });
   }
 
-  let failedLogs: Record<string, unknown>[] = [];
-  async function errorCallback(uploadLogsError: LogsUploadFailure) {
+  let failedLogs = [];
+  async function errorCallback(uploadLogsError) {
     if (
-      (uploadLogsError.cause as Error).message ===
+      uploadLogsError.cause.message ===
       "Data collection rule with immutable Id 'immutable-id-123' not found."
     ) {
       // track failed logs here
