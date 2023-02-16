@@ -20,27 +20,21 @@ export class WorkloadIdentityCredential implements TokenCredential {
   /**
    * WorkloadIdentityCredential supports Azure workload identity on Kubernetes.
    *
-   * @param tenantId - ID of the application's Azure Active Directory tenant. Also called its directory ID.
-   * @param clientId - The client ID of an Azure AD app registration.
-   * @param federatedTokenFilePath - The path to a file containing a Kubernetes service account token that authenticates the identity.
    * @param options - The identity client options to use for authentication.
    */
   constructor(
-    tenantId: string,
-    clientId: string,
-    federatedTokenFilePath: string,
     options: WorkloadIdentityCredentialOptions = {}
   ) {
-    if (!tenantId || !clientId || !federatedTokenFilePath) {
+    if (!options.tenantId || !options.clientId || !options.federatedTokenFilePath) {
       throw new Error(
         "WorkloadIdentityCredential: tenantId, clientId, and federatedTokenFilePath are required parameters."
       );
     }
 
-    this.federatedTokenFilePath = federatedTokenFilePath;
+    this.federatedTokenFilePath = options.federatedTokenFilePath;
     this.client = new ClientAssertionCredential(
-      tenantId,
-      clientId,
+      options.tenantId,
+      options.clientId,
       this.readFileContents.bind(this),
       options
     );
