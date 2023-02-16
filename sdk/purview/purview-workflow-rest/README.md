@@ -137,4 +137,4 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 [purview_resource]: https://docs.microsoft.com/azure/purview/create-catalog-portal
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#readme
 [app_registration]: https://learn.microsoft.com/azure/active-directory/develop/quickstart-register-app
-[username_password_credential]: https://learn.microsoft.com/en-us/javascript/api/@azure/identity/usernamepasswordcredential?view=azure-node-latest
+[username_password_credential]: https://learn.microsoft.com/javascript/api/@azure/identity/usernamepasswordcredential?view=azure-node-latest
