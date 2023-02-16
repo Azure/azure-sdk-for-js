@@ -193,7 +193,7 @@ describe("LogsIngestionClient live tests", function () {
     let errorCallbackCount = 0;
     function errorCallback(): void {
       if(errorCallbackCount === 0)
-        abortController.abort();
+        {abortController.abort();}
       ++errorCallbackCount;
     }
 
