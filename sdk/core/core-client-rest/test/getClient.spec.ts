@@ -149,6 +149,30 @@ describe("getClient", () => {
     });
   });
 
+  it("should append api version correctly", async () => {
+    const defaultHttpClient = getCachedDefaultHttpsClient();
+    sinon.stub(defaultHttpClient, "sendRequest").callsFake(async (req) => {
+      return {
+        headers: createHttpHeaders(),
+        status: 200,
+        request: req,
+      } as PipelineResponse;
+    });
+
+    const apiVersion = "2021-11-18";
+    const client = getClient("https://example.org", { apiVersion });
+    const validationPolicy: PipelinePolicy = {
+      name: "validationPolicy",
+      sendRequest: (req, next) => {
+        assert.equal(req.url, `https://example.org/foo?api-version=${apiVersion}`);
+        return next(req);
+      },
+    };
+
+    client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+    await client.pathUnchecked("/foo").get();
+  });
+
   it("should insert policies in the correct pipeline position", async function () {
     const sendRequest = (request: PipelineRequest, next: SendRequest) => next(request);
     const retryPolicy: PipelinePolicy = {
