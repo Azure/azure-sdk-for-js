@@ -2,9 +2,10 @@
 // Licensed under the MIT license.
 
 import "chai/register-should";
-import { HttpHeaders, ProxySettings } from "../src/coreHttp";
+import { HttpHeaders, ProxySettings } from "../src";
 import { createProxyAgent, createTunnel } from "../src/proxyAgent";
 import Tunnel from "tunnel";
+import { fakeTestSecretPlaceholder } from "@azure/test-utils";
 import https from "https";
 import { should } from "chai";
 
@@ -68,7 +69,7 @@ describe("proxyAgent", () => {
         host: "http://proxy.microsoft.com",
         port: 8080,
         username: "username",
-        password: "SecretPlaceholder",
+        password: fakeTestSecretPlaceholder,
       };
 
       const proxyAgent = createProxyAgent("http://example.com", proxySettings);

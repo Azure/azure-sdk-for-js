@@ -15,8 +15,6 @@ import { GeneratedSchemaRegistryClient } from "../generatedSchemaRegistryClient"
 import {
   SchemaGetByIdOptionalParams,
   SchemaGetByIdResponse,
-  SchemaGetVersionsOptionalParams,
-  SchemaGetVersionsResponse,
   SchemaGetSchemaVersionOptionalParams,
   SchemaGetSchemaVersionResponse,
   SchemaQueryIdByContentOptionalParams,
@@ -50,24 +48,6 @@ export class SchemaImpl implements Schema {
     return this.client.sendOperationRequest(
       { id, options },
       getByIdOperationSpec
-    );
-  }
-
-  /**
-   * Gets the list of all versions of one schema.
-   * @param groupName Schema group under which schema is registered.  Group's serialization type should
-   *                  match the serialization type specified in the request.
-   * @param schemaName Name of schema.
-   * @param options The options parameters.
-   */
-  getVersions(
-    groupName: string,
-    schemaName: string,
-    options?: SchemaGetVersionsOptionalParams
-  ): Promise<SchemaGetVersionsResponse> {
-    return this.client.sendOperationRequest(
-      { groupName, schemaName, options },
-      getVersionsOperationSpec
     );
   }
 
@@ -147,10 +127,7 @@ const getByIdOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: {
-        type: { name: "Stream" },
-        serializedName: "parsedResponse"
-      },
+      bodyMapper: { type: { name: "Stream" } },
       headersMapper: Mappers.SchemaGetByIdHeaders
     },
     default: {
@@ -160,27 +137,6 @@ const getByIdOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.id],
-  headerParameters: [Parameters.accept1],
-  serializer
-};
-const getVersionsOperationSpec: coreClient.OperationSpec = {
-  path: "/$schemaGroups/{groupName}/schemas/{schemaName}/versions",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SchemaVersions
-    },
-    default: {
-      bodyMapper: Mappers.ErrorModel,
-      headersMapper: Mappers.SchemaGetVersionsExceptionHeaders
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.groupName,
-    Parameters.schemaName
-  ],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -190,10 +146,7 @@ const getSchemaVersionOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: {
-        type: { name: "Stream" },
-        serializedName: "parsedResponse"
-      },
+      bodyMapper: { type: { name: "Stream" } },
       headersMapper: Mappers.SchemaGetSchemaVersionHeaders
     },
     default: {
@@ -218,11 +171,6 @@ const queryIdByContentOperationSpec: coreClient.OperationSpec = {
     204: {
       headersMapper: Mappers.SchemaQueryIdByContentHeaders
     },
-    415: {
-      bodyMapper: Mappers.ErrorModel,
-      headersMapper: Mappers.SchemaQueryIdByContentExceptionHeaders,
-      isError: true
-    },
     default: {
       bodyMapper: Mappers.ErrorModel,
       headersMapper: Mappers.SchemaQueryIdByContentExceptionHeaders
@@ -235,7 +183,7 @@ const queryIdByContentOperationSpec: coreClient.OperationSpec = {
     Parameters.groupName,
     Parameters.schemaName
   ],
-  headerParameters: [Parameters.accept2, Parameters.contentType],
+  headerParameters: [Parameters.accept1, Parameters.contentType],
   mediaType: "binary",
   serializer
 };
@@ -245,11 +193,6 @@ const registerOperationSpec: coreClient.OperationSpec = {
   responses: {
     204: {
       headersMapper: Mappers.SchemaRegisterHeaders
-    },
-    415: {
-      bodyMapper: Mappers.ErrorModel,
-      headersMapper: Mappers.SchemaRegisterExceptionHeaders,
-      isError: true
     },
     default: {
       bodyMapper: Mappers.ErrorModel,
@@ -263,7 +206,7 @@ const registerOperationSpec: coreClient.OperationSpec = {
     Parameters.groupName,
     Parameters.schemaName
   ],
-  headerParameters: [Parameters.accept2, Parameters.contentType],
+  headerParameters: [Parameters.accept1, Parameters.contentType],
   mediaType: "binary",
   serializer
 };

@@ -17,7 +17,7 @@ describe("The LROs properly throw on unexpected errors", () => {
       const client: any = {
         async deleteCertificate(): Promise<any> {
           return {
-            id: "/version/name/version",
+            id: "https://keyvaultname.vault.azure.net/version/name/version",
             recoveryId: "something",
           };
         },
@@ -41,7 +41,7 @@ describe("The LROs properly throw on unexpected errors", () => {
       const client: any = {
         async deleteCertificate(): Promise<any> {
           return {
-            id: "/version/name/version",
+            id: "https://keyvaultname.vault.azure.net/version/name/version",
             recoveryId: "something",
           };
         },
@@ -67,7 +67,7 @@ describe("The LROs properly throw on unexpected errors", () => {
         const client: any = {
           async deleteCertificate(): Promise<any> {
             return {
-              id: "/version/name/version",
+              id: "https://keyvaultname.vault.azure.net/version/name/version",
               recoveryId: "something",
             };
           },
@@ -108,7 +108,7 @@ describe("The LROs properly throw on unexpected errors", () => {
             requestId: "something",
           };
           const body = {
-            id: "/version/name/version",
+            id: "https://keyvaultname.vault.azure.net/version/name/version",
             recoveryId: "something",
           };
           const response: FullOperationResponse = {
@@ -153,7 +153,7 @@ describe("The LROs properly throw on unexpected errors", () => {
             requestId: "something",
           };
           const body = {
-            id: "/version/name/version",
+            id: "https://keyvaultname.vault.azure.net/version/name/version",
             recoveryId: "something",
           };
           const response: FullOperationResponse = {
@@ -199,7 +199,7 @@ describe("The LROs properly throw on unexpected errors", () => {
               requestId: "something",
             };
             const body = {
-              id: "/version/name/version",
+              id: "https://keyvaultname.vault.azure.net/version/name/version",
               recoveryId: "something",
             };
             const response: FullOperationResponse = {

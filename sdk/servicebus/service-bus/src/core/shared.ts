@@ -77,6 +77,8 @@ export function onMessageSettled(
   }
 }
 
+// Placed in Service Bus for now and can be promoted to core-amqp if also useful for Event Hubs in the future.
+const timeoutName = `${Constants.vendorString}:timeout`;
 /**
  * Creates the options that need to be specified while creating an AMQP receiver link.
  *
@@ -87,8 +89,13 @@ export function createReceiverOptions(
   receiveMode: ReceiveMode,
   source: Source,
   clientId: string,
-  handlers: ReceiverHandlers
+  handlers: ReceiverHandlers,
+  timeoutInMs?: number
 ): ReceiverOptions {
+  const properties =
+    timeoutInMs !== undefined
+      ? { [Constants.receiverIdentifierName]: clientId, [timeoutName]: timeoutInMs }
+      : { [Constants.receiverIdentifierName]: clientId };
   const rcvrOptions: ReceiverOptions = {
     name,
     // "autoaccept" being true in the "receiveAndDelete" mode sets the "settled" flag to true on the deliveries
@@ -101,7 +108,7 @@ export function createReceiverOptions(
     source,
     target: clientId,
     credit_window: 0,
-    properties: { [Constants.receiverIdentifierName]: clientId },
+    properties,
     ...handlers,
   };
 

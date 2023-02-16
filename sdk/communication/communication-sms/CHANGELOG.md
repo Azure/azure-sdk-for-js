@@ -4,7 +4,10 @@
 
 ### Features Added
 
+### Other Changes
+
 - Updated to `@azure/core-tracing` 1.0.
+- Updated to `@azure/communication-common` 2.2.0.
 
 ## 1.2.0-beta.1 (2022-05-10)
 

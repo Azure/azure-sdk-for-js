@@ -50,7 +50,7 @@ Install IDE such as [VSCode](https://code.visualstudio.com/download) or [Webstor
 
 ###Install NodeJS if you haven't
 LTS or Current version, either is ok.
-https://nodejs.org/en/about/releases/
+https://github.com/nodejs/release#release-schedule
 
 ### Create a new NodeJS Express server
 

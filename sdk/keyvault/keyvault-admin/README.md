@@ -38,7 +38,7 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 
 ### Currently supported environments
 
-- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 
 ### Prerequisites
 

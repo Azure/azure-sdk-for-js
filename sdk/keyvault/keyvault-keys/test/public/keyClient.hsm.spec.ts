@@ -77,7 +77,8 @@ onVersions({ minVer: "7.2" }).describe(
       });
     });
 
-    onVersions({ minVer: "7.3" }).describe("releaseKey", () => {
+    // Temporarily setting max version of 7.3 until resolution of https://github.com/Azure/azure-sdk-for-net/issues/32260
+    onVersions({ minVer: "7.3", maxVer: "7.3" }).describe("releaseKey", () => {
       let attestation: string;
       let encodedReleasePolicy: Uint8Array;
 

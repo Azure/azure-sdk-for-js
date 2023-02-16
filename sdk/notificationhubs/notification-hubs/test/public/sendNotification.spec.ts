@@ -1,27 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SendOperationOptions } from "../../src/models/options.js";
-import { assert } from "@azure/test-utils";
-import { createAppleNotification } from "@azure/notification-hubs/models/notification";
-import { createClientContext } from "@azure/notification-hubs/client";
-import { sendNotification } from "@azure/notification-hubs/client/sendNotification";
-
-// Load the .env file if it exists
-// eslint-disable-next-line sort-imports
-import * as dotenv from "dotenv";
-
-dotenv.config();
-
-// Define connection string and hub name
-const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";
-const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
+import { NotificationHubsClientContext, sendNotification } from "@azure/notification-hubs/api";
+import { assert, isNode } from "@azure/test-utils";
+import { Recorder } from "@azure-tools/test-recorder";
+import { createAppleNotification } from "@azure/notification-hubs/models";
+import { createRecordedClientContext } from "./utils/recordedClient.js";
 
 describe("sendDirectNotification()", () => {
-  it("should send a direct Apple Notification with a tag list", async () => {
-    const context = createClientContext(connectionString, hubName);
+  let recorder: Recorder;
+  let context: NotificationHubsClientContext;
+  const deviceHandle = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
 
-    const tags = ["likes_hockey", "likes_football"];
+  beforeEach(async function (this: Mocha.Context) {
+    if (!isNode) {
+      return;
+    }
+
+    recorder = new Recorder(this.currentTest);
+    context = await createRecordedClientContext(recorder);
+  });
+
+  afterEach(async function () {
+    if (!isNode) {
+      return;
+    }
+
+    await recorder.stop();
+  });
+
+  it("should send a broadcast Apple Notification", async function () {
+    if (!isNode) {
+      this.skip();
+    }
 
     const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
 
@@ -34,15 +45,37 @@ describe("sendDirectNotification()", () => {
     });
 
     // Not required but can set test send to true for debugging purposes.
-    const sendOptions: SendOperationOptions = { enableTestSend: false };
-    const result = await sendNotification(context, tags, notification, sendOptions);
+    const result = await sendNotification(context, notification, { enableTestSend: false });
 
     assert.isDefined(result.trackingId);
     assert.isDefined(result.correlationId);
   });
 
-  it("should send a direct Apple Notification with a tag expression", async () => {
-    const context = createClientContext(connectionString, hubName);
+  it("should send a direct Apple Notification", async function () {
+    if (!isNode) {
+      this.skip();
+    }
+
+    const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
+
+    const notification = createAppleNotification({
+      body: messageBody,
+      headers: {
+        "apns-priority": "10",
+        "apns-push-type": "alert",
+      },
+    });
+
+    const result = await sendNotification(context, notification, { deviceHandle });
+
+    assert.isDefined(result.trackingId);
+    assert.isDefined(result.correlationId);
+  });
+
+  it("should send an Apple Notification with a tag expression", async function () {
+    if (!isNode) {
+      this.skip();
+    }
 
     const tagExpression = "likes_hockey && likes_football";
 
@@ -56,9 +89,7 @@ describe("sendDirectNotification()", () => {
       },
     });
 
-    // Not required but can set test send to true for debugging purposes.
-    const sendOptions: SendOperationOptions = { enableTestSend: false };
-    const result = await sendNotification(context, tagExpression, notification, sendOptions);
+    const result = await sendNotification(context, notification, { tagExpression });
 
     assert.isDefined(result.trackingId);
     assert.isDefined(result.correlationId);

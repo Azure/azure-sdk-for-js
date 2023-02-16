@@ -33,8 +33,7 @@ describe(`[API Key] TextAnalysisClient`, function (this: Suite) {
         },
       ];
       for (const serviceVersion of ["2022-04-01-preview", "2022-05-01"]) {
-        const clientWithServiceVersion = createClient({
-          authMethod: "APIKey",
+        const clientWithServiceVersion = createClient("APIKey", {
           recorder,
           clientOptions: {
             serviceVersion,

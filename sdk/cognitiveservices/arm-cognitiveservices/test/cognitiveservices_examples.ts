@@ -50,56 +50,56 @@ describe("Cognitiveservices test", () => {
     client = new CognitiveServicesManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "myjstest";
-    accountName = "myaccountxxx";
+    accountName = "myaccountxxxx";
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
-  it("accounts create test", async function() {
-    const res = await client.accounts.beginCreateAndWait(resourceGroup,accountName,{
+  it("accounts create test", async function () {
+    const res = await client.accounts.beginCreateAndWait(resourceGroup, accountName, {
       location: location,
       kind: "CognitiveServices",
       sku: {
-          name: "S0"
+        name: "S0"
       },
       identity: {
-          type: "SystemAssigned"
+        type: "SystemAssigned"
       }
     });
-    assert.equal(res.name,accountName);
+    assert.equal(res.name, accountName);
   });
 
-  it("accounts get test", async function() {
-    const res = await client.accounts.get(resourceGroup,accountName);
-    assert.equal(res.name,accountName);
+  it("accounts get test", async function () {
+    const res = await client.accounts.get(resourceGroup, accountName);
+    assert.equal(res.name, accountName);
   });
 
-  it("accounts list test", async function() {
+  it("accounts list test", async function () {
     const resArray = new Array();
-    for await (let item of client.accounts.listByResourceGroup(resourceGroup)){
-        resArray.push(item);
+    for await (let item of client.accounts.listByResourceGroup(resourceGroup)) {
+      resArray.push(item);
     }
-    assert.equal(resArray.length,1);
+    assert.equal(resArray.length, 1);
   });
 
-  it("accounts regenerateKey test", async function() {
-    const res = await client.accounts.regenerateKey(resourceGroup,accountName,"Key2");
-    assert.notEqual(res.key2,"");
+  it("accounts regenerateKey test", async function () {
+    const res = await client.accounts.regenerateKey(resourceGroup, accountName, "Key2");
+    assert.notEqual(res.key2, "");
   });
 
-  it("accounts update test", async function() {
-    const res = await client.accounts.beginUpdateAndWait(resourceGroup,accountName,{tags: {tag1: "value1"}});
-    assert.equal(res.type,"Microsoft.CognitiveServices/accounts")
+  it("accounts update test", async function () {
+    const res = await client.accounts.beginUpdateAndWait(resourceGroup, accountName, { tags: { tag1: "value1" } });
+    assert.equal(res.type, "Microsoft.CognitiveServices/accounts")
   });
 
-  it("accounts delete test", async function() {
-    const res = await client.accounts.beginDeleteAndWait(resourceGroup,accountName);
+  it("accounts delete test", async function () {
+    const res = await client.accounts.beginDeleteAndWait(resourceGroup, accountName);
     const resArray = new Array();
-    for await (let item of client.accounts.listByResourceGroup(resourceGroup)){
-        resArray.push(item);
+    for await (let item of client.accounts.listByResourceGroup(resourceGroup)) {
+      resArray.push(item);
     }
-    assert.equal(resArray.length,0);
+    assert.equal(resArray.length, 0);
   });
 });

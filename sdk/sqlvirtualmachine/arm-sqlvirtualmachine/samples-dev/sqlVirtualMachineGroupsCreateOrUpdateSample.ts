@@ -13,16 +13,22 @@ import {
   SqlVirtualMachineManagementClient
 } from "@azure/arm-sqlvirtualmachine";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates a SQL virtual machine group.
  *
  * @summary Creates or updates a SQL virtual machine group.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2021-11-01-preview/examples/CreateOrUpdateSqlVirtualMachineGroup.json
+ * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-07-01-preview/examples/CreateOrUpdateSqlVirtualMachineGroup.json
  */
 async function createsOrUpdatesASqlVirtualMachineGroup() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["SQLVIRTUALMACHINE_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQLVIRTUALMACHINE_RESOURCE_GROUP"] || "testrg";
   const sqlVirtualMachineGroupName = "testvmgroup";
   const parameters: SqlVirtualMachineGroup = {
     location: "northeurope",
@@ -32,6 +38,7 @@ async function createsOrUpdatesASqlVirtualMachineGroup() {
     wsfcDomainProfile: {
       clusterBootstrapAccount: "testrpadmin",
       clusterOperatorAccount: "testrp@testdomain.com",
+      clusterSubnetType: "MultiSubnet",
       domainFqdn: "testdomain.com",
       ouPath: "OU=WSCluster,DC=testdomain,DC=com",
       sqlServiceAccount: "sqlservice@testdomain.com",
@@ -52,4 +59,8 @@ async function createsOrUpdatesASqlVirtualMachineGroup() {
   console.log(result);
 }
 
-createsOrUpdatesASqlVirtualMachineGroup().catch(console.error);
+async function main() {
+  createsOrUpdatesASqlVirtualMachineGroup();
+}
+
+main().catch(console.error);

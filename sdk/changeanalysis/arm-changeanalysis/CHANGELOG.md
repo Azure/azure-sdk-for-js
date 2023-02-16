@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.2 (Unreleased)
+## 2.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,13 @@
 
 ### Other Changes
 
+## 2.1.0 (2022-11-17)
+    
+**Features**
+
+  - Added Interface Change
+  - Added Interface ProxyResource
+    
 ## 2.0.1 (2022-04-11)
 
   - Bug fix

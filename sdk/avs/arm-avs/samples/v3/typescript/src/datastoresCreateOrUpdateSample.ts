@@ -10,16 +10,21 @@
 // Licensed under the MIT License.
 import { Datastore, AzureVMwareSolutionAPI } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update a datastore in a private cloud cluster
  *
  * @summary Create or update a datastore in a private cloud cluster
- * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/Datastores_CreateOrUpdate.json
+ * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/Datastores_CreateOrUpdate.json
  */
 async function datastoresCreateOrUpdate() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "group1";
+  const subscriptionId =
+    process.env["AVS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["AVS_RESOURCE_GROUP"] || "group1";
   const privateCloudName = "cloud1";
   const clusterName = "cluster1";
   const datastoreName = "datastore1";
@@ -41,4 +46,8 @@ async function datastoresCreateOrUpdate() {
   console.log(result);
 }
 
-datastoresCreateOrUpdate().catch(console.error);
+async function main() {
+  datastoresCreateOrUpdate();
+}
+
+main().catch(console.error);

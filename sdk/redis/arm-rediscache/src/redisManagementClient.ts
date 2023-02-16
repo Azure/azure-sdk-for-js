@@ -69,22 +69,19 @@ export class RedisManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-rediscache/7.0.1`;
+    const packageDetails = `azsdk-js-arm-rediscache/7.1.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
-    if (!options.credentialScopes) {
-      options.credentialScopes = ["https://management.azure.com/.default"];
-    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
+      endpoint:
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
@@ -110,7 +107,9 @@ export class RedisManagementClient extends coreClient.ServiceClient {
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
-          scopes: `${optionsWithDefaults.credentialScopes}`,
+          scopes:
+            optionsWithDefaults.credentialScopes ??
+            `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
               coreClient.authorizeRequestOnClaimChallenge
@@ -123,7 +122,7 @@ export class RedisManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-05-01";
+    this.apiVersion = options.apiVersion || "2022-06-01";
     this.operations = new OperationsImpl(this);
     this.redis = new RedisImpl(this);
     this.firewallRules = new FirewallRulesImpl(this);

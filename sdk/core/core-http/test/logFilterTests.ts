@@ -8,6 +8,7 @@ import { RequestPolicy, RequestPolicyOptions } from "../src/policies/requestPoli
 import { HttpOperationResponse } from "../src/httpOperationResponse";
 import { WebResource } from "../src/webResource";
 import { assert } from "chai";
+import { fakeTestSecretPlaceholder } from "@azure/test-utils";
 
 function getNextPolicy(responseHeaders?: RawHttpHeaders): RequestPolicy {
   return {
@@ -183,7 +184,7 @@ Headers: {
       { a: 1 },
       {
         "api-version": "1.0",
-        secret: "SecretPlaceholder",
+        secret: fakeTestSecretPlaceholder,
       }
     );
     delete (request as any).requestId;

@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/phoneNumbers/%2B14155550100/capabilities?api-version=2022-06-01-preview",
+      "RequestUri": "https://endpoint/phoneNumbers/%2B14155550100/capabilities?api-version=2022-12-01",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -18,9 +18,9 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/108.0.5351.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 OS/Win32"
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
       },
       "RequestBody": {
         "calling": "none",
@@ -32,23 +32,23 @@
         "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01",
         "capabilities-id": "sanitized",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 23:24:26 GMT",
-        "Location": "/phoneNumbers/\u002B14155550100?api-version=2022-06-01-preview",
-        "MS-CV": "/OHWfm2z50OXG8Wdz8SGSw.0",
+        "Date": "Fri, 06 Jan 2023 17:36:38 GMT",
+        "Location": "/phoneNumbers/\u002B14155550100?api-version=2022-12-01",
+        "MS-CV": "GGFzvZj3/0afNF8MCC/\u002BqA.0",
         "operation-id": "capabilities_sanitized",
-        "Operation-Location": "/phoneNumbers/operations/capabilities_sanitized?api-version=2022-06-01-preview",
+        "Operation-Location": "/phoneNumbers/operations/capabilities_sanitized?api-version=2022-12-01",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0p3kaYwAAAABYsyAPbfXTRJP8ag02yPPYUFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0JFy4YwAAAAC0spiYt07QT5x8W\u002BSxUBL\u002BTUVYMzBFREdFMTEwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "3283ms"
+        "X-Processing-Time": "2426ms"
       },
       "ResponseBody": {
         "capabilitiesUpdateId": "sanitized"
       }
     },
     {
-      "RequestUri": "https://endpoint/phoneNumbers/operations/capabilities_sanitized?api-version=2022-06-01-preview",
+      "RequestUri": "https://endpoint/phoneNumbers/operations/capabilities_sanitized?api-version=2022-12-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -64,36 +64,36 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/108.0.5351.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 OS/Win32"
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Access-Control-Expose-Headers": "Location",
-        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01",
+        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-11-15-preview, 2022-12-01",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 23:24:27 GMT",
-        "Location": "/phoneNumbers/\u002B14155550100?api-version=2022-06-01-preview",
-        "MS-CV": "wUyweJav7EuXM1cxe2/lXA.0",
+        "Date": "Fri, 06 Jan 2023 17:36:39 GMT",
+        "Location": "/phoneNumbers/\u002B14155550100?api-version=2022-12-01",
+        "MS-CV": "mQk4TiBdEk68Yce98gppMQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0qnkaYwAAAAA3JdarmjSrT69JlEjkCPDxUFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0Jly4YwAAAACiCYnwraKtQojnVww8WnwFTUVYMzBFREdFMTEwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "843ms"
+        "X-Processing-Time": "531ms"
       },
       "ResponseBody": {
         "operationType": "updatePhoneNumberCapabilities",
         "status": "running",
-        "resourceLocation": "/phoneNumbers/\u002B14155550100?api-version=2022-06-01-preview",
-        "createdDateTime": "2022-09-08T23:24:26.062428\u002B00:00",
+        "resourceLocation": "/phoneNumbers/\u002B14155550100?api-version=2022-12-01",
+        "createdDateTime": "2023-01-06T17:36:37.9362194\u002B00:00",
         "id": "capabilities_sanitized",
         "lastActionDateTime": "0001-01-01T00:00:00\u002B00:00"
       }
     },
     {
-      "RequestUri": "https://endpoint/phoneNumbers/operations/capabilities_sanitized?api-version=2022-06-01-preview",
+      "RequestUri": "https://endpoint/phoneNumbers/operations/capabilities_sanitized?api-version=2022-12-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -109,36 +109,36 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/108.0.5351.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 OS/Win32"
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Access-Control-Expose-Headers": "Location",
-        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01",
+        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-11-15-preview, 2022-12-01",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 23:24:28 GMT",
-        "Location": "/phoneNumbers/\u002B14155550100?api-version=2022-06-01-preview",
-        "MS-CV": "Fj0kaHoudEejfvFV650DfA.0",
+        "Date": "Fri, 06 Jan 2023 17:36:39 GMT",
+        "Location": "/phoneNumbers/\u002B14155550100?api-version=2022-12-01",
+        "MS-CV": "C5/s5/l1bUKcmHe6rqjvnQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0q3kaYwAAAABFHY9Xwh3oQ7Ic7eiKSbvGUFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0J1y4YwAAAAA3XN3K/ikRQYjUG8Jgb37GTUVYMzBFREdFMTEwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "730ms"
+        "X-Processing-Time": "402ms"
       },
       "ResponseBody": {
         "operationType": "updatePhoneNumberCapabilities",
         "status": "running",
-        "resourceLocation": "/phoneNumbers/\u002B14155550100?api-version=2022-06-01-preview",
-        "createdDateTime": "2022-09-08T23:24:26.062428\u002B00:00",
+        "resourceLocation": "/phoneNumbers/\u002B14155550100?api-version=2022-12-01",
+        "createdDateTime": "2023-01-06T17:36:37.9362194\u002B00:00",
         "id": "capabilities_sanitized",
         "lastActionDateTime": "0001-01-01T00:00:00\u002B00:00"
       }
     },
     {
-      "RequestUri": "https://endpoint/phoneNumbers/operations/capabilities_sanitized?api-version=2022-06-01-preview",
+      "RequestUri": "https://endpoint/phoneNumbers/operations/capabilities_sanitized?api-version=2022-12-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -154,36 +154,36 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/108.0.5351.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 OS/Win32"
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Access-Control-Expose-Headers": "Location",
-        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01",
+        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-11-15-preview, 2022-12-01",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 23:24:31 GMT",
-        "Location": "/phoneNumbers/\u002B14155550100?api-version=2022-06-01-preview",
-        "MS-CV": "ypASWJC6tUWgXCaTdVQxVA.0",
+        "Date": "Fri, 06 Jan 2023 17:36:42 GMT",
+        "Location": "/phoneNumbers/\u002B14155550100?api-version=2022-12-01",
+        "MS-CV": "kEsdfvmwlkS1BBMn4ZqSBA.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0rnkaYwAAAADP9IwD6OXFRruC6zKIlbJBUFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0KVy4YwAAAAAWXNkCkZ3dRaf5gx/bSl8gTUVYMzBFREdFMTEwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "622ms"
+        "X-Processing-Time": "402ms"
       },
       "ResponseBody": {
         "operationType": "updatePhoneNumberCapabilities",
         "status": "running",
-        "resourceLocation": "/phoneNumbers/\u002B14155550100?api-version=2022-06-01-preview",
-        "createdDateTime": "2022-09-08T23:24:26.062428\u002B00:00",
+        "resourceLocation": "/phoneNumbers/\u002B14155550100?api-version=2022-12-01",
+        "createdDateTime": "2023-01-06T17:36:37.9362194\u002B00:00",
         "id": "capabilities_sanitized",
         "lastActionDateTime": "0001-01-01T00:00:00\u002B00:00"
       }
     },
     {
-      "RequestUri": "https://endpoint/phoneNumbers/operations/capabilities_sanitized?api-version=2022-06-01-preview",
+      "RequestUri": "https://endpoint/phoneNumbers/operations/capabilities_sanitized?api-version=2022-12-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -199,81 +199,36 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/108.0.5351.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 OS/Win32"
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Access-Control-Expose-Headers": "Location",
-        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01",
+        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-11-15-preview, 2022-12-01",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 23:24:33 GMT",
-        "Location": "/phoneNumbers/\u002B14155550100?api-version=2022-06-01-preview",
-        "MS-CV": "T1UUHE1xI06o\u002BItiwQYpWg.0",
+        "Date": "Fri, 06 Jan 2023 17:36:44 GMT",
+        "Location": "/phoneNumbers/\u002B14155550100?api-version=2022-12-01",
+        "MS-CV": "3tY70Zc8YUuCa3IFK6NQpw.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0sXkaYwAAAACyURRDLC4eSKwHqf6yxMe/UFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0LFy4YwAAAABWl7f4F0rkSJvg\u002BwEl7WzRTUVYMzBFREdFMTEwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "647ms"
-      },
-      "ResponseBody": {
-        "operationType": "updatePhoneNumberCapabilities",
-        "status": "running",
-        "resourceLocation": "/phoneNumbers/\u002B14155550100?api-version=2022-06-01-preview",
-        "createdDateTime": "2022-09-08T23:24:26.062428\u002B00:00",
-        "id": "capabilities_sanitized",
-        "lastActionDateTime": "0001-01-01T00:00:00\u002B00:00"
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/phoneNumbers/operations/capabilities_sanitized?api-version=2022-06-01-preview",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "Content-Type": "application/merge-patch\u002Bjson",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 OS/Win32"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "Access-Control-Expose-Headers": "Location",
-        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 23:24:36 GMT",
-        "Location": "/phoneNumbers/\u002B14155550100?api-version=2022-06-01-preview",
-        "MS-CV": "Eluo\u002BgrSCEWN89EkstB1Kw.0",
-        "Strict-Transport-Security": "max-age=2592000",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0tHkaYwAAAAD3cPWlXuEJTIKOLwgVyW2MUFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
-        "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "654ms"
+        "X-Processing-Time": "403ms"
       },
       "ResponseBody": {
         "operationType": "updatePhoneNumberCapabilities",
         "status": "succeeded",
-        "resourceLocation": "/phoneNumbers/\u002B14155550100?api-version=2022-06-01-preview",
-        "createdDateTime": "2022-09-08T23:24:26.062428\u002B00:00",
+        "resourceLocation": "/phoneNumbers/\u002B14155550100?api-version=2022-12-01",
+        "createdDateTime": "2023-01-06T17:36:37.9362194\u002B00:00",
         "id": "capabilities_sanitized",
         "lastActionDateTime": "0001-01-01T00:00:00\u002B00:00"
       }
     },
     {
-      "RequestUri": "https://endpoint/phoneNumbers/\u002B14155550100?api-version=2022-06-01-preview",
+      "RequestUri": "https://endpoint/phoneNumbers/\u002B14155550100?api-version=2022-12-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -289,22 +244,22 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/108.0.5351.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 OS/Win32"
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 23:24:39 GMT",
-        "MS-CV": "9poPJOPZbEyVYw/H/OIlEQ.0",
+        "Date": "Fri, 06 Jan 2023 17:36:46 GMT",
+        "MS-CV": "5J5OyzXcy06XJ9D8rZTY2A.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0tXkaYwAAAAAyK8I79rmPSqdYH\u002BEplXokUFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0LFy4YwAAAAAjCXWUbzKsRYklDZ85Cs6gTUVYMzBFREdFMTEwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "2952ms"
+        "X-Processing-Time": "1926ms"
       },
       "ResponseBody": {
         "id": "14155550100",
@@ -316,15 +271,12 @@
           "sms": "outbound"
         },
         "assignmentType": "application",
-        "purchaseDate": "2022-09-06T12:09:43.2712485\u002B00:00",
+        "purchaseDate": "2021-06-23T23:31:24.7610118\u002B00:00",
         "cost": {
           "amount": 2.0,
           "currencyCode": "USD",
           "billingFrequency": "monthly"
-        },
-        "operatorId": "sanitized",
-        "operatorName": "Microsoft",
-        "phoneNumberSource": "cloud"
+        }
       }
     }
   ],

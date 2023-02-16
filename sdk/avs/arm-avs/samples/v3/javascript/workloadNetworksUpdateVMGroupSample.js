@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { AzureVMwareSolutionAPI } = require("@azure/arm-avs");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create or update a vm group by id in a private cloud workload network.
  *
  * @summary Create or update a vm group by id in a private cloud workload network.
- * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/WorkloadNetworks_UpdateVMGroups.json
+ * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/WorkloadNetworks_UpdateVMGroups.json
  */
 async function workloadNetworksUpdateVMGroup() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "group1";
+  const subscriptionId =
+    process.env["AVS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["AVS_RESOURCE_GROUP"] || "group1";
   const privateCloudName = "cloud1";
   const vmGroupId = "vmGroup1";
   const workloadNetworkVMGroup = {
@@ -37,4 +39,8 @@ async function workloadNetworksUpdateVMGroup() {
   console.log(result);
 }
 
-workloadNetworksUpdateVMGroup().catch(console.error);
+async function main() {
+  workloadNetworksUpdateVMGroup();
+}
+
+main().catch(console.error);

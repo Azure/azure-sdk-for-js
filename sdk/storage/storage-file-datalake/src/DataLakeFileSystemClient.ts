@@ -48,6 +48,7 @@ import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing"
 import {
   appendToURLPath,
   appendToURLQuery,
+  EscapePath,
   windowsFileTimeTicksToTime,
 } from "./utils/utils.common";
 import { DataLakeFileClient, DataLakeDirectoryClient } from "./clients";
@@ -151,7 +152,7 @@ export class DataLakeFileSystemClient extends StorageClient {
   /* eslint-disable-next-line @azure/azure-sdk/ts-naming-subclients */
   public getDirectoryClient(directoryName: string): DataLakeDirectoryClient {
     return new DataLakeDirectoryClient(
-      appendToURLPath(this.url, encodeURIComponent(directoryName)),
+      appendToURLPath(this.url, EscapePath(directoryName)),
       this.pipeline
     );
   }
@@ -164,10 +165,7 @@ export class DataLakeFileSystemClient extends StorageClient {
   // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
   /* eslint-disable-next-line @azure/azure-sdk/ts-naming-subclients */
   public getFileClient(fileName: string): DataLakeFileClient {
-    return new DataLakeFileClient(
-      appendToURLPath(this.url, encodeURIComponent(fileName)),
-      this.pipeline
-    );
+    return new DataLakeFileClient(appendToURLPath(this.url, EscapePath(fileName)), this.pipeline);
   }
 
   /**
@@ -805,7 +803,7 @@ export class DataLakeFileSystemClient extends StorageClient {
     const { span, updatedOptions } = createSpan("DataLakeFileSystemClient-undeletePath", options);
     try {
       const pathClient = new PathClientInternal(
-        appendToURLPath(this.blobEndpointUrl, encodeURIComponent(deletedPath)),
+        appendToURLPath(this.blobEndpointUrl, EscapePath(deletedPath)),
         this.pipeline
       );
 

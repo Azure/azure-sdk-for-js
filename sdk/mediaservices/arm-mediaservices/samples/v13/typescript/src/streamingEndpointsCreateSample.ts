@@ -13,16 +13,22 @@ import {
   AzureMediaServices
 } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates a streaming endpoint.
  *
  * @summary Creates a streaming endpoint.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/streamingendpoint-create.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-08-01/examples/streamingendpoint-create.json
  */
 async function createAStreamingEndpoint() {
-  const subscriptionId = "0a6ec948-5a62-437d-b9df-934dc7c1b722";
-  const resourceGroupName = "mediaresources";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
+    "0a6ec948-5a62-437d-b9df-934dc7c1b722";
+  const resourceGroupName =
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "mediaresources";
   const accountName = "slitestmedia10";
   const streamingEndpointName = "myStreamingEndpoint1";
   const parameters: StreamingEndpoint = {
@@ -61,4 +67,8 @@ async function createAStreamingEndpoint() {
   console.log(result);
 }
 
-createAStreamingEndpoint().catch(console.error);
+async function main() {
+  createAStreamingEndpoint();
+}
+
+main().catch(console.error);

@@ -1,0 +1,54 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/onboardingStates/default?api-version=2022-09-01-preview",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "43",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-securityinsight/1.0.0-beta.6 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "3d95ff7f-6f49-4603-b31d-87611fe1e8d3"
+      },
+      "RequestBody": {
+        "properties": {
+          "customerManagedKey": false
+        }
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "531",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 03 Feb 2023 02:31:59 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "541bc709-4861-4315-bc07-18dcf90199be",
+        "x-ms-ratelimit-remaining-subscription-resource-requests": "11",
+        "x-ms-request-id": "541bc709-4861-4315-bc07-18dcf90199be",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230203T023159Z:541bc709-4861-4315-bc07-18dcf90199be"
+      },
+      "ResponseBody": {
+        "properties": {},
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/onboardingStates/default",
+        "name": "default",
+        "type": "Microsoft.SecurityInsights/onboardingStates",
+        "systemData": {
+          "createdAt": "2023-02-03T02:31:52.4438003Z",
+          "createdBy": "azure_client_id",
+          "createdByType": "Application",
+          "lastModifiedAt": "2023-02-03T02:31:52.4438003Z",
+          "lastModifiedBy": "azure_client_id",
+          "lastModifiedByType": "Application"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

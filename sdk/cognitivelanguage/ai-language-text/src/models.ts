@@ -2,18 +2,23 @@
 // Licensed under the MIT license.
 
 import {
+  AbstractiveSummary,
   AssessmentSentiment,
   ClassificationCategory,
   CustomEntityRecognitionAction,
   CustomMultiLabelClassificationAction,
   CustomSingleLabelClassificationAction,
   DetectedLanguage,
+  DocumentDetectedLanguage,
   DocumentSentimentLabel,
   DocumentWarning,
+  DynamicClassificationAction,
   Entity,
   EntityDataSource,
   EntityLinkingAction,
   EntityRecognitionAction,
+  EntityWithResolution,
+  ExtractiveSummarizationAction,
   HealthcareAction,
   HealthcareAssertion,
   HealthcareEntityCategory,
@@ -27,6 +32,8 @@ import {
   SentenceSentimentLabel,
   SentimentAnalysisAction,
   SentimentConfidenceScores,
+  StringIndexType,
+  SummarySentence,
   TargetConfidenceScores,
   TextDocumentBatchStatistics,
   TextDocumentStatistics,
@@ -77,6 +84,10 @@ export interface BeginAnalyzeBatchOptions extends TextAnalysisOperationOptions {
    * The operation's display name.
    */
   displayName?: string;
+  /**
+   * Default language code to use for records requesting automatic language detection
+   */
+  defaultLanguage?: string;
 }
 
 /**
@@ -99,6 +110,7 @@ export const AnalyzeActionNames = {
   PiiEntityRecognition: "PiiEntityRecognition",
   LanguageDetection: "LanguageDetection",
   SentimentAnalysis: "SentimentAnalysis",
+  DynamicClassification: "DynamicClassification",
 } as const;
 
 /**
@@ -111,6 +123,8 @@ export const AnalyzeBatchActionNames = {
   KeyPhraseExtraction: "KeyPhraseExtraction",
   EntityLinking: "EntityLinking",
   Healthcare: "Healthcare",
+  ExtractiveSummarization: "ExtractiveSummarization",
+  AbstractiveSummarization: "AbstractiveSummarization",
   CustomEntityRecognition: "CustomEntityRecognition",
   CustomSingleLabelClassification: "CustomSingleLabelClassification",
   CustomMultiLabelClassification: "CustomMultiLabelClassification",
@@ -130,6 +144,7 @@ export type AnalyzeActionParameters<ActionName extends AnalyzeActionName> = {
   PiiEntityRecognition: PiiEntityRecognitionAction;
   KeyPhraseExtraction: KeyPhraseExtractionAction;
   SentimentAnalysis: SentimentAnalysisAction;
+  DynamicClassification: DynamicClassificationAction;
   LanguageDetection: LanguageDetectionAction;
 }[ActionName];
 
@@ -142,8 +157,29 @@ export type AnalyzeResult<ActionName extends AnalyzeActionName> = {
   PiiEntityRecognition: PiiEntityRecognitionResult[];
   KeyPhraseExtraction: KeyPhraseExtractionResult[];
   SentimentAnalysis: SentimentAnalysisResult[];
+  DynamicClassification: DynamicClassificationResult[];
   LanguageDetection: LanguageDetectionResult[];
 }[ActionName];
+
+/**
+ * Known values of the {@link HealthcareAction.fhirVersion} parameter.
+ */
+export enum KnownFhirVersion {
+  /** 4.0.1 */
+  "4.0.1" = "4.0.1",
+}
+
+/** Options for an Abstractive Summarization action. */
+export interface AbstractiveSummarizationAction {
+  /** The max number of sentences to be part of the summary. */
+  maxSentenceCount?: number;
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
+   *
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
+}
 
 /**
  * Enum of possible error codes of a {@link TextAnalysisError}.
@@ -225,7 +261,7 @@ export interface EntityRecognitionSuccessResult extends TextAnalysisSuccessResul
   /**
    * The collection of entities identified in the input document.
    */
-  readonly entities: Entity[];
+  readonly entities: EntityWithResolution[];
 }
 
 /**
@@ -439,6 +475,29 @@ export interface Opinion {
 }
 
 /**
+ * The result of a language detection action on a single document.
+ */
+export type DynamicClassificationResult =
+  | DynamicClassificationSuccessResult
+  | DynamicClassificationErrorResult;
+
+/**
+ * The result of a language detection action on a single document,
+ * containing a prediction of what language the document is written in.
+ */
+export interface DynamicClassificationSuccessResult extends TextAnalysisSuccessResult {
+  /**
+   * The collection of classifications in the input document.
+   */
+  readonly classifications: ClassificationCategory[];
+}
+
+/**
+ * An error result from a language detection action on a single document.
+ */
+export type DynamicClassificationErrorResult = TextAnalysisErrorResult;
+
+/**
  * A healthcare entity represented as a node in a directed graph where the edges are
  * a particular type of relationship between the source and target nodes.
  */
@@ -521,6 +580,10 @@ export interface HealthcareEntityRelation {
    * The list of healthcare entities and their roles in the healthcare relation.
    */
   readonly roles: HealthcareEntityRelationRole[];
+  /**
+   * The confidence score between 0 and 1 of the extracted relation.
+   */
+  readonly confidenceScore?: number;
 }
 
 /**
@@ -535,6 +598,11 @@ export interface HealthcareSuccessResult extends TextAnalysisSuccessResult {
    * Relations between healthcare entities.
    */
   readonly entityRelations: HealthcareEntityRelation[];
+  /**
+   * JSON bundle containing a FHIR compatible object for consumption in other
+   * Healthcare tools. For additional information see {@link https://www.hl7.org/fhir/overview.html}.
+   */
+  readonly fhirBundle?: Record<string, any>;
 }
 
 /**
@@ -546,6 +614,52 @@ export type HealthcareErrorResult = TextAnalysisErrorResult;
  * The result of the healthcare analysis action on a single document.
  */
 export type HealthcareResult = HealthcareSuccessResult | HealthcareErrorResult;
+
+/**
+ * The result of the extractive summarization action on a single document.
+ */
+export type ExtractiveSummarizationResult =
+  | ExtractiveSummarizationSuccessResult
+  | ExtractiveSummarizationErrorResult;
+
+/**
+ * The result of the extractive summarization action on a single document,
+ * containing a collection of the summary identified in that document.
+ */
+export interface ExtractiveSummarizationSuccessResult extends TextAnalysisSuccessResult {
+  /**
+   * A list of sentences composing a summary of the input document.
+   */
+  readonly sentences: SummarySentence[];
+}
+
+/**
+ * An error result from the extractive summarization action on a single document.
+ */
+export type ExtractiveSummarizationErrorResult = TextAnalysisErrorResult;
+
+/**
+ * The result of the abstractive summarization action on a single document.
+ */
+export type AbstractiveSummarizationResult =
+  | AbstractiveSummarizationSuccessResult
+  | AbstractiveSummarizationErrorResult;
+
+/**
+ * The result of the abstractive summarization action on a single document,
+ * containing a collection of the summaries identified for that document.
+ */
+export interface AbstractiveSummarizationSuccessResult extends TextAnalysisSuccessResult {
+  /**
+   * A list of summaries of the input document.
+   */
+  readonly summaries: AbstractiveSummary[];
+}
+
+/**
+ * An error result from the abstractive summarization action on a single document.
+ */
+export type AbstractiveSummarizationErrorResult = TextAnalysisErrorResult;
 
 /**
  * The result of the custom entity recognition action on a single document.
@@ -682,6 +796,26 @@ export interface SentimentAnalysisBatchAction
   kind: "SentimentAnalysis";
 }
 
+/** Options for an extractive summarization batch action. */
+export interface ExtractiveSummarizationBatchAction
+  extends AnalyzeBatchActionCommon,
+    ExtractiveSummarizationAction {
+  /**
+   * The kind of the action.
+   */
+  kind: "ExtractiveSummarization";
+}
+
+/** Options for an abstractive summarization batch action. */
+export interface AbstractiveSummarizationBatchAction
+  extends AnalyzeBatchActionCommon,
+    AbstractiveSummarizationAction {
+  /**
+   * The kind of the action.
+   */
+  kind: "AbstractiveSummarization";
+}
+
 /** Options for a custom entity recognition batch action. */
 export interface CustomEntityRecognitionBatchAction
   extends AnalyzeBatchActionCommon,
@@ -722,6 +856,8 @@ export type AnalyzeBatchAction =
   | PiiEntityRecognitionBatchAction
   | HealthcareBatchAction
   | SentimentAnalysisBatchAction
+  | ExtractiveSummarizationBatchAction
+  | AbstractiveSummarizationBatchAction
   | CustomEntityRecognitionBatchAction
   | CustomSingleLabelClassificationBatchAction
   | CustomMultiLabelClassificationBatchAction;
@@ -772,6 +908,15 @@ export interface CustomActionMetadata {
 }
 
 /**
+ * Document results with potentially automatically detected language.
+ */
+export type WithDetectedLanguage<T> = T &
+  DocumentDetectedLanguage & {
+    /** Indicates whether the default language hint was used */
+    isLanguageDefaulted?: boolean;
+  };
+
+/**
  * The state of a succeeded batched action.
  */
 export interface BatchActionSuccessResult<T, Kind extends AnalyzeBatchActionName>
@@ -779,7 +924,7 @@ export interface BatchActionSuccessResult<T, Kind extends AnalyzeBatchActionName
   /**
    * The list of document results.
    */
-  readonly results: T[];
+  readonly results: WithDetectedLanguage<T>[];
   /**
    * When this action was completed by the service.
    */
@@ -849,6 +994,18 @@ export type HealthcareBatchResult = ActionMetadata &
   BatchActionResult<HealthcareResult, "Healthcare">;
 
 /**
+ * The result of an extractive summarization batch action.
+ */
+export type ExtractiveSummarizationBatchResult = ActionMetadata &
+  BatchActionResult<ExtractiveSummarizationResult, "ExtractiveSummarization">;
+
+/**
+ * The result of an abstractive summarization batch action.
+ */
+export type AbstractiveSummarizationBatchResult = ActionMetadata &
+  BatchActionResult<AbstractiveSummarizationResult, "AbstractiveSummarization">;
+
+/**
  * The result of a custom entity recognition batch action.
  */
 export type CustomEntityRecognitionBatchResult = CustomActionMetadata &
@@ -875,6 +1032,8 @@ export type AnalyzeBatchResult =
   | PiiEntityRecognitionBatchResult
   | SentimentAnalysisBatchResult
   | HealthcareBatchResult
+  | ExtractiveSummarizationBatchResult
+  | AbstractiveSummarizationBatchResult
   | CustomEntityRecognitionBatchResult
   | CustomSingleLabelClassificationBatchResult
   | CustomMultiLabelClassificationBatchResult;

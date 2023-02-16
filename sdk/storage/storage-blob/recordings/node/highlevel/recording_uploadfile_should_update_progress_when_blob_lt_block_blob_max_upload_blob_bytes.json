@@ -1,0 +1,65 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://fakestorageaccount.blob.core.windows.net/container167511437437902866?restype=container",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/xml",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "User-Agent": "azsdk-js-azure-storage-blob/12.13.0 core-rest-pipeline/1.10.2 Node/v16.18.0 OS/(x64-Linux-5.4.0-1100-azure)",
+        "x-ms-client-request-id": "3988376e-a5fa-4662-be33-a1eb026ac8ec",
+        "x-ms-date": "Mon, 30 Jan 2023 21:32:54 GMT",
+        "x-ms-version": "2021-12-02"
+      },
+      "RequestBody": null,
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Date": "Mon, 30 Jan 2023 21:32:54 GMT",
+        "ETag": "\u00220x8DB03098C28E2A7\u0022",
+        "Last-Modified": "Mon, 30 Jan 2023 21:32:54 GMT",
+        "Server": [
+          "Windows-Azure-Blob/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "x-ms-client-request-id": "3988376e-a5fa-4662-be33-a1eb026ac8ec",
+        "x-ms-request-id": "6d748544-701e-0053-20f2-34e985000000",
+        "x-ms-version": "2021-12-02"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://fakestorageaccount.blob.core.windows.net/container167511437437902866?restype=container",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/xml",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-azure-storage-blob/12.13.0 core-rest-pipeline/1.10.2 Node/v16.18.0 OS/(x64-Linux-5.4.0-1100-azure)",
+        "x-ms-client-request-id": "a627c112-0209-4953-9a14-bc069b2c28d7",
+        "x-ms-date": "Mon, 30 Jan 2023 21:32:54 GMT",
+        "x-ms-version": "2021-12-02"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Date": "Mon, 30 Jan 2023 21:32:54 GMT",
+        "Server": [
+          "Windows-Azure-Blob/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "x-ms-client-request-id": "a627c112-0209-4953-9a14-bc069b2c28d7",
+        "x-ms-request-id": "6d7485d5-701e-0053-25f2-34e985000000",
+        "x-ms-version": "2021-12-02"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {
+    "blob": "blob167511437444709856",
+    "container": "container167511437437902866"
+  }
+}

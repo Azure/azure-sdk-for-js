@@ -442,7 +442,10 @@ export class TextAnalysisClient {
    *    the service will apply a model where the language is explicitly set to
    *    "None". Language support varies per action, for example, more information
    *    about the languages supported for Entity Recognition actions can be
-   *    found in {@link https://docs.microsoft.com//azure/cognitive-services/language-service/named-entity-recognition/language-support}
+   *    found in {@link https://docs.microsoft.com//azure/cognitive-services/language-service/named-entity-recognition/language-support}.
+   *    If set to "auto", the service will automatically infer the language from
+   *    the input text. If that process fails, the value in the `defaultLanguage`
+   *    option will be used.
    * @param options - optional action parameters and settings for the operation
    *
    * @returns an array of results corresponding to the input documents
@@ -573,7 +576,10 @@ export class TextAnalysisClient {
    *    the service will apply a model where the language is explicitly set to
    *    "None". Language support varies per action, for example, more information
    *    about the languages supported for Entity Recognition actions can be
-   *    found in {@link https://docs.microsoft.com//azure/cognitive-services/language-service/named-entity-recognition/language-support}
+   *    found in {@link https://docs.microsoft.com//azure/cognitive-services/language-service/named-entity-recognition/language-support}.
+   *    If set to "auto", the service will automatically infer the language from
+   *    the input text. If that process fails, the value in the `defaultLanguage`
+   *    option will be used.
    * @param options - optional settings for the operation
    *
    * @returns an array of results corresponding to the input actions
@@ -654,15 +660,15 @@ export class TextAnalysisClient {
     }
 
     if (isStringArray(documents)) {
-      const language = (languageOrOptions as string) || this.defaultLanguage;
-      realInputs = convertToTextDocumentInput(documents, language);
+      const languageHint = (languageOrOptions as string) ?? this.defaultLanguage;
+      realInputs = convertToTextDocumentInput(documents, languageHint);
       realOptions = options;
     } else {
       realInputs = documents;
       realOptions = languageOrOptions as BeginAnalyzeBatchOptions;
     }
     const realActions = actions.map(
-      ({ kind, actionName, ...rest }): AnalyzeBatchActionUnion => ({
+      ({ kind, actionName, ...rest }): AnalyzeBatchActionUnion & { parameters: unknown } => ({
         kind,
         actionName,
         parameters: rest,

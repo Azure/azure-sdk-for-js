@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.3 (Unreleased)
+## 1.0.2 (Unreleased)
 
 ### Features Added
 
@@ -10,17 +10,16 @@
 
 ### Other Changes
 
-## 1.0.0-beta.2 (2022-07-12)
-    
+## 1.0.1 (2023-01-09)
+
 **Features**
 
-  - Added Interface DynatraceSingleSignOnResource
-  - Added Interface MonitorResource
-  - Added Interface ProxyResource
-  - Added Interface TagRule
-  - Added Interface TrackedResource
-    
-    
-## 1.0.0-beta.1 (2022-05-11)
+  - Exposes `getContinuationToken` helper function to extract continuation token
+
+**Bugs Fixed**
+
+  - A series of small bug fixs relevant to authentication and apiVersion policy
+
+## 1.0.0 (2022-09-19)
 
 The package of @azure/arm-dynatrace is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).

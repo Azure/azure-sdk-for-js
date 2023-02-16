@@ -1,6 +1,6 @@
 # Release History
 
-## 7.0.1 (Unreleased)
+## 7.1.2 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,28 @@
 
 ### Other Changes
 
+## 7.1.1 (2023-01-31)
+
+**Features**
+
+  - Exposes `getContinuationToken` helper function to extract continuation token
+
+**Bugs Fixed**
+
+  - A series of small bug fixs relevant to authentication and apiVersion policy
+
+## 7.1.0 (2022-10-21)
+    
+**Features**
+
+  - Interface RedisLinkedServerCreateParameters has a new optional parameter geoReplicatedPrimaryHostName
+  - Interface RedisLinkedServerCreateParameters has a new optional parameter primaryHostName
+  - Interface RedisLinkedServerCreateProperties has a new optional parameter geoReplicatedPrimaryHostName
+  - Interface RedisLinkedServerCreateProperties has a new optional parameter primaryHostName
+  - Interface RedisLinkedServerWithProperties has a new optional parameter geoReplicatedPrimaryHostName
+  - Interface RedisLinkedServerWithProperties has a new optional parameter primaryHostName
+    
+    
 ## 7.0.0 (2022-09-05)
     
 **Features**

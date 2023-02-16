@@ -13,14 +13,16 @@
  * @azsdk-weight 100
  */
 
-import { NotificationHubJob } from "@azure/notification-hubs/models/notificationHubJob";
-import { createClientContext } from "@azure/notification-hubs/client";
+import * as dotenv from "dotenv";
+import {
+  createClientContext,
+  getNotificationHubJob,
+  submitNotificationHubJob,
+} from "@azure/notification-hubs/api";
+import { NotificationHubJob } from "@azure/notification-hubs/models";
 import { delay } from "@azure/core-util";
-import { getNotificationHubJob } from "@azure/notification-hubs/client/getNotificationHubJob";
-import { submitNotificationHubJob } from "@azure/notification-hubs/client/submitNotificationHubJob";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and hub name

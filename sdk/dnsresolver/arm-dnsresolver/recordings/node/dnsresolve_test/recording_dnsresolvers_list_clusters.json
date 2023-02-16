@@ -1,0 +1,66 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/dnsResolvers?api-version=2022-07-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dnsresolver/1.1.0 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "9d82eaa1-fab0-4482-a255-1d800b75a671"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 08:16:17 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-activity-id": "60891534-c930-466f-9373-abde7e12ab90",
+        "x-ms-correlation-request-id": "0a65cb29-b817-41f3-a61a-6f9166c85454",
+        "x-ms-ratelimit-remaining-subscription-resource-entities-read": "59999",
+        "x-ms-ratelimit-remaining-subscription-resource-requests": "497",
+        "x-ms-request-id": "0a65cb29-b817-41f3-a61a-6f9166c85454",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T081618Z:0a65cb29-b817-41f3-a61a-6f9166c85454"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "properties": {
+              "virtualNetwork": {
+                "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/sampleVirtualNetwork"
+              },
+              "dnsResolverState": "Connected",
+              "provisioningState": "Succeeded",
+              "resourceGuid": "860a3d06-db91-4aa7-86fb-5305fe08c738"
+            },
+            "etag": "\u00221700df28-0000-0100-0000-63bbcd4d0000\u0022",
+            "location": "eastus",
+            "tags": {
+              "key1": "value1"
+            },
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/dnsResolvers/sampleDnsResolver",
+            "name": "sampleDnsResolver",
+            "type": "Microsoft.Network/dnsResolvers",
+            "systemData": {
+              "createdAt": "2023-01-09T08:16:08.3550133Z",
+              "createdByType": "Application",
+              "lastModifiedAt": "2023-01-09T08:16:08.3550133Z",
+              "lastModifiedByType": "Application"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

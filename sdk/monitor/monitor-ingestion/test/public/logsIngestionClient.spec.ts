@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { LogsIngestionClient } from "../../src";
+import { isAggregateUploadLogsError, LogsIngestionClient, UploadLogsFailure } from "../../src";
 import { Context } from "mocha";
 import { assert } from "chai";
 import { AdditionalPolicyConfig } from "@azure/core-client";
@@ -12,9 +12,10 @@ import {
   getLogsIngestionEndpoint,
   loggerForTest,
 } from "./shared/testShared";
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-import { isNode } from "@azure/core-util";
+import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { AbortController } from "@azure/abort-controller";
+import { isNode } from "@azure/core-util";
 
 function createFailedPolicies(failedInterval: { isFailed: boolean }): AdditionalPolicyConfig[] {
   return [
@@ -39,7 +40,6 @@ describe("LogsIngestionClient live tests", function () {
   let recordedClient: RecorderAndLogsClient;
   let client: LogsIngestionClient;
   beforeEach(async function (this: Context) {
-    if (isPlaybackMode() && isNode) this.skip();
     loggerForTest.verbose(`Recorder: starting...`);
     recorder = new Recorder(this.currentTest);
     recordedClient = await createClientAndStartRecorder(recorder);
@@ -53,12 +53,11 @@ describe("LogsIngestionClient live tests", function () {
   });
 
   it("sends empty data", async function () {
-    const result = await client.upload(getDcrId(), "Custom-MyTableRawData", []);
-    assert.equal(result.uploadStatus, "Success");
+    await client.upload(getDcrId(), "Custom-MyTableRawData", []);
   });
 
   it("sends basic data", async function () {
-    const result = await client.upload(getDcrId(), "Custom-MyTableRawData", [
+    await client.upload(getDcrId(), "Custom-MyTableRawData", [
       {
         Time: "2021-12-08T23:51:14.1104269Z",
         Computer: "Computer1",
@@ -76,15 +75,12 @@ describe("LogsIngestionClient live tests", function () {
         },
       },
     ]);
-    assert.equal(result.uploadStatus, "Success");
   });
 
   it("Success Test - divides huge data into chunks", async function () {
-    const result = await client.upload(getDcrId(), "Custom-MyTableRawData", getObjects(10000), {
+    await client.upload(getDcrId(), "Custom-MyTableRawData", getObjects(10000), {
       maxConcurrency: 3,
     });
-
-    assert.equal(result.uploadStatus, "Success");
   });
 
   it("Partial Fail Test - when dcr id is incorrect for alternate requests", async function () {
@@ -99,25 +95,28 @@ describe("LogsIngestionClient live tests", function () {
       })
     );
     recordedClient.client = client;
-    const result = await client.upload(getDcrId(), "Custom-MyTableRawData", logData, {
-      maxConcurrency: 3,
-    });
-    assert.equal(result.uploadStatus, "PartialFailure");
-    if (result.uploadStatus !== "Success") {
-      result.errors.forEach((err) => {
-        assert.equal(
-          err.responseError.message,
-          `Data collection rule with immutable Id 'fake-id' not found.`
-        );
+    try {
+      await client.upload(getDcrId(), "Custom-MyTableRawData", logData, {
+        maxConcurrency: 3,
       });
+    } catch (e: any) {
+      const result = isAggregateUploadLogsError(e) ? e.errors : [];
+      if (result.length > 0) {
+        result.forEach((err) => {
+          assert.equal(
+            err.cause.message,
+            `Data collection rule with immutable Id 'fake-id' not found.`
+          );
+        });
 
-      const chunkArraySize = getChunkArraylength(noOfElements);
-      assert.isAbove(chunkArraySize, 1);
-      if (chunkArraySize % 2 === 0) {
-        assert.equal(result.errors.length, chunkArraySize / 2);
-      }
-      if (chunkArraySize % 2 === 1) {
-        assert.equal(result.errors.length, (chunkArraySize - 1) / 2);
+        const chunkArraySize = getChunkArraylength(noOfElements);
+        assert.isAbove(chunkArraySize, 1);
+        if (chunkArraySize % 2 === 0) {
+          assert.equal(result.length, chunkArraySize / 2);
+        }
+        if (chunkArraySize % 2 === 1) {
+          assert.equal(result.length, (chunkArraySize - 1) / 2);
+        }
       }
     }
   });
@@ -125,20 +124,100 @@ describe("LogsIngestionClient live tests", function () {
   it("Throws error when all logs fail", async function () {
     const noOfElements = 25000;
     const logData = getObjects(noOfElements);
-    const result = await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
-      maxConcurrency: 3,
-    });
-    assert.equal(result.uploadStatus, "Failure");
-    if (result.uploadStatus !== "Success") {
-      result.errors.forEach((err) => {
-        assert.equal(
-          err.responseError.message,
-          `Data collection rule with immutable Id 'immutable-id-123' not found.`
-        );
+    try {
+      await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
+        maxConcurrency: 3,
       });
-      const chunkArraySize = getChunkArraylength(noOfElements);
-      assert.isAbove(chunkArraySize, 1);
-      assert.equal(chunkArraySize, result.errors.length);
+    } catch (e: any) {
+      const result = isAggregateUploadLogsError(e) ? e.errors : [];
+      if (result.length > 0) {
+        result.forEach((err) => {
+          assert.equal(
+            err.cause.message,
+            `Data collection rule with immutable Id 'immutable-id-123' not found.`
+          );
+        });
+        const chunkArraySize = getChunkArraylength(noOfElements);
+        assert.isAbove(chunkArraySize, 1);
+        assert.equal(chunkArraySize, result.length);
+      }
+    }
+  });
+  it("Calls the error callback function when all logs fail", async function () {
+    const noOfElements = 25000;
+    const logData = getObjects(noOfElements);
+    const concurrency = 3;
+
+    let errorCallbackCount = 0;
+    const failedLogs: Record<string, unknown>[] = [];
+
+    function errorCallback(uploadLogsError: UploadLogsFailure): void {
+      if (
+        (uploadLogsError.cause as Error).message ===
+        "Data collection rule with immutable Id 'immutable-id-123' not found."
+      ) {
+        ++errorCallbackCount;
+        failedLogs.concat(uploadLogsError.failedLogs);
+      }
+    }
+
+    try {
+      await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
+        maxConcurrency: concurrency,
+        onError: errorCallback,
+      });
+    } catch (e: any) {
+      const result = isAggregateUploadLogsError(e) ? e.errors : [];
+      if (result.length > 0) {
+        result.forEach((err) => {
+          assert.equal(
+            err.cause.message,
+            `Data collection rule with immutable Id 'immutable-id-123' not found.`
+          );
+        });
+      }
+    }
+    assert.equal(errorCallbackCount, concurrency);
+    if (failedLogs.length > 0) {
+      try {
+        await client.upload(getDcrId(), "Custom-MyTableRawData", failedLogs, {
+          maxConcurrency: 1,
+        });
+      } finally {
+        // do nothing
+      }
+    }
+  });
+
+  it("User abort additional processing early if they handle the error", async function () {
+    const abortController = new AbortController();
+    let errorCallbackCount = 0;
+    function errorCallback(): void {
+      abortController.abort();
+      ++errorCallbackCount;
+    }
+    if (isNode) {
+      const noOfElements = 250000;
+      const logData = getObjects(noOfElements);
+      const concurrency = 4;
+      try {
+        await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
+          maxConcurrency: concurrency,
+          onError: errorCallback,
+          abortSignal: abortController.signal,
+        });
+      } catch (e: any) {
+        const result = isAggregateUploadLogsError(e) ? e.errors : [];
+        if (result.length > 0) {
+          assert.equal(
+            result[0].cause.message,
+            `Data collection rule with immutable Id 'immutable-id-123' not found.`
+          );
+          assert.equal(result[1].cause.message, `The operation was aborted.`);
+          assert.equal(result[result.length - 1].cause.message, `The operation was aborted.`);
+        }
+      }
+      assert.equal(errorCallbackCount, concurrency);
     }
   });
 });

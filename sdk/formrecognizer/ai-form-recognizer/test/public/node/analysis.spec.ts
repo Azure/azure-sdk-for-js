@@ -294,8 +294,12 @@ matrix([[true, false]] as const, async (useAad) => {
               amount: 56651.49,
               currencySymbol: "$",
             },
-            date: "2017-06-18T00:00:00.000Z",
+            date: "2017-06-24T00:00:00.000Z",
             productCode: "34278587",
+            tax: {
+              amount: 0,
+              currencySymbol: "",
+            },
           },
         ],
       });
@@ -765,8 +769,12 @@ matrix([[true, false]] as const, async (useAad) => {
               amount: 56651.49,
               currencySymbol: "$",
             },
-            date: "2017-06-18T00:00:00.000Z",
+            date: "2017-06-24T00:00:00.000Z",
             productCode: "34278587",
+            tax: {
+              amount: 0,
+              currencySymbol: "",
+            },
           },
         ],
       });
@@ -955,27 +963,28 @@ matrix([[true, false]] as const, async (useAad) => {
         taxYear: "2018",
         w2Copy: "Copy 2 -- To Be Filed with Employee's State, City, or Local Income Tax Return,",
         employee: {
-          socialSecurityNumber: "986-62-1002",
-          name: "BONNIE F HERNANDEZ",
+          socialSecurityNumber: "123-45-6789",
+          name: "ANGEL BROWN",
           address: {
-            houseNumber: "96541",
-            road: "MOLLY HOLLOW STREET",
-            city: "KATHRYNMOUTH",
-            state: "NE",
-            postalCode: "APT.124",
-            streetAddress: "96541 MOLLY HOLLOW STREET",
+            houseNumber: "4567",
+            road: "MAIN STREET",
+            city: "BUFFALO",
+            state: "WA",
+            postalCode: "12345",
+            streetAddress: "4567 MAIN STREET",
           },
         },
         controlNumber: "000086242",
         employer: {
-          idNumber: "48-1069918",
-          name: "BLUE BEACON USA, LP",
+          idNumber: "98-7654321",
+          name: "CONTOSO LTD",
           address: {
-            poBox: "PO BOX 856",
-            city: "SALINA",
-            state: "KS",
-            postalCode: "67402-0856",
-            streetAddress: "PO BOX 856",
+            houseNumber: "123",
+            road: "MICROSOFT WAY",
+            city: "REDMOND",
+            state: "WA",
+            postalCode: "98765",
+            streetAddress: "123 MICROSOFT WAY",
           },
         },
         wagesTipsAndOtherCompensation: 37160.56,
@@ -1006,23 +1015,24 @@ matrix([[true, false]] as const, async (useAad) => {
             amount: 123.3,
           },
         ],
-        isRetirementPlan: "true",
+        // isStatutoryEmployee: "true", // Service Regression
+        // isThirdPartySickPay: "true", // Service Regression
         other: "DISINS 170.85",
         stateTaxInfos: [
           {
             state: "PA",
-            employerStateIdNumber: "18574095",
+            employerStateIdNumber: "87654321",
           },
           {
             state: "WA",
-            employerStateIdNumber: "18743231",
+            employerStateIdNumber: "12345678",
           },
         ],
         localTaxInfos: [
           {
             localWagesTipsEtc: 37160.56,
             localIncomeTax: 51,
-            localityName: "Cmberland Vly/ Mddl",
+            localityName: "Cmberland Vly/Mddl",
           },
           {
             localWagesTipsEtc: 37160.56,
@@ -1033,7 +1043,7 @@ matrix([[true, false]] as const, async (useAad) => {
       });
 
       it("png file stream", async function (this: Mocha.Context) {
-        const filePath = path.join(ASSET_PATH, "w2", "gold_simple_w2.png");
+        const filePath = path.join(ASSET_PATH, "w2", "w2-single.png");
         const stream = fs.createReadStream(filePath);
 
         const poller = await client.beginAnalyzeDocument(
@@ -1061,11 +1071,6 @@ matrix([[true, false]] as const, async (useAad) => {
           employer: "Microsoft",
           idNumberSuffix: "01",
         },
-        dependents: [
-          {
-            name: "Coinsurance Max",
-          },
-        ],
         idNumber: {
           prefix: "ABC",
           number: "123456789",
@@ -1077,14 +1082,18 @@ matrix([[true, false]] as const, async (useAad) => {
         },
         copays: [
           {
-            benefit: "deductible",
+            benefit: "Deductible",
             amount: "$1,500",
           },
           {
-            benefit: "coinsurancemax",
+            benefit: "Coinsurance Max",
             amount: "$1,000",
           },
         ],
+        plan: {
+          number: "456",
+          name: "HEALTH SAVINGS PLAN",
+        },
       });
 
       it("png file stream", async function (this: Mocha.Context) {

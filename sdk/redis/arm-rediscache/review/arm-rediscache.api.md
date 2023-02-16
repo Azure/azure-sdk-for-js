@@ -112,6 +112,9 @@ export interface FirewallRulesListOptionalParams extends coreClient.OperationOpt
 export type FirewallRulesListResponse = RedisFirewallRuleListResult;
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface ImportRDBParameters {
     files: string[];
     format?: string;
@@ -644,15 +647,19 @@ export interface RedisLinkedServer {
 
 // @public
 export interface RedisLinkedServerCreateParameters {
+    readonly geoReplicatedPrimaryHostName?: string;
     linkedRedisCacheId: string;
     linkedRedisCacheLocation: string;
+    readonly primaryHostName?: string;
     serverRole: ReplicationRole;
 }
 
 // @public
 export interface RedisLinkedServerCreateProperties {
+    readonly geoReplicatedPrimaryHostName?: string;
     linkedRedisCacheId: string;
     linkedRedisCacheLocation: string;
+    readonly primaryHostName?: string;
     serverRole: ReplicationRole;
 }
 
@@ -663,8 +670,10 @@ export interface RedisLinkedServerProperties extends RedisLinkedServerCreateProp
 
 // @public
 export interface RedisLinkedServerWithProperties extends ProxyResource {
+    readonly geoReplicatedPrimaryHostName?: string;
     linkedRedisCacheId?: string;
     linkedRedisCacheLocation?: string;
+    readonly primaryHostName?: string;
     readonly provisioningState?: string;
     serverRole?: ReplicationRole;
 }

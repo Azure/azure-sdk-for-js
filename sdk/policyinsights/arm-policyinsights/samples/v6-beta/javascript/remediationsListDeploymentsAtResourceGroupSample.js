@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { PolicyInsightsClient } = require("@azure/arm-policyinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets all deployments for a remediation at resource group scope.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2021-10-01/examples/Remediations_ListDeploymentsResourceGroupScope.json
  */
 async function listDeploymentsForARemediationAtResourceGroupScope() {
-  const subscriptionId = "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
+  const resourceGroupName = process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "myResourceGroup";
   const remediationName = "myRemediation";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
@@ -33,4 +35,8 @@ async function listDeploymentsForARemediationAtResourceGroupScope() {
   console.log(resArray);
 }
 
-listDeploymentsForARemediationAtResourceGroupScope().catch(console.error);
+async function main() {
+  listDeploymentsForARemediationAtResourceGroupScope();
+}
+
+main().catch(console.error);

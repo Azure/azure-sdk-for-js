@@ -13,7 +13,9 @@ import {
   PolicyInsightsClient
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import { to } from "../src/models/parameters";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Queries policy events for the resources under the subscription.
@@ -22,9 +24,10 @@ import { to } from "../src/models/parameters";
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_FilterAndAggregateOnly.json
  */
 async function filterAndAggregateOnly() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const fromParam = new Date("2018-02-05T18:00:00Z");
   const filter = "PolicyDefinitionAction eq 'deny'";
   const apply = "aggregate($count as NumDenyEvents)";
@@ -36,15 +39,13 @@ async function filterAndAggregateOnly() {
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForSubscription(
     policyEventsResource,
-    subscriptionId2,
+    subscriptionId,
     options
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
-
-filterAndAggregateOnly().catch(console.error);
 
 /**
  * This sample demonstrates how to Queries policy events for the resources under the subscription.
@@ -53,9 +54,10 @@ filterAndAggregateOnly().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_FilterAndGroupByWithAggregate.json
  */
 async function filterAndGroupWithAggregate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 2;
   const fromParam = new Date("2018-02-05T18:00:00Z");
   const filter =
@@ -70,15 +72,13 @@ async function filterAndGroupWithAggregate() {
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForSubscription(
     policyEventsResource,
-    subscriptionId2,
+    subscriptionId,
     options
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
-
-filterAndGroupWithAggregate().catch(console.error);
 
 /**
  * This sample demonstrates how to Queries policy events for the resources under the subscription.
@@ -87,9 +87,10 @@ filterAndGroupWithAggregate().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_FilterAndGroupByWithoutAggregate.json
  */
 async function filterAndGroupWithoutAggregate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 2;
   const fromParam = new Date("2018-01-05T18:00:00Z");
   const filter =
@@ -104,15 +105,13 @@ async function filterAndGroupWithoutAggregate() {
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForSubscription(
     policyEventsResource,
-    subscriptionId2,
+    subscriptionId,
     options
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
-
-filterAndGroupWithoutAggregate().catch(console.error);
 
 /**
  * This sample demonstrates how to Queries policy events for the resources under the subscription.
@@ -121,9 +120,10 @@ filterAndGroupWithoutAggregate().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_FilterAndMultipleGroups.json
  */
 async function filterAndMultipleGroups() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 10;
   const orderBy = "NumDeniedResources desc";
   const fromParam = new Date("2018-01-01T00:00:00Z");
@@ -138,15 +138,13 @@ async function filterAndMultipleGroups() {
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForSubscription(
     policyEventsResource,
-    subscriptionId2,
+    subscriptionId,
     options
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
-
-filterAndMultipleGroups().catch(console.error);
 
 /**
  * This sample demonstrates how to Queries policy events for the resources under the subscription.
@@ -155,22 +153,21 @@ filterAndMultipleGroups().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_QuerySubscriptionScope.json
  */
 async function queryAtSubscriptionScope() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForSubscription(
     policyEventsResource,
-    subscriptionId2
+    subscriptionId
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
-
-queryAtSubscriptionScope().catch(console.error);
 
 /**
  * This sample demonstrates how to Queries policy events for the resources under the subscription.
@@ -179,9 +176,10 @@ queryAtSubscriptionScope().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_QuerySubscriptionScopeNextLink.json
  */
 async function queryAtSubscriptionScopeWithNextLink() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options: PolicyEventsListQueryResultsForSubscriptionOptionalParams = {
     queryOptions: { skipToken: skipToken }
@@ -191,15 +189,13 @@ async function queryAtSubscriptionScopeWithNextLink() {
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForSubscription(
     policyEventsResource,
-    subscriptionId2,
+    subscriptionId,
     options
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
-
-queryAtSubscriptionScopeWithNextLink().catch(console.error);
 
 /**
  * This sample demonstrates how to Queries policy events for the resources under the subscription.
@@ -208,9 +204,10 @@ queryAtSubscriptionScopeWithNextLink().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_TimeRangeSortSelectTop.json
  */
 async function timeRangeSortSelectAndLimit() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 2;
   const orderBy =
     "Timestamp desc, PolicyAssignmentId asc, SubscriptionId asc, ResourceGroup asc, ResourceId";
@@ -234,4 +231,14 @@ async function timeRangeSortSelectAndLimit() {
   console.log(resArray);
 }
 
-timeRangeSortSelectAndLimit().catch(console.error);
+async function main() {
+  filterAndAggregateOnly();
+  filterAndGroupWithAggregate();
+  filterAndGroupWithoutAggregate();
+  filterAndMultipleGroups();
+  queryAtSubscriptionScope();
+  queryAtSubscriptionScopeWithNextLink();
+  timeRangeSortSelectAndLimit();
+}
+
+main().catch(console.error);

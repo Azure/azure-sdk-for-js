@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { HybridRunbookWorkers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,6 +17,7 @@ import {
   HybridRunbookWorker,
   HybridRunbookWorkersListByHybridRunbookWorkerGroupNextOptionalParams,
   HybridRunbookWorkersListByHybridRunbookWorkerGroupOptionalParams,
+  HybridRunbookWorkersListByHybridRunbookWorkerGroupResponse,
   HybridRunbookWorkersDeleteOptionalParams,
   HybridRunbookWorkersGetOptionalParams,
   HybridRunbookWorkersGetResponse,
@@ -24,7 +26,6 @@ import {
   HybridRunbookWorkersCreateResponse,
   HybridRunbookWorkerMoveParameters,
   HybridRunbookWorkersMoveOptionalParams,
-  HybridRunbookWorkersListByHybridRunbookWorkerGroupResponse,
   HybridRunbookWorkersListByHybridRunbookWorkerGroupNextResponse
 } from "../models";
 
@@ -67,12 +68,16 @@ export class HybridRunbookWorkersImpl implements HybridRunbookWorkers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByHybridRunbookWorkerGroupPagingPage(
           resourceGroupName,
           automationAccountName,
           hybridRunbookWorkerGroupName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -82,16 +87,23 @@ export class HybridRunbookWorkersImpl implements HybridRunbookWorkers {
     resourceGroupName: string,
     automationAccountName: string,
     hybridRunbookWorkerGroupName: string,
-    options?: HybridRunbookWorkersListByHybridRunbookWorkerGroupOptionalParams
+    options?: HybridRunbookWorkersListByHybridRunbookWorkerGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<HybridRunbookWorker[]> {
-    let result = await this._listByHybridRunbookWorkerGroup(
-      resourceGroupName,
-      automationAccountName,
-      hybridRunbookWorkerGroupName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: HybridRunbookWorkersListByHybridRunbookWorkerGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByHybridRunbookWorkerGroup(
+        resourceGroupName,
+        automationAccountName,
+        hybridRunbookWorkerGroupName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByHybridRunbookWorkerGroupNext(
         resourceGroupName,
@@ -101,7 +113,9 @@ export class HybridRunbookWorkersImpl implements HybridRunbookWorkers {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -422,7 +436,6 @@ const listByHybridRunbookWorkerGroupNextOperationSpec: coreClient.OperationSpec 
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

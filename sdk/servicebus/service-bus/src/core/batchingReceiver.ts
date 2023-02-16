@@ -77,7 +77,8 @@ export class BatchingReceiver extends MessageReceiver {
         return this.link;
       },
       this.receiveMode,
-      options.skipParsingBodyAsJson ?? false
+      options.skipParsingBodyAsJson ?? false,
+      options.skipConvertingDate ?? false
     );
   }
 
@@ -121,12 +122,6 @@ export class BatchingReceiver extends MessageReceiver {
   ): Promise<ServiceBusMessageImpl[]> {
     throwErrorIfConnectionClosed(this._context);
     try {
-      logger.verbose(
-        "[%s] Receiver '%s', setting max concurrent calls to 0.",
-        this.logPrefix,
-        this.name
-      );
-
       const messages = await this._batchingReceiverLite.receiveMessages({
         maxMessageCount,
         maxWaitTimeInMs,
@@ -253,7 +248,8 @@ export class BatchingReceiverLite {
       abortSignal?: AbortSignalLike
     ) => Promise<MinimalReceiver | undefined>,
     private _receiveMode: ReceiveMode,
-    _skipParsingBodyAsJson: boolean
+    _skipParsingBodyAsJson: boolean,
+    _skipConvertingDate: boolean
   ) {
     this._createServiceBusMessage = (context: MessageAndDelivery) => {
       return new ServiceBusMessageImpl(
@@ -261,7 +257,8 @@ export class BatchingReceiverLite {
         context.delivery!,
         true,
         this._receiveMode,
-        _skipParsingBodyAsJson
+        _skipParsingBodyAsJson,
+        _skipConvertingDate
       );
     };
 
@@ -459,9 +456,7 @@ export class BatchingReceiverLite {
         // silently dropped on the floor.
         if (brokeredMessages.length > args.maxMessageCount) {
           logger.warning(
-            `More messages arrived than were expected: ${args.maxMessageCount} vs ${
-              brokeredMessages.length + 1
-            }`
+            `More messages arrived than expected: ${args.maxMessageCount} vs ${brokeredMessages.length}`
           );
         }
       } catch (err: any) {
@@ -472,7 +467,7 @@ export class BatchingReceiverLite {
         );
         reject(errObj);
       }
-      if (brokeredMessages.length === args.maxMessageCount) {
+      if (brokeredMessages.length >= args.maxMessageCount) {
         this._finalAction!();
       }
     };

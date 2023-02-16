@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { WCFRelays } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,16 +17,16 @@ import {
   WcfRelay,
   WCFRelaysListByNamespaceNextOptionalParams,
   WCFRelaysListByNamespaceOptionalParams,
+  WCFRelaysListByNamespaceResponse,
   AuthorizationRule,
   WCFRelaysListAuthorizationRulesNextOptionalParams,
   WCFRelaysListAuthorizationRulesOptionalParams,
-  WCFRelaysListByNamespaceResponse,
+  WCFRelaysListAuthorizationRulesResponse,
   WCFRelaysCreateOrUpdateOptionalParams,
   WCFRelaysCreateOrUpdateResponse,
   WCFRelaysDeleteOptionalParams,
   WCFRelaysGetOptionalParams,
   WCFRelaysGetResponse,
-  WCFRelaysListAuthorizationRulesResponse,
   WCFRelaysCreateOrUpdateAuthorizationRuleOptionalParams,
   WCFRelaysCreateOrUpdateAuthorizationRuleResponse,
   WCFRelaysDeleteAuthorizationRuleOptionalParams,
@@ -76,11 +77,15 @@ export class WCFRelaysImpl implements WCFRelays {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByNamespacePagingPage(
           resourceGroupName,
           namespaceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -89,15 +94,22 @@ export class WCFRelaysImpl implements WCFRelays {
   private async *listByNamespacePagingPage(
     resourceGroupName: string,
     namespaceName: string,
-    options?: WCFRelaysListByNamespaceOptionalParams
+    options?: WCFRelaysListByNamespaceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<WcfRelay[]> {
-    let result = await this._listByNamespace(
-      resourceGroupName,
-      namespaceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: WCFRelaysListByNamespaceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByNamespace(
+        resourceGroupName,
+        namespaceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByNamespaceNext(
         resourceGroupName,
@@ -106,7 +118,9 @@ export class WCFRelaysImpl implements WCFRelays {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -150,12 +164,16 @@ export class WCFRelaysImpl implements WCFRelays {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listAuthorizationRulesPagingPage(
           resourceGroupName,
           namespaceName,
           relayName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -165,16 +183,23 @@ export class WCFRelaysImpl implements WCFRelays {
     resourceGroupName: string,
     namespaceName: string,
     relayName: string,
-    options?: WCFRelaysListAuthorizationRulesOptionalParams
+    options?: WCFRelaysListAuthorizationRulesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AuthorizationRule[]> {
-    let result = await this._listAuthorizationRules(
-      resourceGroupName,
-      namespaceName,
-      relayName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: WCFRelaysListAuthorizationRulesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAuthorizationRules(
+        resourceGroupName,
+        namespaceName,
+        relayName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAuthorizationRulesNext(
         resourceGroupName,
@@ -184,7 +209,9 @@ export class WCFRelaysImpl implements WCFRelays {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -730,7 +757,6 @@ const listByNamespaceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -749,7 +775,6 @@ const listAuthorizationRulesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AuthorizationRuleListResult
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

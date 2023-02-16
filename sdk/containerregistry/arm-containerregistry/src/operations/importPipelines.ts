@@ -6,14 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ImportPipelines } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ImportPipeline,
   ImportPipelinesListNextOptionalParams,
@@ -42,7 +47,7 @@ export class ImportPipelinesImpl implements ImportPipelines {
 
   /**
    * Lists all import pipelines for the specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -59,8 +64,16 @@ export class ImportPipelinesImpl implements ImportPipelines {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, registryName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          registryName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -68,11 +81,18 @@ export class ImportPipelinesImpl implements ImportPipelines {
   private async *listPagingPage(
     resourceGroupName: string,
     registryName: string,
-    options?: ImportPipelinesListOptionalParams
+    options?: ImportPipelinesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ImportPipeline[]> {
-    let result = await this._list(resourceGroupName, registryName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ImportPipelinesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, registryName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -81,7 +101,9 @@ export class ImportPipelinesImpl implements ImportPipelines {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -101,7 +123,7 @@ export class ImportPipelinesImpl implements ImportPipelines {
 
   /**
    * Lists all import pipelines for the specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -118,7 +140,7 @@ export class ImportPipelinesImpl implements ImportPipelines {
 
   /**
    * Gets the properties of the import pipeline.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param importPipelineName The name of the import pipeline.
    * @param options The options parameters.
@@ -137,7 +159,7 @@ export class ImportPipelinesImpl implements ImportPipelines {
 
   /**
    * Creates an import pipeline for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param importPipelineName The name of the import pipeline.
    * @param importPipelineCreateParameters The parameters for creating an import pipeline.
@@ -150,8 +172,8 @@ export class ImportPipelinesImpl implements ImportPipelines {
     importPipelineCreateParameters: ImportPipeline,
     options?: ImportPipelinesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ImportPipelinesCreateResponse>,
+    SimplePollerLike<
+      OperationState<ImportPipelinesCreateResponse>,
       ImportPipelinesCreateResponse
     >
   > {
@@ -161,7 +183,7 @@ export class ImportPipelinesImpl implements ImportPipelines {
     ): Promise<ImportPipelinesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -194,20 +216,24 @@ export class ImportPipelinesImpl implements ImportPipelines {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         registryName,
         importPipelineName,
         importPipelineCreateParameters,
         options
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ImportPipelinesCreateResponse,
+      OperationState<ImportPipelinesCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -215,7 +241,7 @@ export class ImportPipelinesImpl implements ImportPipelines {
 
   /**
    * Creates an import pipeline for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param importPipelineName The name of the import pipeline.
    * @param importPipelineCreateParameters The parameters for creating an import pipeline.
@@ -240,7 +266,7 @@ export class ImportPipelinesImpl implements ImportPipelines {
 
   /**
    * Deletes an import pipeline from a container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param importPipelineName The name of the import pipeline.
    * @param options The options parameters.
@@ -250,14 +276,14 @@ export class ImportPipelinesImpl implements ImportPipelines {
     registryName: string,
     importPipelineName: string,
     options?: ImportPipelinesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -290,14 +316,15 @@ export class ImportPipelinesImpl implements ImportPipelines {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, registryName, importPipelineName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, registryName, importPipelineName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -305,7 +332,7 @@ export class ImportPipelinesImpl implements ImportPipelines {
 
   /**
    * Deletes an import pipeline from a container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param importPipelineName The name of the import pipeline.
    * @param options The options parameters.
@@ -327,7 +354,7 @@ export class ImportPipelinesImpl implements ImportPipelines {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -461,7 +488,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -1,12 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
+import {
+  Recorder,
+  assertEnvironmentVariable,
+  isPlaybackMode,
+  isLiveMode,
+} from "@azure-tools/test-recorder";
 import { ContainerRegistryBlobClient, OciManifest } from "@azure/container-registry";
 import { assert, versionsToTest } from "@azure/test-utils";
 import { Context } from "mocha";
 import { createBlobClient, recorderStartOptions, serviceVersions } from "../utils/utils";
 import fs from "fs";
+import { Readable } from "stream";
 
 versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
   onVersions({ minVer: "2021-07-01" }).describe("ContainerRegistryBlobClient", function () {
@@ -100,6 +106,25 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       await client.deleteManifest(uploadResult.digest);
     });
 
+    it("can upload OCI manifest from resettable stream", async function (this: Mocha.Context) {
+      if (isPlaybackMode()) {
+        // Temporarily skip during playback while dealing with recorder issue
+        this.skip();
+      }
+
+      await uploadManifestPrerequisites();
+
+      const resettableManifestStream = () =>
+        fs.createReadStream("test/data/oci-artifact/manifest.json");
+      const uploadResult = await client.uploadManifest(resettableManifestStream);
+      const downloadResult = await client.downloadManifest(uploadResult.digest);
+
+      assert.equal(downloadResult.digest, uploadResult.digest);
+      assert.deepStrictEqual(downloadResult.manifest, manifest);
+
+      await client.deleteManifest(uploadResult.digest);
+    });
+
     it("can upload OCI manifest with tag", async () => {
       await uploadManifestPrerequisites();
 
@@ -139,6 +164,35 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
         "sha256:654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed"
       );
       assert.equal(digest, downloadResult.digest);
+    });
+
+    it("can upload a big blob with size not a multiple of 4MB", async function (this: Mocha.Context) {
+      // Skip in record and playback due to large recording size
+      if (!isLiveMode()) {
+        this.skip();
+      }
+
+      // 64 MiB plus extra offset to have a smaller chunk at the end
+      const bigBlob = Buffer.alloc(64 * 1024 * 1024 + 321, 0x00);
+      const { digest } = await client.uploadBlob(Readable.from(bigBlob));
+      await client.deleteBlob(digest);
+    });
+
+    it("can upload a big blob with size a multiple of 4MB", async function (this: Mocha.Context) {
+      // Skip in record and playback due to large recording size
+      if (!isLiveMode()) {
+        this.skip();
+      }
+
+      // Skip in record and playback due to large recording size
+      if (!isLiveMode()) {
+        this.skip();
+      }
+
+      // 64 MiB exactly
+      const bigBlob = Buffer.alloc(64 * 1024 * 1024, 0x00);
+      const { digest } = await client.uploadBlob(Readable.from(bigBlob));
+      await client.deleteBlob(digest);
     });
   });
 });

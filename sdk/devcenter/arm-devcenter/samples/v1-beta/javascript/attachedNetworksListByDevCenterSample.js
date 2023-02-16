@@ -15,10 +15,10 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Lists the attached NetworkConnections for a DevCenter.
  *
  * @summary Lists the attached NetworkConnections for a DevCenter.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-08-01-preview/examples/AttachedNetworks_ListByDevCenter.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-11-11-preview/examples/AttachedNetworks_ListByDevCenter.json
  */
 async function attachedNetworksListByDevCenter() {
-  const subscriptionId = "{subscriptionId}";
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
   const resourceGroupName = "rg1";
   const devCenterName = "Contoso";
   const credential = new DefaultAzureCredential();

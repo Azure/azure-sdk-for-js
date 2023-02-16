@@ -171,25 +171,6 @@ export interface FullEventProcessorOptions extends CommonEventProcessorOptions {
  * A checkpoint is meant to represent the last successfully processed event by the user from a particular
  * partition of a consumer group in an Event Hub instance.
  *
- * You need the below to create an instance of `EventProcessor`
- * - The name of the consumer group from which you want to process events
- * - An instance of `EventHubClient` class that was created for the Event Hub instance.
- * - A user implemented class that extends the `PartitionProcessor` class. To get started, you can use the
- * base class `PartitionProcessor` which simply logs the incoming events. To provide your code to process incoming
- * events, extend this class and override the `processEvents()` method. For example:
- * ```js
- * class SamplePartitionProcessor extends PartitionProcessor {
- *     async processEvents(events) {
- *        // user code to process events here
- *        // Information on the partition being processed is available as properties on the `SamplePartitionProcessor` class
- *        // use `this.updateCheckpoint()` method to update checkpoints as needed
- *     }
- * }
- * ```
- * - An instance of `CheckpointStore`. See &commat;azure/eventhubs-checkpointstore-blob for an implementation.
- * For production, choose an implementation that will store checkpoints and partition ownership details to a durable store.
- * Implementations of `CheckpointStore` can be found on npm by searching for packages with the prefix &commat;azure/eventhub-checkpointstore-.
- *
  * @internal
  */
 export class EventProcessor {
@@ -439,7 +420,7 @@ export class EventProcessor {
         await this._performLoadBalancing(loadBalancingStrategy, partitionIds, abortSignal);
       } catch (err: any) {
         logger.warning(
-          `[${this._id}] An error occured within the EventProcessor loop: ${err?.name}: ${err?.message}`
+          `[${this._id}] An error occurred within the EventProcessor loop: ${err?.name}: ${err?.message}`
         );
         logErrorStackTrace(err);
         // Protect against the scenario where the user awaits on subscription.close() from inside processError.
@@ -478,41 +459,16 @@ export class EventProcessor {
 
     if (abortSignal.aborted) throw new AbortError("The operation was aborted.");
 
-    const partitionOwnershipMap = new Map<string, PartitionOwnership>();
-    const nonAbandonedPartitionOwnershipMap = new Map<string, PartitionOwnership>();
-    const partitionsToRenew: string[] = [];
+    const { partitionOwnershipMap, partitionsToClaim } = computePartitionsToClaim({
+      id: this._id,
+      isReceivingFromPartition: (partitionId: string) =>
+        this._pumpManager.isReceivingFromPartition(partitionId),
+      loadBalancingStrategy,
+      partitionIds,
+      partitionOwnership,
+    });
 
-    // Separate abandoned ownerships from claimed ownerships.
-    // We only want to pass active partition ownerships to the
-    // load balancer, but we need to hold onto the abandoned
-    // partition ownerships because we need the etag to claim them.
-    for (const ownership of partitionOwnership) {
-      partitionOwnershipMap.set(ownership.partitionId, ownership);
-      if (!isAbandoned(ownership)) {
-        nonAbandonedPartitionOwnershipMap.set(ownership.partitionId, ownership);
-      }
-      if (
-        ownership.ownerId === this._id &&
-        this._pumpManager.isReceivingFromPartition(ownership.partitionId)
-      ) {
-        partitionsToRenew.push(ownership.partitionId);
-      }
-    }
-
-    // Pass the list of all the partition ids and the collection of claimed partition ownerships
-    // to the load balance strategy.
-    // The load balancing strategy only needs to know the full list of partitions,
-    // and which of those are currently claimed.
-    // Since abandoned partitions are no longer claimed, we exclude them.
-    const partitionsToClaim = loadBalancingStrategy.getPartitionsToCliam(
-      this._id,
-      nonAbandonedPartitionOwnershipMap,
-      partitionIds
-    );
-    partitionsToClaim.push(...partitionsToRenew);
-
-    const uniquePartitionsToClaim = new Set(partitionsToClaim);
-    for (const partitionToClaim of uniquePartitionsToClaim) {
+    for (const partitionToClaim of partitionsToClaim) {
       const partitionOwnershipRequest = this._createPartitionOwnershipRequest(
         partitionOwnershipMap,
         partitionToClaim
@@ -666,4 +622,53 @@ function getStartPosition(
   }
 
   return startPosition;
+}
+
+function computePartitionsToClaim(inputs: {
+  partitionOwnership: PartitionOwnership[];
+  id: string;
+  isReceivingFromPartition: (id: string) => boolean;
+  loadBalancingStrategy: LoadBalancingStrategy;
+  partitionIds: string[];
+}): {
+  partitionsToClaim: Set<string>;
+  partitionOwnershipMap: Map<string, PartitionOwnership>;
+} {
+  const { partitionOwnership, id, isReceivingFromPartition, loadBalancingStrategy, partitionIds } =
+    inputs;
+
+  const partitionOwnershipMap = new Map<string, PartitionOwnership>();
+  const nonAbandonedPartitionOwnershipMap = new Map<string, PartitionOwnership>();
+  const partitionsToRenew: string[] = [];
+
+  // Separate abandoned ownerships from claimed ownerships.
+  // We only want to pass active partition ownerships to the
+  // load balancer, but we need to hold onto the abandoned
+  // partition ownerships because we need the etag to claim them.
+  for (const ownership of partitionOwnership) {
+    partitionOwnershipMap.set(ownership.partitionId, ownership);
+    if (!isAbandoned(ownership)) {
+      nonAbandonedPartitionOwnershipMap.set(ownership.partitionId, ownership);
+    }
+    if (ownership.ownerId === id && isReceivingFromPartition(ownership.partitionId)) {
+      partitionsToRenew.push(ownership.partitionId);
+    }
+  }
+
+  // Pass the list of all the partition ids and the collection of claimed partition ownerships
+  // to the load balance strategy.
+  // The load balancing strategy only needs to know the full list of partitions,
+  // and which of those are currently claimed.
+  // Since abandoned partitions are no longer claimed, we exclude them.
+  const partitionsToClaim = loadBalancingStrategy.getPartitionsToClaim(
+    id,
+    nonAbandonedPartitionOwnershipMap,
+    partitionIds
+  );
+  partitionsToClaim.push(...partitionsToRenew);
+
+  return {
+    partitionsToClaim: new Set(partitionsToClaim),
+    partitionOwnershipMap,
+  };
 }

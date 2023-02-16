@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { MongoDBResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,13 +17,16 @@ import { LroImpl } from "../lroImpl";
 import {
   MongoDBDatabaseGetResults,
   MongoDBResourcesListMongoDBDatabasesOptionalParams,
+  MongoDBResourcesListMongoDBDatabasesResponse,
   MongoDBCollectionGetResults,
   MongoDBResourcesListMongoDBCollectionsOptionalParams,
+  MongoDBResourcesListMongoDBCollectionsResponse,
   MongoRoleDefinitionGetResults,
   MongoDBResourcesListMongoRoleDefinitionsOptionalParams,
+  MongoDBResourcesListMongoRoleDefinitionsResponse,
   MongoUserDefinitionGetResults,
   MongoDBResourcesListMongoUserDefinitionsOptionalParams,
-  MongoDBResourcesListMongoDBDatabasesResponse,
+  MongoDBResourcesListMongoUserDefinitionsResponse,
   MongoDBResourcesGetMongoDBDatabaseOptionalParams,
   MongoDBResourcesGetMongoDBDatabaseResponse,
   MongoDBDatabaseCreateUpdateParameters,
@@ -39,13 +42,25 @@ import {
   MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse,
   MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputOptionalParams,
   MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse,
-  MongoDBResourcesListMongoDBCollectionsResponse,
+  RetrieveThroughputParameters,
+  MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams,
+  MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse,
+  RedistributeThroughputParameters,
+  MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams,
+  MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse,
+  MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams,
+  MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse,
+  MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams,
+  MongoDBResourcesMongoDBContainerRedistributeThroughputResponse,
   MongoDBResourcesGetMongoDBCollectionOptionalParams,
   MongoDBResourcesGetMongoDBCollectionResponse,
   MongoDBCollectionCreateUpdateParameters,
   MongoDBResourcesCreateUpdateMongoDBCollectionOptionalParams,
   MongoDBResourcesCreateUpdateMongoDBCollectionResponse,
   MongoDBResourcesDeleteMongoDBCollectionOptionalParams,
+  MergeParameters,
+  MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams,
+  MongoDBResourcesListMongoDBCollectionPartitionMergeResponse,
   MongoDBResourcesGetMongoDBCollectionThroughputOptionalParams,
   MongoDBResourcesGetMongoDBCollectionThroughputResponse,
   MongoDBResourcesUpdateMongoDBCollectionThroughputOptionalParams,
@@ -60,14 +75,12 @@ import {
   MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams,
   MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse,
   MongoDBResourcesDeleteMongoRoleDefinitionOptionalParams,
-  MongoDBResourcesListMongoRoleDefinitionsResponse,
   MongoDBResourcesGetMongoUserDefinitionOptionalParams,
   MongoDBResourcesGetMongoUserDefinitionResponse,
   MongoUserDefinitionCreateUpdateParameters,
   MongoDBResourcesCreateUpdateMongoUserDefinitionOptionalParams,
   MongoDBResourcesCreateUpdateMongoUserDefinitionResponse,
   MongoDBResourcesDeleteMongoUserDefinitionOptionalParams,
-  MongoDBResourcesListMongoUserDefinitionsResponse,
   ContinuousBackupRestoreLocation,
   MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams,
   MongoDBResourcesRetrieveContinuousBackupInformationResponse
@@ -109,11 +122,15 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMongoDBDatabasesPagingPage(
           resourceGroupName,
           accountName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -122,9 +139,11 @@ export class MongoDBResourcesImpl implements MongoDBResources {
   private async *listMongoDBDatabasesPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesListMongoDBDatabasesOptionalParams
+    options?: MongoDBResourcesListMongoDBDatabasesOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<MongoDBDatabaseGetResults[]> {
-    let result = await this._listMongoDBDatabases(
+    let result: MongoDBResourcesListMongoDBDatabasesResponse;
+    result = await this._listMongoDBDatabases(
       resourceGroupName,
       accountName,
       options
@@ -172,12 +191,16 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMongoDBCollectionsPagingPage(
           resourceGroupName,
           accountName,
           databaseName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -187,9 +210,11 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: MongoDBResourcesListMongoDBCollectionsOptionalParams
+    options?: MongoDBResourcesListMongoDBCollectionsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<MongoDBCollectionGetResults[]> {
-    let result = await this._listMongoDBCollections(
+    let result: MongoDBResourcesListMongoDBCollectionsResponse;
+    result = await this._listMongoDBCollections(
       resourceGroupName,
       accountName,
       databaseName,
@@ -237,11 +262,15 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMongoRoleDefinitionsPagingPage(
           resourceGroupName,
           accountName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -250,9 +279,11 @@ export class MongoDBResourcesImpl implements MongoDBResources {
   private async *listMongoRoleDefinitionsPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesListMongoRoleDefinitionsOptionalParams
+    options?: MongoDBResourcesListMongoRoleDefinitionsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<MongoRoleDefinitionGetResults[]> {
-    let result = await this._listMongoRoleDefinitions(
+    let result: MongoDBResourcesListMongoRoleDefinitionsResponse;
+    result = await this._listMongoRoleDefinitions(
       resourceGroupName,
       accountName,
       options
@@ -297,11 +328,15 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMongoUserDefinitionsPagingPage(
           resourceGroupName,
           accountName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -310,9 +345,11 @@ export class MongoDBResourcesImpl implements MongoDBResources {
   private async *listMongoUserDefinitionsPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesListMongoUserDefinitionsOptionalParams
+    options?: MongoDBResourcesListMongoUserDefinitionsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<MongoUserDefinitionGetResults[]> {
-    let result = await this._listMongoUserDefinitions(
+    let result: MongoDBResourcesListMongoUserDefinitionsResponse;
+    result = await this._listMongoUserDefinitions(
       resourceGroupName,
       accountName,
       options
@@ -879,6 +916,454 @@ export class MongoDBResourcesImpl implements MongoDBResources {
   }
 
   /**
+   * Retrieve throughput distribution for an Azure Cosmos DB MongoDB database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
+   *                                     for the current MongoDB database.
+   * @param options The options parameters.
+   */
+  async beginMongoDBDatabaseRetrieveThroughputDistribution(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    retrieveThroughputParameters: RetrieveThroughputParameters,
+    options?: MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse
+      >,
+      MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        retrieveThroughputParameters,
+        options
+      },
+      mongoDBDatabaseRetrieveThroughputDistributionOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Retrieve throughput distribution for an Azure Cosmos DB MongoDB database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
+   *                                     for the current MongoDB database.
+   * @param options The options parameters.
+   */
+  async beginMongoDBDatabaseRetrieveThroughputDistributionAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    retrieveThroughputParameters: RetrieveThroughputParameters,
+    options?: MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams
+  ): Promise<
+    MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse
+  > {
+    const poller = await this.beginMongoDBDatabaseRetrieveThroughputDistribution(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      retrieveThroughputParameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Redistribute throughput for an Azure Cosmos DB MongoDB database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
+   *                                         the current MongoDB database.
+   * @param options The options parameters.
+   */
+  async beginMongoDBDatabaseRedistributeThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    redistributeThroughputParameters: RedistributeThroughputParameters,
+    options?: MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse
+      >,
+      MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        redistributeThroughputParameters,
+        options
+      },
+      mongoDBDatabaseRedistributeThroughputOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Redistribute throughput for an Azure Cosmos DB MongoDB database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
+   *                                         the current MongoDB database.
+   * @param options The options parameters.
+   */
+  async beginMongoDBDatabaseRedistributeThroughputAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    redistributeThroughputParameters: RedistributeThroughputParameters,
+    options?: MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams
+  ): Promise<MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse> {
+    const poller = await this.beginMongoDBDatabaseRedistributeThroughput(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      redistributeThroughputParameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Retrieve throughput distribution for an Azure Cosmos DB MongoDB container
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
+   *                                     for the current MongoDB container.
+   * @param options The options parameters.
+   */
+  async beginMongoDBContainerRetrieveThroughputDistribution(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    retrieveThroughputParameters: RetrieveThroughputParameters,
+    options?: MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse
+      >,
+      MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        collectionName,
+        retrieveThroughputParameters,
+        options
+      },
+      mongoDBContainerRetrieveThroughputDistributionOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Retrieve throughput distribution for an Azure Cosmos DB MongoDB container
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
+   *                                     for the current MongoDB container.
+   * @param options The options parameters.
+   */
+  async beginMongoDBContainerRetrieveThroughputDistributionAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    retrieveThroughputParameters: RetrieveThroughputParameters,
+    options?: MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams
+  ): Promise<
+    MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse
+  > {
+    const poller = await this.beginMongoDBContainerRetrieveThroughputDistribution(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      collectionName,
+      retrieveThroughputParameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Redistribute throughput for an Azure Cosmos DB MongoDB container
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
+   *                                         the current MongoDB container.
+   * @param options The options parameters.
+   */
+  async beginMongoDBContainerRedistributeThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    redistributeThroughputParameters: RedistributeThroughputParameters,
+    options?: MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        MongoDBResourcesMongoDBContainerRedistributeThroughputResponse
+      >,
+      MongoDBResourcesMongoDBContainerRedistributeThroughputResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<MongoDBResourcesMongoDBContainerRedistributeThroughputResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        collectionName,
+        redistributeThroughputParameters,
+        options
+      },
+      mongoDBContainerRedistributeThroughputOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Redistribute throughput for an Azure Cosmos DB MongoDB container
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
+   *                                         the current MongoDB container.
+   * @param options The options parameters.
+   */
+  async beginMongoDBContainerRedistributeThroughputAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    redistributeThroughputParameters: RedistributeThroughputParameters,
+    options?: MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams
+  ): Promise<MongoDBResourcesMongoDBContainerRedistributeThroughputResponse> {
+    const poller = await this.beginMongoDBContainerRedistributeThroughput(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      collectionName,
+      redistributeThroughputParameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Lists the MongoDB collection under an existing Azure Cosmos DB database account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -1116,6 +1601,118 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       accountName,
       databaseName,
       collectionName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Merges the partitions of a MongoDB Collection
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param mergeParameters The parameters for the merge operation.
+   * @param options The options parameters.
+   */
+  async beginListMongoDBCollectionPartitionMerge(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    mergeParameters: MergeParameters,
+    options?: MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        MongoDBResourcesListMongoDBCollectionPartitionMergeResponse
+      >,
+      MongoDBResourcesListMongoDBCollectionPartitionMergeResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<MongoDBResourcesListMongoDBCollectionPartitionMergeResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        collectionName,
+        mergeParameters,
+        options
+      },
+      listMongoDBCollectionPartitionMergeOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Merges the partitions of a MongoDB Collection
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param mergeParameters The parameters for the merge operation.
+   * @param options The options parameters.
+   */
+  async beginListMongoDBCollectionPartitionMergeAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    mergeParameters: MergeParameters,
+    options?: MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams
+  ): Promise<MongoDBResourcesListMongoDBCollectionPartitionMergeResponse> {
+    const poller = await this.beginListMongoDBCollectionPartitionMerge(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      collectionName,
+      mergeParameters,
       options
     );
     return poller.pollUntilDone();
@@ -2234,6 +2831,144 @@ const migrateMongoDBDatabaseToManualThroughputOperationSpec: coreClient.Operatio
   headerParameters: [Parameters.accept],
   serializer
 };
+const mongoDBDatabaseRetrieveThroughputDistributionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default/retrieveThroughputDistribution",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    201: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    202: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    204: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.retrieveThroughputParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const mongoDBDatabaseRedistributeThroughputOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default/redistributeThroughput",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    201: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    202: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    204: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.redistributeThroughputParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const mongoDBContainerRetrieveThroughputDistributionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default/retrieveThroughputDistribution",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    201: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    202: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    204: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.retrieveThroughputParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.collectionName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const mongoDBContainerRedistributeThroughputOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default/redistributeThroughput",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    201: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    202: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    204: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.redistributeThroughputParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.collectionName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const listMongoDBCollectionsOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections",
@@ -2321,6 +3056,41 @@ const deleteMongoDBCollectionOperationSpec: coreClient.OperationSpec = {
     Parameters.databaseName,
     Parameters.collectionName
   ],
+  serializer
+};
+const listMongoDBCollectionPartitionMergeOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/partitionMerge",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection
+    },
+    201: {
+      bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection
+    },
+    202: {
+      bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection
+    },
+    204: {
+      bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.mergeParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.collectionName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const getMongoDBCollectionThroughputOperationSpec: coreClient.OperationSpec = {

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ExpressRouteCircuitPeerings } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,12 +19,12 @@ import {
   ExpressRouteCircuitPeering,
   ExpressRouteCircuitPeeringsListNextOptionalParams,
   ExpressRouteCircuitPeeringsListOptionalParams,
+  ExpressRouteCircuitPeeringsListResponse,
   ExpressRouteCircuitPeeringsDeleteOptionalParams,
   ExpressRouteCircuitPeeringsGetOptionalParams,
   ExpressRouteCircuitPeeringsGetResponse,
   ExpressRouteCircuitPeeringsCreateOrUpdateOptionalParams,
   ExpressRouteCircuitPeeringsCreateOrUpdateResponse,
-  ExpressRouteCircuitPeeringsListResponse,
   ExpressRouteCircuitPeeringsListNextResponse
 } from "../models";
 
@@ -60,8 +61,16 @@ export class ExpressRouteCircuitPeeringsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, circuitName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          circuitName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -69,11 +78,18 @@ export class ExpressRouteCircuitPeeringsImpl
   private async *listPagingPage(
     resourceGroupName: string,
     circuitName: string,
-    options?: ExpressRouteCircuitPeeringsListOptionalParams
+    options?: ExpressRouteCircuitPeeringsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ExpressRouteCircuitPeering[]> {
-    let result = await this._list(resourceGroupName, circuitName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ExpressRouteCircuitPeeringsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, circuitName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -82,7 +98,9 @@ export class ExpressRouteCircuitPeeringsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { StorageCacheManagementClient } = require("@azure/arm-storagecache");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Upgrade a Cache's firmware if a new version is available. Otherwise, this operation has no effect.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/Caches_UpgradeFirmware.json
  */
 async function cachesUpgradeFirmware() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "scgroup";
+  const subscriptionId =
+    process.env["STORAGECACHE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["STORAGECACHE_RESOURCE_GROUP"] || "scgroup";
   const cacheName = "sc1";
   const credential = new DefaultAzureCredential();
   const client = new StorageCacheManagementClient(credential, subscriptionId);
@@ -27,4 +29,8 @@ async function cachesUpgradeFirmware() {
   console.log(result);
 }
 
-cachesUpgradeFirmware().catch(console.error);
+async function main() {
+  cachesUpgradeFirmware();
+}
+
+main().catch(console.error);

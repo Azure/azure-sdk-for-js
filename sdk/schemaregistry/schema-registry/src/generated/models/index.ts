@@ -8,12 +8,6 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** Array received from the registry containing the list of schema groups. */
-export interface SchemaGroups {
-  /** Array of schema groups. */
-  schemaGroups?: string[];
-}
-
 /** An error response returned from Azure Schema Registry service. */
 export interface ErrorModel {
   /** Error response returned from Azure Schema Registry service. */
@@ -22,7 +16,7 @@ export interface ErrorModel {
 
 /** Error response returned from Azure Schema Registry service. */
 export interface ErrorDetail {
-  /** Type of error. */
+  /** Server-defined error code. */
   code: string;
   /** Brief description of error. */
   message: string;
@@ -30,22 +24,10 @@ export interface ErrorDetail {
   details?: ErrorDetail[];
 }
 
-/** Array received from the registry containing the list of versions for specific schema. */
-export interface SchemaVersions {
-  /** Array of schema groups. */
-  schemaVersions?: number[];
-}
-
 /** Object received from the registry containing schema identifiers. */
 export interface SchemaId {
   /** Schema ID that uniquely identifies a schema in the registry namespace. */
   id?: string;
-}
-
-/** Defines headers for SchemaGroups_list operation. */
-export interface SchemaGroupsListExceptionHeaders {
-  /** Error code for specific error that occurred. */
-  xMsErrorCode?: string;
 }
 
 /** Defines headers for Schema_getById operation. */
@@ -68,12 +50,6 @@ export interface SchemaGetByIdHeaders {
 
 /** Defines headers for Schema_getById operation. */
 export interface SchemaGetByIdExceptionHeaders {
-  /** Error code for specific error that occurred. */
-  xMsErrorCode?: string;
-}
-
-/** Defines headers for Schema_getVersions operation. */
-export interface SchemaGetVersionsExceptionHeaders {
   /** Error code for specific error that occurred. */
   xMsErrorCode?: string;
 }
@@ -147,13 +123,6 @@ export interface SchemaRegisterExceptionHeaders {
 }
 
 /** Optional parameters. */
-export interface SchemaGroupsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type SchemaGroupsListResponse = SchemaGroups;
-
-/** Optional parameters. */
 export interface SchemaGetByIdOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -174,13 +143,6 @@ export type SchemaGetByIdResponse = SchemaGetByIdHeaders & {
    */
   readableStreamBody?: NodeJS.ReadableStream;
 };
-
-/** Optional parameters. */
-export interface SchemaGetVersionsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getVersions operation. */
-export type SchemaGetVersionsResponse = SchemaVersions;
 
 /** Optional parameters. */
 export interface SchemaGetSchemaVersionOptionalParams

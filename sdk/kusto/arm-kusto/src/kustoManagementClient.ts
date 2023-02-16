@@ -17,6 +17,7 @@ import * as coreAuth from "@azure/core-auth";
 import {
   ClustersImpl,
   ClusterPrincipalAssignmentsImpl,
+  SkusImpl,
   DatabasesImpl,
   AttachedDatabaseConfigurationsImpl,
   ManagedPrivateEndpointsImpl,
@@ -32,6 +33,7 @@ import {
 import {
   Clusters,
   ClusterPrincipalAssignments,
+  Skus,
   Databases,
   AttachedDatabaseConfigurations,
   ManagedPrivateEndpoints,
@@ -79,58 +81,65 @@ export class KustoManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-kusto/7.1.3`;
+    const packageDetails = `azsdk-js-arm-kusto/7.3.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
-    if (!options.credentialScopes) {
-      options.credentialScopes = ["https://management.azure.com/.default"];
-    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
+      endpoint:
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
 
+    let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
       const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+      bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
           coreRestPipeline.bearerTokenAuthenticationPolicyName
       );
-      if (!bearerTokenAuthenticationPolicyFound) {
-        this.pipeline.removePolicy({
-          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-        });
-        this.pipeline.addPolicy(
-          coreRestPipeline.bearerTokenAuthenticationPolicy({
-            scopes: `${optionsWithDefaults.baseUri}/.default`,
-            challengeCallbacks: {
-              authorizeRequestOnChallenge:
-                coreClient.authorizeRequestOnClaimChallenge
-            }
-          })
-        );
-      }
+    }
+    if (
+      !options ||
+      !options.pipeline ||
+      options.pipeline.getOrderedPolicies().length == 0 ||
+      !bearerTokenAuthenticationPolicyFound
+    ) {
+      this.pipeline.removePolicy({
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+      });
+      this.pipeline.addPolicy(
+        coreRestPipeline.bearerTokenAuthenticationPolicy({
+          credential: credentials,
+          scopes:
+            optionsWithDefaults.credentialScopes ??
+            `${optionsWithDefaults.endpoint}/.default`,
+          challengeCallbacks: {
+            authorizeRequestOnChallenge:
+              coreClient.authorizeRequestOnClaimChallenge
+          }
+        })
+      );
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-02-01";
+    this.apiVersion = options.apiVersion || "2022-12-29";
     this.clusters = new ClustersImpl(this);
     this.clusterPrincipalAssignments = new ClusterPrincipalAssignmentsImpl(
       this
     );
+    this.skus = new SkusImpl(this);
     this.databases = new DatabasesImpl(this);
     this.attachedDatabaseConfigurations = new AttachedDatabaseConfigurationsImpl(
       this
@@ -164,7 +173,7 @@ export class KustoManagementClient extends coreClient.ServiceClient {
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
             if (item.indexOf("api-version") > -1) {
-              return item.replace(/(?<==).*$/, apiVersion);
+              return "api-version=" + apiVersion;
             } else {
               return item;
             }
@@ -179,6 +188,7 @@ export class KustoManagementClient extends coreClient.ServiceClient {
 
   clusters: Clusters;
   clusterPrincipalAssignments: ClusterPrincipalAssignments;
+  skus: Skus;
   databases: Databases;
   attachedDatabaseConfigurations: AttachedDatabaseConfigurations;
   managedPrivateEndpoints: ManagedPrivateEndpoints;

@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
-import { getError } from "../../authTestUtils";
-import { Context } from "mocha";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
+import { Context } from "mocha";
+import { assert } from "@azure/test-utils";
+import { getError } from "../../authTestUtils";
 
 // TODO: Use the real one once we decide to re-enable this on the public API.
 class AzureApplicationCredential implements TokenCredential {

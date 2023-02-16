@@ -10,16 +10,21 @@
 // Licensed under the MIT License.
 import { WorkloadNetworkDhcp, AzureVMwareSolutionAPI } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create dhcp by id in a private cloud workload network.
  *
  * @summary Create dhcp by id in a private cloud workload network.
- * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/WorkloadNetworks_CreateDhcpConfigurations.json
+ * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/WorkloadNetworks_CreateDhcpConfigurations.json
  */
 async function workloadNetworksCreateDhcp() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "group1";
+  const subscriptionId =
+    process.env["AVS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["AVS_RESOURCE_GROUP"] || "group1";
   const privateCloudName = "cloud1";
   const dhcpId = "dhcp1";
   const workloadNetworkDhcp: WorkloadNetworkDhcp = {
@@ -42,4 +47,8 @@ async function workloadNetworksCreateDhcp() {
   console.log(result);
 }
 
-workloadNetworksCreateDhcp().catch(console.error);
+async function main() {
+  workloadNetworksCreateDhcp();
+}
+
+main().catch(console.error);

@@ -33,9 +33,9 @@ export interface AzureChangeAnalysisManagementClientOptionalParams extends coreC
 }
 
 // @public
-export type Change = ProxyResource & {
+export interface Change extends ProxyResource {
     properties?: ChangeProperties;
-};
+}
 
 // @public
 export type ChangeCategory = "User" | "System";
@@ -117,22 +117,19 @@ export interface ErrorResponse {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export enum KnownChangeType {
-    // (undocumented)
     Add = "Add",
-    // (undocumented)
     Remove = "Remove",
-    // (undocumented)
     Update = "Update"
 }
 
 // @public
 export enum KnownLevel {
-    // (undocumented)
     Important = "Important",
-    // (undocumented)
     Noisy = "Noisy",
-    // (undocumented)
     Normal = "Normal"
 }
 
@@ -175,7 +172,8 @@ export interface PropertyChange {
 }
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface Resource {

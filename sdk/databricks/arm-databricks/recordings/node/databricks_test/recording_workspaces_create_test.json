@@ -1,0 +1,605 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Databricks/workspaces/myworkspacexx?api-version=2021-04-01-preview",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "151",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-databricks/3.0.0-beta.4 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "8f0d4b67-d30c-4a38-8804-84665ad39567"
+      },
+      "RequestBody": {
+        "location": "westus",
+        "sku": {
+          "name": "Standard"
+        },
+        "properties": {
+          "managedResourceGroupId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest2"
+        }
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Databricks/locations/westus/operationStatuses/eyJmdWxseVF1YWxpZmllZEFwcGxpYW5jZUlkIjoiL3N1YnNjcmlwdGlvbnMvOTJmOTVkOGYtM2M2Ny00MTI0LTkxYzctOGNmMDdjZGJmMjQxL3Jlc291cmNlR3JvdXBzL215anN0ZXN0L3Byb3ZpZGVycy9NaWNyb3NvZnQuRGF0YWJyaWNrcy93b3Jrc3BhY2VzL215d29ya3NwYWNleHgiLCJqb2JJZCI6IkFwcGxpYW5jZVByb3Zpc2lvbmluZ0pvYjoyRFJHQToyRE1ZSlNURVNUOjJETVlXT1JLU1BBQ0VYWCJ9?api-version=2021-04-01-preview",
+        "Cache-Control": "no-cache",
+        "Content-Length": "737",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 21 Nov 2022 02:35:05 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Retry-After": "15",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "925e78d7-7c15-430a-bf3b-8fb4a36188ba",
+        "x-ms-ratelimit-remaining-subscription-resource-requests": "149",
+        "x-ms-request-id": "westus:537a1c09-3747-4dc1-88af-2a0c770d2600",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221121T023506Z:925e78d7-7c15-430a-bf3b-8fb4a36188ba"
+      },
+      "ResponseBody": {
+        "properties": {
+          "managedResourceGroupId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest2",
+          "provisioningState": "Accepted",
+          "authorizations": [
+            {
+              "principalId": "9a74af6f-d153-4348-988a-e2672920bee9",
+              "roleDefinitionId": "8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
+            }
+          ],
+          "createdBy": {
+            "oid": "c4e92f5c-3a0d-4845-aacc-5ac8a7905cdf",
+            "applicationId": "azure_client_id"
+          },
+          "updatedBy": {
+            "oid": "c4e92f5c-3a0d-4845-aacc-5ac8a7905cdf",
+            "applicationId": "azure_client_id"
+          },
+          "createdDateTime": "2022-11-21T02:35:04.3314609Z"
+        },
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Databricks/workspaces/myworkspacexx",
+        "name": "myworkspacexx",
+        "type": "Microsoft.Databricks/workspaces",
+        "sku": {
+          "name": "Standard"
+        },
+        "location": "westus"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Databricks/locations/westus/operationStatuses/eyJmdWxseVF1YWxpZmllZEFwcGxpYW5jZUlkIjoiL3N1YnNjcmlwdGlvbnMvOTJmOTVkOGYtM2M2Ny00MTI0LTkxYzctOGNmMDdjZGJmMjQxL3Jlc291cmNlR3JvdXBzL215anN0ZXN0L3Byb3ZpZGVycy9NaWNyb3NvZnQuRGF0YWJyaWNrcy93b3Jrc3BhY2VzL215d29ya3NwYWNleHgiLCJqb2JJZCI6IkFwcGxpYW5jZVByb3Zpc2lvbmluZ0pvYjoyRFJHQToyRE1ZSlNURVNUOjJETVlXT1JLU1BBQ0VYWCJ9?api-version=2021-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-databricks/3.0.0-beta.4 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "64647687-6196-4af2-a8e1-3c3b5a9c1daf"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "21",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 21 Nov 2022 02:35:06 GMT",
+        "Expires": "-1",
+        "Location": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Databricks/locations/westus/operationStatuses/eyJmdWxseVF1YWxpZmllZEFwcGxpYW5jZUlkIjoiL3N1YnNjcmlwdGlvbnMvOTJmOTVkOGYtM2M2Ny00MTI0LTkxYzctOGNmMDdjZGJmMjQxL3Jlc291cmNlR3JvdXBzL215anN0ZXN0L3Byb3ZpZGVycy9NaWNyb3NvZnQuRGF0YWJyaWNrcy93b3Jrc3BhY2VzL215d29ya3NwYWNleHgiLCJqb2JJZCI6IkFwcGxpYW5jZVByb3Zpc2lvbmluZ0pvYjoyRFJHQToyRE1ZSlNURVNUOjJETVlXT1JLU1BBQ0VYWCJ9?api-version=2021-04-01-preview",
+        "Pragma": "no-cache",
+        "Retry-After": "15",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "9157a6b1-4846-41cb-8c0a-218be1bbd7d7",
+        "x-ms-ratelimit-remaining-subscription-reads": "11999",
+        "x-ms-request-id": "westus:42066282-168c-4ed7-914b-cbe743540850",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221121T023506Z:9157a6b1-4846-41cb-8c0a-218be1bbd7d7"
+      },
+      "ResponseBody": {
+        "status": "Accepted"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Databricks/locations/westus/operationStatuses/eyJmdWxseVF1YWxpZmllZEFwcGxpYW5jZUlkIjoiL3N1YnNjcmlwdGlvbnMvOTJmOTVkOGYtM2M2Ny00MTI0LTkxYzctOGNmMDdjZGJmMjQxL3Jlc291cmNlR3JvdXBzL215anN0ZXN0L3Byb3ZpZGVycy9NaWNyb3NvZnQuRGF0YWJyaWNrcy93b3Jrc3BhY2VzL215d29ya3NwYWNleHgiLCJqb2JJZCI6IkFwcGxpYW5jZVByb3Zpc2lvbmluZ0pvYjoyRFJHQToyRE1ZSlNURVNUOjJETVlXT1JLU1BBQ0VYWCJ9?api-version=2021-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-databricks/3.0.0-beta.4 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "86245c6e-353b-4383-8e7e-473131cc840d"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "21",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 21 Nov 2022 02:35:06 GMT",
+        "Expires": "-1",
+        "Location": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Databricks/locations/westus/operationStatuses/eyJmdWxseVF1YWxpZmllZEFwcGxpYW5jZUlkIjoiL3N1YnNjcmlwdGlvbnMvOTJmOTVkOGYtM2M2Ny00MTI0LTkxYzctOGNmMDdjZGJmMjQxL3Jlc291cmNlR3JvdXBzL215anN0ZXN0L3Byb3ZpZGVycy9NaWNyb3NvZnQuRGF0YWJyaWNrcy93b3Jrc3BhY2VzL215d29ya3NwYWNleHgiLCJqb2JJZCI6IkFwcGxpYW5jZVByb3Zpc2lvbmluZ0pvYjoyRFJHQToyRE1ZSlNURVNUOjJETVlXT1JLU1BBQ0VYWCJ9?api-version=2021-04-01-preview",
+        "Pragma": "no-cache",
+        "Retry-After": "15",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "e9131e4c-c912-4be2-990b-0c223c56bb53",
+        "x-ms-ratelimit-remaining-subscription-reads": "11998",
+        "x-ms-request-id": "westus:13a56796-424c-4378-aba7-910ecc766605",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221121T023506Z:e9131e4c-c912-4be2-990b-0c223c56bb53"
+      },
+      "ResponseBody": {
+        "status": "Accepted"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Databricks/locations/westus/operationStatuses/eyJmdWxseVF1YWxpZmllZEFwcGxpYW5jZUlkIjoiL3N1YnNjcmlwdGlvbnMvOTJmOTVkOGYtM2M2Ny00MTI0LTkxYzctOGNmMDdjZGJmMjQxL3Jlc291cmNlR3JvdXBzL215anN0ZXN0L3Byb3ZpZGVycy9NaWNyb3NvZnQuRGF0YWJyaWNrcy93b3Jrc3BhY2VzL215d29ya3NwYWNleHgiLCJqb2JJZCI6IkFwcGxpYW5jZVByb3Zpc2lvbmluZ0pvYjoyRFJHQToyRE1ZSlNURVNUOjJETVlXT1JLU1BBQ0VYWCJ9?api-version=2021-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-databricks/3.0.0-beta.4 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "8286551e-2967-4760-a848-1861177ac6cd"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "21",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 21 Nov 2022 02:35:21 GMT",
+        "Expires": "-1",
+        "Location": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Databricks/locations/westus/operationStatuses/eyJmdWxseVF1YWxpZmllZEFwcGxpYW5jZUlkIjoiL3N1YnNjcmlwdGlvbnMvOTJmOTVkOGYtM2M2Ny00MTI0LTkxYzctOGNmMDdjZGJmMjQxL3Jlc291cmNlR3JvdXBzL215anN0ZXN0L3Byb3ZpZGVycy9NaWNyb3NvZnQuRGF0YWJyaWNrcy93b3Jrc3BhY2VzL215d29ya3NwYWNleHgiLCJqb2JJZCI6IkFwcGxpYW5jZVByb3Zpc2lvbmluZ0pvYjoyRFJHQToyRE1ZSlNURVNUOjJETVlXT1JLU1BBQ0VYWCJ9?api-version=2021-04-01-preview",
+        "Pragma": "no-cache",
+        "Retry-After": "15",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "da8a1c7f-8523-409a-ae0f-f234bfadded8",
+        "x-ms-ratelimit-remaining-subscription-reads": "11997",
+        "x-ms-request-id": "westus:72256919-c9cc-4af9-aef0-49b226e66398",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221121T023522Z:da8a1c7f-8523-409a-ae0f-f234bfadded8"
+      },
+      "ResponseBody": {
+        "status": "Accepted"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Databricks/locations/westus/operationStatuses/eyJmdWxseVF1YWxpZmllZEFwcGxpYW5jZUlkIjoiL3N1YnNjcmlwdGlvbnMvOTJmOTVkOGYtM2M2Ny00MTI0LTkxYzctOGNmMDdjZGJmMjQxL3Jlc291cmNlR3JvdXBzL215anN0ZXN0L3Byb3ZpZGVycy9NaWNyb3NvZnQuRGF0YWJyaWNrcy93b3Jrc3BhY2VzL215d29ya3NwYWNleHgiLCJqb2JJZCI6IkFwcGxpYW5jZVByb3Zpc2lvbmluZ0pvYjoyRFJHQToyRE1ZSlNURVNUOjJETVlXT1JLU1BBQ0VYWCJ9?api-version=2021-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-databricks/3.0.0-beta.4 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "38721bb9-2e8c-4fa9-aeaf-28f7236a8cbd"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "21",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 21 Nov 2022 02:35:36 GMT",
+        "Expires": "-1",
+        "Location": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Databricks/locations/westus/operationStatuses/eyJmdWxseVF1YWxpZmllZEFwcGxpYW5jZUlkIjoiL3N1YnNjcmlwdGlvbnMvOTJmOTVkOGYtM2M2Ny00MTI0LTkxYzctOGNmMDdjZGJmMjQxL3Jlc291cmNlR3JvdXBzL215anN0ZXN0L3Byb3ZpZGVycy9NaWNyb3NvZnQuRGF0YWJyaWNrcy93b3Jrc3BhY2VzL215d29ya3NwYWNleHgiLCJqb2JJZCI6IkFwcGxpYW5jZVByb3Zpc2lvbmluZ0pvYjoyRFJHQToyRE1ZSlNURVNUOjJETVlXT1JLU1BBQ0VYWCJ9?api-version=2021-04-01-preview",
+        "Pragma": "no-cache",
+        "Retry-After": "15",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "6e491311-1e33-4044-b04e-5c164a8f277e",
+        "x-ms-ratelimit-remaining-subscription-reads": "11996",
+        "x-ms-request-id": "westus:91df983c-b3e7-4150-874f-acd9d7263679",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221121T023537Z:6e491311-1e33-4044-b04e-5c164a8f277e"
+      },
+      "ResponseBody": {
+        "status": "Accepted"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Databricks/locations/westus/operationStatuses/eyJmdWxseVF1YWxpZmllZEFwcGxpYW5jZUlkIjoiL3N1YnNjcmlwdGlvbnMvOTJmOTVkOGYtM2M2Ny00MTI0LTkxYzctOGNmMDdjZGJmMjQxL3Jlc291cmNlR3JvdXBzL215anN0ZXN0L3Byb3ZpZGVycy9NaWNyb3NvZnQuRGF0YWJyaWNrcy93b3Jrc3BhY2VzL215d29ya3NwYWNleHgiLCJqb2JJZCI6IkFwcGxpYW5jZVByb3Zpc2lvbmluZ0pvYjoyRFJHQToyRE1ZSlNURVNUOjJETVlXT1JLU1BBQ0VYWCJ9?api-version=2021-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-databricks/3.0.0-beta.4 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "486a91fe-118d-4d04-9625-96a35bac3e45"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "21",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 21 Nov 2022 02:35:52 GMT",
+        "Expires": "-1",
+        "Location": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Databricks/locations/westus/operationStatuses/eyJmdWxseVF1YWxpZmllZEFwcGxpYW5jZUlkIjoiL3N1YnNjcmlwdGlvbnMvOTJmOTVkOGYtM2M2Ny00MTI0LTkxYzctOGNmMDdjZGJmMjQxL3Jlc291cmNlR3JvdXBzL215anN0ZXN0L3Byb3ZpZGVycy9NaWNyb3NvZnQuRGF0YWJyaWNrcy93b3Jrc3BhY2VzL215d29ya3NwYWNleHgiLCJqb2JJZCI6IkFwcGxpYW5jZVByb3Zpc2lvbmluZ0pvYjoyRFJHQToyRE1ZSlNURVNUOjJETVlXT1JLU1BBQ0VYWCJ9?api-version=2021-04-01-preview",
+        "Pragma": "no-cache",
+        "Retry-After": "15",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "4a11b218-4daa-4bfe-b5f3-52e07d2238b5",
+        "x-ms-ratelimit-remaining-subscription-reads": "11995",
+        "x-ms-request-id": "westus:5e5b99bf-674b-4325-a6df-7d5e80714240",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221121T023553Z:4a11b218-4daa-4bfe-b5f3-52e07d2238b5"
+      },
+      "ResponseBody": {
+        "status": "Accepted"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Databricks/locations/westus/operationStatuses/eyJmdWxseVF1YWxpZmllZEFwcGxpYW5jZUlkIjoiL3N1YnNjcmlwdGlvbnMvOTJmOTVkOGYtM2M2Ny00MTI0LTkxYzctOGNmMDdjZGJmMjQxL3Jlc291cmNlR3JvdXBzL215anN0ZXN0L3Byb3ZpZGVycy9NaWNyb3NvZnQuRGF0YWJyaWNrcy93b3Jrc3BhY2VzL215d29ya3NwYWNleHgiLCJqb2JJZCI6IkFwcGxpYW5jZVByb3Zpc2lvbmluZ0pvYjoyRFJHQToyRE1ZSlNURVNUOjJETVlXT1JLU1BBQ0VYWCJ9?api-version=2021-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-databricks/3.0.0-beta.4 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "e13b8ac4-a289-4605-a74f-6ec5738c74e3"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "21",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 21 Nov 2022 02:36:07 GMT",
+        "Expires": "-1",
+        "Location": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Databricks/locations/westus/operationStatuses/eyJmdWxseVF1YWxpZmllZEFwcGxpYW5jZUlkIjoiL3N1YnNjcmlwdGlvbnMvOTJmOTVkOGYtM2M2Ny00MTI0LTkxYzctOGNmMDdjZGJmMjQxL3Jlc291cmNlR3JvdXBzL215anN0ZXN0L3Byb3ZpZGVycy9NaWNyb3NvZnQuRGF0YWJyaWNrcy93b3Jrc3BhY2VzL215d29ya3NwYWNleHgiLCJqb2JJZCI6IkFwcGxpYW5jZVByb3Zpc2lvbmluZ0pvYjoyRFJHQToyRE1ZSlNURVNUOjJETVlXT1JLU1BBQ0VYWCJ9?api-version=2021-04-01-preview",
+        "Pragma": "no-cache",
+        "Retry-After": "15",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "75e3bddd-1830-4b20-a47d-e89ba93b1849",
+        "x-ms-ratelimit-remaining-subscription-reads": "11994",
+        "x-ms-request-id": "westus:8fe87c91-9925-430c-9c0f-26b58c887d3f",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221121T023608Z:75e3bddd-1830-4b20-a47d-e89ba93b1849"
+      },
+      "ResponseBody": {
+        "status": "Accepted"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Databricks/locations/westus/operationStatuses/eyJmdWxseVF1YWxpZmllZEFwcGxpYW5jZUlkIjoiL3N1YnNjcmlwdGlvbnMvOTJmOTVkOGYtM2M2Ny00MTI0LTkxYzctOGNmMDdjZGJmMjQxL3Jlc291cmNlR3JvdXBzL215anN0ZXN0L3Byb3ZpZGVycy9NaWNyb3NvZnQuRGF0YWJyaWNrcy93b3Jrc3BhY2VzL215d29ya3NwYWNleHgiLCJqb2JJZCI6IkFwcGxpYW5jZVByb3Zpc2lvbmluZ0pvYjoyRFJHQToyRE1ZSlNURVNUOjJETVlXT1JLU1BBQ0VYWCJ9?api-version=2021-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-databricks/3.0.0-beta.4 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "1589b37c-dccb-468e-96e7-730d125d90fa"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "21",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 21 Nov 2022 02:36:23 GMT",
+        "Expires": "-1",
+        "Location": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Databricks/locations/westus/operationStatuses/eyJmdWxseVF1YWxpZmllZEFwcGxpYW5jZUlkIjoiL3N1YnNjcmlwdGlvbnMvOTJmOTVkOGYtM2M2Ny00MTI0LTkxYzctOGNmMDdjZGJmMjQxL3Jlc291cmNlR3JvdXBzL215anN0ZXN0L3Byb3ZpZGVycy9NaWNyb3NvZnQuRGF0YWJyaWNrcy93b3Jrc3BhY2VzL215d29ya3NwYWNleHgiLCJqb2JJZCI6IkFwcGxpYW5jZVByb3Zpc2lvbmluZ0pvYjoyRFJHQToyRE1ZSlNURVNUOjJETVlXT1JLU1BBQ0VYWCJ9?api-version=2021-04-01-preview",
+        "Pragma": "no-cache",
+        "Retry-After": "15",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "ce586ff1-0149-4287-8fc0-04a4789c29fc",
+        "x-ms-ratelimit-remaining-subscription-reads": "11993",
+        "x-ms-request-id": "westus:458dda78-e084-423b-8850-b57eafb67a08",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221121T023623Z:ce586ff1-0149-4287-8fc0-04a4789c29fc"
+      },
+      "ResponseBody": {
+        "status": "Accepted"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Databricks/locations/westus/operationStatuses/eyJmdWxseVF1YWxpZmllZEFwcGxpYW5jZUlkIjoiL3N1YnNjcmlwdGlvbnMvOTJmOTVkOGYtM2M2Ny00MTI0LTkxYzctOGNmMDdjZGJmMjQxL3Jlc291cmNlR3JvdXBzL215anN0ZXN0L3Byb3ZpZGVycy9NaWNyb3NvZnQuRGF0YWJyaWNrcy93b3Jrc3BhY2VzL215d29ya3NwYWNleHgiLCJqb2JJZCI6IkFwcGxpYW5jZVByb3Zpc2lvbmluZ0pvYjoyRFJHQToyRE1ZSlNURVNUOjJETVlXT1JLU1BBQ0VYWCJ9?api-version=2021-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-databricks/3.0.0-beta.4 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "af2b1d77-578e-4129-9fbf-81cc3f53c309"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "21",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 21 Nov 2022 02:36:38 GMT",
+        "Expires": "-1",
+        "Location": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Databricks/locations/westus/operationStatuses/eyJmdWxseVF1YWxpZmllZEFwcGxpYW5jZUlkIjoiL3N1YnNjcmlwdGlvbnMvOTJmOTVkOGYtM2M2Ny00MTI0LTkxYzctOGNmMDdjZGJmMjQxL3Jlc291cmNlR3JvdXBzL215anN0ZXN0L3Byb3ZpZGVycy9NaWNyb3NvZnQuRGF0YWJyaWNrcy93b3Jrc3BhY2VzL215d29ya3NwYWNleHgiLCJqb2JJZCI6IkFwcGxpYW5jZVByb3Zpc2lvbmluZ0pvYjoyRFJHQToyRE1ZSlNURVNUOjJETVlXT1JLU1BBQ0VYWCJ9?api-version=2021-04-01-preview",
+        "Pragma": "no-cache",
+        "Retry-After": "15",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "828a0d27-f506-4e49-8b51-95eb92b5e3f5",
+        "x-ms-ratelimit-remaining-subscription-reads": "11992",
+        "x-ms-request-id": "westus:a9d05e5d-09cb-48d5-b802-b169628af227",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221121T023639Z:828a0d27-f506-4e49-8b51-95eb92b5e3f5"
+      },
+      "ResponseBody": {
+        "status": "Accepted"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Databricks/locations/westus/operationStatuses/eyJmdWxseVF1YWxpZmllZEFwcGxpYW5jZUlkIjoiL3N1YnNjcmlwdGlvbnMvOTJmOTVkOGYtM2M2Ny00MTI0LTkxYzctOGNmMDdjZGJmMjQxL3Jlc291cmNlR3JvdXBzL215anN0ZXN0L3Byb3ZpZGVycy9NaWNyb3NvZnQuRGF0YWJyaWNrcy93b3Jrc3BhY2VzL215d29ya3NwYWNleHgiLCJqb2JJZCI6IkFwcGxpYW5jZVByb3Zpc2lvbmluZ0pvYjoyRFJHQToyRE1ZSlNURVNUOjJETVlXT1JLU1BBQ0VYWCJ9?api-version=2021-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-databricks/3.0.0-beta.4 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "949d5644-0110-4316-bcc5-c06644f990a8"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "21",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 21 Nov 2022 02:36:54 GMT",
+        "Expires": "-1",
+        "Location": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Databricks/locations/westus/operationStatuses/eyJmdWxseVF1YWxpZmllZEFwcGxpYW5jZUlkIjoiL3N1YnNjcmlwdGlvbnMvOTJmOTVkOGYtM2M2Ny00MTI0LTkxYzctOGNmMDdjZGJmMjQxL3Jlc291cmNlR3JvdXBzL215anN0ZXN0L3Byb3ZpZGVycy9NaWNyb3NvZnQuRGF0YWJyaWNrcy93b3Jrc3BhY2VzL215d29ya3NwYWNleHgiLCJqb2JJZCI6IkFwcGxpYW5jZVByb3Zpc2lvbmluZ0pvYjoyRFJHQToyRE1ZSlNURVNUOjJETVlXT1JLU1BBQ0VYWCJ9?api-version=2021-04-01-preview",
+        "Pragma": "no-cache",
+        "Retry-After": "15",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "2bd5db36-b52f-4214-98e8-e11fc1680cf3",
+        "x-ms-ratelimit-remaining-subscription-reads": "11991",
+        "x-ms-request-id": "westus:0d01e34a-bc30-4ba4-8bbe-110c71a278d2",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221121T023654Z:2bd5db36-b52f-4214-98e8-e11fc1680cf3"
+      },
+      "ResponseBody": {
+        "status": "Accepted"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Databricks/locations/westus/operationStatuses/eyJmdWxseVF1YWxpZmllZEFwcGxpYW5jZUlkIjoiL3N1YnNjcmlwdGlvbnMvOTJmOTVkOGYtM2M2Ny00MTI0LTkxYzctOGNmMDdjZGJmMjQxL3Jlc291cmNlR3JvdXBzL215anN0ZXN0L3Byb3ZpZGVycy9NaWNyb3NvZnQuRGF0YWJyaWNrcy93b3Jrc3BhY2VzL215d29ya3NwYWNleHgiLCJqb2JJZCI6IkFwcGxpYW5jZVByb3Zpc2lvbmluZ0pvYjoyRFJHQToyRE1ZSlNURVNUOjJETVlXT1JLU1BBQ0VYWCJ9?api-version=2021-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-databricks/3.0.0-beta.4 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "9a0bf957-3f3e-4148-8df2-9bd3dd8e6ea0"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "21",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 21 Nov 2022 02:37:09 GMT",
+        "Expires": "-1",
+        "Location": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Databricks/locations/westus/operationStatuses/eyJmdWxseVF1YWxpZmllZEFwcGxpYW5jZUlkIjoiL3N1YnNjcmlwdGlvbnMvOTJmOTVkOGYtM2M2Ny00MTI0LTkxYzctOGNmMDdjZGJmMjQxL3Jlc291cmNlR3JvdXBzL215anN0ZXN0L3Byb3ZpZGVycy9NaWNyb3NvZnQuRGF0YWJyaWNrcy93b3Jrc3BhY2VzL215d29ya3NwYWNleHgiLCJqb2JJZCI6IkFwcGxpYW5jZVByb3Zpc2lvbmluZ0pvYjoyRFJHQToyRE1ZSlNURVNUOjJETVlXT1JLU1BBQ0VYWCJ9?api-version=2021-04-01-preview",
+        "Pragma": "no-cache",
+        "Retry-After": "15",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "5f6d6703-302e-4ec0-b887-4e2ca5fa942b",
+        "x-ms-ratelimit-remaining-subscription-reads": "11990",
+        "x-ms-request-id": "westus:a65aa4b9-0298-4c2a-bd5a-f30a01af7862",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221121T023709Z:5f6d6703-302e-4ec0-b887-4e2ca5fa942b"
+      },
+      "ResponseBody": {
+        "status": "Accepted"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Databricks/locations/westus/operationStatuses/eyJmdWxseVF1YWxpZmllZEFwcGxpYW5jZUlkIjoiL3N1YnNjcmlwdGlvbnMvOTJmOTVkOGYtM2M2Ny00MTI0LTkxYzctOGNmMDdjZGJmMjQxL3Jlc291cmNlR3JvdXBzL215anN0ZXN0L3Byb3ZpZGVycy9NaWNyb3NvZnQuRGF0YWJyaWNrcy93b3Jrc3BhY2VzL215d29ya3NwYWNleHgiLCJqb2JJZCI6IkFwcGxpYW5jZVByb3Zpc2lvbmluZ0pvYjoyRFJHQToyRE1ZSlNURVNUOjJETVlXT1JLU1BBQ0VYWCJ9?api-version=2021-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-databricks/3.0.0-beta.4 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "7c801755-f48e-4519-8376-9bd3d6cfabaf"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "21",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 21 Nov 2022 02:37:24 GMT",
+        "Expires": "-1",
+        "Location": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Databricks/locations/westus/operationStatuses/eyJmdWxseVF1YWxpZmllZEFwcGxpYW5jZUlkIjoiL3N1YnNjcmlwdGlvbnMvOTJmOTVkOGYtM2M2Ny00MTI0LTkxYzctOGNmMDdjZGJmMjQxL3Jlc291cmNlR3JvdXBzL215anN0ZXN0L3Byb3ZpZGVycy9NaWNyb3NvZnQuRGF0YWJyaWNrcy93b3Jrc3BhY2VzL215d29ya3NwYWNleHgiLCJqb2JJZCI6IkFwcGxpYW5jZVByb3Zpc2lvbmluZ0pvYjoyRFJHQToyRE1ZSlNURVNUOjJETVlXT1JLU1BBQ0VYWCJ9?api-version=2021-04-01-preview",
+        "Pragma": "no-cache",
+        "Retry-After": "15",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "3221c78b-5f98-4d50-be2d-9559fdfbdfe7",
+        "x-ms-ratelimit-remaining-subscription-reads": "11989",
+        "x-ms-request-id": "westus:e8267262-2df1-4f1b-8087-775ed0242856",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221121T023725Z:3221c78b-5f98-4d50-be2d-9559fdfbdfe7"
+      },
+      "ResponseBody": {
+        "status": "Accepted"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Databricks/locations/westus/operationStatuses/eyJmdWxseVF1YWxpZmllZEFwcGxpYW5jZUlkIjoiL3N1YnNjcmlwdGlvbnMvOTJmOTVkOGYtM2M2Ny00MTI0LTkxYzctOGNmMDdjZGJmMjQxL3Jlc291cmNlR3JvdXBzL215anN0ZXN0L3Byb3ZpZGVycy9NaWNyb3NvZnQuRGF0YWJyaWNrcy93b3Jrc3BhY2VzL215d29ya3NwYWNleHgiLCJqb2JJZCI6IkFwcGxpYW5jZVByb3Zpc2lvbmluZ0pvYjoyRFJHQToyRE1ZSlNURVNUOjJETVlXT1JLU1BBQ0VYWCJ9?api-version=2021-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-databricks/3.0.0-beta.4 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "a5790ff5-0c78-4466-8ebb-b96a3de819c3"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 21 Nov 2022 02:37:39 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "0baa88e0-3df2-43fa-92c2-1a617b2e73db",
+        "x-ms-ratelimit-remaining-subscription-reads": "11988",
+        "x-ms-request-id": "westus:321aaefb-7c3a-430b-b9ba-086d23196e76",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221121T023740Z:0baa88e0-3df2-43fa-92c2-1a617b2e73db"
+      },
+      "ResponseBody": {
+        "status": "Succeeded"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Databricks/workspaces/myworkspacexx?api-version=2021-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-databricks/3.0.0-beta.4 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "36adafc2-8ce8-4fbc-9b22-c02b2f3af208"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 21 Nov 2022 02:37:40 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "13e4747e-aa3d-4d5b-9112-ec56a44e7fa0",
+        "x-ms-ratelimit-remaining-subscription-resource-requests": "1799",
+        "x-ms-request-id": "westus:380ae665-00d5-4535-85fd-cb5d851f6de3",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221121T023741Z:13e4747e-aa3d-4d5b-9112-ec56a44e7fa0"
+      },
+      "ResponseBody": {
+        "properties": {
+          "managedResourceGroupId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest2",
+          "parameters": {
+            "enableFedRampCertification": {
+              "type": "Bool",
+              "value": false
+            },
+            "enableNoPublicIp": {
+              "type": "Bool",
+              "value": false
+            },
+            "natGatewayName": {
+              "type": "String",
+              "value": "nat-gateway"
+            },
+            "prepareEncryption": {
+              "type": "Bool",
+              "value": false
+            },
+            "publicIpName": {
+              "type": "String",
+              "value": "nat-gw-public-ip"
+            },
+            "relayNamespaceName": {
+              "type": "String",
+              "value": "dbrelayamyjw5evceow2"
+            },
+            "requireInfrastructureEncryption": {
+              "type": "Bool",
+              "value": false
+            },
+            "resourceTags": {
+              "type": "Object",
+              "value": {
+                "application": "databricks",
+                "databricks-environment": "true"
+              }
+            },
+            "storageAccountName": {
+              "type": "String",
+              "value": "dbstorageamyjw5evceow2"
+            },
+            "storageAccountSkuName": {
+              "type": "String",
+              "value": "Standard_GRS"
+            },
+            "vnetAddressPrefix": {
+              "type": "String",
+              "value": "10.139"
+            }
+          },
+          "provisioningState": "Succeeded",
+          "authorizations": [
+            {
+              "principalId": "9a74af6f-d153-4348-988a-e2672920bee9",
+              "roleDefinitionId": "8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
+            }
+          ],
+          "createdBy": {
+            "oid": "c4e92f5c-3a0d-4845-aacc-5ac8a7905cdf",
+            "applicationId": "azure_client_id"
+          },
+          "updatedBy": {
+            "oid": "c4e92f5c-3a0d-4845-aacc-5ac8a7905cdf",
+            "applicationId": "azure_client_id"
+          },
+          "workspaceId": "4448730841080665",
+          "workspaceUrl": "adb-4448730841080665.5.azuredatabricks.net",
+          "createdDateTime": "2022-11-21T02:35:04.3314609Z"
+        },
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Databricks/workspaces/myworkspacexx",
+        "name": "myworkspacexx",
+        "type": "Microsoft.Databricks/workspaces",
+        "sku": {
+          "name": "Standard"
+        },
+        "location": "westus"
+      }
+    }
+  ],
+  "Variables": {}
+}

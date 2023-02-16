@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { DataConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -72,12 +72,16 @@ export class DataConnectionsImpl implements DataConnections {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDatabasePagingPage(
           resourceGroupName,
           clusterName,
           databaseName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -87,9 +91,11 @@ export class DataConnectionsImpl implements DataConnections {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    options?: DataConnectionsListByDatabaseOptionalParams
+    options?: DataConnectionsListByDatabaseOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<DataConnectionUnion[]> {
-    let result = await this._listByDatabase(
+    let result: DataConnectionsListByDatabaseResponse;
+    result = await this._listByDatabase(
       resourceGroupName,
       clusterName,
       databaseName,

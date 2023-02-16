@@ -19,7 +19,9 @@ import {
   NetAppResourceCheckFilePathAvailabilityResponse,
   CheckQuotaNameResourceTypes,
   NetAppResourceCheckQuotaAvailabilityOptionalParams,
-  NetAppResourceCheckQuotaAvailabilityResponse
+  NetAppResourceCheckQuotaAvailabilityResponse,
+  NetAppResourceQueryRegionInfoOptionalParams,
+  NetAppResourceQueryRegionInfoResponse
 } from "../models";
 
 /** Class containing NetAppResource operations. */
@@ -93,6 +95,21 @@ export class NetAppResourceImpl implements NetAppResource {
     return this.client.sendOperationRequest(
       { location, name, resourceGroup, typeParam, options },
       checkQuotaAvailabilityOperationSpec
+    );
+  }
+
+  /**
+   * Provides storage to network proximity and logical zone mapping information.
+   * @param location The location
+   * @param options The options parameters.
+   */
+  queryRegionInfo(
+    location: string,
+    options?: NetAppResourceQueryRegionInfoOptionalParams
+  ): Promise<NetAppResourceQueryRegionInfoResponse> {
+    return this.client.sendOperationRequest(
+      { location, options },
+      queryRegionInfoOperationSpec
     );
   }
 }
@@ -177,5 +194,24 @@ const checkQuotaAvailabilityOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const queryRegionInfoOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/regionInfo",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RegionInfo
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };

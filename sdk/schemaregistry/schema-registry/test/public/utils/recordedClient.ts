@@ -6,23 +6,35 @@ import {
   RecorderStartOptions,
   assertEnvironmentVariable,
 } from "@azure-tools/test-recorder";
-import { SchemaRegistryClient } from "../../../src";
+import { KnownSchemaFormats, SchemaRegistryClient } from "../../../src";
 import { createTestCredential } from "@azure-tools/test-credential";
+
+export type Format = keyof typeof KnownSchemaFormats;
+
+function getFQNSVarName(format: Format): string {
+  return `SCHEMAREGISTRY_${format.toUpperCase()}_FULLY_QUALIFIED_NAMESPACE`;
+}
 
 export const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: {
     AZURE_CLIENT_ID: "azure_client_id",
     AZURE_CLIENT_SECRET: "azure_client_secret",
     AZURE_TENANT_ID: "azuretenantid",
-    SCHEMA_REGISTRY_ENDPOINT: "https://endpoint",
+    [getFQNSVarName(KnownSchemaFormats.Avro)]: "https://endpoint",
+    [getFQNSVarName(KnownSchemaFormats.Json)]: "https://endpoint",
+    [getFQNSVarName(KnownSchemaFormats.Custom)]: "https://endpoint",
     SCHEMA_REGISTRY_GROUP: "group-1",
   },
 };
 
-export function createRecordedClient(recorder: Recorder): SchemaRegistryClient {
+export function createRecordedClient(inputs: {
+  recorder: Recorder;
+  format: Format;
+}): SchemaRegistryClient {
+  const { format, recorder } = inputs;
   const credential = createTestCredential();
   const client = new SchemaRegistryClient(
-    assertEnvironmentVariable("SCHEMA_REGISTRY_ENDPOINT"),
+    assertEnvironmentVariable(getFQNSVarName(format)),
     credential,
     recorder.configureClientOptions({})
   );

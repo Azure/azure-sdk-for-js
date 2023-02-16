@@ -23,7 +23,7 @@ These sample programs show how to use the JavaScript client libraries for in som
 
 ## Prerequisites
 
-The sample programs are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
+The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
 
 You need [an Azure subscription][freesub] to run these sample programs.
 
@@ -52,7 +52,7 @@ node accountsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node accountsCreateOrUpdateSample.js
+npx cross-env MACHINELEARNINGEXPERIMENTATION_SUBSCRIPTION_ID="<machinelearningexperimentation subscription id>" MACHINELEARNINGEXPERIMENTATION_RESOURCE_GROUP="<machinelearningexperimentation resource group>" node accountsCreateOrUpdateSample.js
 ```
 
 ## Next Steps

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { User } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -72,11 +73,15 @@ export class UserImpl implements User {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByServicePagingPage(
           resourceGroupName,
           serviceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -85,15 +90,22 @@ export class UserImpl implements User {
   private async *listByServicePagingPage(
     resourceGroupName: string,
     serviceName: string,
-    options?: UserListByServiceOptionalParams
+    options?: UserListByServiceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<UserContract[]> {
-    let result = await this._listByService(
-      resourceGroupName,
-      serviceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: UserListByServiceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByService(
+        resourceGroupName,
+        serviceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByServiceNext(
         resourceGroupName,
@@ -102,7 +114,9 @@ export class UserImpl implements User {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -397,7 +411,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters59,
+  requestBody: Parameters.parameters62,
   queryParameters: [Parameters.apiVersion, Parameters.notify],
   urlParameters: [
     Parameters.$host,
@@ -427,7 +441,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters60,
+  requestBody: Parameters.parameters63,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -506,7 +520,7 @@ const getSharedAccessTokenOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters61,
+  requestBody: Parameters.parameters64,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -530,13 +544,6 @@ const listByServiceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion,
-    Parameters.expandGroups
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

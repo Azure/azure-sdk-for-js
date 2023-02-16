@@ -11,35 +11,35 @@ import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPoli
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import {
-  AutocompleteResult,
   AutocompleteRequest,
-  SuggestRequest,
+  AutocompleteResult,
   IndexDocumentsResult,
+  SuggestRequest,
 } from "./generated/data/models";
 import { createSpan } from "./tracing";
 import { deserialize, serialize } from "./serialization";
 import {
-  CountDocumentsOptions,
   AutocompleteOptions,
-  SearchOptions,
-  SearchDocumentsResult,
-  SearchIterator,
-  ListSearchResultsPageSettings,
-  SearchResult,
-  SuggestOptions,
-  SuggestDocumentsResult,
+  CountDocumentsOptions,
+  DeleteDocumentsOptions,
   GetDocumentOptions,
   IndexDocumentsOptions,
-  UploadDocumentsOptions,
+  ListSearchResultsPageSettings,
   MergeDocumentsOptions,
-  DeleteDocumentsOptions,
-  SearchDocumentsPageResult,
   MergeOrUploadDocumentsOptions,
+  SearchDocumentsPageResult,
+  SearchDocumentsResult,
+  SearchIterator,
+  SearchOptions,
   SearchRequest,
+  SearchResult,
+  SuggestDocumentsResult,
+  SuggestOptions,
+  UploadDocumentsOptions,
 } from "./indexModels";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
-import { encode, decode } from "./base64";
+import { decode, encode } from "./base64";
 import * as utils from "./serviceUtils";
 import { IndexDocumentsClient } from "./searchIndexingBufferedSender";
 import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
@@ -207,8 +207,11 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       let documentsCount: number = 0;
       await this.client.documents.count({
         ...updatedOptions,
-        onResponse: (response) => {
-          documentsCount = Number(response.bodyAsText);
+        onResponse: (rawResponse, flatResponse) => {
+          documentsCount = Number(rawResponse.bodyAsText);
+          if (updatedOptions.onResponse) {
+            updatedOptions.onResponse(rawResponse, flatResponse);
+          }
         },
       });
 
@@ -516,8 +519,11 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
         { actions: serialize(batch.actions) },
         {
           ...updatedOptions,
-          onResponse: (response) => {
-            status = response.status;
+          onResponse: (rawResponse, flatResponse) => {
+            status = rawResponse.status;
+            if (updatedOptions.onResponse) {
+              updatedOptions.onResponse(rawResponse, flatResponse);
+            }
           },
         }
       );

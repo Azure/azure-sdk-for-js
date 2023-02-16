@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
+import { AuthorityValidationOptions } from "./authorityValidationOptions";
 import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
+import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions";
 
 /**
  * Defines the parameters to authenticate the {@link OnBehalfOfCredential} with a secret.
@@ -60,5 +61,6 @@ export type OnBehalfOfCredentialOptions = (
   | OnBehalfOfCredentialSecretOptions
   | OnBehalfOfCredentialCertificateOptions
 ) &
-  TokenCredentialOptions &
-  CredentialPersistenceOptions;
+  MultiTenantTokenCredentialOptions &
+  CredentialPersistenceOptions &
+  AuthorityValidationOptions;

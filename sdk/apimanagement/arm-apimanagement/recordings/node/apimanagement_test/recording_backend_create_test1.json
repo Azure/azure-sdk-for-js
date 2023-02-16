@@ -1,0 +1,54 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy1/backends/sfbackend1?api-version=2021-08-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "109",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-apimanagement/9.0.0 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "d8936afc-8b7f-4a0a-8f02-7ff52971e231"
+      },
+      "RequestBody": {
+        "properties": {
+          "description": "Service Fabric Test App 1",
+          "url": "https://backendname26441",
+          "protocol": "http"
+        }
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "390",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 30 Jan 2023 03:31:19 GMT",
+        "ETag": "\u0022AAAAAAAACSU=\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "02176c80-21a1-46f4-b227-4ec88505ad59",
+        "x-ms-ratelimit-remaining-subscription-writes": "1197",
+        "x-ms-request-id": "02176c80-21a1-46f4-b227-4ec88505ad59",
+        "x-ms-routing-request-id": "KOREASOUTH:20230130T033120Z:02176c80-21a1-46f4-b227-4ec88505ad59"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy1/backends/sfbackend1",
+        "type": "Microsoft.ApiManagement/service/backends",
+        "name": "sfbackend1",
+        "properties": {
+          "title": null,
+          "description": "Service Fabric Test App 1",
+          "url": "https://backendname26441",
+          "protocol": "http"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

@@ -126,7 +126,6 @@ export type CustomizationPoliciesGetResponse = CustomizationPolicy;
 
 // @public
 export interface CustomizationPoliciesListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -250,9 +249,6 @@ export type DedicatedCloudNodesGetResponse = DedicatedCloudNode;
 
 // @public
 export interface DedicatedCloudNodesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -270,9 +266,6 @@ export type DedicatedCloudNodesListByResourceGroupResponse = DedicatedCloudNodeL
 
 // @public
 export interface DedicatedCloudNodesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -355,9 +348,6 @@ export type DedicatedCloudServicesGetResponse = DedicatedCloudService;
 
 // @public
 export interface DedicatedCloudServicesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -375,9 +365,6 @@ export type DedicatedCloudServicesListByResourceGroupResponse = DedicatedCloudSe
 
 // @public
 export interface DedicatedCloudServicesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -402,6 +389,9 @@ export type DedicatedCloudServicesUpdateResponse = DedicatedCloudService;
 
 // @public
 export type DiskIndependenceMode = "persistent" | "independent_persistent" | "independent_nonpersistent";
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface GuestOSCustomization {
@@ -683,7 +673,6 @@ export interface SkusAvailability {
 
 // @public
 export interface SkusAvailabilityListNextOptionalParams extends coreClient.OperationOptions {
-    skuId?: string;
 }
 
 // @public
@@ -730,7 +719,6 @@ export interface Usages {
 
 // @public
 export interface UsagesListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -866,9 +854,6 @@ export type VirtualMachinesGetResponse = VirtualMachine;
 
 // @public
 export interface VirtualMachinesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -886,9 +871,6 @@ export type VirtualMachinesListByResourceGroupResponse = VirtualMachineListRespo
 
 // @public
 export interface VirtualMachinesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skipToken?: string;
-    top?: number;
 }
 
 // @public

@@ -13,16 +13,22 @@ import {
   PolicyInsightsClient
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets all attestations for the resource group.
  *
  * @summary Gets all attestations for the resource group.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2021-01-01/examples/Attestations_ListResourceGroupScope.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2022-09-01/examples/Attestations_ListResourceGroupScope.json
  */
 async function listAttestationsAtResourceGroupScope() {
-  const subscriptionId = "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
+  const resourceGroupName =
+    process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "myRg";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
@@ -34,17 +40,18 @@ async function listAttestationsAtResourceGroupScope() {
   console.log(resArray);
 }
 
-listAttestationsAtResourceGroupScope().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets all attestations for the resource group.
  *
  * @summary Gets all attestations for the resource group.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2021-01-01/examples/Attestations_ListResourceGroupScope_WithQuery.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2022-09-01/examples/Attestations_ListResourceGroupScope_WithQuery.json
  */
 async function listAttestationsAtResourceGroupScopeWithQueryParameters() {
-  const subscriptionId = "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
+  const resourceGroupName =
+    process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "myRg";
   const top = 1;
   const filter =
     "PolicyAssignmentId eq '/subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/providers/microsoft.authorization/policyassignments/b101830944f246d8a14088c5' AND PolicyDefinitionReferenceId eq '0b158b46-ff42-4799-8e39-08a5c23b4551'";
@@ -66,4 +73,9 @@ async function listAttestationsAtResourceGroupScopeWithQueryParameters() {
   console.log(resArray);
 }
 
-listAttestationsAtResourceGroupScopeWithQueryParameters().catch(console.error);
+async function main() {
+  listAttestationsAtResourceGroupScope();
+  listAttestationsAtResourceGroupScopeWithQueryParameters();
+}
+
+main().catch(console.error);

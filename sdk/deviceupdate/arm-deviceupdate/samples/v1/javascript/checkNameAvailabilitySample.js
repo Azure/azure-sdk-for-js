@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { DeviceUpdate } = require("@azure/arm-deviceupdate");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Checks ADU resource name availability.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/CheckNameAvailability_AlreadyExists.json
  */
 async function checkNameAvailabilityAlreadyExists() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["DEVICEUPDATE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const request = {
     name: "contoso",
     type: "Microsoft.DeviceUpdate/accounts",
@@ -28,8 +30,6 @@ async function checkNameAvailabilityAlreadyExists() {
   const result = await client.checkNameAvailability(request);
   console.log(result);
 }
-
-checkNameAvailabilityAlreadyExists().catch(console.error);
 
 /**
  * This sample demonstrates how to Checks ADU resource name availability.
@@ -38,7 +38,8 @@ checkNameAvailabilityAlreadyExists().catch(console.error);
  * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/CheckNameAvailability_Available.json
  */
 async function checkNameAvailabilityAvailable() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["DEVICEUPDATE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const request = {
     name: "contoso",
     type: "Microsoft.DeviceUpdate/accounts",
@@ -49,4 +50,9 @@ async function checkNameAvailabilityAvailable() {
   console.log(result);
 }
 
-checkNameAvailabilityAvailable().catch(console.error);
+async function main() {
+  checkNameAvailabilityAlreadyExists();
+  checkNameAvailabilityAvailable();
+}
+
+main().catch(console.error);

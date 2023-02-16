@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Configurations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -59,8 +60,16 @@ export class ConfigurationsImpl implements Configurations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, deploymentName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          deploymentName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -68,11 +77,18 @@ export class ConfigurationsImpl implements Configurations {
   private async *listPagingPage(
     resourceGroupName: string,
     deploymentName: string,
-    options?: ConfigurationsListOptionalParams
+    options?: ConfigurationsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<NginxConfiguration[]> {
-    let result = await this._list(resourceGroupName, deploymentName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ConfigurationsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, deploymentName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -81,7 +97,9 @@ export class ConfigurationsImpl implements Configurations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -376,6 +394,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
     }
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -408,6 +427,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.body1,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -432,6 +452,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
     }
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -453,7 +474,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

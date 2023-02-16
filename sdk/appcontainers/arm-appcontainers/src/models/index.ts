@@ -505,6 +505,14 @@ export interface ContainerAppCollection {
   readonly nextLink?: string;
 }
 
+/** The complex type of the extended location. */
+export interface ExtendedLocation {
+  /** The name of the extended location. */
+  name?: string;
+  /** The type of the extended location. */
+  type?: ExtendedLocationTypes;
+}
+
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ManagedServiceIdentity {
   /**
@@ -552,6 +560,8 @@ export interface Configuration {
   registries?: RegistryCredentials[];
   /** Dapr configuration for the Container App. */
   dapr?: Dapr;
+  /** Optional. Max inactive revisions a Container App can have. */
+  maxInactiveRevisions?: number;
 }
 
 /** Secret definition. */
@@ -573,6 +583,8 @@ export interface Ingress {
   external?: boolean;
   /** Target Port in containers for traffic from ingress */
   targetPort?: number;
+  /** Exposed Port in containers for TCP traffic from ingress */
+  exposedPort?: number;
   /** Ingress transport protocol */
   transport?: IngressTransportMethod;
   /** Traffic weights for app's revisions */
@@ -581,6 +593,8 @@ export interface Ingress {
   customDomains?: CustomDomain[];
   /** Bool indicating if HTTP connections to is allowed. If set to false HTTP connections are automatically redirected to HTTPS connections */
   allowInsecure?: boolean;
+  /** Rules to restrict incoming IP address. */
+  ipSecurityRestrictions?: IpSecurityRestrictionRule[];
 }
 
 /** Traffic weight assigned to a revision */
@@ -605,6 +619,18 @@ export interface CustomDomain {
   certificateId: string;
 }
 
+/** Rule to restrict incoming IP address. */
+export interface IpSecurityRestrictionRule {
+  /** Name for the IP restriction rule. */
+  name: string;
+  /** Describe the IP restriction rule that is being sent to the container-app. This is an optional field. */
+  description?: string;
+  /** CIDR notation to match incoming IP address */
+  ipAddressRange: string;
+  /** Allow or Deny rules to determine for incoming IP. Note: Rules can only consist of ALL Allow or ALL Deny */
+  action: Action;
+}
+
 /** Container App Private Registry */
 export interface RegistryCredentials {
   /** Container Registry Server */
@@ -627,6 +653,14 @@ export interface Dapr {
   appProtocol?: AppProtocol;
   /** Tells Dapr which port your application is listening on */
   appPort?: number;
+  /** Dapr max size of http header read buffer in KB to handle when sending multi-KB headers. Default is 65KB. */
+  httpReadBufferSize?: number;
+  /** Increasing max size of request body http and grpc servers parameter in MB to handle uploading of big files. Default is 4 MB. */
+  httpMaxRequestSize?: number;
+  /** Sets the log level for the Dapr sidecar. Allowed values are debug, info, warn, error. Default is info. */
+  logLevel?: LogLevel;
+  /** Enables API logging for the Dapr sidecar */
+  enableApiLogging?: boolean;
 }
 
 /**
@@ -637,6 +671,8 @@ export interface Dapr {
 export interface Template {
   /** User friendly suffix that is appended to the revision name */
   revisionSuffix?: string;
+  /** List of specialized containers that run before app containers. */
+  initContainers?: InitContainer[];
   /** List of container definitions for the Container App. */
   containers?: Container[];
   /** Scaling properties for the Container App. */
@@ -645,8 +681,8 @@ export interface Template {
   volumes?: Volume[];
 }
 
-/** Container App container definition. */
-export interface Container {
+/** Container App base container definition. */
+export interface BaseContainer {
   /** Container image tag. */
   image?: string;
   /** Custom container name. */
@@ -659,8 +695,6 @@ export interface Container {
   env?: EnvironmentVar[];
   /** Container resource requirements. */
   resources?: ContainerResources;
-  /** List of probes for the container. */
-  probes?: ContainerAppProbe[];
   /** Container volume mounts. */
   volumeMounts?: VolumeMount[];
 }
@@ -686,6 +720,14 @@ export interface ContainerResources {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ephemeralStorage?: string;
+}
+
+/** Volume mount for the Container App. */
+export interface VolumeMount {
+  /** This must match the Name of a Volume. */
+  volumeName?: string;
+  /** Path within the container at which the volume should be mounted.Must not contain ':'. */
+  mountPath?: string;
 }
 
 /** Probe describes a health check to be performed against a container to determine whether it is alive or ready to receive traffic. */
@@ -740,14 +782,6 @@ export interface ContainerAppProbeTcpSocket {
   port: number;
 }
 
-/** Volume mount for the Container App. */
-export interface VolumeMount {
-  /** This must match the Name of a Volume. */
-  volumeName?: string;
-  /** Path within the container at which the volume should be mounted.Must not contain ':'. */
-  mountPath?: string;
-}
-
 /** Container App scaling configurations. */
 export interface Scale {
   /** Optional. Minimum number of container replicas. */
@@ -768,6 +802,8 @@ export interface ScaleRule {
   custom?: CustomScaleRule;
   /** HTTP requests based scaling. */
   http?: HttpScaleRule;
+  /** Tcp requests based scaling. */
+  tcp?: TcpScaleRule;
 }
 
 /** Container App container Azure Queue based scaling rule. */
@@ -801,11 +837,19 @@ export interface CustomScaleRule {
   auth?: ScaleRuleAuth[];
 }
 
-/** Container App container Custom scaling rule. */
+/** Container App container Http scaling rule. */
 export interface HttpScaleRule {
   /** Metadata properties to describe http scale rule. */
   metadata?: { [propertyName: string]: string };
   /** Authentication secrets for the custom scale rule. */
+  auth?: ScaleRuleAuth[];
+}
+
+/** Container App container Tcp scaling rule. */
+export interface TcpScaleRule {
+  /** Metadata properties to describe tcp scale rule. */
+  metadata?: { [propertyName: string]: string };
+  /** Authentication secrets for the tcp scale rule. */
   auth?: ScaleRuleAuth[];
 }
 
@@ -840,12 +884,17 @@ export interface CustomHostnameAnalysisResult {
    * Raw failure information if DNS verification fails.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly customDomainVerificationFailureInfo?: DefaultErrorResponse;
+  readonly customDomainVerificationFailureInfo?: CustomHostnameAnalysisResultCustomDomainVerificationFailureInfo;
   /**
    * <code>true</code> if there is a conflict on the Container App's managed environment; otherwise, <code>false</code>.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly hasConflictOnManagedEnvironment?: boolean;
+  /**
+   * <code>true</code> if there is a conflict on the Container App's managed environment level custom domain; otherwise, <code>false</code>.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly conflictWithEnvironmentCustomDomain?: boolean;
   /**
    * Name of the conflicting Container App on the Managed Environment if it's within the same subscription.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -861,6 +910,46 @@ export interface CustomHostnameAnalysisResult {
   alternateCNameRecords?: string[];
   /** Alternate TXT records visible for this hostname. */
   alternateTxtRecords?: string[];
+}
+
+/** Raw failure information if DNS verification fails. */
+export interface CustomHostnameAnalysisResultCustomDomainVerificationFailureInfo {
+  /**
+   * Standardized string to programmatically identify the error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Detailed error description and debugging information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * Detailed error description and debugging information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /** Details or the error */
+  details?: CustomHostnameAnalysisResultCustomDomainVerificationFailureInfoDetailsItem[];
+}
+
+/** Detailed errors. */
+export interface CustomHostnameAnalysisResultCustomDomainVerificationFailureInfoDetailsItem {
+  /**
+   * Standardized string to programmatically identify the error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Detailed error description and debugging information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * Detailed error description and debugging information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
 }
 
 /** Container App Secrets Collection ARM resource. */
@@ -906,6 +995,16 @@ export interface ReplicaContainer {
   started?: boolean;
   /** The container restart count */
   restartCount?: number;
+  /**
+   * Log Stream endpoint
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly logStreamEndpoint?: string;
+  /**
+   * Container exec endpoint
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly execEndpoint?: string;
 }
 
 /** Container App Revision Replicas collection ARM resource. */
@@ -935,10 +1034,242 @@ export interface DaprMetadata {
   secretRef?: string;
 }
 
-/** Dapr component Secrets Collection ARM resource. */
+/** Dapr component Secrets Collection for ListSecrets Action. */
 export interface DaprSecretsCollection {
   /** Collection of secrets used by a Dapr component */
   value: Secret[];
+}
+
+/** Diagnostics data collection for a resource. */
+export interface DiagnosticsCollection {
+  /** Collection of diagnostic data. */
+  value: Diagnostics[];
+  /**
+   * Link to next page of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Diagnostics resource specific properties */
+export interface DiagnosticsProperties {
+  /** Metadata of the diagnostics response. */
+  metadata?: DiagnosticsDefinition;
+  /** Set of data collections associated with the response. */
+  dataset?: DiagnosticsDataApiResponse[];
+  /** Status of the diagnostics response. */
+  status?: DiagnosticsStatus;
+  /** List of data providers' metadata. */
+  dataProviderMetadata?: DiagnosticDataProviderMetadata;
+}
+
+/** Metadata of the diagnostics response */
+export interface DiagnosticsDefinition {
+  /**
+   * Unique detector name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Display Name of the detector
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Details of the diagnostics info
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * Authors' names of the detector
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly author?: string;
+  /**
+   * Category of the detector
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly category?: string;
+  /** List of support topics */
+  supportTopicList?: DiagnosticSupportTopic[];
+  /** List of analysis types */
+  analysisTypes?: string[];
+  /**
+   * Authors' names of the detector
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Authors' names of the detector
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly score?: number;
+}
+
+/** Support topic information */
+export interface DiagnosticSupportTopic {
+  /**
+   * Unique topic identifier
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * PES identifier
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly pesId?: string;
+}
+
+/** Diagnostics data returned from a detector */
+export interface DiagnosticsDataApiResponse {
+  /** Table response */
+  table?: DiagnosticDataTableResponseObject;
+  /** Details of the table response */
+  renderingProperties?: DiagnosticRendering;
+}
+
+/** Diagnostics data table */
+export interface DiagnosticDataTableResponseObject {
+  /** Table name */
+  tableName?: string;
+  /** Columns in the table */
+  columns?: DiagnosticDataTableResponseColumn[];
+  /** Rows in the table */
+  rows?: Record<string, unknown>[];
+}
+
+/** Diagnostics data column */
+export interface DiagnosticDataTableResponseColumn {
+  /** Column name */
+  columnName?: string;
+  /** Data type of the column */
+  dataType?: string;
+  /** Column type */
+  columnType?: string;
+}
+
+/** Rendering details of a diagnostics table */
+export interface DiagnosticRendering {
+  /** Rendering type */
+  type?: number;
+  /** Title of the table */
+  title?: string;
+  /** Description of the table */
+  description?: string;
+  /** Flag if the table should be rendered */
+  isVisible?: boolean;
+}
+
+/** Rendering details of a diagnostics table */
+export interface DiagnosticsStatus {
+  /** Diagnostic message */
+  message?: string;
+  /** Status */
+  statusId?: number;
+}
+
+/** Details of a diagnostics data provider */
+export interface DiagnosticDataProviderMetadata {
+  /** Name of data provider */
+  providerName?: string;
+  /** Collection of properties */
+  propertyBag?: DiagnosticDataProviderMetadataPropertyBagItem[];
+}
+
+/** Property details */
+export interface DiagnosticDataProviderMetadataPropertyBagItem {
+  /** Property name */
+  name?: string;
+  /** Property value */
+  value?: string;
+}
+
+/** Managed Environment resource SKU properties. */
+export interface EnvironmentSkuProperties {
+  /** Name of the Sku. */
+  name: SkuName;
+}
+
+/** Configuration properties for apps environment to join a Virtual Network */
+export interface VnetConfiguration {
+  /** Boolean indicating the environment only has an internal load balancer. These environments do not have a public static IP resource. They must provide runtimeSubnetId and infrastructureSubnetId if enabling this property */
+  internal?: boolean;
+  /** Resource ID of a subnet for infrastructure components. This subnet must be in the same VNET as the subnet defined in runtimeSubnetId. Must not overlap with any other provided IP ranges. */
+  infrastructureSubnetId?: string;
+  /** Resource ID of a subnet that Container App containers are injected into. This subnet must be in the same VNET as the subnet defined in infrastructureSubnetId. Must not overlap with any other provided IP ranges. */
+  runtimeSubnetId?: string;
+  /** CIDR notation IP range assigned to the Docker bridge, network. Must not overlap with any other provided IP ranges. */
+  dockerBridgeCidr?: string;
+  /** IP range in CIDR notation that can be reserved for environment infrastructure IP addresses. Must not overlap with any other provided IP ranges. */
+  platformReservedCidr?: string;
+  /**  An IP address from the IP range defined by platformReservedCidr that will be reserved for the internal DNS server. */
+  platformReservedDnsIP?: string;
+  /** Configuration used to control the Environment Egress outbound traffic */
+  outboundSettings?: ManagedEnvironmentOutboundSettings;
+}
+
+/** Configuration used to control the Environment Egress outbound traffic */
+export interface ManagedEnvironmentOutboundSettings {
+  /** Outbound type for the cluster */
+  outBoundType?: ManagedEnvironmentOutBoundType;
+  /** Virtual Appliance IP used as the Egress controller for the Environment */
+  virtualNetworkApplianceIp?: string;
+}
+
+/** Configuration of application logs */
+export interface AppLogsConfiguration {
+  /** Logs destination */
+  destination?: string;
+  /** Log Analytics configuration */
+  logAnalyticsConfiguration?: LogAnalyticsConfiguration;
+}
+
+/** Log analytics configuration */
+export interface LogAnalyticsConfiguration {
+  /** Log analytics customer id */
+  customerId?: string;
+  /** Log analytics customer key */
+  sharedKey?: string;
+}
+
+/** Configuration properties for apps environment custom domain */
+export interface CustomDomainConfiguration {
+  /**
+   * Id used to verify domain name ownership
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customDomainVerificationId?: string;
+  /** Dns suffix for the environment domain */
+  dnsSuffix?: string;
+  /** PFX or PEM blob */
+  certificateValue?: Uint8Array;
+  /** Certificate password */
+  certificatePassword?: Uint8Array;
+  /**
+   * Certificate expiration date.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expirationDate?: Date;
+  /**
+   * Certificate thumbprint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly thumbprint?: string;
+  /**
+   * Subject name of the certificate.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subjectName?: string;
+}
+
+/** Workload profile to scope container app execution. */
+export interface WorkloadProfile {
+  /** Workload profile type for the workloads to run on. */
+  workloadProfileType: string;
+  /** The minimum capacity. */
+  minimumCount: number;
+  /** The maximum capacity. */
+  maximumCount: number;
 }
 
 /** Available operations of the service */
@@ -987,38 +1318,6 @@ export interface ManagedEnvironmentsCollection {
   readonly nextLink?: string;
 }
 
-/** Configuration properties for apps environment to join a Virtual Network */
-export interface VnetConfiguration {
-  /** Boolean indicating the environment only has an internal load balancer. These environments do not have a public static IP resource. They must provide runtimeSubnetId and infrastructureSubnetId if enabling this property */
-  internal?: boolean;
-  /** Resource ID of a subnet for infrastructure components. This subnet must be in the same VNET as the subnet defined in runtimeSubnetId. Must not overlap with any other provided IP ranges. */
-  infrastructureSubnetId?: string;
-  /** Resource ID of a subnet that Container App containers are injected into. This subnet must be in the same VNET as the subnet defined in infrastructureSubnetId. Must not overlap with any other provided IP ranges. */
-  runtimeSubnetId?: string;
-  /** CIDR notation IP range assigned to the Docker bridge, network. Must not overlap with any other provided IP ranges. */
-  dockerBridgeCidr?: string;
-  /** IP range in CIDR notation that can be reserved for environment infrastructure IP addresses. Must not overlap with any other provided IP ranges. */
-  platformReservedCidr?: string;
-  /**  An IP address from the IP range defined by platformReservedCidr that will be reserved for the internal DNS server. */
-  platformReservedDnsIP?: string;
-}
-
-/** Configuration of application logs */
-export interface AppLogsConfiguration {
-  /** Logs destination */
-  destination?: string;
-  /** Log Analytics configuration */
-  logAnalyticsConfiguration?: LogAnalyticsConfiguration;
-}
-
-/** Log analytics configuration */
-export interface LogAnalyticsConfiguration {
-  /** Log analytics customer id */
-  customerId?: string;
-  /** Log analytics customer key */
-  sharedKey?: string;
-}
-
 /** Collection of Certificates. */
 export interface CertificateCollection {
   /** Collection of resources. */
@@ -1044,6 +1343,11 @@ export interface CertificateProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly subjectName?: string;
+  /**
+   * Subject alternative names the certificate applies to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subjectAlternativeNames?: string[];
   /** PFX or PEM blob */
   value?: Uint8Array;
   /**
@@ -1100,6 +1404,27 @@ export interface CheckNameAvailabilityResponse {
   reason?: CheckNameAvailabilityReason;
   /** Detailed reason why the given name is available. */
   message?: string;
+}
+
+/** Collection of workloadProfileStates */
+export interface WorkloadProfileStatesCollection {
+  /** Collection of resources. */
+  value: WorkloadProfileStates[];
+  /**
+   * Link to next page of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Workload Profile resource specific properties. */
+export interface WorkloadProfileStatesProperties {
+  /** Minimum count of instances. */
+  minimumCount?: number;
+  /** Maximum count of nodes. */
+  maximumCount?: number;
+  /** Current count of nodes. */
+  currentCount?: number;
 }
 
 /** Collection of Storage for Environments */
@@ -1179,6 +1504,133 @@ export interface AzureCredentials {
   subscriptionId?: string;
 }
 
+/** Collection of connectedEnvironments */
+export interface ConnectedEnvironmentCollection {
+  /** Collection of resources. */
+  value?: ConnectedEnvironment[];
+  /**
+   * Link to next page of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Collection of Storage for Environments */
+export interface ConnectedEnvironmentStoragesCollection {
+  /** Collection of storage resources. */
+  value: ConnectedEnvironmentStorage[];
+}
+
+/** Storage properties */
+export interface ConnectedEnvironmentStorageProperties {
+  /** Azure file properties */
+  azureFile?: AzureFileProperties;
+}
+
+/** Collection of available workload profiles in the location. */
+export interface AvailableWorkloadProfilesCollection {
+  /** Collection of workload profiles. */
+  value: AvailableWorkloadProfile[];
+  /**
+   * Link to next page of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Revision resource specific properties */
+export interface AvailableWorkloadProfileProperties {
+  /** Used to map workload profile types to billing meter. */
+  billingMeterCategory?: Category;
+  /** indicates whether the profile is default for the location. */
+  applicability?: Applicability;
+  /** Number of cores in CPU. */
+  cores?: number;
+  /** Memory in GiB. */
+  memoryGiB?: number;
+  /** The everyday name of the workload profile. */
+  displayName?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** Collection of premium workload billing meters. */
+export interface BillingMeterCollection {
+  /** Collection of billing meters. */
+  value: BillingMeter[];
+}
+
+/** Revision resource specific properties */
+export interface BillingMeterProperties {
+  /** Used to map workload profile types to billing meter. */
+  category?: Category;
+  /** Billing meter type. */
+  meterType?: string;
+  /** The everyday name of the billing meter. */
+  displayName?: string;
+}
+
+/** Dapr component Secret for ListSecrets Action */
+export interface DaprSecret {
+  /**
+   * Secret Name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Secret Value.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: string;
+}
+
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
@@ -1188,6 +1640,15 @@ export interface TrackedResource extends Resource {
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
+}
+
+/** Container App init container definition */
+export interface InitContainer extends BaseContainer {}
+
+/** Container App container definition */
+export interface Container extends BaseContainer {
+  /** List of probes for the container. */
+  probes?: ContainerAppProbe[];
 }
 
 /** Configuration settings for the Azure ContainerApp Service Authentication / Authorization feature. */
@@ -1212,6 +1673,11 @@ export interface Revision extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly createdTime?: Date;
+  /**
+   * Timestamp describing when the revision was last active. Only meaningful when revision is inactive
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastActiveTime?: Date;
   /**
    * Fully qualified domain name of the revision
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1279,10 +1745,24 @@ export interface DaprComponent extends ProxyResource {
   initTimeout?: string;
   /** Collection of secrets used by a Dapr component */
   secrets?: Secret[];
+  /** Name of a Dapr component to retrieve component secrets from */
+  secretStoreComponent?: string;
   /** Component metadata */
   metadata?: DaprMetadata[];
   /** Names of container apps that can use this Dapr component */
   scopes?: string[];
+}
+
+/** Diagnostics data for a resource. */
+export interface Diagnostics extends ProxyResource {
+  /** Diagnostics resource specific properties */
+  properties?: DiagnosticsProperties;
+}
+
+/** Collection of all the workload Profile States for a Premium Managed Environment.. */
+export interface WorkloadProfileStates extends ProxyResource {
+  /** Workload Profile resource specific properties. */
+  properties?: WorkloadProfileStatesProperties;
 }
 
 /** Storage resource for managedEnvironment. */
@@ -1310,8 +1790,32 @@ export interface SourceControl extends ProxyResource {
   githubActionConfiguration?: GithubActionConfiguration;
 }
 
+/** Storage resource for connectedEnvironment. */
+export interface ConnectedEnvironmentStorage extends ProxyResource {
+  /** Storage properties */
+  properties?: ConnectedEnvironmentStorageProperties;
+}
+
+/** A premium workload profile. */
+export interface AvailableWorkloadProfile extends ProxyResource {
+  /** Region of the workload profile. */
+  location?: string;
+  /** Revision resource specific properties */
+  properties?: AvailableWorkloadProfileProperties;
+}
+
+/** A premium billing meter. */
+export interface BillingMeter extends ProxyResource {
+  /** Region for the billing meter. */
+  location?: string;
+  /** Revision resource specific properties */
+  properties?: BillingMeterProperties;
+}
+
 /** Container App. */
 export interface ContainerApp extends TrackedResource {
+  /** The complex type of the extended location. */
+  extendedLocation?: ExtendedLocation;
   /** managed identities for the Container App to interact with other Azure services without maintaining any secrets or credentials in code. */
   identity?: ManagedServiceIdentity;
   /**
@@ -1319,8 +1823,12 @@ export interface ContainerApp extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ContainerAppProvisioningState;
-  /** Resource ID of the Container App's environment. */
+  /** Deprecated. Resource ID of the Container App's environment. */
   managedEnvironmentId?: string;
+  /** Resource ID of environment. */
+  environmentId?: string;
+  /** Workload profile type to pin for container app execution. */
+  workloadProfileType?: string;
   /**
    * Name of the latest revision of the Container App.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1345,10 +1853,31 @@ export interface ContainerApp extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly outboundIpAddresses?: string[];
+  /**
+   * The endpoint of the eventstream of the container app.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eventStreamEndpoint?: string;
+}
+
+/** Container App Auth Token. */
+export interface ContainerAppAuthToken extends TrackedResource {
+  /**
+   * Auth token value.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly token?: string;
+  /**
+   * Token expiration date.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expires?: Date;
 }
 
 /** An environment for hosting container apps */
 export interface ManagedEnvironment extends TrackedResource {
+  /** SKU properties of the Environment. */
+  sku?: EnvironmentSkuProperties;
   /**
    * Provisioning state of the Environment.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1383,12 +1912,62 @@ export interface ManagedEnvironment extends TrackedResource {
   appLogsConfiguration?: AppLogsConfiguration;
   /** Whether or not this Managed Environment is zone-redundant. */
   zoneRedundant?: boolean;
+  /** Custom domain configuration for the environment */
+  customDomainConfiguration?: CustomDomainConfiguration;
+  /**
+   * The endpoint of the eventstream of the Environment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eventStreamEndpoint?: string;
+  /** Workload profiles configured for the Managed Environment. */
+  workloadProfiles?: WorkloadProfile[];
 }
 
 /** Certificate used for Custom Domain bindings of Container Apps in a Managed Environment */
 export interface Certificate extends TrackedResource {
   /** Certificate resource specific properties */
   properties?: CertificateProperties;
+}
+
+/** Environment Auth Token. */
+export interface EnvironmentAuthToken extends TrackedResource {
+  /**
+   * Auth token value.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly token?: string;
+  /**
+   * Token expiration date.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expires?: Date;
+}
+
+/** An environment for Kubernetes cluster specialized for web workloads by Azure App Service */
+export interface ConnectedEnvironment extends TrackedResource {
+  /** The complex type of the extended location. */
+  extendedLocation?: ExtendedLocation;
+  /**
+   * Provisioning state of the Kubernetes Environment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ConnectedEnvironmentProvisioningState;
+  /**
+   * Any errors that occurred during deployment or deployment validation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deploymentErrors?: string;
+  /**
+   * Default Domain Name for the cluster
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly defaultDomain?: string;
+  /** Static IP of the connectedEnvironment */
+  staticIp?: string;
+  /** Application Insights connection string used by Dapr to export Service to Service communication telemetry */
+  daprAIConnectionString?: string;
+  /** Custom domain configuration for the environment */
+  customDomainConfiguration?: CustomDomainConfiguration;
 }
 
 /** Known values of {@link CreatedByType} that the service accepts. */
@@ -1414,6 +1993,21 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
+
+/** Known values of {@link ExtendedLocationTypes} that the service accepts. */
+export enum KnownExtendedLocationTypes {
+  /** CustomLocation */
+  CustomLocation = "CustomLocation"
+}
+
+/**
+ * Defines values for ExtendedLocationTypes. \
+ * {@link KnownExtendedLocationTypes} can be used interchangeably with ExtendedLocationTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CustomLocation**
+ */
+export type ExtendedLocationTypes = string;
 
 /** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
 export enum KnownManagedServiceIdentityType {
@@ -1448,7 +2042,9 @@ export enum KnownContainerAppProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
+  /** Deleting */
+  Deleting = "Deleting"
 }
 
 /**
@@ -1459,7 +2055,8 @@ export enum KnownContainerAppProvisioningState {
  * **InProgress** \
  * **Succeeded** \
  * **Failed** \
- * **Canceled**
+ * **Canceled** \
+ * **Deleting**
  */
 export type ContainerAppProvisioningState = string;
 
@@ -1488,7 +2085,9 @@ export enum KnownIngressTransportMethod {
   /** Http */
   Http = "http",
   /** Http2 */
-  Http2 = "http2"
+  Http2 = "http2",
+  /** Tcp */
+  Tcp = "tcp"
 }
 
 /**
@@ -1498,7 +2097,8 @@ export enum KnownIngressTransportMethod {
  * ### Known values supported by the service
  * **auto** \
  * **http** \
- * **http2**
+ * **http2** \
+ * **tcp**
  */
 export type IngressTransportMethod = string;
 
@@ -1520,6 +2120,24 @@ export enum KnownBindingType {
  */
 export type BindingType = string;
 
+/** Known values of {@link Action} that the service accepts. */
+export enum KnownAction {
+  /** Allow */
+  Allow = "Allow",
+  /** Deny */
+  Deny = "Deny"
+}
+
+/**
+ * Defines values for Action. \
+ * {@link KnownAction} can be used interchangeably with Action,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Allow** \
+ * **Deny**
+ */
+export type Action = string;
+
 /** Known values of {@link AppProtocol} that the service accepts. */
 export enum KnownAppProtocol {
   /** Http */
@@ -1537,6 +2155,30 @@ export enum KnownAppProtocol {
  * **grpc**
  */
 export type AppProtocol = string;
+
+/** Known values of {@link LogLevel} that the service accepts. */
+export enum KnownLogLevel {
+  /** Info */
+  Info = "info",
+  /** Debug */
+  Debug = "debug",
+  /** Warn */
+  Warn = "warn",
+  /** Error */
+  Error = "error"
+}
+
+/**
+ * Defines values for LogLevel. \
+ * {@link KnownLogLevel} can be used interchangeably with LogLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **info** \
+ * **debug** \
+ * **warn** \
+ * **error**
+ */
+export type LogLevel = string;
 
 /** Known values of {@link Scheme} that the service accepts. */
 export enum KnownScheme {
@@ -1643,6 +2285,24 @@ export enum KnownRevisionProvisioningState {
  */
 export type RevisionProvisioningState = string;
 
+/** Known values of {@link SkuName} that the service accepts. */
+export enum KnownSkuName {
+  /** Consumption SKU of Managed Environment. */
+  Consumption = "Consumption",
+  /** Premium SKU of Managed Environment. */
+  Premium = "Premium"
+}
+
+/**
+ * Defines values for SkuName. \
+ * {@link KnownSkuName} can be used interchangeably with SkuName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Consumption**: Consumption SKU of Managed Environment. \
+ * **Premium**: Premium SKU of Managed Environment.
+ */
+export type SkuName = string;
+
 /** Known values of {@link EnvironmentProvisioningState} that the service accepts. */
 export enum KnownEnvironmentProvisioningState {
   /** Succeeded */
@@ -1684,6 +2344,24 @@ export enum KnownEnvironmentProvisioningState {
  * **UpgradeFailed**
  */
 export type EnvironmentProvisioningState = string;
+
+/** Known values of {@link ManagedEnvironmentOutBoundType} that the service accepts. */
+export enum KnownManagedEnvironmentOutBoundType {
+  /** LoadBalancer */
+  LoadBalancer = "LoadBalancer",
+  /** UserDefinedRouting */
+  UserDefinedRouting = "UserDefinedRouting"
+}
+
+/**
+ * Defines values for ManagedEnvironmentOutBoundType. \
+ * {@link KnownManagedEnvironmentOutBoundType} can be used interchangeably with ManagedEnvironmentOutBoundType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **LoadBalancer** \
+ * **UserDefinedRouting**
+ */
+export type ManagedEnvironmentOutBoundType = string;
 
 /** Known values of {@link CertificateProvisioningState} that the service accepts. */
 export enum KnownCertificateProvisioningState {
@@ -1771,6 +2449,81 @@ export enum KnownSourceControlOperationState {
  * **Canceled**
  */
 export type SourceControlOperationState = string;
+
+/** Known values of {@link ConnectedEnvironmentProvisioningState} that the service accepts. */
+export enum KnownConnectedEnvironmentProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Waiting */
+  Waiting = "Waiting",
+  /** InitializationInProgress */
+  InitializationInProgress = "InitializationInProgress",
+  /** InfrastructureSetupInProgress */
+  InfrastructureSetupInProgress = "InfrastructureSetupInProgress",
+  /** InfrastructureSetupComplete */
+  InfrastructureSetupComplete = "InfrastructureSetupComplete",
+  /** ScheduledForDelete */
+  ScheduledForDelete = "ScheduledForDelete"
+}
+
+/**
+ * Defines values for ConnectedEnvironmentProvisioningState. \
+ * {@link KnownConnectedEnvironmentProvisioningState} can be used interchangeably with ConnectedEnvironmentProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Waiting** \
+ * **InitializationInProgress** \
+ * **InfrastructureSetupInProgress** \
+ * **InfrastructureSetupComplete** \
+ * **ScheduledForDelete**
+ */
+export type ConnectedEnvironmentProvisioningState = string;
+
+/** Known values of {@link Category} that the service accepts. */
+export enum KnownCategory {
+  /** PremiumSkuGeneralPurpose */
+  PremiumSkuGeneralPurpose = "PremiumSkuGeneralPurpose",
+  /** PremiumSkuMemoryOptimized */
+  PremiumSkuMemoryOptimized = "PremiumSkuMemoryOptimized",
+  /** PremiumSkuComputeOptimized */
+  PremiumSkuComputeOptimized = "PremiumSkuComputeOptimized"
+}
+
+/**
+ * Defines values for Category. \
+ * {@link KnownCategory} can be used interchangeably with Category,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PremiumSkuGeneralPurpose** \
+ * **PremiumSkuMemoryOptimized** \
+ * **PremiumSkuComputeOptimized**
+ */
+export type Category = string;
+
+/** Known values of {@link Applicability} that the service accepts. */
+export enum KnownApplicability {
+  /** LocationDefault */
+  LocationDefault = "LocationDefault",
+  /** Custom */
+  Custom = "Custom"
+}
+
+/**
+ * Defines values for Applicability. \
+ * {@link KnownApplicability} can be used interchangeably with Applicability,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **LocationDefault** \
+ * **Custom**
+ */
+export type Applicability = string;
 /** Defines values for UnauthenticatedClientActionV2. */
 export type UnauthenticatedClientActionV2 =
   | "RedirectToLoginPage"
@@ -1887,6 +2640,13 @@ export interface ContainerAppsListSecretsOptionalParams
 export type ContainerAppsListSecretsResponse = SecretsCollection;
 
 /** Optional parameters. */
+export interface ContainerAppsGetAuthTokenOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAuthToken operation. */
+export type ContainerAppsGetAuthTokenResponse = ContainerAppAuthToken;
+
+/** Optional parameters. */
 export interface ContainerAppsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1993,6 +2753,82 @@ export interface DaprComponentsListNextOptionalParams
 export type DaprComponentsListNextResponse = DaprComponentsCollection;
 
 /** Optional parameters. */
+export interface ContainerAppsDiagnosticsListDetectorsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listDetectors operation. */
+export type ContainerAppsDiagnosticsListDetectorsResponse = DiagnosticsCollection;
+
+/** Optional parameters. */
+export interface ContainerAppsDiagnosticsGetDetectorOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getDetector operation. */
+export type ContainerAppsDiagnosticsGetDetectorResponse = Diagnostics;
+
+/** Optional parameters. */
+export interface ContainerAppsDiagnosticsListRevisionsOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation. */
+  filter?: string;
+}
+
+/** Contains response data for the listRevisions operation. */
+export type ContainerAppsDiagnosticsListRevisionsResponse = RevisionCollection;
+
+/** Optional parameters. */
+export interface ContainerAppsDiagnosticsGetRevisionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getRevision operation. */
+export type ContainerAppsDiagnosticsGetRevisionResponse = Revision;
+
+/** Optional parameters. */
+export interface ContainerAppsDiagnosticsGetRootOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getRoot operation. */
+export type ContainerAppsDiagnosticsGetRootResponse = ContainerApp;
+
+/** Optional parameters. */
+export interface ContainerAppsDiagnosticsListDetectorsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listDetectorsNext operation. */
+export type ContainerAppsDiagnosticsListDetectorsNextResponse = DiagnosticsCollection;
+
+/** Optional parameters. */
+export interface ContainerAppsDiagnosticsListRevisionsNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation. */
+  filter?: string;
+}
+
+/** Contains response data for the listRevisionsNext operation. */
+export type ContainerAppsDiagnosticsListRevisionsNextResponse = RevisionCollection;
+
+/** Optional parameters. */
+export interface ManagedEnvironmentDiagnosticsListDetectorsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listDetectors operation. */
+export type ManagedEnvironmentDiagnosticsListDetectorsResponse = DiagnosticsCollection;
+
+/** Optional parameters. */
+export interface ManagedEnvironmentDiagnosticsGetDetectorOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getDetector operation. */
+export type ManagedEnvironmentDiagnosticsGetDetectorResponse = Diagnostics;
+
+/** Optional parameters. */
+export interface ManagedEnvironmentsDiagnosticsGetRootOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getRoot operation. */
+export type ManagedEnvironmentsDiagnosticsGetRootResponse = ManagedEnvironment;
+
+/** Optional parameters. */
 export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -2058,6 +2894,20 @@ export interface ManagedEnvironmentsUpdateOptionalParams
 }
 
 /** Optional parameters. */
+export interface ManagedEnvironmentsGetAuthTokenOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAuthToken operation. */
+export type ManagedEnvironmentsGetAuthTokenResponse = EnvironmentAuthToken;
+
+/** Optional parameters. */
+export interface ManagedEnvironmentsListWorkloadProfileStatesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listWorkloadProfileStates operation. */
+export type ManagedEnvironmentsListWorkloadProfileStatesResponse = WorkloadProfileStatesCollection;
+
+/** Optional parameters. */
 export interface ManagedEnvironmentsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -2070,6 +2920,13 @@ export interface ManagedEnvironmentsListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type ManagedEnvironmentsListByResourceGroupNextResponse = ManagedEnvironmentsCollection;
+
+/** Optional parameters. */
+export interface ManagedEnvironmentsListWorkloadProfileStatesNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listWorkloadProfileStatesNext operation. */
+export type ManagedEnvironmentsListWorkloadProfileStatesNextResponse = WorkloadProfileStatesCollection;
 
 /** Optional parameters. */
 export interface CertificatesListOptionalParams
@@ -2186,6 +3043,203 @@ export interface ContainerAppsSourceControlsListByContainerAppNextOptionalParams
 
 /** Contains response data for the listByContainerAppNext operation. */
 export type ContainerAppsSourceControlsListByContainerAppNextResponse = SourceControlCollection;
+
+/** Optional parameters. */
+export interface ConnectedEnvironmentsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type ConnectedEnvironmentsListBySubscriptionResponse = ConnectedEnvironmentCollection;
+
+/** Optional parameters. */
+export interface ConnectedEnvironmentsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type ConnectedEnvironmentsListByResourceGroupResponse = ConnectedEnvironmentCollection;
+
+/** Optional parameters. */
+export interface ConnectedEnvironmentsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ConnectedEnvironmentsGetResponse = ConnectedEnvironment;
+
+/** Optional parameters. */
+export interface ConnectedEnvironmentsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ConnectedEnvironmentsCreateOrUpdateResponse = ConnectedEnvironment;
+
+/** Optional parameters. */
+export interface ConnectedEnvironmentsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ConnectedEnvironmentsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type ConnectedEnvironmentsUpdateResponse = ConnectedEnvironment;
+
+/** Optional parameters. */
+export interface ConnectedEnvironmentsCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkNameAvailability operation. */
+export type ConnectedEnvironmentsCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
+
+/** Optional parameters. */
+export interface ConnectedEnvironmentsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type ConnectedEnvironmentsListBySubscriptionNextResponse = ConnectedEnvironmentCollection;
+
+/** Optional parameters. */
+export interface ConnectedEnvironmentsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type ConnectedEnvironmentsListByResourceGroupNextResponse = ConnectedEnvironmentCollection;
+
+/** Optional parameters. */
+export interface ConnectedEnvironmentsCertificatesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ConnectedEnvironmentsCertificatesListResponse = CertificateCollection;
+
+/** Optional parameters. */
+export interface ConnectedEnvironmentsCertificatesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ConnectedEnvironmentsCertificatesGetResponse = Certificate;
+
+/** Optional parameters. */
+export interface ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Certificate to be created or updated */
+  certificateEnvelope?: Certificate;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ConnectedEnvironmentsCertificatesCreateOrUpdateResponse = Certificate;
+
+/** Optional parameters. */
+export interface ConnectedEnvironmentsCertificatesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ConnectedEnvironmentsCertificatesUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type ConnectedEnvironmentsCertificatesUpdateResponse = Certificate;
+
+/** Optional parameters. */
+export interface ConnectedEnvironmentsCertificatesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ConnectedEnvironmentsCertificatesListNextResponse = CertificateCollection;
+
+/** Optional parameters. */
+export interface ConnectedEnvironmentsDaprComponentsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ConnectedEnvironmentsDaprComponentsListResponse = DaprComponentsCollection;
+
+/** Optional parameters. */
+export interface ConnectedEnvironmentsDaprComponentsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ConnectedEnvironmentsDaprComponentsGetResponse = DaprComponent;
+
+/** Optional parameters. */
+export interface ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse = DaprComponent;
+
+/** Optional parameters. */
+export interface ConnectedEnvironmentsDaprComponentsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ConnectedEnvironmentsDaprComponentsListSecretsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSecrets operation. */
+export type ConnectedEnvironmentsDaprComponentsListSecretsResponse = DaprSecretsCollection;
+
+/** Optional parameters. */
+export interface ConnectedEnvironmentsDaprComponentsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ConnectedEnvironmentsDaprComponentsListNextResponse = DaprComponentsCollection;
+
+/** Optional parameters. */
+export interface ConnectedEnvironmentsStoragesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ConnectedEnvironmentsStoragesListResponse = ConnectedEnvironmentStoragesCollection;
+
+/** Optional parameters. */
+export interface ConnectedEnvironmentsStoragesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ConnectedEnvironmentsStoragesGetResponse = ConnectedEnvironmentStorage;
+
+/** Optional parameters. */
+export interface ConnectedEnvironmentsStoragesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ConnectedEnvironmentsStoragesCreateOrUpdateResponse = ConnectedEnvironmentStorage;
+
+/** Optional parameters. */
+export interface ConnectedEnvironmentsStoragesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface AvailableWorkloadProfilesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AvailableWorkloadProfilesGetResponse = AvailableWorkloadProfilesCollection;
+
+/** Optional parameters. */
+export interface AvailableWorkloadProfilesGetNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getNext operation. */
+export type AvailableWorkloadProfilesGetNextResponse = AvailableWorkloadProfilesCollection;
+
+/** Optional parameters. */
+export interface BillingMetersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type BillingMetersGetResponse = BillingMeterCollection;
 
 /** Optional parameters. */
 export interface ContainerAppsAPIClientOptionalParams

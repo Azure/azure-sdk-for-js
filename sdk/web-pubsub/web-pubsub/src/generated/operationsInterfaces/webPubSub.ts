@@ -8,47 +8,38 @@
 
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
+  WebPubSubCloseAllConnectionsOptionalParams,
   WebPubSubGenerateClientTokenOptionalParams,
   WebPubSubGenerateClientTokenResponse,
-  WebPubSubCloseAllConnectionsOptionalParams,
   ContentType,
   WebPubSubSendToAll$binaryOptionalParams,
   WebPubSubSendToAll$textOptionalParams,
-  WebPubSubConnectionExistsOptionalParams,
   WebPubSubCloseConnectionOptionalParams,
+  WebPubSubConnectionExistsOptionalParams,
   WebPubSubSendToConnection$binaryOptionalParams,
   WebPubSubSendToConnection$textOptionalParams,
+  WebPubSubRemoveConnectionFromAllGroupsOptionalParams,
   WebPubSubGroupExistsOptionalParams,
   WebPubSubCloseGroupConnectionsOptionalParams,
   WebPubSubSendToGroup$binaryOptionalParams,
   WebPubSubSendToGroup$textOptionalParams,
-  WebPubSubAddConnectionToGroupOptionalParams,
   WebPubSubRemoveConnectionFromGroupOptionalParams,
+  WebPubSubAddConnectionToGroupOptionalParams,
+  WebPubSubPermission,
+  WebPubSubRevokePermissionOptionalParams,
+  WebPubSubCheckPermissionOptionalParams,
+  WebPubSubGrantPermissionOptionalParams,
   WebPubSubUserExistsOptionalParams,
   WebPubSubCloseUserConnectionsOptionalParams,
   WebPubSubSendToUser$binaryOptionalParams,
   WebPubSubSendToUser$textOptionalParams,
-  WebPubSubAddUserToGroupOptionalParams,
-  WebPubSubRemoveUserFromGroupOptionalParams,
   WebPubSubRemoveUserFromAllGroupsOptionalParams,
-  WebPubSubPermission,
-  WebPubSubGrantPermissionOptionalParams,
-  WebPubSubRevokePermissionOptionalParams,
-  WebPubSubCheckPermissionOptionalParams
+  WebPubSubRemoveUserFromGroupOptionalParams,
+  WebPubSubAddUserToGroupOptionalParams
 } from "../models";
 
 /** Interface representing a WebPubSub. */
 export interface WebPubSub {
-  /**
-   * Generate token for the client to connect Azure Web PubSub service.
-   * @param hub Target hub name, which should start with alphabetic characters and only contain
-   *            alpha-numeric characters or underscore.
-   * @param options The options parameters.
-   */
-  generateClientToken(
-    hub: string,
-    options?: WebPubSubGenerateClientTokenOptionalParams
-  ): Promise<WebPubSubGenerateClientTokenResponse>;
   /**
    * Close the connections in the hub.
    * @param hub Target hub name, which should start with alphabetic characters and only contain
@@ -59,6 +50,16 @@ export interface WebPubSub {
     hub: string,
     options?: WebPubSubCloseAllConnectionsOptionalParams
   ): Promise<void>;
+  /**
+   * Generate token for the client to connect Azure Web PubSub service.
+   * @param hub Target hub name, which should start with alphabetic characters and only contain
+   *            alpha-numeric characters or underscore.
+   * @param options The options parameters.
+   */
+  generateClientToken(
+    hub: string,
+    options?: WebPubSubGenerateClientTokenOptionalParams
+  ): Promise<WebPubSubGenerateClientTokenResponse>;
   /**
    * Broadcast content inside request body to all the connected client connections.
    * @param args Includes all the parameters for this operation.
@@ -74,18 +75,6 @@ export interface WebPubSub {
       | [string, "text/plain", string, WebPubSubSendToAll$textOptionalParams?]
   ): Promise<void>;
   /**
-   * Check if the connection with the given connectionId exists.
-   * @param hub Target hub name, which should start with alphabetic characters and only contain
-   *            alpha-numeric characters or underscore.
-   * @param connectionId The connection Id.
-   * @param options The options parameters.
-   */
-  connectionExists(
-    hub: string,
-    connectionId: string,
-    options?: WebPubSubConnectionExistsOptionalParams
-  ): Promise<void>;
-  /**
    * Close the client connection.
    * @param hub Target hub name, which should start with alphabetic characters and only contain
    *            alpha-numeric characters or underscore.
@@ -96,6 +85,18 @@ export interface WebPubSub {
     hub: string,
     connectionId: string,
     options?: WebPubSubCloseConnectionOptionalParams
+  ): Promise<void>;
+  /**
+   * Check if the connection with the given connectionId exists.
+   * @param hub Target hub name, which should start with alphabetic characters and only contain
+   *            alpha-numeric characters or underscore.
+   * @param connectionId The connection Id.
+   * @param options The options parameters.
+   */
+  connectionExists(
+    hub: string,
+    connectionId: string,
+    options?: WebPubSubConnectionExistsOptionalParams
   ): Promise<void>;
   /**
    * Send content inside request body to the specific connection.
@@ -117,6 +118,18 @@ export interface WebPubSub {
           string,
           WebPubSubSendToConnection$textOptionalParams?
         ]
+  ): Promise<void>;
+  /**
+   * Remove a connection from all groups.
+   * @param hub Target hub name, which should start with alphabetic characters and only contain
+   *            alpha-numeric characters or underscore.
+   * @param connectionId Target connection Id.
+   * @param options The options parameters.
+   */
+  removeConnectionFromAllGroups(
+    hub: string,
+    connectionId: string,
+    options?: WebPubSubRemoveConnectionFromAllGroupsOptionalParams
   ): Promise<void>;
   /**
    * Check if there are any client connections inside the given group
@@ -164,6 +177,20 @@ export interface WebPubSub {
         ]
   ): Promise<void>;
   /**
+   * Remove a connection from the target group.
+   * @param hub Target hub name, which should start with alphabetic characters and only contain
+   *            alpha-numeric characters or underscore.
+   * @param group Target group name, which length should be greater than 0 and less than 1025.
+   * @param connectionId Target connection Id.
+   * @param options The options parameters.
+   */
+  removeConnectionFromGroup(
+    hub: string,
+    group: string,
+    connectionId: string,
+    options?: WebPubSubRemoveConnectionFromGroupOptionalParams
+  ): Promise<void>;
+  /**
    * Add a connection to the target group.
    * @param hub Target hub name, which should start with alphabetic characters and only contain
    *            alpha-numeric characters or underscore.
@@ -178,18 +205,46 @@ export interface WebPubSub {
     options?: WebPubSubAddConnectionToGroupOptionalParams
   ): Promise<void>;
   /**
-   * Remove a connection from the target group.
+   * Revoke permission for the connection.
    * @param hub Target hub name, which should start with alphabetic characters and only contain
    *            alpha-numeric characters or underscore.
-   * @param group Target group name, which length should be greater than 0 and less than 1025.
+   * @param permission The permission: current supported actions are joinLeaveGroup and sendToGroup.
    * @param connectionId Target connection Id.
    * @param options The options parameters.
    */
-  removeConnectionFromGroup(
+  revokePermission(
     hub: string,
-    group: string,
+    permission: WebPubSubPermission,
     connectionId: string,
-    options?: WebPubSubRemoveConnectionFromGroupOptionalParams
+    options?: WebPubSubRevokePermissionOptionalParams
+  ): Promise<void>;
+  /**
+   * Check if a connection has permission to the specified action.
+   * @param hub Target hub name, which should start with alphabetic characters and only contain
+   *            alpha-numeric characters or underscore.
+   * @param permission The permission: current supported actions are joinLeaveGroup and sendToGroup.
+   * @param connectionId Target connection Id.
+   * @param options The options parameters.
+   */
+  checkPermission(
+    hub: string,
+    permission: WebPubSubPermission,
+    connectionId: string,
+    options?: WebPubSubCheckPermissionOptionalParams
+  ): Promise<void>;
+  /**
+   * Grant permission to the connection.
+   * @param hub Target hub name, which should start with alphabetic characters and only contain
+   *            alpha-numeric characters or underscore.
+   * @param permission The permission: current supported actions are joinLeaveGroup and sendToGroup.
+   * @param connectionId Target connection Id.
+   * @param options The options parameters.
+   */
+  grantPermission(
+    hub: string,
+    permission: WebPubSubPermission,
+    connectionId: string,
+    options?: WebPubSubGrantPermissionOptionalParams
   ): Promise<void>;
   /**
    * Check if there are any client connections connected for the given user.
@@ -237,18 +292,16 @@ export interface WebPubSub {
         ]
   ): Promise<void>;
   /**
-   * Add a user to the target group.
+   * Remove a user from all groups.
    * @param hub Target hub name, which should start with alphabetic characters and only contain
    *            alpha-numeric characters or underscore.
-   * @param group Target group name, which length should be greater than 0 and less than 1025.
    * @param userId Target user Id.
    * @param options The options parameters.
    */
-  addUserToGroup(
+  removeUserFromAllGroups(
     hub: string,
-    group: string,
     userId: string,
-    options?: WebPubSubAddUserToGroupOptionalParams
+    options?: WebPubSubRemoveUserFromAllGroupsOptionalParams
   ): Promise<void>;
   /**
    * Remove a user from the target group.
@@ -265,57 +318,17 @@ export interface WebPubSub {
     options?: WebPubSubRemoveUserFromGroupOptionalParams
   ): Promise<void>;
   /**
-   * Remove a user from all groups.
+   * Add a user to the target group.
    * @param hub Target hub name, which should start with alphabetic characters and only contain
    *            alpha-numeric characters or underscore.
+   * @param group Target group name, which length should be greater than 0 and less than 1025.
    * @param userId Target user Id.
    * @param options The options parameters.
    */
-  removeUserFromAllGroups(
+  addUserToGroup(
     hub: string,
+    group: string,
     userId: string,
-    options?: WebPubSubRemoveUserFromAllGroupsOptionalParams
-  ): Promise<void>;
-  /**
-   * Grant permission to the connection.
-   * @param hub Target hub name, which should start with alphabetic characters and only contain
-   *            alpha-numeric characters or underscore.
-   * @param permission The permission: current supported actions are joinLeaveGroup and sendToGroup.
-   * @param connectionId Target connection Id.
-   * @param options The options parameters.
-   */
-  grantPermission(
-    hub: string,
-    permission: WebPubSubPermission,
-    connectionId: string,
-    options?: WebPubSubGrantPermissionOptionalParams
-  ): Promise<void>;
-  /**
-   * Revoke permission for the connection.
-   * @param hub Target hub name, which should start with alphabetic characters and only contain
-   *            alpha-numeric characters or underscore.
-   * @param permission The permission: current supported actions are joinLeaveGroup and sendToGroup.
-   * @param connectionId Target connection Id.
-   * @param options The options parameters.
-   */
-  revokePermission(
-    hub: string,
-    permission: WebPubSubPermission,
-    connectionId: string,
-    options?: WebPubSubRevokePermissionOptionalParams
-  ): Promise<void>;
-  /**
-   * Check if a connection has permission to the specified action.
-   * @param hub Target hub name, which should start with alphabetic characters and only contain
-   *            alpha-numeric characters or underscore.
-   * @param permission The permission: current supported actions are joinLeaveGroup and sendToGroup.
-   * @param connectionId Target connection Id.
-   * @param options The options parameters.
-   */
-  checkPermission(
-    hub: string,
-    permission: WebPubSubPermission,
-    connectionId: string,
-    options?: WebPubSubCheckPermissionOptionalParams
+    options?: WebPubSubAddUserToGroupOptionalParams
   ): Promise<void>;
 }

@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs?api-version=2022-10-01-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "170",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-ai-language-text/1.0.0 core-rest-pipeline/1.9.2 Node/v18.6.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "1d7fc078-a3a8-40c1-94a2-089987f0c933"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "bba05ed8-83c8-4452-987d-7de9ec0112b3"
       },
       "RequestBody": {
         "analysisInput": {
@@ -34,18 +34,28 @@
       },
       "StatusCode": 400,
       "ResponseHeaders": {
-        "apim-request-id": "fc236847-bc0d-438d-9c46-4d96989b0512",
+        "apim-request-id": "64bf7711-b839-42df-8651-aae9cc949a3b",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 07 Sep 2022 03:54:40 GMT",
+        "Date": "Tue, 01 Nov 2022 22:58:12 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "6"
+        "x-envoy-upstream-service-time": "12",
+        "x-ms-region": "East US"
       },
       "ResponseBody": {
         "error": {
           "code": "InvalidRequest",
-          "details": [],
+          "details": [
+            {
+              "code": "InvalidRequest",
+              "message": "Invalid Request.",
+              "innererror": {
+                "code": "InvalidParameterValue",
+                "message": "Job task parameter value \u0027bad\u0027 is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest, 2020-07-01, 2021-01-15."
+              }
+            }
+          ],
           "message": "Invalid Request.",
           "innererror": {
             "code": "InvalidParameterValue",

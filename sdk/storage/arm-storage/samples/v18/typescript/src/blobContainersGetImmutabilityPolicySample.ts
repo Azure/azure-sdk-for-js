@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets the existing immutability policy along with the corresponding ETag in response headers and body.
  *
  * @summary Gets the existing immutability policy along with the corresponding ETag in response headers and body.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-05-01/examples/BlobContainersGetImmutabilityPolicy.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/BlobContainersGetImmutabilityPolicy.json
  */
 async function getImmutabilityPolicy() {
   const subscriptionId = "{subscription-id}";

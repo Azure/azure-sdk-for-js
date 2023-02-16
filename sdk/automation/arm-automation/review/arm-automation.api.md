@@ -535,7 +535,7 @@ export interface ConnectionOperations {
 }
 
 // @public
-interface ConnectionType_2 {
+export interface ConnectionType {
     readonly creationTime?: Date;
     description?: string;
     readonly fieldDefinitions?: {
@@ -547,7 +547,6 @@ interface ConnectionType_2 {
     readonly name?: string;
     readonly type?: string;
 }
-export { ConnectionType_2 as ConnectionType }
 
 // @public
 export interface ConnectionTypeAssociationProperty {
@@ -568,7 +567,7 @@ export interface ConnectionTypeCreateOrUpdateParameters {
 }
 
 // @public
-export type ConnectionTypeCreateOrUpdateResponse = ConnectionType_2;
+export type ConnectionTypeCreateOrUpdateResponse = ConnectionType;
 
 // @public
 export interface ConnectionTypeDeleteOptionalParams extends coreClient.OperationOptions {
@@ -579,7 +578,7 @@ export interface ConnectionTypeGetOptionalParams extends coreClient.OperationOpt
 }
 
 // @public
-export type ConnectionTypeGetResponse = ConnectionType_2;
+export type ConnectionTypeGetResponse = ConnectionType;
 
 // @public
 export interface ConnectionTypeListByAutomationAccountNextOptionalParams extends coreClient.OperationOptions {
@@ -598,7 +597,7 @@ export type ConnectionTypeListByAutomationAccountResponse = ConnectionTypeListRe
 // @public
 export interface ConnectionTypeListResult {
     nextLink?: string;
-    value?: ConnectionType_2[];
+    value?: ConnectionType[];
 }
 
 // @public
@@ -606,7 +605,7 @@ export interface ConnectionTypeOperations {
     createOrUpdate(resourceGroupName: string, automationAccountName: string, connectionTypeName: string, parameters: ConnectionTypeCreateOrUpdateParameters, options?: ConnectionTypeCreateOrUpdateOptionalParams): Promise<ConnectionTypeCreateOrUpdateResponse>;
     delete(resourceGroupName: string, automationAccountName: string, connectionTypeName: string, options?: ConnectionTypeDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, automationAccountName: string, connectionTypeName: string, options?: ConnectionTypeGetOptionalParams): Promise<ConnectionTypeGetResponse>;
-    listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: ConnectionTypeListByAutomationAccountOptionalParams): PagedAsyncIterableIterator<ConnectionType_2>;
+    listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: ConnectionTypeListByAutomationAccountOptionalParams): PagedAsyncIterableIterator<ConnectionType>;
 }
 
 // @public
@@ -829,7 +828,6 @@ export type DscCompilationJobGetStreamResponse = JobStream;
 
 // @public
 export interface DscCompilationJobListByAutomationAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -941,10 +939,6 @@ export type DscConfigurationGetResponse = DscConfiguration;
 
 // @public
 export interface DscConfigurationListByAutomationAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    inlinecount?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -1108,10 +1102,6 @@ export type DscNodeConfigurationGetResponse = DscNodeConfiguration;
 
 // @public
 export interface DscNodeConfigurationListByAutomationAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    inlinecount?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -1163,10 +1153,6 @@ export type DscNodeGetResponse = DscNode;
 
 // @public
 export interface DscNodeListByAutomationAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    inlinecount?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -1316,6 +1302,9 @@ export interface FieldsListByTypeOptionalParams extends coreClient.OperationOpti
 export type FieldsListByTypeResponse = TypeFieldListResult;
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface GraphicalRunbookContent {
     graphRunbookJson?: string;
     rawContent?: RawGraphicalRunbookContent;
@@ -1380,7 +1369,6 @@ export type HybridRunbookWorkerGroupGetResponse = HybridRunbookWorkerGroup;
 
 // @public
 export interface HybridRunbookWorkerGroupListByAutomationAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -1450,7 +1438,6 @@ export type HybridRunbookWorkersGetResponse = HybridRunbookWorker;
 
 // @public
 export interface HybridRunbookWorkersListByHybridRunbookWorkerGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -1565,7 +1552,6 @@ export type JobGetRunbookContentResponse = {
 // @public
 export interface JobListByAutomationAccountNextOptionalParams extends coreClient.OperationOptions {
     clientRequestId?: string;
-    filter?: string;
 }
 
 // @public
@@ -1655,7 +1641,6 @@ export type JobScheduleGetResponse = JobSchedule;
 
 // @public
 export interface JobScheduleListByAutomationAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -1715,7 +1700,6 @@ export type JobStreamGetResponse = JobStream;
 // @public
 export interface JobStreamListByJobNextOptionalParams extends coreClient.OperationOptions {
     clientRequestId?: string;
-    filter?: string;
 }
 
 // @public
@@ -2217,7 +2201,6 @@ export type NodeReportsGetResponse = DscNodeReport;
 
 // @public
 export interface NodeReportsListByNodeNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -3054,7 +3037,6 @@ export type SourceControlGetResponse = SourceControl;
 
 // @public
 export interface SourceControlListByAutomationAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -3136,7 +3118,6 @@ export type SourceControlSyncJobGetResponse = SourceControlSyncJobById;
 
 // @public
 export interface SourceControlSyncJobListByAutomationAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -3206,7 +3187,6 @@ export interface SourceControlSyncJobStreamsListBySyncJob {
 
 // @public
 export interface SourceControlSyncJobStreamsListBySyncJobNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -3397,7 +3377,6 @@ export type TestJobStreamsGetResponse = JobStream;
 
 // @public
 export interface TestJobStreamsListByTestJobNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -3604,7 +3583,6 @@ export type WatcherGetResponse = Watcher;
 
 // @public
 export interface WatcherListByAutomationAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -3715,7 +3693,6 @@ export type WebhookGetResponse = Webhook;
 
 // @public
 export interface WebhookListByAutomationAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public

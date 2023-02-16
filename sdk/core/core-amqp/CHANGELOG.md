@@ -1,6 +1,6 @@
 # Release History
 
-## 3.1.2 (Unreleased)
+## 3.2.3 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,29 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 3.2.2 (2023-02-02)
+
+### Other Changes
+
+- Remove unused dependency `url` [PR #24380](https://github.com/Azure/azure-sdk-for-js/pull/24380).
+
+## 3.2.1 (2023-01-05)
+
+### Bugs Fixed
+
+- Fix an issue in `RequestResponseLink` where sender error is not rejected [PR #23646](https://github.com/Azure/azure-sdk-for-js/pull/23646).
+- Fix an memory leak in `CancellableAsyncLockImpl` where elements are never removed from the map [PR# 24133](https://github.com/Azure/azure-sdk-for-js/pull/24133).
+
+## 3.2.0 (2022-11-03)
+
+### Bugs Fixed
+
+- Fix React-Native bundling issue by adding a `react-native` mapping to ESM entrypoint file. (PR #23524)[https://github.com/Azure/azure-sdk-for-js/pull/23524]
+
+### Other Changes
+
+- Update `engines` to `"node": ">=14.0.0"`
 
 ## 3.1.1 (2022-09-01)
 

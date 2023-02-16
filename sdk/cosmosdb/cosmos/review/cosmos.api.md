@@ -7,9 +7,13 @@
 /// <reference lib="dom" />
 /// <reference lib="esnext.asynciterable" />
 
+import { AbortError } from '@azure/abort-controller';
 import { AbortSignal as AbortSignal_2 } from 'node-abort-controller';
 import { Pipeline } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
+
+export { AbortError }
 
 // @public (undocumented)
 export interface Agent {
@@ -400,6 +404,7 @@ export const Constants: {
     };
     WritableLocations: string;
     ReadableLocations: string;
+    LocationUnavailableExpirationTimeInMs: number;
     ENABLE_MULTIPLE_WRITABLE_LOCATIONS: string;
     DefaultUnavailableLocationExpirationTimeMS: number;
     ThrottleRetryCount: string;
@@ -409,6 +414,7 @@ export const Constants: {
     AzurePackageName: string;
     SDKName: string;
     SDKVersion: string;
+    DefaultMaxBulkRequestBodySizeInBytes: number;
     Quota: {
         CollectionSize: string;
     };
@@ -543,7 +549,7 @@ export interface CosmosClientOptions {
     agent?: Agent;
     connectionPolicy?: ConnectionPolicy;
     consistencyLevel?: keyof typeof ConsistencyLevel;
-    // Warning: (ae-forgotten-export) The symbol "CosmosHeaders" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "CosmosHeaders_2" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
     defaultHeaders?: CosmosHeaders_2;
@@ -704,7 +710,7 @@ export interface ErrorBody {
 }
 
 // @public (undocumented)
-export interface ErrorResponse extends Error {
+export class ErrorResponse extends Error {
     // (undocumented)
     [key: string]: any;
     // (undocumented)
@@ -896,7 +902,7 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
 // @public
 export class Items {
     constructor(container: Container, clientContext: ClientContext);
-    batch(operations: OperationInput[], partitionKey?: string, options?: RequestOptions): Promise<Response_2<any>>;
+    batch(operations: OperationInput[], partitionKey?: string, options?: RequestOptions): Promise<Response_2<OperationResponse[]>>;
     bulk(operations: OperationInput[], bulkOptions?: BulkOptions, options?: RequestOptions): Promise<OperationResponse[]>;
     changeFeed(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
@@ -938,6 +944,8 @@ export type JSONValue = boolean | number | string | null | JSONArray | JSONObjec
 interface Location_2 {
     // (undocumented)
     databaseAccountEndpoint: string;
+    // (undocumented)
+    lastUnavailabilityTimestampInMs?: number;
     // (undocumented)
     name: string;
     // (undocumented)
@@ -1552,6 +1560,8 @@ interface Response_2<T> {
 }
 export { Response_2 as Response }
 
+export { RestError }
+
 // @public
 export interface RetryOptions {
     fixedRetryIntervalInMilliseconds: number;
@@ -1857,6 +1867,13 @@ export class StoredProcedures {
 
 // @public (undocumented)
 export type SubStatusCode = number;
+
+// @public (undocumented)
+export class TimeoutError extends Error {
+    constructor(message?: string);
+    // (undocumented)
+    readonly code: string;
+}
 
 // @public
 export class TimeSpan {

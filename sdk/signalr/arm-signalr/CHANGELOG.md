@@ -1,6 +1,6 @@
 # Release History
 
-## 5.1.1 (Unreleased)
+## 5.2.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,22 @@
 
 ### Other Changes
 
+## 5.2.0-beta.1 (2022-11-07)
+    
+**Features**
+
+  - Added Interface CustomCertificate
+  - Added Interface CustomDomain
+  - Added Interface PrivateEndpointACL
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateLinkResource
+  - Added Interface ProxyResource
+  - Added Interface ServerlessSettings
+  - Added Interface SharedPrivateLinkResource
+  - Added Interface SignalRResource
+  - Added Interface TrackedResource
+    
+    
 ## 5.1.0 (2022-03-30)
     
 **Features**

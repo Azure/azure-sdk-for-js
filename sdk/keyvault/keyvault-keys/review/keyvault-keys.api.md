@@ -258,6 +258,7 @@ export class KeyClient {
 
 // @public
 export interface KeyClientOptions extends ExtendedCommonClientOptions {
+    disableChallengeResourceVerification?: boolean;
     serviceVersion?: string;
 }
 

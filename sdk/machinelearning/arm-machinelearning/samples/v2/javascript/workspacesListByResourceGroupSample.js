@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Lists all the available machine learning workspaces under the specified resource group.
  *
  * @summary Lists all the available machine learning workspaces under the specified resource group.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/Workspace/listByResourceGroup.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Workspace/listByResourceGroup.json
  */
 async function getWorkspacesByResourceGroup() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";

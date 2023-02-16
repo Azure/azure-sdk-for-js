@@ -141,7 +141,6 @@ export const MonitoredResourceListResponse: coreClient.CompositeMapper = {
     modelProperties: {
       value: {
         serializedName: "value",
-        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -154,7 +153,6 @@ export const MonitoredResourceListResponse: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        required: true,
         type: {
           name: "String"
         }
@@ -364,18 +362,12 @@ export const UserInfo: coreClient.CompositeMapper = {
     className: "UserInfo",
     modelProperties: {
       firstName: {
-        constraints: {
-          MaxLength: 50
-        },
         serializedName: "firstName",
         type: {
           name: "String"
         }
       },
       lastName: {
-        constraints: {
-          MaxLength: 50
-        },
         serializedName: "lastName",
         type: {
           name: "String"
@@ -417,27 +409,18 @@ export const PlanData: coreClient.CompositeMapper = {
     className: "PlanData",
     modelProperties: {
       usageType: {
-        constraints: {
-          MaxLength: 50
-        },
         serializedName: "usageType",
         type: {
           name: "String"
         }
       },
       billingCycle: {
-        constraints: {
-          MaxLength: 50
-        },
         serializedName: "billingCycle",
         type: {
           name: "String"
         }
       },
       planDetails: {
-        constraints: {
-          MaxLength: 50
-        },
         serializedName: "planDetails",
         type: {
           name: "String"
@@ -769,7 +752,6 @@ export const MonitorResourceListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        required: true,
         type: {
           name: "String"
         }
@@ -908,7 +890,6 @@ export const TagRuleListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        required: true,
         type: {
           name: "String"
         }
@@ -937,7 +918,6 @@ export const DynatraceSingleSignOnResourceListResult: coreClient.CompositeMapper
       },
       nextLink: {
         serializedName: "nextLink",
-        required: true,
         type: {
           name: "String"
         }
@@ -953,7 +933,6 @@ export const VMHostsListResponse: coreClient.CompositeMapper = {
     modelProperties: {
       value: {
         serializedName: "value",
-        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -966,7 +945,6 @@ export const VMHostsListResponse: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        required: true,
         type: {
           name: "String"
         }
@@ -1045,7 +1023,6 @@ export const AppServiceListResponse: coreClient.CompositeMapper = {
     modelProperties: {
       value: {
         serializedName: "value",
-        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -1058,7 +1035,6 @@ export const AppServiceListResponse: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        required: true,
         type: {
           name: "String"
         }

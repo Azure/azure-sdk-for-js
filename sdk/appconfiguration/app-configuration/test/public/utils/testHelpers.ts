@@ -2,23 +2,17 @@
 // Licensed under the MIT license.
 
 import { AppConfigurationClient, AppConfigurationClientOptions } from "../../../src";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ConfigurationSetting,
   ListConfigurationSettingPage,
   ListRevisionsPage,
 } from "../../../src";
-import {
-  Recorder,
-  RecorderEnvironmentSetup,
-  env,
-  isPlaybackMode,
-  record,
-} from "@azure-tools/test-recorder";
-import { assert } from "chai";
-
-import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
+import { Recorder, RecorderStartOptions, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RestError } from "@azure/core-rest-pipeline";
+import { TokenCredential } from "@azure/identity";
+import { assert } from "chai";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 let connectionStringNotPresentWarning = false;
 let tokenCredentialsNotPresentWarning = false;
@@ -28,9 +22,9 @@ export interface CredsAndEndpoint {
   endpoint: string;
 }
 
-export function startRecorder(that: Mocha.Context): Recorder {
-  const recorderEnvSetup: RecorderEnvironmentSetup = {
-    replaceableVariables: {
+export async function startRecorder(that: Mocha.Context): Promise<Recorder> {
+  const recorderStartOptions: RecorderStartOptions = {
+    envSetupForPlayback: {
       APPCONFIG_CONNECTION_STRING:
         "Endpoint=https://myappconfig.azconfig.io;Id=123456;Secret=123456",
       AZ_CONFIG_ENDPOINT: "https://myappconfig.azconfig.io",
@@ -38,14 +32,14 @@ export function startRecorder(that: Mocha.Context): Recorder {
       AZURE_CLIENT_SECRET: "azure_client_secret",
       AZURE_TENANT_ID: "azuretenantid",
     },
-    customizationsOnRecordings: [],
-    queryParametersToSkip: [],
   };
 
-  return record(that, recorderEnvSetup);
+  const recorder = new Recorder(that.currentTest);
+  await recorder.start(recorderStartOptions);
+  return recorder;
 }
 
-export function getTokenAuthenticationCredential(): CredsAndEndpoint | undefined {
+export function getTokenAuthenticationCredential(): CredsAndEndpoint {
   const requiredEnvironmentVariables = [
     "AZ_CONFIG_ENDPOINT",
     "AZURE_CLIENT_ID",
@@ -59,32 +53,28 @@ export function getTokenAuthenticationCredential(): CredsAndEndpoint | undefined
     if (value == null) {
       if (tokenCredentialsNotPresentWarning) {
         tokenCredentialsNotPresentWarning = true;
-        console.log("Functional tests not running - set client identity variables to activate");
       }
 
-      return undefined;
+      throw new Error("Invalid value for requiredEnvironmentVariables");
     }
   }
 
   return {
-    credential: new DefaultAzureCredential(),
+    credential: createTestCredential(),
     endpoint: env["AZ_CONFIG_ENDPOINT"]!,
   };
 }
 
 export function createAppConfigurationClientForTests<
   Options extends AppConfigurationClientOptions = AppConfigurationClientOptions
->(options?: Options): AppConfigurationClient | undefined {
+>(options?: Options): AppConfigurationClient {
   const connectionString = env["APPCONFIG_CONNECTION_STRING"];
 
   if (connectionString == null) {
     if (!connectionStringNotPresentWarning) {
       connectionStringNotPresentWarning = true;
-      console.log(
-        "Functional tests not running - set APPCONFIG_CONNECTION_STRING to a valid AppConfig connection string to activate"
-      );
     }
-    return undefined;
+    throw new Error("Invalid value for APPCONFIG_CONNECTION_STRING");
   }
 
   return new AppConfigurationClient(connectionString, options);
@@ -103,6 +93,16 @@ export async function deleteKeyCompletely(
       await client.setReadOnly(setting, false);
     }
 
+    await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
+  }
+}
+
+export async function deleteEverySetting(): Promise<void> {
+  const client = createAppConfigurationClientForTests();
+  const settingsList = client.listConfigurationSettings({});
+
+  for await (const setting of settingsList) {
+    await client.setReadOnly({ key: setting.key, label: setting.label }, false);
     await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
   }
 }

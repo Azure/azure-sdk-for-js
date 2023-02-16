@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ConfidentialLedgerClient } from "@azure/arm-confidentialledger";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Retrieves a list of available API operations
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/stable/2022-05-13/examples/Operations_Get.json
  */
 async function operationsGet() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONFIDENTIALLEDGER_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ConfidentialLedgerClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +33,8 @@ async function operationsGet() {
   console.log(resArray);
 }
 
-operationsGet().catch(console.error);
+async function main() {
+  operationsGet();
+}
+
+main().catch(console.error);

@@ -26,6 +26,7 @@ export const baseCommandInfo = makeCommandInfo("dev-tool", "Azure SDK for JS dev
  * Default dev-tool subcommand
  */
 export const baseCommand = async (...args: string[]): Promise<void> => {
+  log.debug("dev-tool bootstrapped from command:", process.argv0);
   const status = await subCommand(baseCommandInfo, baseCommands)(...args);
 
   if (!status) {

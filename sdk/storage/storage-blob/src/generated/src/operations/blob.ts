@@ -6,10 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { Blob } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { StorageClientContext } from "../storageClientContext";
+import { StorageClient } from "../storageClient";
 import {
   BlobDownloadOptionalParams,
   BlobDownloadResponse,
@@ -53,6 +54,7 @@ import {
   AccessTier,
   BlobSetTierOptionalParams,
   BlobSetTierResponse,
+  BlobGetAccountInfoOptionalParams,
   BlobGetAccountInfoResponse,
   BlobQueryOptionalParams,
   BlobQueryResponse,
@@ -62,15 +64,15 @@ import {
   BlobSetTagsResponse
 } from "../models";
 
-/** Class representing a Blob. */
-export class Blob {
-  private readonly client: StorageClientContext;
+/** Class containing Blob operations. */
+export class BlobImpl implements Blob {
+  private readonly client: StorageClient;
 
   /**
    * Initialize a new instance of the class Blob class.
    * @param client Reference to the service client
    */
-  constructor(client: StorageClientContext) {
+  constructor(client: StorageClient) {
     this.client = client;
   }
 
@@ -82,13 +84,7 @@ export class Blob {
   download(
     options?: BlobDownloadOptionalParams
   ): Promise<BlobDownloadResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      downloadOperationSpec
-    ) as Promise<BlobDownloadResponse>;
+    return this.client.sendOperationRequest({ options }, downloadOperationSpec);
   }
 
   /**
@@ -99,13 +95,10 @@ export class Blob {
   getProperties(
     options?: BlobGetPropertiesOptionalParams
   ): Promise<BlobGetPropertiesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       getPropertiesOperationSpec
-    ) as Promise<BlobGetPropertiesResponse>;
+    );
   }
 
   /**
@@ -124,13 +117,7 @@ export class Blob {
    * @param options The options parameters.
    */
   delete(options?: BlobDeleteOptionalParams): Promise<BlobDeleteResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      deleteOperationSpec
-    ) as Promise<BlobDeleteResponse>;
+    return this.client.sendOperationRequest({ options }, deleteOperationSpec);
   }
 
   /**
@@ -140,13 +127,7 @@ export class Blob {
   undelete(
     options?: BlobUndeleteOptionalParams
   ): Promise<BlobUndeleteResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      undeleteOperationSpec
-    ) as Promise<BlobUndeleteResponse>;
+    return this.client.sendOperationRequest({ options }, undeleteOperationSpec);
   }
 
   /**
@@ -158,14 +139,10 @@ export class Blob {
     expiryOptions: BlobExpiryOptions,
     options?: BlobSetExpiryOptionalParams
   ): Promise<BlobSetExpiryResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      expiryOptions,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { expiryOptions, options },
       setExpiryOperationSpec
-    ) as Promise<BlobSetExpiryResponse>;
+    );
   }
 
   /**
@@ -175,13 +152,10 @@ export class Blob {
   setHttpHeaders(
     options?: BlobSetHttpHeadersOptionalParams
   ): Promise<BlobSetHttpHeadersResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       setHttpHeadersOperationSpec
-    ) as Promise<BlobSetHttpHeadersResponse>;
+    );
   }
 
   /**
@@ -191,13 +165,10 @@ export class Blob {
   setImmutabilityPolicy(
     options?: BlobSetImmutabilityPolicyOptionalParams
   ): Promise<BlobSetImmutabilityPolicyResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       setImmutabilityPolicyOperationSpec
-    ) as Promise<BlobSetImmutabilityPolicyResponse>;
+    );
   }
 
   /**
@@ -207,13 +178,10 @@ export class Blob {
   deleteImmutabilityPolicy(
     options?: BlobDeleteImmutabilityPolicyOptionalParams
   ): Promise<BlobDeleteImmutabilityPolicyResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       deleteImmutabilityPolicyOperationSpec
-    ) as Promise<BlobDeleteImmutabilityPolicyResponse>;
+    );
   }
 
   /**
@@ -225,14 +193,10 @@ export class Blob {
     legalHold: boolean,
     options?: BlobSetLegalHoldOptionalParams
   ): Promise<BlobSetLegalHoldResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      legalHold,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { legalHold, options },
       setLegalHoldOperationSpec
-    ) as Promise<BlobSetLegalHoldResponse>;
+    );
   }
 
   /**
@@ -243,13 +207,10 @@ export class Blob {
   setMetadata(
     options?: BlobSetMetadataOptionalParams
   ): Promise<BlobSetMetadataResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       setMetadataOperationSpec
-    ) as Promise<BlobSetMetadataResponse>;
+    );
   }
 
   /**
@@ -260,13 +221,10 @@ export class Blob {
   acquireLease(
     options?: BlobAcquireLeaseOptionalParams
   ): Promise<BlobAcquireLeaseResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       acquireLeaseOperationSpec
-    ) as Promise<BlobAcquireLeaseResponse>;
+    );
   }
 
   /**
@@ -279,14 +237,10 @@ export class Blob {
     leaseId: string,
     options?: BlobReleaseLeaseOptionalParams
   ): Promise<BlobReleaseLeaseResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      leaseId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { leaseId, options },
       releaseLeaseOperationSpec
-    ) as Promise<BlobReleaseLeaseResponse>;
+    );
   }
 
   /**
@@ -299,14 +253,10 @@ export class Blob {
     leaseId: string,
     options?: BlobRenewLeaseOptionalParams
   ): Promise<BlobRenewLeaseResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      leaseId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { leaseId, options },
       renewLeaseOperationSpec
-    ) as Promise<BlobRenewLeaseResponse>;
+    );
   }
 
   /**
@@ -323,15 +273,10 @@ export class Blob {
     proposedLeaseId: string,
     options?: BlobChangeLeaseOptionalParams
   ): Promise<BlobChangeLeaseResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      leaseId,
-      proposedLeaseId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { leaseId, proposedLeaseId, options },
       changeLeaseOperationSpec
-    ) as Promise<BlobChangeLeaseResponse>;
+    );
   }
 
   /**
@@ -342,13 +287,10 @@ export class Blob {
   breakLease(
     options?: BlobBreakLeaseOptionalParams
   ): Promise<BlobBreakLeaseResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       breakLeaseOperationSpec
-    ) as Promise<BlobBreakLeaseResponse>;
+    );
   }
 
   /**
@@ -358,13 +300,10 @@ export class Blob {
   createSnapshot(
     options?: BlobCreateSnapshotOptionalParams
   ): Promise<BlobCreateSnapshotResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       createSnapshotOperationSpec
-    ) as Promise<BlobCreateSnapshotResponse>;
+    );
   }
 
   /**
@@ -379,14 +318,10 @@ export class Blob {
     copySource: string,
     options?: BlobStartCopyFromURLOptionalParams
   ): Promise<BlobStartCopyFromURLResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      copySource,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { copySource, options },
       startCopyFromURLOperationSpec
-    ) as Promise<BlobStartCopyFromURLResponse>;
+    );
   }
 
   /**
@@ -402,14 +337,10 @@ export class Blob {
     copySource: string,
     options?: BlobCopyFromURLOptionalParams
   ): Promise<BlobCopyFromURLResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      copySource,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { copySource, options },
       copyFromURLOperationSpec
-    ) as Promise<BlobCopyFromURLResponse>;
+    );
   }
 
   /**
@@ -423,14 +354,10 @@ export class Blob {
     copyId: string,
     options?: BlobAbortCopyFromURLOptionalParams
   ): Promise<BlobAbortCopyFromURLResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      copyId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { copyId, options },
       abortCopyFromURLOperationSpec
-    ) as Promise<BlobAbortCopyFromURLResponse>;
+    );
   }
 
   /**
@@ -446,14 +373,10 @@ export class Blob {
     tier: AccessTier,
     options?: BlobSetTierOptionalParams
   ): Promise<BlobSetTierResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      tier,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { tier, options },
       setTierOperationSpec
-    ) as Promise<BlobSetTierResponse>;
+    );
   }
 
   /**
@@ -461,15 +384,12 @@ export class Blob {
    * @param options The options parameters.
    */
   getAccountInfo(
-    options?: coreHttp.OperationOptions
+    options?: BlobGetAccountInfoOptionalParams
   ): Promise<BlobGetAccountInfoResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       getAccountInfoOperationSpec
-    ) as Promise<BlobGetAccountInfoResponse>;
+    );
   }
 
   /**
@@ -478,13 +398,7 @@ export class Blob {
    * @param options The options parameters.
    */
   query(options?: BlobQueryOptionalParams): Promise<BlobQueryResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      queryOperationSpec
-    ) as Promise<BlobQueryResponse>;
+    return this.client.sendOperationRequest({ options }, queryOperationSpec);
   }
 
   /**
@@ -492,13 +406,7 @@ export class Blob {
    * @param options The options parameters.
    */
   getTags(options?: BlobGetTagsOptionalParams): Promise<BlobGetTagsResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getTagsOperationSpec
-    ) as Promise<BlobGetTagsResponse>;
+    return this.client.sendOperationRequest({ options }, getTagsOperationSpec);
   }
 
   /**
@@ -506,19 +414,13 @@ export class Blob {
    * @param options The options parameters.
    */
   setTags(options?: BlobSetTagsOptionalParams): Promise<BlobSetTagsResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      setTagsOperationSpec
-    ) as Promise<BlobSetTagsResponse>;
+    return this.client.sendOperationRequest({ options }, setTagsOperationSpec);
   }
 }
 // Operation Specifications
-const xmlSerializer = new coreHttp.Serializer(Mappers, /* isXml */ true);
+const xmlSerializer = coreClient.createSerializer(Mappers, /* isXml */ true);
 
-const downloadOperationSpec: coreHttp.OperationSpec = {
+const downloadOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "GET",
   responses: {
@@ -567,7 +469,7 @@ const downloadOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const getPropertiesOperationSpec: coreHttp.OperationSpec = {
+const getPropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "HEAD",
   responses: {
@@ -602,7 +504,7 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const deleteOperationSpec: coreHttp.OperationSpec = {
+const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "DELETE",
   responses: {
@@ -636,7 +538,7 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const undeleteOperationSpec: coreHttp.OperationSpec = {
+const undeleteOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
   responses: {
@@ -658,7 +560,7 @@ const undeleteOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const setExpiryOperationSpec: coreHttp.OperationSpec = {
+const setExpiryOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
   responses: {
@@ -682,7 +584,7 @@ const setExpiryOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const setHttpHeadersOperationSpec: coreHttp.OperationSpec = {
+const setHttpHeadersOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
   responses: {
@@ -716,7 +618,7 @@ const setHttpHeadersOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const setImmutabilityPolicyOperationSpec: coreHttp.OperationSpec = {
+const setImmutabilityPolicyOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
   responses: {
@@ -741,7 +643,7 @@ const setImmutabilityPolicyOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const deleteImmutabilityPolicyOperationSpec: coreHttp.OperationSpec = {
+const deleteImmutabilityPolicyOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "DELETE",
   responses: {
@@ -763,7 +665,7 @@ const deleteImmutabilityPolicyOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const setLegalHoldOperationSpec: coreHttp.OperationSpec = {
+const setLegalHoldOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
   responses: {
@@ -786,7 +688,7 @@ const setLegalHoldOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const setMetadataOperationSpec: coreHttp.OperationSpec = {
+const setMetadataOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
   responses: {
@@ -819,7 +721,7 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const acquireLeaseOperationSpec: coreHttp.OperationSpec = {
+const acquireLeaseOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
   responses: {
@@ -849,7 +751,7 @@ const acquireLeaseOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const releaseLeaseOperationSpec: coreHttp.OperationSpec = {
+const releaseLeaseOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
   responses: {
@@ -878,7 +780,7 @@ const releaseLeaseOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const renewLeaseOperationSpec: coreHttp.OperationSpec = {
+const renewLeaseOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
   responses: {
@@ -907,7 +809,7 @@ const renewLeaseOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const changeLeaseOperationSpec: coreHttp.OperationSpec = {
+const changeLeaseOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
   responses: {
@@ -937,7 +839,7 @@ const changeLeaseOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const breakLeaseOperationSpec: coreHttp.OperationSpec = {
+const breakLeaseOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
   responses: {
@@ -966,7 +868,7 @@ const breakLeaseOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const createSnapshotOperationSpec: coreHttp.OperationSpec = {
+const createSnapshotOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
   responses: {
@@ -999,7 +901,7 @@ const createSnapshotOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const startCopyFromURLOperationSpec: coreHttp.OperationSpec = {
+const startCopyFromURLOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
   responses: {
@@ -1041,7 +943,7 @@ const startCopyFromURLOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const copyFromURLOperationSpec: coreHttp.OperationSpec = {
+const copyFromURLOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
   responses: {
@@ -1085,7 +987,7 @@ const copyFromURLOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const abortCopyFromURLOperationSpec: coreHttp.OperationSpec = {
+const abortCopyFromURLOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
   responses: {
@@ -1113,7 +1015,7 @@ const abortCopyFromURLOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const setTierOperationSpec: coreHttp.OperationSpec = {
+const setTierOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
   responses: {
@@ -1147,7 +1049,7 @@ const setTierOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const getAccountInfoOperationSpec: coreHttp.OperationSpec = {
+const getAccountInfoOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "GET",
   responses: {
@@ -1165,7 +1067,7 @@ const getAccountInfoOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const queryOperationSpec: coreHttp.OperationSpec = {
+const queryOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "POST",
   responses: {
@@ -1215,7 +1117,7 @@ const queryOperationSpec: coreHttp.OperationSpec = {
   mediaType: "xml",
   serializer: xmlSerializer
 };
-const getTagsOperationSpec: coreHttp.OperationSpec = {
+const getTagsOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "GET",
   responses: {
@@ -1245,7 +1147,7 @@ const getTagsOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const setTagsOperationSpec: coreHttp.OperationSpec = {
+const setTagsOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
   responses: {

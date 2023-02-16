@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { DevBoxDefinitions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,9 +19,10 @@ import {
   DevBoxDefinition,
   DevBoxDefinitionsListByDevCenterNextOptionalParams,
   DevBoxDefinitionsListByDevCenterOptionalParams,
+  DevBoxDefinitionsListByDevCenterResponse,
   DevBoxDefinitionsListByProjectNextOptionalParams,
   DevBoxDefinitionsListByProjectOptionalParams,
-  DevBoxDefinitionsListByDevCenterResponse,
+  DevBoxDefinitionsListByProjectResponse,
   DevBoxDefinitionsGetOptionalParams,
   DevBoxDefinitionsGetResponse,
   DevBoxDefinitionsCreateOrUpdateOptionalParams,
@@ -29,7 +31,6 @@ import {
   DevBoxDefinitionsUpdateOptionalParams,
   DevBoxDefinitionsUpdateResponse,
   DevBoxDefinitionsDeleteOptionalParams,
-  DevBoxDefinitionsListByProjectResponse,
   DevBoxDefinitionsGetByProjectOptionalParams,
   DevBoxDefinitionsGetByProjectResponse,
   DevBoxDefinitionsListByDevCenterNextResponse,
@@ -51,7 +52,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * List Dev Box definitions for a devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -72,11 +73,15 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDevCenterPagingPage(
           resourceGroupName,
           devCenterName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -85,15 +90,22 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   private async *listByDevCenterPagingPage(
     resourceGroupName: string,
     devCenterName: string,
-    options?: DevBoxDefinitionsListByDevCenterOptionalParams
+    options?: DevBoxDefinitionsListByDevCenterOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DevBoxDefinition[]> {
-    let result = await this._listByDevCenter(
-      resourceGroupName,
-      devCenterName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DevBoxDefinitionsListByDevCenterResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByDevCenter(
+        resourceGroupName,
+        devCenterName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByDevCenterNext(
         resourceGroupName,
@@ -102,7 +114,9 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -122,7 +136,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * List Dev Box definitions configured for a project.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -143,11 +157,15 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByProjectPagingPage(
           resourceGroupName,
           projectName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -156,15 +174,22 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   private async *listByProjectPagingPage(
     resourceGroupName: string,
     projectName: string,
-    options?: DevBoxDefinitionsListByProjectOptionalParams
+    options?: DevBoxDefinitionsListByProjectOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DevBoxDefinition[]> {
-    let result = await this._listByProject(
-      resourceGroupName,
-      projectName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DevBoxDefinitionsListByProjectResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByProject(
+        resourceGroupName,
+        projectName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByProjectNext(
         resourceGroupName,
@@ -173,7 +198,9 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -193,7 +220,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * List Dev Box definitions for a devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -210,7 +237,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * Gets a Dev Box definition
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param options The options parameters.
@@ -229,7 +256,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * Creates or updates a Dev Box definition.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param body Represents a Dev Box definition.
@@ -302,7 +329,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * Creates or updates a Dev Box definition.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param body Represents a Dev Box definition.
@@ -327,7 +354,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * Partially updates a Dev Box definition.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param body Represents a Dev Box definition.
@@ -400,7 +427,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * Partially updates a Dev Box definition.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param body Represents a Dev Box definition.
@@ -425,7 +452,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * Deletes a Dev Box definition
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param options The options parameters.
@@ -491,7 +518,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * Deletes a Dev Box definition
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param options The options parameters.
@@ -513,7 +540,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * List Dev Box definitions configured for a project.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -530,7 +557,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * Gets a Dev Box definition configured for a project
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param options The options parameters.
@@ -549,7 +576,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * ListByDevCenterNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param nextLink The nextLink from the previous successful call to the ListByDevCenter method.
    * @param options The options parameters.
@@ -568,7 +595,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * ListByProjectNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param nextLink The nextLink from the previous successful call to the ListByProject method.
    * @param options The options parameters.

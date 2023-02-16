@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */{
+ */ {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -14,7 +14,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.63.0",
+  "rushVersion": "5.89.0",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -23,35 +23,9 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "6.32.3",
+  "pnpmVersion": "7.26.0",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
-  /**
-   * Options that are only used when the PNPM package manager is selected
-   */
-  "pnpmOptions": {
-    /**
-     * If true, then Rush will add the "--strict-peer-dependencies" option when invoking PNPM.
-     * This causes "rush install" to fail if there are unsatisfied peer dependencies, which is
-     * an invalid state that can cause build failures or incompatible dependency versions.
-     * (For historical reasons, JavaScript package managers generally do not treat this invalid
-     * state as an error.)
-     *
-     * The default value is false to avoid legacy compatibility issues.
-     * It is strongly recommended to set strictPeerDependencies=true.
-     */
-    "strictPeerDependencies": true,
-    /**
-     * Configures the strategy used to select versions during installation.
-     *
-     * This feature requires PNPM version 3.1 or newer.  It corresponds to the "--resolution-strategy" command-line
-     * option for PNPM.  Possible values are "fast" and "fewer-dependencies".  PNPM's default is "fast", but this may
-     * be incompatible with certain packages, for example the "@types" packages from DefinitelyTyped.  Rush's default
-     * is "fewer-dependencies", which causes PNPM to avoid installing a newer version if an already installed version
-     * can be reused; this is more similar to NPM's algorithm.
-     */
-    "resolutionStrategy": "fewer-dependencies"
-  },
   /**
    * Older releases of the NodeJS engine may be missing features required by your system.
    * Other releases may have bugs.  In particular, the "latest" version will not be a
@@ -60,7 +34,7 @@
    * Specify a SemVer range to ensure developers use a NodeJS version that is appropriate
    * for your repo.
    */
-  "nodeSupportedVersionRange": ">=8.0.0",
+  "nodeSupportedVersionRange": ">=14.0.0",
   /**
    * Odd-numbered major versions of Node.js are experimental.  Even-numbered releases
    * spend six months in a stabilization period before the first Long Term Support (LTS) version.
@@ -362,8 +336,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/ai-anomaly-detector",
-      "projectFolder": "sdk/anomalydetector/ai-anomaly-detector",
+      "packageName": "@azure-rest/ai-anomaly-detector",
+      "projectFolder": "sdk/anomalydetector/ai-anomaly-detector-rest",
       "versionPolicyName": "client"
     },
     {
@@ -589,7 +563,7 @@
     {
       "packageName": "@azure/keyvault-common",
       "projectFolder": "sdk/keyvault/keyvault-common",
-      "versionPolicyName": "utility"
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/keyvault-admin",
@@ -615,6 +589,29 @@
       "packageName": "@azure/logger",
       "projectFolder": "sdk/core/logger",
       "versionPolicyName": "core"
+    },
+    {
+      "packageName": "@azure/maps-common",
+      "projectFolder": "sdk/maps/maps-common",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/maps-route",
+      "projectFolder": "sdk/maps/maps-route-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/maps-render",
+      "projectFolder": "sdk/maps/maps-render-rest"
+    },
+    {
+      "packageName": "@azure-rest/maps-geolocation",
+      "projectFolder": "sdk/maps/maps-geolocation-rest"
+    },
+    {
+      "packageName": "@azure-rest/maps-search",
+      "projectFolder": "sdk/maps/maps-search-rest",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/notification-hubs",
@@ -722,11 +719,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure-tools/testing-recorder-new",
-      "projectFolder": "sdk/test-utils/testing-recorder-new",
-      "versionPolicyName": "test"
-    },
-    {
       "packageName": "@azure/eslint-plugin-azure-sdk",
       "projectFolder": "common/tools/eslint-plugin-azure-sdk",
       "versionPolicyName": "utility"
@@ -764,11 +756,6 @@
     {
       "packageName": "@azure/iot-modelsrepository",
       "projectFolder": "sdk/iot/iot-modelsrepository",
-      "versionPolicyName": "client"
-    },
-    {
-      "packageName": "@azure/dtdl-parser",
-      "projectFolder": "sdk/digitaltwins/dtdl-parser",
       "versionPolicyName": "client"
     },
     {
@@ -882,6 +869,11 @@
       "versionPolicyName": "test"
     },
     {
+      "packageName": "@azure-tests/perf-monitor-ingestion",
+      "projectFolder": "sdk/monitor/perf-tests/monitor-ingestion",
+      "versionPolicyName": "test"
+    },
+    {
       "packageName": "@azure-tests/perf-template",
       "projectFolder": "sdk/template/perf-tests/template",
       "versionPolicyName": "test"
@@ -902,9 +894,19 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure-rest/arm-network",
+      "projectFolder": "sdk/network/arm-network-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-compute",
       "projectFolder": "sdk/compute/arm-compute",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/arm-compute",
+      "projectFolder": "sdk/compute/arm-compute-rest",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/arm-storage",
@@ -1082,11 +1084,6 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/arm-videoanalyzer",
-      "projectFolder": "sdk/videoanalyzer/arm-videoanalyzer",
-      "versionPolicyName": "management"
-    },
-    {
       "packageName": "@azure/arm-notificationhubs",
       "projectFolder": "sdk/notificationhubs/arm-notificationhubs",
       "versionPolicyName": "management"
@@ -1194,11 +1191,6 @@
     {
       "packageName": "@azure/arm-cognitiveservices",
       "projectFolder": "sdk/cognitiveservices/arm-cognitiveservices",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/arm-loadtestservice",
-      "projectFolder": "sdk/loadtestservice/arm-loadtestservice",
       "versionPolicyName": "management"
     },
     {
@@ -1434,11 +1426,6 @@
     {
       "packageName": "@azure/arm-webservices",
       "projectFolder": "sdk/machinelearning/arm-webservices",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/arm-machinelearningservices",
-      "projectFolder": "sdk/machinelearningservices/arm-machinelearningservices",
       "versionPolicyName": "management"
     },
     {
@@ -1722,11 +1709,6 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/arm-app",
-      "projectFolder": "sdk/app/arm-app",
-      "versionPolicyName": "management"
-    },
-    {
       "packageName": "@azure/arm-hardwaresecuritymodules",
       "projectFolder": "sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules",
       "versionPolicyName": "management"
@@ -1849,6 +1831,91 @@
     {
       "packageName": "@azure/arm-agrifood",
       "projectFolder": "sdk/agrifood/arm-agrifood",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-chaos",
+      "projectFolder": "sdk/chaos/arm-chaos",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/functions-authentication-events",
+      "projectFolder": "sdk/entra/functions-authentication-events",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/developer-devcenter",
+      "projectFolder": "sdk/devcenter/developer-devcenter-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-securitydevops",
+      "projectFolder": "sdk/securitydevops/arm-securitydevops",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-devhub",
+      "projectFolder": "sdk/devhub/arm-devhub",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/load-testing",
+      "projectFolder": "sdk/loadtesting/load-testing-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-elasticsan",
+      "projectFolder": "sdk/elasticsans/arm-elasticsan",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-appcomplianceautomation",
+      "projectFolder": "sdk/appcomplianceautomation/arm-appcomplianceautomation",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-elastic",
+      "projectFolder": "sdk/elastic/arm-elastic",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-hybridcontainerservice",
+      "projectFolder": "sdk/hybridcontainerservice/arm-hybridcontainerservice",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-loadtesting",
+      "projectFolder": "sdk/loadtesting/arm-loadtesting",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/web-pubsub-client",
+      "projectFolder": "sdk/web-pubsub/web-pubsub-client",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-billingbenefits",
+      "projectFolder": "sdk/billingbenefits/arm-billingbenefits",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-servicenetworking",
+      "projectFolder": "sdk/servicenetworking/arm-servicenetworking",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-dataprotection",
+      "projectFolder": "sdk/dataprotection/arm-dataprotection",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-liftrqumulo",
+      "projectFolder": "sdk/liftrqumulo/arm-liftrqumulo",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storagemover",
+      "projectFolder": "sdk/storagemover/arm-storagemover",
       "versionPolicyName": "management"
     }
   ]

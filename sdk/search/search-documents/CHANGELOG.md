@@ -4,9 +4,15 @@
 
 ### Features Added
 
+- Enable `OcrSkill` and `ImageAnalysisSkill`. [#23495](https://github.com/Azure/azure-sdk-for-js/pull/23495)
+
 ### Breaking Changes
 
+- Update `SearchIndexerDataNoneIdentity.odatatype`. [#23495](https://github.com/Azure/azure-sdk-for-js/pull/23495)
+
 ### Bugs Fixed
+
+- Fix discarded user-defined `onResponse` callback [#24479](https://github.com/Azure/azure-sdk-for-js/pull/24479)
 
 ### Other Changes
 

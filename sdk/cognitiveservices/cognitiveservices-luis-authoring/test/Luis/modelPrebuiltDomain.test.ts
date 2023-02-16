@@ -8,8 +8,8 @@ import * as chai from "chai";
 import { BaseTest } from "../baseTest";
 import { LUISAuthoringClient } from "../../src/lUISAuthoringClient";
 
-describe("Model Prebuilt Domain Tests", () => {
-  it('should add custom prebuilt domain', async () => {
+describe("Model Prebuilt Domain Tests", function () {
+  it('should add custom prebuilt domain', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const appId = await client.apps.add({
         name: "Existing LUIS App",
@@ -37,7 +37,7 @@ describe("Model Prebuilt Domain Tests", () => {
     });
   });
 
-  it('should delete custom prebuilt domain', async () => {
+  it('should delete custom prebuilt domain', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const appId = await client.apps.add({
         name: "Existing LUIS App",
@@ -61,7 +61,7 @@ describe("Model Prebuilt Domain Tests", () => {
     });
   });
 
-  it('should list custom prebuilt entities', async () => {
+  it('should list custom prebuilt entities', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const appId = await client.apps.add({
         name: "Existing LUIS App",
@@ -87,7 +87,7 @@ describe("Model Prebuilt Domain Tests", () => {
     });
   });
 
-  it('should add custom prebuilt entity', async () => {
+  it('should add custom prebuilt entity', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const appId = await client.apps.add({
         name: "Existing LUIS App",
@@ -110,7 +110,7 @@ describe("Model Prebuilt Domain Tests", () => {
   });
 
 
-  it('should list custom prebuilt intents', async () => {
+  it('should list custom prebuilt intents', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const appId = await client.apps.add({
         name: "Existing LUIS App",
@@ -129,7 +129,7 @@ describe("Model Prebuilt Domain Tests", () => {
     });
   });
 
-  it('should add custom prebuilt intent', async () => {
+  it('should add custom prebuilt intent', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const appId = await client.apps.add({
         name: "Existing LUIS App",
@@ -148,7 +148,7 @@ describe("Model Prebuilt Domain Tests", () => {
     });
   });
 
-  it('should list custom prebuilt models', async () => {
+  it('should list custom prebuilt models', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const appId = await client.apps.add({
         name: "Existing LUIS App",

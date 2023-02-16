@@ -6,14 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Replications } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Replication,
   ReplicationsListNextOptionalParams,
@@ -45,7 +50,7 @@ export class ReplicationsImpl implements Replications {
 
   /**
    * Lists all the replications for the specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -62,8 +67,16 @@ export class ReplicationsImpl implements Replications {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, registryName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          registryName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -71,11 +84,18 @@ export class ReplicationsImpl implements Replications {
   private async *listPagingPage(
     resourceGroupName: string,
     registryName: string,
-    options?: ReplicationsListOptionalParams
+    options?: ReplicationsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Replication[]> {
-    let result = await this._list(resourceGroupName, registryName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ReplicationsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, registryName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -84,7 +104,9 @@ export class ReplicationsImpl implements Replications {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -104,7 +126,7 @@ export class ReplicationsImpl implements Replications {
 
   /**
    * Lists all the replications for the specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -121,7 +143,7 @@ export class ReplicationsImpl implements Replications {
 
   /**
    * Gets the properties of the specified replication.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param replicationName The name of the replication.
    * @param options The options parameters.
@@ -140,7 +162,7 @@ export class ReplicationsImpl implements Replications {
 
   /**
    * Creates a replication for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param replicationName The name of the replication.
    * @param replication The parameters for creating a replication.
@@ -153,8 +175,8 @@ export class ReplicationsImpl implements Replications {
     replication: Replication,
     options?: ReplicationsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationsCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationsCreateResponse>,
       ReplicationsCreateResponse
     >
   > {
@@ -164,7 +186,7 @@ export class ReplicationsImpl implements Replications {
     ): Promise<ReplicationsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -197,20 +219,24 @@ export class ReplicationsImpl implements Replications {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         registryName,
         replicationName,
         replication,
         options
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationsCreateResponse,
+      OperationState<ReplicationsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -218,7 +244,7 @@ export class ReplicationsImpl implements Replications {
 
   /**
    * Creates a replication for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param replicationName The name of the replication.
    * @param replication The parameters for creating a replication.
@@ -243,7 +269,7 @@ export class ReplicationsImpl implements Replications {
 
   /**
    * Deletes a replication from a container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param replicationName The name of the replication.
    * @param options The options parameters.
@@ -253,14 +279,14 @@ export class ReplicationsImpl implements Replications {
     registryName: string,
     replicationName: string,
     options?: ReplicationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -293,14 +319,15 @@ export class ReplicationsImpl implements Replications {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, registryName, replicationName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, registryName, replicationName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -308,7 +335,7 @@ export class ReplicationsImpl implements Replications {
 
   /**
    * Deletes a replication from a container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param replicationName The name of the replication.
    * @param options The options parameters.
@@ -330,7 +357,7 @@ export class ReplicationsImpl implements Replications {
 
   /**
    * Updates a replication for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param replicationName The name of the replication.
    * @param replicationUpdateParameters The parameters for updating a replication.
@@ -343,8 +370,8 @@ export class ReplicationsImpl implements Replications {
     replicationUpdateParameters: ReplicationUpdateParameters,
     options?: ReplicationsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationsUpdateResponse>,
       ReplicationsUpdateResponse
     >
   > {
@@ -354,7 +381,7 @@ export class ReplicationsImpl implements Replications {
     ): Promise<ReplicationsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -387,20 +414,24 @@ export class ReplicationsImpl implements Replications {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         registryName,
         replicationName,
         replicationUpdateParameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationsUpdateResponse,
+      OperationState<ReplicationsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -408,7 +439,7 @@ export class ReplicationsImpl implements Replications {
 
   /**
    * Updates a replication for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param replicationName The name of the replication.
    * @param replicationUpdateParameters The parameters for updating a replication.
@@ -433,7 +464,7 @@ export class ReplicationsImpl implements Replications {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -577,7 +608,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ReplicationListResult
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

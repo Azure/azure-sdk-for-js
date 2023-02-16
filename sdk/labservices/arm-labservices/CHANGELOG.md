@@ -1,4 +1,30 @@
 # Release History
+
+## 3.1.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 3.1.0 (2023-01-17)
+    
+**Features**
+
+  - Added Type Alias ConnectionType
+  - Added function getContinuationToken
+  - Interface ImagesListByLabPlanNextOptionalParams no longer has parameter filter
+  - Interface LabPlansListBySubscriptionNextOptionalParams no longer has parameter filter
+  - Interface LabsListBySubscriptionNextOptionalParams no longer has parameter filter
+  - Interface SchedulesListByLabNextOptionalParams no longer has parameter filter
+  - Interface SkusListNextOptionalParams no longer has parameter filter
+  - Interface UsagesListByLocationNextOptionalParams no longer has parameter filter
+  - Interface UsersListByLabNextOptionalParams no longer has parameter filter
+  - Interface VirtualMachinesListByLabNextOptionalParams no longer has parameter filter
+    
     
 ## 3.0.0 (2022-08-24)
 

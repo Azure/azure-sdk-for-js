@@ -1,0 +1,88 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.AVS/privateClouds?api-version=2022-05-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-avs/3.2.1 core-rest-pipeline/1.10.1 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "511d8b0d-71c0-4ac0-ae20-78a80b658006"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 28 Dec 2022 02:17:09 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "d6969039-ece7-4ec1-9333-77fe874835df",
+        "x-ms-ratelimit-remaining-subscription-reads": "11998",
+        "x-ms-request-id": "d4464ebb-85f8-40e8-88d5-63b8e745ffe6",
+        "x-ms-routing-request-id": "KOREASOUTH:20221228T021709Z:d6969039-ece7-4ec1-9333-77fe874835df"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AVS/privateClouds/czwtest",
+            "location": "eastasia",
+            "name": "czwtest",
+            "properties": {
+              "availability": {
+                "strategy": "SingleZone",
+                "zone": 3
+              },
+              "circuit": {
+                "expressRouteID": "/subscriptions/2d94f07b-fb20-460f-93a9-b1874d197d78/resourceGroups/tnt26-cust-p01-eastasia/providers/Microsoft.Network/expressRouteCircuits/tnt26-cust-p01-eastasia-er",
+                "expressRoutePrivatePeeringID": "/subscriptions/2d94f07b-fb20-460f-93a9-b1874d197d78/resourceGroups/tnt26-cust-p01-eastasia/providers/Microsoft.Network/expressRouteCircuits/tnt26-cust-p01-eastasia-er/peerings/AzurePrivatePeering",
+                "primarySubnet": "192.168.0.232/30",
+                "secondarySubnet": "192.168.0.236/30"
+              },
+              "encryption": {
+                "status": "Disabled"
+              },
+              "endpoints": {
+                "hcxCloudManager": "https://192.168.0.9/",
+                "nsxtManager": "https://192.168.0.3/",
+                "vcsa": "https://192.168.0.2/"
+              },
+              "externalCloudLinks": [],
+              "identitySources": [],
+              "internet": "Disabled",
+              "managementCluster": {
+                "clusterId": 1,
+                "clusterSize": 3,
+                "hosts": [
+                  "esx20-r22.p01.eastasia.avs.azure.com",
+                  "esx12-r06.p01.eastasia.avs.azure.com",
+                  "esx21-r15.p01.eastasia.avs.azure.com"
+                ],
+                "provisioningState": "Building"
+              },
+              "managementNetwork": "192.168.0.0/26",
+              "networkBlock": "192.168.0.0/16",
+              "nsxPublicIpQuotaRaised": "Disabled",
+              "provisioningNetwork": "192.168.2.0/25",
+              "provisioningState": "Building",
+              "vmotionNetwork": "192.168.1.128/25"
+            },
+            "sku": {
+              "name": "av36"
+            },
+            "tags": {},
+            "type": "Microsoft.AVS/privateClouds"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

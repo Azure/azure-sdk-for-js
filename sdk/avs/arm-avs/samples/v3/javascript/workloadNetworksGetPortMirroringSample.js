@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { AzureVMwareSolutionAPI } = require("@azure/arm-avs");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get a port mirroring profile by id in a private cloud workload network.
  *
  * @summary Get a port mirroring profile by id in a private cloud workload network.
- * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/WorkloadNetworks_GetPortMirroringProfiles.json
+ * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/WorkloadNetworks_GetPortMirroringProfiles.json
  */
 async function workloadNetworksGetPortMirroring() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "group1";
+  const subscriptionId =
+    process.env["AVS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["AVS_RESOURCE_GROUP"] || "group1";
   const privateCloudName = "cloud1";
   const portMirroringId = "portMirroring1";
   const credential = new DefaultAzureCredential();
@@ -32,4 +34,8 @@ async function workloadNetworksGetPortMirroring() {
   console.log(result);
 }
 
-workloadNetworksGetPortMirroring().catch(console.error);
+async function main() {
+  workloadNetworksGetPortMirroring();
+}
+
+main().catch(console.error);

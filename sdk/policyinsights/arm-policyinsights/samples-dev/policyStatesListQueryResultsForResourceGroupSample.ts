@@ -13,6 +13,9 @@ import {
   PolicyInsightsClient
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Queries policy states for the resources under the resource group.
@@ -21,24 +24,24 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_QueryResourceGroupScope.json
  */
 async function queryLatestAtResourceGroupScope() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
-  const resourceGroupName = "myResourceGroup";
+  const resourceGroupName =
+    process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "myResourceGroup";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.policyStates.listQueryResultsForResourceGroup(
     policyStatesResource,
-    subscriptionId2,
+    subscriptionId,
     resourceGroupName
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
-
-queryLatestAtResourceGroupScope().catch(console.error);
 
 /**
  * This sample demonstrates how to Queries policy states for the resources under the resource group.
@@ -47,10 +50,12 @@ queryLatestAtResourceGroupScope().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_QueryResourceGroupScopeNextLink.json
  */
 async function queryLatestAtResourceGroupScopeWithNextLink() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
-  const resourceGroupName = "myResourceGroup";
+  const resourceGroupName =
+    process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "myResourceGroup";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options: PolicyStatesListQueryResultsForResourceGroupOptionalParams = {
     queryOptions: { skipToken: skipToken }
@@ -69,4 +74,9 @@ async function queryLatestAtResourceGroupScopeWithNextLink() {
   console.log(resArray);
 }
 
-queryLatestAtResourceGroupScopeWithNextLink().catch(console.error);
+async function main() {
+  queryLatestAtResourceGroupScope();
+  queryLatestAtResourceGroupScopeWithNextLink();
+}
+
+main().catch(console.error);

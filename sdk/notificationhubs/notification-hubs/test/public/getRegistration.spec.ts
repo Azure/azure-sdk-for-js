@@ -4,36 +4,31 @@
 import {
   AppleRegistrationDescription,
   createAppleRegistrationDescription,
-} from "@azure/notification-hubs/models/registration";
+} from "@azure/notification-hubs/models";
 import {
   NotificationHubsClientContext,
-  createClientContext,
-} from "@azure/notification-hubs/client";
-import { assert } from "@azure/test-utils";
-import { createRegistration } from "@azure/notification-hubs/client/createRegistration";
-import { deleteRegistration } from "@azure/notification-hubs/client/deleteRegistration";
-import { getRegistration } from "@azure/notification-hubs/client/getRegistration";
-
-// Load the .env file if it exists
-// eslint-disable-next-line sort-imports
-import * as dotenv from "dotenv";
-
-dotenv.config();
-
-// Define connection string and hub name
-const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";
-const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
-
-// Define message constants
-const DUMMY_DEVICE = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
-const deviceToken = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
-
-let registrationId: string;
-let context: NotificationHubsClientContext;
+  createRegistration,
+  deleteRegistration,
+  getRegistration,
+} from "@azure/notification-hubs/api";
+import { assert, isNode } from "@azure/test-utils";
+import { Recorder } from "@azure-tools/test-recorder";
+import { createRecordedClientContext } from "./utils/recordedClient.js";
 
 describe("getRegistration", () => {
-  beforeEach(async () => {
-    context = createClientContext(connectionString, hubName);
+  let recorder: Recorder;
+  let context: NotificationHubsClientContext;
+  let registrationId: string;
+  const deviceToken = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
+
+  beforeEach(async function () {
+    if (!isNode) {
+      return;
+    }
+
+    recorder = new Recorder(this.currentTest);
+    await recorder.setMatcher("BodilessMatcher");
+    context = await createRecordedClientContext(recorder);
 
     let registration = createAppleRegistrationDescription({
       deviceToken,
@@ -48,10 +43,19 @@ describe("getRegistration", () => {
   });
 
   afterEach(async () => {
+    if (!isNode) {
+      return;
+    }
+
     await deleteRegistration(context, registrationId);
+    await recorder.stop();
   });
 
-  it("should get a registration by the given registration ID", async () => {
+  it("should get a registration by the given registration ID", async function () {
+    if (!isNode) {
+      this.skip();
+    }
+
     const registration = await getRegistration(context!, registrationId!);
 
     assert.equal(registration.registrationId, registrationId);

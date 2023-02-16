@@ -6,7 +6,7 @@ In this sample, we build a simple application in React Native using Expo and int
 
 ## Prerequisites
 
-The samples are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
+The samples are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
 
 Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript].
 

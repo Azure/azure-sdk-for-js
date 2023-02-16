@@ -8,31 +8,25 @@
 
 import {
   env,
-  record,
-  RecorderEnvironmentSetup,
   Recorder,
+  RecorderStartOptions,
   delay,
-  isPlaybackMode
+  isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import * as assert from "assert";
-import { ClientSecretCredential } from "@azure/identity";
+import { createTestCredential } from "@azure-tools/test-credential";
+import { assert } from "chai";
+import { Context } from "mocha";
 import { ContainerRegistryManagementClient } from "../src/containerRegistryManagementClient";
 
-const recorderEnvSetup: RecorderEnvironmentSetup = {
-  replaceableVariables: {
-    AZURE_CLIENT_ID: "azure_client_id",
-    AZURE_CLIENT_SECRET: "azure_client_secret",
-    AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-    SUBSCRIPTION_ID: "azure_subscription_id"
-  },
-  customizationsOnRecordings: [
-    (recording: any): any =>
-      recording.replace(
-        /"access_token":"[^"]*"/g,
-        `"access_token":"access_token"`
-      )
-  ],
-  queryParametersToSkip: []
+const replaceableVariables: Record<string, string> = {
+  AZURE_CLIENT_ID: "azure_client_id",
+  AZURE_CLIENT_SECRET: "azure_client_secret",
+  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
+};
+
+const recorderOptions: RecorderStartOptions = {
+  envSetupForPlayback: replaceableVariables
 };
 
 export const testPollingOptions = {
@@ -50,16 +44,13 @@ describe("ContainerRegistry test", () => {
   let exportPipelineName: string;
   let taskName: string
 
-  beforeEach(async function() {
-    recorder = record(this, recorderEnvSetup);
-    subscriptionId = env.SUBSCRIPTION_ID;
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
-    const credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET
-    );
-    client = new ContainerRegistryManagementClient(credential, subscriptionId);
+    const credential = createTestCredential();
+    client = new ContainerRegistryManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "myjstest";
     registryName = "myregistryxxxyy";
@@ -68,22 +59,22 @@ describe("ContainerRegistry test", () => {
     taskName = "mytaskxxx";
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
-  it("registries create test", async function() {
-    const res = await client.registries.beginCreateAndWait(resourceGroup,registryName,{
-        location: location,
-          tags: {
-              key: "value"
-          },
-          sku: {
-              name: "Premium"
-          },
-          adminUserEnabled: false
-      },testPollingOptions);
-      assert.equal(res.name,registryName)
+  it("registries create test", async function () {
+    const res = await client.registries.beginCreateAndWait(resourceGroup, registryName, {
+      location: location,
+      tags: {
+        key: "value"
+      },
+      sku: {
+        name: "Premium"
+      },
+      adminUserEnabled: false
+    }, testPollingOptions);
+    assert.equal(res.name, registryName)
   });
 
   // it("importPipelines create test", async function() {
@@ -168,96 +159,96 @@ describe("ContainerRegistry test", () => {
   //   assert.equal(resArray.length,0);
   // });
 
-  it("tasks create test", async function() {
-    const res = await client.tasks.beginCreateAndWait(resourceGroup,registryName,taskName,{
+  it("tasks create test", async function () {
+    const res = await client.tasks.beginCreateAndWait(resourceGroup, registryName, taskName, {
       location: location,
       tags: {
-          testkey: "value"
+        testkey: "value"
       },
       status: "Enabled",
       platform: {
-          os: "Linux",
-          architecture: "amd64"
+        os: "Linux",
+        architecture: "amd64"
       },
       agentConfiguration: {
-          cpu: 2
+        cpu: 2
       },
       step: {
-          type: "Docker",
-          contextPath: "https://github.com/SteveLasker/node-helloworld",
-          imageNames: ["testtask:v1"],
-          dockerFilePath: "DockerFile",
-          isPushEnabled: true,
-          noCache: false
+        type: "Docker",
+        contextPath: "https://github.com/SteveLasker/node-helloworld",
+        imageNames: ["testtask:v1"],
+        dockerFilePath: "DockerFile",
+        isPushEnabled: true,
+        noCache: false
       },
       trigger: {
-          baseImageTrigger: {
-              name: "myBaseImageTrigger",
-              baseImageTriggerType: "Runtime",
-              updateTriggerPayloadType: "Default",
-              status: "Enabled"
-          }
+        baseImageTrigger: {
+          name: "myBaseImageTrigger",
+          baseImageTriggerType: "Runtime",
+          updateTriggerPayloadType: "Default",
+          status: "Enabled"
+        }
       }
-    },testPollingOptions);
-    assert.equal(res.name,taskName);
+    }, testPollingOptions);
+    assert.equal(res.name, taskName);
   });
 
-  it("tasks get test", async function() {
-    const res = await client.tasks.get(resourceGroup,registryName,taskName);
-    assert.equal(res.name,taskName);
+  it("tasks get test", async function () {
+    const res = await client.tasks.get(resourceGroup, registryName, taskName);
+    assert.equal(res.name, taskName);
   });
 
-  it("tasks list test", async function() {
+  it("tasks list test", async function () {
     const resArray = new Array();
-    for await (let item of client.tasks.list(resourceGroup,registryName)){
-        resArray.push(item);
+    for await (let item of client.tasks.list(resourceGroup, registryName)) {
+      resArray.push(item);
     }
-    assert.equal(resArray.length,1);
+    assert.equal(resArray.length, 1);
   });
 
-  it("tasks update test", async function() {
-    const res = await client.tasks.beginUpdateAndWait(resourceGroup,registryName,taskName,{
+  it("tasks update test", async function () {
+    const res = await client.tasks.beginUpdateAndWait(resourceGroup, registryName, taskName, {
       tags: {
-          testkey: "value"
+        testkey: "value"
       },
       status: "Enabled",
       platform: {
-          os: "Linux",
-          architecture: "amd64"
+        os: "Linux",
+        architecture: "amd64"
       },
       agentConfiguration: {
-          cpu: 2
+        cpu: 2
       },
       step: {
-          type: "Docker",
-          contextPath: "https://github.com/SteveLasker/node-helloworld",
-          imageNames: ["testtask:v1"],
-          dockerFilePath: "DockerFile",
-          isPushEnabled: true,
-          noCache: false
+        type: "Docker",
+        contextPath: "https://github.com/SteveLasker/node-helloworld",
+        imageNames: ["testtask:v1"],
+        dockerFilePath: "DockerFile",
+        isPushEnabled: true,
+        noCache: false
       },
       trigger: {
-          baseImageTrigger: {
-              name: "myBaseImageTrigger",
-              baseImageTriggerType: "Runtime",
-              updateTriggerPayloadType: "Default",
-              status: "Enabled"
-          }
+        baseImageTrigger: {
+          name: "myBaseImageTrigger",
+          baseImageTriggerType: "Runtime",
+          updateTriggerPayloadType: "Default",
+          status: "Enabled"
+        }
       }
-    },testPollingOptions);
-    assert.equal(res.type,"Microsoft.ContainerRegistry/registries/tasks");
+    }, testPollingOptions);
+    assert.equal(res.type, "Microsoft.ContainerRegistry/registries/tasks");
   });
 
-  it("tasks delete test", async function() {
-    const res = await client.tasks.beginDeleteAndWait(resourceGroup,registryName,taskName,testPollingOptions);
+  it("tasks delete test", async function () {
+    const res = await client.tasks.beginDeleteAndWait(resourceGroup, registryName, taskName, testPollingOptions);
     const resArray = new Array();
-    for await (let item of client.tasks.list(resourceGroup,registryName)){
-        resArray.push(item);
+    for await (let item of client.tasks.list(resourceGroup, registryName)) {
+      resArray.push(item);
     }
-    assert.equal(resArray.length,0);
+    assert.equal(resArray.length, 0);
   });
 
-  it("registries delete test", async function() {
-    const res = await client.registries.beginDeleteAndWait(resourceGroup,registryName,testPollingOptions);
+  it("registries delete test", async function () {
+    const res = await client.registries.beginDeleteAndWait(resourceGroup, registryName, testPollingOptions);
   });
 });

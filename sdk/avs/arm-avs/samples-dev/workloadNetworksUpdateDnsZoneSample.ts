@@ -10,16 +10,21 @@
 // Licensed under the MIT License.
 import { WorkloadNetworkDnsZone, AzureVMwareSolutionAPI } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update a DNS zone by id in a private cloud workload network.
  *
  * @summary Create or update a DNS zone by id in a private cloud workload network.
- * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/WorkloadNetworks_UpdateDnsZones.json
+ * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/WorkloadNetworks_UpdateDnsZones.json
  */
 async function workloadNetworksUpdateDnsZone() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "group1";
+  const subscriptionId =
+    process.env["AVS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["AVS_RESOURCE_GROUP"] || "group1";
   const privateCloudName = "cloud1";
   const dnsZoneId = "dnsZone1";
   const workloadNetworkDnsZone: WorkloadNetworkDnsZone = {
@@ -40,4 +45,8 @@ async function workloadNetworksUpdateDnsZone() {
   console.log(result);
 }
 
-workloadNetworksUpdateDnsZone().catch(console.error);
+async function main() {
+  workloadNetworksUpdateDnsZone();
+}
+
+main().catch(console.error);

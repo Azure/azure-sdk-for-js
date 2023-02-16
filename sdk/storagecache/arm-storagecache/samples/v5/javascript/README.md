@@ -37,7 +37,7 @@ These sample programs show how to use the JavaScript client libraries for in som
 
 ## Prerequisites
 
-The sample programs are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
+The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
 
 You need [an Azure subscription][freesub] to run these sample programs.
 
@@ -66,7 +66,7 @@ node ascOperationsGetSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node ascOperationsGetSample.js
+npx cross-env STORAGECACHE_SUBSCRIPTION_ID="<storagecache subscription id>" node ascOperationsGetSample.js
 ```
 
 ## Next Steps

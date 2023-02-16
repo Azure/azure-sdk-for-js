@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 const { SqlVirtualMachineManagementClient } = require("@azure/arm-sqlvirtualmachine");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists all of the available SQL Virtual Machine Rest API operations.
  *
  * @summary Lists all of the available SQL Virtual Machine Rest API operations.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2021-11-01-preview/examples/ListOperation.json
+ * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-07-01-preview/examples/ListOperation.json
  */
 async function listsAllOfTheAvailableSqlVirtualMachineRestApiOperations() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["SQLVIRTUALMACHINE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +30,8 @@ async function listsAllOfTheAvailableSqlVirtualMachineRestApiOperations() {
   console.log(resArray);
 }
 
-listsAllOfTheAvailableSqlVirtualMachineRestApiOperations().catch(console.error);
+async function main() {
+  listsAllOfTheAvailableSqlVirtualMachineRestApiOperations();
+}
+
+main().catch(console.error);

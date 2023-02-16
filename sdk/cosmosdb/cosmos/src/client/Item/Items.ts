@@ -24,6 +24,7 @@ import {
   OperationInput,
   BulkOptions,
   decorateBatchOperation,
+  splitBatchBasedOnBodySize,
 } from "../../utils/batch";
 import { hashV1PartitionKey } from "../../utils/hashing/v1";
 import { hashV2PartitionKey } from "../../utils/hashing/v2";
@@ -438,6 +439,7 @@ export class Items {
     await Promise.all(
       batches
         .filter((batch: Batch) => batch.operations.length)
+        .flatMap((batch: Batch) => splitBatchBasedOnBodySize(batch))
         .map(async (batch: Batch) => {
           if (batch.operations.length > 100) {
             throw new Error("Cannot run bulk request with more than 100 operations per partition");
@@ -501,7 +503,7 @@ export class Items {
     operations: OperationInput[],
     partitionKey: string = "[{}]",
     options?: RequestOptions
-  ): Promise<Response<any>> {
+  ): Promise<Response<OperationResponse[]>> {
     operations.map((operation) => decorateBatchOperation(operation, options));
 
     const path = getPathFromLink(this.container.url, ResourceType.item);
@@ -510,7 +512,7 @@ export class Items {
       throw new Error("Cannot run batch request with more than 100 operations per partition");
     }
     try {
-      const response = await this.clientContext.batch({
+      const response: Response<OperationResponse[]> = await this.clientContext.batch({
         body: operations,
         partitionKey,
         path,

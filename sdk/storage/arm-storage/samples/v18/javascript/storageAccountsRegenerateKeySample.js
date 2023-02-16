@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Regenerates one of the access keys or Kerberos keys for the specified storage account.
  *
  * @summary Regenerates one of the access keys or Kerberos keys for the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-05-01/examples/StorageAccountRegenerateKerbKey.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/StorageAccountRegenerateKerbKey.json
  */
 async function storageAccountRegenerateKerbKey() {
   const subscriptionId = "{subscription-id}";
@@ -40,7 +40,7 @@ storageAccountRegenerateKerbKey().catch(console.error);
  * This sample demonstrates how to Regenerates one of the access keys or Kerberos keys for the specified storage account.
  *
  * @summary Regenerates one of the access keys or Kerberos keys for the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-05-01/examples/StorageAccountRegenerateKey.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/StorageAccountRegenerateKey.json
  */
 async function storageAccountRegenerateKey() {
   const subscriptionId = "{subscription-id}";

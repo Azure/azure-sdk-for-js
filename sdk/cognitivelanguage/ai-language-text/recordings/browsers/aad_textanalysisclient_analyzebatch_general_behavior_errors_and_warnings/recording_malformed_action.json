@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs?api-version=2022-10-01-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -19,8 +19,8 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "faad472f-100d-4274-a3eb-bb20aac7508a",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.0.0 core-rest-pipeline/1.9.2 OS/Linuxx86_64"
+        "x-ms-client-request-id": "584b5cdf-d4fd-41f1-9b6e-6f7ed1622402",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": {
         "analysisInput": {
@@ -43,18 +43,28 @@
       },
       "StatusCode": 400,
       "ResponseHeaders": {
-        "apim-request-id": "0f0a61a0-d307-4923-b5ba-1165c7e2f114",
+        "apim-request-id": "77948d1c-b585-4836-b1a9-144cecf89785",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 07 Sep 2022 04:25:59 GMT",
+        "Date": "Tue, 01 Nov 2022 23:14:59 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "6"
+        "x-envoy-upstream-service-time": "7",
+        "x-ms-region": "East US"
       },
       "ResponseBody": {
         "error": {
           "code": "InvalidRequest",
-          "details": [],
+          "details": [
+            {
+              "code": "InvalidRequest",
+              "message": "Invalid Request.",
+              "innererror": {
+                "code": "InvalidParameterValue",
+                "message": "Job task parameter value \u0027bad\u0027 is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest, 2020-07-01, 2021-01-15."
+              }
+            }
+          ],
           "message": "Invalid Request.",
           "innererror": {
             "code": "InvalidParameterValue",

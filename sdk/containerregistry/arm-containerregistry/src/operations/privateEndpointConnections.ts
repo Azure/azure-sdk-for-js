@@ -6,14 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PrivateEndpointConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   PrivateEndpointConnection,
   PrivateEndpointConnectionsListNextOptionalParams,
@@ -43,7 +48,7 @@ export class PrivateEndpointConnectionsImpl
 
   /**
    * List all private endpoint connections in a container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -60,8 +65,16 @@ export class PrivateEndpointConnectionsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, registryName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          registryName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -69,11 +82,18 @@ export class PrivateEndpointConnectionsImpl
   private async *listPagingPage(
     resourceGroupName: string,
     registryName: string,
-    options?: PrivateEndpointConnectionsListOptionalParams
+    options?: PrivateEndpointConnectionsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PrivateEndpointConnection[]> {
-    let result = await this._list(resourceGroupName, registryName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PrivateEndpointConnectionsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, registryName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -82,7 +102,9 @@ export class PrivateEndpointConnectionsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -102,7 +124,7 @@ export class PrivateEndpointConnectionsImpl
 
   /**
    * List all private endpoint connections in a container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -119,7 +141,7 @@ export class PrivateEndpointConnectionsImpl
 
   /**
    * Get the specified private endpoint connection associated with the container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param options The options parameters.
@@ -143,7 +165,7 @@ export class PrivateEndpointConnectionsImpl
 
   /**
    * Update the state of specified private endpoint connection associated with the container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param privateEndpointConnection The parameters for creating a private endpoint connection.
@@ -156,8 +178,8 @@ export class PrivateEndpointConnectionsImpl
     privateEndpointConnection: PrivateEndpointConnection,
     options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>,
       PrivateEndpointConnectionsCreateOrUpdateResponse
     >
   > {
@@ -167,7 +189,7 @@ export class PrivateEndpointConnectionsImpl
     ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -200,20 +222,24 @@ export class PrivateEndpointConnectionsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         registryName,
         privateEndpointConnectionName,
         privateEndpointConnection,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PrivateEndpointConnectionsCreateOrUpdateResponse,
+      OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -221,7 +247,7 @@ export class PrivateEndpointConnectionsImpl
 
   /**
    * Update the state of specified private endpoint connection associated with the container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param privateEndpointConnection The parameters for creating a private endpoint connection.
@@ -246,7 +272,7 @@ export class PrivateEndpointConnectionsImpl
 
   /**
    * Deletes the specified private endpoint connection associated with the container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param options The options parameters.
@@ -256,14 +282,14 @@ export class PrivateEndpointConnectionsImpl
     registryName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -296,19 +322,20 @@ export class PrivateEndpointConnectionsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         registryName,
         privateEndpointConnectionName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -316,7 +343,7 @@ export class PrivateEndpointConnectionsImpl
 
   /**
    * Deletes the specified private endpoint connection associated with the container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param options The options parameters.
@@ -338,7 +365,7 @@ export class PrivateEndpointConnectionsImpl
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -451,7 +478,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PrivateEndpointConnectionListResult
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

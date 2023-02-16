@@ -10,16 +10,21 @@
 // Licensed under the MIT License.
 import { AzureVMwareSolutionAPI } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Delete a DNS zone by id in a private cloud workload network.
  *
  * @summary Delete a DNS zone by id in a private cloud workload network.
- * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/WorkloadNetworks_DeleteDnsZones.json
+ * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/WorkloadNetworks_DeleteDnsZones.json
  */
 async function workloadNetworksDeleteDnsZone() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "group1";
+  const subscriptionId =
+    process.env["AVS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["AVS_RESOURCE_GROUP"] || "group1";
   const dnsZoneId = "dnsZone1";
   const privateCloudName = "cloud1";
   const credential = new DefaultAzureCredential();
@@ -32,4 +37,8 @@ async function workloadNetworksDeleteDnsZone() {
   console.log(result);
 }
 
-workloadNetworksDeleteDnsZone().catch(console.error);
+async function main() {
+  workloadNetworksDeleteDnsZone();
+}
+
+main().catch(console.error);

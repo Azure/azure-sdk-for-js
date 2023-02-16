@@ -10,15 +10,20 @@
 // Licensed under the MIT License.
 import { AzureVMwareSolutionAPI } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Return quota for subscription by region
  *
  * @summary Return quota for subscription by region
- * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/Locations_CheckQuotaAvailability.json
+ * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/Locations_CheckQuotaAvailability.json
  */
 async function locationsCheckQuotaAvailability() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId =
+    process.env["AVS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const location = "eastus";
   const credential = new DefaultAzureCredential();
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
@@ -26,4 +31,8 @@ async function locationsCheckQuotaAvailability() {
   console.log(result);
 }
 
-locationsCheckQuotaAvailability().catch(console.error);
+async function main() {
+  locationsCheckQuotaAvailability();
+}
+
+main().catch(console.error);

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { EventGridManagementClient } = require("@azure/arm-eventgrid");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List the two keys used to publish to a partner namespace.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/PartnerNamespaces_ListSharedAccessKeys.json
  */
 async function partnerNamespacesListSharedAccessKeys() {
-  const subscriptionId = "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
-  const resourceGroupName = "examplerg";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] || "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
+  const resourceGroupName = process.env["EVENTGRID_RESOURCE_GROUP"] || "examplerg";
   const partnerNamespaceName = "examplePartnerNamespaceName1";
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
@@ -30,4 +32,8 @@ async function partnerNamespacesListSharedAccessKeys() {
   console.log(result);
 }
 
-partnerNamespacesListSharedAccessKeys().catch(console.error);
+async function main() {
+  partnerNamespacesListSharedAccessKeys();
+}
+
+main().catch(console.error);

@@ -1,14 +1,29 @@
 # Release History
 
-## 12.11.0-beta.2 (Unreleased)
+## 12.12.0 (Unreleased)
 
 ### Features Added
+
+- Added support for service version 2021-12-02.
+- Add support for acquiring, renewing and releasing lease in methods DataLakeFileClient.append() and flush().
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+- Update dependency `@azure/core-http` version to `^3.0.0`.
+
+## 12.11.0 (2022-10-14)
+
+### Features Added
+
+- Includes all features released in 12.11.0-beta.1.
+
+### Bugs Fixed
+
+- Fixed an issue of escaping slashes in file or directory path unnecessarily.
 
 ## 12.11.0-beta.1 (2022-08-26)
 

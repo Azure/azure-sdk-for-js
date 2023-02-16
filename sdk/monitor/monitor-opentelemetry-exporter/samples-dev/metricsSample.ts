@@ -3,7 +3,7 @@
 
 /**
  * This example shows how to use
- * [@opentelemetry/sdk-metrics-base](https://github.com/open-telemetry/opentelemetry-js/tree/main/experimental/packages/opentelemetry-sdk-metrics-base)
+ * [@opentelemetry/sdk-metrics](https://github.com/open-telemetry/opentelemetry-js/tree/main/experimental/packages/opentelemetry-sdk-metrics-base)
  * to generate Metrics in a simple Node.js application and export them to Azure Monitor.
  *
  * @summary Basic use of Metrics in Node.js application.

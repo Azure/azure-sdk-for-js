@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { PolicyInsightsClient } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Summarizes policy states for the resources under the resource group.
@@ -18,18 +21,24 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_SummarizeResourceGroupScope.json
  */
 async function summarizeAtResourceGroupScope() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyStatesSummaryResource = "latest";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
-  const resourceGroupName = "myResourceGroup";
+  const resourceGroupName =
+    process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "myResourceGroup";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const result = await client.policyStates.summarizeForResourceGroup(
     policyStatesSummaryResource,
-    subscriptionId2,
+    subscriptionId,
     resourceGroupName
   );
   console.log(result);
 }
 
-summarizeAtResourceGroupScope().catch(console.error);
+async function main() {
+  summarizeAtResourceGroupScope();
+}
+
+main().catch(console.error);

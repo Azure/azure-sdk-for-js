@@ -7,7 +7,7 @@ import { Context } from "mocha";
 import { assert } from "chai";
 import { createRecordedEmailClientWithConnectionString } from "./utils/recordedClient";
 
-describe(`EmailClient [Playback/Live]`, () => {
+describe(`EmailClient [Playback/Live]`, function () {
   let recorder: Recorder;
   let client: EmailClient;
 
@@ -136,5 +136,33 @@ describe(`EmailClient [Playback/Live]`, () => {
     } else {
       assert.fail();
     }
+  }).timeout(5000);
+
+  it("successfully sends an email with an empty to field", async function () {
+    const emailMessage: EmailMessage = {
+      sender: env.SENDER_ADDRESS || "",
+      recipients: {
+        cc: [
+          {
+            email: env.RECIPIENT_ADDRESS || "",
+            displayName: "someRecipient",
+          },
+        ],
+        bcc: [
+          {
+            email: env.RECIPIENT_ADDRESS || "",
+            displayName: "someRecipient",
+          },
+        ],
+      },
+      content: {
+        subject: "someSubject",
+        plainText: "somePlainTextBody",
+        html: "<html><h1>someHtmlBody</html>",
+      },
+    };
+
+    const response = await client.send(emailMessage);
+    assert.isNotNull(response.messageId);
   }).timeout(5000);
 });

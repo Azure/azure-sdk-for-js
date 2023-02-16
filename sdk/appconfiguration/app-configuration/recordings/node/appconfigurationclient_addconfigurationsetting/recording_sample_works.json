@@ -1,0 +1,54 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://myappconfig.azconfig.io/kv/addConfigSample171?api-version=1.0",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/vnd.microsoft.appconfig.kv\u002Bjson, application/json, application/problem\u002Bjson",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "46",
+        "Content-Type": "application/vnd.microsoft.appconfig.kv\u002Bjson",
+        "User-Agent": "azsdk-js-app-configuration/1.4.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
+        "x-ms-client-request-id": "c092e5c4-884f-454d-a66e-b2e064ae8ae1",
+        "x-ms-content-sha256": "6/FobA\u002BLjo4VtM0kMNPEd6XIuTYuYV6Q3pefiGLYZ8k=",
+        "x-ms-date": "Tue, 18 Oct 2022 22:31:44 GMT"
+      },
+      "RequestBody": {
+        "key": "addConfigSample171",
+        "value": "MyValue"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "DNT, X-CustomHeader, Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type, Authorization, x-ms-client-request-id, x-ms-useragent, x-ms-content-sha256, x-ms-date, host, Accept, Accept-Datetime, Date, If-Match, If-None-Match, Sync-Token, x-ms-return-client-request-id, ETag, Last-Modified, Link, Memento-Datetime, retry-after-ms, x-ms-request-id, x-ms-client-session-id, x-ms-effective-locale, WWW-Authenticate, traceparent, tracestate",
+        "Connection": "keep-alive",
+        "Content-Type": "application/vnd.microsoft.appconfig.kv\u002Bjson; charset=utf-8",
+        "Date": "Tue, 18 Oct 2022 22:31:44 GMT",
+        "ETag": "\u0022PvFLBR1QMIhcIo9xzpFHGBWy4aeppUOC9QUTHDE5-S0\u0022",
+        "Last-Modified": "Tue, 18 Oct 2022 22:31:44 GMT",
+        "Server": "openresty/1.17.8.2",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Sync-Token": "zAJw6V16=NDoxOSMyNTQ2OTE5NA==;sn=25469194",
+        "Transfer-Encoding": "chunked",
+        "x-ms-correlation-request-id": "f1e105df-3a51-49e7-9443-46885fbe6ca7",
+        "x-ms-request-id": "f1e105df-3a51-49e7-9443-46885fbe6ca7"
+      },
+      "ResponseBody": {
+        "etag": "PvFLBR1QMIhcIo9xzpFHGBWy4aeppUOC9QUTHDE5-S0",
+        "key": "addConfigSample171",
+        "label": null,
+        "content_type": null,
+        "value": "MyValue",
+        "tags": {},
+        "locked": false,
+        "last_modified": "2022-10-18T22:31:44\u002B00:00"
+      }
+    }
+  ],
+  "Variables": {
+    "addConfigSample": "addConfigSample171"
+  }
+}

@@ -11,7 +11,7 @@ import * as coreClient from "@azure/core-client";
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -25,6 +25,27 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 /** An error response from the ManagedServiceIdentity service. */
@@ -79,59 +100,6 @@ export interface UserAssignedIdentitiesListResult {
   value?: Identity[];
   /** The url to get the next page of results, if any. */
   nextLink?: string;
-}
-
-/** Azure resources returned by the resource action to get a list of assigned resources. */
-export interface AssociatedResourcesListResult {
-  /**
-   * Total number of Azure resources assigned to the identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly totalCount?: number;
-  /**
-   * The collection of Azure resources returned by the resource action to get a list of assigned resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: AzureResource[];
-  /**
-   * The url to get the next page of results, if any.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Describes an Azure resource that is attached to an identity. */
-export interface AzureResource {
-  /**
-   * The ID of this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The name of the resource group this resource belongs to.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceGroup?: string;
-  /**
-   * The ID of the subscription this resource belongs to.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subscriptionId?: string;
-  /**
-   * The name of the subscription this resource belongs to.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subscriptionDisplayName?: string;
 }
 
 /** Values returned by the List operation for federated identity credentials. */
@@ -233,6 +201,30 @@ export interface Identity extends TrackedResource {
   readonly clientId?: string;
 }
 
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
 /** Optional parameters. */
 export interface SystemAssignedIdentitiesGetByScopeOptionalParams
   extends coreClient.OperationOptions {}
@@ -267,24 +259,6 @@ export interface UserAssignedIdentitiesListByResourceGroupOptionalParams
 
 /** Contains response data for the listByResourceGroup operation. */
 export type UserAssignedIdentitiesListByResourceGroupResponse = UserAssignedIdentitiesListResult;
-
-/** Optional parameters. */
-export interface UserAssignedIdentitiesListAssociatedResourcesOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData filter expression to apply to the query. */
-  filter?: string;
-  /** OData orderBy expression to apply to the query. */
-  orderby?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skiptoken?: string;
-}
-
-/** Contains response data for the listAssociatedResources operation. */
-export type UserAssignedIdentitiesListAssociatedResourcesResponse = AssociatedResourcesListResult;
 
 /** Optional parameters. */
 export interface UserAssignedIdentitiesCreateOrUpdateOptionalParams
@@ -326,24 +300,6 @@ export interface UserAssignedIdentitiesListByResourceGroupNextOptionalParams
 export type UserAssignedIdentitiesListByResourceGroupNextResponse = UserAssignedIdentitiesListResult;
 
 /** Optional parameters. */
-export interface UserAssignedIdentitiesListAssociatedResourcesNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData filter expression to apply to the query. */
-  filter?: string;
-  /** OData orderBy expression to apply to the query. */
-  orderby?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skiptoken?: string;
-}
-
-/** Contains response data for the listAssociatedResourcesNext operation. */
-export type UserAssignedIdentitiesListAssociatedResourcesNextResponse = AssociatedResourcesListResult;
-
-/** Optional parameters. */
 export interface FederatedIdentityCredentialsListOptionalParams
   extends coreClient.OperationOptions {
   /** Number of records to return. */
@@ -375,12 +331,7 @@ export interface FederatedIdentityCredentialsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface FederatedIdentityCredentialsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Number of records to return. */
-  top?: number;
-  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skiptoken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type FederatedIdentityCredentialsListNextResponse = FederatedIdentityCredentialsListResult;

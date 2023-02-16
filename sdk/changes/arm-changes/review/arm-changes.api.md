@@ -46,9 +46,9 @@ export interface ChangeResourceListResult {
 }
 
 // @public
-export type ChangeResourceResult = Resource & {
+export interface ChangeResourceResult extends Resource {
     properties?: ChangeProperties;
-};
+}
 
 // @public
 export interface Changes {
@@ -123,6 +123,9 @@ export interface ErrorDetail {
 export interface ErrorResponse {
     error?: ErrorDetail;
 }
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export type PropertyChangeType = "Update" | "Insert" | "Remove";

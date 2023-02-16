@@ -126,6 +126,6 @@ const getServiceStatisticsOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept, Parameters.xMsClientRequestId],
+  headerParameters: [Parameters.accept],
   serializer
 };

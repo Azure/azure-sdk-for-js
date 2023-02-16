@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { SensitivityLabels } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,12 +17,12 @@ import {
   SensitivityLabel,
   SensitivityLabelsListCurrentByDatabaseNextOptionalParams,
   SensitivityLabelsListCurrentByDatabaseOptionalParams,
+  SensitivityLabelsListCurrentByDatabaseResponse,
   SensitivityLabelsListRecommendedByDatabaseNextOptionalParams,
   SensitivityLabelsListRecommendedByDatabaseOptionalParams,
-  SensitivityLabelsListCurrentByDatabaseResponse,
+  SensitivityLabelsListRecommendedByDatabaseResponse,
   SensitivityLabelUpdateList,
   SensitivityLabelsUpdateOptionalParams,
-  SensitivityLabelsListRecommendedByDatabaseResponse,
   SensitivityLabelsEnableRecommendationOptionalParams,
   SensitivityLabelsDisableRecommendationOptionalParams,
   SensitivityLabelSource,
@@ -74,12 +75,16 @@ export class SensitivityLabelsImpl implements SensitivityLabels {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listCurrentByDatabasePagingPage(
           resourceGroupName,
           serverName,
           databaseName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -89,16 +94,23 @@ export class SensitivityLabelsImpl implements SensitivityLabels {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: SensitivityLabelsListCurrentByDatabaseOptionalParams
+    options?: SensitivityLabelsListCurrentByDatabaseOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SensitivityLabel[]> {
-    let result = await this._listCurrentByDatabase(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SensitivityLabelsListCurrentByDatabaseResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listCurrentByDatabase(
+        resourceGroupName,
+        serverName,
+        databaseName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listCurrentByDatabaseNext(
         resourceGroupName,
@@ -108,7 +120,9 @@ export class SensitivityLabelsImpl implements SensitivityLabels {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -155,12 +169,16 @@ export class SensitivityLabelsImpl implements SensitivityLabels {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listRecommendedByDatabasePagingPage(
           resourceGroupName,
           serverName,
           databaseName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -170,16 +188,23 @@ export class SensitivityLabelsImpl implements SensitivityLabels {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: SensitivityLabelsListRecommendedByDatabaseOptionalParams
+    options?: SensitivityLabelsListRecommendedByDatabaseOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SensitivityLabel[]> {
-    let result = await this._listRecommendedByDatabase(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SensitivityLabelsListRecommendedByDatabaseResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listRecommendedByDatabase(
+        resourceGroupName,
+        serverName,
+        databaseName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listRecommendedByDatabaseNext(
         resourceGroupName,
@@ -189,7 +214,9 @@ export class SensitivityLabelsImpl implements SensitivityLabels {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -687,12 +714,6 @@ const listCurrentByDatabaseNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [
-    Parameters.skipToken,
-    Parameters.apiVersion2,
-    Parameters.filter1,
-    Parameters.count
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -713,12 +734,6 @@ const listRecommendedByDatabaseNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [
-    Parameters.skipToken,
-    Parameters.apiVersion2,
-    Parameters.filter1,
-    Parameters.includeDisabledRecommendations
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

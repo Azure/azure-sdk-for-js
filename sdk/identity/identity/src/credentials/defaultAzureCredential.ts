@@ -1,58 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential } from "@azure/core-auth";
-
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
-
-import { ChainedTokenCredential } from "./chainedTokenCredential";
-
-import { AzureCliCredential } from "./azureCliCredential";
-import { AzurePowerShellCredential } from "./azurePowerShellCredential";
-import { EnvironmentCredential } from "./environmentCredential";
+import {
+  DefaultAzureCredentialClientIdOptions,
+  DefaultAzureCredentialOptions,
+  DefaultAzureCredentialResourceIdOptions,
+} from "./defaultAzureCredentialOptions";
 import {
   ManagedIdentityCredential,
   ManagedIdentityCredentialClientIdOptions,
   ManagedIdentityCredentialResourceIdOptions,
 } from "./managedIdentityCredential";
-
-/**
- * Provides options to configure the {@link DefaultAzureCredential} class.
- * This variation supports `managedIdentityClientId` and not `managedIdentityResourceId`, since only one of both is supported.
- */
-export interface DefaultAzureCredentialClientIdOptions extends DefaultAzureCredentialOptions {
-  /**
-   * Optionally pass in a user assigned client ID to be used by the {@link ManagedIdentityCredential}.
-   * This client ID can also be passed through to the {@link ManagedIdentityCredential} through the environment variable: AZURE_CLIENT_ID.
-   */
-  managedIdentityClientId?: string;
-}
-
-/**
- * Provides options to configure the {@link DefaultAzureCredential} class.
- * This variation supports `managedIdentityResourceId` and not `managedIdentityClientId`, since only one of both is supported.
- */
-export interface DefaultAzureCredentialResourceIdOptions extends DefaultAzureCredentialOptions {
-  /**
-   * Optionally pass in a resource ID to be used by the {@link ManagedIdentityCredential}.
-   * In scenarios such as when user assigned identities are created using an ARM template,
-   * where the resource Id of the identity is known but the client Id can't be known ahead of time,
-   * this parameter allows programs to use these user assigned identities
-   * without having to first determine the client Id of the created identity.
-   */
-  managedIdentityResourceId: string;
-}
-
-/**
- * Provides options to configure the {@link DefaultAzureCredential} class.
- */
-export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
-  /**
-   * Optionally pass in a Tenant ID to be used as part of the credential.
-   * By default it may use a generic tenant ID depending on the underlying credential.
-   */
-  tenantId?: string;
-}
+import { AzureCliCredential } from "./azureCliCredential";
+import { AzurePowerShellCredential } from "./azurePowerShellCredential";
+import { ChainedTokenCredential } from "./chainedTokenCredential";
+import { EnvironmentCredential } from "./environmentCredential";
+import { TokenCredential } from "@azure/core-auth";
+import { AzureDeveloperCliCredential } from "./azureDeveloperCliCredential";
 
 /**
  * The type of a class that implements TokenCredential and accepts either
@@ -108,6 +72,7 @@ export class DefaultManagedIdentityCredential extends ManagedIdentityCredential 
 export const defaultCredentials: DefaultCredentialConstructor[] = [
   EnvironmentCredential,
   DefaultManagedIdentityCredential,
+  AzureDeveloperCliCredential,
   AzureCliCredential,
   AzurePowerShellCredential,
 ];
@@ -127,6 +92,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
    *
    * - {@link EnvironmentCredential}
    * - {@link ManagedIdentityCredential}
+   * - {@link AzureDeveloperCliCredential}
    * - {@link AzureCliCredential}
    * - {@link AzurePowerShellCredential}
    *
@@ -147,6 +113,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
    *
    * - {@link EnvironmentCredential}
    * - {@link ManagedIdentityCredential}
+   * - {@link AzureDeveloperCliCredential}
    * - {@link AzureCliCredential}
    * - {@link AzurePowerShellCredential}
    *
@@ -167,6 +134,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
    *
    * - {@link EnvironmentCredential}
    * - {@link ManagedIdentityCredential}
+   * - {@link AzureDeveloperCliCredential}
    * - {@link AzureCliCredential}
    * - {@link AzurePowerShellCredential}
    *
@@ -184,7 +152,5 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
       | DefaultAzureCredentialClientIdOptions
   ) {
     super(...defaultCredentials.map((ctor) => new ctor(options)));
-    this.UnavailableMessage =
-      "DefaultAzureCredential => failed to retrieve a token from the included credentials. To troubleshoot, visit https://aka.ms/azsdk/js/identity/defaultazurecredential/troubleshoot.";
   }
 }

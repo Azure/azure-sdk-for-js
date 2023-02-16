@@ -270,7 +270,7 @@ describe("RuleManager tests", () => {
 
       const iterator = ruleManager.listRules().byPage();
       let result = await iterator.next();
-      assert.equal(result.value.length, 3, "Expecting one rule in first page");
+      assert.equal(result.value.length, 3, "Expecting three rules in first page");
       result = await iterator.next();
       assert.equal(result.value, undefined, "Not expecting any more pages");
     });

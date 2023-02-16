@@ -21,7 +21,7 @@ import {
   RecordingStateManager,
 } from "./utils/utils";
 import { Test } from "mocha";
-import { sessionFilePath } from "./utils/sessionFilePath";
+import { assetsJsonPath, sessionFilePath } from "./utils/sessionFilePath";
 import { SanitizerOptions } from "./utils/utils";
 import { paths } from "./utils/paths";
 import { addSanitizers, transformsInfo } from "./sanitizer";
@@ -42,6 +42,7 @@ import { setRecordingOptions } from "./options";
 import { isNode } from "@azure/core-util";
 import { env } from "./utils/env";
 import { decodeBase64 } from "./utils/encoding";
+import { isHttpHeadersLike } from "./utils/typeGuards";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -60,6 +61,7 @@ export class Recorder {
   private stateManager = new RecordingStateManager();
   private httpClient?: HttpClient;
   private sessionFile?: string;
+  private assetsJson?: string;
   private variables: Record<string, string>;
 
   constructor(private testContext?: Test | undefined) {
@@ -67,6 +69,8 @@ export class Recorder {
     if (isRecordMode() || isPlaybackMode()) {
       if (this.testContext) {
         this.sessionFile = sessionFilePath(this.testContext);
+        this.assetsJson = assetsJsonPath();
+
         logger.info(`[Recorder#constructor] Using a session file located at ${this.sessionFile}`);
         this.httpClient = createDefaultHttpClient();
       } else {
@@ -126,7 +130,7 @@ export class Recorder {
       redirectedUrl.port = testProxyUrl.port;
       redirectedUrl.protocol = testProxyUrl.protocol;
 
-      request.headers.set("x-recording-upstream-base-uri", upstreamUrl.toString());
+      request.headers.set("x-recording-upstream-base-uri", upstreamUrl.origin);
       request.url = redirectedUrl.toString();
 
       if (!(request instanceof WebResource)) {
@@ -134,6 +138,34 @@ export class Recorder {
         request.allowInsecureConnection = true;
       }
     }
+  }
+
+  /**
+   * revertRequestChanges reverts the request in record and playback modes back to the existing url.
+   * Works for both core-v1 and core-v2
+   *
+   * - WebResource -> core-v1
+   * - PipelineRequest -> core-v2
+   *
+   * Wrokflow:
+   *   - recorderHttpPolicy calls this method after the request is made
+   *   1. "redirectRequest" method is called to update the request with the proxy-tool url
+   *   2. Request hits the proxy tool, proxy-tool hits the service and returns the response
+   *   3. Using `revertRequestChanges`, we revert the request back to the original url
+   */
+  private revertRequestChanges(request: WebResource | PipelineRequest, originalUrl: string): void {
+    logger.info(
+      `[Recorder#revertRequestChanges] "undo"s the URL changes made by the recorder to hit the test proxy after the response is received,`,
+      request
+    );
+    const headers = request.headers;
+    const deleteHeaderFunc = isHttpHeadersLike(headers)
+      ? /* core-v1 */ headers.remove
+      : /* core-v2 */ headers.delete;
+    ["x-recording-id", "x-recording-mode"].forEach((headerName) =>
+      deleteHeaderFunc.call(headers, headerName)
+    );
+    request.url = originalUrl;
   }
 
   /**
@@ -214,16 +246,52 @@ export class Recorder {
       const startUri = `${Recorder.url}${isPlaybackMode() ? paths.playback : paths.record}${
         paths.start
       }`;
-      const req = createRecordingRequest(startUri, this.sessionFile, this.recordingId);
+
+      const req = createRecordingRequest(
+        startUri,
+        this.sessionFile,
+        this.recordingId,
+        "POST",
+        this.assetsJson
+      );
 
       if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient")) {
         logger.verbose("[Recorder#start] Setting redirect mode");
         await setRecordingOptions(Recorder.url, this.httpClient, { handleRedirects: !isNode });
         logger.verbose("[Recorder#start] Sending the start request to the test proxy");
-        const rsp = await this.httpClient.sendRequest({
+        let rsp = await this.httpClient.sendRequest({
           ...req,
           allowInsecureConnection: true,
         });
+
+        // If the error is due to the assets.json not existing, try again without specifying an assets.json. This will
+        // occur with SDKs that have not migrated to asset sync yet.
+        // TODO: remove once everyone has migrated to asset sync
+        if (rsp.status === 400 && rsp.headers.get("x-request-known-exception") === "true") {
+          const errorMessage = decodeBase64(rsp.headers.get("x-request-known-exception-error")!);
+          if (
+            errorMessage.includes("The provided assets") &&
+            errorMessage.includes("does not exist")
+          ) {
+            logger.info(
+              "[Recorder#start] start request failed, trying again without assets.json specified"
+            );
+
+            const retryRequest = createRecordingRequest(
+              startUri,
+              this.sessionFile,
+              this.recordingId,
+              "POST",
+              undefined
+            );
+
+            rsp = await this.httpClient.sendRequest({
+              ...retryRequest,
+              allowInsecureConnection: true,
+            });
+          }
+        }
+
         if (rsp.status !== 200) {
           logger.error("[Recorder#start] Could not start the recorder", rsp);
           throw new RecorderError("Start request failed.");
@@ -271,6 +339,7 @@ export class Recorder {
       const stopUri = `${Recorder.url}${isPlaybackMode() ? paths.playback : paths.record}${
         paths.stop
       }`;
+
       const req = createRecordingRequest(stopUri, undefined, this.recordingId);
       req.headers.set("x-recording-save", "true");
 
@@ -402,10 +471,11 @@ export class Recorder {
         request: PipelineRequest,
         next: SendRequest
       ): Promise<PipelineResponse> => {
+        const originalUrl = request.url;
         this.redirectRequest(request);
         const response = await next(request);
         this.handleTestProxyErrors(response);
-
+        this.revertRequestChanges(request, originalUrl);
         return response;
       },
     };

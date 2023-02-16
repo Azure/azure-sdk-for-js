@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { DataFactoryManagementClient } = require("@azure/arm-datafactory");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Add a data flow into debug session.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/DataFlowDebugSession_AddDataFlow.json
  */
 async function dataFlowDebugSessionAddDataFlow() {
-  const subscriptionId = "12345678-1234-1234-1234-12345678abc";
-  const resourceGroupName = "exampleResourceGroup";
+  const subscriptionId =
+    process.env["DATAFACTORY_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-12345678abc";
+  const resourceGroupName = process.env["DATAFACTORY_RESOURCE_GROUP"] || "exampleResourceGroup";
   const factoryName = "exampleFactoryName";
   const request = {
     dataFlow: {
@@ -27,7 +29,7 @@ async function dataFlowDebugSessionAddDataFlow() {
       properties: {
         type: "MappingDataFlow",
         script:
-          "\n\nsource(output(\n		Column_1 as string\n	),\n	allowSchemaDrift: true,\n	validateSchema: false) ~> source1",
+          "\n\nsource(output(\n\t\tColumn_1 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> source1",
         sinks: [],
         sources: [
           {
@@ -96,4 +98,8 @@ async function dataFlowDebugSessionAddDataFlow() {
   console.log(result);
 }
 
-dataFlowDebugSessionAddDataFlow().catch(console.error);
+async function main() {
+  dataFlowDebugSessionAddDataFlow();
+}
+
+main().catch(console.error);

@@ -14,12 +14,11 @@
  * @azsdk-weight 100
  */
 
-import { JsonPatch } from "@azure/notification-hubs/models/installation";
-import { createClientContext } from "@azure/notification-hubs/client";
-import { updateInstallation } from "@azure/notification-hubs/client/updateInstallation";
+import * as dotenv from "dotenv";
+import { createClientContext, updateInstallation } from "@azure/notification-hubs/api";
+import { JsonPatch } from "@azure/notification-hubs/models";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and hub name
