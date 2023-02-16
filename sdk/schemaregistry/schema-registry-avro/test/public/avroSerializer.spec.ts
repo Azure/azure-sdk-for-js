@@ -12,18 +12,27 @@ import { Context } from "mocha";
 import { MessageContent } from "../../src/";
 import chaiPromises from "chai-as-promised";
 import { createTestRegistry } from "./utils/mockedRegistryClient";
-import { isLive } from "./utils/isLive";
 import { v4 as uuid } from "uuid";
+import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
+import { SchemaRegistry } from "@azure/schema-registry";
 
 chaiUse(chaiPromises);
 
-describe("AvroSerializer", function () {
-  const noAutoRegisterOptions: CreateTestSerializerOptions<any> = {
-    serializerOptions: { autoRegisterSchemas: false, groupName: testGroup },
-  };
+describe("AvroSerializer", async function () {
+  let noAutoRegisterOptions: CreateTestSerializerOptions<any>;
+  let recorder: Recorder;
+  let registry: SchemaRegistry;
+
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    registry = createTestRegistry({ recorder });
+    noAutoRegisterOptions = {
+      serializerOptions: { autoRegisterSchemas: false, groupName: testGroup },
+      recorder,
+    };
+  });
 
   it("serializes to the expected format", async () => {
-    const registry = createTestRegistry();
     const schemaId = await registerTestSchema(registry);
     const serializer = await createTestSerializer<MessageContent>({
       ...noAutoRegisterOptions,
@@ -44,7 +53,6 @@ describe("AvroSerializer", function () {
   });
 
   it("deserializes from the expected format", async () => {
-    const registry = createTestRegistry();
     const schemaId = await registerTestSchema(registry);
     const serializer = await createTestSerializer<MessageContent>({
       ...noAutoRegisterOptions,
@@ -61,7 +69,7 @@ describe("AvroSerializer", function () {
   });
 
   it("serializes and deserializes in round trip", async () => {
-    let serializer = await createTestSerializer();
+    let serializer = await createTestSerializer({ recorder });
     let message = await serializer.serialize(testValue, testSchema);
     assert.deepStrictEqual(await serializer.deserialize(message), testValue);
 
@@ -79,7 +87,7 @@ describe("AvroSerializer", function () {
   });
 
   it("works with trivial example in README", async () => {
-    const serializer = await createTestSerializer();
+    const serializer = await createTestSerializer({ recorder });
 
     // Example Avro schema
     const schema = JSON.stringify({
@@ -102,7 +110,7 @@ describe("AvroSerializer", function () {
   });
 
   it("deserializes from a compatible reader schema", async () => {
-    const serializer = await createTestSerializer();
+    const serializer = await createTestSerializer({ recorder });
     const message = await serializer.serialize(testValue, testSchema);
     const deserializedValue: any = await serializer.deserialize(message, {
       /**
@@ -132,7 +140,6 @@ describe("AvroSerializer", function () {
   });
 
   it("ignores the old format", async () => {
-    const registry = createTestRegistry();
     const schemaId = await registerTestSchema(registry);
     const serializer = await createTestSerializer<MessageContent>({
       ...noAutoRegisterOptions,
@@ -157,7 +164,7 @@ describe("AvroSerializer", function () {
      * This test is very expensive to run in live because it registers too many
      * schemas but the standard-tier resource allows for up to 25 schemas only
      */
-    if (isLive) {
+    if (isLiveMode()) {
       this.skip();
     }
     function makeRndStr(length: number): string {
@@ -169,8 +176,7 @@ describe("AvroSerializer", function () {
       return result;
     }
 
-    const registry = createTestRegistry();
-    const serializer = await createTestSerializer({ registry });
+    const serializer = await createTestSerializer({ registry, recorder });
     /**
      * The standard tier resource supports registering up to 25 schemas per a schema group.
      */
