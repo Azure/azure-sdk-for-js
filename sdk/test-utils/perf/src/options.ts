@@ -81,7 +81,7 @@ export interface DefaultPerfOptions {
   cpus: number;
   "use-worker-threads": boolean;
   profile: boolean;
-  "profile-filepath": string;
+  "profile-path": string;
 }
 
 /**
@@ -151,7 +151,7 @@ export const defaultPerfOptions: PerfOptionDictionary<DefaultPerfOptions> = {
       "Set to true to profile the perf test. When set to true, `cpus` will be overriden to 1.",
     defaultValue: false,
   },
-  "profile-filepath": {
+  "profile-path": {
     description: "Used as the artifact path",
     defaultValue: `./profile/${getFormattedDate()}-perfProgram.cpuprofile`, 
     // If none provided, profiles get generated at the "/sdk/<service>/perf-tests/<package>/profile/"
