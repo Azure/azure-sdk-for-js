@@ -67,18 +67,24 @@ export interface ListLocalitiesOptions extends OperationOptions {
   administrativeDivision?: string;
 }
 
-export interface ListSipRoutesOptions extends OperationOptions {
-  /** An optional parameter for how many entries to skip, for pagination purposes. The default value is 0. */
-  skip?: number;
-  /** An optional parameter for how many entries to return, for pagination purposes. The default value is 100. */
-  maxPageSize?: number;
-}
+/**
+ * Additional options that can be passed to list SIP routes.
+ */
+export interface ListSipRoutesOptions extends OperationOptions {}
 
-export interface ListSipTrunksOptions extends OperationOptions {
-    /** An optional parameter for how many entries to skip, for pagination purposes. The default value is 0. */
-    skip?: number;
-    /** An optional parameter for how many entries to return, for pagination purposes. The default value is 100. */
-    maxPageSize?: number;
+/**
+ * Additional options that can be passed to list SIP trunks.
+ */
+export interface ListSipTrunksOptions extends GetSipTrunkOptions {}
+
+/** 
+ * Additional options that can be passed to get SIP trunk.
+ */
+export interface GetSipTrunkOptions extends OperationOptions {
+  /**
+   * Sets the optional parameter to retrieve SBC properties.
+   */
+  includeHealth?: boolean;
 }
 
 /**
@@ -140,10 +146,4 @@ export interface SipTrunk {
    * Represents health state of a SIP trunk for routing calls.
    */
   readonly health?: SipTrunkHealth;
-}
-
-export type GetSipTrunksExpandType = "trunks/health";
-
-export interface GetSipTrunksOptions extends OperationOptions {
-  expand?: GetSipTrunksExpandType;
 }

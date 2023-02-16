@@ -14,6 +14,8 @@ import {
   createRecordedClientWithToken,
   getUniqueFqdn,
   resetUniqueFqdns,
+  listAllRoutes,
+  listAllTrunks,
 } from "./utils/recordedClient";
 import { matrix } from "@azure/test-utils";
 
@@ -79,7 +81,7 @@ matrix([[true, false]], async function (useAad) {
       const setTrunks = await client.setTrunks(trunks);
       assert.deepEqual(setTrunks, trunks);
 
-      const storedTrunks = await listAllTrunks();
+      const storedTrunks = await listAllTrunks(client);
       assert.deepEqual(storedTrunks, trunks);
     });
 
@@ -96,7 +98,7 @@ matrix([[true, false]], async function (useAad) {
       const setTrunks = await client.setTrunks(trunks);
       assert.deepEqual(setTrunks, trunks);
 
-      const storedTrunks = await listAllTrunks();
+      const storedTrunks = await listAllTrunks(client);
       assert.deepEqual(storedTrunks, trunks);
     });
 
@@ -105,7 +107,7 @@ matrix([[true, false]], async function (useAad) {
 
       await client.setTrunks([]);
 
-      const storedTrunks = await listAllTrunks();
+      const storedTrunks = await listAllTrunks(client);
       assert.isNotNull(storedTrunks);
       assert.isArray(storedTrunks);
       assert.isEmpty(storedTrunks);
@@ -120,7 +122,7 @@ matrix([[true, false]], async function (useAad) {
 
       await client.setTrunks([]);
 
-      const storedTrunks = await listAllTrunks();
+      const storedTrunks = await listAllTrunks(client);
       assert.isNotNull(storedTrunks);
       assert.isArray(storedTrunks);
       assert.isEmpty(storedTrunks);
@@ -192,7 +194,7 @@ matrix([[true, false]], async function (useAad) {
         await client.setTrunks([{ fqdn: firstFqdn, sipSignalingPort: 1234 }]);
       } catch (error: any) {
         assert.equal(error.code, "UnprocessableConfiguration");
-        const storedTrunks = await listAllTrunks();
+        const storedTrunks = await listAllTrunks(client);
         assert.isNotNull(storedTrunks);
         assert.isArray(storedTrunks);
         assert.deepEqual(storedTrunks, expectedTrunks);
@@ -230,28 +232,8 @@ matrix([[true, false]], async function (useAad) {
       ];
       await client.setTrunks(trunks);
 
-      assert.deepEqual(await listAllTrunks(), trunks);
-      assert.deepEqual(await listAllRoutes(), routes);
+      assert.deepEqual(await listAllTrunks(client), trunks);
+      assert.deepEqual(await listAllRoutes(client), routes);
     });
-
-    async function listAllTrunks() : Promise<SipTrunk[]>
-    {
-      let result = [];
-      for await (const trunk of client.listTrunks())
-      {
-        result.push(trunk);
-      }
-      return result;
-    }
-
-    async function listAllRoutes() : Promise<SipTrunkRoute[]>
-    {
-      let result = [];
-      for await (const route of client.listRoutes())
-      {
-        result.push(route);
-      }
-      return result;
-    }
   });
 });

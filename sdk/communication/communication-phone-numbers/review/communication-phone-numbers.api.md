@@ -37,13 +37,9 @@ export interface BeginUpdatePhoneNumberCapabilitiesOptions extends OperationOpti
 // @public
 export type GetPurchasedPhoneNumberOptions = OperationOptions;
 
-// @public (undocumented)
-export type GetSipTrunksExpandType = "trunks/health";
-
-// @public (undocumented)
-export interface GetSipTrunksOptions extends OperationOptions {
-    // (undocumented)
-    expand?: GetSipTrunksExpandType;
+// @public
+export interface GetSipTrunkOptions extends OperationOptions {
+    includeHealth?: boolean;
 }
 
 // @public
@@ -73,6 +69,14 @@ export interface ListOfferingsOptions extends OperationOptions {
 
 // @public
 export interface ListPurchasedPhoneNumbersOptions extends OperationOptions {
+}
+
+// @public
+export interface ListSipRoutesOptions extends OperationOptions {
+}
+
+// @public
+export interface ListSipTrunksOptions extends GetSipTrunkOptions {
 }
 
 // @public
@@ -225,9 +229,9 @@ export class SipRoutingClient {
     constructor(endpoint: string, credential: KeyCredential, options?: SipRoutingClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: SipRoutingClientOptions);
     deleteTrunk(fqdn: string, options?: OperationOptions): Promise<void>;
-    getRoutes(options?: OperationOptions): Promise<SipTrunkRoute[]>;
-    getTrunk(fqdn: string, options?: GetSipTrunksOptions): Promise<SipTrunk>;
-    getTrunks(options?: GetSipTrunksOptions): Promise<SipTrunk[]>;
+    getTrunk(fqdn: string, options?: GetSipTrunkOptions): Promise<SipTrunk>;
+    listRoutes(options?: ListSipRoutesOptions): PagedAsyncIterableIterator<SipTrunkRoute>;
+    listTrunks(options?: ListSipTrunksOptions): PagedAsyncIterableIterator<SipTrunk>;
     setRoutes(routes: SipTrunkRoute[], options?: OperationOptions): Promise<SipTrunkRoute[]>;
     setTrunk(trunk: SipTrunk, options?: OperationOptions): Promise<SipTrunk>;
     setTrunks(trunks: SipTrunk[], options?: OperationOptions): Promise<SipTrunk[]>;
@@ -262,7 +266,7 @@ export interface SipTrunkActivity {
 
 // @public
 export interface SipTrunkHealth {
-    overall: SipTrunkActivity;
+    activity: SipTrunkActivity;
     ping: SipTrunkPing;
     tls: SipTrunkTls;
 }

@@ -9,8 +9,14 @@ import {
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SipRoutingClient as SipRoutingGeneratedClient } from "./generated/src/siprouting/sipRoutingClient";
-import { SipConfigurationPatch, SipRoutingError } from "./generated/src/siprouting/models";
-import { ListSipRoutesOptions, ListSipTrunksOptions, SipTrunk, SipTrunkRoute, GetSipTrunksOptions } from "./models";
+import { SipConfigurationPatch, SipRoutingError, SipRoutingGetOptionalParams } from "./generated/src/siprouting/models";
+import {
+  GetSipTrunkOptions,
+  ListSipRoutesOptions,
+  ListSipTrunksOptions,
+  SipTrunk,
+  SipTrunkRoute
+} from "./models";
 import { transformFromRestModel, transformIntoRestModel } from "./mappers";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
@@ -103,7 +109,7 @@ export class SipRoutingClient {
    * Lists the SIP trunks.
    * @param options - The options parameters.
    */
-  public listTrunks(options: GetSipTrunksOptions = {}): PagedAsyncIterableIterator<SipTrunk> {
+  public listTrunks(options: ListSipTrunksOptions = {}): PagedAsyncIterableIterator<SipTrunk> {
     const iter = this.listTrunksPagingAll(options);
     return {
       next() {
@@ -114,7 +120,7 @@ export class SipRoutingClient {
       },
       byPage: () => {
         return this.listTrunksPagingPage(options);
-      }
+      },
     };
   }
 
@@ -123,7 +129,7 @@ export class SipRoutingClient {
    * @param fqdn - The trunk's FQDN.
    * @param options - The options parameters.
    */
-  public async getTrunk(fqdn: string, options: GetSipTrunksOptions = {}): Promise<SipTrunk> {
+  public async getTrunk(fqdn: string, options: GetSipTrunkOptions = {}): Promise<SipTrunk> {
     return tracingClient.withSpan("SipRoutingClient-getTrunk", options, async (updatedOptions) => {
       const trunks = await this.getTrunksInternal(updatedOptions);
       const trunk = trunks.find((value: SipTrunk) => value.fqdn === fqdn);
@@ -139,7 +145,7 @@ export class SipRoutingClient {
    * Gets the SIP trunk routes.
    * @param options - The options parameters.
    */
-  public listRoutes(options: ListSipRoutesOptions = {}): PagedAsyncIterableIterator<SipTrunkRoute>  {
+  public listRoutes(options: ListSipRoutesOptions = {}): PagedAsyncIterableIterator<SipTrunkRoute> {
     const iter = this.listRoutesPagingAll(options);
     return {
       next() {
@@ -150,7 +156,7 @@ export class SipRoutingClient {
       },
       byPage: () => {
         return this.listRoutesPagingPage(options);
-      }
+      },
     };
   }
 
@@ -259,17 +265,26 @@ export class SipRoutingClient {
     );
   }
 
-  private async getRoutesInternal(options :OperationOptions)
-  {
-    return await tracingClient.withSpan("SipRoutingClient-getRoutes", options, async (updatedOptions) => {
-      const config = await this.client.sipRouting.get(updatedOptions);
-      return config.routes || [];
-    });
+  private async getRoutesInternal(options: OperationOptions) {
+    return await tracingClient.withSpan(
+      "SipRoutingClient-getRoutes",
+      options,
+      async (updatedOptions) => {
+        const config = await this.client.sipRouting.get(updatedOptions);
+        return config.routes || [];
+      }
+    );
   }
 
-  private async getTrunksInternal(options :OperationOptions)
-  {
-    return tracingClient.withSpan("SipRoutingClient-getTrunks", options, async (updatedOptions) => {
+  private async getTrunksInternal(options: GetSipTrunkOptions) {
+    let {includeHealth, ...requestOptions} = options;
+
+    if(options.includeHealth)
+    {
+      requestOptions = {...requestOptions, expand: "trunks/health"} as SipRoutingGetOptionalParams;
+    }
+
+    return tracingClient.withSpan("SipRoutingClient-getTrunks", requestOptions, async (updatedOptions) => {
       const config = await this.client.sipRouting.get(updatedOptions);
       return transformFromRestModel(config.trunks);
     });
@@ -292,30 +307,28 @@ export class SipRoutingClient {
   }
 
   private async *listTrunksPagingPage(
-    options : ListSipTrunksOptions = {}
+    options: ListSipTrunksOptions = {}
   ): AsyncIterableIterator<SipTrunk[]> {
-    let apiResult = await this.getTrunksInternal(options as OperationOptions)
+    let apiResult = await this.getTrunksInternal(options as OperationOptions);
 
-    const pageSize = options.maxPageSize ?? 100;
-    const offset = options.skip ?? 0;
+    // const pageSize = options.maxPageSize ?? 100;
+    // const offset = options.skip ?? 0;
+    const pageSize = 256;
+    const offset = 0;
 
-    if(offset > apiResult.length)
-    {
+    if (offset > apiResult.length) {
       return [];
     }
 
-    if(pageSize > (apiResult.length-offset))
-    {
+    if (pageSize > apiResult.length - offset) {
       return apiResult;
     }
 
     const pageCount = Math.ceil((apiResult.length - offset) / pageSize);
-    
-    for(let j = 0; j < pageCount; j++)
-    {   
+
+    for (let j = 0; j < pageCount; j++) {
       let page = [];
-      for(let k = offset + j*pageSize; k <= apiResult.length; k++)
-      {
+      for (let k = offset + j * pageSize; k <= apiResult.length; k++) {
         page.push(apiResult[k]);
       }
       yield page;
@@ -323,30 +336,28 @@ export class SipRoutingClient {
   }
 
   private async *listRoutesPagingPage(
-    options : ListSipRoutesOptions = {}
+    options: ListSipRoutesOptions = {}
   ): AsyncIterableIterator<SipTrunkRoute[]> {
-    let apiResult = await this.getRoutesInternal(options as OperationOptions)
+    let apiResult = await this.getRoutesInternal(options as OperationOptions);
 
-    const pageSize = options.maxPageSize ?? 100;
-    const offset = options.skip ?? 0;
+    // const pageSize = options.maxPageSize ?? 100;
+    // const offset = options.skip ?? 0;
+    const pageSize = 256;
+    const offset = 0;
 
-    if(offset > apiResult.length)
-    {
+    if (offset > apiResult.length) {
       return [];
     }
 
-    if(pageSize > (apiResult.length-offset))
-    {
+    if (pageSize > apiResult.length - offset) {
       return apiResult;
     }
 
     const pageCount = Math.ceil((apiResult.length - offset) / pageSize);
-    
-    for(let j = 0; j < pageCount; j++)
-    {   
+
+    for (let j = 0; j < pageCount; j++) {
       let page = [];
-      for(let k = offset + j*pageSize; k <= apiResult.length; k++)
-      {
+      for (let k = offset + j * pageSize; k <= apiResult.length; k++) {
         page.push(apiResult[k]);
       }
       yield page;

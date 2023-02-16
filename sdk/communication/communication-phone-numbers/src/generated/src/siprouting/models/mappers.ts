@@ -111,7 +111,7 @@ export const SipTrunkHealth: coreClient.CompositeMapper = {
           className: "SipTrunkPing"
         }
       },
-      overall: {
+      activity: {
         serializedName: "overall",
         type: {
           name: "Composite",

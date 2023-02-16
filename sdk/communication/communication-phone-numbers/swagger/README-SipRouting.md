@@ -112,6 +112,7 @@ directive:
     - from: swagger-document
       where: "$.definitions.Health"
       transform: >
+          $.properties.overall["x-ms-client-name"] = "activity";
           $["x-ms-client-name"] = "SipTrunkHealth";
 ```
 
