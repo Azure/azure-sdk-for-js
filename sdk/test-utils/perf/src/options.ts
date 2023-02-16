@@ -3,6 +3,7 @@
 
 import { default as minimist, ParsedArgs as MinimistParsedArgs } from "minimist";
 import { isDefined } from "@azure/core-util";
+import { getFormattedDate } from "./utils/utils";
 
 /**
  * The structure of a Perf option. They represent command line parameters.
@@ -152,7 +153,8 @@ export const defaultPerfOptions: PerfOptionDictionary<DefaultPerfOptions> = {
   },
   "profile-filepath": {
     description: "Used as the artifact path",
-    defaultValue: undefined,
+    defaultValue: `./profile/${getFormattedDate()}-perfProgram.cpuprofile`, 
+    // If none provided, profiles get generated at the "/sdk/<service>/perf-tests/<package>/profile/"
   },
 };
 

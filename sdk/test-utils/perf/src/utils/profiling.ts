@@ -3,7 +3,7 @@ import * as fs from "fs-extra";
 
 export async function runWithCpuProfile(
   functionToProfile: () => Promise<void>,
-  profileFilePath: string | undefined
+  profileFilePath: string
 ) {
   const session = new Session();
   session.connect();
@@ -15,9 +15,6 @@ export async function runWithCpuProfile(
       session.post("Profiler.stop", (err, { profile }) => {
         // Write profile to disk, upload, etc.
         if (!err) {
-          profileFilePath =
-            profileFilePath ?? `./profile/${getFormattedDate()}-perfProgram.cpuprofile`;
-          // If none provided, profiles get generated at the "/sdk/<service>/perf-tests/<package>/profile/"
           fs.ensureDirSync(profileFilePath.substring(0, profileFilePath.lastIndexOf("/") + 1));
           fs.writeFileSync(profileFilePath, JSON.stringify(profile));
           console.log(`...CPUProfile saved to ${profileFilePath}...`);
@@ -27,8 +24,4 @@ export async function runWithCpuProfile(
       });
     });
   });
-}
-
-function getFormattedDate() {
-  return new Date().toISOString().replace(/[:\-.]/g, "_");
 }

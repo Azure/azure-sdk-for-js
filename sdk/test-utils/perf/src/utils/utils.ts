@@ -127,3 +127,7 @@ export function formatNumber(value: number, minSignificantDigits: number) {
     maximumSignificantDigits: significantDigits,
   });
 }
+
+export function getFormattedDate() {
+  return new Date().toISOString().replace(/[:\-.]/g, "_");
+}
