@@ -43,6 +43,7 @@ describe("Datafactory test", () => {
   let resourceGroup: string;
   let factoryName: string;
   let factory: Factory;
+  let sessionId: string;
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
@@ -70,6 +71,33 @@ describe("Datafactory test", () => {
     assert.equal(res.name, factoryName);
   });
 
+  it("dataFlowDebugSession create test", async function () {
+    factory = { location: location }
+    const res = await client.dataFlowDebugSession.beginCreateAndWait(
+      resourceGroup,
+      factoryName,
+      {
+        integrationRuntime: {
+          name: "ir1",
+          properties: {
+            type: "Managed",
+            computeProperties: {
+              dataFlowProperties: {
+                computeType: "General",
+                coreCount: 48,
+                timeToLive: 10
+              },
+              location: "AutoResolve"
+            }
+          }
+        },
+        timeToLive: 60
+      }
+    );
+
+    return sessionId = String(res.sessionId)
+  });
+
   it("datafactory get test", async function () {
     const res = await client.factories.get(resourceGroup, factoryName);
     assert.equal(res.name, factoryName);
@@ -81,6 +109,16 @@ describe("Datafactory test", () => {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
+  });
+
+  it("datafactory delete test", async function () {
+    const result = await client.dataFlowDebugSession.delete(
+      resourceGroup,
+      factoryName,
+      {
+        sessionId
+      }
+    );
   });
 
   it("datafactory delete test", async function () {

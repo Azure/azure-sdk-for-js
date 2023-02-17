@@ -11,7 +11,7 @@
         "Content-Length": "21",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-arm-datafactory/11.0.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "67b89b3f-0fa8-4111-b4b0-49191d939a6c"
+        "x-ms-client-request-id": "c2b95443-6077-4315-8749-b60fbf5117c9"
       },
       "RequestBody": {
         "location": "eastus"
@@ -21,7 +21,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 10 Feb 2023 02:33:23 GMT",
+        "Date": "Fri, 17 Feb 2023 06:16:07 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Kestrel",
@@ -29,10 +29,10 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "96de7361-5c17-45f1-bdda-f4e7ff58afb9",
+        "x-ms-correlation-request-id": "da98e36c-d493-4520-8c83-b685a9e58cc0",
         "x-ms-ratelimit-remaining-subscription-writes": "1199",
-        "x-ms-request-id": "96de7361-5c17-45f1-bdda-f4e7ff58afb9",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230210T023323Z:96de7361-5c17-45f1-bdda-f4e7ff58afb9"
+        "x-ms-request-id": "da98e36c-d493-4520-8c83-b685a9e58cc0",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230217T061607Z:da98e36c-d493-4520-8c83-b685a9e58cc0"
       },
       "ResponseBody": {
         "name": "examplefactorytest",
@@ -40,10 +40,10 @@
         "type": "Microsoft.DataFactory/factories",
         "properties": {
           "provisioningState": "Succeeded",
-          "createTime": "2023-02-10T02:33:22.1238486Z",
+          "createTime": "2023-02-17T06:16:05.7492419Z",
           "version": "2018-06-01"
         },
-        "eTag": "\u00220c003251-0000-0100-0000-63e5acf20000\u0022",
+        "eTag": "\u00223800bcf5-0000-0100-0000-63ef1ba50000\u0022",
         "location": "eastus",
         "tags": {}
       }
