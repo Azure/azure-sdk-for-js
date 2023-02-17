@@ -591,8 +591,13 @@ export class WebPubSubClient {
           if (this._ackMap.has(message.ackId)) {
             const entity = this._ackMap.get(message.ackId)!;
             this._ackMap.delete(message.ackId);
-            if (message.success || (message.error && message.error.name === "Duplicate")) {
-              entity.resolve({ ackId: message.ackId, isDuplicated: true } as WebPubSubResult);
+            const isDuplicated: boolean =
+              message.error != null && message.error.name === 'Duplicate';
+            if (message.success || isDuplicated) {
+              entity.resolve({
+                ackId: message.ackId,
+                isDuplicated: isDuplicated,
+              } as WebPubSubResult);
             } else {
               entity.reject(
                 new SendMessageError("Failed to send message.", {
