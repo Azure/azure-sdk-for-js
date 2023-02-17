@@ -10644,7 +10644,7 @@ packages:
     dev: false
 
   file:projects/arm-chaos.tgz:
-    resolution: {integrity: sha512-w19Qfevfsp40mUaogGZiTR9ob40mPegMhX6bTBPeOoHluJwZkL291MidCRksaHakCGGrA1uEcC1ouNS10Y0kcA==, tarball: file:projects/arm-chaos.tgz}
+    resolution: {integrity: sha512-SxsvMfjov5LAsMqnOOLZzZPz5Qh7wwnsTljx2wBB1uYSI4GdCKbmobengaXRsulLPW65b6DK7TU5FGR+mG6e7g==, tarball: file:projects/arm-chaos.tgz}
     name: '@rush-temp/arm-chaos'
     version: 0.0.0
     dependencies:
@@ -11149,7 +11149,7 @@ packages:
     dev: false
 
   file:projects/arm-cosmosdb.tgz:
-    resolution: {integrity: sha512-7bMCvCrUKMhFQ+NnZWWXyaOnWrTc1JVFyaBbRCYGSO3Z8Ol2jx/hDowK/j8TF5zXYSN3asAR3M2sO/c41ic6oA==, tarball: file:projects/arm-cosmosdb.tgz}
+    resolution: {integrity: sha512-XnCds16hfYCgqt52J/hvdFpGslqE69RP6AbSoDj36q8BbOpWPZ++kGXEp0c+Sl1JAXSxo7bXqjUXZPhgYriEvw==, tarball: file:projects/arm-cosmosdb.tgz}
     name: '@rush-temp/arm-cosmosdb'
     version: 0.0.0
     dependencies:
@@ -11164,7 +11164,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
-      mkdirp: 1.0.4
+      mkdirp: 2.1.3
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
