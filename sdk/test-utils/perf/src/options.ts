@@ -160,12 +160,19 @@ export const defaultPerfOptions: PerfOptionDictionary<DefaultPerfOptions> = {
 
 /**
  * Overrides the "cpus" option to 1, when "profile" is set to true by the user.
- * 
+ *
  * Warns the user when profile is true, and cpus is set to something other than 1.
  */
-function maybeOverrideCPUsOption<TOptions>(minimistResult: MinimistParsedArgs, result: Partial<PerfOptionDictionary<TOptions>>) {
-  if (!isDefined(minimistResult["profile"])) { return; }
-  if (!minimistResult["profile"]) { return; }
+function maybeOverrideCPUsOption<TOptions>(
+  minimistResult: MinimistParsedArgs,
+  result: Partial<PerfOptionDictionary<TOptions>>
+) {
+  if (!isDefined(minimistResult["profile"])) {
+    return;
+  }
+  if (!minimistResult["profile"]) {
+    return;
+  }
 
   if (isDefined(minimistResult["cpus"]) && minimistResult["cpus"] !== 1) {
     throw new Error(
@@ -221,9 +228,9 @@ export function parsePerfOption<TOptions>(
     }
 
     if (
-      ["profile", "cpus"].includes(optionName)
-      && !isDefined(result["profile" as keyof TOptions])
-      && !isDefined(result["cpus" as keyof TOptions])
+      ["profile", "cpus"].includes(optionName) &&
+      !isDefined(result["profile" as keyof TOptions]) &&
+      !isDefined(result["cpus" as keyof TOptions])
     ) {
       result[optionName as keyof TOptions] = {
         ...option,
