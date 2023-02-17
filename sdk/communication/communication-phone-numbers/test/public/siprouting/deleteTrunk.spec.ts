@@ -13,6 +13,7 @@ import {
   createRecordedClient,
   createRecordedClientWithToken,
   getUniqueFqdn,
+  listAllTrunks,
   resetUniqueFqdns,
 } from "./utils/recordedClient";
 import { matrix } from "@azure/test-utils";
@@ -50,11 +51,11 @@ matrix([[true, false]], async function (useAad) {
       };
       const storedTrunk = await client.setTrunk(trunk);
       assert.deepEqual(storedTrunk, trunk);
-      assert.exists((await client.getTrunks()).find((value) => value.fqdn === trunk.fqdn));
+      assert.exists((await listAllTrunks(client)).find((value) => value.fqdn === trunk.fqdn));
 
       await client.deleteTrunk(testFqdn);
 
-      assert.notExists((await client.getTrunks()).find((value) => value.fqdn === trunk.fqdn));
+      assert.notExists((await listAllTrunks(client)).find((value) => value.fqdn === trunk.fqdn));
     });
 
     it("cannot delete a not existing trunk but succeeds", async () => {
@@ -62,7 +63,7 @@ matrix([[true, false]], async function (useAad) {
 
       await client.deleteTrunk("notExisting.fqdn.com");
 
-      const storedTrunks = await client.getTrunks();
+      const storedTrunks = await listAllTrunks(client);
       assert.isNotNull(storedTrunks);
       assert.isArray(storedTrunks);
       assert.isEmpty(storedTrunks);

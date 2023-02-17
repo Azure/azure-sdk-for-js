@@ -13,6 +13,7 @@ import {
   createRecordedClient,
   createRecordedClientWithToken,
   getUniqueFqdn,
+  listAllTrunks,
   resetUniqueFqdns,
 } from "./utils/recordedClient";
 import { matrix } from "@azure/test-utils";
@@ -69,13 +70,13 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("can retrieve trunks", async () => {
-      assert.isArray(await client.getTrunks());
+      assert.isArray(await listAllTrunks(client));
     });
 
     it("can retrieve empty trunks", async () => {
       await client.setTrunks([]);
 
-      const trunks = await client.getTrunks();
+      const trunks = await listAllTrunks(client);
 
       assert.isNotNull(trunks);
       assert.isArray(trunks);
@@ -90,7 +91,7 @@ matrix([[true, false]], async function (useAad) {
       ];
       await client.setTrunks(expectedTrunks);
 
-      const trunks = await client.getTrunks();
+      const trunks = await listAllTrunks(client);
 
       assert.isNotNull(trunks);
       assert.isArray(trunks);

@@ -12,7 +12,7 @@ import {
   isPlaybackMode,
   SanitizerOptions,
 } from "@azure-tools/test-recorder";
-import { SipRoutingClient } from "../../../../src";
+import { SipRoutingClient, SipTrunk, SipTrunkRoute } from "../../../../src";
 import { parseConnectionString } from "@azure/communication-common";
 import { TokenCredential } from "@azure/identity";
 import { isNode } from "@azure/test-utils";
@@ -136,3 +136,30 @@ export function getUniqueFqdn(recorder: Recorder): string {
 export function resetUniqueFqdns(): void {
   fqdnNumber = 1;
 }
+
+export async function listAllTrunks(client: SipRoutingClient) : Promise<SipTrunk[]>
+    {
+      let result: SipTrunk[] = [];
+
+      for await (const trunk of client.listTrunks())
+      {
+        if(trunk)
+        {
+          result.push(trunk);
+        }
+      }
+      return result;
+    }
+
+export async function listAllRoutes(client: SipRoutingClient) : Promise<SipTrunkRoute[]>
+    {
+      let result: SipTrunkRoute[] = [];
+      for await (const route of client.listRoutes())
+      {
+        if(route)
+        {
+          result.push(route);
+        }
+      }
+      return result;
+    }
