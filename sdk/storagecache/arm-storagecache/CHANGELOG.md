@@ -29,6 +29,8 @@
   - Interface CachesUpdateOptionalParams has a new optional parameter updateIntervalInMs
   - Interface Nfs3Target has a new optional parameter verificationTimer
   - Interface Nfs3Target has a new optional parameter writeBackTimer
+  - Interface CachesCreateOrUpdateOptionalParams no longer has parameter cache
+  - Interface StorageTargetsCreateOrUpdateOptionalParams no longer has parameter storagetarget
 
 **Breaking Changes**
 
@@ -37,8 +39,6 @@
   - Operation Caches.beginCreateOrUpdateAndWait has a new signature
   - Operation StorageTargets.beginCreateOrUpdate has a new signature
   - Operation StorageTargets.beginCreateOrUpdateAndWait has a new signature
-  - Interface CachesCreateOrUpdateOptionalParams no longer has parameter cache
-  - Interface StorageTargetsCreateOrUpdateOptionalParams no longer has parameter storagetarget
     
 ## 5.2.1 (2023-02-02)
 
