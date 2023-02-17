@@ -192,31 +192,35 @@ describe("LogsIngestionClient live tests", function () {
     const abortController = new AbortController();
     let errorCallbackCount = 0;
     function errorCallback(): void {
-      if(errorCallbackCount === 0)
-        {abortController.abort();}
+      if (errorCallbackCount === 0) {
+        abortController.abort();
+      }
       ++errorCallbackCount;
     }
 
-      const noOfElements = 25000;
-      const logData = getObjects(noOfElements);
-      const concurrency = 4;
-      try {
-        await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
-          maxConcurrency: concurrency,
-          onError: errorCallback,
-          abortSignal: abortController.signal,
-        });
-      } catch (e: any) {
-        const result = isAggregateLogsUploadError(e) ? e.errors : [];
-        let error = result.shift();
-        assert.equal(error?.cause.name, "RestError")
-        assert.equal(error?.cause.message,"Data collection rule with immutable Id 'immutable-id-123' not found.")
-        while(result.length > 0){
-          error = result.shift();
-          assert.equal(error?.cause.name, "AbortError");
-        }
+    const noOfElements = 25000;
+    const logData = getObjects(noOfElements);
+    const concurrency = 4;
+    try {
+      await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
+        maxConcurrency: concurrency,
+        onError: errorCallback,
+        abortSignal: abortController.signal,
+      });
+    } catch (e: any) {
+      const result = isAggregateLogsUploadError(e) ? e.errors : [];
+      let error = result.shift();
+      assert.equal(error?.cause.name, "RestError");
+      assert.equal(
+        error?.cause.message,
+        "Data collection rule with immutable Id 'immutable-id-123' not found."
+      );
+      while (result.length > 0) {
+        error = result.shift();
+        assert.equal(error?.cause.name, "AbortError");
       }
-  })
+    }
+  });
 });
 
 export function getObjects(logsCount: number): LogData[] {
