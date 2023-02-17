@@ -167,10 +167,7 @@ function maybeOverrideCPUsOption<TOptions>(
   minimistResult: MinimistParsedArgs,
   result: Partial<PerfOptionDictionary<TOptions>>
 ) {
-  if (!isDefined(minimistResult["profile"])) {
-    return;
-  }
-  if (!minimistResult["profile"]) {
+  if (!isDefined(minimistResult["profile"]) || !minimistResult["profile"]) {
     return;
   }
 
