@@ -116,19 +116,8 @@ export class ManagerPerfProgram implements PerfProgram {
   }
 
   private createWorkers(): void {
-    let cpuOption = this.parsedOptions.cpus.value ?? 0;
+    const cpuOption = this.parsedOptions.cpus.value ?? 0;
     const parallels = this.parsedOptions.parallel.value ?? 1;
-
-    if (this.parsedOptions.profile.value) {
-      if (this.parsedOptions.cpus.value !== 1) {
-        throw new Error(
-          `Unexpected value for "cpus" provided, you can only set "cpus = 1" when "profile = true". Please re-run the test command without the cpus option.`
-        );
-      }
-      // Overriding to 1 core
-      // since there is no point in observing profiling artifacts of all the cores that do the same thing
-      cpuOption = 1;
-    }
 
     let cpus: number;
     if (cpuOption === 0) {

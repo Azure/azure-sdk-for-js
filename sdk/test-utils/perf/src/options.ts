@@ -153,10 +153,34 @@ export const defaultPerfOptions: PerfOptionDictionary<DefaultPerfOptions> = {
   },
   "profile-path": {
     description: "Used as the artifact path",
-    defaultValue: `./profile/${getFormattedDate()}-perfProgram.cpuprofile`, 
+    defaultValue: `./profile/${getFormattedDate()}-perfProgram.cpuprofile`,
     // If none provided, profiles get generated at the "/sdk/<service>/perf-tests/<package>/profile/"
   },
 };
+
+/**
+ * Overrides the "cpus" option to 1, when "profile" is set to true by the user.
+ * 
+ * Warns the user when profile is true, and cpus is set to something other than 1.
+ */
+function maybeOverrideCPUsOption<TOptions>(minimistResult: MinimistParsedArgs, result: Partial<PerfOptionDictionary<TOptions>>) {
+  if (!isDefined(minimistResult["profile"])) { return; }
+  if (!minimistResult["profile"]) { return; }
+
+  if (isDefined(minimistResult["cpus"]) && minimistResult["cpus"] !== 1) {
+    throw new Error(
+      `Unexpected value for "cpus" provided, you can only set "cpus = 1" when "profile" is set to true. 
+      Please re-run the test command without the "cpus" option.`
+    );
+  }
+
+  result["cpus" as keyof TOptions] = {
+    ...result["cpus" as keyof TOptions],
+    value: 1,
+    // Overriding to 1 core
+    // since there is no point in observing profiling artifacts of all the cores that do the same thing
+  };
+}
 
 /**
  * Parses the given options by extracting their values through `minimist`, or setting the default value defined in each option.
@@ -201,6 +225,14 @@ export function parsePerfOption<TOptions>(
       longName,
       value,
     };
+
+    if (
+      ["profile", "cpus"].includes(optionName)
+      && !isDefined(result["profile" as keyof TOptions])
+      && !isDefined(result["cpus" as keyof TOptions])
+    ) {
+      maybeOverrideCPUsOption(minimistResult, result);
+    }
   }
 
   return result as ParsedPerfOptions<TOptions>;
