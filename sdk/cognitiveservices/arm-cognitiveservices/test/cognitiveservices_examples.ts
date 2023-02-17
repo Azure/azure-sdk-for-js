@@ -102,4 +102,8 @@ describe("Cognitiveservices test", () => {
     }
     assert.equal(resArray.length, 0);
   });
+
+  it.only("operations list test", async function () {
+    const res = await client.operations.list().byPage();
+  });
 });
