@@ -22,4 +22,4 @@
    - download using sas with core-rest-pipeline
      - `npm run perf-test:node -- CoreHTTPSDownloadWithSASTest --warmup 2 --duration 7 --iterations 2 --parallel 2`
    - download test with profiling
-     - `npm run perf-test:node -- StorageBlobDownloadTest --duration 10 --profile true --parallel 64` 
+     - `npm run perf-test:node -- StorageBlobDownloadTest --duration 10 --profile --parallel 64` 
