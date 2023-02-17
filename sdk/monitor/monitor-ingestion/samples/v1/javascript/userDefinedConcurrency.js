@@ -5,8 +5,8 @@
  * @summary Demonstrates how to control the number of concurrent requests using the maxConcurrency option.
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
-import { isAggregateLogsUploadError, LogsIngestionClient } from "@azure/monitor-ingestion";
+const { DefaultAzureCredential } = require("@azure/identity");
+const { isAggregateLogsUploadError, LogsIngestionClient } = require("@azure/monitor-ingestion");
 
 require("dotenv").config();
 

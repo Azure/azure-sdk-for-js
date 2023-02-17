@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isAggregateUploadLogsError, LogsIngestionClient, UploadLogsFailure } from "../../src";
+import { isAggregateLogsUploadError, LogsIngestionClient, LogsUploadFailure } from "../../src";
 import { Context } from "mocha";
 import { assert } from "chai";
 import { AdditionalPolicyConfig } from "@azure/core-client";
@@ -15,7 +15,6 @@ import {
 import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { AbortController } from "@azure/abort-controller";
-import { isNode } from "@azure/core-util";
 
 function createFailedPolicies(failedInterval: { isFailed: boolean }): AdditionalPolicyConfig[] {
   return [
@@ -100,7 +99,7 @@ describe("LogsIngestionClient live tests", function () {
         maxConcurrency: 3,
       });
     } catch (e: any) {
-      const result = isAggregateUploadLogsError(e) ? e.errors : [];
+      const result = isAggregateLogsUploadError(e) ? e.errors : [];
       if (result.length > 0) {
         result.forEach((err) => {
           assert.equal(
@@ -129,7 +128,7 @@ describe("LogsIngestionClient live tests", function () {
         maxConcurrency: 3,
       });
     } catch (e: any) {
-      const result = isAggregateUploadLogsError(e) ? e.errors : [];
+      const result = isAggregateLogsUploadError(e) ? e.errors : [];
       if (result.length > 0) {
         result.forEach((err) => {
           assert.equal(
@@ -151,7 +150,7 @@ describe("LogsIngestionClient live tests", function () {
     let errorCallbackCount = 0;
     const failedLogs: Record<string, unknown>[] = [];
 
-    function errorCallback(uploadLogsError: UploadLogsFailure): void {
+    function errorCallback(uploadLogsError: LogsUploadFailure): void {
       if (
         (uploadLogsError.cause as Error).message ===
         "Data collection rule with immutable Id 'immutable-id-123' not found."
@@ -167,7 +166,7 @@ describe("LogsIngestionClient live tests", function () {
         onError: errorCallback,
       });
     } catch (e: any) {
-      const result = isAggregateUploadLogsError(e) ? e.errors : [];
+      const result = isAggregateLogsUploadError(e) ? e.errors : [];
       if (result.length > 0) {
         result.forEach((err) => {
           assert.equal(
@@ -193,31 +192,33 @@ describe("LogsIngestionClient live tests", function () {
     const abortController = new AbortController();
     let errorCallbackCount = 0;
     function errorCallback(): void {
-      abortController.abort();
+      if (errorCallbackCount === 0) {
+        abortController.abort();
+      }
       ++errorCallbackCount;
     }
-    if (isNode) {
-      const noOfElements = 250000;
-      const logData = getObjects(noOfElements);
-      const concurrency = 4;
-      try {
-        await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
-          maxConcurrency: concurrency,
-          onError: errorCallback,
-          abortSignal: abortController.signal,
-        });
-      } catch (e: any) {
-        const result = isAggregateUploadLogsError(e) ? e.errors : [];
-        if (result.length > 0) {
-          assert.equal(
-            result[0].cause.message,
-            `Data collection rule with immutable Id 'immutable-id-123' not found.`
-          );
-          assert.equal(result[1].cause.message, `The operation was aborted.`);
-          assert.equal(result[result.length - 1].cause.message, `The operation was aborted.`);
-        }
+
+    const noOfElements = 25000;
+    const logData = getObjects(noOfElements);
+    const concurrency = 4;
+    try {
+      await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
+        maxConcurrency: concurrency,
+        onError: errorCallback,
+        abortSignal: abortController.signal,
+      });
+    } catch (e: any) {
+      const result = isAggregateLogsUploadError(e) ? e.errors : [];
+      let error = result.shift();
+      assert.equal(error?.cause.name, "RestError");
+      assert.equal(
+        error?.cause.message,
+        "Data collection rule with immutable Id 'immutable-id-123' not found."
+      );
+      while (result.length > 0) {
+        error = result.shift();
+        assert.equal(error?.cause.name, "AbortError");
       }
-      assert.equal(errorCallbackCount, concurrency);
     }
   });
 });
