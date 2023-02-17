@@ -17,6 +17,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { CognitiveServicesManagementClient } from "../src/cognitiveServicesManagementClient";
+import { settings } from "cluster";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -103,7 +104,10 @@ describe("Cognitiveservices test", () => {
     assert.equal(resArray.length, 0);
   });
 
-  it.only("operations list test", async function () {
-    const res = await client.operations.list().byPage();
+  it("operations list test", async function () {
+    const resArray = new Array();
+    for await (let item of client.operations.list()) {
+      resArray.push(item);
+    }
   });
 });
