@@ -68,6 +68,8 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
   public authorityHost: string;
   private allowLoggingAccountIdentifiers?: boolean;
   private abortControllers: Map<string, AbortController[] | undefined>;
+  // used for WorkloadIdentity
+  private tokenCredentialOptions: TokenCredentialOptions;
 
   constructor(options?: TokenCredentialOptions) {
     const packageDetails = `azsdk-js-identity/${SDK_VERSION}`;
@@ -95,6 +97,8 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     this.authorityHost = baseUri;
     this.abortControllers = new Map();
     this.allowLoggingAccountIdentifiers = options?.loggingOptions?.allowLoggingAccountIdentifiers;
+    // used for WorkloadIdentity
+    this.tokenCredentialOptions = {...options};
   }
 
   async sendTokenRequest(request: PipelineRequest): Promise<TokenResponse | null> {
@@ -292,6 +296,13 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     };
   }
 
+  getLoggingIdentifier(): boolean | undefined{
+    return this.allowLoggingAccountIdentifiers;
+  }
+
+  getTokenCredentialOptions(): TokenCredentialOptions{
+    return this.tokenCredentialOptions;
+  }
   /**
    * If allowLoggingAccountIdentifiers was set on the constructor options
    * we try to log the account identifiers by parsing the received access token.
