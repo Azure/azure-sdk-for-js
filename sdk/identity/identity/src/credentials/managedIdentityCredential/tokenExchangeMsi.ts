@@ -33,12 +33,13 @@ export function tokenExchangeMsi(): MSI {
       getTokenOptions: GetTokenOptions = {}
     ): Promise<AccessToken | null> {
       const { scopes, clientId } = configuration;
-      const identityClientTokenCredentialOptions = configuration.identityClient.getTokenCredentialOptions();
+      const identityClientTokenCredentialOptions =
+        configuration.identityClient.getTokenCredentialOptions();
       const workloadIdentityCredential = new WorkloadIdentityCredential({
         clientId,
         tenantId: process.env.AZURE_TENANT_ID,
         federatedTokenFilePath: process.env.AZURE_FEDERATED_TOKEN_FILE,
-        ...identityClientTokenCredentialOptions
+        ...identityClientTokenCredentialOptions,
       });
 
       return workloadIdentityCredential.getToken(scopes, getTokenOptions);

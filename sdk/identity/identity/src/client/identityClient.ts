@@ -98,7 +98,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     this.abortControllers = new Map();
     this.allowLoggingAccountIdentifiers = options?.loggingOptions?.allowLoggingAccountIdentifiers;
     // used for WorkloadIdentity
-    this.tokenCredentialOptions = {...options};
+    this.tokenCredentialOptions = { ...options };
   }
 
   async sendTokenRequest(request: PipelineRequest): Promise<TokenResponse | null> {
@@ -296,11 +296,11 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     };
   }
 
-  getLoggingIdentifier(): boolean | undefined{
-    return this.allowLoggingAccountIdentifiers;
-  }
-
-  getTokenCredentialOptions(): TokenCredentialOptions{
+  /**
+   *
+   * @internal
+   */
+  getTokenCredentialOptions(): TokenCredentialOptions {
     return this.tokenCredentialOptions;
   }
   /**
