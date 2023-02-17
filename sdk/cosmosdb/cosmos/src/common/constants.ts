@@ -14,6 +14,7 @@ export interface PartitionKeyRangePropertiesNames {
 export const Constants = {
   HttpHeaders: {
     Authorization: "authorization",
+    AuthorizationTesting: "authorization",
     ETag: "etag",
     MethodOverride: "X-HTTP-Method",
     Slug: "Slug",
