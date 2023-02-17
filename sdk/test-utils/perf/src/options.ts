@@ -220,18 +220,23 @@ export function parsePerfOption<TOptions>(
       throw new Error(`Option ${longName} is required`);
     }
 
-    result[optionName as keyof TOptions] = {
-      ...option,
-      longName,
-      value,
-    };
-
     if (
       ["profile", "cpus"].includes(optionName)
       && !isDefined(result["profile" as keyof TOptions])
       && !isDefined(result["cpus" as keyof TOptions])
     ) {
+      result[optionName as keyof TOptions] = {
+        ...option,
+        longName,
+        value,
+      };
       maybeOverrideCPUsOption(minimistResult, result);
+    } else {
+      result[optionName as keyof TOptions] = {
+        ...option,
+        longName,
+        value,
+      };
     }
   }
 
