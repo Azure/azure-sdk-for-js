@@ -10673,7 +10673,7 @@ packages:
     dev: false
 
   file:projects/arm-cognitiveservices.tgz:
-    resolution: {integrity: sha512-gzZDlKbsaZkflqq955CIkXvt7v0UGorOTi4vJYUP6g9efiUUjQ/Xl9O5KUN5mxJB7u2dw5bIu3gQShbL95cADw==, tarball: file:projects/arm-cognitiveservices.tgz}
+    resolution: {integrity: sha512-5d8Wz3mDduFIzdFkGIdfyLgeHoDV6J+yFfh9ViW/T4tBm2trAkaZZi06p0ExN5SM+71aEvqDUWsp55y8Tc8aVA==, tarball: file:projects/arm-cognitiveservices.tgz}
     name: '@rush-temp/arm-cognitiveservices'
     version: 0.0.0
     dependencies:
@@ -10687,6 +10687,7 @@ packages:
       '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
