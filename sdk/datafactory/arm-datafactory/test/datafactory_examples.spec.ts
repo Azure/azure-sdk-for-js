@@ -111,7 +111,7 @@ describe("Datafactory test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("datafactory delete test", async function () {
+  it("dataFlowDebugSession delete test", async function () {
     const result = await client.dataFlowDebugSession.delete(
       resourceGroup,
       factoryName,
