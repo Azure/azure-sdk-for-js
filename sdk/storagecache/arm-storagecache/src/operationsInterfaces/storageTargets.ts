@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   StorageTarget,
   StorageTargetsListByCacheOptionalParams,
@@ -16,7 +16,8 @@ import {
   StorageTargetsGetOptionalParams,
   StorageTargetsGetResponse,
   StorageTargetsCreateOrUpdateOptionalParams,
-  StorageTargetsCreateOrUpdateResponse
+  StorageTargetsCreateOrUpdateResponse,
+  StorageTargetsRestoreDefaultsOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,7 +48,7 @@ export interface StorageTargets {
     cacheName: string,
     storageTargetName: string,
     options?: StorageTargetsDnsRefreshOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Tells a storage target to refresh its DNS information.
    * @param resourceGroupName Target resource group.
@@ -78,7 +79,7 @@ export interface StorageTargets {
     cacheName: string,
     storageTargetName: string,
     options?: StorageTargetsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Removes a Storage Target from a Cache. This operation is allowed at any time, but if the Cache is
    * down or unhealthy, the actual removal of the Storage Target may be delayed until the Cache is
@@ -118,16 +119,18 @@ export interface StorageTargets {
    * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param storageTargetName Name of Storage Target.
+   * @param storagetarget Object containing the definition of a Storage Target.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     cacheName: string,
     storageTargetName: string,
+    storagetarget: StorageTarget,
     options?: StorageTargetsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<StorageTargetsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<StorageTargetsCreateOrUpdateResponse>,
       StorageTargetsCreateOrUpdateResponse
     >
   >;
@@ -139,12 +142,42 @@ export interface StorageTargets {
    * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
    *                  the [-0-9a-zA-Z_] char class.
    * @param storageTargetName Name of Storage Target.
+   * @param storagetarget Object containing the definition of a Storage Target.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     cacheName: string,
     storageTargetName: string,
+    storagetarget: StorageTarget,
     options?: StorageTargetsCreateOrUpdateOptionalParams
   ): Promise<StorageTargetsCreateOrUpdateResponse>;
+  /**
+   * Tells a storage target to restore its settings to their default values.
+   * @param resourceGroupName Target resource group.
+   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   *                  the [-0-9a-zA-Z_] char class.
+   * @param storageTargetName Name of Storage Target.
+   * @param options The options parameters.
+   */
+  beginRestoreDefaults(
+    resourceGroupName: string,
+    cacheName: string,
+    storageTargetName: string,
+    options?: StorageTargetsRestoreDefaultsOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Tells a storage target to restore its settings to their default values.
+   * @param resourceGroupName Target resource group.
+   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   *                  the [-0-9a-zA-Z_] char class.
+   * @param storageTargetName Name of Storage Target.
+   * @param options The options parameters.
+   */
+  beginRestoreDefaultsAndWait(
+    resourceGroupName: string,
+    cacheName: string,
+    storageTargetName: string,
+    options?: StorageTargetsRestoreDefaultsOptionalParams
+  ): Promise<void>;
 }
