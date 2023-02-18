@@ -202,6 +202,7 @@ describe("BlobClient", () => {
   it("download with with default parameters", async () => {
     const result = await blobClient.download();
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
+    assert.exists(result.createdOn);
   });
 
   it("download with progress report", async () => {

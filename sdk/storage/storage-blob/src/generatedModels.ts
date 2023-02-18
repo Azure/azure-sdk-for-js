@@ -92,6 +92,7 @@ export {
   EncryptionAlgorithmType,
   GeoReplication,
   GeoReplicationStatusType,
+  KnownEncryptionAlgorithmType,
   LeaseAccessConditions,
   LeaseDurationType,
   LeaseStateType,
