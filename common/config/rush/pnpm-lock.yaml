@@ -273,6 +273,7 @@ specifiers:
   '@rush-temp/monitor-opentelemetry-exporter': file:./projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/monitor-query': file:./projects/monitor-query.tgz
   '@rush-temp/notification-hubs': file:./projects/notification-hubs.tgz
+  '@rush-temp/notification-hubs-web-push': file:./projects/notification-hubs-web-push.tgz
   '@rush-temp/opentelemetry-instrumentation-azure-sdk': file:./projects/opentelemetry-instrumentation-azure-sdk.tgz
   '@rush-temp/perf-ai-form-recognizer': file:./projects/perf-ai-form-recognizer.tgz
   '@rush-temp/perf-ai-language-text': file:./projects/perf-ai-language-text.tgz
@@ -601,6 +602,7 @@ dependencies:
   '@rush-temp/monitor-opentelemetry-exporter': file:projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/monitor-query': file:projects/monitor-query.tgz
   '@rush-temp/notification-hubs': file:projects/notification-hubs.tgz
+  '@rush-temp/notification-hubs-web-push': file:projects/notification-hubs-web-push.tgz
   '@rush-temp/opentelemetry-instrumentation-azure-sdk': file:projects/opentelemetry-instrumentation-azure-sdk.tgz
   '@rush-temp/perf-ai-form-recognizer': file:projects/perf-ai-form-recognizer.tgz
   '@rush-temp/perf-ai-language-text': file:projects/perf-ai-language-text.tgz
@@ -3928,7 +3930,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230216
+      typescript: 5.0.0-dev.20230217
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -5314,6 +5316,10 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       safer-buffer: 2.1.2
+    dev: false
+
+  /idb/7.1.1:
+    resolution: {integrity: sha512-gchesWBzyvGHRO9W8tzUWFDycow5gwjvFKfyV9FF32Y7F50yZMp7mP+T2mJIWFx49zicqyC4uefHM17o6xKIVQ==}
     dev: false
 
   /ieee754/1.2.1:
@@ -8712,8 +8718,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230216:
-    resolution: {integrity: sha512-yeZZGWiNc5pbGg4J/bgN7vq2Lrs4YTNzhG5dv8owIe1PyYX4tMDla8NnXipy9h4Cmw6+DQA8FG9XZbymgmzSbA==}
+  /typescript/5.0.0-dev.20230217:
+    resolution: {integrity: sha512-F2xLgv5OjVcSJ5vYATLrSS4NgrzbMV9Kxpk5AIB0chl1UMXI7iywCgNa+wGH81OrtNhoLX+iyynL4xn8B5bwvQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -18021,6 +18027,42 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/notification-hubs-web-push.tgz:
+    resolution: {integrity: sha512-72APCWY5ts26tY/u8sKK92z9h2uoMagE97sG/P+gt1ole2QnQWdf+VgpPwf5AANSvLYS+CAfiLFozJSSFHkl4A==, tarball: file:projects/notification-hubs-web-push.tgz}
+    name: '@rush-temp/notification-hubs-web-push'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.34.3_@types+node@14.18.36
+      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
+      '@rollup/plugin-inject': 5.0.3_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@rollup/plugin-replace': 5.0.2_rollup@2.79.1
+      '@rollup/plugin-typescript': 11.0.0_6cslydldi7sjtrphlipqm26hmy
+      '@types/chai': 4.3.4
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.36
+      cross-env: 7.0.3
+      downlevel-dts: 0.10.1
+      eslint: 8.33.0
+      esm: 3.2.25
+      idb: 7.1.1
+      mocha: 7.2.0
+      mocha-junit-reporter: 2.2.0_mocha@7.2.0
+      prettier: 2.8.3
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-shim: 1.0.0
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
+      source-map-support: 0.5.21
+      tslib: 2.5.0
+      typescript: 4.8.4
+      util: 0.12.5
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   file:projects/notification-hubs.tgz:
