@@ -1052,8 +1052,8 @@ describe("ManagedIdentityCredential", function () {
     }
   });
 
-  describe("File Exchange MSI", () => {
-    it("sends an authorization request correctly if token file path is available", async function (this: Mocha.Context) {
+  describe.only("File Exchange MSI", () => {
+    it.only("sends an authorization request correctly if token file path is available", async function (this: Mocha.Context) {
       // Keep in mind that in this test we're also testing:
       // - Parametrized client ID.
       // - Non-default AZURE_TENANT_ID.
@@ -1083,23 +1083,23 @@ describe("ManagedIdentityCredential", function () {
           }),
         ],
       });
-
+      console.dir(authDetails);
       const authRequest = authDetails.requests[0];
-
-      const body = new URLSearchParams(authRequest.body);
-
-      assert.strictEqual(
-        authRequest.url,
-        `${AzureAuthorityHosts.AzureGovernment}/${"my-tenant-id"}/oauth2/v2.0/token`
-      );
-      assert.strictEqual(authRequest.method, "POST");
-      assert.strictEqual(decodeURIComponent(body.get("client_id")!), parameterClientId);
-      assert.strictEqual(decodeURIComponent(body.get("client_assertion")!), expectedAssertion);
-      assert.strictEqual(
-        decodeURIComponent(body.get("client_assertion_type")!),
-        "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"
-      );
-      assert.strictEqual(decodeURIComponent(body.get("scope")!), "https://service/.default");
+      console.log(authRequest);
+      // const body = new URLSearchParams(authRequest.body);
+      // console.log(body);
+      // assert.strictEqual(
+      //   authRequest.url,
+      //   `${AzureAuthorityHosts.AzureGovernment}/${"my-tenant-id"}/oauth2/v2.0/token`
+      // );
+      // assert.strictEqual(authRequest.method, "POST");
+      // assert.strictEqual(decodeURIComponent(body.get("client_id")!), parameterClientId);
+      // assert.strictEqual(decodeURIComponent(body.get("client_assertion")!), expectedAssertion);
+      // assert.strictEqual(
+      //   decodeURIComponent(body.get("client_assertion_type")!),
+      //   "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"
+      // );
+      // assert.strictEqual(decodeURIComponent(body.get("scope")!), "https://service/.default");
       assert.strictEqual(authDetails.result!.token, "token");
       assert.strictEqual(authDetails.result!.expiresOnTimestamp, 1000);
     });

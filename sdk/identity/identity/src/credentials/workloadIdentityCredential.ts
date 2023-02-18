@@ -34,7 +34,11 @@ export class WorkloadIdentityCredential implements TokenCredential {
       options.tenantId,
       options.clientId,
       this.readFileContents.bind(this),
-      options
+      {
+         additionallyAllowedTenants: ["*"],
+         disableInstanceDiscovery: true,
+        ...options
+      }
     );
   }
 

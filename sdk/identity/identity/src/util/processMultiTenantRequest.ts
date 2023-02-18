@@ -26,7 +26,7 @@ export function processMultiTenantRequest(
   } else {
     resolvedTenantId = getTokenOptions?.tenantId ?? tenantId;
   }
-
+ console.log(resolvedTenantId);
   if (
     tenantId &&
     resolvedTenantId !== tenantId &&
