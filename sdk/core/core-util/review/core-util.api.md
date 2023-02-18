@@ -13,6 +13,13 @@ export function computeSha256Hash(content: string, encoding: "base64" | "hex"): 
 export function computeSha256Hmac(key: string, stringToSign: string, encoding: "base64" | "hex"): Promise<string>;
 
 // @public
+export function createAbortablePromise<T>(buildPromise: (resolve: (value: T | PromiseLike<T>) => void, reject: (reason?: any) => void) => void, options?: {
+    cleanupBeforeAbort?: () => void;
+    abortSignal?: AbortSignalLike;
+    abortErrorMsg?: string;
+}): Promise<T>;
+
+// @public
 export function delay(timeInMs: number, options?: DelayOptions): Promise<void>;
 
 // @public

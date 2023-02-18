@@ -3,6 +3,7 @@
 
 export { isNode } from "./isNode";
 export { delay, DelayOptions } from "./delay";
+export { createAbortablePromise } from "./createAbortablePromise";
 export { getRandomIntegerInclusive } from "./random";
 export { isObject, UnknownObject } from "./object";
 export { isError, getErrorMessage } from "./error";
