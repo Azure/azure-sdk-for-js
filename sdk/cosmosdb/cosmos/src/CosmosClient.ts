@@ -64,6 +64,7 @@ export class CosmosClient {
     if (typeof optionsOrConnectionString === "string") {
       optionsOrConnectionString = parseConnectionString(optionsOrConnectionString);
     }
+    console.log("Message to generate diff which triggers pipeline.");
 
     const endpoint = checkURL(optionsOrConnectionString.endpoint);
     if (!endpoint) {
