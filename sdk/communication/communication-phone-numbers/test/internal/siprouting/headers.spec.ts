@@ -27,7 +27,7 @@ describe("SipRoutingClient - headers", function () {
 
   it("calls the spy", async function () {
     const spy = sinon.spy(getTrunksHttpClient, "sendRequest");
-    const iter= await client.listTrunks();
+    const iter = await client.listTrunks();
     await iter.next();
     sinon.assert.calledOnce(spy);
 
