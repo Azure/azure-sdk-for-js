@@ -6,7 +6,7 @@ import { Context } from "mocha";
 
 import { SipRoutingClient } from "../../../src";
 
-import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   ActivityStatus,
   PingStatus,

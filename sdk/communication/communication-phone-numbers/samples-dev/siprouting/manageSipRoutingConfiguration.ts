@@ -64,12 +64,14 @@ export async function main() {
   });
 
   // Get trunks
-  for await (const trunk of client.listTrunks()) {
+  const trunks = await client.listTrunks();
+  for await (const trunk of trunks) {
     console.log(`Trunk ${trunk.fqdn}:${trunk.sipSignalingPort}`);
   }
 
   // Get routes
-  for await (const route of client.listRoutes()) {
+  const routes = await client.listRoutes();
+  for await (const route of routes) {
     console.log(`Route ${route.name} with pattern ${route.numberPattern}`);
     console.log(`Route's trunks: ${route.trunks?.join()}`);
   }

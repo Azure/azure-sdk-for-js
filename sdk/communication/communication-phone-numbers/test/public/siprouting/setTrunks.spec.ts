@@ -6,13 +6,15 @@ import { Context } from "mocha";
 
 import { SipRoutingClient } from "../../../src";
 
-import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { SipTrunk, SipTrunkRoute } from "../../../src/models";
 import {
   clearSipConfiguration,
   createRecordedClient,
   createRecordedClientWithToken,
   getUniqueFqdn,
+  listAllRoutes,
+  listAllTrunks,
   resetUniqueFqdns,
   listAllRoutes,
   listAllTrunks,

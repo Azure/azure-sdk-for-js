@@ -7,10 +7,10 @@ import * as dotenv from "dotenv";
 import {
   Recorder,
   RecorderStartOptions,
-  env,
-  assertEnvironmentVariable,
-  isPlaybackMode,
   SanitizerOptions,
+  assertEnvironmentVariable,
+  env,
+  isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { SipRoutingClient, SipTrunk, SipTrunkRoute } from "../../../../src";
 import { parseConnectionString } from "@azure/communication-common";
@@ -153,6 +153,27 @@ export async function listAllRoutes(client: SipRoutingClient): Promise<SipTrunkR
   let result = [];
   for await (const route of client.listRoutes()) {
     result.push(route);
+  }
+  return result;
+}
+
+export async function listAllTrunks(client: SipRoutingClient): Promise<SipTrunk[]> {
+  const result: SipTrunk[] = [];
+
+  for await (const trunk of client.listTrunks()) {
+    if (trunk) {
+      result.push(trunk);
+    }
+  }
+  return result;
+}
+
+export async function listAllRoutes(client: SipRoutingClient): Promise<SipTrunkRoute[]> {
+  const result: SipTrunkRoute[] = [];
+  for await (const route of client.listRoutes()) {
+    if (route) {
+      result.push(route);
+    }
   }
   return result;
 }

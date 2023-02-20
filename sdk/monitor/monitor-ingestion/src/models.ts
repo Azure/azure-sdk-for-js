@@ -1,31 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { OperationOptions } from "@azure/core-client";
+import { isError } from "@azure/core-util";
 /**
  * Options for send logs operation
  */
-export interface UploadLogsOptions {
+export interface UploadLogsOptions extends OperationOptions {
   /**
    * Concurrency of parallel requests. Must be greater than or equal to 1.
    * The default value is 1.
    */
   maxConcurrency?: number;
+  /**
+   * Callback function for error handling when logs fail to upload
+   * @param uploadLogsError - This is the {@link UploadLogsFailure} object
+   * @returns void
+   */
+  onError?: (uploadLogsError: UploadLogsFailure) => void;
 }
 
 /**
- * Result type for upload operation
+ * Error for each log upload request to service
  */
-export type UploadLogsResult =
-  | {
-      errors: Array<UploadLogsError>;
-      status: "Failure" | "PartialFailure";
-    }
-  | { status: "Success" };
-
-/**
- * Error for each log upload request
- */
-export interface UploadLogsError {
+export interface UploadLogsFailure {
   /**
    * List of failed logs
    */
@@ -37,12 +35,39 @@ export interface UploadLogsError {
 }
 
 /**
- * Type representing whether all or few logs succeeded uploading
+ * Aggregate Upload Logs Error Name
  */
-export type UploadLogsStatus =
-  /** Represents Complete Failure scenario where all logs have failed for processing and the list of logs that failed to upload are returned */
-  | "Failure"
-  /** Represents Partial Failure scenario where partial logs have failed for processing and the list of logs that failed to upload are returned */
-  | "PartialFailure"
-  /** Represents Success scenario where all logs have succeeded and no index is returned */
-  | "Success";
+export const AggregateUploadLogsErrorName = "AggregateUploadLogsError";
+
+/**
+ * Aggregate Error type for upload function
+ */
+export class AggregateUploadLogsError extends Error {
+  /**
+   * List of {@link UploadLogsFailure} returned from
+   * individual upload requests to service
+   */
+  errors: UploadLogsFailure[];
+
+  /**
+   *
+   * @param errors - list of {@link UploadLogsFailure}
+   * @param errorMessage - error message
+   */
+  constructor(errors: UploadLogsFailure[], errorMessage?: string) {
+    super(`${errorMessage}\n}`);
+    this.errors = errors;
+    this.name = AggregateUploadLogsErrorName;
+  }
+}
+
+/**
+ * Typeguard for AggregateUploadLogsError
+ * @param e - Something caught by a catch clause.
+ */
+export function isAggregateUploadLogsError(e: unknown): e is AggregateUploadLogsError {
+  if (e instanceof AggregateUploadLogsError) {
+    return true;
+  }
+  return isError(e) && e.name === "AggregateUploadLogsError";
+}
