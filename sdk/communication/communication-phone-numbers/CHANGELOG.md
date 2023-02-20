@@ -5,6 +5,7 @@
 ### Features Added
 
 ### Breaking Changes
+- Changed public methods getTrunks to listTrunks and getRoutes to ListRoutes.
 
 ### Bugs Fixed
 
