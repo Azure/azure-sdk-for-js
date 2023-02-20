@@ -65,6 +65,8 @@ export class CosmosClient {
       optionsOrConnectionString = parseConnectionString(optionsOrConnectionString);
     }
 
+    console.log("Dummy message.");
+
     const endpoint = checkURL(optionsOrConnectionString.endpoint);
     if (!endpoint) {
       throw new Error("Invalid endpoint specified");
@@ -101,7 +103,7 @@ export class CosmosClient {
       this.backgroundRefreshEndpointList(
         globalEndpointManager,
         optionsOrConnectionString.connectionPolicy.endpointRefreshRateInMs ||
-          defaultConnectionPolicy.endpointRefreshRateInMs
+        defaultConnectionPolicy.endpointRefreshRateInMs
       );
     }
 
