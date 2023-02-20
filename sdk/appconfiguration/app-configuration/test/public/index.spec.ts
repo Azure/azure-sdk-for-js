@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AppConfigurationClient, ConfigurationSetting, ConfigurationSettingParam, Snapshot } from "../../src";
+import {
+  AppConfigurationClient,
+  ConfigurationSetting,
+  ConfigurationSettingParam,
+  Snapshot,
+} from "../../src";
 import { Recorder, delay, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   assertEqualSettings,
@@ -1291,7 +1296,6 @@ describe("AppConfigurationClient", () => {
         console.log(`New snapshot object added ${newSnapshot}`);
 
         await client.getSnapshot({ name: newSnapshot.name as string, etag: newSnapshot.etag });
-
       });
     });
     describe("listConfigurationSettings for Snapshot", () => {
