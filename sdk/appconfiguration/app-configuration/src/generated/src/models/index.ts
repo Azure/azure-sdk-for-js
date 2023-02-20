@@ -79,7 +79,7 @@ export interface Snapshot {
    * The name of the snapshot.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly name?: string;
+  readonly name: string;
   /**
    * The current status of the snapshot.
    * NOTE: This property will not be serialized. It can only be populated by the server.

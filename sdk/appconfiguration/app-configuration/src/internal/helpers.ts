@@ -10,10 +10,11 @@ import {
   HttpResponseFields,
   ListConfigurationSettingsOptions,
   ListRevisionsOptions,
+  ListSnapshotsOptions,
   Snapshot,
 } from "../models";
 import { FeatureFlagHelper, FeatureFlagValue, featureFlagContentType } from "../featureFlag";
-import { GetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
+import { GetKeyValuesOptionalParams, GetSnapshotsOptionalParams, KeyValue } from "../generated/src/models";
 import {
   SecretReferenceHelper,
   SecretReferenceValue,
@@ -112,6 +113,24 @@ export function formatFiltersAndSelect(
   };
 }
 
+/**
+ * Transforms some of the key fields in ListSnapshotsOptions
+ * so they can be added to a request using AppConfigurationGetSnapshotsOptionalParams.
+ * - `select` is populated with the proper field names from `options.fields`
+ * - keyFilter and labelFilter are moved to key and label, respectively.
+ *
+ * @internal
+ */
+export function formatSnapshotFiltersAndSelect(
+  listSnapshotOptions: ListSnapshotsOptions
+): Pick<GetSnapshotsOptionalParams, "name" | "select" | "status"> {
+
+  return {
+    name: listSnapshotOptions.nameFilter,
+    status: listSnapshotOptions.statusFilter,
+    select: listSnapshotOptions.fields
+  };
+}
 /**
  * Handles translating a Date acceptDateTime into a string as needed by the API
  * @param newOptions - A newer style options with acceptDateTime as a date (and with proper casing!)

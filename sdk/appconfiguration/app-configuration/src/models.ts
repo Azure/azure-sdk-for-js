@@ -7,7 +7,6 @@ import { OperationOptions } from "@azure/core-client";
 import { SecretReferenceValue } from "./secretReference";
 import {
   CompositionType,
-  GetSnapshotsOptionalParams,
   KeyValueFilter,
   Snapshot,
   SnapshotStatus,
@@ -152,6 +151,16 @@ export interface OptionalFields {
 }
 
 /**
+ * Used when the API supports selectively returning fields.
+ */
+export interface OptionalSnapshotFields {
+  /**
+   * Which fields to return for each ConfigurationSetting
+   */
+  fields?: (keyof Snapshot)[];
+}
+
+/**
  * Sync token header field
  */
 export interface SyncTokenHeaderField {
@@ -278,7 +287,7 @@ export interface ListSettingsOptions extends OptionalFields {
   labelFilter?: string;
 
   /**
-   * Filters for snapshots.
+   * Filters for snapshots. Value of a strin
    */
   snapshotName?: string;
 }
@@ -290,12 +299,25 @@ export interface ListSettingsOptions extends OptionalFields {
  */
 export interface ListConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {}
 
+
+/**
+ * Common options for 'list' style APIs in AppConfig used to specify wildcards as well as
+ * the accept date time header.
+ */
+export interface ListSnapshots extends OptionalSnapshotFields {
+  /** A filter for the name of the returned snapshots. */
+  nameFilter?: string;
+
+  /** Used to filter returned snapshots by their status property. */
+  statusFilter?: SnapshotStatus;
+}
+
 /**
  * Options for listConfigurationSettings that allow for filtering based on keys, labels and other fields.
  * Also provides `fields` which allows you to selectively choose which fields are populated in the
  * result.
  */
-export interface ListSnapshotsOptions extends OperationOptions, GetSnapshotsOptionalParams {}
+export interface ListSnapshotsOptions extends OperationOptions, ListSnapshots {}
 
 /**
  * An interface that tracks the settings for paged iteration
@@ -395,12 +417,7 @@ export interface CreateSnapshotResponse
 export interface GetSnapshotOptions
   extends OperationOptions,
     HttpOnlyIfChangedField,
-    OptionalFields {
-  /**
-   * Requests the server to respond with the state of the resource at the specified time.
-   */
-  acceptDateTime?: Date;
-}
+    OptionalSnapshotFields {}
 
 /**
  * Response from getting a Snapshot.

@@ -8,7 +8,6 @@
 
 import { CommonClientOptions } from '@azure/core-client';
 import { CompatResponse } from '@azure/core-http-compat';
-import * as coreClient from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { TokenCredential } from '@azure/core-auth';
@@ -29,15 +28,15 @@ export class AppConfigurationClient {
     constructor(connectionString: string, options?: AppConfigurationClientOptions);
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: AppConfigurationClientOptions);
     addConfigurationSetting(configurationSetting: AddConfigurationSettingParam | AddConfigurationSettingParam<FeatureFlagValue> | AddConfigurationSettingParam<SecretReferenceValue>, options?: AddConfigurationSettingOptions): Promise<AddConfigurationSettingResponse>;
-    archiveSnapshot(snapshot: SnapshotId, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
+    archiveSnapshot(snapshotId: SnapshotId, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
     createSnapshot(snapshot: SnapshotInfo, options?: CreateSnapshotOptions): Promise<CreateSnapshotResponse>;
     deleteConfigurationSetting(id: ConfigurationSettingId, options?: DeleteConfigurationSettingOptions): Promise<DeleteConfigurationSettingResponse>;
     getConfigurationSetting(id: ConfigurationSettingId, options?: GetConfigurationSettingOptions): Promise<GetConfigurationSettingResponse>;
-    getSnapshot(snapshot: SnapshotId, options?: GetSnapshotOptions): Promise<GetSnapshotResponse>;
+    getSnapshot(snapshotId: SnapshotId, options?: GetSnapshotOptions): Promise<GetSnapshotResponse>;
     listConfigurationSettings(options?: ListConfigurationSettingsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
     listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage, PageSettings>;
     listSnapshots(options?: ListSnapshotsOptions): PagedAsyncIterableIterator<Snapshot, ListSnapshotsPage, PageSettings>;
-    recoverSnapshot(snapshot: SnapshotId, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
+    recoverSnapshot(snapshotId: SnapshotId, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
     setConfigurationSetting(configurationSetting: SetConfigurationSettingParam | SetConfigurationSettingParam<FeatureFlagValue> | SetConfigurationSettingParam<SecretReferenceValue>, options?: SetConfigurationSettingOptions): Promise<SetConfigurationSettingResponse>;
     setReadOnly(id: ConfigurationSettingId, readOnly: boolean, options?: SetReadOnlyOptions): Promise<SetReadOnlyResponse>;
     updateSyncToken(syncToken: string): void;
@@ -126,8 +125,7 @@ export interface GetConfigurationSettingResponse extends ConfigurationSetting, G
 }
 
 // @public
-export interface GetSnapshotOptions extends OperationOptions, HttpOnlyIfChangedField, OptionalFields {
-    acceptDateTime?: Date;
+export interface GetSnapshotOptions extends OperationOptions, HttpOnlyIfChangedField, OptionalSnapshotFields {
 }
 
 // @public
@@ -195,10 +193,14 @@ export interface ListSettingsOptions extends OptionalFields {
     snapshotName?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "GetSnapshotsOptionalParams" needs to be exported by the entry point index.d.ts
-//
 // @public
-export interface ListSnapshotsOptions extends OperationOptions, GetSnapshotsOptionalParams {
+export interface ListSnapshots extends OptionalSnapshotFields {
+    nameFilter?: string;
+    statusFilter?: SnapshotStatus;
+}
+
+// @public
+export interface ListSnapshotsOptions extends OperationOptions, ListSnapshots {
 }
 
 // @public
@@ -209,6 +211,11 @@ export interface ListSnapshotsPage extends HttpResponseField<SyncTokenHeaderFiel
 // @public
 export interface OptionalFields {
     fields?: (keyof ConfigurationSetting)[];
+}
+
+// @public
+export interface OptionalSnapshotFields {
+    fields?: (keyof Snapshot)[];
 }
 
 // @public
@@ -263,7 +270,7 @@ export interface Snapshot {
     readonly expiresOn?: Date;
     filters: KeyValueFilter[];
     readonly itemCount?: number;
-    readonly name?: string;
+    readonly name: string;
     retentionPeriod?: number;
     readonly size?: number;
     readonly status?: SnapshotStatus;

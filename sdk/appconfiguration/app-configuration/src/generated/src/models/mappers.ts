@@ -210,6 +210,7 @@ export const Snapshot: coreClient.CompositeMapper = {
     modelProperties: {
       name: {
         serializedName: "name",
+        required: true,
         readOnly: true,
         type: {
           name: "String"

@@ -69,8 +69,8 @@ export async function main() {
   await client.listSnapshots();
 
   // archive snapshot
-  await client.archiveSnapshot({ name: newSnapshot.name as string, etag: newSnapshot.etag });
-  console.log(`${newSnapshot.name} has been archived`);
+  await client.archiveSnapshot(newSnapshot);
+  console.log(`${newSnapshot.name} has been archived with the status ${newSnapshot.status}`);
 
   // removing the setting
   await client.archiveSnapshot({ name: newSnapshot.name as string, etag: newSnapshot.etag });

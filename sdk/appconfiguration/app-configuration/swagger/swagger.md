@@ -101,7 +101,7 @@ directive:
       $["304"]["headers"]["Last-Modified"]["description"] = "A UTC datetime that specifies the last time the resource was modified.";
       $["304"]["headers"]["Last-Modified"]["type"] = "string";
 ```
-### Rename Properties created -> createdOnm, expires -> expiresOn
+### Rename Properties created -> createdOn, expires -> expiresOn, items_count -> itemCount
 
 ```yaml
 directive:
@@ -112,3 +112,15 @@ directive:
       $.items_count["x-ms-client-name"] = "itemCount";
       $.expires["x-ms-client-name"] = "expiresOn";
 ```
+
+### Make .name a required field
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["definitions"]["Snapshot"]
+    transform: >
+      $.required = $.required || [];
+      $.required.push('name');
+```
+
