@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 /**
- * This sample demonstrates how get a list of farmers and how to get all pages in case the service returns a paged result
+ * This sample demonstrates how get a list of parties and how to get all pages in case the service returns a paged result
  *
- * @summary gets a list of farmers
+ * @summary gets a list of parties
  * @azsdk-weight 20
  */
 
-import FarmBeats, { ErrorResponseOutput, FarmerOutput, paginate } from "@azure-rest/agrifood-farming";
+import FarmBeats, { isUnexpected, PartyOutput, paginate } from "@azure-rest/agrifood-farming";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
 
@@ -18,19 +18,18 @@ const endpoint = process.env["FARMBEATS_ENDPOINT"] || "";
 
 async function main() {
   const farming = FarmBeats(endpoint, new DefaultAzureCredential());
-  const response = await farming.path("/farmers").get();
+  const response = await farming.path("/parties").get();
 
-  if (response.status !== "200") {
-    const error = <ErrorResponseOutput>response.body;
-    throw error.error || new Error(`Unexpected status code ${response.status}`);
+  if (isUnexpected(response)) {
+    throw response.body.error;
   }
 
-  const farmers = paginate(farming, response);
+  const parties = paginate(farming, response);
 
-  // Lof each farmer id
-  for await (const farmer of farmers) {
-    const farmerOutput = <FarmerOutput>farmer;
-    console.log(farmerOutput.id);
+  // Lof each party id
+  for await (const party of parties) {
+    const partyOutput = <PartyOutput>party;
+    console.log(partyOutput.id);
   }
 }
 

@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { FarmBeatsClient, getLongRunningPoller, SatelliteDataIngestionJobOutput, SceneListResponseOutput } from "../../src";
+import { FarmBeatsClient, getLongRunningPoller, SatelliteDataIngestionJobOutput, SceneListResponseOutput, isUnexpected } from "../../src";
 import { createClient, createRecorder } from "./utils/recordedClient";
 
 import { Context } from "mocha";
@@ -11,54 +11,46 @@ import { isNode } from "@azure/core-util";
 const startDateTime = new Date("2020-02-01T08:00:00.000Z");
 const endDateTime = new Date("2020-03-02T08:00:00.000Z");
 const suffix = isNode ? "node" : "browser";
-const farmerId = `tst103${suffix}`;
+const partyId = `tst103${suffix}`;
 const jobId = `jhjob103${suffix}`;
 const boundaryId = `jhboundary103${suffix}`;
-const testFarmer = {
-  name: "Contoso Farmer",
-  description: "Your custom farmer description here",
+const testparty = {
+  name: "Contoso party",
+  description: "Your custom party description here",
   status: "Active",
   properties: { foo: "bar", "numeric one": 1, "1": "numeric key" },
 };
 
-describe("Farmer Operations", () => {
+describe("party Operations", () => {
   let recorder: Recorder;
   let client: FarmBeatsClient;
 
   beforeEach(async function (this: Context) {
-    recorder = createRecorder(this);
+    recorder = await createRecorder(this);
     client = createClient();
-    await recorder.start({
-      envSetupForPlayback: {
-        FARMBEATS_ENDPOINT: "https://endpoint",
-        AZURE_CLIENT_ID: "azure_client_id",
-        AZURE_CLIENT_SECRET: "azure_client_secret",
-        AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-      },
-    });
   });
 
   afterEach(async function () {
     await recorder.stop();
   });
 
-  it("should create a farmer", async () => {
-    const result = await client.path("/farmers/{farmerId}", farmerId).patch({
-      body: testFarmer,
+  it("should create a party", async () => {
+    const result = await client.path("/parties/{partyId}", partyId).patch({
+      body: testparty,
       contentType: "application/merge-patch+json",
     });
 
     assert.include(["200", "201"], result.status);
   });
 
-  it("should get a farmer", async () => {
-    const result = await client.path("/farmers/{farmerId}", farmerId).get();
-    assert.deepInclude(result.body, testFarmer);
+  it("should get a party", async () => {
+    const result = await client.path("/parties/{partyId}", partyId).get();
+    assert.deepInclude(result.body, testparty);
   });
 
   it("should create a boundary", async () => {
     const result = await client
-      .path("/farmers/{farmerId}/boundaries/{boundaryId}", farmerId, boundaryId)
+      .path("/parties/{partyId}/boundaries/{boundaryId}", partyId, boundaryId)
       .patch({
         body: {
           geometry: {
@@ -94,39 +86,41 @@ describe("Farmer Operations", () => {
         contentType: "application/merge-patch+json",
       });
 
-    if (result.status !== "200" && result.status !== "201") {
-      throw result.body;
-    }
+      if (isUnexpected(result)) {
+        throw result.body.error;
+      }
 
     assert.include(["200", "201"], result.status);
   });
 
-  it.skip("should create a satelite job", async () => {
+  it("should create a satelite job", async () => {
     const initialResponse = await client.path("/scenes/satellite/ingest-data/{jobId}", jobId).put({
       body: {
-        farmerId,
+        partyId,
         boundaryId,
         startDateTime,
         endDateTime,
-        data: { imageNames: ["LAI"] },
+        data: { imageNames: ["NDVI"] },
+        source: "Sentinel_2_L2A",
+        provider: "Microsoft"
       },
     });
 
-    if (initialResponse.status !== "202") {
+    if (isUnexpected(initialResponse)) {
       throw initialResponse.body.error;
     }
 
     const poller = getLongRunningPoller(client, initialResponse);
-    const result = await poller.pollUntilDone();
+    const result = await (await poller).pollUntilDone();
 
     const jobOutput = <SatelliteDataIngestionJobOutput>result.body;
     assert.equal(jobOutput.boundaryId, boundaryId);
   });
 
-  it.skip("should get corresponding scenes", async () => {
+  it("should get corresponding scenes", async () => {
     const result = await client.path("/scenes").get({
       queryParameters: {
-        farmerId,
+        partyId,
         boundaryId,
         startDateTime,
         endDateTime,
@@ -138,8 +132,8 @@ describe("Farmer Operations", () => {
       },
     });
 
-    if (result.status !== "200") {
-      throw new Error(`Unexpected status ${result.status}`);
+    if (isUnexpected(result)) {
+      throw result.body.error;
     }
     else {
       const scenes = <SceneListResponseOutput>result.body;

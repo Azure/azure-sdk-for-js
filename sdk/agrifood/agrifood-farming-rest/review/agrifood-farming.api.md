@@ -8,30 +8,36 @@
 
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
+import { CreateHttpPollerOptions } from '@azure/core-lro';
 import { HttpResponse } from '@azure-rest/core-client';
-import { LroEngineOptions } from '@azure/core-lro';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
+import { SimplePollerLike } from '@azure/core-lro';
 import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
-// @public (undocumented)
-export interface ApplicationData extends Record<string, unknown> {
+// @public
+export interface AdditionalProviderParameters {
+    details?: boolean;
+    iconResolution?: string;
+}
+
+// @public
+export interface AdditionalProviderParametersOutput {
+    details?: boolean;
+    iconResolution?: string;
+}
+
+// @public
+export interface ApplicationData {
     applicationProductDetails?: Array<ApplicationProductDetail>;
     area?: Measure;
     associatedBoundaryId?: string;
-    attachmentsLink?: string;
     avgMaterial?: Measure;
-    createdDateTime?: Date | string;
     description?: string;
-    eTag?: string;
-    farmerId?: string;
-    id?: string;
-    modifiedDateTime?: Date | string;
     name?: string;
     operationEndDateTime?: Date | string;
     operationModifiedDateTime?: Date | string;
@@ -44,8 +50,8 @@ export interface ApplicationData extends Record<string, unknown> {
 
 // @public (undocumented)
 export interface ApplicationDataCreateCascadeDeleteJob {
-    get(options?: ApplicationDataGetCascadeDeleteJobDetailsParameters): StreamableMethod<ApplicationDataGetCascadeDeleteJobDetails200Response | ApplicationDataGetCascadeDeleteJobDetailsdefaultResponse>;
-    put(options: ApplicationDataCreateCascadeDeleteJobParameters): StreamableMethod<ApplicationDataCreateCascadeDeleteJob202Response | ApplicationDataCreateCascadeDeleteJobdefaultResponse>;
+    get(options?: ApplicationDataGetCascadeDeleteJobDetailsParameters): StreamableMethod<ApplicationDataGetCascadeDeleteJobDetails200Response | ApplicationDataGetCascadeDeleteJobDetailsDefaultResponse>;
+    put(options: ApplicationDataCreateCascadeDeleteJobParameters): StreamableMethod<ApplicationDataCreateCascadeDeleteJob202Response | ApplicationDataCreateCascadeDeleteJobDefaultResponse>;
 }
 
 // @public
@@ -57,17 +63,17 @@ export interface ApplicationDataCreateCascadeDeleteJob202Response extends HttpRe
 }
 
 // @public (undocumented)
-export interface ApplicationDataCreateCascadeDeleteJobdefaultHeaders {
+export interface ApplicationDataCreateCascadeDeleteJobDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface ApplicationDataCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
+export interface ApplicationDataCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ApplicationDataCreateCascadeDeleteJobdefaultHeaders;
+    headers: RawHttpHeaders & ApplicationDataCreateCascadeDeleteJobDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -84,7 +90,7 @@ export interface ApplicationDataCreateCascadeDeleteJobQueryParam {
 // @public (undocumented)
 export interface ApplicationDataCreateCascadeDeleteJobQueryParamProperties {
     applicationDataId: string;
-    farmerId: string;
+    partyId: string;
 }
 
 // @public
@@ -105,21 +111,21 @@ export interface ApplicationDataCreateOrUpdate201Response extends HttpResponse {
 
 // @public (undocumented)
 export interface ApplicationDataCreateOrUpdateBodyParam {
-    body: ApplicationData;
+    body: ApplicationDataResourceMergeAndPatch;
 }
 
 // @public (undocumented)
-export interface ApplicationDataCreateOrUpdatedefaultHeaders {
+export interface ApplicationDataCreateOrUpdateDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface ApplicationDataCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface ApplicationDataCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ApplicationDataCreateOrUpdatedefaultHeaders;
+    headers: RawHttpHeaders & ApplicationDataCreateOrUpdateDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -141,17 +147,17 @@ export interface ApplicationDataDelete204Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface ApplicationDataDeletedefaultHeaders {
+export interface ApplicationDataDeleteDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface ApplicationDataDeletedefaultResponse extends HttpResponse {
+export interface ApplicationDataDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ApplicationDataDeletedefaultHeaders;
+    headers: RawHttpHeaders & ApplicationDataDeleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -161,9 +167,9 @@ export type ApplicationDataDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ApplicationDataGet {
-    delete(options?: ApplicationDataDeleteParameters): StreamableMethod<ApplicationDataDelete204Response | ApplicationDataDeletedefaultResponse>;
-    get(options?: ApplicationDataGetParameters): StreamableMethod<ApplicationDataGet200Response | ApplicationDataGetdefaultResponse>;
-    patch(options: ApplicationDataCreateOrUpdateParameters): StreamableMethod<ApplicationDataCreateOrUpdate200Response | ApplicationDataCreateOrUpdate201Response | ApplicationDataCreateOrUpdatedefaultResponse>;
+    delete(options?: ApplicationDataDeleteParameters): StreamableMethod<ApplicationDataDelete204Response | ApplicationDataDeleteDefaultResponse>;
+    get(options?: ApplicationDataGetParameters): StreamableMethod<ApplicationDataGet200Response | ApplicationDataGetDefaultResponse>;
+    patch(options: ApplicationDataCreateOrUpdateParameters): StreamableMethod<ApplicationDataCreateOrUpdate200Response | ApplicationDataCreateOrUpdate201Response | ApplicationDataCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -183,17 +189,17 @@ export interface ApplicationDataGetCascadeDeleteJobDetails200Response extends Ht
 }
 
 // @public (undocumented)
-export interface ApplicationDataGetCascadeDeleteJobDetailsdefaultHeaders {
+export interface ApplicationDataGetCascadeDeleteJobDetailsDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface ApplicationDataGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
+export interface ApplicationDataGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ApplicationDataGetCascadeDeleteJobDetailsdefaultHeaders;
+    headers: RawHttpHeaders & ApplicationDataGetCascadeDeleteJobDetailsDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -202,17 +208,17 @@ export interface ApplicationDataGetCascadeDeleteJobDetailsdefaultResponse extend
 export type ApplicationDataGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
 // @public (undocumented)
-export interface ApplicationDataGetdefaultHeaders {
+export interface ApplicationDataGetDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface ApplicationDataGetdefaultResponse extends HttpResponse {
+export interface ApplicationDataGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ApplicationDataGetdefaultHeaders;
+    headers: RawHttpHeaders & ApplicationDataGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -222,7 +228,7 @@ export type ApplicationDataGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ApplicationDataList {
-    get(options?: ApplicationDataListParameters): StreamableMethod<ApplicationDataList200Response | ApplicationDataListdefaultResponse>;
+    get(options?: ApplicationDataListParameters): StreamableMethod<ApplicationDataList200Response | ApplicationDataListDefaultResponse>;
 }
 
 // @public
@@ -234,12 +240,12 @@ export interface ApplicationDataList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface ApplicationDataListByFarmerId {
-    get(options?: ApplicationDataListByFarmerIdParameters): StreamableMethod<ApplicationDataListByFarmerId200Response | ApplicationDataListByFarmerIddefaultResponse>;
+export interface ApplicationDataListByPartyId {
+    get(options?: ApplicationDataListByPartyIdParameters): StreamableMethod<ApplicationDataListByPartyId200Response | ApplicationDataListByPartyIdDefaultResponse>;
 }
 
 // @public
-export interface ApplicationDataListByFarmerId200Response extends HttpResponse {
+export interface ApplicationDataListByPartyId200Response extends HttpResponse {
     // (undocumented)
     body: ApplicationDataListResponseOutput;
     // (undocumented)
@@ -247,36 +253,34 @@ export interface ApplicationDataListByFarmerId200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface ApplicationDataListByFarmerIddefaultHeaders {
+export interface ApplicationDataListByPartyIdDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface ApplicationDataListByFarmerIddefaultResponse extends HttpResponse {
+export interface ApplicationDataListByPartyIdDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ApplicationDataListByFarmerIddefaultHeaders;
+    headers: RawHttpHeaders & ApplicationDataListByPartyIdDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export type ApplicationDataListByFarmerIdParameters = ApplicationDataListByFarmerIdQueryParam & RequestParameters;
+export type ApplicationDataListByPartyIdParameters = ApplicationDataListByPartyIdQueryParam & RequestParameters;
 
 // @public (undocumented)
-export interface ApplicationDataListByFarmerIdQueryParam {
+export interface ApplicationDataListByPartyIdQueryParam {
     // (undocumented)
-    queryParameters?: ApplicationDataListByFarmerIdQueryParamProperties;
+    queryParameters?: ApplicationDataListByPartyIdQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface ApplicationDataListByFarmerIdQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    associatedBoundaryIds?: Array<string>;
-    ids?: Array<string>;
+export interface ApplicationDataListByPartyIdQueryParamProperties {
+    associatedBoundaryIds?: string;
+    ids?: string;
     maxArea?: number;
     maxAvgMaterial?: number;
     maxCreatedDateTime?: Date | string;
@@ -284,6 +288,7 @@ export interface ApplicationDataListByFarmerIdQueryParamProperties {
     maxOperationEndDateTime?: Date | string;
     maxOperationModifiedDateTime?: Date | string;
     maxOperationStartDateTime?: Date | string;
+    maxPageSize?: number;
     maxTotalMaterial?: number;
     minArea?: number;
     minAvgMaterial?: number;
@@ -293,24 +298,25 @@ export interface ApplicationDataListByFarmerIdQueryParamProperties {
     minOperationModifiedDateTime?: Date | string;
     minOperationStartDateTime?: Date | string;
     minTotalMaterial?: number;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    sources?: Array<string>;
-    statuses?: Array<string>;
+    names?: string;
+    propertyFilters?: string;
+    skipToken?: string;
+    sources?: string;
+    statuses?: string;
 }
 
 // @public (undocumented)
-export interface ApplicationDataListdefaultHeaders {
+export interface ApplicationDataListDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface ApplicationDataListdefaultResponse extends HttpResponse {
+export interface ApplicationDataListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ApplicationDataListdefaultHeaders;
+    headers: RawHttpHeaders & ApplicationDataListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -326,10 +332,8 @@ export interface ApplicationDataListQueryParam {
 
 // @public (undocumented)
 export interface ApplicationDataListQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    associatedBoundaryIds?: Array<string>;
-    ids?: Array<string>;
+    associatedBoundaryIds?: string;
+    ids?: string;
     maxArea?: number;
     maxAvgMaterial?: number;
     maxCreatedDateTime?: Date | string;
@@ -337,6 +341,7 @@ export interface ApplicationDataListQueryParamProperties {
     maxOperationEndDateTime?: Date | string;
     maxOperationModifiedDateTime?: Date | string;
     maxOperationStartDateTime?: Date | string;
+    maxPageSize?: number;
     maxTotalMaterial?: number;
     minArea?: number;
     minAvgMaterial?: number;
@@ -346,43 +351,49 @@ export interface ApplicationDataListQueryParamProperties {
     minOperationModifiedDateTime?: Date | string;
     minOperationStartDateTime?: Date | string;
     minTotalMaterial?: number;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    sources?: Array<string>;
-    statuses?: Array<string>;
+    names?: string;
+    propertyFilters?: string;
+    skipToken?: string;
+    sources?: string;
+    statuses?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ApplicationDataListResponseOutput {
-    $skipToken?: string;
     nextLink?: string;
-    value?: Array<ApplicationDataOutput>;
+    skipToken?: string;
+    value: Array<ApplicationDataOutput>;
 }
 
-// @public (undocumented)
-export interface ApplicationDataOutput extends Record<string, unknown> {
+// @public
+export interface ApplicationDataOutput {
     applicationProductDetails?: Array<ApplicationProductDetailOutput>;
     area?: MeasureOutput;
     associatedBoundaryId?: string;
-    attachmentsLink?: string;
+    readonly attachmentsLink?: string;
     avgMaterial?: MeasureOutput;
-    createdDateTime?: string;
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     description?: string;
-    eTag?: string;
-    farmerId?: string;
-    id?: string;
-    modifiedDateTime?: string;
+    readonly eTag?: string;
+    readonly id?: string;
+    readonly modifiedBy?: string;
+    readonly modifiedDateTime?: string;
     name?: string;
     operationEndDateTime?: string;
     operationModifiedDateTime?: string;
     operationStartDateTime?: string;
+    readonly partyId?: string;
     properties?: Record<string, any>;
     source?: string;
     status?: string;
     totalMaterial?: MeasureOutput;
 }
 
-// @public (undocumented)
+// @public
+export type ApplicationDataResourceMergeAndPatch = Partial<ApplicationData>;
+
+// @public
 export interface ApplicationProductDetail {
     avgMaterial?: Measure;
     isCarrier?: boolean;
@@ -390,7 +401,7 @@ export interface ApplicationProductDetail {
     totalMaterial?: Measure;
 }
 
-// @public (undocumented)
+// @public
 export interface ApplicationProductDetailOutput {
     avgMaterial?: MeasureOutput;
     isCarrier?: boolean;
@@ -398,25 +409,27 @@ export interface ApplicationProductDetailOutput {
     totalMaterial?: MeasureOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface AttachmentListResponseOutput {
-    $skipToken?: string;
     nextLink?: string;
-    value?: Array<AttachmentOutput>;
+    skipToken?: string;
+    value: Array<AttachmentOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface AttachmentOutput {
-    createdDateTime?: string;
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     description?: string;
-    eTag?: string;
-    farmerId?: string;
-    id?: string;
-    modifiedDateTime?: string;
+    readonly eTag?: string;
+    readonly id?: string;
+    readonly modifiedBy?: string;
+    readonly modifiedDateTime?: string;
     name?: string;
-    originalFileName?: string;
+    readonly originalFileName?: string;
+    readonly partyId?: string;
     resourceId?: string;
-    resourceType?: "Farmer" | "Farm" | "Field" | "SeasonalField" | "Boundary" | "ApplicationData" | "HarvestData" | "TillageData" | "PlantingData" | "PlantTissueAnalysis";
+    resourceType?: "Party" | "Farm" | "Field" | "SeasonalField" | "Boundary" | "ApplicationData" | "HarvestData" | "TillageData" | "PlantingData" | "PlantTissueAnalysis";
     source?: string;
     status?: string;
 }
@@ -444,36 +457,36 @@ export interface AttachmentsCreateOrUpdateBodyParam {
 }
 
 // @public (undocumented)
-export interface AttachmentsCreateOrUpdatedefaultHeaders {
+export interface AttachmentsCreateOrUpdateDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface AttachmentsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface AttachmentsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & AttachmentsCreateOrUpdatedefaultHeaders;
+    headers: RawHttpHeaders & AttachmentsCreateOrUpdateDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
 export interface AttachmentsCreateOrUpdateFormBody {
-    CreatedDateTime?: string;
-    Description?: string;
-    ETag?: string;
-    FarmerId?: string;
+    createdBy?: string;
+    createdDateTime?: string;
+    description?: string;
     file?: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
-    Id?: string;
-    ModifiedDateTime?: string;
-    Name?: string;
-    OriginalFileName?: string;
-    ResourceId?: string;
-    ResourceType?: string;
-    Source?: string;
-    Status?: string;
+    id?: string;
+    modifiedBy?: string;
+    modifiedDateTime?: string;
+    name?: string;
+    originalFileName?: string;
+    resourceId?: string;
+    resourceType?: string;
+    source?: string;
+    status?: string;
 }
 
 // @public (undocumented)
@@ -493,17 +506,17 @@ export interface AttachmentsDelete204Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface AttachmentsDeletedefaultHeaders {
+export interface AttachmentsDeleteDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface AttachmentsDeletedefaultResponse extends HttpResponse {
+export interface AttachmentsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & AttachmentsDeletedefaultHeaders;
+    headers: RawHttpHeaders & AttachmentsDeleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -513,7 +526,7 @@ export type AttachmentsDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface AttachmentsDownload {
-    get(options?: AttachmentsDownloadParameters): StreamableMethod<AttachmentsDownload200Response | AttachmentsDownloaddefaultResponse>;
+    get(options?: AttachmentsDownloadParameters): StreamableMethod<AttachmentsDownload200Response | AttachmentsDownloadDefaultResponse>;
 }
 
 // @public
@@ -524,17 +537,17 @@ export interface AttachmentsDownload200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface AttachmentsDownloaddefaultHeaders {
+export interface AttachmentsDownloadDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface AttachmentsDownloaddefaultResponse extends HttpResponse {
+export interface AttachmentsDownloadDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & AttachmentsDownloaddefaultHeaders;
+    headers: RawHttpHeaders & AttachmentsDownloadDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -544,9 +557,9 @@ export type AttachmentsDownloadParameters = RequestParameters;
 
 // @public (undocumented)
 export interface AttachmentsGet {
-    delete(options?: AttachmentsDeleteParameters): StreamableMethod<AttachmentsDelete204Response | AttachmentsDeletedefaultResponse>;
-    get(options?: AttachmentsGetParameters): StreamableMethod<AttachmentsGet200Response | AttachmentsGetdefaultResponse>;
-    patch(options?: AttachmentsCreateOrUpdateParameters): StreamableMethod<AttachmentsCreateOrUpdate200Response | AttachmentsCreateOrUpdate201Response | AttachmentsCreateOrUpdatedefaultResponse>;
+    delete(options?: AttachmentsDeleteParameters): StreamableMethod<AttachmentsDelete204Response | AttachmentsDeleteDefaultResponse>;
+    get(options?: AttachmentsGetParameters): StreamableMethod<AttachmentsGet200Response | AttachmentsGetDefaultResponse>;
+    patch(options?: AttachmentsCreateOrUpdateParameters): StreamableMethod<AttachmentsCreateOrUpdate200Response | AttachmentsCreateOrUpdate201Response | AttachmentsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -558,17 +571,17 @@ export interface AttachmentsGet200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface AttachmentsGetdefaultHeaders {
+export interface AttachmentsGetDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface AttachmentsGetdefaultResponse extends HttpResponse {
+export interface AttachmentsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & AttachmentsGetdefaultHeaders;
+    headers: RawHttpHeaders & AttachmentsGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -577,12 +590,12 @@ export interface AttachmentsGetdefaultResponse extends HttpResponse {
 export type AttachmentsGetParameters = RequestParameters;
 
 // @public (undocumented)
-export interface AttachmentsListByFarmerId {
-    get(options?: AttachmentsListByFarmerIdParameters): StreamableMethod<AttachmentsListByFarmerId200Response | AttachmentsListByFarmerIddefaultResponse>;
+export interface AttachmentsListByPartyId {
+    get(options?: AttachmentsListByPartyIdParameters): StreamableMethod<AttachmentsListByPartyId200Response | AttachmentsListByPartyIdDefaultResponse>;
 }
 
 // @public
-export interface AttachmentsListByFarmerId200Response extends HttpResponse {
+export interface AttachmentsListByPartyId200Response extends HttpResponse {
     // (undocumented)
     body: AttachmentListResponseOutput;
     // (undocumented)
@@ -590,102 +603,97 @@ export interface AttachmentsListByFarmerId200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface AttachmentsListByFarmerIddefaultHeaders {
+export interface AttachmentsListByPartyIdDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface AttachmentsListByFarmerIddefaultResponse extends HttpResponse {
+export interface AttachmentsListByPartyIdDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & AttachmentsListByFarmerIddefaultHeaders;
+    headers: RawHttpHeaders & AttachmentsListByPartyIdDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export type AttachmentsListByFarmerIdParameters = AttachmentsListByFarmerIdQueryParam & RequestParameters;
+export type AttachmentsListByPartyIdParameters = AttachmentsListByPartyIdQueryParam & RequestParameters;
 
 // @public (undocumented)
-export interface AttachmentsListByFarmerIdQueryParam {
+export interface AttachmentsListByPartyIdQueryParam {
     // (undocumented)
-    queryParameters?: AttachmentsListByFarmerIdQueryParamProperties;
+    queryParameters?: AttachmentsListByPartyIdQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface AttachmentsListByFarmerIdQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    ids?: Array<string>;
+export interface AttachmentsListByPartyIdQueryParamProperties {
+    ids?: string;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
+    maxPageSize?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    resourceIds?: Array<string>;
-    resourceTypes?: Array<string>;
-    statuses?: Array<string>;
+    names?: string;
+    propertyFilters?: string;
+    resourceIds?: string;
+    resourceTypes?: string;
+    skipToken?: string;
+    statuses?: string;
 }
 
-// @public (undocumented)
-export interface BiomassModelJob extends Record<string, unknown> {
+// @public
+export interface BiomassModelJob {
     boundaryId: string;
-    createdDateTime?: Date | string;
     cropName: "Corn";
     description?: string;
-    durationInSeconds?: number;
-    endTime?: Date | string;
-    farmerId: string;
-    id?: string;
     imageFormat: "TIF";
     imageResolution: number;
     inferenceEndDateTime: Date | string;
-    lastActionDateTime?: Date | string;
-    message?: string;
     modelVersion: string;
     name?: string;
+    partyId: string;
     plantingStartDateTime: Date | string;
     properties?: Record<string, any>;
     satelliteProvider: "Microsoft";
-    satelliteSource: "Sentinel_2_L2A";
-    startTime?: Date | string;
-    status?: string;
+    satelliteSource: "Sentinel_2_L2A" | "Sentinel_2_L1C";
     weatherExtensionId: string;
 }
 
-// @public (undocumented)
-export interface BiomassModelJobOutput extends Record<string, unknown> {
+// @public
+export interface BiomassModelJobOutput {
     boundaryId: string;
-    createdDateTime?: string;
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     cropName: "Corn";
     description?: string;
-    durationInSeconds?: number;
-    endTime?: string;
-    farmerId: string;
-    id?: string;
+    readonly durationInSeconds?: number;
+    readonly endTime?: string;
+    readonly errorCode?: string;
+    readonly id?: string;
     imageFormat: "TIF";
     imageResolution: number;
     inferenceEndDateTime: string;
-    lastActionDateTime?: string;
-    message?: string;
+    readonly lastActionDateTime?: string;
+    readonly message?: string;
     modelVersion: string;
+    readonly modifiedBy?: string;
     name?: string;
+    partyId: string;
     plantingStartDateTime: string;
     properties?: Record<string, any>;
     satelliteProvider: "Microsoft";
-    satelliteSource: "Sentinel_2_L2A";
-    startTime?: string;
-    status?: string;
+    satelliteSource: "Sentinel_2_L2A" | "Sentinel_2_L1C";
+    readonly startTime?: string;
+    readonly status?: string;
     weatherExtensionId: string;
 }
 
 // @public (undocumented)
 export interface BoundariesCreateCascadeDeleteJob {
-    get(options?: BoundariesGetCascadeDeleteJobDetailsParameters): StreamableMethod<BoundariesGetCascadeDeleteJobDetails200Response | BoundariesGetCascadeDeleteJobDetailsdefaultResponse>;
-    put(options: BoundariesCreateCascadeDeleteJobParameters): StreamableMethod<BoundariesCreateCascadeDeleteJob202Response | BoundariesCreateCascadeDeleteJobdefaultResponse>;
+    get(options?: BoundariesGetCascadeDeleteJobDetailsParameters): StreamableMethod<BoundariesGetCascadeDeleteJobDetails200Response | BoundariesGetCascadeDeleteJobDetailsDefaultResponse>;
+    put(options: BoundariesCreateCascadeDeleteJobParameters): StreamableMethod<BoundariesCreateCascadeDeleteJob202Response | BoundariesCreateCascadeDeleteJobDefaultResponse>;
 }
 
 // @public
@@ -697,17 +705,17 @@ export interface BoundariesCreateCascadeDeleteJob202Response extends HttpRespons
 }
 
 // @public (undocumented)
-export interface BoundariesCreateCascadeDeleteJobdefaultHeaders {
+export interface BoundariesCreateCascadeDeleteJobDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface BoundariesCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
+export interface BoundariesCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & BoundariesCreateCascadeDeleteJobdefaultHeaders;
+    headers: RawHttpHeaders & BoundariesCreateCascadeDeleteJobDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -724,14 +732,14 @@ export interface BoundariesCreateCascadeDeleteJobQueryParam {
 // @public (undocumented)
 export interface BoundariesCreateCascadeDeleteJobQueryParamProperties {
     boundaryId: string;
-    farmerId: string;
+    partyId: string;
 }
 
 // @public (undocumented)
 export interface BoundariesCreateOrUpdate {
-    delete(options?: BoundariesDeleteParameters): StreamableMethod<BoundariesDelete204Response | BoundariesDeletedefaultResponse>;
-    get(options?: BoundariesGetParameters): StreamableMethod<BoundariesGet200Response | BoundariesGetdefaultResponse>;
-    patch(options: BoundariesCreateOrUpdateParameters): StreamableMethod<BoundariesCreateOrUpdate200Response | BoundariesCreateOrUpdate201Response | BoundariesCreateOrUpdatedefaultResponse>;
+    delete(options?: BoundariesDeleteParameters): StreamableMethod<BoundariesDelete204Response | BoundariesDeleteDefaultResponse>;
+    get(options?: BoundariesGetParameters): StreamableMethod<BoundariesGet200Response | BoundariesGetDefaultResponse>;
+    patch(options: BoundariesCreateOrUpdateParameters): StreamableMethod<BoundariesCreateOrUpdate200Response | BoundariesCreateOrUpdate201Response | BoundariesCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -752,21 +760,21 @@ export interface BoundariesCreateOrUpdate201Response extends HttpResponse {
 
 // @public (undocumented)
 export interface BoundariesCreateOrUpdateBodyParam {
-    body: Boundary;
+    body: BoundaryResourceMergeAndPatch;
 }
 
 // @public (undocumented)
-export interface BoundariesCreateOrUpdatedefaultHeaders {
+export interface BoundariesCreateOrUpdateDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface BoundariesCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface BoundariesCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & BoundariesCreateOrUpdatedefaultHeaders;
+    headers: RawHttpHeaders & BoundariesCreateOrUpdateDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -788,17 +796,17 @@ export interface BoundariesDelete204Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface BoundariesDeletedefaultHeaders {
+export interface BoundariesDeleteDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface BoundariesDeletedefaultResponse extends HttpResponse {
+export interface BoundariesDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & BoundariesDeletedefaultHeaders;
+    headers: RawHttpHeaders & BoundariesDeleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -823,17 +831,17 @@ export interface BoundariesGetCascadeDeleteJobDetails200Response extends HttpRes
 }
 
 // @public (undocumented)
-export interface BoundariesGetCascadeDeleteJobDetailsdefaultHeaders {
+export interface BoundariesGetCascadeDeleteJobDetailsDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface BoundariesGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
+export interface BoundariesGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & BoundariesGetCascadeDeleteJobDetailsdefaultHeaders;
+    headers: RawHttpHeaders & BoundariesGetCascadeDeleteJobDetailsDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -842,24 +850,24 @@ export interface BoundariesGetCascadeDeleteJobDetailsdefaultResponse extends Htt
 export type BoundariesGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
 // @public (undocumented)
-export interface BoundariesGetdefaultHeaders {
+export interface BoundariesGetDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface BoundariesGetdefaultResponse extends HttpResponse {
+export interface BoundariesGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & BoundariesGetdefaultHeaders;
+    headers: RawHttpHeaders & BoundariesGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
 export interface BoundariesGetOverlap {
-    get(options: BoundariesGetOverlapParameters): StreamableMethod<BoundariesGetOverlap200Response | BoundariesGetOverlapdefaultResponse>;
+    get(options: BoundariesGetOverlapParameters): StreamableMethod<BoundariesGetOverlap200Response | BoundariesGetOverlapDefaultResponse>;
 }
 
 // @public
@@ -871,17 +879,17 @@ export interface BoundariesGetOverlap200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface BoundariesGetOverlapdefaultHeaders {
+export interface BoundariesGetOverlapDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface BoundariesGetOverlapdefaultResponse extends HttpResponse {
+export interface BoundariesGetOverlapDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & BoundariesGetOverlapdefaultHeaders;
+    headers: RawHttpHeaders & BoundariesGetOverlapDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -898,7 +906,7 @@ export interface BoundariesGetOverlapQueryParam {
 // @public (undocumented)
 export interface BoundariesGetOverlapQueryParamProperties {
     otherBoundaryId: string;
-    otherFarmerId: string;
+    otherPartyId: string;
 }
 
 // @public (undocumented)
@@ -906,8 +914,8 @@ export type BoundariesGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface BoundariesList {
-    get(options?: BoundariesListParameters): StreamableMethod<BoundariesList200Response | BoundariesListdefaultResponse>;
-    post(options: BoundariesSearchParameters): StreamableMethod<BoundariesSearch200Response | BoundariesSearchdefaultResponse>;
+    get(options?: BoundariesListParameters): StreamableMethod<BoundariesList200Response | BoundariesListDefaultResponse>;
+    post(options: BoundariesSearchParameters): StreamableMethod<BoundariesSearch200Response | BoundariesSearchDefaultResponse>;
 }
 
 // @public
@@ -919,13 +927,13 @@ export interface BoundariesList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface BoundariesListByFarmerId {
-    get(options?: BoundariesListByFarmerIdParameters): StreamableMethod<BoundariesListByFarmerId200Response | BoundariesListByFarmerIddefaultResponse>;
-    post(options: BoundariesSearchByFarmerIdParameters): StreamableMethod<BoundariesSearchByFarmerId200Response | BoundariesSearchByFarmerIddefaultResponse>;
+export interface BoundariesListByPartyId {
+    get(options?: BoundariesListByPartyIdParameters): StreamableMethod<BoundariesListByPartyId200Response | BoundariesListByPartyIdDefaultResponse>;
+    post(options: BoundariesSearchByPartyIdParameters): StreamableMethod<BoundariesSearchByPartyId200Response | BoundariesSearchByPartyIdDefaultResponse>;
 }
 
 // @public
-export interface BoundariesListByFarmerId200Response extends HttpResponse {
+export interface BoundariesListByPartyId200Response extends HttpResponse {
     // (undocumented)
     body: BoundaryMetadataListResponseOutput;
     // (undocumented)
@@ -933,61 +941,61 @@ export interface BoundariesListByFarmerId200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface BoundariesListByFarmerIddefaultHeaders {
+export interface BoundariesListByPartyIdDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface BoundariesListByFarmerIddefaultResponse extends HttpResponse {
+export interface BoundariesListByPartyIdDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & BoundariesListByFarmerIddefaultHeaders;
+    headers: RawHttpHeaders & BoundariesListByPartyIdDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export type BoundariesListByFarmerIdParameters = BoundariesListByFarmerIdQueryParam & RequestParameters;
+export type BoundariesListByPartyIdParameters = BoundariesListByPartyIdQueryParam & RequestParameters;
 
 // @public (undocumented)
-export interface BoundariesListByFarmerIdQueryParam {
+export interface BoundariesListByPartyIdQueryParam {
     // (undocumented)
-    queryParameters?: BoundariesListByFarmerIdQueryParamProperties;
+    queryParameters?: BoundariesListByPartyIdQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface BoundariesListByFarmerIdQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    ids?: Array<string>;
-    isPrimary?: boolean;
-    maxAcreage?: number;
+export interface BoundariesListByPartyIdQueryParamProperties {
+    ids?: string;
+    maxArea?: number;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
-    minAcreage?: number;
+    maxPageSize?: number;
+    minArea?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
-    names?: Array<string>;
-    parentIds?: Array<string>;
+    names?: string;
+    parentIds?: string;
     parentType?: string;
-    propertyFilters?: Array<string>;
-    statuses?: Array<string>;
+    propertyFilters?: string;
+    skipToken?: string;
+    statuses?: string;
+    type?: string;
 }
 
 // @public (undocumented)
-export interface BoundariesListdefaultHeaders {
+export interface BoundariesListDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface BoundariesListdefaultResponse extends HttpResponse {
+export interface BoundariesListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & BoundariesListdefaultHeaders;
+    headers: RawHttpHeaders & BoundariesListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -1003,21 +1011,21 @@ export interface BoundariesListQueryParam {
 
 // @public (undocumented)
 export interface BoundariesListQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    ids?: Array<string>;
-    isPrimary?: boolean;
-    maxAcreage?: number;
+    ids?: string;
+    maxArea?: number;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
-    minAcreage?: number;
+    maxPageSize?: number;
+    minArea?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
-    names?: Array<string>;
-    parentIds?: Array<string>;
+    names?: string;
+    parentIds?: string;
     parentType?: string;
-    propertyFilters?: Array<string>;
-    statuses?: Array<string>;
+    propertyFilters?: string;
+    skipToken?: string;
+    statuses?: string;
+    type?: string;
 }
 
 // @public
@@ -1034,7 +1042,7 @@ export interface BoundariesSearchBodyParam {
 }
 
 // @public
-export interface BoundariesSearchByFarmerId200Response extends HttpResponse {
+export interface BoundariesSearchByPartyId200Response extends HttpResponse {
     // (undocumented)
     body: BoundaryMetadataListResponseOutput;
     // (undocumented)
@@ -1042,46 +1050,46 @@ export interface BoundariesSearchByFarmerId200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface BoundariesSearchByFarmerIdBodyParam {
+export interface BoundariesSearchByPartyIdBodyParam {
     body: SearchBoundaryQuery;
 }
 
 // @public (undocumented)
-export interface BoundariesSearchByFarmerIddefaultHeaders {
+export interface BoundariesSearchByPartyIdDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface BoundariesSearchByFarmerIddefaultResponse extends HttpResponse {
+export interface BoundariesSearchByPartyIdDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & BoundariesSearchByFarmerIddefaultHeaders;
+    headers: RawHttpHeaders & BoundariesSearchByPartyIdDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export interface BoundariesSearchByFarmerIdMediaTypesParam {
+export interface BoundariesSearchByPartyIdMediaTypesParam {
     contentType?: "application/json";
 }
 
 // @public (undocumented)
-export type BoundariesSearchByFarmerIdParameters = BoundariesSearchByFarmerIdMediaTypesParam & BoundariesSearchByFarmerIdBodyParam & RequestParameters;
+export type BoundariesSearchByPartyIdParameters = BoundariesSearchByPartyIdMediaTypesParam & BoundariesSearchByPartyIdBodyParam & RequestParameters;
 
 // @public (undocumented)
-export interface BoundariesSearchdefaultHeaders {
+export interface BoundariesSearchDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface BoundariesSearchdefaultResponse extends HttpResponse {
+export interface BoundariesSearchDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & BoundariesSearchdefaultHeaders;
+    headers: RawHttpHeaders & BoundariesSearchDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -1094,102 +1102,111 @@ export interface BoundariesSearchMediaTypesParam {
 // @public (undocumented)
 export type BoundariesSearchParameters = BoundariesSearchMediaTypesParam & BoundariesSearchBodyParam & RequestParameters;
 
-// @public (undocumented)
-export interface Boundary extends Record<string, unknown> {
-    acreage?: number;
-    createdDateTime?: Date | string;
+// @public
+export interface Boundary {
+    area?: Measure;
+    bbox?: GeoJsonObject;
+    centroid?: GeoJsonObject;
     description?: string;
-    eTag?: string;
-    farmerId?: string;
     geometry?: GeoJsonObject;
-    id?: string;
-    isPrimary?: boolean;
-    modifiedDateTime?: Date | string;
     name?: string;
     parentId?: string;
     parentType?: "Field" | "SeasonalField" | "Zone" | "Prescription" | "PlantTissueAnalysis" | "ApplicationData" | "PlantingData" | "TillageData" | "HarvestData";
     properties?: Record<string, any>;
     source?: string;
     status?: string;
+    type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface BoundaryMetadataListResponseOutput {
-    $skipToken?: string;
     nextLink?: string;
-    value?: Array<BoundaryMetadataOutput>;
+    skipToken?: string;
+    value: Array<BoundaryMetadataOutput>;
 }
 
-// @public (undocumented)
-export interface BoundaryMetadataOutput extends Record<string, unknown> {
-    acreage?: number;
-    createdDateTime?: string;
+// @public
+export interface BoundaryMetadataOutput {
+    area?: MeasureOutput;
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     description?: string;
-    eTag?: string;
-    farmerId?: string;
-    id?: string;
-    isPrimary?: boolean;
-    modifiedDateTime?: string;
+    readonly eTag?: string;
+    readonly id?: string;
+    readonly modifiedBy?: string;
+    readonly modifiedDateTime?: string;
     name?: string;
     parentId?: string;
-    parentType?: "Field" | "SeasonalField" | "Zone" | "Prescription" | "PlantTissueAnalysis" | "ApplicationData" | "PlantingData" | "TillageData" | "HarvestData";
+    readonly parentType?: "Field" | "SeasonalField" | "Zone" | "Prescription" | "PlantTissueAnalysis" | "ApplicationData" | "PlantingData" | "TillageData" | "HarvestData";
+    readonly partyId?: string;
     properties?: Record<string, any>;
     source?: string;
     status?: string;
+    type?: string;
 }
 
-// @public (undocumented)
-export interface BoundaryOutput extends Record<string, unknown> {
-    acreage?: number;
-    createdDateTime?: string;
+// @public
+export interface BoundaryOutput {
+    area?: MeasureOutput;
+    bbox?: GeoJsonObjectOutput;
+    centroid?: GeoJsonObjectOutput;
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
+    readonly crs?: string;
     description?: string;
-    eTag?: string;
-    farmerId?: string;
+    readonly eTag?: string;
     geometry?: GeoJsonObjectOutput;
-    id?: string;
-    isPrimary?: boolean;
-    modifiedDateTime?: string;
+    readonly id?: string;
+    readonly modifiedBy?: string;
+    readonly modifiedDateTime?: string;
     name?: string;
     parentId?: string;
     parentType?: "Field" | "SeasonalField" | "Zone" | "Prescription" | "PlantTissueAnalysis" | "ApplicationData" | "PlantingData" | "TillageData" | "HarvestData";
+    readonly partyId?: string;
     properties?: Record<string, any>;
     source?: string;
     status?: string;
+    type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface BoundaryOverlapResponseOutput {
-    boundaryAcreage?: number;
-    intersectingAcreage?: number;
-    otherBoundaryAcreage?: number;
+    boundaryArea?: number;
+    intersectingArea?: number;
+    otherBoundaryArea?: number;
 }
 
+// @public
+export type BoundaryResourceMergeAndPatch = Partial<Boundary>;
+
 // @public (undocumented)
+export function buildMultiCollection(queryParameters: string[], parameterName: string): string;
+
+// @public
 export interface CascadeDeleteJobOutput {
-    createdDateTime?: string;
-    durationInSeconds?: number;
-    endTime?: string;
-    farmerId: string;
-    id?: string;
-    lastActionDateTime?: string;
-    message?: string;
+    readonly createdDateTime?: string;
+    readonly durationInSeconds?: number;
+    readonly endTime?: string;
+    readonly errorCode?: string;
+    readonly id?: string;
+    readonly lastActionDateTime?: string;
+    readonly message?: string;
+    partyId: string;
     resourceId: string;
     resourceType: string;
-    startTime?: string;
-    status?: "Waiting" | "Running" | "Succeeded" | "Failed" | "Cancelled";
+    readonly startTime?: string;
+    readonly status?: "Waiting" | "Running" | "Succeeded" | "Failed" | "Cancelled";
 }
 
-// @public (undocumented)
+// @public
 function createClient($host: string, credentials: TokenCredential, options?: ClientOptions): FarmBeatsClient;
 export default createClient;
 
-// @public (undocumented)
-export interface Crop extends Record<string, unknown> {
-    createdDateTime?: Date | string;
+// @public
+export interface Crop {
+    breedingMethod?: "VARIETY" | "HYBRID" | "UNKNOWN";
     description?: string;
-    eTag?: string;
-    id?: string;
-    modifiedDateTime?: Date | string;
+    measurements?: Record<string, Measure>;
     name?: string;
     phenotype?: string;
     properties?: Record<string, any>;
@@ -1197,26 +1214,241 @@ export interface Crop extends Record<string, unknown> {
     status?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CropListResponseOutput {
-    $skipToken?: string;
     nextLink?: string;
-    value?: Array<CropOutput>;
+    skipToken?: string;
+    value: Array<CropOutput>;
 }
 
-// @public (undocumented)
-export interface CropOutput extends Record<string, unknown> {
-    createdDateTime?: string;
+// @public
+export interface CropOutput {
+    breedingMethod?: "VARIETY" | "HYBRID" | "UNKNOWN";
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     description?: string;
-    eTag?: string;
-    id?: string;
-    modifiedDateTime?: string;
+    readonly eTag?: string;
+    readonly id?: string;
+    measurements?: Record<string, MeasureOutput>;
+    readonly modifiedBy?: string;
+    readonly modifiedDateTime?: string;
     name?: string;
     phenotype?: string;
     properties?: Record<string, any>;
     source?: string;
     status?: string;
 }
+
+// @public
+export interface CropProduct {
+    brand?: string;
+    cropIds?: Array<string>;
+    description?: string;
+    name?: string;
+    product?: string;
+    properties?: Record<string, any>;
+    relativeMaturity?: Measure;
+    source?: string;
+    status?: string;
+    trait?: string;
+    treatments?: Array<string>;
+}
+
+// @public
+export interface CropProductListResponseOutput {
+    nextLink?: string;
+    skipToken?: string;
+    value: Array<CropProductOutput>;
+}
+
+// @public
+export interface CropProductOutput {
+    brand?: string;
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
+    cropIds?: Array<string>;
+    description?: string;
+    readonly eTag?: string;
+    readonly id?: string;
+    readonly modifiedBy?: string;
+    readonly modifiedDateTime?: string;
+    name?: string;
+    product?: string;
+    properties?: Record<string, any>;
+    relativeMaturity?: MeasureOutput;
+    source?: string;
+    status?: string;
+    trait?: string;
+    treatments?: Array<string>;
+}
+
+// @public
+export type CropProductResourceMergeAndPatch = Partial<CropProduct>;
+
+// @public
+export interface CropProductsCreateOrUpdate200Response extends HttpResponse {
+    // (undocumented)
+    body: CropProductOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface CropProductsCreateOrUpdate201Response extends HttpResponse {
+    // (undocumented)
+    body: CropProductOutput;
+    // (undocumented)
+    status: "201";
+}
+
+// @public (undocumented)
+export interface CropProductsCreateOrUpdateBodyParam {
+    body: CropProductResourceMergeAndPatch;
+}
+
+// @public (undocumented)
+export interface CropProductsCreateOrUpdateDefaultHeaders {
+    // (undocumented)
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface CropProductsCreateOrUpdateDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & CropProductsCreateOrUpdateDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface CropProductsCreateOrUpdateMediaTypesParam {
+    contentType?: "application/merge-patch+json";
+}
+
+// @public (undocumented)
+export type CropProductsCreateOrUpdateParameters = CropProductsCreateOrUpdateMediaTypesParam & CropProductsCreateOrUpdateBodyParam & RequestParameters;
+
+// @public
+export interface CropProductsDelete204Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface CropProductsDeleteDefaultHeaders {
+    // (undocumented)
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface CropProductsDeleteDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & CropProductsDeleteDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type CropProductsDeleteParameters = RequestParameters;
+
+// @public (undocumented)
+export interface CropProductsGet {
+    delete(options?: CropProductsDeleteParameters): StreamableMethod<CropProductsDelete204Response | CropProductsDeleteDefaultResponse>;
+    get(options?: CropProductsGetParameters): StreamableMethod<CropProductsGet200Response | CropProductsGetDefaultResponse>;
+    patch(options: CropProductsCreateOrUpdateParameters): StreamableMethod<CropProductsCreateOrUpdate200Response | CropProductsCreateOrUpdate201Response | CropProductsCreateOrUpdateDefaultResponse>;
+}
+
+// @public
+export interface CropProductsGet200Response extends HttpResponse {
+    // (undocumented)
+    body: CropProductOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface CropProductsGetDefaultHeaders {
+    // (undocumented)
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface CropProductsGetDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & CropProductsGetDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type CropProductsGetParameters = RequestParameters;
+
+// @public (undocumented)
+export interface CropProductsList {
+    get(options?: CropProductsListParameters): StreamableMethod<CropProductsList200Response | CropProductsListDefaultResponse>;
+}
+
+// @public
+export interface CropProductsList200Response extends HttpResponse {
+    // (undocumented)
+    body: CropProductListResponseOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface CropProductsListDefaultHeaders {
+    // (undocumented)
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface CropProductsListDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & CropProductsListDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type CropProductsListParameters = CropProductsListQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface CropProductsListQueryParam {
+    // (undocumented)
+    queryParameters?: CropProductsListQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface CropProductsListQueryParamProperties {
+    brands?: string;
+    cropIds?: string;
+    ids?: string;
+    maxCreatedDateTime?: Date | string;
+    maxLastModifiedDateTime?: Date | string;
+    maxPageSize?: number;
+    minCreatedDateTime?: Date | string;
+    minLastModifiedDateTime?: Date | string;
+    names?: string;
+    products?: string;
+    propertyFilters?: string;
+    skipToken?: string;
+    statuses?: string;
+    traits?: string;
+}
+
+// @public
+export type CropResourceMergeAndPatch = Partial<Crop>;
 
 // @public
 export interface CropsCreateOrUpdate200Response extends HttpResponse {
@@ -1236,21 +1468,21 @@ export interface CropsCreateOrUpdate201Response extends HttpResponse {
 
 // @public (undocumented)
 export interface CropsCreateOrUpdateBodyParam {
-    body: Crop;
+    body: CropResourceMergeAndPatch;
 }
 
 // @public (undocumented)
-export interface CropsCreateOrUpdatedefaultHeaders {
+export interface CropsCreateOrUpdateDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface CropsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface CropsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & CropsCreateOrUpdatedefaultHeaders;
+    headers: RawHttpHeaders & CropsCreateOrUpdateDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -1272,17 +1504,17 @@ export interface CropsDelete204Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface CropsDeletedefaultHeaders {
+export interface CropsDeleteDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface CropsDeletedefaultResponse extends HttpResponse {
+export interface CropsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & CropsDeletedefaultHeaders;
+    headers: RawHttpHeaders & CropsDeleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -1292,9 +1524,9 @@ export type CropsDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface CropsGet {
-    delete(options?: CropsDeleteParameters): StreamableMethod<CropsDelete204Response | CropsDeletedefaultResponse>;
-    get(options?: CropsGetParameters): StreamableMethod<CropsGet200Response | CropsGetdefaultResponse>;
-    patch(options: CropsCreateOrUpdateParameters): StreamableMethod<CropsCreateOrUpdate200Response | CropsCreateOrUpdate201Response | CropsCreateOrUpdatedefaultResponse>;
+    delete(options?: CropsDeleteParameters): StreamableMethod<CropsDelete204Response | CropsDeleteDefaultResponse>;
+    get(options?: CropsGetParameters): StreamableMethod<CropsGet200Response | CropsGetDefaultResponse>;
+    patch(options: CropsCreateOrUpdateParameters): StreamableMethod<CropsCreateOrUpdate200Response | CropsCreateOrUpdate201Response | CropsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -1306,17 +1538,17 @@ export interface CropsGet200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface CropsGetdefaultHeaders {
+export interface CropsGetDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface CropsGetdefaultResponse extends HttpResponse {
+export interface CropsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & CropsGetdefaultHeaders;
+    headers: RawHttpHeaders & CropsGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -1326,7 +1558,7 @@ export type CropsGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface CropsList {
-    get(options?: CropsListParameters): StreamableMethod<CropsList200Response | CropsListdefaultResponse>;
+    get(options?: CropsListParameters): StreamableMethod<CropsList200Response | CropsListDefaultResponse>;
 }
 
 // @public
@@ -1338,17 +1570,17 @@ export interface CropsList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface CropsListdefaultHeaders {
+export interface CropsListDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface CropsListdefaultResponse extends HttpResponse {
+export interface CropsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & CropsListdefaultHeaders;
+    headers: RawHttpHeaders & CropsListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -1364,285 +1596,81 @@ export interface CropsListQueryParam {
 
 // @public (undocumented)
 export interface CropsListQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    ids?: Array<string>;
+    breedingMethods?: string;
+    ids?: string;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
+    maxPageSize?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
-    names?: Array<string>;
-    phenotypes?: Array<string>;
-    propertyFilters?: Array<string>;
-    statuses?: Array<string>;
+    names?: string;
+    phenotypes?: string;
+    propertyFilters?: string;
+    skipToken?: string;
+    statuses?: string;
 }
 
 // @public
-export interface CropVarietiesCreateOrUpdate200Response extends HttpResponse {
-    // (undocumented)
-    body: CropVarietyOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface CropVarietiesCreateOrUpdate201Response extends HttpResponse {
-    // (undocumented)
-    body: CropVarietyOutput;
-    // (undocumented)
-    status: "201";
-}
-
-// @public (undocumented)
-export interface CropVarietiesCreateOrUpdateBodyParam {
-    body: CropVariety;
-}
-
-// @public (undocumented)
-export interface CropVarietiesCreateOrUpdatedefaultHeaders {
-    // (undocumented)
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface CropVarietiesCreateOrUpdatedefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & CropVarietiesCreateOrUpdatedefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface CropVarietiesCreateOrUpdateMediaTypesParam {
-    contentType?: "application/merge-patch+json";
-}
-
-// @public (undocumented)
-export type CropVarietiesCreateOrUpdateParameters = CropVarietiesCreateOrUpdateMediaTypesParam & CropVarietiesCreateOrUpdateBodyParam & RequestParameters;
-
-// @public
-export interface CropVarietiesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
-    status: "204";
-}
-
-// @public (undocumented)
-export interface CropVarietiesDeletedefaultHeaders {
-    // (undocumented)
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface CropVarietiesDeletedefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & CropVarietiesDeletedefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type CropVarietiesDeleteParameters = RequestParameters;
-
-// @public (undocumented)
-export interface CropVarietiesGet {
-    delete(options?: CropVarietiesDeleteParameters): StreamableMethod<CropVarietiesDelete204Response | CropVarietiesDeletedefaultResponse>;
-    get(options?: CropVarietiesGetParameters): StreamableMethod<CropVarietiesGet200Response | CropVarietiesGetdefaultResponse>;
-    patch(options: CropVarietiesCreateOrUpdateParameters): StreamableMethod<CropVarietiesCreateOrUpdate200Response | CropVarietiesCreateOrUpdate201Response | CropVarietiesCreateOrUpdatedefaultResponse>;
-}
-
-// @public
-export interface CropVarietiesGet200Response extends HttpResponse {
-    // (undocumented)
-    body: CropVarietyOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface CropVarietiesGetdefaultHeaders {
-    // (undocumented)
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface CropVarietiesGetdefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & CropVarietiesGetdefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type CropVarietiesGetParameters = RequestParameters;
-
-// @public (undocumented)
-export interface CropVarietiesList {
-    get(options?: CropVarietiesListParameters): StreamableMethod<CropVarietiesList200Response | CropVarietiesListdefaultResponse>;
-}
-
-// @public
-export interface CropVarietiesList200Response extends HttpResponse {
-    // (undocumented)
-    body: CropVarietyListResponseOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface CropVarietiesListdefaultHeaders {
-    // (undocumented)
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface CropVarietiesListdefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & CropVarietiesListdefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type CropVarietiesListParameters = CropVarietiesListQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface CropVarietiesListQueryParam {
-    // (undocumented)
-    queryParameters?: CropVarietiesListQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface CropVarietiesListQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    brands?: Array<string>;
-    cropIds?: Array<string>;
-    ids?: Array<string>;
-    maxCreatedDateTime?: Date | string;
-    maxLastModifiedDateTime?: Date | string;
-    minCreatedDateTime?: Date | string;
-    minLastModifiedDateTime?: Date | string;
-    names?: Array<string>;
-    products?: Array<string>;
-    propertyFilters?: Array<string>;
-    statuses?: Array<string>;
-}
-
-// @public (undocumented)
-export interface CropVariety extends Record<string, unknown> {
-    brand?: string;
-    createdDateTime?: Date | string;
-    cropIds?: Array<string>;
-    description?: string;
-    eTag?: string;
-    id?: string;
-    modifiedDateTime?: Date | string;
-    name?: string;
-    product?: string;
-    properties?: Record<string, any>;
-    source?: string;
-    status?: string;
-}
-
-// @public (undocumented)
-export interface CropVarietyListResponseOutput {
-    $skipToken?: string;
-    nextLink?: string;
-    value?: Array<CropVarietyOutput>;
-}
-
-// @public (undocumented)
-export interface CropVarietyOutput extends Record<string, unknown> {
-    brand?: string;
-    createdDateTime?: string;
-    cropIds?: Array<string>;
-    description?: string;
-    eTag?: string;
-    id?: string;
-    modifiedDateTime?: string;
-    name?: string;
-    product?: string;
-    properties?: Record<string, any>;
-    source?: string;
-    status?: string;
-}
-
-// @public (undocumented)
-export interface Device extends Record<string, unknown> {
-    createdDateTime?: Date | string;
+export interface Device {
     description?: string;
     deviceDataModelId?: string;
-    eTag?: string;
     hardwareId?: string;
-    id?: string;
     integrationId?: string;
     location?: Location;
-    modifiedDateTime?: Date | string;
     name?: string;
     parentDeviceId?: string;
     properties?: Record<string, any>;
     reportingIntervalInSeconds?: number;
-    sensorPartnerId?: string;
     status?: string;
     type?: string;
 }
 
-// @public (undocumented)
-export interface DeviceDataModel extends Record<string, unknown> {
-    createdDateTime?: Date | string;
+// @public
+export interface DeviceDataModel {
     description?: string;
-    eTag?: string;
-    id?: string;
     manufacturer?: string;
-    modifiedDateTime?: Date | string;
     name?: string;
     ports?: Array<Port>;
     productCode?: string;
     properties?: Record<string, any>;
-    sensorPartnerId?: string;
     status?: string;
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface DeviceDataModelListResponseOutput {
-    $skipToken?: string;
     nextLink?: string;
-    value?: Array<DeviceDataModelOutput>;
+    skipToken?: string;
+    value: Array<DeviceDataModelOutput>;
 }
 
-// @public (undocumented)
-export interface DeviceDataModelOutput extends Record<string, unknown> {
-    createdDateTime?: string;
+// @public
+export interface DeviceDataModelOutput {
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     description?: string;
-    eTag?: string;
-    id?: string;
+    readonly eTag?: string;
+    readonly id?: string;
     manufacturer?: string;
-    modifiedDateTime?: string;
+    readonly modifiedBy?: string;
+    readonly modifiedDateTime?: string;
     name?: string;
     ports?: Array<PortOutput>;
     productCode?: string;
     properties?: Record<string, any>;
-    sensorPartnerId?: string;
+    readonly sensorPartnerId?: string;
     status?: string;
     type?: string;
 }
 
+// @public
+export type DeviceDataModelResourceMergeAndPatch = Partial<DeviceDataModel>;
+
 // @public (undocumented)
 export interface DeviceDataModelsCreateOrUpdate {
-    delete(options?: DeviceDataModelsDeleteParameters): StreamableMethod<DeviceDataModelsDelete204Response | DeviceDataModelsDeletedefaultResponse>;
-    get(options?: DeviceDataModelsGetParameters): StreamableMethod<DeviceDataModelsGet200Response | DeviceDataModelsGetdefaultResponse>;
-    patch(options: DeviceDataModelsCreateOrUpdateParameters): StreamableMethod<DeviceDataModelsCreateOrUpdate200Response | DeviceDataModelsCreateOrUpdate201Response | DeviceDataModelsCreateOrUpdatedefaultResponse>;
+    delete(options?: DeviceDataModelsDeleteParameters): StreamableMethod<DeviceDataModelsDelete204Response | DeviceDataModelsDeleteDefaultResponse>;
+    get(options?: DeviceDataModelsGetParameters): StreamableMethod<DeviceDataModelsGet200Response | DeviceDataModelsGetDefaultResponse>;
+    patch(options: DeviceDataModelsCreateOrUpdateParameters): StreamableMethod<DeviceDataModelsCreateOrUpdate200Response | DeviceDataModelsCreateOrUpdate201Response | DeviceDataModelsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -1663,21 +1691,21 @@ export interface DeviceDataModelsCreateOrUpdate201Response extends HttpResponse 
 
 // @public (undocumented)
 export interface DeviceDataModelsCreateOrUpdateBodyParam {
-    body: DeviceDataModel;
+    body: DeviceDataModelResourceMergeAndPatch;
 }
 
 // @public (undocumented)
-export interface DeviceDataModelsCreateOrUpdatedefaultHeaders {
+export interface DeviceDataModelsCreateOrUpdateDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface DeviceDataModelsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface DeviceDataModelsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & DeviceDataModelsCreateOrUpdatedefaultHeaders;
+    headers: RawHttpHeaders & DeviceDataModelsCreateOrUpdateDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -1699,17 +1727,17 @@ export interface DeviceDataModelsDelete204Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface DeviceDataModelsDeletedefaultHeaders {
+export interface DeviceDataModelsDeleteDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface DeviceDataModelsDeletedefaultResponse extends HttpResponse {
+export interface DeviceDataModelsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & DeviceDataModelsDeletedefaultHeaders;
+    headers: RawHttpHeaders & DeviceDataModelsDeleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -1726,17 +1754,17 @@ export interface DeviceDataModelsGet200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface DeviceDataModelsGetdefaultHeaders {
+export interface DeviceDataModelsGetDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface DeviceDataModelsGetdefaultResponse extends HttpResponse {
+export interface DeviceDataModelsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & DeviceDataModelsGetdefaultHeaders;
+    headers: RawHttpHeaders & DeviceDataModelsGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -1746,7 +1774,7 @@ export type DeviceDataModelsGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface DeviceDataModelsList {
-    get(options?: DeviceDataModelsListParameters): StreamableMethod<DeviceDataModelsList200Response | DeviceDataModelsListdefaultResponse>;
+    get(options?: DeviceDataModelsListParameters): StreamableMethod<DeviceDataModelsList200Response | DeviceDataModelsListDefaultResponse>;
 }
 
 // @public
@@ -1758,17 +1786,17 @@ export interface DeviceDataModelsList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface DeviceDataModelsListdefaultHeaders {
+export interface DeviceDataModelsListDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface DeviceDataModelsListdefaultResponse extends HttpResponse {
+export interface DeviceDataModelsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & DeviceDataModelsListdefaultHeaders;
+    headers: RawHttpHeaders & DeviceDataModelsListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -1784,50 +1812,55 @@ export interface DeviceDataModelsListQueryParam {
 
 // @public (undocumented)
 export interface DeviceDataModelsListQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    ids?: Array<string>;
+    ids?: string;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
+    maxPageSize?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    statuses?: Array<string>;
+    names?: string;
+    propertyFilters?: string;
+    skipToken?: string;
+    statuses?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface DeviceListResponseOutput {
-    $skipToken?: string;
     nextLink?: string;
-    value?: Array<DeviceOutput>;
+    skipToken?: string;
+    value: Array<DeviceOutput>;
 }
 
-// @public (undocumented)
-export interface DeviceOutput extends Record<string, unknown> {
-    createdDateTime?: string;
+// @public
+export interface DeviceOutput {
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     description?: string;
     deviceDataModelId?: string;
-    eTag?: string;
+    readonly eTag?: string;
     hardwareId?: string;
-    id?: string;
+    readonly id?: string;
     integrationId?: string;
     location?: LocationOutput;
-    modifiedDateTime?: string;
+    readonly modifiedBy?: string;
+    readonly modifiedDateTime?: string;
     name?: string;
     parentDeviceId?: string;
     properties?: Record<string, any>;
     reportingIntervalInSeconds?: number;
-    sensorPartnerId?: string;
+    readonly sensorPartnerId?: string;
     status?: string;
     type?: string;
 }
 
+// @public
+export type DeviceResourceMergeAndPatch = Partial<Device>;
+
 // @public (undocumented)
 export interface DevicesCreateOrUpdate {
-    delete(options?: DevicesDeleteParameters): StreamableMethod<DevicesDelete204Response | DevicesDeletedefaultResponse>;
-    get(options?: DevicesGetParameters): StreamableMethod<DevicesGet200Response | DevicesGetdefaultResponse>;
-    patch(options: DevicesCreateOrUpdateParameters): StreamableMethod<DevicesCreateOrUpdate200Response | DevicesCreateOrUpdate201Response | DevicesCreateOrUpdatedefaultResponse>;
+    delete(options?: DevicesDeleteParameters): StreamableMethod<DevicesDelete204Response | DevicesDeleteDefaultResponse>;
+    get(options?: DevicesGetParameters): StreamableMethod<DevicesGet200Response | DevicesGetDefaultResponse>;
+    patch(options: DevicesCreateOrUpdateParameters): StreamableMethod<DevicesCreateOrUpdate200Response | DevicesCreateOrUpdate201Response | DevicesCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -1848,21 +1881,21 @@ export interface DevicesCreateOrUpdate201Response extends HttpResponse {
 
 // @public (undocumented)
 export interface DevicesCreateOrUpdateBodyParam {
-    body: Device;
+    body: DeviceResourceMergeAndPatch;
 }
 
 // @public (undocumented)
-export interface DevicesCreateOrUpdatedefaultHeaders {
+export interface DevicesCreateOrUpdateDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface DevicesCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface DevicesCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & DevicesCreateOrUpdatedefaultHeaders;
+    headers: RawHttpHeaders & DevicesCreateOrUpdateDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -1884,17 +1917,17 @@ export interface DevicesDelete204Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface DevicesDeletedefaultHeaders {
+export interface DevicesDeleteDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface DevicesDeletedefaultResponse extends HttpResponse {
+export interface DevicesDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & DevicesDeletedefaultHeaders;
+    headers: RawHttpHeaders & DevicesDeleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -1911,17 +1944,17 @@ export interface DevicesGet200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface DevicesGetdefaultHeaders {
+export interface DevicesGetDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface DevicesGetdefaultResponse extends HttpResponse {
+export interface DevicesGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & DevicesGetdefaultHeaders;
+    headers: RawHttpHeaders & DevicesGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -1931,7 +1964,7 @@ export type DevicesGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface DevicesList {
-    get(options?: DevicesListParameters): StreamableMethod<DevicesList200Response | DevicesListdefaultResponse>;
+    get(options?: DevicesListParameters): StreamableMethod<DevicesList200Response | DevicesListDefaultResponse>;
 }
 
 // @public
@@ -1943,17 +1976,17 @@ export interface DevicesList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface DevicesListdefaultHeaders {
+export interface DevicesListDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface DevicesListdefaultResponse extends HttpResponse {
+export interface DevicesListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & DevicesListdefaultHeaders;
+    headers: RawHttpHeaders & DevicesListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -1969,43 +2002,46 @@ export interface DevicesListQueryParam {
 
 // @public (undocumented)
 export interface DevicesListQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    deviceDataModelIds?: Array<string>;
-    ids?: Array<string>;
+    deviceDataModelIds?: string;
+    ids?: string;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
+    maxPageSize?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
-    names?: Array<string>;
-    parentDeviceIds?: Array<string>;
-    propertyFilters?: Array<string>;
-    statuses?: Array<string>;
+    names?: string;
+    parentDeviceIds?: string;
+    propertyFilters?: string;
+    skipToken?: string;
+    statuses?: string;
 }
 
-// @public (undocumented)
+// @public
+export interface ErrorForLocationOutput {
+    code?: number;
+    description?: string;
+    location?: WeatherLocationOutput;
+    retryable?: boolean;
+}
+
+// @public
 export interface ErrorModelOutput {
-    code?: string;
+    code: string;
     details?: Array<ErrorModelOutput>;
     innererror?: InnerErrorOutput;
-    message?: string;
+    message: string;
     target?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ErrorResponseOutput {
     error?: ErrorModelOutput;
     traceId?: string;
 }
 
-// @public (undocumented)
-export interface Farm extends Record<string, unknown> {
-    createdDateTime?: Date | string;
+// @public
+export interface Farm {
     description?: string;
-    eTag?: string;
-    farmerId?: string;
-    id?: string;
-    modifiedDateTime?: Date | string;
     name?: string;
     properties?: Record<string, any>;
     source?: string;
@@ -2017,319 +2053,52 @@ export type FarmBeatsClient = Client & {
     path: Routes;
 };
 
-// @public (undocumented)
-export interface Farmer extends Record<string, unknown> {
-    createdDateTime?: Date | string;
-    description?: string;
-    eTag?: string;
-    id?: string;
-    modifiedDateTime?: Date | string;
-    name?: string;
-    properties?: Record<string, any>;
-    source?: string;
-    status?: string;
-}
-
-// @public (undocumented)
-export interface FarmerListResponseOutput {
-    $skipToken?: string;
-    nextLink?: string;
-    value?: Array<FarmerOutput>;
-}
-
-// @public (undocumented)
-export interface FarmerOutput extends Record<string, unknown> {
-    createdDateTime?: string;
-    description?: string;
-    eTag?: string;
-    id?: string;
-    modifiedDateTime?: string;
-    name?: string;
-    properties?: Record<string, any>;
-    source?: string;
-    status?: string;
-}
-
-// @public (undocumented)
-export interface FarmersCreateCascadeDeleteJob {
-    get(options?: FarmersGetCascadeDeleteJobDetailsParameters): StreamableMethod<FarmersGetCascadeDeleteJobDetails200Response | FarmersGetCascadeDeleteJobDetailsdefaultResponse>;
-    put(options: FarmersCreateCascadeDeleteJobParameters): StreamableMethod<FarmersCreateCascadeDeleteJob202Response | FarmersCreateCascadeDeleteJobdefaultResponse>;
-}
-
 // @public
-export interface FarmersCreateCascadeDeleteJob202Response extends HttpResponse {
-    // (undocumented)
-    body: CascadeDeleteJobOutput;
-    // (undocumented)
-    status: "202";
-}
-
-// @public (undocumented)
-export interface FarmersCreateCascadeDeleteJobdefaultHeaders {
-    // (undocumented)
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface FarmersCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & FarmersCreateCascadeDeleteJobdefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type FarmersCreateCascadeDeleteJobParameters = FarmersCreateCascadeDeleteJobQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface FarmersCreateCascadeDeleteJobQueryParam {
-    // (undocumented)
-    queryParameters: FarmersCreateCascadeDeleteJobQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface FarmersCreateCascadeDeleteJobQueryParamProperties {
-    farmerId: string;
-}
-
-// @public
-export interface FarmersCreateOrUpdate200Response extends HttpResponse {
-    // (undocumented)
-    body: FarmerOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface FarmersCreateOrUpdate201Response extends HttpResponse {
-    // (undocumented)
-    body: FarmerOutput;
-    // (undocumented)
-    status: "201";
-}
-
-// @public (undocumented)
-export interface FarmersCreateOrUpdateBodyParam {
-    body: Farmer;
-}
-
-// @public (undocumented)
-export interface FarmersCreateOrUpdatedefaultHeaders {
-    // (undocumented)
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface FarmersCreateOrUpdatedefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & FarmersCreateOrUpdatedefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface FarmersCreateOrUpdateMediaTypesParam {
-    contentType?: "application/merge-patch+json";
-}
-
-// @public (undocumented)
-export type FarmersCreateOrUpdateParameters = FarmersCreateOrUpdateMediaTypesParam & FarmersCreateOrUpdateBodyParam & RequestParameters;
-
-// @public
-export interface FarmersDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
-    status: "204";
-}
-
-// @public (undocumented)
-export interface FarmersDeletedefaultHeaders {
-    // (undocumented)
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface FarmersDeletedefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & FarmersDeletedefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type FarmersDeleteParameters = RequestParameters;
-
-// @public (undocumented)
-export interface FarmersGet {
-    delete(options?: FarmersDeleteParameters): StreamableMethod<FarmersDelete204Response | FarmersDeletedefaultResponse>;
-    get(options?: FarmersGetParameters): StreamableMethod<FarmersGet200Response | FarmersGetdefaultResponse>;
-    patch(options: FarmersCreateOrUpdateParameters): StreamableMethod<FarmersCreateOrUpdate200Response | FarmersCreateOrUpdate201Response | FarmersCreateOrUpdatedefaultResponse>;
-}
-
-// @public
-export interface FarmersGet200Response extends HttpResponse {
-    // (undocumented)
-    body: FarmerOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface FarmersGetCascadeDeleteJobDetails200Response extends HttpResponse {
-    // (undocumented)
-    body: CascadeDeleteJobOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface FarmersGetCascadeDeleteJobDetailsdefaultHeaders {
-    // (undocumented)
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface FarmersGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & FarmersGetCascadeDeleteJobDetailsdefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type FarmersGetCascadeDeleteJobDetailsParameters = RequestParameters;
-
-// @public (undocumented)
-export interface FarmersGetdefaultHeaders {
-    // (undocumented)
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface FarmersGetdefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & FarmersGetdefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type FarmersGetParameters = RequestParameters;
-
-// @public (undocumented)
-export interface FarmersList {
-    get(options?: FarmersListParameters): StreamableMethod<FarmersList200Response | FarmersListdefaultResponse>;
-}
-
-// @public
-export interface FarmersList200Response extends HttpResponse {
-    // (undocumented)
-    body: FarmerListResponseOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface FarmersListdefaultHeaders {
-    // (undocumented)
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface FarmersListdefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & FarmersListdefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type FarmersListParameters = FarmersListQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface FarmersListQueryParam {
-    // (undocumented)
-    queryParameters?: FarmersListQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface FarmersListQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    ids?: Array<string>;
-    maxCreatedDateTime?: Date | string;
-    maxLastModifiedDateTime?: Date | string;
-    minCreatedDateTime?: Date | string;
-    minLastModifiedDateTime?: Date | string;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    statuses?: Array<string>;
-}
-
-// @public (undocumented)
 export interface FarmListResponseOutput {
-    $skipToken?: string;
     nextLink?: string;
-    value?: Array<FarmOutput>;
+    skipToken?: string;
+    value: Array<FarmOutput>;
 }
 
-// @public (undocumented)
-export interface FarmOperationDataIngestionJob extends Record<string, unknown> {
+// @public
+export interface FarmOperationDataIngestionJob {
     authProviderId: string;
-    createdDateTime?: Date | string;
     description?: string;
-    durationInSeconds?: number;
-    endTime?: Date | string;
-    farmerId: string;
-    id?: string;
     isIncremental?: boolean;
-    lastActionDateTime?: Date | string;
-    message?: string;
     name?: string;
     operations?: Array<string>;
+    partyId: string;
     properties?: Record<string, any>;
-    startTime?: Date | string;
     startYear: number;
-    status?: string;
 }
 
-// @public (undocumented)
-export interface FarmOperationDataIngestionJobOutput extends Record<string, unknown> {
+// @public
+export interface FarmOperationDataIngestionJobOutput {
     authProviderId: string;
-    createdDateTime?: string;
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     description?: string;
-    durationInSeconds?: number;
-    endTime?: string;
-    farmerId: string;
-    id?: string;
+    readonly durationInSeconds?: number;
+    readonly endTime?: string;
+    readonly errorCode?: string;
+    readonly id?: string;
     isIncremental?: boolean;
-    lastActionDateTime?: string;
-    message?: string;
+    readonly lastActionDateTime?: string;
+    readonly message?: string;
+    readonly modifiedBy?: string;
     name?: string;
     operations?: Array<string>;
+    partyId: string;
     properties?: Record<string, any>;
-    startTime?: string;
+    readonly startTime?: string;
     startYear: number;
-    status?: string;
+    readonly status?: string;
 }
 
 // @public (undocumented)
 export interface FarmOperationsCreateDataIngestionJob {
-    get(options?: FarmOperationsGetDataIngestionJobDetailsParameters): StreamableMethod<FarmOperationsGetDataIngestionJobDetails200Response | FarmOperationsGetDataIngestionJobDetailsdefaultResponse>;
-    put(options: FarmOperationsCreateDataIngestionJobParameters): StreamableMethod<FarmOperationsCreateDataIngestionJob202Response | FarmOperationsCreateDataIngestionJobdefaultResponse>;
+    get(options?: FarmOperationsGetDataIngestionJobDetailsParameters): StreamableMethod<FarmOperationsGetDataIngestionJobDetails200Response | FarmOperationsGetDataIngestionJobDetailsDefaultResponse>;
+    put(options: FarmOperationsCreateDataIngestionJobParameters): StreamableMethod<FarmOperationsCreateDataIngestionJob202Response | FarmOperationsCreateDataIngestionJobDefaultResponse>;
 }
 
 // @public
@@ -2346,17 +2115,17 @@ export interface FarmOperationsCreateDataIngestionJobBodyParam {
 }
 
 // @public (undocumented)
-export interface FarmOperationsCreateDataIngestionJobdefaultHeaders {
+export interface FarmOperationsCreateDataIngestionJobDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface FarmOperationsCreateDataIngestionJobdefaultResponse extends HttpResponse {
+export interface FarmOperationsCreateDataIngestionJobDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & FarmOperationsCreateDataIngestionJobdefaultHeaders;
+    headers: RawHttpHeaders & FarmOperationsCreateDataIngestionJobDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -2378,17 +2147,17 @@ export interface FarmOperationsGetDataIngestionJobDetails200Response extends Htt
 }
 
 // @public (undocumented)
-export interface FarmOperationsGetDataIngestionJobDetailsdefaultHeaders {
+export interface FarmOperationsGetDataIngestionJobDetailsDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface FarmOperationsGetDataIngestionJobDetailsdefaultResponse extends HttpResponse {
+export interface FarmOperationsGetDataIngestionJobDetailsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & FarmOperationsGetDataIngestionJobDetailsdefaultHeaders;
+    headers: RawHttpHeaders & FarmOperationsGetDataIngestionJobDetailsDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -2396,24 +2165,29 @@ export interface FarmOperationsGetDataIngestionJobDetailsdefaultResponse extends
 // @public (undocumented)
 export type FarmOperationsGetDataIngestionJobDetailsParameters = RequestParameters;
 
-// @public (undocumented)
-export interface FarmOutput extends Record<string, unknown> {
-    createdDateTime?: string;
+// @public
+export interface FarmOutput {
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     description?: string;
-    eTag?: string;
-    farmerId?: string;
-    id?: string;
-    modifiedDateTime?: string;
+    readonly eTag?: string;
+    readonly id?: string;
+    readonly modifiedBy?: string;
+    readonly modifiedDateTime?: string;
     name?: string;
+    readonly partyId?: string;
     properties?: Record<string, any>;
     source?: string;
     status?: string;
 }
 
+// @public
+export type FarmResourceMergeAndPatch = Partial<Farm>;
+
 // @public (undocumented)
 export interface FarmsCreateCascadeDeleteJob {
-    get(options?: FarmsGetCascadeDeleteJobDetailsParameters): StreamableMethod<FarmsGetCascadeDeleteJobDetails200Response | FarmsGetCascadeDeleteJobDetailsdefaultResponse>;
-    put(options: FarmsCreateCascadeDeleteJobParameters): StreamableMethod<FarmsCreateCascadeDeleteJob202Response | FarmsCreateCascadeDeleteJobdefaultResponse>;
+    get(options?: FarmsGetCascadeDeleteJobDetailsParameters): StreamableMethod<FarmsGetCascadeDeleteJobDetails200Response | FarmsGetCascadeDeleteJobDetailsDefaultResponse>;
+    put(options: FarmsCreateCascadeDeleteJobParameters): StreamableMethod<FarmsCreateCascadeDeleteJob202Response | FarmsCreateCascadeDeleteJobDefaultResponse>;
 }
 
 // @public
@@ -2425,17 +2199,17 @@ export interface FarmsCreateCascadeDeleteJob202Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface FarmsCreateCascadeDeleteJobdefaultHeaders {
+export interface FarmsCreateCascadeDeleteJobDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface FarmsCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
+export interface FarmsCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & FarmsCreateCascadeDeleteJobdefaultHeaders;
+    headers: RawHttpHeaders & FarmsCreateCascadeDeleteJobDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -2451,8 +2225,8 @@ export interface FarmsCreateCascadeDeleteJobQueryParam {
 
 // @public (undocumented)
 export interface FarmsCreateCascadeDeleteJobQueryParamProperties {
-    farmerId: string;
     farmId: string;
+    partyId: string;
 }
 
 // @public
@@ -2473,21 +2247,21 @@ export interface FarmsCreateOrUpdate201Response extends HttpResponse {
 
 // @public (undocumented)
 export interface FarmsCreateOrUpdateBodyParam {
-    body: Farm;
+    body: FarmResourceMergeAndPatch;
 }
 
 // @public (undocumented)
-export interface FarmsCreateOrUpdatedefaultHeaders {
+export interface FarmsCreateOrUpdateDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface FarmsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface FarmsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & FarmsCreateOrUpdatedefaultHeaders;
+    headers: RawHttpHeaders & FarmsCreateOrUpdateDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -2509,17 +2283,17 @@ export interface FarmsDelete204Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface FarmsDeletedefaultHeaders {
+export interface FarmsDeleteDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface FarmsDeletedefaultResponse extends HttpResponse {
+export interface FarmsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & FarmsDeletedefaultHeaders;
+    headers: RawHttpHeaders & FarmsDeleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -2529,9 +2303,9 @@ export type FarmsDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface FarmsGet {
-    delete(options?: FarmsDeleteParameters): StreamableMethod<FarmsDelete204Response | FarmsDeletedefaultResponse>;
-    get(options?: FarmsGetParameters): StreamableMethod<FarmsGet200Response | FarmsGetdefaultResponse>;
-    patch(options: FarmsCreateOrUpdateParameters): StreamableMethod<FarmsCreateOrUpdate200Response | FarmsCreateOrUpdate201Response | FarmsCreateOrUpdatedefaultResponse>;
+    delete(options?: FarmsDeleteParameters): StreamableMethod<FarmsDelete204Response | FarmsDeleteDefaultResponse>;
+    get(options?: FarmsGetParameters): StreamableMethod<FarmsGet200Response | FarmsGetDefaultResponse>;
+    patch(options: FarmsCreateOrUpdateParameters): StreamableMethod<FarmsCreateOrUpdate200Response | FarmsCreateOrUpdate201Response | FarmsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -2551,17 +2325,17 @@ export interface FarmsGetCascadeDeleteJobDetails200Response extends HttpResponse
 }
 
 // @public (undocumented)
-export interface FarmsGetCascadeDeleteJobDetailsdefaultHeaders {
+export interface FarmsGetCascadeDeleteJobDetailsDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface FarmsGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
+export interface FarmsGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & FarmsGetCascadeDeleteJobDetailsdefaultHeaders;
+    headers: RawHttpHeaders & FarmsGetCascadeDeleteJobDetailsDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -2570,17 +2344,17 @@ export interface FarmsGetCascadeDeleteJobDetailsdefaultResponse extends HttpResp
 export type FarmsGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
 // @public (undocumented)
-export interface FarmsGetdefaultHeaders {
+export interface FarmsGetDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface FarmsGetdefaultResponse extends HttpResponse {
+export interface FarmsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & FarmsGetdefaultHeaders;
+    headers: RawHttpHeaders & FarmsGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -2590,7 +2364,7 @@ export type FarmsGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface FarmsList {
-    get(options?: FarmsListParameters): StreamableMethod<FarmsList200Response | FarmsListdefaultResponse>;
+    get(options?: FarmsListParameters): StreamableMethod<FarmsList200Response | FarmsListDefaultResponse>;
 }
 
 // @public
@@ -2602,12 +2376,12 @@ export interface FarmsList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface FarmsListByFarmerId {
-    get(options?: FarmsListByFarmerIdParameters): StreamableMethod<FarmsListByFarmerId200Response | FarmsListByFarmerIddefaultResponse>;
+export interface FarmsListByPartyId {
+    get(options?: FarmsListByPartyIdParameters): StreamableMethod<FarmsListByPartyId200Response | FarmsListByPartyIdDefaultResponse>;
 }
 
 // @public
-export interface FarmsListByFarmerId200Response extends HttpResponse {
+export interface FarmsListByPartyId200Response extends HttpResponse {
     // (undocumented)
     body: FarmListResponseOutput;
     // (undocumented)
@@ -2615,56 +2389,56 @@ export interface FarmsListByFarmerId200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface FarmsListByFarmerIddefaultHeaders {
+export interface FarmsListByPartyIdDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface FarmsListByFarmerIddefaultResponse extends HttpResponse {
+export interface FarmsListByPartyIdDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & FarmsListByFarmerIddefaultHeaders;
+    headers: RawHttpHeaders & FarmsListByPartyIdDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export type FarmsListByFarmerIdParameters = FarmsListByFarmerIdQueryParam & RequestParameters;
+export type FarmsListByPartyIdParameters = FarmsListByPartyIdQueryParam & RequestParameters;
 
 // @public (undocumented)
-export interface FarmsListByFarmerIdQueryParam {
+export interface FarmsListByPartyIdQueryParam {
     // (undocumented)
-    queryParameters?: FarmsListByFarmerIdQueryParamProperties;
+    queryParameters?: FarmsListByPartyIdQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface FarmsListByFarmerIdQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    ids?: Array<string>;
+export interface FarmsListByPartyIdQueryParamProperties {
+    ids?: string;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
+    maxPageSize?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    statuses?: Array<string>;
+    names?: string;
+    propertyFilters?: string;
+    skipToken?: string;
+    statuses?: string;
 }
 
 // @public (undocumented)
-export interface FarmsListdefaultHeaders {
+export interface FarmsListDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface FarmsListdefaultResponse extends HttpResponse {
+export interface FarmsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & FarmsListdefaultHeaders;
+    headers: RawHttpHeaders & FarmsListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -2680,64 +2454,54 @@ export interface FarmsListQueryParam {
 
 // @public (undocumented)
 export interface FarmsListQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    ids?: Array<string>;
+    ids?: string;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
+    maxPageSize?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    statuses?: Array<string>;
+    names?: string;
+    propertyFilters?: string;
+    skipToken?: string;
+    statuses?: string;
 }
 
-// @public (undocumented)
-export interface Field extends Record<string, unknown> {
-    boundaryIds?: Array<string>;
-    createdDateTime?: Date | string;
+// @public
+export interface Field {
     description?: string;
-    eTag?: string;
-    farmerId?: string;
     farmId?: string;
-    id?: string;
-    modifiedDateTime?: Date | string;
     name?: string;
-    primaryBoundaryId?: string;
     properties?: Record<string, any>;
     source?: string;
     status?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface FieldListResponseOutput {
-    $skipToken?: string;
     nextLink?: string;
-    value?: Array<FieldOutput>;
+    skipToken?: string;
+    value: Array<FieldOutput>;
 }
 
-// @public (undocumented)
-export interface FieldOutput extends Record<string, unknown> {
-    boundaryIds?: Array<string>;
-    createdDateTime?: string;
+// @public
+export interface FieldOutput {
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     description?: string;
-    eTag?: string;
-    farmerId?: string;
+    readonly eTag?: string;
     farmId?: string;
-    id?: string;
-    modifiedDateTime?: string;
+    readonly id?: string;
+    readonly modifiedBy?: string;
+    readonly modifiedDateTime?: string;
     name?: string;
-    primaryBoundaryId?: string;
+    readonly partyId?: string;
     properties?: Record<string, any>;
     source?: string;
     status?: string;
 }
 
-// @public (undocumented)
-export interface FieldsCreateCascadeDeleteJob {
-    get(options?: FieldsGetCascadeDeleteJobDetailsParameters): StreamableMethod<FieldsGetCascadeDeleteJobDetails200Response | FieldsGetCascadeDeleteJobDetailsdefaultResponse>;
-    put(options: FieldsCreateCascadeDeleteJobParameters): StreamableMethod<FieldsCreateCascadeDeleteJob202Response | FieldsCreateCascadeDeleteJobdefaultResponse>;
-}
+// @public
+export type FieldResourceMergeAndPatch = Partial<Field>;
 
 // @public
 export interface FieldsCreateCascadeDeleteJob202Response extends HttpResponse {
@@ -2748,17 +2512,17 @@ export interface FieldsCreateCascadeDeleteJob202Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface FieldsCreateCascadeDeleteJobdefaultHeaders {
+export interface FieldsCreateCascadeDeleteJobDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface FieldsCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
+export interface FieldsCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & FieldsCreateCascadeDeleteJobdefaultHeaders;
+    headers: RawHttpHeaders & FieldsCreateCascadeDeleteJobDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -2774,8 +2538,8 @@ export interface FieldsCreateCascadeDeleteJobQueryParam {
 
 // @public (undocumented)
 export interface FieldsCreateCascadeDeleteJobQueryParamProperties {
-    farmerId: string;
     fieldId: string;
+    partyId: string;
 }
 
 // @public
@@ -2796,21 +2560,21 @@ export interface FieldsCreateOrUpdate201Response extends HttpResponse {
 
 // @public (undocumented)
 export interface FieldsCreateOrUpdateBodyParam {
-    body: Field;
+    body: FieldResourceMergeAndPatch;
 }
 
 // @public (undocumented)
-export interface FieldsCreateOrUpdatedefaultHeaders {
+export interface FieldsCreateOrUpdateDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface FieldsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface FieldsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & FieldsCreateOrUpdatedefaultHeaders;
+    headers: RawHttpHeaders & FieldsCreateOrUpdateDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -2832,17 +2596,17 @@ export interface FieldsDelete204Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface FieldsDeletedefaultHeaders {
+export interface FieldsDeleteDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface FieldsDeletedefaultResponse extends HttpResponse {
+export interface FieldsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & FieldsDeletedefaultHeaders;
+    headers: RawHttpHeaders & FieldsDeleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -2852,9 +2616,9 @@ export type FieldsDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface FieldsGet {
-    delete(options?: FieldsDeleteParameters): StreamableMethod<FieldsDelete204Response | FieldsDeletedefaultResponse>;
-    get(options?: FieldsGetParameters): StreamableMethod<FieldsGet200Response | FieldsGetdefaultResponse>;
-    patch(options: FieldsCreateOrUpdateParameters): StreamableMethod<FieldsCreateOrUpdate200Response | FieldsCreateOrUpdate201Response | FieldsCreateOrUpdatedefaultResponse>;
+    delete(options?: FieldsDeleteParameters): StreamableMethod<FieldsDelete204Response | FieldsDeleteDefaultResponse>;
+    get(options?: FieldsGetParameters): StreamableMethod<FieldsGet200Response | FieldsGetDefaultResponse>;
+    patch(options: FieldsCreateOrUpdateParameters): StreamableMethod<FieldsCreateOrUpdate200Response | FieldsCreateOrUpdate201Response | FieldsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -2863,6 +2627,12 @@ export interface FieldsGet200Response extends HttpResponse {
     body: FieldOutput;
     // (undocumented)
     status: "200";
+}
+
+// @public (undocumented)
+export interface FieldsGetCascadeDeleteJobDetails {
+    get(options?: FieldsGetCascadeDeleteJobDetailsParameters): StreamableMethod<FieldsGetCascadeDeleteJobDetails200Response | FieldsGetCascadeDeleteJobDetailsDefaultResponse>;
+    put(options: FieldsCreateCascadeDeleteJobParameters): StreamableMethod<FieldsCreateCascadeDeleteJob202Response | FieldsCreateCascadeDeleteJobDefaultResponse>;
 }
 
 // @public
@@ -2874,17 +2644,17 @@ export interface FieldsGetCascadeDeleteJobDetails200Response extends HttpRespons
 }
 
 // @public (undocumented)
-export interface FieldsGetCascadeDeleteJobDetailsdefaultHeaders {
+export interface FieldsGetCascadeDeleteJobDetailsDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface FieldsGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
+export interface FieldsGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & FieldsGetCascadeDeleteJobDetailsdefaultHeaders;
+    headers: RawHttpHeaders & FieldsGetCascadeDeleteJobDetailsDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -2893,17 +2663,17 @@ export interface FieldsGetCascadeDeleteJobDetailsdefaultResponse extends HttpRes
 export type FieldsGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
 // @public (undocumented)
-export interface FieldsGetdefaultHeaders {
+export interface FieldsGetDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface FieldsGetdefaultResponse extends HttpResponse {
+export interface FieldsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & FieldsGetdefaultHeaders;
+    headers: RawHttpHeaders & FieldsGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -2913,7 +2683,7 @@ export type FieldsGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface FieldsList {
-    get(options?: FieldsListParameters): StreamableMethod<FieldsList200Response | FieldsListdefaultResponse>;
+    get(options?: FieldsListParameters): StreamableMethod<FieldsList200Response | FieldsListDefaultResponse>;
 }
 
 // @public
@@ -2925,12 +2695,12 @@ export interface FieldsList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface FieldsListByFarmerId {
-    get(options?: FieldsListByFarmerIdParameters): StreamableMethod<FieldsListByFarmerId200Response | FieldsListByFarmerIddefaultResponse>;
+export interface FieldsListByPartyId {
+    get(options?: FieldsListByPartyIdParameters): StreamableMethod<FieldsListByPartyId200Response | FieldsListByPartyIdDefaultResponse>;
 }
 
 // @public
-export interface FieldsListByFarmerId200Response extends HttpResponse {
+export interface FieldsListByPartyId200Response extends HttpResponse {
     // (undocumented)
     body: FieldListResponseOutput;
     // (undocumented)
@@ -2938,57 +2708,57 @@ export interface FieldsListByFarmerId200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface FieldsListByFarmerIddefaultHeaders {
+export interface FieldsListByPartyIdDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface FieldsListByFarmerIddefaultResponse extends HttpResponse {
+export interface FieldsListByPartyIdDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & FieldsListByFarmerIddefaultHeaders;
+    headers: RawHttpHeaders & FieldsListByPartyIdDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export type FieldsListByFarmerIdParameters = FieldsListByFarmerIdQueryParam & RequestParameters;
+export type FieldsListByPartyIdParameters = FieldsListByPartyIdQueryParam & RequestParameters;
 
 // @public (undocumented)
-export interface FieldsListByFarmerIdQueryParam {
+export interface FieldsListByPartyIdQueryParam {
     // (undocumented)
-    queryParameters?: FieldsListByFarmerIdQueryParamProperties;
+    queryParameters?: FieldsListByPartyIdQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface FieldsListByFarmerIdQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    farmIds?: Array<string>;
-    ids?: Array<string>;
+export interface FieldsListByPartyIdQueryParamProperties {
+    farmIds?: string;
+    ids?: string;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
+    maxPageSize?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    statuses?: Array<string>;
+    names?: string;
+    propertyFilters?: string;
+    skipToken?: string;
+    statuses?: string;
 }
 
 // @public (undocumented)
-export interface FieldsListdefaultHeaders {
+export interface FieldsListDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface FieldsListdefaultResponse extends HttpResponse {
+export interface FieldsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & FieldsListdefaultHeaders;
+    headers: RawHttpHeaders & FieldsListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -3004,33 +2774,33 @@ export interface FieldsListQueryParam {
 
 // @public (undocumented)
 export interface FieldsListQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    farmIds?: Array<string>;
-    ids?: Array<string>;
+    farmIds?: string;
+    ids?: string;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
+    maxPageSize?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    statuses?: Array<string>;
+    names?: string;
+    propertyFilters?: string;
+    skipToken?: string;
+    statuses?: string;
 }
 
-// @public (undocumented)
+// @public
 export type GeoJsonObject = MultiPolygon | Point | Polygon;
 
-// @public (undocumented)
-export interface GeoJsonObjectBase {
+// @public
+export type GeoJsonObjectOutput = MultiPolygonOutput | PointOutput | PolygonOutput;
+
+// @public
+export interface GeoJsonObjectOutputParent {
     // (undocumented)
     type: "GeoJsonObject" | "MultiPolygon" | "Point" | "Polygon";
 }
 
-// @public (undocumented)
-export type GeoJsonObjectOutput = MultiPolygonOutput | PointOutput | PolygonOutput;
-
-// @public (undocumented)
-export interface GeoJsonObjectOutputBase {
+// @public
+export interface GeoJsonObjectParent {
     // (undocumented)
     type: "GeoJsonObject" | "MultiPolygon" | "Point" | "Polygon";
 }
@@ -3039,7 +2809,7 @@ export interface GeoJsonObjectOutputBase {
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
 
 // @public
-export function getLongRunningPoller<TResult extends HttpResponse>(client: Client, initialResponse: TResult, options?: LroEngineOptions<TResult, PollOperationState<TResult>>): PollerLike<PollOperationState<TResult>, TResult>;
+export function getLongRunningPoller<TResult extends HttpResponse>(client: Client, initialResponse: TResult, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public
 export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
@@ -3047,22 +2817,16 @@ export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise
     nextPageLink?: string;
 }>;
 
-// @public (undocumented)
-export interface HarvestData extends Record<string, unknown> {
+// @public
+export interface HarvestData {
     area?: Measure;
     associatedBoundaryId?: string;
-    attachmentsLink?: string;
     avgMoisture?: Measure;
     avgSpeed?: Measure;
     avgWetMass?: Measure;
     avgYield?: Measure;
-    createdDateTime?: Date | string;
     description?: string;
-    eTag?: string;
-    farmerId?: string;
     harvestProductDetails?: Array<HarvestProductDetail>;
-    id?: string;
-    modifiedDateTime?: Date | string;
     name?: string;
     operationEndDateTime?: Date | string;
     operationModifiedDateTime?: Date | string;
@@ -3076,8 +2840,8 @@ export interface HarvestData extends Record<string, unknown> {
 
 // @public (undocumented)
 export interface HarvestDataCreateCascadeDeleteJob {
-    get(options?: HarvestDataGetCascadeDeleteJobDetailsParameters): StreamableMethod<HarvestDataGetCascadeDeleteJobDetails200Response | HarvestDataGetCascadeDeleteJobDetailsdefaultResponse>;
-    put(options: HarvestDataCreateCascadeDeleteJobParameters): StreamableMethod<HarvestDataCreateCascadeDeleteJob202Response | HarvestDataCreateCascadeDeleteJobdefaultResponse>;
+    get(options?: HarvestDataGetCascadeDeleteJobDetailsParameters): StreamableMethod<HarvestDataGetCascadeDeleteJobDetails200Response | HarvestDataGetCascadeDeleteJobDetailsDefaultResponse>;
+    put(options: HarvestDataCreateCascadeDeleteJobParameters): StreamableMethod<HarvestDataCreateCascadeDeleteJob202Response | HarvestDataCreateCascadeDeleteJobDefaultResponse>;
 }
 
 // @public
@@ -3089,17 +2853,17 @@ export interface HarvestDataCreateCascadeDeleteJob202Response extends HttpRespon
 }
 
 // @public (undocumented)
-export interface HarvestDataCreateCascadeDeleteJobdefaultHeaders {
+export interface HarvestDataCreateCascadeDeleteJobDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface HarvestDataCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
+export interface HarvestDataCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & HarvestDataCreateCascadeDeleteJobdefaultHeaders;
+    headers: RawHttpHeaders & HarvestDataCreateCascadeDeleteJobDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -3115,8 +2879,8 @@ export interface HarvestDataCreateCascadeDeleteJobQueryParam {
 
 // @public (undocumented)
 export interface HarvestDataCreateCascadeDeleteJobQueryParamProperties {
-    farmerId: string;
     harvestDataId: string;
+    partyId: string;
 }
 
 // @public
@@ -3137,21 +2901,21 @@ export interface HarvestDataCreateOrUpdate201Response extends HttpResponse {
 
 // @public (undocumented)
 export interface HarvestDataCreateOrUpdateBodyParam {
-    body: HarvestData;
+    body: HarvestDataResourceMergeAndPatch;
 }
 
 // @public (undocumented)
-export interface HarvestDataCreateOrUpdatedefaultHeaders {
+export interface HarvestDataCreateOrUpdateDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface HarvestDataCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface HarvestDataCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & HarvestDataCreateOrUpdatedefaultHeaders;
+    headers: RawHttpHeaders & HarvestDataCreateOrUpdateDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -3173,17 +2937,17 @@ export interface HarvestDataDelete204Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface HarvestDataDeletedefaultHeaders {
+export interface HarvestDataDeleteDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface HarvestDataDeletedefaultResponse extends HttpResponse {
+export interface HarvestDataDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & HarvestDataDeletedefaultHeaders;
+    headers: RawHttpHeaders & HarvestDataDeleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -3193,9 +2957,9 @@ export type HarvestDataDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface HarvestDataGet {
-    delete(options?: HarvestDataDeleteParameters): StreamableMethod<HarvestDataDelete204Response | HarvestDataDeletedefaultResponse>;
-    get(options?: HarvestDataGetParameters): StreamableMethod<HarvestDataGet200Response | HarvestDataGetdefaultResponse>;
-    patch(options: HarvestDataCreateOrUpdateParameters): StreamableMethod<HarvestDataCreateOrUpdate200Response | HarvestDataCreateOrUpdate201Response | HarvestDataCreateOrUpdatedefaultResponse>;
+    delete(options?: HarvestDataDeleteParameters): StreamableMethod<HarvestDataDelete204Response | HarvestDataDeleteDefaultResponse>;
+    get(options?: HarvestDataGetParameters): StreamableMethod<HarvestDataGet200Response | HarvestDataGetDefaultResponse>;
+    patch(options: HarvestDataCreateOrUpdateParameters): StreamableMethod<HarvestDataCreateOrUpdate200Response | HarvestDataCreateOrUpdate201Response | HarvestDataCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -3215,17 +2979,17 @@ export interface HarvestDataGetCascadeDeleteJobDetails200Response extends HttpRe
 }
 
 // @public (undocumented)
-export interface HarvestDataGetCascadeDeleteJobDetailsdefaultHeaders {
+export interface HarvestDataGetCascadeDeleteJobDetailsDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface HarvestDataGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
+export interface HarvestDataGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & HarvestDataGetCascadeDeleteJobDetailsdefaultHeaders;
+    headers: RawHttpHeaders & HarvestDataGetCascadeDeleteJobDetailsDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -3234,17 +2998,17 @@ export interface HarvestDataGetCascadeDeleteJobDetailsdefaultResponse extends Ht
 export type HarvestDataGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
 // @public (undocumented)
-export interface HarvestDataGetdefaultHeaders {
+export interface HarvestDataGetDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface HarvestDataGetdefaultResponse extends HttpResponse {
+export interface HarvestDataGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & HarvestDataGetdefaultHeaders;
+    headers: RawHttpHeaders & HarvestDataGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -3254,7 +3018,7 @@ export type HarvestDataGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface HarvestDataList {
-    get(options?: HarvestDataListParameters): StreamableMethod<HarvestDataList200Response | HarvestDataListdefaultResponse>;
+    get(options?: HarvestDataListParameters): StreamableMethod<HarvestDataList200Response | HarvestDataListDefaultResponse>;
 }
 
 // @public
@@ -3266,12 +3030,12 @@ export interface HarvestDataList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface HarvestDataListByFarmerId {
-    get(options?: HarvestDataListByFarmerIdParameters): StreamableMethod<HarvestDataListByFarmerId200Response | HarvestDataListByFarmerIddefaultResponse>;
+export interface HarvestDataListByPartyId {
+    get(options?: HarvestDataListByPartyIdParameters): StreamableMethod<HarvestDataListByPartyId200Response | HarvestDataListByPartyIdDefaultResponse>;
 }
 
 // @public
-export interface HarvestDataListByFarmerId200Response extends HttpResponse {
+export interface HarvestDataListByPartyId200Response extends HttpResponse {
     // (undocumented)
     body: HarvestDataListResponseOutput;
     // (undocumented)
@@ -3279,36 +3043,34 @@ export interface HarvestDataListByFarmerId200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface HarvestDataListByFarmerIddefaultHeaders {
+export interface HarvestDataListByPartyIdDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface HarvestDataListByFarmerIddefaultResponse extends HttpResponse {
+export interface HarvestDataListByPartyIdDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & HarvestDataListByFarmerIddefaultHeaders;
+    headers: RawHttpHeaders & HarvestDataListByPartyIdDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export type HarvestDataListByFarmerIdParameters = HarvestDataListByFarmerIdQueryParam & RequestParameters;
+export type HarvestDataListByPartyIdParameters = HarvestDataListByPartyIdQueryParam & RequestParameters;
 
 // @public (undocumented)
-export interface HarvestDataListByFarmerIdQueryParam {
+export interface HarvestDataListByPartyIdQueryParam {
     // (undocumented)
-    queryParameters?: HarvestDataListByFarmerIdQueryParamProperties;
+    queryParameters?: HarvestDataListByPartyIdQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface HarvestDataListByFarmerIdQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    associatedBoundaryIds?: Array<string>;
-    ids?: Array<string>;
+export interface HarvestDataListByPartyIdQueryParamProperties {
+    associatedBoundaryIds?: string;
+    ids?: string;
     maxArea?: number;
     maxAvgMoisture?: number;
     maxAvgSpeed?: number;
@@ -3319,6 +3081,7 @@ export interface HarvestDataListByFarmerIdQueryParamProperties {
     maxOperationEndDateTime?: Date | string;
     maxOperationModifiedDateTime?: Date | string;
     maxOperationStartDateTime?: Date | string;
+    maxPageSize?: number;
     maxTotalWetMass?: number;
     maxTotalYield?: number;
     minArea?: number;
@@ -3333,24 +3096,25 @@ export interface HarvestDataListByFarmerIdQueryParamProperties {
     minOperationStartDateTime?: Date | string;
     minTotalWetMass?: number;
     minTotalYield?: number;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    sources?: Array<string>;
-    statuses?: Array<string>;
+    names?: string;
+    propertyFilters?: string;
+    skipToken?: string;
+    sources?: string;
+    statuses?: string;
 }
 
 // @public (undocumented)
-export interface HarvestDataListdefaultHeaders {
+export interface HarvestDataListDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface HarvestDataListdefaultResponse extends HttpResponse {
+export interface HarvestDataListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & HarvestDataListdefaultHeaders;
+    headers: RawHttpHeaders & HarvestDataListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -3366,10 +3130,8 @@ export interface HarvestDataListQueryParam {
 
 // @public (undocumented)
 export interface HarvestDataListQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    associatedBoundaryIds?: Array<string>;
-    ids?: Array<string>;
+    associatedBoundaryIds?: string;
+    ids?: string;
     maxArea?: number;
     maxAvgMoisture?: number;
     maxAvgSpeed?: number;
@@ -3380,6 +3142,7 @@ export interface HarvestDataListQueryParamProperties {
     maxOperationEndDateTime?: Date | string;
     maxOperationModifiedDateTime?: Date | string;
     maxOperationStartDateTime?: Date | string;
+    maxPageSize?: number;
     maxTotalWetMass?: number;
     maxTotalYield?: number;
     minArea?: number;
@@ -3394,39 +3157,42 @@ export interface HarvestDataListQueryParamProperties {
     minOperationStartDateTime?: Date | string;
     minTotalWetMass?: number;
     minTotalYield?: number;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    sources?: Array<string>;
-    statuses?: Array<string>;
+    names?: string;
+    propertyFilters?: string;
+    skipToken?: string;
+    sources?: string;
+    statuses?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface HarvestDataListResponseOutput {
-    $skipToken?: string;
     nextLink?: string;
-    value?: Array<HarvestDataOutput>;
+    skipToken?: string;
+    value: Array<HarvestDataOutput>;
 }
 
-// @public (undocumented)
-export interface HarvestDataOutput extends Record<string, unknown> {
+// @public
+export interface HarvestDataOutput {
     area?: MeasureOutput;
     associatedBoundaryId?: string;
-    attachmentsLink?: string;
+    readonly attachmentsLink?: string;
     avgMoisture?: MeasureOutput;
     avgSpeed?: MeasureOutput;
     avgWetMass?: MeasureOutput;
     avgYield?: MeasureOutput;
-    createdDateTime?: string;
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     description?: string;
-    eTag?: string;
-    farmerId?: string;
+    readonly eTag?: string;
     harvestProductDetails?: Array<HarvestProductDetailOutput>;
-    id?: string;
-    modifiedDateTime?: string;
+    readonly id?: string;
+    readonly modifiedBy?: string;
+    readonly modifiedDateTime?: string;
     name?: string;
     operationEndDateTime?: string;
     operationModifiedDateTime?: string;
     operationStartDateTime?: string;
+    readonly partyId?: string;
     properties?: Record<string, any>;
     source?: string;
     status?: string;
@@ -3434,7 +3200,10 @@ export interface HarvestDataOutput extends Record<string, unknown> {
     totalYield?: MeasureOutput;
 }
 
-// @public (undocumented)
+// @public
+export type HarvestDataResourceMergeAndPatch = Partial<HarvestData>;
+
+// @public
 export interface HarvestProductDetail {
     area?: Measure;
     avgMoisture?: Measure;
@@ -3445,7 +3214,7 @@ export interface HarvestProductDetail {
     totalYield?: Measure;
 }
 
-// @public (undocumented)
+// @public
 export interface HarvestProductDetailOutput {
     area?: MeasureOutput;
     avgMoisture?: MeasureOutput;
@@ -3456,7 +3225,7 @@ export interface HarvestProductDetailOutput {
     totalYield?: MeasureOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface ImageFileOutput {
     fileLink?: string;
     imageFormat?: "TIF";
@@ -3466,8 +3235,8 @@ export interface ImageFileOutput {
 
 // @public (undocumented)
 export interface ImageProcessingCreateRasterizeJob {
-    get(options?: ImageProcessingGetRasterizeJobParameters): StreamableMethod<ImageProcessingGetRasterizeJob200Response>;
-    put(options: ImageProcessingCreateRasterizeJobParameters): StreamableMethod<ImageProcessingCreateRasterizeJob202Response | ImageProcessingCreateRasterizeJobdefaultResponse>;
+    get(options?: ImageProcessingGetRasterizeJobParameters): StreamableMethod<ImageProcessingGetRasterizeJob200Response | ImageProcessingGetRasterizeJobDefaultResponse>;
+    put(options: ImageProcessingCreateRasterizeJobParameters): StreamableMethod<ImageProcessingCreateRasterizeJob202Response | ImageProcessingCreateRasterizeJobDefaultResponse>;
 }
 
 // @public
@@ -3484,17 +3253,17 @@ export interface ImageProcessingCreateRasterizeJobBodyParam {
 }
 
 // @public (undocumented)
-export interface ImageProcessingCreateRasterizeJobdefaultHeaders {
+export interface ImageProcessingCreateRasterizeJobDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface ImageProcessingCreateRasterizeJobdefaultResponse extends HttpResponse {
+export interface ImageProcessingCreateRasterizeJobDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
+    body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ImageProcessingCreateRasterizeJobdefaultHeaders;
+    headers: RawHttpHeaders & ImageProcessingCreateRasterizeJobDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -3516,101 +3285,105 @@ export interface ImageProcessingGetRasterizeJob200Response extends HttpResponse 
 }
 
 // @public (undocumented)
+export interface ImageProcessingGetRasterizeJobDefaultHeaders {
+    // (undocumented)
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface ImageProcessingGetRasterizeJobDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & ImageProcessingGetRasterizeJobDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
 export type ImageProcessingGetRasterizeJobParameters = RequestParameters;
 
-// @public (undocumented)
-export interface ImageProcessingRasterizeJob extends Record<string, unknown> {
-    createdDateTime?: Date | string;
+// @public
+export interface ImageProcessingRasterizeJob {
     description?: string;
-    durationInSeconds?: number;
-    endTime?: Date | string;
-    farmerId: string;
-    id?: string;
-    lastActionDateTime?: Date | string;
-    message?: string;
     name?: string;
+    partyId: string;
     properties?: Record<string, any>;
     shapefileAttachmentId: string;
     shapefileColumnNames: Array<string>;
-    startTime?: Date | string;
-    status?: string;
 }
 
-// @public (undocumented)
-export interface ImageProcessingRasterizeJobOutput extends Record<string, unknown> {
-    createdDateTime?: string;
+// @public
+export interface ImageProcessingRasterizeJobOutput {
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     description?: string;
-    durationInSeconds?: number;
-    endTime?: string;
-    farmerId: string;
-    id?: string;
-    lastActionDateTime?: string;
-    message?: string;
+    readonly durationInSeconds?: number;
+    readonly endTime?: string;
+    readonly errorCode?: string;
+    readonly id?: string;
+    readonly lastActionDateTime?: string;
+    readonly message?: string;
+    readonly modifiedBy?: string;
     name?: string;
+    partyId: string;
     properties?: Record<string, any>;
     shapefileAttachmentId: string;
     shapefileColumnNames: Array<string>;
-    startTime?: string;
-    status?: string;
+    readonly startTime?: string;
+    readonly status?: string;
 }
 
-// @public (undocumented)
-export interface InnerErrorOutput extends Record<string, unknown> {
+// @public
+export interface InnerErrorOutput {
     code?: string;
     innererror?: InnerErrorOutput;
 }
 
-// @public (undocumented)
-export interface Insight extends Record<string, unknown> {
-    attachmentsLink?: string;
-    createdDateTime?: Date | string;
+// @public
+export interface Insight {
     description?: string;
-    eTag?: string;
-    farmerId?: string;
-    id?: string;
     insightEndDateTime?: Date | string;
     insightStartDateTime?: Date | string;
-    measures?: Record<string, Measure>;
-    modelId?: string;
+    measurements?: Record<string, Measure>;
     modelVersion?: string;
-    modifiedDateTime?: Date | string;
     name?: string;
     properties?: Record<string, any>;
-    resourceId?: string;
-    resourceType?: "Farmer" | "Farm" | "Field" | "SeasonalField" | "Boundary";
     status?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface InsightAttachmentListResponseOutput {
-    $skipToken?: string;
     nextLink?: string;
-    value?: Array<InsightAttachmentOutput>;
+    skipToken?: string;
+    value: Array<InsightAttachmentOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface InsightAttachmentOutput {
-    createdDateTime?: string;
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     description?: string;
-    eTag?: string;
-    farmerId?: string;
-    id?: string;
+    readonly eTag?: string;
+    readonly id?: string;
     insightId: string;
-    modelId?: string;
-    modifiedDateTime?: string;
+    readonly modelId?: string;
+    readonly modifiedBy?: string;
+    readonly modifiedDateTime?: string;
     name?: string;
-    originalFileName?: string;
-    resourceId?: string;
-    resourceType?: "Farmer" | "Farm" | "Field" | "SeasonalField" | "Boundary";
+    readonly originalFileName?: string;
+    readonly partyId?: string;
+    readonly resourceId?: string;
+    readonly resourceType?: "Party" | "Farm" | "Field" | "SeasonalField" | "Boundary";
     source?: string;
     status?: string;
 }
 
 // @public (undocumented)
 export interface InsightAttachmentsCreateOrUpdate {
-    delete(options?: InsightAttachmentsDeleteParameters): StreamableMethod<InsightAttachmentsDelete204Response | InsightAttachmentsDeletedefaultResponse>;
-    get(options?: InsightAttachmentsGetParameters): StreamableMethod<InsightAttachmentsGet200Response | InsightAttachmentsGetdefaultResponse>;
-    patch(options: InsightAttachmentsCreateOrUpdateParameters): StreamableMethod<InsightAttachmentsCreateOrUpdate200Response | InsightAttachmentsCreateOrUpdate201Response | InsightAttachmentsCreateOrUpdatedefaultResponse>;
+    delete(options?: InsightAttachmentsDeleteParameters): StreamableMethod<InsightAttachmentsDelete204Response | InsightAttachmentsDeleteDefaultResponse>;
+    get(options?: InsightAttachmentsGetParameters): StreamableMethod<InsightAttachmentsGet200Response | InsightAttachmentsGetDefaultResponse>;
+    patch(options: InsightAttachmentsCreateOrUpdateParameters): StreamableMethod<InsightAttachmentsCreateOrUpdate200Response | InsightAttachmentsCreateOrUpdate201Response | InsightAttachmentsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -3636,38 +3409,35 @@ export interface InsightAttachmentsCreateOrUpdateBodyParam {
 }
 
 // @public (undocumented)
-export interface InsightAttachmentsCreateOrUpdatedefaultHeaders {
+export interface InsightAttachmentsCreateOrUpdateDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface InsightAttachmentsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface InsightAttachmentsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & InsightAttachmentsCreateOrUpdatedefaultHeaders;
+    headers: RawHttpHeaders & InsightAttachmentsCreateOrUpdateDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
 export interface InsightAttachmentsCreateOrUpdateFormBody {
-    CreatedDateTime?: string;
-    Description?: string;
-    ETag?: string;
-    FarmerId?: string;
+    createdBy?: string;
+    createdDateTime?: string;
+    description?: string;
     file?: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
-    Id?: string;
+    id?: string;
     insightId: string;
-    ModelId?: string;
-    ModifiedDateTime?: string;
-    Name?: string;
-    OriginalFileName?: string;
-    ResourceId?: string;
-    ResourceType?: string;
-    Source?: string;
-    Status?: string;
+    modifiedBy?: string;
+    modifiedDateTime?: string;
+    name?: string;
+    originalFileName?: string;
+    source?: string;
+    status?: string;
 }
 
 // @public (undocumented)
@@ -3687,17 +3457,17 @@ export interface InsightAttachmentsDelete204Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface InsightAttachmentsDeletedefaultHeaders {
+export interface InsightAttachmentsDeleteDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface InsightAttachmentsDeletedefaultResponse extends HttpResponse {
+export interface InsightAttachmentsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & InsightAttachmentsDeletedefaultHeaders;
+    headers: RawHttpHeaders & InsightAttachmentsDeleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -3707,7 +3477,7 @@ export type InsightAttachmentsDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface InsightAttachmentsDownload {
-    get(options?: InsightAttachmentsDownloadParameters): StreamableMethod<InsightAttachmentsDownload200Response | InsightAttachmentsDownloaddefaultResponse>;
+    get(options?: InsightAttachmentsDownloadParameters): StreamableMethod<InsightAttachmentsDownload200Response | InsightAttachmentsDownloadDefaultResponse>;
 }
 
 // @public
@@ -3718,17 +3488,17 @@ export interface InsightAttachmentsDownload200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface InsightAttachmentsDownloaddefaultHeaders {
+export interface InsightAttachmentsDownloadDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface InsightAttachmentsDownloaddefaultResponse extends HttpResponse {
+export interface InsightAttachmentsDownloadDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & InsightAttachmentsDownloaddefaultHeaders;
+    headers: RawHttpHeaders & InsightAttachmentsDownloadDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -3745,17 +3515,17 @@ export interface InsightAttachmentsGet200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface InsightAttachmentsGetdefaultHeaders {
+export interface InsightAttachmentsGetDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface InsightAttachmentsGetdefaultResponse extends HttpResponse {
+export interface InsightAttachmentsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & InsightAttachmentsGetdefaultHeaders;
+    headers: RawHttpHeaders & InsightAttachmentsGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -3764,12 +3534,12 @@ export interface InsightAttachmentsGetdefaultResponse extends HttpResponse {
 export type InsightAttachmentsGetParameters = RequestParameters;
 
 // @public (undocumented)
-export interface InsightAttachmentsListByFarmerIdModelIdAndResource {
-    get(options?: InsightAttachmentsListByFarmerIdModelIdAndResourceParameters): StreamableMethod<InsightAttachmentsListByFarmerIdModelIdAndResource200Response | InsightAttachmentsListByFarmerIdModelIdAndResourcedefaultResponse>;
+export interface InsightAttachmentsListByPartyIdModelIdAndResource {
+    get(options?: InsightAttachmentsListByPartyIdModelIdAndResourceParameters): StreamableMethod<InsightAttachmentsListByPartyIdModelIdAndResource200Response | InsightAttachmentsListByPartyIdModelIdAndResourceDefaultResponse>;
 }
 
 // @public
-export interface InsightAttachmentsListByFarmerIdModelIdAndResource200Response extends HttpResponse {
+export interface InsightAttachmentsListByPartyIdModelIdAndResource200Response extends HttpResponse {
     // (undocumented)
     body: InsightAttachmentListResponseOutput;
     // (undocumented)
@@ -3777,77 +3547,82 @@ export interface InsightAttachmentsListByFarmerIdModelIdAndResource200Response e
 }
 
 // @public (undocumented)
-export interface InsightAttachmentsListByFarmerIdModelIdAndResourcedefaultHeaders {
+export interface InsightAttachmentsListByPartyIdModelIdAndResourceDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface InsightAttachmentsListByFarmerIdModelIdAndResourcedefaultResponse extends HttpResponse {
+export interface InsightAttachmentsListByPartyIdModelIdAndResourceDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & InsightAttachmentsListByFarmerIdModelIdAndResourcedefaultHeaders;
+    headers: RawHttpHeaders & InsightAttachmentsListByPartyIdModelIdAndResourceDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export type InsightAttachmentsListByFarmerIdModelIdAndResourceParameters = InsightAttachmentsListByFarmerIdModelIdAndResourceQueryParam & RequestParameters;
+export type InsightAttachmentsListByPartyIdModelIdAndResourceParameters = InsightAttachmentsListByPartyIdModelIdAndResourceQueryParam & RequestParameters;
 
 // @public (undocumented)
-export interface InsightAttachmentsListByFarmerIdModelIdAndResourceQueryParam {
+export interface InsightAttachmentsListByPartyIdModelIdAndResourceQueryParam {
     // (undocumented)
-    queryParameters?: InsightAttachmentsListByFarmerIdModelIdAndResourceQueryParamProperties;
+    queryParameters?: InsightAttachmentsListByPartyIdModelIdAndResourceQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface InsightAttachmentsListByFarmerIdModelIdAndResourceQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    ids?: Array<string>;
-    insightIds?: Array<string>;
+export interface InsightAttachmentsListByPartyIdModelIdAndResourceQueryParamProperties {
+    ids?: string;
+    insightIds?: string;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
+    maxPageSize?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    statuses?: Array<string>;
+    names?: string;
+    propertyFilters?: string;
+    skipToken?: string;
+    statuses?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface InsightListResponseOutput {
-    $skipToken?: string;
     nextLink?: string;
-    value?: Array<InsightOutput>;
+    skipToken?: string;
+    value: Array<InsightOutput>;
 }
 
-// @public (undocumented)
-export interface InsightOutput extends Record<string, unknown> {
-    attachmentsLink?: string;
-    createdDateTime?: string;
+// @public
+export interface InsightOutput {
+    readonly attachmentsLink?: string;
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     description?: string;
-    eTag?: string;
-    farmerId?: string;
-    id?: string;
+    readonly eTag?: string;
+    readonly id?: string;
     insightEndDateTime?: string;
     insightStartDateTime?: string;
-    measures?: Record<string, MeasureOutput>;
-    modelId?: string;
+    measurements?: Record<string, MeasureOutput>;
+    readonly modelId?: string;
     modelVersion?: string;
-    modifiedDateTime?: string;
+    readonly modifiedBy?: string;
+    readonly modifiedDateTime?: string;
     name?: string;
+    readonly partyId?: string;
     properties?: Record<string, any>;
-    resourceId?: string;
-    resourceType?: "Farmer" | "Farm" | "Field" | "SeasonalField" | "Boundary";
+    readonly resourceId?: string;
+    readonly resourceType?: "Party" | "Farm" | "Field" | "SeasonalField" | "Boundary";
     status?: string;
 }
 
+// @public
+export type InsightResourceMergeAndPatch = Partial<Insight>;
+
 // @public (undocumented)
 export interface InsightsCreateCascadeDeleteJob {
-    get(options?: InsightsGetCascadeDeleteJobDetailsParameters): StreamableMethod<InsightsGetCascadeDeleteJobDetails200Response | InsightsGetCascadeDeleteJobDetailsdefaultResponse>;
-    put(options: InsightsCreateCascadeDeleteJobParameters): StreamableMethod<InsightsCreateCascadeDeleteJob202Response | InsightsCreateCascadeDeleteJobdefaultResponse>;
+    get(options?: InsightsGetCascadeDeleteJobDetailsParameters): StreamableMethod<InsightsGetCascadeDeleteJobDetails200Response | InsightsGetCascadeDeleteJobDetailsDefaultResponse>;
+    put(options: InsightsCreateCascadeDeleteJobParameters): StreamableMethod<InsightsCreateCascadeDeleteJob202Response | InsightsCreateCascadeDeleteJobDefaultResponse>;
 }
 
 // @public
@@ -3859,17 +3634,17 @@ export interface InsightsCreateCascadeDeleteJob202Response extends HttpResponse 
 }
 
 // @public (undocumented)
-export interface InsightsCreateCascadeDeleteJobdefaultHeaders {
+export interface InsightsCreateCascadeDeleteJobDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface InsightsCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
+export interface InsightsCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & InsightsCreateCascadeDeleteJobdefaultHeaders;
+    headers: RawHttpHeaders & InsightsCreateCascadeDeleteJobDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -3885,18 +3660,18 @@ export interface InsightsCreateCascadeDeleteJobQueryParam {
 
 // @public (undocumented)
 export interface InsightsCreateCascadeDeleteJobQueryParamProperties {
-    farmerId: string;
     insightId: string;
     modelId: string;
+    partyId: string;
     resourceId: string;
     resourceType: string;
 }
 
 // @public (undocumented)
 export interface InsightsCreateOrUpdate {
-    delete(options?: InsightsDeleteParameters): StreamableMethod<InsightsDelete204Response | InsightsDeletedefaultResponse>;
-    get(options?: InsightsGetParameters): StreamableMethod<InsightsGet200Response | InsightsGetdefaultResponse>;
-    patch(options: InsightsCreateOrUpdateParameters): StreamableMethod<InsightsCreateOrUpdate200Response | InsightsCreateOrUpdate201Response | InsightsCreateOrUpdatedefaultResponse>;
+    delete(options?: InsightsDeleteParameters): StreamableMethod<InsightsDelete204Response | InsightsDeleteDefaultResponse>;
+    get(options?: InsightsGetParameters): StreamableMethod<InsightsGet200Response | InsightsGetDefaultResponse>;
+    patch(options: InsightsCreateOrUpdateParameters): StreamableMethod<InsightsCreateOrUpdate200Response | InsightsCreateOrUpdate201Response | InsightsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -3917,21 +3692,21 @@ export interface InsightsCreateOrUpdate201Response extends HttpResponse {
 
 // @public (undocumented)
 export interface InsightsCreateOrUpdateBodyParam {
-    body: Insight;
+    body: InsightResourceMergeAndPatch;
 }
 
 // @public (undocumented)
-export interface InsightsCreateOrUpdatedefaultHeaders {
+export interface InsightsCreateOrUpdateDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface InsightsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface InsightsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & InsightsCreateOrUpdatedefaultHeaders;
+    headers: RawHttpHeaders & InsightsCreateOrUpdateDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -3953,17 +3728,17 @@ export interface InsightsDelete204Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface InsightsDeletedefaultHeaders {
+export interface InsightsDeleteDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface InsightsDeletedefaultResponse extends HttpResponse {
+export interface InsightsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & InsightsDeletedefaultHeaders;
+    headers: RawHttpHeaders & InsightsDeleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -3988,17 +3763,17 @@ export interface InsightsGetCascadeDeleteJobDetails200Response extends HttpRespo
 }
 
 // @public (undocumented)
-export interface InsightsGetCascadeDeleteJobDetailsdefaultHeaders {
+export interface InsightsGetCascadeDeleteJobDetailsDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface InsightsGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
+export interface InsightsGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & InsightsGetCascadeDeleteJobDetailsdefaultHeaders;
+    headers: RawHttpHeaders & InsightsGetCascadeDeleteJobDetailsDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -4007,17 +3782,17 @@ export interface InsightsGetCascadeDeleteJobDetailsdefaultResponse extends HttpR
 export type InsightsGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
 // @public (undocumented)
-export interface InsightsGetdefaultHeaders {
+export interface InsightsGetDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface InsightsGetdefaultResponse extends HttpResponse {
+export interface InsightsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & InsightsGetdefaultHeaders;
+    headers: RawHttpHeaders & InsightsGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -4026,12 +3801,12 @@ export interface InsightsGetdefaultResponse extends HttpResponse {
 export type InsightsGetParameters = RequestParameters;
 
 // @public (undocumented)
-export interface InsightsListByFarmerIdModelIdAndResource {
-    get(options?: InsightsListByFarmerIdModelIdAndResourceParameters): StreamableMethod<InsightsListByFarmerIdModelIdAndResource200Response | InsightsListByFarmerIdModelIdAndResourcedefaultResponse>;
+export interface InsightsListByPartyIdModelIdAndResource {
+    get(options?: InsightsListByPartyIdModelIdAndResourceParameters): StreamableMethod<InsightsListByPartyIdModelIdAndResource200Response | InsightsListByPartyIdModelIdAndResourceDefaultResponse>;
 }
 
 // @public
-export interface InsightsListByFarmerIdModelIdAndResource200Response extends HttpResponse {
+export interface InsightsListByPartyIdModelIdAndResource200Response extends HttpResponse {
     // (undocumented)
     body: InsightListResponseOutput;
     // (undocumented)
@@ -4039,629 +3814,647 @@ export interface InsightsListByFarmerIdModelIdAndResource200Response extends Htt
 }
 
 // @public (undocumented)
-export interface InsightsListByFarmerIdModelIdAndResourcedefaultHeaders {
+export interface InsightsListByPartyIdModelIdAndResourceDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface InsightsListByFarmerIdModelIdAndResourcedefaultResponse extends HttpResponse {
+export interface InsightsListByPartyIdModelIdAndResourceDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & InsightsListByFarmerIdModelIdAndResourcedefaultHeaders;
+    headers: RawHttpHeaders & InsightsListByPartyIdModelIdAndResourceDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export type InsightsListByFarmerIdModelIdAndResourceParameters = InsightsListByFarmerIdModelIdAndResourceQueryParam & RequestParameters;
+export type InsightsListByPartyIdModelIdAndResourceParameters = InsightsListByPartyIdModelIdAndResourceQueryParam & RequestParameters;
 
 // @public (undocumented)
-export interface InsightsListByFarmerIdModelIdAndResourceQueryParam {
+export interface InsightsListByPartyIdModelIdAndResourceQueryParam {
     // (undocumented)
-    queryParameters?: InsightsListByFarmerIdModelIdAndResourceQueryParamProperties;
+    queryParameters?: InsightsListByPartyIdModelIdAndResourceQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface InsightsListByFarmerIdModelIdAndResourceQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    ids?: Array<string>;
+export interface InsightsListByPartyIdModelIdAndResourceQueryParamProperties {
+    ids?: string;
     maxCreatedDateTime?: Date | string;
     maxInsightEndDateTime?: Date | string;
     maxInsightStartDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
-    measureFilters?: Array<string>;
+    maxPageSize?: number;
+    measurementFilters?: string;
     minCreatedDateTime?: Date | string;
     minInsightEndDateTime?: Date | string;
     minInsightStartDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    statuses?: Array<string>;
+    names?: string;
+    propertyFilters?: string;
+    skipToken?: string;
+    statuses?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface IoTHubDeviceAuthenticationOutput {
-    primaryDeviceConnectionString?: string;
-    secondaryDeviceConnectionString?: string;
+    readonly primaryDeviceConnectionString?: string;
+    readonly secondaryDeviceConnectionString?: string;
 }
 
 // @public (undocumented)
-export function isUnexpected(response: ApplicationDataList200Response | ApplicationDataListdefaultResponse): response is ApplicationDataListdefaultResponse;
+export function isUnexpected(response: ApplicationDataList200Response | ApplicationDataListDefaultResponse): response is ApplicationDataListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ApplicationDataCreateCascadeDeleteJob202Response | ApplicationDataCreateCascadeDeleteJobdefaultResponse): response is ApplicationDataCreateCascadeDeleteJobdefaultResponse;
+export function isUnexpected(response: ApplicationDataCreateCascadeDeleteJob202Response | ApplicationDataCreateCascadeDeleteJobDefaultResponse): response is ApplicationDataCreateCascadeDeleteJobDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ApplicationDataGetCascadeDeleteJobDetails200Response | ApplicationDataGetCascadeDeleteJobDetailsdefaultResponse): response is ApplicationDataGetCascadeDeleteJobDetailsdefaultResponse;
+export function isUnexpected(response: ApplicationDataGetCascadeDeleteJobDetails200Response | ApplicationDataGetCascadeDeleteJobDetailsDefaultResponse): response is ApplicationDataGetCascadeDeleteJobDetailsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ApplicationDataListByFarmerId200Response | ApplicationDataListByFarmerIddefaultResponse): response is ApplicationDataListByFarmerIddefaultResponse;
+export function isUnexpected(response: ApplicationDataListByPartyId200Response | ApplicationDataListByPartyIdDefaultResponse): response is ApplicationDataListByPartyIdDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ApplicationDataGet200Response | ApplicationDataGetdefaultResponse): response is ApplicationDataGetdefaultResponse;
+export function isUnexpected(response: ApplicationDataGet200Response | ApplicationDataGetDefaultResponse): response is ApplicationDataGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ApplicationDataCreateOrUpdate200Response | ApplicationDataCreateOrUpdate201Response | ApplicationDataCreateOrUpdatedefaultResponse): response is ApplicationDataCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: ApplicationDataCreateOrUpdate200Response | ApplicationDataCreateOrUpdate201Response | ApplicationDataCreateOrUpdateDefaultResponse): response is ApplicationDataCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ApplicationDataDelete204Response | ApplicationDataDeletedefaultResponse): response is ApplicationDataDeletedefaultResponse;
+export function isUnexpected(response: ApplicationDataDelete204Response | ApplicationDataDeleteDefaultResponse): response is ApplicationDataDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: AttachmentsListByFarmerId200Response | AttachmentsListByFarmerIddefaultResponse): response is AttachmentsListByFarmerIddefaultResponse;
+export function isUnexpected(response: AttachmentsListByPartyId200Response | AttachmentsListByPartyIdDefaultResponse): response is AttachmentsListByPartyIdDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: AttachmentsGet200Response | AttachmentsGetdefaultResponse): response is AttachmentsGetdefaultResponse;
+export function isUnexpected(response: AttachmentsGet200Response | AttachmentsGetDefaultResponse): response is AttachmentsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: AttachmentsCreateOrUpdate200Response | AttachmentsCreateOrUpdate201Response | AttachmentsCreateOrUpdatedefaultResponse): response is AttachmentsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: AttachmentsCreateOrUpdate200Response | AttachmentsCreateOrUpdate201Response | AttachmentsCreateOrUpdateDefaultResponse): response is AttachmentsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: AttachmentsDelete204Response | AttachmentsDeletedefaultResponse): response is AttachmentsDeletedefaultResponse;
+export function isUnexpected(response: AttachmentsDelete204Response | AttachmentsDeleteDefaultResponse): response is AttachmentsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: AttachmentsDownload200Response | AttachmentsDownloaddefaultResponse): response is AttachmentsDownloaddefaultResponse;
+export function isUnexpected(response: AttachmentsDownload200Response | AttachmentsDownloadDefaultResponse): response is AttachmentsDownloadDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: BoundariesList200Response | BoundariesListdefaultResponse): response is BoundariesListdefaultResponse;
+export function isUnexpected(response: BoundariesList200Response | BoundariesListDefaultResponse): response is BoundariesListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: BoundariesSearch200Response | BoundariesSearchdefaultResponse): response is BoundariesSearchdefaultResponse;
+export function isUnexpected(response: BoundariesSearch200Response | BoundariesSearchDefaultResponse): response is BoundariesSearchDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: BoundariesCreateCascadeDeleteJob202Response | BoundariesCreateCascadeDeleteJobdefaultResponse): response is BoundariesCreateCascadeDeleteJobdefaultResponse;
+export function isUnexpected(response: BoundariesCreateCascadeDeleteJob202Response | BoundariesCreateCascadeDeleteJobDefaultResponse): response is BoundariesCreateCascadeDeleteJobDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: BoundariesGetCascadeDeleteJobDetails200Response | BoundariesGetCascadeDeleteJobDetailsdefaultResponse): response is BoundariesGetCascadeDeleteJobDetailsdefaultResponse;
+export function isUnexpected(response: BoundariesGetCascadeDeleteJobDetails200Response | BoundariesGetCascadeDeleteJobDetailsDefaultResponse): response is BoundariesGetCascadeDeleteJobDetailsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: BoundariesListByFarmerId200Response | BoundariesListByFarmerIddefaultResponse): response is BoundariesListByFarmerIddefaultResponse;
+export function isUnexpected(response: BoundariesListByPartyId200Response | BoundariesListByPartyIdDefaultResponse): response is BoundariesListByPartyIdDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: BoundariesSearchByFarmerId200Response | BoundariesSearchByFarmerIddefaultResponse): response is BoundariesSearchByFarmerIddefaultResponse;
+export function isUnexpected(response: BoundariesSearchByPartyId200Response | BoundariesSearchByPartyIdDefaultResponse): response is BoundariesSearchByPartyIdDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: BoundariesCreateOrUpdate200Response | BoundariesCreateOrUpdate201Response | BoundariesCreateOrUpdatedefaultResponse): response is BoundariesCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: BoundariesCreateOrUpdate200Response | BoundariesCreateOrUpdate201Response | BoundariesCreateOrUpdateDefaultResponse): response is BoundariesCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: BoundariesGet200Response | BoundariesGetdefaultResponse): response is BoundariesGetdefaultResponse;
+export function isUnexpected(response: BoundariesGet200Response | BoundariesGetDefaultResponse): response is BoundariesGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: BoundariesDelete204Response | BoundariesDeletedefaultResponse): response is BoundariesDeletedefaultResponse;
+export function isUnexpected(response: BoundariesDelete204Response | BoundariesDeleteDefaultResponse): response is BoundariesDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: BoundariesGetOverlap200Response | BoundariesGetOverlapdefaultResponse): response is BoundariesGetOverlapdefaultResponse;
+export function isUnexpected(response: BoundariesGetOverlap200Response | BoundariesGetOverlapDefaultResponse): response is BoundariesGetOverlapDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CropsList200Response | CropsListdefaultResponse): response is CropsListdefaultResponse;
+export function isUnexpected(response: CropProductsList200Response | CropProductsListDefaultResponse): response is CropProductsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CropsGet200Response | CropsGetdefaultResponse): response is CropsGetdefaultResponse;
+export function isUnexpected(response: CropProductsGet200Response | CropProductsGetDefaultResponse): response is CropProductsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CropsCreateOrUpdate200Response | CropsCreateOrUpdate201Response | CropsCreateOrUpdatedefaultResponse): response is CropsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: CropProductsCreateOrUpdate200Response | CropProductsCreateOrUpdate201Response | CropProductsCreateOrUpdateDefaultResponse): response is CropProductsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CropsDelete204Response | CropsDeletedefaultResponse): response is CropsDeletedefaultResponse;
+export function isUnexpected(response: CropProductsDelete204Response | CropProductsDeleteDefaultResponse): response is CropProductsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CropVarietiesList200Response | CropVarietiesListdefaultResponse): response is CropVarietiesListdefaultResponse;
+export function isUnexpected(response: CropsList200Response | CropsListDefaultResponse): response is CropsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CropVarietiesGet200Response | CropVarietiesGetdefaultResponse): response is CropVarietiesGetdefaultResponse;
+export function isUnexpected(response: CropsGet200Response | CropsGetDefaultResponse): response is CropsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CropVarietiesCreateOrUpdate200Response | CropVarietiesCreateOrUpdate201Response | CropVarietiesCreateOrUpdatedefaultResponse): response is CropVarietiesCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: CropsCreateOrUpdate200Response | CropsCreateOrUpdate201Response | CropsCreateOrUpdateDefaultResponse): response is CropsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CropVarietiesDelete204Response | CropVarietiesDeletedefaultResponse): response is CropVarietiesDeletedefaultResponse;
+export function isUnexpected(response: CropsDelete204Response | CropsDeleteDefaultResponse): response is CropsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DeviceDataModelsList200Response | DeviceDataModelsListdefaultResponse): response is DeviceDataModelsListdefaultResponse;
+export function isUnexpected(response: DeviceDataModelsList200Response | DeviceDataModelsListDefaultResponse): response is DeviceDataModelsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DeviceDataModelsCreateOrUpdate200Response | DeviceDataModelsCreateOrUpdate201Response | DeviceDataModelsCreateOrUpdatedefaultResponse): response is DeviceDataModelsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: DeviceDataModelsCreateOrUpdate200Response | DeviceDataModelsCreateOrUpdate201Response | DeviceDataModelsCreateOrUpdateDefaultResponse): response is DeviceDataModelsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DeviceDataModelsGet200Response | DeviceDataModelsGetdefaultResponse): response is DeviceDataModelsGetdefaultResponse;
+export function isUnexpected(response: DeviceDataModelsGet200Response | DeviceDataModelsGetDefaultResponse): response is DeviceDataModelsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DeviceDataModelsDelete204Response | DeviceDataModelsDeletedefaultResponse): response is DeviceDataModelsDeletedefaultResponse;
+export function isUnexpected(response: DeviceDataModelsDelete204Response | DeviceDataModelsDeleteDefaultResponse): response is DeviceDataModelsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DevicesList200Response | DevicesListdefaultResponse): response is DevicesListdefaultResponse;
+export function isUnexpected(response: DevicesList200Response | DevicesListDefaultResponse): response is DevicesListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DevicesCreateOrUpdate200Response | DevicesCreateOrUpdate201Response | DevicesCreateOrUpdatedefaultResponse): response is DevicesCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: DevicesCreateOrUpdate200Response | DevicesCreateOrUpdate201Response | DevicesCreateOrUpdateDefaultResponse): response is DevicesCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DevicesGet200Response | DevicesGetdefaultResponse): response is DevicesGetdefaultResponse;
+export function isUnexpected(response: DevicesGet200Response | DevicesGetDefaultResponse): response is DevicesGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DevicesDelete204Response | DevicesDeletedefaultResponse): response is DevicesDeletedefaultResponse;
+export function isUnexpected(response: DevicesDelete204Response | DevicesDeleteDefaultResponse): response is DevicesDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: FarmersList200Response | FarmersListdefaultResponse): response is FarmersListdefaultResponse;
+export function isUnexpected(response: FarmOperationsCreateDataIngestionJob202Response | FarmOperationsCreateDataIngestionJobDefaultResponse): response is FarmOperationsCreateDataIngestionJobDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: FarmersGet200Response | FarmersGetdefaultResponse): response is FarmersGetdefaultResponse;
+export function isUnexpected(response: FarmOperationsGetDataIngestionJobDetails200Response | FarmOperationsGetDataIngestionJobDetailsDefaultResponse): response is FarmOperationsGetDataIngestionJobDetailsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: FarmersCreateOrUpdate200Response | FarmersCreateOrUpdate201Response | FarmersCreateOrUpdatedefaultResponse): response is FarmersCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: FarmsList200Response | FarmsListDefaultResponse): response is FarmsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: FarmersDelete204Response | FarmersDeletedefaultResponse): response is FarmersDeletedefaultResponse;
+export function isUnexpected(response: FarmsCreateCascadeDeleteJob202Response | FarmsCreateCascadeDeleteJobDefaultResponse): response is FarmsCreateCascadeDeleteJobDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: FarmersCreateCascadeDeleteJob202Response | FarmersCreateCascadeDeleteJobdefaultResponse): response is FarmersCreateCascadeDeleteJobdefaultResponse;
+export function isUnexpected(response: FarmsGetCascadeDeleteJobDetails200Response | FarmsGetCascadeDeleteJobDetailsDefaultResponse): response is FarmsGetCascadeDeleteJobDetailsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: FarmersGetCascadeDeleteJobDetails200Response | FarmersGetCascadeDeleteJobDetailsdefaultResponse): response is FarmersGetCascadeDeleteJobDetailsdefaultResponse;
+export function isUnexpected(response: FarmsListByPartyId200Response | FarmsListByPartyIdDefaultResponse): response is FarmsListByPartyIdDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: FarmOperationsCreateDataIngestionJob202Response | FarmOperationsCreateDataIngestionJobdefaultResponse): response is FarmOperationsCreateDataIngestionJobdefaultResponse;
+export function isUnexpected(response: FarmsGet200Response | FarmsGetDefaultResponse): response is FarmsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: FarmOperationsGetDataIngestionJobDetails200Response | FarmOperationsGetDataIngestionJobDetailsdefaultResponse): response is FarmOperationsGetDataIngestionJobDetailsdefaultResponse;
+export function isUnexpected(response: FarmsCreateOrUpdate200Response | FarmsCreateOrUpdate201Response | FarmsCreateOrUpdateDefaultResponse): response is FarmsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: FarmsListByFarmerId200Response | FarmsListByFarmerIddefaultResponse): response is FarmsListByFarmerIddefaultResponse;
+export function isUnexpected(response: FarmsDelete204Response | FarmsDeleteDefaultResponse): response is FarmsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: FarmsGet200Response | FarmsGetdefaultResponse): response is FarmsGetdefaultResponse;
+export function isUnexpected(response: FieldsList200Response | FieldsListDefaultResponse): response is FieldsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: FarmsCreateOrUpdate200Response | FarmsCreateOrUpdate201Response | FarmsCreateOrUpdatedefaultResponse): response is FarmsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: FieldsGetCascadeDeleteJobDetails200Response | FieldsGetCascadeDeleteJobDetailsDefaultResponse): response is FieldsGetCascadeDeleteJobDetailsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: FarmsDelete204Response | FarmsDeletedefaultResponse): response is FarmsDeletedefaultResponse;
+export function isUnexpected(response: FieldsCreateCascadeDeleteJob202Response | FieldsCreateCascadeDeleteJobDefaultResponse): response is FieldsCreateCascadeDeleteJobDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: FarmsList200Response | FarmsListdefaultResponse): response is FarmsListdefaultResponse;
+export function isUnexpected(response: FieldsListByPartyId200Response | FieldsListByPartyIdDefaultResponse): response is FieldsListByPartyIdDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: FarmsCreateCascadeDeleteJob202Response | FarmsCreateCascadeDeleteJobdefaultResponse): response is FarmsCreateCascadeDeleteJobdefaultResponse;
+export function isUnexpected(response: FieldsGet200Response | FieldsGetDefaultResponse): response is FieldsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: FarmsGetCascadeDeleteJobDetails200Response | FarmsGetCascadeDeleteJobDetailsdefaultResponse): response is FarmsGetCascadeDeleteJobDetailsdefaultResponse;
+export function isUnexpected(response: FieldsCreateOrUpdate200Response | FieldsCreateOrUpdate201Response | FieldsCreateOrUpdateDefaultResponse): response is FieldsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: FieldsListByFarmerId200Response | FieldsListByFarmerIddefaultResponse): response is FieldsListByFarmerIddefaultResponse;
+export function isUnexpected(response: FieldsDelete204Response | FieldsDeleteDefaultResponse): response is FieldsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: FieldsGet200Response | FieldsGetdefaultResponse): response is FieldsGetdefaultResponse;
+export function isUnexpected(response: HarvestDataList200Response | HarvestDataListDefaultResponse): response is HarvestDataListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: FieldsCreateOrUpdate200Response | FieldsCreateOrUpdate201Response | FieldsCreateOrUpdatedefaultResponse): response is FieldsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: HarvestDataCreateCascadeDeleteJob202Response | HarvestDataCreateCascadeDeleteJobDefaultResponse): response is HarvestDataCreateCascadeDeleteJobDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: FieldsDelete204Response | FieldsDeletedefaultResponse): response is FieldsDeletedefaultResponse;
+export function isUnexpected(response: HarvestDataGetCascadeDeleteJobDetails200Response | HarvestDataGetCascadeDeleteJobDetailsDefaultResponse): response is HarvestDataGetCascadeDeleteJobDetailsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: FieldsList200Response | FieldsListdefaultResponse): response is FieldsListdefaultResponse;
+export function isUnexpected(response: HarvestDataListByPartyId200Response | HarvestDataListByPartyIdDefaultResponse): response is HarvestDataListByPartyIdDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: FieldsCreateCascadeDeleteJob202Response | FieldsCreateCascadeDeleteJobdefaultResponse): response is FieldsCreateCascadeDeleteJobdefaultResponse;
+export function isUnexpected(response: HarvestDataGet200Response | HarvestDataGetDefaultResponse): response is HarvestDataGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: FieldsGetCascadeDeleteJobDetails200Response | FieldsGetCascadeDeleteJobDetailsdefaultResponse): response is FieldsGetCascadeDeleteJobDetailsdefaultResponse;
+export function isUnexpected(response: HarvestDataCreateOrUpdate200Response | HarvestDataCreateOrUpdate201Response | HarvestDataCreateOrUpdateDefaultResponse): response is HarvestDataCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: HarvestDataListByFarmerId200Response | HarvestDataListByFarmerIddefaultResponse): response is HarvestDataListByFarmerIddefaultResponse;
+export function isUnexpected(response: HarvestDataDelete204Response | HarvestDataDeleteDefaultResponse): response is HarvestDataDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: HarvestDataGet200Response | HarvestDataGetdefaultResponse): response is HarvestDataGetdefaultResponse;
+export function isUnexpected(response: ImageProcessingCreateRasterizeJob202Response | ImageProcessingCreateRasterizeJobDefaultResponse): response is ImageProcessingCreateRasterizeJobDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: HarvestDataCreateOrUpdate200Response | HarvestDataCreateOrUpdate201Response | HarvestDataCreateOrUpdatedefaultResponse): response is HarvestDataCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: ImageProcessingGetRasterizeJob200Response | ImageProcessingGetRasterizeJobDefaultResponse): response is ImageProcessingGetRasterizeJobDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: HarvestDataDelete204Response | HarvestDataDeletedefaultResponse): response is HarvestDataDeletedefaultResponse;
+export function isUnexpected(response: InsightAttachmentsListByPartyIdModelIdAndResource200Response | InsightAttachmentsListByPartyIdModelIdAndResourceDefaultResponse): response is InsightAttachmentsListByPartyIdModelIdAndResourceDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: HarvestDataList200Response | HarvestDataListdefaultResponse): response is HarvestDataListdefaultResponse;
+export function isUnexpected(response: InsightAttachmentsCreateOrUpdate200Response | InsightAttachmentsCreateOrUpdate201Response | InsightAttachmentsCreateOrUpdateDefaultResponse): response is InsightAttachmentsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: HarvestDataCreateCascadeDeleteJob202Response | HarvestDataCreateCascadeDeleteJobdefaultResponse): response is HarvestDataCreateCascadeDeleteJobdefaultResponse;
+export function isUnexpected(response: InsightAttachmentsGet200Response | InsightAttachmentsGetDefaultResponse): response is InsightAttachmentsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: HarvestDataGetCascadeDeleteJobDetails200Response | HarvestDataGetCascadeDeleteJobDetailsdefaultResponse): response is HarvestDataGetCascadeDeleteJobDetailsdefaultResponse;
+export function isUnexpected(response: InsightAttachmentsDelete204Response | InsightAttachmentsDeleteDefaultResponse): response is InsightAttachmentsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ImageProcessingCreateRasterizeJob202Response | ImageProcessingCreateRasterizeJobdefaultResponse): response is ImageProcessingCreateRasterizeJobdefaultResponse;
+export function isUnexpected(response: InsightAttachmentsDownload200Response | InsightAttachmentsDownloadDefaultResponse): response is InsightAttachmentsDownloadDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: InsightAttachmentsListByFarmerIdModelIdAndResource200Response | InsightAttachmentsListByFarmerIdModelIdAndResourcedefaultResponse): response is InsightAttachmentsListByFarmerIdModelIdAndResourcedefaultResponse;
+export function isUnexpected(response: InsightsCreateCascadeDeleteJob202Response | InsightsCreateCascadeDeleteJobDefaultResponse): response is InsightsCreateCascadeDeleteJobDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: InsightAttachmentsCreateOrUpdate200Response | InsightAttachmentsCreateOrUpdate201Response | InsightAttachmentsCreateOrUpdatedefaultResponse): response is InsightAttachmentsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: InsightsGetCascadeDeleteJobDetails200Response | InsightsGetCascadeDeleteJobDetailsDefaultResponse): response is InsightsGetCascadeDeleteJobDetailsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: InsightAttachmentsGet200Response | InsightAttachmentsGetdefaultResponse): response is InsightAttachmentsGetdefaultResponse;
+export function isUnexpected(response: InsightsListByPartyIdModelIdAndResource200Response | InsightsListByPartyIdModelIdAndResourceDefaultResponse): response is InsightsListByPartyIdModelIdAndResourceDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: InsightAttachmentsDelete204Response | InsightAttachmentsDeletedefaultResponse): response is InsightAttachmentsDeletedefaultResponse;
+export function isUnexpected(response: InsightsCreateOrUpdate200Response | InsightsCreateOrUpdate201Response | InsightsCreateOrUpdateDefaultResponse): response is InsightsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: InsightAttachmentsDownload200Response | InsightAttachmentsDownloaddefaultResponse): response is InsightAttachmentsDownloaddefaultResponse;
+export function isUnexpected(response: InsightsGet200Response | InsightsGetDefaultResponse): response is InsightsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: InsightsListByFarmerIdModelIdAndResource200Response | InsightsListByFarmerIdModelIdAndResourcedefaultResponse): response is InsightsListByFarmerIdModelIdAndResourcedefaultResponse;
+export function isUnexpected(response: InsightsDelete204Response | InsightsDeleteDefaultResponse): response is InsightsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: InsightsCreateOrUpdate200Response | InsightsCreateOrUpdate201Response | InsightsCreateOrUpdatedefaultResponse): response is InsightsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: ManagementZonesList200Response | ManagementZonesListDefaultResponse): response is ManagementZonesListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: InsightsGet200Response | InsightsGetdefaultResponse): response is InsightsGetdefaultResponse;
+export function isUnexpected(response: ManagementZonesGetCascadeDeleteJobDetails200Response | ManagementZonesGetCascadeDeleteJobDetailsDefaultResponse): response is ManagementZonesGetCascadeDeleteJobDetailsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: InsightsDelete204Response | InsightsDeletedefaultResponse): response is InsightsDeletedefaultResponse;
+export function isUnexpected(response: ManagementZonesCreateCascadeDeleteJob202Response | ManagementZonesCreateCascadeDeleteJobDefaultResponse): response is ManagementZonesCreateCascadeDeleteJobDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: InsightsCreateCascadeDeleteJob202Response | InsightsCreateCascadeDeleteJobdefaultResponse): response is InsightsCreateCascadeDeleteJobdefaultResponse;
+export function isUnexpected(response: ManagementZonesListByPartyId200Response | ManagementZonesListByPartyIdDefaultResponse): response is ManagementZonesListByPartyIdDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: InsightsGetCascadeDeleteJobDetails200Response | InsightsGetCascadeDeleteJobDetailsdefaultResponse): response is InsightsGetCascadeDeleteJobDetailsdefaultResponse;
+export function isUnexpected(response: ManagementZonesGet200Response | ManagementZonesGetDefaultResponse): response is ManagementZonesGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagementZonesListByFarmerId200Response | ManagementZonesListByFarmerIddefaultResponse): response is ManagementZonesListByFarmerIddefaultResponse;
+export function isUnexpected(response: ManagementZonesCreateOrUpdate200Response | ManagementZonesCreateOrUpdate201Response | ManagementZonesCreateOrUpdateDefaultResponse): response is ManagementZonesCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagementZonesGet200Response | ManagementZonesGetdefaultResponse): response is ManagementZonesGetdefaultResponse;
+export function isUnexpected(response: ManagementZonesDelete204Response | ManagementZonesDeleteDefaultResponse): response is ManagementZonesDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagementZonesCreateOrUpdate200Response | ManagementZonesCreateOrUpdate201Response | ManagementZonesCreateOrUpdatedefaultResponse): response is ManagementZonesCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: ModelInferenceCreateBiomassModelJob202Response | ModelInferenceCreateBiomassModelJobDefaultResponse): response is ModelInferenceCreateBiomassModelJobDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagementZonesDelete204Response | ManagementZonesDeletedefaultResponse): response is ManagementZonesDeletedefaultResponse;
+export function isUnexpected(response: ModelInferenceGetBiomassModelJob200Response | ModelInferenceGetBiomassModelJobDefaultResponse): response is ModelInferenceGetBiomassModelJobDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagementZonesList200Response | ManagementZonesListdefaultResponse): response is ManagementZonesListdefaultResponse;
+export function isUnexpected(response: ModelInferenceCreateSensorPlacementModelJob202Response | ModelInferenceCreateSensorPlacementModelJobDefaultResponse): response is ModelInferenceCreateSensorPlacementModelJobDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagementZonesGetCascadeDeleteJobDetails200Response | ManagementZonesGetCascadeDeleteJobDetailsdefaultResponse): response is ManagementZonesGetCascadeDeleteJobDetailsdefaultResponse;
+export function isUnexpected(response: ModelInferenceGetSensorPlacementModelJob200Response | ModelInferenceGetSensorPlacementModelJobDefaultResponse): response is ModelInferenceGetSensorPlacementModelJobDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagementZonesCreateCascadeDeleteJob202Response | ManagementZonesCreateCascadeDeleteJobdefaultResponse): response is ManagementZonesCreateCascadeDeleteJobdefaultResponse;
+export function isUnexpected(response: ModelInferenceCreateSoilMoistureModelJob202Response | ModelInferenceCreateSoilMoistureModelJobDefaultResponse): response is ModelInferenceCreateSoilMoistureModelJobDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ModelInferenceCreateBiomassModelJob202Response | ModelInferenceCreateBiomassModelJobdefaultResponse): response is ModelInferenceCreateBiomassModelJobdefaultResponse;
+export function isUnexpected(response: ModelInferenceGetSoilMoistureModelJob200Response | ModelInferenceGetSoilMoistureModelJobDefaultResponse): response is ModelInferenceGetSoilMoistureModelJobDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ModelInferenceGetBiomassModelJob200Response | ModelInferenceGetBiomassModelJobdefaultResponse): response is ModelInferenceGetBiomassModelJobdefaultResponse;
+export function isUnexpected(response: NutrientAnalysesList200Response | NutrientAnalysesListDefaultResponse): response is NutrientAnalysesListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ModelInferenceCreateSoilMoistureModelJob202Response | ModelInferenceCreateSoilMoistureModelJobdefaultResponse): response is ModelInferenceCreateSoilMoistureModelJobdefaultResponse;
+export function isUnexpected(response: NutrientAnalysesListByPartyId200Response | NutrientAnalysesListByPartyIdDefaultResponse): response is NutrientAnalysesListByPartyIdDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ModelInferenceGetSoilMoistureModelJob200Response | ModelInferenceGetSoilMoistureModelJobdefaultResponse): response is ModelInferenceGetSoilMoistureModelJobdefaultResponse;
+export function isUnexpected(response: NutrientAnalysesGet200Response | NutrientAnalysesGetDefaultResponse): response is NutrientAnalysesGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: NutrientAnalysesListByFarmerId200Response | NutrientAnalysesListByFarmerIddefaultResponse): response is NutrientAnalysesListByFarmerIddefaultResponse;
+export function isUnexpected(response: NutrientAnalysesCreateOrUpdate200Response | NutrientAnalysesCreateOrUpdate201Response | NutrientAnalysesCreateOrUpdateDefaultResponse): response is NutrientAnalysesCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: NutrientAnalysesGet200Response | NutrientAnalysesGetdefaultResponse): response is NutrientAnalysesGetdefaultResponse;
+export function isUnexpected(response: NutrientAnalysesDelete204Response | NutrientAnalysesDeleteDefaultResponse): response is NutrientAnalysesDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: NutrientAnalysesCreateOrUpdate200Response | NutrientAnalysesCreateOrUpdate201Response | NutrientAnalysesCreateOrUpdatedefaultResponse): response is NutrientAnalysesCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: OAuthProvidersList200Response | OAuthProvidersListDefaultResponse): response is OAuthProvidersListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: NutrientAnalysesDelete204Response | NutrientAnalysesDeletedefaultResponse): response is NutrientAnalysesDeletedefaultResponse;
+export function isUnexpected(response: OAuthProvidersGet200Response | OAuthProvidersGetDefaultResponse): response is OAuthProvidersGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: NutrientAnalysesList200Response | NutrientAnalysesListdefaultResponse): response is NutrientAnalysesListdefaultResponse;
+export function isUnexpected(response: OAuthProvidersCreateOrUpdate200Response | OAuthProvidersCreateOrUpdate201Response | OAuthProvidersCreateOrUpdateDefaultResponse): response is OAuthProvidersCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: OAuthProvidersList200Response | OAuthProvidersListdefaultResponse): response is OAuthProvidersListdefaultResponse;
+export function isUnexpected(response: OAuthProvidersDelete204Response | OAuthProvidersDeleteDefaultResponse): response is OAuthProvidersDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: OAuthProvidersGet200Response | OAuthProvidersGetdefaultResponse): response is OAuthProvidersGetdefaultResponse;
+export function isUnexpected(response: OAuthProvidersGetCascadeDeleteJobDetails200Response | OAuthProvidersGetCascadeDeleteJobDetailsDefaultResponse): response is OAuthProvidersGetCascadeDeleteJobDetailsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: OAuthProvidersCreateOrUpdate200Response | OAuthProvidersCreateOrUpdate201Response | OAuthProvidersCreateOrUpdatedefaultResponse): response is OAuthProvidersCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: OAuthProvidersCreateCascadeDeleteJob202Response | OAuthProvidersCreateCascadeDeleteJobDefaultResponse): response is OAuthProvidersCreateCascadeDeleteJobDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: OAuthProvidersDelete204Response | OAuthProvidersDeletedefaultResponse): response is OAuthProvidersDeletedefaultResponse;
+export function isUnexpected(response: OAuthTokensList200Response | OAuthTokensListDefaultResponse): response is OAuthTokensListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: OAuthProvidersGetCascadeDeleteJobDetails200Response | OAuthProvidersGetCascadeDeleteJobDetailsdefaultResponse): response is OAuthProvidersGetCascadeDeleteJobDetailsdefaultResponse;
+export function isUnexpected(response: OAuthTokensGetOAuthConnectionLink200Response | OAuthTokensGetOAuthConnectionLinkDefaultResponse): response is OAuthTokensGetOAuthConnectionLinkDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: OAuthProvidersCreateCascadeDeleteJob202Response | OAuthProvidersCreateCascadeDeleteJobdefaultResponse): response is OAuthProvidersCreateCascadeDeleteJobdefaultResponse;
+export function isUnexpected(response: OAuthTokensGetCascadeDeleteJobDetails200Response | OAuthTokensGetCascadeDeleteJobDetailsDefaultResponse): response is OAuthTokensGetCascadeDeleteJobDetailsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: OAuthTokensList200Response | OAuthTokensListdefaultResponse): response is OAuthTokensListdefaultResponse;
+export function isUnexpected(response: OAuthTokensCreateCascadeDeleteJob202Response | OAuthTokensCreateCascadeDeleteJobDefaultResponse): response is OAuthTokensCreateCascadeDeleteJobDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: OAuthTokensGetOAuthConnectionLink200Response | OAuthTokensGetOAuthConnectionLinkdefaultResponse): response is OAuthTokensGetOAuthConnectionLinkdefaultResponse;
+export function isUnexpected(response: PartiesList200Response | PartiesListDefaultResponse): response is PartiesListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: OAuthTokensCreateCascadeDeleteJob202Response | OAuthTokensCreateCascadeDeleteJobdefaultResponse): response is OAuthTokensCreateCascadeDeleteJobdefaultResponse;
+export function isUnexpected(response: PartiesGet200Response | PartiesGetDefaultResponse): response is PartiesGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: OAuthTokensGetCascadeDeleteJobDetails200Response | OAuthTokensGetCascadeDeleteJobDetailsdefaultResponse): response is OAuthTokensGetCascadeDeleteJobDetailsdefaultResponse;
+export function isUnexpected(response: PartiesCreateOrUpdate200Response | PartiesCreateOrUpdate201Response | PartiesCreateOrUpdateDefaultResponse): response is PartiesCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PlantingDataListByFarmerId200Response | PlantingDataListByFarmerIddefaultResponse): response is PlantingDataListByFarmerIddefaultResponse;
+export function isUnexpected(response: PartiesDelete204Response | PartiesDeleteDefaultResponse): response is PartiesDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PlantingDataGet200Response | PlantingDataGetdefaultResponse): response is PlantingDataGetdefaultResponse;
+export function isUnexpected(response: PartiesGetCascadeDeleteJobDetails200Response | PartiesGetCascadeDeleteJobDetailsDefaultResponse): response is PartiesGetCascadeDeleteJobDetailsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PlantingDataCreateOrUpdate200Response | PlantingDataCreateOrUpdate201Response | PlantingDataCreateOrUpdatedefaultResponse): response is PlantingDataCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: PartiesCreateCascadeDeleteJob202Response | PartiesCreateCascadeDeleteJobDefaultResponse): response is PartiesCreateCascadeDeleteJobDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PlantingDataDelete204Response | PlantingDataDeletedefaultResponse): response is PlantingDataDeletedefaultResponse;
+export function isUnexpected(response: PlantingDataListByPartyId200Response | PlantingDataListByPartyIdDefaultResponse): response is PlantingDataListByPartyIdDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PlantingDataList200Response | PlantingDataListdefaultResponse): response is PlantingDataListdefaultResponse;
+export function isUnexpected(response: PlantingDataGet200Response | PlantingDataGetDefaultResponse): response is PlantingDataGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PlantingDataCreateCascadeDeleteJob202Response | PlantingDataCreateCascadeDeleteJobdefaultResponse): response is PlantingDataCreateCascadeDeleteJobdefaultResponse;
+export function isUnexpected(response: PlantingDataCreateOrUpdate200Response | PlantingDataCreateOrUpdate201Response | PlantingDataCreateOrUpdateDefaultResponse): response is PlantingDataCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PlantingDataGetCascadeDeleteJobDetails200Response | PlantingDataGetCascadeDeleteJobDetailsdefaultResponse): response is PlantingDataGetCascadeDeleteJobDetailsdefaultResponse;
+export function isUnexpected(response: PlantingDataDelete204Response | PlantingDataDeleteDefaultResponse): response is PlantingDataDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PlantTissueAnalysesListByFarmerId200Response | PlantTissueAnalysesListByFarmerIddefaultResponse): response is PlantTissueAnalysesListByFarmerIddefaultResponse;
+export function isUnexpected(response: PlantingDataList200Response | PlantingDataListDefaultResponse): response is PlantingDataListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PlantTissueAnalysesGet200Response | PlantTissueAnalysesGetdefaultResponse): response is PlantTissueAnalysesGetdefaultResponse;
+export function isUnexpected(response: PlantingDataCreateCascadeDeleteJob202Response | PlantingDataCreateCascadeDeleteJobDefaultResponse): response is PlantingDataCreateCascadeDeleteJobDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PlantTissueAnalysesCreateOrUpdate200Response | PlantTissueAnalysesCreateOrUpdate201Response | PlantTissueAnalysesCreateOrUpdatedefaultResponse): response is PlantTissueAnalysesCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: PlantingDataGetCascadeDeleteJobDetails200Response | PlantingDataGetCascadeDeleteJobDetailsDefaultResponse): response is PlantingDataGetCascadeDeleteJobDetailsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PlantTissueAnalysesDelete204Response | PlantTissueAnalysesDeletedefaultResponse): response is PlantTissueAnalysesDeletedefaultResponse;
+export function isUnexpected(response: PlantTissueAnalysesListByPartyId200Response | PlantTissueAnalysesListByPartyIdDefaultResponse): response is PlantTissueAnalysesListByPartyIdDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PlantTissueAnalysesList200Response | PlantTissueAnalysesListdefaultResponse): response is PlantTissueAnalysesListdefaultResponse;
+export function isUnexpected(response: PlantTissueAnalysesGet200Response | PlantTissueAnalysesGetDefaultResponse): response is PlantTissueAnalysesGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PlantTissueAnalysesCreateCascadeDeleteJob202Response | PlantTissueAnalysesCreateCascadeDeleteJobdefaultResponse): response is PlantTissueAnalysesCreateCascadeDeleteJobdefaultResponse;
+export function isUnexpected(response: PlantTissueAnalysesCreateOrUpdate200Response | PlantTissueAnalysesCreateOrUpdate201Response | PlantTissueAnalysesCreateOrUpdateDefaultResponse): response is PlantTissueAnalysesCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PlantTissueAnalysesGetCascadeDeleteJobDetails200Response | PlantTissueAnalysesGetCascadeDeleteJobDetailsdefaultResponse): response is PlantTissueAnalysesGetCascadeDeleteJobDetailsdefaultResponse;
+export function isUnexpected(response: PlantTissueAnalysesDelete204Response | PlantTissueAnalysesDeleteDefaultResponse): response is PlantTissueAnalysesDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PrescriptionMapsListByFarmerId200Response | PrescriptionMapsListByFarmerIddefaultResponse): response is PrescriptionMapsListByFarmerIddefaultResponse;
+export function isUnexpected(response: PlantTissueAnalysesList200Response | PlantTissueAnalysesListDefaultResponse): response is PlantTissueAnalysesListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PrescriptionMapsGet200Response | PrescriptionMapsGetdefaultResponse): response is PrescriptionMapsGetdefaultResponse;
+export function isUnexpected(response: PlantTissueAnalysesCreateCascadeDeleteJob202Response | PlantTissueAnalysesCreateCascadeDeleteJobDefaultResponse): response is PlantTissueAnalysesCreateCascadeDeleteJobDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PrescriptionMapsCreateOrUpdate200Response | PrescriptionMapsCreateOrUpdate201Response | PrescriptionMapsCreateOrUpdatedefaultResponse): response is PrescriptionMapsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: PlantTissueAnalysesGetCascadeDeleteJobDetails200Response | PlantTissueAnalysesGetCascadeDeleteJobDetailsDefaultResponse): response is PlantTissueAnalysesGetCascadeDeleteJobDetailsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PrescriptionMapsDelete204Response | PrescriptionMapsDeletedefaultResponse): response is PrescriptionMapsDeletedefaultResponse;
+export function isUnexpected(response: PrescriptionMapsListByPartyId200Response | PrescriptionMapsListByPartyIdDefaultResponse): response is PrescriptionMapsListByPartyIdDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PrescriptionMapsList200Response | PrescriptionMapsListdefaultResponse): response is PrescriptionMapsListdefaultResponse;
+export function isUnexpected(response: PrescriptionMapsGet200Response | PrescriptionMapsGetDefaultResponse): response is PrescriptionMapsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PrescriptionMapsGetCascadeDeleteJobDetails200Response | PrescriptionMapsGetCascadeDeleteJobDetailsdefaultResponse): response is PrescriptionMapsGetCascadeDeleteJobDetailsdefaultResponse;
+export function isUnexpected(response: PrescriptionMapsCreateOrUpdate200Response | PrescriptionMapsCreateOrUpdate201Response | PrescriptionMapsCreateOrUpdateDefaultResponse): response is PrescriptionMapsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PrescriptionMapsCreateCascadeDeleteJob202Response | PrescriptionMapsCreateCascadeDeleteJobdefaultResponse): response is PrescriptionMapsCreateCascadeDeleteJobdefaultResponse;
+export function isUnexpected(response: PrescriptionMapsDelete204Response | PrescriptionMapsDeleteDefaultResponse): response is PrescriptionMapsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PrescriptionsListByFarmerId200Response | PrescriptionsListByFarmerIddefaultResponse): response is PrescriptionsListByFarmerIddefaultResponse;
+export function isUnexpected(response: PrescriptionMapsList200Response | PrescriptionMapsListDefaultResponse): response is PrescriptionMapsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PrescriptionsGet200Response | PrescriptionsGetdefaultResponse): response is PrescriptionsGetdefaultResponse;
+export function isUnexpected(response: PrescriptionMapsGetCascadeDeleteJobDetails200Response | PrescriptionMapsGetCascadeDeleteJobDetailsDefaultResponse): response is PrescriptionMapsGetCascadeDeleteJobDetailsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PrescriptionsCreateOrUpdate200Response | PrescriptionsCreateOrUpdate201Response | PrescriptionsCreateOrUpdatedefaultResponse): response is PrescriptionsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: PrescriptionMapsCreateCascadeDeleteJob202Response | PrescriptionMapsCreateCascadeDeleteJobDefaultResponse): response is PrescriptionMapsCreateCascadeDeleteJobDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PrescriptionsDelete204Response | PrescriptionsDeletedefaultResponse): response is PrescriptionsDeletedefaultResponse;
+export function isUnexpected(response: PrescriptionsListByPartyId200Response | PrescriptionsListByPartyIdDefaultResponse): response is PrescriptionsListByPartyIdDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PrescriptionsList200Response | PrescriptionsListdefaultResponse): response is PrescriptionsListdefaultResponse;
+export function isUnexpected(response: PrescriptionsGet200Response | PrescriptionsGetDefaultResponse): response is PrescriptionsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PrescriptionsGetCascadeDeleteJobDetails200Response | PrescriptionsGetCascadeDeleteJobDetailsdefaultResponse): response is PrescriptionsGetCascadeDeleteJobDetailsdefaultResponse;
+export function isUnexpected(response: PrescriptionsCreateOrUpdate200Response | PrescriptionsCreateOrUpdate201Response | PrescriptionsCreateOrUpdateDefaultResponse): response is PrescriptionsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PrescriptionsCreateCascadeDeleteJob202Response | PrescriptionsCreateCascadeDeleteJobdefaultResponse): response is PrescriptionsCreateCascadeDeleteJobdefaultResponse;
+export function isUnexpected(response: PrescriptionsDelete204Response | PrescriptionsDeleteDefaultResponse): response is PrescriptionsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ScenesList200Response | ScenesListdefaultResponse): response is ScenesListdefaultResponse;
+export function isUnexpected(response: PrescriptionsList200Response | PrescriptionsListDefaultResponse): response is PrescriptionsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ScenesDownload200Response | ScenesDownloaddefaultResponse): response is ScenesDownloaddefaultResponse;
+export function isUnexpected(response: PrescriptionsGetCascadeDeleteJobDetails200Response | PrescriptionsGetCascadeDeleteJobDetailsDefaultResponse): response is PrescriptionsGetCascadeDeleteJobDetailsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ScenesCreateSatelliteDataIngestionJob202Response | ScenesCreateSatelliteDataIngestionJobdefaultResponse): response is ScenesCreateSatelliteDataIngestionJobdefaultResponse;
+export function isUnexpected(response: PrescriptionsCreateCascadeDeleteJob202Response | PrescriptionsCreateCascadeDeleteJobDefaultResponse): response is PrescriptionsCreateCascadeDeleteJobDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ScenesGetSatelliteDataIngestionJobDetails200Response | ScenesGetSatelliteDataIngestionJobDetailsdefaultResponse): response is ScenesGetSatelliteDataIngestionJobDetailsdefaultResponse;
+export function isUnexpected(response: ScenesList200Response | ScenesListDefaultResponse): response is ScenesListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SeasonalFieldsListByFarmerId200Response | SeasonalFieldsListByFarmerIddefaultResponse): response is SeasonalFieldsListByFarmerIddefaultResponse;
+export function isUnexpected(response: ScenesDownload200Response | ScenesDownloadDefaultResponse): response is ScenesDownloadDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SeasonalFieldsGet200Response | SeasonalFieldsGetdefaultResponse): response is SeasonalFieldsGetdefaultResponse;
+export function isUnexpected(response: ScenesCreateSatelliteDataIngestionJob202Response | ScenesCreateSatelliteDataIngestionJobDefaultResponse): response is ScenesCreateSatelliteDataIngestionJobDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SeasonalFieldsCreateOrUpdate200Response | SeasonalFieldsCreateOrUpdate201Response | SeasonalFieldsCreateOrUpdatedefaultResponse): response is SeasonalFieldsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: ScenesGetSatelliteDataIngestionJobDetails200Response | ScenesGetSatelliteDataIngestionJobDetailsDefaultResponse): response is ScenesGetSatelliteDataIngestionJobDetailsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SeasonalFieldsDelete204Response | SeasonalFieldsDeletedefaultResponse): response is SeasonalFieldsDeletedefaultResponse;
+export function isUnexpected(response: ScenesSearchFeatures200Response | ScenesSearchFeaturesDefaultResponse): response is ScenesSearchFeaturesDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SeasonalFieldsList200Response | SeasonalFieldsListdefaultResponse): response is SeasonalFieldsListdefaultResponse;
+export function isUnexpected(response: ScenesGetStacFeature200Response | ScenesGetStacFeatureDefaultResponse): response is ScenesGetStacFeatureDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SeasonalFieldsCreateCascadeDeleteJob202Response | SeasonalFieldsCreateCascadeDeleteJobdefaultResponse): response is SeasonalFieldsCreateCascadeDeleteJobdefaultResponse;
+export function isUnexpected(response: SeasonalFieldsListByPartyId200Response | SeasonalFieldsListByPartyIdDefaultResponse): response is SeasonalFieldsListByPartyIdDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SeasonalFieldsGetCascadeDeleteJobDetails200Response | SeasonalFieldsGetCascadeDeleteJobDetailsdefaultResponse): response is SeasonalFieldsGetCascadeDeleteJobDetailsdefaultResponse;
+export function isUnexpected(response: SeasonalFieldsGet200Response | SeasonalFieldsGetDefaultResponse): response is SeasonalFieldsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SeasonsList200Response | SeasonsListdefaultResponse): response is SeasonsListdefaultResponse;
+export function isUnexpected(response: SeasonalFieldsCreateOrUpdate200Response | SeasonalFieldsCreateOrUpdate201Response | SeasonalFieldsCreateOrUpdateDefaultResponse): response is SeasonalFieldsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SeasonsGet200Response | SeasonsGetdefaultResponse): response is SeasonsGetdefaultResponse;
+export function isUnexpected(response: SeasonalFieldsDelete204Response | SeasonalFieldsDeleteDefaultResponse): response is SeasonalFieldsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SeasonsCreateOrUpdate200Response | SeasonsCreateOrUpdate201Response | SeasonsCreateOrUpdatedefaultResponse): response is SeasonsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: SeasonalFieldsList200Response | SeasonalFieldsListDefaultResponse): response is SeasonalFieldsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SeasonsDelete204Response | SeasonsDeletedefaultResponse): response is SeasonsDeletedefaultResponse;
+export function isUnexpected(response: SeasonalFieldsGetCascadeDeleteJobDetails200Response | SeasonalFieldsGetCascadeDeleteJobDetailsDefaultResponse): response is SeasonalFieldsGetCascadeDeleteJobDetailsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SensorDataModelsList200Response | SensorDataModelsListdefaultResponse): response is SensorDataModelsListdefaultResponse;
+export function isUnexpected(response: SeasonalFieldsCreateCascadeDeleteJob202Response | SeasonalFieldsCreateCascadeDeleteJobDefaultResponse): response is SeasonalFieldsCreateCascadeDeleteJobDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SensorDataModelsCreateOrUpdate200Response | SensorDataModelsCreateOrUpdate201Response | SensorDataModelsCreateOrUpdatedefaultResponse): response is SensorDataModelsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: SeasonsList200Response | SeasonsListDefaultResponse): response is SeasonsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SensorDataModelsGet200Response | SensorDataModelsGetdefaultResponse): response is SensorDataModelsGetdefaultResponse;
+export function isUnexpected(response: SeasonsGet200Response | SeasonsGetDefaultResponse): response is SeasonsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SensorDataModelsDelete204Response | SensorDataModelsDeletedefaultResponse): response is SensorDataModelsDeletedefaultResponse;
+export function isUnexpected(response: SeasonsCreateOrUpdate200Response | SeasonsCreateOrUpdate201Response | SeasonsCreateOrUpdateDefaultResponse): response is SeasonsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SensorEventsList200Response | SensorEventsListdefaultResponse): response is SensorEventsListdefaultResponse;
+export function isUnexpected(response: SeasonsDelete204Response | SeasonsDeleteDefaultResponse): response is SeasonsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SensorMappingsList200Response | SensorMappingsListdefaultResponse): response is SensorMappingsListdefaultResponse;
+export function isUnexpected(response: SensorDataModelsList200Response | SensorDataModelsListDefaultResponse): response is SensorDataModelsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SensorMappingsCreateOrUpdate200Response | SensorMappingsCreateOrUpdate201Response | SensorMappingsCreateOrUpdatedefaultResponse): response is SensorMappingsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: SensorDataModelsCreateOrUpdate200Response | SensorDataModelsCreateOrUpdate201Response | SensorDataModelsCreateOrUpdateDefaultResponse): response is SensorDataModelsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SensorMappingsGet200Response | SensorMappingsGetdefaultResponse): response is SensorMappingsGetdefaultResponse;
+export function isUnexpected(response: SensorDataModelsGet200Response | SensorDataModelsGetDefaultResponse): response is SensorDataModelsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SensorMappingsDelete204Response | SensorMappingsDeletedefaultResponse): response is SensorMappingsDeletedefaultResponse;
+export function isUnexpected(response: SensorDataModelsDelete204Response | SensorDataModelsDeleteDefaultResponse): response is SensorDataModelsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SensorPartnerIntegrationsList200Response | SensorPartnerIntegrationsListdefaultResponse): response is SensorPartnerIntegrationsListdefaultResponse;
+export function isUnexpected(response: SensorEventsList200Response | SensorEventsListDefaultResponse): response is SensorEventsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SensorPartnerIntegrationsCreateOrUpdate200Response | SensorPartnerIntegrationsCreateOrUpdate201Response | SensorPartnerIntegrationsCreateOrUpdatedefaultResponse): response is SensorPartnerIntegrationsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: SensorMappingsList200Response | SensorMappingsListDefaultResponse): response is SensorMappingsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SensorPartnerIntegrationsGet200Response | SensorPartnerIntegrationsGetdefaultResponse): response is SensorPartnerIntegrationsGetdefaultResponse;
+export function isUnexpected(response: SensorMappingsCreateOrUpdate200Response | SensorMappingsCreateOrUpdate201Response | SensorMappingsCreateOrUpdateDefaultResponse): response is SensorMappingsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SensorPartnerIntegrationsDelete204Response | SensorPartnerIntegrationsDeletedefaultResponse): response is SensorPartnerIntegrationsDeletedefaultResponse;
+export function isUnexpected(response: SensorMappingsGet200Response | SensorMappingsGetDefaultResponse): response is SensorMappingsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SensorPartnerIntegrationsCheckConsent200Response | SensorPartnerIntegrationsCheckConsentdefaultResponse): response is SensorPartnerIntegrationsCheckConsentdefaultResponse;
+export function isUnexpected(response: SensorMappingsDelete204Response | SensorMappingsDeleteDefaultResponse): response is SensorMappingsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SensorPartnerIntegrationsGenerateConsentLink200Response | SensorPartnerIntegrationsGenerateConsentLinkdefaultResponse): response is SensorPartnerIntegrationsGenerateConsentLinkdefaultResponse;
+export function isUnexpected(response: SensorPartnerIntegrationsList200Response | SensorPartnerIntegrationsListDefaultResponse): response is SensorPartnerIntegrationsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SensorsList200Response | SensorsListdefaultResponse): response is SensorsListdefaultResponse;
+export function isUnexpected(response: SensorPartnerIntegrationsCreateOrUpdate200Response | SensorPartnerIntegrationsCreateOrUpdate201Response | SensorPartnerIntegrationsCreateOrUpdateDefaultResponse): response is SensorPartnerIntegrationsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SensorsCreateOrUpdate200Response | SensorsCreateOrUpdate201Response | SensorsCreateOrUpdatedefaultResponse): response is SensorsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: SensorPartnerIntegrationsGet200Response | SensorPartnerIntegrationsGetDefaultResponse): response is SensorPartnerIntegrationsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SensorsGet200Response | SensorsGetdefaultResponse): response is SensorsGetdefaultResponse;
+export function isUnexpected(response: SensorPartnerIntegrationsDelete204Response | SensorPartnerIntegrationsDeleteDefaultResponse): response is SensorPartnerIntegrationsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SensorsDelete204Response | SensorsDeletedefaultResponse): response is SensorsDeletedefaultResponse;
+export function isUnexpected(response: SensorPartnerIntegrationsCheckConsent200Response | SensorPartnerIntegrationsCheckConsentDefaultResponse): response is SensorPartnerIntegrationsCheckConsentDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SensorsGetConnectionString200Response | SensorsGetConnectionStringdefaultResponse): response is SensorsGetConnectionStringdefaultResponse;
+export function isUnexpected(response: SensorPartnerIntegrationsGenerateConsentLink200Response | SensorPartnerIntegrationsGenerateConsentLinkDefaultResponse): response is SensorPartnerIntegrationsGenerateConsentLinkDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SensorsRenewConnectionString200Response | SensorsRenewConnectionStringdefaultResponse): response is SensorsRenewConnectionStringdefaultResponse;
+export function isUnexpected(response: SensorsList200Response | SensorsListDefaultResponse): response is SensorsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SolutionInferenceCancel200Response | SolutionInferenceCanceldefaultResponse): response is SolutionInferenceCanceldefaultResponse;
+export function isUnexpected(response: SensorsCreateOrUpdate200Response | SensorsCreateOrUpdate201Response | SensorsCreateOrUpdateDefaultResponse): response is SensorsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SolutionInferenceCreateOrUpdate202Response | SolutionInferenceCreateOrUpdatedefaultResponse): response is SolutionInferenceCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: SensorsGet200Response | SensorsGetDefaultResponse): response is SensorsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SolutionInferenceFetch200Response | SolutionInferenceFetchdefaultResponse): response is SolutionInferenceFetchdefaultResponse;
+export function isUnexpected(response: SensorsDelete204Response | SensorsDeleteDefaultResponse): response is SensorsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TillageDataListByFarmerId200Response | TillageDataListByFarmerIddefaultResponse): response is TillageDataListByFarmerIddefaultResponse;
+export function isUnexpected(response: SensorsGetConnectionString200Response | SensorsGetConnectionStringDefaultResponse): response is SensorsGetConnectionStringDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TillageDataGet200Response | TillageDataGetdefaultResponse): response is TillageDataGetdefaultResponse;
+export function isUnexpected(response: SensorsRenewConnectionString200Response | SensorsRenewConnectionStringDefaultResponse): response is SensorsRenewConnectionStringDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TillageDataCreateOrUpdate200Response | TillageDataCreateOrUpdate201Response | TillageDataCreateOrUpdatedefaultResponse): response is TillageDataCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: SolutionInferenceCancel200Response | SolutionInferenceCancelDefaultResponse): response is SolutionInferenceCancelDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TillageDataDelete204Response | TillageDataDeletedefaultResponse): response is TillageDataDeletedefaultResponse;
+export function isUnexpected(response: SolutionInferenceCreateOrUpdate202Response | SolutionInferenceCreateOrUpdateDefaultResponse): response is SolutionInferenceCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TillageDataList200Response | TillageDataListdefaultResponse): response is TillageDataListdefaultResponse;
+export function isUnexpected(response: SolutionInferenceFetch200Response | SolutionInferenceFetchDefaultResponse): response is SolutionInferenceFetchDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TillageDataCreateCascadeDeleteJob202Response | TillageDataCreateCascadeDeleteJobdefaultResponse): response is TillageDataCreateCascadeDeleteJobdefaultResponse;
+export function isUnexpected(response: TillageDataListByPartyId200Response | TillageDataListByPartyIdDefaultResponse): response is TillageDataListByPartyIdDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TillageDataGetCascadeDeleteJobDetails200Response | TillageDataGetCascadeDeleteJobDetailsdefaultResponse): response is TillageDataGetCascadeDeleteJobDetailsdefaultResponse;
+export function isUnexpected(response: TillageDataGet200Response | TillageDataGetDefaultResponse): response is TillageDataGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: WeatherList200Response | WeatherListdefaultResponse): response is WeatherListdefaultResponse;
+export function isUnexpected(response: TillageDataCreateOrUpdate200Response | TillageDataCreateOrUpdate201Response | TillageDataCreateOrUpdateDefaultResponse): response is TillageDataCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: WeatherGetDataDeleteJobDetails200Response | WeatherGetDataDeleteJobDetailsdefaultResponse): response is WeatherGetDataDeleteJobDetailsdefaultResponse;
+export function isUnexpected(response: TillageDataDelete204Response | TillageDataDeleteDefaultResponse): response is TillageDataDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: WeatherCreateDataDeleteJob202Response | WeatherCreateDataDeleteJobdefaultResponse): response is WeatherCreateDataDeleteJobdefaultResponse;
+export function isUnexpected(response: TillageDataList200Response | TillageDataListDefaultResponse): response is TillageDataListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: WeatherGetDataIngestionJobDetails200Response | WeatherGetDataIngestionJobDetailsdefaultResponse): response is WeatherGetDataIngestionJobDetailsdefaultResponse;
+export function isUnexpected(response: TillageDataCreateCascadeDeleteJob202Response | TillageDataCreateCascadeDeleteJobDefaultResponse): response is TillageDataCreateCascadeDeleteJobDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: WeatherCreateDataIngestionJob202Response | WeatherCreateDataIngestionJobdefaultResponse): response is WeatherCreateDataIngestionJobdefaultResponse;
+export function isUnexpected(response: TillageDataGetCascadeDeleteJobDetails200Response | TillageDataGetCascadeDeleteJobDetailsDefaultResponse): response is TillageDataGetCascadeDeleteJobDetailsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ZonesListByFarmerId200Response | ZonesListByFarmerIddefaultResponse): response is ZonesListByFarmerIddefaultResponse;
+export function isUnexpected(response: WeatherList200Response | WeatherListDefaultResponse): response is WeatherListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ZonesGet200Response | ZonesGetdefaultResponse): response is ZonesGetdefaultResponse;
+export function isUnexpected(response: WeatherGetDataDeleteJobDetails200Response | WeatherGetDataDeleteJobDetailsDefaultResponse): response is WeatherGetDataDeleteJobDetailsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ZonesCreateOrUpdate200Response | ZonesCreateOrUpdate201Response | ZonesCreateOrUpdatedefaultResponse): response is ZonesCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: WeatherCreateDataDeleteJob202Response | WeatherCreateDataDeleteJobDefaultResponse): response is WeatherCreateDataDeleteJobDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ZonesDelete204Response | ZonesDeletedefaultResponse): response is ZonesDeletedefaultResponse;
+export function isUnexpected(response: WeatherGetDataIngestionJobDetails200Response | WeatherGetDataIngestionJobDetailsDefaultResponse): response is WeatherGetDataIngestionJobDetailsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ZonesList200Response | ZonesListdefaultResponse): response is ZonesListdefaultResponse;
+export function isUnexpected(response: WeatherCreateDataIngestionJob202Response | WeatherCreateDataIngestionJobDefaultResponse): response is WeatherCreateDataIngestionJobDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ZonesGetCascadeDeleteJobDetails200Response | ZonesGetCascadeDeleteJobDetailsdefaultResponse): response is ZonesGetCascadeDeleteJobDetailsdefaultResponse;
+export function isUnexpected(response: WeatherDataGet200Response | WeatherDataGetDefaultResponse): response is WeatherDataGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ZonesCreateCascadeDeleteJob202Response | ZonesCreateCascadeDeleteJobdefaultResponse): response is ZonesCreateCascadeDeleteJobdefaultResponse;
+export function isUnexpected(response: ZonesListByPartyId200Response | ZonesListByPartyIdDefaultResponse): response is ZonesListByPartyIdDefaultResponse;
 
 // @public (undocumented)
+export function isUnexpected(response: ZonesGet200Response | ZonesGetDefaultResponse): response is ZonesGetDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ZonesCreateOrUpdate200Response | ZonesCreateOrUpdate201Response | ZonesCreateOrUpdateDefaultResponse): response is ZonesCreateOrUpdateDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ZonesDelete204Response | ZonesDeleteDefaultResponse): response is ZonesDeleteDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ZonesList200Response | ZonesListDefaultResponse): response is ZonesListDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ZonesGetCascadeDeleteJobDetails200Response | ZonesGetCascadeDeleteJobDetailsDefaultResponse): response is ZonesGetCascadeDeleteJobDetailsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ZonesCreateCascadeDeleteJob202Response | ZonesCreateCascadeDeleteJobDefaultResponse): response is ZonesCreateCascadeDeleteJobDefaultResponse;
+
+// @public
 export interface LabDetails {
     address?: string;
     code?: string;
@@ -4669,7 +4462,7 @@ export interface LabDetails {
     name?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface LabDetailsOutput {
     address?: string;
     code?: string;
@@ -4677,28 +4470,23 @@ export interface LabDetailsOutput {
     name?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface Location {
     latitude: number;
     longitude: number;
 }
 
-// @public (undocumented)
+// @public
 export interface LocationOutput {
     latitude: number;
     longitude: number;
 }
 
-// @public (undocumented)
-export interface ManagementZone extends Record<string, unknown> {
-    createdDateTime?: Date | string;
+// @public
+export interface ManagementZone {
     cropId?: string;
     description?: string;
-    eTag?: string;
-    farmerId?: string;
     fieldId?: string;
-    id?: string;
-    modifiedDateTime?: Date | string;
     name?: string;
     properties?: Record<string, any>;
     seasonId?: string;
@@ -4707,30 +4495,35 @@ export interface ManagementZone extends Record<string, unknown> {
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagementZoneListResponseOutput {
-    $skipToken?: string;
     nextLink?: string;
-    value?: Array<ManagementZoneOutput>;
+    skipToken?: string;
+    value: Array<ManagementZoneOutput>;
 }
 
-// @public (undocumented)
-export interface ManagementZoneOutput extends Record<string, unknown> {
-    createdDateTime?: string;
+// @public
+export interface ManagementZoneOutput {
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     cropId?: string;
     description?: string;
-    eTag?: string;
-    farmerId?: string;
+    readonly eTag?: string;
     fieldId?: string;
-    id?: string;
-    modifiedDateTime?: string;
+    readonly id?: string;
+    readonly modifiedBy?: string;
+    readonly modifiedDateTime?: string;
     name?: string;
+    readonly partyId?: string;
     properties?: Record<string, any>;
     seasonId?: string;
     source?: string;
     status?: string;
     type?: string;
 }
+
+// @public
+export type ManagementZoneResourceMergeAndPatch = Partial<ManagementZone>;
 
 // @public
 export interface ManagementZonesCreateCascadeDeleteJob202Response extends HttpResponse {
@@ -4741,17 +4534,17 @@ export interface ManagementZonesCreateCascadeDeleteJob202Response extends HttpRe
 }
 
 // @public (undocumented)
-export interface ManagementZonesCreateCascadeDeleteJobdefaultHeaders {
+export interface ManagementZonesCreateCascadeDeleteJobDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface ManagementZonesCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
+export interface ManagementZonesCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ManagementZonesCreateCascadeDeleteJobdefaultHeaders;
+    headers: RawHttpHeaders & ManagementZonesCreateCascadeDeleteJobDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -4767,8 +4560,8 @@ export interface ManagementZonesCreateCascadeDeleteJobQueryParam {
 
 // @public (undocumented)
 export interface ManagementZonesCreateCascadeDeleteJobQueryParamProperties {
-    farmerId: string;
     managementZoneId: string;
+    partyId: string;
 }
 
 // @public
@@ -4789,21 +4582,21 @@ export interface ManagementZonesCreateOrUpdate201Response extends HttpResponse {
 
 // @public (undocumented)
 export interface ManagementZonesCreateOrUpdateBodyParam {
-    body: ManagementZone;
+    body: ManagementZoneResourceMergeAndPatch;
 }
 
 // @public (undocumented)
-export interface ManagementZonesCreateOrUpdatedefaultHeaders {
+export interface ManagementZonesCreateOrUpdateDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface ManagementZonesCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface ManagementZonesCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ManagementZonesCreateOrUpdatedefaultHeaders;
+    headers: RawHttpHeaders & ManagementZonesCreateOrUpdateDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -4825,17 +4618,17 @@ export interface ManagementZonesDelete204Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface ManagementZonesDeletedefaultHeaders {
+export interface ManagementZonesDeleteDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface ManagementZonesDeletedefaultResponse extends HttpResponse {
+export interface ManagementZonesDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ManagementZonesDeletedefaultHeaders;
+    headers: RawHttpHeaders & ManagementZonesDeleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -4845,9 +4638,9 @@ export type ManagementZonesDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ManagementZonesGet {
-    delete(options?: ManagementZonesDeleteParameters): StreamableMethod<ManagementZonesDelete204Response | ManagementZonesDeletedefaultResponse>;
-    get(options?: ManagementZonesGetParameters): StreamableMethod<ManagementZonesGet200Response | ManagementZonesGetdefaultResponse>;
-    patch(options: ManagementZonesCreateOrUpdateParameters): StreamableMethod<ManagementZonesCreateOrUpdate200Response | ManagementZonesCreateOrUpdate201Response | ManagementZonesCreateOrUpdatedefaultResponse>;
+    delete(options?: ManagementZonesDeleteParameters): StreamableMethod<ManagementZonesDelete204Response | ManagementZonesDeleteDefaultResponse>;
+    get(options?: ManagementZonesGetParameters): StreamableMethod<ManagementZonesGet200Response | ManagementZonesGetDefaultResponse>;
+    patch(options: ManagementZonesCreateOrUpdateParameters): StreamableMethod<ManagementZonesCreateOrUpdate200Response | ManagementZonesCreateOrUpdate201Response | ManagementZonesCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -4860,8 +4653,8 @@ export interface ManagementZonesGet200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface ManagementZonesGetCascadeDeleteJobDetails {
-    get(options?: ManagementZonesGetCascadeDeleteJobDetailsParameters): StreamableMethod<ManagementZonesGetCascadeDeleteJobDetails200Response | ManagementZonesGetCascadeDeleteJobDetailsdefaultResponse>;
-    put(options: ManagementZonesCreateCascadeDeleteJobParameters): StreamableMethod<ManagementZonesCreateCascadeDeleteJob202Response | ManagementZonesCreateCascadeDeleteJobdefaultResponse>;
+    get(options?: ManagementZonesGetCascadeDeleteJobDetailsParameters): StreamableMethod<ManagementZonesGetCascadeDeleteJobDetails200Response | ManagementZonesGetCascadeDeleteJobDetailsDefaultResponse>;
+    put(options: ManagementZonesCreateCascadeDeleteJobParameters): StreamableMethod<ManagementZonesCreateCascadeDeleteJob202Response | ManagementZonesCreateCascadeDeleteJobDefaultResponse>;
 }
 
 // @public
@@ -4873,17 +4666,17 @@ export interface ManagementZonesGetCascadeDeleteJobDetails200Response extends Ht
 }
 
 // @public (undocumented)
-export interface ManagementZonesGetCascadeDeleteJobDetailsdefaultHeaders {
+export interface ManagementZonesGetCascadeDeleteJobDetailsDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface ManagementZonesGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
+export interface ManagementZonesGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ManagementZonesGetCascadeDeleteJobDetailsdefaultHeaders;
+    headers: RawHttpHeaders & ManagementZonesGetCascadeDeleteJobDetailsDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -4892,17 +4685,17 @@ export interface ManagementZonesGetCascadeDeleteJobDetailsdefaultResponse extend
 export type ManagementZonesGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
 // @public (undocumented)
-export interface ManagementZonesGetdefaultHeaders {
+export interface ManagementZonesGetDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface ManagementZonesGetdefaultResponse extends HttpResponse {
+export interface ManagementZonesGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ManagementZonesGetdefaultHeaders;
+    headers: RawHttpHeaders & ManagementZonesGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -4912,7 +4705,7 @@ export type ManagementZonesGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ManagementZonesList {
-    get(options?: ManagementZonesListParameters): StreamableMethod<ManagementZonesList200Response | ManagementZonesListdefaultResponse>;
+    get(options?: ManagementZonesListParameters): StreamableMethod<ManagementZonesList200Response | ManagementZonesListDefaultResponse>;
 }
 
 // @public
@@ -4924,12 +4717,12 @@ export interface ManagementZonesList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface ManagementZonesListByFarmerId {
-    get(options?: ManagementZonesListByFarmerIdParameters): StreamableMethod<ManagementZonesListByFarmerId200Response | ManagementZonesListByFarmerIddefaultResponse>;
+export interface ManagementZonesListByPartyId {
+    get(options?: ManagementZonesListByPartyIdParameters): StreamableMethod<ManagementZonesListByPartyId200Response | ManagementZonesListByPartyIdDefaultResponse>;
 }
 
 // @public
-export interface ManagementZonesListByFarmerId200Response extends HttpResponse {
+export interface ManagementZonesListByPartyId200Response extends HttpResponse {
     // (undocumented)
     body: ManagementZoneListResponseOutput;
     // (undocumented)
@@ -4937,61 +4730,61 @@ export interface ManagementZonesListByFarmerId200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface ManagementZonesListByFarmerIddefaultHeaders {
+export interface ManagementZonesListByPartyIdDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface ManagementZonesListByFarmerIddefaultResponse extends HttpResponse {
+export interface ManagementZonesListByPartyIdDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ManagementZonesListByFarmerIddefaultHeaders;
+    headers: RawHttpHeaders & ManagementZonesListByPartyIdDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export type ManagementZonesListByFarmerIdParameters = ManagementZonesListByFarmerIdQueryParam & RequestParameters;
+export type ManagementZonesListByPartyIdParameters = ManagementZonesListByPartyIdQueryParam & RequestParameters;
 
 // @public (undocumented)
-export interface ManagementZonesListByFarmerIdQueryParam {
+export interface ManagementZonesListByPartyIdQueryParam {
     // (undocumented)
-    queryParameters?: ManagementZonesListByFarmerIdQueryParamProperties;
+    queryParameters?: ManagementZonesListByPartyIdQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface ManagementZonesListByFarmerIdQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    cropIds?: Array<string>;
-    fieldIds?: Array<string>;
-    ids?: Array<string>;
+export interface ManagementZonesListByPartyIdQueryParamProperties {
+    cropIds?: string;
+    fieldIds?: string;
+    ids?: string;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
+    maxPageSize?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    seasonIds?: Array<string>;
-    sources?: Array<string>;
-    statuses?: Array<string>;
-    types?: Array<string>;
+    names?: string;
+    propertyFilters?: string;
+    seasonIds?: string;
+    skipToken?: string;
+    sources?: string;
+    statuses?: string;
+    types?: string;
 }
 
 // @public (undocumented)
-export interface ManagementZonesListdefaultHeaders {
+export interface ManagementZonesListDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface ManagementZonesListdefaultResponse extends HttpResponse {
+export interface ManagementZonesListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ManagementZonesListdefaultHeaders;
+    headers: RawHttpHeaders & ManagementZonesListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5007,39 +4800,45 @@ export interface ManagementZonesListQueryParam {
 
 // @public (undocumented)
 export interface ManagementZonesListQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    cropIds?: Array<string>;
-    fieldIds?: Array<string>;
-    ids?: Array<string>;
+    cropIds?: string;
+    fieldIds?: string;
+    ids?: string;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
+    maxPageSize?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    seasonIds?: Array<string>;
-    sources?: Array<string>;
-    statuses?: Array<string>;
-    types?: Array<string>;
+    names?: string;
+    propertyFilters?: string;
+    seasonIds?: string;
+    skipToken?: string;
+    sources?: string;
+    statuses?: string;
+    types?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface Measure {
     unit?: string;
     value?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface MeasureOutput {
     unit?: string;
     value?: number;
 }
 
+// @public
+export interface MeasuresOutput {
+    unit?: string;
+    values?: Array<number>;
+}
+
 // @public (undocumented)
 export interface ModelInferenceCreateBiomassModelJob {
-    get(options?: ModelInferenceGetBiomassModelJobParameters): StreamableMethod<ModelInferenceGetBiomassModelJob200Response | ModelInferenceGetBiomassModelJobdefaultResponse>;
-    put(options: ModelInferenceCreateBiomassModelJobParameters): StreamableMethod<ModelInferenceCreateBiomassModelJob202Response | ModelInferenceCreateBiomassModelJobdefaultResponse>;
+    get(options?: ModelInferenceGetBiomassModelJobParameters): StreamableMethod<ModelInferenceGetBiomassModelJob200Response | ModelInferenceGetBiomassModelJobDefaultResponse>;
+    put(options: ModelInferenceCreateBiomassModelJobParameters): StreamableMethod<ModelInferenceCreateBiomassModelJob202Response | ModelInferenceCreateBiomassModelJobDefaultResponse>;
 }
 
 // @public
@@ -5056,17 +4855,17 @@ export interface ModelInferenceCreateBiomassModelJobBodyParam {
 }
 
 // @public (undocumented)
-export interface ModelInferenceCreateBiomassModelJobdefaultHeaders {
+export interface ModelInferenceCreateBiomassModelJobDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface ModelInferenceCreateBiomassModelJobdefaultResponse extends HttpResponse {
+export interface ModelInferenceCreateBiomassModelJobDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ModelInferenceCreateBiomassModelJobdefaultHeaders;
+    headers: RawHttpHeaders & ModelInferenceCreateBiomassModelJobDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5080,9 +4879,52 @@ export interface ModelInferenceCreateBiomassModelJobMediaTypesParam {
 export type ModelInferenceCreateBiomassModelJobParameters = ModelInferenceCreateBiomassModelJobMediaTypesParam & ModelInferenceCreateBiomassModelJobBodyParam & RequestParameters;
 
 // @public (undocumented)
+export interface ModelInferenceCreateSensorPlacementModelJob {
+    get(options?: ModelInferenceGetSensorPlacementModelJobParameters): StreamableMethod<ModelInferenceGetSensorPlacementModelJob200Response | ModelInferenceGetSensorPlacementModelJobDefaultResponse>;
+    put(options: ModelInferenceCreateSensorPlacementModelJobParameters): StreamableMethod<ModelInferenceCreateSensorPlacementModelJob202Response | ModelInferenceCreateSensorPlacementModelJobDefaultResponse>;
+}
+
+// @public
+export interface ModelInferenceCreateSensorPlacementModelJob202Response extends HttpResponse {
+    // (undocumented)
+    body: SensorPlacementModelJobOutput;
+    // (undocumented)
+    status: "202";
+}
+
+// @public (undocumented)
+export interface ModelInferenceCreateSensorPlacementModelJobBodyParam {
+    body: SensorPlacementModelJob;
+}
+
+// @public (undocumented)
+export interface ModelInferenceCreateSensorPlacementModelJobDefaultHeaders {
+    // (undocumented)
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface ModelInferenceCreateSensorPlacementModelJobDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & ModelInferenceCreateSensorPlacementModelJobDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface ModelInferenceCreateSensorPlacementModelJobMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type ModelInferenceCreateSensorPlacementModelJobParameters = ModelInferenceCreateSensorPlacementModelJobMediaTypesParam & ModelInferenceCreateSensorPlacementModelJobBodyParam & RequestParameters;
+
+// @public (undocumented)
 export interface ModelInferenceCreateSoilMoistureModelJob {
-    get(options?: ModelInferenceGetSoilMoistureModelJobParameters): StreamableMethod<ModelInferenceGetSoilMoistureModelJob200Response | ModelInferenceGetSoilMoistureModelJobdefaultResponse>;
-    put(options: ModelInferenceCreateSoilMoistureModelJobParameters): StreamableMethod<ModelInferenceCreateSoilMoistureModelJob202Response | ModelInferenceCreateSoilMoistureModelJobdefaultResponse>;
+    get(options?: ModelInferenceGetSoilMoistureModelJobParameters): StreamableMethod<ModelInferenceGetSoilMoistureModelJob200Response | ModelInferenceGetSoilMoistureModelJobDefaultResponse>;
+    put(options: ModelInferenceCreateSoilMoistureModelJobParameters): StreamableMethod<ModelInferenceCreateSoilMoistureModelJob202Response | ModelInferenceCreateSoilMoistureModelJobDefaultResponse>;
 }
 
 // @public
@@ -5099,17 +4941,17 @@ export interface ModelInferenceCreateSoilMoistureModelJobBodyParam {
 }
 
 // @public (undocumented)
-export interface ModelInferenceCreateSoilMoistureModelJobdefaultHeaders {
+export interface ModelInferenceCreateSoilMoistureModelJobDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface ModelInferenceCreateSoilMoistureModelJobdefaultResponse extends HttpResponse {
+export interface ModelInferenceCreateSoilMoistureModelJobDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ModelInferenceCreateSoilMoistureModelJobdefaultHeaders;
+    headers: RawHttpHeaders & ModelInferenceCreateSoilMoistureModelJobDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5131,23 +4973,50 @@ export interface ModelInferenceGetBiomassModelJob200Response extends HttpRespons
 }
 
 // @public (undocumented)
-export interface ModelInferenceGetBiomassModelJobdefaultHeaders {
+export interface ModelInferenceGetBiomassModelJobDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface ModelInferenceGetBiomassModelJobdefaultResponse extends HttpResponse {
+export interface ModelInferenceGetBiomassModelJobDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ModelInferenceGetBiomassModelJobdefaultHeaders;
+    headers: RawHttpHeaders & ModelInferenceGetBiomassModelJobDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
 export type ModelInferenceGetBiomassModelJobParameters = RequestParameters;
+
+// @public
+export interface ModelInferenceGetSensorPlacementModelJob200Response extends HttpResponse {
+    // (undocumented)
+    body: SensorPlacementModelJobOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ModelInferenceGetSensorPlacementModelJobDefaultHeaders {
+    // (undocumented)
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface ModelInferenceGetSensorPlacementModelJobDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & ModelInferenceGetSensorPlacementModelJobDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type ModelInferenceGetSensorPlacementModelJobParameters = RequestParameters;
 
 // @public
 export interface ModelInferenceGetSoilMoistureModelJob200Response extends HttpResponse {
@@ -5158,17 +5027,17 @@ export interface ModelInferenceGetSoilMoistureModelJob200Response extends HttpRe
 }
 
 // @public (undocumented)
-export interface ModelInferenceGetSoilMoistureModelJobdefaultHeaders {
+export interface ModelInferenceGetSoilMoistureModelJobDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface ModelInferenceGetSoilMoistureModelJobdefaultResponse extends HttpResponse {
+export interface ModelInferenceGetSoilMoistureModelJobDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ModelInferenceGetSoilMoistureModelJobdefaultHeaders;
+    headers: RawHttpHeaders & ModelInferenceGetSoilMoistureModelJobDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5176,24 +5045,16 @@ export interface ModelInferenceGetSoilMoistureModelJobdefaultResponse extends Ht
 // @public (undocumented)
 export type ModelInferenceGetSoilMoistureModelJobParameters = RequestParameters;
 
-// @public (undocumented)
-export interface MultiPolygon extends GeoJsonObjectBase, MultiPolygonCoordinates {
+// @public
+export interface MultiPolygon extends GeoJsonObjectParent {
+    coordinates: Array<Array<Array<Array<number>>>>;
     // (undocumented)
     type: "MultiPolygon";
 }
 
-// @public (undocumented)
-export interface MultiPolygonCoordinates {
+// @public
+export interface MultiPolygonOutput extends GeoJsonObjectOutputParent {
     coordinates: Array<Array<Array<Array<number>>>>;
-}
-
-// @public (undocumented)
-export interface MultiPolygonCoordinatesOutput {
-    coordinates: Array<Array<Array<Array<number>>>>;
-}
-
-// @public (undocumented)
-export interface MultiPolygonOutput extends GeoJsonObjectOutputBase, MultiPolygonCoordinatesOutput {
     // (undocumented)
     type: "MultiPolygon";
 }
@@ -5216,21 +5077,21 @@ export interface NutrientAnalysesCreateOrUpdate201Response extends HttpResponse 
 
 // @public (undocumented)
 export interface NutrientAnalysesCreateOrUpdateBodyParam {
-    body: NutrientAnalysis;
+    body: NutrientAnalysisResourceMergeAndPatch;
 }
 
 // @public (undocumented)
-export interface NutrientAnalysesCreateOrUpdatedefaultHeaders {
+export interface NutrientAnalysesCreateOrUpdateDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface NutrientAnalysesCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface NutrientAnalysesCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & NutrientAnalysesCreateOrUpdatedefaultHeaders;
+    headers: RawHttpHeaders & NutrientAnalysesCreateOrUpdateDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5252,17 +5113,17 @@ export interface NutrientAnalysesDelete204Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface NutrientAnalysesDeletedefaultHeaders {
+export interface NutrientAnalysesDeleteDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface NutrientAnalysesDeletedefaultResponse extends HttpResponse {
+export interface NutrientAnalysesDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & NutrientAnalysesDeletedefaultHeaders;
+    headers: RawHttpHeaders & NutrientAnalysesDeleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5272,9 +5133,9 @@ export type NutrientAnalysesDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface NutrientAnalysesGet {
-    delete(options?: NutrientAnalysesDeleteParameters): StreamableMethod<NutrientAnalysesDelete204Response | NutrientAnalysesDeletedefaultResponse>;
-    get(options?: NutrientAnalysesGetParameters): StreamableMethod<NutrientAnalysesGet200Response | NutrientAnalysesGetdefaultResponse>;
-    patch(options: NutrientAnalysesCreateOrUpdateParameters): StreamableMethod<NutrientAnalysesCreateOrUpdate200Response | NutrientAnalysesCreateOrUpdate201Response | NutrientAnalysesCreateOrUpdatedefaultResponse>;
+    delete(options?: NutrientAnalysesDeleteParameters): StreamableMethod<NutrientAnalysesDelete204Response | NutrientAnalysesDeleteDefaultResponse>;
+    get(options?: NutrientAnalysesGetParameters): StreamableMethod<NutrientAnalysesGet200Response | NutrientAnalysesGetDefaultResponse>;
+    patch(options: NutrientAnalysesCreateOrUpdateParameters): StreamableMethod<NutrientAnalysesCreateOrUpdate200Response | NutrientAnalysesCreateOrUpdate201Response | NutrientAnalysesCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -5286,17 +5147,17 @@ export interface NutrientAnalysesGet200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface NutrientAnalysesGetdefaultHeaders {
+export interface NutrientAnalysesGetDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface NutrientAnalysesGetdefaultResponse extends HttpResponse {
+export interface NutrientAnalysesGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & NutrientAnalysesGetdefaultHeaders;
+    headers: RawHttpHeaders & NutrientAnalysesGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5306,7 +5167,7 @@ export type NutrientAnalysesGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface NutrientAnalysesList {
-    get(options?: NutrientAnalysesListParameters): StreamableMethod<NutrientAnalysesList200Response | NutrientAnalysesListdefaultResponse>;
+    get(options?: NutrientAnalysesListParameters): StreamableMethod<NutrientAnalysesList200Response | NutrientAnalysesListDefaultResponse>;
 }
 
 // @public
@@ -5318,12 +5179,12 @@ export interface NutrientAnalysesList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface NutrientAnalysesListByFarmerId {
-    get(options?: NutrientAnalysesListByFarmerIdParameters): StreamableMethod<NutrientAnalysesListByFarmerId200Response | NutrientAnalysesListByFarmerIddefaultResponse>;
+export interface NutrientAnalysesListByPartyId {
+    get(options?: NutrientAnalysesListByPartyIdParameters): StreamableMethod<NutrientAnalysesListByPartyId200Response | NutrientAnalysesListByPartyIdDefaultResponse>;
 }
 
 // @public
-export interface NutrientAnalysesListByFarmerId200Response extends HttpResponse {
+export interface NutrientAnalysesListByPartyId200Response extends HttpResponse {
     // (undocumented)
     body: NutrientAnalysisListResponseOutput;
     // (undocumented)
@@ -5331,59 +5192,59 @@ export interface NutrientAnalysesListByFarmerId200Response extends HttpResponse 
 }
 
 // @public (undocumented)
-export interface NutrientAnalysesListByFarmerIddefaultHeaders {
+export interface NutrientAnalysesListByPartyIdDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface NutrientAnalysesListByFarmerIddefaultResponse extends HttpResponse {
+export interface NutrientAnalysesListByPartyIdDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & NutrientAnalysesListByFarmerIddefaultHeaders;
+    headers: RawHttpHeaders & NutrientAnalysesListByPartyIdDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export type NutrientAnalysesListByFarmerIdParameters = NutrientAnalysesListByFarmerIdQueryParam & RequestParameters;
+export type NutrientAnalysesListByPartyIdParameters = NutrientAnalysesListByPartyIdQueryParam & RequestParameters;
 
 // @public (undocumented)
-export interface NutrientAnalysesListByFarmerIdQueryParam {
+export interface NutrientAnalysesListByPartyIdQueryParam {
     // (undocumented)
-    queryParameters?: NutrientAnalysesListByFarmerIdQueryParamProperties;
+    queryParameters?: NutrientAnalysesListByPartyIdQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface NutrientAnalysesListByFarmerIdQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    classifications?: Array<string>;
-    ids?: Array<string>;
+export interface NutrientAnalysesListByPartyIdQueryParamProperties {
+    classifications?: string;
+    ids?: string;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
+    maxPageSize?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
-    names?: Array<string>;
-    parentIds?: Array<string>;
+    names?: string;
+    parentIds?: string;
     parentType?: string;
-    propertyFilters?: Array<string>;
-    statuses?: Array<string>;
+    propertyFilters?: string;
+    skipToken?: string;
+    statuses?: string;
 }
 
 // @public (undocumented)
-export interface NutrientAnalysesListdefaultHeaders {
+export interface NutrientAnalysesListDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface NutrientAnalysesListdefaultResponse extends HttpResponse {
+export interface NutrientAnalysesListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & NutrientAnalysesListdefaultHeaders;
+    headers: RawHttpHeaders & NutrientAnalysesListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5399,30 +5260,25 @@ export interface NutrientAnalysesListQueryParam {
 
 // @public (undocumented)
 export interface NutrientAnalysesListQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    classifications?: Array<string>;
-    ids?: Array<string>;
+    classifications?: string;
+    ids?: string;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
+    maxPageSize?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
-    names?: Array<string>;
-    parentIds?: Array<string>;
+    names?: string;
+    parentIds?: string;
     parentType?: string;
-    propertyFilters?: Array<string>;
-    statuses?: Array<string>;
+    propertyFilters?: string;
+    skipToken?: string;
+    statuses?: string;
 }
 
-// @public (undocumented)
-export interface NutrientAnalysis extends Record<string, unknown> {
+// @public
+export interface NutrientAnalysis {
     classification?: string;
-    createdDateTime?: Date | string;
     description?: string;
-    eTag?: string;
-    farmerId?: string;
-    id?: string;
-    modifiedDateTime?: Date | string;
     name?: string;
     parentId?: string;
     parentType?: "PlantTissueAnalysis";
@@ -5437,25 +5293,27 @@ export interface NutrientAnalysis extends Record<string, unknown> {
     value?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface NutrientAnalysisListResponseOutput {
-    $skipToken?: string;
     nextLink?: string;
-    value?: Array<NutrientAnalysisOutput>;
+    skipToken?: string;
+    value: Array<NutrientAnalysisOutput>;
 }
 
-// @public (undocumented)
-export interface NutrientAnalysisOutput extends Record<string, unknown> {
+// @public
+export interface NutrientAnalysisOutput {
     classification?: string;
-    createdDateTime?: string;
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     description?: string;
-    eTag?: string;
-    farmerId?: string;
-    id?: string;
-    modifiedDateTime?: string;
+    readonly eTag?: string;
+    readonly id?: string;
+    readonly modifiedBy?: string;
+    readonly modifiedDateTime?: string;
     name?: string;
     parentId?: string;
     parentType?: "PlantTissueAnalysis";
+    readonly partyId?: string;
     products?: Array<ProductDetailsOutput>;
     properties?: Record<string, any>;
     recommendation?: string;
@@ -5467,66 +5325,73 @@ export interface NutrientAnalysisOutput extends Record<string, unknown> {
     value?: number;
 }
 
-// @public (undocumented)
+// @public
+export type NutrientAnalysisResourceMergeAndPatch = Partial<NutrientAnalysis>;
+
+// @public
 export interface OAuthConnectRequest {
-    farmerId: string;
     oAuthProviderId: string;
+    partyId: string;
     userRedirectLink: string;
     userRedirectState?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface OAuthProvider {
     apiKey?: string;
     appId?: string;
     appSecret?: string;
-    createdDateTime?: Date | string;
     description?: string;
-    eTag?: string;
-    id?: string;
     isProductionApp?: boolean;
-    modifiedDateTime?: Date | string;
     name?: string;
     properties?: Record<string, any>;
 }
 
-// @public (undocumented)
-export interface OAuthProviderCascadeDeleteJobOutput extends Record<string, unknown> {
-    createdDateTime?: string;
+// @public
+export interface OAuthProviderCascadeDeleteJobOutput {
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     description?: string;
-    durationInSeconds?: number;
-    endTime?: string;
-    id?: string;
-    lastActionDateTime?: string;
-    message?: string;
+    readonly durationInSeconds?: number;
+    readonly endTime?: string;
+    readonly errorCode?: string;
+    readonly id?: string;
+    readonly lastActionDateTime?: string;
+    readonly message?: string;
+    readonly modifiedBy?: string;
     name?: string;
     oauthProviderId: string;
     properties?: Record<string, any>;
-    startTime?: string;
-    status?: string;
+    readonly startTime?: string;
+    readonly status?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface OAuthProviderListResponseOutput {
-    $skipToken?: string;
     nextLink?: string;
-    value?: Array<OAuthProviderOutput>;
+    skipToken?: string;
+    value: Array<OAuthProviderOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface OAuthProviderOutput {
     apiKey?: string;
     appId?: string;
     appSecret?: string;
-    createdDateTime?: string;
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     description?: string;
-    eTag?: string;
-    id?: string;
+    readonly eTag?: string;
+    readonly id?: string;
     isProductionApp?: boolean;
-    modifiedDateTime?: string;
+    readonly modifiedBy?: string;
+    readonly modifiedDateTime?: string;
     name?: string;
     properties?: Record<string, any>;
 }
+
+// @public
+export type OAuthProviderResourceMergeAndPatch = Partial<OAuthProvider>;
 
 // @public
 export interface OAuthProvidersCreateCascadeDeleteJob202Response extends HttpResponse {
@@ -5537,17 +5402,17 @@ export interface OAuthProvidersCreateCascadeDeleteJob202Response extends HttpRes
 }
 
 // @public (undocumented)
-export interface OAuthProvidersCreateCascadeDeleteJobdefaultHeaders {
+export interface OAuthProvidersCreateCascadeDeleteJobDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface OAuthProvidersCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
+export interface OAuthProvidersCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & OAuthProvidersCreateCascadeDeleteJobdefaultHeaders;
+    headers: RawHttpHeaders & OAuthProvidersCreateCascadeDeleteJobDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5584,21 +5449,21 @@ export interface OAuthProvidersCreateOrUpdate201Response extends HttpResponse {
 
 // @public (undocumented)
 export interface OAuthProvidersCreateOrUpdateBodyParam {
-    body: OAuthProvider;
+    body: OAuthProviderResourceMergeAndPatch;
 }
 
 // @public (undocumented)
-export interface OAuthProvidersCreateOrUpdatedefaultHeaders {
+export interface OAuthProvidersCreateOrUpdateDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface OAuthProvidersCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface OAuthProvidersCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & OAuthProvidersCreateOrUpdatedefaultHeaders;
+    headers: RawHttpHeaders & OAuthProvidersCreateOrUpdateDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5620,17 +5485,17 @@ export interface OAuthProvidersDelete204Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface OAuthProvidersDeletedefaultHeaders {
+export interface OAuthProvidersDeleteDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface OAuthProvidersDeletedefaultResponse extends HttpResponse {
+export interface OAuthProvidersDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & OAuthProvidersDeletedefaultHeaders;
+    headers: RawHttpHeaders & OAuthProvidersDeleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5640,9 +5505,9 @@ export type OAuthProvidersDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface OAuthProvidersGet {
-    delete(options?: OAuthProvidersDeleteParameters): StreamableMethod<OAuthProvidersDelete204Response | OAuthProvidersDeletedefaultResponse>;
-    get(options?: OAuthProvidersGetParameters): StreamableMethod<OAuthProvidersGet200Response | OAuthProvidersGetdefaultResponse>;
-    patch(options: OAuthProvidersCreateOrUpdateParameters): StreamableMethod<OAuthProvidersCreateOrUpdate200Response | OAuthProvidersCreateOrUpdate201Response | OAuthProvidersCreateOrUpdatedefaultResponse>;
+    delete(options?: OAuthProvidersDeleteParameters): StreamableMethod<OAuthProvidersDelete204Response | OAuthProvidersDeleteDefaultResponse>;
+    get(options?: OAuthProvidersGetParameters): StreamableMethod<OAuthProvidersGet200Response | OAuthProvidersGetDefaultResponse>;
+    patch(options: OAuthProvidersCreateOrUpdateParameters): StreamableMethod<OAuthProvidersCreateOrUpdate200Response | OAuthProvidersCreateOrUpdate201Response | OAuthProvidersCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -5655,8 +5520,8 @@ export interface OAuthProvidersGet200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface OAuthProvidersGetCascadeDeleteJobDetails {
-    get(options?: OAuthProvidersGetCascadeDeleteJobDetailsParameters): StreamableMethod<OAuthProvidersGetCascadeDeleteJobDetails200Response | OAuthProvidersGetCascadeDeleteJobDetailsdefaultResponse>;
-    put(options: OAuthProvidersCreateCascadeDeleteJobParameters): StreamableMethod<OAuthProvidersCreateCascadeDeleteJob202Response | OAuthProvidersCreateCascadeDeleteJobdefaultResponse>;
+    get(options?: OAuthProvidersGetCascadeDeleteJobDetailsParameters): StreamableMethod<OAuthProvidersGetCascadeDeleteJobDetails200Response | OAuthProvidersGetCascadeDeleteJobDetailsDefaultResponse>;
+    put(options: OAuthProvidersCreateCascadeDeleteJobParameters): StreamableMethod<OAuthProvidersCreateCascadeDeleteJob202Response | OAuthProvidersCreateCascadeDeleteJobDefaultResponse>;
 }
 
 // @public
@@ -5668,17 +5533,17 @@ export interface OAuthProvidersGetCascadeDeleteJobDetails200Response extends Htt
 }
 
 // @public (undocumented)
-export interface OAuthProvidersGetCascadeDeleteJobDetailsdefaultHeaders {
+export interface OAuthProvidersGetCascadeDeleteJobDetailsDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface OAuthProvidersGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
+export interface OAuthProvidersGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & OAuthProvidersGetCascadeDeleteJobDetailsdefaultHeaders;
+    headers: RawHttpHeaders & OAuthProvidersGetCascadeDeleteJobDetailsDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5687,17 +5552,17 @@ export interface OAuthProvidersGetCascadeDeleteJobDetailsdefaultResponse extends
 export type OAuthProvidersGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
 // @public (undocumented)
-export interface OAuthProvidersGetdefaultHeaders {
+export interface OAuthProvidersGetDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface OAuthProvidersGetdefaultResponse extends HttpResponse {
+export interface OAuthProvidersGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & OAuthProvidersGetdefaultHeaders;
+    headers: RawHttpHeaders & OAuthProvidersGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5707,7 +5572,7 @@ export type OAuthProvidersGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface OAuthProvidersList {
-    get(options?: OAuthProvidersListParameters): StreamableMethod<OAuthProvidersList200Response | OAuthProvidersListdefaultResponse>;
+    get(options?: OAuthProvidersListParameters): StreamableMethod<OAuthProvidersList200Response | OAuthProvidersListDefaultResponse>;
 }
 
 // @public
@@ -5719,17 +5584,17 @@ export interface OAuthProvidersList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface OAuthProvidersListdefaultHeaders {
+export interface OAuthProvidersListDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface OAuthProvidersListdefaultResponse extends HttpResponse {
+export interface OAuthProvidersListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & OAuthProvidersListdefaultHeaders;
+    headers: RawHttpHeaders & OAuthProvidersListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5745,39 +5610,33 @@ export interface OAuthProvidersListQueryParam {
 
 // @public (undocumented)
 export interface OAuthProvidersListQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    ids?: Array<string>;
+    ids?: string;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
+    maxPageSize?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    statuses?: Array<string>;
+    names?: string;
+    propertyFilters?: string;
+    skipToken?: string;
+    statuses?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface OAuthTokenListResponseOutput {
-    $skipToken?: string;
     nextLink?: string;
-    value?: Array<OAuthTokenOutput>;
+    skipToken?: string;
+    value: Array<OAuthTokenOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface OAuthTokenOutput {
     authProviderId: string;
-    createdDateTime?: string;
-    eTag?: string;
-    farmerId: string;
+    readonly createdDateTime?: string;
+    readonly eTag?: string;
     isValid?: boolean;
-    modifiedDateTime?: string;
-}
-
-// @public (undocumented)
-export interface OAuthTokensCreateCascadeDeleteJob {
-    get(options?: OAuthTokensGetCascadeDeleteJobDetailsParameters): StreamableMethod<OAuthTokensGetCascadeDeleteJobDetails200Response | OAuthTokensGetCascadeDeleteJobDetailsdefaultResponse>;
-    put(options: OAuthTokensCreateCascadeDeleteJobParameters): StreamableMethod<OAuthTokensCreateCascadeDeleteJob202Response | OAuthTokensCreateCascadeDeleteJobdefaultResponse>;
+    readonly modifiedDateTime?: string;
+    partyId: string;
 }
 
 // @public
@@ -5789,17 +5648,17 @@ export interface OAuthTokensCreateCascadeDeleteJob202Response extends HttpRespon
 }
 
 // @public (undocumented)
-export interface OAuthTokensCreateCascadeDeleteJobdefaultHeaders {
+export interface OAuthTokensCreateCascadeDeleteJobDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface OAuthTokensCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
+export interface OAuthTokensCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & OAuthTokensCreateCascadeDeleteJobdefaultHeaders;
+    headers: RawHttpHeaders & OAuthTokensCreateCascadeDeleteJobDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5815,8 +5674,14 @@ export interface OAuthTokensCreateCascadeDeleteJobQueryParam {
 
 // @public (undocumented)
 export interface OAuthTokensCreateCascadeDeleteJobQueryParamProperties {
-    farmerId: string;
     oauthProviderId: string;
+    partyId: string;
+}
+
+// @public (undocumented)
+export interface OAuthTokensGetCascadeDeleteJobDetails {
+    get(options?: OAuthTokensGetCascadeDeleteJobDetailsParameters): StreamableMethod<OAuthTokensGetCascadeDeleteJobDetails200Response | OAuthTokensGetCascadeDeleteJobDetailsDefaultResponse>;
+    put(options: OAuthTokensCreateCascadeDeleteJobParameters): StreamableMethod<OAuthTokensCreateCascadeDeleteJob202Response | OAuthTokensCreateCascadeDeleteJobDefaultResponse>;
 }
 
 // @public
@@ -5828,17 +5693,17 @@ export interface OAuthTokensGetCascadeDeleteJobDetails200Response extends HttpRe
 }
 
 // @public (undocumented)
-export interface OAuthTokensGetCascadeDeleteJobDetailsdefaultHeaders {
+export interface OAuthTokensGetCascadeDeleteJobDetailsDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface OAuthTokensGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
+export interface OAuthTokensGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & OAuthTokensGetCascadeDeleteJobDetailsdefaultHeaders;
+    headers: RawHttpHeaders & OAuthTokensGetCascadeDeleteJobDetailsDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5848,7 +5713,7 @@ export type OAuthTokensGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
 // @public (undocumented)
 export interface OAuthTokensGetOAuthConnectionLink {
-    post(options: OAuthTokensGetOAuthConnectionLinkParameters): StreamableMethod<OAuthTokensGetOAuthConnectionLink200Response | OAuthTokensGetOAuthConnectionLinkdefaultResponse>;
+    post(options: OAuthTokensGetOAuthConnectionLinkParameters): StreamableMethod<OAuthTokensGetOAuthConnectionLink200Response | OAuthTokensGetOAuthConnectionLinkDefaultResponse>;
 }
 
 // @public
@@ -5865,17 +5730,17 @@ export interface OAuthTokensGetOAuthConnectionLinkBodyParam {
 }
 
 // @public (undocumented)
-export interface OAuthTokensGetOAuthConnectionLinkdefaultHeaders {
+export interface OAuthTokensGetOAuthConnectionLinkDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface OAuthTokensGetOAuthConnectionLinkdefaultResponse extends HttpResponse {
+export interface OAuthTokensGetOAuthConnectionLinkDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & OAuthTokensGetOAuthConnectionLinkdefaultHeaders;
+    headers: RawHttpHeaders & OAuthTokensGetOAuthConnectionLinkDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5890,7 +5755,7 @@ export type OAuthTokensGetOAuthConnectionLinkParameters = OAuthTokensGetOAuthCon
 
 // @public (undocumented)
 export interface OAuthTokensList {
-    get(options?: OAuthTokensListParameters): StreamableMethod<OAuthTokensList200Response | OAuthTokensListdefaultResponse>;
+    get(options?: OAuthTokensListParameters): StreamableMethod<OAuthTokensList200Response | OAuthTokensListDefaultResponse>;
 }
 
 // @public
@@ -5902,17 +5767,17 @@ export interface OAuthTokensList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface OAuthTokensListdefaultHeaders {
+export interface OAuthTokensListDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface OAuthTokensListdefaultResponse extends HttpResponse {
+export interface OAuthTokensListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & OAuthTokensListdefaultHeaders;
+    headers: RawHttpHeaders & OAuthTokensListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5928,15 +5793,15 @@ export interface OAuthTokensListQueryParam {
 
 // @public (undocumented)
 export interface OAuthTokensListQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    authProviderIds?: Array<string>;
-    farmerIds?: Array<string>;
+    authProviderIds?: string;
     isValid?: boolean;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
+    maxPageSize?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
+    partyIds?: string;
+    skipToken?: string;
 }
 
 // @public
@@ -5954,19 +5819,276 @@ export interface PagingOptions<TResponse> {
     customGetPage?: GetPage<PaginateReturn<TResponse>[]>;
 }
 
+// @public
+export interface PartiesCreateCascadeDeleteJob202Response extends HttpResponse {
+    // (undocumented)
+    body: CascadeDeleteJobOutput;
+    // (undocumented)
+    status: "202";
+}
+
 // @public (undocumented)
-export interface PlantingData extends Record<string, unknown> {
+export interface PartiesCreateCascadeDeleteJobDefaultHeaders {
+    // (undocumented)
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface PartiesCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & PartiesCreateCascadeDeleteJobDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type PartiesCreateCascadeDeleteJobParameters = PartiesCreateCascadeDeleteJobQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface PartiesCreateCascadeDeleteJobQueryParam {
+    // (undocumented)
+    queryParameters: PartiesCreateCascadeDeleteJobQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface PartiesCreateCascadeDeleteJobQueryParamProperties {
+    partyId: string;
+}
+
+// @public
+export interface PartiesCreateOrUpdate200Response extends HttpResponse {
+    // (undocumented)
+    body: PartyOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface PartiesCreateOrUpdate201Response extends HttpResponse {
+    // (undocumented)
+    body: PartyOutput;
+    // (undocumented)
+    status: "201";
+}
+
+// @public (undocumented)
+export interface PartiesCreateOrUpdateBodyParam {
+    body: PartyResourceMergeAndPatch;
+}
+
+// @public (undocumented)
+export interface PartiesCreateOrUpdateDefaultHeaders {
+    // (undocumented)
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface PartiesCreateOrUpdateDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & PartiesCreateOrUpdateDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface PartiesCreateOrUpdateMediaTypesParam {
+    contentType?: "application/merge-patch+json";
+}
+
+// @public (undocumented)
+export type PartiesCreateOrUpdateParameters = PartiesCreateOrUpdateMediaTypesParam & PartiesCreateOrUpdateBodyParam & RequestParameters;
+
+// @public
+export interface PartiesDelete204Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface PartiesDeleteDefaultHeaders {
+    // (undocumented)
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface PartiesDeleteDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & PartiesDeleteDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type PartiesDeleteParameters = RequestParameters;
+
+// @public (undocumented)
+export interface PartiesGet {
+    delete(options?: PartiesDeleteParameters): StreamableMethod<PartiesDelete204Response | PartiesDeleteDefaultResponse>;
+    get(options?: PartiesGetParameters): StreamableMethod<PartiesGet200Response | PartiesGetDefaultResponse>;
+    patch(options: PartiesCreateOrUpdateParameters): StreamableMethod<PartiesCreateOrUpdate200Response | PartiesCreateOrUpdate201Response | PartiesCreateOrUpdateDefaultResponse>;
+}
+
+// @public
+export interface PartiesGet200Response extends HttpResponse {
+    // (undocumented)
+    body: PartyOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface PartiesGetCascadeDeleteJobDetails {
+    get(options?: PartiesGetCascadeDeleteJobDetailsParameters): StreamableMethod<PartiesGetCascadeDeleteJobDetails200Response | PartiesGetCascadeDeleteJobDetailsDefaultResponse>;
+    put(options: PartiesCreateCascadeDeleteJobParameters): StreamableMethod<PartiesCreateCascadeDeleteJob202Response | PartiesCreateCascadeDeleteJobDefaultResponse>;
+}
+
+// @public
+export interface PartiesGetCascadeDeleteJobDetails200Response extends HttpResponse {
+    // (undocumented)
+    body: CascadeDeleteJobOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface PartiesGetCascadeDeleteJobDetailsDefaultHeaders {
+    // (undocumented)
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface PartiesGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & PartiesGetCascadeDeleteJobDetailsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type PartiesGetCascadeDeleteJobDetailsParameters = RequestParameters;
+
+// @public (undocumented)
+export interface PartiesGetDefaultHeaders {
+    // (undocumented)
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface PartiesGetDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & PartiesGetDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type PartiesGetParameters = RequestParameters;
+
+// @public (undocumented)
+export interface PartiesList {
+    get(options?: PartiesListParameters): StreamableMethod<PartiesList200Response | PartiesListDefaultResponse>;
+}
+
+// @public
+export interface PartiesList200Response extends HttpResponse {
+    // (undocumented)
+    body: PartyListResponseOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface PartiesListDefaultHeaders {
+    // (undocumented)
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface PartiesListDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & PartiesListDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type PartiesListParameters = PartiesListQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface PartiesListQueryParam {
+    // (undocumented)
+    queryParameters?: PartiesListQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface PartiesListQueryParamProperties {
+    ids?: string;
+    maxCreatedDateTime?: Date | string;
+    maxLastModifiedDateTime?: Date | string;
+    maxPageSize?: number;
+    minCreatedDateTime?: Date | string;
+    minLastModifiedDateTime?: Date | string;
+    names?: string;
+    propertyFilters?: string;
+    skipToken?: string;
+    statuses?: string;
+}
+
+// @public
+export interface Party {
+    description?: string;
+    name?: string;
+    properties?: Record<string, any>;
+    source?: string;
+    status?: string;
+}
+
+// @public
+export interface PartyListResponseOutput {
+    nextLink?: string;
+    skipToken?: string;
+    value: Array<PartyOutput>;
+}
+
+// @public
+export interface PartyOutput {
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
+    description?: string;
+    readonly eTag?: string;
+    readonly id?: string;
+    readonly modifiedBy?: string;
+    readonly modifiedDateTime?: string;
+    name?: string;
+    properties?: Record<string, any>;
+    source?: string;
+    status?: string;
+}
+
+// @public
+export type PartyResourceMergeAndPatch = Partial<Party>;
+
+// @public
+export interface PlantingData {
     area?: Measure;
     associatedBoundaryId?: string;
-    attachmentsLink?: string;
     avgMaterial?: Measure;
     avgPlantingRate?: Measure;
-    createdDateTime?: Date | string;
     description?: string;
-    eTag?: string;
-    farmerId?: string;
-    id?: string;
-    modifiedDateTime?: Date | string;
     name?: string;
     operationEndDateTime?: Date | string;
     operationModifiedDateTime?: Date | string;
@@ -5980,8 +6102,8 @@ export interface PlantingData extends Record<string, unknown> {
 
 // @public (undocumented)
 export interface PlantingDataCreateCascadeDeleteJob {
-    get(options?: PlantingDataGetCascadeDeleteJobDetailsParameters): StreamableMethod<PlantingDataGetCascadeDeleteJobDetails200Response | PlantingDataGetCascadeDeleteJobDetailsdefaultResponse>;
-    put(options: PlantingDataCreateCascadeDeleteJobParameters): StreamableMethod<PlantingDataCreateCascadeDeleteJob202Response | PlantingDataCreateCascadeDeleteJobdefaultResponse>;
+    get(options?: PlantingDataGetCascadeDeleteJobDetailsParameters): StreamableMethod<PlantingDataGetCascadeDeleteJobDetails200Response | PlantingDataGetCascadeDeleteJobDetailsDefaultResponse>;
+    put(options: PlantingDataCreateCascadeDeleteJobParameters): StreamableMethod<PlantingDataCreateCascadeDeleteJob202Response | PlantingDataCreateCascadeDeleteJobDefaultResponse>;
 }
 
 // @public
@@ -5993,17 +6115,17 @@ export interface PlantingDataCreateCascadeDeleteJob202Response extends HttpRespo
 }
 
 // @public (undocumented)
-export interface PlantingDataCreateCascadeDeleteJobdefaultHeaders {
+export interface PlantingDataCreateCascadeDeleteJobDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface PlantingDataCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
+export interface PlantingDataCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & PlantingDataCreateCascadeDeleteJobdefaultHeaders;
+    headers: RawHttpHeaders & PlantingDataCreateCascadeDeleteJobDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -6019,7 +6141,7 @@ export interface PlantingDataCreateCascadeDeleteJobQueryParam {
 
 // @public (undocumented)
 export interface PlantingDataCreateCascadeDeleteJobQueryParamProperties {
-    farmerId: string;
+    partyId: string;
     plantingDataId: string;
 }
 
@@ -6041,21 +6163,21 @@ export interface PlantingDataCreateOrUpdate201Response extends HttpResponse {
 
 // @public (undocumented)
 export interface PlantingDataCreateOrUpdateBodyParam {
-    body: PlantingData;
+    body: PlantingDataResourceMergeAndPatch;
 }
 
 // @public (undocumented)
-export interface PlantingDataCreateOrUpdatedefaultHeaders {
+export interface PlantingDataCreateOrUpdateDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface PlantingDataCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface PlantingDataCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & PlantingDataCreateOrUpdatedefaultHeaders;
+    headers: RawHttpHeaders & PlantingDataCreateOrUpdateDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -6077,17 +6199,17 @@ export interface PlantingDataDelete204Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface PlantingDataDeletedefaultHeaders {
+export interface PlantingDataDeleteDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface PlantingDataDeletedefaultResponse extends HttpResponse {
+export interface PlantingDataDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & PlantingDataDeletedefaultHeaders;
+    headers: RawHttpHeaders & PlantingDataDeleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -6097,9 +6219,9 @@ export type PlantingDataDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface PlantingDataGet {
-    delete(options?: PlantingDataDeleteParameters): StreamableMethod<PlantingDataDelete204Response | PlantingDataDeletedefaultResponse>;
-    get(options?: PlantingDataGetParameters): StreamableMethod<PlantingDataGet200Response | PlantingDataGetdefaultResponse>;
-    patch(options: PlantingDataCreateOrUpdateParameters): StreamableMethod<PlantingDataCreateOrUpdate200Response | PlantingDataCreateOrUpdate201Response | PlantingDataCreateOrUpdatedefaultResponse>;
+    delete(options?: PlantingDataDeleteParameters): StreamableMethod<PlantingDataDelete204Response | PlantingDataDeleteDefaultResponse>;
+    get(options?: PlantingDataGetParameters): StreamableMethod<PlantingDataGet200Response | PlantingDataGetDefaultResponse>;
+    patch(options: PlantingDataCreateOrUpdateParameters): StreamableMethod<PlantingDataCreateOrUpdate200Response | PlantingDataCreateOrUpdate201Response | PlantingDataCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -6119,17 +6241,17 @@ export interface PlantingDataGetCascadeDeleteJobDetails200Response extends HttpR
 }
 
 // @public (undocumented)
-export interface PlantingDataGetCascadeDeleteJobDetailsdefaultHeaders {
+export interface PlantingDataGetCascadeDeleteJobDetailsDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface PlantingDataGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
+export interface PlantingDataGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & PlantingDataGetCascadeDeleteJobDetailsdefaultHeaders;
+    headers: RawHttpHeaders & PlantingDataGetCascadeDeleteJobDetailsDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -6138,17 +6260,17 @@ export interface PlantingDataGetCascadeDeleteJobDetailsdefaultResponse extends H
 export type PlantingDataGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
 // @public (undocumented)
-export interface PlantingDataGetdefaultHeaders {
+export interface PlantingDataGetDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface PlantingDataGetdefaultResponse extends HttpResponse {
+export interface PlantingDataGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & PlantingDataGetdefaultHeaders;
+    headers: RawHttpHeaders & PlantingDataGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -6158,7 +6280,7 @@ export type PlantingDataGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface PlantingDataList {
-    get(options?: PlantingDataListParameters): StreamableMethod<PlantingDataList200Response | PlantingDataListdefaultResponse>;
+    get(options?: PlantingDataListParameters): StreamableMethod<PlantingDataList200Response | PlantingDataListDefaultResponse>;
 }
 
 // @public
@@ -6170,12 +6292,12 @@ export interface PlantingDataList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface PlantingDataListByFarmerId {
-    get(options?: PlantingDataListByFarmerIdParameters): StreamableMethod<PlantingDataListByFarmerId200Response | PlantingDataListByFarmerIddefaultResponse>;
+export interface PlantingDataListByPartyId {
+    get(options?: PlantingDataListByPartyIdParameters): StreamableMethod<PlantingDataListByPartyId200Response | PlantingDataListByPartyIdDefaultResponse>;
 }
 
 // @public
-export interface PlantingDataListByFarmerId200Response extends HttpResponse {
+export interface PlantingDataListByPartyId200Response extends HttpResponse {
     // (undocumented)
     body: PlantingDataListResponseOutput;
     // (undocumented)
@@ -6183,36 +6305,34 @@ export interface PlantingDataListByFarmerId200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface PlantingDataListByFarmerIddefaultHeaders {
+export interface PlantingDataListByPartyIdDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface PlantingDataListByFarmerIddefaultResponse extends HttpResponse {
+export interface PlantingDataListByPartyIdDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & PlantingDataListByFarmerIddefaultHeaders;
+    headers: RawHttpHeaders & PlantingDataListByPartyIdDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export type PlantingDataListByFarmerIdParameters = PlantingDataListByFarmerIdQueryParam & RequestParameters;
+export type PlantingDataListByPartyIdParameters = PlantingDataListByPartyIdQueryParam & RequestParameters;
 
 // @public (undocumented)
-export interface PlantingDataListByFarmerIdQueryParam {
+export interface PlantingDataListByPartyIdQueryParam {
     // (undocumented)
-    queryParameters?: PlantingDataListByFarmerIdQueryParamProperties;
+    queryParameters?: PlantingDataListByPartyIdQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface PlantingDataListByFarmerIdQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    associatedBoundaryIds?: Array<string>;
-    ids?: Array<string>;
+export interface PlantingDataListByPartyIdQueryParamProperties {
+    associatedBoundaryIds?: string;
+    ids?: string;
     maxArea?: number;
     maxAvgMaterial?: number;
     maxAvgPlantingRate?: number;
@@ -6221,6 +6341,7 @@ export interface PlantingDataListByFarmerIdQueryParamProperties {
     maxOperationEndDateTime?: Date | string;
     maxOperationModifiedDateTime?: Date | string;
     maxOperationStartDateTime?: Date | string;
+    maxPageSize?: number;
     maxTotalMaterial?: number;
     minArea?: number;
     minAvgMaterial?: number;
@@ -6231,24 +6352,25 @@ export interface PlantingDataListByFarmerIdQueryParamProperties {
     minOperationModifiedDateTime?: Date | string;
     minOperationStartDateTime?: Date | string;
     minTotalMaterial?: number;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    sources?: Array<string>;
-    statuses?: Array<string>;
+    names?: string;
+    propertyFilters?: string;
+    skipToken?: string;
+    sources?: string;
+    statuses?: string;
 }
 
 // @public (undocumented)
-export interface PlantingDataListdefaultHeaders {
+export interface PlantingDataListDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface PlantingDataListdefaultResponse extends HttpResponse {
+export interface PlantingDataListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & PlantingDataListdefaultHeaders;
+    headers: RawHttpHeaders & PlantingDataListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -6264,10 +6386,8 @@ export interface PlantingDataListQueryParam {
 
 // @public (undocumented)
 export interface PlantingDataListQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    associatedBoundaryIds?: Array<string>;
-    ids?: Array<string>;
+    associatedBoundaryIds?: string;
+    ids?: string;
     maxArea?: number;
     maxAvgMaterial?: number;
     maxAvgPlantingRate?: number;
@@ -6276,6 +6396,7 @@ export interface PlantingDataListQueryParamProperties {
     maxOperationEndDateTime?: Date | string;
     maxOperationModifiedDateTime?: Date | string;
     maxOperationStartDateTime?: Date | string;
+    maxPageSize?: number;
     maxTotalMaterial?: number;
     minArea?: number;
     minAvgMaterial?: number;
@@ -6286,36 +6407,39 @@ export interface PlantingDataListQueryParamProperties {
     minOperationModifiedDateTime?: Date | string;
     minOperationStartDateTime?: Date | string;
     minTotalMaterial?: number;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    sources?: Array<string>;
-    statuses?: Array<string>;
+    names?: string;
+    propertyFilters?: string;
+    skipToken?: string;
+    sources?: string;
+    statuses?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PlantingDataListResponseOutput {
-    $skipToken?: string;
     nextLink?: string;
-    value?: Array<PlantingDataOutput>;
+    skipToken?: string;
+    value: Array<PlantingDataOutput>;
 }
 
-// @public (undocumented)
-export interface PlantingDataOutput extends Record<string, unknown> {
+// @public
+export interface PlantingDataOutput {
     area?: MeasureOutput;
     associatedBoundaryId?: string;
-    attachmentsLink?: string;
+    readonly attachmentsLink?: string;
     avgMaterial?: MeasureOutput;
     avgPlantingRate?: MeasureOutput;
-    createdDateTime?: string;
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     description?: string;
-    eTag?: string;
-    farmerId?: string;
-    id?: string;
-    modifiedDateTime?: string;
+    readonly eTag?: string;
+    readonly id?: string;
+    readonly modifiedBy?: string;
+    readonly modifiedDateTime?: string;
     name?: string;
     operationEndDateTime?: string;
     operationModifiedDateTime?: string;
     operationStartDateTime?: string;
+    readonly partyId?: string;
     plantingProductDetails?: Array<PlantingProductDetailOutput>;
     properties?: Record<string, any>;
     source?: string;
@@ -6323,7 +6447,10 @@ export interface PlantingDataOutput extends Record<string, unknown> {
     totalMaterial?: MeasureOutput;
 }
 
-// @public (undocumented)
+// @public
+export type PlantingDataResourceMergeAndPatch = Partial<PlantingData>;
+
+// @public
 export interface PlantingProductDetail {
     area?: Measure;
     avgMaterial?: Measure;
@@ -6331,7 +6458,7 @@ export interface PlantingProductDetail {
     totalMaterial?: Measure;
 }
 
-// @public (undocumented)
+// @public
 export interface PlantingProductDetailOutput {
     area?: MeasureOutput;
     avgMaterial?: MeasureOutput;
@@ -6341,8 +6468,8 @@ export interface PlantingProductDetailOutput {
 
 // @public (undocumented)
 export interface PlantTissueAnalysesCreateCascadeDeleteJob {
-    get(options?: PlantTissueAnalysesGetCascadeDeleteJobDetailsParameters): StreamableMethod<PlantTissueAnalysesGetCascadeDeleteJobDetails200Response | PlantTissueAnalysesGetCascadeDeleteJobDetailsdefaultResponse>;
-    put(options: PlantTissueAnalysesCreateCascadeDeleteJobParameters): StreamableMethod<PlantTissueAnalysesCreateCascadeDeleteJob202Response | PlantTissueAnalysesCreateCascadeDeleteJobdefaultResponse>;
+    get(options?: PlantTissueAnalysesGetCascadeDeleteJobDetailsParameters): StreamableMethod<PlantTissueAnalysesGetCascadeDeleteJobDetails200Response | PlantTissueAnalysesGetCascadeDeleteJobDetailsDefaultResponse>;
+    put(options: PlantTissueAnalysesCreateCascadeDeleteJobParameters): StreamableMethod<PlantTissueAnalysesCreateCascadeDeleteJob202Response | PlantTissueAnalysesCreateCascadeDeleteJobDefaultResponse>;
 }
 
 // @public
@@ -6354,17 +6481,17 @@ export interface PlantTissueAnalysesCreateCascadeDeleteJob202Response extends Ht
 }
 
 // @public (undocumented)
-export interface PlantTissueAnalysesCreateCascadeDeleteJobdefaultHeaders {
+export interface PlantTissueAnalysesCreateCascadeDeleteJobDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface PlantTissueAnalysesCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
+export interface PlantTissueAnalysesCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & PlantTissueAnalysesCreateCascadeDeleteJobdefaultHeaders;
+    headers: RawHttpHeaders & PlantTissueAnalysesCreateCascadeDeleteJobDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -6380,7 +6507,7 @@ export interface PlantTissueAnalysesCreateCascadeDeleteJobQueryParam {
 
 // @public (undocumented)
 export interface PlantTissueAnalysesCreateCascadeDeleteJobQueryParamProperties {
-    farmerId: string;
+    partyId: string;
     plantTissueAnalysisId: string;
 }
 
@@ -6402,21 +6529,21 @@ export interface PlantTissueAnalysesCreateOrUpdate201Response extends HttpRespon
 
 // @public (undocumented)
 export interface PlantTissueAnalysesCreateOrUpdateBodyParam {
-    body: PlantTissueAnalysis;
+    body: PlantTissueAnalysisResourceMergeAndPatch;
 }
 
 // @public (undocumented)
-export interface PlantTissueAnalysesCreateOrUpdatedefaultHeaders {
+export interface PlantTissueAnalysesCreateOrUpdateDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface PlantTissueAnalysesCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface PlantTissueAnalysesCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & PlantTissueAnalysesCreateOrUpdatedefaultHeaders;
+    headers: RawHttpHeaders & PlantTissueAnalysesCreateOrUpdateDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -6438,17 +6565,17 @@ export interface PlantTissueAnalysesDelete204Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface PlantTissueAnalysesDeletedefaultHeaders {
+export interface PlantTissueAnalysesDeleteDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface PlantTissueAnalysesDeletedefaultResponse extends HttpResponse {
+export interface PlantTissueAnalysesDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & PlantTissueAnalysesDeletedefaultHeaders;
+    headers: RawHttpHeaders & PlantTissueAnalysesDeleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -6458,9 +6585,9 @@ export type PlantTissueAnalysesDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface PlantTissueAnalysesGet {
-    delete(options?: PlantTissueAnalysesDeleteParameters): StreamableMethod<PlantTissueAnalysesDelete204Response | PlantTissueAnalysesDeletedefaultResponse>;
-    get(options?: PlantTissueAnalysesGetParameters): StreamableMethod<PlantTissueAnalysesGet200Response | PlantTissueAnalysesGetdefaultResponse>;
-    patch(options: PlantTissueAnalysesCreateOrUpdateParameters): StreamableMethod<PlantTissueAnalysesCreateOrUpdate200Response | PlantTissueAnalysesCreateOrUpdate201Response | PlantTissueAnalysesCreateOrUpdatedefaultResponse>;
+    delete(options?: PlantTissueAnalysesDeleteParameters): StreamableMethod<PlantTissueAnalysesDelete204Response | PlantTissueAnalysesDeleteDefaultResponse>;
+    get(options?: PlantTissueAnalysesGetParameters): StreamableMethod<PlantTissueAnalysesGet200Response | PlantTissueAnalysesGetDefaultResponse>;
+    patch(options: PlantTissueAnalysesCreateOrUpdateParameters): StreamableMethod<PlantTissueAnalysesCreateOrUpdate200Response | PlantTissueAnalysesCreateOrUpdate201Response | PlantTissueAnalysesCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -6480,17 +6607,17 @@ export interface PlantTissueAnalysesGetCascadeDeleteJobDetails200Response extend
 }
 
 // @public (undocumented)
-export interface PlantTissueAnalysesGetCascadeDeleteJobDetailsdefaultHeaders {
+export interface PlantTissueAnalysesGetCascadeDeleteJobDetailsDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface PlantTissueAnalysesGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
+export interface PlantTissueAnalysesGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & PlantTissueAnalysesGetCascadeDeleteJobDetailsdefaultHeaders;
+    headers: RawHttpHeaders & PlantTissueAnalysesGetCascadeDeleteJobDetailsDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -6499,17 +6626,17 @@ export interface PlantTissueAnalysesGetCascadeDeleteJobDetailsdefaultResponse ex
 export type PlantTissueAnalysesGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
 // @public (undocumented)
-export interface PlantTissueAnalysesGetdefaultHeaders {
+export interface PlantTissueAnalysesGetDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface PlantTissueAnalysesGetdefaultResponse extends HttpResponse {
+export interface PlantTissueAnalysesGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & PlantTissueAnalysesGetdefaultHeaders;
+    headers: RawHttpHeaders & PlantTissueAnalysesGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -6519,7 +6646,7 @@ export type PlantTissueAnalysesGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface PlantTissueAnalysesList {
-    get(options?: PlantTissueAnalysesListParameters): StreamableMethod<PlantTissueAnalysesList200Response | PlantTissueAnalysesListdefaultResponse>;
+    get(options?: PlantTissueAnalysesListParameters): StreamableMethod<PlantTissueAnalysesList200Response | PlantTissueAnalysesListDefaultResponse>;
 }
 
 // @public
@@ -6531,12 +6658,12 @@ export interface PlantTissueAnalysesList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface PlantTissueAnalysesListByFarmerId {
-    get(options?: PlantTissueAnalysesListByFarmerIdParameters): StreamableMethod<PlantTissueAnalysesListByFarmerId200Response | PlantTissueAnalysesListByFarmerIddefaultResponse>;
+export interface PlantTissueAnalysesListByPartyId {
+    get(options?: PlantTissueAnalysesListByPartyIdParameters): StreamableMethod<PlantTissueAnalysesListByPartyId200Response | PlantTissueAnalysesListByPartyIdDefaultResponse>;
 }
 
 // @public
-export interface PlantTissueAnalysesListByFarmerId200Response extends HttpResponse {
+export interface PlantTissueAnalysesListByPartyId200Response extends HttpResponse {
     // (undocumented)
     body: PlantTissueAnalysisListResponseOutput;
     // (undocumented)
@@ -6544,60 +6671,60 @@ export interface PlantTissueAnalysesListByFarmerId200Response extends HttpRespon
 }
 
 // @public (undocumented)
-export interface PlantTissueAnalysesListByFarmerIddefaultHeaders {
+export interface PlantTissueAnalysesListByPartyIdDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface PlantTissueAnalysesListByFarmerIddefaultResponse extends HttpResponse {
+export interface PlantTissueAnalysesListByPartyIdDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & PlantTissueAnalysesListByFarmerIddefaultHeaders;
+    headers: RawHttpHeaders & PlantTissueAnalysesListByPartyIdDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export type PlantTissueAnalysesListByFarmerIdParameters = PlantTissueAnalysesListByFarmerIdQueryParam & RequestParameters;
+export type PlantTissueAnalysesListByPartyIdParameters = PlantTissueAnalysesListByPartyIdQueryParam & RequestParameters;
 
 // @public (undocumented)
-export interface PlantTissueAnalysesListByFarmerIdQueryParam {
+export interface PlantTissueAnalysesListByPartyIdQueryParam {
     // (undocumented)
-    queryParameters?: PlantTissueAnalysesListByFarmerIdQueryParamProperties;
+    queryParameters?: PlantTissueAnalysesListByPartyIdQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface PlantTissueAnalysesListByFarmerIdQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    cropIds?: Array<string>;
-    cropVarietiesIds?: Array<string>;
-    fieldIds?: Array<string>;
-    ids?: Array<string>;
+export interface PlantTissueAnalysesListByPartyIdQueryParamProperties {
+    cropIds?: string;
+    cropProductsIds?: string;
+    fieldIds?: string;
+    ids?: string;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
+    maxPageSize?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    seasonIds?: Array<string>;
-    statuses?: Array<string>;
+    names?: string;
+    propertyFilters?: string;
+    seasonIds?: string;
+    skipToken?: string;
+    statuses?: string;
 }
 
 // @public (undocumented)
-export interface PlantTissueAnalysesListdefaultHeaders {
+export interface PlantTissueAnalysesListDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface PlantTissueAnalysesListdefaultResponse extends HttpResponse {
+export interface PlantTissueAnalysesListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & PlantTissueAnalysesListdefaultHeaders;
+    headers: RawHttpHeaders & PlantTissueAnalysesListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -6613,36 +6740,30 @@ export interface PlantTissueAnalysesListQueryParam {
 
 // @public (undocumented)
 export interface PlantTissueAnalysesListQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    cropIds?: Array<string>;
-    cropVarietiesIds?: Array<string>;
-    fieldIds?: Array<string>;
-    ids?: Array<string>;
+    cropIds?: string;
+    cropProductsIds?: string;
+    fieldIds?: string;
+    ids?: string;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
+    maxPageSize?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    seasonIds?: Array<string>;
-    statuses?: Array<string>;
+    names?: string;
+    propertyFilters?: string;
+    seasonIds?: string;
+    skipToken?: string;
+    statuses?: string;
 }
 
-// @public (undocumented)
-export interface PlantTissueAnalysis extends Record<string, unknown> {
-    attachmentsLink?: string;
-    createdDateTime?: Date | string;
+// @public
+export interface PlantTissueAnalysis {
     cropId?: string;
-    cropVarietyId?: string;
+    cropProductId?: string;
     description?: string;
-    eTag?: string;
-    farmerId?: string;
     fieldId?: string;
     growthStage?: string;
-    id?: string;
     labDetails?: LabDetails;
-    modifiedDateTime?: Date | string;
     name?: string;
     plantAppearance?: string;
     plantingDateTime?: Date | string;
@@ -6658,28 +6779,30 @@ export interface PlantTissueAnalysis extends Record<string, unknown> {
     status?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PlantTissueAnalysisListResponseOutput {
-    $skipToken?: string;
     nextLink?: string;
-    value?: Array<PlantTissueAnalysisOutput>;
+    skipToken?: string;
+    value: Array<PlantTissueAnalysisOutput>;
 }
 
-// @public (undocumented)
-export interface PlantTissueAnalysisOutput extends Record<string, unknown> {
-    attachmentsLink?: string;
-    createdDateTime?: string;
+// @public
+export interface PlantTissueAnalysisOutput {
+    readonly attachmentsLink?: string;
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     cropId?: string;
-    cropVarietyId?: string;
+    cropProductId?: string;
     description?: string;
-    eTag?: string;
-    farmerId?: string;
+    readonly eTag?: string;
     fieldId?: string;
     growthStage?: string;
-    id?: string;
+    readonly id?: string;
     labDetails?: LabDetailsOutput;
-    modifiedDateTime?: string;
+    readonly modifiedBy?: string;
+    readonly modifiedDateTime?: string;
     name?: string;
+    readonly partyId?: string;
     plantAppearance?: string;
     plantingDateTime?: string;
     plantPart?: string;
@@ -6694,71 +6817,53 @@ export interface PlantTissueAnalysisOutput extends Record<string, unknown> {
     status?: string;
 }
 
-// @public (undocumented)
-export interface Point extends GeoJsonObjectBase, PointCoordinates {
+// @public
+export type PlantTissueAnalysisResourceMergeAndPatch = Partial<PlantTissueAnalysis>;
+
+// @public
+export interface Point extends GeoJsonObjectParent {
+    coordinates: Array<number>;
     // (undocumented)
     type: "Point";
 }
 
-// @public (undocumented)
-export interface PointCoordinates {
+// @public
+export interface PointOutput extends GeoJsonObjectOutputParent {
     coordinates: Array<number>;
-}
-
-// @public (undocumented)
-export interface PointCoordinatesOutput {
-    coordinates: Array<number>;
-}
-
-// @public (undocumented)
-export interface PointOutput extends GeoJsonObjectOutputBase, PointCoordinatesOutput {
     // (undocumented)
     type: "Point";
 }
 
-// @public (undocumented)
-export interface Polygon extends GeoJsonObjectBase, PolygonCoordinates {
+// @public
+export interface Polygon extends GeoJsonObjectParent {
+    coordinates: Array<Array<Array<number>>>;
     // (undocumented)
     type: "Polygon";
 }
 
-// @public (undocumented)
-export interface PolygonCoordinates {
+// @public
+export interface PolygonOutput extends GeoJsonObjectOutputParent {
     coordinates: Array<Array<Array<number>>>;
-}
-
-// @public (undocumented)
-export interface PolygonCoordinatesOutput {
-    coordinates: Array<Array<Array<number>>>;
-}
-
-// @public (undocumented)
-export interface PolygonOutput extends GeoJsonObjectOutputBase, PolygonCoordinatesOutput {
     // (undocumented)
     type: "Polygon";
 }
 
-// @public (undocumented)
+// @public
 export interface Port {
     name?: string;
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PortOutput {
     name?: string;
     type?: string;
 }
 
-// @public (undocumented)
-export interface Prescription extends Record<string, unknown> {
-    createdDateTime?: Date | string;
+// @public
+export interface Prescription {
     description?: string;
-    eTag?: string;
-    farmerId?: string;
-    id?: string;
-    measures?: Record<string, Measure>;
-    modifiedDateTime?: Date | string;
+    measurements?: Record<string, Measure>;
     name?: string;
     prescriptionMapId?: string;
     productCode?: string;
@@ -6769,23 +6874,18 @@ export interface Prescription extends Record<string, unknown> {
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PrescriptionListResponseOutput {
-    $skipToken?: string;
     nextLink?: string;
-    value?: Array<PrescriptionOutput>;
+    skipToken?: string;
+    value: Array<PrescriptionOutput>;
 }
 
-// @public (undocumented)
-export interface PrescriptionMap extends Record<string, unknown> {
-    createdDateTime?: Date | string;
+// @public
+export interface PrescriptionMap {
     cropId?: string;
     description?: string;
-    eTag?: string;
-    farmerId?: string;
     fieldId?: string;
-    id?: string;
-    modifiedDateTime?: Date | string;
     name?: string;
     properties?: Record<string, any>;
     seasonId?: string;
@@ -6794,30 +6894,35 @@ export interface PrescriptionMap extends Record<string, unknown> {
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PrescriptionMapListResponseOutput {
-    $skipToken?: string;
     nextLink?: string;
-    value?: Array<PrescriptionMapOutput>;
+    skipToken?: string;
+    value: Array<PrescriptionMapOutput>;
 }
 
-// @public (undocumented)
-export interface PrescriptionMapOutput extends Record<string, unknown> {
-    createdDateTime?: string;
+// @public
+export interface PrescriptionMapOutput {
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     cropId?: string;
     description?: string;
-    eTag?: string;
-    farmerId?: string;
+    readonly eTag?: string;
     fieldId?: string;
-    id?: string;
-    modifiedDateTime?: string;
+    readonly id?: string;
+    readonly modifiedBy?: string;
+    readonly modifiedDateTime?: string;
     name?: string;
+    readonly partyId?: string;
     properties?: Record<string, any>;
     seasonId?: string;
     source?: string;
     status?: string;
     type?: string;
 }
+
+// @public
+export type PrescriptionMapResourceMergeAndPatch = Partial<PrescriptionMap>;
 
 // @public
 export interface PrescriptionMapsCreateCascadeDeleteJob202Response extends HttpResponse {
@@ -6828,17 +6933,17 @@ export interface PrescriptionMapsCreateCascadeDeleteJob202Response extends HttpR
 }
 
 // @public (undocumented)
-export interface PrescriptionMapsCreateCascadeDeleteJobdefaultHeaders {
+export interface PrescriptionMapsCreateCascadeDeleteJobDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface PrescriptionMapsCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
+export interface PrescriptionMapsCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & PrescriptionMapsCreateCascadeDeleteJobdefaultHeaders;
+    headers: RawHttpHeaders & PrescriptionMapsCreateCascadeDeleteJobDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -6854,7 +6959,7 @@ export interface PrescriptionMapsCreateCascadeDeleteJobQueryParam {
 
 // @public (undocumented)
 export interface PrescriptionMapsCreateCascadeDeleteJobQueryParamProperties {
-    farmerId: string;
+    partyId: string;
     prescriptionMapId: string;
 }
 
@@ -6876,21 +6981,21 @@ export interface PrescriptionMapsCreateOrUpdate201Response extends HttpResponse 
 
 // @public (undocumented)
 export interface PrescriptionMapsCreateOrUpdateBodyParam {
-    body: PrescriptionMap;
+    body: PrescriptionMapResourceMergeAndPatch;
 }
 
 // @public (undocumented)
-export interface PrescriptionMapsCreateOrUpdatedefaultHeaders {
+export interface PrescriptionMapsCreateOrUpdateDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface PrescriptionMapsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface PrescriptionMapsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & PrescriptionMapsCreateOrUpdatedefaultHeaders;
+    headers: RawHttpHeaders & PrescriptionMapsCreateOrUpdateDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -6912,17 +7017,17 @@ export interface PrescriptionMapsDelete204Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface PrescriptionMapsDeletedefaultHeaders {
+export interface PrescriptionMapsDeleteDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface PrescriptionMapsDeletedefaultResponse extends HttpResponse {
+export interface PrescriptionMapsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & PrescriptionMapsDeletedefaultHeaders;
+    headers: RawHttpHeaders & PrescriptionMapsDeleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -6932,9 +7037,9 @@ export type PrescriptionMapsDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface PrescriptionMapsGet {
-    delete(options?: PrescriptionMapsDeleteParameters): StreamableMethod<PrescriptionMapsDelete204Response | PrescriptionMapsDeletedefaultResponse>;
-    get(options?: PrescriptionMapsGetParameters): StreamableMethod<PrescriptionMapsGet200Response | PrescriptionMapsGetdefaultResponse>;
-    patch(options: PrescriptionMapsCreateOrUpdateParameters): StreamableMethod<PrescriptionMapsCreateOrUpdate200Response | PrescriptionMapsCreateOrUpdate201Response | PrescriptionMapsCreateOrUpdatedefaultResponse>;
+    delete(options?: PrescriptionMapsDeleteParameters): StreamableMethod<PrescriptionMapsDelete204Response | PrescriptionMapsDeleteDefaultResponse>;
+    get(options?: PrescriptionMapsGetParameters): StreamableMethod<PrescriptionMapsGet200Response | PrescriptionMapsGetDefaultResponse>;
+    patch(options: PrescriptionMapsCreateOrUpdateParameters): StreamableMethod<PrescriptionMapsCreateOrUpdate200Response | PrescriptionMapsCreateOrUpdate201Response | PrescriptionMapsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -6947,8 +7052,8 @@ export interface PrescriptionMapsGet200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface PrescriptionMapsGetCascadeDeleteJobDetails {
-    get(options?: PrescriptionMapsGetCascadeDeleteJobDetailsParameters): StreamableMethod<PrescriptionMapsGetCascadeDeleteJobDetails200Response | PrescriptionMapsGetCascadeDeleteJobDetailsdefaultResponse>;
-    put(options: PrescriptionMapsCreateCascadeDeleteJobParameters): StreamableMethod<PrescriptionMapsCreateCascadeDeleteJob202Response | PrescriptionMapsCreateCascadeDeleteJobdefaultResponse>;
+    get(options?: PrescriptionMapsGetCascadeDeleteJobDetailsParameters): StreamableMethod<PrescriptionMapsGetCascadeDeleteJobDetails200Response | PrescriptionMapsGetCascadeDeleteJobDetailsDefaultResponse>;
+    put(options: PrescriptionMapsCreateCascadeDeleteJobParameters): StreamableMethod<PrescriptionMapsCreateCascadeDeleteJob202Response | PrescriptionMapsCreateCascadeDeleteJobDefaultResponse>;
 }
 
 // @public
@@ -6960,17 +7065,17 @@ export interface PrescriptionMapsGetCascadeDeleteJobDetails200Response extends H
 }
 
 // @public (undocumented)
-export interface PrescriptionMapsGetCascadeDeleteJobDetailsdefaultHeaders {
+export interface PrescriptionMapsGetCascadeDeleteJobDetailsDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface PrescriptionMapsGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
+export interface PrescriptionMapsGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & PrescriptionMapsGetCascadeDeleteJobDetailsdefaultHeaders;
+    headers: RawHttpHeaders & PrescriptionMapsGetCascadeDeleteJobDetailsDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -6979,17 +7084,17 @@ export interface PrescriptionMapsGetCascadeDeleteJobDetailsdefaultResponse exten
 export type PrescriptionMapsGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
 // @public (undocumented)
-export interface PrescriptionMapsGetdefaultHeaders {
+export interface PrescriptionMapsGetDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface PrescriptionMapsGetdefaultResponse extends HttpResponse {
+export interface PrescriptionMapsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & PrescriptionMapsGetdefaultHeaders;
+    headers: RawHttpHeaders & PrescriptionMapsGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -6999,7 +7104,7 @@ export type PrescriptionMapsGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface PrescriptionMapsList {
-    get(options?: PrescriptionMapsListParameters): StreamableMethod<PrescriptionMapsList200Response | PrescriptionMapsListdefaultResponse>;
+    get(options?: PrescriptionMapsListParameters): StreamableMethod<PrescriptionMapsList200Response | PrescriptionMapsListDefaultResponse>;
 }
 
 // @public
@@ -7011,12 +7116,12 @@ export interface PrescriptionMapsList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface PrescriptionMapsListByFarmerId {
-    get(options?: PrescriptionMapsListByFarmerIdParameters): StreamableMethod<PrescriptionMapsListByFarmerId200Response | PrescriptionMapsListByFarmerIddefaultResponse>;
+export interface PrescriptionMapsListByPartyId {
+    get(options?: PrescriptionMapsListByPartyIdParameters): StreamableMethod<PrescriptionMapsListByPartyId200Response | PrescriptionMapsListByPartyIdDefaultResponse>;
 }
 
 // @public
-export interface PrescriptionMapsListByFarmerId200Response extends HttpResponse {
+export interface PrescriptionMapsListByPartyId200Response extends HttpResponse {
     // (undocumented)
     body: PrescriptionMapListResponseOutput;
     // (undocumented)
@@ -7024,61 +7129,61 @@ export interface PrescriptionMapsListByFarmerId200Response extends HttpResponse 
 }
 
 // @public (undocumented)
-export interface PrescriptionMapsListByFarmerIddefaultHeaders {
+export interface PrescriptionMapsListByPartyIdDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface PrescriptionMapsListByFarmerIddefaultResponse extends HttpResponse {
+export interface PrescriptionMapsListByPartyIdDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & PrescriptionMapsListByFarmerIddefaultHeaders;
+    headers: RawHttpHeaders & PrescriptionMapsListByPartyIdDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export type PrescriptionMapsListByFarmerIdParameters = PrescriptionMapsListByFarmerIdQueryParam & RequestParameters;
+export type PrescriptionMapsListByPartyIdParameters = PrescriptionMapsListByPartyIdQueryParam & RequestParameters;
 
 // @public (undocumented)
-export interface PrescriptionMapsListByFarmerIdQueryParam {
+export interface PrescriptionMapsListByPartyIdQueryParam {
     // (undocumented)
-    queryParameters?: PrescriptionMapsListByFarmerIdQueryParamProperties;
+    queryParameters?: PrescriptionMapsListByPartyIdQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface PrescriptionMapsListByFarmerIdQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    cropIds?: Array<string>;
-    fieldIds?: Array<string>;
-    ids?: Array<string>;
+export interface PrescriptionMapsListByPartyIdQueryParamProperties {
+    cropIds?: string;
+    fieldIds?: string;
+    ids?: string;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
+    maxPageSize?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    seasonIds?: Array<string>;
-    sources?: Array<string>;
-    statuses?: Array<string>;
-    types?: Array<string>;
+    names?: string;
+    propertyFilters?: string;
+    seasonIds?: string;
+    skipToken?: string;
+    sources?: string;
+    statuses?: string;
+    types?: string;
 }
 
 // @public (undocumented)
-export interface PrescriptionMapsListdefaultHeaders {
+export interface PrescriptionMapsListDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface PrescriptionMapsListdefaultResponse extends HttpResponse {
+export interface PrescriptionMapsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & PrescriptionMapsListdefaultHeaders;
+    headers: RawHttpHeaders & PrescriptionMapsListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -7094,33 +7199,35 @@ export interface PrescriptionMapsListQueryParam {
 
 // @public (undocumented)
 export interface PrescriptionMapsListQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    cropIds?: Array<string>;
-    fieldIds?: Array<string>;
-    ids?: Array<string>;
+    cropIds?: string;
+    fieldIds?: string;
+    ids?: string;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
+    maxPageSize?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    seasonIds?: Array<string>;
-    sources?: Array<string>;
-    statuses?: Array<string>;
-    types?: Array<string>;
+    names?: string;
+    propertyFilters?: string;
+    seasonIds?: string;
+    skipToken?: string;
+    sources?: string;
+    statuses?: string;
+    types?: string;
 }
 
-// @public (undocumented)
-export interface PrescriptionOutput extends Record<string, unknown> {
-    createdDateTime?: string;
+// @public
+export interface PrescriptionOutput {
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     description?: string;
-    eTag?: string;
-    farmerId?: string;
-    id?: string;
-    measures?: Record<string, MeasureOutput>;
-    modifiedDateTime?: string;
+    readonly eTag?: string;
+    readonly id?: string;
+    measurements?: Record<string, MeasureOutput>;
+    readonly modifiedBy?: string;
+    readonly modifiedDateTime?: string;
     name?: string;
+    readonly partyId?: string;
     prescriptionMapId?: string;
     productCode?: string;
     productName?: string;
@@ -7131,6 +7238,9 @@ export interface PrescriptionOutput extends Record<string, unknown> {
 }
 
 // @public
+export type PrescriptionResourceMergeAndPatch = Partial<Prescription>;
+
+// @public
 export interface PrescriptionsCreateCascadeDeleteJob202Response extends HttpResponse {
     // (undocumented)
     body: CascadeDeleteJobOutput;
@@ -7139,17 +7249,17 @@ export interface PrescriptionsCreateCascadeDeleteJob202Response extends HttpResp
 }
 
 // @public (undocumented)
-export interface PrescriptionsCreateCascadeDeleteJobdefaultHeaders {
+export interface PrescriptionsCreateCascadeDeleteJobDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface PrescriptionsCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
+export interface PrescriptionsCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & PrescriptionsCreateCascadeDeleteJobdefaultHeaders;
+    headers: RawHttpHeaders & PrescriptionsCreateCascadeDeleteJobDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -7165,7 +7275,7 @@ export interface PrescriptionsCreateCascadeDeleteJobQueryParam {
 
 // @public (undocumented)
 export interface PrescriptionsCreateCascadeDeleteJobQueryParamProperties {
-    farmerId: string;
+    partyId: string;
     prescriptionId: string;
 }
 
@@ -7187,21 +7297,21 @@ export interface PrescriptionsCreateOrUpdate201Response extends HttpResponse {
 
 // @public (undocumented)
 export interface PrescriptionsCreateOrUpdateBodyParam {
-    body: Prescription;
+    body: PrescriptionResourceMergeAndPatch;
 }
 
 // @public (undocumented)
-export interface PrescriptionsCreateOrUpdatedefaultHeaders {
+export interface PrescriptionsCreateOrUpdateDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface PrescriptionsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface PrescriptionsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & PrescriptionsCreateOrUpdatedefaultHeaders;
+    headers: RawHttpHeaders & PrescriptionsCreateOrUpdateDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -7223,17 +7333,17 @@ export interface PrescriptionsDelete204Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface PrescriptionsDeletedefaultHeaders {
+export interface PrescriptionsDeleteDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface PrescriptionsDeletedefaultResponse extends HttpResponse {
+export interface PrescriptionsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & PrescriptionsDeletedefaultHeaders;
+    headers: RawHttpHeaders & PrescriptionsDeleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -7243,9 +7353,9 @@ export type PrescriptionsDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface PrescriptionsGet {
-    delete(options?: PrescriptionsDeleteParameters): StreamableMethod<PrescriptionsDelete204Response | PrescriptionsDeletedefaultResponse>;
-    get(options?: PrescriptionsGetParameters): StreamableMethod<PrescriptionsGet200Response | PrescriptionsGetdefaultResponse>;
-    patch(options: PrescriptionsCreateOrUpdateParameters): StreamableMethod<PrescriptionsCreateOrUpdate200Response | PrescriptionsCreateOrUpdate201Response | PrescriptionsCreateOrUpdatedefaultResponse>;
+    delete(options?: PrescriptionsDeleteParameters): StreamableMethod<PrescriptionsDelete204Response | PrescriptionsDeleteDefaultResponse>;
+    get(options?: PrescriptionsGetParameters): StreamableMethod<PrescriptionsGet200Response | PrescriptionsGetDefaultResponse>;
+    patch(options: PrescriptionsCreateOrUpdateParameters): StreamableMethod<PrescriptionsCreateOrUpdate200Response | PrescriptionsCreateOrUpdate201Response | PrescriptionsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -7258,8 +7368,8 @@ export interface PrescriptionsGet200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface PrescriptionsGetCascadeDeleteJobDetails {
-    get(options?: PrescriptionsGetCascadeDeleteJobDetailsParameters): StreamableMethod<PrescriptionsGetCascadeDeleteJobDetails200Response | PrescriptionsGetCascadeDeleteJobDetailsdefaultResponse>;
-    put(options: PrescriptionsCreateCascadeDeleteJobParameters): StreamableMethod<PrescriptionsCreateCascadeDeleteJob202Response | PrescriptionsCreateCascadeDeleteJobdefaultResponse>;
+    get(options?: PrescriptionsGetCascadeDeleteJobDetailsParameters): StreamableMethod<PrescriptionsGetCascadeDeleteJobDetails200Response | PrescriptionsGetCascadeDeleteJobDetailsDefaultResponse>;
+    put(options: PrescriptionsCreateCascadeDeleteJobParameters): StreamableMethod<PrescriptionsCreateCascadeDeleteJob202Response | PrescriptionsCreateCascadeDeleteJobDefaultResponse>;
 }
 
 // @public
@@ -7271,17 +7381,17 @@ export interface PrescriptionsGetCascadeDeleteJobDetails200Response extends Http
 }
 
 // @public (undocumented)
-export interface PrescriptionsGetCascadeDeleteJobDetailsdefaultHeaders {
+export interface PrescriptionsGetCascadeDeleteJobDetailsDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface PrescriptionsGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
+export interface PrescriptionsGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & PrescriptionsGetCascadeDeleteJobDetailsdefaultHeaders;
+    headers: RawHttpHeaders & PrescriptionsGetCascadeDeleteJobDetailsDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -7290,17 +7400,17 @@ export interface PrescriptionsGetCascadeDeleteJobDetailsdefaultResponse extends 
 export type PrescriptionsGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
 // @public (undocumented)
-export interface PrescriptionsGetdefaultHeaders {
+export interface PrescriptionsGetDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface PrescriptionsGetdefaultResponse extends HttpResponse {
+export interface PrescriptionsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & PrescriptionsGetdefaultHeaders;
+    headers: RawHttpHeaders & PrescriptionsGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -7310,7 +7420,7 @@ export type PrescriptionsGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface PrescriptionsList {
-    get(options?: PrescriptionsListParameters): StreamableMethod<PrescriptionsList200Response | PrescriptionsListdefaultResponse>;
+    get(options?: PrescriptionsListParameters): StreamableMethod<PrescriptionsList200Response | PrescriptionsListDefaultResponse>;
 }
 
 // @public
@@ -7322,12 +7432,12 @@ export interface PrescriptionsList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface PrescriptionsListByFarmerId {
-    get(options?: PrescriptionsListByFarmerIdParameters): StreamableMethod<PrescriptionsListByFarmerId200Response | PrescriptionsListByFarmerIddefaultResponse>;
+export interface PrescriptionsListByPartyId {
+    get(options?: PrescriptionsListByPartyIdParameters): StreamableMethod<PrescriptionsListByPartyId200Response | PrescriptionsListByPartyIdDefaultResponse>;
 }
 
 // @public
-export interface PrescriptionsListByFarmerId200Response extends HttpResponse {
+export interface PrescriptionsListByPartyId200Response extends HttpResponse {
     // (undocumented)
     body: PrescriptionListResponseOutput;
     // (undocumented)
@@ -7335,61 +7445,61 @@ export interface PrescriptionsListByFarmerId200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface PrescriptionsListByFarmerIddefaultHeaders {
+export interface PrescriptionsListByPartyIdDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface PrescriptionsListByFarmerIddefaultResponse extends HttpResponse {
+export interface PrescriptionsListByPartyIdDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & PrescriptionsListByFarmerIddefaultHeaders;
+    headers: RawHttpHeaders & PrescriptionsListByPartyIdDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export type PrescriptionsListByFarmerIdParameters = PrescriptionsListByFarmerIdQueryParam & RequestParameters;
+export type PrescriptionsListByPartyIdParameters = PrescriptionsListByPartyIdQueryParam & RequestParameters;
 
 // @public (undocumented)
-export interface PrescriptionsListByFarmerIdQueryParam {
+export interface PrescriptionsListByPartyIdQueryParam {
     // (undocumented)
-    queryParameters?: PrescriptionsListByFarmerIdQueryParamProperties;
+    queryParameters?: PrescriptionsListByPartyIdQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface PrescriptionsListByFarmerIdQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    ids?: Array<string>;
+export interface PrescriptionsListByPartyIdQueryParamProperties {
+    ids?: string;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
+    maxPageSize?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
-    names?: Array<string>;
-    prescriptionMapIds?: Array<string>;
-    productCodes?: Array<string>;
-    productNames?: Array<string>;
-    propertyFilters?: Array<string>;
-    sources?: Array<string>;
-    statuses?: Array<string>;
-    types?: Array<string>;
+    names?: string;
+    prescriptionMapIds?: string;
+    productCodes?: string;
+    productNames?: string;
+    propertyFilters?: string;
+    skipToken?: string;
+    sources?: string;
+    statuses?: string;
+    types?: string;
 }
 
 // @public (undocumented)
-export interface PrescriptionsListdefaultHeaders {
+export interface PrescriptionsListDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface PrescriptionsListdefaultResponse extends HttpResponse {
+export interface PrescriptionsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & PrescriptionsListdefaultHeaders;
+    headers: RawHttpHeaders & PrescriptionsListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -7405,31 +7515,31 @@ export interface PrescriptionsListQueryParam {
 
 // @public (undocumented)
 export interface PrescriptionsListQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    ids?: Array<string>;
+    ids?: string;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
+    maxPageSize?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
-    names?: Array<string>;
-    prescriptionMapIds?: Array<string>;
-    productCodes?: Array<string>;
-    productNames?: Array<string>;
-    propertyFilters?: Array<string>;
-    sources?: Array<string>;
-    statuses?: Array<string>;
-    types?: Array<string>;
+    names?: string;
+    prescriptionMapIds?: string;
+    productCodes?: string;
+    productNames?: string;
+    propertyFilters?: string;
+    skipToken?: string;
+    sources?: string;
+    statuses?: string;
+    types?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ProductDetails {
     instruction?: string;
     product?: string;
     rate?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ProductDetailsOutput {
     instruction?: string;
     product?: string;
@@ -7440,85 +7550,88 @@ export interface ProductDetailsOutput {
 export interface Routes {
     (path: "/application-data"): ApplicationDataList;
     (path: "/application-data/cascade-delete/{jobId}", jobId: string): ApplicationDataCreateCascadeDeleteJob;
-    (path: "/farmers/{farmerId}/application-data", farmerId: string): ApplicationDataListByFarmerId;
-    (path: "/farmers/{farmerId}/application-data/{applicationDataId}", farmerId: string, applicationDataId: string): ApplicationDataGet;
-    (path: "/farmers/{farmerId}/attachments", farmerId: string): AttachmentsListByFarmerId;
-    (path: "/farmers/{farmerId}/attachments/{attachmentId}", farmerId: string, attachmentId: string): AttachmentsGet;
-    (path: "/farmers/{farmerId}/attachments/{attachmentId}/file", farmerId: string, attachmentId: string): AttachmentsDownload;
+    (path: "/parties/{partyId}/application-data", partyId: string): ApplicationDataListByPartyId;
+    (path: "/parties/{partyId}/application-data/{applicationDataId}", partyId: string, applicationDataId: string): ApplicationDataGet;
+    (path: "/parties/{partyId}/attachments", partyId: string): AttachmentsListByPartyId;
+    (path: "/parties/{partyId}/attachments/{attachmentId}", partyId: string, attachmentId: string): AttachmentsGet;
+    (path: "/parties/{partyId}/attachments/{attachmentId}/file", partyId: string, attachmentId: string): AttachmentsDownload;
     (path: "/boundaries"): BoundariesList;
     (path: "/boundaries/cascade-delete/{jobId}", jobId: string): BoundariesCreateCascadeDeleteJob;
-    (path: "/farmers/{farmerId}/boundaries", farmerId: string): BoundariesListByFarmerId;
-    (path: "/farmers/{farmerId}/boundaries/{boundaryId}", farmerId: string, boundaryId: string): BoundariesCreateOrUpdate;
-    (path: "/farmers/{farmerId}/boundaries/{boundaryId}/overlap", farmerId: string, boundaryId: string): BoundariesGetOverlap;
+    (path: "/parties/{partyId}/boundaries", partyId: string): BoundariesListByPartyId;
+    (path: "/parties/{partyId}/boundaries/{boundaryId}", partyId: string, boundaryId: string): BoundariesCreateOrUpdate;
+    (path: "/parties/{partyId}/boundaries/{boundaryId}/overlap", partyId: string, boundaryId: string): BoundariesGetOverlap;
+    (path: "/crop-products"): CropProductsList;
+    (path: "/crop-products/{cropProductId}", cropProductId: string): CropProductsGet;
     (path: "/crops"): CropsList;
     (path: "/crops/{cropId}", cropId: string): CropsGet;
-    (path: "/crop-varieties"): CropVarietiesList;
-    (path: "/crop-varieties/{cropVarietyId}", cropVarietyId: string): CropVarietiesGet;
     (path: "/sensor-partners/{sensorPartnerId}/device-data-models", sensorPartnerId: string): DeviceDataModelsList;
     (path: "/sensor-partners/{sensorPartnerId}/device-data-models/{deviceDataModelId}", sensorPartnerId: string, deviceDataModelId: string): DeviceDataModelsCreateOrUpdate;
     (path: "/sensor-partners/{sensorPartnerId}/devices", sensorPartnerId: string): DevicesList;
     (path: "/sensor-partners/{sensorPartnerId}/devices/{deviceId}", sensorPartnerId: string, deviceId: string): DevicesCreateOrUpdate;
-    (path: "/farmers"): FarmersList;
-    (path: "/farmers/{farmerId}", farmerId: string): FarmersGet;
-    (path: "/farmers/cascade-delete/{jobId}", jobId: string): FarmersCreateCascadeDeleteJob;
     (path: "/farm-operations/ingest-data/{jobId}", jobId: string): FarmOperationsCreateDataIngestionJob;
-    (path: "/farmers/{farmerId}/farms", farmerId: string): FarmsListByFarmerId;
-    (path: "/farmers/{farmerId}/farms/{farmId}", farmerId: string, farmId: string): FarmsGet;
     (path: "/farms"): FarmsList;
     (path: "/farms/cascade-delete/{jobId}", jobId: string): FarmsCreateCascadeDeleteJob;
-    (path: "/farmers/{farmerId}/fields", farmerId: string): FieldsListByFarmerId;
-    (path: "/farmers/{farmerId}/fields/{fieldId}", farmerId: string, fieldId: string): FieldsGet;
+    (path: "/parties/{partyId}/farms", partyId: string): FarmsListByPartyId;
+    (path: "/parties/{partyId}/farms/{farmId}", partyId: string, farmId: string): FarmsGet;
     (path: "/fields"): FieldsList;
-    (path: "/fields/cascade-delete/{jobId}", jobId: string): FieldsCreateCascadeDeleteJob;
-    (path: "/farmers/{farmerId}/harvest-data", farmerId: string): HarvestDataListByFarmerId;
-    (path: "/farmers/{farmerId}/harvest-data/{harvestDataId}", farmerId: string, harvestDataId: string): HarvestDataGet;
+    (path: "/fields/cascade-delete/{jobId}", jobId: string): FieldsGetCascadeDeleteJobDetails;
+    (path: "/parties/{partyId}/fields", partyId: string): FieldsListByPartyId;
+    (path: "/parties/{partyId}/fields/{fieldId}", partyId: string, fieldId: string): FieldsGet;
     (path: "/harvest-data"): HarvestDataList;
     (path: "/harvest-data/cascade-delete/{jobId}", jobId: string): HarvestDataCreateCascadeDeleteJob;
+    (path: "/parties/{partyId}/harvest-data", partyId: string): HarvestDataListByPartyId;
+    (path: "/parties/{partyId}/harvest-data/{harvestDataId}", partyId: string, harvestDataId: string): HarvestDataGet;
     (path: "/image-processing/rasterize/{jobId}", jobId: string): ImageProcessingCreateRasterizeJob;
-    (path: "/farmers/{farmerId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insight-attachments", farmerId: string, modelId: string, resourceType: string, resourceId: string): InsightAttachmentsListByFarmerIdModelIdAndResource;
-    (path: "/farmers/{farmerId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insight-attachments/{insightAttachmentId}", farmerId: string, modelId: string, resourceType: string, resourceId: string, insightAttachmentId: string): InsightAttachmentsCreateOrUpdate;
-    (path: "/farmers/{farmerId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insight-attachments/{insightAttachmentId}/file", farmerId: string, modelId: string, resourceType: string, resourceId: string, insightAttachmentId: string): InsightAttachmentsDownload;
-    (path: "/farmers/{farmerId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insights", farmerId: string, modelId: string, resourceType: string, resourceId: string): InsightsListByFarmerIdModelIdAndResource;
-    (path: "/farmers/{farmerId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insights/{insightId}", farmerId: string, modelId: string, resourceType: string, resourceId: string, insightId: string): InsightsCreateOrUpdate;
+    (path: "/parties/{partyId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insight-attachments", partyId: string, modelId: string, resourceType: string, resourceId: string): InsightAttachmentsListByPartyIdModelIdAndResource;
+    (path: "/parties/{partyId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insight-attachments/{insightAttachmentId}", partyId: string, modelId: string, resourceType: string, resourceId: string, insightAttachmentId: string): InsightAttachmentsCreateOrUpdate;
+    (path: "/parties/{partyId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insight-attachments/{insightAttachmentId}/file", partyId: string, modelId: string, resourceType: string, resourceId: string, insightAttachmentId: string): InsightAttachmentsDownload;
     (path: "/insights/cascade-delete/{jobId}", jobId: string): InsightsCreateCascadeDeleteJob;
-    (path: "/farmers/{farmerId}/management-zones", farmerId: string): ManagementZonesListByFarmerId;
-    (path: "/farmers/{farmerId}/management-zones/{managementZoneId}", farmerId: string, managementZoneId: string): ManagementZonesGet;
+    (path: "/parties/{partyId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insights", partyId: string, modelId: string, resourceType: string, resourceId: string): InsightsListByPartyIdModelIdAndResource;
+    (path: "/parties/{partyId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insights/{insightId}", partyId: string, modelId: string, resourceType: string, resourceId: string, insightId: string): InsightsCreateOrUpdate;
     (path: "/management-zones"): ManagementZonesList;
     (path: "/management-zones/cascade-delete/{jobId}", jobId: string): ManagementZonesGetCascadeDeleteJobDetails;
+    (path: "/parties/{partyId}/management-zones", partyId: string): ManagementZonesListByPartyId;
+    (path: "/parties/{partyId}/management-zones/{managementZoneId}", partyId: string, managementZoneId: string): ManagementZonesGet;
     (path: "/model-inference/models/microsoft-biomass/infer-data/{jobId}", jobId: string): ModelInferenceCreateBiomassModelJob;
+    (path: "/model-inference/models/microsoft-sensor-placement/infer-data/{jobId}", jobId: string): ModelInferenceCreateSensorPlacementModelJob;
     (path: "/model-inference/models/microsoft-soil-moisture/infer-data/{jobId}", jobId: string): ModelInferenceCreateSoilMoistureModelJob;
-    (path: "/farmers/{farmerId}/nutrient-analyses", farmerId: string): NutrientAnalysesListByFarmerId;
-    (path: "/farmers/{farmerId}/nutrient-analyses/{nutrientAnalysisId}", farmerId: string, nutrientAnalysisId: string): NutrientAnalysesGet;
     (path: "/nutrient-analyses"): NutrientAnalysesList;
+    (path: "/parties/{partyId}/nutrient-analyses", partyId: string): NutrientAnalysesListByPartyId;
+    (path: "/parties/{partyId}/nutrient-analyses/{nutrientAnalysisId}", partyId: string, nutrientAnalysisId: string): NutrientAnalysesGet;
     (path: "/oauth/providers"): OAuthProvidersList;
     (path: "/oauth/providers/{oauthProviderId}", oauthProviderId: string): OAuthProvidersGet;
     (path: "/oauth/providers/cascade-delete/{jobId}", jobId: string): OAuthProvidersGetCascadeDeleteJobDetails;
     (path: "/oauth/tokens"): OAuthTokensList;
     (path: "/oauth/tokens/:connect"): OAuthTokensGetOAuthConnectionLink;
-    (path: "/oauth/tokens/remove/{jobId}", jobId: string): OAuthTokensCreateCascadeDeleteJob;
-    (path: "/farmers/{farmerId}/planting-data", farmerId: string): PlantingDataListByFarmerId;
-    (path: "/farmers/{farmerId}/planting-data/{plantingDataId}", farmerId: string, plantingDataId: string): PlantingDataGet;
+    (path: "/oauth/tokens/remove/{jobId}", jobId: string): OAuthTokensGetCascadeDeleteJobDetails;
+    (path: "/parties"): PartiesList;
+    (path: "/parties/{partyId}", partyId: string): PartiesGet;
+    (path: "/parties/cascade-delete/{jobId}", jobId: string): PartiesGetCascadeDeleteJobDetails;
+    (path: "/parties/{partyId}/planting-data", partyId: string): PlantingDataListByPartyId;
+    (path: "/parties/{partyId}/planting-data/{plantingDataId}", partyId: string, plantingDataId: string): PlantingDataGet;
     (path: "/planting-data"): PlantingDataList;
     (path: "/planting-data/cascade-delete/{jobId}", jobId: string): PlantingDataCreateCascadeDeleteJob;
-    (path: "/farmers/{farmerId}/plant-tissue-analyses", farmerId: string): PlantTissueAnalysesListByFarmerId;
-    (path: "/farmers/{farmerId}/plant-tissue-analyses/{plantTissueAnalysisId}", farmerId: string, plantTissueAnalysisId: string): PlantTissueAnalysesGet;
+    (path: "/parties/{partyId}/plant-tissue-analyses", partyId: string): PlantTissueAnalysesListByPartyId;
+    (path: "/parties/{partyId}/plant-tissue-analyses/{plantTissueAnalysisId}", partyId: string, plantTissueAnalysisId: string): PlantTissueAnalysesGet;
     (path: "/plant-tissue-analyses"): PlantTissueAnalysesList;
     (path: "/plant-tissue-analyses/cascade-delete/{jobId}", jobId: string): PlantTissueAnalysesCreateCascadeDeleteJob;
-    (path: "/farmers/{farmerId}/prescription-maps", farmerId: string): PrescriptionMapsListByFarmerId;
-    (path: "/farmers/{farmerId}/prescription-maps/{prescriptionMapId}", farmerId: string, prescriptionMapId: string): PrescriptionMapsGet;
+    (path: "/parties/{partyId}/prescription-maps", partyId: string): PrescriptionMapsListByPartyId;
+    (path: "/parties/{partyId}/prescription-maps/{prescriptionMapId}", partyId: string, prescriptionMapId: string): PrescriptionMapsGet;
     (path: "/prescription-maps"): PrescriptionMapsList;
     (path: "/prescription-maps/cascade-delete/{jobId}", jobId: string): PrescriptionMapsGetCascadeDeleteJobDetails;
-    (path: "/farmers/{farmerId}/prescriptions", farmerId: string): PrescriptionsListByFarmerId;
-    (path: "/farmers/{farmerId}/prescriptions/{prescriptionId}", farmerId: string, prescriptionId: string): PrescriptionsGet;
+    (path: "/parties/{partyId}/prescriptions", partyId: string): PrescriptionsListByPartyId;
+    (path: "/parties/{partyId}/prescriptions/{prescriptionId}", partyId: string, prescriptionId: string): PrescriptionsGet;
     (path: "/prescriptions"): PrescriptionsList;
     (path: "/prescriptions/cascade-delete/{jobId}", jobId: string): PrescriptionsGetCascadeDeleteJobDetails;
     (path: "/scenes"): ScenesList;
     (path: "/scenes/downloadFiles"): ScenesDownload;
     (path: "/scenes/satellite/ingest-data/{jobId}", jobId: string): ScenesCreateSatelliteDataIngestionJob;
-    (path: "/farmers/{farmerId}/seasonal-fields", farmerId: string): SeasonalFieldsListByFarmerId;
-    (path: "/farmers/{farmerId}/seasonal-fields/{seasonalFieldId}", farmerId: string, seasonalFieldId: string): SeasonalFieldsGet;
+    (path: "/scenes/stac-collections/{collectionId}:search", collectionId: "Sentinel_2_L2A" | "Sentinel_2_L1C"): ScenesSearchFeatures;
+    (path: "/scenes/stac-collections/{collectionId}/features/{featureId}", collectionId: "Sentinel_2_L2A" | "Sentinel_2_L1C", featureId: string): ScenesGetStacFeature;
+    (path: "/parties/{partyId}/seasonal-fields", partyId: string): SeasonalFieldsListByPartyId;
+    (path: "/parties/{partyId}/seasonal-fields/{seasonalFieldId}", partyId: string, seasonalFieldId: string): SeasonalFieldsGet;
     (path: "/seasonal-fields"): SeasonalFieldsList;
-    (path: "/seasonal-fields/cascade-delete/{jobId}", jobId: string): SeasonalFieldsCreateCascadeDeleteJob;
+    (path: "/seasonal-fields/cascade-delete/{jobId}", jobId: string): SeasonalFieldsGetCascadeDeleteJobDetails;
     (path: "/seasons"): SeasonsList;
     (path: "/seasons/{seasonId}", seasonId: string): SeasonsGet;
     (path: "/sensor-partners/{sensorPartnerId}/sensor-data-models", sensorPartnerId: string): SensorDataModelsList;
@@ -7537,95 +7650,91 @@ export interface Routes {
     (path: "/solutions/{solutionId}:cancel", solutionId: string): SolutionInferenceCancel;
     (path: "/solutions/{solutionId}:create", solutionId: string): SolutionInferenceCreateOrUpdate;
     (path: "/solutions/{solutionId}:fetch", solutionId: string): SolutionInferenceFetch;
-    (path: "/farmers/{farmerId}/tillage-data", farmerId: string): TillageDataListByFarmerId;
-    (path: "/farmers/{farmerId}/tillage-data/{tillageDataId}", farmerId: string, tillageDataId: string): TillageDataGet;
+    (path: "/parties/{partyId}/tillage-data", partyId: string): TillageDataListByPartyId;
+    (path: "/parties/{partyId}/tillage-data/{tillageDataId}", partyId: string, tillageDataId: string): TillageDataGet;
     (path: "/tillage-data"): TillageDataList;
     (path: "/tillage-data/cascade-delete/{jobId}", jobId: string): TillageDataCreateCascadeDeleteJob;
     (path: "/weather"): WeatherList;
     (path: "/weather/delete-data/{jobId}", jobId: string): WeatherGetDataDeleteJobDetails;
     (path: "/weather/ingest-data/{jobId}", jobId: string): WeatherGetDataIngestionJobDetails;
-    (path: "/farmers/{farmerId}/zones", farmerId: string): ZonesListByFarmerId;
-    (path: "/farmers/{farmerId}/zones/{zoneId}", farmerId: string, zoneId: string): ZonesGet;
+    (path: "/weather-data/:fetch"): WeatherDataGet;
+    (path: "/parties/{partyId}/zones", partyId: string): ZonesListByPartyId;
+    (path: "/parties/{partyId}/zones/{zoneId}", partyId: string, zoneId: string): ZonesGet;
     (path: "/zones"): ZonesList;
     (path: "/zones/cascade-delete/{jobId}", jobId: string): ZonesGetCascadeDeleteJobDetails;
 }
 
-// @public (undocumented)
+// @public
 export interface SatelliteData {
     imageFormats?: Array<string>;
     imageNames?: Array<string>;
     imageResolutions?: Array<number>;
 }
 
-// @public (undocumented)
-export interface SatelliteDataIngestionJob extends Record<string, unknown> {
+// @public
+export interface SatelliteDataIngestionJob {
     boundaryId: string;
-    createdDateTime?: Date | string;
     data?: SatelliteData;
     description?: string;
-    durationInSeconds?: number;
     endDateTime: Date | string;
-    endTime?: Date | string;
-    farmerId: string;
-    id?: string;
-    lastActionDateTime?: Date | string;
-    message?: string;
     name?: string;
+    partyId: string;
     properties?: Record<string, any>;
     provider?: "Microsoft";
-    source?: "Sentinel_2_L2A";
+    source: "Sentinel_2_L2A" | "Sentinel_2_L1C";
     startDateTime: Date | string;
-    startTime?: Date | string;
-    status?: string;
 }
 
-// @public (undocumented)
-export interface SatelliteDataIngestionJobOutput extends Record<string, unknown> {
+// @public
+export interface SatelliteDataIngestionJobOutput {
     boundaryId: string;
-    createdDateTime?: string;
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     data?: SatelliteDataOutput;
     description?: string;
-    durationInSeconds?: number;
+    readonly durationInSeconds?: number;
     endDateTime: string;
-    endTime?: string;
-    farmerId: string;
-    id?: string;
-    lastActionDateTime?: string;
-    message?: string;
+    readonly endTime?: string;
+    readonly errorCode?: string;
+    readonly id?: string;
+    readonly lastActionDateTime?: string;
+    readonly message?: string;
+    readonly modifiedBy?: string;
     name?: string;
+    partyId: string;
     properties?: Record<string, any>;
     provider?: "Microsoft";
-    source?: "Sentinel_2_L2A";
+    source: "Sentinel_2_L2A" | "Sentinel_2_L1C";
     startDateTime: string;
-    startTime?: string;
-    status?: string;
+    readonly startTime?: string;
+    readonly status?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SatelliteDataOutput {
     imageFormats?: Array<string>;
     imageNames?: Array<string>;
     imageResolutions?: Array<number>;
 }
 
-// @public (undocumented)
+// @public
 export interface SceneListResponseOutput {
-    $skipToken?: string;
     nextLink?: string;
-    value?: Array<SceneOutput>;
+    skipToken?: string;
+    value: Array<SceneOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface SceneOutput {
     boundaryId?: string;
     cloudCoverPercentage?: number;
     darkPixelPercentage?: number;
-    eTag?: string;
-    farmerId?: string;
+    readonly eTag?: string;
     id?: string;
     imageFiles?: Array<ImageFileOutput>;
     imageFormat?: "TIF";
     ndviMedianValue?: number;
+    partyId?: string;
     provider?: string;
     sceneDateTime?: string;
     source?: string;
@@ -7633,8 +7742,8 @@ export interface SceneOutput {
 
 // @public (undocumented)
 export interface ScenesCreateSatelliteDataIngestionJob {
-    get(options?: ScenesGetSatelliteDataIngestionJobDetailsParameters): StreamableMethod<ScenesGetSatelliteDataIngestionJobDetails200Response | ScenesGetSatelliteDataIngestionJobDetailsdefaultResponse>;
-    put(options: ScenesCreateSatelliteDataIngestionJobParameters): StreamableMethod<ScenesCreateSatelliteDataIngestionJob202Response | ScenesCreateSatelliteDataIngestionJobdefaultResponse>;
+    get(options?: ScenesGetSatelliteDataIngestionJobDetailsParameters): StreamableMethod<ScenesGetSatelliteDataIngestionJobDetails200Response | ScenesGetSatelliteDataIngestionJobDetailsDefaultResponse>;
+    put(options: ScenesCreateSatelliteDataIngestionJobParameters): StreamableMethod<ScenesCreateSatelliteDataIngestionJob202Response | ScenesCreateSatelliteDataIngestionJobDefaultResponse>;
 }
 
 // @public
@@ -7651,17 +7760,17 @@ export interface ScenesCreateSatelliteDataIngestionJobBodyParam {
 }
 
 // @public (undocumented)
-export interface ScenesCreateSatelliteDataIngestionJobdefaultHeaders {
+export interface ScenesCreateSatelliteDataIngestionJobDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface ScenesCreateSatelliteDataIngestionJobdefaultResponse extends HttpResponse {
+export interface ScenesCreateSatelliteDataIngestionJobDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ScenesCreateSatelliteDataIngestionJobdefaultHeaders;
+    headers: RawHttpHeaders & ScenesCreateSatelliteDataIngestionJobDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -7676,7 +7785,7 @@ export type ScenesCreateSatelliteDataIngestionJobParameters = ScenesCreateSatell
 
 // @public (undocumented)
 export interface ScenesDownload {
-    get(options: ScenesDownloadParameters): StreamableMethod<ScenesDownload200Response | ScenesDownloaddefaultResponse>;
+    get(options: ScenesDownloadParameters): StreamableMethod<ScenesDownload200Response | ScenesDownloadDefaultResponse>;
 }
 
 // @public
@@ -7687,17 +7796,17 @@ export interface ScenesDownload200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface ScenesDownloaddefaultHeaders {
+export interface ScenesDownloadDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface ScenesDownloaddefaultResponse extends HttpResponse {
+export interface ScenesDownloadDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ScenesDownloaddefaultHeaders;
+    headers: RawHttpHeaders & ScenesDownloadDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -7725,17 +7834,17 @@ export interface ScenesGetSatelliteDataIngestionJobDetails200Response extends Ht
 }
 
 // @public (undocumented)
-export interface ScenesGetSatelliteDataIngestionJobDetailsdefaultHeaders {
+export interface ScenesGetSatelliteDataIngestionJobDetailsDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface ScenesGetSatelliteDataIngestionJobDetailsdefaultResponse extends HttpResponse {
+export interface ScenesGetSatelliteDataIngestionJobDetailsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ScenesGetSatelliteDataIngestionJobDetailsdefaultHeaders;
+    headers: RawHttpHeaders & ScenesGetSatelliteDataIngestionJobDetailsDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -7744,8 +7853,40 @@ export interface ScenesGetSatelliteDataIngestionJobDetailsdefaultResponse extend
 export type ScenesGetSatelliteDataIngestionJobDetailsParameters = RequestParameters;
 
 // @public (undocumented)
+export interface ScenesGetStacFeature {
+    get(options?: ScenesGetStacFeatureParameters): StreamableMethod<ScenesGetStacFeature200Response | ScenesGetStacFeatureDefaultResponse>;
+}
+
+// @public
+export interface ScenesGetStacFeature200Response extends HttpResponse {
+    // (undocumented)
+    body: StacFeatureOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ScenesGetStacFeatureDefaultHeaders {
+    // (undocumented)
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface ScenesGetStacFeatureDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & ScenesGetStacFeatureDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type ScenesGetStacFeatureParameters = RequestParameters;
+
+// @public (undocumented)
 export interface ScenesList {
-    get(options: ScenesListParameters): StreamableMethod<ScenesList200Response | ScenesListdefaultResponse>;
+    get(options: ScenesListParameters): StreamableMethod<ScenesList200Response | ScenesListDefaultResponse>;
 }
 
 // @public
@@ -7757,17 +7898,17 @@ export interface ScenesList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface ScenesListdefaultHeaders {
+export interface ScenesListDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface ScenesListdefaultResponse extends HttpResponse {
+export interface ScenesListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ScenesListdefaultHeaders;
+    headers: RawHttpHeaders & ScenesListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -7783,49 +7924,115 @@ export interface ScenesListQueryParam {
 
 // @public (undocumented)
 export interface ScenesListQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
     boundaryId: string;
     endDateTime?: Date | string;
-    farmerId: string;
-    imageFormats?: Array<string>;
-    imageNames?: Array<string>;
+    imageFormats?: string;
+    imageNames?: string;
     imageResolutions?: Array<number>;
     maxCloudCoveragePercentage?: number;
     maxDarkPixelCoveragePercentage?: number;
+    maxPageSize?: number;
+    partyId: string;
     provider: string;
-    source?: string;
+    skipToken?: string;
+    source: string;
     startDateTime?: Date | string;
 }
 
 // @public (undocumented)
+export interface ScenesSearchFeatures {
+    post(options: ScenesSearchFeaturesParameters): StreamableMethod<ScenesSearchFeatures200Response | ScenesSearchFeaturesDefaultResponse>;
+}
+
+// @public
+export interface ScenesSearchFeatures200Response extends HttpResponse {
+    // (undocumented)
+    body: SearchFeaturesResponseOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ScenesSearchFeaturesBodyParam {
+    body: SearchFeaturesQuery;
+}
+
+// @public (undocumented)
+export interface ScenesSearchFeaturesDefaultHeaders {
+    // (undocumented)
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface ScenesSearchFeaturesDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & ScenesSearchFeaturesDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface ScenesSearchFeaturesMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type ScenesSearchFeaturesParameters = ScenesSearchFeaturesQueryParam & ScenesSearchFeaturesMediaTypesParam & ScenesSearchFeaturesBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface ScenesSearchFeaturesQueryParam {
+    // (undocumented)
+    queryParameters?: ScenesSearchFeaturesQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface ScenesSearchFeaturesQueryParamProperties {
+    maxpagesize?: number;
+    skip?: number;
+}
+
+// @public
 export interface SearchBoundaryQuery {
-    $maxPageSize?: number;
-    $skipToken?: string;
     ids?: Array<string>;
     intersectsWithGeometry?: GeoJsonObject;
-    isPrimary?: boolean;
-    maxAcreage?: number;
+    maxArea?: number;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
-    minAcreage?: number;
+    maxPageSize?: number;
+    minArea?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
     names?: Array<string>;
     parentIds?: Array<string>;
     parentType?: "Field" | "SeasonalField" | "Zone" | "Prescription" | "PlantTissueAnalysis" | "ApplicationData" | "PlantingData" | "TillageData" | "HarvestData";
     propertyFilters?: Array<string>;
+    skipToken?: string;
     statuses?: Array<string>;
+    type?: string;
 }
 
-// @public (undocumented)
-export interface Season extends Record<string, unknown> {
-    createdDateTime?: Date | string;
+// @public
+export interface SearchFeaturesQuery {
+    bbox?: Array<number>;
+    endDateTime: Date | string;
+    featureIds?: Array<string>;
+    intersects?: GeoJsonObject;
+    startDateTime: Date | string;
+}
+
+// @public
+export interface SearchFeaturesResponseOutput {
+    features: Array<StacFeatureOutput>;
+    readonly nextLink?: string;
+}
+
+// @public
+export interface Season {
     description?: string;
     endDateTime?: Date | string;
-    eTag?: string;
-    id?: string;
-    modifiedDateTime?: Date | string;
+    geographicIdentifier?: string;
     name?: string;
     properties?: Record<string, any>;
     source?: string;
@@ -7834,70 +8041,50 @@ export interface Season extends Record<string, unknown> {
     year?: number;
 }
 
-// @public (undocumented)
-export interface SeasonalField extends Record<string, unknown> {
-    avgSeedPopulationUnit?: string;
-    avgSeedPopulationValue?: number;
-    avgYieldUnit?: string;
-    avgYieldValue?: number;
-    boundaryIds?: Array<string>;
-    createdDateTime?: Date | string;
+// @public
+export interface SeasonalField {
     cropId?: string;
-    cropVarietyIds?: Array<string>;
+    cropProductIds?: Array<string>;
     description?: string;
-    eTag?: string;
-    farmerId?: string;
     farmId?: string;
     fieldId?: string;
-    id?: string;
-    modifiedDateTime?: Date | string;
     name?: string;
-    plantingDateTime?: Date | string;
-    primaryBoundaryId?: string;
     properties?: Record<string, any>;
     seasonId?: string;
     source?: string;
     status?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SeasonalFieldListResponseOutput {
-    $skipToken?: string;
     nextLink?: string;
-    value?: Array<SeasonalFieldOutput>;
+    skipToken?: string;
+    value: Array<SeasonalFieldOutput>;
 }
 
-// @public (undocumented)
-export interface SeasonalFieldOutput extends Record<string, unknown> {
-    avgSeedPopulationUnit?: string;
-    avgSeedPopulationValue?: number;
-    avgYieldUnit?: string;
-    avgYieldValue?: number;
-    boundaryIds?: Array<string>;
-    createdDateTime?: string;
+// @public
+export interface SeasonalFieldOutput {
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     cropId?: string;
-    cropVarietyIds?: Array<string>;
+    cropProductIds?: Array<string>;
     description?: string;
-    eTag?: string;
-    farmerId?: string;
+    readonly eTag?: string;
     farmId?: string;
     fieldId?: string;
-    id?: string;
-    modifiedDateTime?: string;
+    readonly id?: string;
+    readonly modifiedBy?: string;
+    readonly modifiedDateTime?: string;
     name?: string;
-    plantingDateTime?: string;
-    primaryBoundaryId?: string;
+    readonly partyId?: string;
     properties?: Record<string, any>;
     seasonId?: string;
     source?: string;
     status?: string;
 }
 
-// @public (undocumented)
-export interface SeasonalFieldsCreateCascadeDeleteJob {
-    get(options?: SeasonalFieldsGetCascadeDeleteJobDetailsParameters): StreamableMethod<SeasonalFieldsGetCascadeDeleteJobDetails200Response | SeasonalFieldsGetCascadeDeleteJobDetailsdefaultResponse>;
-    put(options: SeasonalFieldsCreateCascadeDeleteJobParameters): StreamableMethod<SeasonalFieldsCreateCascadeDeleteJob202Response | SeasonalFieldsCreateCascadeDeleteJobdefaultResponse>;
-}
+// @public
+export type SeasonalFieldResourceMergeAndPatch = Partial<SeasonalField>;
 
 // @public
 export interface SeasonalFieldsCreateCascadeDeleteJob202Response extends HttpResponse {
@@ -7908,17 +8095,17 @@ export interface SeasonalFieldsCreateCascadeDeleteJob202Response extends HttpRes
 }
 
 // @public (undocumented)
-export interface SeasonalFieldsCreateCascadeDeleteJobdefaultHeaders {
+export interface SeasonalFieldsCreateCascadeDeleteJobDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SeasonalFieldsCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
+export interface SeasonalFieldsCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SeasonalFieldsCreateCascadeDeleteJobdefaultHeaders;
+    headers: RawHttpHeaders & SeasonalFieldsCreateCascadeDeleteJobDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -7934,7 +8121,7 @@ export interface SeasonalFieldsCreateCascadeDeleteJobQueryParam {
 
 // @public (undocumented)
 export interface SeasonalFieldsCreateCascadeDeleteJobQueryParamProperties {
-    farmerId: string;
+    partyId: string;
     seasonalFieldId: string;
 }
 
@@ -7956,21 +8143,21 @@ export interface SeasonalFieldsCreateOrUpdate201Response extends HttpResponse {
 
 // @public (undocumented)
 export interface SeasonalFieldsCreateOrUpdateBodyParam {
-    body: SeasonalField;
+    body: SeasonalFieldResourceMergeAndPatch;
 }
 
 // @public (undocumented)
-export interface SeasonalFieldsCreateOrUpdatedefaultHeaders {
+export interface SeasonalFieldsCreateOrUpdateDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SeasonalFieldsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface SeasonalFieldsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SeasonalFieldsCreateOrUpdatedefaultHeaders;
+    headers: RawHttpHeaders & SeasonalFieldsCreateOrUpdateDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -7992,17 +8179,17 @@ export interface SeasonalFieldsDelete204Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface SeasonalFieldsDeletedefaultHeaders {
+export interface SeasonalFieldsDeleteDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SeasonalFieldsDeletedefaultResponse extends HttpResponse {
+export interface SeasonalFieldsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SeasonalFieldsDeletedefaultHeaders;
+    headers: RawHttpHeaders & SeasonalFieldsDeleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -8012,9 +8199,9 @@ export type SeasonalFieldsDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface SeasonalFieldsGet {
-    delete(options?: SeasonalFieldsDeleteParameters): StreamableMethod<SeasonalFieldsDelete204Response | SeasonalFieldsDeletedefaultResponse>;
-    get(options?: SeasonalFieldsGetParameters): StreamableMethod<SeasonalFieldsGet200Response | SeasonalFieldsGetdefaultResponse>;
-    patch(options: SeasonalFieldsCreateOrUpdateParameters): StreamableMethod<SeasonalFieldsCreateOrUpdate200Response | SeasonalFieldsCreateOrUpdate201Response | SeasonalFieldsCreateOrUpdatedefaultResponse>;
+    delete(options?: SeasonalFieldsDeleteParameters): StreamableMethod<SeasonalFieldsDelete204Response | SeasonalFieldsDeleteDefaultResponse>;
+    get(options?: SeasonalFieldsGetParameters): StreamableMethod<SeasonalFieldsGet200Response | SeasonalFieldsGetDefaultResponse>;
+    patch(options: SeasonalFieldsCreateOrUpdateParameters): StreamableMethod<SeasonalFieldsCreateOrUpdate200Response | SeasonalFieldsCreateOrUpdate201Response | SeasonalFieldsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -8023,6 +8210,12 @@ export interface SeasonalFieldsGet200Response extends HttpResponse {
     body: SeasonalFieldOutput;
     // (undocumented)
     status: "200";
+}
+
+// @public (undocumented)
+export interface SeasonalFieldsGetCascadeDeleteJobDetails {
+    get(options?: SeasonalFieldsGetCascadeDeleteJobDetailsParameters): StreamableMethod<SeasonalFieldsGetCascadeDeleteJobDetails200Response | SeasonalFieldsGetCascadeDeleteJobDetailsDefaultResponse>;
+    put(options: SeasonalFieldsCreateCascadeDeleteJobParameters): StreamableMethod<SeasonalFieldsCreateCascadeDeleteJob202Response | SeasonalFieldsCreateCascadeDeleteJobDefaultResponse>;
 }
 
 // @public
@@ -8034,17 +8227,17 @@ export interface SeasonalFieldsGetCascadeDeleteJobDetails200Response extends Htt
 }
 
 // @public (undocumented)
-export interface SeasonalFieldsGetCascadeDeleteJobDetailsdefaultHeaders {
+export interface SeasonalFieldsGetCascadeDeleteJobDetailsDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SeasonalFieldsGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
+export interface SeasonalFieldsGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SeasonalFieldsGetCascadeDeleteJobDetailsdefaultHeaders;
+    headers: RawHttpHeaders & SeasonalFieldsGetCascadeDeleteJobDetailsDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -8053,17 +8246,17 @@ export interface SeasonalFieldsGetCascadeDeleteJobDetailsdefaultResponse extends
 export type SeasonalFieldsGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
 // @public (undocumented)
-export interface SeasonalFieldsGetdefaultHeaders {
+export interface SeasonalFieldsGetDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SeasonalFieldsGetdefaultResponse extends HttpResponse {
+export interface SeasonalFieldsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SeasonalFieldsGetdefaultHeaders;
+    headers: RawHttpHeaders & SeasonalFieldsGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -8073,7 +8266,7 @@ export type SeasonalFieldsGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface SeasonalFieldsList {
-    get(options?: SeasonalFieldsListParameters): StreamableMethod<SeasonalFieldsList200Response | SeasonalFieldsListdefaultResponse>;
+    get(options?: SeasonalFieldsListParameters): StreamableMethod<SeasonalFieldsList200Response | SeasonalFieldsListDefaultResponse>;
 }
 
 // @public
@@ -8085,12 +8278,12 @@ export interface SeasonalFieldsList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface SeasonalFieldsListByFarmerId {
-    get(options?: SeasonalFieldsListByFarmerIdParameters): StreamableMethod<SeasonalFieldsListByFarmerId200Response | SeasonalFieldsListByFarmerIddefaultResponse>;
+export interface SeasonalFieldsListByPartyId {
+    get(options?: SeasonalFieldsListByPartyIdParameters): StreamableMethod<SeasonalFieldsListByPartyId200Response | SeasonalFieldsListByPartyIdDefaultResponse>;
 }
 
 // @public
-export interface SeasonalFieldsListByFarmerId200Response extends HttpResponse {
+export interface SeasonalFieldsListByPartyId200Response extends HttpResponse {
     // (undocumented)
     body: SeasonalFieldListResponseOutput;
     // (undocumented)
@@ -8098,69 +8291,61 @@ export interface SeasonalFieldsListByFarmerId200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface SeasonalFieldsListByFarmerIddefaultHeaders {
+export interface SeasonalFieldsListByPartyIdDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SeasonalFieldsListByFarmerIddefaultResponse extends HttpResponse {
+export interface SeasonalFieldsListByPartyIdDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SeasonalFieldsListByFarmerIddefaultHeaders;
+    headers: RawHttpHeaders & SeasonalFieldsListByPartyIdDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export type SeasonalFieldsListByFarmerIdParameters = SeasonalFieldsListByFarmerIdQueryParam & RequestParameters;
+export type SeasonalFieldsListByPartyIdParameters = SeasonalFieldsListByPartyIdQueryParam & RequestParameters;
 
 // @public (undocumented)
-export interface SeasonalFieldsListByFarmerIdQueryParam {
+export interface SeasonalFieldsListByPartyIdQueryParam {
     // (undocumented)
-    queryParameters?: SeasonalFieldsListByFarmerIdQueryParamProperties;
+    queryParameters?: SeasonalFieldsListByPartyIdQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface SeasonalFieldsListByFarmerIdQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    avgSeedPopulationUnit?: string;
-    avgYieldUnit?: string;
-    cropIds?: Array<string>;
-    cropVarietyIds?: Array<string>;
-    farmIds?: Array<string>;
-    fieldIds?: Array<string>;
-    ids?: Array<string>;
-    maxAvgSeedPopulationValue?: number;
-    maxAvgYieldValue?: number;
+export interface SeasonalFieldsListByPartyIdQueryParamProperties {
+    cropIds?: string;
+    cropProductIds?: string;
+    farmIds?: string;
+    fieldIds?: string;
+    ids?: string;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
-    maxPlantingDateTime?: Date | string;
-    minAvgSeedPopulationValue?: number;
-    minAvgYieldValue?: number;
+    maxPageSize?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
-    minPlantingDateTime?: Date | string;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    seasonIds?: Array<string>;
-    statuses?: Array<string>;
+    names?: string;
+    propertyFilters?: string;
+    seasonIds?: string;
+    skipToken?: string;
+    statuses?: string;
 }
 
 // @public (undocumented)
-export interface SeasonalFieldsListdefaultHeaders {
+export interface SeasonalFieldsListDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SeasonalFieldsListdefaultResponse extends HttpResponse {
+export interface SeasonalFieldsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SeasonalFieldsListdefaultHeaders;
+    headers: RawHttpHeaders & SeasonalFieldsListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -8176,46 +8361,41 @@ export interface SeasonalFieldsListQueryParam {
 
 // @public (undocumented)
 export interface SeasonalFieldsListQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    avgSeedPopulationUnit?: string;
-    avgYieldUnit?: string;
-    cropIds?: Array<string>;
-    cropVarietyIds?: Array<string>;
-    farmIds?: Array<string>;
-    fieldIds?: Array<string>;
-    ids?: Array<string>;
-    maxAvgSeedPopulationValue?: number;
-    maxAvgYieldValue?: number;
+    cropIds?: string;
+    cropProductIds?: string;
+    farmIds?: string;
+    fieldIds?: string;
+    ids?: string;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
-    maxPlantingDateTime?: Date | string;
-    minAvgSeedPopulationValue?: number;
-    minAvgYieldValue?: number;
+    maxPageSize?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
-    minPlantingDateTime?: Date | string;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    seasonIds?: Array<string>;
-    statuses?: Array<string>;
+    names?: string;
+    propertyFilters?: string;
+    seasonIds?: string;
+    skipToken?: string;
+    statuses?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SeasonListResponseOutput {
-    $skipToken?: string;
     nextLink?: string;
-    value?: Array<SeasonOutput>;
+    skipToken?: string;
+    value: Array<SeasonOutput>;
 }
 
-// @public (undocumented)
-export interface SeasonOutput extends Record<string, unknown> {
-    createdDateTime?: string;
+// @public
+export interface SeasonOutput {
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     description?: string;
     endDateTime?: string;
-    eTag?: string;
-    id?: string;
-    modifiedDateTime?: string;
+    readonly eTag?: string;
+    geographicIdentifier?: string;
+    readonly id?: string;
+    readonly modifiedBy?: string;
+    readonly modifiedDateTime?: string;
     name?: string;
     properties?: Record<string, any>;
     source?: string;
@@ -8223,6 +8403,9 @@ export interface SeasonOutput extends Record<string, unknown> {
     status?: string;
     year?: number;
 }
+
+// @public
+export type SeasonResourceMergeAndPatch = Partial<Season>;
 
 // @public
 export interface SeasonsCreateOrUpdate200Response extends HttpResponse {
@@ -8242,21 +8425,21 @@ export interface SeasonsCreateOrUpdate201Response extends HttpResponse {
 
 // @public (undocumented)
 export interface SeasonsCreateOrUpdateBodyParam {
-    body: Season;
+    body: SeasonResourceMergeAndPatch;
 }
 
 // @public (undocumented)
-export interface SeasonsCreateOrUpdatedefaultHeaders {
+export interface SeasonsCreateOrUpdateDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SeasonsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface SeasonsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SeasonsCreateOrUpdatedefaultHeaders;
+    headers: RawHttpHeaders & SeasonsCreateOrUpdateDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -8278,17 +8461,17 @@ export interface SeasonsDelete204Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface SeasonsDeletedefaultHeaders {
+export interface SeasonsDeleteDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SeasonsDeletedefaultResponse extends HttpResponse {
+export interface SeasonsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SeasonsDeletedefaultHeaders;
+    headers: RawHttpHeaders & SeasonsDeleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -8298,9 +8481,9 @@ export type SeasonsDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface SeasonsGet {
-    delete(options?: SeasonsDeleteParameters): StreamableMethod<SeasonsDelete204Response | SeasonsDeletedefaultResponse>;
-    get(options?: SeasonsGetParameters): StreamableMethod<SeasonsGet200Response | SeasonsGetdefaultResponse>;
-    patch(options: SeasonsCreateOrUpdateParameters): StreamableMethod<SeasonsCreateOrUpdate200Response | SeasonsCreateOrUpdate201Response | SeasonsCreateOrUpdatedefaultResponse>;
+    delete(options?: SeasonsDeleteParameters): StreamableMethod<SeasonsDelete204Response | SeasonsDeleteDefaultResponse>;
+    get(options?: SeasonsGetParameters): StreamableMethod<SeasonsGet200Response | SeasonsGetDefaultResponse>;
+    patch(options: SeasonsCreateOrUpdateParameters): StreamableMethod<SeasonsCreateOrUpdate200Response | SeasonsCreateOrUpdate201Response | SeasonsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -8312,17 +8495,17 @@ export interface SeasonsGet200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface SeasonsGetdefaultHeaders {
+export interface SeasonsGetDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SeasonsGetdefaultResponse extends HttpResponse {
+export interface SeasonsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SeasonsGetdefaultHeaders;
+    headers: RawHttpHeaders & SeasonsGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -8332,7 +8515,7 @@ export type SeasonsGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface SeasonsList {
-    get(options?: SeasonsListParameters): StreamableMethod<SeasonsList200Response | SeasonsListdefaultResponse>;
+    get(options?: SeasonsListParameters): StreamableMethod<SeasonsList200Response | SeasonsListDefaultResponse>;
 }
 
 // @public
@@ -8344,17 +8527,17 @@ export interface SeasonsList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface SeasonsListdefaultHeaders {
+export interface SeasonsListDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SeasonsListdefaultResponse extends HttpResponse {
+export interface SeasonsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SeasonsListdefaultHeaders;
+    headers: RawHttpHeaders & SeasonsListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -8370,69 +8553,59 @@ export interface SeasonsListQueryParam {
 
 // @public (undocumented)
 export interface SeasonsListQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    ids?: Array<string>;
+    ids?: string;
     maxCreatedDateTime?: Date | string;
     maxEndDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
+    maxPageSize?: number;
     maxStartDateTime?: Date | string;
     minCreatedDateTime?: Date | string;
     minEndDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
     minStartDateTime?: Date | string;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    statuses?: Array<string>;
+    names?: string;
+    propertyFilters?: string;
+    skipToken?: string;
+    statuses?: string;
     years?: Array<number>;
 }
 
-// @public (undocumented)
-export interface Sensor extends Record<string, unknown> {
-    createdDateTime?: Date | string;
+// @public
+export interface Sensor {
     depthInMeters?: Array<number>;
     description?: string;
     deviceId?: string;
-    eTag?: string;
     hardwareId?: string;
-    id?: string;
     integrationId?: string;
     location?: Location;
-    modifiedDateTime?: Date | string;
     name?: string;
     port?: Port;
     properties?: Record<string, any>;
     sensorDataModelId?: string;
-    sensorPartnerId?: string;
     status?: string;
     type?: string;
 }
 
-// @public (undocumented)
-export interface SensorDataModel extends Record<string, unknown> {
-    createdDateTime?: Date | string;
+// @public
+export interface SensorDataModel {
     description?: string;
-    eTag?: string;
-    id?: string;
     manufacturer?: string;
     measures: Record<string, SensorDataModelMeasure>;
-    modifiedDateTime?: Date | string;
     name?: string;
     productCode?: string;
     properties?: Record<string, any>;
-    sensorPartnerId?: string;
     status?: string;
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SensorDataModelListResponseOutput {
-    $skipToken?: string;
     nextLink?: string;
-    value?: Array<SensorDataModelOutput>;
+    skipToken?: string;
+    value: Array<SensorDataModelOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface SensorDataModelMeasure {
     dataType: "Bool" | "Double" | "DateTime" | "Long" | "String";
     description?: string;
@@ -8441,7 +8614,7 @@ export interface SensorDataModelMeasure {
     unit?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SensorDataModelMeasureOutput {
     dataType: "Bool" | "Double" | "DateTime" | "Long" | "String";
     description?: string;
@@ -8450,28 +8623,33 @@ export interface SensorDataModelMeasureOutput {
     unit?: string;
 }
 
-// @public (undocumented)
-export interface SensorDataModelOutput extends Record<string, unknown> {
-    createdDateTime?: string;
+// @public
+export interface SensorDataModelOutput {
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     description?: string;
-    eTag?: string;
-    id?: string;
+    readonly eTag?: string;
+    readonly id?: string;
     manufacturer?: string;
     measures: Record<string, SensorDataModelMeasureOutput>;
-    modifiedDateTime?: string;
+    readonly modifiedBy?: string;
+    readonly modifiedDateTime?: string;
     name?: string;
     productCode?: string;
     properties?: Record<string, any>;
-    sensorPartnerId?: string;
+    readonly sensorPartnerId?: string;
     status?: string;
     type?: string;
 }
 
+// @public
+export type SensorDataModelResourceMergeAndPatch = Partial<SensorDataModel>;
+
 // @public (undocumented)
 export interface SensorDataModelsCreateOrUpdate {
-    delete(options?: SensorDataModelsDeleteParameters): StreamableMethod<SensorDataModelsDelete204Response | SensorDataModelsDeletedefaultResponse>;
-    get(options?: SensorDataModelsGetParameters): StreamableMethod<SensorDataModelsGet200Response | SensorDataModelsGetdefaultResponse>;
-    patch(options: SensorDataModelsCreateOrUpdateParameters): StreamableMethod<SensorDataModelsCreateOrUpdate200Response | SensorDataModelsCreateOrUpdate201Response | SensorDataModelsCreateOrUpdatedefaultResponse>;
+    delete(options?: SensorDataModelsDeleteParameters): StreamableMethod<SensorDataModelsDelete204Response | SensorDataModelsDeleteDefaultResponse>;
+    get(options?: SensorDataModelsGetParameters): StreamableMethod<SensorDataModelsGet200Response | SensorDataModelsGetDefaultResponse>;
+    patch(options: SensorDataModelsCreateOrUpdateParameters): StreamableMethod<SensorDataModelsCreateOrUpdate200Response | SensorDataModelsCreateOrUpdate201Response | SensorDataModelsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -8492,21 +8670,21 @@ export interface SensorDataModelsCreateOrUpdate201Response extends HttpResponse 
 
 // @public (undocumented)
 export interface SensorDataModelsCreateOrUpdateBodyParam {
-    body: SensorDataModel;
+    body: SensorDataModelResourceMergeAndPatch;
 }
 
 // @public (undocumented)
-export interface SensorDataModelsCreateOrUpdatedefaultHeaders {
+export interface SensorDataModelsCreateOrUpdateDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SensorDataModelsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface SensorDataModelsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SensorDataModelsCreateOrUpdatedefaultHeaders;
+    headers: RawHttpHeaders & SensorDataModelsCreateOrUpdateDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -8528,17 +8706,17 @@ export interface SensorDataModelsDelete204Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface SensorDataModelsDeletedefaultHeaders {
+export interface SensorDataModelsDeleteDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SensorDataModelsDeletedefaultResponse extends HttpResponse {
+export interface SensorDataModelsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SensorDataModelsDeletedefaultHeaders;
+    headers: RawHttpHeaders & SensorDataModelsDeleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -8555,17 +8733,17 @@ export interface SensorDataModelsGet200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface SensorDataModelsGetdefaultHeaders {
+export interface SensorDataModelsGetDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SensorDataModelsGetdefaultResponse extends HttpResponse {
+export interface SensorDataModelsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SensorDataModelsGetdefaultHeaders;
+    headers: RawHttpHeaders & SensorDataModelsGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -8575,7 +8753,7 @@ export type SensorDataModelsGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface SensorDataModelsList {
-    get(options?: SensorDataModelsListParameters): StreamableMethod<SensorDataModelsList200Response | SensorDataModelsListdefaultResponse>;
+    get(options?: SensorDataModelsListParameters): StreamableMethod<SensorDataModelsList200Response | SensorDataModelsListDefaultResponse>;
 }
 
 // @public
@@ -8587,17 +8765,17 @@ export interface SensorDataModelsList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface SensorDataModelsListdefaultHeaders {
+export interface SensorDataModelsListDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SensorDataModelsListdefaultResponse extends HttpResponse {
+export interface SensorDataModelsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SensorDataModelsListdefaultHeaders;
+    headers: RawHttpHeaders & SensorDataModelsListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -8613,39 +8791,39 @@ export interface SensorDataModelsListQueryParam {
 
 // @public (undocumented)
 export interface SensorDataModelsListQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    ids?: Array<string>;
+    ids?: string;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
+    maxPageSize?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    statuses?: Array<string>;
+    names?: string;
+    propertyFilters?: string;
+    skipToken?: string;
+    statuses?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SensorEventListResponseOutput {
-    $skipToken?: string;
     nextLink?: string;
-    value?: Array<SensorEventOutput>;
+    skipToken?: string;
+    value: Array<SensorEventOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface SensorEventOutput {
     boundaryId?: string;
     eventDateTime?: string;
-    farmerId?: string;
     ingestionDateTime?: string;
     measures?: Record<string, any>;
+    partyId?: string;
     sensorId?: string;
     sensorPartnerId?: string;
 }
 
 // @public (undocumented)
 export interface SensorEventsList {
-    get(options: SensorEventsListParameters): StreamableMethod<SensorEventsList200Response | SensorEventsListdefaultResponse>;
+    get(options: SensorEventsListParameters): StreamableMethod<SensorEventsList200Response | SensorEventsListDefaultResponse>;
 }
 
 // @public
@@ -8657,17 +8835,17 @@ export interface SensorEventsList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface SensorEventsListdefaultHeaders {
+export interface SensorEventsListDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SensorEventsListdefaultResponse extends HttpResponse {
+export interface SensorEventsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SensorEventsListdefaultHeaders;
+    headers: RawHttpHeaders & SensorEventsListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -8690,57 +8868,58 @@ export interface SensorEventsListQueryParamProperties {
     startDateTime?: Date | string;
 }
 
-// @public (undocumented)
+// @public
 export interface SensorListResponseOutput {
-    $skipToken?: string;
     nextLink?: string;
-    value?: Array<SensorOutput>;
+    skipToken?: string;
+    value: Array<SensorOutput>;
 }
 
-// @public (undocumented)
-export interface SensorMapping extends Record<string, unknown> {
+// @public
+export interface SensorMapping {
     boundaryId?: string;
-    createdDateTime?: Date | string;
     description?: string;
-    eTag?: string;
-    farmerId?: string;
-    id?: string;
-    modifiedDateTime?: Date | string;
     name?: string;
+    partyId?: string;
     properties?: Record<string, any>;
     sensorId?: string;
     sensorPartnerId?: string;
     status?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SensorMappingListResponseOutput {
-    $skipToken?: string;
     nextLink?: string;
-    value?: Array<SensorMappingOutput>;
+    skipToken?: string;
+    value: Array<SensorMappingOutput>;
 }
 
-// @public (undocumented)
-export interface SensorMappingOutput extends Record<string, unknown> {
+// @public
+export interface SensorMappingOutput {
     boundaryId?: string;
-    createdDateTime?: string;
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     description?: string;
-    eTag?: string;
-    farmerId?: string;
-    id?: string;
-    modifiedDateTime?: string;
+    readonly eTag?: string;
+    readonly id?: string;
+    readonly modifiedBy?: string;
+    readonly modifiedDateTime?: string;
     name?: string;
+    partyId?: string;
     properties?: Record<string, any>;
     sensorId?: string;
     sensorPartnerId?: string;
     status?: string;
 }
+
+// @public
+export type SensorMappingResourceMergeAndPatch = Partial<SensorMapping>;
 
 // @public (undocumented)
 export interface SensorMappingsCreateOrUpdate {
-    delete(options?: SensorMappingsDeleteParameters): StreamableMethod<SensorMappingsDelete204Response | SensorMappingsDeletedefaultResponse>;
-    get(options?: SensorMappingsGetParameters): StreamableMethod<SensorMappingsGet200Response | SensorMappingsGetdefaultResponse>;
-    patch(options: SensorMappingsCreateOrUpdateParameters): StreamableMethod<SensorMappingsCreateOrUpdate200Response | SensorMappingsCreateOrUpdate201Response | SensorMappingsCreateOrUpdatedefaultResponse>;
+    delete(options?: SensorMappingsDeleteParameters): StreamableMethod<SensorMappingsDelete204Response | SensorMappingsDeleteDefaultResponse>;
+    get(options?: SensorMappingsGetParameters): StreamableMethod<SensorMappingsGet200Response | SensorMappingsGetDefaultResponse>;
+    patch(options: SensorMappingsCreateOrUpdateParameters): StreamableMethod<SensorMappingsCreateOrUpdate200Response | SensorMappingsCreateOrUpdate201Response | SensorMappingsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -8761,21 +8940,21 @@ export interface SensorMappingsCreateOrUpdate201Response extends HttpResponse {
 
 // @public (undocumented)
 export interface SensorMappingsCreateOrUpdateBodyParam {
-    body: SensorMapping;
+    body: SensorMappingResourceMergeAndPatch;
 }
 
 // @public (undocumented)
-export interface SensorMappingsCreateOrUpdatedefaultHeaders {
+export interface SensorMappingsCreateOrUpdateDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SensorMappingsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface SensorMappingsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SensorMappingsCreateOrUpdatedefaultHeaders;
+    headers: RawHttpHeaders & SensorMappingsCreateOrUpdateDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -8797,17 +8976,17 @@ export interface SensorMappingsDelete204Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface SensorMappingsDeletedefaultHeaders {
+export interface SensorMappingsDeleteDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SensorMappingsDeletedefaultResponse extends HttpResponse {
+export interface SensorMappingsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SensorMappingsDeletedefaultHeaders;
+    headers: RawHttpHeaders & SensorMappingsDeleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -8824,17 +9003,17 @@ export interface SensorMappingsGet200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface SensorMappingsGetdefaultHeaders {
+export interface SensorMappingsGetDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SensorMappingsGetdefaultResponse extends HttpResponse {
+export interface SensorMappingsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SensorMappingsGetdefaultHeaders;
+    headers: RawHttpHeaders & SensorMappingsGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -8844,7 +9023,7 @@ export type SensorMappingsGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface SensorMappingsList {
-    get(options?: SensorMappingsListParameters): StreamableMethod<SensorMappingsList200Response | SensorMappingsListdefaultResponse>;
+    get(options?: SensorMappingsListParameters): StreamableMethod<SensorMappingsList200Response | SensorMappingsListDefaultResponse>;
 }
 
 // @public
@@ -8856,17 +9035,17 @@ export interface SensorMappingsList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface SensorMappingsListdefaultHeaders {
+export interface SensorMappingsListDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SensorMappingsListdefaultResponse extends HttpResponse {
+export interface SensorMappingsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SensorMappingsListdefaultHeaders;
+    headers: RawHttpHeaders & SensorMappingsListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -8882,96 +9061,97 @@ export interface SensorMappingsListQueryParam {
 
 // @public (undocumented)
 export interface SensorMappingsListQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    boundaryIds?: Array<string>;
-    farmerIds?: Array<string>;
-    ids?: Array<string>;
+    boundaryIds?: string;
+    ids?: string;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
+    maxPageSize?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    sensorIds?: Array<string>;
-    sensorPartnerIds?: Array<string>;
-    statuses?: Array<string>;
+    names?: string;
+    partyIds?: string;
+    propertyFilters?: string;
+    sensorIds?: string;
+    sensorPartnerIds?: string;
+    skipToken?: string;
+    statuses?: string;
 }
 
-// @public (undocumented)
-export interface SensorOutput extends Record<string, unknown> {
-    createdDateTime?: string;
+// @public
+export interface SensorOutput {
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     depthInMeters?: Array<number>;
     description?: string;
     deviceId?: string;
-    eTag?: string;
+    readonly eTag?: string;
     hardwareId?: string;
-    id?: string;
+    readonly id?: string;
     integrationId?: string;
     location?: LocationOutput;
-    modifiedDateTime?: string;
+    readonly modifiedBy?: string;
+    readonly modifiedDateTime?: string;
     name?: string;
     port?: PortOutput;
     properties?: Record<string, any>;
     sensorDataModelId?: string;
-    sensorPartnerId?: string;
+    readonly sensorPartnerId?: string;
     status?: string;
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SensorPartnerIntegrationCheckConsentResponseOutput {
     consented?: boolean;
-    integrationId?: string;
-    sensorPartnerId?: string;
+    readonly integrationId?: string;
+    readonly sensorPartnerId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SensorPartnerIntegrationGenerateConsentLinkResponseOutput {
     consentExpiryDateTime?: string;
-    consentLink?: string;
+    readonly consentLink?: string;
 }
 
-// @public (undocumented)
-export interface SensorPartnerIntegrationModel extends Record<string, unknown> {
-    createdDateTime?: Date | string;
+// @public
+export interface SensorPartnerIntegrationModel {
     description?: string;
-    eTag?: string;
-    farmerId?: string;
-    id?: string;
-    integrationId?: string;
-    modifiedDateTime?: Date | string;
     name?: string;
+    partyId?: string;
     properties?: Record<string, any>;
-    sensorPartnerId?: string;
     status?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SensorPartnerIntegrationModelListResponseOutput {
-    $skipToken?: string;
     nextLink?: string;
-    value?: Array<SensorPartnerIntegrationModelOutput>;
+    skipToken?: string;
+    value: Array<SensorPartnerIntegrationModelOutput>;
 }
 
-// @public (undocumented)
-export interface SensorPartnerIntegrationModelOutput extends Record<string, unknown> {
-    createdDateTime?: string;
+// @public
+export interface SensorPartnerIntegrationModelOutput {
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     description?: string;
-    eTag?: string;
-    farmerId?: string;
-    id?: string;
-    integrationId?: string;
-    modifiedDateTime?: string;
+    readonly eTag?: string;
+    readonly id?: string;
+    readonly integrationId?: string;
+    readonly modifiedBy?: string;
+    readonly modifiedDateTime?: string;
     name?: string;
+    partyId?: string;
     properties?: Record<string, any>;
-    sensorPartnerId?: string;
+    readonly sensorPartnerId?: string;
     status?: string;
 }
+
+// @public
+export type SensorPartnerIntegrationModelResourceMergeAndPatch = Partial<SensorPartnerIntegrationModel>;
 
 // @public (undocumented)
 export interface SensorPartnerIntegrationsCheckConsent {
-    post(options: SensorPartnerIntegrationsCheckConsentParameters): StreamableMethod<SensorPartnerIntegrationsCheckConsent200Response | SensorPartnerIntegrationsCheckConsentdefaultResponse>;
+    post(options: SensorPartnerIntegrationsCheckConsentParameters): StreamableMethod<SensorPartnerIntegrationsCheckConsent200Response | SensorPartnerIntegrationsCheckConsentDefaultResponse>;
 }
 
 // @public
@@ -8983,17 +9163,17 @@ export interface SensorPartnerIntegrationsCheckConsent200Response extends HttpRe
 }
 
 // @public (undocumented)
-export interface SensorPartnerIntegrationsCheckConsentdefaultHeaders {
+export interface SensorPartnerIntegrationsCheckConsentDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SensorPartnerIntegrationsCheckConsentdefaultResponse extends HttpResponse {
+export interface SensorPartnerIntegrationsCheckConsentDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SensorPartnerIntegrationsCheckConsentdefaultHeaders;
+    headers: RawHttpHeaders & SensorPartnerIntegrationsCheckConsentDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -9014,9 +9194,9 @@ export interface SensorPartnerIntegrationsCheckConsentQueryParamProperties {
 
 // @public (undocumented)
 export interface SensorPartnerIntegrationsCreateOrUpdate {
-    delete(options?: SensorPartnerIntegrationsDeleteParameters): StreamableMethod<SensorPartnerIntegrationsDelete204Response | SensorPartnerIntegrationsDeletedefaultResponse>;
-    get(options?: SensorPartnerIntegrationsGetParameters): StreamableMethod<SensorPartnerIntegrationsGet200Response | SensorPartnerIntegrationsGetdefaultResponse>;
-    patch(options: SensorPartnerIntegrationsCreateOrUpdateParameters): StreamableMethod<SensorPartnerIntegrationsCreateOrUpdate200Response | SensorPartnerIntegrationsCreateOrUpdate201Response | SensorPartnerIntegrationsCreateOrUpdatedefaultResponse>;
+    delete(options?: SensorPartnerIntegrationsDeleteParameters): StreamableMethod<SensorPartnerIntegrationsDelete204Response | SensorPartnerIntegrationsDeleteDefaultResponse>;
+    get(options?: SensorPartnerIntegrationsGetParameters): StreamableMethod<SensorPartnerIntegrationsGet200Response | SensorPartnerIntegrationsGetDefaultResponse>;
+    patch(options: SensorPartnerIntegrationsCreateOrUpdateParameters): StreamableMethod<SensorPartnerIntegrationsCreateOrUpdate200Response | SensorPartnerIntegrationsCreateOrUpdate201Response | SensorPartnerIntegrationsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -9037,21 +9217,21 @@ export interface SensorPartnerIntegrationsCreateOrUpdate201Response extends Http
 
 // @public (undocumented)
 export interface SensorPartnerIntegrationsCreateOrUpdateBodyParam {
-    body: SensorPartnerIntegrationModel;
+    body: SensorPartnerIntegrationModelResourceMergeAndPatch;
 }
 
 // @public (undocumented)
-export interface SensorPartnerIntegrationsCreateOrUpdatedefaultHeaders {
+export interface SensorPartnerIntegrationsCreateOrUpdateDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SensorPartnerIntegrationsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface SensorPartnerIntegrationsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SensorPartnerIntegrationsCreateOrUpdatedefaultHeaders;
+    headers: RawHttpHeaders & SensorPartnerIntegrationsCreateOrUpdateDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -9073,17 +9253,17 @@ export interface SensorPartnerIntegrationsDelete204Response extends HttpResponse
 }
 
 // @public (undocumented)
-export interface SensorPartnerIntegrationsDeletedefaultHeaders {
+export interface SensorPartnerIntegrationsDeleteDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SensorPartnerIntegrationsDeletedefaultResponse extends HttpResponse {
+export interface SensorPartnerIntegrationsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SensorPartnerIntegrationsDeletedefaultHeaders;
+    headers: RawHttpHeaders & SensorPartnerIntegrationsDeleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -9093,7 +9273,7 @@ export type SensorPartnerIntegrationsDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface SensorPartnerIntegrationsGenerateConsentLink {
-    post(options?: SensorPartnerIntegrationsGenerateConsentLinkParameters): StreamableMethod<SensorPartnerIntegrationsGenerateConsentLink200Response | SensorPartnerIntegrationsGenerateConsentLinkdefaultResponse>;
+    post(options?: SensorPartnerIntegrationsGenerateConsentLinkParameters): StreamableMethod<SensorPartnerIntegrationsGenerateConsentLink200Response | SensorPartnerIntegrationsGenerateConsentLinkDefaultResponse>;
 }
 
 // @public
@@ -9105,17 +9285,17 @@ export interface SensorPartnerIntegrationsGenerateConsentLink200Response extends
 }
 
 // @public (undocumented)
-export interface SensorPartnerIntegrationsGenerateConsentLinkdefaultHeaders {
+export interface SensorPartnerIntegrationsGenerateConsentLinkDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SensorPartnerIntegrationsGenerateConsentLinkdefaultResponse extends HttpResponse {
+export interface SensorPartnerIntegrationsGenerateConsentLinkDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SensorPartnerIntegrationsGenerateConsentLinkdefaultHeaders;
+    headers: RawHttpHeaders & SensorPartnerIntegrationsGenerateConsentLinkDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -9132,17 +9312,17 @@ export interface SensorPartnerIntegrationsGet200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface SensorPartnerIntegrationsGetdefaultHeaders {
+export interface SensorPartnerIntegrationsGetDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SensorPartnerIntegrationsGetdefaultResponse extends HttpResponse {
+export interface SensorPartnerIntegrationsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SensorPartnerIntegrationsGetdefaultHeaders;
+    headers: RawHttpHeaders & SensorPartnerIntegrationsGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -9152,7 +9332,7 @@ export type SensorPartnerIntegrationsGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface SensorPartnerIntegrationsList {
-    get(options?: SensorPartnerIntegrationsListParameters): StreamableMethod<SensorPartnerIntegrationsList200Response | SensorPartnerIntegrationsListdefaultResponse>;
+    get(options?: SensorPartnerIntegrationsListParameters): StreamableMethod<SensorPartnerIntegrationsList200Response | SensorPartnerIntegrationsListDefaultResponse>;
 }
 
 // @public
@@ -9164,17 +9344,17 @@ export interface SensorPartnerIntegrationsList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface SensorPartnerIntegrationsListdefaultHeaders {
+export interface SensorPartnerIntegrationsListDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SensorPartnerIntegrationsListdefaultResponse extends HttpResponse {
+export interface SensorPartnerIntegrationsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SensorPartnerIntegrationsListdefaultHeaders;
+    headers: RawHttpHeaders & SensorPartnerIntegrationsListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -9190,30 +9370,76 @@ export interface SensorPartnerIntegrationsListQueryParam {
 
 // @public (undocumented)
 export interface SensorPartnerIntegrationsListQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    farmerIds?: Array<string>;
-    ids?: Array<string>;
-    integrationIds?: Array<string>;
+    ids?: string;
+    integrationIds?: string;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
+    maxPageSize?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    statuses?: Array<string>;
+    names?: string;
+    partyIds?: string;
+    propertyFilters?: string;
+    skipToken?: string;
+    statuses?: string;
 }
 
-// @public (undocumented)
+// @public
+export interface SensorPlacementModelJob {
+    boundaryId: string;
+    description?: string;
+    inferenceEndDateTime: Date | string;
+    inferenceStartDateTime: Date | string;
+    isRanked: boolean;
+    modelVersion: string;
+    name?: string;
+    partyId: string;
+    properties?: Record<string, any>;
+    satelliteProvider: "Microsoft";
+    satelliteSource: "Sentinel_2_L2A" | "Sentinel_2_L1C";
+    sensorType: string;
+}
+
+// @public
+export interface SensorPlacementModelJobOutput {
+    boundaryId: string;
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
+    description?: string;
+    readonly durationInSeconds?: number;
+    readonly endTime?: string;
+    readonly errorCode?: string;
+    readonly id?: string;
+    inferenceEndDateTime: string;
+    inferenceStartDateTime: string;
+    isRanked: boolean;
+    readonly lastActionDateTime?: string;
+    readonly message?: string;
+    modelVersion: string;
+    readonly modifiedBy?: string;
+    name?: string;
+    partyId: string;
+    properties?: Record<string, any>;
+    satelliteProvider: "Microsoft";
+    satelliteSource: "Sentinel_2_L2A" | "Sentinel_2_L1C";
+    sensorType: string;
+    readonly startTime?: string;
+    readonly status?: string;
+}
+
+// @public
 export interface SensorRenewConnectionStringModel {
     connectionStringType: "Primary" | "Secondary" | "Both";
 }
 
+// @public
+export type SensorResourceMergeAndPatch = Partial<Sensor>;
+
 // @public (undocumented)
 export interface SensorsCreateOrUpdate {
-    delete(options?: SensorsDeleteParameters): StreamableMethod<SensorsDelete204Response | SensorsDeletedefaultResponse>;
-    get(options?: SensorsGetParameters): StreamableMethod<SensorsGet200Response | SensorsGetdefaultResponse>;
-    patch(options: SensorsCreateOrUpdateParameters): StreamableMethod<SensorsCreateOrUpdate200Response | SensorsCreateOrUpdate201Response | SensorsCreateOrUpdatedefaultResponse>;
+    delete(options?: SensorsDeleteParameters): StreamableMethod<SensorsDelete204Response | SensorsDeleteDefaultResponse>;
+    get(options?: SensorsGetParameters): StreamableMethod<SensorsGet200Response | SensorsGetDefaultResponse>;
+    patch(options: SensorsCreateOrUpdateParameters): StreamableMethod<SensorsCreateOrUpdate200Response | SensorsCreateOrUpdate201Response | SensorsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -9234,21 +9460,21 @@ export interface SensorsCreateOrUpdate201Response extends HttpResponse {
 
 // @public (undocumented)
 export interface SensorsCreateOrUpdateBodyParam {
-    body: Sensor;
+    body: SensorResourceMergeAndPatch;
 }
 
 // @public (undocumented)
-export interface SensorsCreateOrUpdatedefaultHeaders {
+export interface SensorsCreateOrUpdateDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SensorsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface SensorsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SensorsCreateOrUpdatedefaultHeaders;
+    headers: RawHttpHeaders & SensorsCreateOrUpdateDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -9270,17 +9496,17 @@ export interface SensorsDelete204Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface SensorsDeletedefaultHeaders {
+export interface SensorsDeleteDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SensorsDeletedefaultResponse extends HttpResponse {
+export interface SensorsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SensorsDeletedefaultHeaders;
+    headers: RawHttpHeaders & SensorsDeleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -9298,7 +9524,7 @@ export interface SensorsGet200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface SensorsGetConnectionString {
-    get(options?: SensorsGetConnectionStringParameters): StreamableMethod<SensorsGetConnectionString200Response | SensorsGetConnectionStringdefaultResponse>;
+    get(options?: SensorsGetConnectionStringParameters): StreamableMethod<SensorsGetConnectionString200Response | SensorsGetConnectionStringDefaultResponse>;
 }
 
 // @public
@@ -9310,17 +9536,17 @@ export interface SensorsGetConnectionString200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface SensorsGetConnectionStringdefaultHeaders {
+export interface SensorsGetConnectionStringDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SensorsGetConnectionStringdefaultResponse extends HttpResponse {
+export interface SensorsGetConnectionStringDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SensorsGetConnectionStringdefaultHeaders;
+    headers: RawHttpHeaders & SensorsGetConnectionStringDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -9329,17 +9555,17 @@ export interface SensorsGetConnectionStringdefaultResponse extends HttpResponse 
 export type SensorsGetConnectionStringParameters = RequestParameters;
 
 // @public (undocumented)
-export interface SensorsGetdefaultHeaders {
+export interface SensorsGetDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SensorsGetdefaultResponse extends HttpResponse {
+export interface SensorsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SensorsGetdefaultHeaders;
+    headers: RawHttpHeaders & SensorsGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -9349,7 +9575,7 @@ export type SensorsGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface SensorsList {
-    get(options?: SensorsListParameters): StreamableMethod<SensorsList200Response | SensorsListdefaultResponse>;
+    get(options?: SensorsListParameters): StreamableMethod<SensorsList200Response | SensorsListDefaultResponse>;
 }
 
 // @public
@@ -9361,17 +9587,17 @@ export interface SensorsList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface SensorsListdefaultHeaders {
+export interface SensorsListDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SensorsListdefaultResponse extends HttpResponse {
+export interface SensorsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SensorsListdefaultHeaders;
+    headers: RawHttpHeaders & SensorsListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -9387,24 +9613,24 @@ export interface SensorsListQueryParam {
 
 // @public (undocumented)
 export interface SensorsListQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    deviceIds?: Array<string>;
-    ids?: Array<string>;
+    deviceIds?: string;
+    ids?: string;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
+    maxPageSize?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    sensorDataModelIds?: Array<string>;
-    sensorMappingIds?: Array<string>;
-    statuses?: Array<string>;
+    names?: string;
+    propertyFilters?: string;
+    sensorDataModelIds?: string;
+    sensorMappingIds?: string;
+    skipToken?: string;
+    statuses?: string;
 }
 
 // @public (undocumented)
 export interface SensorsRenewConnectionString {
-    post(options: SensorsRenewConnectionStringParameters): StreamableMethod<SensorsRenewConnectionString200Response | SensorsRenewConnectionStringdefaultResponse>;
+    post(options: SensorsRenewConnectionStringParameters): StreamableMethod<SensorsRenewConnectionString200Response | SensorsRenewConnectionStringDefaultResponse>;
 }
 
 // @public
@@ -9421,17 +9647,17 @@ export interface SensorsRenewConnectionStringBodyParam {
 }
 
 // @public (undocumented)
-export interface SensorsRenewConnectionStringdefaultHeaders {
+export interface SensorsRenewConnectionStringDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SensorsRenewConnectionStringdefaultResponse extends HttpResponse {
+export interface SensorsRenewConnectionStringDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SensorsRenewConnectionStringdefaultHeaders;
+    headers: RawHttpHeaders & SensorsRenewConnectionStringDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -9444,75 +9670,70 @@ export interface SensorsRenewConnectionStringMediaTypesParam {
 // @public (undocumented)
 export type SensorsRenewConnectionStringParameters = SensorsRenewConnectionStringMediaTypesParam & SensorsRenewConnectionStringBodyParam & RequestParameters;
 
-// @public (undocumented)
-export interface SoilMoistureModelJob extends Record<string, unknown> {
+// @public
+export interface SoilMoistureModelJob {
     boundaryId: string;
-    createdDateTime?: Date | string;
     description?: string;
-    durationInSeconds?: number;
-    endTime?: Date | string;
-    farmerId: string;
-    id?: string;
     imageFormat: "TIF";
     imageResolution: number;
     inferenceEndDateTime: Date | string;
     inferenceStartDateTime: Date | string;
-    lastActionDateTime?: Date | string;
-    message?: string;
     modelVersion: string;
     name?: string;
+    partyId: string;
     properties?: Record<string, any>;
     satelliteProvider: "Microsoft";
-    satelliteSource: "Sentinel_2_L2A";
+    satelliteSource: "Sentinel_2_L2A" | "Sentinel_2_L1C";
     sensorDataModelId: string;
     sensorDefinition: SoilMoistureModelSensorDefinition;
     sensorPartnerId: string;
-    startTime?: Date | string;
-    status?: string;
 }
 
-// @public (undocumented)
-export interface SoilMoistureModelJobOutput extends Record<string, unknown> {
+// @public
+export interface SoilMoistureModelJobOutput {
     boundaryId: string;
-    createdDateTime?: string;
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     description?: string;
-    durationInSeconds?: number;
-    endTime?: string;
-    farmerId: string;
-    id?: string;
+    readonly durationInSeconds?: number;
+    readonly endTime?: string;
+    readonly errorCode?: string;
+    readonly id?: string;
     imageFormat: "TIF";
     imageResolution: number;
     inferenceEndDateTime: string;
     inferenceStartDateTime: string;
-    lastActionDateTime?: string;
-    message?: string;
+    readonly lastActionDateTime?: string;
+    readonly message?: string;
     modelVersion: string;
+    readonly modifiedBy?: string;
     name?: string;
+    partyId: string;
     properties?: Record<string, any>;
     satelliteProvider: "Microsoft";
-    satelliteSource: "Sentinel_2_L2A";
+    satelliteSource: "Sentinel_2_L2A" | "Sentinel_2_L1C";
     sensorDataModelId: string;
     sensorDefinition: SoilMoistureModelSensorDefinitionOutput;
     sensorPartnerId: string;
-    startTime?: string;
-    status?: string;
+    readonly startTime?: string;
+    readonly status?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SoilMoistureModelSensorDefinition {
     maxProperty: string;
     minProperty: string;
     sensorMeasurement: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SoilMoistureModelSensorDefinitionOutput {
     maxProperty: string;
     minProperty: string;
     sensorMeasurement: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SolutionInference {
     partnerRequestBody?: Record<string, any>;
     requestPath: string;
@@ -9520,7 +9741,7 @@ export interface SolutionInference {
 
 // @public (undocumented)
 export interface SolutionInferenceCancel {
-    post(options: SolutionInferenceCancelParameters): StreamableMethod<SolutionInferenceCancel200Response | SolutionInferenceCanceldefaultResponse>;
+    post(options: SolutionInferenceCancelParameters): StreamableMethod<SolutionInferenceCancel200Response | SolutionInferenceCancelDefaultResponse>;
 }
 
 // @public
@@ -9537,17 +9758,17 @@ export interface SolutionInferenceCancelBodyParam {
 }
 
 // @public (undocumented)
-export interface SolutionInferenceCanceldefaultHeaders {
+export interface SolutionInferenceCancelDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SolutionInferenceCanceldefaultResponse extends HttpResponse {
+export interface SolutionInferenceCancelDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SolutionInferenceCanceldefaultHeaders;
+    headers: RawHttpHeaders & SolutionInferenceCancelDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -9562,7 +9783,7 @@ export type SolutionInferenceCancelParameters = SolutionInferenceCancelMediaType
 
 // @public (undocumented)
 export interface SolutionInferenceCreateOrUpdate {
-    post(options: SolutionInferenceCreateOrUpdateParameters): StreamableMethod<SolutionInferenceCreateOrUpdate202Response | SolutionInferenceCreateOrUpdatedefaultResponse>;
+    post(options: SolutionInferenceCreateOrUpdateParameters): StreamableMethod<SolutionInferenceCreateOrUpdate202Response | SolutionInferenceCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -9579,17 +9800,17 @@ export interface SolutionInferenceCreateOrUpdateBodyParam {
 }
 
 // @public (undocumented)
-export interface SolutionInferenceCreateOrUpdatedefaultHeaders {
+export interface SolutionInferenceCreateOrUpdateDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SolutionInferenceCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface SolutionInferenceCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SolutionInferenceCreateOrUpdatedefaultHeaders;
+    headers: RawHttpHeaders & SolutionInferenceCreateOrUpdateDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -9604,7 +9825,7 @@ export type SolutionInferenceCreateOrUpdateParameters = SolutionInferenceCreateO
 
 // @public (undocumented)
 export interface SolutionInferenceFetch {
-    post(options: SolutionInferenceFetchParameters): StreamableMethod<SolutionInferenceFetch200Response | SolutionInferenceFetchdefaultResponse>;
+    post(options: SolutionInferenceFetchParameters): StreamableMethod<SolutionInferenceFetch200Response | SolutionInferenceFetchDefaultResponse>;
 }
 
 // @public
@@ -9621,17 +9842,17 @@ export interface SolutionInferenceFetchBodyParam {
 }
 
 // @public (undocumented)
-export interface SolutionInferenceFetchdefaultHeaders {
+export interface SolutionInferenceFetchDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface SolutionInferenceFetchdefaultResponse extends HttpResponse {
+export interface SolutionInferenceFetchDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SolutionInferenceFetchdefaultHeaders;
+    headers: RawHttpHeaders & SolutionInferenceFetchDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -9644,17 +9865,42 @@ export interface SolutionInferenceFetchMediaTypesParam {
 // @public (undocumented)
 export type SolutionInferenceFetchParameters = SolutionInferenceFetchMediaTypesParam & SolutionInferenceFetchBodyParam & RequestParameters;
 
-// @public (undocumented)
-export interface TillageData extends Record<string, unknown> {
+// @public
+export interface StacFeatureAssetOutput {
+    description?: string;
+    href: string;
+    roles?: Array<string>;
+    title?: string;
+    type?: string;
+}
+
+// @public
+export interface StacFeatureLinkOutput {
+    href: string;
+    rel: string;
+    title?: string;
+    type?: string;
+}
+
+// @public
+export interface StacFeatureOutput {
+    assets: Record<string, StacFeatureAssetOutput>;
+    bbox?: Array<number>;
+    collection?: string;
+    geometry?: any;
+    id: string;
+    links: Array<StacFeatureLinkOutput>;
+    properties: any;
+    stacExtensions?: Array<string>;
+    stacVersion: string;
+    type: string;
+}
+
+// @public
+export interface TillageData {
     area?: Measure;
     associatedBoundaryId?: string;
-    attachmentsLink?: string;
-    createdDateTime?: Date | string;
     description?: string;
-    eTag?: string;
-    farmerId?: string;
-    id?: string;
-    modifiedDateTime?: Date | string;
     name?: string;
     operationEndDateTime?: Date | string;
     operationModifiedDateTime?: Date | string;
@@ -9668,8 +9914,8 @@ export interface TillageData extends Record<string, unknown> {
 
 // @public (undocumented)
 export interface TillageDataCreateCascadeDeleteJob {
-    get(options?: TillageDataGetCascadeDeleteJobDetailsParameters): StreamableMethod<TillageDataGetCascadeDeleteJobDetails200Response | TillageDataGetCascadeDeleteJobDetailsdefaultResponse>;
-    put(options: TillageDataCreateCascadeDeleteJobParameters): StreamableMethod<TillageDataCreateCascadeDeleteJob202Response | TillageDataCreateCascadeDeleteJobdefaultResponse>;
+    get(options?: TillageDataGetCascadeDeleteJobDetailsParameters): StreamableMethod<TillageDataGetCascadeDeleteJobDetails200Response | TillageDataGetCascadeDeleteJobDetailsDefaultResponse>;
+    put(options: TillageDataCreateCascadeDeleteJobParameters): StreamableMethod<TillageDataCreateCascadeDeleteJob202Response | TillageDataCreateCascadeDeleteJobDefaultResponse>;
 }
 
 // @public
@@ -9681,17 +9927,17 @@ export interface TillageDataCreateCascadeDeleteJob202Response extends HttpRespon
 }
 
 // @public (undocumented)
-export interface TillageDataCreateCascadeDeleteJobdefaultHeaders {
+export interface TillageDataCreateCascadeDeleteJobDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface TillageDataCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
+export interface TillageDataCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & TillageDataCreateCascadeDeleteJobdefaultHeaders;
+    headers: RawHttpHeaders & TillageDataCreateCascadeDeleteJobDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -9707,7 +9953,7 @@ export interface TillageDataCreateCascadeDeleteJobQueryParam {
 
 // @public (undocumented)
 export interface TillageDataCreateCascadeDeleteJobQueryParamProperties {
-    farmerId: string;
+    partyId: string;
     tillageDataId: string;
 }
 
@@ -9729,21 +9975,21 @@ export interface TillageDataCreateOrUpdate201Response extends HttpResponse {
 
 // @public (undocumented)
 export interface TillageDataCreateOrUpdateBodyParam {
-    body: TillageData;
+    body: TillageDataResourceMergeAndPatch;
 }
 
 // @public (undocumented)
-export interface TillageDataCreateOrUpdatedefaultHeaders {
+export interface TillageDataCreateOrUpdateDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface TillageDataCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface TillageDataCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & TillageDataCreateOrUpdatedefaultHeaders;
+    headers: RawHttpHeaders & TillageDataCreateOrUpdateDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -9765,17 +10011,17 @@ export interface TillageDataDelete204Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface TillageDataDeletedefaultHeaders {
+export interface TillageDataDeleteDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface TillageDataDeletedefaultResponse extends HttpResponse {
+export interface TillageDataDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & TillageDataDeletedefaultHeaders;
+    headers: RawHttpHeaders & TillageDataDeleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -9785,9 +10031,9 @@ export type TillageDataDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TillageDataGet {
-    delete(options?: TillageDataDeleteParameters): StreamableMethod<TillageDataDelete204Response | TillageDataDeletedefaultResponse>;
-    get(options?: TillageDataGetParameters): StreamableMethod<TillageDataGet200Response | TillageDataGetdefaultResponse>;
-    patch(options: TillageDataCreateOrUpdateParameters): StreamableMethod<TillageDataCreateOrUpdate200Response | TillageDataCreateOrUpdate201Response | TillageDataCreateOrUpdatedefaultResponse>;
+    delete(options?: TillageDataDeleteParameters): StreamableMethod<TillageDataDelete204Response | TillageDataDeleteDefaultResponse>;
+    get(options?: TillageDataGetParameters): StreamableMethod<TillageDataGet200Response | TillageDataGetDefaultResponse>;
+    patch(options: TillageDataCreateOrUpdateParameters): StreamableMethod<TillageDataCreateOrUpdate200Response | TillageDataCreateOrUpdate201Response | TillageDataCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -9807,17 +10053,17 @@ export interface TillageDataGetCascadeDeleteJobDetails200Response extends HttpRe
 }
 
 // @public (undocumented)
-export interface TillageDataGetCascadeDeleteJobDetailsdefaultHeaders {
+export interface TillageDataGetCascadeDeleteJobDetailsDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface TillageDataGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
+export interface TillageDataGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & TillageDataGetCascadeDeleteJobDetailsdefaultHeaders;
+    headers: RawHttpHeaders & TillageDataGetCascadeDeleteJobDetailsDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -9826,17 +10072,17 @@ export interface TillageDataGetCascadeDeleteJobDetailsdefaultResponse extends Ht
 export type TillageDataGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
 // @public (undocumented)
-export interface TillageDataGetdefaultHeaders {
+export interface TillageDataGetDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface TillageDataGetdefaultResponse extends HttpResponse {
+export interface TillageDataGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & TillageDataGetdefaultHeaders;
+    headers: RawHttpHeaders & TillageDataGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -9846,7 +10092,7 @@ export type TillageDataGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TillageDataList {
-    get(options?: TillageDataListParameters): StreamableMethod<TillageDataList200Response | TillageDataListdefaultResponse>;
+    get(options?: TillageDataListParameters): StreamableMethod<TillageDataList200Response | TillageDataListDefaultResponse>;
 }
 
 // @public
@@ -9858,12 +10104,12 @@ export interface TillageDataList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface TillageDataListByFarmerId {
-    get(options?: TillageDataListByFarmerIdParameters): StreamableMethod<TillageDataListByFarmerId200Response | TillageDataListByFarmerIddefaultResponse>;
+export interface TillageDataListByPartyId {
+    get(options?: TillageDataListByPartyIdParameters): StreamableMethod<TillageDataListByPartyId200Response | TillageDataListByPartyIdDefaultResponse>;
 }
 
 // @public
-export interface TillageDataListByFarmerId200Response extends HttpResponse {
+export interface TillageDataListByPartyId200Response extends HttpResponse {
     // (undocumented)
     body: TillageDataListResponseOutput;
     // (undocumented)
@@ -9871,42 +10117,41 @@ export interface TillageDataListByFarmerId200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface TillageDataListByFarmerIddefaultHeaders {
+export interface TillageDataListByPartyIdDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface TillageDataListByFarmerIddefaultResponse extends HttpResponse {
+export interface TillageDataListByPartyIdDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & TillageDataListByFarmerIddefaultHeaders;
+    headers: RawHttpHeaders & TillageDataListByPartyIdDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export type TillageDataListByFarmerIdParameters = TillageDataListByFarmerIdQueryParam & RequestParameters;
+export type TillageDataListByPartyIdParameters = TillageDataListByPartyIdQueryParam & RequestParameters;
 
 // @public (undocumented)
-export interface TillageDataListByFarmerIdQueryParam {
+export interface TillageDataListByPartyIdQueryParam {
     // (undocumented)
-    queryParameters?: TillageDataListByFarmerIdQueryParamProperties;
+    queryParameters?: TillageDataListByPartyIdQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface TillageDataListByFarmerIdQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    associatedBoundaryIds?: Array<string>;
-    ids?: Array<string>;
+export interface TillageDataListByPartyIdQueryParamProperties {
+    associatedBoundaryIds?: string;
+    ids?: string;
     maxArea?: number;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
     maxOperationEndDateTime?: Date | string;
     maxOperationModifiedDateTime?: Date | string;
     maxOperationStartDateTime?: Date | string;
+    maxPageSize?: number;
     maxTillageDepth?: number;
     maxTillagePressure?: number;
     minArea?: number;
@@ -9917,24 +10162,25 @@ export interface TillageDataListByFarmerIdQueryParamProperties {
     minOperationStartDateTime?: Date | string;
     minTillageDepth?: number;
     minTillagePressure?: number;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    sources?: Array<string>;
-    statuses?: Array<string>;
+    names?: string;
+    propertyFilters?: string;
+    skipToken?: string;
+    sources?: string;
+    statuses?: string;
 }
 
 // @public (undocumented)
-export interface TillageDataListdefaultHeaders {
+export interface TillageDataListDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface TillageDataListdefaultResponse extends HttpResponse {
+export interface TillageDataListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & TillageDataListdefaultHeaders;
+    headers: RawHttpHeaders & TillageDataListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -9950,16 +10196,15 @@ export interface TillageDataListQueryParam {
 
 // @public (undocumented)
 export interface TillageDataListQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    associatedBoundaryIds?: Array<string>;
-    ids?: Array<string>;
+    associatedBoundaryIds?: string;
+    ids?: string;
     maxArea?: number;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
     maxOperationEndDateTime?: Date | string;
     maxOperationModifiedDateTime?: Date | string;
     maxOperationStartDateTime?: Date | string;
+    maxPageSize?: number;
     maxTillageDepth?: number;
     maxTillagePressure?: number;
     minArea?: number;
@@ -9970,40 +10215,46 @@ export interface TillageDataListQueryParamProperties {
     minOperationStartDateTime?: Date | string;
     minTillageDepth?: number;
     minTillagePressure?: number;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    sources?: Array<string>;
-    statuses?: Array<string>;
+    names?: string;
+    propertyFilters?: string;
+    skipToken?: string;
+    sources?: string;
+    statuses?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface TillageDataListResponseOutput {
-    $skipToken?: string;
     nextLink?: string;
-    value?: Array<TillageDataOutput>;
+    skipToken?: string;
+    value: Array<TillageDataOutput>;
 }
 
-// @public (undocumented)
-export interface TillageDataOutput extends Record<string, unknown> {
+// @public
+export interface TillageDataOutput {
     area?: MeasureOutput;
     associatedBoundaryId?: string;
-    attachmentsLink?: string;
-    createdDateTime?: string;
+    readonly attachmentsLink?: string;
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     description?: string;
-    eTag?: string;
-    farmerId?: string;
-    id?: string;
-    modifiedDateTime?: string;
+    readonly eTag?: string;
+    readonly id?: string;
+    readonly modifiedBy?: string;
+    readonly modifiedDateTime?: string;
     name?: string;
     operationEndDateTime?: string;
     operationModifiedDateTime?: string;
     operationStartDateTime?: string;
+    readonly partyId?: string;
     properties?: Record<string, any>;
     source?: string;
     status?: string;
     tillageDepth?: MeasureOutput;
     tillagePressure?: MeasureOutput;
 }
+
+// @public
+export type TillageDataResourceMergeAndPatch = Partial<TillageData>;
 
 // @public
 export interface WeatherCreateDataDeleteJob202Response extends HttpResponse {
@@ -10019,17 +10270,17 @@ export interface WeatherCreateDataDeleteJobBodyParam {
 }
 
 // @public (undocumented)
-export interface WeatherCreateDataDeleteJobdefaultHeaders {
+export interface WeatherCreateDataDeleteJobDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface WeatherCreateDataDeleteJobdefaultResponse extends HttpResponse {
+export interface WeatherCreateDataDeleteJobDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & WeatherCreateDataDeleteJobdefaultHeaders;
+    headers: RawHttpHeaders & WeatherCreateDataDeleteJobDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -10056,17 +10307,17 @@ export interface WeatherCreateDataIngestionJobBodyParam {
 }
 
 // @public (undocumented)
-export interface WeatherCreateDataIngestionJobdefaultHeaders {
+export interface WeatherCreateDataIngestionJobDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface WeatherCreateDataIngestionJobdefaultResponse extends HttpResponse {
+export interface WeatherCreateDataIngestionJobDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & WeatherCreateDataIngestionJobdefaultHeaders;
+    headers: RawHttpHeaders & WeatherCreateDataIngestionJobDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -10079,117 +10330,192 @@ export interface WeatherCreateDataIngestionJobMediaTypesParam {
 // @public (undocumented)
 export type WeatherCreateDataIngestionJobParameters = WeatherCreateDataIngestionJobMediaTypesParam & WeatherCreateDataIngestionJobBodyParam & RequestParameters;
 
-// @public (undocumented)
-export interface WeatherDataDeleteJob extends Record<string, unknown> {
+// @public
+export interface WeatherDataDeleteJob {
     boundaryId: string;
-    createdDateTime?: Date | string;
     description?: string;
-    durationInSeconds?: number;
     endDateTime?: Date | string;
-    endTime?: Date | string;
     extensionId: string;
-    farmerId: string;
     granularity?: string;
-    id?: string;
-    lastActionDateTime?: Date | string;
-    message?: string;
     name?: string;
+    partyId: string;
     properties?: Record<string, any>;
     startDateTime?: Date | string;
-    startTime?: Date | string;
-    status?: string;
     weatherDataType?: string;
 }
 
-// @public (undocumented)
-export interface WeatherDataDeleteJobOutput extends Record<string, unknown> {
+// @public
+export interface WeatherDataDeleteJobOutput {
     boundaryId: string;
-    createdDateTime?: string;
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     description?: string;
-    durationInSeconds?: number;
+    readonly durationInSeconds?: number;
     endDateTime?: string;
-    endTime?: string;
+    readonly endTime?: string;
+    readonly errorCode?: string;
     extensionId: string;
-    farmerId: string;
     granularity?: string;
-    id?: string;
-    lastActionDateTime?: string;
-    message?: string;
+    readonly id?: string;
+    readonly lastActionDateTime?: string;
+    readonly message?: string;
+    readonly modifiedBy?: string;
     name?: string;
+    partyId: string;
     properties?: Record<string, any>;
     startDateTime?: string;
-    startTime?: string;
-    status?: string;
+    readonly startTime?: string;
+    readonly status?: string;
     weatherDataType?: string;
 }
 
+// @public
+export interface WeatherDataErrorsOutput {
+    locations?: Array<ErrorForLocationOutput>;
+}
+
+// @public
+export interface WeatherDataForPassthroughOutput {
+    additionalAttributes?: Record<string, any>;
+    cloudCover?: MeasuresOutput;
+    dayOfWeek?: Array<string>;
+    dayOrNight?: Array<string>;
+    expirationTime?: Array<string>;
+    hasPrecipitation?: Array<boolean>;
+    iconCode?: Array<string>;
+    iconCodeExtend?: Array<string>;
+    pressureMeanSeaLevel?: MeasuresOutput;
+    relativeHumidity?: MeasuresOutput;
+    temperature?: MeasuresOutput;
+    temperatureDewPoint?: MeasuresOutput;
+    temperatureFeelsLike?: MeasuresOutput;
+    temperatureHeatIndex?: MeasuresOutput;
+    temperatureWindChill?: MeasuresOutput;
+    uvDescription?: Array<string>;
+    uvIndex?: Array<string>;
+    validTime?: Array<string>;
+    validTimeLocal?: Array<string>;
+    visibility?: MeasuresOutput;
+    wetBulbTemperature?: MeasuresOutput;
+    windDirection?: MeasuresOutput;
+    windGust?: MeasuresOutput;
+    windSpeed?: MeasuresOutput;
+    wxPhraseLong?: Array<string>;
+    wxPhraseShort?: Array<string>;
+}
+
 // @public (undocumented)
-export interface WeatherDataIngestionJob extends Record<string, unknown> {
+export interface WeatherDataGet {
+    post(options: WeatherDataGetParameters): StreamableMethod<WeatherDataGet200Response | WeatherDataGetDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface WeatherDataGet200Headers {
+    "x-ms-cache-hit"?: boolean;
+    "x-ms-response-latency-in-milliseconds"?: number;
+}
+
+// @public
+export interface WeatherDataGet200Response extends HttpResponse {
+    // (undocumented)
+    body: WeatherDataProviderResponseOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & WeatherDataGet200Headers;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface WeatherDataGetBodyParam {
+    body: WeatherDataProviderRequest;
+}
+
+// @public (undocumented)
+export interface WeatherDataGetDefaultHeaders {
+    // (undocumented)
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface WeatherDataGetDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & WeatherDataGetDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface WeatherDataGetMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type WeatherDataGetParameters = WeatherDataGetMediaTypesParam & WeatherDataGetBodyParam & RequestParameters;
+
+// @public
+export interface WeatherDataIngestionJob {
     boundaryId: string;
-    createdDateTime?: Date | string;
     description?: string;
-    durationInSeconds?: number;
-    endTime?: Date | string;
     extensionApiInput: Record<string, any>;
     extensionApiName: string;
     extensionDataProviderApiKey?: string;
     extensionDataProviderAppId?: string;
     extensionId: string;
-    farmerId: string;
-    id?: string;
-    lastActionDateTime?: Date | string;
-    message?: string;
     name?: string;
+    partyId: string;
     properties?: Record<string, any>;
-    startTime?: Date | string;
-    status?: string;
 }
 
-// @public (undocumented)
-export interface WeatherDataIngestionJobOutput extends Record<string, unknown> {
+// @public
+export interface WeatherDataIngestionJobOutput {
     boundaryId: string;
-    createdDateTime?: string;
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     description?: string;
-    durationInSeconds?: number;
-    endTime?: string;
+    readonly durationInSeconds?: number;
+    readonly endTime?: string;
+    readonly errorCode?: string;
     extensionApiInput: Record<string, any>;
     extensionApiName: string;
     extensionDataProviderApiKey?: string;
     extensionDataProviderAppId?: string;
     extensionId: string;
-    farmerId: string;
-    id?: string;
-    lastActionDateTime?: string;
-    message?: string;
+    readonly id?: string;
+    readonly lastActionDateTime?: string;
+    readonly message?: string;
+    readonly modifiedBy?: string;
     name?: string;
+    partyId: string;
     properties?: Record<string, any>;
-    startTime?: string;
-    status?: string;
+    readonly startTime?: string;
+    readonly status?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface WeatherDataListResponseOutput {
-    $skipToken?: string;
     nextLink?: string;
-    value?: Array<WeatherDataOutput>;
+    skipToken?: string;
+    value: Array<WeatherDataOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface WeatherDataOutput {
     boundaryId: string;
     cloudCover?: MeasureOutput;
-    createdDateTime?: string;
+    readonly createdDateTime?: string;
     dateTime: string;
     dewPoint?: MeasureOutput;
-    eTag?: string;
+    readonly eTag?: string;
     extensionId: string;
     extensionVersion: string;
-    farmerId: string;
     granularity: string;
     growingDegreeDay?: MeasureOutput;
     id?: string;
     location: LocationOutput;
-    modifiedDateTime?: string;
+    readonly modifiedDateTime?: string;
+    partyId: string;
     precipitation?: MeasureOutput;
     pressure?: MeasureOutput;
     properties?: Record<string, any>;
@@ -10207,10 +10533,33 @@ export interface WeatherDataOutput {
     windSpeed?: MeasureOutput;
 }
 
+// @public
+export interface WeatherDataProviderRequest {
+    additionalParams?: AdditionalProviderParameters;
+    duration?: number;
+    endTimeHours?: number;
+    extensionApiName: string;
+    extensionId: string;
+    language?: string;
+    locations?: Array<WeatherLocation>;
+    providerApiKey: string;
+    providerAppId?: string;
+    startTimeHours?: number;
+    units: string;
+}
+
+// @public
+export interface WeatherDataProviderResponseOutput {
+    errors?: WeatherDataErrorsOutput;
+    locations?: Array<WeatherLocationDataOutput>;
+    status?: "Succeeded" | "Failed" | "PartiallySucceeded";
+    weatherMetadata: WeatherMetadataOutput;
+}
+
 // @public (undocumented)
 export interface WeatherGetDataDeleteJobDetails {
-    get(options?: WeatherGetDataDeleteJobDetailsParameters): StreamableMethod<WeatherGetDataDeleteJobDetails200Response | WeatherGetDataDeleteJobDetailsdefaultResponse>;
-    put(options: WeatherCreateDataDeleteJobParameters): StreamableMethod<WeatherCreateDataDeleteJob202Response | WeatherCreateDataDeleteJobdefaultResponse>;
+    get(options?: WeatherGetDataDeleteJobDetailsParameters): StreamableMethod<WeatherGetDataDeleteJobDetails200Response | WeatherGetDataDeleteJobDetailsDefaultResponse>;
+    put(options: WeatherCreateDataDeleteJobParameters): StreamableMethod<WeatherCreateDataDeleteJob202Response | WeatherCreateDataDeleteJobDefaultResponse>;
 }
 
 // @public
@@ -10222,17 +10571,17 @@ export interface WeatherGetDataDeleteJobDetails200Response extends HttpResponse 
 }
 
 // @public (undocumented)
-export interface WeatherGetDataDeleteJobDetailsdefaultHeaders {
+export interface WeatherGetDataDeleteJobDetailsDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface WeatherGetDataDeleteJobDetailsdefaultResponse extends HttpResponse {
+export interface WeatherGetDataDeleteJobDetailsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & WeatherGetDataDeleteJobDetailsdefaultHeaders;
+    headers: RawHttpHeaders & WeatherGetDataDeleteJobDetailsDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -10242,8 +10591,8 @@ export type WeatherGetDataDeleteJobDetailsParameters = RequestParameters;
 
 // @public (undocumented)
 export interface WeatherGetDataIngestionJobDetails {
-    get(options?: WeatherGetDataIngestionJobDetailsParameters): StreamableMethod<WeatherGetDataIngestionJobDetails200Response | WeatherGetDataIngestionJobDetailsdefaultResponse>;
-    put(options: WeatherCreateDataIngestionJobParameters): StreamableMethod<WeatherCreateDataIngestionJob202Response | WeatherCreateDataIngestionJobdefaultResponse>;
+    get(options?: WeatherGetDataIngestionJobDetailsParameters): StreamableMethod<WeatherGetDataIngestionJobDetails200Response | WeatherGetDataIngestionJobDetailsDefaultResponse>;
+    put(options: WeatherCreateDataIngestionJobParameters): StreamableMethod<WeatherCreateDataIngestionJob202Response | WeatherCreateDataIngestionJobDefaultResponse>;
 }
 
 // @public
@@ -10255,17 +10604,17 @@ export interface WeatherGetDataIngestionJobDetails200Response extends HttpRespon
 }
 
 // @public (undocumented)
-export interface WeatherGetDataIngestionJobDetailsdefaultHeaders {
+export interface WeatherGetDataIngestionJobDetailsDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface WeatherGetDataIngestionJobDetailsdefaultResponse extends HttpResponse {
+export interface WeatherGetDataIngestionJobDetailsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & WeatherGetDataIngestionJobDetailsdefaultHeaders;
+    headers: RawHttpHeaders & WeatherGetDataIngestionJobDetailsDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -10275,7 +10624,7 @@ export type WeatherGetDataIngestionJobDetailsParameters = RequestParameters;
 
 // @public (undocumented)
 export interface WeatherList {
-    get(options: WeatherListParameters): StreamableMethod<WeatherList200Response | WeatherListdefaultResponse>;
+    get(options: WeatherListParameters): StreamableMethod<WeatherList200Response | WeatherListDefaultResponse>;
 }
 
 // @public
@@ -10287,17 +10636,17 @@ export interface WeatherList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface WeatherListdefaultHeaders {
+export interface WeatherListDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface WeatherListdefaultResponse extends HttpResponse {
+export interface WeatherListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & WeatherListdefaultHeaders;
+    headers: RawHttpHeaders & WeatherListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -10313,26 +10662,55 @@ export interface WeatherListQueryParam {
 
 // @public (undocumented)
 export interface WeatherListQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
     boundaryId: string;
     endDateTime?: Date | string;
     extensionId: string;
-    farmerId: string;
     granularity: string;
+    maxPageSize?: number;
+    partyId: string;
+    skipToken?: string;
     startDateTime?: Date | string;
     weatherDataType: string;
 }
 
-// @public (undocumented)
-export interface Zone extends Record<string, unknown> {
-    createdDateTime?: Date | string;
+// @public
+export interface WeatherLocation {
+    type: "LatLong" | "IataCode" | "IcaoCode" | "PlaceId" | "PostalKey";
+    value: string;
+}
+
+// @public
+export interface WeatherLocationDataOutput {
+    data?: WeatherDataForPassthroughOutput;
+    lastRefreshedDateTime?: string;
+    location?: WeatherLocationOutput;
+    requestCompletionTime?: string;
+}
+
+// @public
+export interface WeatherLocationOutput {
+    type: "LatLong" | "IataCode" | "IcaoCode" | "PlaceId" | "PostalKey";
+    value: string;
+}
+
+// @public
+export interface WeatherMetadataOutput {
+    additionalParams?: AdditionalProviderParametersOutput;
+    duration?: number;
+    endTimeHours?: number;
+    extensionApiName: string;
+    extensionId: string;
+    extensionVersion: string;
+    language?: string;
+    startTimeHours?: number;
+    units: string;
+    weatherDataType: string;
+}
+
+// @public
+export interface Zone {
     description?: string;
-    eTag?: string;
-    farmerId?: string;
-    id?: string;
     managementZoneId?: string;
-    modifiedDateTime?: Date | string;
     name?: string;
     properties?: Record<string, any>;
     source?: string;
@@ -10340,28 +10718,33 @@ export interface Zone extends Record<string, unknown> {
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ZoneListResponseOutput {
-    $skipToken?: string;
     nextLink?: string;
-    value?: Array<ZoneOutput>;
+    skipToken?: string;
+    value: Array<ZoneOutput>;
 }
 
-// @public (undocumented)
-export interface ZoneOutput extends Record<string, unknown> {
-    createdDateTime?: string;
+// @public
+export interface ZoneOutput {
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     description?: string;
-    eTag?: string;
-    farmerId?: string;
-    id?: string;
+    readonly eTag?: string;
+    readonly id?: string;
     managementZoneId?: string;
-    modifiedDateTime?: string;
+    readonly modifiedBy?: string;
+    readonly modifiedDateTime?: string;
     name?: string;
+    readonly partyId?: string;
     properties?: Record<string, any>;
     source?: string;
     status?: string;
     type?: string;
 }
+
+// @public
+export type ZoneResourceMergeAndPatch = Partial<Zone>;
 
 // @public
 export interface ZonesCreateCascadeDeleteJob202Response extends HttpResponse {
@@ -10372,17 +10755,17 @@ export interface ZonesCreateCascadeDeleteJob202Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface ZonesCreateCascadeDeleteJobdefaultHeaders {
+export interface ZonesCreateCascadeDeleteJobDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface ZonesCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
+export interface ZonesCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ZonesCreateCascadeDeleteJobdefaultHeaders;
+    headers: RawHttpHeaders & ZonesCreateCascadeDeleteJobDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -10398,7 +10781,7 @@ export interface ZonesCreateCascadeDeleteJobQueryParam {
 
 // @public (undocumented)
 export interface ZonesCreateCascadeDeleteJobQueryParamProperties {
-    farmerId: string;
+    partyId: string;
     zoneId: string;
 }
 
@@ -10420,21 +10803,21 @@ export interface ZonesCreateOrUpdate201Response extends HttpResponse {
 
 // @public (undocumented)
 export interface ZonesCreateOrUpdateBodyParam {
-    body: Zone;
+    body: ZoneResourceMergeAndPatch;
 }
 
 // @public (undocumented)
-export interface ZonesCreateOrUpdatedefaultHeaders {
+export interface ZonesCreateOrUpdateDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface ZonesCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface ZonesCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ZonesCreateOrUpdatedefaultHeaders;
+    headers: RawHttpHeaders & ZonesCreateOrUpdateDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -10456,17 +10839,17 @@ export interface ZonesDelete204Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface ZonesDeletedefaultHeaders {
+export interface ZonesDeleteDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface ZonesDeletedefaultResponse extends HttpResponse {
+export interface ZonesDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ZonesDeletedefaultHeaders;
+    headers: RawHttpHeaders & ZonesDeleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -10476,9 +10859,9 @@ export type ZonesDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ZonesGet {
-    delete(options?: ZonesDeleteParameters): StreamableMethod<ZonesDelete204Response | ZonesDeletedefaultResponse>;
-    get(options?: ZonesGetParameters): StreamableMethod<ZonesGet200Response | ZonesGetdefaultResponse>;
-    patch(options: ZonesCreateOrUpdateParameters): StreamableMethod<ZonesCreateOrUpdate200Response | ZonesCreateOrUpdate201Response | ZonesCreateOrUpdatedefaultResponse>;
+    delete(options?: ZonesDeleteParameters): StreamableMethod<ZonesDelete204Response | ZonesDeleteDefaultResponse>;
+    get(options?: ZonesGetParameters): StreamableMethod<ZonesGet200Response | ZonesGetDefaultResponse>;
+    patch(options: ZonesCreateOrUpdateParameters): StreamableMethod<ZonesCreateOrUpdate200Response | ZonesCreateOrUpdate201Response | ZonesCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -10491,8 +10874,8 @@ export interface ZonesGet200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface ZonesGetCascadeDeleteJobDetails {
-    get(options?: ZonesGetCascadeDeleteJobDetailsParameters): StreamableMethod<ZonesGetCascadeDeleteJobDetails200Response | ZonesGetCascadeDeleteJobDetailsdefaultResponse>;
-    put(options: ZonesCreateCascadeDeleteJobParameters): StreamableMethod<ZonesCreateCascadeDeleteJob202Response | ZonesCreateCascadeDeleteJobdefaultResponse>;
+    get(options?: ZonesGetCascadeDeleteJobDetailsParameters): StreamableMethod<ZonesGetCascadeDeleteJobDetails200Response | ZonesGetCascadeDeleteJobDetailsDefaultResponse>;
+    put(options: ZonesCreateCascadeDeleteJobParameters): StreamableMethod<ZonesCreateCascadeDeleteJob202Response | ZonesCreateCascadeDeleteJobDefaultResponse>;
 }
 
 // @public
@@ -10504,17 +10887,17 @@ export interface ZonesGetCascadeDeleteJobDetails200Response extends HttpResponse
 }
 
 // @public (undocumented)
-export interface ZonesGetCascadeDeleteJobDetailsdefaultHeaders {
+export interface ZonesGetCascadeDeleteJobDetailsDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface ZonesGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
+export interface ZonesGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ZonesGetCascadeDeleteJobDetailsdefaultHeaders;
+    headers: RawHttpHeaders & ZonesGetCascadeDeleteJobDetailsDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -10523,17 +10906,17 @@ export interface ZonesGetCascadeDeleteJobDetailsdefaultResponse extends HttpResp
 export type ZonesGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
 // @public (undocumented)
-export interface ZonesGetdefaultHeaders {
+export interface ZonesGetDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface ZonesGetdefaultResponse extends HttpResponse {
+export interface ZonesGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ZonesGetdefaultHeaders;
+    headers: RawHttpHeaders & ZonesGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -10543,7 +10926,7 @@ export type ZonesGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ZonesList {
-    get(options?: ZonesListParameters): StreamableMethod<ZonesList200Response | ZonesListdefaultResponse>;
+    get(options?: ZonesListParameters): StreamableMethod<ZonesList200Response | ZonesListDefaultResponse>;
 }
 
 // @public
@@ -10555,12 +10938,12 @@ export interface ZonesList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface ZonesListByFarmerId {
-    get(options?: ZonesListByFarmerIdParameters): StreamableMethod<ZonesListByFarmerId200Response | ZonesListByFarmerIddefaultResponse>;
+export interface ZonesListByPartyId {
+    get(options?: ZonesListByPartyIdParameters): StreamableMethod<ZonesListByPartyId200Response | ZonesListByPartyIdDefaultResponse>;
 }
 
 // @public
-export interface ZonesListByFarmerId200Response extends HttpResponse {
+export interface ZonesListByPartyId200Response extends HttpResponse {
     // (undocumented)
     body: ZoneListResponseOutput;
     // (undocumented)
@@ -10568,59 +10951,59 @@ export interface ZonesListByFarmerId200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface ZonesListByFarmerIddefaultHeaders {
+export interface ZonesListByPartyIdDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface ZonesListByFarmerIddefaultResponse extends HttpResponse {
+export interface ZonesListByPartyIdDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ZonesListByFarmerIddefaultHeaders;
+    headers: RawHttpHeaders & ZonesListByPartyIdDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export type ZonesListByFarmerIdParameters = ZonesListByFarmerIdQueryParam & RequestParameters;
+export type ZonesListByPartyIdParameters = ZonesListByPartyIdQueryParam & RequestParameters;
 
 // @public (undocumented)
-export interface ZonesListByFarmerIdQueryParam {
+export interface ZonesListByPartyIdQueryParam {
     // (undocumented)
-    queryParameters?: ZonesListByFarmerIdQueryParamProperties;
+    queryParameters?: ZonesListByPartyIdQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface ZonesListByFarmerIdQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    ids?: Array<string>;
-    managementZoneIds?: Array<string>;
+export interface ZonesListByPartyIdQueryParamProperties {
+    ids?: string;
+    managementZoneIds?: string;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
+    maxPageSize?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    sources?: Array<string>;
-    statuses?: Array<string>;
-    types?: Array<string>;
+    names?: string;
+    propertyFilters?: string;
+    skipToken?: string;
+    sources?: string;
+    statuses?: string;
+    types?: string;
 }
 
 // @public (undocumented)
-export interface ZonesListdefaultHeaders {
+export interface ZonesListDefaultHeaders {
     // (undocumented)
     "x-ms-error-code"?: string;
 }
 
 // @public
-export interface ZonesListdefaultResponse extends HttpResponse {
+export interface ZonesListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ZonesListdefaultHeaders;
+    headers: RawHttpHeaders & ZonesListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -10636,19 +11019,19 @@ export interface ZonesListQueryParam {
 
 // @public (undocumented)
 export interface ZonesListQueryParamProperties {
-    $maxPageSize?: number;
-    $skipToken?: string;
-    ids?: Array<string>;
-    managementZoneIds?: Array<string>;
+    ids?: string;
+    managementZoneIds?: string;
     maxCreatedDateTime?: Date | string;
     maxLastModifiedDateTime?: Date | string;
+    maxPageSize?: number;
     minCreatedDateTime?: Date | string;
     minLastModifiedDateTime?: Date | string;
-    names?: Array<string>;
-    propertyFilters?: Array<string>;
-    sources?: Array<string>;
-    statuses?: Array<string>;
-    types?: Array<string>;
+    names?: string;
+    propertyFilters?: string;
+    skipToken?: string;
+    sources?: string;
+    statuses?: string;
+    types?: string;
 }
 
 // (No @packageDocumentation comment for this package)

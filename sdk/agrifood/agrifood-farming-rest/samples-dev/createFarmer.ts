@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 /**
- * This sample demonstrates how create a farmer
+ * This sample demonstrates how create a party
  *
- * @summary creates a farmer
+ * @summary creates a party
  * @azsdk-weight 10
  */
 
-import FarmBeats, { FarmerOutput } from "@azure-rest/agrifood-farming";
+import FarmBeats, { PartyOutput, isUnexpected } from "@azure-rest/agrifood-farming";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
 
@@ -17,12 +17,12 @@ dotenv.config();
 const endpoint = process.env["FARMBEATS_ENDPOINT"] || "";
 
 async function main() {
-  const farming = FarmBeats(endpoint, new DefaultAzureCredential());
-  const farmerId = "test_farmer";
-  const result = await farming.path("/farmers/{farmerId}", farmerId).patch({
+  const farmbeatsClient = FarmBeats(endpoint, new DefaultAzureCredential());
+  const partyId = "test_party";
+  const result = await farmbeatsClient.path("/parties/{partyId}", partyId).patch({
     body: {
-      name: "Contoso Farmer",
-      description: "Your custom farmer description here",
+      name: "Contoso Party",
+      description: "Your custom party description here",
       status: "Active",
       properties: { foo: "bar", "numeric one": 1, "1": "numeric key" },
     },
@@ -30,12 +30,12 @@ async function main() {
     contentType: "application/merge-patch+json",
   });
 
-  if (result.status !== "200" && result.status !== "201") {
+  if (isUnexpected(result)) {
     throw result.body.error;
   }
 
-  const farmer = <FarmerOutput>result.body;
-  console.log(`Created Farmer: ${farmer.name}`);
+  const party = <PartyOutput>result.body;
+  console.log(`Created Party: ${party.name}`);
 }
 
 main().catch(console.error);
