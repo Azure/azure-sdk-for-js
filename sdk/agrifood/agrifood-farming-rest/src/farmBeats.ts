@@ -21,8 +21,8 @@ export default function createClient(
   options = {
     ...options,
     credentials: {
-      scopes: ["https://farmbeats.azure.net/.default"]
-    }
+      scopes: ["https://farmbeats.azure.net/.default"],
+    },
   };
 
   const userAgentInfo = `azsdk-js-agrifood-farming-rest/1.0.0-beta.3`;
@@ -33,8 +33,8 @@ export default function createClient(
   options = {
     ...options,
     userAgentOptions: {
-      userAgentPrefix
-    }
+      userAgentPrefix,
+    },
   };
 
   const client = getClient(baseUrl, credentials, options) as FarmBeatsClient;

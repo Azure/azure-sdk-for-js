@@ -27,7 +27,7 @@ async function main() {
 
   // Lof each party id
   for await (const party of parties) {
-    const partyOutput = <PartyOutput>party;
+    const partyOutput = party;
     console.log(partyOutput.id);
   }
 }

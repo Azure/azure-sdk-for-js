@@ -33,7 +33,7 @@ async function main() {
     throw result.body.error;
   }
 
-  const party = <PartyOutput>result.body;
+  const party = result.body;
   console.log(`Created Party: ${party.name}`);
 }
 

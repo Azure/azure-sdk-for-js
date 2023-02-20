@@ -23,7 +23,7 @@ describe("List parties", () => {
   });
 
   it("should list all parties", async () => {
-    var parameters: PartiesListParameters = {queryParameters: {ids: partyId}};
+    const parameters: PartiesListParameters = { queryParameters: { ids: partyId } };
     const result = await client.path("/parties").get(parameters);
 
     if (result.status !== "200") {
@@ -32,7 +32,7 @@ describe("List parties", () => {
 
     const parties = paginate(client, result);
 
-    let lastParty: Party[] = [];
+    const lastParty: Party[] = [];
     for await (const party of parties) {
       lastParty.push(<Party>party);
     }

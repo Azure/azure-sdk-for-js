@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { FarmBeatsClient, getLongRunningPoller, SatelliteDataIngestionJobOutput, SceneListResponseOutput, isUnexpected } from "../../src";
+import {
+  FarmBeatsClient,
+  getLongRunningPoller,
+  SatelliteDataIngestionJobOutput,
+  SceneListResponseOutput,
+  isUnexpected,
+} from "../../src";
 import { createClient, createRecorder } from "./utils/recordedClient";
 
 import { Context } from "mocha";
@@ -86,9 +92,9 @@ describe("party Operations", () => {
         contentType: "application/merge-patch+json",
       });
 
-      if (isUnexpected(result)) {
-        throw result.body.error;
-      }
+    if (isUnexpected(result)) {
+      throw result.body.error;
+    }
 
     assert.include(["200", "201"], result.status);
   });
@@ -102,7 +108,7 @@ describe("party Operations", () => {
         endDateTime,
         data: { imageNames: ["NDVI"] },
         source: "Sentinel_2_L2A",
-        provider: "Microsoft"
+        provider: "Microsoft",
       },
     });
 
@@ -134,8 +140,7 @@ describe("party Operations", () => {
 
     if (isUnexpected(result)) {
       throw result.body.error;
-    }
-    else {
+    } else {
       const scenes = <SceneListResponseOutput>result.body;
       assert.ok(scenes.value?.length, "Expected to list scenes, but got nothing");
     }
