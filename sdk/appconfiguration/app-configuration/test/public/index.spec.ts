@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AppConfigurationClient, ConfigurationSetting, ConfigurationSettingParam } from "../../src";
+import { AppConfigurationClient, ConfigurationSetting, ConfigurationSettingParam, Snapshot } from "../../src";
 import { Recorder, delay, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   assertEqualSettings,
@@ -15,6 +15,7 @@ import {
 } from "./utils/testHelpers";
 import { Context } from "mocha";
 import { assert } from "chai";
+import { CreateSnapshotResponse } from "../../src/generated/src";
 
 describe("AppConfigurationClient", () => {
   let client: AppConfigurationClient;
@@ -1247,24 +1248,91 @@ describe("AppConfigurationClient", () => {
       });
     });
   });
-  describe.skip("snapshot methods", () => {
+  describe("snapshot methods", () => {
+    let key1: string;
+    let key2: string;
+    let snapshot1: Snapshot;
+    let snapshot2: Snapshot;
+    let newSnapshot: CreateSnapshotResponse;
+
+    beforeEach(async () => {
+      key2 = "Samples:key2";
+      key1 = "Samples:key1";
+      snapshot1 = {
+        name: "mySnapshot",
+        filters: [
+          {
+            key: key1,
+          },
+        ],
+      };
+      snapshot2 = {
+        name: "mySnapshot2",
+        filters: [
+          {
+            key: key2,
+          },
+        ],
+      };
+
+      // creating a new setting
+      console.log(`Adding in new setting ${key1}`);
+      await client.addConfigurationSetting({ key: key1, value: "value1" });
+
+      // creating a new setting
+      console.log(`Adding in new setting ${key2}`);
+      await client.addConfigurationSetting({ key: key2, value: "value2" });
+    });
+
     describe("createSnapshot", () => {
-      it("create a snapshot", async () => {});
+      it("create a snapshot", async () => {
+        // creating a new snapshot
+        newSnapshot = await client.createSnapshot(snapshot1);
+        console.log(`New snapshot object added ${newSnapshot}`);
+
+        await client.getSnapshot({ name: newSnapshot.name as string, etag: newSnapshot.etag });
+
+      });
     });
     describe("listConfigurationSettings for Snapshot", () => {
-      it("list a snapshot configuration setting", async () => {});
+      it("list a snapshot configuration setting", async () => {
+        // getting the configuration settting of the snapshot
+        const snapshotConfigurationSettings = await client.listConfigurationSettings({
+          snapshotName: newSnapshot.name,
+        });
+
+        for await (const setting of snapshotConfigurationSettings) {
+          console.log(`  Found key: ${setting.key}, label: ${setting.label}`);
+        }
+      });
     });
 
     describe("listSnapshots", () => {
-      it("list all snapshots", async () => {});
+      it("list all snapshots", async () => {
+        // creating a new snapshot
+        const newSnapshot2 = await client.createSnapshot(snapshot2);
+        console.log(`New snapshot object added ${newSnapshot2}`);
+
+        // list all the snapshots
+        console.log(`List all the snapshots`);
+        await client.listSnapshots();
+      });
     });
 
     describe("archiveSnapshot", () => {
-      it("archive all snapshot", async () => {});
+      it("archive all snapshot", async () => {
+        // archive snapshot
+        await client.archiveSnapshot(newSnapshot);
+        console.log(`${newSnapshot.name} has been archived. Status is ${newSnapshot.status}`);
+      });
     });
 
     describe("recoverSnapshot", () => {
-      it("recover a snapshot", async () => {});
+      it("recover a snapshot", async () => {
+        // archive snapshot
+        await client.recoverSnapshot(newSnapshot);
+        console.log(`${newSnapshot.name} has been archived. Status is ${newSnapshot.status}`);
+      });
     });
   });
 });

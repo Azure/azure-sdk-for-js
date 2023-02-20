@@ -5,12 +5,7 @@ import { CompatResponse } from "@azure/core-http-compat";
 import { FeatureFlagValue } from "./featureFlag";
 import { OperationOptions } from "@azure/core-client";
 import { SecretReferenceValue } from "./secretReference";
-import {
-  CompositionType,
-  KeyValueFilter,
-  Snapshot,
-  SnapshotStatus,
-} from "./generated/src";
+import { CompositionType, KeyValueFilter, Snapshot, SnapshotStatus } from "./generated/src";
 /**
  * Fields that uniquely identify a configuration setting
  */
@@ -298,7 +293,6 @@ export interface ListSettingsOptions extends OptionalFields {
  * result.
  */
 export interface ListConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {}
-
 
 /**
  * Common options for 'list' style APIs in AppConfig used to specify wildcards as well as

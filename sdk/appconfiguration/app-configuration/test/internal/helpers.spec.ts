@@ -30,7 +30,7 @@ import { assert } from "chai";
 describe("helper methods", () => {
   it("checkAndFormatIfAndIfNoneMatch", () => {
     const key = "ignored";
-    const object: ConfigurationSettingId = { key }
+    const object: ConfigurationSettingId = { key };
     const objectWithEtag: ConfigurationSettingId = { key, etag: "hello" };
     assert.deepEqual(
       {
@@ -63,8 +63,8 @@ describe("helper methods", () => {
 
   it("checkAndFormatIfAndIfNoneMatch - mutually exclusive", () => {
     const key = "ignored";
-  const objectWithEtag: ConfigurationSettingId = { key, etag: "won't get used" };
-    
+    const objectWithEtag: ConfigurationSettingId = { key, etag: "won't get used" };
+
     assert.throws(
       () =>
         checkAndFormatIfAndIfNoneMatch(objectWithEtag, {

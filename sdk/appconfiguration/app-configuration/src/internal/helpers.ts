@@ -14,7 +14,11 @@ import {
   Snapshot,
 } from "../models";
 import { FeatureFlagHelper, FeatureFlagValue, featureFlagContentType } from "../featureFlag";
-import { GetKeyValuesOptionalParams, GetSnapshotsOptionalParams, KeyValue } from "../generated/src/models";
+import {
+  GetKeyValuesOptionalParams,
+  GetSnapshotsOptionalParams,
+  KeyValue,
+} from "../generated/src/models";
 import {
   SecretReferenceHelper,
   SecretReferenceValue,
@@ -124,11 +128,10 @@ export function formatFiltersAndSelect(
 export function formatSnapshotFiltersAndSelect(
   listSnapshotOptions: ListSnapshotsOptions
 ): Pick<GetSnapshotsOptionalParams, "name" | "select" | "status"> {
-
   return {
     name: listSnapshotOptions.nameFilter,
     status: listSnapshotOptions.statusFilter,
-    select: listSnapshotOptions.fields
+    select: listSnapshotOptions.fields,
   };
 }
 /**
