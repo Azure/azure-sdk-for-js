@@ -1,12 +1,13 @@
 # Release History
 
 ## 3.17.3 (2023-02-13)
-- Fix add timeout message in timeout error
 
 ### Features Added
-- Changes in bulk api to honour size restictions (i.e 2Mb) while creating individual batches.[#23923](https://github.com/Azure/azure-sdk-for-js/issues/23923)
-### Breaking Changes
 
+- Changes in bulk api to honour size restictions (i.e 2Mb) while creating individual batches.[#23923](https://github.com/Azure/azure-sdk-for-js/issues/23923)
+- Enriched Timeout error response. We had defined Timeout error as custom error in our sdk but we were not sending up any message along with it, now we are throwing the specific Error. [#23025](https://github.com/Azure/azure-sdk-for-js/issues/23025)
+- Added functionality to delete entire data for a partition id. [#22091](https://github.com/Azure/azure-sdk-for-js/issues/22091)
+- Sdk now defines all possible error types, namely Export RestError, AbortError, TimeoutError, and ErrorResponse. [22789](https://github.com/Azure/azure-sdk-for-js/issues/22789)
 ### Bugs Fixed
 
 - Removed excessive log warnings during bulk operations on a container with no partitionkey set.
