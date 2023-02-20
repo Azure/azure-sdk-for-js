@@ -64,7 +64,7 @@ export class CosmosClient {
     if (typeof optionsOrConnectionString === "string") {
       optionsOrConnectionString = parseConnectionString(optionsOrConnectionString);
     }
-
+    console.log("Test commit");
     const endpoint = checkURL(optionsOrConnectionString.endpoint);
     if (!endpoint) {
       throw new Error("Invalid endpoint specified");
