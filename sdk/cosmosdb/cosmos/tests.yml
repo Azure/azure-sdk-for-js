@@ -1,0 +1,18 @@
+trigger: none
+
+stages:
+  - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+    parameters:
+      PackageName: "@azure/cosmos"
+      MatrixFilters:
+        - TestType=node
+        - DependencyVersion=^$
+        - NodeTestVersion=14.x
+        - Pool=.*mms-win-2019.*
+      PreSteps:
+        - template: /eng/pipelines/templates/steps/cosmos-integration-public.yml
+      PostSteps:
+        - template: /eng/pipelines/templates/steps/cosmos-additional-steps.yml
+      EnvVars:
+        MOCHA_TIMEOUT: 100000
+        NODE_TLS_REJECT_UNAUTHORIZED: 0
