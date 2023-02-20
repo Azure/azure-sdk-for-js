@@ -287,7 +287,7 @@ export function deepFind<T, P extends string>(document: T, path: P): string | JS
     if (p in h) h = h[p];
     else {
       if (p !== "_partitionKey") {
-      console.warn(`Partition key not found, using undefined: ${path} at ${p}`);
+        console.warn(`Partition key not found, using undefined: ${path} at ${p}`);
       }
       return "{}";
     }
