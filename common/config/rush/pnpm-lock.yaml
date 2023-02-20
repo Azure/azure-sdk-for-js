@@ -327,7 +327,6 @@ specifiers:
   '@rush-temp/web-pubsub-client': file:./projects/web-pubsub-client.tgz
   '@rush-temp/web-pubsub-express': file:./projects/web-pubsub-express.tgz
   '@types/trusted-types': 2.0.2
-  puppeteer: 19.6.3
 
 dependencies:
   '@rush-temp/abort-controller': file:projects/abort-controller.tgz
@@ -656,7 +655,6 @@ dependencies:
   '@rush-temp/web-pubsub-client': file:projects/web-pubsub-client.tgz
   '@rush-temp/web-pubsub-express': file:projects/web-pubsub-express.tgz
   '@types/trusted-types': 2.0.2
-  puppeteer: 19.6.3
 
 packages:
 
@@ -3930,7 +3928,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230215
+      typescript: 5.0.0-dev.20230216
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8714,8 +8712,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230215:
-    resolution: {integrity: sha512-rbuBEuyaLltNQkRsBCxysSHGGEaizuGaVEMO+8bBmTXQRSzITTl1WOg2UFXr9p0pwz8l0KJtOem8MggaGz1/XA==}
+  /typescript/5.0.0-dev.20230216:
+    resolution: {integrity: sha512-yeZZGWiNc5pbGg4J/bgN7vq2Lrs4YTNzhG5dv8owIe1PyYX4tMDla8NnXipy9h4Cmw6+DQA8FG9XZbymgmzSbA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10646,7 +10644,7 @@ packages:
     dev: false
 
   file:projects/arm-chaos.tgz:
-    resolution: {integrity: sha512-w19Qfevfsp40mUaogGZiTR9ob40mPegMhX6bTBPeOoHluJwZkL291MidCRksaHakCGGrA1uEcC1ouNS10Y0kcA==, tarball: file:projects/arm-chaos.tgz}
+    resolution: {integrity: sha512-SxsvMfjov5LAsMqnOOLZzZPz5Qh7wwnsTljx2wBB1uYSI4GdCKbmobengaXRsulLPW65b6DK7TU5FGR+mG6e7g==, tarball: file:projects/arm-chaos.tgz}
     name: '@rush-temp/arm-chaos'
     version: 0.0.0
     dependencies:
@@ -10675,7 +10673,7 @@ packages:
     dev: false
 
   file:projects/arm-cognitiveservices.tgz:
-    resolution: {integrity: sha512-gzZDlKbsaZkflqq955CIkXvt7v0UGorOTi4vJYUP6g9efiUUjQ/Xl9O5KUN5mxJB7u2dw5bIu3gQShbL95cADw==, tarball: file:projects/arm-cognitiveservices.tgz}
+    resolution: {integrity: sha512-5d8Wz3mDduFIzdFkGIdfyLgeHoDV6J+yFfh9ViW/T4tBm2trAkaZZi06p0ExN5SM+71aEvqDUWsp55y8Tc8aVA==, tarball: file:projects/arm-cognitiveservices.tgz}
     name: '@rush-temp/arm-cognitiveservices'
     version: 0.0.0
     dependencies:
@@ -10689,6 +10687,7 @@ packages:
       '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -11151,7 +11150,7 @@ packages:
     dev: false
 
   file:projects/arm-cosmosdb.tgz:
-    resolution: {integrity: sha512-7bMCvCrUKMhFQ+NnZWWXyaOnWrTc1JVFyaBbRCYGSO3Z8Ol2jx/hDowK/j8TF5zXYSN3asAR3M2sO/c41ic6oA==, tarball: file:projects/arm-cosmosdb.tgz}
+    resolution: {integrity: sha512-XnCds16hfYCgqt52J/hvdFpGslqE69RP6AbSoDj36q8BbOpWPZ++kGXEp0c+Sl1JAXSxo7bXqjUXZPhgYriEvw==, tarball: file:projects/arm-cosmosdb.tgz}
     name: '@rush-temp/arm-cosmosdb'
     version: 0.0.0
     dependencies:
@@ -11166,7 +11165,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
-      mkdirp: 1.0.4
+      mkdirp: 2.1.3
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -11397,7 +11396,7 @@ packages:
     dev: false
 
   file:projects/arm-datafactory.tgz:
-    resolution: {integrity: sha512-3YM3RvRQ7VYAwMImQIn7l+Xcd1WTfMALuf5B4qRAHIfVgwOKOcrSF2mLc7M7hEHw1ylnMGxTK1EQDvoZ1nNjUQ==, tarball: file:projects/arm-datafactory.tgz}
+    resolution: {integrity: sha512-yh95KK9dLSmbPYdTh/NaAYmcU3p9CHV4medpTeKVGWRYkc44434cWWr6Uk9RSO1adM+Rs5ru6nFFo1kQSmPOQA==, tarball: file:projects/arm-datafactory.tgz}
     name: '@rush-temp/arm-datafactory'
     version: 0.0.0
     dependencies:
@@ -11412,7 +11411,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
-      mkdirp: 1.0.4
+      mkdirp: 2.1.3
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -14846,7 +14845,7 @@ packages:
     dev: false
 
   file:projects/arm-storagecache.tgz:
-    resolution: {integrity: sha512-bEYvst8j5mf60QZ4T0ckKl9jZo8skHtu0XtG3t2RaRhcfXA0vlg/I0/9NcKgeEk26emH6X6RQn+mikTtSmZfpQ==, tarball: file:projects/arm-storagecache.tgz}
+    resolution: {integrity: sha512-nI4eZfXj+flWWXgN8ZN/LvZc8ngY9DMyFa7zAwTYnMs9gOGrjA9/n24uiSgh6CuketY11d5InbFItZK1jDLUkA==, tarball: file:projects/arm-storagecache.tgz}
     name: '@rush-temp/arm-storagecache'
     version: 0.0.0
     dependencies:
@@ -14860,8 +14859,8 @@ packages:
       '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.3
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -17893,7 +17892,7 @@ packages:
     dev: false
 
   file:projects/monitor-ingestion.tgz:
-    resolution: {integrity: sha512-CtEBzCs8gADc56AozIehMF2iu7e7R/8YroShdvL2gjK6Hol5Tz+LRfNo4m9XoM17Mwsm1VtZe6Di0vA+WdiJ3g==, tarball: file:projects/monitor-ingestion.tgz}
+    resolution: {integrity: sha512-zodipV0pcRnzrfWjHYqvU42+E4V7E6TqdSYdrmqk/W9isTlZ3lW7OQXvblPPmjo2gTxDBbq+MUcDJ1Bu4FPPYA==, tarball: file:projects/monitor-ingestion.tgz}
     name: '@rush-temp/monitor-ingestion'
     version: 0.0.0
     dependencies:
@@ -18798,7 +18797,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-kLU74faNZXQAJXMne2lL+AAKkVKmU8+obYvymA9G2IuJBpPraaTOxyIOypkQeZqLuWCdZgrgeCno39dVP0MLtg==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-mSZh1szK6lxMnczMO7kgXzef/o22kR6Ttc0voG7IKFLpMKRq6gwvWDAtPzvAEz9qjHzskrN9Me89DaPc7H7ccw==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
@@ -18850,7 +18849,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -19021,7 +19019,7 @@ packages:
     dev: false
 
   file:projects/storage-blob-changefeed.tgz:
-    resolution: {integrity: sha512-TXNy2Pvp5CIqX4OIpz1VRsPRwAvygZolQrZt3CIw4omVh6NbThB567Ftu8TSOMz+1UiRyXdz80hCGgT5rYDCnQ==, tarball: file:projects/storage-blob-changefeed.tgz}
+    resolution: {integrity: sha512-mYK6I+h0xzksiXIMd9/qOAU7QtVuQXfHFH7QcSSsTwkOFnNx967vIH40CRpeEXAUAjEXfKM0uaJPVw6W3saoEA==, tarball: file:projects/storage-blob-changefeed.tgz}
     name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:

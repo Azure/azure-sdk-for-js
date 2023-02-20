@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns a list of Recovery Points for a DataSource in a vault.
  *
  * @summary Returns a list of Recovery Points for a DataSource in a vault.
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/preview/2022-11-01-preview/examples/BackupInstanceOperations/ListRecoveryPoints.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-01-01/examples/BackupInstanceOperations/ListRecoveryPoints.json
  */
 async function listRecoveryPointsInAVault() {
   const subscriptionId =

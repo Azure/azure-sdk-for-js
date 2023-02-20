@@ -95,6 +95,8 @@ export interface BackupVault {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isVaultProtectedByResourceGuard?: boolean;
+  /** Feature Settings */
+  featureSettings?: FeatureSettings;
 }
 
 /** Monitoring Settings */
@@ -152,7 +154,35 @@ export interface StorageSetting {
   type?: StorageSettingTypes;
 }
 
-export interface DppTrackedResource {
+/** Class containing feature settings of vault */
+export interface FeatureSettings {
+  /** CrossSubscriptionRestore Settings */
+  crossSubscriptionRestoreSettings?: CrossSubscriptionRestoreSettings;
+}
+
+/** CrossSubscriptionRestore Settings */
+export interface CrossSubscriptionRestoreSettings {
+  /** CrossSubscriptionRestore state */
+  state?: CrossSubscriptionRestoreState;
+}
+
+/** Identity details */
+export interface DppIdentityDetails {
+  /**
+   * The object ID of the service principal object for the managed identity that is used to grant role-based access to an Azure resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * A Globally Unique Identifier (GUID) that represents the Azure AD tenant where the resource is now a member.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** The identityType which can be either SystemAssigned or None */
+  type?: string;
+}
+
+export interface DppBaseTrackedResource {
   /** Optional ETag. */
   eTag?: string;
   /**
@@ -160,8 +190,6 @@ export interface DppTrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
-  /** Input Managed Identity Details */
-  identity?: DppIdentityDetails;
   /** Resource location. */
   location?: string;
   /**
@@ -183,22 +211,6 @@ export interface DppTrackedResource {
   readonly systemData?: SystemData;
 }
 
-/** Identity details */
-export interface DppIdentityDetails {
-  /**
-   * The object ID of the service principal object for the managed identity that is used to grant role-based access to an Azure resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * A Globally Unique Identifier (GUID) that represents the Azure AD tenant where the resource is now a member.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-  /** The identityType which can be either SystemAssigned or None */
-  type?: string;
-}
-
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
@@ -211,7 +223,7 @@ export interface SystemData {
   lastModifiedBy?: string;
   /** The type of identity that last modified the resource. */
   lastModifiedByType?: CreatedByType;
-  /** The type of identity that last modified the resource. */
+  /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: Date;
 }
 
@@ -312,6 +324,8 @@ export interface PatchBackupVaultInput {
   monitoringSettings?: MonitoringSettings;
   /** Security Settings */
   securitySettings?: SecuritySettings;
+  /** Feature Settings */
+  featureSettings?: FeatureSettings;
 }
 
 /** CheckNameAvailability Request */
@@ -909,7 +923,7 @@ export interface ResourceGuard {
    * Provisioning state of the BackupVault resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: ResourceGuardProvisioningState;
+  readonly provisioningState?: ProvisioningState;
   /**
    * This flag indicates whether auto approval is allowed or not.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -948,6 +962,12 @@ export interface DppTrackedResourceList {
   nextLink?: string;
 }
 
+/** Patch Request content for Microsoft.DataProtection Resource Guard resources */
+export interface PatchResourceGuardInput {
+  /** Resource Guard tags. */
+  tags?: { [propertyName: string]: string };
+}
+
 /** Base for all lists of V2 resources. */
 export interface DppBaseResourceList {
   /** List of Dpp resources. */
@@ -973,30 +993,6 @@ export interface DppBaseResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-}
-
-export interface ResourceGuardProxyBase {
-  resourceGuardResourceId?: string;
-  resourceGuardOperationDetails?: ResourceGuardOperationDetail[];
-  lastUpdatedTime?: string;
-  description?: string;
-}
-
-export interface ResourceGuardOperationDetail {
-  vaultCriticalOperation?: string;
-  defaultResourceRequest?: string;
-}
-
-/** Request body of unlock delete API. */
-export interface UnlockDeleteRequest {
-  resourceGuardOperationRequests?: string[];
-  resourceToBeDeleted?: string;
-}
-
-/** Response of Unlock Delete API. */
-export interface UnlockDeleteResponse {
-  /** This is the time when unlock delete privileges will get expired. */
-  unlockDeleteExpiryTime?: string;
 }
 
 /** Delete Option */
@@ -1172,6 +1168,12 @@ export interface TargetDetails {
   restoreTargetLocationType: RestoreTargetLocationType;
   /** Url denoting the restore destination. It can point to container / file share etc */
   url: string;
+  /**
+   * Full ARM Id denoting the restore destination. It is the ARM Id pointing to container / file share
+   * This is optional if the target subscription can be identified with the URL field. If not
+   * then this is needed if CrossSubscriptionRestore field of BackupVault is in any of the disabled states
+   */
+  targetResourceArmId?: string;
 }
 
 /** Tagging criteria */
@@ -1196,13 +1198,12 @@ export interface SecretStoreResource {
   value?: string;
 }
 
-/** Backup Vault Resource */
-export interface BackupVaultResource extends DppTrackedResource {
-  /** BackupVaultResource properties */
-  properties: BackupVault;
+export interface DppTrackedResource extends DppBaseTrackedResource {
+  /** Input Managed Identity Details */
+  identity?: DppIdentityDetails;
 }
 
-export interface ResourceGuardResource extends DppTrackedResource {
+export interface ResourceGuardResource extends DppBaseTrackedResource {
   /** ResourceGuardResource properties */
   properties?: ResourceGuard;
 }
@@ -1241,12 +1242,6 @@ export interface AzureBackupJobResourceList extends DppResourceList {
 export interface DeletedBackupInstanceResourceList extends DppResourceList {
   /** List of resources. */
   value?: DeletedBackupInstanceResource[];
-}
-
-/** List of ResourceGuardProxyBase resources */
-export interface ResourceGuardProxyBaseResourceList extends DppResourceList {
-  /** List of resources. */
-  value?: ResourceGuardProxyBaseResource[];
 }
 
 /** Operation Job Extended Info */
@@ -1315,11 +1310,6 @@ export interface AzureBackupFindRestorableTimeRangesResponseResource
 export interface DeletedBackupInstanceResource extends DppResource {
   /** DeletedBackupInstanceResource properties */
   properties?: DeletedBackupInstance;
-}
-
-export interface ResourceGuardProxyBaseResource extends DppResource {
-  /** ResourceGuardProxyBaseResource properties */
-  properties?: ResourceGuardProxyBase;
 }
 
 /** Deleted Backup Instance */
@@ -1397,6 +1387,8 @@ export interface AzureBackupDiscreteRecoveryPoint
   recoveryPointType?: string;
   retentionTagName?: string;
   retentionTagVersion?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly expiryTime?: Date;
 }
 
 /** Azure backup recoveryPoint based restore request */
@@ -1619,12 +1611,18 @@ export interface KubernetesClusterRestoreCriteria
   excludedResourceTypes?: string[];
   /** Gets or sets the LabelSelectors property. This property sets the resource with such label selectors to be included during restore. */
   labelSelectors?: string[];
-  /** Gets or sets the PV Restore Mode property. This property sets whether volumes needs to be restored. */
+  /** Gets or sets the PV (Persistent Volume) Restore Mode property. This property sets whether volumes needs to be restored. */
   persistentVolumeRestoreMode?: PersistentVolumeRestoreMode;
   /** Gets or sets the Conflict Policy property. This property sets policy during conflict of resources during restore. */
   conflictPolicy?: ExistingResourcePolicy;
   /** Gets or sets the Namespace Mappings property. This property sets if namespace needs to be change during restore. */
   namespaceMappings?: { [propertyName: string]: string };
+}
+
+/** Backup Vault Resource */
+export interface BackupVaultResource extends DppTrackedResource {
+  /** BackupVaultResource properties */
+  properties: BackupVault;
 }
 
 /** AzureBackup Restore with Rehydration Request */
@@ -1917,8 +1915,8 @@ export type ImmutabilityState = string;
 export enum KnownStorageSettingStoreTypes {
   /** ArchiveStore */
   ArchiveStore = "ArchiveStore",
-  /** SnapshotStore */
-  SnapshotStore = "SnapshotStore",
+  /** OperationalStore */
+  OperationalStore = "OperationalStore",
   /** VaultStore */
   VaultStore = "VaultStore"
 }
@@ -1929,7 +1927,7 @@ export enum KnownStorageSettingStoreTypes {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **ArchiveStore** \
- * **SnapshotStore** \
+ * **OperationalStore** \
  * **VaultStore**
  */
 export type StorageSettingStoreTypes = string;
@@ -1954,6 +1952,27 @@ export enum KnownStorageSettingTypes {
  * **ZoneRedundant**
  */
 export type StorageSettingTypes = string;
+
+/** Known values of {@link CrossSubscriptionRestoreState} that the service accepts. */
+export enum KnownCrossSubscriptionRestoreState {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** PermanentlyDisabled */
+  PermanentlyDisabled = "PermanentlyDisabled",
+  /** Enabled */
+  Enabled = "Enabled"
+}
+
+/**
+ * Defines values for CrossSubscriptionRestoreState. \
+ * {@link KnownCrossSubscriptionRestoreState} can be used interchangeably with CrossSubscriptionRestoreState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **PermanentlyDisabled** \
+ * **Enabled**
+ */
+export type CrossSubscriptionRestoreState = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
@@ -2138,6 +2157,8 @@ export enum KnownSourceDataStoreType {
   ArchiveStore = "ArchiveStore",
   /** SnapshotStore */
   SnapshotStore = "SnapshotStore",
+  /** OperationalStore */
+  OperationalStore = "OperationalStore",
   /** VaultStore */
   VaultStore = "VaultStore"
 }
@@ -2149,6 +2170,7 @@ export enum KnownSourceDataStoreType {
  * ### Known values supported by the service
  * **ArchiveStore** \
  * **SnapshotStore** \
+ * **OperationalStore** \
  * **VaultStore**
  */
 export type SourceDataStoreType = string;
@@ -2191,33 +2213,6 @@ export enum KnownRestoreSourceDataStoreType {
  * **ArchiveStore**
  */
 export type RestoreSourceDataStoreType = string;
-
-/** Known values of {@link ResourceGuardProvisioningState} that the service accepts. */
-export enum KnownResourceGuardProvisioningState {
-  /** Failed */
-  Failed = "Failed",
-  /** Provisioning */
-  Provisioning = "Provisioning",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Unknown */
-  Unknown = "Unknown",
-  /** Updating */
-  Updating = "Updating"
-}
-
-/**
- * Defines values for ResourceGuardProvisioningState. \
- * {@link KnownResourceGuardProvisioningState} can be used interchangeably with ResourceGuardProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Failed** \
- * **Provisioning** \
- * **Succeeded** \
- * **Unknown** \
- * **Updating**
- */
-export type ResourceGuardProvisioningState = string;
 
 /** Known values of {@link RehydrationStatus} that the service accepts. */
 export enum KnownRehydrationStatus {
@@ -2539,7 +2534,12 @@ export type BackupVaultsCreateOrUpdateResponse = BackupVaultResource;
 
 /** Optional parameters. */
 export interface BackupVaultsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface BackupVaultsUpdateOptionalParams
@@ -2815,20 +2815,6 @@ export interface BackupInstancesListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type BackupInstancesListNextResponse = BackupInstanceResourceList;
-
-/** Optional parameters. */
-export interface BackupInstancesExtensionRoutingListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type BackupInstancesExtensionRoutingListResponse = BackupInstanceResourceList;
-
-/** Optional parameters. */
-export interface BackupInstancesExtensionRoutingListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type BackupInstancesExtensionRoutingListNextResponse = BackupInstanceResourceList;
 
 /** Optional parameters. */
 export interface RecoveryPointsListOptionalParams
@@ -3109,45 +3095,6 @@ export interface ResourceGuardsGetUpdateProtectedItemRequestsObjectsNextOptional
 
 /** Contains response data for the getUpdateProtectedItemRequestsObjectsNext operation. */
 export type ResourceGuardsGetUpdateProtectedItemRequestsObjectsNextResponse = DppBaseResourceList;
-
-/** Optional parameters. */
-export interface DppResourceGuardProxyListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type DppResourceGuardProxyListResponse = ResourceGuardProxyBaseResourceList;
-
-/** Optional parameters. */
-export interface DppResourceGuardProxyGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type DppResourceGuardProxyGetResponse = ResourceGuardProxyBaseResource;
-
-/** Optional parameters. */
-export interface DppResourceGuardProxyPutOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the put operation. */
-export type DppResourceGuardProxyPutResponse = ResourceGuardProxyBaseResource;
-
-/** Optional parameters. */
-export interface DppResourceGuardProxyDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface DppResourceGuardProxyUnlockDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the unlockDelete operation. */
-export type DppResourceGuardProxyUnlockDeleteResponse = UnlockDeleteResponse;
-
-/** Optional parameters. */
-export interface DppResourceGuardProxyListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type DppResourceGuardProxyListNextResponse = ResourceGuardProxyBaseResourceList;
 
 /** Optional parameters. */
 export interface DataProtectionClientOptionalParams

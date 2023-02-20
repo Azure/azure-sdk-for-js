@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates a BackupVault resource belonging to a resource group.
  *
  * @summary Creates or updates a BackupVault resource belonging to a resource group.
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/preview/2022-11-01-preview/examples/VaultCRUD/PutBackupVault.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-01-01/examples/VaultCRUD/PutBackupVault.json
  */
 async function createBackupVault() {
   const subscriptionId =
@@ -48,7 +48,7 @@ async function createBackupVault() {
  * This sample demonstrates how to Creates or updates a BackupVault resource belonging to a resource group.
  *
  * @summary Creates or updates a BackupVault resource belonging to a resource group.
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/preview/2022-11-01-preview/examples/VaultCRUD/PutBackupVaultWithMSI.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-01-01/examples/VaultCRUD/PutBackupVaultWithMSI.json
  */
 async function createBackupVaultWithMsi() {
   const subscriptionId =
