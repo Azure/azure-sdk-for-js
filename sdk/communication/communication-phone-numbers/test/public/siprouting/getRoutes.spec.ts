@@ -7,7 +7,7 @@ import { Context } from "mocha";
 import { SipRoutingClient } from "../../../src";
 
 import { matrix } from "@azure/test-utils";
-import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   clearSipConfiguration,
   createRecordedClient,

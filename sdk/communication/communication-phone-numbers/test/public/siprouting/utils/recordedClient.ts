@@ -7,10 +7,10 @@ import * as dotenv from "dotenv";
 import {
   Recorder,
   RecorderStartOptions,
-  env,
-  assertEnvironmentVariable,
-  isPlaybackMode,
   SanitizerOptions,
+  assertEnvironmentVariable,
+  env,
+  isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { SipRoutingClient, SipTrunk, SipTrunkRoute } from "../../../../src";
 import { parseConnectionString } from "@azure/communication-common";
@@ -139,7 +139,7 @@ export function resetUniqueFqdns(): void {
 
 export async function listAllTrunks(client: SipRoutingClient) : Promise<SipTrunk[]>
     {
-      let result: SipTrunk[] = [];
+      const result: SipTrunk[] = [];
 
       for await (const trunk of client.listTrunks())
       {
@@ -153,7 +153,7 @@ export async function listAllTrunks(client: SipRoutingClient) : Promise<SipTrunk
 
 export async function listAllRoutes(client: SipRoutingClient) : Promise<SipTrunkRoute[]>
     {
-      let result: SipTrunkRoute[] = [];
+      const result: SipTrunkRoute[] = [];
       for await (const route of client.listRoutes())
       {
         if(route)
@@ -163,4 +163,3 @@ export async function listAllRoutes(client: SipRoutingClient) : Promise<SipTrunk
       }
       return result;
     }
-    

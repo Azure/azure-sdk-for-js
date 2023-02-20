@@ -258,12 +258,12 @@ export class SipRoutingClient {
     );
   }
 
-  private async getRoutesInternal(options: OperationOptions) {
+  private async getRoutesInternal(options: OperationOptions): Promise<SipTrunkRoute[]> {
     const config = await this.client.getSipConfiguration(options);
     return config.routes || [];
   }
 
-  private async getTrunksInternal(options: OperationOptions) {
+  private async getTrunksInternal(options: OperationOptions): Promise<SipTrunk[]> {
     const config = await this.client.getSipConfiguration(options);
     return transformFromRestModel(config.trunks);
   }
@@ -287,14 +287,14 @@ export class SipRoutingClient {
   private async *listTrunksPagingPage(
     options: ListSipTrunksOptions = {}
   ): AsyncIterableIterator<SipTrunk[]> {
-    let apiResult = await this.getTrunksInternal(options as OperationOptions);
+    const apiResult = await this.getTrunksInternal(options as OperationOptions);
     yield apiResult;
   }
 
   private async *listRoutesPagingPage(
     options: ListSipRoutesOptions = {}
   ): AsyncIterableIterator<SipTrunkRoute[]> {
-    let apiResult = await this.getRoutesInternal(options as OperationOptions);
+    const apiResult = await this.getRoutesInternal(options as OperationOptions);
     yield apiResult;
   }
 }
