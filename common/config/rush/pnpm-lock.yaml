@@ -3928,7 +3928,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230216
+      typescript: 5.0.0-dev.20230219
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8712,8 +8712,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230216:
-    resolution: {integrity: sha512-yeZZGWiNc5pbGg4J/bgN7vq2Lrs4YTNzhG5dv8owIe1PyYX4tMDla8NnXipy9h4Cmw6+DQA8FG9XZbymgmzSbA==}
+  /typescript/5.0.0-dev.20230219:
+    resolution: {integrity: sha512-CjlwGu0BGvavGAPs7/2sng1K0EYubaZc3irzGboNBs83OI2+ij4QixjS8+nXcoR4H3uumDnyd7Vo/LoIgdSa7Q==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11079,7 +11079,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservice-1.tgz:
-    resolution: {integrity: sha512-6tPGHv20+Oe2EBvCPdnLC74g4s9AdHK+w9yPsib2uBlJe/OHVczqQIbKtUvqozUDnGWOpkF/lSAhEvAdwBmesA==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-2gLziy39WevUeqm9B+i5kLphuJcz1mcpT0Yv+yIQ3/zzsCozrPXJuCX8MOvNzkEBT6mTsWC1bBNR7aRb00oMhg==, tarball: file:projects/arm-containerservice-1.tgz}
     name: '@rush-temp/arm-containerservice-1'
     version: 0.0.0
     dependencies:
@@ -11094,7 +11094,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
-      mkdirp: 1.0.4
+      mkdirp: 2.1.3
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1

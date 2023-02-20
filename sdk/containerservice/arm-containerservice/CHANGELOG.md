@@ -1,16 +1,6 @@
 # Release History
-
-## 17.4.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 17.4.0-beta.1 (2023-01-18)
+    
+## 17.4.0-beta.2 (2023-02-20)
     
 **Features**
 
@@ -29,6 +19,7 @@
   - Added Interface AgentPoolsAbortLatestOperationOptionalParams
   - Added Interface AgentPoolWindowsProfile
   - Added Interface AzureEntityResource
+  - Added Interface ClusterUpgradeSettings
   - Added Interface ContainerServiceNetworkProfileKubeProxyConfig
   - Added Interface ContainerServiceNetworkProfileKubeProxyConfigIpvsConfig
   - Added Interface DailySchedule
@@ -102,10 +93,12 @@
   - Added Interface TrustedAccessRoleRule
   - Added Interface TrustedAccessRolesListNextOptionalParams
   - Added Interface TrustedAccessRolesListOptionalParams
+  - Added Interface UpgradeOverrideSettings
   - Added Interface WeeklySchedule
   - Added Type Alias AgentPoolsAbortLatestOperationResponse
   - Added Type Alias BackendPoolType
   - Added Type Alias ControlledValues
+  - Added Type Alias ControlPlaneUpgradeOverride
   - Added Type Alias EbpfDataplane
   - Added Type Alias FleetMemberProvisioningState
   - Added Type Alias FleetMembersCreateOrUpdateResponse
@@ -161,6 +154,7 @@
   - Interface ManagedCluster has a new optional parameter guardrailsProfile
   - Interface ManagedCluster has a new optional parameter ingressProfile
   - Interface ManagedCluster has a new optional parameter nodeResourceGroupProfile
+  - Interface ManagedCluster has a new optional parameter upgradeSettings
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter capacityReservationGroupID
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter enableCustomCATrust
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter messageOfTheDay
@@ -180,6 +174,7 @@
   - Interface ManagedClusterWorkloadAutoScalerProfile has a new optional parameter verticalPodAutoscaler
   - Added Enum KnownBackendPoolType
   - Added Enum KnownControlledValues
+  - Added Enum KnownControlPlaneUpgradeOverride
   - Added Enum KnownEbpfDataplane
   - Added Enum KnownFleetMemberProvisioningState
   - Added Enum KnownFleetProvisioningState
@@ -193,6 +188,8 @@
   - Added Enum KnownTrustedAccessRoleBindingProvisioningState
   - Added Enum KnownType
   - Added Enum KnownUpdateMode
+  - Enum KnownManagedClusterSKUName has a new value Base
+  - Enum KnownManagedClusterSKUTier has a new value Standard
   - Enum KnownOssku has a new value Mariner
   - Enum KnownPublicNetworkAccess has a new value SecuredByPerimeter
   - Enum KnownSnapshotType has a new value ManagedCluster
