@@ -144,6 +144,7 @@ directive:
           $.properties.status.description = "The activity status of Trunk.";
           $.properties.reason["x-ms-enum"].name = "inactiveReason";
           $.properties.reason.description = "The reason activity status of Trunk is inactive.";
+          $.properties.reason["x-ms-client-name"] = "inactiveReason";
           $["x-ms-client-name"] = "SipTrunkActivity";
           $.description = "The activity status of Trunk.";
 ```

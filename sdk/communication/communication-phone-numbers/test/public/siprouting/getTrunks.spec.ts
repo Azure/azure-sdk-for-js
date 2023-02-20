@@ -154,7 +154,7 @@ matrix([[true, false]], async function (useAad) {
 
       await client.setTrunks(createdTrunks);
 
-      const trunks = await listAllTrunks(client, true );
+      const trunks = await listAllTrunks(client, true);
 
       assert.isNotNull(trunks);
       assert.isArray(trunks);

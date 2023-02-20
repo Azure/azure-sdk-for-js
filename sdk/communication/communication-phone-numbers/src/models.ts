@@ -77,7 +77,7 @@ export interface ListSipRoutesOptions extends OperationOptions {}
  */
 export interface ListSipTrunksOptions extends GetSipTrunkOptions {}
 
-/** 
+/**
  * Additional options that can be passed to get SIP trunk.
  */
 export interface GetSipTrunkOptions extends OperationOptions {

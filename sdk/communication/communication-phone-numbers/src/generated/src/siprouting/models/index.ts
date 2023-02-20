@@ -78,7 +78,7 @@ export interface SipTrunkActivity {
   /** The activity status of Trunk. */
   status: ActivityStatus;
   /** The reason activity status of Trunk is inactive. */
-  reason?: InactiveReason;
+  inactiveReason?: InactiveReason;
 }
 
 /** Represents a trunk route for routing calls. */

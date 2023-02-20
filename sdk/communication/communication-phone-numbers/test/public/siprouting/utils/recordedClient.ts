@@ -138,22 +138,21 @@ export function resetUniqueFqdns(): void {
   fqdnNumber = 0;
 }
 
-export async function listAllTrunks(client: SipRoutingClient, includeHealth?: boolean) : Promise<SipTrunk[]>
-    {
-      let result = [];
-      for await (const trunk of client.listTrunks({includeHealth}))
-      {
-        result.push(trunk);
-      }
-      return result;
-    }
+export async function listAllTrunks(
+  client: SipRoutingClient,
+  includeHealth?: boolean
+): Promise<SipTrunk[]> {
+  let result = [];
+  for await (const trunk of client.listTrunks({ includeHealth })) {
+    result.push(trunk);
+  }
+  return result;
+}
 
-export async function listAllRoutes(client: SipRoutingClient) : Promise<SipTrunkRoute[]>
-    {
-      let result = [];
-      for await (const route of client.listRoutes())
-      {
-        result.push(route);
-      }
-      return result;
-    }
+export async function listAllRoutes(client: SipRoutingClient): Promise<SipTrunkRoute[]> {
+  let result = [];
+  for await (const route of client.listRoutes()) {
+    result.push(route);
+  }
+  return result;
+}

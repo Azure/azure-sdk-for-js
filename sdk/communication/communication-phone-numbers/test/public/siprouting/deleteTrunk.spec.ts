@@ -14,7 +14,7 @@ import {
   createRecordedClientWithToken,
   getUniqueFqdn,
   resetUniqueFqdns,
-  listAllTrunks   
+  listAllTrunks,
 } from "./utils/recordedClient";
 import { matrix } from "@azure/test-utils";
 

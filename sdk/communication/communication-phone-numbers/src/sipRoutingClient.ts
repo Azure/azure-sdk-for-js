@@ -9,13 +9,17 @@ import {
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SipRoutingClient as SipRoutingGeneratedClient } from "./generated/src/siprouting/sipRoutingClient";
-import { SipConfigurationPatch, SipRoutingError, SipRoutingGetOptionalParams } from "./generated/src/siprouting/models";
+import {
+  SipConfigurationPatch,
+  SipRoutingError,
+  SipRoutingGetOptionalParams,
+} from "./generated/src/siprouting/models";
 import {
   GetSipTrunkOptions,
   ListSipRoutesOptions,
   ListSipTrunksOptions,
   SipTrunk,
-  SipTrunkRoute
+  SipTrunkRoute,
 } from "./models";
 import { transformFromRestModel, transformIntoRestModel } from "./mappers";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
@@ -277,17 +281,23 @@ export class SipRoutingClient {
   }
 
   private async getTrunksInternal(options: GetSipTrunkOptions) {
-    let {includeHealth, ...requestOptions} = options;
+    let { includeHealth, ...requestOptions } = options;
 
-    if(options.includeHealth)
-    {
-      requestOptions = {...requestOptions, expand: "trunks/health"} as SipRoutingGetOptionalParams;
+    if (options.includeHealth) {
+      requestOptions = {
+        ...requestOptions,
+        expand: "trunks/health",
+      } as SipRoutingGetOptionalParams;
     }
 
-    return tracingClient.withSpan("SipRoutingClient-getTrunks", requestOptions, async (updatedOptions) => {
-      const config = await this.client.sipRouting.get(updatedOptions);
-      return transformFromRestModel(config.trunks);
-    });
+    return tracingClient.withSpan(
+      "SipRoutingClient-getTrunks",
+      requestOptions,
+      async (updatedOptions) => {
+        const config = await this.client.sipRouting.get(updatedOptions);
+        return transformFromRestModel(config.trunks);
+      }
+    );
   }
 
   private async *listRoutesPagingAll(

@@ -166,7 +166,7 @@ export const SipTrunkActivity: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      reason: {
+      inactiveReason: {
         serializedName: "reason",
         type: {
           name: "String"

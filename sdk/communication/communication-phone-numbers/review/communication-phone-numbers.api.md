@@ -260,7 +260,7 @@ export interface SipTrunk {
 
 // @public
 export interface SipTrunkActivity {
-    reason?: InactiveReason;
+    inactiveReason?: InactiveReason;
     status: ActivityStatus;
 }
 
