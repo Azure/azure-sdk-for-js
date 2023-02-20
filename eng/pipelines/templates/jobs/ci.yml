@@ -25,6 +25,9 @@ parameters:
   - name: IncludeRelease
     type: boolean
     default: true
+  - name: PreGenerationSteps
+    type: object
+    default: []
 
 jobs:
   - job: "Build"
@@ -83,6 +86,7 @@ jobs:
           MatrixConfigs: ${{ parameters.MatrixConfigs }}
           MatrixFilters: ${{ parameters.MatrixFilters }}
           MatrixReplace: ${{ parameters.MatrixReplace }}
+          PreGenerationSteps: ${{ parameters.PreGenerationSteps }}
           CloudConfig:
             Cloud: Public
           AdditionalParameters:

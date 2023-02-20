@@ -31,6 +31,11 @@ extends:
   parameters:
     ServiceDirectory: cosmosdb
     RunUnitTests: true
+    PreGenerationSteps:
+      PreSteps:
+        - template: ../../eng/pipelines/templates/steps/cosmos-integration-public.yml
+      PostSteps:
+        - template: ../../eng/pipelines/templates/steps/cosmos-additional-steps.yml
     Artifacts:
       - name: azure-cosmos
         safeName: azurecosmos
