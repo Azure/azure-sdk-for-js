@@ -17,7 +17,7 @@ import { parseConnectionString } from "@azure/communication-common";
 import { TokenCredential } from "@azure/identity";
 import { isNode } from "@azure/test-utils";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { v4 as uuid } from "uuid";
+// import { v4 as uuid } from "uuid";
 
 if (isNode) {
   dotenv.config();
@@ -128,13 +128,14 @@ export async function clearSipConfiguration(): Promise<void> {
   await client.setTrunks([]);
 }
 
-let fqdnNumber = 1;
+let fqdnNumber = 0;
 export function getUniqueFqdn(recorder: Recorder): string {
-  const uniqueDomain = uuid().replace(/-/g, "");
-  return recorder.variable(`fqdn-${fqdnNumber++}`, `test.${uniqueDomain}.com`);
+  // const uniqueDomain = uuid().replace(/-/g, "");
+  fqdnNumber = fqdnNumber++;
+  return recorder.variable(`fqdn-${fqdnNumber}`, `test${fqdnNumber}.contoso1.com`);
 }
 export function resetUniqueFqdns(): void {
-  fqdnNumber = 1;
+  fqdnNumber = 0;
 }
 
 export async function listAllTrunks(client: SipRoutingClient, includeHealth?: boolean) : Promise<SipTrunk[]>
