@@ -1,15 +1,8 @@
 # Release History
 
-## 1.2.0-beta.5 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-- Changed public methods getTrunks to listTrunks and getRoutes to ListRoutes.
-
-### Bugs Fixed
-
-### Other Changes
+## 1.2.0-alpha.20230221.1 (2023-02-21)
+- Added support for the API version 2023-01-01-preview.
+- Added ability to retrieve SIP trunk health properties.
 
 ## 1.2.0-beta.4 (2023-01-10)
 - Adds support for Azure Communication Services Phone Numbers Browse API Methods.
