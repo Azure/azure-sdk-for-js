@@ -83,7 +83,7 @@
 /sdk/communication/communication-network-traversal/ @ajpeacock0 @nathpete-msft
 
 # PRLabel: %Communication - Rooms
-/sdk/communication/communication-rooms/ @anujissarMS
+/sdk/communication/communication-rooms/ @anujissarMS @Azure/acs-rooms-sdk
 
 # PRLabel: %Communication - SMS
 /sdk/communication/communication-sms/ @arifibrahim4
