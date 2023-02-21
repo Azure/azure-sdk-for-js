@@ -16,7 +16,7 @@ import sinon from "sinon";
 describe("TollFreeVerificationClient - headers", function () {
   const endpoint = "https://contoso.spool.azure.local";
   const accessKey = "banana";
-  const campaignBriefId = "63215741-b596-4eb4-a9c0-b2905ce22cb0"
+  const campaignBriefId = "63215741-b596-4eb4-a9c0-b2905ce22cb0";
   let client = new TollFreeVerificationClient(endpoint, new AzureKeyCredential(accessKey), {
     httpClient: configurationHttpClient,
   });
