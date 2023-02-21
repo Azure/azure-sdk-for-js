@@ -208,6 +208,7 @@ specifiers:
   '@rush-temp/arm-trafficmanager': file:./projects/arm-trafficmanager.tgz
   '@rush-temp/arm-visualstudio': file:./projects/arm-visualstudio.tgz
   '@rush-temp/arm-vmwarecloudsimple': file:./projects/arm-vmwarecloudsimple.tgz
+  '@rush-temp/arm-voiceservices': file:./projects/arm-voiceservices.tgz
   '@rush-temp/arm-webpubsub': file:./projects/arm-webpubsub.tgz
   '@rush-temp/arm-webservices': file:./projects/arm-webservices.tgz
   '@rush-temp/arm-workloads': file:./projects/arm-workloads.tgz
@@ -536,6 +537,7 @@ dependencies:
   '@rush-temp/arm-trafficmanager': file:projects/arm-trafficmanager.tgz
   '@rush-temp/arm-visualstudio': file:projects/arm-visualstudio.tgz
   '@rush-temp/arm-vmwarecloudsimple': file:projects/arm-vmwarecloudsimple.tgz
+  '@rush-temp/arm-voiceservices': file:projects/arm-voiceservices.tgz
   '@rush-temp/arm-webpubsub': file:projects/arm-webpubsub.tgz
   '@rush-temp/arm-webservices': file:projects/arm-webservices.tgz
   '@rush-temp/arm-workloads': file:projects/arm-workloads.tgz
@@ -3928,7 +3930,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230216
+      typescript: 5.0.0-dev.20230219
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8712,8 +8714,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230216:
-    resolution: {integrity: sha512-yeZZGWiNc5pbGg4J/bgN7vq2Lrs4YTNzhG5dv8owIe1PyYX4tMDla8NnXipy9h4Cmw6+DQA8FG9XZbymgmzSbA==}
+  /typescript/5.0.0-dev.20230219:
+    resolution: {integrity: sha512-CjlwGu0BGvavGAPs7/2sng1K0EYubaZc3irzGboNBs83OI2+ij4QixjS8+nXcoR4H3uumDnyd7Vo/LoIgdSa7Q==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -15273,6 +15275,34 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
+      tslib: 2.5.0
+      typescript: 4.8.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-voiceservices.tgz:
+    resolution: {integrity: sha512-ZKqaLyYTa2i7a9rRq2tke7ZkPSqWpY57HfpqWjkoKMplBHwLvbuIZEQPS6XWryW+zgx1A5+hVawBmGJsI/AfoQ==, tarball: file:projects/arm-voiceservices.tgz}
+    name: '@rush-temp/arm-voiceservices'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.3_@types+node@14.18.36
+      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.36
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.0.3
+      mkdirp: 2.1.3
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
