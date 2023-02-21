@@ -25,9 +25,12 @@ export async function main() {
   // create new client
   const client = new TollFreeVerificationClient(connectionString);
 
+  // a dummy campaign brief Id
+  const campaignBriefId = "63215741-b596-4eb4-a9c0-b2905ce22cb0"
+
   // get a campaign brief
   const campaignBrief: CampaignBrief = await client.getCampaignBrief(
-    "63215741-b596-4eb4-a9c0-b2905ce22cb0",
+    campaignBriefId,
     "US"
   );
 

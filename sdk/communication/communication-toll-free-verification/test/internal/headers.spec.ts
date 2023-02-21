@@ -16,6 +16,7 @@ import sinon from "sinon";
 describe("TollFreeVerificationClient - headers", function () {
   const endpoint = "https://contoso.spool.azure.local";
   const accessKey = "banana";
+  const campaignBriefId = "63215741-b596-4eb4-a9c0-b2905ce22cb0"
   let client = new TollFreeVerificationClient(endpoint, new AzureKeyCredential(accessKey), {
     httpClient: configurationHttpClient,
   });
@@ -27,7 +28,7 @@ describe("TollFreeVerificationClient - headers", function () {
 
   it("calls the spy", async function () {
     const spy = sinon.spy(configurationHttpClient, "sendRequest");
-    await client.getCampaignBrief("63215741-b596-4eb4-a9c0-b2905ce22cb0", "US");
+    await client.getCampaignBrief(campaignBriefId, "US");
     sinon.assert.calledOnce(spy);
 
     request = spy.getCall(0).args[0];
@@ -67,7 +68,7 @@ describe("TollFreeVerificationClient - headers", function () {
     });
 
     const spy = sinon.spy(configurationHttpClient, "sendRequest");
-    await client.getCampaignBrief("63215741-b596-4eb4-a9c0-b2905ce22cb0", "US");
+    await client.getCampaignBrief(campaignBriefId, "US");
     sinon.assert.calledOnce(spy);
 
     request = spy.getCall(0).args[0];
@@ -86,7 +87,7 @@ describe("TollFreeVerificationClient - headers", function () {
     });
 
     const spy = sinon.spy(configurationHttpClient, "sendRequest");
-    await client.getCampaignBrief("63215741-b596-4eb4-a9c0-b2905ce22cb0", "US");
+    await client.getCampaignBrief(campaignBriefId, "US");
     sinon.assert.calledOnce(spy);
 
     request = spy.getCall(0).args[0];
@@ -103,7 +104,7 @@ describe("TollFreeVerificationClient - headers", function () {
     });
 
     const spy = sinon.spy(configurationHttpClient, "sendRequest");
-    await client.getCampaignBrief("63215741-b596-4eb4-a9c0-b2905ce22cb0", "US");
+    await client.getCampaignBrief(campaignBriefId, "US");
     sinon.assert.calledOnce(spy);
 
     request = spy.getCall(0).args[0];
