@@ -240,7 +240,6 @@ function ValidatePackagesForDocs($packages) {
   $tempDirectory = Join-Path ([System.IO.Path]::GetTempPath()) ([System.IO.Path]::GetRandomFileName())
   New-Item -ItemType Directory -Force -Path $tempDirectory | Out-Null
 
-  # Run this in parallel as each step takes a long time to run
   $validationOutput = @()
   foreach ($pkg in $packages) {
     LogDebug "Validating $($pkg.name)..."
