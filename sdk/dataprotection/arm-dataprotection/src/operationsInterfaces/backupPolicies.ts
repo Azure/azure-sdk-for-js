@@ -22,7 +22,7 @@ import {
 export interface BackupPolicies {
   /**
    * Returns list of backup policies belonging to a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param options The options parameters.
    */
@@ -33,7 +33,7 @@ export interface BackupPolicies {
   ): PagedAsyncIterableIterator<BaseBackupPolicyResource>;
   /**
    * Gets a backup policy belonging to a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param backupPolicyName
    * @param options The options parameters.
@@ -46,7 +46,7 @@ export interface BackupPolicies {
   ): Promise<BackupPoliciesGetResponse>;
   /**
    * Creates or Updates a backup policy belonging to a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param backupPolicyName Name of the policy
    * @param parameters Request body for operation
@@ -61,7 +61,7 @@ export interface BackupPolicies {
   ): Promise<BackupPoliciesCreateOrUpdateResponse>;
   /**
    * Deletes a backup policy belonging to a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param backupPolicyName
    * @param options The options parameters.

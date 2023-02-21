@@ -4,16 +4,16 @@
 
 ### Features Added
 
-- Added an error callback functionality for inspecting individual log uploads via `UploadLogsOptions`.
+- Added an error callback functionality for inspecting individual log uploads via `LogsUploadOptions`.
 
 ### Breaking Changes
 
-- The `upload` API throws an `AggregateUploadLogsError` in case of an error and returns `void` when operation succeeds.
-- Renamed `UploadLogsError` to `UploadLogsFailure`.
+- The `upload` API throws an `AggregateLogsUploadError` in case of an error and returns `void` when operation succeeds.
+- Renamed `LogsUploadError` to `LogsUploadFailure`.
 
 ### Other Changes
 
-- `UploadLogsOptions` supports the `OperationOptions` from @azure/core-client, allowing users to abort operations when needed.
+- `LogsUploadOptions` supports the `OperationOptions` from @azure/core-client, allowing users to abort operations when needed.
 - Added samples for all error handling scenarios.
 ## 1.0.0-beta.3 (2022-10-13)
 

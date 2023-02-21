@@ -8,4 +8,4 @@ export * from "./options";
 export * from "./policy";
 export * from "./program";
 export * from "./parallel";
-export { getEnvVar, drainStream } from "./utils";
+export { getEnvVar, drainStream } from "./utils/utils";
