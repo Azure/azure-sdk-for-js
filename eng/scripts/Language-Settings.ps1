@@ -10,10 +10,8 @@ $PackageRepositoryUri = "https://www.npmjs.com/package"
 
 . "$PSScriptRoot/docs/Docs-ToC.ps1"
 
-function Confirm-NodeInstallation
-{
-  if (!(Get-Command npm -ErrorAction SilentlyContinue))
-  {
+function Confirm-NodeInstallation {
+  if (!(Get-Command npm -ErrorAction SilentlyContinue)) {
     LogError "Could not locate npm. Install NodeJS (includes npm and npx) https://nodejs.org/en/download"
     exit 1
   }
@@ -227,6 +225,13 @@ function RexToolValidation($package, $output) {
     LogError "type2docfx $package $outputTempFolder"
     return GetResult $false $package $validateOutput
   }
+
+  # Package must also produce output to be onboarded
+  if (!(Get-ChildItem $output)) {
+    LogError "Package $package failed the rex tool validation. No output was generated."
+    return GetResult $false $package $validateOutput
+  }
+
   return GetResult $true $package $validateOutput
 }
 
@@ -253,7 +258,7 @@ $PackageExclusions = @{
   '@azure/identity-cache-persistence' = 'Fails typedoc2fx execution https://github.com/Azure/azure-sdk-for-js/issues/16310';
 }
 
-function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata, $DocValidationImageId, $SkipValidation=$false) {
+function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata, $DocValidationImageId, $SkipValidation = $false) {
   Write-Host "Excluded packages:"
   foreach ($excludedPackage in $PackageExclusions.Keys) {
     Write-Host "  $excludedPackage - $($PackageExclusions[$excludedPackage])"
@@ -265,14 +270,14 @@ function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata, $Doc
     'preview' `
     $FilteredMetadata `
   (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json.log') `
-  $SkipValidation
+    $SkipValidation
 
   UpdateDocsMsPackages `
   (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json') `
     'latest' `
     $FilteredMetadata `
   (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json.log') `
-  $SkipValidation
+    $SkipValidation
 }
 
 function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata, $PackageHistoryLogFile, $SkipValidation) {
