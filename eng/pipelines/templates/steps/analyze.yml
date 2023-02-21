@@ -61,7 +61,7 @@ steps:
   - task: PowerShell@2
     inputs:
       filePath: eng/scripts/Verify-PreviewDependency.ps1
-      arguments: -ServiceDirectory ${{ parameters.ServiceDirectory }}
+      arguments: -PackagePath $(Build.SourcesDirectory)/sdk/${{ parameters.ServiceDirectory }}
       pwsh: true
     displayName: "Verify Preview Dependency"
 
