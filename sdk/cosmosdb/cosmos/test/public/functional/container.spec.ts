@@ -493,7 +493,7 @@ describe("container.deleteAllItemsForPartitionKey", function () {
   });
 
   it("should delete all items for parition key value in multi partition container", async function () {
-    //multi partition container
+    //  multi partition container
     const container = await getTestContainer("container", undefined, {
       partitionKey: {
         paths: ["/pk"],
