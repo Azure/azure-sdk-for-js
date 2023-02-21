@@ -38,3 +38,5 @@ extends:
         safeName: azurerestpurviewscanning
       - name: azure-rest-purview-administration
         safeName: azurerestpurviewadministration
+      - name: azure-rest-purview-workflow
+        safeName: azurerestpurviewworkflow
