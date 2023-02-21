@@ -7,7 +7,7 @@ import { assert } from "chai";
 import { checkOnInterval } from "../../src/eventHubReceiver";
 
 describe("checkOnInterval", function () {
-  it("should resolve after the given number of ms", async function () {
+  it("should resolve when the check function returns true", async function () {
     const clock = sinon.useFakeTimers();
     const delayTime = 2500;
     const callCount = 3;

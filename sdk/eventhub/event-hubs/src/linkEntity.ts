@@ -155,7 +155,7 @@ export class LinkEntity {
       tokenObject = this._context.tokenCredential.getToken(this.audience);
       tokenType = TokenType.CbsTokenTypeSas;
 
-      // renew sas token in every 45 minutes
+      // renew the token in every 45 minutes
       this._tokenTimeoutInMs = (3600 - 900) * 1000;
     } else {
       const aadToken = await this._context.tokenCredential.getToken(Constants.aadEventHubsScope);

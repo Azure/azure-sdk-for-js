@@ -6,13 +6,13 @@
 
 ### Breaking Changes
 
+- The receiver no longer attempts to build batches of `maxMessageCount` size, instead, it returns batches as soon as they are received from the service, up to `maxMessageCount`.
+
 ### Bugs Fixed
 
 - Fixing a bug where events were not always received in order [#23993](https://github.com/Azure/azure-sdk-for-js/issues/23993).
 
 ### Other Changes
-
-- The receiver no longer attempts to build batches of `maxMessageCount` size, instead, it returns batches as soon as they are received from the service, up to `maxMessageCount`.
 
 ## 5.8.0 (2022-05-10)
 
