@@ -39,7 +39,7 @@ stages:
         - TestType=node
         - DependencyVersion=^$
         - NodeTestVersion=14.x
-        - Pool=.*mms-win-2019.*
+        - Pool=.*mms-win-2020.*
       PreSteps:
         - template: /eng/pipelines/templates/steps/cosmos-integration-public.yml
       PostSteps:
