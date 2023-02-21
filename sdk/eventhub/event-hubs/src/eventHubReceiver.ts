@@ -552,18 +552,19 @@ export class EventHubReceiver extends LinkEntity {
     const readIntervalWaitTimeInMs = 20;
 
     const retrieveEvents = (): Promise<ReceivedEventData[]> => {
-      const prefetchCount = Math.max(maxMessageCount - this.queue.length, 0);
+      const eventsCountToRetrieve = Math.max(maxMessageCount - this.queue.length, 0);
       logger.verbose(
-        "[%s] Receiver '%s', setting the prefetch count to %d.",
+        "[%s] Receiver '%s', already has %d events and wants to receive %d more events.",
         this._context.connectionId,
         this.name,
-        prefetchCount
+        this.queue.length,
+        eventsCountToRetrieve
       );
       if (abortSignal?.aborted) {
         cleanupBeforeAbort();
         return Promise.reject(new AbortError(StandardAbortMessage));
       }
-      return this._isClosed || this._context.wasConnectionCloseCalled || prefetchCount === 0
+      return this._isClosed || this._context.wasConnectionCloseCalled || eventsCountToRetrieve === 0
         ? Promise.resolve(this.queue.splice(0))
         : new Promise<void>((resolve, reject) => {
             this._onError = (err) => {
@@ -578,8 +579,8 @@ export class EventHubReceiver extends LinkEntity {
             tryOpenLink()
               .then(() => {
                 // add credits
-                const existingCredits = this._receiver ? this._receiver.credit : 0;
-                const creditsToAdd = Math.max(prefetchCount - existingCredits, 0);
+                const existingCredits = this._receiver?.credit ?? 0;
+                const creditsToAdd = Math.max(eventsCountToRetrieve - existingCredits, 0);
                 this._addCredit(creditsToAdd);
                 logger.verbose(
                   "[%s] Setting the wait timer for %d seconds for receiver '%s'.",
