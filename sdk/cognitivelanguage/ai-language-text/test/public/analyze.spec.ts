@@ -65,11 +65,6 @@ const testDataEs = [
 
 const classificationTypeList: string[] = ["single", "multi"];
 
-describe("", function(this: Suite) {
-  it("JSON pointer error", async function(){
-    const string = JSON.parse("#/tasks/items/0")
-  })
-})
 matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
     let recorder: Recorder;

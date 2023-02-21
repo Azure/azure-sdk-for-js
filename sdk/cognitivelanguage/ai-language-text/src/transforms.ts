@@ -127,6 +127,16 @@ function transformDocumentResults<
   const successResults = processSuccess
     ? response.documents.map(processSuccess)
     : response.documents;
+  
+    // Parse target errors
+    for (const error of response.errors) {
+      const targetError = error.error.target;
+      if (targetError){
+        const pointer = targetError.split("/")[-1]
+        // Create Document error
+        
+      }
+    }
   const unsortedResults = (
     successResults as (PublicDocumentSuccess | TextAnalysisErrorResult)[]
   ).concat(response.errors.map((error) => processError(error.id, error.error)));

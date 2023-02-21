@@ -83,10 +83,9 @@ describe("Error targets", function () {
     const result = await poller.pollUntilDone();
     for await (const action of result) {
       if (action.error){
-        const target = action.error.target;
-
+        const message = action.error.message;
+        assert.equal(message, "oh my bad");
       }
     }
-    assert.equal()
   });
 });
