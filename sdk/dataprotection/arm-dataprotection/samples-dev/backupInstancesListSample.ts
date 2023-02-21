@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a backup instances belonging to a backup vault
  *
  * @summary Gets a backup instances belonging to a backup vault
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/preview/2022-11-01-preview/examples/BackupInstanceOperations/ListBackupInstances.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-01-01/examples/BackupInstanceOperations/ListBackupInstances.json
  */
 async function listBackupInstancesInAVault() {
   const subscriptionId =

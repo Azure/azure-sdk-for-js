@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { PartitionKey } from "../documents";
 import { SharedOptions } from "./SharedOptions";
 
 /**
@@ -96,5 +95,5 @@ export interface FeedOptions extends SharedOptions {
    * The former is useful when the query body is out of your control
    * but you still want to restrict it to a single partition. Example: an end user specified query.
    */
-  partitionKey?: PartitionKey;
+  partitionKey?: any;
 }

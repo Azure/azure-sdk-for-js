@@ -13,6 +13,9 @@ import {
   ContainerRegistryManagementClient
 } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates a task for a container registry with the specified parameters.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/TasksCreate.json
  */
 async function tasksCreate() {
-  const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const taskName = "mytTask";
   const taskCreateParameters: Task = {
@@ -86,8 +92,6 @@ async function tasksCreate() {
   console.log(result);
 }
 
-tasksCreate().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates a task for a container registry with the specified parameters.
  *
@@ -95,8 +99,11 @@ tasksCreate().catch(console.error);
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/TasksCreate_QuickTask.json
  */
 async function tasksCreateQuickTask() {
-  const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const taskName = "quicktask";
   const taskCreateParameters: Task = {
@@ -121,8 +128,6 @@ async function tasksCreateQuickTask() {
   console.log(result);
 }
 
-tasksCreateQuickTask().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates a task for a container registry with the specified parameters.
  *
@@ -130,8 +135,11 @@ tasksCreateQuickTask().catch(console.error);
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/ManagedIdentity/TasksCreate_WithSystemAndUserIdentities.json
  */
 async function tasksCreateWithSystemAndUserIdentities() {
-  const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const taskName = "mytTask";
   const taskCreateParameters: Task = {
@@ -200,8 +208,6 @@ async function tasksCreateWithSystemAndUserIdentities() {
   console.log(result);
 }
 
-tasksCreateWithSystemAndUserIdentities().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates a task for a container registry with the specified parameters.
  *
@@ -209,8 +215,11 @@ tasksCreateWithSystemAndUserIdentities().catch(console.error);
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/ManagedIdentity/TasksCreate_WithUserIdentities.json
  */
 async function tasksCreateWithUserIdentities() {
-  const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const taskName = "mytTask";
   const taskCreateParameters: Task = {
@@ -280,8 +289,6 @@ async function tasksCreateWithUserIdentities() {
   console.log(result);
 }
 
-tasksCreateWithUserIdentities().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates a task for a container registry with the specified parameters.
  *
@@ -289,8 +296,11 @@ tasksCreateWithUserIdentities().catch(console.error);
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/ManagedIdentity/TasksCreate_WithSystemIdentity.json
  */
 async function tasksCreateWithUserIdentitiesWithSystemIdentity() {
-  const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const taskName = "mytTask";
   const taskCreateParameters: Task = {
@@ -352,4 +362,12 @@ async function tasksCreateWithUserIdentitiesWithSystemIdentity() {
   console.log(result);
 }
 
-tasksCreateWithUserIdentitiesWithSystemIdentity().catch(console.error);
+async function main() {
+  tasksCreate();
+  tasksCreateQuickTask();
+  tasksCreateWithSystemAndUserIdentities();
+  tasksCreateWithUserIdentities();
+  tasksCreateWithUserIdentitiesWithSystemIdentity();
+}
+
+main().catch(console.error);

@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deletes a scope map from a container registry.
  *
  * @summary Deletes a scope map from a container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2022-02-01-preview/examples/ScopeMapDelete.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-01-01-preview/examples/ScopeMapDelete.json
  */
 async function scopeMapDelete() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const scopeMapName = "myScopeMap";
   const credential = new DefaultAzureCredential();
@@ -32,4 +34,8 @@ async function scopeMapDelete() {
   console.log(result);
 }
 
-scopeMapDelete().catch(console.error);
+async function main() {
+  scopeMapDelete();
+}
+
+main().catch(console.error);

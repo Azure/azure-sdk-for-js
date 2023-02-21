@@ -1,21 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import { record, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { recorderEnvSetup, getBlobChangeFeedClient, streamToString } from "./utils";
 import { BlobChangeFeedClient, BlobChangeFeedEvent, BlobChangeFeedEventPage } from "../src";
 import { AbortController } from "@azure/abort-controller";
-import { setTracer } from "@azure/test-utils";
-import { BlobServiceClient } from "@azure/storage-blob";
+import { assert } from "@azure/test-utils";
+import { BlobServiceClient, RequestPolicy } from "@azure/storage-blob";
 import { SDK_VERSION } from "../src/utils/constants";
-import { setSpan, context } from "@azure/core-tracing";
 import * as fs from "fs";
 import * as path from "path";
 
 import { Context } from "mocha";
 import { rawEventToBlobChangeFeedEvent } from "../src/utils/utils.common";
-import { HttpHeaders, RequestPolicy, RestError } from "@azure/core-http";
+import { createHttpHeaders, RestError } from "@azure/core-rest-pipeline";
+import { toHttpHeadersLike } from "@azure/core-http-compat";
 
 const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
 
@@ -148,7 +147,7 @@ describe("BlobChangeFeedClient", async () => {
       sendRequest(request) {
         return Promise.resolve({
           request,
-          headers: new HttpHeaders(),
+          headers: toHttpHeadersLike(createHttpHeaders()),
           status: 418,
         });
       },
@@ -170,20 +169,13 @@ describe("BlobChangeFeedClient", async () => {
   });
 
   it("tracing", async () => {
-    const tracer = setTracer();
-    const rootSpan = tracer.startSpan("root");
-
-    const pageIter = changeFeedClient.listChanges({
-      tracingOptions: {
-        tracingContext: setSpan(context.active(), rootSpan),
+    await assert.supportsTracing(
+      async (options) => {
+        const pageIter = changeFeedClient.listChanges(options);
+        await pageIter.next();
       },
-    });
-    await pageIter.next();
-
-    rootSpan.end();
-    const rootSpans = tracer.getRootSpans();
-    assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
-    assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
+      ["ChangeFeedFactory-create", "ChangeFeed-getChange"]
+    );
   });
 });
 

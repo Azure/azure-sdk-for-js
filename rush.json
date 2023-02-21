@@ -596,11 +596,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/maps-search",
-      "projectFolder": "sdk/maps/maps-search",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure-rest/maps-route",
       "projectFolder": "sdk/maps/maps-route-rest",
       "versionPolicyName": "client"
@@ -1865,7 +1860,7 @@
     },
     {
       "packageName": "@azure-rest/load-testing",
-      "projectFolder": "sdk/loadtestservice/load-testing-rest",
+      "projectFolder": "sdk/loadtesting/load-testing-rest",
       "versionPolicyName": "client"
     },
     {
@@ -1890,7 +1885,7 @@
     },
     {
       "packageName": "@azure/arm-loadtesting",
-      "projectFolder": "sdk/loadtestservice/arm-loadtesting",
+      "projectFolder": "sdk/loadtesting/arm-loadtesting",
       "versionPolicyName": "management"
     },
     {
@@ -1916,6 +1911,11 @@
     {
       "packageName": "@azure/arm-liftrqumulo",
       "projectFolder": "sdk/liftrqumulo/arm-liftrqumulo",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storagemover",
+      "projectFolder": "sdk/storagemover/arm-storagemover",
       "versionPolicyName": "management"
     }
   ]

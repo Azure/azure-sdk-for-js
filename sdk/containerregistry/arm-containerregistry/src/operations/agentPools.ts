@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   AgentPool,
   AgentPoolsListNextOptionalParams,
@@ -156,8 +160,8 @@ export class AgentPoolsImpl implements AgentPools {
     agentPool: AgentPool,
     options?: AgentPoolsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AgentPoolsCreateResponse>,
+    SimplePollerLike<
+      OperationState<AgentPoolsCreateResponse>,
       AgentPoolsCreateResponse
     >
   > {
@@ -167,7 +171,7 @@ export class AgentPoolsImpl implements AgentPools {
     ): Promise<AgentPoolsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -200,13 +204,22 @@ export class AgentPoolsImpl implements AgentPools {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, registryName, agentPoolName, agentPool, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        registryName,
+        agentPoolName,
+        agentPool,
+        options
+      },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AgentPoolsCreateResponse,
+      OperationState<AgentPoolsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -250,14 +263,14 @@ export class AgentPoolsImpl implements AgentPools {
     registryName: string,
     agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -290,13 +303,13 @@ export class AgentPoolsImpl implements AgentPools {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, registryName, agentPoolName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, registryName, agentPoolName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -340,8 +353,8 @@ export class AgentPoolsImpl implements AgentPools {
     updateParameters: AgentPoolUpdateParameters,
     options?: AgentPoolsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AgentPoolsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AgentPoolsUpdateResponse>,
       AgentPoolsUpdateResponse
     >
   > {
@@ -351,7 +364,7 @@ export class AgentPoolsImpl implements AgentPools {
     ): Promise<AgentPoolsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -384,19 +397,22 @@ export class AgentPoolsImpl implements AgentPools {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         registryName,
         agentPoolName,
         updateParameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AgentPoolsUpdateResponse,
+      OperationState<AgentPoolsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -502,8 +518,8 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.registryName,
+    Parameters.resourceGroupName1,
     Parameters.agentPoolName
   ],
   headerParameters: [Parameters.accept],
@@ -535,8 +551,8 @@ const createOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.registryName,
+    Parameters.resourceGroupName1,
     Parameters.agentPoolName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -560,8 +576,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.registryName,
+    Parameters.resourceGroupName1,
     Parameters.agentPoolName
   ],
   headerParameters: [Parameters.accept],
@@ -593,8 +609,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.registryName,
+    Parameters.resourceGroupName1,
     Parameters.agentPoolName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -617,8 +633,8 @@ const listOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName
+    Parameters.registryName,
+    Parameters.resourceGroupName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -639,8 +655,8 @@ const getQueueStatusOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.registryName,
+    Parameters.resourceGroupName1,
     Parameters.agentPoolName
   ],
   headerParameters: [Parameters.accept],
@@ -657,13 +673,12 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.resourceGroupName1
   ],
   headerParameters: [Parameters.accept],
   serializer

@@ -1,9 +1,20 @@
+## 3.17.3 (Unreleased)
+
+### Features Added
+- Changes in bulk api to honour size restictions (i.e 2Mb) while creating individual batches.[#23923](https://github.com/Azure/azure-sdk-for-js/issues/23923)
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
 # Release History
 
 ## 3.17.3 (Unreleased)
 - Fix add timeout message in timeout error
 
 ### Features Added
+
+- Expose delete by partition key value feature
 
 ### Breaking Changes
 

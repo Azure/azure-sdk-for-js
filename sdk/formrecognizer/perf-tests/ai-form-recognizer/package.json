@@ -21,7 +21,7 @@
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "ts-node": "^10.0.0",
-    "typescript": "~4.6.0"
+    "typescript": "~4.8.0"
   },
   "scripts": {
     "perf-test:node": "npm run build && node dist-esm/index.spec.js",

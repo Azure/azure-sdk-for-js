@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Webhook,
   WebhooksListNextOptionalParams,
@@ -56,7 +60,7 @@ export class WebhooksImpl implements Webhooks {
 
   /**
    * Lists all the webhooks for the specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -132,7 +136,7 @@ export class WebhooksImpl implements Webhooks {
 
   /**
    * Lists recent events for the specified webhook.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param webhookName The name of the webhook.
    * @param options The options parameters.
@@ -225,7 +229,7 @@ export class WebhooksImpl implements Webhooks {
 
   /**
    * Lists all the webhooks for the specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -242,7 +246,7 @@ export class WebhooksImpl implements Webhooks {
 
   /**
    * Gets the properties of the specified webhook.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param webhookName The name of the webhook.
    * @param options The options parameters.
@@ -261,7 +265,7 @@ export class WebhooksImpl implements Webhooks {
 
   /**
    * Creates a webhook for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param webhookName The name of the webhook.
    * @param webhookCreateParameters The parameters for creating a webhook.
@@ -274,8 +278,8 @@ export class WebhooksImpl implements Webhooks {
     webhookCreateParameters: WebhookCreateParameters,
     options?: WebhooksCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WebhooksCreateResponse>,
+    SimplePollerLike<
+      OperationState<WebhooksCreateResponse>,
       WebhooksCreateResponse
     >
   > {
@@ -285,7 +289,7 @@ export class WebhooksImpl implements Webhooks {
     ): Promise<WebhooksCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -318,20 +322,24 @@ export class WebhooksImpl implements Webhooks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         registryName,
         webhookName,
         webhookCreateParameters,
         options
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      WebhooksCreateResponse,
+      OperationState<WebhooksCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -339,7 +347,7 @@ export class WebhooksImpl implements Webhooks {
 
   /**
    * Creates a webhook for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param webhookName The name of the webhook.
    * @param webhookCreateParameters The parameters for creating a webhook.
@@ -364,7 +372,7 @@ export class WebhooksImpl implements Webhooks {
 
   /**
    * Deletes a webhook from a container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param webhookName The name of the webhook.
    * @param options The options parameters.
@@ -374,14 +382,14 @@ export class WebhooksImpl implements Webhooks {
     registryName: string,
     webhookName: string,
     options?: WebhooksDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -414,14 +422,15 @@ export class WebhooksImpl implements Webhooks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, registryName, webhookName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, registryName, webhookName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -429,7 +438,7 @@ export class WebhooksImpl implements Webhooks {
 
   /**
    * Deletes a webhook from a container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param webhookName The name of the webhook.
    * @param options The options parameters.
@@ -451,7 +460,7 @@ export class WebhooksImpl implements Webhooks {
 
   /**
    * Updates a webhook with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param webhookName The name of the webhook.
    * @param webhookUpdateParameters The parameters for updating a webhook.
@@ -464,8 +473,8 @@ export class WebhooksImpl implements Webhooks {
     webhookUpdateParameters: WebhookUpdateParameters,
     options?: WebhooksUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WebhooksUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WebhooksUpdateResponse>,
       WebhooksUpdateResponse
     >
   > {
@@ -475,7 +484,7 @@ export class WebhooksImpl implements Webhooks {
     ): Promise<WebhooksUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -508,20 +517,24 @@ export class WebhooksImpl implements Webhooks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         registryName,
         webhookName,
         webhookUpdateParameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      WebhooksUpdateResponse,
+      OperationState<WebhooksUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -529,7 +542,7 @@ export class WebhooksImpl implements Webhooks {
 
   /**
    * Updates a webhook with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param webhookName The name of the webhook.
    * @param webhookUpdateParameters The parameters for updating a webhook.
@@ -554,7 +567,7 @@ export class WebhooksImpl implements Webhooks {
 
   /**
    * Triggers a ping event to be sent to the webhook.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param webhookName The name of the webhook.
    * @param options The options parameters.
@@ -573,7 +586,7 @@ export class WebhooksImpl implements Webhooks {
 
   /**
    * Lists recent events for the specified webhook.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param webhookName The name of the webhook.
    * @param options The options parameters.
@@ -592,7 +605,7 @@ export class WebhooksImpl implements Webhooks {
 
   /**
    * Gets the configuration of service URI and custom headers for the webhook.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param webhookName The name of the webhook.
    * @param options The options parameters.
@@ -611,7 +624,7 @@ export class WebhooksImpl implements Webhooks {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -630,7 +643,7 @@ export class WebhooksImpl implements Webhooks {
 
   /**
    * ListEventsNext
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param webhookName The name of the webhook.
    * @param nextLink The nextLink from the previous successful call to the ListEvents method.
@@ -836,7 +849,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WebhookListResult
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -855,7 +867,6 @@ const listEventsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.EventListResult
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
