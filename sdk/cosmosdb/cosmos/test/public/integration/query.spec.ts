@@ -231,7 +231,6 @@ describe("Test Index metrics", function (this: Suite) {
       if (results === undefined) {
         break;
       }
-      console.log("indexMetrics: " + indexMetrics);
       assert.notEqual(indexMetrics, undefined);
     }
   });
