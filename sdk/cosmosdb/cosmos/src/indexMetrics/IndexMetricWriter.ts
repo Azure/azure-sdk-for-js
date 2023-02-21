@@ -1,102 +1,99 @@
+import Constants from "./Constants";
 import { CompositeIndexUtilizationEntity } from "./CompositeIndexUtilizationEntity";
 import { IndexUtilizationInfo } from "./IndexUtilizationInfo";
 import { SingleIndexUtilizationEntity } from "./SingleIndexUtilizationEntity";
 
 export class IndexMetricWriter {
-  private static readonly IndexUtilizationInfo = "Index Utilization Information";
-  private static readonly UtilizedSingleIndexes = "Utilized Single Indexes";
-  private static readonly PotentialSingleIndexes = "Potential Single Indexes";
-  private static readonly UtilizedCompositeIndexes = "Utilized Composite Indexes";
-  private static readonly PotentialCompositeIndexes = "Potential Composite Indexes";
-  private static readonly IndexExpression = "Index Spec";
-  private static readonly IndexImpactScore = "Index Impact Score";
-  private static readonly IndexUtilizationSeparator = "---";
-
-  private result: string;
-
-  public constructor() {
-    this.result = "";
-  }
-
   public writeIndexMetrics(indexUtilizationInfo: IndexUtilizationInfo): string {
-    // IndexUtilizationInfo
-    this.writeBeforeIndexUtilizationInfo();
-    this.writeIndexUtilizationInfo(indexUtilizationInfo);
-    this.writeAfterIndexUtilizationInfo();
-    return this.result;
+    let result = "";
+    result = this.writeBeforeIndexUtilizationInfo(result);
+    result = this.writeIndexUtilizationInfo(result, indexUtilizationInfo);
+    result = this.writeAfterIndexUtilizationInfo(result);
+    return result;
+  }
+  protected writeBeforeIndexUtilizationInfo(result: string): string {
+    result = this.appendNewlineToResult(result);
+    result = this.appendHeaderToResult(result, Constants.IndexUtilizationInfo, 0);
+    return result;
   }
 
-  protected writeIndexUtilizationInfo(indexUtilizationInfo: IndexUtilizationInfo): void {
-    console.log("indexUtilizationInfo: ", JSON.stringify(indexUtilizationInfo));
-    this.appendHeaderToResult(IndexMetricWriter.UtilizedSingleIndexes, 1);
+  protected writeIndexUtilizationInfo(
+    result: string,
+    indexUtilizationInfo: IndexUtilizationInfo
+  ): string {
+    result = this.appendHeaderToResult(result, Constants.UtilizedSingleIndexes, 1);
 
     for (const indexUtilizationEntity of indexUtilizationInfo.UtilizedSingleIndexes) {
-      this.writeSingleIndexUtilizationEntity(indexUtilizationEntity);
+      result = this.writeSingleIndexUtilizationEntity(result, indexUtilizationEntity);
     }
-
-    this.appendHeaderToResult(IndexMetricWriter.PotentialSingleIndexes, 1);
+    result = this.appendHeaderToResult(result, Constants.PotentialSingleIndexes, 1);
 
     for (const indexUtilizationEntity of indexUtilizationInfo.PotentialSingleIndexes) {
-      this.writeSingleIndexUtilizationEntity(indexUtilizationEntity);
+      result = this.writeSingleIndexUtilizationEntity(result, indexUtilizationEntity);
     }
 
-    this.appendHeaderToResult(IndexMetricWriter.UtilizedCompositeIndexes, 1);
+    result = this.appendHeaderToResult(result, Constants.UtilizedCompositeIndexes, 1);
 
     for (const indexUtilizationEntity of indexUtilizationInfo.UtilizedCompositeIndexes) {
-      this.writeCompositeIndexUtilizationEntity(indexUtilizationEntity);
+      result = this.writeCompositeIndexUtilizationEntity(result, indexUtilizationEntity);
     }
 
-    this.appendHeaderToResult(IndexMetricWriter.PotentialCompositeIndexes, 1);
+    result = this.appendHeaderToResult(result, Constants.PotentialCompositeIndexes, 1);
 
     for (const indexUtilizationEntity of indexUtilizationInfo.PotentialCompositeIndexes) {
-      this.writeCompositeIndexUtilizationEntity(indexUtilizationEntity);
+      result = this.writeCompositeIndexUtilizationEntity(result, indexUtilizationEntity);
     }
+    return result;
   }
 
-  protected writeBeforeIndexUtilizationInfo(): void {
-    this.appendNewlineToResult();
-    this.appendHeaderToResult(IndexMetricWriter.IndexUtilizationInfo, 0);
-  }
-
-  protected writeAfterIndexUtilizationInfo(): void {}
-
-  private appendHeaderToResult(headerTitle: string, indentLevel: number): void {
-    const Indent = "  ";
-    const header = `${Indent.repeat(indentLevel)}${headerTitle}\n`;
-    this.result += header;
-  }
-
-  private appendNewlineToResult() {
-    this.appendHeaderToResult("", 0);
+  protected writeAfterIndexUtilizationInfo(result: string): string {
+    return result;
   }
 
   private writeSingleIndexUtilizationEntity(
-      indexUtilizationEntity: SingleIndexUtilizationEntity
-    ): void {
-      this.appendHeaderToResult(
-        `${IndexMetricWriter.IndexExpression}: ${indexUtilizationEntity.IndexDocumentExpression}`,
-        2
-      );
-      this.appendHeaderToResult(
-        `${IndexMetricWriter.IndexImpactScore}: ${indexUtilizationEntity.IndexImpactScore}`,
-        2
-      );
-      this.appendHeaderToResult(IndexMetricWriter.IndexUtilizationSeparator, 2);
-    }
+    result: string,
+    indexUtilizationEntity: SingleIndexUtilizationEntity
+  ): string {
+    result = this.appendHeaderToResult(
+      result,
+      `${Constants.IndexExpression}: ${indexUtilizationEntity.IndexSpec}`,
+      2
+    );
+    result = this.appendHeaderToResult(
+      result,
+      `${Constants.IndexImpactScore}: ${indexUtilizationEntity.IndexImpactScore}`,
+      2
+    );
+    result = this.appendHeaderToResult(result, Constants.IndexUtilizationSeparator, 2);
+    return result;
+  }
 
-    private writeCompositeIndexUtilizationEntity(
-      indexUtilizationEntity: CompositeIndexUtilizationEntity
-    ): void {
-      this.appendHeaderToResult(
-        `${
-          IndexMetricWriter.IndexExpression
-        }: ${indexUtilizationEntity.IndexDocumentExpressions.join(", ")}`,
-        2
-      );
-      this.appendHeaderToResult(
-        `${IndexMetricWriter.IndexImpactScore}: ${indexUtilizationEntity.IndexImpactScore}`,
-        2
-      );
-      this.appendHeaderToResult(IndexMetricWriter.IndexUtilizationSeparator, 2);
-    }
+  private writeCompositeIndexUtilizationEntity(
+    result: string,
+    indexUtilizationEntity: CompositeIndexUtilizationEntity
+  ): string {
+    result = this.appendHeaderToResult(
+      result,
+      `${Constants.IndexExpression}: ${indexUtilizationEntity.IndexSpecs.join(", ")}`,
+      2
+    );
+    result = this.appendHeaderToResult(
+      result,
+      `${Constants.IndexImpactScore}: ${indexUtilizationEntity.IndexImpactScore}`,
+      2
+    );
+    result = this.appendHeaderToResult(result, Constants.IndexUtilizationSeparator, 2);
+    return result;
+  }
+
+  private appendNewlineToResult(result: string): string {
+    return this.appendHeaderToResult(result, "", 0);
+  }
+
+  private appendHeaderToResult(result: string, headerTitle: string, indentLevel: number): string {
+    const Indent = "  ";
+    const header = `${Indent.repeat(indentLevel)}${headerTitle}\n`;
+    result += header;
+    return result;
+  }
 }

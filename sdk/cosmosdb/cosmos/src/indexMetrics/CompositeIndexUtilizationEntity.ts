@@ -1,17 +1,8 @@
+/**
+ * Represents a composite index in the Azure Cosmos DB database service.
+ */
 export interface CompositeIndexUtilizationEntity {
-  IndexDocumentExpressions: string[];
-  IndexPlanFullFidelity: boolean;
+  IndexSpecs: string[]; // IndexDocumentExpressions
+  IndexPreciseSet: boolean; // IndexPlanFullFidelity
   IndexImpactScore: string;
-}
-
-export class CompositeIndexUtilizationEntity {
-  constructor(
-    indexDocumentExpressions: string[],
-    indexPlanFullFidelity: boolean,
-    indexImpactScore: string
-  ) {
-    this.IndexDocumentExpressions = indexDocumentExpressions;
-    this.IndexPlanFullFidelity = indexPlanFullFidelity;
-    this.IndexImpactScore = indexImpactScore;
-  }
 }

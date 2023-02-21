@@ -39,6 +39,5 @@ export class FeedResponse<TResource> {
     } else {
       return "No index utilized";
     }
-    //return this.headers[Constants.HttpHeaders.IndexUtilization];
   }
 }
