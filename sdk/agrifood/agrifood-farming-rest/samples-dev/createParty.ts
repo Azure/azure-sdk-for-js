@@ -8,7 +8,7 @@
  * @azsdk-weight 10
  */
 
-import FarmBeats, { PartyOutput, isUnexpected } from "@azure-rest/agrifood-farming";
+import FarmBeats, { isUnexpected } from "@azure-rest/agrifood-farming";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
 

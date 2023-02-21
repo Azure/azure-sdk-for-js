@@ -22,5 +22,4 @@ use-extension:
 
 modelerfour:
   treat-type-object-as-anything: true
-generate-test: true
 ```
