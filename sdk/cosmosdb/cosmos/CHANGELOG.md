@@ -11,7 +11,7 @@
 ### Bugs Fixed
 
 - Removed excessive log warnings during bulk operations on a container with no partitionkey set.
-- Fix issue with GlobalEndpointManager never makes endpoints available after they fall-back [#22726](https://github.com/Azure/azure-sdk-for-js/issues/22726)
+- Fix issue with GlobalEndpointManager never making endpoints available after they fall-back [#22726](https://github.com/Azure/azure-sdk-for-js/issues/22726)
 - Fix issue that caused parallel queries to break when returning a result of 0 or false. [#24493](https://github.com/Azure/azure-sdk-for-js/issues/24493)
 
 ### Other Changes
