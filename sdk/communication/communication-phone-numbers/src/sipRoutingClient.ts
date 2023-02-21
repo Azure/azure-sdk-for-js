@@ -274,16 +274,18 @@ export class SipRoutingClient {
   }
 
   private async getTrunksInternal(options: GetSipTrunkOptions): Promise<SipTrunk[]> {
-    let { includeHealth, ...requestOptions } = options;
+    const { includeHealth, ...requestOptions } = options;
+    let updatedOptions = requestOptions;
+    console.log("IncludeHealth: " + includeHealth);
 
-    if (options.includeHealth) {
-      requestOptions = {
+    if (includeHealth) {
+      updatedOptions = {
         ...requestOptions,
         expand: "trunks/health",
       } as SipRoutingGetOptionalParams;
     }
-    
-    const config = await this.client.sipRouting.get(options);
+
+    const config = await this.client.sipRouting.get(updatedOptions);
     return transformFromRestModel(config.trunks);
   }
 
@@ -306,7 +308,7 @@ export class SipRoutingClient {
   private async *listTrunksPagingPage(
     options: ListSipTrunksOptions = {}
   ): AsyncIterableIterator<SipTrunk[]> {
-    const apiResult = await this.getTrunksInternal(options as OperationOptions);
+    const apiResult = await this.getTrunksInternal(options as GetSipTrunkOptions);
     yield apiResult;
   }
 

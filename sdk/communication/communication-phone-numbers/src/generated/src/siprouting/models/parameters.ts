@@ -55,8 +55,6 @@ export const apiVersion: OperationQueryParameter = {
 export const expand: OperationQueryParameter = {
   parameterPath: ["options", "expand"],
   mapper: {
-    defaultValue: "trunks/health",
-    isConstant: true,
     serializedName: "expand",
     type: {
       name: "String"

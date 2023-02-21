@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SipTrunk as RestSipTrunk } from "./generated/src/siprouting/models";
+import { SipTrunk as RestSipTrunk, TrunkPatch } from "./generated/src/siprouting/models";
 import { SipTrunk } from "./models";
 
 /**
@@ -27,12 +27,15 @@ export function transformFromRestModel(
  * Transforming SIP trunks SDK model to REST model
  */
 export function transformIntoRestModel(trunks: SipTrunk[]): {
-  [propertyName: string]: RestSipTrunk;
+  [propertyName: string]: TrunkPatch;
 } {
-  const result: { [propertyName: string]: RestSipTrunk } = {};
+  const result: { [propertyName: string]: TrunkPatch } = {};
 
   trunks.forEach((trunk: SipTrunk) => {
-    result[trunk.fqdn] = { sipSignalingPort: trunk.sipSignalingPort } as RestSipTrunk;
+    result[trunk.fqdn] = {
+      sipSignalingPort: trunk.sipSignalingPort,
+      enabled: trunk.enabled,
+    } as TrunkPatch;
   });
 
   return result;

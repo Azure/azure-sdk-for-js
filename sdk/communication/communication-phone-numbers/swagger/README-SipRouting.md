@@ -33,16 +33,6 @@ typescript:
 ```yaml
 directive:
   - from: swagger-document
-    where: $.parameters[*]["x-ms-enum"]
-    transform: >
-      if ($.modelAsString) {
-        $.modelAsString = false
-      }
-```
-
-```yaml
-directive:
-  - from: swagger-document
     where: $.definitions[*].properties[*]["x-ms-enum"]
     transform: >
       if ($.modelAsString) {

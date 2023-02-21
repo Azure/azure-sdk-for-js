@@ -177,6 +177,20 @@ export interface SipRoutingPatchExceptionHeaders {
   xMsErrorCode?: string;
 }
 
+/** Known values of {@link ExpandEnum} that the service accepts. */
+export enum KnownExpandEnum {
+  /** Health state of a SIP trunk for routing calls. */
+  TrunksHealth = "trunks/health"
+}
+
+/**
+ * Defines values for ExpandEnum. \
+ * {@link KnownExpandEnum} can be used interchangeably with ExpandEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **trunks\/health**: Health state of a SIP trunk for routing calls.
+ */
+export type ExpandEnum = string;
 /** Defines values for TlsStatus. */
 export type TlsStatus = "unknown" | "ok" | "certExpiring" | "certExpired";
 /** Defines values for PingStatus. */
@@ -191,7 +205,10 @@ export type InactiveReason =
 
 /** Optional parameters. */
 export interface SipRoutingGetOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Sip configuration expand. Optional. */
+  expand?: ExpandEnum;
+}
 
 /** Contains response data for the get operation. */
 export type SipRoutingGetResponse = SipConfiguration;
