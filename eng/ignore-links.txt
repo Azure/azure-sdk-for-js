@@ -4,3 +4,5 @@ https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-cha
 https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-changefeed/samples/typescript
 https://docs.microsoft.com/javascript/api/@azure/arm-storagemover?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-dataprotection
+https://docs.microsoft.com/javascript/api/@azure/arm-voiceservices
+https://docs.microsoft.com/javascript/api/@azure/arm-voiceservices?view=azure-node-preview
