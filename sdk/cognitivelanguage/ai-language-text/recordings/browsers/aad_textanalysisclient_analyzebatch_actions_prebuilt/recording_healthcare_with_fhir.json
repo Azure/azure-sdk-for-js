@@ -59,7 +59,7 @@
         "operation-location": "https://endpoint/language/analyze-text/jobs/d13a6027-7f5b-43e1-b76b-2d5a07a11a46?api-version=2022-10-01-preview",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "342",
+        "x-envoy-upstream-service-time": "226",
         "x-ms-region": "East US"
       },
       "ResponseBody": null
@@ -141,7 +141,7 @@
         "Date": "Wed, 08 Feb 2023 17:10:38 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "12",
+        "x-envoy-upstream-service-time": "10",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
