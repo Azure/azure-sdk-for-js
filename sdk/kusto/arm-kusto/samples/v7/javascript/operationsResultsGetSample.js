@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns operation results.
  *
  * @summary Returns operation results.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoOperationResultsGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoOperationResultsGet.json
  */
 async function kustoOperationResultsGet() {
   const subscriptionId =

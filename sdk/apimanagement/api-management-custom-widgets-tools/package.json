@@ -105,7 +105,7 @@
     "prettier": "^2.5.1",
     "glob": "^8.0.0",
     "tslib": "^2.2.0",
-    "rollup": "~2.75.5",
-    "@rollup/plugin-node-resolve": "~13.3.0"
+    "rollup": "^2.66.1",
+    "@rollup/plugin-node-resolve": "^13.1.3"
   }
 }

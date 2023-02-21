@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Add Database principals permissions.
  *
  * @summary Add Database principals permissions.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDatabaseAddPrincipals.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoDatabaseAddPrincipals.json
  */
 async function kustoDatabaseAddPrincipals() {
   const subscriptionId =

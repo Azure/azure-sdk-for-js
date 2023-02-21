@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a Kusto database script.
  *
  * @summary Creates a Kusto database script.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoScriptsCreateOrUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoScriptsCreateOrUpdate.json
  */
 async function kustoScriptsCreateOrUpdate() {
   const subscriptionId =

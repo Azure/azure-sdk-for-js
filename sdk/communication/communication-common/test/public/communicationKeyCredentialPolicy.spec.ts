@@ -13,8 +13,8 @@ import { assert } from "chai";
 import { createCommunicationAccessKeyCredentialPolicy } from "../../src";
 import { isNode } from "@azure/core-util";
 
-describe("CommunicationKeyCredentialPolicy", () => {
-  it("signs the request", async () => {
+describe("CommunicationKeyCredentialPolicy", function () {
+  it("signs the request", async function () {
     const credential = new MockKeyCredential("pw==");
     const communicationKeyCredentialPolicy =
       createCommunicationAccessKeyCredentialPolicy(credential);

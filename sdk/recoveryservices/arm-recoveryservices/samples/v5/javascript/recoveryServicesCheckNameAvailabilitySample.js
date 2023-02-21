@@ -20,7 +20,7 @@ or if one or more such resources exist, each of these must be GC'd and their tim
  * @summary API to check for resource name availability.
 A name is available if no other resource exists that has the same SubscriptionId, Resource Name and Type
 or if one or more such resources exist, each of these must be GC'd and their time of deletion be more than 24 Hours Ago
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/CheckNameAvailability_Available.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/CheckNameAvailability_Available.json
  */
 async function availabilityStatusOfResourceNameWhenNoResourceWithSameNameTypeAndSubscriptionExistsNorHasBeenDeletedWithinLast24Hours() {
   const subscriptionId =
@@ -49,7 +49,7 @@ or if one or more such resources exist, each of these must be GC'd and their tim
  * @summary API to check for resource name availability.
 A name is available if no other resource exists that has the same SubscriptionId, Resource Name and Type
 or if one or more such resources exist, each of these must be GC'd and their time of deletion be more than 24 Hours Ago
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/CheckNameAvailability_NotAvailable.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/CheckNameAvailability_NotAvailable.json
  */
 async function availabilityStatusOfResourceNameWhenResourceWithSameNameTypeAndSubscriptionExists() {
   const subscriptionId =

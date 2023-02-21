@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Webhook,
   WebhooksListOptionalParams,
@@ -33,7 +33,7 @@ import {
 export interface Webhooks {
   /**
    * Lists all the webhooks for the specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -44,7 +44,7 @@ export interface Webhooks {
   ): PagedAsyncIterableIterator<Webhook>;
   /**
    * Lists recent events for the specified webhook.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param webhookName The name of the webhook.
    * @param options The options parameters.
@@ -57,7 +57,7 @@ export interface Webhooks {
   ): PagedAsyncIterableIterator<Event>;
   /**
    * Gets the properties of the specified webhook.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param webhookName The name of the webhook.
    * @param options The options parameters.
@@ -70,7 +70,7 @@ export interface Webhooks {
   ): Promise<WebhooksGetResponse>;
   /**
    * Creates a webhook for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param webhookName The name of the webhook.
    * @param webhookCreateParameters The parameters for creating a webhook.
@@ -83,14 +83,14 @@ export interface Webhooks {
     webhookCreateParameters: WebhookCreateParameters,
     options?: WebhooksCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WebhooksCreateResponse>,
+    SimplePollerLike<
+      OperationState<WebhooksCreateResponse>,
       WebhooksCreateResponse
     >
   >;
   /**
    * Creates a webhook for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param webhookName The name of the webhook.
    * @param webhookCreateParameters The parameters for creating a webhook.
@@ -105,7 +105,7 @@ export interface Webhooks {
   ): Promise<WebhooksCreateResponse>;
   /**
    * Deletes a webhook from a container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param webhookName The name of the webhook.
    * @param options The options parameters.
@@ -115,10 +115,10 @@ export interface Webhooks {
     registryName: string,
     webhookName: string,
     options?: WebhooksDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a webhook from a container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param webhookName The name of the webhook.
    * @param options The options parameters.
@@ -131,7 +131,7 @@ export interface Webhooks {
   ): Promise<void>;
   /**
    * Updates a webhook with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param webhookName The name of the webhook.
    * @param webhookUpdateParameters The parameters for updating a webhook.
@@ -144,14 +144,14 @@ export interface Webhooks {
     webhookUpdateParameters: WebhookUpdateParameters,
     options?: WebhooksUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WebhooksUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WebhooksUpdateResponse>,
       WebhooksUpdateResponse
     >
   >;
   /**
    * Updates a webhook with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param webhookName The name of the webhook.
    * @param webhookUpdateParameters The parameters for updating a webhook.
@@ -166,7 +166,7 @@ export interface Webhooks {
   ): Promise<WebhooksUpdateResponse>;
   /**
    * Triggers a ping event to be sent to the webhook.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param webhookName The name of the webhook.
    * @param options The options parameters.
@@ -179,7 +179,7 @@ export interface Webhooks {
   ): Promise<WebhooksPingResponse>;
   /**
    * Gets the configuration of service URI and custom headers for the webhook.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param webhookName The name of the webhook.
    * @param options The options parameters.

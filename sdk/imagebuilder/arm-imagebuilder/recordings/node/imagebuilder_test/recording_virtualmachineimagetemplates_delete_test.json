@@ -14,12 +14,12 @@
       "RequestBody": null,
       "StatusCode": 202,
       "ResponseHeaders": {
-        "azure-asyncoperation": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+        "azure-asyncoperation": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
         "Cache-Control": "no-cache",
         "Content-Length": "0",
         "Date": "Wed, 11 Jan 2023 03:13:09 GMT",
         "Expires": "-1",
-        "Location": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+        "Location": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
         "Pragma": "no-cache",
         "Server": "nginx",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
@@ -32,7 +32,7 @@
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -68,7 +68,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -104,7 +104,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -140,7 +140,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -176,7 +176,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -212,7 +212,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -248,7 +248,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -284,7 +284,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -320,7 +320,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -356,7 +356,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -392,7 +392,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -428,7 +428,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -464,7 +464,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -500,7 +500,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -536,7 +536,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -572,7 +572,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -608,7 +608,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -644,7 +644,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -680,7 +680,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -716,7 +716,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -752,7 +752,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -788,7 +788,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -824,7 +824,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -860,7 +860,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -896,7 +896,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -932,7 +932,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -968,7 +968,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1004,7 +1004,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1040,7 +1040,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1076,7 +1076,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1112,7 +1112,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1148,7 +1148,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1184,7 +1184,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1220,7 +1220,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VirtualMachineImages/locations/eastus/operations/2f1f72fa-f1c4-4673-b496-6f7647243ba7?api-version=2022-02-14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",

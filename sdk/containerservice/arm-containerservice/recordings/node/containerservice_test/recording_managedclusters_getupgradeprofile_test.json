@@ -31,7 +31,7 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230118T082318Z:dc60a477-01af-447b-bf55-ddb1fdaf85d1"
       },
       "ResponseBody": {
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz/upgradeprofiles/default",
+        "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz/upgradeprofiles/default",
         "name": "default",
         "type": "Microsoft.ContainerService/managedClusters/upgradeprofiles",
         "properties": {
