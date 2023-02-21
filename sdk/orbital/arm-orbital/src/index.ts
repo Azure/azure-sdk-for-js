@@ -7,6 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
+export { getContinuationToken } from "./pagingHelper";
 export * from "./models";
 export { AzureOrbital } from "./azureOrbital";
 export * from "./operationsInterfaces";

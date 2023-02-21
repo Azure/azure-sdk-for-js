@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.3 (Unreleased)
+## 1.0.0-beta.4 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,19 @@
 
 ### Other Changes
 
+## 1.0.0-beta.3 (2023-01-10)
+    
+**Features**
+
+  - Interface GrantsListAllNextOptionalParams no longer has parameter includeAllocatedBudget
+  - Interface GrantsListNextOptionalParams no longer has parameter includeAllocatedBudget
+  - Interface JoinRequestsListNextOptionalParams no longer has parameter includeDenied
+  - Interface LabsListAllNextOptionalParams no longer has parameter includeBudget
+  - Interface LabsListAllNextOptionalParams no longer has parameter includeDeleted
+  - Interface LabsListNextOptionalParams no longer has parameter includeBudget
+  - Interface StudentsListNextOptionalParams no longer has parameter includeDeleted
+    
+    
 ## 1.0.0-beta.2 (2022-07-04)
     
 **Features**

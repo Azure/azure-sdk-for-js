@@ -10,15 +10,20 @@
 // Licensed under the MIT License.
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Returns operation results.
  *
  * @summary Returns operation results.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoOperationResultsOperationResultResponseTypeGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoOperationResultsOperationResultResponseTypeGet.json
  */
 async function kustoOperationsResultsLocationGet() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
+  const subscriptionId =
+    process.env["KUSTO_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-123456789098";
   const location = "westus";
   const operationId = "30972f1b-b61d-4fd8-bd34-3dcfa24670f3";
   const credential = new DefaultAzureCredential();
@@ -30,4 +35,8 @@ async function kustoOperationsResultsLocationGet() {
   console.log(result);
 }
 
-kustoOperationsResultsLocationGet().catch(console.error);
+async function main() {
+  kustoOperationsResultsLocationGet();
+}
+
+main().catch(console.error);

@@ -8,8 +8,8 @@ import * as chai from "chai";
 import { BaseTest } from "../baseTest";
 import { LUISAuthoringClient } from "../../src/lUISAuthoringClient";
 
-describe("Model Intents Tests", () => {
-  it("should list intents", async () => {
+describe("Model Intents Tests", function () {
+  it("should list intents", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const intents = await client.model.listIntents(BaseTest.GlobalAppId, "0.1");
       let checker: boolean = true;
@@ -21,7 +21,7 @@ describe("Model Intents Tests", () => {
     });
   });
 
-  it("should add intent", async () => {
+  it("should add intent", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const newIntentId = await client.model.addIntent(BaseTest.GlobalAppId, "0.1", { name: "TestIntent" });
       const intents = await client.model.listIntents(BaseTest.GlobalAppId, "0.1");
@@ -32,7 +32,7 @@ describe("Model Intents Tests", () => {
     });
   });
 
-  it("should get intent", async () => {
+  it("should get intent", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const newIntentId = await client.model.addIntent(BaseTest.GlobalAppId, "0.1", { name: "TestIntent" });
       const intent = await client.model.getIntent(BaseTest.GlobalAppId, "0.1", newIntentId.body);
@@ -42,7 +42,7 @@ describe("Model Intents Tests", () => {
     });
   })
 
-  it("should update intent", async () => {
+  it("should update intent", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const intentId = await client.model.addIntent(BaseTest.GlobalAppId, "0.1", { name: "TestIntent" });
       const intent = await client.model.getIntent(BaseTest.GlobalAppId, "0.1", intentId.body);
@@ -55,7 +55,7 @@ describe("Model Intents Tests", () => {
     });
   });
 
-  it("should delete intent", async () => {
+  it("should delete intent", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const intentId = await client.model.addIntent(BaseTest.GlobalAppId, "0.1", { name: "TestIntent" });
       const intents = await client.model.listIntents(BaseTest.GlobalAppId, "0.1");

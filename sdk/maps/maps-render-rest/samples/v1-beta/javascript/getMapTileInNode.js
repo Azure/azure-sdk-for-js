@@ -5,6 +5,7 @@ const { AzureKeyCredential } = require("@azure/core-auth");
 const { createWriteStream } = require("fs");
 const MapsRender = require("@azure-rest/maps-render").default,
   { positionToTileXY } = require("@azure-rest/maps-render");
+require("dotenv").config();
 
 /**
  * @summary How to get the map tile and store it as a file in Node.js.

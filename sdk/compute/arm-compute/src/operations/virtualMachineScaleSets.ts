@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { VirtualMachineScaleSets } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,17 +19,21 @@ import {
   VirtualMachineScaleSet,
   VirtualMachineScaleSetsListByLocationNextOptionalParams,
   VirtualMachineScaleSetsListByLocationOptionalParams,
+  VirtualMachineScaleSetsListByLocationResponse,
   VirtualMachineScaleSetsListNextOptionalParams,
   VirtualMachineScaleSetsListOptionalParams,
+  VirtualMachineScaleSetsListResponse,
   VirtualMachineScaleSetsListAllNextOptionalParams,
   VirtualMachineScaleSetsListAllOptionalParams,
+  VirtualMachineScaleSetsListAllResponse,
   VirtualMachineScaleSetSku,
   VirtualMachineScaleSetsListSkusNextOptionalParams,
   VirtualMachineScaleSetsListSkusOptionalParams,
+  VirtualMachineScaleSetsListSkusResponse,
   UpgradeOperationHistoricalStatusInfo,
   VirtualMachineScaleSetsGetOSUpgradeHistoryNextOptionalParams,
   VirtualMachineScaleSetsGetOSUpgradeHistoryOptionalParams,
-  VirtualMachineScaleSetsListByLocationResponse,
+  VirtualMachineScaleSetsGetOSUpgradeHistoryResponse,
   VirtualMachineScaleSetsCreateOrUpdateOptionalParams,
   VirtualMachineScaleSetsCreateOrUpdateResponse,
   VirtualMachineScaleSetUpdate,
@@ -42,10 +47,6 @@ import {
   VirtualMachineScaleSetsDeleteInstancesOptionalParams,
   VirtualMachineScaleSetsGetInstanceViewOptionalParams,
   VirtualMachineScaleSetsGetInstanceViewResponse,
-  VirtualMachineScaleSetsListResponse,
-  VirtualMachineScaleSetsListAllResponse,
-  VirtualMachineScaleSetsListSkusResponse,
-  VirtualMachineScaleSetsGetOSUpgradeHistoryResponse,
   VirtualMachineScaleSetsPowerOffOptionalParams,
   VirtualMachineScaleSetsRestartOptionalParams,
   VirtualMachineScaleSetsStartOptionalParams,
@@ -97,19 +98,29 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByLocationPagingPage(location, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByLocationPagingPage(location, options, settings);
       }
     };
   }
 
   private async *listByLocationPagingPage(
     location: string,
-    options?: VirtualMachineScaleSetsListByLocationOptionalParams
+    options?: VirtualMachineScaleSetsListByLocationOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<VirtualMachineScaleSet[]> {
-    let result = await this._listByLocation(location, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VirtualMachineScaleSetsListByLocationResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByLocation(location, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByLocationNext(
         location,
@@ -117,7 +128,9 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -147,19 +160,29 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceGroupName, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    options?: VirtualMachineScaleSetsListOptionalParams
+    options?: VirtualMachineScaleSetsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<VirtualMachineScaleSet[]> {
-    let result = await this._list(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VirtualMachineScaleSetsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -167,7 +190,9 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -197,22 +222,34 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listAllPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listAllPagingPage(options, settings);
       }
     };
   }
 
   private async *listAllPagingPage(
-    options?: VirtualMachineScaleSetsListAllOptionalParams
+    options?: VirtualMachineScaleSetsListAllOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<VirtualMachineScaleSet[]> {
-    let result = await this._listAll(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VirtualMachineScaleSetsListAllResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAll(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAllNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -248,11 +285,15 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listSkusPagingPage(
           resourceGroupName,
           vmScaleSetName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -261,15 +302,18 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
   private async *listSkusPagingPage(
     resourceGroupName: string,
     vmScaleSetName: string,
-    options?: VirtualMachineScaleSetsListSkusOptionalParams
+    options?: VirtualMachineScaleSetsListSkusOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<VirtualMachineScaleSetSku[]> {
-    let result = await this._listSkus(
-      resourceGroupName,
-      vmScaleSetName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VirtualMachineScaleSetsListSkusResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listSkus(resourceGroupName, vmScaleSetName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listSkusNext(
         resourceGroupName,
@@ -278,7 +322,9 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -319,11 +365,15 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.getOSUpgradeHistoryPagingPage(
           resourceGroupName,
           vmScaleSetName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -332,15 +382,22 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
   private async *getOSUpgradeHistoryPagingPage(
     resourceGroupName: string,
     vmScaleSetName: string,
-    options?: VirtualMachineScaleSetsGetOSUpgradeHistoryOptionalParams
+    options?: VirtualMachineScaleSetsGetOSUpgradeHistoryOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<UpgradeOperationHistoricalStatusInfo[]> {
-    let result = await this._getOSUpgradeHistory(
-      resourceGroupName,
-      vmScaleSetName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VirtualMachineScaleSetsGetOSUpgradeHistoryResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._getOSUpgradeHistory(
+        resourceGroupName,
+        vmScaleSetName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._getOSUpgradeHistoryNext(
         resourceGroupName,
@@ -349,7 +406,9 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -2385,7 +2444,6 @@ const listByLocationNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.location,
@@ -2406,7 +2464,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2427,7 +2484,6 @@ const listAllNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2447,7 +2503,6 @@ const listSkusNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2469,7 +2524,6 @@ const getOSUpgradeHistoryNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { RelayAPI } from "@azure/arm-relay";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Returns the description for the specified WCF relay.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/relay/resource-manager/Microsoft.Relay/stable/2017-04-01/examples/Relay/RelayGet.json
  */
 async function relayGet() {
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = "resourcegroup";
+  const subscriptionId =
+    process.env["RELAY_SUBSCRIPTION_ID"] ||
+    "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName =
+    process.env["RELAY_RESOURCE_GROUP"] || "resourcegroup";
   const namespaceName = "example-RelayNamespace-9953";
   const relayName = "example-Relay-Wcf-1194";
   const credential = new DefaultAzureCredential();
@@ -32,4 +38,8 @@ async function relayGet() {
   console.log(result);
 }
 
-relayGet().catch(console.error);
+async function main() {
+  relayGet();
+}
+
+main().catch(console.error);

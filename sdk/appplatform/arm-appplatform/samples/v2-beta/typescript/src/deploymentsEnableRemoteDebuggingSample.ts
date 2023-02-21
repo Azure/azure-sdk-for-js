@@ -14,16 +14,22 @@ import {
   AppPlatformManagementClient
 } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Enable remote debugging.
  *
  * @summary Enable remote debugging.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-09-01-preview/examples/Deployments_EnableRemoteDebugging.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/Deployments_EnableRemoteDebugging.json
  */
 async function deploymentsEnableRemoteDebugging() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const appName = "myapp";
   const deploymentName = "mydeployment";
@@ -43,4 +49,8 @@ async function deploymentsEnableRemoteDebugging() {
   console.log(result);
 }
 
-deploymentsEnableRemoteDebugging().catch(console.error);
+async function main() {
+  deploymentsEnableRemoteDebugging();
+}
+
+main().catch(console.error);

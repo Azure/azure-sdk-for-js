@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { MicrosoftResourceHealth } = require("@azure/arm-resourcehealth");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists Azure services' emerging issues.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/stable/2017-07-01/examples/EmergingIssues_List.json
  */
 async function getEmergingIssues() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RESOURCEHEALTH_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftResourceHealth(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +30,8 @@ async function getEmergingIssues() {
   console.log(resArray);
 }
 
-getEmergingIssues().catch(console.error);
+async function main() {
+  getEmergingIssues();
+}
+
+main().catch(console.error);

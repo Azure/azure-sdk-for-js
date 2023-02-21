@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { AutomanageClient } from "@azure/arm-automanage";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get information about a configuration profile assignment
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/getConfigurationProfileAssignment.json
  */
 async function getAConfigurationProfileAssignment() {
-  const subscriptionId = "mySubscriptionId";
-  const resourceGroupName = "myResourceGroupName";
+  const subscriptionId =
+    process.env["AUTOMANAGE_SUBSCRIPTION_ID"] || "mySubscriptionId";
+  const resourceGroupName =
+    process.env["AUTOMANAGE_RESOURCE_GROUP"] || "myResourceGroupName";
   const configurationProfileAssignmentName = "default";
   const vmName = "myVMName";
   const credential = new DefaultAzureCredential();
@@ -32,4 +37,8 @@ async function getAConfigurationProfileAssignment() {
   console.log(result);
 }
 
-getAConfigurationProfileAssignment().catch(console.error);
+async function main() {
+  getAConfigurationProfileAssignment();
+}
+
+main().catch(console.error);

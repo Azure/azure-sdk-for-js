@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PrivateLinkScopedResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,12 +19,12 @@ import {
   ScopedResource,
   PrivateLinkScopedResourcesListByPrivateLinkScopeNextOptionalParams,
   PrivateLinkScopedResourcesListByPrivateLinkScopeOptionalParams,
+  PrivateLinkScopedResourcesListByPrivateLinkScopeResponse,
   PrivateLinkScopedResourcesGetOptionalParams,
   PrivateLinkScopedResourcesGetResponse,
   PrivateLinkScopedResourcesCreateOrUpdateOptionalParams,
   PrivateLinkScopedResourcesCreateOrUpdateResponse,
   PrivateLinkScopedResourcesDeleteOptionalParams,
-  PrivateLinkScopedResourcesListByPrivateLinkScopeResponse,
   PrivateLinkScopedResourcesListByPrivateLinkScopeNextResponse
 } from "../models";
 
@@ -64,11 +65,15 @@ export class PrivateLinkScopedResourcesImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByPrivateLinkScopePagingPage(
           resourceGroupName,
           scopeName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -77,15 +82,22 @@ export class PrivateLinkScopedResourcesImpl
   private async *listByPrivateLinkScopePagingPage(
     resourceGroupName: string,
     scopeName: string,
-    options?: PrivateLinkScopedResourcesListByPrivateLinkScopeOptionalParams
+    options?: PrivateLinkScopedResourcesListByPrivateLinkScopeOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ScopedResource[]> {
-    let result = await this._listByPrivateLinkScope(
-      resourceGroupName,
-      scopeName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PrivateLinkScopedResourcesListByPrivateLinkScopeResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByPrivateLinkScope(
+        resourceGroupName,
+        scopeName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByPrivateLinkScopeNext(
         resourceGroupName,
@@ -94,7 +106,9 @@ export class PrivateLinkScopedResourcesImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -468,7 +482,6 @@ const listByPrivateLinkScopeNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion11],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

@@ -99,7 +99,7 @@ export function getValuesPure<Values extends ValuesCommon>(
 
   Object.keys(values).forEach((key: keyof Values) => {
     const value = urlValues[key];
-    if (value != null && value !== "") values[key] = value as Values[typeof key]; // if value is specified in the URL, replace the default value
+    if (value != null) values[key] = value as Values[typeof key]; // if value is specified in the URL, replace the default value
   });
   return values;
 }

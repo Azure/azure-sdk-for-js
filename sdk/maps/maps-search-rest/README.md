@@ -6,10 +6,10 @@ Azure Maps Search Client
 
 Key links:
 
-- [Source code]<!-- (https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-search-rest) -->
-- [Package (NPM)]<!-- (https://www.npmjs.com/package/@azure-rest/maps-search) -->
-- [API reference documentation]<!-- (https://docs.microsoft.com/javascript/api/@azure-rest/maps-search?view=azure-node-preview) -->
-- [Samples]<!-- (https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-search-rest/samples) -->
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-search-rest)
+- [Package (NPM)](https://www.npmjs.com/package/@azure-rest/maps-search)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/maps-search?view=azure-node-preview)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-search-rest/samples)
 - [Product Information](https://docs.microsoft.com/rest/api/maps/search)
 
 ## Getting started

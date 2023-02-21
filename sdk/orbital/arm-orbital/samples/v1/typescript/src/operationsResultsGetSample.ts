@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { AzureOrbital } from "@azure/arm-orbital";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Returns operation results.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/OperationResultsGet.json
  */
 async function kustoOperationResultsGet() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
+  const subscriptionId =
+    process.env["ORBITAL_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-123456789098";
   const location = "westus";
   const operationId = "30972f1b-b61d-4fd8-bd34-3dcfa24670f3";
   const credential = new DefaultAzureCredential();
@@ -30,4 +35,8 @@ async function kustoOperationResultsGet() {
   console.log(result);
 }
 
-kustoOperationResultsGet().catch(console.error);
+async function main() {
+  kustoOperationResultsGet();
+}
+
+main().catch(console.error);

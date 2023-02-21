@@ -6,7 +6,7 @@ import { ContainerClient, CommonOptions } from "@azure/storage-blob";
 import { Chunk } from "./Chunk";
 import { AvroReader } from "../../storage-internal-avro/src";
 import { streamToAvroReadable } from "./utils/utils.node";
-import { AbortSignalLike } from "@azure/core-http";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { LazyLoadingBlobStreamFactory } from "./LazyLoadingBlobStreamFactory";
 import { CHANGE_FEED_CHUNK_BLOCK_DOWNLOAD_SIZE } from "./utils/constants";
 

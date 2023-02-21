@@ -75,6 +75,13 @@ export interface SendManagementRequestOptions extends SendRequestOptions {
    * prefer to work directly with the bytes present in the message body than have the client attempt to parse it.
    */
   skipParsingBodyAsJson?: boolean;
+  /**
+   * Whether to skip converting Date type on properties of message annotations
+   * or application properties into numbers when receiving the message. By
+   * default, properties of Date type is converted into UNIX epoch number for
+   * compatibility.
+   */
+  skipConvertingDate?: boolean;
 }
 
 /**
@@ -230,6 +237,12 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           : `${context.config.endpoint}${entityPath}/$management`,
     });
     this._context = context;
+  }
+
+  private ensureUniqueReplyToForRequest() {
+    if (!this.isOpen()) {
+      this.replyTo = generate_uuid();
+    }
   }
 
   private async _init(abortSignal?: AbortSignalLike): Promise<void> {
@@ -514,6 +527,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         const omitMessageBodyKey = "omit-message-body"; // TODO: Service Bus specific. Put it somewhere
         messageBody[omitMessageBodyKey] = types.wrap_boolean(omitMessageBody);
       }
+      this.ensureUniqueReplyToForRequest();
       const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
@@ -539,10 +553,10 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         const messages = result.body.messages as { message: Buffer }[];
         for (const msg of messages) {
           const decodedMessage = RheaMessageUtil.decode(msg.message);
-          const message = fromRheaMessage(
-            decodedMessage as any,
-            options?.skipParsingBodyAsJson ?? false
-          );
+          const message = fromRheaMessage(decodedMessage as any, {
+            skipParsingBodyAsJson: options?.skipParsingBodyAsJson ?? false,
+            skipConvertingDate: options?.skipConvertingDate ?? false,
+          });
           messageList.push(message);
           this._lastPeekedSequenceNumber = message.sequenceNumber!;
         }
@@ -589,6 +603,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         0x98,
         undefined
       );
+      this.ensureUniqueReplyToForRequest();
       const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
@@ -680,6 +695,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         throw error;
       }
     }
+    this.ensureUniqueReplyToForRequest();
     try {
       const request: RheaMessage = {
         body: { messages: messageBody },
@@ -748,6 +764,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         0x81,
         undefined
       );
+      this.ensureUniqueReplyToForRequest();
       const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
@@ -826,6 +843,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       if (sessionId != null) {
         messageBody[Constants.sessionIdMapKey] = sessionId;
       }
+      this.ensureUniqueReplyToForRequest();
       const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
@@ -855,7 +873,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           { tag: msg["lock-token"] } as any,
           false,
           receiveMode,
-          options?.skipParsingBodyAsJson ?? false
+          options?.skipParsingBodyAsJson ?? false,
+          false
         );
         messageList.push(message);
       }
@@ -911,6 +930,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       if (options.sessionId != null) {
         messageBody[Constants.sessionIdMapKey] = options.sessionId;
       }
+      this.ensureUniqueReplyToForRequest();
       const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
@@ -953,6 +973,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     try {
       const messageBody: any = {};
       messageBody[Constants.sessionIdMapKey] = sessionId;
+      this.ensureUniqueReplyToForRequest();
       const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
@@ -1005,6 +1026,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       const messageBody: any = {};
       messageBody[Constants.sessionIdMapKey] = sessionId;
       messageBody["session-state"] = toBuffer(state);
+      this.ensureUniqueReplyToForRequest();
       const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
@@ -1046,6 +1068,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     try {
       const messageBody: any = {};
       messageBody[Constants.sessionIdMapKey] = sessionId;
+      this.ensureUniqueReplyToForRequest();
       const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
@@ -1108,6 +1131,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       messageBody["last-updated-time"] = lastUpdatedTime;
       messageBody["skip"] = types.wrap_int(skip);
       messageBody["top"] = types.wrap_int(top);
+      this.ensureUniqueReplyToForRequest();
       const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
@@ -1143,6 +1167,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   ): Promise<RuleProperties[]> {
     throwErrorIfConnectionClosed(this._context);
     try {
+      this.ensureUniqueReplyToForRequest();
       const request: RheaMessage = {
         body: {
           top: options?.maxCount
@@ -1276,6 +1301,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     throwTypeErrorIfParameterIsEmptyString(this._context.connectionId, "ruleName", ruleName);
 
     try {
+      this.ensureUniqueReplyToForRequest();
       const request: RheaMessage = {
         body: {
           "rule-name": types.wrap_string(ruleName),
@@ -1353,6 +1379,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           expression: String(sqlRuleActionExpression),
         };
       }
+      this.ensureUniqueReplyToForRequest();
       const request: RheaMessage = {
         body: {
           "rule-name": types.wrap_string(ruleName),

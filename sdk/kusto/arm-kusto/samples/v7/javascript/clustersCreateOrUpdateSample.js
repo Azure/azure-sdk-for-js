@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create or update a Kusto cluster.
  *
  * @summary Create or update a Kusto cluster.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoClustersCreateOrUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoClustersCreateOrUpdate.json
  */
 async function kustoClustersCreateOrUpdate() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = "kustorptest";
+  const subscriptionId =
+    process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
+  const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
   const clusterName = "kustoCluster";
   const parameters = {
     allowedIpRangeList: ["0.0.0.0/0"],
@@ -31,7 +33,7 @@ async function kustoClustersCreateOrUpdate() {
     location: "westus",
     publicIPType: "DualStack",
     publicNetworkAccess: "Enabled",
-    sku: { name: "Standard_L8s", capacity: 2, tier: "Standard" },
+    sku: { name: "Standard_L16as_v3", capacity: 2, tier: "Standard" },
   };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
@@ -43,4 +45,8 @@ async function kustoClustersCreateOrUpdate() {
   console.log(result);
 }
 
-kustoClustersCreateOrUpdate().catch(console.error);
+async function main() {
+  kustoClustersCreateOrUpdate();
+}
+
+main().catch(console.error);

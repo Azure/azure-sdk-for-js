@@ -18,11 +18,11 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/108.0.5351.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "5d0m6d7\u002Bip1ZHxm2W0Za5xTKqkYaOV41cO\u002Bxmoyy6P8=",
-        "x-ms-date": "Fri, 02 Dec 2022 00:19:43 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 OS/Win32"
+        "x-ms-date": "Fri, 06 Jan 2023 17:37:58 GMT",
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
       },
       "RequestBody": {
         "routes": [
@@ -39,13 +39,13 @@
       "StatusCode": 400,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Fri, 02 Dec 2022 00:19:42 GMT",
-        "MS-CV": "wo\u002BFHy4BbE2utg34QmPCcQ.0",
+        "Date": "Fri, 06 Jan 2023 17:37:56 GMT",
+        "MS-CV": "fqFCuWewIkqYAxriJKQzLw.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0n0SJYwAAAAA3JO1hUgvNQ6S7LMb3MIvoUFJHMDFFREdFMDkwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0dFy4YwAAAAB8ShF0IsKmR4VDq0hxXISnTUVYMzBFREdFMTEwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "34ms"
+        "X-Processing-Time": "31ms"
       },
       "ResponseBody": {
         "error": {
@@ -74,28 +74,28 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/108.0.5351.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Fri, 02 Dec 2022 00:19:43 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 OS/Win32"
+        "x-ms-date": "Fri, 06 Jan 2023 17:37:59 GMT",
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 02 Dec 2022 00:19:43 GMT",
-        "MS-CV": "tqdl2c9k/0ClSW7QXFjg0w.0",
+        "Date": "Fri, 06 Jan 2023 17:37:56 GMT",
+        "MS-CV": "gPttYNKsjkaYYDAbi01rhQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0n0SJYwAAAAAfDuqHPAbtQaU2r4FEUwNTUFJHMDFFREdFMDkwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0dFy4YwAAAABFbWtnLbbPQb3\u002BD3Nqmp9lTUVYMzBFREdFMTEwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "87ms"
+        "X-Processing-Time": "86ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test.82de5337072c4108ab171408caf404b1.com": {
+          "test.a58b98f6e0ce47c3b4da8e1ffdd023d7.com": {
             "sipSignalingPort": 5678
           }
         },
@@ -104,7 +104,7 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "test.afa37b3644944c1b9279d31aac25a11a.com",
-    "fqdn-2": "test.bfa51938c1574f36bb653804550f0d4a.com"
+    "fqdn-1": "test.a48443b1f625499583e10c64390906d5.com",
+    "fqdn-2": "test.a343a439cbb843b4bd2dab7fbd7b3a34.com"
   }
 }

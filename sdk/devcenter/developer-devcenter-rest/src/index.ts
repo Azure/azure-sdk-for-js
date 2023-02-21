@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import AzureDevCenter from "./azureDevCenter";
+import createClient from "./generated/azureDevCenter";
 
-export * from "./azureDevCenter";
+export * from "./generated/azureDevCenter";
 export * from "./generated/parameters";
 export * from "./generated/responses";
 export * from "./generated/clientDefinitions";
@@ -13,4 +13,4 @@ export * from "./generated/outputModels";
 export * from "./generated/paginateHelper";
 export * from "./generated/pollingHelper";
 
-export default AzureDevCenter;
+export default createClient;

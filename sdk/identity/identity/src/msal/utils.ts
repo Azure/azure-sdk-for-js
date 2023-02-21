@@ -74,8 +74,12 @@ export function getAuthority(tenantId: string, host?: string): string {
  * by sending it within the known authorities in the MSAL configuration.
  * @internal
  */
-export function getKnownAuthorities(tenantId: string, authorityHost: string): string[] {
-  if (tenantId === "adfs" && authorityHost) {
+export function getKnownAuthorities(
+  tenantId: string,
+  authorityHost: string,
+  disableInstanceDiscovery?: boolean
+): string[] {
+  if ((tenantId === "adfs" && authorityHost) || disableInstanceDiscovery) {
     return [authorityHost];
   }
   return [];

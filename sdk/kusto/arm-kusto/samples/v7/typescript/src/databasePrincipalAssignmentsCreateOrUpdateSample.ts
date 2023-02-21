@@ -13,16 +13,22 @@ import {
   KustoManagementClient
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates a Kusto cluster database principalAssignment.
  *
  * @summary Creates a Kusto cluster database principalAssignment.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDatabasePrincipalAssignmentsCreateOrUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoDatabasePrincipalAssignmentsCreateOrUpdate.json
  */
 async function kustoDatabasePrincipalAssignmentsCreateOrUpdate() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = "kustorptest";
+  const subscriptionId =
+    process.env["KUSTO_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-123456789098";
+  const resourceGroupName =
+    process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
   const clusterName = "kustoCluster";
   const databaseName = "Kustodatabase8";
   const principalAssignmentName = "kustoprincipal1";
@@ -44,4 +50,8 @@ async function kustoDatabasePrincipalAssignmentsCreateOrUpdate() {
   console.log(result);
 }
 
-kustoDatabasePrincipalAssignmentsCreateOrUpdate().catch(console.error);
+async function main() {
+  kustoDatabasePrincipalAssignmentsCreateOrUpdate();
+}
+
+main().catch(console.error);

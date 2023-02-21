@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ChaosManagementClient } = require("@azure/arm-chaos");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get a Capability Type resource for given Target Type and location.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2022-10-01-preview/examples/GetACapabilityType.json
  */
 async function getACapabilityTypeForAVirtualMachineTargetResourceOnWestus2Location() {
-  const subscriptionId = "6b052e15-03d3-4f17-b2e1-be7f07588291";
+  const subscriptionId =
+    process.env["CHAOS_SUBSCRIPTION_ID"] || "6b052e15-03d3-4f17-b2e1-be7f07588291";
   const locationName = "westus2";
   const targetTypeName = "Microsoft-VirtualMachine";
   const capabilityTypeName = "Shutdown-1.0";
@@ -28,4 +30,8 @@ async function getACapabilityTypeForAVirtualMachineTargetResourceOnWestus2Locati
   console.log(result);
 }
 
-getACapabilityTypeForAVirtualMachineTargetResourceOnWestus2Location().catch(console.error);
+async function main() {
+  getACapabilityTypeForAVirtualMachineTargetResourceOnWestus2Location();
+}
+
+main().catch(console.error);

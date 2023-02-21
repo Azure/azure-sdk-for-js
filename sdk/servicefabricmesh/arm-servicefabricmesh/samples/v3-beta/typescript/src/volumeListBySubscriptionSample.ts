@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ServiceFabricMeshManagementClient } from "@azure/arm-servicefabricmesh";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the information about all volume resources in a given resource group. The information include the description and other properties of the volume.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/servicefabricmesh/resource-manager/Microsoft.ServiceFabricMesh/preview/2018-09-01-preview/examples/volumes/list_bySubscriptionId.json
  */
 async function listVolumesBySubscriptionId() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["SERVICEFABRICMESH_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ServiceFabricMeshManagementClient(
     credential,
@@ -31,4 +36,8 @@ async function listVolumesBySubscriptionId() {
   console.log(resArray);
 }
 
-listVolumesBySubscriptionId().catch(console.error);
+async function main() {
+  listVolumesBySubscriptionId();
+}
+
+main().catch(console.error);

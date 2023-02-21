@@ -51,10 +51,10 @@ async function main() {
   client.on("group-message", (e) => {
     if (e.message.data instanceof ArrayBuffer) {
       console.log(
-        `Received message from ${groupName} ${Buffer.from(e.message.data).toString("base64")}`
+        `Received message from ${e.message.group} ${Buffer.from(e.message.data).toString("base64")}`
       );
     } else {
-      console.log(`Received message from ${groupName} ${e.message.data}`);
+      console.log(`Received message from ${e.message.group} ${e.message.data}`);
     }
   });
 

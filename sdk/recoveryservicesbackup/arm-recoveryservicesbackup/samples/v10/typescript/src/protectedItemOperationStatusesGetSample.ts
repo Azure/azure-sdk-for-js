@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Fetches the status of an operation such as triggering a backup, restore. The status can be in progress, completed
@@ -19,12 +22,15 @@ create jobs. This method returns the list of jobs associated with the operation.
  * @summary Fetches the status of an operation such as triggering a backup, restore. The status can be in progress, completed
 or failed. You can refer to the OperationStatus enum for all the possible states of the operation. Some operations
 create jobs. This method returns the list of jobs associated with the operation.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureIaasVm/ProtectedItemOperationStatus.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/ProtectedItemOperationStatus.json
  */
 async function getOperationStatusOfProtectedVM() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const vaultName = "NetSDKTestRsVault";
-  const resourceGroupName = "SwaggerTestRg";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "SwaggerTestRg";
   const fabricName = "Azure";
   const containerName =
     "IaasVMContainer;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1";
@@ -43,4 +49,8 @@ async function getOperationStatusOfProtectedVM() {
   console.log(result);
 }
 
-getOperationStatusOfProtectedVM().catch(console.error);
+async function main() {
+  getOperationStatusOfProtectedVM();
+}
+
+main().catch(console.error);

@@ -13,17 +13,23 @@ import {
   RecoveryServicesBackupClient
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Move recovery point from one datastore to another store.
  *
  * @summary Move recovery point from one datastore to another store.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/TriggerRecoveryPointMove_Post.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/TriggerRecoveryPointMove_Post.json
  */
 async function triggerRpMoveOperation() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const vaultName = "testVault";
-  const resourceGroupName = "netsdktestrg";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "netsdktestrg";
   const fabricName = "Azure";
   const containerName =
     "IaasVMContainer;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1";
@@ -48,4 +54,8 @@ async function triggerRpMoveOperation() {
   console.log(result);
 }
 
-triggerRpMoveOperation().catch(console.error);
+async function main() {
+  triggerRpMoveOperation();
+}
+
+main().catch(console.error);
