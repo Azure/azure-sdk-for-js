@@ -131,8 +131,8 @@ export async function clearSipConfiguration(): Promise<void> {
 let fqdnNumber = 0;
 export function getUniqueFqdn(recorder: Recorder): string {
   // const uniqueDomain = uuid().replace(/-/g, "");
-  fqdnNumber = fqdnNumber++;
-  return recorder.variable(`fqdn-${fqdnNumber}`, `test${fqdnNumber}.contoso1.com`);
+  fqdnNumber++;
+  return recorder.variable(`fqdn-${fqdnNumber}`, `test${fqdnNumber}.nostojic13012023.skype.net`);
 }
 export function resetUniqueFqdns(): void {
   fqdnNumber = 0;
@@ -142,7 +142,7 @@ export async function listAllTrunks(
   client: SipRoutingClient,
   includeHealth?: boolean
 ): Promise<SipTrunk[]> {
-  let result = [];
+  const result = [];
   for await (const trunk of client.listTrunks({ includeHealth })) {
     result.push(trunk);
   }
@@ -150,30 +150,9 @@ export async function listAllTrunks(
 }
 
 export async function listAllRoutes(client: SipRoutingClient): Promise<SipTrunkRoute[]> {
-  let result = [];
+  const result = [];
   for await (const route of client.listRoutes()) {
     result.push(route);
-  }
-  return result;
-}
-
-export async function listAllTrunks(client: SipRoutingClient): Promise<SipTrunk[]> {
-  const result: SipTrunk[] = [];
-
-  for await (const trunk of client.listTrunks()) {
-    if (trunk) {
-      result.push(trunk);
-    }
-  }
-  return result;
-}
-
-export async function listAllRoutes(client: SipRoutingClient): Promise<SipTrunkRoute[]> {
-  const result: SipTrunkRoute[] = [];
-  for await (const route of client.listRoutes()) {
-    if (route) {
-      result.push(route);
-    }
   }
   return result;
 }

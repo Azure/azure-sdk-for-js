@@ -67,12 +67,17 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("can retrieve an existing trunk", async () => {
-      await client.setTrunk({ fqdn: fourthFqdn, sipSignalingPort: 4567 } as SipTrunk);
+      await client.setTrunk({
+        fqdn: fourthFqdn,
+        sipSignalingPort: 4567,
+        enabled: true,
+      } as SipTrunk);
 
       const trunk = await client.getTrunk(fourthFqdn);
 
       assert.isNotNull(trunk);
       assert.equal(trunk?.sipSignalingPort, 4567);
+      assert.equal(trunk?.enabled, true);
     });
 
     it("can retrieve trunks", async () => {
@@ -91,9 +96,9 @@ matrix([[true, false]], async function (useAad) {
 
     it("can retrieve not empty trunks", async () => {
       const expectedTrunks = [
-        { fqdn: firstFqdn, sipSignalingPort: 1239 },
-        { fqdn: secondFqdn, sipSignalingPort: 2348 },
-        { fqdn: thirdFqdn, sipSignalingPort: 3457 },
+        { fqdn: firstFqdn, sipSignalingPort: 1239, enabled: true },
+        { fqdn: secondFqdn, sipSignalingPort: 2348, enabled: true },
+        { fqdn: thirdFqdn, sipSignalingPort: 3457, enabled: true },
       ];
       await client.setTrunks(expectedTrunks);
 
@@ -106,11 +111,15 @@ matrix([[true, false]], async function (useAad) {
 
     it("can retrieve a mocked trunk with health status", async () => {
       const expectedHealth = {
-        tls: { status: "unknown" as TlsStatus },
-        ping: { status: "unknown" as PingStatus },
+        tls: { status: "ok" as TlsStatus },
+        ping: { status: "ok" as PingStatus },
         activity: { status: "unknown" as ActivityStatus },
       } as SipTrunkHealth;
-      await client.setTrunk({ fqdn: fourthFqdn, sipSignalingPort: 4567 } as SipTrunk);
+      await client.setTrunk({
+        fqdn: fourthFqdn,
+        sipSignalingPort: 4567,
+        enabled: true,
+      } as SipTrunk);
 
       const trunk = await client.getTrunk(fourthFqdn, { includeHealth: true });
 
@@ -121,8 +130,8 @@ matrix([[true, false]], async function (useAad) {
 
     it("can retrieve multiple mocked trunks with health statuses", async () => {
       const expectedHealth = {
-        tls: { status: "unknown" as TlsStatus },
-        ping: { status: "unknown" as PingStatus },
+        tls: { status: "ok" as TlsStatus },
+        ping: { status: "ok" as PingStatus },
         activity: { status: "unknown" as ActivityStatus },
       } as SipTrunkHealth;
       const expectedTrunks = [
@@ -147,9 +156,9 @@ matrix([[true, false]], async function (useAad) {
       ];
 
       const createdTrunks = [
-        { fqdn: firstFqdn, sipSignalingPort: 1239 },
-        { fqdn: secondFqdn, sipSignalingPort: 2348 },
-        { fqdn: thirdFqdn, sipSignalingPort: 3457 },
+        { fqdn: firstFqdn, sipSignalingPort: 1239, enabled: true },
+        { fqdn: secondFqdn, sipSignalingPort: 2348, enabled: true },
+        { fqdn: thirdFqdn, sipSignalingPort: 3457, enabled: true },
       ];
 
       await client.setTrunks(createdTrunks);
