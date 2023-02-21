@@ -24,14 +24,14 @@
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview",
-        "Content-Length": "204",
+        "Content-Length": "432",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 21 Feb 2023 11:24:44 GMT",
-        "MS-CV": "8SVsZjq6GkW9S4Oqe6tLXw.0",
+        "Date": "Tue, 21 Feb 2023 11:24:51 GMT",
+        "MS-CV": "7PugbexAyUm1JeCYTl99xg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0/Kn0YwAAAAAfGlzOcmNVTa0MW1t1Cm4DTFRTRURHRTEzMTIAY2M5Mjc1OGQtMDVmNy00YWQ2LWFhNWUtMGZhOTcxOGQ4OTg1",
+        "X-Azure-Ref": "0A6r0YwAAAAC3Rg0V/Mu\u002BQbOEID2MZJSHTFRTRURHRTEzMTIAY2M5Mjc1OGQtMDVmNy00YWQ2LWFhNWUtMGZhOTcxOGQ4OTg1",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1032ms"
+        "X-Processing-Time": "940ms"
       },
       "ResponseBody": {
         "domains": {
@@ -43,6 +43,18 @@
           }
         },
         "trunks": {
+          "test1.nostojic13012023.skype.net": {
+            "enabled": true,
+            "sipSignalingPort": 1239
+          },
+          "test2.nostojic13012023.skype.net": {
+            "enabled": true,
+            "sipSignalingPort": 2348
+          },
+          "test3.nostojic13012023.skype.net": {
+            "enabled": true,
+            "sipSignalingPort": 3457
+          },
           "test4.nostojic13012023.skype.net": {
             "enabled": true,
             "sipSignalingPort": 4567
@@ -52,7 +64,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/sip?api-version=2023-01-01-preview",
+      "RequestUri": "https://endpoint/sip?api-version=2023-01-01-preview\u0026expand=trunks%2Fhealth",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -66,14 +78,14 @@
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview",
-        "Content-Length": "204",
+        "Content-Length": "780",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 21 Feb 2023 11:24:45 GMT",
-        "MS-CV": "p9eBnIzga0G3uhaxWPYwFQ.0",
+        "Date": "Tue, 21 Feb 2023 11:24:52 GMT",
+        "MS-CV": "g80tVM40VUWYVK8L8xDzDA.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0/an0YwAAAAAaxg7fSxZwTr3r/RPhbje4TFRTRURHRTEzMTIAY2M5Mjc1OGQtMDVmNy00YWQ2LWFhNWUtMGZhOTcxOGQ4OTg1",
+        "X-Azure-Ref": "0BKr0YwAAAADdwAUOQ2qhTKxEiLSa95WiTFRTRURHRTEzMTIAY2M5Mjc1OGQtMDVmNy00YWQ2LWFhNWUtMGZhOTcxOGQ4OTg1",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "111ms"
+        "X-Processing-Time": "128ms"
       },
       "ResponseBody": {
         "domains": {
@@ -85,7 +97,63 @@
           }
         },
         "trunks": {
+          "test1.nostojic13012023.skype.net": {
+            "health": {
+              "tls": {
+                "status": "ok"
+              },
+              "ping": {
+                "status": "ok"
+              },
+              "overall": {
+                "status": "unknown"
+              }
+            },
+            "enabled": true,
+            "sipSignalingPort": 1239
+          },
+          "test2.nostojic13012023.skype.net": {
+            "health": {
+              "tls": {
+                "status": "ok"
+              },
+              "ping": {
+                "status": "ok"
+              },
+              "overall": {
+                "status": "unknown"
+              }
+            },
+            "enabled": true,
+            "sipSignalingPort": 2348
+          },
+          "test3.nostojic13012023.skype.net": {
+            "health": {
+              "tls": {
+                "status": "ok"
+              },
+              "ping": {
+                "status": "ok"
+              },
+              "overall": {
+                "status": "unknown"
+              }
+            },
+            "enabled": true,
+            "sipSignalingPort": 3457
+          },
           "test4.nostojic13012023.skype.net": {
+            "health": {
+              "tls": {
+                "status": "ok"
+              },
+              "ping": {
+                "status": "ok"
+              },
+              "overall": {
+                "status": "unknown"
+              }
+            },
             "enabled": true,
             "sipSignalingPort": 4567
           }
