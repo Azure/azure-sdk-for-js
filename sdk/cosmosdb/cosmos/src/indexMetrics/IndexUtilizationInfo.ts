@@ -58,8 +58,4 @@ export class IndexUtilizationInfo {
 
     return indexUtilizationInfo;
   }
-
-  public async forEachAsync(callback: () => void) {
-    // Implement this method according to your requirements.
-  }
 }

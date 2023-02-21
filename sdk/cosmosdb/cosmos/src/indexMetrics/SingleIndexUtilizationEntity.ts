@@ -7,12 +7,4 @@ export class SingleIndexUtilizationEntity {
   public readonly FilterExpressionPrecision?: boolean;
   public readonly IndexPlanFullFidelity?: boolean;
   public IndexImpactScore?: string;
-
-  constructor(data: any) {
-    this.FilterExpression = data["FilterExpression"];
-    this.IndexDocumentExpression = data["IndexSpec"];
-    this.FilterExpressionPrecision = data["FilterPreciseSet"];
-    this.IndexPlanFullFidelity = data["IndexPreciseSet"];
-    this.IndexImpactScore = data["IndexImpactScore"];
-  }
 }

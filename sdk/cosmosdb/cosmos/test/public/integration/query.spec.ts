@@ -51,9 +51,12 @@ describe("Test Query Metrics", function (this: Suite) {
   it("validate that query metrics are correct for a single partition query", async function () {
     const database = await getTestDatabase("query metrics test db");
 
-    const collectionDefinition = { id: collectionId, partitionKey: {
+    const collectionDefinition = {
+      id: collectionId,
+      partitionKey: {
         paths: ["/pk"],
-      },};
+      },
+    };
     const collectionOptions = { offerThroughput: 4000 };
 
     const { resource: createdCollectionDef } = await database.containers.create(
@@ -63,9 +66,9 @@ describe("Test Query Metrics", function (this: Suite) {
     const createdContainer = database.container(createdCollectionDef.id);
 
     // await createdContainer.items.create(doc);
-    const doc1 = {id : "myId1", pk: "pk1", name : "test1"}
-    const doc2 = {id : "myId2", pk: "pk2", name : "test2"}
-    const doc3 = {id : "myId3", pk: "pk2", name : "test2"}
+    const doc1 = { id: "myId1", pk: "pk1", name: "test1" };
+    const doc2 = { id: "myId2", pk: "pk2", name: "test2" };
+    const doc3 = { id: "myId3", pk: "pk2", name: "test2" };
     await createdContainer.items.create(doc1);
     await createdContainer.items.create(doc2);
     await createdContainer.items.create(doc3);
