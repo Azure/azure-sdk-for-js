@@ -5518,7 +5518,7 @@ export const expectation30: AnalyzeBatchResult[] = [
         id: "0",
         summaries: [
           {
-            text: "Microsoft’s Cloud PC is a new type of virtualization for Windows.\nThe Cloud PC lets users access Windows 10 or Windows 11 on any device, from anywhere with an internet connection.\n\nThe Cloud PCs are designed for a mobile and mobile workforce.",
+            text: "Microsoft is releasing Windows 365, a new operating system that puts Microsoft’s flagship operating system in the cloud. The Cloud PC is a new virtualization technology for Windows that is easy to set up and deploy for today’s login-from- anywhere, mobile and elastic workforces. The cloud PC is available later this calendar year.",
             contexts: [{ offset: 0, length: 7519 }],
           },
         ],
@@ -5528,7 +5528,7 @@ export const expectation30: AnalyzeBatchResult[] = [
         id: "1",
         summaries: [
           {
-            text: "Microsoft’s new Cloud PC, Windows 365, is designed to support a hybrid workforce.\nThe new system allows remote workers to access their work environment from anywhere.\n\nThe Government of Nunavut is testing Windows 365.",
+            text: "Microsoft is rolling out Windows 365 Cloud PCs for employees forced to work from home. The ability to login to a Cloud PC from anywhere on any device is part of a larger strategy around tailoring products such as Microsoft Teams and Microsoft 365 for the post-pandemic hybrid workforce of the future.",
             contexts: [{ offset: 0, length: 3416 }],
           },
         ],
@@ -5548,7 +5548,7 @@ export const expectation31: AnalyzeBatchResult[] = [
         id: "0",
         summaries: [
           {
-            text: "Microsoft’s Cloud PC puts Windows in the cloud.",
+            text: "Microsoft is releasing Windows 365, a new operating system that puts Microsoft’s flagship operating system in the cloud. The Cloud PC is a new virtualization technology for Windows that is easy to set up and deploy for today’s login-from- anywhere, mobile and elastic workforces. The cloud PC is available later this calendar year.",
             contexts: [{ offset: 0, length: 7519 }],
           },
         ],
@@ -5558,7 +5558,7 @@ export const expectation31: AnalyzeBatchResult[] = [
         id: "1",
         summaries: [
           {
-            text: "Microsoft’s new Cloud PC, Windows 365, is designed to support a hybrid workforce.",
+            text: "Microsoft is rolling out Windows 365 Cloud PCs for employees forced to work from home. The ability to login to a Cloud PC from anywhere on any device is part of a larger strategy around tailoring products such as Microsoft Teams and Microsoft 365 for the post-pandemic hybrid workforce of the future.",
             contexts: [{ offset: 0, length: 3416 }],
           },
         ],
