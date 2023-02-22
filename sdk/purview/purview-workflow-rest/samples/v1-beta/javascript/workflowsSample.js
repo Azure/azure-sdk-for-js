@@ -3,7 +3,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const createPurviewWorkflowClient = require("@azure-rest/purview-workflow").default;
+const createPurviewWorkflowClient = require("@azure-rest/purview-workflow").default,
+  { paginate } = require("@azure-rest/purview-workflow");
 const { UsernamePasswordCredential } = require("@azure/identity");
 const { randomUUID } = require("crypto");
 require("dotenv").config();
@@ -14,13 +15,12 @@ require("dotenv").config();
  * @summary Create or replace a workflow.
  * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/CreateOrReplaceWorkflow.json
  */
-const endpoint = process.env["ENDPOINT"] || "";
-const tenantId = process.env["TENANTID"] || "";
-const clientId = process.env["CLIENTID"] || "";
-const username = process.env["USERNAME"] || "";
-const password = process.env["PASSWORD"] || "";
-
 async function workflowCreateOrUpdate() {
+  const endpoint = process.env["ENDPOINT"] || "";
+  const tenantId = process.env["TENANTID"] || "";
+  const clientId = process.env["CLIENTID"] || "";
+  const username = process.env["USERNAME"] || "";
+  const password = process.env["PASSWORD"] || "";
   const credential = new UsernamePasswordCredential(tenantId, clientId, username, password);
   const client = createPurviewWorkflowClient(endpoint, credential);
   const workflowId = randomUUID();
@@ -101,4 +101,75 @@ async function workflowCreateOrUpdate() {
   console.log(result);
 }
 
-workflowCreateOrUpdate().catch(console.error);
+/**
+ * This sample demonstrates how to List all workflows.
+ *
+ * @summary List all workflows.
+ * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/ListWorkflows.json
+ */
+async function workflowsList() {
+  const endpoint = process.env["ENDPOINT"] || "";
+  const tenantId = process.env["TENANTID"] || "";
+  const clientId = process.env["CLIENTID"] || "";
+  const username = process.env["USERNAME"] || "";
+  const password = process.env["PASSWORD"] || "";
+  const credential = new UsernamePasswordCredential(tenantId, clientId, username, password);
+  const client = createPurviewWorkflowClient(endpoint, credential);
+  const initialResponse = await client.path("/workflows").get();
+  const pageData = paginate(client, initialResponse);
+  const result = [];
+  for await (const item of pageData) {
+    result.push(item);
+  }
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Get a specific workflow.
+ *
+ * @summary Get a specific workflow.
+ * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/GetWorkflow.json
+ */
+async function workflowGet() {
+  const endpoint = process.env["ENDPOINT"] || "";
+  const tenantId = process.env["TENANTID"] || "";
+  const clientId = process.env["CLIENTID"] || "";
+  const username = process.env["USERNAME"] || "";
+  const password = process.env["PASSWORD"] || "";
+  const credential = new UsernamePasswordCredential(tenantId, clientId, username, password);
+  const client = createPurviewWorkflowClient(endpoint, credential);
+  const workflowId = "d503b2d2-84da-4a85-9e85-6e82e39d59a0";
+  const result = await client.path("/workflows/{workflowId}", workflowId).get();
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Delete a workflow.
+ *
+ * @summary Delete a workflow.
+ * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/DeleteWorkflow.json
+ */
+async function workflowDelete() {
+  const endpoint = process.env["ENDPOINT"] || "";
+  const tenantId = process.env["TENANTID"] || "";
+  const clientId = process.env["CLIENTID"] || "";
+  const username = process.env["USERNAME"] || "";
+  const password = process.env["PASSWORD"] || "";
+  const credential = new UsernamePasswordCredential(tenantId, clientId, username, password);
+  const client = createPurviewWorkflowClient(endpoint, credential);
+  const workflowId = "4afb5752-e47f-43a1-8ba7-c696bf8d2745";
+  const result = await client.path("/workflows/{workflowId}", workflowId).delete();
+  console.log(result);
+}
+
+async function main() {
+  workflowCreateOrUpdate();
+  workflowsList();
+
+  // User could get workflow id either from the response of creating or updating workflow api or list workflows api.
+  // After get the workflow id, user could call get workflow api to get a workflow detail or delete a workflow.
+  workflowGet();
+  workflowDelete();
+}
+
+main().catch(console.error);

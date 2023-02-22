@@ -2,22 +2,12 @@
 
 These sample programs show how to use the TypeScript client libraries for Purview Workflow in some common scenarios.
 
-| **File Name**                                                     | **Description**                                                                                                                                                                                                                                                                                                                                           |
-| ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [approveApprovalTaskSample.ts][approveapprovaltasksample]         | Approve an approval task. x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/ApproveApprovalTask.json                                                                                                                                                                              |
-| [cancelWorkflowRunSample.ts][cancelworkflowrunsample]             | Cancel a workflow run. x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/CancelWorkflowRun.json                                                                                                                                                                                   |
-| [createOrReplaceWorkflowSample.ts][createorreplaceworkflowsample] | Create or replace a workflow. x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/CreateOrReplaceWorkflow.json                                                                                                                                                                      |
-| [deleteWorkflowSample.ts][deleteworkflowsample]                   | Delete a workflow. x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/DeleteWorkflow.json                                                                                                                                                                                          |
-| [getWorkflowRunSample.ts][getworkflowrunsample]                   | Get a workflow run. x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/GetWorkflowRun.json                                                                                                                                                                                         |
-| [getWorkflowSample.ts][getworkflowsample]                         | Get a specific workflow. x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/GetWorkflow.json                                                                                                                                                                                       |
-| [getWorkflowTaskSample.ts][getworkflowtasksample]                 | Get a workflow task. x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/GetWorkflowTask.json                                                                                                                                                                                       |
-| [listWorkflowRunsSample.ts][listworkflowrunssample]               | List workflow runs. x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/ListWorkflowRuns.json                                                                                                                                                                                       |
-| [listWorkflowTasksSample.ts][listworkflowtaskssample]             | Get all workflow tasks. x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/ListWorkflowTasks.json                                                                                                                                                                                  |
-| [listWorkflowsSample.ts][listworkflowssample]                     | List all workflows. x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/ListWorkflows.json                                                                                                                                                                                          |
-| [reassignWorkflowTaskSample.ts][reassignworkflowtasksample]       | Reassign a workflow task. x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/ReassignWorkflowTask.json                                                                                                                                                                             |
-| [rejectApprovalTaskSample.ts][rejectapprovaltasksample]           | Reject an approval task. x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/RejectApprovalTask.json                                                                                                                                                                                |
-| [submitUserRequestsSample.ts][submituserrequestssample]           | Submit a user request for requestor, a user request describes user ask to do operation(s) on Purview. If any workflow's trigger matches with an operation in request, a run of the workflow is created. x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/SubmitUserRequests.json |
-| [updateTaskStatusSample.ts][updatetaskstatussample]               | Update the status of a workflow task request. x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/UpdateTaskRequest.json                                                                                                                                                            |
+| **File Name**                                           | **Description**                                                                                                                                                                                                                                                                                                                                           |
+| ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [submitUserRequestsSample.ts][submituserrequestssample] | Submit a user request for requestor, a user request describes user ask to do operation(s) on Purview. If any workflow's trigger matches with an operation in request, a run of the workflow is created. x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/SubmitUserRequests.json |
+| [workflowRunSample.ts][workflowrunsample]               | List workflow runs. x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/ListWorkflowRuns.json                                                                                                                                                                                       |
+| [workflowTasksSample.ts][workflowtaskssample]           | Get all workflow tasks. x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/ListWorkflowTasks.json                                                                                                                                                                                  |
+| [workflowsSample.ts][workflowssample]                   | Create or replace a workflow. x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/CreateOrReplaceWorkflow.json                                                                                                                                                                      |
 
 ## Prerequisites
 
@@ -56,33 +46,23 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/approveApprovalTaskSample.js
+node dist/submitUserRequestsSample.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<endpoint>" TENANTID="<tenantid>" CLIENTID="<clientid>" USERNAME="<username>" PASSWORD="<password>" node dist/approveApprovalTaskSample.js
+npx cross-env ENDPOINT="<endpoint>" TENANTID="<tenantid>" CLIENTID="<clientid>" USERNAME="<username>" PASSWORD="<password>" node dist/submitUserRequestsSample.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[approveapprovaltasksample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-workflow-rest/samples/v1-beta/typescript/src/approveApprovalTaskSample.ts
-[cancelworkflowrunsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-workflow-rest/samples/v1-beta/typescript/src/cancelWorkflowRunSample.ts
-[createorreplaceworkflowsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-workflow-rest/samples/v1-beta/typescript/src/createOrReplaceWorkflowSample.ts
-[deleteworkflowsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-workflow-rest/samples/v1-beta/typescript/src/deleteWorkflowSample.ts
-[getworkflowrunsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-workflow-rest/samples/v1-beta/typescript/src/getWorkflowRunSample.ts
-[getworkflowsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-workflow-rest/samples/v1-beta/typescript/src/getWorkflowSample.ts
-[getworkflowtasksample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-workflow-rest/samples/v1-beta/typescript/src/getWorkflowTaskSample.ts
-[listworkflowrunssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-workflow-rest/samples/v1-beta/typescript/src/listWorkflowRunsSample.ts
-[listworkflowtaskssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-workflow-rest/samples/v1-beta/typescript/src/listWorkflowTasksSample.ts
-[listworkflowssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-workflow-rest/samples/v1-beta/typescript/src/listWorkflowsSample.ts
-[reassignworkflowtasksample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-workflow-rest/samples/v1-beta/typescript/src/reassignWorkflowTaskSample.ts
-[rejectapprovaltasksample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-workflow-rest/samples/v1-beta/typescript/src/rejectApprovalTaskSample.ts
 [submituserrequestssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-workflow-rest/samples/v1-beta/typescript/src/submitUserRequestsSample.ts
-[updatetaskstatussample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-workflow-rest/samples/v1-beta/typescript/src/updateTaskStatusSample.ts
+[workflowrunsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-workflow-rest/samples/v1-beta/typescript/src/workflowRunSample.ts
+[workflowtaskssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-workflow-rest/samples/v1-beta/typescript/src/workflowTasksSample.ts
+[workflowssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-workflow-rest/samples/v1-beta/typescript/src/workflowsSample.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/purview-workflow?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-workflow-rest/README.md
