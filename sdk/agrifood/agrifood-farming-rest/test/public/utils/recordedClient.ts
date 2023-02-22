@@ -9,7 +9,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { ClientOptions } from "@azure-rest/core-client";
 
 const envSetupForPlayback: Record<string, string> = {
-  FARMBEATS_ENDPOINT: "https://fakeaccount.farmbeats.azure.net",
+  FARMBEATS_ENDPOINT: "https://fakeaccount.farmbeats.azure.net/",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
