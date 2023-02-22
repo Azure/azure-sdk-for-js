@@ -129,15 +129,12 @@ function createSendPollRequest<TOptions extends OperationOptions>(settings: {
     return throwError(
       sendRequest({
         client,
-        opOptions: {
-          ...options,
-          onResponse: addOnResponse(options, (_, response) => {
-            const castResponse = response as AnalyzeTextJobStatusResponse;
-            if (castResponse.status.toLowerCase() === "partiallysucceeded") {
-              castResponse.status = "failed";
-            }
-          }),
-        },
+        opOptions: addOnResponse(options, (_, response) => {
+          const castResponse = response as AnalyzeTextJobStatusResponse;
+          if (castResponse.status.toLowerCase() === "partiallysucceeded") {
+            castResponse.status = "failed";
+          }
+        }),
         path,
         spanStr,
         spec: jobStatusOperationSpec,
