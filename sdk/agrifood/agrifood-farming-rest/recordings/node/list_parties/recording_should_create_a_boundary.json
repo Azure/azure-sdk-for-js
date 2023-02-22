@@ -1,0 +1,156 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://fakeaccount.farmbeats.azure.netparties/contoso-party-js/boundaries/test-boundary?api-version=2022-11-01-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "353",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "User-Agent": "azsdk-js-agrifood-farming-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.12.1 OS/(x64-Linux-5.4.0-1103-azure)",
+        "x-ms-client-request-id": "d88aa76c-507f-4258-9e23-2df8db078635"
+      },
+      "RequestBody": {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                73.70457172393799,
+                20.545385304358106
+              ],
+              [
+                73.70457172393799,
+                20.545385304358106
+              ],
+              [
+                73.70448589324951,
+                20.542411534243367
+              ],
+              [
+                73.70877742767334,
+                20.541688176010233
+              ],
+              [
+                73.71023654937744,
+                20.545083911372505
+              ],
+              [
+                73.70663166046143,
+                20.546992723579137
+              ],
+              [
+                73.70457172393799,
+                20.545385304358106
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        },
+        "description": "Created by SDK"
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-07-31-preview, 2022-11-01-preview",
+        "Connection": "keep-alive",
+        "Content-Encoding": "gzip",
+        "Content-Security-Policy": "self",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 22 Feb 2023 21:21:33 GMT",
+        "ETag": "00008d00-0000-0600-0000-63f6875c0000",
+        "Location": "http://bb-prod-wcus-1.farmbeats.azure.net/parties/contoso-party-js/boundaries/test-boundary",
+        "mise-correlation-id": "57a1e9c2-6201-436c-b40d-4d257591d2a9",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-request-id": "8aa667e79d93b118df9c0f14246e735b",
+        "x-ms-throttle-information": "1000"
+      },
+      "ResponseBody": {
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                73.70457172393799,
+                20.545385304358106
+              ],
+              [
+                73.70457172393799,
+                20.545385304358106
+              ],
+              [
+                73.70448589324951,
+                20.542411534243367
+              ],
+              [
+                73.70877742767334,
+                20.541688176010233
+              ],
+              [
+                73.71023654937744,
+                20.545083911372505
+              ],
+              [
+                73.70663166046143,
+                20.546992723579137
+              ],
+              [
+                73.70457172393799,
+                20.545385304358106
+              ]
+            ]
+          ]
+        },
+        "crs": "WGS84",
+        "centroid": {
+          "type": "Point",
+          "coordinates": [
+            73.70711478791443,
+            20.54418916247634
+          ]
+        },
+        "bbox": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                73.70448589324951,
+                20.541688176010233
+              ],
+              [
+                73.70448589324951,
+                20.546992723579137
+              ],
+              [
+                73.71023654937744,
+                20.546992723579137
+              ],
+              [
+                73.71023654937744,
+                20.541688176010233
+              ]
+            ]
+          ]
+        },
+        "partyId": "contoso-party-js",
+        "area": {
+          "unit": "Acre",
+          "value": 60.405
+        },
+        "id": "test-boundary",
+        "eTag": "00008d00-0000-0600-0000-63f6875c0000",
+        "createdDateTime": "2023-02-22T21:21:32Z",
+        "modifiedDateTime": "2023-02-22T21:21:32Z",
+        "description": "Created by SDK",
+        "createdBy": "9002b50e-dc98-445e-a865-72dce38ecafd",
+        "modifiedBy": "9002b50e-dc98-445e-a865-72dce38ecafd"
+      }
+    }
+  ],
+  "Variables": {}
+}

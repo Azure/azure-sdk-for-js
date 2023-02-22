@@ -1,0 +1,465 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://fakeaccount.farmbeats.azure.netscenes/satellite/ingest-data/node-job-387?api-version=2022-11-01-preview",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "233",
+        "Content-Type": "application/json; charset=UTF-8",
+        "User-Agent": "azsdk-js-agrifood-farming-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.12.1 OS/(x64-Linux-5.4.0-1103-azure)",
+        "x-ms-client-request-id": "7a051bb4-afc6-4d8b-91d8-de05e7b753d9"
+      },
+      "RequestBody": {
+        "partyId": "node-contoso-party",
+        "boundaryId": "node-contoso-boundary",
+        "startDateTime": "2020-02-01T08:00:00.000Z",
+        "endDateTime": "2020-03-02T08:00:00.000Z",
+        "data": {
+          "imageNames": [
+            "NDVI"
+          ]
+        },
+        "source": "Sentinel_2_L2A",
+        "provider": "Microsoft"
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-07-31-preview, 2022-11-01-preview",
+        "Connection": "keep-alive",
+        "Content-Encoding": "gzip",
+        "Content-Security-Policy": "self",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 22 Feb 2023 21:21:20 GMT",
+        "Location": "https://fakeaccount.farmbeats.azure.netscenes/satellite/ingest-data/node-job-387?api-version=2022-11-01-preview",
+        "mise-correlation-id": "d327471a-c0ad-45d3-bbb8-c917094b7152",
+        "operation-location": "https://fakeaccount.farmbeats.azure.netscenes/satellite/ingest-data/node-job-387?api-version=2022-11-01-preview",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-request-id": "1427fc3a433f9a575257a9588e99b9eb",
+        "x-ms-throttle-information": "1282"
+      },
+      "ResponseBody": {
+        "partyId": "node-contoso-party",
+        "boundaryId": "node-contoso-boundary",
+        "startDateTime": "2020-02-01T08:00:00Z",
+        "endDateTime": "2020-03-02T08:00:00Z",
+        "provider": "Microsoft",
+        "source": "Sentinel_2_L2A",
+        "data": {
+          "imageNames": [
+            "NDVI"
+          ],
+          "imageFormats": [
+            "TIF"
+          ],
+          "imageResolutions": [
+            10.0
+          ]
+        },
+        "id": "node-job-387",
+        "status": "Waiting",
+        "message": "Created job \u0027node-job-387\u0027 to fetch satellite data for boundary \u0027node-contoso-boundary\u0027 from startDate \u002702/01/2020\u0027 to endDate \u002703/02/2020\u0027 (both inclusive).",
+        "createdDateTime": "2023-02-22T21:21:20Z"
+      }
+    },
+    {
+      "RequestUri": "https://fakeaccount.farmbeats.azure.netscenes/satellite/ingest-data/node-job-387?api-version=2022-11-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-agrifood-farming-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.12.1 OS/(x64-Linux-5.4.0-1103-azure)",
+        "x-ms-client-request-id": "8159e5b2-2f7d-4fe9-802a-a369f7d7849f"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-07-31-preview, 2022-11-01-preview",
+        "Connection": "keep-alive",
+        "Content-Encoding": "gzip",
+        "Content-Security-Policy": "self",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 22 Feb 2023 21:21:20 GMT",
+        "mise-correlation-id": "a62b8a0f-def8-4d88-8c74-d846b0179e3f",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-request-id": "42cab242b92f30516fd1fb2b9d90ebe4",
+        "x-ms-throttle-information": "100"
+      },
+      "ResponseBody": {
+        "partyId": "node-contoso-party",
+        "boundaryId": "node-contoso-boundary",
+        "startDateTime": "2020-02-01T08:00:00Z",
+        "endDateTime": "2020-03-02T08:00:00Z",
+        "provider": "Microsoft",
+        "source": "Sentinel_2_L2A",
+        "data": {
+          "imageNames": [
+            "NDVI"
+          ],
+          "imageFormats": [
+            "TIF"
+          ],
+          "imageResolutions": [
+            10.0
+          ]
+        },
+        "id": "node-job-387",
+        "status": "Waiting",
+        "message": "Created job \u0027node-job-387\u0027 to fetch satellite data for boundary \u0027node-contoso-boundary\u0027 from startDate \u002702/01/2020\u0027 to endDate \u002703/02/2020\u0027 (both inclusive).",
+        "createdDateTime": "2023-02-22T21:21:20Z",
+        "lastActionDateTime": "2023-02-22T21:21:20Z",
+        "startTime": "2023-02-22T21:21:20Z"
+      }
+    },
+    {
+      "RequestUri": "https://fakeaccount.farmbeats.azure.netscenes/satellite/ingest-data/node-job-387?api-version=2022-11-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-agrifood-farming-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.12.1 OS/(x64-Linux-5.4.0-1103-azure)",
+        "x-ms-client-request-id": "15e00ed9-a297-4ac7-b8c1-d9f77a114846"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-07-31-preview, 2022-11-01-preview",
+        "Connection": "keep-alive",
+        "Content-Encoding": "gzip",
+        "Content-Security-Policy": "self",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 22 Feb 2023 21:21:22 GMT",
+        "mise-correlation-id": "bc545208-3bd9-4ed1-9e8d-9925bf5aa5ba",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-request-id": "d85ef6e51ab121123c5a14ac4b0ccebe",
+        "x-ms-throttle-information": "100"
+      },
+      "ResponseBody": {
+        "partyId": "node-contoso-party",
+        "boundaryId": "node-contoso-boundary",
+        "startDateTime": "2020-02-01T08:00:00Z",
+        "endDateTime": "2020-03-02T08:00:00Z",
+        "provider": "Microsoft",
+        "source": "Sentinel_2_L2A",
+        "data": {
+          "imageNames": [
+            "NDVI"
+          ],
+          "imageFormats": [
+            "TIF"
+          ],
+          "imageResolutions": [
+            10.0
+          ]
+        },
+        "id": "node-job-387",
+        "status": "Waiting",
+        "message": "Created job \u0027node-job-387\u0027 to fetch satellite data for boundary \u0027node-contoso-boundary\u0027 from startDate \u002702/01/2020\u0027 to endDate \u002703/02/2020\u0027 (both inclusive).",
+        "createdDateTime": "2023-02-22T21:21:20Z",
+        "lastActionDateTime": "2023-02-22T21:21:20Z",
+        "startTime": "2023-02-22T21:21:20Z"
+      }
+    },
+    {
+      "RequestUri": "https://fakeaccount.farmbeats.azure.netscenes/satellite/ingest-data/node-job-387?api-version=2022-11-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-agrifood-farming-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.12.1 OS/(x64-Linux-5.4.0-1103-azure)",
+        "x-ms-client-request-id": "0ac494d8-b6e7-43ec-9026-e3ab1396e2f5"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-07-31-preview, 2022-11-01-preview",
+        "Connection": "keep-alive",
+        "Content-Encoding": "gzip",
+        "Content-Security-Policy": "self",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 22 Feb 2023 21:21:24 GMT",
+        "mise-correlation-id": "9556b3c5-2366-4a0b-9a8d-83051c621a76",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-request-id": "fa1984ae6ffdad5f4c083cb4b3f7e295",
+        "x-ms-throttle-information": "100"
+      },
+      "ResponseBody": {
+        "partyId": "node-contoso-party",
+        "boundaryId": "node-contoso-boundary",
+        "startDateTime": "2020-02-01T08:00:00Z",
+        "endDateTime": "2020-03-02T08:00:00Z",
+        "provider": "Microsoft",
+        "source": "Sentinel_2_L2A",
+        "data": {
+          "imageNames": [
+            "NDVI"
+          ],
+          "imageFormats": [
+            "TIF"
+          ],
+          "imageResolutions": [
+            10.0
+          ]
+        },
+        "id": "node-job-387",
+        "status": "Waiting",
+        "message": "Created job \u0027node-job-387\u0027 to fetch satellite data for boundary \u0027node-contoso-boundary\u0027 from startDate \u002702/01/2020\u0027 to endDate \u002703/02/2020\u0027 (both inclusive).",
+        "createdDateTime": "2023-02-22T21:21:20Z",
+        "lastActionDateTime": "2023-02-22T21:21:20Z",
+        "startTime": "2023-02-22T21:21:20Z"
+      }
+    },
+    {
+      "RequestUri": "https://fakeaccount.farmbeats.azure.netscenes/satellite/ingest-data/node-job-387?api-version=2022-11-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-agrifood-farming-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.12.1 OS/(x64-Linux-5.4.0-1103-azure)",
+        "x-ms-client-request-id": "79fb1648-d51a-4280-b5ce-554c3022d179"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-07-31-preview, 2022-11-01-preview",
+        "Connection": "keep-alive",
+        "Content-Encoding": "gzip",
+        "Content-Security-Policy": "self",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 22 Feb 2023 21:21:26 GMT",
+        "mise-correlation-id": "37c9e754-6c34-4145-ad48-9b6ec0cedd31",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-request-id": "fb498f766060f1cf2cb08fc14b5183ea",
+        "x-ms-throttle-information": "100"
+      },
+      "ResponseBody": {
+        "partyId": "node-contoso-party",
+        "boundaryId": "node-contoso-boundary",
+        "startDateTime": "2020-02-01T08:00:00Z",
+        "endDateTime": "2020-03-02T08:00:00Z",
+        "provider": "Microsoft",
+        "source": "Sentinel_2_L2A",
+        "data": {
+          "imageNames": [
+            "NDVI"
+          ],
+          "imageFormats": [
+            "TIF"
+          ],
+          "imageResolutions": [
+            10.0
+          ]
+        },
+        "id": "node-job-387",
+        "status": "Waiting",
+        "message": "Created job \u0027node-job-387\u0027 to fetch satellite data for boundary \u0027node-contoso-boundary\u0027 from startDate \u002702/01/2020\u0027 to endDate \u002703/02/2020\u0027 (both inclusive).",
+        "createdDateTime": "2023-02-22T21:21:20Z",
+        "lastActionDateTime": "2023-02-22T21:21:20Z",
+        "startTime": "2023-02-22T21:21:20Z"
+      }
+    },
+    {
+      "RequestUri": "https://fakeaccount.farmbeats.azure.netscenes/satellite/ingest-data/node-job-387?api-version=2022-11-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-agrifood-farming-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.12.1 OS/(x64-Linux-5.4.0-1103-azure)",
+        "x-ms-client-request-id": "4d8701de-be7e-424b-91fb-12331dedbe0e"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-07-31-preview, 2022-11-01-preview",
+        "Connection": "keep-alive",
+        "Content-Encoding": "gzip",
+        "Content-Security-Policy": "self",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 22 Feb 2023 21:21:28 GMT",
+        "mise-correlation-id": "3f4f28c9-dbe1-40b0-b71d-2a884d6c7b51",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-request-id": "a32517e914921b102724cb8d786cf165",
+        "x-ms-throttle-information": "100"
+      },
+      "ResponseBody": {
+        "partyId": "node-contoso-party",
+        "boundaryId": "node-contoso-boundary",
+        "startDateTime": "2020-02-01T08:00:00Z",
+        "endDateTime": "2020-03-02T08:00:00Z",
+        "provider": "Microsoft",
+        "source": "Sentinel_2_L2A",
+        "data": {
+          "imageNames": [
+            "NDVI"
+          ],
+          "imageFormats": [
+            "TIF"
+          ],
+          "imageResolutions": [
+            10.0
+          ]
+        },
+        "id": "node-job-387",
+        "status": "Running",
+        "message": "Created job \u0027node-job-387\u0027 to fetch satellite data for boundary \u0027node-contoso-boundary\u0027 from startDate \u002702/01/2020\u0027 to endDate \u002703/02/2020\u0027 (both inclusive).",
+        "createdDateTime": "2023-02-22T21:21:20Z",
+        "lastActionDateTime": "2023-02-22T21:21:27Z",
+        "startTime": "2023-02-22T21:21:20Z"
+      }
+    },
+    {
+      "RequestUri": "https://fakeaccount.farmbeats.azure.netscenes/satellite/ingest-data/node-job-387?api-version=2022-11-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-agrifood-farming-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.12.1 OS/(x64-Linux-5.4.0-1103-azure)",
+        "x-ms-client-request-id": "45a18435-2ee4-47c4-acbb-e6c4004579b1"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-07-31-preview, 2022-11-01-preview",
+        "Connection": "keep-alive",
+        "Content-Encoding": "gzip",
+        "Content-Security-Policy": "self",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 22 Feb 2023 21:21:30 GMT",
+        "mise-correlation-id": "d18fa2e2-0721-4bd8-bbde-45591a2a85b4",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-request-id": "d708fd9e6fabfac6b1da57345272194d",
+        "x-ms-throttle-information": "100"
+      },
+      "ResponseBody": {
+        "partyId": "node-contoso-party",
+        "boundaryId": "node-contoso-boundary",
+        "startDateTime": "2020-02-01T08:00:00Z",
+        "endDateTime": "2020-03-02T08:00:00Z",
+        "provider": "Microsoft",
+        "source": "Sentinel_2_L2A",
+        "data": {
+          "imageNames": [
+            "NDVI"
+          ],
+          "imageFormats": [
+            "TIF"
+          ],
+          "imageResolutions": [
+            10.0
+          ]
+        },
+        "id": "node-job-387",
+        "status": "Succeeded",
+        "durationInSeconds": 8.9785999,
+        "message": "Satellite data is available for 6 days from provider in the requested date range. Successfully fetched data for 6 days.",
+        "createdDateTime": "2023-02-22T21:21:20Z",
+        "lastActionDateTime": "2023-02-22T21:21:29Z",
+        "startTime": "2023-02-22T21:21:20Z",
+        "endTime": "2023-02-22T21:21:29Z"
+      }
+    },
+    {
+      "RequestUri": "https://fakeaccount.farmbeats.azure.netscenes/satellite/ingest-data/node-job-387?api-version=2022-11-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-agrifood-farming-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.12.1 OS/(x64-Linux-5.4.0-1103-azure)",
+        "x-ms-client-request-id": "f7400901-8e7e-41ef-8a16-19d7a789a9c1"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-07-31-preview, 2022-11-01-preview",
+        "Connection": "keep-alive",
+        "Content-Encoding": "gzip",
+        "Content-Security-Policy": "self",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 22 Feb 2023 21:21:31 GMT",
+        "mise-correlation-id": "fe919a5f-f9ce-4ad6-8ced-b4381b85f153",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-request-id": "18264d6609e6acadc112c13a07b7927f",
+        "x-ms-throttle-information": "100"
+      },
+      "ResponseBody": {
+        "partyId": "node-contoso-party",
+        "boundaryId": "node-contoso-boundary",
+        "startDateTime": "2020-02-01T08:00:00Z",
+        "endDateTime": "2020-03-02T08:00:00Z",
+        "provider": "Microsoft",
+        "source": "Sentinel_2_L2A",
+        "data": {
+          "imageNames": [
+            "NDVI"
+          ],
+          "imageFormats": [
+            "TIF"
+          ],
+          "imageResolutions": [
+            10.0
+          ]
+        },
+        "id": "node-job-387",
+        "status": "Succeeded",
+        "durationInSeconds": 8.9785999,
+        "message": "Satellite data is available for 6 days from provider in the requested date range. Successfully fetched data for 6 days.",
+        "createdDateTime": "2023-02-22T21:21:20Z",
+        "lastActionDateTime": "2023-02-22T21:21:29Z",
+        "startTime": "2023-02-22T21:21:20Z",
+        "endTime": "2023-02-22T21:21:29Z"
+      }
+    }
+  ],
+  "Variables": {
+    "jobId": "node-job-387"
+  }
+}

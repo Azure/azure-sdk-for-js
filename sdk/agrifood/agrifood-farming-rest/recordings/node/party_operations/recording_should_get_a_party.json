@@ -1,0 +1,54 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://fakeaccount.farmbeats.azure.netparties/node-contoso-party?api-version=2022-11-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-agrifood-farming-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.12.1 OS/(x64-Linux-5.4.0-1103-azure)",
+        "x-ms-client-request-id": "b54db4bb-5795-4895-ac78-0f45227a13b1"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2022-11-01-preview",
+        "Connection": "keep-alive",
+        "Content-Encoding": "gzip",
+        "Content-Security-Policy": "self",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 22 Feb 2023 21:21:19 GMT",
+        "ETag": "0000bf60-0000-0600-0000-63f6874f0000",
+        "mise-correlation-id": "3634b00b-5093-4d68-8f4d-0141df233436",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-request-id": "73427de90e605785fc92374591b6d414",
+        "x-ms-throttle-information": "100"
+      },
+      "ResponseBody": {
+        "id": "node-contoso-party",
+        "eTag": "0000bf60-0000-0600-0000-63f6874f0000",
+        "status": "Active",
+        "createdDateTime": "2023-02-20T04:36:54Z",
+        "modifiedDateTime": "2023-02-22T21:21:19Z",
+        "name": "Contoso party",
+        "description": "Your custom party description here",
+        "createdBy": "9002b50e-dc98-445e-a865-72dce38ecafd",
+        "modifiedBy": "9002b50e-dc98-445e-a865-72dce38ecafd",
+        "properties": {
+          "1": "numeric key",
+          "foo": "bar",
+          "numeric one": 1
+        }
+      }
+    }
+  ],
+  "Variables": {
+    "jobId": "node-job-143"
+  }
+}
