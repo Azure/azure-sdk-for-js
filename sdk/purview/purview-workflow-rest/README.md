@@ -29,13 +29,22 @@ AZURE_CLIENT_ID, AZURE_TENANT_ID, USERNAME, PASSWORD
 ```typescript
 import PurviewWorkflow from "@azure-rest/purview-workflow";
 import { UsernamePasswordCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
+
+const endpoint = process.env["ENDPOINT"];
+const tenantId = process.env["AZURE_TENANT_ID"];
+const clientId = process.env["AZURE_CLIENT_ID"];
+const username = process.env["USERNAME"];
+const password = process.env["PASSWORD"];
 const client = PurviewWorkflow(
-  "https://<account-name>.purview.azure.com",
+  endpoint,
   new UsernamePasswordCredential(
-        <AZURE_TENANT_ID>,
-        <AZURE_CLIENT_ID>,
-        <USERNAME>,
-        <PASSWORD>
+        tenantId,
+        clientId,
+        username,
+        password
       )
   );
 ```
@@ -54,13 +63,17 @@ import createPurviewWorkflowClient, {
   SubmitUserRequestsParameters
 } from "@azure-rest/purview-workflow";
 import { UsernamePasswordCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 async function userRequestsSubmit() {
-  const endpoint = <ENDPOINT>;
-  const tenantId = <TENANTID>;
-  const clientId = <CLIENTID>;
-  const username = <USERNAME>;
-  const password = <PASSWORD>;
+  const endpoint = process.env["ENDPOINT"];
+  const tenantId = process.env["AZURE_TENANT_ID"];
+  const clientId = process.env["AZURE_CLIENT_ID"];
+  const username = process.env["USERNAME"];
+  const password = process.env["PASSWORD"];
+
   const credential = new UsernamePasswordCredential(tenantId , clientId, username, password);
   const client = createPurviewWorkflowClient(endpoint, credential);
   const options: SubmitUserRequestsParameters = {
@@ -82,6 +95,9 @@ async function userRequestsSubmit() {
     }
   };
   const result = await client.path("/userrequests").post(options);
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
   console.log(result);
 }
 
@@ -96,12 +112,15 @@ import createPurviewWorkflowClient, {
   SubmitUserRequestsParameters
 } from "@azure-rest/purview-workflow";
 import { UsernamePasswordCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 async function approvalTaskApprove() {
-  const endpoint = <ENDPOINT>;
-  const tenantId = <TENANTID>;
-  const clientId = <CLIENTID>;
-  const username = <USERNAME>;
-  const password = <PASSWORD>;
+  const endpoint = process.env["ENDPOINT"];
+  const tenantId = process.env["AZURE_TENANT_ID"];
+  const clientId = process.env["AZURE_CLIENT_ID"];
+  const username = process.env["USERNAME"];
+  const password = process.env["PASSWORD"];
   const credential = new UsernamePasswordCredential(tenantId, clientId, username, password);
   const client = createPurviewWorkflowClient(endpoint, credential);
   const taskId = "98d98e2c-23fa-4157-a3f8-ff8ce5cc095c";
@@ -111,6 +130,9 @@ async function approvalTaskApprove() {
   const result = await client
     .path("/workflowtasks/{taskId}/approve-approval", taskId)
     .post(options);
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
   console.log(result);
 }
 
