@@ -1,9 +1,10 @@
 # Release History
 
-## 12.12.0 (Unreleased)
+## 12.12.0 (2023-02-23)
 
 ### Features Added
 
+- Includes all features released in 12.12.0-beta.1.
 - Added FileReadHeaders.CreatedOn property for interface DataLakeFileClient.read().
 
 ### Bugs Fixed
