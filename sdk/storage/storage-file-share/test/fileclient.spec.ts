@@ -171,6 +171,72 @@ describe("FileClient", () => {
     await fileClient.uploadRange(content, fileSize - content.length, content.length);
   });
 
+  it("create file - name with directory dots", async () => {
+    const fileBaseName = recorder.getUniqueName("filename");
+    const fileNameWithDots = "./a/../" + fileBaseName;
+    const fileClientWithDirDots = dirClient.getFileClient(fileNameWithDots);
+    await fileClientWithDirDots.create(content.length);
+
+    let foundFile = false;
+    for await (const fileItem of dirClient.listFilesAndDirectories({prefix: fileBaseName})){
+      if (fileItem.name === fileBaseName && fileItem.kind === "file") {
+        foundFile = true;
+      }
+    }
+
+    assert.ok(foundFile, "The file should have been created.");
+
+    await fileClientWithDirDots.delete();
+    
+    const fileShouldInRootDir = "./a/../../" + fileBaseName;
+    const fileClientShouldInRootDir = shareClient.getDirectoryClient("anydir").getFileClient(fileShouldInRootDir);
+    await fileClientShouldInRootDir.create(content.length);
+
+    foundFile = false;
+    for await (const fileItem of shareClient.getDirectoryClient("").listFilesAndDirectories({prefix: fileBaseName})){
+      if (fileItem.name === fileBaseName && fileItem.kind === "file") {
+        foundFile = true;
+      }
+    }
+
+    assert.ok(foundFile, "The file should have been created.");
+
+    await fileClientShouldInRootDir.delete();
+  });
+
+  it("create directory - name with directory dots", async () => {
+    const dirBaseName = recorder.getUniqueName("dirname1");
+    const dirNameWithDots = "./a/../" + dirBaseName;
+    const dirClientWithDirDots = dirClient.getDirectoryClient(dirNameWithDots);
+    await dirClientWithDirDots.create();
+
+    let foundDir = false;
+    for await (const fileItem of dirClient.listFilesAndDirectories({prefix: dirBaseName})){
+      if (fileItem.name === dirBaseName && fileItem.kind === "directory") {
+        foundDir = true;
+      }
+    }
+
+    assert.ok(foundDir, "The directory should have been created.");
+
+    await dirClientWithDirDots.delete();
+    
+    const dirShouldInRootDir = "./a/../../" + dirBaseName;
+    const dirClientShouldInRootDir = shareClient.getDirectoryClient("anydir").getDirectoryClient(dirShouldInRootDir);
+    await dirClientShouldInRootDir.create();
+
+    foundDir = false;
+    for await (const fileItem of shareClient.getDirectoryClient("").listFilesAndDirectories({prefix: dirBaseName})){
+      if (fileItem.name === dirBaseName && fileItem.kind === "directory") {
+        foundDir = true;
+      }
+    }
+
+    assert.ok(foundDir, "The file should have been created.");
+
+    await dirClientShouldInRootDir.delete();
+  });
+
   it("setProperties with default parameters", async function () {
     await fileClient.create(content.length);
     await fileClient.setProperties();

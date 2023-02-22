@@ -5,6 +5,9 @@
 ### Features Added
 
 - Added BlobDownloadHeaders.createdOn property for interface BlobClient.Download().
+### Bugs Fixed
+
+- Fixed an issue of getting 403 error for file or directory name with './' or '../'
 
 ## 12.13.0-beta.1 (2023-02-09)
 
