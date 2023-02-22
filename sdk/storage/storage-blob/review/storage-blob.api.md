@@ -2313,7 +2313,7 @@ export { IHttpClient }
 export function isPipelineLike(pipeline: unknown): pipeline is PipelineLike;
 
 // @public
-export const enum KnownEncryptionAlgorithmType {
+export enum KnownEncryptionAlgorithmType {
     // (undocumented)
     AES256 = "AES256"
 }

@@ -92,7 +92,6 @@ export {
   EncryptionAlgorithmType,
   GeoReplication,
   GeoReplicationStatusType,
-  KnownEncryptionAlgorithmType,
   LeaseAccessConditions,
   LeaseDurationType,
   LeaseStateType,
@@ -256,4 +255,9 @@ export interface PageRangeInfo {
   start: number;
   end: number;
   isClear: boolean;
+}
+
+/** Known values of {@link EncryptionAlgorithmType} that the service accepts. */
+export enum KnownEncryptionAlgorithmType {
+  AES256 = "AES256",
 }
