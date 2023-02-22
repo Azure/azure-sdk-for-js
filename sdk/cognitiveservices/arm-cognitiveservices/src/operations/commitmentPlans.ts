@@ -20,12 +20,38 @@ import {
   CommitmentPlansListNextOptionalParams,
   CommitmentPlansListOptionalParams,
   CommitmentPlansListResponse,
+  CommitmentPlansListPlansByResourceGroupNextOptionalParams,
+  CommitmentPlansListPlansByResourceGroupOptionalParams,
+  CommitmentPlansListPlansByResourceGroupResponse,
+  CommitmentPlansListPlansBySubscriptionNextOptionalParams,
+  CommitmentPlansListPlansBySubscriptionOptionalParams,
+  CommitmentPlansListPlansBySubscriptionResponse,
+  CommitmentPlanAccountAssociation,
+  CommitmentPlansListAssociationsNextOptionalParams,
+  CommitmentPlansListAssociationsOptionalParams,
+  CommitmentPlansListAssociationsResponse,
   CommitmentPlansGetOptionalParams,
   CommitmentPlansGetResponse,
   CommitmentPlansCreateOrUpdateOptionalParams,
   CommitmentPlansCreateOrUpdateResponse,
   CommitmentPlansDeleteOptionalParams,
-  CommitmentPlansListNextResponse
+  CommitmentPlansCreateOrUpdatePlanOptionalParams,
+  CommitmentPlansCreateOrUpdatePlanResponse,
+  PatchResourceTagsAndSku,
+  CommitmentPlansUpdatePlanOptionalParams,
+  CommitmentPlansUpdatePlanResponse,
+  CommitmentPlansDeletePlanOptionalParams,
+  CommitmentPlansGetPlanOptionalParams,
+  CommitmentPlansGetPlanResponse,
+  CommitmentPlansGetAssociationOptionalParams,
+  CommitmentPlansGetAssociationResponse,
+  CommitmentPlansCreateOrUpdateAssociationOptionalParams,
+  CommitmentPlansCreateOrUpdateAssociationResponse,
+  CommitmentPlansDeleteAssociationOptionalParams,
+  CommitmentPlansListNextResponse,
+  CommitmentPlansListPlansByResourceGroupNextResponse,
+  CommitmentPlansListPlansBySubscriptionNextResponse,
+  CommitmentPlansListAssociationsNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -111,6 +137,220 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       accountName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Returns all the resources of a particular type belonging to a resource group
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  public listPlansByResourceGroup(
+    resourceGroupName: string,
+    options?: CommitmentPlansListPlansByResourceGroupOptionalParams
+  ): PagedAsyncIterableIterator<CommitmentPlan> {
+    const iter = this.listPlansByResourceGroupPagingAll(
+      resourceGroupName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPlansByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listPlansByResourceGroupPagingPage(
+    resourceGroupName: string,
+    options?: CommitmentPlansListPlansByResourceGroupOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<CommitmentPlan[]> {
+    let result: CommitmentPlansListPlansByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listPlansByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listPlansByResourceGroupNext(
+        resourceGroupName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listPlansByResourceGroupPagingAll(
+    resourceGroupName: string,
+    options?: CommitmentPlansListPlansByResourceGroupOptionalParams
+  ): AsyncIterableIterator<CommitmentPlan> {
+    for await (const page of this.listPlansByResourceGroupPagingPage(
+      resourceGroupName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Returns all the resources of a particular type belonging to a subscription.
+   * @param options The options parameters.
+   */
+  public listPlansBySubscription(
+    options?: CommitmentPlansListPlansBySubscriptionOptionalParams
+  ): PagedAsyncIterableIterator<CommitmentPlan> {
+    const iter = this.listPlansBySubscriptionPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPlansBySubscriptionPagingPage(options, settings);
+      }
+    };
+  }
+
+  private async *listPlansBySubscriptionPagingPage(
+    options?: CommitmentPlansListPlansBySubscriptionOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<CommitmentPlan[]> {
+    let result: CommitmentPlansListPlansBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listPlansBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listPlansBySubscriptionNext(
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listPlansBySubscriptionPagingAll(
+    options?: CommitmentPlansListPlansBySubscriptionOptionalParams
+  ): AsyncIterableIterator<CommitmentPlan> {
+    for await (const page of this.listPlansBySubscriptionPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Gets the associations of the Cognitive Services commitment plan.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param commitmentPlanName The name of the commitmentPlan associated with the Cognitive Services
+   *                           Account
+   * @param options The options parameters.
+   */
+  public listAssociations(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    options?: CommitmentPlansListAssociationsOptionalParams
+  ): PagedAsyncIterableIterator<CommitmentPlanAccountAssociation> {
+    const iter = this.listAssociationsPagingAll(
+      resourceGroupName,
+      commitmentPlanName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listAssociationsPagingPage(
+          resourceGroupName,
+          commitmentPlanName,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listAssociationsPagingPage(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    options?: CommitmentPlansListAssociationsOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<CommitmentPlanAccountAssociation[]> {
+    let result: CommitmentPlansListAssociationsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAssociations(
+        resourceGroupName,
+        commitmentPlanName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listAssociationsNext(
+        resourceGroupName,
+        commitmentPlanName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listAssociationsPagingAll(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    options?: CommitmentPlansListAssociationsOptionalParams
+  ): AsyncIterableIterator<CommitmentPlanAccountAssociation> {
+    for await (const page of this.listAssociationsPagingPage(
+      resourceGroupName,
+      commitmentPlanName,
       options
     )) {
       yield* page;
@@ -272,6 +512,576 @@ export class CommitmentPlansImpl implements CommitmentPlans {
   }
 
   /**
+   * Create Cognitive Services commitment plan.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param commitmentPlanName The name of the commitmentPlan associated with the Cognitive Services
+   *                           Account
+   * @param commitmentPlan The parameters to provide for the created commitment plan.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdatePlan(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentPlan: CommitmentPlan,
+    options?: CommitmentPlansCreateOrUpdatePlanOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<CommitmentPlansCreateOrUpdatePlanResponse>,
+      CommitmentPlansCreateOrUpdatePlanResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<CommitmentPlansCreateOrUpdatePlanResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, commitmentPlanName, commitmentPlan, options },
+      createOrUpdatePlanOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Create Cognitive Services commitment plan.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param commitmentPlanName The name of the commitmentPlan associated with the Cognitive Services
+   *                           Account
+   * @param commitmentPlan The parameters to provide for the created commitment plan.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdatePlanAndWait(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentPlan: CommitmentPlan,
+    options?: CommitmentPlansCreateOrUpdatePlanOptionalParams
+  ): Promise<CommitmentPlansCreateOrUpdatePlanResponse> {
+    const poller = await this.beginCreateOrUpdatePlan(
+      resourceGroupName,
+      commitmentPlanName,
+      commitmentPlan,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Create Cognitive Services commitment plan.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param commitmentPlanName The name of the commitmentPlan associated with the Cognitive Services
+   *                           Account
+   * @param commitmentPlan The parameters to provide for the created commitment plan.
+   * @param options The options parameters.
+   */
+  async beginUpdatePlan(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentPlan: PatchResourceTagsAndSku,
+    options?: CommitmentPlansUpdatePlanOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<CommitmentPlansUpdatePlanResponse>,
+      CommitmentPlansUpdatePlanResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<CommitmentPlansUpdatePlanResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, commitmentPlanName, commitmentPlan, options },
+      updatePlanOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Create Cognitive Services commitment plan.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param commitmentPlanName The name of the commitmentPlan associated with the Cognitive Services
+   *                           Account
+   * @param commitmentPlan The parameters to provide for the created commitment plan.
+   * @param options The options parameters.
+   */
+  async beginUpdatePlanAndWait(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentPlan: PatchResourceTagsAndSku,
+    options?: CommitmentPlansUpdatePlanOptionalParams
+  ): Promise<CommitmentPlansUpdatePlanResponse> {
+    const poller = await this.beginUpdatePlan(
+      resourceGroupName,
+      commitmentPlanName,
+      commitmentPlan,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Deletes a Cognitive Services commitment plan from the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param commitmentPlanName The name of the commitmentPlan associated with the Cognitive Services
+   *                           Account
+   * @param options The options parameters.
+   */
+  async beginDeletePlan(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    options?: CommitmentPlansDeletePlanOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, commitmentPlanName, options },
+      deletePlanOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes a Cognitive Services commitment plan from the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param commitmentPlanName The name of the commitmentPlan associated with the Cognitive Services
+   *                           Account
+   * @param options The options parameters.
+   */
+  async beginDeletePlanAndWait(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    options?: CommitmentPlansDeletePlanOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginDeletePlan(
+      resourceGroupName,
+      commitmentPlanName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Returns a Cognitive Services commitment plan specified by the parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param commitmentPlanName The name of the commitmentPlan associated with the Cognitive Services
+   *                           Account
+   * @param options The options parameters.
+   */
+  getPlan(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    options?: CommitmentPlansGetPlanOptionalParams
+  ): Promise<CommitmentPlansGetPlanResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, commitmentPlanName, options },
+      getPlanOperationSpec
+    );
+  }
+
+  /**
+   * Returns all the resources of a particular type belonging to a resource group
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  private _listPlansByResourceGroup(
+    resourceGroupName: string,
+    options?: CommitmentPlansListPlansByResourceGroupOptionalParams
+  ): Promise<CommitmentPlansListPlansByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listPlansByResourceGroupOperationSpec
+    );
+  }
+
+  /**
+   * Returns all the resources of a particular type belonging to a subscription.
+   * @param options The options parameters.
+   */
+  private _listPlansBySubscription(
+    options?: CommitmentPlansListPlansBySubscriptionOptionalParams
+  ): Promise<CommitmentPlansListPlansBySubscriptionResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      listPlansBySubscriptionOperationSpec
+    );
+  }
+
+  /**
+   * Gets the associations of the Cognitive Services commitment plan.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param commitmentPlanName The name of the commitmentPlan associated with the Cognitive Services
+   *                           Account
+   * @param options The options parameters.
+   */
+  private _listAssociations(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    options?: CommitmentPlansListAssociationsOptionalParams
+  ): Promise<CommitmentPlansListAssociationsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, commitmentPlanName, options },
+      listAssociationsOperationSpec
+    );
+  }
+
+  /**
+   * Gets the association of the Cognitive Services commitment plan.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param commitmentPlanName The name of the commitmentPlan associated with the Cognitive Services
+   *                           Account
+   * @param commitmentPlanAssociationName The name of the commitment plan association with the Cognitive
+   *                                      Services Account
+   * @param options The options parameters.
+   */
+  getAssociation(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentPlanAssociationName: string,
+    options?: CommitmentPlansGetAssociationOptionalParams
+  ): Promise<CommitmentPlansGetAssociationResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        commitmentPlanName,
+        commitmentPlanAssociationName,
+        options
+      },
+      getAssociationOperationSpec
+    );
+  }
+
+  /**
+   * Create or update the association of the Cognitive Services commitment plan.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param commitmentPlanName The name of the commitmentPlan associated with the Cognitive Services
+   *                           Account
+   * @param commitmentPlanAssociationName The name of the commitment plan association with the Cognitive
+   *                                      Services Account
+   * @param association The commitmentPlan properties.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAssociation(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentPlanAssociationName: string,
+    association: CommitmentPlanAccountAssociation,
+    options?: CommitmentPlansCreateOrUpdateAssociationOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<CommitmentPlansCreateOrUpdateAssociationResponse>,
+      CommitmentPlansCreateOrUpdateAssociationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<CommitmentPlansCreateOrUpdateAssociationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        commitmentPlanName,
+        commitmentPlanAssociationName,
+        association,
+        options
+      },
+      createOrUpdateAssociationOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Create or update the association of the Cognitive Services commitment plan.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param commitmentPlanName The name of the commitmentPlan associated with the Cognitive Services
+   *                           Account
+   * @param commitmentPlanAssociationName The name of the commitment plan association with the Cognitive
+   *                                      Services Account
+   * @param association The commitmentPlan properties.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAssociationAndWait(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentPlanAssociationName: string,
+    association: CommitmentPlanAccountAssociation,
+    options?: CommitmentPlansCreateOrUpdateAssociationOptionalParams
+  ): Promise<CommitmentPlansCreateOrUpdateAssociationResponse> {
+    const poller = await this.beginCreateOrUpdateAssociation(
+      resourceGroupName,
+      commitmentPlanName,
+      commitmentPlanAssociationName,
+      association,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Deletes the association of the Cognitive Services commitment plan.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param commitmentPlanName The name of the commitmentPlan associated with the Cognitive Services
+   *                           Account
+   * @param commitmentPlanAssociationName The name of the commitment plan association with the Cognitive
+   *                                      Services Account
+   * @param options The options parameters.
+   */
+  async beginDeleteAssociation(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentPlanAssociationName: string,
+    options?: CommitmentPlansDeleteAssociationOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        commitmentPlanName,
+        commitmentPlanAssociationName,
+        options
+      },
+      deleteAssociationOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes the association of the Cognitive Services commitment plan.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param commitmentPlanName The name of the commitmentPlan associated with the Cognitive Services
+   *                           Account
+   * @param commitmentPlanAssociationName The name of the commitment plan association with the Cognitive
+   *                                      Services Account
+   * @param options The options parameters.
+   */
+  async beginDeleteAssociationAndWait(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentPlanAssociationName: string,
+    options?: CommitmentPlansDeleteAssociationOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginDeleteAssociation(
+      resourceGroupName,
+      commitmentPlanName,
+      commitmentPlanAssociationName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
@@ -287,6 +1097,60 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, nextLink, options },
       listNextOperationSpec
+    );
+  }
+
+  /**
+   * ListPlansByResourceGroupNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param nextLink The nextLink from the previous successful call to the ListPlansByResourceGroup
+   *                 method.
+   * @param options The options parameters.
+   */
+  private _listPlansByResourceGroupNext(
+    resourceGroupName: string,
+    nextLink: string,
+    options?: CommitmentPlansListPlansByResourceGroupNextOptionalParams
+  ): Promise<CommitmentPlansListPlansByResourceGroupNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, nextLink, options },
+      listPlansByResourceGroupNextOperationSpec
+    );
+  }
+
+  /**
+   * ListPlansBySubscriptionNext
+   * @param nextLink The nextLink from the previous successful call to the ListPlansBySubscription
+   *                 method.
+   * @param options The options parameters.
+   */
+  private _listPlansBySubscriptionNext(
+    nextLink: string,
+    options?: CommitmentPlansListPlansBySubscriptionNextOptionalParams
+  ): Promise<CommitmentPlansListPlansBySubscriptionNextResponse> {
+    return this.client.sendOperationRequest(
+      { nextLink, options },
+      listPlansBySubscriptionNextOperationSpec
+    );
+  }
+
+  /**
+   * ListAssociationsNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param commitmentPlanName The name of the commitmentPlan associated with the Cognitive Services
+   *                           Account
+   * @param nextLink The nextLink from the previous successful call to the ListAssociations method.
+   * @param options The options parameters.
+   */
+  private _listAssociationsNext(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    nextLink: string,
+    options?: CommitmentPlansListAssociationsNextOptionalParams
+  ): Promise<CommitmentPlansListAssociationsNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, commitmentPlanName, nextLink, options },
+      listAssociationsNextOperationSpec
     );
   }
 }
@@ -390,8 +1254,120 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
+const createOrUpdatePlanOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommitmentPlan
+    },
+    201: {
+      bodyMapper: Mappers.CommitmentPlan
+    },
+    202: {
+      bodyMapper: Mappers.CommitmentPlan
+    },
+    204: {
+      bodyMapper: Mappers.CommitmentPlan
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.commitmentPlan,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.commitmentPlanName1
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
+const updatePlanOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommitmentPlan
+    },
+    201: {
+      bodyMapper: Mappers.CommitmentPlan
+    },
+    202: {
+      bodyMapper: Mappers.CommitmentPlan
+    },
+    204: {
+      bodyMapper: Mappers.CommitmentPlan
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.commitmentPlan1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.commitmentPlanName1
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
+const deletePlanOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.commitmentPlanName1
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getPlanOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommitmentPlan
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.commitmentPlanName1
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listPlansByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans",
   httpMethod: "GET",
   responses: {
     200: {
@@ -405,9 +1381,208 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listPlansBySubscriptionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/commitmentPlans",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommitmentPlanListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listAssociationsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}/accountAssociations",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommitmentPlanAccountAssociationListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.commitmentPlanName1
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getAssociationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}/accountAssociations/{commitmentPlanAssociationName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommitmentPlanAccountAssociation
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.commitmentPlanName1,
+    Parameters.commitmentPlanAssociationName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createOrUpdateAssociationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}/accountAssociations/{commitmentPlanAssociationName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommitmentPlanAccountAssociation
+    },
+    201: {
+      bodyMapper: Mappers.CommitmentPlanAccountAssociation
+    },
+    202: {
+      bodyMapper: Mappers.CommitmentPlanAccountAssociation
+    },
+    204: {
+      bodyMapper: Mappers.CommitmentPlanAccountAssociation
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.association,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.commitmentPlanName1,
+    Parameters.commitmentPlanAssociationName
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
+const deleteAssociationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}/accountAssociations/{commitmentPlanAssociationName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.commitmentPlanName1,
+    Parameters.commitmentPlanAssociationName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommitmentPlanListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
     Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listPlansByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommitmentPlanListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listPlansBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommitmentPlanListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listAssociationsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommitmentPlanAccountAssociationListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.commitmentPlanName1
   ],
   headerParameters: [Parameters.accept],
   serializer

@@ -22,7 +22,7 @@ const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -62,7 +62,7 @@ describe("DataProtection test", () => {
       resourceGroup,
       vaultName,
       {
-        identity: { type: "None" },
+        // identity: { type: "None" },
         location,
         properties: {
           monitoringSettings: {
@@ -93,7 +93,7 @@ describe("DataProtection test", () => {
 
   it("backupVaults delete test", async function () {
     const resArray = new Array();
-    const res = await client.backupVaults.delete(resourceGroup, vaultName)
+    const res = await client.backupVaults.beginDeleteAndWait(resourceGroup, vaultName)
     for await (let item of client.backupVaults.listInResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

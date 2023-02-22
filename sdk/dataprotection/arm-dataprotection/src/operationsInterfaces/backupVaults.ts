@@ -37,7 +37,7 @@ export interface BackupVaults {
   ): PagedAsyncIterableIterator<BackupVaultResource>;
   /**
    * Returns resource collection belonging to a resource group.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listInResourceGroup(
@@ -46,7 +46,7 @@ export interface BackupVaults {
   ): PagedAsyncIterableIterator<BackupVaultResource>;
   /**
    * Returns a resource belonging to a resource group.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param options The options parameters.
    */
@@ -57,7 +57,7 @@ export interface BackupVaults {
   ): Promise<BackupVaultsGetResponse>;
   /**
    * Creates or updates a BackupVault resource belonging to a resource group.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param parameters Request body for operation
    * @param options The options parameters.
@@ -75,7 +75,7 @@ export interface BackupVaults {
   >;
   /**
    * Creates or updates a BackupVault resource belonging to a resource group.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param parameters Request body for operation
    * @param options The options parameters.
@@ -88,11 +88,22 @@ export interface BackupVaults {
   ): Promise<BackupVaultsCreateOrUpdateResponse>;
   /**
    * Deletes a BackupVault resource from the resource group.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param options The options parameters.
    */
-  delete(
+  beginDelete(
+    resourceGroupName: string,
+    vaultName: string,
+    options?: BackupVaultsDeleteOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Deletes a BackupVault resource from the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the backup vault.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
     resourceGroupName: string,
     vaultName: string,
     options?: BackupVaultsDeleteOptionalParams
@@ -100,7 +111,7 @@ export interface BackupVaults {
   /**
    * Updates a BackupVault resource belonging to a resource group. For example, updating tags for a
    * resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param parameters Request body for operation
    * @param options The options parameters.
@@ -119,7 +130,7 @@ export interface BackupVaults {
   /**
    * Updates a BackupVault resource belonging to a resource group. For example, updating tags for a
    * resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param parameters Request body for operation
    * @param options The options parameters.
@@ -132,7 +143,7 @@ export interface BackupVaults {
   ): Promise<BackupVaultsUpdateResponse>;
   /**
    * API to check for resource name availability
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param location The location in which uniqueness will be verified.
    * @param parameters Check name availability request
    * @param options The options parameters.

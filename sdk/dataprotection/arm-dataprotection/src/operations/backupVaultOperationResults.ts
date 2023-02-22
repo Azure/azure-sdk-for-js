@@ -30,7 +30,7 @@ export class BackupVaultOperationResultsImpl
   }
 
   /**
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param operationId
    * @param options The options parameters.
