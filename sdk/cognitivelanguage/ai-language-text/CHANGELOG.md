@@ -4,6 +4,8 @@
 
 ### Features Added
 
+_ Add support logging API warnings
+
 ### Breaking Changes
 
 ### Bugs Fixed
