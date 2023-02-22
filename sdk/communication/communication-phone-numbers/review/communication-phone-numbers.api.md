@@ -203,7 +203,7 @@ export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchReq
 
 // @public
 export interface SipDomain {
-    domainUri: string;
+    domainName: string;
     enabled: boolean;
 }
 
@@ -212,9 +212,9 @@ export class SipRoutingClient {
     constructor(connectionString: string, options?: SipRoutingClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: SipRoutingClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: SipRoutingClientOptions);
-    deleteDomain(domainUri: string, options?: OperationOptions): Promise<void>;
+    deleteDomain(domainName: string, options?: OperationOptions): Promise<void>;
     deleteTrunk(fqdn: string, options?: OperationOptions): Promise<void>;
-    getDomain(domainUri: string, options?: OperationOptions): Promise<SipDomain>;
+    getDomain(domainName: string, options?: OperationOptions): Promise<SipDomain>;
     getDomains(options?: OperationOptions): Promise<SipDomain[]>;
     getRoutes(options?: OperationOptions): Promise<SipTrunkRoute[]>;
     getTrunk(fqdn: string, options?: OperationOptions): Promise<SipTrunk>;
@@ -241,7 +241,7 @@ export interface SipRoutingError {
 
 // @public
 export interface SipTrunk {
-    enabled: boolean;
+    enabled?: boolean;
     fqdn: string;
     sipSignalingPort: number;
 }

@@ -27,9 +27,7 @@ matrix([[true, false]], async function (useAad) {
     // to be removed once API is finished
     before(async function () {
       console.log("SipRoutingClient - delete domain will be skiped because of not finished API");
-      this.skip();
 
-      // will be executed when "skip" part is removed in future
       if (!isPlaybackMode()) {
         await clearSipConfiguration();
       }
@@ -52,14 +50,14 @@ matrix([[true, false]], async function (useAad) {
 
     it("can delete an existing domain", async () => {
       const domain: SipDomain = {
-        domainUri: firstDomain,
+        domainName: firstDomain,
         enabled: true,
       };
 
       await client.setDomain(domain);
       await client.deleteDomain(firstDomain);
       assert.exists(
-        (await client.getDomains()).find((value) => value.domainUri === domain.domainUri)
+        (await client.getDomains()).find((value) => value.domainName === domain.domainName)
       );
     });
 
@@ -71,13 +69,13 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("cannot delete domain if depended trunks exist", async () => {
-      const domainUri = secondDomain;
+      const domainName = secondDomain;
       const domain: SipDomain = {
-        domainUri: domainUri,
+        domainName: domainName,
         enabled: true,
       };
       const trunk: SipTrunk = {
-        fqdn: generateTrunk(domainUri),
+        fqdn: generateTrunk(domainName),
         sipSignalingPort: 5678,
         enabled: true,
       };
@@ -85,7 +83,7 @@ matrix([[true, false]], async function (useAad) {
       await client.setTrunk(trunk);
 
       try {
-        await client.deleteDomain(domainUri);
+        await client.deleteDomain(domainName);
       } catch (error: any) {
         assert.equal(error.code, "UnprocessableConfiguration");
         const storedDomains = await client.getDomains();

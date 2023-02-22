@@ -60,7 +60,7 @@ export function transformDomainsFromRestModel(
     Object.keys(domains).forEach((domain: string) => {
       const currentDomain = domains[domain];
       const enabledFlag = currentDomain.enabled;
-      result.push({ domainUri: domain, enabled: enabledFlag } as SipDomain);
+      result.push({ domainName: domain, enabled: enabledFlag } as SipDomain);
     });
   }
 
@@ -77,7 +77,7 @@ export function transformDomainsIntoRestModel(domains: SipDomain[]): {
   const result: { [propertyName: string]: RestSipDomain } = {};
 
   domains.forEach((domain: SipDomain) => {
-    result[domain.domainUri] = { enabled: domain.enabled } as RestSipDomain;
+    result[domain.domainName] = { enabled: domain.enabled } as RestSipDomain;
   });
 
   return result;

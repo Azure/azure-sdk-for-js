@@ -28,9 +28,7 @@ matrix([[true, false]], async function (useAad) {
     // to be removed once API is finished
     before(async function () {
       console.log("SipRoutingClient - get domain will be skiped because of not finished API");
-      this.skip();
 
-      // will be executed when "skip" part is removed in future
       if (!isPlaybackMode()) {
         await clearSipConfiguration();
       }
@@ -54,7 +52,7 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("cannot retrieve a not existing domain", async () => {
-      await client.setDomain({ domainUri: firstDomain, enabled: true } as SipDomain);
+      await client.setDomain({ domainName: firstDomain, enabled: true } as SipDomain);
 
       const domain = await client.getDomain(firstDomain);
 
@@ -78,9 +76,9 @@ matrix([[true, false]], async function (useAad) {
 
     it("can retrieve not empty domains", async () => {
       const expectedDomains = [
-        { domainUri: secondDomain, enabled: true },
-        { domainUri: thirdDomain, enabled: true },
-        { domainUri: forthDomain, enabled: true },
+        { domainName: secondDomain, enabled: true },
+        { domainName: thirdDomain, enabled: true },
+        { domainName: forthDomain, enabled: true },
       ];
       await client.setDomains(expectedDomains);
 

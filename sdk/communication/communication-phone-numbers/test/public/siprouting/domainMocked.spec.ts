@@ -39,22 +39,22 @@ matrix([[true, false]], async function (useAad) {
       const domain = await client.getDomain("contoso.com");
 
       assert.isNotNull(domain);
-      assert.equal(domain?.domainUri, "contoso.com");
+      assert.equal(domain?.domainName, "contoso.com");
       assert.equal(domain?.enabled, true);
     });
 
     it("set domain successful", async () => {
       const domainToSet = firstDomain;
-      const domain: SipDomain = { domainUri: domainToSet, enabled: true };
+      const domain: SipDomain = { domainName: domainToSet, enabled: true };
 
       const setDomain = await client.setDomain(domain);
       assert.deepEqual(setDomain, domain);
     });
 
     it("delete domain successful", async () => {
-      const domainUri = "contoso.com";
+      const domainName = "contoso.com";
       try {
-        await client.deleteDomain(domainUri);
+        await client.deleteDomain(domainName);
       } catch (error: any) {
         assert.fail("Delete domain");
       }

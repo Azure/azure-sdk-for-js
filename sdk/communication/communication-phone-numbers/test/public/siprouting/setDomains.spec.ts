@@ -36,9 +36,7 @@ matrix([[true, false]], async function (useAad) {
     // to be removed once API is finished
     before(async function () {
       console.log("SipRoutingClient - set domain will be skiped because of not finished API");
-      this.skip();
 
-      // will be executed when "skip" part is removed in future
       if (!isPlaybackMode()) {
         await clearSipConfiguration();
       }
@@ -70,7 +68,7 @@ matrix([[true, false]], async function (useAad) {
 
     it("can set a new domain", async () => {
       const domainToSet = domain1;
-      const domain: SipDomain = { domainUri: domainToSet, enabled: true };
+      const domain: SipDomain = { domainName: domainToSet, enabled: true };
 
       const setDomain = await client.setDomain(domain);
       assert.deepEqual(setDomain, domain);
@@ -81,7 +79,7 @@ matrix([[true, false]], async function (useAad) {
 
     it("can set an existing domain", async () => {
       const domainToSet = domain2;
-      const domain: SipDomain = { domainUri: domainToSet, enabled: true };
+      const domain: SipDomain = { domainName: domainToSet, enabled: true };
       await client.setDomain(domain);
 
       domain.enabled = false;
@@ -97,8 +95,8 @@ matrix([[true, false]], async function (useAad) {
       await client.setDomains([]);
 
       const domains: SipDomain[] = [
-        { domainUri: domain3, enabled: true },
-        { domainUri: domain4, enabled: true },
+        { domainName: domain3, enabled: true },
+        { domainName: domain4, enabled: true },
       ];
 
       const setDomains = await client.setDomains(domains);
@@ -110,8 +108,8 @@ matrix([[true, false]], async function (useAad) {
 
     it("can set multiple existing domains", async () => {
       const domains: SipDomain[] = [
-        { domainUri: domain5, enabled: true },
-        { domainUri: domain6, enabled: true },
+        { domainName: domain5, enabled: true },
+        { domainName: domain6, enabled: true },
       ];
       await client.setDomains(domains);
 
@@ -136,8 +134,8 @@ matrix([[true, false]], async function (useAad) {
 
     it("can set empty domains when not empty before", async () => {
       const domains: SipDomain[] = [
-        { domainUri: domain7, enabled: true },
-        { domainUri: domain8, enabled: true },
+        { domainName: domain7, enabled: true },
+        { domainName: domain8, enabled: true },
       ];
       await client.setDomains(domains);
 
@@ -150,7 +148,7 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("cannot set invalid domain uri", async () => {
-      const invalidDomain: SipDomain = { domainUri: "-1", enabled: true };
+      const invalidDomain: SipDomain = { domainName: "-1", enabled: true };
       try {
         await client.setDomain(invalidDomain);
       } catch (error: any) {
@@ -189,12 +187,12 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("cannot set trunks without enabled domain", async () => {
-      const domainUri = domain11;
-      const domains: SipDomain[] = [{ domainUri: domainUri, enabled: false }];
+      const domainName = domain11;
+      const domains: SipDomain[] = [{ domainName: domainName, enabled: false }];
       await client.setDomains(domains);
 
       const expectedTrunks: SipTrunk[] = [
-        { fqdn: generateTrunk(domainUri), sipSignalingPort: 8239, enabled: true },
+        { fqdn: generateTrunk(domainName), sipSignalingPort: 8239, enabled: true },
       ];
 
       try {

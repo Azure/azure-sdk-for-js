@@ -109,7 +109,7 @@ export interface SipTrunk {
   /**
    * Gets or sets enabled flag
    */
-  enabled: boolean;
+  enabled?: boolean;
 }
 
 /**
@@ -119,7 +119,7 @@ export interface SipDomain {
   /**
    * Gets or sets domain uri.
    */
-  domainUri: string;
+  domainName: string;
   /**
    * Gets or sets enabled flag
    */

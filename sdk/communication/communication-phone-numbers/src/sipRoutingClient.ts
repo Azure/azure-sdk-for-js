@@ -120,13 +120,13 @@ export class SipRoutingClient {
 
   /**
    * Gets the SIP domain.
-   * @param domainUri - The domain's uri.
+   * @param domainName - The domain's name (ex: contoso.com).
    * @param options - The options parameters.
    */
-  public async getDomain(domainUri: string, options: OperationOptions = {}): Promise<SipDomain> {
+  public async getDomain(domainName: string, options: OperationOptions = {}): Promise<SipDomain> {
     return tracingClient.withSpan("SipRoutingClient-getDomain", options, async (updatedOptions) => {
       const domains = await this.getDomains(updatedOptions);
-      const domain = domains.find((value: SipDomain) => value.domainUri === domainUri);
+      const domain = domains.find((value: SipDomain) => value.domainName === domainName);
       if (domain) {
         return domain;
       }
@@ -189,9 +189,9 @@ export class SipRoutingClient {
         const patch: SipConfigurationPatch = { domains: transformDomainsIntoRestModel(domains) };
         let config = await this.client.sipRouting.get(updatedOptions);
         const storedDomains = transformDomainsFromRestModel(config.domains).map(
-          (domain) => domain.domainUri
+          (domain) => domain.domainName
         );
-        const setDomains = domains.map((domain) => domain.domainUri);
+        const setDomains = domains.map((domain) => domain.domainName);
         storedDomains.forEach((storedDomain) => {
           const shouldDeleteStoredDomain = !setDomains.find((value) => value === storedDomain);
           if (shouldDeleteStoredDomain) {
@@ -229,7 +229,7 @@ export class SipRoutingClient {
       };
       const config = await this.client.sipRouting.patch(payload);
       const storedDomains = transformDomainsFromRestModel(config.domains).find(
-        (value: SipDomain) => value.domainUri === domain.domainUri
+        (value: SipDomain) => value.domainName === domain.domainName
       );
       if (storedDomains) {
         return storedDomains;
@@ -346,16 +346,16 @@ export class SipRoutingClient {
 
   /**
    * Deletes the SIP domain.
-   * @param domainUri - The domain's rui.
+   * @param domainName - The domain's name (ex: contoso.com).
    * @param options - The options parameters.
    */
-  public async deleteDomain(domainUri: string, options: OperationOptions = {}): Promise<void> {
+  public async deleteDomain(domainName: string, options: OperationOptions = {}): Promise<void> {
     return tracingClient.withSpan(
       "SipRoutingClient-deleteDomain",
       options,
       async (updatedOptions) => {
         const domains: any = {};
-        domains[domainUri] = null;
+        domains[domainName] = null;
         const patch: SipConfigurationPatch = {
           domains: domains,
         };

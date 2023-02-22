@@ -67,11 +67,11 @@ export async function main() {
   // Set domains
   await client.setDomains([
     {
-      domainUri: firstDomain,      
+      domainName: firstDomain,      
       enabled: true,
     },
     {
-      domainUri: secondDomain,
+      domainName: secondDomain,
       enabled: true,
     },
   ]);
@@ -85,7 +85,7 @@ export async function main() {
 
   // Update a domain
   await client.setDomain({
-    domainUri: firstDomain,
+    domainName: firstDomain,
     enabled: false,
   });
 
@@ -105,7 +105,7 @@ export async function main() {
   // Get domains
   const domains = await client.getDomains();
   for (const domain of domains) {
-    console.log(`Trunk ${domain.domainUri} with property enabled:${domain.enabled}`);
+    console.log(`Trunk ${domain.domainName} with property enabled:${domain.enabled}`);
   }
 
   // Clear configuration
