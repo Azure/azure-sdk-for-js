@@ -13,9 +13,9 @@ function makeClientWithWarnText(content: string): TextAnalysisClient {
       sendRequest: async (request) => ({
         request,
         status: 202,
-        headers: createHttpHeaders({ "warn-text": content })
-      })
-    }
+        headers: createHttpHeaders({ "warn-text": content }),
+      }),
+    },
   });
 }
 
