@@ -31,7 +31,7 @@ export class SipRoutingClientContext extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-communication-phone-numbers/1.2.0-alpha.20230221.1`;
+    const packageDetails = `azsdk-js-communication-phone-numbers/1.2.0-alpha.20230221.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

@@ -1,5 +1,15 @@
 # Release History
 
+## 1.2.0-alpha.20230221.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.2.0-alpha.20230221.1 (2023-02-21)
 - Added support for the API version 2023-01-01-preview.
 - Added ability to retrieve SIP trunk health properties.
