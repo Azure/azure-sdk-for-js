@@ -60,7 +60,7 @@ function addOnResponse<TOptions extends OperationOptions>(
   };
 }
 
-function logWanrHeader(rawResponse: FullOperationResponse) {
+function logWarnHeader(rawResponse: FullOperationResponse) {
   const warnHeader = rawResponse.headers.get("warn-text");
   if (warnHeader) {
     warnHeader.split(";").map(logger.warning);
@@ -181,7 +181,7 @@ export function createAnalyzeBatchLro(settings: {
             ...commonOptions,
             ...initialRequestOptions,
           },
-          logWanrHeader
+          logWarnHeader
         ),
         async (finalOptions) =>
           throwError(
