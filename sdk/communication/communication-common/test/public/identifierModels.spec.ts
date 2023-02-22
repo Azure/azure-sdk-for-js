@@ -254,37 +254,37 @@ describe("Identifier models", () => {
       isGlobal: true,
       cloud: "public",
       kind: "microsoftBot",
-      microsoftBotId: "45ab2481-1c1c-4005-be24-0ffb879b1130",
+      botId: "45ab2481-1c1c-4005-be24-0ffb879b1130",
     });
     assertIdentifier("28:gcch-global:01234567-89ab-cdef-0123-456789abcdef", {
       isGlobal: true,
       cloud: "gcch",
       kind: "microsoftBot",
-      microsoftBotId: "01234567-89ab-cdef-0123-456789abcdef",
+      botId: "01234567-89ab-cdef-0123-456789abcdef",
     });
     assertIdentifier("28:dod-global:01234567-89ab-cdef-0123-456789abcdef", {
       isGlobal: true,
       cloud: "dod",
       kind: "microsoftBot",
-      microsoftBotId: "01234567-89ab-cdef-0123-456789abcdef",
+      botId: "01234567-89ab-cdef-0123-456789abcdef",
     });
     assertIdentifier("28:orgid:01234567-89ab-cdef-0123-456789abcdef", {
       isGlobal: false,
       cloud: "public",
       kind: "microsoftBot",
-      microsoftBotId: "01234567-89ab-cdef-0123-456789abcdef",
+      botId: "01234567-89ab-cdef-0123-456789abcdef",
     });
     assertIdentifier("28:gcch:01234567-89ab-cdef-0123-456789abcdef", {
       isGlobal: false,
       cloud: "gcch",
       kind: "microsoftBot",
-      microsoftBotId: "01234567-89ab-cdef-0123-456789abcdef",
+      botId: "01234567-89ab-cdef-0123-456789abcdef",
     });
     assertIdentifier("28:dod:01234567-89ab-cdef-0123-456789abcdef", {
       isGlobal: false,
       cloud: "dod",
       kind: "microsoftBot",
-      microsoftBotId: "01234567-89ab-cdef-0123-456789abcdef",
+      botId: "01234567-89ab-cdef-0123-456789abcdef",
     });
     assertIdentifier("28:ag08-global:01234567-89ab-cdef-0123-456789abcdef", {
       id: "28:ag08-global:01234567-89ab-cdef-0123-456789abcdef",

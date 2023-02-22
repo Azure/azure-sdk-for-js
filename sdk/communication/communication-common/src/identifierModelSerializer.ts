@@ -177,7 +177,7 @@ export const serializeCommunicationIdentifier = (
       return {
         rawId: identifierKind.rawId ?? getIdentifierRawId(identifierKind),
         microsoftBot: {
-          botId: identifierKind.microsoftBotId,
+          botId: identifierKind.botId,
           isGlobal: identifierKind.isGlobal ?? false,
           cloud: identifierKind.cloud ?? "public",
         },
@@ -247,7 +247,7 @@ export const deserializeCommunicationIdentifier = (
   if (kind === "microsoftBot" && microsoftBot) {
     return {
       kind: "microsoftBot",
-      microsoftBotId: assertNotNullOrUndefined({ microsoftBot }, "botId"),
+      botId: assertNotNullOrUndefined({ microsoftBot }, "botId"),
       isGlobal: assertNotNullOrUndefined({ microsoftBot }, "isGlobal"),
       cloud: assertNotNullOrUndefined({ microsoftBot }, "cloud"),
       rawId: assertNotNullOrUndefined({ microsoftBot: serializedIdentifier }, "rawId"),

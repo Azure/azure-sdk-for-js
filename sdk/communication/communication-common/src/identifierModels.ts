@@ -72,7 +72,7 @@ export interface MicrosoftBotIdentifier {
   /**
    * The unique Microsoft app ID for the bot as registered with the Bot Framework.
    */
-  microsoftBotId: string;
+  botId: string;
 
   /**
    * True if the bot is global and false (or missing) if the bot is tenantized.
@@ -136,7 +136,7 @@ export const isMicrosoftTeamsUserIdentifier = (
 export const isMicrosoftBotIdentifier = (
   identifier: CommunicationIdentifier
 ): identifier is MicrosoftBotIdentifier => {
-  return typeof (identifier as any).microsoftBotId === "string";
+  return typeof (identifier as any).botId === "string";
 };
 
 /**
@@ -258,24 +258,24 @@ export const getIdentifierRawId = (identifier: CommunicationIdentifier): string 
       return `8:orgid:${microsoftTeamsUserId}`;
     }
     case "microsoftBot": {
-      const { microsoftBotId, rawId, cloud, isGlobal } = identifierKind;
+      const { botId, rawId, cloud, isGlobal } = identifierKind;
       if (rawId) return rawId;
       if (isGlobal) {
         switch (cloud) {
           case "dod":
-            return `28:dod-global:${microsoftBotId}`;
+            return `28:dod-global:${botId}`;
           case "gcch":
-            return `28:gcch-global:${microsoftBotId}`;
+            return `28:gcch-global:${botId}`;
         }
-        return `28:${microsoftBotId}`;
+        return `28:${botId}`;
       }
       switch (cloud) {
         case "dod":
-          return `28:dod:${microsoftBotId}`;
+          return `28:dod:${botId}`;
         case "gcch":
-          return `28:gcch:${microsoftBotId}`;
+          return `28:gcch:${botId}`;
       }
-      return `28:orgid:${microsoftBotId}`;
+      return `28:orgid:${botId}`;
     }
     case "phoneNumber": {
       const { phoneNumber, rawId } = identifierKind;
@@ -295,7 +295,7 @@ const buildMicrosoftBotIdentifier = (
 ): CommunicationIdentifierKind => {
   return {
     kind: "microsoftBot",
-    microsoftBotId: id,
+    botId: id,
     cloud: cloud,
     isGlobal: isGlobal,
   };
