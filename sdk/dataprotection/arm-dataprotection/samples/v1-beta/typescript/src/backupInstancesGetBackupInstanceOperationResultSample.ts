@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get result of backup instance creation operation
  *
  * @summary Get result of backup instance creation operation
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/preview/2022-11-01-preview/examples/BackupInstanceOperations/GetBackupInstanceOperationResult.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-01-01/examples/BackupInstanceOperations/GetBackupInstanceOperationResult.json
  */
 async function getBackupInstanceOperationResult() {
   const subscriptionId =

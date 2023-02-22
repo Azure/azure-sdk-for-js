@@ -2,12 +2,11 @@
 
 These sample programs show how to use the JavaScript client libraries for Azure Communication Services - Email in some common scenarios.
 
-| **File Name**                  | **Description**                           |
-| ------------------------------ | ----------------------------------------- |
-| checkMessageStatus.js          | Checks the message status of a sent email |
-| sendEmailMultipleRecipients.js | Sends an email with multiple recipients   |
-| sendEmailSingleRecipient.js    | Sends an email with a single recipient    |
-| sendEmailWithAttachments.js    | Sends an email with a txt file attachment |
+| **File Name**                                                 | **Description**                           |
+| ------------------------------------------------------------- | ----------------------------------------- |
+| [sendEmailMultipleRecipients.js][sendemailmultiplerecipients] | Sends an email with multiple recipients   |
+| [sendEmailSingleRecipient.js][sendemailsinglerecipient]       | Sends an email with a single recipient    |
+| [sendEmailWithAttachments.js][sendemailwithattachments]       | Sends an email with a txt file attachment |
 
 ## Prerequisites
 
@@ -20,7 +19,7 @@ You need [an Azure subscription][freesub] and the following Azure resources to r
 
 Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
-Adapting the samples to run in the browser may require some additional consideration. For details, please see the package README.
+Adapting the samples to run in the browser may require some additional consideration. For details, please see the [package README][package].
 
 ## Setup
 
@@ -37,17 +36,24 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node checkMessageStatus.js
+node sendEmailMultipleRecipients.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env COMMUNICATION_CONNECTION_STRING="<communication connection string>" SENDER_ADDRESS="<sender address>" RECIPIENT_ADDRESS="<recipient address>" node checkMessageStatus.js
+npx cross-env COMMUNICATION_CONNECTION_STRING="<communication connection string>" SENDER_ADDRESS="<sender address>" RECIPIENT_ADDRESS="<recipient address>" SECOND_RECIPIENT_ADDRESS="<second recipient address>" node sendEmailMultipleRecipients.js
 ```
 
-<!--Links-->
+## Next Steps
 
+Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
+
+[sendemailmultiplerecipients]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-email/samples/v1-beta/javascript/sendEmailMultipleRecipients.js
+[sendemailsinglerecipient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-email/samples/v1-beta/javascript/sendEmailSingleRecipient.js
+[sendemailwithattachments]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-email/samples/v1-beta/javascript/sendEmailWithAttachments.js
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-email
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecommunicationservicesresource]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
 [createinstance_emailcommunicationservicesresource]: https://aka.ms/acsemail/createemailresource
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-email/README.md

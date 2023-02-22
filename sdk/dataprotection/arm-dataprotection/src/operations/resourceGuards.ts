@@ -45,7 +45,7 @@ import {
   ResourceGuardsGetOptionalParams,
   ResourceGuardsGetResponse,
   ResourceGuardsDeleteOptionalParams,
-  PatchResourceRequestInput,
+  PatchResourceGuardInput,
   ResourceGuardsPatchOptionalParams,
   ResourceGuardsPatchResponse,
   ResourceGuardsGetDefaultDisableSoftDeleteRequestsObjectOptionalParams,
@@ -144,7 +144,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
 
   /**
    * Returns ResourceGuards collection belonging to a ResourceGroup.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listResourcesInResourceGroup(
@@ -220,7 +220,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param options The options parameters.
    */
@@ -305,7 +305,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param options The options parameters.
    */
@@ -390,7 +390,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param options The options parameters.
    */
@@ -475,7 +475,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param options The options parameters.
    */
@@ -560,7 +560,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param options The options parameters.
    */
@@ -645,7 +645,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param options The options parameters.
    */
@@ -742,7 +742,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
 
   /**
    * Returns ResourceGuards collection belonging to a ResourceGroup.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _getResourcesInResourceGroup(
@@ -757,7 +757,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
 
   /**
    * Creates or updates a ResourceGuard resource belonging to a resource group.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName The name of ResourceGuard
    * @param parameters Request body for operation
    * @param options The options parameters.
@@ -776,7 +776,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
 
   /**
    * Returns a ResourceGuard belonging to a resource group.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName The name of ResourceGuard
    * @param options The options parameters.
    */
@@ -793,7 +793,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
 
   /**
    * Deletes a ResourceGuard resource from the resource group.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName The name of ResourceGuard
    * @param options The options parameters.
    */
@@ -811,7 +811,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
   /**
    * Updates a ResourceGuard resource belonging to a resource group. For example, updating tags for a
    * resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName The name of ResourceGuard
    * @param parameters Request body for operation
    * @param options The options parameters.
@@ -819,7 +819,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
   patch(
     resourceGroupName: string,
     resourceGuardsName: string,
-    parameters: PatchResourceRequestInput,
+    parameters: PatchResourceGuardInput,
     options?: ResourceGuardsPatchOptionalParams
   ): Promise<ResourceGuardsPatchResponse> {
     return this.client.sendOperationRequest(
@@ -831,7 +831,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param options The options parameters.
    */
@@ -849,7 +849,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param options The options parameters.
    */
@@ -867,7 +867,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param options The options parameters.
    */
@@ -885,7 +885,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param options The options parameters.
    */
@@ -903,7 +903,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param options The options parameters.
    */
@@ -921,7 +921,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param options The options parameters.
    */
@@ -939,7 +939,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param requestName
    * @param options The options parameters.
@@ -959,7 +959,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param requestName
    * @param options The options parameters.
@@ -981,7 +981,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param requestName
    * @param options The options parameters.
@@ -1001,7 +1001,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param requestName
    * @param options The options parameters.
@@ -1023,7 +1023,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param requestName
    * @param options The options parameters.
@@ -1045,7 +1045,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param requestName
    * @param options The options parameters.
@@ -1082,7 +1082,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
 
   /**
    * GetResourcesInResourceGroupNext
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the GetResourcesInResourceGroup
    *                 method.
    * @param options The options parameters.
@@ -1100,7 +1100,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
 
   /**
    * GetDisableSoftDeleteRequestsObjectsNext
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param nextLink The nextLink from the previous successful call to the
    *                 GetDisableSoftDeleteRequestsObjects method.
@@ -1120,7 +1120,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
 
   /**
    * GetDeleteResourceGuardProxyRequestsObjectsNext
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param nextLink The nextLink from the previous successful call to the
    *                 GetDeleteResourceGuardProxyRequestsObjects method.
@@ -1142,7 +1142,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
 
   /**
    * GetBackupSecurityPINRequestsObjectsNext
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param nextLink The nextLink from the previous successful call to the
    *                 GetBackupSecurityPINRequestsObjects method.
@@ -1162,7 +1162,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
 
   /**
    * GetDeleteProtectedItemRequestsObjectsNext
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param nextLink The nextLink from the previous successful call to the
    *                 GetDeleteProtectedItemRequestsObjects method.
@@ -1182,7 +1182,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
 
   /**
    * GetUpdateProtectionPolicyRequestsObjectsNext
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param nextLink The nextLink from the previous successful call to the
    *                 GetUpdateProtectionPolicyRequestsObjects method.
@@ -1204,7 +1204,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
 
   /**
    * GetUpdateProtectedItemRequestsObjectsNext
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param nextLink The nextLink from the previous successful call to the
    *                 GetUpdateProtectedItemRequestsObjects method.
@@ -1269,6 +1269,9 @@ const putOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
+      bodyMapper: Mappers.ResourceGuardResource
+    },
+    201: {
       bodyMapper: Mappers.ResourceGuardResource
     },
     default: {
@@ -1342,7 +1345,7 @@ const patchOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.parameters14,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

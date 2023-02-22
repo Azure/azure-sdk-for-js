@@ -3523,6 +3523,74 @@ export const ConnectionStateProperties: coreClient.CompositeMapper = {
   }
 };
 
+export const CredentialListResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CredentialListResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedIdentityCredentialResource"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Credential: coreClient.CompositeMapper = {
+  serializedName: "Credential",
+  type: {
+    name: "Composite",
+    className: "Credential",
+    uberParent: "Credential",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type"
+    },
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      annotations: {
+        serializedName: "annotations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "any"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const PrivateEndpointConnectionListResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4009,46 +4077,6 @@ export const CredentialReference: coreClient.CompositeMapper = {
   }
 };
 
-export const Credential: coreClient.CompositeMapper = {
-  serializedName: "Credential",
-  type: {
-    name: "Composite",
-    className: "Credential",
-    uberParent: "Credential",
-    additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: {
-      serializedName: "type",
-      clientName: "type"
-    },
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
-      },
-      annotations: {
-        serializedName: "annotations",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "any"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const Transformation: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4277,6 +4305,20 @@ export const IntegrationRuntimeComputeProperties: coreClient.CompositeMapper = {
           name: "Composite",
           className: "IntegrationRuntimeVNetProperties"
         }
+      },
+      copyComputeScaleProperties: {
+        serializedName: "copyComputeScaleProperties",
+        type: {
+          name: "Composite",
+          className: "CopyComputeScaleProperties"
+        }
+      },
+      pipelineExternalComputeScaleProperties: {
+        serializedName: "pipelineExternalComputeScaleProperties",
+        type: {
+          name: "Composite",
+          className: "PipelineExternalComputeScaleProperties"
+        }
       }
     }
   }
@@ -4352,6 +4394,53 @@ export const IntegrationRuntimeVNetProperties: coreClient.CompositeMapper = {
         serializedName: "subnetId",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CopyComputeScaleProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CopyComputeScaleProperties",
+    additionalProperties: { type: { name: "Object" } },
+    modelProperties: {
+      dataIntegrationUnit: {
+        constraints: {
+          InclusiveMinimum: 4
+        },
+        serializedName: "dataIntegrationUnit",
+        type: {
+          name: "Number"
+        }
+      },
+      timeToLive: {
+        constraints: {
+          InclusiveMinimum: 5
+        },
+        serializedName: "timeToLive",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const PipelineExternalComputeScaleProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PipelineExternalComputeScaleProperties",
+    additionalProperties: { type: { name: "Object" } },
+    modelProperties: {
+      timeToLive: {
+        constraints: {
+          InclusiveMinimum: 5
+        },
+        serializedName: "timeToLive",
+        type: {
+          name: "Number"
         }
       }
     }
@@ -6835,6 +6924,29 @@ export const SynapseSparkJobReference: coreClient.CompositeMapper = {
   }
 };
 
+export const SparkConfigurationParametrizationReference: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SparkConfigurationParametrizationReference",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      referenceName: {
+        serializedName: "referenceName",
+        required: true,
+        type: {
+          name: "any"
+        }
+      }
+    }
+  }
+};
+
 export const ScheduleTriggerRecurrence: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -7472,6 +7584,23 @@ export const ManagedPrivateEndpointResource: coreClient.CompositeMapper = {
   }
 };
 
+export const ManagedIdentityCredentialResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedIdentityCredentialResource",
+    modelProperties: {
+      ...SubResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ManagedIdentityCredential"
+        }
+      }
+    }
+  }
+};
+
 export const PrivateEndpointConnectionResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -8027,6 +8156,18 @@ export const AzureBlobStorageLinkedService: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CredentialReference"
+        }
+      },
+      authenticationType: {
+        serializedName: "typeProperties.authenticationType",
+        type: {
+          name: "String"
+        }
+      },
+      containerUri: {
+        serializedName: "typeProperties.containerUri",
+        type: {
+          name: "any"
         }
       }
     }
@@ -17862,6 +18003,59 @@ export const LinkedServiceDebugResource: coreClient.CompositeMapper = {
   }
 };
 
+export const ManagedIdentityCredential: coreClient.CompositeMapper = {
+  serializedName: "ManagedIdentity",
+  type: {
+    name: "Composite",
+    className: "ManagedIdentityCredential",
+    uberParent: "Credential",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: Credential.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...Credential.type.modelProperties,
+      resourceId: {
+        serializedName: "typeProperties.resourceId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ServicePrincipalCredential: coreClient.CompositeMapper = {
+  serializedName: "ServicePrincipal",
+  type: {
+    name: "Composite",
+    className: "ServicePrincipalCredential",
+    uberParent: "Credential",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: Credential.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...Credential.type.modelProperties,
+      servicePrincipalId: {
+        serializedName: "typeProperties.servicePrincipalId",
+        type: {
+          name: "any"
+        }
+      },
+      servicePrincipalKey: {
+        serializedName: "typeProperties.servicePrincipalKey",
+        type: {
+          name: "Composite",
+          className: "AzureKeyVaultSecretReference"
+        }
+      },
+      tenant: {
+        serializedName: "typeProperties.tenant",
+        type: {
+          name: "any"
+        }
+      }
+    }
+  }
+};
+
 export const SecureString: coreClient.CompositeMapper = {
   serializedName: "SecureString",
   type: {
@@ -17909,59 +18103,6 @@ export const AzureKeyVaultSecretReference: coreClient.CompositeMapper = {
         serializedName: "secretVersion",
         type: {
           name: "any"
-        }
-      }
-    }
-  }
-};
-
-export const ServicePrincipalCredential: coreClient.CompositeMapper = {
-  serializedName: "ServicePrincipal",
-  type: {
-    name: "Composite",
-    className: "ServicePrincipalCredential",
-    uberParent: "Credential",
-    additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: Credential.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...Credential.type.modelProperties,
-      servicePrincipalId: {
-        serializedName: "typeProperties.servicePrincipalId",
-        type: {
-          name: "any"
-        }
-      },
-      servicePrincipalKey: {
-        serializedName: "typeProperties.servicePrincipalKey",
-        type: {
-          name: "Composite",
-          className: "AzureKeyVaultSecretReference"
-        }
-      },
-      tenant: {
-        serializedName: "typeProperties.tenant",
-        type: {
-          name: "any"
-        }
-      }
-    }
-  }
-};
-
-export const ManagedIdentityCredential: coreClient.CompositeMapper = {
-  serializedName: "ManagedIdentity",
-  type: {
-    name: "Composite",
-    className: "ManagedIdentityCredential",
-    uberParent: "Credential",
-    additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: Credential.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...Credential.type.modelProperties,
-      resourceId: {
-        serializedName: "typeProperties.resourceId",
-        type: {
-          name: "String"
         }
       }
     }
@@ -24735,6 +24876,12 @@ export const SynapseSparkJobDefinitionActivity: coreClient.CompositeMapper = {
           name: "any"
         }
       },
+      scanFolder: {
+        serializedName: "typeProperties.scanFolder",
+        type: {
+          name: "any"
+        }
+      },
       className: {
         serializedName: "typeProperties.className",
         type: {
@@ -24802,7 +24949,27 @@ export const SynapseSparkJobDefinitionActivity: coreClient.CompositeMapper = {
       numExecutors: {
         serializedName: "typeProperties.numExecutors",
         type: {
-          name: "Number"
+          name: "any"
+        }
+      },
+      configurationType: {
+        serializedName: "typeProperties.configurationType",
+        type: {
+          name: "String"
+        }
+      },
+      targetSparkConfiguration: {
+        serializedName: "typeProperties.targetSparkConfiguration",
+        type: {
+          name: "Composite",
+          className: "SparkConfigurationParametrizationReference"
+        }
+      },
+      sparkConfig: {
+        serializedName: "typeProperties.sparkConfig",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -26610,8 +26777,8 @@ export let discriminators = {
   Activity: Activity,
   Trigger: Trigger,
   DataFlow: DataFlow,
-  SecretBase: SecretBase,
   Credential: Credential,
+  SecretBase: SecretBase,
   DatasetLocation: DatasetLocation,
   DatasetStorageFormat: DatasetStorageFormat,
   CustomSetupBase: CustomSetupBase,
@@ -26857,10 +27024,10 @@ export let discriminators = {
   "DataFlow.MappingDataFlow": MappingDataFlow,
   "DataFlow.Flowlet": Flowlet,
   "DataFlow.WranglingDataFlow": WranglingDataFlow,
+  "Credential.ManagedIdentity": ManagedIdentityCredential,
+  "Credential.ServicePrincipal": ServicePrincipalCredential,
   "SecretBase.SecureString": SecureString,
   "SecretBase.AzureKeyVaultSecret": AzureKeyVaultSecretReference,
-  "Credential.ServicePrincipal": ServicePrincipalCredential,
-  "Credential.ManagedIdentity": ManagedIdentityCredential,
   "DatasetLocation.AzureBlobStorageLocation": AzureBlobStorageLocation,
   "DatasetLocation.AzureBlobFSLocation": AzureBlobFSLocation,
   "DatasetLocation.AzureDataLakeStoreLocation": AzureDataLakeStoreLocation,
