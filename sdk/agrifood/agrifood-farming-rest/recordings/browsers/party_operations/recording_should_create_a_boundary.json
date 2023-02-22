@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://fakeaccount.farmbeats.azure.netparties/browser-contoso-party/boundaries/browser-contoso-boundary?api-version=2022-11-01-preview",
+      "RequestUri": "https://fakeaccount.farmbeats.azure.net/parties/browser-contoso-party/boundaries/browser-contoso-boundary?api-version=2022-11-01-preview",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -19,7 +19,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
-        "x-ms-client-request-id": "3feddc30-5663-41da-9291-b3ec5627c539",
+        "x-ms-client-request-id": "66f44e91-2907-4ff4-9afe-cc3f3dc1d813",
         "x-ms-useragent": "azsdk-js-agrifood-farming-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 OS"
       },
       "RequestBody": {
@@ -123,15 +123,15 @@
         "Content-Encoding": "br",
         "Content-Security-Policy": "self",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Feb 2023 21:35:13 GMT",
-        "ETag": "00005f72-0000-0600-0000-63f68a6f0000",
-        "mise-correlation-id": "6cb2eb63-7577-48b1-bccc-68d512b6949a",
+        "Date": "Wed, 22 Feb 2023 21:36:56 GMT",
+        "ETag": "00006d72-0000-0600-0000-63f68a910000",
+        "mise-correlation-id": "fcbea930-c6fc-409f-aa22-9719874be616",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "SAMEORIGIN",
-        "x-ms-request-id": "0106c69a1efb5fc75126720f2014760e",
+        "x-ms-request-id": "d3f4cd858114369765cbdd8fc0db059d",
         "x-ms-throttle-information": "1000"
       },
       "ResponseBody": {
@@ -263,9 +263,9 @@
           "value": 34.268
         },
         "id": "browser-contoso-boundary",
-        "eTag": "00005f72-0000-0600-0000-63f68a6f0000",
+        "eTag": "00006d72-0000-0600-0000-63f68a910000",
         "createdDateTime": "2023-02-22T21:34:39Z",
-        "modifiedDateTime": "2023-02-22T21:35:13Z",
+        "modifiedDateTime": "2023-02-22T21:36:56Z",
         "description": "Created by SDK",
         "createdBy": "9002b50e-dc98-445e-a865-72dce38ecafd",
         "modifiedBy": "9002b50e-dc98-445e-a865-72dce38ecafd"
@@ -273,6 +273,6 @@
     }
   ],
   "Variables": {
-    "jobId": "browser-job-28"
+    "jobId": "browser-job-683"
   }
 }

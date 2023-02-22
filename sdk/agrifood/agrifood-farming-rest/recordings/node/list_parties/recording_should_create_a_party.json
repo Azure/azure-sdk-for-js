@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://fakeaccount.farmbeats.azure.netparties/contoso-party-js?api-version=2022-11-01-preview",
+      "RequestUri": "https://fakeaccount.farmbeats.azure.net/parties/contoso-party-js?api-version=2022-11-01-preview",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -11,7 +11,7 @@
         "Content-Length": "154",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-agrifood-farming-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.12.1 OS/(x64-Linux-5.4.0-1103-azure)",
-        "x-ms-client-request-id": "560ec9d3-1d60-4dd1-ae2b-ad4756594082"
+        "x-ms-client-request-id": "41966dcd-272d-4628-aa38-a8356a7dea70"
       },
       "RequestBody": {
         "name": "Contoso Party",
@@ -30,24 +30,24 @@
         "Content-Encoding": "gzip",
         "Content-Security-Policy": "self",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Feb 2023 21:21:32 GMT",
-        "ETag": "00008c00-0000-0600-0000-63f6875c0000",
+        "Date": "Wed, 22 Feb 2023 21:37:34 GMT",
+        "ETag": "00009600-0000-0600-0000-63f68b1e0000",
         "Location": "http://bb-prod-wcus-1.farmbeats.azure.net/parties/contoso-party-js",
-        "mise-correlation-id": "629f5975-b3da-43ba-8150-00dc75528f7d",
+        "mise-correlation-id": "32c64ef2-0067-46f2-950b-d7a32b9c8730",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "SAMEORIGIN",
-        "x-ms-request-id": "bc93ff31f63a6c5d9b0cbfe1dfe2d3fc",
+        "x-ms-request-id": "0563f175ff7ef49fbc77f2488d6498f3",
         "x-ms-throttle-information": "1000"
       },
       "ResponseBody": {
         "id": "contoso-party-js",
-        "eTag": "00008c00-0000-0600-0000-63f6875c0000",
+        "eTag": "00009600-0000-0600-0000-63f68b1e0000",
         "status": "Active",
-        "createdDateTime": "2023-02-22T21:21:32Z",
-        "modifiedDateTime": "2023-02-22T21:21:32Z",
+        "createdDateTime": "2023-02-22T21:37:34Z",
+        "modifiedDateTime": "2023-02-22T21:37:34Z",
         "name": "Contoso Party",
         "description": "Your custom party description here",
         "createdBy": "9002b50e-dc98-445e-a865-72dce38ecafd",

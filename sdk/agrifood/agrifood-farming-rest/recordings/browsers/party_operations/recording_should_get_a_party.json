@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://fakeaccount.farmbeats.azure.netparties/browser-contoso-party?api-version=2022-11-01-preview",
+      "RequestUri": "https://fakeaccount.farmbeats.azure.net/parties/browser-contoso-party?api-version=2022-11-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -17,7 +17,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
-        "x-ms-client-request-id": "76b28afb-baef-49d0-87d3-7c8d2f8ee36e",
+        "x-ms-client-request-id": "4ca910e7-292a-4cc4-8493-d9362826a451",
         "x-ms-useragent": "azsdk-js-agrifood-farming-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 OS"
       },
       "RequestBody": null,
@@ -28,23 +28,23 @@
         "Content-Encoding": "br",
         "Content-Security-Policy": "self",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Feb 2023 21:35:13 GMT",
-        "ETag": "00006b72-0000-0600-0000-63f68a910000",
-        "mise-correlation-id": "718babc1-3c49-4b18-adaa-4ea21b4f59dd",
+        "Date": "Wed, 22 Feb 2023 21:36:56 GMT",
+        "ETag": "00007a72-0000-0600-0000-63f68af70000",
+        "mise-correlation-id": "e79658f3-81a1-4c20-b31d-ce94e1795fed",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "SAMEORIGIN",
-        "x-ms-request-id": "858c95b9c5f25ca5b96797504161e0e7",
+        "x-ms-request-id": "b1b89404abafe1b70034afc5f7506e67",
         "x-ms-throttle-information": "100"
       },
       "ResponseBody": {
         "id": "browser-contoso-party",
-        "eTag": "00006b72-0000-0600-0000-63f68a910000",
+        "eTag": "00007a72-0000-0600-0000-63f68af70000",
         "status": "Active",
         "createdDateTime": "2023-02-22T21:33:56Z",
-        "modifiedDateTime": "2023-02-22T21:35:13Z",
+        "modifiedDateTime": "2023-02-22T21:36:55Z",
         "name": "Contoso party",
         "description": "Your custom party description here",
         "createdBy": "9002b50e-dc98-445e-a865-72dce38ecafd",
@@ -58,6 +58,6 @@
     }
   ],
   "Variables": {
-    "jobId": "browser-job-572"
+    "jobId": "browser-job-303"
   }
 }

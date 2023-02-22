@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://fakeaccount.farmbeats.azure.netparties/contoso-party-js/boundaries/test-boundary?api-version=2022-11-01-preview",
+      "RequestUri": "https://fakeaccount.farmbeats.azure.net/parties/contoso-party-js/boundaries/test-boundary?api-version=2022-11-01-preview",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -11,7 +11,7 @@
         "Content-Length": "353",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-agrifood-farming-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.12.1 OS/(x64-Linux-5.4.0-1103-azure)",
-        "x-ms-client-request-id": "d88aa76c-507f-4258-9e23-2df8db078635"
+        "x-ms-client-request-id": "efb179c3-300d-41ab-beb1-32d835fb2b5f"
       },
       "RequestBody": {
         "geometry": {
@@ -58,16 +58,16 @@
         "Content-Encoding": "gzip",
         "Content-Security-Policy": "self",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Feb 2023 21:21:33 GMT",
-        "ETag": "00008d00-0000-0600-0000-63f6875c0000",
+        "Date": "Wed, 22 Feb 2023 21:37:34 GMT",
+        "ETag": "00009700-0000-0600-0000-63f68b1e0000",
         "Location": "http://bb-prod-wcus-1.farmbeats.azure.net/parties/contoso-party-js/boundaries/test-boundary",
-        "mise-correlation-id": "57a1e9c2-6201-436c-b40d-4d257591d2a9",
+        "mise-correlation-id": "1095a724-9b79-4085-a303-a25b64f2ebe9",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "SAMEORIGIN",
-        "x-ms-request-id": "8aa667e79d93b118df9c0f14246e735b",
+        "x-ms-request-id": "dc31c37eb1afd8c36930aa46eb8965b6",
         "x-ms-throttle-information": "1000"
       },
       "ResponseBody": {
@@ -143,9 +143,9 @@
           "value": 60.405
         },
         "id": "test-boundary",
-        "eTag": "00008d00-0000-0600-0000-63f6875c0000",
-        "createdDateTime": "2023-02-22T21:21:32Z",
-        "modifiedDateTime": "2023-02-22T21:21:32Z",
+        "eTag": "00009700-0000-0600-0000-63f68b1e0000",
+        "createdDateTime": "2023-02-22T21:37:34Z",
+        "modifiedDateTime": "2023-02-22T21:37:34Z",
         "description": "Created by SDK",
         "createdBy": "9002b50e-dc98-445e-a865-72dce38ecafd",
         "modifiedBy": "9002b50e-dc98-445e-a865-72dce38ecafd"
