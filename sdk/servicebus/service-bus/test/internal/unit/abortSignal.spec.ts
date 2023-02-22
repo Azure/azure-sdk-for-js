@@ -400,7 +400,9 @@ describe("AbortSignal", () => {
         messageSession,
         connectionContext,
         "entityPath",
-        "peekLock"
+        "peekLock",
+        false,
+        false,
       );
 
       try {
