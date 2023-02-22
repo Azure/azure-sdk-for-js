@@ -39,6 +39,7 @@ import {
   DataFlowDebugCommandRequest as DataFlowDebugCommandRequestMapper,
   ManagedVirtualNetworkResource as ManagedVirtualNetworkResourceMapper,
   ManagedPrivateEndpointResource as ManagedPrivateEndpointResourceMapper,
+  ManagedIdentityCredentialResource as ManagedIdentityCredentialResourceMapper,
   PrivateLinkConnectionApprovalRequestResource as PrivateLinkConnectionApprovalRequestResourceMapper,
   GlobalParameterResource as GlobalParameterResourceMapper
 } from "../models/mappers";
@@ -525,6 +526,29 @@ export const managedPrivateEndpointName: OperationURLParameter = {
       MinLength: 1
     },
     serializedName: "managedPrivateEndpointName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const credential: OperationParameter = {
+  parameterPath: "credential",
+  mapper: ManagedIdentityCredentialResourceMapper
+};
+
+export const credentialName: OperationURLParameter = {
+  parameterPath: "credentialName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "^([_A-Za-z0-9]|([_A-Za-z0-9][-_A-Za-z0-9]{0,125}[_A-Za-z0-9]))$"
+      ),
+      MaxLength: 127,
+      MinLength: 1
+    },
+    serializedName: "credentialName",
     required: true,
     type: {
       name: "String"

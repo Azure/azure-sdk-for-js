@@ -4,8 +4,7 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ContainerClient, CommonOptions } from "@azure/storage-blob";
 import { CHANGE_FEED_SEGMENT_PREFIX, CHANGE_FEED_INITIALIZATION_SEGMENT } from "./constants";
-import { createSpan } from "./tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { tracingClient } from "./tracing";
 import { BlobChangeFeedEvent, UpdatedBlobProperties } from "../models/BlobChangeFeedEvent";
 
 const millisecondsInAnHour = 60 * 60 * 1000;
@@ -48,8 +47,7 @@ export async function getYearsPaths(
   containerClient: ContainerClient,
   options: GetYearsPathsOptions = {}
 ): Promise<number[]> {
-  const { span, updatedOptions } = createSpan("getYearsPaths", options);
-  try {
+  return tracingClient.withSpan("getYearsPaths", options, async (updatedOptions) => {
     const years: number[] = [];
     for await (const item of containerClient.listBlobsByHierarchy("/", {
       abortSignal: options.abortSignal,
@@ -62,15 +60,7 @@ export async function getYearsPaths(
       }
     }
     return years.sort((a, b) => a - b);
-  } catch (e: any) {
-    span.setStatus({
-      code: SpanStatusCode.ERROR,
-      message: e.message,
-    });
-    throw e;
-  } finally {
-    span.end();
-  }
+  });
 }
 
 /**
@@ -91,9 +81,7 @@ export async function getSegmentsInYear(
   endTime?: Date,
   options: GetSegmentsInYearOptions = {}
 ): Promise<string[]> {
-  const { span, updatedOptions } = createSpan("getSegmentsInYear", options);
-
-  try {
+  return tracingClient.withSpan("getSegmentsInYear", options, async (updatedOptions) => {
     const segments: string[] = [];
     const yearBeginTime = new Date(Date.UTC(year, 0));
     if (endTime && yearBeginTime >= endTime) {
@@ -113,15 +101,7 @@ export async function getSegmentsInYear(
       segments.push(item.name);
     }
     return segments;
-  } catch (e: any) {
-    span.setStatus({
-      code: SpanStatusCode.ERROR,
-      message: e.message,
-    });
-    throw e;
-  } finally {
-    span.end();
-  }
+  });
 }
 
 export function parseDateFromSegmentPath(segmentPath: string): Date {

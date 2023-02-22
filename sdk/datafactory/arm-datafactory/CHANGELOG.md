@@ -1,15 +1,46 @@
 # Release History
+    
+## 11.0.0 (2023-02-10)
+    
+**Features**
 
-## 10.10.2 (Unreleased)
+  - Added operation group CredentialOperations
+  - Added Interface CopyComputeScaleProperties
+  - Added Interface CredentialListResponse
+  - Added Interface CredentialOperationsCreateOrUpdateOptionalParams
+  - Added Interface CredentialOperationsDeleteOptionalParams
+  - Added Interface CredentialOperationsGetOptionalParams
+  - Added Interface CredentialOperationsListByFactoryNextOptionalParams
+  - Added Interface CredentialOperationsListByFactoryOptionalParams
+  - Added Interface ManagedIdentityCredentialResource
+  - Added Interface PipelineExternalComputeScaleProperties
+  - Added Interface SparkConfigurationParametrizationReference
+  - Added Type Alias AzureStorageAuthenticationType
+  - Added Type Alias ConfigurationType
+  - Added Type Alias CredentialOperationsCreateOrUpdateResponse
+  - Added Type Alias CredentialOperationsGetResponse
+  - Added Type Alias CredentialOperationsListByFactoryNextResponse
+  - Added Type Alias CredentialOperationsListByFactoryResponse
+  - Added Type Alias SparkConfigurationReferenceType
+  - Interface AzureBlobStorageLinkedService has a new optional parameter authenticationType
+  - Interface AzureBlobStorageLinkedService has a new optional parameter containerUri
+  - Interface IntegrationRuntimeComputeProperties has a new optional parameter copyComputeScaleProperties
+  - Interface IntegrationRuntimeComputeProperties has a new optional parameter pipelineExternalComputeScaleProperties
+  - Interface SynapseSparkJobDefinitionActivity has a new optional parameter configurationType
+  - Interface SynapseSparkJobDefinitionActivity has a new optional parameter scanFolder
+  - Interface SynapseSparkJobDefinitionActivity has a new optional parameter sparkConfig
+  - Interface SynapseSparkJobDefinitionActivity has a new optional parameter targetSparkConfiguration
+  - Type of parameter type of interface Credential_2 is changed from "ServicePrincipal" | "ManagedIdentity" to "ManagedIdentity" | "ServicePrincipal"
+  - Added Enum KnownAzureStorageAuthenticationType
+  - Added Enum KnownConfigurationType
+  - Added Enum KnownSparkConfigurationReferenceType
+  - Type of parameter numExecutors of interface SynapseSparkJobDefinitionActivity is changed from number to any
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
+  - Parameter exportSettings of interface SnowflakeSource is now required
 
-### Bugs Fixed
-
-### Other Changes
-
+    
 ## 10.10.1 (2023-01-04)
 
 **Features**
