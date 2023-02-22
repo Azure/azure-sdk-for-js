@@ -13,7 +13,7 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 tag: package-2023-01-15-preview
 package-version: 1.0.0-beta.2
-require: https://raw.githubusercontent.com/apattath/azure-rest-api-specs-apattath/main/specification/communication/data-plane/Email/readme.md
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/37181255378e8b5484b72d9bf6c4dd30e4b829ea/specification/communication/data-plane/Email/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 typescript: true
@@ -28,16 +28,6 @@ use-extension:
 
 See the [AutoRest samples](https://github.com/Azure/autorest/tree/master/Samples/3b-custom-transformations)
 for more about how we're customizing things.
-
-### Remove the LRO property from SEND
-
-```yaml
-directive:
-  - from: swagger-document
-    where: '$.paths["/emails:send"].post'
-    transform: >
-      $["x-ms-long-running-operation"] = false
-```
 
 ### Remove "To" from the required properties
 

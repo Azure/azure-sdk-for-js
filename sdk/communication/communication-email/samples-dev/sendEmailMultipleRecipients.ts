@@ -22,7 +22,7 @@ const sendEmailMultipleRecipients = async (): Promise<void> => {
 
   // Create the Email Message to be sent
   const message: EmailMessage = {
-    senderEmail: senderAddress,
+    senderAddress: senderAddress,
     content: {
       subject: "This is the subject",
       plainText: "This is the body",
@@ -30,19 +30,21 @@ const sendEmailMultipleRecipients = async (): Promise<void> => {
     },
     recipients: {
       to: [
-        { email: recipientAddress, displayName: "Customer Name" },
-        { email: secondRecipientAddress, displayName: "Customer Name 2" },
+        { address: recipientAddress, displayName: "Customer Name" },
+        { address: secondRecipientAddress, displayName: "Customer Name 2" },
       ],
-      cc: [{ email: recipientAddress, displayName: "Customer Name" }],
-      bcc: [{ email: secondRecipientAddress, displayName: "Customer Name 2" }],
+      cc: [{ address: recipientAddress, displayName: "Customer Name" }],
+      bcc: [{ address: secondRecipientAddress, displayName: "Customer Name 2" }],
     },
   };
 
   try {
     // Send the email message
-    const response = await emailClient.send(message);
+    const poller = await emailClient.beginSend(message);
+    const response = await poller.pollUntilDone();
 
-    console.log("Message ID: " + response.messageId);
+    // Get the OperationId so that it can be used for tracking the message for troubleshooting
+    console.log("Operation ID: " + response.id);
   } catch (error) {
     console.log(error);
   }

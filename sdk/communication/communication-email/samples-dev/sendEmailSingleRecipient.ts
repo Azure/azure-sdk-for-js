@@ -21,22 +21,24 @@ const sendSingleEmail = async (): Promise<void> => {
 
   // Create the Email Message to be sent
   const message: EmailMessage = {
-    senderEmail: senderAddress,
+    senderAddress: senderAddress,
     content: {
       subject: "This is the subject",
       plainText: "This is the body",
       html: "<html><h1>This is the body</h1></html>",
     },
     recipients: {
-      to: [{ email: recipientAddress, displayName: "Customer Name" }],
+      to: [{ address: recipientAddress, displayName: "Customer Name" }],
     },
   };
 
   try {
     // Send the email message
-    const response = await emailClient.send(message);
+    const poller = await emailClient.beginSend(message);
+    const response = await poller.pollUntilDone();
 
-    console.log("Message ID: " + response.messageId);
+    // Get the OperationId so that it can be used for tracking the message for troubleshooting
+    console.log("Operation ID: " + response.id);
   } catch (error) {
     console.log(error);
   }

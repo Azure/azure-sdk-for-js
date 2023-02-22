@@ -37,10 +37,10 @@ export const endpoint: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const messageId: OperationURLParameter = {
-  parameterPath: "messageId",
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
   mapper: {
-    serializedName: "messageId",
+    serializedName: "operationId",
     required: true,
     type: {
       name: "String"
@@ -77,24 +77,12 @@ export const message: OperationParameter = {
   mapper: EmailMessageMapper
 };
 
-export const repeatabilityRequestId: OperationParameter = {
-  parameterPath: "repeatabilityRequestId",
+export const operationId1: OperationParameter = {
+  parameterPath: ["options", "operationId"],
   mapper: {
-    serializedName: "repeatability-request-id",
-    required: true,
+    serializedName: "Operation-Id",
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const repeatabilityFirstSent: OperationParameter = {
-  parameterPath: "repeatabilityFirstSent",
-  mapper: {
-    serializedName: "repeatability-first-sent",
-    required: true,
-    type: {
-      name: "String"
+      name: "Uuid"
     }
   }
 };
