@@ -1,5 +1,15 @@
 # Release History
 
+## 12.12.0 (Unreleased)
+
+### Features Added
+
+- Added FileReadHeaders.CreatedOn property for interface DataLakeFileClient.read().
+
+### Bugs Fixed
+
+- Renamed option 'leaseDuration' to 'leaseDurationInSeconds' in methods DataLakeFileClient.append() and flush(), the option was added in 12.12.0-beta.1.
+
 ## 12.12.0-beta.1 (2023-02-09)
 
 ### Features Added

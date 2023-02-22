@@ -3872,6 +3872,13 @@ export const BlobDownloadHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
+      createdOn: {
+        serializedName: "x-ms-creation-time",
+        xmlName: "x-ms-creation-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
       metadata: {
         serializedName: "x-ms-meta",
         xmlName: "x-ms-meta",

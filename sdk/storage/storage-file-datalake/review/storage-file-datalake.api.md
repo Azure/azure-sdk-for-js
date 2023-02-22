@@ -524,7 +524,7 @@ export interface FileAppendOptions extends CommonOptions {
     flush?: boolean;
     // Warning: (ae-forgotten-export) The symbol "LeaseAction" needs to be exported by the entry point index.d.ts
     leaseAction?: LeaseAction;
-    leaseDuration?: number;
+    leaseDurationInSeconds?: number;
     // (undocumented)
     onProgress?: (progress: TransferProgressEvent) => void;
     proposedLeaseId?: string;
@@ -568,7 +568,7 @@ export interface FileFlushOptions extends CommonOptions {
     conditions?: DataLakeRequestConditions;
     customerProvidedKey?: CpkInfo;
     leaseAction?: LeaseAction;
-    leaseDuration?: number;
+    leaseDurationInSeconds?: number;
     // (undocumented)
     pathHttpHeaders?: PathHttpHeaders;
     proposedLeaseId?: string;
@@ -676,6 +676,7 @@ export interface FileReadHeaders {
     copyStatus?: CopyStatusType;
     // (undocumented)
     copyStatusDescription?: string;
+    createdOn?: Date;
     // (undocumented)
     date?: Date;
     // (undocumented)

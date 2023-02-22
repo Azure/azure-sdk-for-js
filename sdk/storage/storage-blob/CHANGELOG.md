@@ -1,5 +1,11 @@
 # Release History
 
+## 12.13.0 (Unreleased)
+
+### Features Added
+
+- Added BlobDownloadHeaders.createdOn property for interface BlobClient.Download().
+
 ## 12.13.0-beta.1 (2023-02-09)
 
 ### Features Added
