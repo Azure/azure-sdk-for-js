@@ -4,6 +4,18 @@
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 
 /**
+ * Options for the createAbortablePromise function.
+ */
+export interface CreateAbortablePromiseOptions {
+  /** A function to be called if the promise was aborted */
+  cleanupBeforeAbort?: () => void;
+  /** An abort signal */
+  abortSignal?: AbortSignalLike;
+  /** An abort error message */
+  abortErrorMsg?: string;
+}
+
+/**
  * Creates an abortable promise.
  * @param buildPromise - A function that takes the resolve and reject functions as parameters.
  * @param options - The options for the abortable promise.
@@ -14,14 +26,7 @@ export function createAbortablePromise<T>(
     resolve: (value: T | PromiseLike<T>) => void,
     reject: (reason?: any) => void
   ) => void,
-  options?: {
-    /** A function to be called if the promise was aborted */
-    cleanupBeforeAbort?: () => void;
-    /** An abort signal */
-    abortSignal?: AbortSignalLike;
-    /** An abort error message */
-    abortErrorMsg?: string;
-  }
+  options?: CreateAbortablePromiseOptions
 ): Promise<T> {
   const { cleanupBeforeAbort, abortSignal, abortErrorMsg } = options ?? {};
   return new Promise((resolve, reject) => {
