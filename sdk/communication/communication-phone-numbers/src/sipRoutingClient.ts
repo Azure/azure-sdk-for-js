@@ -276,7 +276,6 @@ export class SipRoutingClient {
   private async getTrunksInternal(options: GetSipTrunkOptions): Promise<SipTrunk[]> {
     const { includeHealth, ...requestOptions } = options;
     let updatedOptions = requestOptions;
-    console.log("IncludeHealth: " + includeHealth);
 
     if (includeHealth) {
       updatedOptions = {
