@@ -856,7 +856,7 @@ export const AddParticipantsRequest: coreClient.CompositeMapper = {
         }
       },
       sourceIdentifier: {
-        serializedName: "sourceIdentifier",
+        serializedName: "sourceIdentity",
         type: {
           name: "Composite",
           className: "CommunicationIdentifierModel"

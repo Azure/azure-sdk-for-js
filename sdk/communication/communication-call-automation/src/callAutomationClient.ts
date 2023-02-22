@@ -8,23 +8,28 @@ import {
     isKeyCredential,
     createCommunicationAuthPolicy,
     CommunicationIdentifier,
-    serializeCommunicationIdentifier
+    CommunicationUserIdentifier
 } from "@azure/communication-common";
 import { logger } from "./models/logger";
 import { SDK_VERSION } from "./models/constants";
-import { AnswerCallRequest, CallAutomationApiClient, CreateCallRequest, RedirectCallRequest, RejectCallRequest } from "./generated/src";
+import { AnswerCallRequest, CallAutomationApiClient, CommunicationIdentifierModel, CreateCallRequest, RedirectCallRequest, RejectCallRequest } from "./generated/src";
 import { CallConnectionImpl, CallMediaImpl, CallRecordingImpl } from "./generated/src/operations";
 import { CallConnection } from "./callConnection";
 import { CallRecording } from "./callRecording";
 import { AnswerCallOptions, CreateCallOptions, RedirectCallOptions, RejectCallOptions } from "./models/options";
 import { AnswerCallResult, CreateCallResult } from "./models/responses";
 import { CallConnectionPropertiesDto, CallSourceDto } from "./models/models";
-import { callSourceConverter, callSourceDtoConverter, communicationIdentifierConverter } from "./utli/converters";
+import { callSourceConverter, callSourceDtoConverter, communicationIdentifierConverter, communicationIdentifierModelConverter } from "./utli/converters";
 
 /**
 * Client options used to configure CallingServer Client API requests.
 */
-export interface CallAutomationClientOptions extends CommonClientOptions {}
+export interface CallAutomationClientOptions extends CommonClientOptions {
+    /**
+     * The identifier of the source of the call for call creating/answering/inviting operation.
+     */
+    sourceIdentity?: CommunicationUserIdentifier;
+}
 
 /**
 * Checks whether the type of a value is CallingServerClientOptions or not.
@@ -42,6 +47,7 @@ export class CallAutomationClient {
     private readonly callConnectionImpl: CallConnectionImpl;
     private readonly callRecordingImpl: CallRecordingImpl;
     private readonly callMediaImpl: CallMediaImpl;
+    private readonly sourceIdentity?: CommunicationIdentifierModel;
 
     /**
     * Initializes a new instance of the CallAutomationClient class.
@@ -104,6 +110,7 @@ export class CallAutomationClient {
         this.callConnectionImpl = new CallConnectionImpl(this.callAutomationApiClient);
         this.callMediaImpl = new CallMediaImpl(this.callAutomationApiClient);
         this.callRecordingImpl = new CallRecordingImpl(this.callAutomationApiClient);
+        this.sourceIdentity = options.sourceIdentity ? communicationIdentifierModelConverter(options.sourceIdentity) : undefined;
     }
 
     /**
@@ -122,6 +129,13 @@ export class CallAutomationClient {
     }
 
     /**
+    * Get Source Identity that is used for create and answer call
+    */
+    public getSourceIdentity(): CommunicationUserIdentifier | undefined {
+        return this.sourceIdentity ? communicationIdentifierConverter(this.sourceIdentity) as CommunicationUserIdentifier : undefined;
+    }
+
+    /**
     * Create an outgoing call from source to target identities.
     * @param source - The source of caller.
     * @param targets - The target identities.
@@ -136,7 +150,7 @@ export class CallAutomationClient {
     ): Promise<CreateCallResult> {
         const request: CreateCallRequest = {
             source: callSourceConverter(source),
-            targets: targets.map((m) => serializeCommunicationIdentifier(m)),
+            targets: targets.map((m) => communicationIdentifierModelConverter(m)),
             callbackUri: callbackUrl,
             operationContext: options.operationContext,
             azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl,
@@ -217,7 +231,7 @@ export class CallAutomationClient {
     ): Promise<void> {
         const request: RedirectCallRequest = {
             incomingCallContext: incomingCallContext,
-            target: serializeCommunicationIdentifier(target)
+            target: communicationIdentifierModelConverter(target)
         };
 
         return await this.callAutomationApiClient.redirectCall(
