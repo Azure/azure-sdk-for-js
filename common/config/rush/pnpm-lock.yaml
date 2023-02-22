@@ -213,6 +213,7 @@ specifiers:
   '@rush-temp/arm-workloads': file:./projects/arm-workloads.tgz
   '@rush-temp/arm-workspaces': file:./projects/arm-workspaces.tgz
   '@rush-temp/attestation': file:./projects/attestation.tgz
+  '@rush-temp/cognitiveservices-translator': file:./projects/cognitiveservices-translator.tgz
   '@rush-temp/communication-alpha-ids': file:./projects/communication-alpha-ids.tgz
   '@rush-temp/communication-chat': file:./projects/communication-chat.tgz
   '@rush-temp/communication-common': file:./projects/communication-common.tgz
@@ -542,6 +543,7 @@ dependencies:
   '@rush-temp/arm-workloads': file:projects/arm-workloads.tgz
   '@rush-temp/arm-workspaces': file:projects/arm-workspaces.tgz
   '@rush-temp/attestation': file:projects/attestation.tgz
+  '@rush-temp/cognitiveservices-translator': file:projects/cognitiveservices-translator.tgz
   '@rush-temp/communication-alpha-ids': file:projects/communication-alpha-ids.tgz
   '@rush-temp/communication-chat': file:projects/communication-chat.tgz
   '@rush-temp/communication-common': file:projects/communication-common.tgz
@@ -3930,7 +3932,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230215
+      typescript: 5.0.0-dev.20230216
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8714,8 +8716,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230215:
-    resolution: {integrity: sha512-rbuBEuyaLltNQkRsBCxysSHGGEaizuGaVEMO+8bBmTXQRSzITTl1WOg2UFXr9p0pwz8l0KJtOem8MggaGz1/XA==}
+  /typescript/5.0.0-dev.20230216:
+    resolution: {integrity: sha512-yeZZGWiNc5pbGg4J/bgN7vq2Lrs4YTNzhG5dv8owIe1PyYX4tMDla8NnXipy9h4Cmw6+DQA8FG9XZbymgmzSbA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -15448,6 +15450,47 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/cognitiveservices-translator.tgz:
+    resolution: {integrity: sha512-wuLpN22QHa8W4Rojx8WLalkLLFGnpIWmJlsvxuWd5w/q+JmlY/nnLuU6x0SBtYJx6n8dUQu94DDpYzNreE916g==, tarball: file:projects/cognitiveservices-translator.tgz}
+    name: '@rush-temp/cognitiveservices-translator'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.3_@types+node@14.18.36
+      '@types/chai': 4.3.4
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.36
+      autorest: 3.6.3
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.0.3
+      eslint: 8.33.0
+      karma: 6.4.1
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-junit-reporter: 2.0.1_karma@6.4.1
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.1
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 2.1.3
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 15.1.0
+      prettier: 2.8.3
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.5.0
+      typescript: 4.8.4
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
   file:projects/communication-alpha-ids.tgz:
     resolution: {integrity: sha512-nxh0nEhrKnwm2P9d14HIJsKNn7ZV9RzyMO9seYod3v9rKkajyRPJnx9N9oHFOAVSM+Ge3SiPN6hrq6LOzj0TtQ==, tarball: file:projects/communication-alpha-ids.tgz}
     name: '@rush-temp/communication-alpha-ids'
@@ -17893,7 +17936,7 @@ packages:
     dev: false
 
   file:projects/monitor-ingestion.tgz:
-    resolution: {integrity: sha512-CtEBzCs8gADc56AozIehMF2iu7e7R/8YroShdvL2gjK6Hol5Tz+LRfNo4m9XoM17Mwsm1VtZe6Di0vA+WdiJ3g==, tarball: file:projects/monitor-ingestion.tgz}
+    resolution: {integrity: sha512-zodipV0pcRnzrfWjHYqvU42+E4V7E6TqdSYdrmqk/W9isTlZ3lW7OQXvblPPmjo2gTxDBbq+MUcDJ1Bu4FPPYA==, tarball: file:projects/monitor-ingestion.tgz}
     name: '@rush-temp/monitor-ingestion'
     version: 0.0.0
     dependencies:
@@ -18798,7 +18841,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-kLU74faNZXQAJXMne2lL+AAKkVKmU8+obYvymA9G2IuJBpPraaTOxyIOypkQeZqLuWCdZgrgeCno39dVP0MLtg==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-mSZh1szK6lxMnczMO7kgXzef/o22kR6Ttc0voG7IKFLpMKRq6gwvWDAtPzvAEz9qjHzskrN9Me89DaPc7H7ccw==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
@@ -18850,7 +18893,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -19021,7 +19063,7 @@ packages:
     dev: false
 
   file:projects/storage-blob-changefeed.tgz:
-    resolution: {integrity: sha512-TXNy2Pvp5CIqX4OIpz1VRsPRwAvygZolQrZt3CIw4omVh6NbThB567Ftu8TSOMz+1UiRyXdz80hCGgT5rYDCnQ==, tarball: file:projects/storage-blob-changefeed.tgz}
+    resolution: {integrity: sha512-mYK6I+h0xzksiXIMd9/qOAU7QtVuQXfHFH7QcSSsTwkOFnNx967vIH40CRpeEXAUAjEXfKM0uaJPVw6W3saoEA==, tarball: file:projects/storage-blob-changefeed.tgz}
     name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:

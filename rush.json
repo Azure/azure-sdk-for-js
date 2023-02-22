@@ -331,6 +331,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/cognitiveservices-translator",
+      "projectFolder": "sdk/cognitiveservices/cognitiveservices-translatortext",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/confidential-ledger",
       "projectFolder": "sdk/confidentialledger/confidential-ledger-rest",
       "versionPolicyName": "client"

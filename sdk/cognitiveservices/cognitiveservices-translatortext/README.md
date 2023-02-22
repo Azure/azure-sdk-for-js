@@ -1,119 +1,73 @@
-## An isomorphic javascript sdk for - TranslatorTextClient
+# Azure TextTranslation REST client library for JavaScript
 
-This package contains an isomorphic SDK for TranslatorTextClient.
+Text translation is a cloud-based REST API feature of the Translator service that uses neural
+machine translation technology to enable quick and accurate source-to-target text translation
+in real time across all supported languages.
+
+The following methods are supported by the Text Translation feature:
+
+Languages. Returns a list of languages supported by Translate, Transliterate, and Dictionary Lookup operations.
+
+Translate. Renders single source-language text to multiple target-language texts with a single request.
+
+Transliterate. Converts characters or letters of a source language to the corresponding characters or letters of a target language.
+
+Detect. Returns the source code language code and a boolean variable denoting whether the detected language is supported for text translation and transliteration.
+
+Dictionary lookup. Returns equivalent words for the source term in the target language.
+
+Dictionary example Returns grammatical structure and context examples for the source term and target term pair.
+
+**Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
+
+Key links:
+
+- [Package (NPM)](https://www.npmjs.com/package/@azure-rest/cognitiveservices-translator)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/cognitiveservices-translator?view=azure-node-preview)
+
+## Getting started
 
 ### Currently supported environments
 
-- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
-- Latest versions of Safari, Chrome, Edge, and Firefox.
+- LTS versions of Node.js
 
-### How to Install
+### Prerequisites
 
-```bash
-npm install @azure/cognitiveservices-translatortext
-```
+- You must have an [Azure subscription](https://azure.microsoft.com/free/) to use this package.
 
-### How to use
+### Install the `@azure-rest/cognitiveservices-translator` package
 
-#### nodejs - Authentication, client creation and languages translator as an example written in TypeScript.
-
-##### Install @azure/ms-rest-azure-js
+Install the Azure TextTranslation REST client REST client library for JavaScript with `npm`:
 
 ```bash
-npm install @azure/ms-rest-azure-js
+npm install @azure-rest/cognitiveservices-translator
 ```
 
-##### Sample code
-The following sample translates the given text which is in Chinese to English. To know more, refer to the [Azure Documentation on Translator](https://docs.microsoft.com/azure/cognitive-services/translator/)
+### Create and authenticate a `TextTranslationClient`
+
+To use an [Azure Active Directory (AAD) token credential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token),
+provide an instance of the desired credential type obtained from the
+[@azure/identity](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) library.
+
+To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) 
+
+After setup, you can choose which type of [credential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) from `@azure/identity` to use.
+As an example, [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential)
+can be used to authenticate the client.
+
+Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables:
+AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
+
+## Troubleshooting
+
+### Logging
+
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
 ```javascript
-const { TranslatorTextClient } = require("@azure/cognitiveservices-translatortext");
-const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
+const { setLogLevel } = require("@azure/logger");
 
-async function main() {
-  const translatorTextKey =
-    process.env["translatorTextKey"] || "<translatorTextKey>";
-  const translatorTextEndPoint =
-    process.env["translatorTextEndPoint"] || "<translatorTextEndPoint>";
-  const cognitiveServiceCredentials = new CognitiveServicesCredentials(
-    translatorTextKey
-  );
-  const client = new TranslatorTextClient(
-    cognitiveServiceCredentials,
-    translatorTextEndPoint
-  );
-
-  const text = [
-    {
-      text: "你好，世界"
-    }
-  ];
-
-  client.translator
-    .detect(text)
-    .then(result => {
-      console.log("The result is: ");
-      console.log(result);
-    })
-    .catch(err => {
-      console.log("An error occurred:");
-      console.error(err);
-    });
-}
-
-main();
+setLogLevel("info");
 ```
 
-#### browser - Authentication, client creation and languages translator as an example written in JavaScript.
-
-##### Sample code
-
-- index.html
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>@azure/cognitiveservices-translatortext sample</title>
-    <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/@azure/cognitiveservices-translatortext/dist/cognitiveservices-translatortext.js"></script>
-    <script type="text/javascript">
-      const translatorTextKey = "<YOUR_TRANSLATOR_TEXT_KEY>";
-      const translatorTextEndPoint = "<YOUR_TRANSLATOR_TEXT_ENDPOINT>";
-
-      const cognitiveServiceCredentials = new msRest.ApiKeyCredentials({
-        inHeader: {
-          "Ocp-Apim-Subscription-Key": translatorTextKey
-        }
-      });
-      const client = new Azure.CognitiveservicesTranslatortext.TranslatorTextClient(
-        cognitiveServiceCredentials,
-        translatorTextEndPoint
-      );
-
-      const text = [
-        {
-          text: "你好，世界"
-        }
-      ];
-
-      client.translator
-        .detect(text)
-        .then(result => {
-          console.log("The result is: ");
-          console.log(result);
-        })
-        .catch(err => {
-          console.log("An error occurred:");
-          console.error(err);
-        });
-    </script>
-  </head>
-  <body></body>
-</html>
-```
-
-## Related projects
-
-- [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcognitiveservices%2Fcognitiveservices-translatortext%2FREADME.png)
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
