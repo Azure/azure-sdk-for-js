@@ -18,7 +18,6 @@ const startDateTime = new Date("2020-02-01T08:00:00.000Z");
 const endDateTime = new Date("2020-03-02T08:00:00.000Z");
 const suffix = isNode ? "node" : "browser";
 const partyId = `${suffix}-contoso-party`;
-const jobId = `${suffix}-job-48673`;
 const boundaryId = `${suffix}-contoso-boundary`;
 const testparty = {
   name: "Contoso party",
@@ -26,6 +25,7 @@ const testparty = {
   status: "Active",
   properties: { foo: "bar", "numeric one": 1, "1": "numeric key" },
 };
+let jobId: string;
 
 describe("party Operations", () => {
   let recorder: Recorder;
@@ -34,6 +34,7 @@ describe("party Operations", () => {
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
     client = createClient(recorder.configureClientOptions({}));
+    jobId = recorder.variable("jobId", `${suffix}-job-${Math.ceil(Math.random() * 1000)}`);
   });
 
   afterEach(async function () {
