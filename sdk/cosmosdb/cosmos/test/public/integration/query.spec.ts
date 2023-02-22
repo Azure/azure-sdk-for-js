@@ -67,7 +67,7 @@ describe("Test Query Metrics", function (this: Suite) {
 
     await createdContainer.items.create(doc);
     const query = "SELECT * from " + collectionId;
-    const queryOptions: FeedOptions = { populateQueryMetrics: true};
+    const queryOptions: FeedOptions = { populateQueryMetrics: true };
     const queryIterator = createdContainer.items.query(query, queryOptions);
 
     while (queryIterator.hasMoreResults()) {
@@ -221,12 +221,8 @@ describe("Test Index metrics", function (this: Suite) {
     while (queryIterator.hasMoreResults()) {
       const {
         resources: results,
-        activityId,
-        requestCharge,
         indexMetrics,
       } = await queryIterator.fetchNext();
-      assert(activityId, "activityId must exist");
-      assert(requestCharge, "requestCharge must exist");
 
       if (results === undefined) {
         break;

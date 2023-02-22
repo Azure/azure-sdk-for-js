@@ -26,18 +26,8 @@ export class FeedResponse<TResource> {
     return this.headers[Constants.HttpHeaders.ActivityId];
   }
   public get indexMetrics(): string {
-    const result: { result?: IndexUtilizationInfo } = { result: undefined };
-
-    let writer = new IndexMetricWriter();
-    if (
-      IndexUtilizationInfo.tryCreateFromDelimitedBase64String(
-        this.headers[Constants.HttpHeaders.IndexUtilization],
-        result
-      )
-    ) {
-      return writer.writeIndexMetrics(result.result);
-    } else {
-      return "No index utilized";
-    }
+    const writer = new IndexMetricWriter();
+    const indexUtilizationInfo = IndexUtilizationInfo.createFromString(this.headers[Constants.HttpHeaders.IndexUtilization], true);
+    return writer.writeIndexMetrics(indexUtilizationInfo);
   }
 }

@@ -16,7 +16,7 @@ export class IndexUtilizationInfo {
   ): boolean {
     if (delimitedString == null) {
       out.result = IndexUtilizationInfo.Empty;
-      return true;
+      return false;
     }
 
     return IndexUtilizationInfo.tryCreateFromDelimitedString(atob(delimitedString), out);
@@ -28,7 +28,7 @@ export class IndexUtilizationInfo {
   ): boolean {
     if (delimitedString == null) {
       out.result = IndexUtilizationInfo.Empty;
-      return true;
+      return false;
     }
 
     try {
@@ -44,18 +44,14 @@ export class IndexUtilizationInfo {
     delimitedString: string,
     isBase64Encoded: boolean
   ): IndexUtilizationInfo {
-    let indexUtilizationInfo: IndexUtilizationInfo;
+    const result: { result?: IndexUtilizationInfo } = { result: undefined };
 
     if (isBase64Encoded) {
-      IndexUtilizationInfo.tryCreateFromDelimitedBase64String(delimitedString, {
-        result: indexUtilizationInfo,
-      });
+      IndexUtilizationInfo.tryCreateFromDelimitedBase64String(delimitedString, result);
     } else {
-      IndexUtilizationInfo.tryCreateFromDelimitedString(delimitedString, {
-        result: indexUtilizationInfo,
-      });
+      IndexUtilizationInfo.tryCreateFromDelimitedString(delimitedString, result);
     }
 
-    return indexUtilizationInfo;
+    return result.result;
   }
 }
