@@ -1,5 +1,11 @@
 # Release History
 
+## 12.13.0 (Unreleased)
+
+### Bugs Fixed
+
+- Fixed an issue of getting 403 error for blob name with './' or '../'
+
 ## 12.13.0-beta.1 (2023-02-09)
 
 ### Features Added

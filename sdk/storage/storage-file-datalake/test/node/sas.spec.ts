@@ -486,7 +486,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     // NOTICE: Azure Storage Server will replace "\" with "/" in the file names
     const fileName = recorder.getUniqueName(
-      "Upper file empty another 汉字 ру́сский язы́к ру́сский язы́к عرعربى にっぽんごにほんご . special ~!@#$%^&*()_+`1234567890-={}|[]:\";'<>?,'"
+      "./a/../Upper file empty another 汉字 ру́сский язы́к ру́сский язы́к عرعربى にっぽんごにほんご . special ~!@#$%^&*()_+`1234567890-={}|[]:\";'<>?,'"
     );
     const fileClient = fileSystemClient.getFileClient(fileName);
     await fileClient.create({

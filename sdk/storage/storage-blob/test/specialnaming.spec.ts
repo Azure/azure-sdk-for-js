@@ -123,6 +123,29 @@ describe("Special Naming Tests", () => {
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
+  it("Should work with special container and blob names with dots in blobname", async () => {
+    const blobName: string = recorder.getUniqueName("/blobname/./blobname1/../blobname2/blobname3");
+    const blockBlobClient = new BlockBlobClient(
+      appendToURLPath(containerClient.url, blobName),
+      (containerClient as any).pipeline
+    );
+
+    await blockBlobClient.upload("A", 1);
+    await blockBlobClient.getProperties();
+
+    const prefix = "/blobname/blobname2/blobname3";
+    const response = (
+      await containerClient
+        .listBlobsFlat({
+          prefix: prefix,
+        })
+        .byPage()
+        .next()
+    ).value;
+
+    assert.notDeepEqual(response.segment.blobItems.length, 0);
+  });
+
   it("Should work with special container and blob names uppercase in URL string", async () => {
     const blobName: string = recorder.getUniqueName("////Upper/blob/empty /another");
     const blockBlobClient = new BlockBlobClient(

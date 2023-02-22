@@ -9,6 +9,7 @@
 ### Bugs Fixed
 
 - Renamed option 'leaseDuration' to 'leaseDurationInSeconds' in methods DataLakeFileClient.append() and flush(), the option was added in 12.12.0-beta.1.
+- Fixed an issue of getting 403 error for file or directory name with './' or '../'
 
 ## 12.12.0-beta.1 (2023-02-09)
 
