@@ -552,20 +552,22 @@ export class EventHubReceiver extends LinkEntity {
     const readIntervalWaitTimeInMs = 20;
 
     const retrieveEvents = (): Promise<ReceivedEventData[]> => {
-      const eventsCountToRetrieve = Math.max(maxMessageCount - this.queue.length, 0);
+      const eventsToRetrieveCount = Math.max(maxMessageCount - this.queue.length, 0);
       logger.verbose(
-        "[%s] Receiver '%s', already has %d events and wants to receive %d more events.",
+        "[%s] Receiver '%s' already has %d events and wants to receive %d more events.",
         this._context.connectionId,
         this.name,
         this.queue.length,
-        eventsCountToRetrieve
+        eventsToRetrieveCount
       );
       if (abortSignal?.aborted) {
         cleanupBeforeAbort();
         return Promise.reject(new AbortError(StandardAbortMessage));
       }
-      return this._isClosed || this._context.wasConnectionCloseCalled || eventsCountToRetrieve === 0
+      return this._isClosed || this._context.wasConnectionCloseCalled
         ? Promise.resolve(this.queue.splice(0))
+        : eventsToRetrieveCount === 0
+        ? Promise.resolve(this.queue.splice(0, maxMessageCount))
         : new Promise<void>((resolve, reject) => {
             this._onError = (err) => {
               if (err.name === "AbortError") {
@@ -580,7 +582,7 @@ export class EventHubReceiver extends LinkEntity {
               .then(() => {
                 // add credits
                 const existingCredits = this._receiver?.credit ?? 0;
-                const creditsToAdd = Math.max(eventsCountToRetrieve - existingCredits, 0);
+                const creditsToAdd = Math.max(eventsToRetrieveCount - existingCredits, 0);
                 this._addCredit(creditsToAdd);
                 logger.verbose(
                   "[%s] Setting the wait timer for %d seconds for receiver '%s'.",
@@ -599,12 +601,12 @@ export class EventHubReceiver extends LinkEntity {
                   {
                     abortSignal,
                     cleanupBeforeAbort,
-                    receivedAfterWait: (count) =>
+                    receivedAfterWait: () =>
                       logger.info(
                         "[%s] Batching Receiver '%s', %d messages received within %d seconds.",
                         this._context.connectionId,
                         this.name,
-                        count,
+                        Math.min(maxMessageCount, this.queue.length),
                         maxWaitTimeInSeconds
                       ),
                     receivedAlready: () =>
@@ -705,7 +707,7 @@ export function waitForEvents(
   options?: {
     abortSignal?: AbortSignalLike;
     cleanupBeforeAbort?: () => void;
-    receivedAfterWait?: (count: number) => void;
+    receivedAfterWait?: () => void;
     receivedAlready?: () => void;
     receivedNone?: () => void;
   }
@@ -736,7 +738,7 @@ export function waitForEvents(
     : Promise.race([
         checkOnInterval(readIntervalWaitTimeInMs, () => queue.length > 0, updatedOptions)
           .then(() => delay(readIntervalWaitTimeInMs, updatedOptions))
-          .then(() => receivedAfterWait?.(Math.min(queue.length, maxEventCount))),
+          .then(receivedAfterWait),
         delay(maxWaitTimeInMs, updatedOptions).then(receivedNone),
       ]).finally(() => {
         aborter.abort();
