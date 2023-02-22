@@ -7,7 +7,7 @@ import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 
-const partyId = "contoso-party";
+const partyId = "contoso-party-js";
 const boundaryId = "test-boundary";
 describe("List parties", () => {
   let recorder: Recorder;
@@ -15,7 +15,7 @@ describe("List parties", () => {
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
-    client = createClient();
+    client = createClient(recorder.configureClientOptions({}));
   });
 
   afterEach(async function () {

@@ -17,9 +17,9 @@ dotenv.config();
 const endpoint = process.env["FARMBEATS_ENDPOINT"] || "";
 
 async function main() {
-  const farming = FarmBeats(endpoint, new DefaultAzureCredential());
+  const farmbeatsClient = FarmBeats(endpoint, new DefaultAzureCredential());
   const partyId = "test_party";
-  const result = await farming.path("/parties/{partyId}", partyId).delete();
+  const result = await farmbeatsClient.path("/parties/{partyId}", partyId).delete();
   if (isUnexpected(result)) {
     throw result.body.error;
   }

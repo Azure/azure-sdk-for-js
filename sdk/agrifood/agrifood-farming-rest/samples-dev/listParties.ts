@@ -17,14 +17,14 @@ dotenv.config();
 const endpoint = process.env["FARMBEATS_ENDPOINT"] || "";
 
 async function main() {
-  const farming = FarmBeats(endpoint, new DefaultAzureCredential());
-  const response = await farming.path("/parties").get();
+  const farmbeatsClient = FarmBeats(endpoint, new DefaultAzureCredential());
+  const response = await farmbeatsClient.path("/parties").get();
 
   if (isUnexpected(response)) {
     throw response.body.error;
   }
 
-  const parties = paginate(farming, response);
+  const parties = paginate(farmbeatsClient, response);
 
   // Lof each party id
   for await (const party of parties) {

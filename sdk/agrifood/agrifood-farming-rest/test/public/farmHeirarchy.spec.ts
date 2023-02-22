@@ -18,8 +18,8 @@ const startDateTime = new Date("2020-02-01T08:00:00.000Z");
 const endDateTime = new Date("2020-03-02T08:00:00.000Z");
 const suffix = isNode ? "node" : "browser";
 const partyId = `${suffix}-contoso-party`;
-const jobId = `${suffix}-job-36746`;
-const boundaryId = `jhboundary103${suffix}`;
+const jobId = `${suffix}-job-48673`;
+const boundaryId = `${suffix}-contoso-boundary`;
 const testparty = {
   name: "Contoso party",
   description: "Your custom party description here",
@@ -33,7 +33,7 @@ describe("party Operations", () => {
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
-    client = createClient();
+    client = createClient(recorder.configureClientOptions({}));
   });
 
   afterEach(async function () {
