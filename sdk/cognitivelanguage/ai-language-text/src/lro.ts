@@ -63,7 +63,7 @@ function addOnResponse<TOptions extends OperationOptions>(
 function logWarnHeader(rawResponse: FullOperationResponse) {
   const warnHeader = rawResponse.headers.get("warn-text");
   if (warnHeader) {
-    warnHeader.split(";").map(logger.warning);
+    warnHeader.split(";").map((x) => logger.warning(x));
   }
 }
 
