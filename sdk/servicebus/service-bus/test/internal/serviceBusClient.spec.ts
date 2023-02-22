@@ -258,25 +258,40 @@ describe("ServiceBusClient live tests", () => {
         );
         const sender = sbClientWithRelaxedEndPoint.createSender(entities.queue || entities.topic!);
         const receiverOptions: ServiceBusReceiverOptions = {
-          skipParsingBodyAsJson: true
+          skipParsingBodyAsJson: true,
+          skipConvertingDate: true,
         };
         const receiver = entities.queue
           ? sbClientWithRelaxedEndPoint.createReceiver(entities.queue, receiverOptions)
-          : sbClientWithRelaxedEndPoint.createReceiver(entities.topic!, entities.subscription!, receiverOptions);
+          : sbClientWithRelaxedEndPoint.createReceiver(
+              entities.topic!,
+              entities.subscription!,
+              receiverOptions
+            );
         try {
           // Send and receive messages
-          const testMessages = [ {
-            // body: Long.fromString("12345678901234567890"),
-            body: { id: 123456789 },
-          }];
+          const testMessages = [
+            {
+              // body: Long.fromString("12345678901234567890"),
+              body: { id: 123456789 },
+              applicationProperties: { createdOn: new Date() },
+            },
+          ];
           await sender.sendMessages(testMessages);
 
-          let peekedMsgs = await receiver.peekMessages(2, {
+          const peekedMsgs = await receiver.peekMessages(2, {
             fromSequenceNumber: Long.ZERO,
           });
           should.equal(peekedMsgs.length, 1, "expecting one peeked message 1");
           peekedMsgs[0].body.should.not.deep.equal({ id: 123456789 });
           peekedMsgs[0].body.constructor.name.should.equal("Buffer");
+          if (!peekedMsgs[0].applicationProperties) {
+            throw new Error("Test failed. expect valid applicationProperties on peeked message");
+          }
+          if (!peekedMsgs[0].applicationProperties["createdOn"]) {
+            throw new Error("Test failed. expect valid createdOn property");
+          }
+          peekedMsgs[0].applicationProperties["createdOn"].constructor.name.should.equal("Date");
 
           await receiver.receiveMessages(2);
           await testPeekMsgsLength(receiver, 0);

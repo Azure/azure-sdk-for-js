@@ -402,7 +402,7 @@ describe("AbortSignal", () => {
         "entityPath",
         "peekLock",
         false,
-        false,
+        false
       );
 
       try {
