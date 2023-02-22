@@ -347,9 +347,9 @@ export class ManagedIdentityCredential implements TokenCredential {
         throw error;
       }
       console.log("There is an error:");
-      console.dir("err => ",err);
-      console.log("err.code => ",err.code);
-      console.log("err.message => ",err.message)
+      console.dir("err => ", err);
+      console.log("err.code => ", err.code);
+      console.log("err.message => ", err.message);
       console.log("err.name => ", err.name);
       // If err.statusCode has a value of 400, it comes from sendTokenRequest,
       // and it means that the endpoint is working, but that no identity is available.

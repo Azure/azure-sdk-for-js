@@ -1060,22 +1060,29 @@ describe("ManagedIdentityCredential", function () {
       // - Non-default AZURE_AUTHORITY_HOST.
       // - Support for single scopes.
 
-      const testTitle = this.test?.title || Date.now().toString();
+      const testTitle = "file-exchange-msi"+ Date.now().toString();
       const tempDir = mkdtempSync(join(tmpdir(), testTitle));
       const tempFile = join(tempDir, testTitle);
       const expectedAssertion = "{}";
       writeFileSync(tempFile, expectedAssertion, { encoding: "utf8" });
 
       // Trigger token file path by setting environment variables
-      process.env.AZURE_TENANT_ID = "my-tenant-id";
+      process.env.AZURE_TENANT_ID = "72f988bf-86f1-41af-91ab-2d7cd011db47" || "my-tenant-id";
       process.env.AZURE_FEDERATED_TOKEN_FILE = tempFile;
       process.env.AZURE_AUTHORITY_HOST = AzureAuthorityHosts.AzureGovernment;
-
-      const parameterClientId = "client";
-
-      const authDetails = await testContext.sendCredentialRequests({
-        scopes: ["https://service/.default"],
-        credential: new ManagedIdentityCredential(parameterClientId),
+      process.env.AZURE_CLIENT_ID = "client_id";
+      const parameterClientId = "f850650c-1fcf-4489-b46f-71af2e30d360";
+      // const credential = new WorkloadIdentityCredential({
+      //   clientId: "client_id",
+      //   tenantId: "72f988bf-86f1-41af-91ab-2d7cd011db47",
+      //   federatedTokenFilePath: tempFile
+      // })
+      // let token =  await credential.getToken("https://service/.default");
+      // console.dir(token);
+      
+       const authDetails = await testContext.sendCredentialRequests({
+        scopes: ["https://vault.azure.com/.default"],
+        credential: new ManagedIdentityCredential(parameterClientId) ,
         secureResponses: [
           createResponse(200, {
             access_token: "token",
@@ -1086,6 +1093,8 @@ describe("ManagedIdentityCredential", function () {
       console.dir(authDetails);
       const authRequest = authDetails.requests[0];
       console.log(authRequest);
+      
+      
       // const body = new URLSearchParams(authRequest.body);
       // console.log(body);
       // assert.strictEqual(
@@ -1100,8 +1109,11 @@ describe("ManagedIdentityCredential", function () {
       //   "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"
       // );
       // assert.strictEqual(decodeURIComponent(body.get("scope")!), "https://service/.default");
+
       assert.strictEqual(authDetails.result!.token, "token");
       assert.strictEqual(authDetails.result!.expiresOnTimestamp, 1000);
+
+     
     });
     it("reads from the token file again only after 5 minutes have passed", async function (this: Mocha.Context) {
       // Keep in mind that in this test we're also testing:

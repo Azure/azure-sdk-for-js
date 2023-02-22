@@ -1,12 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
+import { AuthorityValidationOptions } from "./authorityValidationOptions";
+import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions";
 
 /**
  * Options for the {@link WorkloadIdentityCredential}
  */
-export interface WorkloadIdentityCredentialOptions extends TokenCredentialOptions {
+export interface WorkloadIdentityCredentialOptions
+  extends MultiTenantTokenCredentialOptions,
+    AuthorityValidationOptions {
   /**
    * ID of the application's Azure Active Directory tenant. Also called its directory ID.
    */

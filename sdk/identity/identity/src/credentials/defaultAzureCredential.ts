@@ -5,7 +5,6 @@ import {
   DefaultAzureCredentialClientIdOptions,
   DefaultAzureCredentialOptions,
   DefaultAzureCredentialResourceIdOptions,
-  DefaultAzureWorkloadCredentialOptions,
 } from "./defaultAzureCredentialOptions";
 import {
   ManagedIdentityCredential,
@@ -31,7 +30,6 @@ interface DefaultCredentialConstructor {
   new (options?: DefaultAzureCredentialOptions): TokenCredential;
   new (options?: DefaultAzureCredentialResourceIdOptions): TokenCredential;
   new (options?: DefaultAzureCredentialClientIdOptions): TokenCredential;
-  new (options?: DefaultAzureWorkloadCredentialOptions): TokenCredential;
 }
 
 /**
@@ -41,8 +39,6 @@ interface DefaultCredentialConstructor {
  * @internal
  */
 export class DefaultManagedIdentityCredential extends ManagedIdentityCredential {
-  // Constructor overload with file and client ID options
-  constructor(options?: DefaultAzureWorkloadCredentialOptions);
   // Constructor overload with just client id options
   constructor(options?: DefaultAzureCredentialClientIdOptions);
   // Constructor overload with just resource id options
@@ -55,9 +51,7 @@ export class DefaultManagedIdentityCredential extends ManagedIdentityCredential 
       process.env.AZURE_CLIENT_ID;
     const managedResourceId = (options as DefaultAzureCredentialResourceIdOptions)
       ?.managedIdentityResourceId;
-    const workloadFile =
-      (options as DefaultAzureWorkloadCredentialOptions)?.federatedTokenFilePath ??
-      process.env.AZURE_FEDERATED_TOKEN_FILE;
+    const workloadFile = process.env.AZURE_FEDERATED_TOKEN_FILE;
 
     // ManagedIdentityCredential throws if both the resourceId and the clientId are provided.
     if (managedResourceId) {
