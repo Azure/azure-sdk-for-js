@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0-beta.3 (Unreleased)
+## 4.0.0-beta.4 (Unreleased)
 
 ### Features Added
 
@@ -9,7 +9,8 @@
 ### Bugs Fixed
 
 ### Other Changes
-## 4.0.0-beta.2 (2022-08-19)
+
+## 4.0.0-beta.3 (2023-01-12)
     
 **Features**
 
@@ -107,9 +108,6 @@
   - Added Type Alias VerificationStatus
   - Added Type Alias VerificationType
   - Interface Resource has a new optional parameter systemData
-  - Class CommunicationServiceManagementClient has a new parameter communicationServices
-  - Class CommunicationServiceManagementClient has a new parameter domains
-  - Class CommunicationServiceManagementClient has a new parameter emailServices
   - Added Enum KnownCheckNameAvailabilityReason
   - Added Enum KnownCommunicationServicesProvisioningState
   - Added Enum KnownDomainManagement
@@ -118,12 +116,11 @@
   - Added Enum KnownUserEngagementTracking
   - Added Enum KnownVerificationStatus
   - Added Enum KnownVerificationType
+  - Added function getContinuationToken
 
 **Breaking Changes**
 
   - Removed operation group CommunicationService
-  - Interface NameAvailabilityParameters no longer has parameter name
-  - Interface NameAvailabilityParameters no longer has parameter type
   - Class CommunicationServiceManagementClient no longer has parameter communicationService
   - Removed Enum KnownProvisioningState
     

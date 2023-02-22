@@ -13,15 +13,20 @@ import {
   ContainerRegistryManagementClient
 } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Checks whether the container registry name is available for use. The name must contain only alphanumeric characters, be globally unique, and between 5 and 50 characters in length.
  *
  * @summary Checks whether the container registry name is available for use. The name must contain only alphanumeric characters, be globally unique, and between 5 and 50 characters in length.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2022-02-01-preview/examples/RegistryCheckNameAvailable.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-01-01-preview/examples/RegistryCheckNameAvailable.json
  */
 async function registryCheckNameAvailable() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const registryNameCheckRequest: RegistryNameCheckRequest = {
     name: "myRegistry",
     type: "Microsoft.ContainerRegistry/registries"
@@ -36,17 +41,17 @@ async function registryCheckNameAvailable() {
   );
   console.log(result);
 }
-
-registryCheckNameAvailable().catch(console.error);
 
 /**
  * This sample demonstrates how to Checks whether the container registry name is available for use. The name must contain only alphanumeric characters, be globally unique, and between 5 and 50 characters in length.
  *
  * @summary Checks whether the container registry name is available for use. The name must contain only alphanumeric characters, be globally unique, and between 5 and 50 characters in length.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2022-02-01-preview/examples/RegistryCheckNameNotAvailable.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-01-01-preview/examples/RegistryCheckNameNotAvailable.json
  */
 async function registryCheckNameNotAvailable() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const registryNameCheckRequest: RegistryNameCheckRequest = {
     name: "myRegistry",
     type: "Microsoft.ContainerRegistry/registries"
@@ -62,4 +67,9 @@ async function registryCheckNameNotAvailable() {
   console.log(result);
 }
 
-registryCheckNameNotAvailable().catch(console.error);
+async function main() {
+  registryCheckNameAvailable();
+  registryCheckNameNotAvailable();
+}
+
+main().catch(console.error);

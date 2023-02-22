@@ -1,0 +1,68 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.LoadTestService/locations/westus2/quotas?api-version=2022-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-loadtesting/1.0.0 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "a9c35e4d-dcc4-476c-8e3f-cbe22571bbc4"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Sat, 28 Jan 2023 06:10:07 GMT",
+        "Expires": "-1",
+        "mise-correlation-id": "db0cbf4c-cfec-4280-b2f9-86965ab9e3ab",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "223e5a04-3f54-42d1-958a-3c039b0c122c",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-reads": "11999",
+        "x-ms-request-id": "78558c40-8b06-451d-b01e-009e00124c91",
+        "x-ms-routing-request-id": "KOREASOUTH:20230128T061007Z:223e5a04-3f54-42d1-958a-3c039b0c122c"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.LoadTestService/locations/westus2/quotas/maxConcurrentTestRuns",
+            "name": "maxConcurrentTestRuns",
+            "type": "Microsoft.LoadTestService/Locations/Quotas",
+            "properties": {
+              "usage": 0,
+              "limit": 25
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.LoadTestService/locations/westus2/quotas/maxConcurrentEngineInstances",
+            "name": "maxConcurrentEngineInstances",
+            "type": "Microsoft.LoadTestService/Locations/Quotas",
+            "properties": {
+              "usage": 0,
+              "limit": 100
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.LoadTestService/locations/westus2/quotas/maxEngineInstancesPerTestRun",
+            "name": "maxEngineInstancesPerTestRun",
+            "type": "Microsoft.LoadTestService/Locations/Quotas",
+            "properties": {
+              "usage": 0,
+              "limit": 45
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

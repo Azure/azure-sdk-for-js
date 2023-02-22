@@ -294,7 +294,6 @@ export interface ActivityLogs {
 
 // @public
 export interface ActivityLogsListNextOptionalParams extends coreClient.OperationOptions {
-    select?: string;
 }
 
 // @public
@@ -1392,6 +1391,9 @@ export interface ExtensionDataSource {
     name?: string;
     streams?: KnownExtensionDataSourceStreams[];
 }
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface HttpRequestInfo {
@@ -3169,8 +3171,6 @@ export interface TenantActivityLogs {
 
 // @public
 export interface TenantActivityLogsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    select?: string;
 }
 
 // @public

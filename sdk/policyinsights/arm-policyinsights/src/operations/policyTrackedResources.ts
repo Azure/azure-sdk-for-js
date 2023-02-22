@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PolicyTrackedResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,15 +18,15 @@ import {
   PolicyTrackedResourcesResourceType,
   PolicyTrackedResourcesListQueryResultsForManagementGroupNextOptionalParams,
   PolicyTrackedResourcesListQueryResultsForManagementGroupOptionalParams,
+  PolicyTrackedResourcesListQueryResultsForManagementGroupResponse,
   PolicyTrackedResourcesListQueryResultsForSubscriptionNextOptionalParams,
   PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams,
+  PolicyTrackedResourcesListQueryResultsForSubscriptionResponse,
   PolicyTrackedResourcesListQueryResultsForResourceGroupNextOptionalParams,
   PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams,
+  PolicyTrackedResourcesListQueryResultsForResourceGroupResponse,
   PolicyTrackedResourcesListQueryResultsForResourceNextOptionalParams,
   PolicyTrackedResourcesListQueryResultsForResourceOptionalParams,
-  PolicyTrackedResourcesListQueryResultsForManagementGroupResponse,
-  PolicyTrackedResourcesListQueryResultsForSubscriptionResponse,
-  PolicyTrackedResourcesListQueryResultsForResourceGroupResponse,
   PolicyTrackedResourcesListQueryResultsForResourceResponse,
   PolicyTrackedResourcesListQueryResultsForManagementGroupNextResponse,
   PolicyTrackedResourcesListQueryResultsForSubscriptionNextResponse,
@@ -70,11 +71,15 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listQueryResultsForManagementGroupPagingPage(
           managementGroupName,
           policyTrackedResourcesResource,
-          options
+          options,
+          settings
         );
       }
     };
@@ -83,15 +88,22 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
   private async *listQueryResultsForManagementGroupPagingPage(
     managementGroupName: string,
     policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
-    options?: PolicyTrackedResourcesListQueryResultsForManagementGroupOptionalParams
+    options?: PolicyTrackedResourcesListQueryResultsForManagementGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PolicyTrackedResource[]> {
-    let result = await this._listQueryResultsForManagementGroup(
-      managementGroupName,
-      policyTrackedResourcesResource,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PolicyTrackedResourcesListQueryResultsForManagementGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listQueryResultsForManagementGroup(
+        managementGroupName,
+        policyTrackedResourcesResource,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listQueryResultsForManagementGroupNext(
         managementGroupName,
@@ -100,7 +112,9 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -139,10 +153,14 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listQueryResultsForSubscriptionPagingPage(
           policyTrackedResourcesResource,
-          options
+          options,
+          settings
         );
       }
     };
@@ -150,14 +168,21 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
 
   private async *listQueryResultsForSubscriptionPagingPage(
     policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
-    options?: PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams
+    options?: PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PolicyTrackedResource[]> {
-    let result = await this._listQueryResultsForSubscription(
-      policyTrackedResourcesResource,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PolicyTrackedResourcesListQueryResultsForSubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listQueryResultsForSubscription(
+        policyTrackedResourcesResource,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listQueryResultsForSubscriptionNext(
         policyTrackedResourcesResource,
@@ -165,7 +190,9 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -205,11 +232,15 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listQueryResultsForResourceGroupPagingPage(
           resourceGroupName,
           policyTrackedResourcesResource,
-          options
+          options,
+          settings
         );
       }
     };
@@ -218,15 +249,22 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
   private async *listQueryResultsForResourceGroupPagingPage(
     resourceGroupName: string,
     policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
-    options?: PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams
+    options?: PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PolicyTrackedResource[]> {
-    let result = await this._listQueryResultsForResourceGroup(
-      resourceGroupName,
-      policyTrackedResourcesResource,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PolicyTrackedResourcesListQueryResultsForResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listQueryResultsForResourceGroup(
+        resourceGroupName,
+        policyTrackedResourcesResource,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listQueryResultsForResourceGroupNext(
         resourceGroupName,
@@ -235,7 +273,9 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -277,11 +317,15 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listQueryResultsForResourcePagingPage(
           resourceId,
           policyTrackedResourcesResource,
-          options
+          options,
+          settings
         );
       }
     };
@@ -290,15 +334,22 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
   private async *listQueryResultsForResourcePagingPage(
     resourceId: string,
     policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
-    options?: PolicyTrackedResourcesListQueryResultsForResourceOptionalParams
+    options?: PolicyTrackedResourcesListQueryResultsForResourceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PolicyTrackedResource[]> {
-    let result = await this._listQueryResultsForResource(
-      resourceId,
-      policyTrackedResourcesResource,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PolicyTrackedResourcesListQueryResultsForResourceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listQueryResultsForResource(
+        resourceId,
+        policyTrackedResourcesResource,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listQueryResultsForResourceNext(
         resourceId,
@@ -307,7 +358,9 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -588,7 +641,6 @@ const listQueryResultsForManagementGroupNextOperationSpec: coreClient.OperationS
       bodyMapper: Mappers.QueryFailure
     }
   },
-  queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.managementGroupsNamespace,
@@ -610,7 +662,6 @@ const listQueryResultsForSubscriptionNextOperationSpec: coreClient.OperationSpec
       bodyMapper: Mappers.QueryFailure
     }
   },
-  queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.policyTrackedResourcesResource,
@@ -631,7 +682,6 @@ const listQueryResultsForResourceGroupNextOperationSpec: coreClient.OperationSpe
       bodyMapper: Mappers.QueryFailure
     }
   },
-  queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.policyTrackedResourcesResource,
@@ -653,7 +703,6 @@ const listQueryResultsForResourceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.QueryFailure
     }
   },
-  queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.policyTrackedResourcesResource,

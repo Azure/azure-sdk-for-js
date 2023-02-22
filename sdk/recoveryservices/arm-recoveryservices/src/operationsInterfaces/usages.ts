@@ -14,8 +14,7 @@ import { VaultUsage, UsagesListByVaultsOptionalParams } from "../models";
 export interface Usages {
   /**
    * Fetches the usages of the vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the recovery services vault.
    * @param options The options parameters.
    */

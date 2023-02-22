@@ -1203,6 +1203,15 @@
           {
             "label": "Mgmt",
             "pathFilter": [
+              "sdk/appservice/arm-appservice-rest"
+            ],
+            "exclude": [
+              ""
+            ]
+          },          
+          {
+            "label": "Mgmt",
+            "pathFilter": [
               "sdk/appservice/arm-appservice-profile-2019-03-01-hybrid"
             ],
             "exclude": [
@@ -1392,6 +1401,15 @@
           {
             "label": "Mgmt",
             "pathFilter": [
+              "sdk/compute/arm-compute-rest"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
               "sdk/compute/arm-compute-profile-2019-03-01-hybrid"
             ],
             "exclude": [
@@ -1447,6 +1465,15 @@
             "label": "Mgmt",
             "pathFilter": [
               "sdk/containerservice/arm-containerservice"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/containerservice/arm-containerservice-rest"
             ],
             "exclude": [
               ""
@@ -2049,6 +2076,15 @@
           {
             "label": "Mgmt",
             "pathFilter": [
+              "sdk/mysql/arm-mysql-rest"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
               "sdk/netapp/arm-netapp"
             ],
             "exclude": [
@@ -2059,6 +2095,15 @@
             "label": "Mgmt",
             "pathFilter": [
               "sdk/network/arm-network"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/network/arm-network-rest"
             ],
             "exclude": [
               ""
@@ -2365,6 +2410,15 @@
             "label": "Mgmt",
             "pathFilter": [
               "sdk/servicefabric/arm-servicefabric"
+            ],
+            "exclude": [
+              ""
+            ]
+          },
+          {
+            "label": "Mgmt",
+            "pathFilter": [
+              "sdk/servicefabric/arm-servicefabric-rest"
             ],
             "exclude": [
               ""

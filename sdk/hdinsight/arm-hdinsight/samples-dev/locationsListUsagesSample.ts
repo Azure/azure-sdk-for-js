@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { HDInsightManagementClient } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists the usages for the specified location.
@@ -18,7 +21,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/GetHDInsightUsages.json
  */
 async function getTheSubscriptionUsagesForSpecificLocation() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
   const location = "West US";
   const credential = new DefaultAzureCredential();
   const client = new HDInsightManagementClient(credential, subscriptionId);
@@ -26,4 +29,8 @@ async function getTheSubscriptionUsagesForSpecificLocation() {
   console.log(result);
 }
 
-getTheSubscriptionUsagesForSpecificLocation().catch(console.error);
+async function main() {
+  getTheSubscriptionUsagesForSpecificLocation();
+}
+
+main().catch(console.error);

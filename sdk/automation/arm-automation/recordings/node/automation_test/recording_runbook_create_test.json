@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "149",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-automation/11.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "fb153ee8-e72d-407d-9b95-e3a7a71a56df"
+        "User-Agent": "azsdk-js-arm-automation/11.0.0-beta.4 core-rest-pipeline/1.10.1 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "6adf8f6d-3e6f-438f-abe4-f51b6a0103dc"
       },
       "RequestBody": {
         "name": "myRunbookxx",
@@ -28,20 +28,20 @@
       "StatusCode": 201,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Length": "705",
+        "Content-Length": "703",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 28 Jul 2022 06:21:25 GMT",
-        "ETag": "\u0022637945860847630000\u0022",
+        "Date": "Tue, 27 Dec 2022 02:46:07 GMT",
+        "ETag": "\u0022638077059664500000\u0022",
         "Expires": "-1",
         "Location": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Automation/automationAccounts/myAutomationxxx/runbooks/myRunbookxx?api-version=2018-06-30",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "0c7ec25c-d8e0-449e-8672-688f78070256",
-        "x-ms-ratelimit-remaining-subscription-writes": "1199",
-        "x-ms-request-id": "fb153ee8-e72d-407d-9b95-e3a7a71a56df",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220728T062126Z:0c7ec25c-d8e0-449e-8672-688f78070256"
+        "x-ms-correlation-request-id": "e99812ba-d73a-43a1-88ab-2e1b6c6dfb99",
+        "x-ms-ratelimit-remaining-subscription-writes": "1198",
+        "x-ms-request-id": "6adf8f6d-3e6f-438f-abe4-f51b6a0103dc",
+        "x-ms-routing-request-id": "KOREASOUTH:20221227T024607Z:e99812ba-d73a-43a1-88ab-2e1b6c6dfb99"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Automation/automationAccounts/myAutomationxxx/runbooks/myRunbookxx",
@@ -52,7 +52,7 @@
           "tag01": "value01",
           "tag02": "value02"
         },
-        "etag": "\u0022637945860847630000\u0022",
+        "etag": "\u0022638077059664500000\u0022",
         "properties": {
           "description": null,
           "logVerbose": false,
@@ -65,9 +65,9 @@
           "provisioningState": "Succeeded",
           "serviceManagementTags": null,
           "outputTypes": [],
-          "creationTime": "2022-07-28T06:21:24.763\u002B00:00",
+          "creationTime": "2022-12-27T02:46:06.45\u002B00:00",
           "lastModifiedBy": null,
-          "lastModifiedTime": "2022-07-28T06:21:24.763\u002B00:00"
+          "lastModifiedTime": "2022-12-27T02:46:06.45\u002B00:00"
         }
       }
     }

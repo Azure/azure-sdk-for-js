@@ -1,14 +1,10 @@
 # Release History
 
-## 1.0.0-beta.9 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.0.0 (2023-02-16)
 
 ### Bugs Fixed
 
-### Other Changes
+- Rollup configuration fixed [#24839](https://github.com/Azure/azure-sdk-for-js/pull/24839)
 
 ## 1.0.0-beta.8 (2022-11-21)
 

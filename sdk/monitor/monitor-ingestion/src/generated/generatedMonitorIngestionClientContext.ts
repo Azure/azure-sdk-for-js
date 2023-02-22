@@ -62,6 +62,6 @@ export class GeneratedMonitorIngestionClientContext extends coreClient.ServiceCl
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2021-11-01-preview";
+    this.apiVersion = options.apiVersion || "2023-01-01";
   }
 }

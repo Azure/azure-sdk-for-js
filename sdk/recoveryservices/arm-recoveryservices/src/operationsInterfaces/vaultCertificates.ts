@@ -16,8 +16,7 @@ import {
 export interface VaultCertificates {
   /**
    * Uploads a certificate for a resource.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the recovery services vault.
    * @param certificateName Certificate friendly name.
    * @param certificateRequest Input parameters for uploading the vault certificate.

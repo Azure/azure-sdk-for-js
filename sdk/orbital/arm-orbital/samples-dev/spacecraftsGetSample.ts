@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { AzureOrbital } from "@azure/arm-orbital";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the specified spacecraft in a specified resource group
@@ -18,8 +21,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/SpacecraftGet.json
  */
 async function getSpacecraft() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["ORBITAL_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["ORBITAL_RESOURCE_GROUP"] || "rg1";
   const spacecraftName = "AQUA";
   const credential = new DefaultAzureCredential();
   const client = new AzureOrbital(credential, subscriptionId);
@@ -30,4 +33,8 @@ async function getSpacecraft() {
   console.log(result);
 }
 
-getSpacecraft().catch(console.error);
+async function main() {
+  getSpacecraft();
+}
+
+main().catch(console.error);

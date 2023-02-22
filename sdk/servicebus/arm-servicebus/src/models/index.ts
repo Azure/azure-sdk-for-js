@@ -22,7 +22,7 @@ export interface SBSku {
   name: SkuName;
   /** The billing tier of this particular SKU. */
   tier?: SkuTier;
-  /** The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4. */
+  /** Messaging units for your service bus premium namespace. Valid capacities are {1, 2, 4, 8, 16} multiples of your properties.premiumMessagingPartitions setting. For example, If properties.premiumMessagingPartitions is 1 then possible capacity values are 1, 2, 4, 8, and 16. If properties.premiumMessagingPartitions is 4 then possible capacity values are 4, 8, 16, 32 and 64 */
   capacity?: number;
 }
 
@@ -881,6 +881,8 @@ export interface SBNamespace extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
+  /** The minimum TLS version for the cluster to support, e.g. '1.2' */
+  minimumTlsVersion?: TlsVersion;
   /**
    * Provisioning state of the namespace.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -921,6 +923,10 @@ export interface SBNamespace extends TrackedResource {
   disableLocalAuth?: boolean;
   /** Alternate name for namespace */
   alternateName?: string;
+  /** This determines if traffic is allowed over public network. By default it is enabled. */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** The number of partitions of a Service Bus namespace. This property is only applicable to Premium SKU namespaces. The default value is 1 and possible values are 1, 2 and 4 */
+  premiumMessagingPartitions?: number;
 }
 
 /** Description of a namespace resource. */
@@ -993,6 +999,27 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** Known values of {@link TlsVersion} that the service accepts. */
+export enum KnownTlsVersion {
+  /** One0 */
+  One0 = "1.0",
+  /** One1 */
+  One1 = "1.1",
+  /** One2 */
+  One2 = "1.2"
+}
+
+/**
+ * Defines values for TlsVersion. \
+ * {@link KnownTlsVersion} can be used interchangeably with TlsVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **1.0** \
+ * **1.1** \
+ * **1.2**
+ */
+export type TlsVersion = string;
+
 /** Known values of {@link PrivateLinkConnectionStatus} that the service accepts. */
 export enum KnownPrivateLinkConnectionStatus {
   /** Pending */
@@ -1046,6 +1073,27 @@ export enum KnownEndPointProvisioningState {
  * **Failed**
  */
 export type EndPointProvisioningState = string;
+
+/** Known values of {@link PublicNetworkAccess} that the service accepts. */
+export enum KnownPublicNetworkAccess {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** SecuredByPerimeter */
+  SecuredByPerimeter = "SecuredByPerimeter"
+}
+
+/**
+ * Defines values for PublicNetworkAccess. \
+ * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled** \
+ * **SecuredByPerimeter**
+ */
+export type PublicNetworkAccess = string;
 
 /** Known values of {@link MigrationConfigurationName} that the service accepts. */
 export enum KnownMigrationConfigurationName {

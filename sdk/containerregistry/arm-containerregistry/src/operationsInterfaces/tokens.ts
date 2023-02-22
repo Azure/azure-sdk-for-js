@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Token,
   TokensListOptionalParams,
@@ -26,7 +26,7 @@ import {
 export interface Tokens {
   /**
    * Lists all the tokens for the specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -37,7 +37,7 @@ export interface Tokens {
   ): PagedAsyncIterableIterator<Token>;
   /**
    * Gets the properties of the specified token.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param tokenName The name of the token.
    * @param options The options parameters.
@@ -50,7 +50,7 @@ export interface Tokens {
   ): Promise<TokensGetResponse>;
   /**
    * Creates a token for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param tokenName The name of the token.
    * @param tokenCreateParameters The parameters for creating a token.
@@ -63,11 +63,11 @@ export interface Tokens {
     tokenCreateParameters: Token,
     options?: TokensCreateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<TokensCreateResponse>, TokensCreateResponse>
+    SimplePollerLike<OperationState<TokensCreateResponse>, TokensCreateResponse>
   >;
   /**
    * Creates a token for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param tokenName The name of the token.
    * @param tokenCreateParameters The parameters for creating a token.
@@ -82,7 +82,7 @@ export interface Tokens {
   ): Promise<TokensCreateResponse>;
   /**
    * Deletes a token from a container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param tokenName The name of the token.
    * @param options The options parameters.
@@ -92,10 +92,10 @@ export interface Tokens {
     registryName: string,
     tokenName: string,
     options?: TokensDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a token from a container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param tokenName The name of the token.
    * @param options The options parameters.
@@ -108,7 +108,7 @@ export interface Tokens {
   ): Promise<void>;
   /**
    * Updates a token with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param tokenName The name of the token.
    * @param tokenUpdateParameters The parameters for updating a token.
@@ -121,11 +121,11 @@ export interface Tokens {
     tokenUpdateParameters: TokenUpdateParameters,
     options?: TokensUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<TokensUpdateResponse>, TokensUpdateResponse>
+    SimplePollerLike<OperationState<TokensUpdateResponse>, TokensUpdateResponse>
   >;
   /**
    * Updates a token with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param tokenName The name of the token.
    * @param tokenUpdateParameters The parameters for updating a token.

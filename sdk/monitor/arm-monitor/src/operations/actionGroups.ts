@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ActionGroups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,7 +17,9 @@ import { LroImpl } from "../lroImpl";
 import {
   ActionGroupResource,
   ActionGroupsListBySubscriptionIdOptionalParams,
+  ActionGroupsListBySubscriptionIdResponse,
   ActionGroupsListByResourceGroupOptionalParams,
+  ActionGroupsListByResourceGroupResponse,
   ActionGroupsCreateOrUpdateOptionalParams,
   ActionGroupsCreateOrUpdateResponse,
   ActionGroupsGetOptionalParams,
@@ -39,8 +41,6 @@ import {
   ActionGroupsGetTestNotificationsAtResourceGroupLevelResponse,
   ActionGroupsGetTestNotificationsAtActionGroupResourceLevelOptionalParams,
   ActionGroupsGetTestNotificationsAtActionGroupResourceLevelResponse,
-  ActionGroupsListBySubscriptionIdResponse,
-  ActionGroupsListByResourceGroupResponse,
   EnableRequest,
   ActionGroupsEnableReceiverOptionalParams
 } from "../models";
@@ -73,16 +73,21 @@ export class ActionGroupsImpl implements ActionGroups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionIdPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionIdPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionIdPagingPage(
-    options?: ActionGroupsListBySubscriptionIdOptionalParams
+    options?: ActionGroupsListBySubscriptionIdOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ActionGroupResource[]> {
-    let result = await this._listBySubscriptionId(options);
+    let result: ActionGroupsListBySubscriptionIdResponse;
+    result = await this._listBySubscriptionId(options);
     yield result.value || [];
   }
 
@@ -111,17 +116,26 @@ export class ActionGroupsImpl implements ActionGroups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: ActionGroupsListByResourceGroupOptionalParams
+    options?: ActionGroupsListByResourceGroupOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ActionGroupResource[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
+    let result: ActionGroupsListByResourceGroupResponse;
+    result = await this._listByResourceGroup(resourceGroupName, options);
     yield result.value || [];
   }
 

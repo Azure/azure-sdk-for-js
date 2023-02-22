@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { CommonOptions } from "@azure/storage-blob";
-import { AbortSignalLike } from "@azure/core-http";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * Options to configure {@link BlobChangeFeedClient.listChanges} operation.

@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deletes the data connection with the given name.
  *
  * @summary Deletes the data connection with the given name.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDataConnectionsDelete.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoDataConnectionsDelete.json
  */
 async function kustoDataConnectionsDelete() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = "kustorptest";
+  const subscriptionId =
+    process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
+  const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
   const clusterName = "kustoCluster";
   const databaseName = "KustoDatabase8";
   const dataConnectionName = "dataConnectionTest";
@@ -34,4 +36,8 @@ async function kustoDataConnectionsDelete() {
   console.log(result);
 }
 
-kustoDataConnectionsDelete().catch(console.error);
+async function main() {
+  kustoDataConnectionsDelete();
+}
+
+main().catch(console.error);
