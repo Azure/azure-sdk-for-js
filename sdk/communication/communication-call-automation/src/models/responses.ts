@@ -8,15 +8,15 @@ import { CallConnectionPropertiesDto, CallParticipant } from "./models";
  * The interface used as parent of [action]CallResult
  */
 interface CallResult {
-    /*
-     * The callConnectionProperties
-     */
-    callConnectionProperties: CallConnectionPropertiesDto;
+  /*
+   * The callConnectionProperties
+   */
+  callConnectionProperties: CallConnectionPropertiesDto;
 
-    /*
-     * The callConnection
-     */
-    callConnection: CallConnection;
+  /*
+   * The callConnection
+   */
+  callConnection: CallConnection;
 }
 
 /**
@@ -31,28 +31,28 @@ export type AnswerCallResult = CallResult;
 
 /** The response payload for getting participants of the call. */
 export interface ListParticipantsResult {
-    /** List of the current participants in the call. */
-    values?: CallParticipant[];
-    /** Continue of the list of participants */
-    nextLink?: string;
+  /** List of the current participants in the call. */
+  values?: CallParticipant[];
+  /** Continue of the list of participants */
+  nextLink?: string;
 }
 
 /** The response payload for adding participants to the call. */
 export interface AddParticipantsResult {
-    /** List of current participants in the call. */
-    participants?: CallParticipant[];
-    /** The operation context provided by client. */
-    operationContext?: string;
+  /** List of current participants in the call. */
+  participants?: CallParticipant[];
+  /** The operation context provided by client. */
+  operationContext?: string;
 }
 
 /** The response payload for transferring the call. */
 export interface TransferCallResult {
-    /** The operation context provided by client. */
-    operationContext?: string;
+  /** The operation context provided by client. */
+  operationContext?: string;
 }
 
 /** The response payload for removing participants from the call. */
 export interface RemoveParticipantsResult {
-    /** The operation context provided by client. */
-    operationContext?: string;
+  /** The operation context provided by client. */
+  operationContext?: string;
 }

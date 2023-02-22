@@ -21,12 +21,18 @@ import {
   CallConnectionTransferToParticipantResponse,
   CallConnectionGetParticipantsOptionalParams,
   CallConnectionGetParticipantsResponse,
-  AddParticipantsRequest,
+  AddParticipantRequest,
   CallConnectionAddParticipantOptionalParams,
   CallConnectionAddParticipantResponse,
-  RemoveParticipantsRequest,
-  CallConnectionRemoveParticipantsOptionalParams,
-  CallConnectionRemoveParticipantsResponse,
+  RemoveParticipantRequest,
+  CallConnectionRemoveParticipantOptionalParams,
+  CallConnectionRemoveParticipantResponse,
+  MuteParticipantsRequest,
+  CallConnectionMuteOptionalParams,
+  CallConnectionMuteResponse,
+  UnmuteParticipantsRequest,
+  CallConnectionUnmuteOptionalParams,
+  CallConnectionUnmuteResponse,
   CallConnectionGetParticipantOptionalParams,
   CallConnectionGetParticipantResponse
 } from "../models";
@@ -123,16 +129,16 @@ export class CallConnectionImpl implements CallConnection {
   /**
    * Add participants to the call.
    * @param callConnectionId The call connection Id
-   * @param addParticipantsRequest The add participants request.
+   * @param addParticipantRequest The request payload for adding participant to the call.
    * @param options The options parameters.
    */
   addParticipant(
     callConnectionId: string,
-    addParticipantsRequest: AddParticipantsRequest,
+    addParticipantRequest: AddParticipantRequest,
     options?: CallConnectionAddParticipantOptionalParams
   ): Promise<CallConnectionAddParticipantResponse> {
     return this.client.sendOperationRequest(
-      { callConnectionId, addParticipantsRequest, options },
+      { callConnectionId, addParticipantRequest, options },
       addParticipantOperationSpec
     );
   }
@@ -140,33 +146,67 @@ export class CallConnectionImpl implements CallConnection {
   /**
    * Remove participant from the call using identifier.
    * @param callConnectionId The call connection id.
-   * @param removeParticipantsRequest The participants to be removed from the call.
+   * @param removeParticipantRequest The participant to be removed from the call.
    * @param options The options parameters.
    */
-  removeParticipants(
+  removeParticipant(
     callConnectionId: string,
-    removeParticipantsRequest: RemoveParticipantsRequest,
-    options?: CallConnectionRemoveParticipantsOptionalParams
-  ): Promise<CallConnectionRemoveParticipantsResponse> {
+    removeParticipantRequest: RemoveParticipantRequest,
+    options?: CallConnectionRemoveParticipantOptionalParams
+  ): Promise<CallConnectionRemoveParticipantResponse> {
     return this.client.sendOperationRequest(
-      { callConnectionId, removeParticipantsRequest, options },
-      removeParticipantsOperationSpec
+      { callConnectionId, removeParticipantRequest, options },
+      removeParticipantOperationSpec
+    );
+  }
+
+  /**
+   * Mute participants from the call using identifier.
+   * @param callConnectionId The call connection id.
+   * @param muteParticipantsRequest The participants to be muted from the call.
+   * @param options The options parameters.
+   */
+  mute(
+    callConnectionId: string,
+    muteParticipantsRequest: MuteParticipantsRequest,
+    options?: CallConnectionMuteOptionalParams
+  ): Promise<CallConnectionMuteResponse> {
+    return this.client.sendOperationRequest(
+      { callConnectionId, muteParticipantsRequest, options },
+      muteOperationSpec
+    );
+  }
+
+  /**
+   * Unmute participants from the call using identifier.
+   * @param callConnectionId The call connection id.
+   * @param unmuteParticipantsRequest The participants to be unmuted from the call.
+   * @param options The options parameters.
+   */
+  unmute(
+    callConnectionId: string,
+    unmuteParticipantsRequest: UnmuteParticipantsRequest,
+    options?: CallConnectionUnmuteOptionalParams
+  ): Promise<CallConnectionUnmuteResponse> {
+    return this.client.sendOperationRequest(
+      { callConnectionId, unmuteParticipantsRequest, options },
+      unmuteOperationSpec
     );
   }
 
   /**
    * Get participant from a call.
    * @param callConnectionId The call connection Id
-   * @param participantMri MRI of the participant to retrieve.
+   * @param participantRawId Raw id of the participant to retrieve.
    * @param options The options parameters.
    */
   getParticipant(
     callConnectionId: string,
-    participantMri: string,
+    participantRawId: string,
     options?: CallConnectionGetParticipantOptionalParams
   ): Promise<CallConnectionGetParticipantResponse> {
     return this.client.sendOperationRequest(
-      { callConnectionId, participantMri, options },
+      { callConnectionId, participantRawId, options },
       getParticipantOperationSpec
     );
   }
@@ -179,7 +219,7 @@ const getCallOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CallConnectionProperties
+      bodyMapper: Mappers.CallConnectionPropertiesInternal
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -266,13 +306,13 @@ const addParticipantOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     202: {
-      bodyMapper: Mappers.AddParticipantsResponse
+      bodyMapper: Mappers.AddParticipantResponse
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  requestBody: Parameters.addParticipantsRequest,
+  requestBody: Parameters.addParticipantRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [
@@ -284,18 +324,64 @@ const addParticipantOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const removeParticipantsOperationSpec: coreClient.OperationSpec = {
+const removeParticipantOperationSpec: coreClient.OperationSpec = {
   path: "/calling/callConnections/{callConnectionId}/participants:remove",
   httpMethod: "POST",
   responses: {
     202: {
-      bodyMapper: Mappers.RemoveParticipantsResponse
+      bodyMapper: Mappers.RemoveParticipantResponse
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  requestBody: Parameters.removeParticipantsRequest,
+  requestBody: Parameters.removeParticipantRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.repeatabilityRequestID,
+    Parameters.repeatabilityFirstSent
+  ],
+  mediaType: "json",
+  serializer
+};
+const muteOperationSpec: coreClient.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}/participants:mute",
+  httpMethod: "POST",
+  responses: {
+    202: {
+      bodyMapper: Mappers.MuteParticipantsResponse
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  requestBody: Parameters.muteParticipantsRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.repeatabilityRequestID,
+    Parameters.repeatabilityFirstSent
+  ],
+  mediaType: "json",
+  serializer
+};
+const unmuteOperationSpec: coreClient.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}/participants:unmute",
+  httpMethod: "POST",
+  responses: {
+    202: {
+      bodyMapper: Mappers.UnmuteParticipantsResponse
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  requestBody: Parameters.unmuteParticipantsRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [
@@ -309,11 +395,11 @@ const removeParticipantsOperationSpec: coreClient.OperationSpec = {
 };
 const getParticipantOperationSpec: coreClient.OperationSpec = {
   path:
-    "/calling/callConnections/{callConnectionId}/participants/{participantMri}",
+    "/calling/callConnections/{callConnectionId}/participants/{participantRawId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AcsCallParticipant
+      bodyMapper: Mappers.CallParticipant
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -323,7 +409,7 @@ const getParticipantOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.endpoint,
     Parameters.callConnectionId,
-    Parameters.participantMri
+    Parameters.participantRawId
   ],
   headerParameters: [Parameters.accept],
   serializer

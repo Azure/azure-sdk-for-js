@@ -12,8 +12,15 @@ import * as coreClient from "@azure/core-client";
 export interface CreateCallRequest {
   /** The targets of the call. */
   targets: CommunicationIdentifierModel[];
-  /** The source of the call. */
-  source: CallSource;
+  /**
+   * The source caller Id, a phone number, that's shown to the PSTN participant being invited.
+   * Required only when calling a PSTN callee.
+   */
+  sourceCallerIdNumber?: PhoneNumberIdentifierModel;
+  /** Display name of the call if dialing out to a pstn number */
+  sourceDisplayName?: string;
+  /** The identifier of the source of the call */
+  sourceIdentity?: CommunicationIdentifierModel;
   /** A customer set value used to track the answering of a call. */
   operationContext?: string;
   /** The callback URI. */
@@ -51,19 +58,6 @@ export interface MicrosoftTeamsUserIdentifierModel {
   cloud?: CommunicationCloudEnvironmentModel;
 }
 
-/** The caller. */
-export interface CallSource {
-  /**
-   * The source caller Id, a phone number, that's shown to the PSTN participant being invited.
-   * Required only when calling a PSTN callee.
-   */
-  callerId?: PhoneNumberIdentifierModel;
-  /** Display name of the call if dialing out to a pstn number */
-  displayName?: string;
-  /** The identifier of the source of the call */
-  identifier: CommunicationIdentifierModel;
-}
-
 /** Configuration of Media streaming. */
 export interface MediaStreamingConfiguration {
   /** Transport URL for media streaming */
@@ -77,13 +71,11 @@ export interface MediaStreamingConfiguration {
 }
 
 /** Properties of a call connection */
-export interface CallConnectionProperties {
+export interface CallConnectionPropertiesInternal {
   /** The call connection id. */
   callConnectionId?: string;
   /** The server call id. */
   serverCallId?: string;
-  /** The source of the call, which is the caller. */
-  source?: CallSource;
   /** The targets of the call. */
   targets?: CommunicationIdentifierModel[];
   /** The state of the call connection. */
@@ -92,6 +84,15 @@ export interface CallConnectionProperties {
   callbackUri?: string;
   /** SubscriptionId for media streaming */
   mediaSubscriptionId?: string;
+  /**
+   * The source caller Id, a phone number, that's shown to the PSTN participant being invited.
+   * Required only when calling a PSTN callee.
+   */
+  sourceCallerIdNumber?: PhoneNumberIdentifierModel;
+  /** Display name of the call if dialing out to a pstn number. */
+  sourceDisplayName?: string;
+  /** Source identity. */
+  sourceIdentity?: CommunicationIdentifierModel;
 }
 
 /** The Communication Services error response */
@@ -117,6 +118,8 @@ export interface AnswerCallRequest {
   mediaStreamingConfiguration?: MediaStreamingConfiguration;
   /** The endpoint URL of the Azure Cognitive Services resource attached */
   azureCognitiveServicesEndpointUrl?: string;
+  /** The identifier of the contoso app which answers the call */
+  answeredByIdentifier?: CommunicationIdentifierModel;
 }
 
 /** The request payload for redirecting the call. */
@@ -141,10 +144,17 @@ export interface TransferToParticipantRequest {
   targetParticipant: CommunicationIdentifierModel;
   /** The caller ID of the transferee when transferring to PSTN. */
   transfereeCallerId?: PhoneNumberIdentifierModel;
-  /** The user to user information. */
-  userToUserInformation?: string;
+  /** Used by customer to send custom context to targets */
+  customContext?: CustomContext;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
+}
+
+export interface CustomContext {
+  /** Dictionary of <string> */
+  voipHeaders?: { [propertyName: string]: string };
+  /** Dictionary of <string> */
+  sipHeaders?: { [propertyName: string]: string };
 }
 
 /** The response payload for transferring the call. */
@@ -252,38 +262,33 @@ export interface Choice {
 /** The response payload for getting participants of the call. */
 export interface GetParticipantsResponse {
   /** List of the current participants in the call. */
-  values?: AcsCallParticipant[];
+  values?: CallParticipant[];
   /** Continue of the list of participants */
   nextLink?: string;
 }
 
 /** Contract model of an ACS call participant */
-export interface AcsCallParticipant {
+export interface CallParticipant {
   /** Communication identifier of the participant */
   identifier?: CommunicationIdentifierModel;
   /** Is participant muted */
   isMuted?: boolean;
 }
 
-/** The request payload for adding participants to the call. */
-export interface AddParticipantsRequest {
+/** The request payload for adding participant to the call. */
+export interface AddParticipantRequest {
   /**
    * The source caller Id, a phone number, that's shown to the PSTN participant being invited.
    * Required only when inviting a PSTN participant.
    */
-  sourceCallerId?: PhoneNumberIdentifierModel;
+  sourceCallerIdNumber?: PhoneNumberIdentifierModel;
   /**
    * (Optional) The display name of the source that is associated with this invite operation when
    * adding a PSTN participant or teams user.  Note: Will not update the display name in the roster.
    */
   sourceDisplayName?: string;
-  /**
-   * (Optional) The identifier of the source of the call for this invite operation. If SourceDisplayName
-   * is not set, the display name of the source will be used by default when adding a PSTN participant or teams user.
-   */
-  sourceIdentifier?: CommunicationIdentifierModel;
-  /** The participants to invite. */
-  participantsToAdd: CommunicationIdentifierModel[];
+  /** The participant to invite. */
+  participantToAdd: CommunicationIdentifierModel;
   /**
    * Gets or sets the timeout to wait for the invited participant to pickup.
    * The maximum value of this is 180 seconds
@@ -291,26 +296,62 @@ export interface AddParticipantsRequest {
   invitationTimeoutInSeconds?: number;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
+  /** Used by customer to send custom context to targets */
+  customContext?: CustomContext;
 }
 
 /** The response payload for adding participants to the call. */
-export interface AddParticipantsResponse {
+export interface AddParticipantResponse {
   /** List of current participants in the call. */
-  participants?: AcsCallParticipant[];
+  participant?: CallParticipant;
   /** The operation context provided by client. */
   operationContext?: string;
 }
 
 /** The remove participant by identifier request. */
-export interface RemoveParticipantsRequest {
+export interface RemoveParticipantRequest {
   /** The participants to be removed from the call. */
-  participantsToRemove: CommunicationIdentifierModel[];
+  participantToRemove: CommunicationIdentifierModel;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
 }
 
 /** The response payload for removing participants of the call. */
-export interface RemoveParticipantsResponse {
+export interface RemoveParticipantResponse {
+  /** The operation context provided by client. */
+  operationContext?: string;
+}
+
+/** The request payload for muting participants from the call. */
+export interface MuteParticipantsRequest {
+  /**
+   * Participants to be muted from the call.
+   * Only ACS Users are supported.
+   */
+  targetParticipants: CommunicationIdentifierModel[];
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+}
+
+/** The response payload for muting participants from the call. */
+export interface MuteParticipantsResponse {
+  /** The operation context provided by client. */
+  operationContext?: string;
+}
+
+/** The request payload for unmuting participant from the call. */
+export interface UnmuteParticipantsRequest {
+  /**
+   * Participants to be unmuted from the call.
+   * Only ACS Users are supported.
+   */
+  targetParticipants: CommunicationIdentifierModel[];
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+}
+
+/** The response payload for unmuting participants from the call. */
+export interface UnmuteParticipantsResponse {
   /** The operation context provided by client. */
   operationContext?: string;
 }
@@ -334,8 +375,10 @@ export interface StartCallRecordingRequest {
    * first audio was detected.  Channel to participant mapping details can be found in the metadata of the recording.
    */
   audioChannelParticipantOrdering?: CommunicationIdentifierModel[];
-  /** Recording storage mode. `External` enables bring your own storage. */
+  /** Recording storage mode. When set to 'BlobStorage', specify required parameter 'ExternalStorageLocation', to export recording to your own blob container. */
   recordingStorageType?: RecordingStorageType;
+  /** The location where recording is stored, when RecordingStorageType is set to 'BlobStorage'. */
+  externalStorageLocation?: string;
 }
 
 /** The locator used for joining or taking action on a call. */
@@ -354,7 +397,7 @@ export interface RecordingStateResponse {
 }
 
 /** The failed to add participants event. */
-export interface AddParticipantsFailed {
+export interface AddParticipantFailed {
   /** Call connection ID. */
   callConnectionId?: string;
   /** Server call ID. */
@@ -365,8 +408,8 @@ export interface AddParticipantsFailed {
   operationContext?: string;
   /** Contains the resulting SIP code/sub-code and message from NGC services. */
   resultInformation?: ResultInformation;
-  /** The list of participants in the call. */
-  participants?: CommunicationIdentifierModel[];
+  /** Participant */
+  participant?: CommunicationIdentifierModel;
 }
 
 export interface ResultInformation {
@@ -376,7 +419,7 @@ export interface ResultInformation {
 }
 
 /** The participants successfully added event. */
-export interface AddParticipantsSucceeded {
+export interface AddParticipantSucceeded {
   /** Call connection ID. */
   callConnectionId?: string;
   /** Server call ID. */
@@ -387,8 +430,8 @@ export interface AddParticipantsSucceeded {
   operationContext?: string;
   /** Contains the resulting SIP code/sub-code and message from NGC services. */
   resultInformation?: ResultInformation;
-  /** The list of participants in the call. */
-  participants?: CommunicationIdentifierModel[];
+  /** Participant */
+  participant?: CommunicationIdentifierModel;
 }
 
 /** The call connected event. */
@@ -452,7 +495,7 @@ export interface ParticipantsUpdated {
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId?: string;
   /** The list of participants in the call. */
-  participants?: CommunicationIdentifierModel[];
+  participants?: CallParticipant[];
 }
 
 export interface RecordingStateChanged {
@@ -913,8 +956,8 @@ export type RecordingFormatType = string;
 export enum KnownRecordingStorageType {
   /** Acs */
   Acs = "acs",
-  /** AzureBlob */
-  AzureBlob = "azureBlob"
+  /** BlobStorage */
+  BlobStorage = "blobStorage"
 }
 
 /**
@@ -923,7 +966,7 @@ export enum KnownRecordingStorageType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **acs** \
- * **azureBlob**
+ * **blobStorage**
  */
 export type RecordingStorageType = string;
 
@@ -972,7 +1015,7 @@ export interface CreateCallOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Contains response data for the createCall operation. */
-export type CreateCallResponse = CallConnectionProperties;
+export type CreateCallResponse = CallConnectionPropertiesInternal;
 
 /** Optional parameters. */
 export interface AnswerCallOptionalParams extends coreClient.OperationOptions {
@@ -983,7 +1026,7 @@ export interface AnswerCallOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Contains response data for the answerCall operation. */
-export type AnswerCallResponse = CallConnectionProperties;
+export type AnswerCallResponse = CallConnectionPropertiesInternal;
 
 /** Optional parameters. */
 export interface RedirectCallOptionalParams
@@ -1007,7 +1050,7 @@ export interface CallConnectionGetCallOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getCall operation. */
-export type CallConnectionGetCallResponse = CallConnectionProperties;
+export type CallConnectionGetCallResponse = CallConnectionPropertiesInternal;
 
 /** Optional parameters. */
 export interface CallConnectionHangupCallOptionalParams
@@ -1051,10 +1094,10 @@ export interface CallConnectionAddParticipantOptionalParams
 }
 
 /** Contains response data for the addParticipant operation. */
-export type CallConnectionAddParticipantResponse = AddParticipantsResponse;
+export type CallConnectionAddParticipantResponse = AddParticipantResponse;
 
 /** Optional parameters. */
-export interface CallConnectionRemoveParticipantsOptionalParams
+export interface CallConnectionRemoveParticipantOptionalParams
   extends coreClient.OperationOptions {
   /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
   repeatabilityRequestID?: string;
@@ -1062,15 +1105,39 @@ export interface CallConnectionRemoveParticipantsOptionalParams
   repeatabilityFirstSent?: string;
 }
 
-/** Contains response data for the removeParticipants operation. */
-export type CallConnectionRemoveParticipantsResponse = RemoveParticipantsResponse;
+/** Contains response data for the removeParticipant operation. */
+export type CallConnectionRemoveParticipantResponse = RemoveParticipantResponse;
+
+/** Optional parameters. */
+export interface CallConnectionMuteOptionalParams
+  extends coreClient.OperationOptions {
+  /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
+  repeatabilityRequestID?: string;
+  /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
+  repeatabilityFirstSent?: string;
+}
+
+/** Contains response data for the mute operation. */
+export type CallConnectionMuteResponse = MuteParticipantsResponse;
+
+/** Optional parameters. */
+export interface CallConnectionUnmuteOptionalParams
+  extends coreClient.OperationOptions {
+  /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
+  repeatabilityRequestID?: string;
+  /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
+  repeatabilityFirstSent?: string;
+}
+
+/** Contains response data for the unmute operation. */
+export type CallConnectionUnmuteResponse = UnmuteParticipantsResponse;
 
 /** Optional parameters. */
 export interface CallConnectionGetParticipantOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getParticipant operation. */
-export type CallConnectionGetParticipantResponse = AcsCallParticipant;
+export type CallConnectionGetParticipantResponse = CallParticipant;
 
 /** Optional parameters. */
 export interface CallMediaPlayOptionalParams

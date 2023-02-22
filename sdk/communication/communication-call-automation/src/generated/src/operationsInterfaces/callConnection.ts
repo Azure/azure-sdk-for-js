@@ -16,12 +16,18 @@ import {
   CallConnectionTransferToParticipantResponse,
   CallConnectionGetParticipantsOptionalParams,
   CallConnectionGetParticipantsResponse,
-  AddParticipantsRequest,
+  AddParticipantRequest,
   CallConnectionAddParticipantOptionalParams,
   CallConnectionAddParticipantResponse,
-  RemoveParticipantsRequest,
-  CallConnectionRemoveParticipantsOptionalParams,
-  CallConnectionRemoveParticipantsResponse,
+  RemoveParticipantRequest,
+  CallConnectionRemoveParticipantOptionalParams,
+  CallConnectionRemoveParticipantResponse,
+  MuteParticipantsRequest,
+  CallConnectionMuteOptionalParams,
+  CallConnectionMuteResponse,
+  UnmuteParticipantsRequest,
+  CallConnectionUnmuteOptionalParams,
+  CallConnectionUnmuteResponse,
   CallConnectionGetParticipantOptionalParams,
   CallConnectionGetParticipantResponse
 } from "../models";
@@ -78,34 +84,56 @@ export interface CallConnection {
   /**
    * Add participants to the call.
    * @param callConnectionId The call connection Id
-   * @param addParticipantsRequest The add participants request.
+   * @param addParticipantRequest The request payload for adding participant to the call.
    * @param options The options parameters.
    */
   addParticipant(
     callConnectionId: string,
-    addParticipantsRequest: AddParticipantsRequest,
+    addParticipantRequest: AddParticipantRequest,
     options?: CallConnectionAddParticipantOptionalParams
   ): Promise<CallConnectionAddParticipantResponse>;
   /**
    * Remove participant from the call using identifier.
    * @param callConnectionId The call connection id.
-   * @param removeParticipantsRequest The participants to be removed from the call.
+   * @param removeParticipantRequest The participant to be removed from the call.
    * @param options The options parameters.
    */
-  removeParticipants(
+  removeParticipant(
     callConnectionId: string,
-    removeParticipantsRequest: RemoveParticipantsRequest,
-    options?: CallConnectionRemoveParticipantsOptionalParams
-  ): Promise<CallConnectionRemoveParticipantsResponse>;
+    removeParticipantRequest: RemoveParticipantRequest,
+    options?: CallConnectionRemoveParticipantOptionalParams
+  ): Promise<CallConnectionRemoveParticipantResponse>;
+  /**
+   * Mute participants from the call using identifier.
+   * @param callConnectionId The call connection id.
+   * @param muteParticipantsRequest The participants to be muted from the call.
+   * @param options The options parameters.
+   */
+  mute(
+    callConnectionId: string,
+    muteParticipantsRequest: MuteParticipantsRequest,
+    options?: CallConnectionMuteOptionalParams
+  ): Promise<CallConnectionMuteResponse>;
+  /**
+   * Unmute participants from the call using identifier.
+   * @param callConnectionId The call connection id.
+   * @param unmuteParticipantsRequest The participants to be unmuted from the call.
+   * @param options The options parameters.
+   */
+  unmute(
+    callConnectionId: string,
+    unmuteParticipantsRequest: UnmuteParticipantsRequest,
+    options?: CallConnectionUnmuteOptionalParams
+  ): Promise<CallConnectionUnmuteResponse>;
   /**
    * Get participant from a call.
    * @param callConnectionId The call connection Id
-   * @param participantMri MRI of the participant to retrieve.
+   * @param participantRawId Raw id of the participant to retrieve.
    * @param options The options parameters.
    */
   getParticipant(
     callConnectionId: string,
-    participantMri: string,
+    participantRawId: string,
     options?: CallConnectionGetParticipantOptionalParams
   ): Promise<CallConnectionGetParticipantResponse>;
 }
