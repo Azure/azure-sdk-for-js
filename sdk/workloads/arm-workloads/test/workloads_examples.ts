@@ -41,7 +41,8 @@ describe("workloads test", () => {
   let resourceGroup: string;
   let monitorName: string;
   let monitorParameter: Monitor;
-
+  let sapVirtualInstanceName: string;
+  let location: string;
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
@@ -52,13 +53,15 @@ describe("workloads test", () => {
     client = new WorkloadsClient(credential, subscriptionId, recorder.configureClientOptions({}));
     resourceGroup = "myjstest";
     monitorName = "myMonitor";
+    sapVirtualInstanceName = "O13";
+    location = "eastus2"
   });
 
   afterEach(async function () {
     await recorder.stop();
   });
 
-  //create Workloads
+  //create monitors
   it("Workloads create test", async function () {
     monitorParameter = {
       appLocation: "eastus2",
@@ -71,9 +74,104 @@ describe("workloads test", () => {
       routingPreference: "RouteAll",
       tags: { key: "value" }
     };
-    //create monitors
     const res = await client.monitors.beginCreateAndWait(resourceGroup, monitorName, monitorParameter)
     assert.equal(res.name, monitorName);
+  });
+
+  //create svi
+  it.only("svi create test", async function () {
+    const subnetId = "/subscriptions/" + subscriptionId + "/resourceGroups/myjstest/providers/Microsoft.Networks/virtualNetworks/networknamex/subnets/subnetworknamex"
+    const res = await client.sAPVirtualInstances.beginCreateAndWait(
+      resourceGroup,
+      sapVirtualInstanceName,
+      {
+        body: {
+          configuration: {
+            appLocation: location,
+            configurationType: "DeploymentWithOSConfig",
+            infrastructureConfiguration: {
+              appResourceGroup: resourceGroup,
+              databaseType: "HANA",
+              deploymentType: "SingleServer",
+              networkConfiguration: { isSecondaryIpEnabled: true },
+              subnetId,
+              virtualMachineConfiguration: {
+                imageReference: {
+                  offer: "RHEL-SAP-HA",
+                  publisher: "RedHat",
+                  sku: "82sapha-gen2",
+                  version: "latest"
+                },
+                osProfile: {
+                  adminUsername: "testuser",
+                  osConfiguration: {
+                    disablePasswordAuthentication: true,
+                    osType: "Linux",
+                    sshKeyPair: {
+                      publicKey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC2b4ngjxQ7UqM4zOmsYFylmCn7UMhz/BH+ekImYMB78FzXNOAdEXqnr71EKeAT/ssYFZsmlY4dnitf30FjNfJxNFybIH7Vy5BJ2fEl9wZEkyFLRCnEu+LUNudFzTksq+AQFANQ+kfnl454XDg8dcRysZqvxuHaIVAG2KSxsYgLIeFXuchE14XvFJ2hntPtTOARbk9FrkyK4FYSSfSemBV0EdUqdHvh8rRyEBMNuVTwxywHIo+FD3WpGNburTi/pyDDVjLWiKIFIX2j4mvyyKskIDFAq1ipV7i2VSzv3TgwG1wsSo7QI2ZkUTj6Ewzzz2U7wlsvobaK3/y776wo9pFM4CZTrQDtB30loV97W9ivwBO809+k3cueEb8ltt0E9oZToHduyJtrv9wv4+H5ZS7AQlBo93ZZAHxthWR6bBV2ziD+qJ87xQ29+ocWB9ZxvKN6Cja/tPSPTKwVxu3gXS6WwK5xgpSCTfIppZMq3zLK+ZjvqJc5Fs6ndEoLoulrZhU= generated-by-azure",
+                      privateKey: "MIIG4wIBAAKCAYEAtm+J4I8UO1KjOMzprGBcpZgp+1DIc/wR/npCJmDAe/Bc1zTg"
+                        + "HRF6p6+9RCngE/7LGBWbJpWOHZ4rX99BYzXycTRcmyB+1cuQSdnxJfcGRJMhS0Qp"
+                        + "xLvi1DbnRc05LKvgEBQDUPpH55eOeFw4PHXEcrGar8bh2iFQBtiksbGICyHhV7nI"
+                        + "RNeF7xSdoZ7T7UzgEW5PRa5MiuBWEkn0npgVdBHVKnR74fK0chATDblU8McsByKP"
+                        + "hQ91qRjW7q04v6cgw1Yy1oiiBSF9o+Jr8sirJCAxQKtYqVe4tlUs7904MBtcLEqO"
+                        + "0CNmZFE4+hMM889lO8JbL6G2it/8u++sKPaRTOAmU60A7Qd9JaFfe1vYr8ATvNPf"
+                        + "pN3LnhG/JbbdBPaGU6B3bsiba7/cL+Ph+WUuwEJQaPd2WQB8bYVkemwVds4g/qif"
+                        + "O8UNvfqHFgfWcbyjego2v7T0j0ysFcbt4F0ulsCucYKUgk3yKaWTKt8yyvmY76iX"
+                        + "ORbOp3RKC6Lpa2YVAgMBAAECggGATWxWokN2fZqbhI6KGMqoZuqF3o8xEvAGHu55"
+                        + "xlnHNpIShI5/EjcJy8JsW1I+M54tSOJafux3bKBkngJceKM7acmkB32p9ke2y3C/"
+                        + "w7HrKg0a0xtxcnmeURuf2OK4gfnLVGd55NLi0ylhoDja8OW14kr3b+PCk9URZmZo"
+                        + "trS2HKtbO+SvVm/0+jrQjvedzxaR/TPIVrUa7NE6Ffbm5qt6Z1DuG19l98UNyV6D"
+                        + "B48AulJ8n+aN7BVchM/y30YKUGO3bwllMHIf9UlhWbDCtLBOCYXLnbXYKC63VW15"
+                        + "qfCoJWbY87fw7m8TU3kkdHDE+c5wx0ZH5krBfPzT8NNOp8ETbMyX+IjjDMynDkbZ"
+                        + "zavEgNgDbMiegvOvzg81CukuOalpSupJmi1XDEMJpBFI+c75sdGJTo9rXX4qr8PT"
+                        + "aClztttHPMUnvPPL6NUpsizGvrjS3dtoxxJYOGElLaC4nyVyGP0UZ4NBzKcVFyii"
+                        + "G5yqZP1gHsDwNxdzNp0jyVcDsTs9AoHBAMtXsab98T6B/miv/VX1yFqMhtcHDX3v"
+                        + "5GpLqihksa91zm1WXLmzvLLkd/oWNiKDghbjGTQVGCjra4JroyHh6IAU7A7PP9g+"
+                        + "la4dlRUEYrxC2lP5PghmhPvfwBL4XSQEu54ngml4BmiOlstc+ZVDhzqosu94Gw8r"
+                        + "2G/3WhmSjrwLxdjqN62VqR6kaU34xyb1PKGH6aWKpIon3m7pNAZQq9lGgonAjXvN"
+                        + "32Hc1XMLEcSWUdeLEJoMRt3EX4FZ/WrYIwKBwQDlrdquTQbqV4gc3iKbunXKlOXU"
+                        + "xqLePzJWGWfobbWjKbl/gmo7CFP8i9ZsGYG8lTZ5M50jE2sIt2oU9DHd4BnbnzI7"
+                        + "gblVgyoPkjjm8s9PceHN/aRP3/fbJs2P4lcFqfYv5zOpQOxm66s4HeUrNADQobIE"
+                        + "jL/kfG8Q8ZMXH9SA1iBGrrTaNT00JGFnDyvBqn6mrJky/Pze59aCK1y5PBz90rRO"
+                        + "2XopxbmR4H64rXFyQ8B6zbmApG7mFEt+gVEG0GcCgcBd0EuqG6bdi+PwMKHUstyI"
+                        + "yiS7uAlFfRQI5nfOwwYnSVa/owSMuJvqfPXNb8nyCnJOVOAf40uONW8YcMiGrU8z"
+                        + "KHPwMTXncphkCEnrtGZJLR7Fd0xjW8km24gmOGfgYj6dLOVB+5oZSw/PK0oKz2jo"
+                        + "a0SCrwrs6PGmVpw/CBrKLzRMa2Lctxubg4cB7jETjDk43ReyxFA9XT+GNBlIgJeI"
+                        + "WruHCks8PzM8V0IzHXxJEoEXzJUQPXHEhwD5EKeWT7kCgcEAiftkQQqteOOVNiKN"
+                        + "kBj44veJC8c52WMGDou8zPn8AUXz1xK2VzitnC82ZkL8mhraWv4TDRuBVf86j9QU"
+                        + "kUMsxbBiMTXB7gmanzgtTzHYMdYs3d/fcs0Ozm4FWMeVmCV/bU/szWXfoAU9G716"
+                        + "C/Z19uDtXaZhMhc/cmJvB5lrxOrfARe8Nst9NXIVwiBvHS4cYG2Yq/UoxZFqYVFD"
+                        + "p1Th5etLv4MPzUCoN2czOieY3Biv7hbhttMSfM78e8ecsgdJAoHAUxFnn0aN4BX8"
+                        + "Qv1FSUa++G5zQjTkzRQUKGaWAZ9oRYVAYAuwVTTJfgZphI2ljmC4I1EBpB/Esodf"
+                        + "u/PRH0Ksq+J9Puga4zdIWHIG/YsoMGfTBgmLZlSMKr3edI3Zl0N6J5z5GoY0OoLt"
+                        + "ynu0Su1t8wVE/4lyZtGH8lDkIYQN3MYru53tw7/MkBsUbz7/13mcAu1brH5mhM9+"
+                        + "uASYg+LNhuTYKkG0s/4fbaDSVrARsn2ZpR6I5TsyF3FLyKpE+ugk"
+                    }
+                  }
+                },
+                vmSize: "Standard_E32ds_v4"
+              }
+            },
+            osSapConfiguration: { sapFqdn: "sap.test.com" },
+          },
+          environment: "NonProd",
+          location,
+          sapProduct: "S4HANA",
+          tags: {},
+          managedResourceGroupConfiguration: {
+            "name": "mrg-Y13-bf4ab3"
+          }
+        }
+      }
+    );
+    assert.equal(res.name, monitorName);
+  }).timeout(3600000);
+
+  //get svi
+  it.only("svi get test", async function () {
+    //get monitors from workloads
+    const res = await client.sAPVirtualInstances.get(resourceGroup, sapVirtualInstanceName);
+    assert.equal(res.name, sapVirtualInstanceName);
   });
 
   //get monitors
@@ -102,5 +200,15 @@ describe("workloads test", () => {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
+  });
+
+  //delete svi
+  it.only("svi delete test", async function () {
+    const res = await client.sAPVirtualInstances.beginDeleteAndWait(resourceGroup, sapVirtualInstanceName);
+    const resArray = new Array();
+    for await (let item of client.sAPVirtualInstances.listByResourceGroup(resourceGroup)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 1);
   });
 });

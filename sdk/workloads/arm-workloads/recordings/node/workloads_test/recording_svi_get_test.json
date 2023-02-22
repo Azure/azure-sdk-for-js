@@ -1,0 +1,103 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Workloads/sapVirtualInstances/O13?api-version=2022-11-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-workloads/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "ab864b03-3ae6-4d61-97f4-6a4688f94ae3"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 22 Feb 2023 04:01:20 GMT",
+        "ETag": "\u002226015ed4-0000-0100-0000-63f5938d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "13c461a3-9a90-489a-a082-bb5ff7f95fc4",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-reads": "11910",
+        "x-ms-request-id": "f5df18fe-9009-48c8-be8d-f2b1b7071fd9",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230222T040120Z:13c461a3-9a90-489a-a082-bb5ff7f95fc4"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Workloads/sapVirtualInstances/O13",
+        "name": "O13",
+        "type": "microsoft.workloads/sapvirtualinstances",
+        "location": "eastus2",
+        "tags": {},
+        "systemData": {
+          "createdBy": "azure_client_id",
+          "createdByType": "Application",
+          "createdAt": "2023-02-22T03:57:38.0600232Z",
+          "lastModifiedBy": "azure_client_id",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2023-02-22T03:57:38.0600232Z"
+        },
+        "properties": {
+          "environment": "NonProd",
+          "sapProduct": "S4HANA",
+          "configuration": {
+            "configurationType": "DeploymentWithOSConfig",
+            "appLocation": "eastus2",
+            "infrastructureConfiguration": {
+              "deploymentType": "SingleServer",
+              "networkConfiguration": {
+                "isSecondaryIpEnabled": true
+              },
+              "databaseType": "HANA",
+              "subnetId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Networks/virtualNetworks/networknamex/subnets/subnetworknamex",
+              "virtualMachineConfiguration": {
+                "vmSize": "Standard_E32ds_v4",
+                "imageReference": {
+                  "sku": "82sapha-gen2",
+                  "publisher": "RedHat",
+                  "version": "latest",
+                  "offer": "RHEL-SAP-HA"
+                },
+                "osProfile": {
+                  "adminUsername": "testuser",
+                  "osConfiguration": {
+                    "osType": "Linux",
+                    "disablePasswordAuthentication": true,
+                    "sshKeyPair": {
+                      "publicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC2b4ngjxQ7UqM4zOmsYFylmCn7UMhz/BH\u002BekImYMB78FzXNOAdEXqnr71EKeAT/ssYFZsmlY4dnitf30FjNfJxNFybIH7Vy5BJ2fEl9wZEkyFLRCnEu\u002BLUNudFzTksq\u002BAQFANQ\u002Bkfnl454XDg8dcRysZqvxuHaIVAG2KSxsYgLIeFXuchE14XvFJ2hntPtTOARbk9FrkyK4FYSSfSemBV0EdUqdHvh8rRyEBMNuVTwxywHIo\u002BFD3WpGNburTi/pyDDVjLWiKIFIX2j4mvyyKskIDFAq1ipV7i2VSzv3TgwG1wsSo7QI2ZkUTj6Ewzzz2U7wlsvobaK3/y776wo9pFM4CZTrQDtB30loV97W9ivwBO809\u002Bk3cueEb8ltt0E9oZToHduyJtrv9wv4\u002BH5ZS7AQlBo93ZZAHxthWR6bBV2ziD\u002BqJ87xQ29\u002BocWB9ZxvKN6Cja/tPSPTKwVxu3gXS6WwK5xgpSCTfIppZMq3zLK\u002BZjvqJc5Fs6ndEoLoulrZhU= generated-by-azure"
+                    }
+                  }
+                }
+              },
+              "appResourceGroup": "myjstest"
+            },
+            "osSapConfiguration": {
+              "sapFqdn": "sap.test.com"
+            }
+          },
+          "managedResourceGroupConfiguration": {
+            "name": "mrg-Y13-bf4ab3"
+          },
+          "state": "InfrastructureDeploymentFailed",
+          "provisioningState": "Failed",
+          "errors": {
+            "properties": {
+              "code": "AuthorizationFailed",
+              "message": "\n      The client \u00271b5abb6d-1f62-410d-b312-7bc351d466df\u0027 with object id \u00271b5abb6d-1f62-410d-b312-7bc351d466df\u0027 does not have authorization to perform action \u0027Microsoft.Resources/deployments/write\u0027 over scope \u0027/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.Resources/deployments/SingleTemplate-300a47\u0027 or the scope is invalid. If access was recently granted, please refresh your credentials.\n      Possible Causes: The service does not have authorization to perform a required action.\n      Recommended Action: If you are creating resources for first time, this could be due to delay in the role assignment propagation. Please retry the operation in some time.\n      If the issue persists, contact support.\n    ",
+              "details": []
+            }
+          }
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
