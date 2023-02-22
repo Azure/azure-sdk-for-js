@@ -1,5 +1,11 @@
 # Release History
 
+## 12.12.0 (Unreleased)
+
+### Bugs Fixed
+
+- Fixed an issue of getting 403 error for file or directory name with './' or '../'
+
 ## 12.12.0-beta.1 (2023-02-09)
 
 ### Features Added

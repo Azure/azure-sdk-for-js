@@ -47,6 +47,112 @@ describe("DataLakePathClient", () => {
     await recorder.stop();
   });
 
+  it("DataLakeFileClient create file path with directory dots", async () => {
+    const fileBaseName = recorder.getUniqueName("filename");
+    const fileNameWithDots = "./adir/../anotherdir/.././" + fileBaseName;
+
+    const fileClientWithDirDots = fileSystemClient.getFileClient(fileNameWithDots);
+    await fileClientWithDirDots.create();
+
+    let foundFile: boolean = false;
+    for await (const listedFile of fileSystemClient.listPaths()) {
+      if (listedFile.name === fileBaseName && !listedFile.isDirectory) {
+        foundFile = true;
+      }
+    }
+
+    assert.ok(foundFile, "The file should have been created.");
+  });
+  
+  it("DataLakeDirectoryClient create directory path with directory dots", async () => {
+    const subDirName = recorder.getUniqueName("dirname");
+    const subDirNameWithDots = "./adir/.././anotherdir/.././" + subDirName;
+    const subDirClient = fileSystemClient.getDirectoryClient(subDirNameWithDots);
+    await subDirClient.create();
+
+    let foundSubDir: boolean = false;
+
+    for await (const listedFile of fileSystemClient.listPaths()) {
+      if (listedFile.name === subDirName && listedFile.isDirectory) {
+        foundSubDir = true;
+      }
+    }
+
+    assert.ok(foundSubDir, "The directory should have been created.");
+  });
+
+  it("DataLakeFileClient create file path with directory dots under a dir", async () => {
+    const dirName = recorder.getUniqueName("dirname");
+    const dirClient = fileSystemClient.getDirectoryClient(dirName);
+    await dirClient.create();
+
+    const fileBaseName = recorder.getUniqueName("filename");
+    const fileNameWithDots = "./adir/../anotherdir/.././" + fileBaseName;
+
+    const fileClientWithDirDots = dirClient.getFileClient(fileNameWithDots);
+    await fileClientWithDirDots.create();
+
+    let foundFile: boolean = false;
+    for await (const listedFile of fileSystemClient.listPaths({path: dirName})) {
+      if (listedFile.name === `${dirName}/${fileBaseName}` && !listedFile.isDirectory) {
+        foundFile = true;
+      }
+    }
+
+    assert.ok(foundFile, "The file should have been created.");
+
+    const fileUnderRootDirBaseName = recorder.getUniqueName("filename1");
+    const fileUnderRootDir = "./adir/../../anotherdir/.././" + fileUnderRootDirBaseName;
+
+    const fileUnderRootDirClient = dirClient.getFileClient(fileUnderRootDir);
+    await fileUnderRootDirClient.create();
+
+    foundFile = false;
+    for await (const listedFile of fileSystemClient.listPaths()) {
+      if (listedFile.name === fileUnderRootDirBaseName && !listedFile.isDirectory) {
+        foundFile = true;
+      }
+    }
+
+    assert.ok(foundFile, "The file should have been created.");
+  });
+
+  it("DataLakeDirectoryClient create directory path with directory dots under a dir", async () => {
+    const dirName = recorder.getUniqueName("dirname");
+    const dirClient = fileSystemClient.getDirectoryClient(dirName);
+    await dirClient.create();
+
+    const subDirBaseName = recorder.getUniqueName("subdirname");
+    const subDirNameWithDots = "./adir/../anotherdir/.././" + subDirBaseName;
+
+    const dirClientWithDirDots = dirClient.getSubdirectoryClient(subDirNameWithDots);
+    await dirClientWithDirDots.create();
+
+    let foundSubDir: boolean = false;
+    for await (const listedFile of fileSystemClient.listPaths({path: dirName})) {
+      if (listedFile.name === `${dirName}/${subDirBaseName}` && listedFile.isDirectory) {
+        foundSubDir = true;
+      }
+    }
+
+    assert.ok(foundSubDir, "The directory should have been created.");
+
+    const dirUnderRootDirBaseName = recorder.getUniqueName("subdirname1");
+    const dirUnderRootDir = "./adir/../../anotherdir/.././" + dirUnderRootDirBaseName;
+
+    const fileUnderRootDirClient = dirClient.getSubdirectoryClient(dirUnderRootDir);
+    await fileUnderRootDirClient.create();
+
+    foundSubDir = false;
+    for await (const listedFile of fileSystemClient.listPaths()) {
+      if (listedFile.name === dirUnderRootDirBaseName && listedFile.isDirectory) {
+        foundSubDir = true;
+      }
+    }
+
+    assert.ok(foundSubDir, "The directory should have been created.");
+  });
+
   it("DataLakeFileClient create with meta data", async () => {
     const testFileName = recorder.getUniqueName("testfile");
     const testFileClient = fileSystemClient.getFileClient(testFileName);

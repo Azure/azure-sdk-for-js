@@ -210,7 +210,9 @@ export function appendToURLPath(url: string, name: string): string {
   path = path ? (path.endsWith("/") ? `${path}${name}` : `${path}/${name}`) : name;
   urlParsed.setPath(path);
 
-  return urlParsed.toString();
+  const normalizedUrl = new URL(urlParsed.toString());
+
+  return normalizedUrl.toString();
 }
 
 /**

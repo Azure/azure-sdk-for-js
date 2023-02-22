@@ -994,6 +994,43 @@ describe("DataLakeFileSystemClient with soft delete", () => {
     await directoryUndeleteResponse.pathClient.delete();
   });
 
+  it("Undelete file and directory - with directory dots", async () => {
+    const fileBaseName = recorder.getUniqueName(`file`);
+    const fileClient = fileSystemClient.getFileClient(fileBaseName);
+    await fileClient.create();
+    const fileDeleteResponse = await fileClient.delete();
+    assert.ok(fileDeleteResponse.deletionId);
+
+    const fileNameWithDirDots = "./adir/.././anotherdir/./../" + fileBaseName;
+
+    const fileundeleteResponse = await fileSystemClient.undeletePath(
+      fileNameWithDirDots,
+      fileDeleteResponse.deletionId ?? ""
+    );
+
+    assert.ok(fileundeleteResponse.pathClient instanceof DataLakeFileClient);
+
+    assert.ok(await fileundeleteResponse.pathClient.exists());
+    await fileundeleteResponse.pathClient.delete();
+
+    const directoryBaseName = recorder.getUniqueName(`directory`);
+    const directoryClient = fileSystemClient.getDirectoryClient(directoryBaseName);
+    await directoryClient.create();
+    const directoryDeleteResponse = await directoryClient.delete();
+    assert.ok(directoryDeleteResponse.deletionId);
+
+    const directoryNameWithDirDots = "./adir/.././anotherdir/./../" + directoryBaseName;
+    const directoryUndeleteResponse = await fileSystemClient.undeletePath(
+      directoryNameWithDirDots,
+      directoryDeleteResponse.deletionId ?? ""
+    );
+
+    assert.ok(directoryUndeleteResponse.pathClient instanceof DataLakeDirectoryClient);
+
+    assert.ok(await directoryUndeleteResponse.pathClient.exists());
+    await directoryUndeleteResponse.pathClient.delete();
+  });
+
   it("Undelete file and directory - recreate and delete path and undelete the path with first deletionid", async () => {
     const fileName = recorder.getUniqueName(`file`);
     const fileClient = fileSystemClient.getFileClient(fileName);
