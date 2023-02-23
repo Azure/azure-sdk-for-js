@@ -11,6 +11,8 @@ import {
   LogAnalyticsQueryPack,
   QueryPacksListOptionalParams,
   QueryPacksListByResourceGroupOptionalParams,
+  QueryPacksCreateOrUpdateWithoutNameOptionalParams,
+  QueryPacksCreateOrUpdateWithoutNameResponse,
   QueryPacksDeleteOptionalParams,
   QueryPacksGetOptionalParams,
   QueryPacksGetResponse,
@@ -40,6 +42,19 @@ export interface QueryPacks {
     resourceGroupName: string,
     options?: QueryPacksListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<LogAnalyticsQueryPack>;
+  /**
+   * Creates a Log Analytics QueryPack. Note: You cannot specify a different value for InstrumentationKey
+   * nor AppId in the Put operation.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param logAnalyticsQueryPackPayload Properties that need to be specified to create or update a Log
+   *                                     Analytics QueryPack.
+   * @param options The options parameters.
+   */
+  createOrUpdateWithoutName(
+    resourceGroupName: string,
+    logAnalyticsQueryPackPayload: LogAnalyticsQueryPack,
+    options?: QueryPacksCreateOrUpdateWithoutNameOptionalParams
+  ): Promise<QueryPacksCreateOrUpdateWithoutNameResponse>;
   /**
    * Deletes a Log Analytics QueryPack.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

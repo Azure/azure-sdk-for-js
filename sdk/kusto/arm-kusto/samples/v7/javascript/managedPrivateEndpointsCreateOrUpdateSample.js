@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates a managed private endpoint.
  *
  * @summary Creates a managed private endpoint.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoManagedPrivateEndpointsCreateOrUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoManagedPrivateEndpointsCreateOrUpdate.json
  */
 async function kustoManagedPrivateEndpointsCreateOrUpdate() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = "kustorptest";
+  const subscriptionId =
+    process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
+  const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
   const clusterName = "kustoCluster";
   const managedPrivateEndpointName = "managedPrivateEndpointTest";
   const parameters = {
@@ -39,4 +41,8 @@ async function kustoManagedPrivateEndpointsCreateOrUpdate() {
   console.log(result);
 }
 
-kustoManagedPrivateEndpointsCreateOrUpdate().catch(console.error);
+async function main() {
+  kustoManagedPrivateEndpointsCreateOrUpdate();
+}
+
+main().catch(console.error);

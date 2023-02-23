@@ -1,15 +1,20 @@
 # Release History
 
-## 1.0.0-beta.4 (Unreleased)
+## 1.0.0 (2023-02-15)
 
 ### Features Added
 
+- Added an error callback functionality for inspecting individual log uploads via `LogsUploadOptions`.
+
 ### Breaking Changes
 
-### Bugs Fixed
+- The `upload` API throws an `AggregateLogsUploadError` in case of an error and returns `void` when operation succeeds.
+- Renamed `LogsUploadError` to `LogsUploadFailure`.
 
 ### Other Changes
 
+- `LogsUploadOptions` supports the `OperationOptions` from @azure/core-client, allowing users to abort operations when needed.
+- Added samples for all error handling scenarios.
 ## 1.0.0-beta.3 (2022-10-13)
 
 ### Breaking Changes

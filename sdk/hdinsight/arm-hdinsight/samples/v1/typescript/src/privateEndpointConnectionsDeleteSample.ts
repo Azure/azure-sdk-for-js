@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { HDInsightManagementClient } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes the specific private endpoint connection.
@@ -18,8 +21,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/DeletePrivateEndpointConnection.json
  */
 async function deleteSpecificPrivateEndpointConnectionForASpecificHdInsightCluster() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cluster1";
   const privateEndpointConnectionName =
     "testprivateep.b3bf5fed-9b12-4560-b7d0-2abe1bba07e2";
@@ -33,6 +36,8 @@ async function deleteSpecificPrivateEndpointConnectionForASpecificHdInsightClust
   console.log(result);
 }
 
-deleteSpecificPrivateEndpointConnectionForASpecificHdInsightCluster().catch(
-  console.error
-);
+async function main() {
+  deleteSpecificPrivateEndpointConnectionForASpecificHdInsightCluster();
+}
+
+main().catch(console.error);

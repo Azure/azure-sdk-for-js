@@ -13,6 +13,9 @@ import {
   PolicyInsightsClient
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Summarizes policy states for the resources under the management group.
@@ -21,7 +24,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_SummarizeManagementGroupScope.json
  */
 async function summarizeAtManagementGroupScope() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyStatesSummaryResource = "latest";
   const managementGroupName = "myManagementGroup";
   const top = 0;
@@ -42,4 +47,8 @@ async function summarizeAtManagementGroupScope() {
   console.log(result);
 }
 
-summarizeAtManagementGroupScope().catch(console.error);
+async function main() {
+  summarizeAtManagementGroupScope();
+}
+
+main().catch(console.error);

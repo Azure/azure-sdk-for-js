@@ -1,5 +1,21 @@
 # Release History
 
+## 1.1.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.1.0 (2023-02-02)
+
+### Features Added
+
+- Add basic types from cadl azure core.
+
 ## 1.0.1 (2023-01-05)
 
 ### Fixes

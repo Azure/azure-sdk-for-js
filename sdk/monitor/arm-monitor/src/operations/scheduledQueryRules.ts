@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ScheduledQueryRules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,7 +15,9 @@ import { MonitorClient } from "../monitorClient";
 import {
   LogSearchRuleResource,
   ScheduledQueryRulesListBySubscriptionOptionalParams,
+  ScheduledQueryRulesListBySubscriptionResponse,
   ScheduledQueryRulesListByResourceGroupOptionalParams,
+  ScheduledQueryRulesListByResourceGroupResponse,
   ScheduledQueryRulesCreateOrUpdateOptionalParams,
   ScheduledQueryRulesCreateOrUpdateResponse,
   ScheduledQueryRulesGetOptionalParams,
@@ -23,9 +25,7 @@ import {
   LogSearchRuleResourcePatch,
   ScheduledQueryRulesUpdateOptionalParams,
   ScheduledQueryRulesUpdateResponse,
-  ScheduledQueryRulesDeleteOptionalParams,
-  ScheduledQueryRulesListBySubscriptionResponse,
-  ScheduledQueryRulesListByResourceGroupResponse
+  ScheduledQueryRulesDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,16 +56,21 @@ export class ScheduledQueryRulesImpl implements ScheduledQueryRules {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: ScheduledQueryRulesListBySubscriptionOptionalParams
+    options?: ScheduledQueryRulesListBySubscriptionOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<LogSearchRuleResource[]> {
-    let result = await this._listBySubscription(options);
+    let result: ScheduledQueryRulesListBySubscriptionResponse;
+    result = await this._listBySubscription(options);
     yield result.value || [];
   }
 
@@ -94,17 +99,26 @@ export class ScheduledQueryRulesImpl implements ScheduledQueryRules {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: ScheduledQueryRulesListByResourceGroupOptionalParams
+    options?: ScheduledQueryRulesListByResourceGroupOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<LogSearchRuleResource[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
+    let result: ScheduledQueryRulesListByResourceGroupResponse;
+    result = await this._listByResourceGroup(resourceGroupName, options);
     yield result.value || [];
   }
 

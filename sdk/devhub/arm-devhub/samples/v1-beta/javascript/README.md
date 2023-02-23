@@ -46,7 +46,7 @@ node gitHubOAuthCallbackSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node gitHubOAuthCallbackSample.js
+npx cross-env DEVHUB_SUBSCRIPTION_ID="<devhub subscription id>" node gitHubOAuthCallbackSample.js
 ```
 
 ## Next Steps

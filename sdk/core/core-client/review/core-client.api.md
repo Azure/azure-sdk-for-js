@@ -319,6 +319,7 @@ export interface Serializer {
 
 // @public
 export interface SerializerOptions {
+    ignoreUnknownProperties?: boolean;
     xml: XmlOptions;
 }
 

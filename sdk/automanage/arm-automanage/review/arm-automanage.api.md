@@ -368,6 +368,9 @@ export interface ErrorResponse {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface HCIReports {
     get(resourceGroupName: string, clusterName: string, configurationProfileAssignmentName: string, reportName: string, options?: HCIReportsGetOptionalParams): Promise<HCIReportsGetResponse>;
     listByConfigurationProfileAssignments(resourceGroupName: string, clusterName: string, configurationProfileAssignmentName: string, options?: HCIReportsListByConfigurationProfileAssignmentsOptionalParams): PagedAsyncIterableIterator<Report>;

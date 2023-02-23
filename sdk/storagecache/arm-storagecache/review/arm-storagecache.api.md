@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface ApiOperation {
@@ -87,6 +87,8 @@ export type AscUsagesListResponse = ResourceUsagesListResult;
 export interface BlobNfsTarget {
     target?: string;
     usageModel?: string;
+    verificationTimer?: number;
+    writeBackTimer?: number;
 }
 
 // @public
@@ -178,39 +180,39 @@ export interface CacheNetworkSettings {
 
 // @public
 export interface Caches {
-    beginCreateOrUpdate(resourceGroupName: string, cacheName: string, options?: CachesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<CachesCreateOrUpdateResponse>, CachesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, cacheName: string, options?: CachesCreateOrUpdateOptionalParams): Promise<CachesCreateOrUpdateResponse>;
-    beginDebugInfo(resourceGroupName: string, cacheName: string, options?: CachesDebugInfoOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginCreateOrUpdate(resourceGroupName: string, cacheName: string, cache: Cache_2, options?: CachesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CachesCreateOrUpdateResponse>, CachesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, cacheName: string, cache: Cache_2, options?: CachesCreateOrUpdateOptionalParams): Promise<CachesCreateOrUpdateResponse>;
+    beginDebugInfo(resourceGroupName: string, cacheName: string, options?: CachesDebugInfoOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDebugInfoAndWait(resourceGroupName: string, cacheName: string, options?: CachesDebugInfoOptionalParams): Promise<void>;
-    beginDelete(resourceGroupName: string, cacheName: string, options?: CachesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, cacheName: string, options?: CachesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, cacheName: string, options?: CachesDeleteOptionalParams): Promise<void>;
-    beginFlush(resourceGroupName: string, cacheName: string, options?: CachesFlushOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginFlush(resourceGroupName: string, cacheName: string, options?: CachesFlushOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginFlushAndWait(resourceGroupName: string, cacheName: string, options?: CachesFlushOptionalParams): Promise<void>;
-    beginPausePrimingJob(resourceGroupName: string, cacheName: string, options?: CachesPausePrimingJobOptionalParams): Promise<PollerLike<PollOperationState<CachesPausePrimingJobResponse>, CachesPausePrimingJobResponse>>;
+    beginPausePrimingJob(resourceGroupName: string, cacheName: string, options?: CachesPausePrimingJobOptionalParams): Promise<SimplePollerLike<OperationState<CachesPausePrimingJobResponse>, CachesPausePrimingJobResponse>>;
     beginPausePrimingJobAndWait(resourceGroupName: string, cacheName: string, options?: CachesPausePrimingJobOptionalParams): Promise<CachesPausePrimingJobResponse>;
-    beginResumePrimingJob(resourceGroupName: string, cacheName: string, options?: CachesResumePrimingJobOptionalParams): Promise<PollerLike<PollOperationState<CachesResumePrimingJobResponse>, CachesResumePrimingJobResponse>>;
+    beginResumePrimingJob(resourceGroupName: string, cacheName: string, options?: CachesResumePrimingJobOptionalParams): Promise<SimplePollerLike<OperationState<CachesResumePrimingJobResponse>, CachesResumePrimingJobResponse>>;
     beginResumePrimingJobAndWait(resourceGroupName: string, cacheName: string, options?: CachesResumePrimingJobOptionalParams): Promise<CachesResumePrimingJobResponse>;
-    beginSpaceAllocation(resourceGroupName: string, cacheName: string, options?: CachesSpaceAllocationOptionalParams): Promise<PollerLike<PollOperationState<CachesSpaceAllocationResponse>, CachesSpaceAllocationResponse>>;
+    beginSpaceAllocation(resourceGroupName: string, cacheName: string, options?: CachesSpaceAllocationOptionalParams): Promise<SimplePollerLike<OperationState<CachesSpaceAllocationResponse>, CachesSpaceAllocationResponse>>;
     beginSpaceAllocationAndWait(resourceGroupName: string, cacheName: string, options?: CachesSpaceAllocationOptionalParams): Promise<CachesSpaceAllocationResponse>;
-    beginStart(resourceGroupName: string, cacheName: string, options?: CachesStartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStart(resourceGroupName: string, cacheName: string, options?: CachesStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStartAndWait(resourceGroupName: string, cacheName: string, options?: CachesStartOptionalParams): Promise<void>;
-    beginStartPrimingJob(resourceGroupName: string, cacheName: string, options?: CachesStartPrimingJobOptionalParams): Promise<PollerLike<PollOperationState<CachesStartPrimingJobResponse>, CachesStartPrimingJobResponse>>;
+    beginStartPrimingJob(resourceGroupName: string, cacheName: string, options?: CachesStartPrimingJobOptionalParams): Promise<SimplePollerLike<OperationState<CachesStartPrimingJobResponse>, CachesStartPrimingJobResponse>>;
     beginStartPrimingJobAndWait(resourceGroupName: string, cacheName: string, options?: CachesStartPrimingJobOptionalParams): Promise<CachesStartPrimingJobResponse>;
-    beginStop(resourceGroupName: string, cacheName: string, options?: CachesStopOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStop(resourceGroupName: string, cacheName: string, options?: CachesStopOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStopAndWait(resourceGroupName: string, cacheName: string, options?: CachesStopOptionalParams): Promise<void>;
-    beginStopPrimingJob(resourceGroupName: string, cacheName: string, options?: CachesStopPrimingJobOptionalParams): Promise<PollerLike<PollOperationState<CachesStopPrimingJobResponse>, CachesStopPrimingJobResponse>>;
+    beginStopPrimingJob(resourceGroupName: string, cacheName: string, options?: CachesStopPrimingJobOptionalParams): Promise<SimplePollerLike<OperationState<CachesStopPrimingJobResponse>, CachesStopPrimingJobResponse>>;
     beginStopPrimingJobAndWait(resourceGroupName: string, cacheName: string, options?: CachesStopPrimingJobOptionalParams): Promise<CachesStopPrimingJobResponse>;
-    beginUpgradeFirmware(resourceGroupName: string, cacheName: string, options?: CachesUpgradeFirmwareOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginUpdate(resourceGroupName: string, cacheName: string, options?: CachesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CachesUpdateResponse>, CachesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, cacheName: string, options?: CachesUpdateOptionalParams): Promise<CachesUpdateResponse>;
+    beginUpgradeFirmware(resourceGroupName: string, cacheName: string, options?: CachesUpgradeFirmwareOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginUpgradeFirmwareAndWait(resourceGroupName: string, cacheName: string, options?: CachesUpgradeFirmwareOptionalParams): Promise<void>;
     get(resourceGroupName: string, cacheName: string, options?: CachesGetOptionalParams): Promise<CachesGetResponse>;
     list(options?: CachesListOptionalParams): PagedAsyncIterableIterator<Cache_2>;
     listByResourceGroup(resourceGroupName: string, options?: CachesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Cache_2>;
-    update(resourceGroupName: string, cacheName: string, options?: CachesUpdateOptionalParams): Promise<CachesUpdateResponse>;
 }
 
 // @public
 export interface CachesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    cache?: Cache_2;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -219,9 +221,21 @@ export interface CachesCreateOrUpdateOptionalParams extends coreClient.Operation
 export type CachesCreateOrUpdateResponse = Cache_2;
 
 // @public
+export interface CachesDebugInfoHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
 export interface CachesDebugInfoOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface CachesDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -233,6 +247,12 @@ export interface CachesDeleteOptionalParams extends coreClient.OperationOptions 
 // @public
 export interface CacheSecuritySettings {
     accessPolicies?: NfsAccessPolicy[];
+}
+
+// @public
+export interface CachesFlushHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -336,6 +356,12 @@ export interface CachesSpaceAllocationOptionalParams extends coreClient.Operatio
 export type CachesSpaceAllocationResponse = CachesSpaceAllocationHeaders;
 
 // @public
+export interface CachesStartHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
 export interface CachesStartOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -356,6 +382,12 @@ export interface CachesStartPrimingJobOptionalParams extends coreClient.Operatio
 
 // @public
 export type CachesStartPrimingJobResponse = CachesStartPrimingJobHeaders;
+
+// @public
+export interface CachesStopHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
 
 // @public
 export interface CachesStopOptionalParams extends coreClient.OperationOptions {
@@ -380,12 +412,26 @@ export interface CachesStopPrimingJobOptionalParams extends coreClient.Operation
 export type CachesStopPrimingJobResponse = CachesStopPrimingJobHeaders;
 
 // @public
+export interface CachesUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
 export interface CachesUpdateOptionalParams extends coreClient.OperationOptions {
     cache?: Cache_2;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
 export type CachesUpdateResponse = Cache_2;
+
+// @public
+export interface CachesUpgradeFirmwareHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
 
 // @public
 export interface CachesUpgradeFirmwareOptionalParams extends coreClient.OperationOptions {
@@ -468,6 +514,9 @@ export interface ErrorResponse {
 
 // @public
 export type FirmwareStatusType = string;
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export type HealthStateType = string;
@@ -641,6 +690,8 @@ export interface NamespaceJunction {
 export interface Nfs3Target {
     target?: string;
     usageModel?: string;
+    verificationTimer?: number;
+    writeBackTimer?: number;
 }
 
 // @public
@@ -836,9 +887,21 @@ export interface StorageTarget extends StorageTargetResource {
 }
 
 // @public
+export interface StorageTargetFlushHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
 export interface StorageTargetFlushOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface StorageTargetInvalidateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -849,13 +912,13 @@ export interface StorageTargetInvalidateOptionalParams extends coreClient.Operat
 
 // @public
 export interface StorageTargetOperations {
-    beginFlush(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetFlushOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginFlush(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetFlushOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginFlushAndWait(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetFlushOptionalParams): Promise<void>;
-    beginInvalidate(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetInvalidateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginInvalidate(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetInvalidateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginInvalidateAndWait(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetInvalidateOptionalParams): Promise<void>;
-    beginResume(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetResumeOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginResume(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetResumeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginResumeAndWait(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetResumeOptionalParams): Promise<void>;
-    beginSuspend(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetSuspendOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginSuspend(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetSuspendOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginSuspendAndWait(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetSuspendOptionalParams): Promise<void>;
 }
 
@@ -869,6 +932,12 @@ export interface StorageTargetResource {
 }
 
 // @public
+export interface StorageTargetResumeHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
 export interface StorageTargetResumeOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -876,12 +945,14 @@ export interface StorageTargetResumeOptionalParams extends coreClient.OperationO
 
 // @public
 export interface StorageTargets {
-    beginCreateOrUpdate(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<StorageTargetsCreateOrUpdateResponse>, StorageTargetsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetsCreateOrUpdateOptionalParams): Promise<StorageTargetsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginCreateOrUpdate(resourceGroupName: string, cacheName: string, storageTargetName: string, storagetarget: StorageTarget, options?: StorageTargetsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<StorageTargetsCreateOrUpdateResponse>, StorageTargetsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, cacheName: string, storageTargetName: string, storagetarget: StorageTarget, options?: StorageTargetsCreateOrUpdateOptionalParams): Promise<StorageTargetsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetsDeleteOptionalParams): Promise<void>;
-    beginDnsRefresh(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetsDnsRefreshOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDnsRefresh(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetsDnsRefreshOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDnsRefreshAndWait(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetsDnsRefreshOptionalParams): Promise<void>;
+    beginRestoreDefaults(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetsRestoreDefaultsOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginRestoreDefaultsAndWait(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetsRestoreDefaultsOptionalParams): Promise<void>;
     get(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetsGetOptionalParams): Promise<StorageTargetsGetResponse>;
     listByCache(resourceGroupName: string, cacheName: string, options?: StorageTargetsListByCacheOptionalParams): PagedAsyncIterableIterator<StorageTarget>;
 }
@@ -889,7 +960,6 @@ export interface StorageTargets {
 // @public
 export interface StorageTargetsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
-    storagetarget?: StorageTarget;
     updateIntervalInMs?: number;
 }
 
@@ -897,10 +967,22 @@ export interface StorageTargetsCreateOrUpdateOptionalParams extends coreClient.O
 export type StorageTargetsCreateOrUpdateResponse = StorageTarget;
 
 // @public
+export interface StorageTargetsDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
 export interface StorageTargetsDeleteOptionalParams extends coreClient.OperationOptions {
     force?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface StorageTargetsDnsRefreshHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -937,9 +1019,27 @@ export interface StorageTargetSpaceAllocation {
 }
 
 // @public
+export interface StorageTargetsRestoreDefaultsHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface StorageTargetsRestoreDefaultsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface StorageTargetsResult {
     nextLink?: string;
     value?: StorageTarget[];
+}
+
+// @public
+export interface StorageTargetSuspendHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public

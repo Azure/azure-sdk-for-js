@@ -10,16 +10,42 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Returns a data connection.
  *
  * @summary Returns a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDataConnectionsEventGridGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoDataConnectionsCosmosDbGet.json
+ */
+async function kustoDataConnectionsCosmosDbGet() {
+  const subscriptionId =
+    process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
+  const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
+  const clusterName = "kustoCluster";
+  const databaseName = "KustoDatabase1";
+  const dataConnectionName = "dataConnectionTest";
+  const credential = new DefaultAzureCredential();
+  const client = new KustoManagementClient(credential, subscriptionId);
+  const result = await client.dataConnections.get(
+    resourceGroupName,
+    clusterName,
+    databaseName,
+    dataConnectionName
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Returns a data connection.
+ *
+ * @summary Returns a data connection.
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoDataConnectionsEventGridGet.json
  */
 async function kustoDataConnectionsEventGridGet() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = "kustorptest";
+  const subscriptionId =
+    process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
+  const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
   const clusterName = "kustoCluster";
   const databaseName = "KustoDatabase8";
   const dataConnectionName = "dataConnectionTest";
@@ -33,18 +59,17 @@ async function kustoDataConnectionsEventGridGet() {
   );
   console.log(result);
 }
-
-kustoDataConnectionsEventGridGet().catch(console.error);
 
 /**
  * This sample demonstrates how to Returns a data connection.
  *
  * @summary Returns a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDataConnectionsGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoDataConnectionsGet.json
  */
 async function kustoDataConnectionsGet() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = "kustorptest";
+  const subscriptionId =
+    process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
+  const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
   const clusterName = "kustoCluster";
   const databaseName = "KustoDatabase8";
   const dataConnectionName = "dataConnectionTest";
@@ -59,4 +84,10 @@ async function kustoDataConnectionsGet() {
   console.log(result);
 }
 
-kustoDataConnectionsGet().catch(console.error);
+async function main() {
+  kustoDataConnectionsCosmosDbGet();
+  kustoDataConnectionsEventGridGet();
+  kustoDataConnectionsGet();
+}
+
+main().catch(console.error);

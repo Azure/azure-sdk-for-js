@@ -8,8 +8,8 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-imagebuilder/2.0.0 core-rest-pipeline/1.8.2 Node/v16.13.2 OS/(x64-Windows_NT-10.0.19044)",
-        "x-ms-client-request-id": "c33a0754-56cd-48cb-84a7-0d45d812fa53"
+        "User-Agent": "azsdk-js-arm-imagebuilder/2.1.0 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "36ae4a77-3293-4dd2-9de2-be74407062df"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Mon, 06 Jun 2022 07:31:31 GMT",
+        "Date": "Wed, 11 Jan 2023 03:13:06 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "nginx",
@@ -25,10 +25,10 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "9028a02c-8af6-45be-bd1c-0424a94feef2",
-        "x-ms-ratelimit-remaining-subscription-reads": "11914",
-        "x-ms-request-id": "8e21f7c1-1391-4410-8394-5b3d607d7a20",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220606T073132Z:9028a02c-8af6-45be-bd1c-0424a94feef2"
+        "x-ms-correlation-request-id": "2247d1ee-f4f4-4fa3-a3fd-68cd568bbda0",
+        "x-ms-ratelimit-remaining-subscription-reads": "11985",
+        "x-ms-request-id": "390cdde3-4a26-4953-a5d9-c78306b0cf6c",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230111T031306Z:2247d1ee-f4f4-4fa3-a3fd-68cd568bbda0"
       },
       "ResponseBody": {
         "properties": {
@@ -40,7 +40,7 @@
             {
               "name": "Shell Customizer Example",
               "scriptUri": "https://github.com/Azure/azure-quickstart-templates/blob/master/quickstarts/microsoft.compute/vm-msi/scripts/install-and-run-cli-2.sh",
-              "sha256Checksum": "44dfa3255cff7ae595a3af36a09af64b523e5a0ee318e38c3fcf7207bb8efb6d",
+              "sha256Checksum": "8311b4fddda17cf3649ab132bab0a501994eddcb822c304d9433c7f8de884d92",
               "type": "Shell"
             }
           ],
@@ -58,14 +58,14 @@
           "provisioningState": "Succeeded",
           "buildTimeoutInMinutes": 0,
           "stagingResourceGroup": "",
-          "exactStagingResourceGroup": "/subscriptions/azure_subscription_id/resourceGroups/IT_myjstest_myimageTemplatexxxz_befab861-6109-4528-849e-940a66f66087"
+          "exactStagingResourceGroup": "/subscriptions/azure_subscription_id/resourceGroups/IT_myjstest_myimageTemplatexxxz_9eded134-5c02-4bbf-9482-8af8380f2e32"
         },
         "identity": {
           "type": "UserAssigned",
           "userAssignedIdentities": {
             "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mymsiaaa": {
-              "principalId": "8f51877d-ddb6-403d-a366-90d9eee12118",
-              "clientId": "8501540f-d586-4c8d-a67d-c6450fb3d787"
+              "principalId": "8ae41e99-ae84-48fb-8d7a-b3a0eaf8c711",
+              "clientId": "76550935-29d2-4563-8722-f49453eb0ce1"
             }
           }
         },

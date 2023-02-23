@@ -10,17 +10,20 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Secures delete ResourceGuardProxy operations.
  *
  * @summary Secures delete ResourceGuardProxy operations.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/ResourceGuardProxyCRUD/UnlockDeleteResourceGuardProxy.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/ResourceGuardProxyCRUD/UnlockDeleteResourceGuardProxy.json
  */
 async function unlockDeleteResourceGuardProxy() {
-  const subscriptionId = "0b352192-dcac-4cc7-992e-a96190ccc68c";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "0b352192-dcac-4cc7-992e-a96190ccc68c";
   const vaultName = "sampleVault";
-  const resourceGroupName = "SampleResourceGroup";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "SampleResourceGroup";
   const resourceGuardProxyName = "swaggerExample";
   const parameters = {
     resourceGuardOperationRequests: [
@@ -40,4 +43,8 @@ async function unlockDeleteResourceGuardProxy() {
   console.log(result);
 }
 
-unlockDeleteResourceGuardProxy().catch(console.error);
+async function main() {
+  unlockDeleteResourceGuardProxy();
+}
+
+main().catch(console.error);

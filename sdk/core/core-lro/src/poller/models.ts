@@ -93,6 +93,10 @@ export interface BuildCreatePollerOptions<TResponse, TState> {
     state: RestorableOperationState<TState>
   ) => OperationStatus;
   /**
+   * Determines if the input error is an operation error.
+   */
+  isOperationError: (error: Error) => boolean;
+  /**
    * Gets the updated operation location from polling responses.
    */
   getOperationLocation?: (

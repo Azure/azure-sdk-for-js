@@ -19,7 +19,7 @@ import {
   SendEventOptions,
   SendToGroupOptions,
   WebPubSubClientOptions,
-  OnRestoreGroupFailedArgs as OnRejoinGroupFailedArgs,
+  OnRejoinGroupFailedArgs,
   StartOptions,
   GetClientAccessUrlOptions,
 } from "./models";
@@ -41,6 +41,7 @@ import { WebPubSubClientProtocol, WebPubSubJsonReliableProtocol } from "./protoc
 import { WebPubSubClientCredential } from "./webPubSubClientCredential";
 import { WebSocketClientFactory } from "./websocket/websocketClient";
 import { WebSocketClientFactoryLike, WebSocketClientLike } from "./websocket/websocketClientLike";
+import { abortablePromise } from "./utils/abortablePromise";
 
 enum WebPubSubClientState {
   Stopped = "Stopped",
@@ -204,9 +205,12 @@ export class WebPubSubClient {
       return;
     }
 
+    // TODO: Maybe we need a better logic for stopping control
     this._isStopping = true;
-    if (this._wsClient) {
+    if (this._wsClient && this._wsClient.isOpen()) {
       this._wsClient.close();
+    } else {
+      this._isStopping = false;
     }
   }
 
@@ -607,24 +611,26 @@ export class WebPubSubClient {
           if (!this._isInitialConnected) {
             this._isInitialConnected = true;
 
-            const groupPromises: Promise<void>[] = [];
-            this._groupMap.forEach((g) => {
-              if (g.isJoined) {
-                groupPromises.push(
-                  (async () => {
-                    try {
-                      await this._joinGroupCore(g.name);
-                    } catch (err) {
-                      this._safeEmitRejoinGroupFailed(g.name, err);
-                    }
-                  })()
-                );
-              }
-            });
+            if (this._options.autoRejoinGroups) {
+              const groupPromises: Promise<void>[] = [];
+              this._groupMap.forEach((g) => {
+                if (g.isJoined) {
+                  groupPromises.push(
+                    (async () => {
+                      try {
+                        await this._joinGroupCore(g.name);
+                      } catch (err) {
+                        this._safeEmitRejoinGroupFailed(g.name, err);
+                      }
+                    })()
+                  );
+                }
+              });
 
-            try {
-              await Promise.all(groupPromises);
-            } catch {}
+              try {
+                await Promise.all(groupPromises);
+              } catch {}
+            }
 
             this._safeEmitConnected(message.connectionId, message.userId);
           }
@@ -798,6 +804,17 @@ export class WebPubSubClient {
       throw new SendMessageError(errorMessage, { ackId: ackId });
     }
 
+    if (abortSignal) {
+      try {
+        return await abortablePromise(entity.promise(), abortSignal);
+      } catch (err) {
+        if (err instanceof Error && err.name === "AbortError") {
+          throw new SendMessageError("Cancelled by abortSignal", { ackId: ackId });
+        }
+        throw err;
+      }
+    }
+
     return await entity.promise();
   }
 
@@ -906,8 +923,8 @@ export class WebPubSubClient {
       clientOptions.autoReconnect = true;
     }
 
-    if (clientOptions.autoRestoreGroups == null) {
-      clientOptions.autoRestoreGroups = true;
+    if (clientOptions.autoRejoinGroups == null) {
+      clientOptions.autoRejoinGroups = true;
     }
 
     if (clientOptions.protocol == null) {

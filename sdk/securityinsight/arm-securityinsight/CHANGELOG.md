@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.6 (Unreleased)
+## 1.0.0-beta.7 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,47 @@
 
 ### Other Changes
 
+## 1.0.0-beta.6 (2023-02-03)
+    
+**Features**
+
+  - Interface BookmarkRelationsListNextOptionalParams no longer has parameter filter
+  - Interface BookmarkRelationsListNextOptionalParams no longer has parameter orderby
+  - Interface BookmarkRelationsListNextOptionalParams no longer has parameter skipToken
+  - Interface BookmarkRelationsListNextOptionalParams no longer has parameter top
+  - Interface EntitiesRelationsListNextOptionalParams no longer has parameter filter
+  - Interface EntitiesRelationsListNextOptionalParams no longer has parameter orderby
+  - Interface EntitiesRelationsListNextOptionalParams no longer has parameter skipToken
+  - Interface EntitiesRelationsListNextOptionalParams no longer has parameter top
+  - Interface EntityQueriesListNextOptionalParams no longer has parameter kind
+  - Interface FileImportsListNextOptionalParams no longer has parameter filter
+  - Interface FileImportsListNextOptionalParams no longer has parameter orderby
+  - Interface FileImportsListNextOptionalParams no longer has parameter skipToken
+  - Interface FileImportsListNextOptionalParams no longer has parameter top
+  - Interface IncidentCommentsListNextOptionalParams no longer has parameter filter
+  - Interface IncidentCommentsListNextOptionalParams no longer has parameter orderby
+  - Interface IncidentCommentsListNextOptionalParams no longer has parameter skipToken
+  - Interface IncidentCommentsListNextOptionalParams no longer has parameter top
+  - Interface IncidentRelationsListNextOptionalParams no longer has parameter filter
+  - Interface IncidentRelationsListNextOptionalParams no longer has parameter orderby
+  - Interface IncidentRelationsListNextOptionalParams no longer has parameter skipToken
+  - Interface IncidentRelationsListNextOptionalParams no longer has parameter top
+  - Interface IncidentsListNextOptionalParams no longer has parameter filter
+  - Interface IncidentsListNextOptionalParams no longer has parameter orderby
+  - Interface IncidentsListNextOptionalParams no longer has parameter skipToken
+  - Interface IncidentsListNextOptionalParams no longer has parameter top
+  - Interface MetadataListNextOptionalParams no longer has parameter filter
+  - Interface MetadataListNextOptionalParams no longer has parameter orderby
+  - Interface MetadataListNextOptionalParams no longer has parameter skip
+  - Interface MetadataListNextOptionalParams no longer has parameter top
+  - Interface ThreatIntelligenceIndicatorsListNextOptionalParams no longer has parameter filter
+  - Interface ThreatIntelligenceIndicatorsListNextOptionalParams no longer has parameter orderby
+  - Interface ThreatIntelligenceIndicatorsListNextOptionalParams no longer has parameter skipToken
+  - Interface ThreatIntelligenceIndicatorsListNextOptionalParams no longer has parameter top
+  - Interface WatchlistItemsListNextOptionalParams no longer has parameter skipToken
+  - Interface WatchlistsListNextOptionalParams no longer has parameter skipToken
+    
+    
 ## 1.0.0-beta.5 (2022-09-27)
     
 **Features**

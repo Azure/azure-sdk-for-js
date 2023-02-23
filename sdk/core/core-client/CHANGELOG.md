@@ -1,5 +1,21 @@
 # Release History
 
+## 1.7.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.7.1 (2023-02-02)
+
+### Other Changes
+
+- Only deserialize headers that are mapped in OperationSpec when using a header mapper. Previously core-client would include all header values when deserializing, leading to result objects having unintended extra metadata.
+
 ## 1.7.0 (2023-01-05)
 
 ### Features Added

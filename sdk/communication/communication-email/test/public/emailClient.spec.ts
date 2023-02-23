@@ -7,7 +7,7 @@ import { Context } from "mocha";
 import { assert } from "chai";
 import { createRecordedEmailClientWithConnectionString } from "./utils/recordedClient";
 
-describe(`EmailClient [Playback/Live]`, () => {
+describe(`EmailClient [Playback/Live]`, function () {
   let recorder: Recorder;
   let client: EmailClient;
 

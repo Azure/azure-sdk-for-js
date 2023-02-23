@@ -77,7 +77,7 @@ npm install @azure/core-auth
 
 ```javascript
 const MapsRender = require("@azure-rest/maps-render").default;
-const AzureKeyCredential = require("@azure/core-auth");
+const { AzureKeyCredential } = require("@azure/core-auth");
 
 const credential = new AzureKeyCredential("<subscription-key>");
 const client = MapsRender(credential);
@@ -151,7 +151,7 @@ if (isUnexpected(response)) {
 }
 
 console.log("Copyright attribution for microsoft.base: ");
-baseResponse.body.copyrights.forEach((copyright) => console.log(copyright));
+response.body.copyrights.forEach((copyright) => console.log(copyright));
 ```
 
 ### Request metadata for a tileset
@@ -207,11 +207,10 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fmaps%2Fmaps-render-rest%2FREADME.png)
 
-<!-- [source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-render-rest -->
-<!-- [npm_package]: https://www.npmjs.com/package/@azure-rest/maps-render -->
-<!-- [api_ref]: https://docs.microsoft.com/javascript/api/@azure-rest/maps-render?view=azure-node-preview -->
-<!-- [samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-render-rest/samples -->
-
+[source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-render-rest
+[npm_package]: https://www.npmjs.com/package/@azure-rest/maps-render
+[api_ref]: https://docs.microsoft.com/javascript/api/@azure-rest/maps-render?view=azure-node-preview
+[samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-render-rest/samples
 [product_info]: https://docs.microsoft.com/rest/api/maps/render-v2
 [nodejs_release]: https://nodejs.org/about/releases/
 [az_subscription]: https://azure.microsoft.com/free/
