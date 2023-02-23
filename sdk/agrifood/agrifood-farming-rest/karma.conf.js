@@ -61,7 +61,7 @@ module.exports = function (config) {
       "AZURE_CLIENT_ID",
       "AZURE_TENANT_ID",
       "SUBSCRIPTION_ID",
-      "AZURE_LOG_LEVEL"
+      "AZURE_LOG_LEVEL",
     ],
 
     // test results reporter to use
