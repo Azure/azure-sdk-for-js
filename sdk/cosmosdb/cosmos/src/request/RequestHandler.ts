@@ -98,9 +98,10 @@ async function httpRequest(requestContext: RequestContext): Promise<{
   }
 
   clearTimeout(timeout);
-
   const result =
-    response.status === 204 || response.status === 304 ? null : JSON.parse(response.bodyAsText);
+    response.status === 204 || response.status === 304 || response.bodyAsText === ""
+      ? null
+      : JSON.parse(response.bodyAsText);
   const headers = response.headers.toJSON();
 
   const substatus = headers[Constants.HttpHeaders.SubStatus]
