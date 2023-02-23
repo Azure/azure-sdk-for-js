@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CommunicationIdentifier, PhoneNumberIdentifier } from "@azure/communication-common";
+import { CommunicationIdentifier, CommunicationUserIdentifier, PhoneNumberIdentifier } from "@azure/communication-common";
 import {
   CallConnectionStateModel,
   CommunicationIdentifierModel,
@@ -22,27 +22,21 @@ export {
   CallConnectionStateModel,
 } from "../generated/src/models/index";
 
-/** The caller. */
-export interface CallSourceDto {
-  /**
-   * The source caller Id, a phone number, that's shown to the PSTN participant being invited.
-   * Required only when calling a PSTN callee.
-   */
-  callerId?: PhoneNumberIdentifier;
-  /** Display name of the call if dialing out to a pstn number */
-  displayName?: string;
-  /** The identifier of the source of the call */
-  identifier: CommunicationIdentifier;
-}
-
 /** Properties of a call connection */
-export interface CallConnectionPropertiesDto {
+export interface CallConnectionProperties {
   /** The call connection id. */
   callConnectionId?: string;
   /** The server call id. */
   serverCallId?: string;
-  /** The source of the call, which is the caller. */
-  source?: CallSourceDto;
+  /**
+   * The source caller Id, a phone number, that's shown to the PSTN participant being invited.
+   * Required only when calling a PSTN callee.
+   */
+  sourceCallerIdNumber?: PhoneNumberIdentifier;
+  /** Display name of the call if dialing out to a pstn number. */
+  sourceDisplayName?: string;
+  /** Source identity. */
+  sourceIdentity?: CommunicationIdentifier;
   /** The targets of the call. */
   targets?: CommunicationIdentifier[];
   /** The state of the call connection. */
@@ -54,7 +48,7 @@ export interface CallConnectionPropertiesDto {
 }
 
 /** Contract model of an ACS call participant */
-export interface CallParticipant {
+export interface CallParticipantDto {
   /** Communication identifier of the participant */
   identifier?: CommunicationIdentifier;
   /** Is participant muted */
@@ -97,4 +91,63 @@ export interface StartCallRecordingRequestDto {
 export interface RecordingStateResponseDto {
   recordingId?: string;
   recordingState?: RecordingState;
+}
+
+function instanceOfPhoneNumberIdentity(object: any): object is PhoneNumberIdentifier {
+    return "phoneNumber" in object;
+}
+
+export class CallInvite {
+    public readonly target: CommunicationIdentifier;
+    public readonly sourceCallIdNumber?: PhoneNumberIdentifier;
+    public sourceDisplayName?: string;
+    public readonly sipHeaders?: { [propertyName: string]: string };
+    public readonly voipHeaders?: { [propertyName: string]: string };
+
+   /**
+   * Create a CallInvite object with PhoneNumberIdentifierr
+   * @param targetPhoneNumberIdentity - Target's PhoneNumberIdentifier
+   * @param callerIdNumber - Caller's phone number identifier
+   */
+    constructor(targetPhoneNumberIdentity: PhoneNumberIdentifier, callerIdNumber: PhoneNumberIdentifier);
+
+    /**
+     * Create a CallInvite object with PhoneNumberIdentifier
+     * @param targetPhoneNumberIdentity - Target's PhoneNumberIdentifier
+     * @param callerIdNumber - Caller's phone number identifier
+     * @param sipHeaders - Custom context for PSTN
+     */
+    constructor(targetPhoneNumberIdentity: PhoneNumberIdentifier, callerIdNumber: PhoneNumberIdentifier, sipHeader: { [propertyName: string]: string });
+
+    /**
+     * Create a CallInvite object with CommunicationUserIdentifier
+     * @param targetIdentity - Target's CommunicationUserIdentifier
+     */
+    constructor(targetIdentity: CommunicationUserIdentifier);
+
+    /**
+     * Create a CallInvite object with CommunicationUserIdentifier
+     * @param targetIdentity - Target's CommunicationUserIdentifier
+     * @param voipHeaders - Custom context for voip
+     */
+    constructor(targetIdentity: CommunicationUserIdentifier, voipHeaders: { [propertyName: string]: string });
+
+    constructor(
+        targetIdentity: PhoneNumberIdentifier | CommunicationUserIdentifier,
+        callerIdNumberOrHeaders?: PhoneNumberIdentifier | { [propertyName: string]: string },
+        maybeHeaders?: { [propertyName: string]: string }
+    ) {
+        this.target = targetIdentity;
+        if (callerIdNumberOrHeaders) {
+            if (instanceOfPhoneNumberIdentity(callerIdNumberOrHeaders)) {
+                this.sourceCallIdNumber = callerIdNumberOrHeaders;
+                if (maybeHeaders) {
+                    this.sipHeaders = maybeHeaders;
+                }
+            }
+            else {
+                this.voipHeaders = callerIdNumberOrHeaders;
+            }
+        }
+    }
 }

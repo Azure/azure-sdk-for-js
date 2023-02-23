@@ -30,12 +30,12 @@ import {
   RejectCallOptions,
 } from "./models/options";
 import { AnswerCallResult, CreateCallResult } from "./models/responses";
-import { CallConnectionPropertiesDto, CallSourceDto } from "./models/models";
+import { CallConnectionProperties, CallInvite } from "./models/models";
 import {
-  callSourceConverter,
-  callSourceDtoConverter,
   communicationIdentifierConverter,
   communicationIdentifierModelConverter,
+  phoneNumberIdentifierConverter,
+  PhoneNumberIdentifierModelConverter,
 } from "./utli/converters";
 
 /**
@@ -49,7 +49,7 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
 }
 
 /**
- * Checks whether the type of a value is CallingServerClientOptions or not.
+ * Checks whether the type of a value is CallAutomationClientOptions or not.
  *
  * @param options - The value being checked.
  */
@@ -158,33 +158,34 @@ export class CallAutomationClient {
 
   /**
    * Create an outgoing call from source to target identities.
-   * @param source - The source of caller.
-   * @param targets - The target identities.
+   * @param target - Either a single target or a group of target identities.
    * @param callbackUrl - The callback url.
    * @param options - Additional request options contains createCallConnection api options.
    */
   public async createCall(
-    source: CallSourceDto,
-    targets: CommunicationIdentifier[],
+    target: CallInvite | CommunicationIdentifier[],
     callbackUrl: string,
     options: CreateCallOptions = {}
   ): Promise<CreateCallResult> {
     const request: CreateCallRequest = {
-      source: callSourceConverter(source),
-      targets: targets.map((m) => communicationIdentifierModelConverter(m)),
+      sourceIdentity: this.sourceIdentity,
+      targets: target instanceof CallInvite ? [communicationIdentifierModelConverter(target.target)] : target.map((m) => communicationIdentifierModelConverter(m)),
       callbackUri: callbackUrl,
       operationContext: options.operationContext,
       azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl,
       mediaStreamingConfiguration: options.mediaStreamingConfiguration,
+      sourceCallerIdNumber: target instanceof CallInvite ? PhoneNumberIdentifierModelConverter(target.sourceCallIdNumber) : options.sourceCallIdNumber ? PhoneNumberIdentifierModelConverter(options.sourceCallIdNumber) : undefined,
+      sourceDisplayName: target instanceof CallInvite ? target.sourceDisplayName : options.sourceDisplayName ? options.sourceDisplayName : undefined
     };
 
     const result = await this.callAutomationApiClient.createCall(request, options);
 
     if (result?.callConnectionId) {
-      const callConnectionPropertiesDto: CallConnectionPropertiesDto = {
+      const callConnectionPropertiesDto: CallConnectionProperties = {
         ...result,
-        source: result.source ? callSourceDtoConverter(result.source) : undefined,
+        sourceIdentity: result.sourceIdentity ? communicationIdentifierConverter(result.sourceIdentity) : undefined,
         targets: result.targets?.map((target) => communicationIdentifierConverter(target)),
+        sourceCallerIdNumber: result.sourceCallerIdNumber ? phoneNumberIdentifierConverter(result.sourceCallerIdNumber) : undefined
       };
       const callConnection = new CallConnection(
         result.callConnectionId,
@@ -199,6 +200,7 @@ export class CallAutomationClient {
     }
     throw "callConnectionProperties / callConnectionId is missing in createCall result";
   }
+
 
   /**
    * Answer the call.
@@ -221,10 +223,11 @@ export class CallAutomationClient {
     const result = await this.callAutomationApiClient.answerCall(request, options);
 
     if (result?.callConnectionId) {
-      const callConnectionPropertiesDto: CallConnectionPropertiesDto = {
+      const callConnectionProperties: CallConnectionProperties = {
         ...result,
-        source: result.source ? callSourceDtoConverter(result.source) : undefined,
+        sourceIdentity: result.sourceIdentity ? communicationIdentifierConverter(result.sourceIdentity) : undefined,
         targets: result.targets?.map((target) => communicationIdentifierConverter(target)),
+        sourceCallerIdNumber: result.sourceCallerIdNumber ? phoneNumberIdentifierConverter(result.sourceCallerIdNumber) : undefined
       };
       const callConnection = new CallConnection(
         result.callConnectionId,
@@ -232,7 +235,7 @@ export class CallAutomationClient {
         this.callMediaImpl
       );
       const answerCallResult: AnswerCallResult = {
-        callConnectionProperties: callConnectionPropertiesDto,
+        callConnectionProperties: callConnectionProperties,
         callConnection: callConnection,
       };
       return answerCallResult;
@@ -244,17 +247,17 @@ export class CallAutomationClient {
    * Redirect the call.
    *
    * @param incomingCallContext - The context associated with the call.
-   * @param target - The target identity to redirect the call to.
+   * @param targetCallInvite - The targetCallInvite identity to redirect the call to.
    * @param options - Additional request options contains redirectCall api options.
    */
   public async redirectCall(
     incomingCallContext: string,
-    target: CommunicationIdentifier,
+    targetCallInvite: CallInvite,
     options: RedirectCallOptions = {}
   ): Promise<void> {
     const request: RedirectCallRequest = {
       incomingCallContext: incomingCallContext,
-      target: communicationIdentifierModelConverter(target),
+      target: communicationIdentifierModelConverter(targetCallInvite.target),
     };
 
     return await this.callAutomationApiClient.redirectCall(request, options);

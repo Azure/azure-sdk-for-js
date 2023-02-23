@@ -4,14 +4,14 @@
 import { CommunicationIdentifier } from "@azure/communication-common";
 import { CallMedia } from "./callMedia";
 import {
-  AddParticipantsRequest,
-  RemoveParticipantsRequest,
+  AddParticipantRequest,
+  RemoveParticipantRequest,
   TransferToParticipantRequest,
 } from "./generated/src";
 import { CallConnectionImpl, CallMediaImpl } from "./generated/src/operations";
-import { CallConnectionPropertiesDto, CallParticipant } from "./models/models";
+import { CallConnectionProperties, CallInvite, CallParticipantDto } from "./models/models";
 import {
-  AddParticipantsOptions,
+  AddParticipantOptions,
   GetCallConnectionPropertiesOptions,
   GetParticipantOptions,
   HangUpOptions,
@@ -21,14 +21,14 @@ import {
 import {
   ListParticipantsResult,
   TransferCallResult,
-  AddParticipantsResult,
+  AddParticipantResult,
   RemoveParticipantsResult,
 } from "./models/responses";
 import {
   callParticipantConverter,
-  callSourceDtoConverter,
   communicationIdentifierConverter,
   communicationIdentifierModelConverter,
+  phoneNumberIdentifierConverter,
   PhoneNumberIdentifierModelConverter,
 } from "./utli/converters";
 
@@ -62,14 +62,15 @@ export class CallConnection {
    */
   public async getCallConnectionProperties(
     options: GetCallConnectionPropertiesOptions = {}
-  ): Promise<CallConnectionPropertiesDto> {
+  ): Promise<CallConnectionProperties> {
     const result = await this.callConnectionImpl.getCall(this.callConnectionId, options);
-    const callConnectionPropertiesDto: CallConnectionPropertiesDto = {
+    const callConnectionProperties: CallConnectionProperties = {
       ...result,
-      source: result.source ? callSourceDtoConverter(result.source) : undefined,
+      sourceIdentity: result.sourceIdentity ? communicationIdentifierConverter(result.sourceIdentity) : undefined,
       targets: result.targets?.map((target) => communicationIdentifierConverter(target)),
+      sourceCallerIdNumber: result.sourceCallerIdNumber ? phoneNumberIdentifierConverter(result.sourceCallerIdNumber) : undefined
     };
-    return callConnectionPropertiesDto;
+    return callConnectionProperties;
   }
 
   /**
@@ -90,13 +91,13 @@ export class CallConnection {
   public async getParticipant(
     participantMri: string,
     options: GetParticipantOptions = {}
-  ): Promise<CallParticipant> {
+  ): Promise<CallParticipantDto> {
     const result = await this.callConnectionImpl.getParticipant(
       this.callConnectionId,
       participantMri,
       options
     );
-    const callParticipant: CallParticipant = {
+    const callParticipant: CallParticipantDto = {
       identifier: result.identifier
         ? communicationIdentifierConverter(result.identifier)
         : undefined,
@@ -124,33 +125,33 @@ export class CallConnection {
   /**
    * Add participants to a call
    */
-  public async addParticipants(
-    participants: CommunicationIdentifier[],
-    options: AddParticipantsOptions = {}
-  ): Promise<AddParticipantsResult> {
-    const addParticipantsRequest: AddParticipantsRequest = {
-      participantsToAdd: participants.map((participant) =>
-        communicationIdentifierModelConverter(participant)
-      ),
-      sourceIdentifier: options.sourceIdentifier
-        ? communicationIdentifierModelConverter(options.sourceIdentifier)
-        : undefined,
-      sourceCallerId: PhoneNumberIdentifierModelConverter(options.sourceCallerId),
-      sourceDisplayName: options.sourceDisplayName,
+  public async addParticipant(
+    participant: CallInvite,
+    options: AddParticipantOptions = {}
+  ): Promise<AddParticipantResult> {
+    const addParticipantRequest: AddParticipantRequest = {
+      participantToAdd: communicationIdentifierModelConverter(participant.target),
+      sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(participant.sourceCallIdNumber),
+      sourceDisplayName: participant.sourceDisplayName,
       invitationTimeoutInSeconds: options.invitationTimeoutInSeconds,
-      operationContext: options.operationContext,
+        operationContext: options.operationContext,
+        customContext: {
+            sipHeaders: participant.sipHeaders,
+            voipHeaders: participant.voipHeaders
+        }
     };
 
     const result = await this.callConnectionImpl.addParticipant(
       this.callConnectionId,
-      addParticipantsRequest,
+      addParticipantRequest,
       options
     );
-    const addParticipantsResult: AddParticipantsResult = {
+    const addParticipantsResult: AddParticipantResult = {
       ...result,
-      participants: result.participants
-        ? result.participants.map((participant) => callParticipantConverter(participant))
-        : undefined,
+        participant: {
+        ...result.participant,
+        identifier: result.participant?.identifier ? communicationIdentifierConverter(result.participant?.identifier) : undefined
+        }
     };
     return addParticipantsResult;
   }
@@ -159,13 +160,17 @@ export class CallConnection {
    * Transfer the call to a target participant
    */
   public async transferCallToParticipant(
-    target: CommunicationIdentifier,
+    target: CallInvite,
     options: TransferCallToParticipantOptions = {}
   ): Promise<TransferCallResult> {
     const transferToParticipantRequest: TransferToParticipantRequest = {
-      targetParticipant: communicationIdentifierModelConverter(target),
-      transfereeCallerId: PhoneNumberIdentifierModelConverter(options?.transfereeCallerId),
+      targetParticipant: communicationIdentifierModelConverter(target.target),
+      transfereeCallerId: PhoneNumberIdentifierModelConverter(target.sourceCallIdNumber),
       operationContext: options.operationContext,
+      customContext: {
+        sipHeaders: target.sipHeaders,
+        voipHeaders: target.voipHeaders
+      }
     };
 
     const result = await this.callConnectionImpl.transferToParticipant(
@@ -180,20 +185,18 @@ export class CallConnection {
   /**
    * Remove participants from a call
    */
-  public async removeParticipants(
-    participants: CommunicationIdentifier[],
+  public async removeParticipant(
+    participant: CommunicationIdentifier,
     options: RemoveParticipantsOptions = {}
   ): Promise<RemoveParticipantsResult> {
-    const removeParticipantsRequest: RemoveParticipantsRequest = {
-      participantsToRemove: participants.map((participant) =>
-        communicationIdentifierModelConverter(participant)
-      ),
+    const removeParticipantRequest: RemoveParticipantRequest = {
+      participantToRemove: communicationIdentifierModelConverter(participant),
       operationContext: options.operationContext,
     };
 
-    const result = await this.callConnectionImpl.removeParticipants(
+    const result = await this.callConnectionImpl.removeParticipant(
       this.callConnectionId,
-      removeParticipantsRequest,
+      removeParticipantRequest,
       options
     );
     const removeParticipantsResult: RemoveParticipantsResult = {

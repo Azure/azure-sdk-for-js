@@ -7,6 +7,7 @@
 import { AzureLogger } from '@azure/logger';
 import { CommonClientOptions } from '@azure/core-client';
 import { CommunicationIdentifier } from '@azure/communication-common';
+import { CommunicationUserIdentifier } from '@azure/communication-common';
 import * as coreClient from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
@@ -14,18 +15,15 @@ import { PhoneNumberIdentifier } from '@azure/communication-common';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AddParticipantsOptions extends OperationOptions {
+export interface AddParticipantOptions extends OperationOptions {
     invitationTimeoutInSeconds?: number;
     operationContext?: string;
-    sourceCallerId?: PhoneNumberIdentifier;
-    sourceDisplayName?: string;
-    sourceIdentifier?: CommunicationIdentifier;
 }
 
 // @public
-export interface AddParticipantsResult {
+export interface AddParticipantResult {
     operationContext?: string;
-    participants?: CallParticipant[];
+    participant?: CallParticipantDto;
 }
 
 // @public
@@ -45,15 +43,17 @@ export class CallAutomationClient {
     constructor(endpoint: string, credential: KeyCredential, options?: CallAutomationClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: CallAutomationClientOptions);
     answerCall(incomingCallContext: string, callbackUrl: string, options?: AnswerCallOptions): Promise<AnswerCallResult>;
-    createCall(source: CallSourceDto, targets: CommunicationIdentifier[], callbackUrl: string, options?: CreateCallOptions): Promise<CreateCallResult>;
+    createCall(target: CallInvite | CommunicationIdentifier[], callbackUrl: string, options?: CreateCallOptions): Promise<CreateCallResult>;
     getCallConnection(callConnectionId: string): CallConnection;
     getCallRecording(): CallRecording;
-    redirectCall(incomingCallContext: string, target: CommunicationIdentifier, options?: RedirectCallOptions): Promise<void>;
+    getSourceIdentity(): CommunicationUserIdentifier | undefined;
+    redirectCall(incomingCallContext: string, targetCallInvite: CallInvite, options?: RedirectCallOptions): Promise<void>;
     rejectCall(incomingCallContext: string, options?: RejectCallOptions): Promise<void>;
 }
 
 // @public
 export interface CallAutomationClientOptions extends CommonClientOptions {
+    sourceIdentity?: CommunicationUserIdentifier;
 }
 
 // @public
@@ -61,29 +61,57 @@ export class CallConnection {
     // Warning: (ae-forgotten-export) The symbol "CallConnectionImpl" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "CallMediaImpl" needs to be exported by the entry point index.d.ts
     constructor(callConnectionId: string, callConnectionImpl: CallConnectionImpl, callMediaImpl: CallMediaImpl);
-    addParticipants(participants: CommunicationIdentifier[], options?: AddParticipantsOptions): Promise<AddParticipantsResult>;
-    getCallConnectionProperties(options?: GetCallConnectionPropertiesOptions): Promise<CallConnectionPropertiesDto>;
+    addParticipant(participant: CallInvite, options?: AddParticipantOptions): Promise<AddParticipantResult>;
+    getCallConnectionProperties(options?: GetCallConnectionPropertiesOptions): Promise<CallConnectionProperties>;
     getCallMedia(): CallMedia;
-    getParticipant(participantMri: string, options?: GetParticipantOptions): Promise<CallParticipant>;
+    getParticipant(participantMri: string, options?: GetParticipantOptions): Promise<CallParticipantDto>;
     hangUp(isForEveryOne: boolean, options?: HangUpOptions): Promise<void>;
     listParticipants(options?: GetParticipantOptions): Promise<ListParticipantsResult>;
-    removeParticipants(participants: CommunicationIdentifier[], options?: RemoveParticipantsOptions): Promise<RemoveParticipantsResult>;
-    transferCallToParticipant(target: CommunicationIdentifier, options?: TransferCallToParticipantOptions): Promise<TransferCallResult>;
+    removeParticipant(participant: CommunicationIdentifier, options?: RemoveParticipantsOptions): Promise<RemoveParticipantsResult>;
+    transferCallToParticipant(target: CallInvite, options?: TransferCallToParticipantOptions): Promise<TransferCallResult>;
 }
 
 // @public
-export interface CallConnectionPropertiesDto {
+export interface CallConnectionProperties {
     callbackUri?: string;
     callConnectionId?: string;
     callConnectionState?: CallConnectionStateModel;
     mediaSubscriptionId?: string;
     serverCallId?: string;
-    source?: CallSourceDto;
+    sourceCallerIdNumber?: PhoneNumberIdentifier;
+    sourceDisplayName?: string;
+    sourceIdentity?: CommunicationIdentifier;
     targets?: CommunicationIdentifier[];
 }
 
 // @public
 export type CallConnectionStateModel = string;
+
+// @public (undocumented)
+export class CallInvite {
+    constructor(targetPhoneNumberIdentity: PhoneNumberIdentifier, callerIdNumber: PhoneNumberIdentifier);
+    constructor(targetPhoneNumberIdentity: PhoneNumberIdentifier, callerIdNumber: PhoneNumberIdentifier, sipHeader: {
+        [propertyName: string]: string;
+    });
+    constructor(targetIdentity: CommunicationUserIdentifier);
+    constructor(targetIdentity: CommunicationUserIdentifier, voipHeaders: {
+        [propertyName: string]: string;
+    });
+    // (undocumented)
+    readonly sipHeaders?: {
+        [propertyName: string]: string;
+    };
+    // (undocumented)
+    readonly sourceCallIdNumber?: PhoneNumberIdentifier;
+    // (undocumented)
+    sourceDisplayName?: string;
+    // (undocumented)
+    readonly target: CommunicationIdentifier;
+    // (undocumented)
+    readonly voipHeaders?: {
+        [propertyName: string]: string;
+    };
+}
 
 // @public
 export class CallMedia {
@@ -95,7 +123,7 @@ export class CallMedia {
 }
 
 // @public
-export interface CallParticipant {
+export interface CallParticipantDto {
     identifier?: CommunicationIdentifier;
     isMuted?: boolean;
 }
@@ -131,17 +159,12 @@ export type CallRecordingStopRecordingOptions = OperationOptions;
 export type CallRejectReason = string;
 
 // @public
-export interface CallSourceDto {
-    callerId?: PhoneNumberIdentifier;
-    displayName?: string;
-    identifier: CommunicationIdentifier;
-}
-
-// @public
 export interface CreateCallOptions extends OperationOptions {
     azureCognitiveServicesEndpointUrl?: string;
     mediaStreamingConfiguration?: MediaStreamingConfiguration;
     operationContext?: string;
+    sourceCallIdNumber?: PhoneNumberIdentifier;
+    sourceDisplayName?: string;
 }
 
 // @public
@@ -174,7 +197,7 @@ export enum KnownCallRejectReason {
 // @public
 export interface ListParticipantsResult {
     nextLink?: string;
-    values?: CallParticipant[];
+    values?: CallParticipantDto[];
 }
 
 // @public
@@ -266,7 +289,6 @@ export interface TransferCallResult {
 // @public
 export interface TransferCallToParticipantOptions extends OperationOptions {
     operationContext?: string;
-    transfereeCallerId?: PhoneNumberIdentifier;
 }
 
 // (No @packageDocumentation comment for this package)

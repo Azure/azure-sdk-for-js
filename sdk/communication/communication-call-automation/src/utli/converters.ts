@@ -13,14 +13,13 @@ import {
   isUnknownIdentifier,
 } from "@azure/communication-common";
 import {
-  AcsCallParticipant,
-  CallSource,
+  CallParticipant,
   CommunicationIdentifierModel,
   CommunicationIdentifierModelKind,
   KnownCommunicationIdentifierModelKind,
   PhoneNumberIdentifierModel,
 } from "../generated/src";
-import { CallParticipant, CallSourceDto } from "../models/models";
+import { CallParticipantDto } from "../models/models";
 
 function extractKind(
   identifierModel: CommunicationIdentifierModel
@@ -135,26 +134,8 @@ export function communicationIdentifierModelConverter(
   throw new Error();
 }
 
-export function callSourceConverter(callSourceDto: CallSourceDto): CallSource {
-  const callSource: CallSource = {
-    ...callSourceDto,
-    identifier: communicationIdentifierModelConverter(callSourceDto.identifier),
-    callerId: PhoneNumberIdentifierModelConverter(callSourceDto.callerId),
-  };
-  return callSource;
-}
-
-export function callSourceDtoConverter(callSource: CallSource): CallSourceDto {
-  const callSourceDto: CallSourceDto = {
-    ...callSource,
-    identifier: communicationIdentifierConverter(callSource.identifier),
-    callerId: phoneNumberIdentifierConverter(callSource.callerId),
-  };
-  return callSourceDto;
-}
-
-export function callParticipantConverter(acsCallParticipant: AcsCallParticipant): CallParticipant {
-  const callParticipant: CallParticipant = {
+export function callParticipantConverter(acsCallParticipant: CallParticipant): CallParticipantDto {
+  const callParticipant: CallParticipantDto = {
     ...acsCallParticipant,
     identifier: acsCallParticipant.identifier
       ? communicationIdentifierConverter(acsCallParticipant.identifier)
