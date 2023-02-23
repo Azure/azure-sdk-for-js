@@ -8,9 +8,9 @@
 package-name: "@azure-rest/purview-workflow"
 title: Purview Workflow
 description: Purview Workflow Client
-generate-metadata: true
-generate-test: true
-generate-sample: true
+generate-metadata: false
+generate-test: false
+generate-sample: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src
