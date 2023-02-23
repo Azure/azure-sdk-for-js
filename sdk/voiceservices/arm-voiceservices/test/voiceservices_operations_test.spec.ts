@@ -48,7 +48,7 @@ describe("voiceservices test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new MicrosoftVoiceServices(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
+    location = "westcentralus";
     resourceGroup = "myjstest";
     communicationsGatewayName = "mycg";
   });
