@@ -63,7 +63,7 @@ describe("DataLakePathClient", () => {
 
     assert.ok(foundFile, "The file should have been created.");
   });
-  
+
   it("DataLakeDirectoryClient create directory path with directory dots", async () => {
     const subDirName = recorder.getUniqueName("dirname");
     const subDirNameWithDots = "./adir/.././anotherdir/.././" + subDirName;
@@ -93,7 +93,7 @@ describe("DataLakePathClient", () => {
     await fileClientWithDirDots.create();
 
     let foundFile: boolean = false;
-    for await (const listedFile of fileSystemClient.listPaths({path: dirName})) {
+    for await (const listedFile of fileSystemClient.listPaths({ path: dirName })) {
       if (listedFile.name === `${dirName}/${fileBaseName}` && !listedFile.isDirectory) {
         foundFile = true;
       }
@@ -129,7 +129,7 @@ describe("DataLakePathClient", () => {
     await dirClientWithDirDots.create();
 
     let foundSubDir: boolean = false;
-    for await (const listedFile of fileSystemClient.listPaths({path: dirName})) {
+    for await (const listedFile of fileSystemClient.listPaths({ path: dirName })) {
       if (listedFile.name === `${dirName}/${subDirBaseName}` && listedFile.isDirectory) {
         foundSubDir = true;
       }

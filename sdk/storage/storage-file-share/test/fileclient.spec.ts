@@ -178,7 +178,7 @@ describe("FileClient", () => {
     await fileClientWithDirDots.create(content.length);
 
     let foundFile = false;
-    for await (const fileItem of dirClient.listFilesAndDirectories({prefix: fileBaseName})){
+    for await (const fileItem of dirClient.listFilesAndDirectories({ prefix: fileBaseName })) {
       if (fileItem.name === fileBaseName && fileItem.kind === "file") {
         foundFile = true;
       }
@@ -187,13 +187,17 @@ describe("FileClient", () => {
     assert.ok(foundFile, "The file should have been created.");
 
     await fileClientWithDirDots.delete();
-    
+
     const fileShouldInRootDir = "./a/../../" + fileBaseName;
-    const fileClientShouldInRootDir = shareClient.getDirectoryClient("anydir").getFileClient(fileShouldInRootDir);
+    const fileClientShouldInRootDir = shareClient
+      .getDirectoryClient("anydir")
+      .getFileClient(fileShouldInRootDir);
     await fileClientShouldInRootDir.create(content.length);
 
     foundFile = false;
-    for await (const fileItem of shareClient.getDirectoryClient("").listFilesAndDirectories({prefix: fileBaseName})){
+    for await (const fileItem of shareClient
+      .getDirectoryClient("")
+      .listFilesAndDirectories({ prefix: fileBaseName })) {
       if (fileItem.name === fileBaseName && fileItem.kind === "file") {
         foundFile = true;
       }
@@ -211,7 +215,7 @@ describe("FileClient", () => {
     await dirClientWithDirDots.create();
 
     let foundDir = false;
-    for await (const fileItem of dirClient.listFilesAndDirectories({prefix: dirBaseName})){
+    for await (const fileItem of dirClient.listFilesAndDirectories({ prefix: dirBaseName })) {
       if (fileItem.name === dirBaseName && fileItem.kind === "directory") {
         foundDir = true;
       }
@@ -220,13 +224,17 @@ describe("FileClient", () => {
     assert.ok(foundDir, "The directory should have been created.");
 
     await dirClientWithDirDots.delete();
-    
+
     const dirShouldInRootDir = "./a/../../" + dirBaseName;
-    const dirClientShouldInRootDir = shareClient.getDirectoryClient("anydir").getDirectoryClient(dirShouldInRootDir);
+    const dirClientShouldInRootDir = shareClient
+      .getDirectoryClient("anydir")
+      .getDirectoryClient(dirShouldInRootDir);
     await dirClientShouldInRootDir.create();
 
     foundDir = false;
-    for await (const fileItem of shareClient.getDirectoryClient("").listFilesAndDirectories({prefix: dirBaseName})){
+    for await (const fileItem of shareClient
+      .getDirectoryClient("")
+      .listFilesAndDirectories({ prefix: dirBaseName })) {
       if (fileItem.name === dirBaseName && fileItem.kind === "directory") {
         foundDir = true;
       }
