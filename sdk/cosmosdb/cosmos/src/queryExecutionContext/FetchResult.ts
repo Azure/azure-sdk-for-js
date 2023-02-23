@@ -22,7 +22,7 @@ export class FetchResult {
    */
   constructor(feedResponse: unknown, error: unknown) {
     // TODO: feedResponse/error
-    if (feedResponse) {
+    if (feedResponse !== undefined) {
       this.feedResponse = feedResponse;
       this.fetchResultType = FetchResultType.Result;
     } else {
