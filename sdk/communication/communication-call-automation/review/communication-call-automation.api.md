@@ -92,6 +92,7 @@ export class CallMedia {
     readonly callConnectionId: string;
     // (undocumented)
     readonly callMediaImpl: CallMediaImpl;
+    play(playSource: FileSource | TextSource, playTo: CommunicationIdentifier[], playOptions?: PlayOptions): Promise<void>;
 }
 
 // @public
@@ -147,6 +148,14 @@ export interface CreateCallOptions extends OperationOptions {
 // @public
 export type CreateCallResult = CallResult;
 
+// @public (undocumented)
+export interface FileSource extends PlaySource {
+    // (undocumented)
+    readonly kind?: "fileSource";
+    // (undocumented)
+    uri: string;
+}
+
 // @public
 export type GetCallConnectionPropertiesOptions = OperationOptions;
 
@@ -196,6 +205,20 @@ export type MediaStreamingContentType = string;
 
 // @public
 export type MediaStreamingTransportType = string;
+
+// @public
+export interface PlayOptions extends OperationOptions {
+    // (undocumented)
+    loop?: boolean;
+    // (undocumented)
+    operationContext?: string;
+}
+
+// @public (undocumented)
+export interface PlaySource {
+    // (undocumented)
+    playSourceId?: string;
+}
 
 // @public (undocumented)
 export interface RecordingStateResponseDto {
@@ -256,6 +279,22 @@ export interface StartCallRecordingRequestDto {
     recordingStateCallbackUri?: string;
     // Warning: (ae-forgotten-export) The symbol "RecordingStorageType" needs to be exported by the entry point index.d.ts
     recordingStorageType?: RecordingStorageType;
+}
+
+// @public (undocumented)
+export interface TextSource extends PlaySource {
+    // (undocumented)
+    readonly kind?: "textSource";
+    // (undocumented)
+    sourceLocale?: string;
+    // (undocumented)
+    text: string;
+    // Warning: (ae-forgotten-export) The symbol "Gender" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    voiceGender?: Gender;
+    // (undocumented)
+    voiceName?: string;
 }
 
 // @public

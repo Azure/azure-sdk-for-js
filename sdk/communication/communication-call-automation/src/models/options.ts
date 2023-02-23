@@ -6,33 +6,33 @@ import { OperationOptions } from "@azure/core-client";
 import { MediaStreamingConfiguration } from "../models/models";
 import { CallRejectReason } from "./models";
 import {
-    CallRecordingStartRecordingOptionalParams as RestCallRecordingStartRecordingOptions
+  CallRecordingStartRecordingOptionalParams as RestCallRecordingStartRecordingOptions
 } from "../generated/src/models";
-  
+
 export {
-    RestCallRecordingStartRecordingOptions
+  RestCallRecordingStartRecordingOptions
 }
 
 /**
  * Options to create a call.
  */
 export interface CreateCallOptions extends OperationOptions {
-    /** The operation context. */
-    operationContext?: string;
-    /** The Azure cognitive services end point url. */
-    azureCognitiveServicesEndpointUrl?: string;
-    /** Configuration of Media streaming. */
-    mediaStreamingConfiguration?: MediaStreamingConfiguration
+  /** The operation context. */
+  operationContext?: string;
+  /** The Azure cognitive services end point url. */
+  azureCognitiveServicesEndpointUrl?: string;
+  /** Configuration of Media streaming. */
+  mediaStreamingConfiguration?: MediaStreamingConfiguration
 }
 
 /**
  * Options to answer a call.
  */
 export interface AnswerCallOptions extends OperationOptions {
-    /** The Azure cognitive services end point url. */
-    azureCognitiveServicesEndpointUrl?: string;
-    /** Configuration of Media streaming. */
-    mediaStreamingConfiguration?: MediaStreamingConfiguration
+  /** The Azure cognitive services end point url. */
+  azureCognitiveServicesEndpointUrl?: string;
+  /** Configuration of Media streaming. */
+  mediaStreamingConfiguration?: MediaStreamingConfiguration
 }
 
 /**
@@ -44,52 +44,60 @@ export type RedirectCallOptions = OperationOptions;
  * Options to reject call.
  */
 export interface RejectCallOptions extends OperationOptions {
-    /** The rejection reason. */
-    callRejectReason?: CallRejectReason;
+  /** The rejection reason. */
+  callRejectReason?: CallRejectReason;
 }
 
 /**
  * Options to transfer participants.
  */
 export interface TransferCallToParticipantOptions extends OperationOptions {
-    /** The caller ID of the transferee when transferring to PSTN. */
-    transfereeCallerId?: PhoneNumberIdentifier;
-    /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-    operationContext?: string;
+  /** The caller ID of the transferee when transferring to PSTN. */
+  transfereeCallerId?: PhoneNumberIdentifier;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
 }
 
 /** Options to add participants. */
 export interface AddParticipantsOptions extends OperationOptions {
-    /**
-     * The source caller Id, a phone number, that's shown to the PSTN participant being invited.
-     * Required only when inviting a PSTN participant.
-     */
-    sourceCallerId?: PhoneNumberIdentifier;
-    /**
-     * The display name of the source that is associated with this invite operation when
-     * adding a PSTN participant or teams user.  Note: Will not update the display name in the roster.
-     */
-    sourceDisplayName?: string;
-    /**
-     * The identifier of the source of the call for this invite operation. If SourceDisplayName
-     * is not set, the display name of the source will be used by default when adding a PSTN participant or teams user.
-     */
-    sourceIdentifier?: CommunicationIdentifier;
-    /**
-     * Gets or sets the timeout to wait for the invited participant to pickup.
-     * The maximum value of this is 180 seconds
-     */
-    invitationTimeoutInSeconds?: number;
-    /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-    operationContext?: string;
+  /**
+   * The source caller Id, a phone number, that's shown to the PSTN participant being invited.
+   * Required only when inviting a PSTN participant.
+   */
+  sourceCallerId?: PhoneNumberIdentifier;
+  /**
+   * The display name of the source that is associated with this invite operation when
+   * adding a PSTN participant or teams user.  Note: Will not update the display name in the roster.
+   */
+  sourceDisplayName?: string;
+  /**
+   * The identifier of the source of the call for this invite operation. If SourceDisplayName
+   * is not set, the display name of the source will be used by default when adding a PSTN participant or teams user.
+   */
+  sourceIdentifier?: CommunicationIdentifier;
+  /**
+   * Gets or sets the timeout to wait for the invited participant to pickup.
+   * The maximum value of this is 180 seconds
+   */
+  invitationTimeoutInSeconds?: number;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
 }
 
 /**
  * Options to remove participants.
  */
 export interface RemoveParticipantsOptions extends OperationOptions {
-    /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-    operationContext?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+}
+
+/**
+ * Options to play audio.
+ */
+export interface PlayOptions extends OperationOptions {
+  loop?: boolean;
+  operationContext?: string;
 }
 
 /**
