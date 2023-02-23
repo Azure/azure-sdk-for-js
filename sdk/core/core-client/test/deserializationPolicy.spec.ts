@@ -771,7 +771,6 @@ describe("deserializationPolicy", function () {
         },
       };
 
-
       const serializer = createSerializer({ BodyMapper }, false);
 
       const operationSpec: OperationSpec = {
@@ -789,7 +788,6 @@ describe("deserializationPolicy", function () {
         bodyAsText: '{"message": null, "extraProp": "An extra property value", "properties": null}',
         status: 200,
       });
-      console.log(result)
       assert.exists(result);
       assert.isNull(result.parsedBody.message);
       assert.isUndefined(result.parsedBody.status);

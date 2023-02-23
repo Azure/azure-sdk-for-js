@@ -961,7 +961,7 @@ function deserializeCompositeType(
         res = res[item];
       }
       // only accept null when reaching the last position of object otherwise it would be undefined
-      if(res === null && steps < paths.length) {
+      if (res === null && steps < paths.length) {
         res = undefined;
       }
       propertyInstance = res;
