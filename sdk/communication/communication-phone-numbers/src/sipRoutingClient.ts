@@ -107,9 +107,9 @@ export class SipRoutingClient {
    * Gets the SIP domains.
    * @param options - The options parameters.
    */
-  public async getDomains(options: OperationOptions = {}): Promise<SipDomain[]> {
+  public async listDomains(options: OperationOptions = {}): Promise<SipDomain[]> {
     return tracingClient.withSpan(
-      "SipRoutingClient-getDomains",
+      "SipRoutingClient-listDomains",
       options,
       async (updatedOptions) => {
         const config = await this.client.sipRouting.get(updatedOptions);
@@ -123,9 +123,9 @@ export class SipRoutingClient {
    * @param domainName - The domain's name (ex: contoso.com).
    * @param options - The options parameters.
    */
-  public async getDomain(domainName: string, options: OperationOptions = {}): Promise<SipDomain> {
-    return tracingClient.withSpan("SipRoutingClient-getDomain", options, async (updatedOptions) => {
-      const domains = await this.getDomains(updatedOptions);
+  public async listDomain(domainName: string, options: OperationOptions = {}): Promise<SipDomain> {
+    return tracingClient.withSpan("SipRoutingClient-listDomains", options, async (updatedOptions) => {
+      const domains = await this.listDomains(updatedOptions);
       const domain = domains.find((value: SipDomain) => value.domainName === domainName);
       if (domain) {
         return domain;

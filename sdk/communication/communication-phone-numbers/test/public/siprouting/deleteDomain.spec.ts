@@ -26,7 +26,7 @@ matrix([[true, false]], async function (useAad) {
 
     // to be removed once API is finished
     before(async function () {
-      console.log("SipRoutingClient - delete domain will be skiped because of not finished API");
+      console.log("SipRoutingClient - delete domain");
 
       if (!isPlaybackMode()) {
         await clearSipConfiguration();
@@ -57,7 +57,7 @@ matrix([[true, false]], async function (useAad) {
       await client.setDomain(domain);
       await client.deleteDomain(firstDomain);
       assert.exists(
-        (await client.getDomains()).find((value) => value.domainName === domain.domainName)
+        (await client.listDomains()).find((value) => value.domainName === domain.domainName)
       );
     });
 
@@ -86,7 +86,7 @@ matrix([[true, false]], async function (useAad) {
         await client.deleteDomain(domainName);
       } catch (error: any) {
         assert.equal(error.code, "UnprocessableConfiguration");
-        const storedDomains = await client.getDomains();
+        const storedDomains = await client.listDomains();
         assert.isNotNull(storedDomains);
         assert.isArray(storedDomains);
         assert.isNotEmpty(storedDomains);

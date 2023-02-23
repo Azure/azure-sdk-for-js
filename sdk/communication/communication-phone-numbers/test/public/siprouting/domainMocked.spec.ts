@@ -36,7 +36,7 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("get domain successful", async () => {
-      const domain = await client.getDomain("contoso.com");
+      const domain = await client.listDomain("contoso.com");
 
       assert.isNotNull(domain);
       assert.equal(domain?.domainName, "contoso.com");

@@ -214,11 +214,11 @@ export class SipRoutingClient {
     constructor(endpoint: string, credential: TokenCredential, options?: SipRoutingClientOptions);
     deleteDomain(domainName: string, options?: OperationOptions): Promise<void>;
     deleteTrunk(fqdn: string, options?: OperationOptions): Promise<void>;
-    getDomain(domainName: string, options?: OperationOptions): Promise<SipDomain>;
-    getDomains(options?: OperationOptions): Promise<SipDomain[]>;
     getRoutes(options?: OperationOptions): Promise<SipTrunkRoute[]>;
     getTrunk(fqdn: string, options?: OperationOptions): Promise<SipTrunk>;
     getTrunks(options?: OperationOptions): Promise<SipTrunk[]>;
+    listDomain(domainName: string, options?: OperationOptions): Promise<SipDomain>;
+    listDomains(options?: OperationOptions): Promise<SipDomain[]>;
     setDomain(domain: SipDomain, options?: OperationOptions): Promise<SipDomain>;
     setDomains(domains: SipDomain[], options?: OperationOptions): Promise<SipDomain[]>;
     setRoutes(routes: SipTrunkRoute[], options?: OperationOptions): Promise<SipTrunkRoute[]>;

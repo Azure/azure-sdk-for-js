@@ -35,7 +35,7 @@ matrix([[true, false]], async function (useAad) {
 
     // to be removed once API is finished
     before(async function () {
-      console.log("SipRoutingClient - set domain will be skiped because of not finished API");
+      console.log("SipRoutingClient - set domain");
 
       if (!isPlaybackMode()) {
         await clearSipConfiguration();
@@ -73,7 +73,7 @@ matrix([[true, false]], async function (useAad) {
       const setDomain = await client.setDomain(domain);
       assert.deepEqual(setDomain, domain);
 
-      const getDomain = await client.getDomain(domainToSet);
+      const getDomain = await client.listDomain(domainToSet);
       assert.deepEqual(getDomain, domain);
     });
 
@@ -87,7 +87,7 @@ matrix([[true, false]], async function (useAad) {
       const setDomain = await client.setDomain(domain);
       assert.deepEqual(setDomain, domain);
 
-      const getDomain = await client.getDomain(domainToSet);
+      const getDomain = await client.listDomain(domainToSet);
       assert.deepEqual(getDomain, domain);
     });
 
@@ -102,7 +102,7 @@ matrix([[true, false]], async function (useAad) {
       const setDomains = await client.setDomains(domains);
       assert.deepEqual(setDomains, domains);
 
-      const storedDomains = await client.getDomains();
+      const storedDomains = await client.listDomains();
       assert.deepEqual(storedDomains, domains);
     });
 
@@ -119,14 +119,14 @@ matrix([[true, false]], async function (useAad) {
       const setDomains = await client.setDomains(domains);
       assert.deepEqual(setDomains, domains);
 
-      const storedDomains = await client.getDomains();
+      const storedDomains = await client.listDomains();
       assert.deepEqual(storedDomains, domains);
     });
 
     it("can set empty domains when empty before", async () => {
       await client.setDomains([]);
 
-      const storedDomains = await client.getDomains();
+      const storedDomains = await client.listDomains();
       assert.isNotNull(storedDomains);
       assert.isArray(storedDomains);
       assert.isEmpty(storedDomains);
@@ -141,7 +141,7 @@ matrix([[true, false]], async function (useAad) {
 
       await client.setDomains([]);
 
-      const storedDomains = await client.getDomains();
+      const storedDomains = await client.listDomains();
       assert.isNotNull(storedDomains);
       assert.isArray(storedDomains);
       assert.isEmpty(storedDomains);
@@ -155,7 +155,7 @@ matrix([[true, false]], async function (useAad) {
         assert.equal(error.code, "UnprocessableConfiguration");
 
         try {
-          await client.getDomain("-1");
+          await client.listDomain("-1");
         } catch (getError: any) {
           assert.equal(getError.code, "NotFound");
           return;

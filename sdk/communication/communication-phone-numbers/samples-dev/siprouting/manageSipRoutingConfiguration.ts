@@ -103,7 +103,7 @@ export async function main() {
   }
 
   // Get domains
-  const domains = await client.getDomains();
+  const domains = await client.listDomains();
   for (const domain of domains) {
     console.log(`Trunk ${domain.domainName} with property enabled:${domain.enabled}`);
   }

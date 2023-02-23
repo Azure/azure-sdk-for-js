@@ -27,7 +27,7 @@ matrix([[true, false]], async function (useAad) {
 
     // to be removed once API is finished
     before(async function () {
-      console.log("SipRoutingClient - get domain will be skiped because of not finished API");
+      console.log("SipRoutingClient - get domain");
 
       if (!isPlaybackMode()) {
         await clearSipConfiguration();
@@ -54,20 +54,20 @@ matrix([[true, false]], async function (useAad) {
     it("cannot retrieve a not existing domain", async () => {
       await client.setDomain({ domainName: firstDomain, enabled: true } as SipDomain);
 
-      const domain = await client.getDomain(firstDomain);
+      const domain = await client.listDomain(firstDomain);
 
       assert.isNotNull(domain);
       assert.equal(domain?.enabled, true);
     });
 
     it("can retrieve domains", async () => {
-      assert.isArray(await client.getDomains());
+      assert.isArray(await client.listDomains());
     });
 
     it("can retrieve empty domains", async () => {
       await client.setDomains([]);
 
-      const domains = await client.getDomains();
+      const domains = await client.listDomains();
 
       assert.isNotNull(domains);
       assert.isArray(domains);
@@ -82,7 +82,7 @@ matrix([[true, false]], async function (useAad) {
       ];
       await client.setDomains(expectedDomains);
 
-      const domains = await client.getDomains();
+      const domains = await client.listDomains();
 
       assert.isNotNull(domains);
       assert.isArray(domains);
