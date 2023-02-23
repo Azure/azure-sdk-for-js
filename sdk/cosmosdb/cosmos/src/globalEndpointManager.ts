@@ -181,7 +181,7 @@ export class GlobalEndpointManager {
         this.writeableLocations.push(location);
       }
     }
-    for (const location of databaseAccount.writableLocations) {
+    for (const location of databaseAccount.readableLocations) {
       const existingLocation = this.readableLocations.find((loc) => loc.name === location.name);
       if (!existingLocation) {
         this.readableLocations.push(location);
@@ -229,8 +229,9 @@ export class GlobalEndpointManager {
         loc &&
         now - loc.lastUnavailabilityTimestampInMs >= Constants.LocationUnavailableExpirationTimeInMs
       ) {
-        return true;
+        return false;
       }
+      return true;
     });
   }
 
