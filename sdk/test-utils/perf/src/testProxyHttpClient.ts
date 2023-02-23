@@ -11,7 +11,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import { RequestOptions } from "http";
 import { Agent as HttpsAgent } from "https";
-import { getCachedHttpsAgent, makeRequest } from "./utils";
+import { getCachedHttpsAgent, makeRequest } from "./utils/utils";
 
 const paths = {
   playback: "/playback",

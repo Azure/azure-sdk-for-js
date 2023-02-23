@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "11309",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.2 Node/v19.5.0 OS/(x64-Linux-5.4.0-1100-azure)",
-        "x-ms-client-request-id": "9814aa58-88b6-43db-a989-a0552848fe21"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.2 Node/v19.5.0 OS/(x64-Linux-5.4.0-1103-azure)",
+        "x-ms-client-request-id": "e06ee54b-ff94-4438-944d-1719d2d5b2a8"
       },
       "RequestBody": {
         "analysisInput": {
@@ -37,45 +37,46 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "e272bd37-de9b-4694-8fbe-9ddd744fa953",
+        "apim-request-id": "ea1dba78-bd86-4dcd-b4ad-522ee510c6fd",
         "Content-Length": "0",
-        "Date": "Wed, 08 Feb 2023 00:16:13 GMT",
-        "operation-location": "https://endpoint/language/analyze-text/jobs/0c666e5f-3ec7-49f9-9553-7c556855e0f7?api-version=2022-10-01-preview",
+        "Date": "Tue, 21 Feb 2023 16:41:32 GMT",
+        "operation-location": "https://endpoint/language/analyze-text/jobs/8bc39dec-7013-4310-9def-5a8a1af0d3d2?api-version=2022-10-01-preview",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "181",
+        "x-envoy-upstream-service-time": "201",
         "x-ms-region": "East US"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/0c666e5f-3ec7-49f9-9553-7c556855e0f7?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/8bc39dec-7013-4310-9def-5a8a1af0d3d2?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.2 Node/v19.5.0 OS/(x64-Linux-5.4.0-1100-azure)",
-        "x-ms-client-request-id": "573cda94-ab99-459e-aa43-77a33e9beffd"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.2 Node/v19.5.0 OS/(x64-Linux-5.4.0-1103-azure)",
+        "x-ms-client-request-id": "0d644de9-da21-48e4-9a20-bcc3904c3967"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "48259a7b-1f21-4523-94ec-9a9fb6f0f649",
+        "apim-request-id": "6fae56cd-757d-4b71-85c6-6dac7effe096",
         "Content-Length": "283",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 08 Feb 2023 00:16:13 GMT",
+        "Date": "Tue, 21 Feb 2023 16:41:32 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "9",
         "x-envoy-upstream-service-time": "9",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "0c666e5f-3ec7-49f9-9553-7c556855e0f7",
-        "lastUpdatedDateTime": "2023-02-08T00:16:14Z",
-        "createdDateTime": "2023-02-08T00:16:13Z",
-        "expirationDateTime": "2023-02-09T00:16:13Z",
+        "jobId": "8bc39dec-7013-4310-9def-5a8a1af0d3d2",
+        "lastUpdatedDateTime": "2023-02-21T16:41:32Z",
+        "createdDateTime": "2023-02-21T16:41:32Z",
+        "expirationDateTime": "2023-02-22T16:41:32Z",
         "status": "notStarted",
         "errors": [],
         "tasks": {
@@ -88,72 +89,33 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/0c666e5f-3ec7-49f9-9553-7c556855e0f7?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/8bc39dec-7013-4310-9def-5a8a1af0d3d2?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.2 Node/v19.5.0 OS/(x64-Linux-5.4.0-1100-azure)",
-        "x-ms-client-request-id": "5e430b19-d619-4f6b-ac39-3b638acac0fa"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.2 Node/v19.5.0 OS/(x64-Linux-5.4.0-1103-azure)",
+        "x-ms-client-request-id": "71866ffc-26c2-4bce-a175-0ea8389d5fc5"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "63078e55-40f0-48c1-923a-a3ecae0905da",
-        "Content-Length": "283",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 08 Feb 2023 00:16:13 GMT",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "11",
-        "x-ms-region": "East US"
-      },
-      "ResponseBody": {
-        "jobId": "0c666e5f-3ec7-49f9-9553-7c556855e0f7",
-        "lastUpdatedDateTime": "2023-02-08T00:16:14Z",
-        "createdDateTime": "2023-02-08T00:16:13Z",
-        "expirationDateTime": "2023-02-09T00:16:13Z",
-        "status": "notStarted",
-        "errors": [],
-        "tasks": {
-          "completed": 0,
-          "failed": 0,
-          "inProgress": 1,
-          "total": 1,
-          "items": []
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/0c666e5f-3ec7-49f9-9553-7c556855e0f7?api-version=2022-10-01-preview",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.2 Node/v19.5.0 OS/(x64-Linux-5.4.0-1100-azure)",
-        "x-ms-client-request-id": "37a1b075-3761-4063-ac98-20cea772461b"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "apim-request-id": "8dc6c541-d35b-4e28-b381-d147de8b9fa2",
+        "apim-request-id": "ff8706b9-c8d9-421b-9862-948a75b8f149",
         "Content-Length": "280",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 08 Feb 2023 00:16:15 GMT",
+        "Date": "Tue, 21 Feb 2023 16:41:33 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "12",
+        "x-envoy-upstream-service-time": "43",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "0c666e5f-3ec7-49f9-9553-7c556855e0f7",
-        "lastUpdatedDateTime": "2023-02-08T00:16:15Z",
-        "createdDateTime": "2023-02-08T00:16:13Z",
-        "expirationDateTime": "2023-02-09T00:16:13Z",
+        "jobId": "8bc39dec-7013-4310-9def-5a8a1af0d3d2",
+        "lastUpdatedDateTime": "2023-02-21T16:41:32Z",
+        "createdDateTime": "2023-02-21T16:41:32Z",
+        "expirationDateTime": "2023-02-22T16:41:32Z",
         "status": "running",
         "errors": [],
         "tasks": {
@@ -166,33 +128,72 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/0c666e5f-3ec7-49f9-9553-7c556855e0f7?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/8bc39dec-7013-4310-9def-5a8a1af0d3d2?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.2 Node/v19.5.0 OS/(x64-Linux-5.4.0-1100-azure)",
-        "x-ms-client-request-id": "a9c67af7-4dd7-40b3-a7c9-a4d23dc3a400"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.2 Node/v19.5.0 OS/(x64-Linux-5.4.0-1103-azure)",
+        "x-ms-client-request-id": "cb93948e-c13f-44c3-91c0-6f7218754992"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "3d5eb533-fe31-46fe-bf68-7bb195a82e89",
-        "Content-Length": "1165",
+        "apim-request-id": "9205ad90-d7e6-4f1e-bf72-0a5b6700a1dd",
+        "Content-Length": "280",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 08 Feb 2023 00:16:17 GMT",
+        "Date": "Tue, 21 Feb 2023 16:41:35 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "50",
+        "x-envoy-upstream-service-time": "9",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "0c666e5f-3ec7-49f9-9553-7c556855e0f7",
-        "lastUpdatedDateTime": "2023-02-08T00:16:16Z",
-        "createdDateTime": "2023-02-08T00:16:13Z",
-        "expirationDateTime": "2023-02-09T00:16:13Z",
+        "jobId": "8bc39dec-7013-4310-9def-5a8a1af0d3d2",
+        "lastUpdatedDateTime": "2023-02-21T16:41:34Z",
+        "createdDateTime": "2023-02-21T16:41:32Z",
+        "expirationDateTime": "2023-02-22T16:41:32Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1,
+          "items": []
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/8bc39dec-7013-4310-9def-5a8a1af0d3d2?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.2 Node/v19.5.0 OS/(x64-Linux-5.4.0-1103-azure)",
+        "x-ms-client-request-id": "ed8f0ad7-bb2e-4246-b864-fbdf8a5f9eba"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "f52dafb0-794d-440a-8955-15dcd30e3dda",
+        "Content-Length": "1279",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 21 Feb 2023 16:41:37 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "64",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": {
+        "jobId": "8bc39dec-7013-4310-9def-5a8a1af0d3d2",
+        "lastUpdatedDateTime": "2023-02-21T16:41:35Z",
+        "createdDateTime": "2023-02-21T16:41:32Z",
+        "expirationDateTime": "2023-02-22T16:41:32Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -203,14 +204,14 @@
           "items": [
             {
               "kind": "AbstractiveSummarizationLROResults",
-              "lastUpdateDateTime": "2023-02-08T00:16:16.5985704Z",
+              "lastUpdateDateTime": "2023-02-21T16:41:35.5011429Z",
               "status": "succeeded",
               "results": {
                 "documents": [
                   {
                     "summaries": [
                       {
-                        "text": "Microsoft\u2019s Cloud PC puts Windows in the cloud.\nCloud PCs are easy to set up and deploy for today\u2019s mobile and elastic workforces.\n\nCloud PCs can be accessed through a native app or web browser on any device, from anywhere with an internet connection.",
+                        "text": "Microsoft is releasing Windows 365, a new operating system that puts Microsoft\u2019s flagship operating system in the cloud. The Cloud PC is a new virtualization technology for Windows that is easy to set up and deploy for today\u2019s login-from- anywhere, mobile and elastic workforces. The cloud PC is available later this calendar year.",
                         "contexts": [
                           {
                             "offset": 0,
@@ -225,7 +226,7 @@
                   {
                     "summaries": [
                       {
-                        "text": "Microsoft\u2019s new Cloud PC, Windows 365, is designed for the hybrid workforce.\nThe ability to login to a Cloud PC from anywhere on any device is part of Microsoft\u2019S larger strategy around tailoring products for the post-pandemic hybrid workforce of the future.",
+                        "text": "Microsoft is rolling out Windows 365 Cloud PCs for employees forced to work from home. The ability to login to a Cloud PC from anywhere on any device is part of a larger strategy around tailoring products such as Microsoft Teams and Microsoft 365 for the post-pandemic hybrid workforce of the future.",
                         "contexts": [
                           {
                             "offset": 0,
@@ -247,33 +248,33 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/0c666e5f-3ec7-49f9-9553-7c556855e0f7?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/8bc39dec-7013-4310-9def-5a8a1af0d3d2?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.2 Node/v19.5.0 OS/(x64-Linux-5.4.0-1100-azure)",
-        "x-ms-client-request-id": "d26f9c08-7ddb-4d74-b359-0cadbe985252"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.2 Node/v19.5.0 OS/(x64-Linux-5.4.0-1103-azure)",
+        "x-ms-client-request-id": "bfa69e09-2953-461f-829b-96adf9fe3f28"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "ed501140-f2e0-4d01-ae30-dff03a65f49a",
-        "Content-Length": "1165",
+        "apim-request-id": "e3c23fae-7154-4527-bc25-852d0df12333",
+        "Content-Length": "1279",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 08 Feb 2023 00:16:17 GMT",
+        "Date": "Tue, 21 Feb 2023 16:41:37 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "43",
+        "x-envoy-upstream-service-time": "125",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "0c666e5f-3ec7-49f9-9553-7c556855e0f7",
-        "lastUpdatedDateTime": "2023-02-08T00:16:16Z",
-        "createdDateTime": "2023-02-08T00:16:13Z",
-        "expirationDateTime": "2023-02-09T00:16:13Z",
+        "jobId": "8bc39dec-7013-4310-9def-5a8a1af0d3d2",
+        "lastUpdatedDateTime": "2023-02-21T16:41:35Z",
+        "createdDateTime": "2023-02-21T16:41:32Z",
+        "expirationDateTime": "2023-02-22T16:41:32Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -284,14 +285,14 @@
           "items": [
             {
               "kind": "AbstractiveSummarizationLROResults",
-              "lastUpdateDateTime": "2023-02-08T00:16:16.5985704Z",
+              "lastUpdateDateTime": "2023-02-21T16:41:35.5011429Z",
               "status": "succeeded",
               "results": {
                 "documents": [
                   {
                     "summaries": [
                       {
-                        "text": "Microsoft\u2019s Cloud PC puts Windows in the cloud.\nCloud PCs are easy to set up and deploy for today\u2019s mobile and elastic workforces.\n\nCloud PCs can be accessed through a native app or web browser on any device, from anywhere with an internet connection.",
+                        "text": "Microsoft is releasing Windows 365, a new operating system that puts Microsoft\u2019s flagship operating system in the cloud. The Cloud PC is a new virtualization technology for Windows that is easy to set up and deploy for today\u2019s login-from- anywhere, mobile and elastic workforces. The cloud PC is available later this calendar year.",
                         "contexts": [
                           {
                             "offset": 0,
@@ -306,7 +307,7 @@
                   {
                     "summaries": [
                       {
-                        "text": "Microsoft\u2019s new Cloud PC, Windows 365, is designed for the hybrid workforce.\nThe ability to login to a Cloud PC from anywhere on any device is part of Microsoft\u2019S larger strategy around tailoring products for the post-pandemic hybrid workforce of the future.",
+                        "text": "Microsoft is rolling out Windows 365 Cloud PCs for employees forced to work from home. The ability to login to a Cloud PC from anywhere on any device is part of a larger strategy around tailoring products such as Microsoft Teams and Microsoft 365 for the post-pandemic hybrid workforce of the future.",
                         "contexts": [
                           {
                             "offset": 0,

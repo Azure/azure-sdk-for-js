@@ -21,7 +21,7 @@ import {
 export interface DeletedBackupInstances {
   /**
    * Gets deleted backup instances belonging to a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param options The options parameters.
    */
@@ -32,7 +32,7 @@ export interface DeletedBackupInstances {
   ): PagedAsyncIterableIterator<DeletedBackupInstanceResource>;
   /**
    * Gets a deleted backup instance with name in a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param backupInstanceName The name of the deleted backup instance
    * @param options The options parameters.
@@ -44,7 +44,7 @@ export interface DeletedBackupInstances {
     options?: DeletedBackupInstancesGetOptionalParams
   ): Promise<DeletedBackupInstancesGetResponse>;
   /**
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param backupInstanceName The name of the deleted backup instance
    * @param options The options parameters.
@@ -56,7 +56,7 @@ export interface DeletedBackupInstances {
     options?: DeletedBackupInstancesUndeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param backupInstanceName The name of the deleted backup instance
    * @param options The options parameters.
