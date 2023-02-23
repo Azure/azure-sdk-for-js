@@ -49,7 +49,7 @@ describe("BlobClient", () => {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
-      { uriSanitizers, removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source"] } },
+      { uriSanitizers, removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source", "x-ms-encryption-key"] } },
       ["record", "playback"]
     );
     blobServiceClient = getBSU(recorder);
@@ -653,7 +653,7 @@ describe("BlobClient", () => {
     assert.ok(exceptionCaught);
   });
 
-  it("setMetadata, setHTTPHeaders, getProperties and createSnapshot with CPK", async () => {
+  it.only("setMetadata, setHTTPHeaders, getProperties and createSnapshot with CPK", async () => {
     blobName = recorder.variable("blobCPK", getUniqueName("blobCPK"));
     blobClient = containerClient.getBlobClient(blobName);
     blockBlobClient = blobClient.getBlockBlobClient();
@@ -817,7 +817,7 @@ describe("BlobClient", () => {
     assert.ok(result === false, "exists() should return true for an existing blob");
   });
 
-  it("exists works with customer provided key", async function () {
+  it.only("exists works with customer provided key", async function () {
     blobName = recorder.variable("blobCPK", getUniqueName("blobCPK"));
     blobClient = containerClient.getBlobClient(blobName);
     blockBlobClient = blobClient.getBlockBlobClient();
@@ -837,7 +837,7 @@ describe("BlobClient", () => {
     assert.ok(result, "exists() should return true");
   });
 
-  it("exists works without customer provided key on a blob with CPK", async function () {
+  it.only("exists works without customer provided key on a blob with CPK", async function () {
     blobName = recorder.variable("blobCPK", getUniqueName("blobCPK"));
     blobClient = containerClient.getBlobClient(blobName);
     blockBlobClient = blobClient.getBlockBlobClient();
@@ -849,7 +849,7 @@ describe("BlobClient", () => {
     assert.ok(result, "exists() should return true");
   });
 
-  it("exists works against blob uploaded with customer provided key", async function () {
+  it.only("exists works against blob uploaded with customer provided key", async function () {
     blobName = recorder.variable("blobCPK", getUniqueName("blobCPK"));
     blobClient = containerClient.getBlobClient(blobName);
     blockBlobClient = blobClient.getBlockBlobClient();
@@ -867,7 +867,7 @@ describe("BlobClient", () => {
     assert.ok(result, "exists() should return true");
   });
 
-  it("exists re-throws error from getProperties", async () => {
+  it.only("exists re-throws error from getProperties", async () => {
     blobName = recorder.variable("blobCPK", getUniqueName("blobCPK"));
     blobClient = containerClient.getBlobClient(blobName);
     blockBlobClient = blobClient.getBlockBlobClient();

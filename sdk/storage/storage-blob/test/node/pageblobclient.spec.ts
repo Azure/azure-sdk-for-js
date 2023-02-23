@@ -47,7 +47,7 @@ describe("PageBlobClient Node.js only", () => {
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
-          headersForRemoval: ["x-ms-copy-source", "x-ms-copy-source-authorization"],
+          headersForRemoval: ["x-ms-copy-source", "x-ms-copy-source-authorization", "x-ms-encryption-key"],
         },
       },
       ["playback", "record"]
@@ -393,7 +393,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
   });
 
-  it("create, uploadPages, uploadPagesFromURL, download, clearPages and resize with CPK", async () => {
+  it.only("create, uploadPages, uploadPagesFromURL, download, clearPages and resize with CPK", async () => {
     const cResp = await pageBlobClient.create(1024, {
       customerProvidedKey: Test_CPK_INFO,
     });

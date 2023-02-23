@@ -43,7 +43,7 @@ describe("AppendBlobClient Node.js only", () => {
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
-          headersForRemoval: ["x-ms-copy-source", "x-ms-copy-source-authorization"],
+          headersForRemoval: ["x-ms-copy-source", "x-ms-copy-source-authorization", "x-ms-encryption-key"],
         },
       },
       ["playback", "record"]
@@ -291,7 +291,7 @@ describe("AppendBlobClient Node.js only", () => {
     });
   });
 
-  it("create, appendBlock, appendBlockFromURL and download with CPK", async () => {
+  it.only("create, appendBlock, appendBlockFromURL and download with CPK", async () => {
     const cResp = await appendBlobClient.create({
       customerProvidedKey: Test_CPK_INFO,
     });

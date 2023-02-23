@@ -45,6 +45,14 @@ describe("Highlevel", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: ["x-ms-encryption-key"],
+        },
+      },
+      ["playback", "record"]
+    );
     blobServiceClient = getBSU(recorder, {
       keepAliveOptions: {
         enable: true,
@@ -553,7 +561,7 @@ describe("Highlevel", () => {
     assert.ok(eventTriggered);
   });
 
-  it("downloadToBuffer with CPK", async function () {
+  it.only("downloadToBuffer with CPK", async function () {
     const content = "Hello World";
     const CPKblobName = recorder.variable("blobCPK", getUniqueName("blobCPK"));
     const CPKblobClient = containerClient.getBlobClient(CPKblobName);

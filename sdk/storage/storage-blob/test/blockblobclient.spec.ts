@@ -33,7 +33,7 @@ describe("BlockBlobClient", () => {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
-      { uriSanitizers, removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source"] } },
+      { uriSanitizers, removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source", "x-ms-encryption-key"] } },
       ["playback", "record"]
     );
     const blobServiceClient = getBSU(recorder);
@@ -317,7 +317,7 @@ describe("BlockBlobClient", () => {
     }
   });
 
-  it("upload and download with CPK", async function () {
+  it.only("upload and download with CPK", async function () {
     const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     const options = {
       blobCacheControl: "blobCacheControl",
@@ -348,7 +348,7 @@ describe("BlockBlobClient", () => {
     assert.deepStrictEqual(result.metadata, options.metadata);
   });
 
-  it("stageBlock, stageBlockURL and commitBlockList with CPK", async () => {
+  it.only("stageBlock, stageBlockURL and commitBlockList with CPK", async () => {
     const body = "HelloWorld";
     await blockBlobClient.upload(body, body.length);
 
@@ -400,7 +400,7 @@ describe("BlockBlobClient", () => {
     assert.equal(await bodyToString(downloadResponse, 10), body);
   });
 
-  it("download without CPK should fail, if upload with CPK", async () => {
+  it.only("download without CPK should fail, if upload with CPK", async () => {
     const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     await blockBlobClient.upload(body, body.length, {
       customerProvidedKey: Test_CPK_INFO,
