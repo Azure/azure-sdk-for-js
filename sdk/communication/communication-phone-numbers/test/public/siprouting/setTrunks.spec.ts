@@ -6,13 +6,15 @@ import { Context } from "mocha";
 
 import { SipRoutingClient } from "../../../src";
 
-import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { SipTrunk, SipTrunkRoute } from "../../../src/models";
 import {
   clearSipConfiguration,
   createRecordedClient,
   createRecordedClientWithToken,
   getUniqueFqdn,
+  listAllRoutes,
+  listAllTrunks,
   resetUniqueFqdns,
 } from "./utils/recordedClient";
 import { matrix } from "@azure/test-utils";
@@ -46,7 +48,7 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("can set a new trunk", async () => {
-      const trunk: SipTrunk = { fqdn: firstFqdn, sipSignalingPort: 1231 };
+      const trunk: SipTrunk = { fqdn: firstFqdn, sipSignalingPort: 1231, enabled: true };
 
       const setTrunk = await client.setTrunk(trunk);
       assert.deepEqual(setTrunk, trunk);
@@ -56,7 +58,7 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("can set an existing trunk", async () => {
-      const trunk: SipTrunk = { fqdn: firstFqdn, sipSignalingPort: 1231 };
+      const trunk: SipTrunk = { fqdn: firstFqdn, sipSignalingPort: 1231, enabled: true };
       await client.setTrunk(trunk);
 
       trunk.sipSignalingPort = 6789;
@@ -72,21 +74,21 @@ matrix([[true, false]], async function (useAad) {
       await client.setTrunks([]);
 
       const trunks: SipTrunk[] = [
-        { fqdn: firstFqdn, sipSignalingPort: 8239 },
-        { fqdn: secondFqdn, sipSignalingPort: 7348 },
+        { fqdn: firstFqdn, sipSignalingPort: 8239, enabled: true },
+        { fqdn: secondFqdn, sipSignalingPort: 7348, enabled: true },
       ];
 
       const setTrunks = await client.setTrunks(trunks);
       assert.deepEqual(setTrunks, trunks);
 
-      const storedTrunks = await client.getTrunks();
+      const storedTrunks = await listAllTrunks(client);
       assert.deepEqual(storedTrunks, trunks);
     });
 
     it("can set multiple existing trunks", async () => {
       const trunks: SipTrunk[] = [
-        { fqdn: firstFqdn, sipSignalingPort: 8239 },
-        { fqdn: secondFqdn, sipSignalingPort: 7348 },
+        { fqdn: firstFqdn, sipSignalingPort: 8239, enabled: true },
+        { fqdn: secondFqdn, sipSignalingPort: 7348, enabled: true },
       ];
       await client.setTrunks(trunks);
 
@@ -96,7 +98,7 @@ matrix([[true, false]], async function (useAad) {
       const setTrunks = await client.setTrunks(trunks);
       assert.deepEqual(setTrunks, trunks);
 
-      const storedTrunks = await client.getTrunks();
+      const storedTrunks = await listAllTrunks(client);
       assert.deepEqual(storedTrunks, trunks);
     });
 
@@ -105,7 +107,7 @@ matrix([[true, false]], async function (useAad) {
 
       await client.setTrunks([]);
 
-      const storedTrunks = await client.getTrunks();
+      const storedTrunks = await listAllTrunks(client);
       assert.isNotNull(storedTrunks);
       assert.isArray(storedTrunks);
       assert.isEmpty(storedTrunks);
@@ -113,21 +115,21 @@ matrix([[true, false]], async function (useAad) {
 
     it("can set empty trunks when not empty before", async () => {
       const trunks: SipTrunk[] = [
-        { fqdn: firstFqdn, sipSignalingPort: 8239 },
-        { fqdn: secondFqdn, sipSignalingPort: 7348 },
+        { fqdn: firstFqdn, sipSignalingPort: 8239, enabled: true },
+        { fqdn: secondFqdn, sipSignalingPort: 7348, enabled: true },
       ];
       await client.setTrunks(trunks);
 
       await client.setTrunks([]);
 
-      const storedTrunks = await client.getTrunks();
+      const storedTrunks = await listAllTrunks(client);
       assert.isNotNull(storedTrunks);
       assert.isArray(storedTrunks);
       assert.isEmpty(storedTrunks);
     });
 
     it("cannot set invalid fqdn trunk", async () => {
-      const invalidTrunk: SipTrunk = { fqdn: "-1", sipSignalingPort: 8239 };
+      const invalidTrunk: SipTrunk = { fqdn: "-1", sipSignalingPort: 8239, enabled: true };
       try {
         await client.setTrunk(invalidTrunk);
       } catch (error: any) {
@@ -147,7 +149,7 @@ matrix([[true, false]], async function (useAad) {
     it("cannot set invalid port trunk", async () => {
       await client.setTrunks([]);
 
-      const invalidTrunk: SipTrunk = { fqdn: firstFqdn, sipSignalingPort: 0 };
+      const invalidTrunk: SipTrunk = { fqdn: firstFqdn, sipSignalingPort: 0, enabled: true };
 
       try {
         await client.setTrunk(invalidTrunk);
@@ -167,8 +169,8 @@ matrix([[true, false]], async function (useAad) {
 
     it("cannot set trunks without trunk used in route", async () => {
       const expectedTrunks: SipTrunk[] = [
-        { fqdn: firstFqdn, sipSignalingPort: 8239 },
-        { fqdn: secondFqdn, sipSignalingPort: 7348 },
+        { fqdn: firstFqdn, sipSignalingPort: 8239, enabled: true },
+        { fqdn: secondFqdn, sipSignalingPort: 7348, enabled: true },
       ];
       await client.setTrunks(expectedTrunks);
 
@@ -189,10 +191,10 @@ matrix([[true, false]], async function (useAad) {
       await client.setRoutes(expectedRoutes);
 
       try {
-        await client.setTrunks([{ fqdn: firstFqdn, sipSignalingPort: 1234 }]);
+        await client.setTrunks([{ fqdn: firstFqdn, sipSignalingPort: 1234, enabled: true }]);
       } catch (error: any) {
         assert.equal(error.code, "UnprocessableConfiguration");
-        const storedTrunks = await client.getTrunks();
+        const storedTrunks = await listAllTrunks(client);
         assert.isNotNull(storedTrunks);
         assert.isArray(storedTrunks);
         assert.deepEqual(storedTrunks, expectedTrunks);
@@ -222,16 +224,18 @@ matrix([[true, false]], async function (useAad) {
         {
           fqdn: getUniqueFqdn(recorder),
           sipSignalingPort: 5678,
+          enabled: true,
         },
         {
           fqdn: getUniqueFqdn(recorder),
           sipSignalingPort: 5678,
+          enabled: true,
         },
       ];
       await client.setTrunks(trunks);
 
-      assert.deepEqual(await client.getTrunks(), trunks);
-      assert.deepEqual(await client.getRoutes(), routes);
+      assert.deepEqual(await listAllTrunks(client), trunks);
+      assert.deepEqual(await listAllRoutes(client), routes);
     });
   });
 });

@@ -13,6 +13,13 @@ export const SipConfiguration: coreClient.CompositeMapper = {
     name: "Composite",
     className: "SipConfiguration",
     modelProperties: {
+      domains: {
+        serializedName: "domains",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "Composite", className: "Domain" } }
+        }
+      },
       trunks: {
         serializedName: "trunks",
         type: {
@@ -21,6 +28,9 @@ export const SipConfiguration: coreClient.CompositeMapper = {
         }
       },
       routes: {
+        constraints: {
+          MaxItems: 250
+        },
         serializedName: "routes",
         type: {
           name: "Sequence",
@@ -30,6 +40,22 @@ export const SipConfiguration: coreClient.CompositeMapper = {
               className: "SipTrunkRoute"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const Domain: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Domain",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        required: true,
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -46,6 +72,104 @@ export const SipTrunk: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "Number"
+        }
+      },
+      enabled: {
+        serializedName: "enabled",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      health: {
+        serializedName: "health",
+        type: {
+          name: "Composite",
+          className: "SipTrunkHealth"
+        }
+      }
+    }
+  }
+};
+
+export const SipTrunkHealth: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SipTrunkHealth",
+    modelProperties: {
+      tls: {
+        serializedName: "tls",
+        type: {
+          name: "Composite",
+          className: "SipTrunkTls"
+        }
+      },
+      ping: {
+        serializedName: "ping",
+        type: {
+          name: "Composite",
+          className: "SipTrunkPing"
+        }
+      },
+      activity: {
+        serializedName: "overall",
+        type: {
+          name: "Composite",
+          className: "SipTrunkActivity"
+        }
+      }
+    }
+  }
+};
+
+export const SipTrunkTls: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SipTrunkTls",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SipTrunkPing: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SipTrunkPing",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SipTrunkActivity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SipTrunkActivity",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      inactiveReason: {
+        serializedName: "reason",
+        type: {
+          name: "String"
         }
       }
     }
@@ -87,6 +211,9 @@ export const SipTrunkRoute: coreClient.CompositeMapper = {
         }
       },
       trunks: {
+        constraints: {
+          MaxItems: 250
+        },
         serializedName: "trunks",
         type: {
           name: "Sequence",
@@ -172,6 +299,13 @@ export const SipConfigurationPatch: coreClient.CompositeMapper = {
     name: "Composite",
     className: "SipConfigurationPatch",
     modelProperties: {
+      domains: {
+        serializedName: "domains",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "Composite", className: "DomainPatch" } }
+        }
+      },
       trunks: {
         serializedName: "trunks",
         type: {
@@ -180,6 +314,9 @@ export const SipConfigurationPatch: coreClient.CompositeMapper = {
         }
       },
       routes: {
+        constraints: {
+          MaxItems: 250
+        },
         serializedName: "routes",
         type: {
           name: "Sequence",
@@ -195,6 +332,21 @@ export const SipConfigurationPatch: coreClient.CompositeMapper = {
   }
 };
 
+export const DomainPatch: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DomainPatch",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const TrunkPatch: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -204,6 +356,66 @@ export const TrunkPatch: coreClient.CompositeMapper = {
         serializedName: "sipSignalingPort",
         type: {
           name: "Number"
+        }
+      },
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const RoutesForNumber: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RoutesForNumber",
+    modelProperties: {
+      matchingRoutes: {
+        constraints: {
+          MaxItems: 250
+        },
+        serializedName: "matchingRoutes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SipTrunkRoute"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SipRoutingGetExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SipRoutingGetExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SipRoutingPatchExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SipRoutingPatchExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
         }
       }
     }

@@ -8,6 +8,7 @@ import {
   PhoneNumbersListAreaCodesOptionalParams,
   PhoneNumberType,
 } from "./generated/src/models/";
+import { SipTrunkHealth } from "./generated/src/siprouting/models";
 
 /**
  * The result of the phone numbers purchase operation.
@@ -67,6 +68,26 @@ export interface ListLocalitiesOptions extends OperationOptions {
 }
 
 /**
+ * Additional options that can be passed to list SIP routes.
+ */
+export interface ListSipRoutesOptions extends OperationOptions {}
+
+/**
+ * Additional options that can be passed to list SIP trunks.
+ */
+export interface ListSipTrunksOptions extends GetSipTrunkOptions {}
+
+/**
+ * Additional options that can be passed to get SIP trunk.
+ */
+export interface GetSipTrunkOptions extends OperationOptions {
+  /**
+   * Sets the optional parameter to retrieve SBC properties.
+   */
+  includeHealth?: boolean;
+}
+
+/**
  * Additional options that can be passed to the available offerings request.
  */
 export interface ListOfferingsOptions extends OperationOptions {
@@ -92,7 +113,18 @@ export {
   PurchasedPhoneNumber,
 } from "./generated/src/models/";
 
-export { SipRoutingError, SipTrunkRoute } from "./generated/src/siprouting/models";
+export {
+  SipRoutingError,
+  SipTrunkRoute,
+  TlsStatus,
+  PingStatus,
+  ActivityStatus,
+  InactiveReason,
+  SipTrunkHealth,
+  SipTrunkTls,
+  SipTrunkPing,
+  SipTrunkActivity,
+} from "./generated/src/siprouting/models";
 
 /**
  * Represents a SIP trunk for routing calls. See RFC 4904.
@@ -106,4 +138,12 @@ export interface SipTrunk {
    * Gets or sets SIP signaling port of the trunk.
    */
   sipSignalingPort: number;
+  /**
+   * Gets or sets enabled property of the trunk.
+   */
+  enabled?: boolean;
+  /**
+   * Represents health state of a SIP trunk for routing calls.
+   */
+  readonly health?: SipTrunkHealth;
 }

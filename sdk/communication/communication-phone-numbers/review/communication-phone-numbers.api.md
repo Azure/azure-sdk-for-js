@@ -16,6 +16,9 @@ import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export type ActivityStatus = "unknown" | "active" | "inactive";
+
+// @public
 export interface BeginPurchasePhoneNumbersOptions extends OperationOptions {
 }
 
@@ -33,6 +36,14 @@ export interface BeginUpdatePhoneNumberCapabilitiesOptions extends OperationOpti
 
 // @public
 export type GetPurchasedPhoneNumberOptions = OperationOptions;
+
+// @public
+export interface GetSipTrunkOptions extends OperationOptions {
+    includeHealth?: boolean;
+}
+
+// @public
+export type InactiveReason = "noRecentCalls" | "noRecentPings" | "noRecentCallsAndPings";
 
 // @public
 export interface ListAvailableCountriesOptions extends OperationOptions {
@@ -58,6 +69,14 @@ export interface ListOfferingsOptions extends OperationOptions {
 
 // @public
 export interface ListPurchasedPhoneNumbersOptions extends OperationOptions {
+}
+
+// @public
+export interface ListSipRoutesOptions extends OperationOptions {
+}
+
+// @public
+export interface ListSipTrunksOptions extends GetSipTrunkOptions {
 }
 
 // @public
@@ -177,6 +196,9 @@ export interface PhoneNumbersListAreaCodesOptionalParams extends coreClient.Oper
 export type PhoneNumberType = "geographic" | "tollFree";
 
 // @public
+export type PingStatus = "unknown" | "ok" | "expired" | "error";
+
+// @public
 export interface PurchasedPhoneNumber {
     assignmentType: PhoneNumberAssignmentType;
     capabilities: PhoneNumberCapabilities;
@@ -207,9 +229,9 @@ export class SipRoutingClient {
     constructor(endpoint: string, credential: KeyCredential, options?: SipRoutingClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: SipRoutingClientOptions);
     deleteTrunk(fqdn: string, options?: OperationOptions): Promise<void>;
-    getRoutes(options?: OperationOptions): Promise<SipTrunkRoute[]>;
-    getTrunk(fqdn: string, options?: OperationOptions): Promise<SipTrunk>;
-    getTrunks(options?: OperationOptions): Promise<SipTrunk[]>;
+    getTrunk(fqdn: string, options?: GetSipTrunkOptions): Promise<SipTrunk>;
+    listRoutes(options?: ListSipRoutesOptions): PagedAsyncIterableIterator<SipTrunkRoute>;
+    listTrunks(options?: ListSipTrunksOptions): PagedAsyncIterableIterator<SipTrunk>;
     setRoutes(routes: SipTrunkRoute[], options?: OperationOptions): Promise<SipTrunkRoute[]>;
     setTrunk(trunk: SipTrunk, options?: OperationOptions): Promise<SipTrunk>;
     setTrunks(trunks: SipTrunk[], options?: OperationOptions): Promise<SipTrunk[]>;
@@ -230,8 +252,28 @@ export interface SipRoutingError {
 
 // @public
 export interface SipTrunk {
+    enabled?: boolean;
     fqdn: string;
+    readonly health?: SipTrunkHealth;
     sipSignalingPort: number;
+}
+
+// @public
+export interface SipTrunkActivity {
+    inactiveReason?: InactiveReason;
+    status: ActivityStatus;
+}
+
+// @public
+export interface SipTrunkHealth {
+    activity: SipTrunkActivity;
+    ping: SipTrunkPing;
+    tls: SipTrunkTls;
+}
+
+// @public
+export interface SipTrunkPing {
+    status: PingStatus;
 }
 
 // @public
@@ -241,6 +283,14 @@ export interface SipTrunkRoute {
     numberPattern: string;
     trunks?: string[];
 }
+
+// @public
+export interface SipTrunkTls {
+    status: TlsStatus;
+}
+
+// @public
+export type TlsStatus = "unknown" | "ok" | "certExpiring" | "certExpired";
 
 // (No @packageDocumentation comment for this package)
 

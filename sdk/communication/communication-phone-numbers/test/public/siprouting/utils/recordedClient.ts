@@ -7,17 +7,17 @@ import * as dotenv from "dotenv";
 import {
   Recorder,
   RecorderStartOptions,
-  env,
-  assertEnvironmentVariable,
-  isPlaybackMode,
   SanitizerOptions,
+  assertEnvironmentVariable,
+  env,
+  isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { SipRoutingClient } from "../../../../src";
+import { SipRoutingClient, SipTrunk, SipTrunkRoute } from "../../../../src";
 import { parseConnectionString } from "@azure/communication-common";
 import { TokenCredential } from "@azure/identity";
 import { isNode } from "@azure/test-utils";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { v4 as uuid } from "uuid";
+// import { v4 as uuid } from "uuid";
 
 if (isNode) {
   dotenv.config();
@@ -128,11 +128,31 @@ export async function clearSipConfiguration(): Promise<void> {
   await client.setTrunks([]);
 }
 
-let fqdnNumber = 1;
+let fqdnNumber = 0;
 export function getUniqueFqdn(recorder: Recorder): string {
-  const uniqueDomain = uuid().replace(/-/g, "");
-  return recorder.variable(`fqdn-${fqdnNumber++}`, `test.${uniqueDomain}.com`);
+  // const uniqueDomain = uuid().replace(/-/g, "");
+  fqdnNumber++;
+  return recorder.variable(`fqdn-${fqdnNumber}`, `test${fqdnNumber}.nostojic13012023.skype.net`);
 }
 export function resetUniqueFqdns(): void {
-  fqdnNumber = 1;
+  fqdnNumber = 0;
+}
+
+export async function listAllTrunks(
+  client: SipRoutingClient,
+  includeHealth?: boolean
+): Promise<SipTrunk[]> {
+  const result = [];
+  for await (const trunk of client.listTrunks({ includeHealth })) {
+    result.push(trunk);
+  }
+  return result;
+}
+
+export async function listAllRoutes(client: SipRoutingClient): Promise<SipTrunkRoute[]> {
+  const result = [];
+  for await (const route of client.listRoutes()) {
+    result.push(route);
+  }
+  return result;
 }
