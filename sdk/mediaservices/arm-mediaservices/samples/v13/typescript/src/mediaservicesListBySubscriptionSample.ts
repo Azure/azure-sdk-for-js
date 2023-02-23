@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List Media Services accounts in the subscription.
  *
  * @summary List Media Services accounts in the subscription.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2021-11-01/examples/accounts-subscription-list-all-accounts.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2023-01-01/examples/accounts-subscription-list-all-accounts.json
  */
 async function listAllMediaServicesAccounts() {
   const subscriptionId =
