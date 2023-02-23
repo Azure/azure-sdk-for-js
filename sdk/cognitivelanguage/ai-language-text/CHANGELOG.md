@@ -4,7 +4,7 @@
 
 ### Features Added
 
-_ Add support for logging API warnings that are part of want-text response headers.
+- Add support for logging API warnings that are part of warn-text response headers.
 
 ### Breaking Changes
 
