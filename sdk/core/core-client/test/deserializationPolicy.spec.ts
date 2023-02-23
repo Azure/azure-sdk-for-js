@@ -748,7 +748,7 @@ describe("deserializationPolicy", function () {
       assert.strictEqual(result.parsedBody.extraProp, "An extra property value");
     });
 
-    it.only(`json response body with null value`, async function () {
+    it(`json response body with null value`, async function () {
       const BodyMapper: CompositeMapper = {
         serializedName: "getproperties-body",
         type: {
