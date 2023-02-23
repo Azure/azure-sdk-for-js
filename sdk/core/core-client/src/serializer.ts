@@ -960,7 +960,7 @@ function deserializeCompositeType(
         steps++;
         res = res[item];
       }
-      // only accept null when reaching the final position of object otherwise it would be undefined
+      // only accept null when reaching the last position of object otherwise it would be undefined
       if(res === null && steps < paths.length) {
         res = undefined;
       }
