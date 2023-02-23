@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CommunicationIdentifier, CommunicationUserIdentifier, PhoneNumberIdentifier } from "@azure/communication-common";
+import {
+  CommunicationIdentifier,
+  CommunicationUserIdentifier,
+  PhoneNumberIdentifier,
+} from "@azure/communication-common";
 import {
   CallConnectionStateModel,
   CommunicationIdentifierModel,
@@ -93,61 +97,74 @@ export interface RecordingStateResponseDto {
   recordingState?: RecordingState;
 }
 
-function instanceOfPhoneNumberIdentity(object: any): object is PhoneNumberIdentifier {
-    return "phoneNumber" in object;
+function instanceOfPhoneNumberIdentity(
+  object: any
+): object is PhoneNumberIdentifier {
+  return "phoneNumber" in object;
 }
 
 export class CallInvite {
-    public readonly target: CommunicationIdentifier;
-    public readonly sourceCallIdNumber?: PhoneNumberIdentifier;
-    public sourceDisplayName?: string;
-    public readonly sipHeaders?: { [propertyName: string]: string };
-    public readonly voipHeaders?: { [propertyName: string]: string };
+  public readonly target: CommunicationIdentifier;
+  public readonly sourceCallIdNumber?: PhoneNumberIdentifier;
+  public sourceDisplayName?: string;
+  public readonly sipHeaders?: { [propertyName: string]: string };
+  public readonly voipHeaders?: { [propertyName: string]: string };
 
-   /**
+  /**
    * Create a CallInvite object with PhoneNumberIdentifierr
    * @param targetPhoneNumberIdentity - Target's PhoneNumberIdentifier
    * @param callerIdNumber - Caller's phone number identifier
    */
-    constructor(targetPhoneNumberIdentity: PhoneNumberIdentifier, callerIdNumber: PhoneNumberIdentifier);
+  constructor(
+    targetPhoneNumberIdentity: PhoneNumberIdentifier,
+    callerIdNumber: PhoneNumberIdentifier
+  );
 
-    /**
-     * Create a CallInvite object with PhoneNumberIdentifier
-     * @param targetPhoneNumberIdentity - Target's PhoneNumberIdentifier
-     * @param callerIdNumber - Caller's phone number identifier
-     * @param sipHeaders - Custom context for PSTN
-     */
-    constructor(targetPhoneNumberIdentity: PhoneNumberIdentifier, callerIdNumber: PhoneNumberIdentifier, sipHeader: { [propertyName: string]: string });
+  /**
+   * Create a CallInvite object with PhoneNumberIdentifier
+   * @param targetPhoneNumberIdentity - Target's PhoneNumberIdentifier
+   * @param callerIdNumber - Caller's phone number identifier
+   * @param sipHeaders - Custom context for PSTN
+   */
+  constructor(
+    targetPhoneNumberIdentity: PhoneNumberIdentifier,
+    callerIdNumber: PhoneNumberIdentifier,
+    sipHeader: { [propertyName: string]: string }
+  );
 
-    /**
-     * Create a CallInvite object with CommunicationUserIdentifier
-     * @param targetIdentity - Target's CommunicationUserIdentifier
-     */
-    constructor(targetIdentity: CommunicationUserIdentifier);
+  /**
+   * Create a CallInvite object with CommunicationUserIdentifier
+   * @param targetIdentity - Target's CommunicationUserIdentifier
+   */
+  constructor(targetIdentity: CommunicationUserIdentifier);
 
-    /**
-     * Create a CallInvite object with CommunicationUserIdentifier
-     * @param targetIdentity - Target's CommunicationUserIdentifier
-     * @param voipHeaders - Custom context for voip
-     */
-    constructor(targetIdentity: CommunicationUserIdentifier, voipHeaders: { [propertyName: string]: string });
+  /**
+   * Create a CallInvite object with CommunicationUserIdentifier
+   * @param targetIdentity - Target's CommunicationUserIdentifier
+   * @param voipHeaders - Custom context for voip
+   */
+  constructor(
+    targetIdentity: CommunicationUserIdentifier,
+    voipHeaders: { [propertyName: string]: string }
+  );
 
-    constructor(
-        targetIdentity: PhoneNumberIdentifier | CommunicationUserIdentifier,
-        callerIdNumberOrHeaders?: PhoneNumberIdentifier | { [propertyName: string]: string },
-        maybeHeaders?: { [propertyName: string]: string }
-    ) {
-        this.target = targetIdentity;
-        if (callerIdNumberOrHeaders) {
-            if (instanceOfPhoneNumberIdentity(callerIdNumberOrHeaders)) {
-                this.sourceCallIdNumber = callerIdNumberOrHeaders;
-                if (maybeHeaders) {
-                    this.sipHeaders = maybeHeaders;
-                }
-            }
-            else {
-                this.voipHeaders = callerIdNumberOrHeaders;
-            }
+  constructor(
+    targetIdentity: PhoneNumberIdentifier | CommunicationUserIdentifier,
+    callerIdNumberOrHeaders?:
+      | PhoneNumberIdentifier
+      | { [propertyName: string]: string },
+    maybeHeaders?: { [propertyName: string]: string }
+  ) {
+    this.target = targetIdentity;
+    if (callerIdNumberOrHeaders) {
+      if (instanceOfPhoneNumberIdentity(callerIdNumberOrHeaders)) {
+        this.sourceCallIdNumber = callerIdNumberOrHeaders;
+        if (maybeHeaders) {
+          this.sipHeaders = maybeHeaders;
         }
+      } else {
+        this.voipHeaders = callerIdNumberOrHeaders;
+      }
     }
+  }
 }

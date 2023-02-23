@@ -16,7 +16,7 @@ import {
   CallMediaPlayOptionalParams,
   CallMediaCancelAllMediaOperationsOptionalParams,
   RecognizeRequest,
-  CallMediaRecognizeOptionalParams
+  CallMediaRecognizeOptionalParams,
 } from "../models";
 
 /** Class containing CallMedia operations. */
@@ -89,15 +89,15 @@ const playOperationSpec: coreClient.OperationSpec = {
   responses: {
     202: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   requestBody: Parameters.playRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const cancelAllMediaOperationsOperationSpec: coreClient.OperationSpec = {
   path: "/calling/callConnections/{callConnectionId}:cancelAllMediaOperations",
@@ -105,13 +105,13 @@ const cancelAllMediaOperationsOperationSpec: coreClient.OperationSpec = {
   responses: {
     202: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const recognizeOperationSpec: coreClient.OperationSpec = {
   path: "/calling/callConnections/{callConnectionId}:recognize",
@@ -119,13 +119,13 @@ const recognizeOperationSpec: coreClient.OperationSpec = {
   responses: {
     202: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   requestBody: Parameters.recognizeRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

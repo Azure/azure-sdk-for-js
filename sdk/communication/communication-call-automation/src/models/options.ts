@@ -13,19 +13,19 @@ export { RestCallRecordingStartRecordingOptions };
  * Options to create a call.
  */
 export interface CreateCallOptions extends OperationOptions {
-    /**
-    * The source caller Id, a phone number, that's shown to the PSTN participant being invited.
-    * Required only when calling a PSTN callee.
-    */
-    sourceCallIdNumber?: PhoneNumberIdentifier;
-    /** Display name of the call if dialing out to a pstn number */
-    sourceDisplayName?: string;
-    /** The operation context. */
-    operationContext?: string;
-    /** The Azure cognitive services end point url. */
-    azureCognitiveServicesEndpointUrl?: string;
-    /** Configuration of Media streaming. */
-    mediaStreamingConfiguration?: MediaStreamingConfiguration;
+  /**
+   * The source caller Id, a phone number, that's shown to the PSTN participant being invited.
+   * Required only when calling a PSTN callee.
+   */
+  sourceCallIdNumber?: PhoneNumberIdentifier;
+  /** Display name of the call if dialing out to a pstn number */
+  sourceDisplayName?: string;
+  /** The operation context. */
+  operationContext?: string;
+  /** The Azure cognitive services end point url. */
+  azureCognitiveServicesEndpointUrl?: string;
+  /** Configuration of Media streaming. */
+  mediaStreamingConfiguration?: MediaStreamingConfiguration;
 }
 
 /**
@@ -96,7 +96,8 @@ export type GetParticipantOptions = OperationOptions;
 /**
  * Options to get a start a recording.
  */
-export type CallRecordingStartRecordingOptions = RestCallRecordingStartRecordingOptions;
+export type CallRecordingStartRecordingOptions =
+  RestCallRecordingStartRecordingOptions;
 
 /**
  * Options to get a stop a recording.
