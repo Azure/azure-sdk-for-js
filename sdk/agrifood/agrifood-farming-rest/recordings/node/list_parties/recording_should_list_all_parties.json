@@ -8,8 +8,8 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-agrifood-farming-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.12.1 OS/(x64-Linux-5.4.0-1103-azure)",
-        "x-ms-client-request-id": "f7021c4d-220e-45a0-8427-5c761964ca6e"
+        "User-Agent": "azsdk-js-agrifood-farming-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "d11b315d-6ecd-4f3a-b20a-f4924657e7ab"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -19,14 +19,14 @@
         "Content-Encoding": "gzip",
         "Content-Security-Policy": "self",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Feb 2023 21:37:34 GMT",
-        "mise-correlation-id": "3c6a189d-b9fd-4669-ad04-2a47e253491a",
+        "Date": "Thu, 23 Feb 2023 18:26:18 GMT",
+        "mise-correlation-id": "f5f12df1-5d17-48e8-a864-363c656f521e",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "SAMEORIGIN",
-        "x-ms-request-id": "4989644a04a06cb3ac9c6dacddc7942c",
+        "x-ms-request-id": "a6391bcb680546fa4958a91479891166",
         "x-ms-throttle-information": "500"
       },
       "ResponseBody": {

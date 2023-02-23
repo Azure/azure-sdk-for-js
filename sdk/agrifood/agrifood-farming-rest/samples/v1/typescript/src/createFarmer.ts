@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 /**
- * This sample demonstrates how create a farmer
+ * This sample demonstrates how create a party
  *
- * @summary creates a farmer
+ * @summary creates a party
  */
 
 import FarmBeats from "@azure-rest/agrifood-farming";
@@ -17,11 +17,11 @@ const endpoint = process.env["FARMBEATS_ENDPOINT"] || "";
 
 async function main() {
   const farming = FarmBeats(endpoint, new DefaultAzureCredential());
-  const farmerId = "test_farmer";
-  const result = await farming.path("/farmers/{farmerId}", farmerId).patch({
+  const partyId = "test_party";
+  const result = await farming.path("/parties/{partyId}", partyId).patch({
     body: {
-      name: "Contoso Farmer",
-      description: "Your custom farmer description here",
+      name: "Contoso Party",
+      description: "Your custom party description here",
       status: "Active",
       properties: { foo: "bar", "numeric one": 1, "1": "numeric key" },
     },
@@ -33,7 +33,7 @@ async function main() {
     throw result.body.error;
   }
 
-  console.log(`Created Farmer: ${result.body.name}`);
+  console.log(`Created Party: ${result.body.name}`);
 }
 
 main().catch(console.error);

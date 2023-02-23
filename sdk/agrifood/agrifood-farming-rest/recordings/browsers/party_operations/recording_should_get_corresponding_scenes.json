@@ -16,26 +16,27 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
-        "x-ms-client-request-id": "c2b0e3b5-f52c-4c7e-95ef-6121ed1ae8f3",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
+        "x-ms-client-request-id": "58998862-0049-40b5-8cc1-0e2102493729",
         "x-ms-useragent": "azsdk-js-agrifood-farming-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-07-31-preview, 2022-11-01-preview",
+        "api-deprecated-versions": "2021-07-31-preview",
+        "api-supported-versions": "2022-11-01-preview",
         "Connection": "keep-alive",
         "Content-Encoding": "br",
         "Content-Security-Policy": "self",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Feb 2023 21:37:05 GMT",
-        "mise-correlation-id": "f88360ad-4bfa-4f74-a61c-fd8bed7e3638",
+        "Date": "Thu, 23 Feb 2023 18:26:39 GMT",
+        "mise-correlation-id": "6a7d9969-b4c0-4e06-b106-c0c92167f60a",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "SAMEORIGIN",
-        "x-ms-request-id": "cfa5b1c073065110d35c17d556d1d23a",
+        "x-ms-request-id": "ddad52a41b05aa9d119950cc243c693f",
         "x-ms-throttle-information": "3500"
       },
       "ResponseBody": {
@@ -165,6 +166,6 @@
     }
   ],
   "Variables": {
-    "jobId": "browser-job-453"
+    "jobId": "browser-job-700"
   }
 }

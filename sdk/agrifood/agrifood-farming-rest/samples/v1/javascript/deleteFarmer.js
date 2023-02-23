@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 /**
- * This sample demonstrates how delete a farmer
+ * This sample demonstrates how delete a party
  *
- * @summary deletes a farmer
+ * @summary deletes a party
  */
 
 const FarmBeats = require("@azure-rest/agrifood-farming");
@@ -17,13 +17,13 @@ const endpoint = process.env["FARMBEATS_ENDPOINT"] || "";
 
 async function main() {
   const farming = FarmBeats(endpoint, new DefaultAzureCredential());
-  const farmerId = "test_farmer";
-  const result = await farming.path("/farmers/{farmerId}", farmerId).delete();
+  const partyId = "test_party";
+  const result = await farming.path("/parties/{partyId}", partyId).delete();
   if (result.status !== "204") {
     throw result.body.error;
   }
 
-  console.log(`Deleted Farmer: ${farmerId}`);
+  console.log(`Deleted Party: ${partyId}`);
 }
 
 main().catch(console.error);

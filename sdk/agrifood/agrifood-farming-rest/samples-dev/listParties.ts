@@ -26,7 +26,7 @@ async function main() {
 
   const parties = paginate(farmbeatsClient, response);
 
-  // Lof each party id
+  // Log each party id
   for await (const party of parties) {
     const partyOutput = party;
     console.log(partyOutput.id);

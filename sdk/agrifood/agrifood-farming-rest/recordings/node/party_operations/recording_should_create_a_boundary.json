@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "579",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-agrifood-farming-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.12.1 OS/(x64-Linux-5.4.0-1103-azure)",
-        "x-ms-client-request-id": "c510d766-6ce6-4703-bf28-59a0d019d53a"
+        "User-Agent": "azsdk-js-agrifood-farming-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "9624a6e4-e07e-4131-91c9-ae823044d823"
       },
       "RequestBody": {
         "geometry": {
@@ -109,20 +109,21 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-07-31-preview, 2022-11-01-preview",
+        "api-deprecated-versions": "2021-07-31-preview",
+        "api-supported-versions": "2022-11-01-preview",
         "Connection": "keep-alive",
         "Content-Encoding": "gzip",
         "Content-Security-Policy": "self",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Feb 2023 21:37:29 GMT",
-        "ETag": "0000c060-0000-0600-0000-63f6874f0000",
-        "mise-correlation-id": "6eb04fd9-5fbb-48d2-86be-f61e7c5797cb",
+        "Date": "Thu, 23 Feb 2023 18:26:08 GMT",
+        "ETag": "0100ebcc-0000-0600-0000-63f7ada80000",
+        "mise-correlation-id": "6afffc0a-75a4-4389-97d8-1055b3bd1913",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "SAMEORIGIN",
-        "x-ms-request-id": "a20085e27f6a464fc7cbe8e97bbe5858",
+        "x-ms-request-id": "06c211d5260ddabfb42adc61d490212b",
         "x-ms-throttle-information": "1000"
       },
       "ResponseBody": {
@@ -254,9 +255,9 @@
           "value": 34.268
         },
         "id": "node-contoso-boundary",
-        "eTag": "0000c060-0000-0600-0000-63f6874f0000",
+        "eTag": "0100ebcc-0000-0600-0000-63f7ada80000",
         "createdDateTime": "2023-02-22T19:19:27Z",
-        "modifiedDateTime": "2023-02-22T21:37:29Z",
+        "modifiedDateTime": "2023-02-23T18:26:08Z",
         "description": "Created by SDK",
         "createdBy": "9002b50e-dc98-445e-a865-72dce38ecafd",
         "modifiedBy": "9002b50e-dc98-445e-a865-72dce38ecafd"
@@ -264,6 +265,6 @@
     }
   ],
   "Variables": {
-    "jobId": "node-job-858"
+    "jobId": "node-job-244"
   }
 }

@@ -18,8 +18,8 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
-        "x-ms-client-request-id": "66f44e91-2907-4ff4-9afe-cc3f3dc1d813",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
+        "x-ms-client-request-id": "14dc7d46-65fa-45e9-9548-ee2832d27649",
         "x-ms-useragent": "azsdk-js-agrifood-farming-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 OS"
       },
       "RequestBody": {
@@ -118,20 +118,21 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-07-31-preview, 2022-11-01-preview",
+        "api-deprecated-versions": "2021-07-31-preview",
+        "api-supported-versions": "2022-11-01-preview",
         "Connection": "keep-alive",
         "Content-Encoding": "br",
         "Content-Security-Policy": "self",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Feb 2023 21:36:56 GMT",
-        "ETag": "00006d72-0000-0600-0000-63f68a910000",
-        "mise-correlation-id": "fcbea930-c6fc-409f-aa22-9719874be616",
+        "Date": "Thu, 23 Feb 2023 18:26:34 GMT",
+        "ETag": "01008a0f-0000-0600-0000-63f7adc80000",
+        "mise-correlation-id": "3d0441a4-4cd7-4fb6-9120-0f30c68b7b52",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "SAMEORIGIN",
-        "x-ms-request-id": "d3f4cd858114369765cbdd8fc0db059d",
+        "x-ms-request-id": "093828a70c45e983b18ff3a77017d9f2",
         "x-ms-throttle-information": "1000"
       },
       "ResponseBody": {
@@ -263,9 +264,9 @@
           "value": 34.268
         },
         "id": "browser-contoso-boundary",
-        "eTag": "00006d72-0000-0600-0000-63f68a910000",
+        "eTag": "01008a0f-0000-0600-0000-63f7adc80000",
         "createdDateTime": "2023-02-22T21:34:39Z",
-        "modifiedDateTime": "2023-02-22T21:36:56Z",
+        "modifiedDateTime": "2023-02-23T18:26:34Z",
         "description": "Created by SDK",
         "createdBy": "9002b50e-dc98-445e-a865-72dce38ecafd",
         "modifiedBy": "9002b50e-dc98-445e-a865-72dce38ecafd"
@@ -273,6 +274,6 @@
     }
   ],
   "Variables": {
-    "jobId": "browser-job-683"
+    "jobId": "browser-job-239"
   }
 }

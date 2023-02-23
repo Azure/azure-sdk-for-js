@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "154",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-agrifood-farming-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.12.1 OS/(x64-Linux-5.4.0-1103-azure)",
-        "x-ms-client-request-id": "9ec7d229-6a62-4e8c-be6e-609f77cb6caf"
+        "User-Agent": "azsdk-js-agrifood-farming-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "0763f21a-2ad4-444d-87ff-4861b6748f9a"
       },
       "RequestBody": {
         "name": "Contoso party",
@@ -30,23 +30,23 @@
         "Content-Encoding": "gzip",
         "Content-Security-Policy": "self",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Feb 2023 21:37:28 GMT",
-        "ETag": "00002366-0000-0600-0000-63f68b180000",
-        "mise-correlation-id": "a870551b-5f10-45f6-9f7f-f89353f5acc6",
+        "Date": "Thu, 23 Feb 2023 18:26:05 GMT",
+        "ETag": "010076d0-0000-0600-0000-63f7afbd0000",
+        "mise-correlation-id": "b1ccc4b4-fbe5-41ef-9726-4655cddfa766",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "SAMEORIGIN",
-        "x-ms-request-id": "65f00cb1f67053b91f26ec37b046ca7a",
+        "x-ms-request-id": "6d677a9454619621267a6ba8ce80fd0c",
         "x-ms-throttle-information": "1000"
       },
       "ResponseBody": {
         "id": "node-contoso-party",
-        "eTag": "00002366-0000-0600-0000-63f68b180000",
+        "eTag": "010076d0-0000-0600-0000-63f7afbd0000",
         "status": "Active",
         "createdDateTime": "2023-02-20T04:36:54Z",
-        "modifiedDateTime": "2023-02-22T21:37:28Z",
+        "modifiedDateTime": "2023-02-23T18:26:05Z",
         "name": "Contoso party",
         "description": "Your custom party description here",
         "createdBy": "9002b50e-dc98-445e-a865-72dce38ecafd",
@@ -60,6 +60,6 @@
     }
   ],
   "Variables": {
-    "jobId": "node-job-191"
+    "jobId": "node-job-109"
   }
 }

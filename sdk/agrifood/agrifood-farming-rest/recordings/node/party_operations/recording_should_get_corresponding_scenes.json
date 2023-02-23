@@ -8,25 +8,26 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-agrifood-farming-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.12.1 OS/(x64-Linux-5.4.0-1103-azure)",
-        "x-ms-client-request-id": "09294d40-f97a-4319-aa3f-164543488315"
+        "User-Agent": "azsdk-js-agrifood-farming-rest/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "b0e0edd1-9e21-4773-8e3a-6d57e00d75bf"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-07-31-preview, 2022-11-01-preview",
+        "api-deprecated-versions": "2021-07-31-preview",
+        "api-supported-versions": "2022-11-01-preview",
         "Connection": "keep-alive",
         "Content-Encoding": "gzip",
         "Content-Security-Policy": "self",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Feb 2023 21:37:34 GMT",
-        "mise-correlation-id": "5672afc1-8417-4741-9995-73b5dbcb032d",
+        "Date": "Thu, 23 Feb 2023 18:26:17 GMT",
+        "mise-correlation-id": "71957822-bc06-487f-85a5-c80a08b281f0",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "SAMEORIGIN",
-        "x-ms-request-id": "1a355e4728663505741d70e22cb1d323",
+        "x-ms-request-id": "ad66f18ad9f04bfec2b02715fa1b3fbe",
         "x-ms-throttle-information": "3500"
       },
       "ResponseBody": {
@@ -156,6 +157,6 @@
     }
   ],
   "Variables": {
-    "jobId": "node-job-392"
+    "jobId": "node-job-738"
   }
 }
