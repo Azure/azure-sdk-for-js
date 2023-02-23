@@ -25,7 +25,7 @@ export default function createClient(
     },
   };
 
-  const userAgentInfo = `azsdk-js-agrifood-farming-rest/1.0.0-beta.3`;
+  const userAgentInfo = `azsdk-js-agrifood-farming-rest/1.0.0-beta.2`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

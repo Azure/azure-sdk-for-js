@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.3 (Unreleased)
+## 1.0.0-beta.2 (2023-02-23)
 
 ### Features Added
 
@@ -16,6 +16,8 @@
 - Acreage renamed to area in Boundary
 - Get Feature and Search Feature APIs for Sentinel 2 L2A and Sentinel 2 L1C STAC collections
 - Adding Weather Data APIs to fetch IBM weather data
+- Re-generate with latest generator version. This contains splitting models into input and output models and typing improvements [#20059](https://github.com/Azure/azure-sdk-for-js/pull/20059)
+- Export pagination helper function. [#15831](https://github.com/Azure/azure-sdk-for-js/pull/15831)
 
 ### Breaking Changes
 
@@ -24,13 +26,6 @@
 - Removing avgYields from Seasonal Field
 - Renaming Farmer to Party
 - Renaming CropVariety to CropProduct
-
-## 1.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-- Re-generate with latest generator version. This contains splitting models into input and output models and typing improvements [#20059](https://github.com/Azure/azure-sdk-for-js/pull/20059)
-- Export pagination helper function. [#15831](https://github.com/Azure/azure-sdk-for-js/pull/15831)
 
 ## 1.0.0-beta.1 (2021-05-26)
 

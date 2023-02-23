@@ -16,9 +16,9 @@ dotenv.config();
 const endpoint = process.env["FARMBEATS_ENDPOINT"] || "";
 
 async function main() {
-  const farming = FarmBeats(endpoint, new DefaultAzureCredential());
+  const farmbeatsClient = FarmBeats(endpoint, new DefaultAzureCredential());
 
-  const result = await farming.path("/parties").get();
+  const result = await farmbeatsClient.path("/parties").get();
 
   if (result.status !== "200") {
     throw result.body.error?.message;
@@ -32,7 +32,7 @@ async function main() {
   // the next page of parties. Here we'll keep calling until the service stops returning a
   // skip token which means that there are no more pages.
   while (skipToken) {
-    const page = await farming.path("/parties").get({ queryParameters: { $skipToken: skipToken } });
+    const page = await farmbeatsClient.path("/parties").get({ queryParameters: { $skipToken: skipToken } });
     if (page.status !== "200") {
       throw page.body.error;
     }
