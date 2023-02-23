@@ -3855,7 +3855,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230222
+      typescript: 5.0.0-dev.20230223
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8604,8 +8604,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230222:
-    resolution: {integrity: sha512-OCNanAIcGf3Uy1aBvLbPNe524MnDEZChefbzgo9gvEZPYNG7Zma1C6dXuOBSCapLgbLHksOTyoPwixKTbDkZPQ==}
+  /typescript/5.0.0-dev.20230223:
+    resolution: {integrity: sha512-dUsdRdWs5mX+5uhIGuE1IEkfTzM5vY9qfVxIbRB3vxVINGEI8mS9/f3gs5xenafNblfMX8wUVvQ7y2x6Syk0tA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9171,7 +9171,7 @@ packages:
     dev: false
 
   file:projects/agrifood-farming.tgz:
-    resolution: {integrity: sha512-gWGhCGudxd1Lx6s5bQKDcKmUib7GEn80BbvcQxKR2HQ2FMTs2aMHfJGL4wpfybWxD2Exx++mHaUTuVxxCQuyNg==, tarball: file:projects/agrifood-farming.tgz}
+    resolution: {integrity: sha512-SqNCNVryPN9pTCsU6Gkeuldbfl7U2WFyXx+us4vsr0ccugLJNJXQgX3BnhjSxlPrf1J2jsyIFzKQz9jaOwDXcg==, tarball: file:projects/agrifood-farming.tgz}
     name: '@rush-temp/agrifood-farming'
     version: 0.0.0
     dependencies:
@@ -9211,7 +9211,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
