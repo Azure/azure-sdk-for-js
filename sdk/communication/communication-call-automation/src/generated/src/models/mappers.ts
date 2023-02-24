@@ -215,10 +215,10 @@ export const MediaStreamingConfiguration: coreClient.CompositeMapper = {
   }
 };
 
-export const CallConnectionProperties: coreClient.CompositeMapper = {
+export const CallConnectionPropertiesInternal: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CallConnectionProperties",
+    className: "CallConnectionPropertiesInternal",
     modelProperties: {
       callConnectionId: {
         serializedName: "callConnectionId",

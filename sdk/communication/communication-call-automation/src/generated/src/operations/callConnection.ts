@@ -219,7 +219,7 @@ const getCallOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CallConnectionProperties
+      bodyMapper: Mappers.CallConnectionPropertiesInternal
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse

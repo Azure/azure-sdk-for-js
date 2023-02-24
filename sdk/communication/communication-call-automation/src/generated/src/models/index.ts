@@ -71,7 +71,7 @@ export interface MediaStreamingConfiguration {
 }
 
 /** Properties of a call connection */
-export interface CallConnectionProperties {
+export interface CallConnectionPropertiesInternal {
   /** The call connection id. */
   callConnectionId?: string;
   /** The server call id. */
@@ -1015,7 +1015,7 @@ export interface CreateCallOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Contains response data for the createCall operation. */
-export type CreateCallResponse = CallConnectionProperties;
+export type CreateCallResponse = CallConnectionPropertiesInternal;
 
 /** Optional parameters. */
 export interface AnswerCallOptionalParams extends coreClient.OperationOptions {
@@ -1026,7 +1026,7 @@ export interface AnswerCallOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Contains response data for the answerCall operation. */
-export type AnswerCallResponse = CallConnectionProperties;
+export type AnswerCallResponse = CallConnectionPropertiesInternal;
 
 /** Optional parameters. */
 export interface RedirectCallOptionalParams
@@ -1050,7 +1050,7 @@ export interface CallConnectionGetCallOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getCall operation. */
-export type CallConnectionGetCallResponse = CallConnectionProperties;
+export type CallConnectionGetCallResponse = CallConnectionPropertiesInternal;
 
 /** Optional parameters. */
 export interface CallConnectionHangupCallOptionalParams
