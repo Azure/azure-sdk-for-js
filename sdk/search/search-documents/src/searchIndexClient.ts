@@ -812,10 +812,10 @@ export class SearchIndexClient {
    * Retrieves the SearchClient corresponding to this SearchIndexClient
    * @param indexName - Name of the index
    * @param options - SearchClient Options
-   * @typeParam Model - An optional TS interface that matches the type of the
-   * documents stored in the search index. For the best typing experience, all
-   * non-key fields should be marked optional and nullable, and the key property
-   * should have the non-nullable type `string`.
+   * @typeParam Model - An optional type that represents the documents stored in
+   * the search index. For the best typing experience, all non-key fields should
+   * be marked optional and nullable, and the key property should have the
+   * non-nullable type `string`.
    */
   public getSearchClient<Model extends object>(
     indexName: string,
