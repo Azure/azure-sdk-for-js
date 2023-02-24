@@ -143,8 +143,6 @@ export type CreateOrReplaceWorkflowParameters = CreateOrReplaceWorkflowMediaType
 // @public
 export interface DeleteWorkflow204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
