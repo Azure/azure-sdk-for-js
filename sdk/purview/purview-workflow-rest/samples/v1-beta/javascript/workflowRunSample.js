@@ -94,7 +94,7 @@ async function main() {
   // ================================================== Cancel a workflow run ==================================================
 
   const workflowRunId2 = "57f9d6d2-b41b-11ed-afa1-0242ac120002"; // This is an example workflow run id, user could get workflow run id from the response of list workflow runs api.
-  const cancelReply = { body: { comment: "Thanks!" } };
+  const cancelReply = { body: { comment: "Thanks!" } }; //This payload is an example payload, please replace the payload with real data.
 
   workflowRunCancel(client, workflowRunId2, cancelReply);
 }

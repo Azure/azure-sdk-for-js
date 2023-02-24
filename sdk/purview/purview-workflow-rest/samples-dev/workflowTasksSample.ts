@@ -184,7 +184,7 @@ async function main() {
 
   const approvePayload: ApproveApprovalTaskParameters = {
     body: { comment: "Thanks for raising this!" },
-  };
+  }; //This payload is an example payload, please replace the payload with real data.
   approveWorkflowTask(client, taskId2, approvePayload);
 
   // ================================================== Reject a workflow task ==================================================
@@ -193,7 +193,7 @@ async function main() {
 
   const rejectPayload: RejectApprovalTaskParameters = {
     body: { comment: "Thanks for raising this!" },
-  };
+  }; //This payload is an example payload, please replace the payload with real data.
 
   rejectWorkflowTask(client, taskId3, rejectPayload);
 
@@ -203,7 +203,7 @@ async function main() {
 
   const updateStatusPayload: UpdateTaskStatusParameters = {
     body: { comment: "Thanks!", newStatus: "InProgress" },
-  };
+  }; //This payload is an example payload, please replace the payload with real data.
   updateWorkflowTaskStatus(client, taskId4, updateStatusPayload);
 
   // ================================================== Reassign a workflow task ==================================================
@@ -219,7 +219,7 @@ async function main() {
         },
       ],
     },
-  };
+  }; //This payload is an example payload, please replace the payload with real data.
   workflowTaskReassign(client, taskId5, reassignPayload);
 }
 

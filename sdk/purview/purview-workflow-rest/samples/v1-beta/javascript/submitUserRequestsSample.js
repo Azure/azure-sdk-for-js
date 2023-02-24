@@ -53,7 +53,7 @@ async function main() {
         },
       ],
     },
-  };
+  }; //This payload is an example payload, please replace the payload with real data.
 
   userRequestsSubmit(client, userRequestPayload);
 }

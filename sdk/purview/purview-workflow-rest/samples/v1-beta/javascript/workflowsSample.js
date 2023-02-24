@@ -157,7 +157,7 @@ async function main() {
       ],
     },
   };
-  workflowCreateOrUpdate(client, workflowPayload); //This workflowPayload is an example, please replace the workflow payload with real payload.
+  workflowCreateOrUpdate(client, workflowPayload); //This payload is an example payload, please replace the payload with real data.
 
   // ================================================== List workflows ==================================================
 
