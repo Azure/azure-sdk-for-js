@@ -1,10 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import {
-  KeyCredential,
-  TokenCredential,
-  isTokenCredential,
-} from "@azure/core-auth";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { CommonClientOptions } from "@azure/core-client";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import {
@@ -24,11 +20,7 @@ import {
   RedirectCallRequest,
   RejectCallRequest,
 } from "./generated/src";
-import {
-  CallConnectionImpl,
-  CallMediaImpl,
-  CallRecordingImpl,
-} from "./generated/src/operations";
+import { CallConnectionImpl, CallMediaImpl, CallRecordingImpl } from "./generated/src/operations";
 import { CallConnection } from "./callConnection";
 import { CallRecording } from "./callRecording";
 import {
@@ -61,9 +53,7 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
  *
  * @param options - The value being checked.
  */
-const isCallAutomationClientOptions = (
-  options: any
-): options is CallAutomationClientOptions =>
+const isCallAutomationClientOptions = (options: any): options is CallAutomationClientOptions =>
   !!options && !isTokenCredential(options) && !isKeyCredential(options);
 
 /**
@@ -90,11 +80,7 @@ export class CallAutomationClient {
    * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
-  constructor(
-    endpoint: string,
-    credential: KeyCredential,
-    options?: CallAutomationClientOptions
-  );
+  constructor(endpoint: string, credential: KeyCredential, options?: CallAutomationClientOptions);
 
   /**
    * Initializes a new instance of the CallAutomationClient class using a TokenCredential.
@@ -102,18 +88,11 @@ export class CallAutomationClient {
    * @param credential - TokenCredential that is used to authenticate requests to the service.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
-  constructor(
-    endpoint: string,
-    credential: TokenCredential,
-    options?: CallAutomationClientOptions
-  );
+  constructor(endpoint: string, credential: TokenCredential, options?: CallAutomationClientOptions);
 
   constructor(
     connectionStringOrUrl: string,
-    credentialOrOptions?:
-      | KeyCredential
-      | TokenCredential
-      | CallAutomationClientOptions,
+    credentialOrOptions?: KeyCredential | TokenCredential | CallAutomationClientOptions,
     maybeOptions: CallAutomationClientOptions = {}
   ) {
     const options = isCallAutomationClientOptions(credentialOrOptions)
@@ -140,24 +119,14 @@ export class CallAutomationClient {
       },
     };
 
-    const { url, credential } = parseClientArguments(
-      connectionStringOrUrl,
-      credentialOrOptions
-    );
+    const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
     const authPolicy = createCommunicationAuthPolicy(credential);
 
-    this.callAutomationApiClient = new CallAutomationApiClient(
-      url,
-      internalPipelineOptions
-    );
+    this.callAutomationApiClient = new CallAutomationApiClient(url, internalPipelineOptions);
     this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
-    this.callConnectionImpl = new CallConnectionImpl(
-      this.callAutomationApiClient
-    );
+    this.callConnectionImpl = new CallConnectionImpl(this.callAutomationApiClient);
     this.callMediaImpl = new CallMediaImpl(this.callAutomationApiClient);
-    this.callRecordingImpl = new CallRecordingImpl(
-      this.callAutomationApiClient
-    );
+    this.callRecordingImpl = new CallRecordingImpl(this.callAutomationApiClient);
     this.sourceIdentity = options.sourceIdentity
       ? communicationIdentifierModelConverter(options.sourceIdentity)
       : undefined;
@@ -168,11 +137,7 @@ export class CallAutomationClient {
    * @param callConnectionId - The CallConnection id for the CallConnection instance. (ex: 421CONTOSO-cRD6-4RDc-a078-99dRANDOMf).
    */
   public getCallConnection(callConnectionId: string): CallConnection {
-    return new CallConnection(
-      callConnectionId,
-      this.callConnectionImpl,
-      this.callMediaImpl
-    );
+    return new CallConnection(callConnectionId, this.callConnectionImpl, this.callMediaImpl);
   }
 
   /**
@@ -187,9 +152,7 @@ export class CallAutomationClient {
    */
   public getSourceIdentity(): CommunicationUserIdentifier | undefined {
     return this.sourceIdentity
-      ? (communicationIdentifierConverter(
-          this.sourceIdentity
-        ) as CommunicationUserIdentifier)
+      ? (communicationIdentifierConverter(this.sourceIdentity) as CommunicationUserIdentifier)
       : undefined;
   }
 
@@ -212,8 +175,7 @@ export class CallAutomationClient {
           : target.map((m) => communicationIdentifierModelConverter(m)),
       callbackUri: callbackUrl,
       operationContext: options.operationContext,
-      azureCognitiveServicesEndpointUrl:
-        options.azureCognitiveServicesEndpointUrl,
+      azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl,
       mediaStreamingConfiguration: options.mediaStreamingConfiguration,
       sourceCallerIdNumber:
         target instanceof CallInvite
@@ -229,10 +191,7 @@ export class CallAutomationClient {
           : undefined,
     };
 
-    const result = await this.callAutomationApiClient.createCall(
-      request,
-      options
-    );
+    const result = await this.callAutomationApiClient.createCall(request, options);
 
     if (result?.callConnectionId) {
       const callConnectionPropertiesDto: CallConnectionProperties = {
@@ -240,9 +199,7 @@ export class CallAutomationClient {
         sourceIdentity: result.sourceIdentity
           ? communicationIdentifierConverter(result.sourceIdentity)
           : undefined,
-        targets: result.targets?.map((target) =>
-          communicationIdentifierConverter(target)
-        ),
+        targets: result.targets?.map((target) => communicationIdentifierConverter(target)),
         sourceCallerIdNumber: result.sourceCallerIdNumber
           ? phoneNumberIdentifierConverter(result.sourceCallerIdNumber)
           : undefined,
@@ -276,14 +233,10 @@ export class CallAutomationClient {
       incomingCallContext: incomingCallContext,
       callbackUri: callbackUrl,
       mediaStreamingConfiguration: options.mediaStreamingConfiguration,
-      azureCognitiveServicesEndpointUrl:
-        options.azureCognitiveServicesEndpointUrl,
+      azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl,
     };
 
-    const result = await this.callAutomationApiClient.answerCall(
-      request,
-      options
-    );
+    const result = await this.callAutomationApiClient.answerCall(request, options);
 
     if (result?.callConnectionId) {
       const callConnectionProperties: CallConnectionProperties = {
@@ -291,9 +244,7 @@ export class CallAutomationClient {
         sourceIdentity: result.sourceIdentity
           ? communicationIdentifierConverter(result.sourceIdentity)
           : undefined,
-        targets: result.targets?.map((target) =>
-          communicationIdentifierConverter(target)
-        ),
+        targets: result.targets?.map((target) => communicationIdentifierConverter(target)),
         sourceCallerIdNumber: result.sourceCallerIdNumber
           ? phoneNumberIdentifierConverter(result.sourceCallerIdNumber)
           : undefined,

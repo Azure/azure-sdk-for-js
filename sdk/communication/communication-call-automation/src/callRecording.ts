@@ -1,14 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { CallRecordingImpl } from "./generated/src/operations";
-import {
-  StartCallRecordingRequest,
-  RecordingStateResponse,
-} from "./generated/src/models/index";
-import {
-  StartCallRecordingRequestDto,
-  RecordingStateResponseDto,
-} from "./models/models";
+import { StartCallRecordingRequest, RecordingStateResponse } from "./generated/src/models/index";
+import { StartCallRecordingRequestDto, RecordingStateResponseDto } from "./models/models";
 import {
   CallRecordingStartRecordingOptions,
   CallRecordingStopRecordingOptions,
@@ -41,18 +35,13 @@ export class CallRecording {
     };
     if (request.callLocator.kind === "groupCallLocator") {
       startCallRecordingRequest.callLocator.kind = "groupCallLocator";
-      startCallRecordingRequest.callLocator.groupCallId =
-        request.callLocator.id;
+      startCallRecordingRequest.callLocator.groupCallId = request.callLocator.id;
     } else {
       startCallRecordingRequest.callLocator.kind = "serverCallLocator";
-      startCallRecordingRequest.callLocator.serverCallId =
-        request.callLocator.id;
+      startCallRecordingRequest.callLocator.serverCallId = request.callLocator.id;
     }
     const response: RecordingStateResponseDto = {
-      ...(await this.callRecordingImpl.startRecording(
-        startCallRecordingRequest,
-        options
-      )),
+      ...(await this.callRecordingImpl.startRecording(startCallRecordingRequest, options)),
     };
 
     return response;
@@ -68,10 +57,7 @@ export class CallRecording {
     options: CallRecordingGetRecordingPropertiesOptions
   ): Promise<RecordingStateResponseDto> {
     const response: RecordingStateResponseDto = {
-      ...(await this.callRecordingImpl.getRecordingProperties(
-        recordingId,
-        options
-      )),
+      ...(await this.callRecordingImpl.getRecordingProperties(recordingId, options)),
     };
 
     return response;

@@ -71,7 +71,7 @@ export interface MediaStreamingConfiguration {
 }
 
 /** Properties of a call connection */
-export interface CallConnectionPropertiesInternal {
+export interface CallConnectionProperties {
   /** The call connection id. */
   callConnectionId?: string;
   /** The server call id. */
@@ -262,13 +262,13 @@ export interface Choice {
 /** The response payload for getting participants of the call. */
 export interface GetParticipantsResponse {
   /** List of the current participants in the call. */
-  values?: CallParticipant[];
+  values?: CallParticipantInternal[];
   /** Continue of the list of participants */
   nextLink?: string;
 }
 
 /** Contract model of an ACS call participant */
-export interface CallParticipant {
+export interface CallParticipantInternal {
   /** Communication identifier of the participant */
   identifier?: CommunicationIdentifierModel;
   /** Is participant muted */
@@ -303,7 +303,7 @@ export interface AddParticipantRequest {
 /** The response payload for adding participants to the call. */
 export interface AddParticipantResponse {
   /** List of current participants in the call. */
-  participant?: CallParticipant;
+  participant?: CallParticipantInternal;
   /** The operation context provided by client. */
   operationContext?: string;
 }
@@ -495,7 +495,7 @@ export interface ParticipantsUpdated {
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId?: string;
   /** The list of participants in the call. */
-  participants?: CallParticipant[];
+  participants?: CallParticipantInternal[];
 }
 
 export interface RecordingStateChanged {
@@ -1015,7 +1015,7 @@ export interface CreateCallOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Contains response data for the createCall operation. */
-export type CreateCallResponse = CallConnectionPropertiesInternal;
+export type CreateCallResponse = CallConnectionProperties;
 
 /** Optional parameters. */
 export interface AnswerCallOptionalParams extends coreClient.OperationOptions {
@@ -1026,7 +1026,7 @@ export interface AnswerCallOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Contains response data for the answerCall operation. */
-export type AnswerCallResponse = CallConnectionPropertiesInternal;
+export type AnswerCallResponse = CallConnectionProperties;
 
 /** Optional parameters. */
 export interface RedirectCallOptionalParams
@@ -1050,7 +1050,7 @@ export interface CallConnectionGetCallOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getCall operation. */
-export type CallConnectionGetCallResponse = CallConnectionPropertiesInternal;
+export type CallConnectionGetCallResponse = CallConnectionProperties;
 
 /** Optional parameters. */
 export interface CallConnectionHangupCallOptionalParams
@@ -1137,7 +1137,7 @@ export interface CallConnectionGetParticipantOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getParticipant operation. */
-export type CallConnectionGetParticipantResponse = CallParticipant;
+export type CallConnectionGetParticipantResponse = CallParticipantInternal;
 
 /** Optional parameters. */
 export interface CallMediaPlayOptionalParams

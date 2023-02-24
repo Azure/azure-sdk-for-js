@@ -215,10 +215,10 @@ export const MediaStreamingConfiguration: coreClient.CompositeMapper = {
   }
 };
 
-export const CallConnectionPropertiesInternal: coreClient.CompositeMapper = {
+export const CallConnectionProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CallConnectionPropertiesInternal",
+    className: "CallConnectionProperties",
     modelProperties: {
       callConnectionId: {
         serializedName: "callConnectionId",
@@ -828,7 +828,7 @@ export const GetParticipantsResponse: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "CallParticipant"
+              className: "CallParticipantInternal"
             }
           }
         }
@@ -843,10 +843,10 @@ export const GetParticipantsResponse: coreClient.CompositeMapper = {
   }
 };
 
-export const CallParticipant: coreClient.CompositeMapper = {
+export const CallParticipantInternal: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CallParticipant",
+    className: "CallParticipantInternal",
     modelProperties: {
       identifier: {
         serializedName: "identifier",
@@ -926,7 +926,7 @@ export const AddParticipantResponse: coreClient.CompositeMapper = {
         serializedName: "participant",
         type: {
           name: "Composite",
-          className: "CallParticipant"
+          className: "CallParticipantInternal"
         }
       },
       operationContext: {
@@ -1471,7 +1471,7 @@ export const ParticipantsUpdated: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "CallParticipant"
+              className: "CallParticipantInternal"
             }
           }
         }
