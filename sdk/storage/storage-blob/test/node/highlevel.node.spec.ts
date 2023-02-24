@@ -45,6 +45,14 @@ describe("Highlevel", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: ["x-ms-encryption-key"],
+        },
+      },
+      ["playback", "record"]
+    );
     blobServiceClient = getBSU(recorder, {
       keepAliveOptions: {
         enable: true,

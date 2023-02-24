@@ -6,9 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
-  EmailGetSendStatusOptionalParams,
-  EmailGetSendStatusResponse,
+  EmailGetSendResultOptionalParams,
+  EmailGetSendResultResponse,
   EmailMessage,
   EmailSendOptionalParams,
   EmailSendResponse
@@ -17,31 +18,33 @@ import {
 /** Interface representing a Email. */
 export interface Email {
   /**
-   * Gets the status of a message sent previously.
-   * @param messageId System generated message id (GUID) returned from a previous call to send email
+   * Gets the status of the email send operation.
+   * @param operationId ID of the long running operation (GUID) returned from a previous call to send
+   *                    email
    * @param options The options parameters.
    */
-  getSendStatus(
-    messageId: string,
-    options?: EmailGetSendStatusOptionalParams
-  ): Promise<EmailGetSendStatusResponse>;
+  getSendResult(
+    operationId: string,
+    options?: EmailGetSendResultOptionalParams
+  ): Promise<EmailGetSendResultResponse>;
   /**
    * Queues an email message to be sent to one or more recipients
-   * @param repeatabilityRequestId If specified, the client directs that the request is repeatable; that
-   *                               is, that the client can make the request multiple times with the same Repeatability-Request-Id and
-   *                               get back an appropriate response without the server executing the request multiple times. The value
-   *                               of the Repeatability-Request-Id is an opaque string representing a client-generated, globally unique
-   *                               for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs.
-   * @param repeatabilityFirstSent Must be sent by clients to specify that a request is repeatable.
-   *                               Repeatability-First-Sent is used to specify the date and time at which the request was first created
-   *                               in the IMF-fix date form of HTTP-date as defined in RFC7231. eg- Tue, 26 Mar 2019 16:06:51 GMT
-   * @param emailMessage Message payload for sending an email
+   * @param message Message payload for sending an email
    * @param options The options parameters.
    */
-  send(
-    repeatabilityRequestId: string,
-    repeatabilityFirstSent: string,
-    emailMessage: EmailMessage,
+  beginSend(
+    message: EmailMessage,
+    options?: EmailSendOptionalParams
+  ): Promise<
+    PollerLike<PollOperationState<EmailSendResponse>, EmailSendResponse>
+  >;
+  /**
+   * Queues an email message to be sent to one or more recipients
+   * @param message Message payload for sending an email
+   * @param options The options parameters.
+   */
+  beginSendAndWait(
+    message: EmailMessage,
     options?: EmailSendOptionalParams
   ): Promise<EmailSendResponse>;
 }

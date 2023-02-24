@@ -89,7 +89,7 @@ You can familiarize yourself with different APIs using [Samples](https://github.
 You can create a client and call the client's `Upload` method. Take note of the data ingestion [limits](https://learn.microsoft.com/azure/azure-monitor/service-limits#custom-logs).
 
 ```js
-const { isAggregateUploadLogsError, DefaultAzureCredential } = require("@azure/identity");
+const { isAggregateLogsUploadError, DefaultAzureCredential } = require("@azure/identity");
 const { LogsIngestionClient } = require("@azure/monitor-ingestion");
 
 require("dotenv").config();
@@ -116,7 +116,7 @@ async function main() {
     await client.upload(ruleId, streamName, logs);
   }
   catch(e){
-    let aggregateErrors = isAggregateUploadLogsError(e) ? e.errors : [];
+    let aggregateErrors = isAggregateLogsUploadError(e) ? e.errors : [];
     if (aggregateErrors.length > 0) {
       console.log("Some logs have failed to complete ingestion");
       for (const error of aggregateErrors) {
@@ -192,7 +192,7 @@ When uploading more than 1MB of logs in a single call to the `upload` method on 
 
 ```js
 const { DefaultAzureCredential } = require("@azure/identity");
-const { isAggregateUploadLogsError, LogsIngestionClient } = require("@azure/monitor-ingestion");
+const { isAggregateLogsUploadError, LogsIngestionClient } = require("@azure/monitor-ingestion");
 
 require("dotenv").config();
 
@@ -218,7 +218,7 @@ async function main() {
     await client.upload(ruleId, streamName, logs, { maxConcurrency: 1 });
   }
   catch(e){
-    let aggregateErrors = isAggregateUploadLogsError(e) ? e.errors : [];
+    let aggregateErrors = isAggregateLogsUploadError(e) ? e.errors : [];
     if (aggregateErrors.length > 0) {
       console.log("Some logs have failed to complete ingestion");
       for (const error of aggregateErrors) {

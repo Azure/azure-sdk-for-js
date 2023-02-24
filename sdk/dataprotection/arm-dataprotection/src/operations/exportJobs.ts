@@ -32,7 +32,7 @@ export class ExportJobsImpl implements ExportJobs {
 
   /**
    * Triggers export of jobs and returns an OperationID to track.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param options The options parameters.
    */
@@ -101,7 +101,7 @@ export class ExportJobsImpl implements ExportJobs {
 
   /**
    * Triggers export of jobs and returns an OperationID to track.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param options The options parameters.
    */

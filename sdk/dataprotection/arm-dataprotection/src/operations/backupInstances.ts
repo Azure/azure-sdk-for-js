@@ -66,7 +66,7 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Gets a backup instances belonging to a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param options The options parameters.
    */
@@ -142,7 +142,7 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Gets a backup instances belonging to a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param options The options parameters.
    */
@@ -159,9 +159,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Gets a backup instance with name in a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   get(
@@ -178,9 +178,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Create or update a backup instance in a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -250,9 +250,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Create or update a backup instance in a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -275,9 +275,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Delete a backup instance in a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -340,9 +340,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Delete a backup instance in a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -362,9 +362,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Trigger adhoc backup
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -434,9 +434,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Trigger adhoc backup
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -459,7 +459,7 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Validate whether adhoc backup will be successful or not
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param parameters Request body for operation
    * @param options The options parameters.
@@ -529,7 +529,7 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Validate whether adhoc backup will be successful or not
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param parameters Request body for operation
    * @param options The options parameters.
@@ -551,9 +551,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Get result of backup instance creation operation
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param operationId
    * @param options The options parameters.
    */
@@ -578,9 +578,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * rehydrate recovery point for restore for a BackupInstance
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -650,9 +650,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * rehydrate recovery point for restore for a BackupInstance
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -675,9 +675,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Triggers restore for a BackupInstance
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -747,9 +747,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Triggers restore for a BackupInstance
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -772,9 +772,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * This operation will resume backups for backup instance
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   async beginResumeBackups(
@@ -837,9 +837,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * This operation will resume backups for backup instance
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   async beginResumeBackupsAndWait(
@@ -859,9 +859,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * This operation will resume protection for a stopped backup instance
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   async beginResumeProtection(
@@ -924,9 +924,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * This operation will resume protection for a stopped backup instance
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   async beginResumeProtectionAndWait(
@@ -946,9 +946,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * This operation will stop protection of a backup instance and data will be held forever
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   async beginStopProtection(
@@ -1011,9 +1011,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * This operation will stop protection of a backup instance and data will be held forever
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   async beginStopProtectionAndWait(
@@ -1034,9 +1034,9 @@ export class BackupInstancesImpl implements BackupInstances {
   /**
    * This operation will stop backup for a backup instance and retains the backup data as per the policy
    * (except latest Recovery point, which will be retained forever)
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   async beginSuspendBackups(
@@ -1100,9 +1100,9 @@ export class BackupInstancesImpl implements BackupInstances {
   /**
    * This operation will stop backup for a backup instance and retains the backup data as per the policy
    * (except latest Recovery point, which will be retained forever)
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   async beginSuspendBackupsAndWait(
@@ -1123,9 +1123,9 @@ export class BackupInstancesImpl implements BackupInstances {
   /**
    * Sync backup instance again in case of failure
    * This action will retry last failed operation and will bring backup instance to valid state
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -1191,9 +1191,9 @@ export class BackupInstancesImpl implements BackupInstances {
   /**
    * Sync backup instance again in case of failure
    * This action will retry last failed operation and will bring backup instance to valid state
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -1216,9 +1216,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Validates if Restore can be triggered for a DataSource
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -1288,9 +1288,9 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * Validates if Restore can be triggered for a DataSource
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -1313,7 +1313,7 @@ export class BackupInstancesImpl implements BackupInstances {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.

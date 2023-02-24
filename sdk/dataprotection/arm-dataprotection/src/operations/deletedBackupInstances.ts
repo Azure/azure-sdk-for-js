@@ -41,7 +41,7 @@ export class DeletedBackupInstancesImpl implements DeletedBackupInstances {
 
   /**
    * Gets deleted backup instances belonging to a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param options The options parameters.
    */
@@ -117,7 +117,7 @@ export class DeletedBackupInstancesImpl implements DeletedBackupInstances {
 
   /**
    * Gets deleted backup instances belonging to a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param options The options parameters.
    */
@@ -134,7 +134,7 @@ export class DeletedBackupInstancesImpl implements DeletedBackupInstances {
 
   /**
    * Gets a deleted backup instance with name in a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param backupInstanceName The name of the deleted backup instance
    * @param options The options parameters.
@@ -152,7 +152,7 @@ export class DeletedBackupInstancesImpl implements DeletedBackupInstances {
   }
 
   /**
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param backupInstanceName The name of the deleted backup instance
    * @param options The options parameters.
@@ -216,7 +216,7 @@ export class DeletedBackupInstancesImpl implements DeletedBackupInstances {
   }
 
   /**
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param backupInstanceName The name of the deleted backup instance
    * @param options The options parameters.
@@ -238,7 +238,7 @@ export class DeletedBackupInstancesImpl implements DeletedBackupInstances {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
