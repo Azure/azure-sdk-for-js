@@ -229,10 +229,6 @@ export class ManagedIdentityCredential implements TokenCredential {
       options
     );
     try {
-      console.log("options=")
-      console.dir(options);
-      console.log("updateOptions")
-      console.dir(updatedOptions);
       // isEndpointAvailable can be true, false, or null,
       // If it's null, it means we don't yet know whether
       // the endpoint is available and need to check for it.
@@ -251,17 +247,16 @@ export class ManagedIdentityCredential implements TokenCredential {
                 appTokenProviderParameters
               )}`
             );
-            console.log("updatedOptions")
-            console.dir(updatedOptions);
-            console.log("appTokeParam");
-            console.dir(appTokenParameters)
-            console.log("apptokenProvider Param")
-            console.dir({
-              ...appTokenProviderParameters
-            })
+
+            const availableMSI = await this.cachedAvailableMSI(scopes, updatedOptions);
+            let appTokenParams = {...appTokenProviderParameters};
+            if(availableMSI.name === "tokenExchangeMsi"){
+              console.log("This logic is processed...")
+              appTokenParams.tenantId = process.env.AZURE_TENANT_ID!;
+            }
             const resultToken = await this.authenticateManagedIdentity(scopes, {
               ...updatedOptions,
-              ...appTokenProviderParameters,
+              ...appTokenParams,
             });
 
             if (resultToken) {

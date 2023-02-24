@@ -1,0 +1,65 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+
+import path, { join } from "path";
+import { tmpdir } from "os";
+import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
+import { Recorder, env } from "@azure-tools/test-recorder";
+import { Context } from "mocha";
+import { assert } from "@azure/test-utils";
+import { createJWTTokenFromCertificate } from "./utils/utils";
+import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "fs";
+import { ManagedIdentityCredential } from "../../../src";
+
+describe("WorkloadIdentityCredential", function () {
+  let cleanup: MsalTestCleanup;
+  let recorder: Recorder;
+
+  beforeEach(async function (this: Context) {
+    const setup = await msalNodeTestSetup(this.currentTest);
+    cleanup = setup.cleanup;
+    recorder = setup.recorder;
+    await recorder.setMatcher("BodilessMatcher");
+  });
+  afterEach(async function () {
+    await cleanup();
+  });
+
+  const scope = "https://vault.azure.net/.default";
+  const tenantId = env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!;
+  const clientId = env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!;
+  const certificatePath = env.IDENTITY_SP_CERT_PEM || path.join("assets", "fake-cert.pem");
+  const authorityHost = `https://login.microsoftonline.com/${tenantId}`;
+
+  it.only("authenticates", async function (this: Context) {
+   
+    async function getAssertion(): Promise<string> {
+        const jwtoken = await createJWTTokenFromCertificate(authorityHost, clientId, certificatePath);
+        return jwtoken;
+      }
+
+      const testTitle = "file-exchange-msi"+ Date.now().toString();
+      const tempDir = mkdtempSync(join(tmpdir(), testTitle));
+      const tempFile = join(tempDir, testTitle);
+      const expectedAssertion = await getAssertion();
+      writeFileSync(tempFile, expectedAssertion, { encoding: "utf8" });
+      env.AZURE_FEDERATED_TOKEN_FILE = tempFile;
+      env.AZURE_TENANT_ID=tenantId;
+    //const credential = new WorkloadIdentityCredential({clientId:clientId, tenantId: tenantId, federatedTokenFilePath:tempFile});
+    const credential = new ManagedIdentityCredential(clientId)  
+    try{
+        const token = await credential.getToken(scope);
+    assert.ok(token?.token);
+    assert.ok(token?.expiresOnTimestamp! > Date.now());
+      }
+      finally{
+        unlinkSync(tempFile);
+      rmdirSync(tempDir);
+      }
+    
+  });
+
+
+});

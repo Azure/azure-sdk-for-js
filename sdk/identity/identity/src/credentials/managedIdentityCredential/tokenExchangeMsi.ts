@@ -14,6 +14,7 @@ const logger = credentialLogger(msiName);
  */
 export function tokenExchangeMsi(): MSI {
   return {
+    name: "tokenExchangeMsi",
     async isAvailable({ clientId }): Promise<boolean> {
       const env = process.env;
       const result = Boolean(
