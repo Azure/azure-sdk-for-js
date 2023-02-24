@@ -291,7 +291,7 @@ describe("AppendBlobClient Node.js only", () => {
     });
   });
 
-  it.only("create, appendBlock, appendBlockFromURL and download with CPK", async () => {
+  it("create, appendBlock, appendBlockFromURL and download with CPK", async () => {
     const cResp = await appendBlobClient.create({
       customerProvidedKey: Test_CPK_INFO,
     });

@@ -929,7 +929,7 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(response), "0,mdifjt55.ea3,mdifjt55.ea3\n");
   });
 
-  it.only("query with CPK", async function () {
+  it("query with CPK", async function () {
     const csvContent = "100,200,300,400\n150,250,350,450\n";
     await blockBlobClient.upload(csvContent, csvContent.length, {
       customerProvidedKey: Test_CPK_INFO,

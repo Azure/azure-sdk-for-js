@@ -317,7 +317,7 @@ describe("ContainerClient", () => {
     assert.ok(result.segment.blobItems![0].hasVersionsOnly);
   });
 
-  it.only("listBlobFlat with blobs encrypted with CPK", async function () {
+  it("listBlobFlat with blobs encrypted with CPK", async function () {
     const blobURLs = [];
     const prefix = "blockblob";
     const metadata = {
