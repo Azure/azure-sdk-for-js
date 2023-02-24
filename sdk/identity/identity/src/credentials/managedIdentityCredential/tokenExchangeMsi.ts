@@ -27,8 +27,6 @@ export function tokenExchangeMsi(): MSI {
           `${msiName}: Unavailable. The environment variables needed are: AZURE_CLIENT_ID (or the client ID sent through the parameters), AZURE_TENANT_ID and AZURE_FEDERATED_TOKEN_FILE`
         );
       }
-      console.log("is available -token exchange");
-      console.log(result);
       return result;
     },
     async getToken(
@@ -36,17 +34,14 @@ export function tokenExchangeMsi(): MSI {
       getTokenOptions: GetTokenOptions = {}
     ): Promise<AccessToken | null> {
       const { scopes, clientId } = configuration;
-      const identityClientTokenCredentialOptions = {}
-        //configuration.identityClient.getTokenCredentialOptions();
-      console.log("identity client token cred")
-      console.dir(identityClientTokenCredentialOptions)
+      const identityClientTokenCredentialOptions = {};
       const workloadIdentityCredential = new WorkloadIdentityCredential({
         clientId,
         tenantId: process.env.AZURE_TENANT_ID,
         federatedTokenFilePath: process.env.AZURE_FEDERATED_TOKEN_FILE,
         ...identityClientTokenCredentialOptions,
-        disableInstanceDiscovery: true
-        });
+        disableInstanceDiscovery: true,
+      });
       const token = await workloadIdentityCredential.getToken(scopes, getTokenOptions);
       return token;
     },

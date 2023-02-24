@@ -3,7 +3,6 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-
 import * as path from "path";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { ClientAssertionCredential } from "../../../src";
@@ -106,5 +105,3 @@ describe("ClientAssertionCredential (internal)", function () {
     // assert.equal(sentConfiguration.clientAssertion, "assertion");
   });
 });
-
-

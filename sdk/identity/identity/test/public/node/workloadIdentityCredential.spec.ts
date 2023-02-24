@@ -11,7 +11,7 @@ import { Context } from "mocha";
 import { assert } from "@azure/test-utils";
 import { createJWTTokenFromCertificate } from "./utils/utils";
 import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "fs";
-import { ManagedIdentityCredential } from "../../../src";
+import { ManagedIdentityCredential, WorkloadIdentityCredential } from "../../../src";
 
 describe("WorkloadIdentityCredential", function () {
   let cleanup: MsalTestCleanup;
@@ -33,33 +33,55 @@ describe("WorkloadIdentityCredential", function () {
   const certificatePath = env.IDENTITY_SP_CERT_PEM || path.join("assets", "fake-cert.pem");
   const authorityHost = `https://login.microsoftonline.com/${tenantId}`;
 
-  it.only("authenticates", async function (this: Context) {
-   
-    async function getAssertion(): Promise<string> {
-        const jwtoken = await createJWTTokenFromCertificate(authorityHost, clientId, certificatePath);
-        return jwtoken;
-      }
+  async function getAssertion(): Promise<string> {
+    const jwtoken = await createJWTTokenFromCertificate(authorityHost, clientId, certificatePath);
+    return jwtoken;
+  }
 
-      const testTitle = "file-exchange-msi"+ Date.now().toString();
-      const tempDir = mkdtempSync(join(tmpdir(), testTitle));
-      const tempFile = join(tempDir, testTitle);
-      const expectedAssertion = await getAssertion();
-      writeFileSync(tempFile, expectedAssertion, { encoding: "utf8" });
-      env.AZURE_FEDERATED_TOKEN_FILE = tempFile;
-      env.AZURE_TENANT_ID=tenantId;
-    //const credential = new WorkloadIdentityCredential({clientId:clientId, tenantId: tenantId, federatedTokenFilePath:tempFile});
-    const credential = new ManagedIdentityCredential(clientId)  
-    try{
-        const token = await credential.getToken(scope);
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
-      }
-      finally{
-        unlinkSync(tempFile);
-      rmdirSync(tempDir);
-      }
-    
+  it("authenticates with WorkloadIdentity Credential", async function (this: Context) {
+    const fileDir = await setupFileandEnv("workload-identity");
+    const credential = new WorkloadIdentityCredential({
+      clientId: clientId,
+      tenantId: tenantId,
+      federatedTokenFilePath: fileDir.tempFile,
+    });
+    try {
+      const token = await credential.getToken(scope);
+      assert.ok(token?.token);
+      assert.ok(token?.expiresOnTimestamp! > Date.now());
+    } finally {
+      unlinkSync(fileDir.tempFile);
+      rmdirSync(fileDir.tempDir);
+    }
   });
 
-
+  it("authenticates with ManagedIdentity Credential", async function (this: Context) {
+    const fileDir = await setupFileandEnv("token-exchange-msi");
+    const credential = new ManagedIdentityCredential(clientId, recorder.configureClientOptions({}));
+    try {
+      const token = await credential.getToken(scope);
+      assert.ok(token?.token);
+      assert.ok(token?.expiresOnTimestamp! > Date.now());
+    } finally {
+      unlinkSync(fileDir.tempFile);
+      rmdirSync(fileDir.tempDir);
+    }
+  });
+  async function setupFileandEnv(testName: string): Promise<FileDirectory> {
+    const testTitle = testName + Date.now().toString();
+    const tempDir = mkdtempSync(join(tmpdir(), testTitle));
+    const tempFile = join(tempDir, testTitle);
+    const expectedAssertion = await getAssertion();
+    writeFileSync(tempFile, expectedAssertion, { encoding: "utf8" });
+    env.AZURE_FEDERATED_TOKEN_FILE = tempFile;
+    env.AZURE_TENANT_ID = tenantId;
+    return {
+      tempDir: tempDir,
+      tempFile: tempFile,
+    };
+  }
+  interface FileDirectory {
+    tempDir: string;
+    tempFile: string;
+  }
 });

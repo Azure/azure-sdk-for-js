@@ -180,8 +180,6 @@ export class ManagedIdentityCredential implements TokenCredential {
     scopes: string | string[],
     getTokenOptions?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    console.log("getTokenOptions=")
-    console.dir(getTokenOptions);
     const { span, updatedOptions } = tracingClient.startSpan(
       `${ManagedIdentityCredential.name}.authenticateManagedIdentity`,
       getTokenOptions
@@ -239,7 +237,7 @@ export class ManagedIdentityCredential implements TokenCredential {
           scopes: Array.isArray(scopes) ? scopes : [scopes],
           claims: options?.claims,
         };
-      
+
         this.confidentialApp.SetAppTokenProvider(
           async (appTokenProviderParameters = appTokenParameters) => {
             logger.info(
@@ -249,9 +247,8 @@ export class ManagedIdentityCredential implements TokenCredential {
             );
 
             const availableMSI = await this.cachedAvailableMSI(scopes, updatedOptions);
-            let appTokenParams = {...appTokenProviderParameters};
-            if(availableMSI.name === "tokenExchangeMsi"){
-              console.log("This logic is processed...")
+            const appTokenParams = { ...appTokenProviderParameters };
+            if (availableMSI.name === "tokenExchangeMsi") {
               appTokenParams.tenantId = process.env.AZURE_TENANT_ID!;
             }
             const resultToken = await this.authenticateManagedIdentity(scopes, {
@@ -355,11 +352,6 @@ export class ManagedIdentityCredential implements TokenCredential {
         logger.getToken.info(formatError(scopes, error));
         throw error;
       }
-      console.log("There is an error:");
-      console.dir("err => ", err);
-      console.log("err.code => ", err.code);
-      console.log("err.message => ", err.message);
-      console.log("err.name => ", err.name);
       // If err.statusCode has a value of 400, it comes from sendTokenRequest,
       // and it means that the endpoint is working, but that no identity is available.
       if (err.statusCode === 400 || err.code === 400) {
@@ -371,7 +363,6 @@ export class ManagedIdentityCredential implements TokenCredential {
       // If the error has no status code, we can assume there was no available identity.
       // This will throw silently during any ChainedTokenCredential.
       if (err.statusCode === undefined || err.code === undefined) {
-        console.log("it went inside this");
         throw new CredentialUnavailableError(
           `${ManagedIdentityCredential.name}: Authentication failed. Message ${err.message}`
         );
