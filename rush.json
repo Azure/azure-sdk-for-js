@@ -451,6 +451,11 @@
       "projectFolder": "sdk/communication/communication-alpha-ids",
       "versionPolicyName": "client"
     },
+	{
+      "packageName": "@azure-tools/communication-domain-verification",
+      "projectFolder": "sdk/communication/communication-domain-verification",
+      "versionPolicyName": "client"
+    },
     {
       "packageName": "@azure/communication-sms",
       "projectFolder": "sdk/communication/communication-sms",
