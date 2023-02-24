@@ -1,14 +1,10 @@
 # Release History
 
-## 1.7.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.7.2 (2023-02-23)
 
 ### Bugs Fixed
 
-### Other Changes
+- Fix a deserializer issue where setting null value when it's necessary.
 
 ## 1.7.1 (2023-02-02)
 

@@ -17,10 +17,14 @@ if (!document || !DOMParser || !Node || !XMLSerializer) {
 // according to the spec.  There are no HTML/XSS security concerns on the usage of
 // parseFromString() here.
 let ttPolicy: Pick<TrustedTypePolicy, "createHTML"> | undefined;
-if (typeof self.trustedTypes !== "undefined") {
-  ttPolicy = self.trustedTypes.createPolicy("@azure/core-xml#xml.browser", {
-    createHTML: (s) => s,
-  });
+try {
+  if (typeof self.trustedTypes !== "undefined") {
+    ttPolicy = self.trustedTypes.createPolicy("@azure/core-xml#xml.browser", {
+      createHTML: (s: any) => s,
+    });
+  }
+} catch (e: any) {
+  console.warn('Could not create trusted types policy "@azure/core-xml#xml.browser"');
 }
 
 const doc = document.implementation.createDocument(null, null, null);
