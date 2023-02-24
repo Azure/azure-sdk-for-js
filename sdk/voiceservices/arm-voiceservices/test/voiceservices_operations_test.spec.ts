@@ -50,7 +50,7 @@ describe("voiceservices test", () => {
     client = new MicrosoftVoiceServices(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "westcentralus";
     resourceGroup = "myjstest";
-    communicationsGatewayName = "mycg";
+    communicationsGatewayName = "mycg12";
   });
 
   afterEach(async function () {
