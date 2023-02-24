@@ -7,11 +7,14 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Server,
-  ServersListByResourceGroupOptionalParams,
   ServersListOptionalParams,
+  ServersListByResourceGroupOptionalParams,
+  CheckNameAvailabilityRequest,
+  ServersCheckNameAvailabilityOptionalParams,
+  ServersCheckNameAvailabilityResponse,
   ServersGetOptionalParams,
   ServersGetResponse,
   ServersCreateOrUpdateOptionalParams,
@@ -23,14 +26,18 @@ import {
   ImportNewDatabaseDefinition,
   ServersImportDatabaseOptionalParams,
   ServersImportDatabaseResponse,
-  CheckNameAvailabilityRequest,
-  ServersCheckNameAvailabilityOptionalParams,
-  ServersCheckNameAvailabilityResponse
+  ServersRefreshStatusOptionalParams,
+  ServersRefreshStatusResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Servers. */
 export interface Servers {
+  /**
+   * Gets a list of all servers in the subscription.
+   * @param options The options parameters.
+   */
+  list(options?: ServersListOptionalParams): PagedAsyncIterableIterator<Server>;
   /**
    * Gets a list of servers in a resource groups.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -42,10 +49,14 @@ export interface Servers {
     options?: ServersListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<Server>;
   /**
-   * Gets a list of all servers in the subscription.
+   * Determines whether a resource can be created with the specified name.
+   * @param parameters The name availability request parameters.
    * @param options The options parameters.
    */
-  list(options?: ServersListOptionalParams): PagedAsyncIterableIterator<Server>;
+  checkNameAvailability(
+    parameters: CheckNameAvailabilityRequest,
+    options?: ServersCheckNameAvailabilityOptionalParams
+  ): Promise<ServersCheckNameAvailabilityResponse>;
   /**
    * Gets a server.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -72,8 +83,8 @@ export interface Servers {
     parameters: Server,
     options?: ServersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ServersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ServersCreateOrUpdateResponse>,
       ServersCreateOrUpdateResponse
     >
   >;
@@ -102,7 +113,7 @@ export interface Servers {
     resourceGroupName: string,
     serverName: string,
     options?: ServersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a server.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -129,7 +140,10 @@ export interface Servers {
     parameters: ServerUpdate,
     options?: ServersUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<ServersUpdateResponse>, ServersUpdateResponse>
+    SimplePollerLike<
+      OperationState<ServersUpdateResponse>,
+      ServersUpdateResponse
+    >
   >;
   /**
    * Updates a server.
@@ -159,8 +173,8 @@ export interface Servers {
     parameters: ImportNewDatabaseDefinition,
     options?: ServersImportDatabaseOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ServersImportDatabaseResponse>,
+    SimplePollerLike<
+      OperationState<ServersImportDatabaseResponse>,
       ServersImportDatabaseResponse
     >
   >;
@@ -179,12 +193,32 @@ export interface Servers {
     options?: ServersImportDatabaseOptionalParams
   ): Promise<ServersImportDatabaseResponse>;
   /**
-   * Determines whether a resource can be created with the specified name.
-   * @param parameters The name availability request parameters.
+   * Refresh external governance enablement status.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
    * @param options The options parameters.
    */
-  checkNameAvailability(
-    parameters: CheckNameAvailabilityRequest,
-    options?: ServersCheckNameAvailabilityOptionalParams
-  ): Promise<ServersCheckNameAvailabilityResponse>;
+  beginRefreshStatus(
+    resourceGroupName: string,
+    serverName: string,
+    options?: ServersRefreshStatusOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ServersRefreshStatusResponse>,
+      ServersRefreshStatusResponse
+    >
+  >;
+  /**
+   * Refresh external governance enablement status.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param options The options parameters.
+   */
+  beginRefreshStatusAndWait(
+    resourceGroupName: string,
+    serverName: string,
+    options?: ServersRefreshStatusOptionalParams
+  ): Promise<ServersRefreshStatusResponse>;
 }
