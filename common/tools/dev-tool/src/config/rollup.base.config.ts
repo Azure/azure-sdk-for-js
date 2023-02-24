@@ -69,7 +69,6 @@ export function sourcemapsExtra() {
 export type WarningInhibitor = (warning: RollupWarning) => boolean;
 
 function matchesPathSegments(str: string | undefined, segments: string[]): boolean {
-  // Reported warnings use "/"
   return !str ? false : str.includes(segments.join("/")) || str.includes(segments.join("\\"));
 }
 
