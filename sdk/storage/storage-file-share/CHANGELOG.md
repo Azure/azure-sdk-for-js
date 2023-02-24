@@ -4,6 +4,10 @@
 
 ### Features Added
 
+- Added support for service version 2022-11-02.
+- Added support OAuth.
+- Added support for Trailing Dot.
+
 ### Breaking Changes
 
 ### Bugs Fixed
@@ -13,6 +17,7 @@
 ## 12.13.0 (2023-02-23)
 
 ### Features Added
+
 - Includes all features released in 12.13.0-beta.1.
 
 ### Bugs Fixed

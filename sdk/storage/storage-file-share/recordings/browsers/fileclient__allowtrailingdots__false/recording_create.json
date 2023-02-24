@@ -1,0 +1,110 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share167747865536001846",
+   "query": {
+    "restype": "share"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DB188A53E447AA\"",
+    "last-modified": "Mon, 27 Feb 2023 06:17:39 GMT",
+    "x-ms-client-request-id": "69f306c7-8362-455f-8fd8-07620d0f941d",
+    "x-ms-request-id": "063f2e6f-601a-0002-7173-4ae805000000",
+    "x-ms-version": "2022-11-02"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share167747865536001846/dir167747865928405945....",
+   "query": {
+    "restype": "directory"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DB188A543BF5C4\"",
+    "last-modified": "Mon, 27 Feb 2023 06:17:40 GMT",
+    "x-ms-client-request-id": "2e17191b-5211-411f-a292-89339759d6fe",
+    "x-ms-file-attributes": "Directory",
+    "x-ms-file-change-time": "2023-02-27T06:17:40.0826308Z",
+    "x-ms-file-creation-time": "2023-02-27T06:17:40.0826308Z",
+    "x-ms-file-id": "13835128424026341376",
+    "x-ms-file-last-write-time": "2023-02-27T06:17:40.0826308Z",
+    "x-ms-file-parent-id": "0",
+    "x-ms-file-permission-key": "13895902193744473398*5510371786133343095",
+    "x-ms-request-id": "063f2e7b-601a-0002-7b73-4ae805000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2022-11-02"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share167747865536001846/dir167747865928405945..../file167747865987407789....",
+   "query": {},
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DB188A549168EB\"",
+    "last-modified": "Mon, 27 Feb 2023 06:17:40 GMT",
+    "x-ms-client-request-id": "c520f4af-1292-46b7-9b47-cf90915ae7ab",
+    "x-ms-file-attributes": "Archive",
+    "x-ms-file-change-time": "2023-02-27T06:17:40.6426347Z",
+    "x-ms-file-creation-time": "2023-02-27T06:17:40.6426347Z",
+    "x-ms-file-id": "11529285414812647424",
+    "x-ms-file-last-write-time": "2023-02-27T06:17:40.6426347Z",
+    "x-ms-file-parent-id": "13835128424026341376",
+    "x-ms-file-permission-key": "12560293872808033297*5510371786133343095",
+    "x-ms-request-id": "063f2e80-601a-0002-7f73-4ae805000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2022-11-02"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.file.core.windows.net/share167747865536001846/dir167747865928405945....",
+   "query": {
+    "comp": "list",
+    "restype": "directory"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.file.core.windows.net/\" ShareName=\"share167747865536001846\" DirectoryPath=\"dir167747865928405945\"><DirectoryId>13835128424026341376</DirectoryId><Entries><File><Name>file167747865987407789</Name><FileId>11529285414812647424</FileId><Properties><Content-Length>11</Content-Length></Properties></File></Entries><NextMarker /></EnumerationResults>",
+   "responseHeaders": {
+    "content-type": "application/xml",
+    "x-ms-client-request-id": "33abf073-574c-4f1a-9667-ac51d3119143",
+    "x-ms-request-id": "063f2e84-601a-0002-0173-4ae805000000",
+    "x-ms-version": "2022-11-02"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.file.core.windows.net/share167747865536001846",
+   "query": {
+    "restype": "share"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-client-request-id": "5f880744-593f-4b3d-a41c-7849a97b6da0",
+    "x-ms-request-id": "063f2e86-601a-0002-0373-4ae805000000",
+    "x-ms-version": "2022-11-02"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "share": "share167747865536001846",
+   "dir": "dir167747865928405945",
+   "file": "file167747865987407789"
+  },
+  "newDate": {}
+ },
+ "hash": "dee8e5d75d7c3ed6de2d559cb329fa07"
+}

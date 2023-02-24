@@ -36,6 +36,7 @@ export {
   ShareCreateResponse,
   ShareCreateSnapshotResponse,
   ShareDeleteResponse,
+  ShareTokenIntent,
   ShareGetAccessPolicyHeaders,
   ShareGetPermissionResponse,
   ShareGetPropertiesResponse as ShareGetPropertiesResponseModel,
@@ -115,6 +116,11 @@ import {
   FileListHandlesHeaders,
   DirectoryListHandlesHeaders,
 } from "./generated/src/models";
+
+/** Known values of {@link ShareTokenIntent} that the service accepts. */
+export enum KnownShareTokenIntent {
+  Backup = "backup",
+}
 
 /**
  * Contains response data for the setQuota operation.

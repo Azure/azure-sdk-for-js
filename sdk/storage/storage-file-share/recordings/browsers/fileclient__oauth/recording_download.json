@@ -1,0 +1,159 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share167749076119507032",
+   "query": {
+    "restype": "share"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Mon, 27 Feb 2023 09:39:21 GMT",
+    "etag": "\"0x8DB18A68175C3D4\"",
+    "last-modified": "Mon, 27 Feb 2023 09:39:21 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "8ada7722-1909-44c8-aa06-e0a3d20c34c5",
+    "x-ms-request-id": "00941dcd-001a-0088-658f-4ac0a0000000",
+    "x-ms-version": "2022-11-02"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share167749076119507032/dir167749076177800653",
+   "query": {
+    "restype": "directory"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Mon, 27 Feb 2023 09:39:22 GMT",
+    "etag": "\"0x8DB18A681CFCF1B\"",
+    "last-modified": "Mon, 27 Feb 2023 09:39:22 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "19b7fb8e-9d29-4696-b02d-56ae9a16df3f",
+    "x-ms-file-attributes": "Directory",
+    "x-ms-file-change-time": "2023-02-27T09:39:22.4574747Z",
+    "x-ms-file-creation-time": "2023-02-27T09:39:22.4574747Z",
+    "x-ms-file-id": "13835128424026341376",
+    "x-ms-file-last-write-time": "2023-02-27T09:39:22.4574747Z",
+    "x-ms-file-parent-id": "0",
+    "x-ms-file-permission-key": "8792472798472242479*1359530181238362790",
+    "x-ms-request-id": "00941dd0-001a-0088-678f-4ac0a0000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2022-11-02"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share167749076119507032/dir167749076177800653/file167749076236606967",
+   "query": {},
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Mon, 27 Feb 2023 09:39:22 GMT",
+    "etag": "\"0x8DB18A682290594\"",
+    "last-modified": "Mon, 27 Feb 2023 09:39:23 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "29f6473d-172c-4603-93a4-55f33bc2c016",
+    "x-ms-file-attributes": "Archive",
+    "x-ms-file-change-time": "2023-02-27T09:39:23.0421396Z",
+    "x-ms-file-creation-time": "2023-02-27T09:39:23.0421396Z",
+    "x-ms-file-id": "11529285414812647424",
+    "x-ms-file-last-write-time": "2023-02-27T09:39:23.0421396Z",
+    "x-ms-file-parent-id": "13835128424026341376",
+    "x-ms-file-permission-key": "13438439191449926184*1359530181238362790",
+    "x-ms-request-id": "00941dd2-001a-0088-698f-4ac0a0000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2022-11-02"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share167749076119507032/dir167749076177800653/file167749076236606967",
+   "query": {
+    "comp": "range"
+   },
+   "requestBody": "Hello World",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "content-md5": "sQqNsWTgdUEFt6mb5y4/5Q==",
+    "date": "Mon, 27 Feb 2023 09:39:23 GMT",
+    "etag": "\"0x8DB18A68281C6EA\"",
+    "last-modified": "Mon, 27 Feb 2023 09:39:23 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "2adac310-f09c-418b-b2b5-7e096e8fa719",
+    "x-ms-file-last-write-time": "2023-02-27T09:39:23.6238058Z",
+    "x-ms-request-id": "00941dd5-001a-0088-6b8f-4ac0a0000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2022-11-02"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.file.core.windows.net/share167749076119507032/dir167749076177800653/file167749076236606967",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "Hello World",
+   "responseHeaders": {
+    "accept-ranges": "bytes",
+    "content-length": "11",
+    "content-type": "application/octet-stream",
+    "date": "Mon, 27 Feb 2023 09:39:23 GMT",
+    "etag": "\"0x8DB18A68281C6EA\"",
+    "last-modified": "Mon, 27 Feb 2023 09:39:23 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "e623935a-f516-4985-ade9-d627f601466f",
+    "x-ms-file-attributes": "Archive",
+    "x-ms-file-change-time": "2023-02-27T09:39:23.6238058Z",
+    "x-ms-file-creation-time": "2023-02-27T09:39:23.0421396Z",
+    "x-ms-file-id": "11529285414812647424",
+    "x-ms-file-last-write-time": "2023-02-27T09:39:23.6238058Z",
+    "x-ms-file-parent-id": "13835128424026341376",
+    "x-ms-file-permission-key": "13438439191449926184*1359530181238362790",
+    "x-ms-lease-state": "available",
+    "x-ms-lease-status": "unlocked",
+    "x-ms-request-id": "00941dd7-001a-0088-6d8f-4ac0a0000000",
+    "x-ms-server-encrypted": "true",
+    "x-ms-type": "File",
+    "x-ms-version": "2022-11-02"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.file.core.windows.net/share167749076119507032",
+   "query": {
+    "restype": "share"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Mon, 27 Feb 2023 09:39:24 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "e21c5366-7ff5-4b66-b156-d80f485ab1ec",
+    "x-ms-request-id": "00941dd9-001a-0088-6f8f-4ac0a0000000",
+    "x-ms-version": "2022-11-02"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "share": "share167749076119507032",
+   "dir": "dir167749076177800653",
+   "file": "file167749076236606967"
+  },
+  "newDate": {}
+ },
+ "hash": "b6febec7491d967b5cce613481fd0383"
+}

@@ -1,15 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { TokenCredential } from "@azure/core-http";
 import { AnonymousCredential } from "../../src/credentials/AnonymousCredential";
+import { ShareClientConfig } from "../../src/models";
 import { newPipeline } from "../../src/Pipeline";
 import { ShareServiceClient } from "../../src/ShareServiceClient";
+import { SimpleTokenCredential } from "./testutils.common";
 
 export * from "./testutils.common";
 
 export function getGenericBSU(
   accountType: string,
-  accountNameSuffix: string = ""
+  accountNameSuffix: string = "",
+  config?: ShareClientConfig
 ): ShareServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
@@ -35,11 +39,44 @@ export function getGenericBSU(
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
   });
   const filePrimaryURL = `https://${accountName}${accountNameSuffix}.file.core.windows.net${accountSAS}`;
-  return new ShareServiceClient(filePrimaryURL, pipeline);
+  return new ShareServiceClient(filePrimaryURL, pipeline, config);
 }
 
-export function getBSU(): ShareServiceClient {
-  return getGenericBSU("");
+export function getTokenCredential(): TokenCredential {
+  const accountTokenEnvVar = `ACCOUNT_TOKEN`;
+  const accountToken = (self as any).__env__[accountTokenEnvVar];
+
+  if (!accountToken || accountToken === "") {
+    throw new Error(`${accountTokenEnvVar} environment variables not specified.`);
+  }
+
+  return new SimpleTokenCredential(accountToken);
+}
+
+export function getTokenBSU(
+  accountType: string = "",
+  accountNameSuffix: string = "",
+  shareClientConfig?: ShareClientConfig
+): ShareServiceClient {
+  const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
+
+  const accountName = (self as any).__env__[accountNameEnvVar];
+
+  if (!accountName || accountName === "") {
+    throw new Error(`${accountNameEnvVar} environment variables not specified.`);
+  }
+
+  const credential = getTokenCredential();
+  const pipeline = newPipeline(credential, {
+    // Enable logger when debugging
+    // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
+  });
+  const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.file.core.windows.net/`;
+  return new ShareServiceClient(blobPrimaryURL, pipeline, shareClientConfig);
+}
+
+export function getBSU(config?: ShareClientConfig): ShareServiceClient {
+  return getGenericBSU("", "", config);
 }
 
 export function getAlternateBSU(): ShareServiceClient {

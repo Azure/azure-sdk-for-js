@@ -1,0 +1,78 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share167749067605209008",
+   "query": {
+    "restype": "share"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Mon, 27 Feb 2023 09:37:56 GMT",
+    "etag": "\"0x8DB18A64EB5EAAB\"",
+    "last-modified": "Mon, 27 Feb 2023 09:37:56 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "d1b39d18-3158-436b-b0ed-5adfe2ac6868",
+    "x-ms-request-id": "00941c06-001a-0088-278f-4ac0a0000000",
+    "x-ms-version": "2022-11-02"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share167749067605209008/dir167749067663502616",
+   "query": {
+    "restype": "directory"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Mon, 27 Feb 2023 09:37:57 GMT",
+    "etag": "\"0x8DB18A64F0FB0E7\"",
+    "last-modified": "Mon, 27 Feb 2023 09:37:57 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "c3a178f3-eb0a-472d-a544-051fc6a14b87",
+    "x-ms-file-attributes": "Directory",
+    "x-ms-file-change-time": "2023-02-27T09:37:57.3123303Z",
+    "x-ms-file-creation-time": "2023-02-27T09:37:57.3123303Z",
+    "x-ms-file-id": "13835128424026341376",
+    "x-ms-file-last-write-time": "2023-02-27T09:37:57.3123303Z",
+    "x-ms-file-parent-id": "0",
+    "x-ms-file-permission-key": "8792472798472242479*1359530181238362790",
+    "x-ms-request-id": "00941c0b-001a-0088-2b8f-4ac0a0000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2022-11-02"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.file.core.windows.net/share167749067605209008",
+   "query": {
+    "restype": "share"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Mon, 27 Feb 2023 09:37:57 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "fd380ab0-07ab-4971-bf19-033165268277",
+    "x-ms-request-id": "00941c0e-001a-0088-2d8f-4ac0a0000000",
+    "x-ms-version": "2022-11-02"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "share": "share167749067605209008",
+   "dir": "dir167749067663502616"
+  },
+  "newDate": {}
+ },
+ "hash": "bcf0a532275ef3f3810b3a37c6e71e3e"
+}

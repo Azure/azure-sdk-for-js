@@ -2,7 +2,12 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { getBSU, getSASConnectionStringFromEnvironment, recorderEnvSetup } from "./utils";
+import {
+  getBSU,
+  getSASConnectionStringFromEnvironment,
+  getTokenBSU,
+  recorderEnvSetup,
+} from "./utils";
 import { ShareClient, ShareServiceClient } from "../src";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
@@ -297,5 +302,89 @@ describe("ShareDirectoryClient - Verify Name Properties", () => {
 
     assert.equal(newClient.accountName, "", "Account name is not the same as expected.");
     assert.equal(newClient.name, shareName, "Share name is not the same as the one provided.");
+  });
+});
+
+describe("ShareClient - OAuth", () => {
+  let serviceClient: ShareServiceClient;
+  let shareName: string;
+  let shareClient: ShareClient;
+  let shareClientWithKeyCredential: ShareClient;
+
+  let recorder: Recorder;
+
+  beforeEach(async function (this: Context) {
+    recorder = record(this, recorderEnvSetup);
+
+    try {
+      serviceClient = getTokenBSU("", "", { fileRequestIntent: "backup" });
+    } catch (err) {
+      this.skip();
+    }
+    shareName = recorder.getUniqueName("share");
+    shareClient = serviceClient.getShareClient(shareName);
+    shareClientWithKeyCredential = getBSU().getShareClient(shareName);
+    await shareClientWithKeyCredential.create();
+  });
+
+  afterEach(async function () {
+    await shareClientWithKeyCredential.delete();
+    await recorder.stop();
+  });
+
+  it("create with TokenCredentials should fail", async () => {
+    try {
+      await serviceClient.getShareClient(recorder.getUniqueName("newshare")).create();
+    } catch (err) {
+      assert.ok(
+        (err as any).statusCode === 409 &&
+          (err as any).code === "FileOAuthManagementApiRestrictedToSrp",
+        "Should get correct error mesage when creating a share with TokenCredentials"
+      );
+    }
+  });
+
+  it("create and get permission", async () => {
+    const directoryName = recorder.getUniqueName("dir");
+    const directoryClient = shareClient.getDirectoryClient(directoryName);
+
+    const cResp = await directoryClient.create();
+    assert.ok(cResp.filePermissionKey);
+
+    const getPermissionResp = await shareClient.getPermission(cResp.filePermissionKey!);
+    assert.ok(getPermissionResp.date!);
+    assert.equal(getPermissionResp.errorCode, undefined);
+    assert.ok(getPermissionResp.permission && getPermissionResp.permission !== "");
+    assert.ok(getPermissionResp.requestId!);
+    assert.ok(getPermissionResp.version!);
+
+    const createPermResp = await shareClient.createPermission(getPermissionResp.permission);
+    assert.ok(createPermResp.filePermissionKey!);
+    assert.ok(createPermResp.date!);
+    assert.equal(getPermissionResp.errorCode, undefined);
+    assert.ok(createPermResp.requestId!);
+    assert.ok(createPermResp.version!);
+  });
+
+  it("create and delete directory", async () => {
+    const directoryName = recorder.getUniqueName("dir");
+
+    const { directoryClient } = await shareClient.createDirectory(directoryName);
+    assert.deepStrictEqual(directoryClient.name, directoryName);
+    assert.ok(await directoryClient.exists(), "Directory should have been created.");
+
+    await shareClient.deleteDirectory(directoryName);
+    assert.ok(!(await directoryClient.exists()), "Directory should have been deleted.");
+  });
+
+  it("create and delete file", async () => {
+    const fileName = recorder.getUniqueName("file");
+
+    const { fileClient } = await shareClient.createFile(fileName, 1024);
+    assert.deepStrictEqual(fileClient.name, fileName);
+    assert.ok(await fileClient.exists(), "File should have been created.");
+
+    await shareClient.deleteFile(fileName);
+    assert.ok(!(await fileClient.exists()), "Directory should have been deleted.");
   });
 });

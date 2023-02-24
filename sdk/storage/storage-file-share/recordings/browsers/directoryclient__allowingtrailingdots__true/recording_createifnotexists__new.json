@@ -1,0 +1,112 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share167875903814007650",
+   "query": {
+    "restype": "share"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DB242F715FB001\"",
+    "last-modified": "Tue, 14 Mar 2023 01:57:18 GMT",
+    "x-ms-client-request-id": "162289e0-9049-460d-9bd8-264741449b0a",
+    "x-ms-request-id": "66744299-a01a-0003-0618-561608000000",
+    "x-ms-version": "2022-11-02"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share167875903814007650/dir167875903862803449.",
+   "query": {
+    "restype": "directory"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DB242F71ABF0DB\"",
+    "last-modified": "Tue, 14 Mar 2023 01:57:19 GMT",
+    "x-ms-client-request-id": "292b8e2d-706b-4714-9084-cb0932146c82",
+    "x-ms-file-attributes": "Directory",
+    "x-ms-file-change-time": "2023-03-14T01:57:19.2213723Z",
+    "x-ms-file-creation-time": "2023-03-14T01:57:19.2213723Z",
+    "x-ms-file-id": "13835128424026341376",
+    "x-ms-file-last-write-time": "2023-03-14T01:57:19.2213723Z",
+    "x-ms-file-parent-id": "0",
+    "x-ms-file-permission-key": "10761449611457319216*1871445747569276785",
+    "x-ms-request-id": "6674429c-a01a-0003-0818-561608000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2022-11-02"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share167875903814007650/dir1167875903912400939...",
+   "query": {
+    "restype": "directory"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8DB242F71F642A9\"",
+    "last-modified": "Tue, 14 Mar 2023 01:57:19 GMT",
+    "x-ms-client-request-id": "9daebe56-9654-4bd0-817d-2104adfefcdd",
+    "x-ms-file-attributes": "Directory",
+    "x-ms-file-change-time": "2023-03-14T01:57:19.7084329Z",
+    "x-ms-file-creation-time": "2023-03-14T01:57:19.7084329Z",
+    "x-ms-file-id": "11529285414812647424",
+    "x-ms-file-last-write-time": "2023-03-14T01:57:19.7084329Z",
+    "x-ms-file-parent-id": "0",
+    "x-ms-file-permission-key": "10761449611457319216*1871445747569276785",
+    "x-ms-request-id": "6674429f-a01a-0003-0a18-561608000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2022-11-02"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.file.core.windows.net/share167875903814007650/",
+   "query": {
+    "comp": "list",
+    "restype": "directory"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.file.core.windows.net/\" ShareName=\"share167875903814007650\" DirectoryPath=\"\"><DirectoryId>0</DirectoryId><Entries><Directory><Name>dir1167875903912400939...</Name><FileId>11529285414812647424</FileId><Properties /></Directory><Directory><Name>dir167875903862803449.</Name><FileId>13835128424026341376</FileId><Properties /></Directory></Entries><NextMarker /></EnumerationResults>",
+   "responseHeaders": {
+    "content-type": "application/xml",
+    "x-ms-client-request-id": "ad4c2370-3460-4280-ad4d-bd4863692b3b",
+    "x-ms-request-id": "667442a1-a01a-0003-0c18-561608000000",
+    "x-ms-version": "2022-11-02"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.file.core.windows.net/share167875903814007650",
+   "query": {
+    "restype": "share"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-client-request-id": "65c797c7-1477-4f4d-908a-6af521a3be89",
+    "x-ms-request-id": "667442ad-a01a-0003-0e18-561608000000",
+    "x-ms-version": "2022-11-02"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "share": "share167875903814007650",
+   "dir": "dir167875903862803449",
+   "dir1": "dir1167875903912400939"
+  },
+  "newDate": {}
+ },
+ "hash": "dac670b346cfc5e527ee8406134741a8"
+}
