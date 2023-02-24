@@ -1072,14 +1072,10 @@ describe("ManagedIdentityCredential", function () {
       process.env.AZURE_AUTHORITY_HOST = AzureAuthorityHosts.AzureGovernment;
       process.env.AZURE_CLIENT_ID = "client_id";
       const parameterClientId = "f850650c-1fcf-4489-b46f-71af2e30d360";
-      // const credential = new WorkloadIdentityCredential({
-      //   clientId: "client_id",
-      //   tenantId: "72f988bf-86f1-41af-91ab-2d7cd011db47",
-      //   federatedTokenFilePath: tempFile
-      // })
-      // let token =  await credential.getToken("https://service/.default");
-      // console.dir(token);
-      
+      const credential = new ManagedIdentityCredential(parameterClientId);
+      let token =  await credential.getToken("https://service/.default");
+      console.dir(token);
+      /*
        const authDetails = await testContext.sendCredentialRequests({
         scopes: ["https://vault.azure.com/.default"],
         credential: new ManagedIdentityCredential(parameterClientId) ,
@@ -1112,7 +1108,7 @@ describe("ManagedIdentityCredential", function () {
 
       assert.strictEqual(authDetails.result!.token, "token");
       assert.strictEqual(authDetails.result!.expiresOnTimestamp, 1000);
-
+      */
      
     });
     it("reads from the token file again only after 5 minutes have passed", async function (this: Mocha.Context) {

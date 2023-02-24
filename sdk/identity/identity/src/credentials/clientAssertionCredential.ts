@@ -46,6 +46,7 @@ export class ClientAssertionCredential implements TokenCredential {
       );
     }
     this.tenantId = tenantId;
+    console.log("this.tenantId=",tenantId);
     this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
@@ -74,6 +75,9 @@ export class ClientAssertionCredential implements TokenCredential {
       `${this.constructor.name}.getToken`,
       options,
       async (newOptions) => {
+        console.log("newOptions=")
+        console.dir(newOptions)
+        console.log("this tenantId in getToken client assertion=", this.tenantId);
         newOptions.tenantId = processMultiTenantRequest(
           this.tenantId,
           newOptions,

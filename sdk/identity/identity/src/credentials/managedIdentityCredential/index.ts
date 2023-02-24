@@ -180,6 +180,8 @@ export class ManagedIdentityCredential implements TokenCredential {
     scopes: string | string[],
     getTokenOptions?: GetTokenOptions
   ): Promise<AccessToken | null> {
+    console.log("getTokenOptions=")
+    console.dir(getTokenOptions);
     const { span, updatedOptions } = tracingClient.startSpan(
       `${ManagedIdentityCredential.name}.authenticateManagedIdentity`,
       getTokenOptions
@@ -227,6 +229,10 @@ export class ManagedIdentityCredential implements TokenCredential {
       options
     );
     try {
+      console.log("options=")
+      console.dir(options);
+      console.log("updateOptions")
+      console.dir(updatedOptions);
       // isEndpointAvailable can be true, false, or null,
       // If it's null, it means we don't yet know whether
       // the endpoint is available and need to check for it.
@@ -237,7 +243,7 @@ export class ManagedIdentityCredential implements TokenCredential {
           scopes: Array.isArray(scopes) ? scopes : [scopes],
           claims: options?.claims,
         };
-
+      
         this.confidentialApp.SetAppTokenProvider(
           async (appTokenProviderParameters = appTokenParameters) => {
             logger.info(
@@ -245,6 +251,14 @@ export class ManagedIdentityCredential implements TokenCredential {
                 appTokenProviderParameters
               )}`
             );
+            console.log("updatedOptions")
+            console.dir(updatedOptions);
+            console.log("appTokeParam");
+            console.dir(appTokenParameters)
+            console.log("apptokenProvider Param")
+            console.dir({
+              ...appTokenProviderParameters
+            })
             const resultToken = await this.authenticateManagedIdentity(scopes, {
               ...updatedOptions,
               ...appTokenProviderParameters,
