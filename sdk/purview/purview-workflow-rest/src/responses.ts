@@ -52,7 +52,6 @@ export interface CreateOrReplaceWorkflowDefaultResponse extends HttpResponse {
 /** Delete a workflow. */
 export interface DeleteWorkflow204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete a workflow. */
