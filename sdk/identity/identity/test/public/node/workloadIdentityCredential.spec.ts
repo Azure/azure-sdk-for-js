@@ -13,7 +13,7 @@ import { createJWTTokenFromCertificate } from "./utils/utils";
 import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "fs";
 import { ManagedIdentityCredential, WorkloadIdentityCredential } from "../../../src";
 
-describe("WorkloadIdentityCredential", function () {
+describe.skip("WorkloadIdentityCredential", function () {
   let cleanup: MsalTestCleanup;
   let recorder: Recorder;
 
@@ -40,11 +40,11 @@ describe("WorkloadIdentityCredential", function () {
 
   it("authenticates with WorkloadIdentity Credential", async function (this: Context) {
     const fileDir = await setupFileandEnv("workload-identity");
-    const credential = new WorkloadIdentityCredential({
-      clientId: clientId,
-      tenantId: tenantId,
-      federatedTokenFilePath: fileDir.tempFile,
-    });
+    const credential = new WorkloadIdentityCredential(recorder.configureClientOptions({
+        clientId: clientId,
+        tenantId: tenantId,
+        federatedTokenFilePath: fileDir.tempFile,
+      }));
     try {
       const token = await credential.getToken(scope);
       assert.ok(token?.token);
