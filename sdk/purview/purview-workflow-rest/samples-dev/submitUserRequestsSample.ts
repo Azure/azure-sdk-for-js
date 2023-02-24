@@ -4,7 +4,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createPurviewWorkflowClient, {
+  PurviewWorkflowClient,
   SubmitUserRequestsParameters,
+  isUnexpected,
 } from "@azure-rest/purview-workflow";
 import { UsernamePasswordCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -18,16 +20,31 @@ dotenv.config();
  * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/SubmitUserRequests.json
  */
 
-const endpoint = process.env["ENDPOINT"] || "";
-const tenantId = process.env["TENANTID"] || "";
-const clientId = process.env["CLIENTID"] || "";
-const username = process.env["USERNAME"] || "";
-const password = process.env["PASSWORD"] || "";
+async function userRequestsSubmit(
+  client: PurviewWorkflowClient,
+  userRequest: SubmitUserRequestsParameters
+) {
+  const result = await client.path("/userrequests").post(userRequest);
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+  console.log(`The submitted user request is ${result.body}`);
+}
 
-async function userRequestsSubmit() {
+async function main() {
+  // ================================================== Create client ==================================================
+
+  const endpoint = process.env["ENDPOINT"] || "";
+  const tenantId = process.env["TENANTID"] || "";
+  const clientId = process.env["CLIENTID"] || "";
+  const username = process.env["USERNAME"] || "";
+  const password = process.env["PASSWORD"] || "";
   const credential = new UsernamePasswordCredential(tenantId, clientId, username, password);
   const client = createPurviewWorkflowClient(endpoint, credential);
-  const options: SubmitUserRequestsParameters = {
+
+  // ================================================== Submit a user request ==================================================
+
+  const userRequestPayload: SubmitUserRequestsParameters = {
     body: {
       comment: "Thanks!",
       operations: [
@@ -45,8 +62,8 @@ async function userRequestsSubmit() {
       ],
     },
   };
-  const result = await client.path("/userrequests").post(options);
-  console.log(result);
+
+  userRequestsSubmit(client, userRequestPayload);
 }
 
-userRequestsSubmit().catch(console.error);
+main().catch(console.error);

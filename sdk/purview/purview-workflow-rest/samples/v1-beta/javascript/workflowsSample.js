@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 const createPurviewWorkflowClient = require("@azure-rest/purview-workflow").default,
-  { paginate } = require("@azure-rest/purview-workflow");
+  { isUnexpected, paginate } = require("@azure-rest/purview-workflow");
 const { UsernamePasswordCredential } = require("@azure/identity");
 const { randomUUID } = require("crypto");
 require("dotenv").config();
@@ -15,7 +15,65 @@ require("dotenv").config();
  * @summary Create or replace a workflow.
  * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/CreateOrReplaceWorkflow.json
  */
-async function workflowCreateOrUpdate() {
+async function workflowCreateOrUpdate(client, workflow) {
+  const workflowId = randomUUID();
+  const result = await client.path("/workflows/{workflowId}", workflowId).put(workflow);
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+  console.log(`The created workflow is ${result.body}`);
+}
+
+/**
+ * This sample demonstrates how to List all workflows.
+ *
+ * @summary List all workflows.
+ * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/ListWorkflows.json
+ */
+async function workflowsList(client) {
+  const initialResponse = await client.path("/workflows").get();
+  if (isUnexpected(initialResponse)) {
+    throw initialResponse.body.error;
+  }
+  const pageData = paginate(client, initialResponse);
+  const result = [];
+  for await (const item of pageData) {
+    result.push(item);
+  }
+  console.log(`The total count of workflows is ${result.length}, these workflows are ${result}`);
+}
+
+/**
+ * This sample demonstrates how to Get a specific workflow.
+ *
+ * @summary Get a specific workflow.
+ * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/GetWorkflow.json
+ */
+async function workflowGet(client, workflowId) {
+  const result = await client.path("/workflows/{workflowId}", workflowId).get();
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+  console.log(`The returned workflow is ${result.body}`);
+}
+
+/**
+ * This sample demonstrates how to Delete a workflow.
+ *
+ * @summary Delete a workflow.
+ * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/DeleteWorkflow.json
+ */
+async function workflowDelete(client, workflowId) {
+  const result = await client.path("/workflows/{workflowId}", workflowId).delete();
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+  console.log(`The deleted workflow id is ${workflowId}`);
+}
+
+async function main() {
+  // ================================================== Create client ==================================================
+
   const endpoint = process.env["ENDPOINT"] || "";
   const tenantId = process.env["TENANTID"] || "";
   const clientId = process.env["CLIENTID"] || "";
@@ -23,8 +81,10 @@ async function workflowCreateOrUpdate() {
   const password = process.env["PASSWORD"] || "";
   const credential = new UsernamePasswordCredential(tenantId, clientId, username, password);
   const client = createPurviewWorkflowClient(endpoint, credential);
-  const workflowId = randomUUID();
-  const options = {
+
+  // ================================================== Create a workflow ==================================================
+
+  const workflowPayload = {
     body: {
       name: "Create glossary term workflow",
       description: "",
@@ -97,79 +157,20 @@ async function workflowCreateOrUpdate() {
       ],
     },
   };
-  const result = await client.path("/workflows/{workflowId}", workflowId).put(options);
-  console.log(result);
-}
+  workflowCreateOrUpdate(client, workflowPayload); //This workflowPayload is an example, please replace the workflow payload with real payload.
 
-/**
- * This sample demonstrates how to List all workflows.
- *
- * @summary List all workflows.
- * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/ListWorkflows.json
- */
-async function workflowsList() {
-  const endpoint = process.env["ENDPOINT"] || "";
-  const tenantId = process.env["TENANTID"] || "";
-  const clientId = process.env["CLIENTID"] || "";
-  const username = process.env["USERNAME"] || "";
-  const password = process.env["PASSWORD"] || "";
-  const credential = new UsernamePasswordCredential(tenantId, clientId, username, password);
-  const client = createPurviewWorkflowClient(endpoint, credential);
-  const initialResponse = await client.path("/workflows").get();
-  const pageData = paginate(client, initialResponse);
-  const result = [];
-  for await (const item of pageData) {
-    result.push(item);
-  }
-  console.log(result);
-}
+  // ================================================== List workflows ==================================================
 
-/**
- * This sample demonstrates how to Get a specific workflow.
- *
- * @summary Get a specific workflow.
- * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/GetWorkflow.json
- */
-async function workflowGet() {
-  const endpoint = process.env["ENDPOINT"] || "";
-  const tenantId = process.env["TENANTID"] || "";
-  const clientId = process.env["CLIENTID"] || "";
-  const username = process.env["USERNAME"] || "";
-  const password = process.env["PASSWORD"] || "";
-  const credential = new UsernamePasswordCredential(tenantId, clientId, username, password);
-  const client = createPurviewWorkflowClient(endpoint, credential);
-  const workflowId = "d503b2d2-84da-4a85-9e85-6e82e39d59a0";
-  const result = await client.path("/workflows/{workflowId}", workflowId).get();
-  console.log(result);
-}
+  workflowsList(client);
 
-/**
- * This sample demonstrates how to Delete a workflow.
- *
- * @summary Delete a workflow.
- * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/DeleteWorkflow.json
- */
-async function workflowDelete() {
-  const endpoint = process.env["ENDPOINT"] || "";
-  const tenantId = process.env["TENANTID"] || "";
-  const clientId = process.env["CLIENTID"] || "";
-  const username = process.env["USERNAME"] || "";
-  const password = process.env["PASSWORD"] || "";
-  const credential = new UsernamePasswordCredential(tenantId, clientId, username, password);
-  const client = createPurviewWorkflowClient(endpoint, credential);
-  const workflowId = "4afb5752-e47f-43a1-8ba7-c696bf8d2745";
-  const result = await client.path("/workflows/{workflowId}", workflowId).delete();
-  console.log(result);
-}
+  // ================================================== Get a workflow ==================================================
 
-async function main() {
-  workflowCreateOrUpdate();
-  workflowsList();
+  const workflowId1 = "d503b2d2-84da-4a85-9e85-6e82e39d59a0"; // This is an example workflow id, user could get workflow id either from the response of creating or updating workflow api or list workflows api.
+  workflowGet(client, workflowId1);
 
-  // User could get workflow id either from the response of creating or updating workflow api or list workflows api.
-  // After get the workflow id, user could call get workflow api to get a workflow detail or delete a workflow.
-  workflowGet();
-  workflowDelete();
+  // ================================================== Get a workflow ==================================================
+  const workflowId2 = "2689fe8e-b410-11ed-afa1-0242ac120002"; // This is an example workflow id, user could get workflow id either from the response of creating or updating workflow api or list workflows api.
+  workflowDelete(client, workflowId2);
 }
 
 main().catch(console.error);

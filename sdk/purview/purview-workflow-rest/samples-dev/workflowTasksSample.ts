@@ -10,6 +10,8 @@ import createPurviewWorkflowClient, {
   UpdateTaskStatusParameters,
   RejectApprovalTaskParameters,
   ReassignWorkflowTaskParameters,
+  PurviewWorkflowClient,
+  isUnexpected,
 } from "@azure-rest/purview-workflow";
 import { UsernamePasswordCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -23,30 +25,22 @@ dotenv.config();
  * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/ListWorkflowTasks.json
  */
 
-async function workflowTasksList() {
-  const endpoint = process.env["ENDPOINT"] || "";
-  const tenantId = process.env["TENANTID"] || "";
-  const clientId = process.env["CLIENTID"] || "";
-  const username = process.env["USERNAME"] || "";
-  const password = process.env["PASSWORD"] || "";
-
-  const credential = new UsernamePasswordCredential(tenantId, clientId, username, password);
-  const client = createPurviewWorkflowClient(endpoint, credential);
-  const options: ListWorkflowTasksParameters = {
-    queryParameters: {
-      viewMode: "sent",
-      timeWindow: "30d",
-      maxpagesize: 1000,
-      orderby: "createdTime desc",
-    },
-  };
-  const initialResponse = await client.path("/workflowtasks").get(options);
+async function workflowTasksList(
+  client: PurviewWorkflowClient,
+  queryParameters: ListWorkflowTasksParameters
+) {
+  const initialResponse = await client.path("/workflowtasks").get(queryParameters);
+  if (isUnexpected(initialResponse)) {
+    throw initialResponse.body.error;
+  }
   const pageData = paginate(client, initialResponse);
   const result = [];
   for await (const item of pageData) {
     result.push(item);
   }
-  console.log(result);
+  console.log(
+    `The total count of workflow tasks is ${result.length}, these workflow tasks are ${result}`
+  );
 }
 
 /**
@@ -56,17 +50,12 @@ async function workflowTasksList() {
  * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/GetWorkflowTask.json
  */
 
-async function workTaskGet() {
-  const endpoint = process.env["ENDPOINT"] || "";
-  const tenantId = process.env["TENANTID"] || "";
-  const clientId = process.env["CLIENTID"] || "";
-  const username = process.env["USERNAME"] || "";
-  const password = process.env["PASSWORD"] || "";
-  const credential = new UsernamePasswordCredential(tenantId, clientId, username, password);
-  const client = createPurviewWorkflowClient(endpoint, credential);
-  const taskId = "98d98e2c-23fa-4157-a3f8-ff8ce5cc095c";
+async function workTaskGet(client: PurviewWorkflowClient, taskId: string) {
   const result = await client.path("/workflowtasks/{taskId}", taskId).get();
-  console.log(result);
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+  console.log(`The returned workflow task is ${result.body}`);
 }
 
 /**
@@ -76,22 +65,18 @@ async function workTaskGet() {
  * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/ApproveApprovalTask.json
  */
 
-async function approvalTaskApprove() {
-  const endpoint = process.env["ENDPOINT"] || "";
-  const tenantId = process.env["TENANTID"] || "";
-  const clientId = process.env["CLIENTID"] || "";
-  const username = process.env["USERNAME"] || "";
-  const password = process.env["PASSWORD"] || "";
-  const credential = new UsernamePasswordCredential(tenantId, clientId, username, password);
-  const client = createPurviewWorkflowClient(endpoint, credential);
-  const taskId = "98d98e2c-23fa-4157-a3f8-ff8ce5cc095c";
-  const options: ApproveApprovalTaskParameters = {
-    body: { comment: "Thanks for raising this!" },
-  };
+async function approveWorkflowTask(
+  client: PurviewWorkflowClient,
+  taskId: string,
+  approvePayload: ApproveApprovalTaskParameters
+) {
   const result = await client
     .path("/workflowtasks/{taskId}/approve-approval", taskId)
-    .post(options);
-  console.log(result);
+    .post(approvePayload);
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+  console.log(`Approve workflow task ${taskId} successfully.`);
 }
 
 /**
@@ -101,20 +86,18 @@ async function approvalTaskApprove() {
  * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/RejectApprovalTask.json
  */
 
-async function approvalRequestReject() {
-  const endpoint = process.env["ENDPOINT"] || "";
-  const tenantId = process.env["TENANTID"] || "";
-  const clientId = process.env["CLIENTID"] || "";
-  const username = process.env["USERNAME"] || "";
-  const password = process.env["PASSWORD"] || "";
-  const credential = new UsernamePasswordCredential(tenantId, clientId, username, password);
-  const client = createPurviewWorkflowClient(endpoint, credential);
-  const taskId = "98d98e2c-23fa-4157-a3f8-ff8ce5cc095c";
-  const options: RejectApprovalTaskParameters = {
-    body: { comment: "Thanks for raising this!" },
-  };
-  const result = await client.path("/workflowtasks/{taskId}/reject-approval", taskId).post(options);
-  console.log(result);
+async function rejectWorkflowTask(
+  client: PurviewWorkflowClient,
+  taskId: string,
+  rejectPayload: RejectApprovalTaskParameters
+) {
+  const result = await client
+    .path("/workflowtasks/{taskId}/reject-approval", taskId)
+    .post(rejectPayload);
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+  console.log(`Reject workflow task ${taskId} successfully.`);
 }
 
 /**
@@ -124,22 +107,18 @@ async function approvalRequestReject() {
  * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/UpdateTaskRequest.json
  */
 
-async function taskRequestUpdate() {
-  const endpoint = process.env["ENDPOINT"] || "";
-  const tenantId = process.env["TENANTID"] || "";
-  const clientId = process.env["CLIENTID"] || "";
-  const username = process.env["USERNAME"] || "";
-  const password = process.env["PASSWORD"] || "";
-  const credential = new UsernamePasswordCredential(tenantId, clientId, username, password);
-  const client = createPurviewWorkflowClient(endpoint, credential);
-  const taskId = "d5bd0215-df84-4245-8e18-3a8f012be376";
-  const options: UpdateTaskStatusParameters = {
-    body: { comment: "Thanks!", newStatus: "InProgress" },
-  };
+async function updateWorkflowTaskStatus(
+  client: PurviewWorkflowClient,
+  taskId: string,
+  updateStatusPayload: UpdateTaskStatusParameters
+) {
   const result = await client
     .path("/workflowtasks/{taskId}/change-task-status", taskId)
-    .post(options);
-  console.log(result);
+    .post(updateStatusPayload);
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+  console.log(`Update workflow task ${taskId} status successfully.`);
 }
 
 /**
@@ -148,17 +127,90 @@ async function taskRequestUpdate() {
  * @summary Reassign a workflow task.
  * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/ReassignWorkflowTask.json
  */
-async function workflowTaskReassign() {
+async function workflowTaskReassign(
+  client: PurviewWorkflowClient,
+  taskId: string,
+  reassignPayload: ReassignWorkflowTaskParameters
+) {
+  const result = await client
+    .path("/workflowtasks/{taskId}/reassign", taskId)
+    .post(reassignPayload);
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+  console.log(`Reassign workflow task ${taskId} successfully.`);
+}
+
+async function main() {
+  // ================================================== Create client ==================================================
+
   const endpoint = process.env["ENDPOINT"] || "";
   const tenantId = process.env["TENANTID"] || "";
   const clientId = process.env["CLIENTID"] || "";
   const username = process.env["USERNAME"] || "";
   const password = process.env["PASSWORD"] || "";
-
   const credential = new UsernamePasswordCredential(tenantId, clientId, username, password);
   const client = createPurviewWorkflowClient(endpoint, credential);
-  const taskId = "11b0244b-70ea-4c6b-9d28-08f52de40f2f";
-  const options: ReassignWorkflowTaskParameters = {
+
+  // ================================================== List workflow tasks ==================================================
+
+  const queryParameters: ListWorkflowTasksParameters = {
+    queryParameters: {
+      viewMode: "sent",
+      timeWindow: "30d",
+      maxpagesize: 1000,
+      orderby: "createdTime desc",
+    },
+  };
+  workflowTasksList(client, queryParameters);
+
+  // ================================================== Get a workflow task ==================================================
+
+  /*
+    Workflow tasks are generated automatically inside Workflow service,  user could get workflow task id from the response of list workflow tasks api. 
+    Before workflow tasks were generated, a user request should be submitted.
+  */
+
+  const taskId1 = "b02404fc-b413-11ed-afa1-0242ac120002"; // This is an example task id, user could get task id either from the response of list workflow tasks api.
+  workTaskGet(client, taskId1);
+
+  /*
+    After get the workflow task id, user could according to the workflow task type or requirement to decide how to handle this workflow task.
+    For approval workflow tasks, user could approve/reject/reassign task, for simple workflow tasks, user could update status or reassign task.
+  */
+  // ================================================== Approve a workflow task ==================================================
+
+  const taskId2 = "f8b917f6-b414-11ed-afa1-0242ac120002"; // This is an example task id, user could get task id either from the response of list workflow tasks api.
+
+  const approvePayload: ApproveApprovalTaskParameters = {
+    body: { comment: "Thanks for raising this!" },
+  };
+  approveWorkflowTask(client, taskId2, approvePayload);
+
+  // ================================================== Reject a workflow task ==================================================
+
+  const taskId3 = "f8b917f6-b414-11ed-afa1-0242ac120002"; // This is an example task id, user could get task id either from the response of list workflow tasks api.
+
+  const rejectPayload: RejectApprovalTaskParameters = {
+    body: { comment: "Thanks for raising this!" },
+  };
+
+  rejectWorkflowTask(client, taskId3, rejectPayload);
+
+  // ================================================== Update the status of a workflow task ==================================================
+
+  const taskId4 = "5a6cc330-b415-11ed-afa1-0242ac120002"; // This is an example task id, user could get task id either from the response of list workflow tasks api.
+
+  const updateStatusPayload: UpdateTaskStatusParameters = {
+    body: { comment: "Thanks!", newStatus: "InProgress" },
+  };
+  updateWorkflowTaskStatus(client, taskId4, updateStatusPayload);
+
+  // ================================================== Reassign a workflow task ==================================================
+
+  const taskId5 = "7d493e38-b415-11ed-afa1-0242ac120002"; // This is an example task id, user could get task id either from the response of list workflow tasks api.
+
+  const reassignPayload: ReassignWorkflowTaskParameters = {
     body: {
       reassignments: [
         {
@@ -168,24 +220,7 @@ async function workflowTaskReassign() {
       ],
     },
   };
-  const result = await client.path("/workflowtasks/{taskId}/reassign", taskId).post(options);
-  console.log(result);
-}
-
-async function main() {
-  workflowTasksList();
-
-  // Workflow tasks are generated automatically inside Workflow service, user could get workflow task id from the response of list workflow tasks api. Before workflow tasks were generated, a user request should be submitted.
-
-  // After get the workflow task id, user could get the workflow task detail by calling get workflow task api.
-  workTaskGet();
-
-  // After get the workflow task id, user could according to the workflow task type or requirement to decide how to handle this workflow task.
-  // For approval workflow tasks, user could approve/reject/reassign task, foe simple workflow tasks, user could update status or reassign task.
-  approvalTaskApprove();
-  approvalRequestReject();
-  taskRequestUpdate();
-  workflowTaskReassign();
+  workflowTaskReassign(client, taskId5, reassignPayload);
 }
 
 main().catch(console.error);
