@@ -41,7 +41,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
 
   /**
    * Returns list of backup policies belonging to a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param options The options parameters.
    */
@@ -117,7 +117,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
 
   /**
    * Returns list of backup policies belonging to a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param options The options parameters.
    */
@@ -134,7 +134,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
 
   /**
    * Gets a backup policy belonging to a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param backupPolicyName
    * @param options The options parameters.
@@ -153,7 +153,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
 
   /**
    * Creates or Updates a backup policy belonging to a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param backupPolicyName Name of the policy
    * @param parameters Request body for operation
@@ -174,7 +174,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
 
   /**
    * Deletes a backup policy belonging to a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param backupPolicyName
    * @param options The options parameters.
@@ -193,7 +193,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.

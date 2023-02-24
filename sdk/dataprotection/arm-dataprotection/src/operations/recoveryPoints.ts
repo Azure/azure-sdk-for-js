@@ -38,9 +38,9 @@ export class RecoveryPointsImpl implements RecoveryPoints {
 
   /**
    * Returns a list of Recovery Points for a DataSource in a vault.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   public list(
@@ -131,9 +131,9 @@ export class RecoveryPointsImpl implements RecoveryPoints {
 
   /**
    * Returns a list of Recovery Points for a DataSource in a vault.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   private _list(
@@ -150,9 +150,9 @@ export class RecoveryPointsImpl implements RecoveryPoints {
 
   /**
    * Gets a Recovery Point using recoveryPointId for a Datasource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param recoveryPointId
    * @param options The options parameters.
    */
@@ -177,9 +177,9 @@ export class RecoveryPointsImpl implements RecoveryPoints {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */

@@ -46,7 +46,7 @@ import {
 export interface BackupInstances {
   /**
    * Gets a backup instances belonging to a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param options The options parameters.
    */
@@ -57,9 +57,9 @@ export interface BackupInstances {
   ): PagedAsyncIterableIterator<BackupInstanceResource>;
   /**
    * Gets a backup instance with name in a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   get(
@@ -70,9 +70,9 @@ export interface BackupInstances {
   ): Promise<BackupInstancesGetResponse>;
   /**
    * Create or update a backup instance in a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -90,9 +90,9 @@ export interface BackupInstances {
   >;
   /**
    * Create or update a backup instance in a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -105,9 +105,9 @@ export interface BackupInstances {
   ): Promise<BackupInstancesCreateOrUpdateResponse>;
   /**
    * Delete a backup instance in a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   beginDelete(
@@ -118,9 +118,9 @@ export interface BackupInstances {
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Delete a backup instance in a backup vault
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
@@ -131,9 +131,9 @@ export interface BackupInstances {
   ): Promise<void>;
   /**
    * Trigger adhoc backup
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -151,9 +151,9 @@ export interface BackupInstances {
   >;
   /**
    * Trigger adhoc backup
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -166,7 +166,7 @@ export interface BackupInstances {
   ): Promise<BackupInstancesAdhocBackupResponse>;
   /**
    * Validate whether adhoc backup will be successful or not
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param parameters Request body for operation
    * @param options The options parameters.
@@ -184,7 +184,7 @@ export interface BackupInstances {
   >;
   /**
    * Validate whether adhoc backup will be successful or not
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param parameters Request body for operation
    * @param options The options parameters.
@@ -197,9 +197,9 @@ export interface BackupInstances {
   ): Promise<BackupInstancesValidateForBackupResponse>;
   /**
    * Get result of backup instance creation operation
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param operationId
    * @param options The options parameters.
    */
@@ -212,9 +212,9 @@ export interface BackupInstances {
   ): Promise<BackupInstancesGetBackupInstanceOperationResultResponse>;
   /**
    * rehydrate recovery point for restore for a BackupInstance
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -232,9 +232,9 @@ export interface BackupInstances {
   >;
   /**
    * rehydrate recovery point for restore for a BackupInstance
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -247,9 +247,9 @@ export interface BackupInstances {
   ): Promise<BackupInstancesTriggerRehydrateResponse>;
   /**
    * Triggers restore for a BackupInstance
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -267,9 +267,9 @@ export interface BackupInstances {
   >;
   /**
    * Triggers restore for a BackupInstance
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -282,9 +282,9 @@ export interface BackupInstances {
   ): Promise<BackupInstancesTriggerRestoreResponse>;
   /**
    * This operation will resume backups for backup instance
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   beginResumeBackups(
@@ -295,9 +295,9 @@ export interface BackupInstances {
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * This operation will resume backups for backup instance
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   beginResumeBackupsAndWait(
@@ -308,9 +308,9 @@ export interface BackupInstances {
   ): Promise<void>;
   /**
    * This operation will resume protection for a stopped backup instance
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   beginResumeProtection(
@@ -321,9 +321,9 @@ export interface BackupInstances {
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * This operation will resume protection for a stopped backup instance
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   beginResumeProtectionAndWait(
@@ -334,9 +334,9 @@ export interface BackupInstances {
   ): Promise<void>;
   /**
    * This operation will stop protection of a backup instance and data will be held forever
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   beginStopProtection(
@@ -347,9 +347,9 @@ export interface BackupInstances {
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * This operation will stop protection of a backup instance and data will be held forever
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   beginStopProtectionAndWait(
@@ -361,9 +361,9 @@ export interface BackupInstances {
   /**
    * This operation will stop backup for a backup instance and retains the backup data as per the policy
    * (except latest Recovery point, which will be retained forever)
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   beginSuspendBackups(
@@ -375,9 +375,9 @@ export interface BackupInstances {
   /**
    * This operation will stop backup for a backup instance and retains the backup data as per the policy
    * (except latest Recovery point, which will be retained forever)
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param options The options parameters.
    */
   beginSuspendBackupsAndWait(
@@ -389,9 +389,9 @@ export interface BackupInstances {
   /**
    * Sync backup instance again in case of failure
    * This action will retry last failed operation and will bring backup instance to valid state
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -405,9 +405,9 @@ export interface BackupInstances {
   /**
    * Sync backup instance again in case of failure
    * This action will retry last failed operation and will bring backup instance to valid state
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -420,9 +420,9 @@ export interface BackupInstances {
   ): Promise<void>;
   /**
    * Validates if Restore can be triggered for a DataSource
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
@@ -440,9 +440,9 @@ export interface BackupInstances {
   >;
   /**
    * Validates if Restore can be triggered for a DataSource
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance
+   * @param backupInstanceName The name of the backup instance.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
