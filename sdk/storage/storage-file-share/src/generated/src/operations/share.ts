@@ -629,7 +629,8 @@ const createPermissionOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
-    Parameters.version
+    Parameters.version,
+    Parameters.fileRequestIntent
   ],
   isXML: false,
   contentType: "application/xml; charset=utf-8",
@@ -656,6 +657,7 @@ const getPermissionOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept2,
     Parameters.filePermissionKey
   ],

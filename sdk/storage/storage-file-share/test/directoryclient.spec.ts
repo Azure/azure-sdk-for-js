@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 
-import { getBSU, isBrowser, recorderEnvSetup } from "./utils";
+import { getBSU, getTokenBSUWithDefaultCredential, recorderEnvSetup } from "./utils";
 import { ShareClient, ShareDirectoryClient, FileSystemAttributes } from "../src";
 import { isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
@@ -1051,6 +1051,25 @@ describe("DirectoryClient", () => {
     }
   });
 
+  it("listHandles for directory with Invalid Char should work", async () => {
+    // TODO: Open or create a handle; Currently can only be done manually; No REST APIs for creating handles
+    const dirName = recorder.getUniqueName("dir\uFFFE");
+    const dirWithInvalidChar = shareClient.getDirectoryClient(dirName);
+    await dirWithInvalidChar.create();
+
+    const result = (await dirWithInvalidChar.listHandles().byPage().next()).value;
+
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const handle = result.handleList[0];
+      assert.notDeepEqual(handle.handleId, undefined);
+      assert.notDeepEqual(handle.path, undefined);
+      assert.notDeepEqual(handle.fileId, undefined);
+      assert.notDeepEqual(handle.sessionId, undefined);
+      assert.notDeepEqual(handle.clientIp, undefined);
+      assert.notDeepEqual(handle.openTime, undefined);
+    }
+  });
+
   it("listHandles for directory with Invalid Char should work", async function (this: Context) {
     if (isBrowser() && isLiveMode()) {
       // Skipped for now as the generating new version SAS token is not supported in pipeline yet.
@@ -1524,5 +1543,748 @@ describe("ShareDirectoryClient - Verify Name Properties", () => {
       baseName,
       "DirectoryClient name is not the same as the baseName of the provided directory URI"
     );
+  });
+});
+
+describe("DirectoryClient - AllowingTrailingDot - True", () => {
+  let shareName: string;
+  let shareClient: ShareClient;
+  let dirName: string;
+  let defaultDirCreateResp: DirectoryCreateResponse;
+  let dirClient: ShareDirectoryClient;
+  let recorder: Recorder;
+  const fullDirAttributes = new FileSystemAttributes();
+  fullDirAttributes.readonly = true;
+  fullDirAttributes.hidden = true;
+  fullDirAttributes.system = true;
+  fullDirAttributes.directory = true;
+  fullDirAttributes.archive = true;
+  fullDirAttributes.offline = true;
+  fullDirAttributes.notContentIndexed = true;
+  fullDirAttributes.noScrubData = true;
+
+  beforeEach(async function (this: Context) {
+    recorder = record(this, recorderEnvSetup);
+    const serviceClient = getBSU({ allowTrailingDot: true });
+    shareName = recorder.getUniqueName("share");
+    shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create();
+
+    dirName = recorder.getUniqueName("dir") + ".";
+    dirClient = shareClient.getDirectoryClient(dirName);
+
+    defaultDirCreateResp = await dirClient.create();
+  });
+
+  afterEach(async function () {
+    await shareClient.delete();
+    await recorder.stop();
+  });
+
+  it("create and delete", async () => {
+    const dirName1 = recorder.getUniqueName("dir1");
+    const dirNameWithDots = dirName1 + +"...";
+    const dirClient1 = shareClient.getDirectoryClient(dirNameWithDots);
+    await dirClient1.create();
+
+    // make sure
+    let foundDir = false;
+    for await (const item of shareClient.getDirectoryClient("").listFilesAndDirectories()) {
+      if (item.name === dirNameWithDots) {
+        assert.equal(item.kind, "directory");
+        foundDir = true;
+      }
+    }
+
+    assert.ok(foundDir, "The directory with trailing dot is created.");
+    await dirClient1.delete();
+
+    try {
+      await dirClient1.getProperties();
+      assert.fail(
+        "Expecting an error in getting properties from a deleted directory but didn't get one."
+      );
+    } catch (error: any) {
+      assert.ok((error.statusCode as number) === 404);
+    }
+  });
+
+  it("createIfNotExists - Exists", async () => {
+    const response = await dirClient.createIfNotExists();
+    assert.ok(!response.succeeded, "Directory should already exists");
+  });
+
+  it("createIfNotExists - New", async () => {
+    const dirName1 = recorder.getUniqueName("dir1") + "...";
+    const dirClient1 = shareClient.getDirectoryClient(dirName1);
+    await dirClient1.createIfNotExists();
+
+    // directory has already been created in beforeEach
+    let foundDir = false;
+    for await (const item of shareClient.getDirectoryClient("").listFilesAndDirectories()) {
+      if (item.name === dirName) {
+        assert.equal(item.kind, "directory");
+        foundDir = true;
+      }
+    }
+
+    assert.ok(foundDir, "The directory with trailing dot is created.");
+  });
+
+  it("setProperties", async () => {
+    await dirClient.setProperties();
+
+    const result = await dirClient.getProperties();
+    assert.equal(result.errorCode, undefined);
+    assert.equal(result.fileAttributes!, defaultDirCreateResp.fileAttributes!);
+    assert.equal(
+      truncatedISO8061Date(result.fileCreatedOn!),
+      truncatedISO8061Date(defaultDirCreateResp.fileCreatedOn!)
+    );
+    assert.equal(
+      truncatedISO8061Date(result.fileLastWriteOn!),
+      truncatedISO8061Date(defaultDirCreateResp.fileLastWriteOn!)
+    );
+    assert.equal(result.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
+    assert.ok(result.fileChangeOn!);
+    assert.ok(result.fileId!);
+    assert.ok(result.fileParentId!);
+  });
+
+  it("createSubDirectory and deleteSubDirectory", async () => {
+    const subDirName = recorder.getUniqueName("subdir") + ".";
+
+    const { directoryClient: subDirClient } = await dirClient.createSubdirectory(subDirName);
+    await subDirClient.getProperties();
+
+    await dirClient.deleteSubdirectory(subDirName);
+    try {
+      await subDirClient.getProperties();
+      assert.fail(
+        "Expecting an error in getting properties from a deleted directory but didn't get one."
+      );
+    } catch (error: any) {
+      assert.ok((error.statusCode as number) === 404);
+    }
+  });
+
+  it("createFile and delete file", async () => {
+    const fileName = recorder.getUniqueName("file") + ".";
+
+    const { fileClient: fileClient } = await dirClient.createFile(fileName, 1024);
+    await fileClient.getProperties();
+
+    await dirClient.deleteFile(fileName);
+    try {
+      await fileClient.getProperties();
+      assert.fail(
+        "Expecting an error in getting properties from a deleted file but didn't get one."
+      );
+    } catch (error: any) {
+      assert.ok((error.statusCode as number) === 404);
+    }
+  });
+
+  it("listHandles", async () => {
+    const result = (await dirClient.listHandles().byPage().next()).value;
+
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const handle = result.handleList[0];
+      assert.notDeepEqual(handle.handleId, undefined);
+      assert.notDeepEqual(handle.path, undefined);
+      assert.notDeepEqual(handle.fileId, undefined);
+      assert.notDeepEqual(handle.sessionId, undefined);
+      assert.notDeepEqual(handle.clientIp, undefined);
+      assert.notDeepEqual(handle.openTime, undefined);
+    }
+  });
+
+  it("exists", async () => {
+    assert.ok(dirClient.exists(), "The directory with trailing dot should exists");
+  });
+
+  it("deleteIfExists", async () => {
+    const dirName1 = recorder.getUniqueName("dir1");
+    const dirNameWithDots = dirName1 + +"...";
+    const dirClient1 = shareClient.getDirectoryClient(dirNameWithDots);
+
+    await dirClient1.create();
+    let deleteResponse = await dirClient1.deleteIfExists();
+    assert.ok(deleteResponse.succeeded, "Deletion should succeeded.");
+    deleteResponse = await dirClient1.deleteIfExists();
+    assert.ok(!deleteResponse.succeeded, "Directory should not exist anymore.");
+  });
+
+  it("setMetadata", async () => {
+    await dirClient.setMetadata({});
+    let properties = await dirClient.getProperties();
+    assert.deepStrictEqual(properties.metadata, {});
+
+    const metadata = { key1: "Value1" };
+    await dirClient.setMetadata(metadata);
+    properties = await dirClient.getProperties();
+    assert.deepStrictEqual(properties.metadata, metadata);
+  });
+
+  it("listFilesAndDirectories", async () => {
+    const fileName = recorder.getUniqueName("file") + "...";
+    const fileClient = dirClient.getFileClient(fileName);
+    await fileClient.create(1024);
+
+    let foundFile = false;
+    for await (const item of dirClient.listFilesAndDirectories()) {
+      if (item.name === fileName) {
+        assert.equal(item.kind, "file");
+        foundFile = true;
+      }
+    }
+
+    assert.ok(foundFile, "Should found the file.");
+  });
+
+  it("forceCloseHandle", async () => {
+    // TODO: Open or create a handle; Currently can only be done manually; No REST APIs for creating handles
+
+    const result = (await dirClient.listHandles().byPage().next()).value;
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const handle = result.handleList[0];
+      await dirClient.forceCloseHandle(handle.handleId);
+    }
+  });
+
+  it("forceCloseAllHandles", async () => {
+    // TODO: Open or create a handle; Currently can only be done manually; No REST APIs for creating handles - Has to be tested locally
+
+    assert.deepStrictEqual(
+      await dirClient.forceCloseAllHandles(),
+      { closedHandlesCount: 0, closeFailureCount: 0 },
+      "Error in forceCloseAllHandles"
+    );
+  });
+});
+
+describe("DirectoryClient - AllowingTrailingDot - False", () => {
+  let shareName: string;
+  let shareClient: ShareClient;
+  let dirName: string;
+  let dirClient: ShareDirectoryClient;
+  let recorder: Recorder;
+  const fullDirAttributes = new FileSystemAttributes();
+  fullDirAttributes.readonly = true;
+  fullDirAttributes.hidden = true;
+  fullDirAttributes.system = true;
+  fullDirAttributes.directory = true;
+  fullDirAttributes.archive = true;
+  fullDirAttributes.offline = true;
+  fullDirAttributes.notContentIndexed = true;
+  fullDirAttributes.noScrubData = true;
+
+  beforeEach(async function (this: Context) {
+    recorder = record(this, recorderEnvSetup);
+    const serviceClient = getBSU({ allowTrailingDot: false });
+    shareName = recorder.getUniqueName("share");
+    shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create();
+
+    dirName = recorder.getUniqueName("dir") + ".";
+    dirClient = shareClient.getDirectoryClient(dirName);
+
+    await dirClient.create();
+  });
+
+  afterEach(async function () {
+    await shareClient.delete();
+    await recorder.stop();
+  });
+
+  it("create", async () => {
+    // directory has already been created in beforeEach
+    let foundDir = false;
+    for await (const item of shareClient.getDirectoryClient("").listFilesAndDirectories()) {
+      if (item.name === dirName.substring(0, dirName.length - 1)) {
+        assert.equal(item.kind, "directory");
+        foundDir = true;
+      }
+    }
+
+    assert.ok(foundDir, "The directory with trimmed trailing dot is created.");
+  });
+});
+
+describe("DirectoryClient - OAuth", () => {
+  let shareName: string;
+  let shareClient: ShareClient;
+  let shareClientWithKeyCredential: ShareClient;
+  let dirName: string;
+  let dirClient: ShareDirectoryClient;
+  let defaultDirCreateResp: DirectoryCreateResponse;
+  let recorder: Recorder;
+  const fullDirAttributes = new FileSystemAttributes();
+  fullDirAttributes.readonly = true;
+  fullDirAttributes.hidden = true;
+  fullDirAttributes.system = true;
+  fullDirAttributes.directory = true;
+  fullDirAttributes.archive = true;
+  fullDirAttributes.offline = true;
+  fullDirAttributes.notContentIndexed = true;
+  fullDirAttributes.noScrubData = true;
+
+  beforeEach(async function (this: Context) {
+    recorder = record(this, recorderEnvSetup);
+    shareName = recorder.getUniqueName("share");
+    shareClientWithKeyCredential = getBSU().getShareClient(shareName);
+    await shareClientWithKeyCredential.create();
+
+    shareClient = getTokenBSUWithDefaultCredential("", "", "backup").getShareClient(shareName);
+
+    dirName = recorder.getUniqueName("dir");
+    dirClient = shareClient.getDirectoryClient(dirName);
+
+    defaultDirCreateResp = await dirClient.create();
+    assert.equal(defaultDirCreateResp.errorCode, undefined);
+    assert.equal(defaultDirCreateResp.fileAttributes!, "Directory");
+    assert.ok(defaultDirCreateResp.fileChangeOn!);
+    assert.ok(defaultDirCreateResp.fileCreatedOn!);
+    assert.ok(defaultDirCreateResp.fileId!);
+    assert.ok(defaultDirCreateResp.fileLastWriteOn!);
+    assert.ok(defaultDirCreateResp.fileParentId!);
+    assert.ok(defaultDirCreateResp.filePermissionKey!);
+  });
+
+  afterEach(async function () {
+    await shareClientWithKeyCredential.delete();
+    await recorder.stop();
+  });
+
+  it("setMetadata", async () => {
+    const metadata = {
+      key0: "val0",
+      keya: "vala",
+      keyb: "valb",
+    };
+    try {
+      await dirClient.setMetadata(metadata);
+
+      const result = await dirClient.getProperties();
+      assert.deepEqual(result.metadata, metadata);
+    } catch (err: any) {
+      console.log(err);
+    }
+  });
+
+  it("getProperties", async () => {
+    const result = await dirClient.getProperties();
+    assert.ok(result.etag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+  });
+
+  it("create", (done) => {
+    // create() with default parameters has been tested in beforeEach
+    done();
+  });
+
+  it("createIfNotExists", async () => {
+    const res = await dirClient.createIfNotExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "ResourceAlreadyExists");
+
+    const dirClient2 = shareClient.getDirectoryClient(recorder.getUniqueName(dirName));
+    const res2 = await dirClient2.createIfNotExists();
+    assert.ok(res2.succeeded);
+
+    await dirClient2.delete();
+  });
+
+  it("deleteIfExists", async () => {
+    const dirClient2 = shareClient.getDirectoryClient(recorder.getUniqueName(dirName));
+    const res = await dirClient2.deleteIfExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "ResourceNotFound");
+
+    await dirClient2.create();
+    const res2 = await dirClient2.deleteIfExists();
+    assert.ok(res2.succeeded);
+  });
+
+  it("exists", async () => {
+    assert.ok(await dirClient.exists());
+    const dirClient2 = shareClient.getDirectoryClient(recorder.getUniqueName(dirName));
+    assert.ok(!(await dirClient2.exists()));
+  });
+
+  it("setProperties and getProperties", async () => {
+    await dirClient.setProperties();
+
+    const result = await dirClient.getProperties();
+    assert.equal(result.errorCode, undefined);
+    assert.equal(result.fileAttributes!, defaultDirCreateResp.fileAttributes!);
+    assert.equal(
+      truncatedISO8061Date(result.fileCreatedOn!),
+      truncatedISO8061Date(defaultDirCreateResp.fileCreatedOn!)
+    );
+    assert.equal(
+      truncatedISO8061Date(result.fileLastWriteOn!),
+      truncatedISO8061Date(defaultDirCreateResp.fileLastWriteOn!)
+    );
+    assert.equal(result.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
+    assert.ok(result.fileChangeOn!);
+    assert.ok(result.fileId!);
+    assert.ok(result.fileParentId!);
+  });
+
+  it("setProperties with all parameters configured setting filePermission", async () => {
+    const getPermissionResp = await shareClient.getPermission(
+      defaultDirCreateResp.filePermissionKey!
+    );
+
+    const now = recorder.newDate("now");
+
+    await dirClient.setProperties({
+      creationTime: now,
+      lastWriteTime: now,
+      changeTime: now,
+      filePermission: getPermissionResp.permission,
+      fileAttributes: fullDirAttributes,
+    });
+
+    const result = await dirClient.getProperties();
+    assert.equal(result.errorCode, undefined);
+    const respFileAttributes = FileSystemAttributes.parse(result.fileAttributes!);
+    assert.ok(respFileAttributes.readonly);
+    assert.ok(respFileAttributes.hidden);
+    assert.ok(respFileAttributes.system);
+    assert.ok(respFileAttributes.directory);
+    assert.ok(respFileAttributes.archive);
+    assert.ok(respFileAttributes.offline);
+    assert.ok(respFileAttributes.notContentIndexed);
+    assert.ok(respFileAttributes.noScrubData);
+    assert.equal(truncatedISO8061Date(result.fileCreatedOn!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileLastWriteOn!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileChangeOn!), truncatedISO8061Date(now));
+    assert.ok(result.filePermissionKey!);
+    assert.ok(result.fileChangeOn!);
+    assert.ok(result.fileId!);
+    assert.ok(result.fileParentId!);
+  });
+
+  it("delete", (done) => {
+    // delete() with default parameters has been tested in afterEach
+    done();
+  });
+
+  it("listFilesAndDirectories", async () => {
+    const subDirClients = [];
+
+    for (let i = 0; i < 3; i++) {
+      const subDirClient = dirClient.getDirectoryClient(recorder.getUniqueName(`dir${i}`));
+      await subDirClient.create();
+      subDirClients.push(subDirClient);
+    }
+
+    const subFileClients = [];
+    for (let i = 0; i < 3; i++) {
+      const subFileClient = dirClient.getFileClient(recorder.getUniqueName(`file${i}`));
+      await subFileClient.create(1024);
+      subFileClients.push(subFileClient);
+    }
+
+    const result = (await dirClient.listFilesAndDirectories().byPage().next()).value;
+
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(shareClient.url.indexOf(result.shareName));
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.segment.directoryItems.length, subDirClients.length);
+    assert.deepStrictEqual(result.segment.fileItems.length, subFileClients.length);
+
+    let i = 0;
+    for (const entry of result.segment.directoryItems) {
+      assert.ok(subDirClients[i++].url.indexOf(entry.name) > 0);
+    }
+
+    i = 0;
+    for (const entry of result.segment.fileItems) {
+      assert.ok(subFileClients[i++].url.indexOf(entry.name) > 0);
+    }
+
+    for (const subFile of subFileClients) {
+      await subFile.delete();
+    }
+    for (const subDir of subDirClients) {
+      await subDir.delete();
+    }
+  });
+
+  it("listFilesAndDirectories - with invalid char", async () => {
+    const subDirClients = [];
+    const subDirNames = [];
+
+    const dirName = recorder.getUniqueName("dir\uFFFE");
+    const dirWithInvalidChar = shareClient.getDirectoryClient(dirName);
+    await dirWithInvalidChar.create();
+
+    for (let i = 0; i < 3; i++) {
+      const subDirClient = dirWithInvalidChar.getDirectoryClient(
+        recorder.getUniqueName(`dir\uFFFE${i}`)
+      );
+      await subDirClient.create();
+      subDirClients.push(subDirClient);
+      subDirNames.push(subDirClient.name);
+    }
+
+    const subFileClients = [];
+    const subFileNames = [];
+    for (let i = 0; i < 3; i++) {
+      const subFileClient = dirWithInvalidChar.getFileClient(
+        recorder.getUniqueName(`file\uFFFE${i}`)
+      );
+      await subFileClient.create(1024);
+      subFileClients.push(subFileClient);
+      subFileNames.push(subFileClient.name);
+    }
+
+    // List all
+    let result = (
+      await dirWithInvalidChar
+        .listFilesAndDirectories({
+          prefix: "",
+          includeTimestamps: true,
+          includeEtag: true,
+          includeAttributes: true,
+          includePermissionKey: true,
+          includeExtendedInfo: true,
+        })
+        .byPage()
+        .next()
+    ).value;
+
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(shareClient.url.indexOf(result.shareName));
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.segment.directoryItems.length, subDirClients.length);
+    assert.deepStrictEqual(result.segment.fileItems.length, subFileClients.length);
+    assert.deepStrictEqual(result.directoryPath, dirName);
+
+    let resultDirNames = [];
+    for (const entry of result.segment.directoryItems) {
+      resultDirNames.push(entry.name);
+      assert.ok(entry.fileId);
+      assert.ok(entry.attributes);
+      assert.ok(entry.permissionKey);
+      assert.ok(entry.properties.creationTime);
+      assert.ok(entry.properties.lastAccessTime);
+      assert.ok(entry.properties.changeTime);
+      assert.ok(entry.properties.lastModified);
+      assert.ok(entry.properties.etag);
+    }
+
+    for (const subDirName of subDirNames) {
+      assert.ok(resultDirNames.includes(subDirName));
+    }
+
+    let resultFileNames = [];
+    for (const entry of result.segment.fileItems) {
+      resultFileNames.push(entry.name);
+      assert.ok(entry.fileId);
+      assert.ok(entry.attributes);
+      assert.ok(entry.permissionKey);
+      assert.ok(entry.properties.creationTime);
+      assert.ok(entry.properties.lastAccessTime);
+      assert.ok(entry.properties.changeTime);
+      assert.ok(entry.properties.lastModified);
+      assert.ok(entry.properties.etag);
+    }
+
+    for (const subFileName of subFileNames) {
+      assert.ok(resultFileNames.includes(subFileName));
+    }
+
+    //List with dir prefix
+    result = (
+      await dirWithInvalidChar
+        .listFilesAndDirectories({
+          prefix: "dir\uFFFE",
+          includeTimestamps: true,
+          includeEtag: true,
+          includeAttributes: true,
+          includePermissionKey: true,
+          includeExtendedInfo: true,
+        })
+        .byPage()
+        .next()
+    ).value;
+
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(shareClient.url.indexOf(result.shareName));
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.segment.directoryItems.length, subDirClients.length);
+    assert.deepStrictEqual(result.segment.fileItems.length, 0);
+    assert.deepStrictEqual(result.prefix, "dir\uFFFE");
+    assert.deepStrictEqual(result.directoryPath, dirName);
+
+    resultDirNames = [];
+    for (const entry of result.segment.directoryItems) {
+      resultDirNames.push(entry.name);
+      assert.ok(entry.fileId);
+      assert.ok(entry.attributes);
+      assert.ok(entry.permissionKey);
+      assert.ok(entry.properties.creationTime);
+      assert.ok(entry.properties.lastAccessTime);
+      assert.ok(entry.properties.changeTime);
+      assert.ok(entry.properties.lastModified);
+      assert.ok(entry.properties.etag);
+    }
+
+    for (const subDirName of subDirNames) {
+      assert.ok(resultDirNames.includes(subDirName));
+    }
+
+    //List with file prefix
+    result = (
+      await dirWithInvalidChar
+        .listFilesAndDirectories({
+          prefix: "file\uFFFE",
+          includeTimestamps: true,
+          includeEtag: true,
+          includeAttributes: true,
+          includePermissionKey: true,
+          includeExtendedInfo: true,
+        })
+        .byPage()
+        .next()
+    ).value;
+
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(shareClient.url.indexOf(result.shareName));
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.segment.directoryItems.length, 0);
+    assert.deepStrictEqual(result.segment.fileItems.length, subFileClients.length);
+    assert.deepStrictEqual(result.prefix, "file\uFFFE");
+    assert.deepStrictEqual(result.directoryPath, dirName);
+
+    resultFileNames = [];
+    for (const entry of result.segment.fileItems) {
+      resultFileNames.push(entry.name);
+      assert.ok(entry.fileId);
+      assert.ok(entry.attributes);
+      assert.ok(entry.permissionKey);
+      assert.ok(entry.properties.creationTime);
+      assert.ok(entry.properties.lastAccessTime);
+      assert.ok(entry.properties.changeTime);
+      assert.ok(entry.properties.lastModified);
+      assert.ok(entry.properties.etag);
+    }
+
+    for (const subFileName of subFileNames) {
+      assert.ok(resultFileNames.includes(subFileName));
+    }
+
+    for (const subFile of subFileClients) {
+      await subFile.delete();
+    }
+    for (const subDir of subDirClients) {
+      await subDir.delete();
+    }
+
+    dirWithInvalidChar.delete();
+  });
+
+  it("createSubDirectory and deleteSubDirectory", async () => {
+    const directoryName = recorder.getUniqueName("directory");
+    const metadata = { key: "value" };
+
+    const { directoryClient: subDirClient } = await dirClient.createSubdirectory(directoryName, {
+      metadata,
+    });
+    const result = await subDirClient.getProperties();
+    assert.deepEqual(result.metadata, metadata);
+
+    await dirClient.deleteSubdirectory(directoryName);
+    try {
+      await subDirClient.getProperties();
+      assert.fail(
+        "Expecting an error in getting properties from a deleted block blob but didn't get one."
+      );
+    } catch (error: any) {
+      assert.ok((error.statusCode as number) === 404);
+    }
+  });
+
+  it("createFile and deleteFile", async () => {
+    const directoryName = recorder.getUniqueName("directory");
+    const { directoryClient: subDirClient } = await dirClient.createSubdirectory(directoryName);
+    const fileName = recorder.getUniqueName("file");
+    const metadata = { key: "value" };
+    const { fileClient } = await subDirClient.createFile(fileName, 256, { metadata });
+    const result = await fileClient.getProperties();
+    assert.deepEqual(result.metadata, metadata);
+
+    await subDirClient.deleteFile(fileName);
+    try {
+      await fileClient.getProperties();
+      assert.fail(
+        "Expecting an error in getting properties from a deleted block blob but didn't get one."
+      );
+    } catch (error: any) {
+      assert.ok((error.statusCode as number) === 404);
+    }
+    await subDirClient.delete();
+  });
+
+  it("listHandles", async () => {
+    // TODO: Open or create a handle; Currently can only be done manually; No REST APIs for creating handles
+
+    const result = (await dirClient.listHandles().byPage().next()).value;
+
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const handle = result.handleList[0];
+      assert.notDeepEqual(handle.handleId, undefined);
+      assert.notDeepEqual(handle.path, undefined);
+      assert.notDeepEqual(handle.fileId, undefined);
+      assert.notDeepEqual(handle.sessionId, undefined);
+      assert.notDeepEqual(handle.clientIp, undefined);
+      assert.notDeepEqual(handle.openTime, undefined);
+    }
+  });
+
+  it("forceCloseAllHandles", async () => {
+    // TODO: Open or create a handle; Currently can only be done manually; No REST APIs for creating handles - Has to be tested locally
+
+    assert.deepStrictEqual(
+      await dirClient.forceCloseAllHandles(),
+      { closedHandlesCount: 0, closeFailureCount: 0 },
+      "Error in forceCloseAllHandles"
+    );
+  });
+
+  it("forceCloseHandle", async () => {
+    // TODO: Open or create a handle; Currently can only be done manually; No REST APIs for creating handles
+
+    const result = (await dirClient.listHandles().byPage().next()).value;
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const handle = result.handleList[0];
+      await dirClient.forceCloseHandle(handle.handleId);
+    }
+  });
+
+  it("rename", async () => {
+    const destDirName = recorder.getUniqueName("destdir");
+    const result = await dirClient.rename(destDirName);
+    assert.ok(
+      result.destinationDirectoryClient.name === destDirName,
+      "Destination name should be expected"
+    );
+
+    // Validate destination existence.
+    await result.destinationDirectoryClient.getProperties();
+
+    try {
+      await dirClient.getProperties();
+      assert.fail("Source directory should not exist anymore");
+    } catch (err: any) {
+      assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
+    }
   });
 });

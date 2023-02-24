@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { DefaultAzureCredential } from "@azure/identity";
 import { AnonymousCredential } from "../../src/credentials/AnonymousCredential";
 import { newPipeline } from "../../src/Pipeline";
 import { ShareServiceClient } from "../../src/ShareServiceClient";
@@ -36,6 +37,22 @@ export function getGenericBSU(
   });
   const filePrimaryURL = `https://${accountName}${accountNameSuffix}.file.core.windows.net${accountSAS}`;
   return new ShareServiceClient(filePrimaryURL, pipeline);
+}
+
+export function getTokenBSUWithDefaultCredential(
+  accountType: string = "",
+  accountNameSuffix: string = ""
+): ShareServiceClient {
+  const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
+  const accountName = process.env[accountNameEnvVar];
+  if (!accountName || accountName === "") {
+    throw new Error(`${accountNameEnvVar} environment variables not specified.`);
+  }
+
+  const credential = new DefaultAzureCredential();
+  const pipeline = newPipeline(credential);
+  const sharePrimaryURL = `https://${accountName}${accountNameSuffix}.file.core.windows.net/`;
+  return new ShareServiceClient(sharePrimaryURL, pipeline);
 }
 
 export function getBSU(): ShareServiceClient {

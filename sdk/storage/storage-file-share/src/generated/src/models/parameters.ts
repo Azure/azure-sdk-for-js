@@ -100,7 +100,7 @@ export const timeoutInSeconds: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2021-12-02",
+    defaultValue: "2022-11-02",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {
@@ -453,6 +453,18 @@ export const comp4: OperationQueryParameter = {
   }
 };
 
+export const fileRequestIntent: OperationParameter = {
+  parameterPath: ["options", "fileRequestIntent"],
+  mapper: {
+    serializedName: "x-ms-file-request-intent",
+    xmlName: "x-ms-file-request-intent",
+    type: {
+      name: "Enum",
+      allowedValues: ["none", "backup"]
+    }
+  }
+};
+
 export const accept2: OperationParameter = {
   parameterPath: "accept",
   mapper: {
@@ -574,6 +586,17 @@ export const restype2: OperationQueryParameter = {
     serializedName: "restype",
     type: {
       name: "String"
+    }
+  }
+};
+
+export const allowTrailingDot: OperationParameter = {
+  parameterPath: ["options", "allowTrailingDot"],
+  mapper: {
+    serializedName: "x-ms-allow-trailing-dot",
+    xmlName: "x-ms-allow-trailing-dot",
+    type: {
+      name: "Boolean"
     }
   }
 };
@@ -834,6 +857,17 @@ export const fileChangeTime: OperationParameter = {
     xmlName: "x-ms-file-change-time",
     type: {
       name: "String"
+    }
+  }
+};
+
+export const allowSourceTrailingDot: OperationParameter = {
+  parameterPath: ["options", "allowSourceTrailingDot"],
+  mapper: {
+    serializedName: "x-ms-source-allow-trailing-dot",
+    xmlName: "x-ms-source-allow-trailing-dot",
+    type: {
+      name: "Boolean"
     }
   }
 };

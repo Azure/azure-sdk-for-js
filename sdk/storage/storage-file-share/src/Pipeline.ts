@@ -12,7 +12,6 @@ import {
   RequestPolicy,
   RequestPolicyFactory,
   RequestPolicyOptions,
-  ServiceClientOptions,
   WebResource,
   proxyPolicy,
   isNode,
@@ -23,6 +22,8 @@ import {
   KeepAliveOptions,
   keepAlivePolicy,
   generateClientRequestIdPolicy,
+  isTokenCredential,
+  bearerTokenAuthenticationPolicy,
 } from "@azure/core-http";
 
 import { logger } from "./log";
@@ -33,9 +34,14 @@ import { TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import {
   StorageFileLoggingAllowedHeaderNames,
   StorageFileLoggingAllowedQueryParameters,
+  StorageOAuthScopes,
 } from "./utils/constants";
 import { getCachedDefaultHttpClient } from "./utils/cache";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { TokenCredential } from "@azure/identity";
+import { attachCredential } from "./utils/utils.common";
+import { ShareFileRequestIntent } from "./generatedModels";
+import { ServiceClientOptions } from "@azure/core-http";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -60,6 +66,10 @@ export interface PipelineOptions {
    * Optional. Configures the HTTP client to send requests and receive responses.
    */
   httpClient?: IHttpClient;
+  /**
+   * File request intent.
+   */
+  fileRequestIntent?: ShareFileRequestIntent;
 }
 
 /**
@@ -93,6 +103,7 @@ export class Pipeline {
     this.options = {
       ...options,
       httpClient: options.httpClient || getCachedDefaultHttpClient(),
+      fileRequestIntent: options.fileRequestIntent,
     };
   }
 
@@ -144,7 +155,7 @@ export interface StoragePipelineOptions {
  * @returns A new Pipeline object.
  */
 export function newPipeline(
-  credential?: Credential,
+  credential?: Credential | TokenCredential,
   pipelineOptions: StoragePipelineOptions = {}
 ): Pipeline {
   if (credential === undefined) {
@@ -175,7 +186,15 @@ export function newPipeline(
     factories.push(proxyPolicy(pipelineOptions.proxyOptions));
     factories.push(disableResponseDecompressionPolicy());
   }
-  factories.push(credential);
+
+  factories.push(
+    isTokenCredential(credential)
+      ? attachCredential(
+          bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes),
+          credential
+        )
+      : credential
+  );
 
   return new Pipeline(factories, pipelineOptions);
 }

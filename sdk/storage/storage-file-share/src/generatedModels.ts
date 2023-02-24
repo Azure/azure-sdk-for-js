@@ -36,6 +36,7 @@ export {
   ShareCreateResponse,
   ShareCreateSnapshotResponse,
   ShareDeleteResponse,
+  ShareFileRequestIntent,
   ShareGetAccessPolicyHeaders,
   ShareGetPermissionResponse,
   ShareGetPropertiesResponse as ShareGetPropertiesResponseModel,

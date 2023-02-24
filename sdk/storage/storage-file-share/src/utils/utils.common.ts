@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
+import { HttpHeaders, isNode, TokenCredential, URLBuilder } from "@azure/core-http";
 import {
   ListFilesAndDirectoriesSegmentResponse as ListFilesAndDirectoriesSegmentResponseInternal,
   ListHandlesResponse as ListHandlesResponseInternal,
@@ -525,6 +525,17 @@ export function getShareNameAndPathFromUrl(url: string): {
       "Unable to extract shareName and filePath/directoryPath with provided information."
     );
   }
+}
+
+/**
+ * Attach a TokenCredential to an object.
+ *
+ * @param thing -
+ * @param credential -
+ */
+export function attachCredential<T>(thing: T, credential: TokenCredential): T {
+  (thing as any).credential = credential;
+  return thing;
 }
 
 export function httpAuthorizationToString(
