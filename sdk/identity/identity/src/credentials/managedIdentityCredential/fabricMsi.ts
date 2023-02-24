@@ -75,6 +75,7 @@ function prepareRequestOptions(
  * Defines how to determine whether the Azure Service Fabric MSI is available, and also how to retrieve a token from the Azure Service Fabric MSI.
  */
 export const fabricMsi: MSI = {
+  name: "fabricMsi",
   async isAvailable({ scopes }): Promise<boolean> {
     const resource = mapScopesToResource(scopes);
     if (!resource) {

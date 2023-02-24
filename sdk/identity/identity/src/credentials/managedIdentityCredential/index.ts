@@ -245,9 +245,15 @@ export class ManagedIdentityCredential implements TokenCredential {
                 appTokenProviderParameters
               )}`
             );
+
+            const availableMSI = await this.cachedAvailableMSI(scopes, updatedOptions);
+            const appTokenParams = { ...appTokenProviderParameters };
+            if (availableMSI.name === "tokenExchangeMsi") {
+              appTokenParams.tenantId = process.env.AZURE_TENANT_ID!;
+            }
             const resultToken = await this.authenticateManagedIdentity(scopes, {
               ...updatedOptions,
-              ...appTokenProviderParameters,
+              ...appTokenParams,
             });
 
             if (resultToken) {
@@ -346,7 +352,6 @@ export class ManagedIdentityCredential implements TokenCredential {
         logger.getToken.info(formatError(scopes, error));
         throw error;
       }
-
       // If err.statusCode has a value of 400, it comes from sendTokenRequest,
       // and it means that the endpoint is working, but that no identity is available.
       if (err.statusCode === 400) {
