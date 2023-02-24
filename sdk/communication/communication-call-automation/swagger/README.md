@@ -21,12 +21,11 @@ azure-arm: false
 add-credentials: false
 use-extension:
   "@autorest/typescript": "latest"
-```
-
-```yaml
 directive:
-  from: swagger-document
-  where: "$.definitions.CallParticipant"
-  transform: >
-    $["x-ms-client-name"] = "CallParticipantInternal";
+- rename-model:
+    from: CallParticipant
+    to: CallParticipantInternal
+- rename-model:
+    from: CallConnectionProperties
+    to: CallConnectionPropertiesInternal
 ```
