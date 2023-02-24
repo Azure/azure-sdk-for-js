@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Add support for logging API warnings that are part of warn-text response headers.
+
 ### Breaking Changes
 
 ### Bugs Fixed
