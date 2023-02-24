@@ -218,6 +218,7 @@ describe("ManagedIdentityCredential", function () {
         { error: new RestError(errorMessage, { statusCode: 500 }) },
       ],
     });
+    console.log(error?.message);
     assert.ok(error?.message.startsWith(errorMessage));
   });
 
