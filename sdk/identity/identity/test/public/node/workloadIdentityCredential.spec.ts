@@ -40,11 +40,13 @@ describe.skip("WorkloadIdentityCredential", function () {
 
   it("authenticates with WorkloadIdentity Credential", async function (this: Context) {
     const fileDir = await setupFileandEnv("workload-identity");
-    const credential = new WorkloadIdentityCredential(recorder.configureClientOptions({
+    const credential = new WorkloadIdentityCredential(
+      recorder.configureClientOptions({
         clientId: clientId,
         tenantId: tenantId,
         federatedTokenFilePath: fileDir.tempFile,
-      }));
+      })
+    );
     try {
       const token = await credential.getToken(scope);
       assert.ok(token?.token);
