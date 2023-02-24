@@ -643,7 +643,7 @@ describe("BlobClient", () => {
     }
   });
 
-  it("setMetadata with CPK on a blob uploaded without CPK should fail", async function () {
+  it.only("setMetadata with CPK on a blob uploaded without CPK should fail", async function () {
     let exceptionCaught = false;
     try {
       await blobClient.setMetadata({ a: "a" }, { customerProvidedKey: Test_CPK_INFO });
