@@ -12,11 +12,11 @@ urlFragment: agrifood-farming-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure FarmBeats rest in some common scenarios.
 
-| **File Name**                   | **Description**        |
-| ------------------------------- | ---------------------- |
-| [deleteFarmer.js][deletefarmer] | deletes a farmer       |
-| [listFarmers.js][listfarmers]   | gets a list of farmers |
-| [createFarmer.js][createfarmer] | creates a farmer       |
+| **File Name**                 | **Description**        |
+| ----------------------------- | ---------------------- |
+| [deleteParty.js][deleteparty] | deletes a party        |
+| [listParties.js][listparties] | gets a list of parties |
+| [createParty.js][createparty] | creates a party        |
 
 ## Prerequisites
 
@@ -45,22 +45,22 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node deleteFarmer.js
+node deleteParty.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env FARMBEATS_ENDPOINT="<farmbeats endpoint>" node deleteFarmer.js
+npx cross-env FARMBEATS_ENDPOINT="<farmbeats endpoint>" node deleteParty.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[deletefarmer]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/agrifood/agrifood-farming-rest/samples/v1/javascript/deleteFarmer.js
-[listfarmers]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/agrifood/agrifood-farming-rest/samples/v1/javascript/listFarmers.js
-[createfarmer]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/agrifood/agrifood-farming-rest/samples/v1/javascript/createFarmer.js
+[deleteparty]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/agrifood/agrifood-farming-rest/samples/v1/javascript/deleteParty.js
+[listparties]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/agrifood/agrifood-farming-rest/samples/v1/javascript/listParties.js
+[createparty]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/agrifood/agrifood-farming-rest/samples/v1/javascript/createParty.js
 [apiref]: https://docs.microsoft.com/javascript
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurefarmbeatsserviceinstance]: https://docs.microsoft.com/azure/industry/agriculture/install-azure-farmbeats

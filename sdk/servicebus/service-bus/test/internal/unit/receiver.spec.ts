@@ -279,6 +279,8 @@ describe("Receiver unit tests", () => {
         connectionContext,
         "entity path",
         "peekLock",
+        false,
+        false,
         undefined
       );
 
