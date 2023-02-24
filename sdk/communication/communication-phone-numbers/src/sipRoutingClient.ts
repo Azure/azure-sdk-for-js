@@ -104,18 +104,33 @@ export class SipRoutingClient {
    * @param options - The options parameters.
    */
   public listTrunks(options: ListSipTrunksOptions = {}): PagedAsyncIterableIterator<SipTrunk> {
-    const iter = this.listTrunksPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listTrunksPagingPage(options);
-      },
-    };
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "SipRoutingClient-listTrunks",
+      options
+    );
+
+    try {
+      const iter = this.listTrunksPagingAll({ ...updatedOptions });
+      return {
+        next() {
+          return iter.next();
+        },
+        [Symbol.asyncIterator]() {
+          return this;
+        },
+        byPage: () => {
+          return this.listTrunksPagingPage({ ...updatedOptions });
+        },
+      };
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -139,18 +154,33 @@ export class SipRoutingClient {
    * @param options - The options parameters.
    */
   public listRoutes(options: ListSipRoutesOptions = {}): PagedAsyncIterableIterator<SipTrunkRoute> {
-    const iter = this.listRoutesPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listRoutesPagingPage(options);
-      },
-    };
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "SipRoutingClient-listRoutes",
+      options
+    );
+
+    try {
+      const iter = this.listRoutesPagingAll({ ...updatedOptions });
+      return {
+        next() {
+          return iter.next();
+        },
+        [Symbol.asyncIterator]() {
+          return this;
+        },
+        byPage: () => {
+          return this.listRoutesPagingPage({ ...updatedOptions });
+        },
+      };
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
