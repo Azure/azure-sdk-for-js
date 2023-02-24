@@ -96,8 +96,7 @@ export type GetParticipantOptions = OperationOptions;
 /**
  * Options to get a start a recording.
  */
-export type CallRecordingStartRecordingOptions =
-  RestCallRecordingStartRecordingOptions;
+export type CallRecordingStartRecordingOptions = RestCallRecordingStartRecordingOptions;
 
 /**
  * Options to get a stop a recording.

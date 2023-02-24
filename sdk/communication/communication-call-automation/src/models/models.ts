@@ -97,9 +97,7 @@ export interface RecordingStateResponseDto {
   recordingState?: RecordingState;
 }
 
-function instanceOfPhoneNumberIdentity(
-  object: any
-): object is PhoneNumberIdentifier {
+function instanceOfPhoneNumberIdentity(object: any): object is PhoneNumberIdentifier {
   return "phoneNumber" in object;
 }
 
@@ -150,9 +148,7 @@ export class CallInvite {
 
   constructor(
     targetIdentity: PhoneNumberIdentifier | CommunicationUserIdentifier,
-    callerIdNumberOrHeaders?:
-      | PhoneNumberIdentifier
-      | { [propertyName: string]: string },
+    callerIdNumberOrHeaders?: PhoneNumberIdentifier | { [propertyName: string]: string },
     maybeHeaders?: { [propertyName: string]: string }
   ) {
     this.target = targetIdentity;

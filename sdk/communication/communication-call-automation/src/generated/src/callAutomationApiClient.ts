@@ -189,7 +189,7 @@ const createCallOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     201: {
-      bodyMapper: Mappers.CallConnectionPropertiesInternal
+      bodyMapper: Mappers.CallConnectionProperties
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -212,7 +212,7 @@ const answerCallOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CallConnectionPropertiesInternal
+      bodyMapper: Mappers.CallConnectionProperties
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
