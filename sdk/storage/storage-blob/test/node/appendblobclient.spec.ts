@@ -43,7 +43,11 @@ describe("AppendBlobClient Node.js only", () => {
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
-          headersForRemoval: ["x-ms-copy-source", "x-ms-copy-source-authorization", "x-ms-encryption-key"],
+          headersForRemoval: [
+            "x-ms-copy-source",
+            "x-ms-copy-source-authorization",
+            "x-ms-encryption-key",
+          ],
         },
       },
       ["playback", "record"]
