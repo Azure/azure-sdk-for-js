@@ -231,6 +231,15 @@ export class ManagedIdentityCredential implements TokenCredential {
       // If it's null, it means we don't yet know whether
       // the endpoint is available and need to check for it.
       if (this.isEndpointUnavailable !== true) {
+        const availableMSI = await this.cachedAvailableMSI(scopes, updatedOptions);
+        if (availableMSI.name === "tokenExchangeMsi") {
+          result = await this.authenticateManagedIdentity(scopes, updatedOptions);
+        }
+        else{
+
+
+       
+
         const appTokenParameters: AppTokenProviderParameters = {
           correlationId: this.identityClient.getCorrelationId(),
           tenantId: options?.tenantId || "organizations",
@@ -246,14 +255,9 @@ export class ManagedIdentityCredential implements TokenCredential {
               )}`
             );
 
-            const availableMSI = await this.cachedAvailableMSI(scopes, updatedOptions);
-            const appTokenParams = { ...appTokenProviderParameters };
-            if (availableMSI.name === "tokenExchangeMsi") {
-              appTokenParams.tenantId = process.env.AZURE_TENANT_ID!;
-            }
-            const resultToken = await this.authenticateManagedIdentity(scopes, {
+             const resultToken = await this.authenticateManagedIdentity(scopes, {
               ...updatedOptions,
-              ...appTokenParams,
+              ...appTokenProviderParameters,
             });
 
             if (resultToken) {
@@ -282,6 +286,7 @@ export class ManagedIdentityCredential implements TokenCredential {
           ...appTokenParameters,
         });
         result = this.handleResult(scopes, authenticationResult || undefined);
+      }
         if (result === null) {
           // If authenticateManagedIdentity returns null,
           // it means no MSI endpoints are available.
