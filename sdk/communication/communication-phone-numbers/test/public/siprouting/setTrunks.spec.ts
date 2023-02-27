@@ -6,13 +6,15 @@ import { Context } from "mocha";
 
 import { SipRoutingClient } from "../../../src";
 
-import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { SipTrunk, SipTrunkRoute } from "../../../src/models";
 import {
   clearSipConfiguration,
   createRecordedClient,
   createRecordedClientWithToken,
   getUniqueFqdn,
+  listAllRoutes,
+  listAllTrunks,
   resetUniqueFqdns,
 } from "./utils/recordedClient";
 import { matrix } from "@azure/test-utils";
@@ -79,7 +81,7 @@ matrix([[true, false]], async function (useAad) {
       const setTrunks = await client.setTrunks(trunks);
       assert.deepEqual(setTrunks, trunks);
 
-      const storedTrunks = await client.getTrunks();
+      const storedTrunks = await listAllTrunks(client);
       assert.deepEqual(storedTrunks, trunks);
     });
 
@@ -96,7 +98,7 @@ matrix([[true, false]], async function (useAad) {
       const setTrunks = await client.setTrunks(trunks);
       assert.deepEqual(setTrunks, trunks);
 
-      const storedTrunks = await client.getTrunks();
+      const storedTrunks = await listAllTrunks(client);
       assert.deepEqual(storedTrunks, trunks);
     });
 
@@ -105,7 +107,7 @@ matrix([[true, false]], async function (useAad) {
 
       await client.setTrunks([]);
 
-      const storedTrunks = await client.getTrunks();
+      const storedTrunks = await listAllTrunks(client);
       assert.isNotNull(storedTrunks);
       assert.isArray(storedTrunks);
       assert.isEmpty(storedTrunks);
@@ -120,7 +122,7 @@ matrix([[true, false]], async function (useAad) {
 
       await client.setTrunks([]);
 
-      const storedTrunks = await client.getTrunks();
+      const storedTrunks = await listAllTrunks(client);
       assert.isNotNull(storedTrunks);
       assert.isArray(storedTrunks);
       assert.isEmpty(storedTrunks);
@@ -192,7 +194,7 @@ matrix([[true, false]], async function (useAad) {
         await client.setTrunks([{ fqdn: firstFqdn, sipSignalingPort: 1234 }]);
       } catch (error: any) {
         assert.equal(error.code, "UnprocessableConfiguration");
-        const storedTrunks = await client.getTrunks();
+        const storedTrunks = await listAllTrunks(client);
         assert.isNotNull(storedTrunks);
         assert.isArray(storedTrunks);
         assert.deepEqual(storedTrunks, expectedTrunks);
@@ -230,8 +232,8 @@ matrix([[true, false]], async function (useAad) {
       ];
       await client.setTrunks(trunks);
 
-      assert.deepEqual(await client.getTrunks(), trunks);
-      assert.deepEqual(await client.getRoutes(), routes);
+      assert.deepEqual(await listAllTrunks(client), trunks);
+      assert.deepEqual(await listAllRoutes(client), routes);
     });
   });
 });

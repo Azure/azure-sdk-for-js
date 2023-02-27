@@ -47,19 +47,36 @@ const jobStatusOperationSpec: OperationSpec = {
   serializer,
 };
 
+function addOnResponse<TOptions extends OperationOptions>(
+  options: TOptions,
+  cb: (rawResponse: FullOperationResponse, response: unknown, error: unknown) => void
+): TOptions {
+  return {
+    ...options,
+    onResponse: (rawResponse, response, error) => {
+      cb(rawResponse, response, error);
+      options.onResponse?.(rawResponse, response, error);
+    },
+  };
+}
+
+function logWarnHeader(rawResponse: FullOperationResponse) {
+  const warnHeader = rawResponse.headers.get("warn-text");
+  if (warnHeader) {
+    warnHeader.split(";").map((x) => logger.warning(x));
+  }
+}
+
 async function getRawResponse<TOptions extends OperationOptions, TResponse>(
   getResponse: (options: TOptions) => Promise<TResponse>,
   options: TOptions
 ): Promise<LroResponse<TResponse>> {
-  const { onResponse } = options || {};
   let rawResponse: FullOperationResponse;
-  const flatResponse = await getResponse({
-    ...options,
-    onResponse: (response, flatResponseParam) => {
+  const flatResponse = await getResponse(
+    addOnResponse(options, (response) => {
       rawResponse = response;
-      onResponse?.(response, flatResponseParam);
-    },
-  });
+    })
+  );
   return {
     flatResponse,
     rawResponse: {
@@ -112,17 +129,12 @@ function createSendPollRequest<TOptions extends OperationOptions>(settings: {
     return throwError(
       sendRequest({
         client,
-        opOptions: {
-          ...options,
-          onResponse: (rawResponse, response, error) => {
-            const castResponse = response as AnalyzeTextJobStatusResponse;
-            if (castResponse.status.toLowerCase() === "partiallysucceeded") {
-              castResponse.status = "failed";
-            }
-
-            options.onResponse?.(rawResponse, response, error);
-          },
-        },
+        opOptions: addOnResponse(options, (_, response) => {
+          const castResponse = response as AnalyzeTextJobStatusResponse;
+          if (castResponse.status.toLowerCase() === "partiallysucceeded") {
+            castResponse.status = "failed";
+          }
+        }),
         path,
         spanStr,
         spec: jobStatusOperationSpec,
@@ -161,10 +173,13 @@ export function createAnalyzeBatchLro(settings: {
     async sendInitialRequest(): Promise<LroResponse<unknown>> {
       return tracing.withSpan(
         `${clientName}.beginAnalyzeBatch`,
-        {
-          ...commonOptions,
-          ...initialRequestOptions,
-        },
+        addOnResponse(
+          {
+            ...commonOptions,
+            ...initialRequestOptions,
+          },
+          logWarnHeader
+        ),
         async (finalOptions) =>
           throwError(
             getRawResponse(
