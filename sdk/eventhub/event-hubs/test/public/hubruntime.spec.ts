@@ -44,7 +44,7 @@ testWithServiceTypes((serviceVersion) => {
       "EventHubConsumerClient",
       "EventHubProducerClient",
     ] as const;
-    const clientMap = new Map<typeof clientTypes[number], ClientCommonMethods>();
+    const clientMap = new Map<(typeof clientTypes)[number], ClientCommonMethods>();
 
     const service = {
       connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
