@@ -17,8 +17,10 @@ import {
   RedirectCallRequest as RedirectCallRequestMapper,
   RejectCallRequest as RejectCallRequestMapper,
   TransferToParticipantRequest as TransferToParticipantRequestMapper,
-  AddParticipantsRequest as AddParticipantsRequestMapper,
-  RemoveParticipantsRequest as RemoveParticipantsRequestMapper,
+  AddParticipantRequest as AddParticipantRequestMapper,
+  RemoveParticipantRequest as RemoveParticipantRequestMapper,
+  MuteParticipantsRequest as MuteParticipantsRequestMapper,
+  UnmuteParticipantsRequest as UnmuteParticipantsRequestMapper,
   PlayRequest as PlayRequestMapper,
   RecognizeRequest as RecognizeRequestMapper,
   StartCallRecordingRequest as StartCallRecordingRequestMapper
@@ -128,20 +130,30 @@ export const transferToParticipantRequest: OperationParameter = {
   mapper: TransferToParticipantRequestMapper
 };
 
-export const addParticipantsRequest: OperationParameter = {
-  parameterPath: "addParticipantsRequest",
-  mapper: AddParticipantsRequestMapper
+export const addParticipantRequest: OperationParameter = {
+  parameterPath: "addParticipantRequest",
+  mapper: AddParticipantRequestMapper
 };
 
-export const removeParticipantsRequest: OperationParameter = {
-  parameterPath: "removeParticipantsRequest",
-  mapper: RemoveParticipantsRequestMapper
+export const removeParticipantRequest: OperationParameter = {
+  parameterPath: "removeParticipantRequest",
+  mapper: RemoveParticipantRequestMapper
 };
 
-export const participantMri: OperationURLParameter = {
-  parameterPath: "participantMri",
+export const muteParticipantsRequest: OperationParameter = {
+  parameterPath: "muteParticipantsRequest",
+  mapper: MuteParticipantsRequestMapper
+};
+
+export const unmuteParticipantsRequest: OperationParameter = {
+  parameterPath: "unmuteParticipantsRequest",
+  mapper: UnmuteParticipantsRequestMapper
+};
+
+export const participantRawId: OperationURLParameter = {
+  parameterPath: "participantRawId",
   mapper: {
-    serializedName: "participantMri",
+    serializedName: "participantRawId",
     required: true,
     type: {
       name: "String"

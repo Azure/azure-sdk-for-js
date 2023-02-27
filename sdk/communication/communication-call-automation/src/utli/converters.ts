@@ -2,146 +2,152 @@
 // Licensed under the MIT license.
 
 import {
-    PhoneNumberIdentifier,
-    CommunicationUserIdentifier,
-    UnknownIdentifier,
-    serializeCommunicationIdentifier,
-    SerializedPhoneNumberIdentifier,
-    CommunicationIdentifier,
-    isCommunicationUserIdentifier,
-    isPhoneNumberIdentifier,
-    isUnknownIdentifier
+  PhoneNumberIdentifier,
+  CommunicationUserIdentifier,
+  UnknownIdentifier,
+  serializeCommunicationIdentifier,
+  SerializedPhoneNumberIdentifier,
+  CommunicationIdentifier,
+  isCommunicationUserIdentifier,
+  isPhoneNumberIdentifier,
+  isUnknownIdentifier,
 } from "@azure/communication-common";
 import {
-    AcsCallParticipant,
-    CallSource,
-    CommunicationIdentifierModel,
-    CommunicationIdentifierModelKind,
-    KnownCommunicationIdentifierModelKind,
-    PhoneNumberIdentifierModel
+  CallParticipantInternal,
+  CommunicationIdentifierModel,
+  CommunicationIdentifierModelKind,
+  KnownCommunicationIdentifierModelKind,
+  PhoneNumberIdentifierModel,
 } from "../generated/src";
-import { CallParticipant, CallSourceDto } from "../models/models";
+import { CallParticipant } from "../models/models";
 
-function extractKind(identifierModel: CommunicationIdentifierModel): CommunicationIdentifierModelKind {
-    if (identifierModel.communicationUser != undefined) {
-        return KnownCommunicationIdentifierModelKind.CommunicationUser;
-    }
-    if (identifierModel.phoneNumber != undefined) {
-        return KnownCommunicationIdentifierModelKind.PhoneNumber;
-    }
-    if (identifierModel.microsoftTeamsUser != undefined) {
-        return KnownCommunicationIdentifierModelKind.MicrosoftTeamsUser;
-    }
-    return KnownCommunicationIdentifierModelKind.Unknown;
+function extractKind(
+  identifierModel: CommunicationIdentifierModel
+): CommunicationIdentifierModelKind {
+  if (identifierModel.communicationUser != undefined) {
+    return KnownCommunicationIdentifierModelKind.CommunicationUser;
+  }
+  if (identifierModel.phoneNumber != undefined) {
+    return KnownCommunicationIdentifierModelKind.PhoneNumber;
+  }
+  if (identifierModel.microsoftTeamsUser != undefined) {
+    return KnownCommunicationIdentifierModelKind.MicrosoftTeamsUser;
+  }
+  return KnownCommunicationIdentifierModelKind.Unknown;
 }
 
-export function PhoneNumberIdentifierModelConverter(phoneNumberIdentifier: PhoneNumberIdentifier | undefined
+export function PhoneNumberIdentifierModelConverter(
+  phoneNumberIdentifier: PhoneNumberIdentifier | undefined
 ): PhoneNumberIdentifierModel | undefined {
-    if (phoneNumberIdentifier == undefined || phoneNumberIdentifier.phoneNumber == undefined) {
-        return undefined;
-    }
+  if (
+    phoneNumberIdentifier == undefined ||
+    phoneNumberIdentifier.phoneNumber == undefined
+  ) {
+    return undefined;
+  }
 
-    const phoneNumberIdentifierModel = serializeCommunicationIdentifier(phoneNumberIdentifier).phoneNumber;
-    return phoneNumberIdentifierModel;
+  const phoneNumberIdentifierModel = serializeCommunicationIdentifier(
+    phoneNumberIdentifier
+  ).phoneNumber;
+  return phoneNumberIdentifierModel;
 }
 
-export function phoneNumberIdentifierConverter(serializedPhoneNumberIdentifier: SerializedPhoneNumberIdentifier | undefined
+export function phoneNumberIdentifierConverter(
+  serializedPhoneNumberIdentifier: SerializedPhoneNumberIdentifier | undefined
 ): PhoneNumberIdentifier | undefined {
-    if (serializedPhoneNumberIdentifier == undefined || serializedPhoneNumberIdentifier?.value == null) {
-        return undefined;
-    }
+  if (
+    serializedPhoneNumberIdentifier == undefined ||
+    serializedPhoneNumberIdentifier?.value == null
+  ) {
+    return undefined;
+  }
 
-    const phoneNumberIdentifier: PhoneNumberIdentifier = {
-        phoneNumber: serializedPhoneNumberIdentifier.value
-    }
-    return phoneNumberIdentifier;
+  const phoneNumberIdentifier: PhoneNumberIdentifier = {
+    phoneNumber: serializedPhoneNumberIdentifier.value,
+  };
+  return phoneNumberIdentifier;
 }
 
-export function communicationIdentifierConverter(identifierModel: CommunicationIdentifierModel
+export function communicationIdentifierConverter(
+  identifierModel: CommunicationIdentifierModel
 ): CommunicationIdentifier {
-    const rawId = identifierModel.rawId;
-    const kind = (identifierModel.kind != undefined) ? identifierModel.kind : extractKind(identifierModel);
+  const rawId = identifierModel.rawId;
+  const kind =
+    identifierModel.kind != undefined
+      ? identifierModel.kind
+      : extractKind(identifierModel);
 
-    if (kind == KnownCommunicationIdentifierModelKind.CommunicationUser
-        && identifierModel.communicationUser != undefined) {
-        const communicationUserIdentifier: CommunicationUserIdentifier = {
-            communicationUserId: identifierModel.communicationUser.id
-        }
-        return communicationUserIdentifier;
-    }
+  if (
+    kind == KnownCommunicationIdentifierModelKind.CommunicationUser &&
+    identifierModel.communicationUser != undefined
+  ) {
+    const communicationUserIdentifier: CommunicationUserIdentifier = {
+      communicationUserId: identifierModel.communicationUser.id,
+    };
+    return communicationUserIdentifier;
+  }
 
-    if (kind == KnownCommunicationIdentifierModelKind.PhoneNumber
-        && identifierModel.phoneNumber != undefined) {
-        const phoneNumberIdentifier: PhoneNumberIdentifier = {
-            phoneNumber: identifierModel.phoneNumber.value,
-            rawId: rawId
-        }
-        return phoneNumberIdentifier;
-    }
+  if (
+    kind == KnownCommunicationIdentifierModelKind.PhoneNumber &&
+    identifierModel.phoneNumber != undefined
+  ) {
+    const phoneNumberIdentifier: PhoneNumberIdentifier = {
+      phoneNumber: identifierModel.phoneNumber.value,
+      rawId: rawId,
+    };
+    return phoneNumberIdentifier;
+  }
 
-    const unknownIdentifier: UnknownIdentifier = {
-        id: rawId ? rawId : ""
-    }
-    return unknownIdentifier;
+  const unknownIdentifier: UnknownIdentifier = {
+    id: rawId ? rawId : "",
+  };
+  return unknownIdentifier;
 }
 
-export function communicationIdentifierModelConverter(identifier: CommunicationIdentifier
+export function communicationIdentifierModelConverter(
+  identifier: CommunicationIdentifier
 ): CommunicationIdentifierModel {
-    if (isCommunicationUserIdentifier(identifier)) {
-        const communicationUserIdentifierModel: CommunicationIdentifierModel = {
-            rawId: identifier.communicationUserId,
-            kind: KnownCommunicationIdentifierModelKind.CommunicationUser,
-            communicationUser: {
-                id: identifier.communicationUserId
-                }
-        }
-        return communicationUserIdentifierModel;
-    }
+  if (isCommunicationUserIdentifier(identifier)) {
+    const communicationUserIdentifierModel: CommunicationIdentifierModel = {
+      rawId: identifier.communicationUserId,
+      kind: KnownCommunicationIdentifierModelKind.CommunicationUser,
+      communicationUser: {
+        id: identifier.communicationUserId,
+      },
+    };
+    return communicationUserIdentifierModel;
+  }
 
-    if (isPhoneNumberIdentifier(identifier)) {
-        const phoneNumberIdentifierModel: CommunicationIdentifierModel = {
-            rawId: identifier.rawId,
-            kind: KnownCommunicationIdentifierModelKind.PhoneNumber,
-            phoneNumber: {
-                value: identifier.phoneNumber
-            }
-        }
-        return phoneNumberIdentifierModel;
-    }
+  if (isPhoneNumberIdentifier(identifier)) {
+    const phoneNumberIdentifierModel: CommunicationIdentifierModel = {
+      rawId: identifier.rawId,
+      kind: KnownCommunicationIdentifierModelKind.PhoneNumber,
+      phoneNumber: {
+        value: identifier.phoneNumber,
+      },
+    };
+    return phoneNumberIdentifierModel;
+  }
 
-    if (isUnknownIdentifier(identifier)) {
-        const unknownIdentifierModel: CommunicationIdentifierModel = {
-            rawId: identifier.id,
-            kind: KnownCommunicationIdentifierModelKind.Unknown,
-        }
-        return unknownIdentifierModel;
-    }
+  if (isUnknownIdentifier(identifier)) {
+    const unknownIdentifierModel: CommunicationIdentifierModel = {
+      rawId: identifier.id,
+      kind: KnownCommunicationIdentifierModelKind.Unknown,
+    };
+    return unknownIdentifierModel;
+  }
 
-    throw new Error();
+  throw new Error();
 }
 
-export function callSourceConverter(callSourceDto: CallSourceDto): CallSource {
-    const callSource: CallSource = {
-        ...callSourceDto,
-        identifier: communicationIdentifierModelConverter(callSourceDto.identifier),
-        callerId: PhoneNumberIdentifierModelConverter(callSourceDto.callerId)
-    }
-    return callSource;
-}
-
-export function callSourceDtoConverter(callSource: CallSource): CallSourceDto {
-    const callSourceDto: CallSourceDto = {
-        ...callSource,
-        identifier: communicationIdentifierConverter(callSource.identifier),
-        callerId: phoneNumberIdentifierConverter(callSource.callerId)
-    }
-    return callSourceDto;
-}
-
-export function callParticipantConverter(acsCallParticipant: AcsCallParticipant): CallParticipant {
-    const callParticipant: CallParticipant = {
-        ...acsCallParticipant,
-        identifier: acsCallParticipant.identifier ? communicationIdentifierConverter(acsCallParticipant.identifier) : undefined
-    }
-    return callParticipant;
+export function callParticipantConverter(
+  acsCallParticipant: CallParticipantInternal
+): CallParticipant {
+  const callParticipant: CallParticipant = {
+    ...acsCallParticipant,
+    identifier: acsCallParticipant.identifier
+      ? communicationIdentifierConverter(acsCallParticipant.identifier)
+      : undefined,
+  };
+  return callParticipant;
 }

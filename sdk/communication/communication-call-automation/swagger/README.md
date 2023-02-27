@@ -12,7 +12,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 tag: V2023-01-15-preview
-input-file: https://raw.githubusercontent.com/williamzhao87/azure-rest-api-specs/dev-communication-CallAutomation-v4-2023-01-15/specification/communication/data-plane/CallAutomation/preview/2023-01-15-preview/communicationservicescallautomation.json
+input-file: https://raw.githubusercontent.com/williamzhao87/azure-rest-api-specs/0d0cd5af40aa17af76ce0307ac5512351c38e3bc/specification/communication/data-plane/CallAutomation/preview/2023-01-15-preview/communicationservicescallautomation.json
 package-version: 1.0.0-beta.1
 model-date-time-as-string: false
 optional-response-headers: true
@@ -23,14 +23,8 @@ use-extension:
   "@autorest/typescript": "latest"
 directive:
 - rename-model:
-    from: AcsCallParticipant
-    to: AcsCallParticipantInternal
-- rename-model:
-    from: AddParticipantsRequest
-    to: AddParticipantsRequestInternal
-- rename-model:
-    from: AddParticipantsResponse
-    to: AddParticipantsResponseInternal
+    from: CallParticipant
+    to: CallParticipantInternal
 - rename-model:
     from: CallConnectionProperties
     to: CallConnectionPropertiesInternal
