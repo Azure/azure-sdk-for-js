@@ -9,14 +9,14 @@ import { CompositionType, SnapshotStatus } from "./generated/src";
 /**
  * Fields that uniquely identify a configuration setting
  */
-export interface ConfigurationSettingId extends SnapshotSettingsFilter {
+export interface ConfigurationSettingId extends ConfigurationSettingsFilter {
   /**
    * The etag for this setting
    */
   etag?: string;
 }
 /** Enables filtering of key-values. */
-export interface SnapshotSettingsFilter {
+export interface ConfigurationSettingsFilter {
   /** Filters key-values by their key field. */
   key: string;
   /** Filters key-values by their label field. */
@@ -451,7 +451,7 @@ export interface SnapshotInfo {
    */
   name: string;
   /** A list of filters used to filter the key-values included in the snapshot. */
-  filters: SnapshotSettingsFilter[];
+  filters: ConfigurationSettingsFilter[];
   /** The composition type describes how the key-values within the snapshot are composed. The 'all' composition type includes all key-values. The 'group_by_key' composition type ensures there are no two key-values containing the same key. */
   compositionType?: CompositionType;
   /** The amount of time, in seconds, that a snapshot will remain in the archived state before expiring. This property is only writable during the creation of a snapshot. If not specified, the default lifetime of key-value revisions will be used. */
@@ -473,7 +473,6 @@ export interface SnapshotId {
   etag?: string;
 }
 
-
 export interface Snapshot {
   /**
    * The name of the snapshot.
@@ -491,7 +490,7 @@ export interface Snapshot {
    */
   readonly statusCode?: number;
   /** A list of filters used to filter the key-values included in the snapshot. */
-  filters: SnapshotSettingsFilter[];
+  filters: ConfigurationSettingsFilter[];
   /** The composition type describes how the key-values within the snapshot are composed. The 'all' composition type includes all key-values. The 'group_by_key' composition type ensures there are no two key-values containing the same key. */
   compositionType?: CompositionType;
   /**

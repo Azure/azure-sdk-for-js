@@ -57,7 +57,7 @@ export type ConfigurationSetting<T extends string | FeatureFlagValue | SecretRef
 };
 
 // @public
-export interface ConfigurationSettingId extends SnapshotSettingsFilter {
+export interface ConfigurationSettingId extends ConfigurationSettingsFilter {
     etag?: string;
 }
 
@@ -75,6 +75,12 @@ export type ConfigurationSettingParam<T extends string | FeatureFlagValue | Secr
 
 // @public
 export type ConfigurationSettingResponse<HeadersT> = ConfigurationSetting & HttpResponseField<HeadersT> & Pick<HeadersT, Exclude<keyof HeadersT, "eTag">>;
+
+// @public
+export interface ConfigurationSettingsFilter {
+    key: string;
+    label?: string;
+}
 
 // @public
 export interface CreateSnapshotOptions extends OperationOptions {
@@ -263,7 +269,7 @@ export interface Snapshot {
     readonly createdOn?: Date;
     readonly etag?: string;
     readonly expiresOn?: Date;
-    filters: SnapshotSettingsFilter[];
+    filters: ConfigurationSettingsFilter[];
     readonly itemCount?: number;
     readonly name: string;
     retentionPeriod?: number;
@@ -284,18 +290,12 @@ export interface SnapshotId {
 // @public
 export interface SnapshotInfo {
     compositionType?: CompositionType;
-    filters: SnapshotSettingsFilter[];
+    filters: ConfigurationSettingsFilter[];
     name: string;
     retentionPeriod?: number;
     tags?: {
         [propertyName: string]: string;
     };
-}
-
-// @public
-export interface SnapshotSettingsFilter {
-    key: string;
-    label?: string;
 }
 
 // @public
