@@ -1,5 +1,9 @@
 # Breaking Changes
 
+## 3.2.0
+
+`VisualStudioCodeCredential` is now deprecated, and no replacement credential is available at this time. The method that it used to extract the `Azure.Account` access token has been out of date and non-functional since Feb. 14, 2022. As an alternative, please consider [using `AzureCliCredential` to authenticate via the Azure CLI](https://github.com/azure/azure-sdk-for-js/tree/main/sdk/identity/identity#authenticate-via-the-azure-cli). In the future, if Visual Studio Code authentication becomes viable again, this credential type may be undeprecated or reintroduced if it has been removed.
+
 ## 3.0.0
 
 As of `@azure/identity` 3.0.0, the default behavior of credentials supporting multi-tenant authentication has changed. Each of these credentials will throw an error if the requested `tenantId` doesn't match the tenant ID originally configured on the credential. Apps must now do one of the following things:

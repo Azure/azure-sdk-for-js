@@ -23,6 +23,8 @@ export interface CachePluginControl {
 
 /**
  * Plugin context entries for controlling VisualStudioCodeCredential.
+ *
+ * @deprecated no supported providers for visualstudiocodecredential since feb. 14, 2022.
  */
 export interface VisualStudioCodeCredentialControl {
   setVsCodeCredentialFinder(finder: VSCodeCredentialFinder): void;
@@ -38,5 +40,8 @@ export interface VisualStudioCodeCredentialControl {
  */
 export interface AzurePluginContext {
   cachePluginControl: CachePluginControl;
+  /**
+   * @deprecated no supported providers for visualstudiocodecredential since feb. 14, 2022.
+   */
   vsCodeCredentialControl: VisualStudioCodeCredentialControl;
 }

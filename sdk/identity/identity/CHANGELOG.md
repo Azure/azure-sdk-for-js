@@ -1,5 +1,17 @@
 # Release History
 
+## 3.2.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+- `VisualStudioCodeCredential` **is deprecated**, and no replacement credential is available at this time. The method that this credential used to extract the `Azure.Account` access token has been out of date and non-functional since Feb. 14, 2022. As an alternative, please consider [using `AzureCliCredential` to authenticate via the Azure CLI](https://github.com/azure/azure-sdk-for-js/tree/main/sdk/identity/identity#authenticate-via-the-azure-cli). In the future, if Visual Studio Code authentication becomes viable again, this credential type may be undeprecated or reintroduced if it has been removed.
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 3.2.0-beta.1 (2023-02-24)
 
 ### Features Added
@@ -19,6 +31,7 @@
 ### Bugs Fixed
 
 - Fixed bug in `ManagedIdentity Credential` where "expiresInSeconds" was taking the absolute timestamp instead of relative expiration time period in seconds.
+
 ### Other Changes
 
 - Enable msal logging based on log level specified by user for Azure SDK.
@@ -70,11 +83,12 @@
 
 ### Breaking Changes
 
-- Credential types supporting multi-tenant authentication will now throw an error if the requested tenant ID doesn't match the credential's tenant ID, and is not included in the `additionallyAllowedTenants` option. Applications must now explicitly add additional tenants to the `additionallyAllowedTenants` list, or add `"*"` to list, to enable acquiring tokens from tenants other than the originally specified tenant ID.  See [BREAKING_CHANGES.md](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/BREAKING_CHANGES.md).
+- Credential types supporting multi-tenant authentication will now throw an error if the requested tenant ID doesn't match the credential's tenant ID, and is not included in the `additionallyAllowedTenants` option. Applications must now explicitly add additional tenants to the `additionallyAllowedTenants` list, or add `"*"` to list, to enable acquiring tokens from tenants other than the originally specified tenant ID. See [BREAKING_CHANGES.md](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/BREAKING_CHANGES.md).
 
 ### Bugs Fixed
 
 - Changed the way token expiration for managed identity tokens is calculated to handle different server formats. See [PR #23232](https://github.com/Azure/azure-sdk-for-js/pull/23232)
+
 ## 3.0.0-beta.1 (2022-08-24)
 
 ### Features Added
