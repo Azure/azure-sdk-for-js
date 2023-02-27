@@ -27,7 +27,10 @@ export class FeedResponse<TResource> {
   }
   public get indexMetrics(): string {
     const writer = new IndexMetricWriter();
-    const indexUtilizationInfo = IndexUtilizationInfo.createFromString(this.headers[Constants.HttpHeaders.IndexUtilization], true);
+    const indexUtilizationInfo = IndexUtilizationInfo.createFromString(
+      this.headers[Constants.HttpHeaders.IndexUtilization],
+      true
+    );
     return writer.writeIndexMetrics(indexUtilizationInfo);
   }
 }

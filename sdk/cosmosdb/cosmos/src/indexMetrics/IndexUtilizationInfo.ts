@@ -52,6 +52,6 @@ export class IndexUtilizationInfo {
       IndexUtilizationInfo.tryCreateFromDelimitedString(delimitedString, result);
     }
 
-    return result.result;
+    return result.result ?? IndexUtilizationInfo.Empty;
   }
 }

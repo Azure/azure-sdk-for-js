@@ -219,10 +219,7 @@ describe("Test Index metrics", function (this: Suite) {
     const queryIterator = createdContainer.items.query(query, queryOptions);
 
     while (queryIterator.hasMoreResults()) {
-      const {
-        resources: results,
-        indexMetrics,
-      } = await queryIterator.fetchNext();
+      const { resources: results, indexMetrics } = await queryIterator.fetchNext();
 
       if (results === undefined) {
         break;

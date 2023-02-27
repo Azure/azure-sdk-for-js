@@ -4,7 +4,6 @@ import { IndexUtilizationInfo } from "./IndexUtilizationInfo";
 import { SingleIndexUtilizationEntity } from "./SingleIndexUtilizationEntity";
 
 export class IndexMetricWriter {
-  
   public writeIndexMetrics(indexUtilizationInfo: IndexUtilizationInfo): string {
     let result = "";
     result = this.writeBeforeIndexUtilizationInfo(result);
