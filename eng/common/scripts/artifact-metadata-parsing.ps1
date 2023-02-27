@@ -34,8 +34,8 @@ function CreateReleases($pkgList, $releaseApiUrl, $releaseSha) {
       body             = $releaseNotes
     }
 
-    Write-Host "\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/"
-    Write-Host $releaseNotes
+    Write-Host "Post Request Body:"
+    Write-Host $body
 
     $headers = @{
       "Content-Type"  = "application/json"

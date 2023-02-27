@@ -33,9 +33,6 @@ if ($pkgList) {
     Write-Host $packageInfo.Tag
   }
 
-  Write-Host "\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/"
-  Write-Host $pkgList
-
   # CREATE TAGS and RELEASES
   CreateReleases -pkgList $pkgList -releaseApiUrl $apiUrl/releases -releaseSha $releaseSha
 }
