@@ -3,7 +3,8 @@
 import { OperationType, ResourceType, isReadRequest } from "./common";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { Location, DatabaseAccount } from "./documents";
-import { Constants, RequestOptions } from "./index";
+import { RequestOptions } from "./index";
+import { Constants } from "./common/constants";
 import { ResourceResponse } from "./request";
 
 /**
