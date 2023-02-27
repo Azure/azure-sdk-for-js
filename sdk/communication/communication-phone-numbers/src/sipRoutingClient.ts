@@ -174,7 +174,7 @@ export class SipRoutingClient {
    * @param domainName - The domain's name (ex: contoso.com).
    * @param options - The options parameters.
    */
-  public async listDomain(domainName: string, options: OperationOptions = {}): Promise<SipDomain> {
+  public async getDomain(domainName: string, options: OperationOptions = {}): Promise<SipDomain> {
     return tracingClient.withSpan("SipRoutingClient-listDomains", options, async (updatedOptions) => {
       const domains = await this.getDomainsInternal(updatedOptions);
       const domain = domains.find((value: SipDomain) => value.domainName === domainName);
