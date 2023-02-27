@@ -3,9 +3,8 @@ emit:
 options:
   "@azure-tools/cadl-typescript":
     azureSdkForJs: true
-    title: BatchGeneratedClient
     generateMetadata: false
-    generateTest: true
+    generateTest: false
     "emitter-output-dir": "{output-dir}"
     packageDetails:
       name: "@azure-rest/batch"

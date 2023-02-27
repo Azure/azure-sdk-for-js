@@ -2270,6 +2270,7 @@ model PoolDoesExistResponseHeaders {
 
 @doc("The Pool does not exist.")
 model PoolDoesntExistResponseHeaders {
+  @doc("A process exit code.")
   @statusCode code: "404";  
 }
 
