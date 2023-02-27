@@ -13,7 +13,7 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 tag: package-2023-01-15-preview
 package-version: 1.0.0-beta.2
-require: https://raw.githubusercontent.com/apattath/azure-rest-api-specs-apattath/2beb92d3d6c70d683183192bab3beac8bef09322/specification/communication/data-plane/Email/readme.md
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/communication/data-plane/Email/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 typescript: true
