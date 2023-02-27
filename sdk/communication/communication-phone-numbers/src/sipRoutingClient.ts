@@ -154,7 +154,7 @@ export class SipRoutingClient {
    * Gets the SIP domains.
    * @param options - The options parameters.
    */
-  public async listDomains(options: ListSipDomainsOptions = {}): PagedAsyncIterableIterator<SipDomain> {
+  public listDomains(options: ListSipDomainsOptions = {}): PagedAsyncIterableIterator<SipDomain> {
     const iter = this.listDomainsPagingAll(options);
     return {
       next() {

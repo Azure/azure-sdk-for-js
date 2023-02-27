@@ -182,8 +182,8 @@ export async function listAllRoutes(client: SipRoutingClient): Promise<SipTrunkR
 
 export async function listAllDomains(client: SipRoutingClient): Promise<SipDomain[]> {
   const result = [];
-  for await (const route of client.listDomains()) {
-    result.push(route);
+  for await (const domain of client.listDomains()) {
+    result.push(domain);
   }
   return result;
 }

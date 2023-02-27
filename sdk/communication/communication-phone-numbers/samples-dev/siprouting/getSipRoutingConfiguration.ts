@@ -31,7 +31,7 @@ export async function main() {
 
   // Get domains
   const domains = await client.listDomains();
-  for (const domain of domains) {
+  for await (const domain of domains) {
     console.log(`Domain ${domain.domainName} with property enabled:${domain.enabled}`);
   }
 }

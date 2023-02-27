@@ -14,6 +14,8 @@ import {
   getUniqueDomain,
   resetUniqueDomains,
   clearSipConfiguration,
+  listAllTrunks,
+  listAllDomains,
 } from "./utils/recordedClient";
 import { matrix } from "@azure/test-utils";
 
@@ -73,7 +75,7 @@ matrix([[true, false]], async function (useAad) {
       const setDomain = await client.setDomain(domain);
       assert.deepEqual(setDomain, domain);
 
-      const getDomain = await client.listDomain(domainToSet);
+      const getDomain = await client.getDomain(domainToSet);
       assert.deepEqual(getDomain, domain);
     });
 
@@ -87,7 +89,7 @@ matrix([[true, false]], async function (useAad) {
       const setDomain = await client.setDomain(domain);
       assert.deepEqual(setDomain, domain);
 
-      const getDomain = await client.listDomain(domainToSet);
+      const getDomain = await client.getDomain(domainToSet);
       assert.deepEqual(getDomain, domain);
     });
 
@@ -102,7 +104,7 @@ matrix([[true, false]], async function (useAad) {
       const setDomains = await client.setDomains(domains);
       assert.deepEqual(setDomains, domains);
 
-      const storedDomains = await client.listDomains();
+      const storedDomains = await listAllDomains(client);
       assert.deepEqual(storedDomains, domains);
     });
 
@@ -119,14 +121,14 @@ matrix([[true, false]], async function (useAad) {
       const setDomains = await client.setDomains(domains);
       assert.deepEqual(setDomains, domains);
 
-      const storedDomains = await client.listDomains();
+      const storedDomains = await listAllDomains(client);
       assert.deepEqual(storedDomains, domains);
     });
 
     it("can set empty domains when empty before", async () => {
       await client.setDomains([]);
 
-      const storedDomains = await client.listDomains();
+      const storedDomains = await listAllDomains(client);
       assert.isNotNull(storedDomains);
       assert.isArray(storedDomains);
       assert.isEmpty(storedDomains);
@@ -141,7 +143,7 @@ matrix([[true, false]], async function (useAad) {
 
       await client.setDomains([]);
 
-      const storedDomains = await client.listDomains();
+      const storedDomains = await listAllDomains(client);
       assert.isNotNull(storedDomains);
       assert.isArray(storedDomains);
       assert.isEmpty(storedDomains);
@@ -155,7 +157,7 @@ matrix([[true, false]], async function (useAad) {
         assert.equal(error.code, "UnprocessableConfiguration");
 
         try {
-          await client.listDomain("-1");
+          await client.getDomain("-1");
         } catch (getError: any) {
           assert.equal(getError.code, "NotFound");
           return;
@@ -177,7 +179,7 @@ matrix([[true, false]], async function (useAad) {
         await client.setTrunks(expectedTrunks);
       } catch (error: any) {
         assert.equal(error.code, "UnprocessableConfiguration");
-        const storedTrunks = await client.getTrunks();
+        const storedTrunks = await listAllTrunks(client);
         assert.isNotNull(storedTrunks);
         assert.isArray(storedTrunks);
         assert.isEmpty(storedTrunks);
@@ -199,7 +201,7 @@ matrix([[true, false]], async function (useAad) {
         await client.setTrunks(expectedTrunks);
       } catch (error: any) {
         assert.equal(error.code, "UnprocessableConfiguration");
-        const storedTrunks = await client.getTrunks();
+        const storedTrunks = await listAllTrunks(client);
         assert.isNotNull(storedTrunks);
         assert.isArray(storedTrunks);
         assert.isEmpty(storedTrunks);

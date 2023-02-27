@@ -14,6 +14,7 @@ import {
   getUniqueDomain,
   resetUniqueDomains,
   clearSipConfiguration,
+  listAllDomains,
 } from "./utils/recordedClient";
 import { matrix } from "@azure/test-utils";
 
@@ -57,7 +58,7 @@ matrix([[true, false]], async function (useAad) {
       await client.setDomain(domain);
       await client.deleteDomain(firstDomain);
       assert.exists(
-        (await client.listDomains()).find((value) => value.domainName === domain.domainName)
+        (await listAllDomains(client)).find((value) => value.domainName === domain.domainName)
       );
     });
 

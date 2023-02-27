@@ -17,7 +17,7 @@ export const SipConfiguration: coreClient.CompositeMapper = {
         serializedName: "domains",
         type: {
           name: "Dictionary",
-          value: { type: { name: "Composite", className: "Domain" } }
+          value: { type: { name: "Composite", className: "SipDomain" } }
         }
       },
       trunks: {
@@ -46,10 +46,10 @@ export const SipConfiguration: coreClient.CompositeMapper = {
   }
 };
 
-export const Domain: coreClient.CompositeMapper = {
+export const SipDomain: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Domain",
+    className: "SipDomain",
     modelProperties: {
       enabled: {
         serializedName: "enabled",

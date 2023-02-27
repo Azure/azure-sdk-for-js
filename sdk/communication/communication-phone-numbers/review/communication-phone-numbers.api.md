@@ -72,6 +72,10 @@ export interface ListPurchasedPhoneNumbersOptions extends OperationOptions {
 }
 
 // @public
+export interface ListSipDomainsOptions extends OperationOptions {
+}
+
+// @public
 export interface ListSipRoutesOptions extends OperationOptions {
 }
 
@@ -236,9 +240,9 @@ export class SipRoutingClient {
     constructor(endpoint: string, credential: TokenCredential, options?: SipRoutingClientOptions);
     deleteDomain(domainName: string, options?: OperationOptions): Promise<void>;
     deleteTrunk(fqdn: string, options?: OperationOptions): Promise<void>;
+    getDomain(domainName: string, options?: OperationOptions): Promise<SipDomain>;
     getTrunk(fqdn: string, options?: GetSipTrunkOptions): Promise<SipTrunk>;
-    listDomain(domainName: string, options?: OperationOptions): Promise<SipDomain>;
-    listDomains(options?: OperationOptions): Promise<SipDomain[]>;    
+    listDomains(options?: ListSipDomainsOptions): PagedAsyncIterableIterator<SipDomain>;
     listRoutes(options?: ListSipRoutesOptions): PagedAsyncIterableIterator<SipTrunkRoute>;
     listTrunks(options?: ListSipTrunksOptions): PagedAsyncIterableIterator<SipTrunk>;
     setDomain(domain: SipDomain, options?: OperationOptions): Promise<SipDomain>;

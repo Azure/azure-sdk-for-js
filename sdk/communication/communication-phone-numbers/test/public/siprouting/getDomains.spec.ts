@@ -55,7 +55,7 @@ matrix([[true, false]], async function (useAad) {
     it("cannot retrieve a not existing domain", async () => {
       await client.setDomain({ domainName: firstDomain, enabled: true } as SipDomain);
 
-      const domain = client.getDomain(firstDomain);
+      const domain = await client.getDomain(firstDomain);
       if(domain == null){
         assert.fail("Single domain not found.");
       }
