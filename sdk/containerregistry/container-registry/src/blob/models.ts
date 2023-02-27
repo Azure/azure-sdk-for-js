@@ -38,7 +38,7 @@ export interface DownloadManifestResult {
   digest: string;
 
   /**
-   * Media type of the downloaded manifest.
+   * Media type of the downloaded manifest as indicated by the Content-Type response header.
    */
   mediaType: string;
 
@@ -160,6 +160,7 @@ export interface DownloadBlobOptions extends OperationOptions {}
 export interface DownloadManifestOptions extends OperationOptions {
   /**
    * Media type of the manifest to download. Refer to {@link KnownManifestMediaType} for known media types.
+   * Defaults to {@link KnownManifestMediaType.OciManifest}.
    */
   mediaType?: string;
 }

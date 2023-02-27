@@ -163,6 +163,7 @@ export interface DownloadManifestResult {
     digest: string;
     manifest?: OciManifest;
     manifestStream: NodeJS.ReadableStream;
+    mediaType: string;
 }
 
 // @public

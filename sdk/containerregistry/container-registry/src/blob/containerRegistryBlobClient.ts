@@ -234,26 +234,26 @@ export class ContainerRegistryBlobClient {
       "ContainerRegistryBlobClient.downloadManifest",
       options,
       async (updatedOptions) => {
-        const {
-          dockerContentDigest,
-          readableStreamBody,
-          mediaType: receivedMediaType,
-        } = await this.client.containerRegistry.getManifest(this.repositoryName, tagOrDigest, {
-          accept: options.mediaType,
-          ...updatedOptions,
-        });
+        const acceptMediaType = options.mediaType ?? KnownManifestMediaType.OciManifest;
 
-        if (!receivedMediaType) {
-          throw new RestError("Expected content-type header to be present on response");
-        }
+        const response = await this.client.containerRegistry.getManifest(
+          this.repositoryName,
+          tagOrDigest,
+          {
+            accept: acceptMediaType,
+            ...updatedOptions,
+          }
+        );
 
-        const bodyData = readableStreamBody
-          ? await readStreamToEnd(readableStreamBody)
+        assertHasProperty(response, "mediaType");
+
+        const bodyData = response.readableStreamBody
+          ? await readStreamToEnd(response.readableStreamBody)
           : Buffer.alloc(0);
 
         const expectedDigest = await calculateDigest(bodyData);
 
-        if (dockerContentDigest !== expectedDigest) {
+        if (response.dockerContentDigest !== expectedDigest) {
           throw new DigestMismatchError(
             "Digest of blob to upload does not match the digest from the server."
           );
@@ -261,7 +261,7 @@ export class ContainerRegistryBlobClient {
 
         let manifest: OciManifest | undefined = undefined;
 
-        if (receivedMediaType === KnownManifestMediaType.OciManifest) {
+        if (response.mediaType === KnownManifestMediaType.OciManifest) {
           manifest = serializer.deserialize(
             Mappers.OCIManifest,
             JSON.parse(bodyData.toString()),
@@ -270,8 +270,8 @@ export class ContainerRegistryBlobClient {
         }
 
         return {
-          digest: dockerContentDigest,
-          mediaType: receivedMediaType,
+          digest: response.dockerContentDigest,
+          mediaType: response.mediaType,
           manifest,
           manifestStream: Readable.from(bodyData),
         };
