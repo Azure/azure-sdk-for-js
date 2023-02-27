@@ -159,94 +159,94 @@ describe("ContainerRegistry test", () => {
   //   assert.equal(resArray.length,0);
   // });
 
-  it("tasks create test", async function () {
-    const res = await client.tasks.beginCreateAndWait(resourceGroup, registryName, taskName, {
-      location: location,
-      tags: {
-        testkey: "value"
-      },
-      status: "Enabled",
-      platform: {
-        os: "Linux",
-        architecture: "amd64"
-      },
-      agentConfiguration: {
-        cpu: 2
-      },
-      step: {
-        type: "Docker",
-        contextPath: "https://github.com/SteveLasker/node-helloworld",
-        imageNames: ["testtask:v1"],
-        dockerFilePath: "DockerFile",
-        isPushEnabled: true,
-        noCache: false
-      },
-      trigger: {
-        baseImageTrigger: {
-          name: "myBaseImageTrigger",
-          baseImageTriggerType: "Runtime",
-          updateTriggerPayloadType: "Default",
-          status: "Enabled"
-        }
-      }
-    }, testPollingOptions);
-    assert.equal(res.name, taskName);
-  });
+  // it("tasks create test", async function () {
+  //   const res = await client.tasks.beginCreateAndWait(resourceGroup, registryName, taskName, {
+  //     location: location,
+  //     tags: {
+  //       testkey: "value"
+  //     },
+  //     status: "Enabled",
+  //     platform: {
+  //       os: "Linux",
+  //       architecture: "amd64"
+  //     },
+  //     agentConfiguration: {
+  //       cpu: 2
+  //     },
+  //     step: {
+  //       type: "Docker",
+  //       contextPath: "https://github.com/SteveLasker/node-helloworld",
+  //       imageNames: ["testtask:v1"],
+  //       dockerFilePath: "DockerFile",
+  //       isPushEnabled: true,
+  //       noCache: false
+  //     },
+  //     trigger: {
+  //       baseImageTrigger: {
+  //         name: "myBaseImageTrigger",
+  //         baseImageTriggerType: "Runtime",
+  //         updateTriggerPayloadType: "Default",
+  //         status: "Enabled"
+  //       }
+  //     }
+  //   }, testPollingOptions);
+  //   assert.equal(res.name, taskName);
+  // });
 
-  it("tasks get test", async function () {
-    const res = await client.tasks.get(resourceGroup, registryName, taskName);
-    assert.equal(res.name, taskName);
-  });
+  // it("tasks get test", async function () {
+  //   const res = await client.tasks.get(resourceGroup, registryName, taskName);
+  //   assert.equal(res.name, taskName);
+  // });
 
-  it("tasks list test", async function () {
-    const resArray = new Array();
-    for await (let item of client.tasks.list(resourceGroup, registryName)) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length, 1);
-  });
+  // it("tasks list test", async function () {
+  //   const resArray = new Array();
+  //   for await (let item of client.tasks.list(resourceGroup, registryName)) {
+  //     resArray.push(item);
+  //   }
+  //   assert.equal(resArray.length, 1);
+  // });
 
-  it("tasks update test", async function () {
-    const res = await client.tasks.beginUpdateAndWait(resourceGroup, registryName, taskName, {
-      tags: {
-        testkey: "value"
-      },
-      status: "Enabled",
-      platform: {
-        os: "Linux",
-        architecture: "amd64"
-      },
-      agentConfiguration: {
-        cpu: 2
-      },
-      step: {
-        type: "Docker",
-        contextPath: "https://github.com/SteveLasker/node-helloworld",
-        imageNames: ["testtask:v1"],
-        dockerFilePath: "DockerFile",
-        isPushEnabled: true,
-        noCache: false
-      },
-      trigger: {
-        baseImageTrigger: {
-          name: "myBaseImageTrigger",
-          baseImageTriggerType: "Runtime",
-          updateTriggerPayloadType: "Default",
-          status: "Enabled"
-        }
-      }
-    }, testPollingOptions);
-    assert.equal(res.type, "Microsoft.ContainerRegistry/registries/tasks");
-  });
+  // it("tasks update test", async function () {
+  //   const res = await client.tasks.beginUpdateAndWait(resourceGroup, registryName, taskName, {
+  //     tags: {
+  //       testkey: "value"
+  //     },
+  //     status: "Enabled",
+  //     platform: {
+  //       os: "Linux",
+  //       architecture: "amd64"
+  //     },
+  //     agentConfiguration: {
+  //       cpu: 2
+  //     },
+  //     step: {
+  //       type: "Docker",
+  //       contextPath: "https://github.com/SteveLasker/node-helloworld",
+  //       imageNames: ["testtask:v1"],
+  //       dockerFilePath: "DockerFile",
+  //       isPushEnabled: true,
+  //       noCache: false
+  //     },
+  //     trigger: {
+  //       baseImageTrigger: {
+  //         name: "myBaseImageTrigger",
+  //         baseImageTriggerType: "Runtime",
+  //         updateTriggerPayloadType: "Default",
+  //         status: "Enabled"
+  //       }
+  //     }
+  //   }, testPollingOptions);
+  //   assert.equal(res.type, "Microsoft.ContainerRegistry/registries/tasks");
+  // });
 
-  it("tasks delete test", async function () {
-    const res = await client.tasks.beginDeleteAndWait(resourceGroup, registryName, taskName, testPollingOptions);
-    const resArray = new Array();
-    for await (let item of client.tasks.list(resourceGroup, registryName)) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length, 0);
-  });
+  // it("tasks delete test", async function () {
+  //   const res = await client.tasks.beginDeleteAndWait(resourceGroup, registryName, taskName, testPollingOptions);
+  //   const resArray = new Array();
+  //   for await (let item of client.tasks.list(resourceGroup, registryName)) {
+  //     resArray.push(item);
+  //   }
+  //   assert.equal(resArray.length, 0);
+  // });
 
   it("registries delete test", async function () {
     const res = await client.registries.beginDeleteAndWait(resourceGroup, registryName, testPollingOptions);

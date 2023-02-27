@@ -8,343 +8,6 @@
 
 import * as coreClient from "@azure/core-client";
 
-export type RunRequestUnion =
-  | RunRequest
-  | DockerBuildRequest
-  | FileTaskRunRequest
-  | TaskRunRequest
-  | EncodedTaskRunRequest;
-export type TaskStepPropertiesUnion =
-  | TaskStepProperties
-  | DockerBuildStep
-  | FileTaskStep
-  | EncodedTaskStep;
-export type TaskStepUpdateParametersUnion =
-  | TaskStepUpdateParameters
-  | DockerBuildStepUpdateParameters
-  | FileTaskStepUpdateParameters
-  | EncodedTaskStepUpdateParameters;
-
-/** The result of a request to list cache rules for a container registry. */
-export interface CacheRulesListResult {
-  /** The list of cache rules. */
-  value?: CacheRule[];
-  /** If provided, client must use NextLink URI to request next list of cache rules. */
-  nextLink?: string;
-}
-
-/** The resource model definition for a ARM proxy resource. It will have everything other than required location and tags. */
-export interface ProxyResource {
-  /**
-   * The resource ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: LastModifiedByType;
-  /** The timestamp of resource modification (UTC). */
-  lastModifiedAt?: Date;
-}
-
-/** An error response from the Azure Container Registry service. */
-export interface ErrorResponse {
-  /** Azure container registry build API error body. */
-  error?: ErrorResponseBody;
-}
-
-/** An error response from the Azure Container Registry service. */
-export interface ErrorResponseBody {
-  /** error code. */
-  code: string;
-  /** error message. */
-  message: string;
-  /** target of the particular error. */
-  target?: string;
-  /** an array of additional nested error response info objects, as described by this contract. */
-  details?: InnerErrorDescription[];
-}
-
-/** inner error. */
-export interface InnerErrorDescription {
-  /** error code. */
-  code: string;
-  /** error message. */
-  message: string;
-  /** target of the particular error. */
-  target?: string;
-}
-
-/** The parameters for updating a cache rule. */
-export interface CacheRuleUpdateParameters {
-  /** The ARM resource ID of the credential store which is associated with the Cache rule. */
-  credentialSetResourceId?: string;
-}
-
-/** The result of a request to list connected registries for a container registry. */
-export interface ConnectedRegistryListResult {
-  /** The list of connected registries. Since this list may be incomplete, the nextLink field should be used to request the next list of connected registries. */
-  value?: ConnectedRegistry[];
-  /** The URI that can be used to request the next list of connected registries. */
-  nextLink?: string;
-}
-
-/** The activation properties of the connected registry. */
-export interface ActivationProperties {
-  /**
-   * The activation status of the connected registry.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: ActivationStatus;
-}
-
-/** The properties of the connected registry parent. */
-export interface ParentProperties {
-  /** The resource ID of the parent to which the connected registry will be associated. */
-  id?: string;
-  /** The sync properties of the connected registry with its parent. */
-  syncProperties: SyncProperties;
-}
-
-/** The sync properties of the connected registry with its parent. */
-export interface SyncProperties {
-  /** The resource ID of the ACR token used to authenticate the connected registry to its parent during sync. */
-  tokenId: string;
-  /** The cron expression indicating the schedule that the connected registry will sync with its parent. */
-  schedule?: string;
-  /** The time window during which sync is enabled for each schedule occurrence. Specify the duration using the format P[n]Y[n]M[n]DT[n]H[n]M[n]S as per ISO8601. */
-  syncWindow?: string;
-  /** The period of time for which a message is available to sync before it is expired. Specify the duration using the format P[n]Y[n]M[n]DT[n]H[n]M[n]S as per ISO8601. */
-  messageTtl: string;
-  /**
-   * The last time a sync occurred between the connected registry and its parent.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastSyncTime?: Date;
-  /**
-   * The gateway endpoint used by the connected registry to communicate with its parent.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly gatewayEndpoint?: string;
-}
-
-/** The login server properties of the connected registry. */
-export interface LoginServerProperties {
-  /**
-   * The host of the connected registry. Can be FQDN or IP.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly host?: string;
-  /**
-   * The TLS properties of the connected registry login server.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tls?: TlsProperties;
-}
-
-/** The TLS properties of the connected registry login server. */
-export interface TlsProperties {
-  /**
-   * Indicates whether HTTPS is enabled for the login server.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: TlsStatus;
-  /**
-   * The certificate used to configure HTTPS for the login server.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly certificate?: TlsCertificateProperties;
-}
-
-/** The TLS certificate properties of the connected registry login server. */
-export interface TlsCertificateProperties {
-  /**
-   * The type of certificate location.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: CertificateType;
-  /**
-   * Indicates the location of the certificates.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly location?: string;
-}
-
-/** The logging properties of the connected registry. */
-export interface LoggingProperties {
-  /** The verbosity of logs persisted on the connected registry. */
-  logLevel?: LogLevel;
-  /** Indicates whether audit logs are enabled on the connected registry. */
-  auditLogStatus?: AuditLogStatus;
-}
-
-/** The status detail properties of the connected registry. */
-export interface StatusDetailProperties {
-  /**
-   * The component of the connected registry corresponding to the status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The code of the status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The description of the status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-  /**
-   * The timestamp of the status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly timestamp?: Date;
-  /**
-   * The correlation ID of the status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly correlationId?: string;
-}
-
-/** The parameters for updating a connected registry. */
-export interface ConnectedRegistryUpdateParameters {
-  /** The sync properties of the connected registry with its parent. */
-  syncProperties?: SyncUpdateProperties;
-  /** The logging properties of the connected registry. */
-  logging?: LoggingProperties;
-  /** The list of the ACR token resource IDs used to authenticate clients to the connected registry. */
-  clientTokenIds?: string[];
-  /** The list of notifications subscription information for the connected registry. */
-  notificationsList?: string[];
-}
-
-/** The parameters for updating the sync properties of the connected registry with its parent. */
-export interface SyncUpdateProperties {
-  /** The cron expression indicating the schedule that the connected registry will sync with its parent. */
-  schedule?: string;
-  /** The time window during which sync is enabled for each schedule occurrence. Specify the duration using the format P[n]Y[n]M[n]DT[n]H[n]M[n]S as per ISO8601. */
-  syncWindow?: string;
-  /** The period of time for which a message is available to sync before it is expired. Specify the duration using the format P[n]Y[n]M[n]DT[n]H[n]M[n]S as per ISO8601. */
-  messageTtl?: string;
-}
-
-/** The result of a request to list credential sets for a container registry. */
-export interface CredentialSetListResult {
-  /** The list of credential sets. Since this list may be incomplete, the nextLink field should be used to request the next list of credential sets. */
-  value?: CredentialSet[];
-  /** The URI that can be used to request the next list of credential sets. */
-  nextLink?: string;
-}
-
-/** Managed identity for the resource. */
-export interface IdentityProperties {
-  /** The principal ID of resource identity. */
-  principalId?: string;
-  /** The tenant ID of resource. */
-  tenantId?: string;
-  /** The identity type. */
-  type?: ResourceIdentityType;
-  /**
-   * The list of user identities associated with the resource. The user identity
-   * dictionary key references will be ARM resource ids in the form:
-   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
-   *     providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-   */
-  userAssignedIdentities?: { [propertyName: string]: UserIdentityProperties };
-}
-
-export interface UserIdentityProperties {
-  /** The principal id of user assigned identity. */
-  principalId?: string;
-  /** The client id of user assigned identity. */
-  clientId?: string;
-}
-
-/** Authentication credential stored for an upstream. */
-export interface AuthCredential {
-  /** The name of the credential. */
-  name?: CredentialName;
-  /** KeyVault Secret URI for accessing the username. */
-  usernameSecretIdentifier?: string;
-  /** KeyVault Secret URI for accessing the password. */
-  passwordSecretIdentifier?: string;
-  /**
-   * This provides data pertaining to the health of the auth credential.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly credentialHealth?: CredentialHealth;
-}
-
-/** The health of the auth credential. */
-export interface CredentialHealth {
-  /** The health status of credential. */
-  status?: CredentialHealthStatus;
-  /** Error code representing the health check error. */
-  errorCode?: string;
-  /** Descriptive message representing the health check error. */
-  errorMessage?: string;
-}
-
-/** The parameters for updating a credential set */
-export interface CredentialSetUpdateParameters {
-  /** Identities associated with the resource. This is used to access the KeyVault secrets. */
-  identity?: IdentityProperties;
-  /**
-   * List of authentication credentials stored for an upstream.
-   * Usually consists of a primary and an optional secondary credential.
-   */
-  authCredentials?: AuthCredential[];
-}
-
-/** The result of a request to list export pipelines for a container registry. */
-export interface ExportPipelineListResult {
-  /** The list of export pipelines. Since this list may be incomplete, the nextLink field should be used to request the next list of export pipelines. */
-  value?: ExportPipeline[];
-  /** The URI that can be used to request the next list of pipeline runs. */
-  nextLink?: string;
-}
-
-/** The properties of the export pipeline target. */
-export interface ExportPipelineTargetProperties {
-  /** The type of target for the export pipeline. */
-  type?: string;
-  /**
-   * The target uri of the export pipeline.
-   * When 'AzureStorageBlob': "https://accountName.blob.core.windows.net/containerName/blobName"
-   * When 'AzureStorageBlobContainer':  "https://accountName.blob.core.windows.net/containerName"
-   */
-  uri?: string;
-  /** They key vault secret uri to obtain the target storage SAS token. */
-  keyVaultUri: string;
-}
-
 export interface ImportImageParameters {
   /** The source of the image. */
   source: ImportSource;
@@ -377,38 +40,6 @@ export interface ImportSourceCredentials {
   username?: string;
   /** The password used to authenticate with the source registry. */
   password: string;
-}
-
-/** The result of a request to list import pipelines for a container registry. */
-export interface ImportPipelineListResult {
-  /** The list of import pipelines. Since this list may be incomplete, the nextLink field should be used to request the next list of import pipelines. */
-  value?: ImportPipeline[];
-  /** The URI that can be used to request the next list of pipeline runs. */
-  nextLink?: string;
-}
-
-/** The properties of the import pipeline source. */
-export interface ImportPipelineSourceProperties {
-  /** The type of source for the import pipeline. */
-  type?: PipelineSourceType;
-  /**
-   * The source uri of the import pipeline.
-   * When 'AzureStorageBlob': "https://accountName.blob.core.windows.net/containerName/blobName"
-   * When 'AzureStorageBlobContainer': "https://accountName.blob.core.windows.net/containerName"
-   */
-  uri?: string;
-  /** They key vault secret uri to obtain the source storage SAS token. */
-  keyVaultUri: string;
-}
-
-export interface PipelineTriggerProperties {
-  /** The source trigger properties of the pipeline. */
-  sourceTrigger?: PipelineSourceTriggerProperties;
-}
-
-export interface PipelineSourceTriggerProperties {
-  /** The current status of the source trigger. */
-  status: TriggerStatus;
 }
 
 /** The result of a request to list container registry operations. */
@@ -500,86 +131,6 @@ export interface RegistryNameStatus {
   message?: string;
 }
 
-/** The result of a request to list pipeline runs for a container registry. */
-export interface PipelineRunListResult {
-  /** The list of pipeline runs. Since this list may be incomplete, the nextLink field should be used to request the next list of pipeline runs. */
-  value?: PipelineRun[];
-  /** The URI that can be used to request the next list of pipeline runs. */
-  nextLink?: string;
-}
-
-/** The request properties provided for a pipeline run. */
-export interface PipelineRunRequest {
-  /** The resource ID of the pipeline to run. */
-  pipelineResourceId?: string;
-  /**
-   * List of source artifacts to be transferred by the pipeline.
-   * Specify an image by repository ('hello-world'). This will use the 'latest' tag.
-   * Specify an image by tag ('hello-world:latest').
-   * Specify an image by sha256-based manifest digest ('hello-world@sha256:abc123').
-   */
-  artifacts?: string[];
-  /** The source properties of the pipeline run. */
-  source?: PipelineRunSourceProperties;
-  /** The target properties of the pipeline run. */
-  target?: PipelineRunTargetProperties;
-  /** The digest of the tar used to transfer the artifacts. */
-  catalogDigest?: string;
-}
-
-export interface PipelineRunSourceProperties {
-  /** The type of the source. */
-  type?: PipelineRunSourceType;
-  /** The name of the source. */
-  name?: string;
-}
-
-export interface PipelineRunTargetProperties {
-  /** The type of the target. */
-  type?: PipelineRunTargetType;
-  /** The name of the target. */
-  name?: string;
-}
-
-/** The response properties returned for a pipeline run. */
-export interface PipelineRunResponse {
-  /** The current status of the pipeline run. */
-  status?: string;
-  /** The artifacts imported in the pipeline run. */
-  importedArtifacts?: string[];
-  /** The current progress of the copy operation. */
-  progress?: ProgressProperties;
-  /** The time the pipeline run started. */
-  startTime?: Date;
-  /** The time the pipeline run finished. */
-  finishTime?: Date;
-  /** The source of the pipeline run. */
-  source?: ImportPipelineSourceProperties;
-  /** The target of the pipeline run. */
-  target?: ExportPipelineTargetProperties;
-  /** The digest of the tar used to transfer the artifacts. */
-  catalogDigest?: string;
-  /** The trigger that caused the pipeline run. */
-  trigger?: PipelineTriggerDescriptor;
-  /** The detailed error message for the pipeline run in the case of failure. */
-  pipelineRunErrorMessage?: string;
-}
-
-export interface ProgressProperties {
-  /** The percentage complete of the copy operation. */
-  percentage?: string;
-}
-
-export interface PipelineTriggerDescriptor {
-  /** The source trigger that caused the pipeline run. */
-  sourceTrigger?: PipelineSourceTriggerDescriptor;
-}
-
-export interface PipelineSourceTriggerDescriptor {
-  /** The timestamp when the source update happened. */
-  timestamp?: Date;
-}
-
 /** The result of a request to list private endpoint connections for a container registry. */
 export interface PrivateEndpointConnectionListResult {
   /** The list of private endpoint connections. Since this list may be incomplete, the nextLink field should be used to request the next list of private endpoint connections. */
@@ -604,6 +155,46 @@ export interface PrivateLinkServiceConnectionState {
   actionsRequired?: ActionsRequired;
 }
 
+/** The resource model definition for a ARM proxy resource. It will have everything other than required location and tags. */
+export interface ProxyResource {
+  /**
+   * The resource ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: LastModifiedByType;
+  /** The timestamp of resource modification (UTC). */
+  lastModifiedAt?: Date;
+}
+
 /** The result of a request to list container registries. */
 export interface RegistryListResult {
   /** The list of container registries. Since this list may be incomplete, the nextLink field should be used to request the next list of container registries. */
@@ -621,6 +212,30 @@ export interface Sku {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tier?: SkuTier;
+}
+
+/** Managed identity for the resource. */
+export interface IdentityProperties {
+  /** The principal ID of resource identity. */
+  principalId?: string;
+  /** The tenant ID of resource. */
+  tenantId?: string;
+  /** The identity type. */
+  type?: ResourceIdentityType;
+  /**
+   * The list of user identities associated with the resource. The user identity
+   * dictionary key references will be ARM resource ids in the form:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
+   *     providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+   */
+  userAssignedIdentities?: { [propertyName: string]: UserIdentityProperties };
+}
+
+export interface UserIdentityProperties {
+  /** The principal id of user assigned identity. */
+  principalId?: string;
+  /** The client id of user assigned identity. */
+  clientId?: string;
 }
 
 /** The status of an Azure resource at the time the operation was called. */
@@ -668,10 +283,6 @@ export interface Policies {
   retentionPolicy?: RetentionPolicy;
   /** The export policy for a container registry. */
   exportPolicy?: ExportPolicy;
-  /** The policy for using ARM audience token for a container registry. */
-  azureADAuthenticationAsArmPolicy?: AzureADAuthenticationAsArmPolicy;
-  /** The soft delete policy for a container registry. */
-  softDeletePolicy?: SoftDeletePolicy;
 }
 
 /** The quarantine policy for a container registry. */
@@ -705,25 +316,6 @@ export interface RetentionPolicy {
 export interface ExportPolicy {
   /** The value that indicates whether the policy is enabled or not. */
   status?: ExportPolicyStatus;
-}
-
-/** The policy for using ARM audience token for a container registry. */
-export interface AzureADAuthenticationAsArmPolicy {
-  /** The value that indicates whether the policy is enabled or not. */
-  status?: AzureADAuthenticationAsArmPolicyStatus;
-}
-
-/** The soft delete policy for a container registry */
-export interface SoftDeletePolicy {
-  /** The number of days after which a soft-deleted item is permanently deleted. */
-  retentionDays?: number;
-  /**
-   * The timestamp when the policy was last updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastUpdatedTime?: Date;
-  /** The value that indicates whether the policy is enabled or not. */
-  status?: PolicyStatus;
 }
 
 export interface EncryptionProperty {
@@ -805,8 +397,6 @@ export interface RegistryUpdateParameters {
   publicNetworkAccess?: PublicNetworkAccess;
   /** Whether to allow trusted Azure services to access a network restricted registry. */
   networkRuleBypassOptions?: NetworkRuleBypassOptions;
-  /** Enables registry-wide pull from unauthenticated clients. */
-  anonymousPullEnabled?: boolean;
 }
 
 /** The result of a request to get container registry quota usages. */
@@ -852,6 +442,34 @@ export interface PrivateLinkResource {
   requiredMembers?: string[];
   /** The private link resource Private link DNS zone name. */
   requiredZoneNames?: string[];
+}
+
+/** An error response from the Azure Container Registry service. */
+export interface ErrorResponse {
+  /** Azure container registry build API error body. */
+  error?: ErrorResponseBody;
+}
+
+/** An error response from the Azure Container Registry service. */
+export interface ErrorResponseBody {
+  /** error code. */
+  code: string;
+  /** error message. */
+  message: string;
+  /** target of the particular error. */
+  target?: string;
+  /** an array of additional nested error response info objects, as described by this contract. */
+  details?: InnerErrorDescription[];
+}
+
+/** inner error. */
+export interface InnerErrorDescription {
+  /** error code. */
+  code: string;
+  /** error message. */
+  message: string;
+  /** target of the particular error. */
+  target?: string;
 }
 
 /** The response from the ListCredentials operation. */
@@ -1140,448 +758,6 @@ export interface CallbackConfig {
   customHeaders?: { [propertyName: string]: string };
 }
 
-/** The parameters for updating an agent pool. */
-export interface AgentPoolUpdateParameters {
-  /** The ARM resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** The count of agent machine */
-  count?: number;
-}
-
-/** The collection of agent pools. */
-export interface AgentPoolListResult {
-  /** The collection value. */
-  value?: AgentPool[];
-  /** The URI that can be used to request the next set of paged results. */
-  nextLink?: string;
-}
-
-/** The QueueStatus of Agent Pool */
-export interface AgentPoolQueueStatus {
-  /** The number of pending runs in the queue */
-  count?: number;
-}
-
-/** The request parameters for scheduling a run. */
-export interface RunRequest {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type:
-    | "DockerBuildRequest"
-    | "FileTaskRunRequest"
-    | "TaskRunRequest"
-    | "EncodedTaskRunRequest";
-  /** The value that indicates whether archiving is enabled for the run or not. */
-  isArchiveEnabled?: boolean;
-  /** The dedicated agent pool for the run. */
-  agentPoolName?: string;
-  /** The template that describes the repository and tag information for run log artifact. */
-  logTemplate?: string;
-}
-
-/** Properties for a registry image. */
-export interface ImageDescriptor {
-  /** The registry login server. */
-  registry?: string;
-  /** The repository name. */
-  repository?: string;
-  /** The tag name. */
-  tag?: string;
-  /** The sha256-based digest of the image manifest. */
-  digest?: string;
-}
-
-/** The image update trigger that caused a build. */
-export interface ImageUpdateTrigger {
-  /** The unique ID of the trigger. */
-  id?: string;
-  /** The timestamp when the image update happened. */
-  timestamp?: Date;
-  /** The list of image updates that caused the build. */
-  images?: ImageDescriptor[];
-}
-
-/** The source trigger that caused a run. */
-export interface SourceTriggerDescriptor {
-  /** The unique ID of the trigger. */
-  id?: string;
-  /** The event type of the trigger. */
-  eventType?: string;
-  /** The unique ID that identifies a commit. */
-  commitId?: string;
-  /** The unique ID that identifies pull request. */
-  pullRequestId?: string;
-  /** The repository URL. */
-  repositoryUrl?: string;
-  /** The branch name in the repository. */
-  branchName?: string;
-  /** The source control provider type. */
-  providerType?: string;
-}
-
-export interface TimerTriggerDescriptor {
-  /** The timer trigger name that caused the run. */
-  timerTriggerName?: string;
-  /** The occurrence that triggered the run. */
-  scheduleOccurrence?: string;
-}
-
-/** The platform properties against which the run has to happen. */
-export interface PlatformProperties {
-  /** The operating system type required for the run. */
-  os: OS;
-  /** The OS architecture. */
-  architecture?: Architecture;
-  /** Variant of the CPU. */
-  variant?: Variant;
-}
-
-/** The properties that determine the run agent configuration. */
-export interface AgentProperties {
-  /** The CPU configuration in terms of number of cores required for the run. */
-  cpu?: number;
-}
-
-/** The properties of a response to source upload request. */
-export interface SourceUploadDefinition {
-  /** The URL where the client can upload the source. */
-  uploadUrl?: string;
-  /** The relative path to the source. This is used to submit the subsequent queue build request. */
-  relativePath?: string;
-}
-
-/** Collection of runs. */
-export interface RunListResult {
-  /** The collection value. */
-  value?: Run[];
-  /** The URI that can be used to request the next set of paged results. */
-  nextLink?: string;
-}
-
-/** The set of run properties that can be updated. */
-export interface RunUpdateParameters {
-  /** The value that indicates whether archiving is enabled or not. */
-  isArchiveEnabled?: boolean;
-}
-
-/** The result of get log link operation. */
-export interface RunGetLogResult {
-  /** The link to logs for a run on a azure container registry. */
-  logLink?: string;
-  /** The link to logs in registry for a run on a azure container registry. */
-  logArtifactLink?: string;
-}
-
-/** The parameters for updating a task run. */
-export interface TaskRunUpdateParameters {
-  /** Identity for the resource. */
-  identity?: IdentityProperties;
-  /** The location of the resource */
-  location?: string;
-  /** The ARM resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** The request (parameters) for the new run */
-  runRequest?: RunRequestUnion;
-  /** How the run should be forced to rerun even if the run request configuration has not changed */
-  forceUpdateTag?: string;
-}
-
-/** The collection of task runs. */
-export interface TaskRunListResult {
-  /** The collection value. */
-  value?: TaskRun[];
-  /** The URI that can be used to request the next set of paged results. */
-  nextLink?: string;
-}
-
-/** The collection of tasks. */
-export interface TaskListResult {
-  /** The collection value. */
-  value?: Task[];
-  /** The URI that can be used to request the next set of paged results. */
-  nextLink?: string;
-}
-
-/** Base properties for any task step. */
-export interface TaskStepProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Docker" | "FileTask" | "EncodedTask";
-  /**
-   * List of base image dependencies for a step.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly baseImageDependencies?: BaseImageDependency[];
-  /** The URL(absolute or relative) of the source context for the task step. */
-  contextPath?: string;
-  /** The token (git PAT or SAS token of storage account blob) associated with the context for a step. */
-  contextAccessToken?: string;
-}
-
-/** Properties that describe a base image dependency. */
-export interface BaseImageDependency {
-  /** The type of the base image dependency. */
-  type?: BaseImageDependencyType;
-  /** The registry login server. */
-  registry?: string;
-  /** The repository name. */
-  repository?: string;
-  /** The tag name. */
-  tag?: string;
-  /** The sha256-based digest of the image manifest. */
-  digest?: string;
-}
-
-/** The properties of a trigger. */
-export interface TriggerProperties {
-  /** The collection of timer triggers. */
-  timerTriggers?: TimerTrigger[];
-  /** The collection of triggers based on source code repository. */
-  sourceTriggers?: SourceTrigger[];
-  /** The trigger based on base image dependencies. */
-  baseImageTrigger?: BaseImageTrigger;
-}
-
-/** The properties of a timer trigger. */
-export interface TimerTrigger {
-  /** The CRON expression for the task schedule */
-  schedule: string;
-  /** The current status of trigger. */
-  status?: TriggerStatus;
-  /** The name of the trigger. */
-  name: string;
-}
-
-/** The properties of a source based trigger. */
-export interface SourceTrigger {
-  /** The properties that describes the source(code) for the task. */
-  sourceRepository: SourceProperties;
-  /** The source event corresponding to the trigger. */
-  sourceTriggerEvents: SourceTriggerEvent[];
-  /** The current status of trigger. */
-  status?: TriggerStatus;
-  /** The name of the trigger. */
-  name: string;
-}
-
-/** The properties of the source code repository. */
-export interface SourceProperties {
-  /** The type of source control service. */
-  sourceControlType: SourceControlType;
-  /** The full URL to the source code repository */
-  repositoryUrl: string;
-  /** The branch name of the source code. */
-  branch?: string;
-  /**
-   * The authorization properties for accessing the source code repository and to set up
-   * webhooks for notifications.
-   */
-  sourceControlAuthProperties?: AuthInfo;
-}
-
-/** The authorization properties for accessing the source code repository. */
-export interface AuthInfo {
-  /** The type of Auth token. */
-  tokenType: TokenType;
-  /** The access token used to access the source control provider. */
-  token: string;
-  /** The refresh token used to refresh the access token. */
-  refreshToken?: string;
-  /** The scope of the access token. */
-  scope?: string;
-  /** Time in seconds that the token remains valid */
-  expiresIn?: number;
-}
-
-/** The trigger based on base image dependency. */
-export interface BaseImageTrigger {
-  /** The type of the auto trigger for base image dependency updates. */
-  baseImageTriggerType: BaseImageTriggerType;
-  /** The endpoint URL for receiving update triggers. */
-  updateTriggerEndpoint?: string;
-  /** Type of Payload body for Base image update triggers. */
-  updateTriggerPayloadType?: UpdateTriggerPayloadType;
-  /** The current status of trigger. */
-  status?: TriggerStatus;
-  /** The name of the trigger. */
-  name: string;
-}
-
-/** The parameters that describes a set of credentials that will be used when a run is invoked. */
-export interface Credentials {
-  /** Describes the credential parameters for accessing the source registry. */
-  sourceRegistry?: SourceRegistryCredentials;
-  /**
-   * Describes the credential parameters for accessing other custom registries. The key
-   * for the dictionary item will be the registry login server (myregistry.azurecr.io) and
-   * the value of the item will be the registry credentials for accessing the registry.
-   */
-  customRegistries?: { [propertyName: string]: CustomRegistryCredentials };
-}
-
-/** Describes the credential parameters for accessing the source registry. */
-export interface SourceRegistryCredentials {
-  /**
-   * The authentication mode which determines the source registry login scope. The credentials for the source registry
-   * will be generated using the given scope. These credentials will be used to login to
-   * the source registry during the run.
-   */
-  loginMode?: SourceRegistryLoginMode;
-}
-
-/** Describes the credentials that will be used to access a custom registry during a run. */
-export interface CustomRegistryCredentials {
-  /** The username for logging into the custom registry. */
-  userName?: SecretObject;
-  /**
-   * The password for logging into the custom registry. The password is a secret
-   * object that allows multiple ways of providing the value for it.
-   */
-  password?: SecretObject;
-  /**
-   * Indicates the managed identity assigned to the custom credential. If a user-assigned identity
-   * this value is the Client ID. If a system-assigned identity, the value will be `system`. In
-   * the case of a system-assigned identity, the Client ID will be determined by the runner. This
-   * identity may be used to authenticate to key vault to retrieve credentials or it may be the only
-   * source of authentication used for accessing the registry.
-   */
-  identity?: string;
-}
-
-/** Describes the properties of a secret object value. */
-export interface SecretObject {
-  /**
-   * The value of the secret. The format of this value will be determined
-   * based on the type of the secret object. If the type is Opaque, the value will be
-   * used as is without any modification.
-   */
-  value?: string;
-  /**
-   * The type of the secret object which determines how the value of the secret object has to be
-   * interpreted.
-   */
-  type?: SecretObjectType;
-}
-
-/** The parameters for updating a task. */
-export interface TaskUpdateParameters {
-  /** Identity for the resource. */
-  identity?: IdentityProperties;
-  /** The ARM resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** The current status of task. */
-  status?: TaskStatus;
-  /** The platform properties against which the run has to happen. */
-  platform?: PlatformUpdateParameters;
-  /** The machine configuration of the run agent. */
-  agentConfiguration?: AgentProperties;
-  /** The dedicated agent pool for the task. */
-  agentPoolName?: string;
-  /** Run timeout in seconds. */
-  timeout?: number;
-  /** The properties for updating a task step. */
-  step?: TaskStepUpdateParametersUnion;
-  /** The properties for updating trigger properties. */
-  trigger?: TriggerUpdateParameters;
-  /** The parameters that describes a set of credentials that will be used when this run is invoked. */
-  credentials?: Credentials;
-  /** The template that describes the repository and tag information for run log artifact. */
-  logTemplate?: string;
-}
-
-/** The properties for updating the platform configuration. */
-export interface PlatformUpdateParameters {
-  /** The operating system type required for the run. */
-  os?: OS;
-  /** The OS architecture. */
-  architecture?: Architecture;
-  /** Variant of the CPU. */
-  variant?: Variant;
-}
-
-/** Base properties for updating any task step. */
-export interface TaskStepUpdateParameters {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Docker" | "FileTask" | "EncodedTask";
-  /** The URL(absolute or relative) of the source context for the task step. */
-  contextPath?: string;
-  /** The token (git PAT or SAS token of storage account blob) associated with the context for a step. */
-  contextAccessToken?: string;
-}
-
-/** The properties for updating triggers. */
-export interface TriggerUpdateParameters {
-  /** The collection of timer triggers. */
-  timerTriggers?: TimerTriggerUpdateParameters[];
-  /** The collection of triggers based on source code repository. */
-  sourceTriggers?: SourceTriggerUpdateParameters[];
-  /** The trigger based on base image dependencies. */
-  baseImageTrigger?: BaseImageTriggerUpdateParameters;
-}
-
-/** The properties for updating a timer trigger. */
-export interface TimerTriggerUpdateParameters {
-  /** The CRON expression for the task schedule */
-  schedule?: string;
-  /** The current status of trigger. */
-  status?: TriggerStatus;
-  /** The name of the trigger. */
-  name: string;
-}
-
-/** The properties for updating a source based trigger. */
-export interface SourceTriggerUpdateParameters {
-  /** The properties that describes the source(code) for the task. */
-  sourceRepository?: SourceUpdateParameters;
-  /** The source event corresponding to the trigger. */
-  sourceTriggerEvents?: SourceTriggerEvent[];
-  /** The current status of trigger. */
-  status?: TriggerStatus;
-  /** The name of the trigger. */
-  name: string;
-}
-
-/** The properties for updating the source code repository. */
-export interface SourceUpdateParameters {
-  /** The type of source control service. */
-  sourceControlType?: SourceControlType;
-  /** The full URL to the source code repository */
-  repositoryUrl?: string;
-  /** The branch name of the source code. */
-  branch?: string;
-  /**
-   * The authorization properties for accessing the source code repository and to set up
-   * webhooks for notifications.
-   */
-  sourceControlAuthProperties?: AuthInfoUpdateParameters;
-}
-
-/** The authorization properties for accessing the source code repository. */
-export interface AuthInfoUpdateParameters {
-  /** The type of Auth token. */
-  tokenType?: TokenType;
-  /** The access token used to access the source control provider. */
-  token?: string;
-  /** The refresh token used to refresh the access token. */
-  refreshToken?: string;
-  /** The scope of the access token. */
-  scope?: string;
-  /** Time in seconds that the token remains valid */
-  expiresIn?: number;
-}
-
-/** The properties for updating base image dependency trigger. */
-export interface BaseImageTriggerUpdateParameters {
-  /** The type of the auto trigger for base image dependency updates. */
-  baseImageTriggerType?: BaseImageTriggerType;
-  /** The endpoint URL for receiving update triggers. */
-  updateTriggerEndpoint?: string;
-  /** Type of Payload body for Base image update triggers. */
-  updateTriggerPayloadType?: UpdateTriggerPayloadType;
-  /** The current status of trigger. */
-  status?: TriggerStatus;
-  /** The name of the trigger. */
-  name: string;
-}
-
 /** The properties of a storage account for a container registry. Only applicable to Classic SKU. */
 export interface StorageAccountProperties {
   /** The resource ID of the storage account. */
@@ -1605,215 +781,6 @@ export interface ActiveDirectoryObject {
   objectId?: string;
   /** The tenant ID of user/group/application object Active Directory Object that will be used for authenticating the token of a container registry. */
   tenantId?: string;
-}
-
-/** Properties that are enabled for Odata querying on runs. */
-export interface RunFilter {
-  /** The unique identifier for the run. */
-  runId?: string;
-  /** The type of run. */
-  runType?: RunType;
-  /** The current status of the run. */
-  status?: RunStatus;
-  /** The create time for a run. */
-  createTime?: Date;
-  /** The time the run finished. */
-  finishTime?: Date;
-  /**
-   * The list of comma-separated image manifests that were generated from the run. This is applicable if the run is of
-   * build type.
-   */
-  outputImageManifests?: string;
-  /** The value that indicates whether archiving is enabled or not. */
-  isArchiveEnabled?: boolean;
-  /** The name of the task that the run corresponds to. */
-  taskName?: string;
-  /** The name of the agent pool that the run corresponds to. */
-  agentPoolName?: string;
-}
-
-/** The properties of a run argument. */
-export interface Argument {
-  /** The name of the argument. */
-  name: string;
-  /** The value of the argument. */
-  value: string;
-  /** Flag to indicate whether the argument represents a secret and want to be removed from build logs. */
-  isSecret?: boolean;
-}
-
-/** The properties of a overridable value that can be passed to a task template. */
-export interface SetValue {
-  /** The name of the overridable value. */
-  name: string;
-  /** The overridable value. */
-  value: string;
-  /** Flag to indicate whether the value represents a secret or not. */
-  isSecret?: boolean;
-}
-
-export interface OverrideTaskStepProperties {
-  /** The source context against which run has to be queued. */
-  contextPath?: string;
-  /** The file against which run has to be queued. */
-  file?: string;
-  /**
-   * Gets or sets the collection of override arguments to be used when
-   * executing a build step.
-   */
-  arguments?: Argument[];
-  /** The name of the target build stage for the docker build. */
-  target?: string;
-  /** The collection of overridable values that can be passed when running a Task. */
-  values?: SetValue[];
-  /** Base64 encoded update trigger token that will be attached with the base image trigger webhook. */
-  updateTriggerToken?: string;
-}
-
-/** An object that represents a cache rule for a container registry. */
-export interface CacheRule extends ProxyResource {
-  /** The ARM resource ID of the credential store which is associated with the cache rule. */
-  credentialSetResourceId?: string;
-  /** Source repository pulled from upstream. */
-  sourceRepository?: string;
-  /**
-   * Target repository specified in docker pull command.
-   * Eg: docker pull myregistry.azurecr.io/{targetRepository}:{tag}
-   */
-  targetRepository?: string;
-  /**
-   * The creation date of the cache rule.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly creationDate?: Date;
-  /**
-   * Provisioning state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-}
-
-/** An object that represents a connected registry for a container registry. */
-export interface ConnectedRegistry extends ProxyResource {
-  /**
-   * Provisioning state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** The mode of the connected registry resource that indicates the permissions of the registry. */
-  mode?: ConnectedRegistryMode;
-  /**
-   * The current version of ACR runtime on the connected registry.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly version?: string;
-  /**
-   * The current connection state of the connected registry.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly connectionState?: ConnectionState;
-  /**
-   * The last activity time of the connected registry.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastActivityTime?: Date;
-  /**
-   * The activation properties of the connected registry.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly activation?: ActivationProperties;
-  /** The parent of the connected registry. */
-  parent?: ParentProperties;
-  /** The list of the ACR token resource IDs used to authenticate clients to the connected registry. */
-  clientTokenIds?: string[];
-  /** The login server properties of the connected registry. */
-  loginServer?: LoginServerProperties;
-  /** The logging properties of the connected registry. */
-  logging?: LoggingProperties;
-  /**
-   * The list of current statuses of the connected registry.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly statusDetails?: StatusDetailProperties[];
-  /** The list of notifications subscription information for the connected registry. */
-  notificationsList?: string[];
-}
-
-/** An object that represents a credential set resource for a container registry. */
-export interface CredentialSet extends ProxyResource {
-  /** Identities associated with the resource. This is used to access the KeyVault secrets. */
-  identity?: IdentityProperties;
-  /** The credentials are stored for this upstream or login server. */
-  loginServer?: string;
-  /**
-   * List of authentication credentials stored for an upstream.
-   * Usually consists of a primary and an optional secondary credential.
-   */
-  authCredentials?: AuthCredential[];
-  /**
-   * The creation date of credential store resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly creationDate?: Date;
-  /**
-   * Provisioning state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-}
-
-/** An object that represents an export pipeline for a container registry. */
-export interface ExportPipeline extends ProxyResource {
-  /** The location of the export pipeline. */
-  location?: string;
-  /** The identity of the export pipeline. */
-  identity?: IdentityProperties;
-  /** The target properties of the export pipeline. */
-  target?: ExportPipelineTargetProperties;
-  /** The list of all options configured for the pipeline. */
-  options?: PipelineOptions[];
-  /**
-   * The provisioning state of the pipeline at the time the operation was called.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-}
-
-/** An object that represents an import pipeline for a container registry. */
-export interface ImportPipeline extends ProxyResource {
-  /** The location of the import pipeline. */
-  location?: string;
-  /** The identity of the import pipeline. */
-  identity?: IdentityProperties;
-  /** The source properties of the import pipeline. */
-  source?: ImportPipelineSourceProperties;
-  /** The properties that describe the trigger of the import pipeline. */
-  trigger?: PipelineTriggerProperties;
-  /** The list of all options configured for the pipeline. */
-  options?: PipelineOptions[];
-  /**
-   * The provisioning state of the pipeline at the time the operation was called.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-}
-
-/** An object that represents a pipeline run for a container registry. */
-export interface PipelineRun extends ProxyResource {
-  /**
-   * The provisioning state of a pipeline run.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** The request parameters for a pipeline run. */
-  request?: PipelineRunRequest;
-  /**
-   * The response of a pipeline run.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly response?: PipelineRunResponse;
-  /** How the pipeline run should be forced to recreate even if the pipeline run configuration has not changed. */
-  forceUpdateTag?: string;
 }
 
 /** An object that represents a private endpoint connection for a container registry. */
@@ -1876,85 +843,6 @@ export interface Token extends ProxyResource {
   status?: TokenStatus;
 }
 
-/** Run resource properties */
-export interface Run extends ProxyResource {
-  /** The unique identifier for the run. */
-  runId?: string;
-  /** The current status of the run. */
-  status?: RunStatus;
-  /** The last updated time for the run. */
-  lastUpdatedTime?: Date;
-  /** The type of run. */
-  runType?: RunType;
-  /** The dedicated agent pool for the run. */
-  agentPoolName?: string;
-  /** The time the run was scheduled. */
-  createTime?: Date;
-  /** The time the run started. */
-  startTime?: Date;
-  /** The time the run finished. */
-  finishTime?: Date;
-  /** The list of all images that were generated from the run. This is applicable if the run generates base image dependencies. */
-  outputImages?: ImageDescriptor[];
-  /** The task against which run was scheduled. */
-  task?: string;
-  /** The image update trigger that caused the run. This is applicable if the task has base image trigger configured. */
-  imageUpdateTrigger?: ImageUpdateTrigger;
-  /** The source trigger that caused the run. */
-  sourceTrigger?: SourceTriggerDescriptor;
-  /** The timer trigger that caused the run. */
-  timerTrigger?: TimerTriggerDescriptor;
-  /** The platform properties against which the run will happen. */
-  platform?: PlatformProperties;
-  /** The machine configuration of the run agent. */
-  agentConfiguration?: AgentProperties;
-  /** The scope of the credentials that were used to login to the source registry during this run. */
-  sourceRegistryAuth?: string;
-  /** The list of custom registries that were logged in during this run. */
-  customRegistries?: string[];
-  /**
-   * The error message received from backend systems after the run is scheduled.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly runErrorMessage?: string;
-  /** The update trigger token passed for the Run. */
-  updateTriggerToken?: string;
-  /**
-   * The image description for the log artifact.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly logArtifact?: ImageDescriptor;
-  /** The provisioning state of a run. */
-  provisioningState?: ProvisioningState;
-  /** The value that indicates whether archiving is enabled or not. */
-  isArchiveEnabled?: boolean;
-}
-
-/**
- * The task run that has the ARM resource and properties.
- * The task run will have the information of request and result of a run.
- */
-export interface TaskRun extends ProxyResource {
-  /** Identity for the resource. */
-  identity?: IdentityProperties;
-  /** The location of the resource */
-  location?: string;
-  /**
-   * The provisioning state of this task run
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** The request (parameters) for the run */
-  runRequest?: RunRequestUnion;
-  /**
-   * The result of this task run
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly runResult?: Run;
-  /** How the run should be forced to rerun even if the run request configuration has not changed */
-  forceUpdateTag?: string;
-}
-
 /** An object that represents a container registry. */
 export interface Registry extends Resource {
   /** The SKU of the container registry. */
@@ -2007,8 +895,6 @@ export interface Registry extends Resource {
   networkRuleBypassOptions?: NetworkRuleBypassOptions;
   /** Whether or not zone redundancy is enabled for this container registry */
   zoneRedundancy?: ZoneRedundancy;
-  /** Enables registry-wide pull from unauthenticated clients. */
-  anonymousPullEnabled?: boolean;
 }
 
 /** An object that represents a replication for a container registry. */
@@ -2044,308 +930,12 @@ export interface Webhook extends Resource {
   readonly provisioningState?: ProvisioningState;
 }
 
-/**
- * The agentpool that has the ARM resource and properties.
- * The agentpool will have all information to create an agent pool.
- */
-export interface AgentPool extends Resource {
-  /** The count of agent machine */
-  count?: number;
-  /** The Tier of agent machine */
-  tier?: string;
-  /** The OS of agent machine */
-  os?: OS;
-  /** The Virtual Network Subnet Resource Id of the agent machine */
-  virtualNetworkSubnetResourceId?: string;
-  /**
-   * The provisioning state of this agent pool
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-}
-
-/**
- * The task that has the ARM resource and task properties.
- * The task will have all information to schedule a run against it.
- */
-export interface Task extends Resource {
-  /** Identity for the resource. */
-  identity?: IdentityProperties;
-  /**
-   * The provisioning state of the task.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * The creation date of task.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly creationDate?: Date;
-  /** The current status of task. */
-  status?: TaskStatus;
-  /** The platform properties against which the run has to happen. */
-  platform?: PlatformProperties;
-  /** The machine configuration of the run agent. */
-  agentConfiguration?: AgentProperties;
-  /** The dedicated agent pool for the task. */
-  agentPoolName?: string;
-  /** Run timeout in seconds. */
-  timeout?: number;
-  /** The properties of a task step. */
-  step?: TaskStepPropertiesUnion;
-  /** The properties that describe all triggers for the task. */
-  trigger?: TriggerProperties;
-  /** The properties that describes a set of credentials that will be used when this run is invoked. */
-  credentials?: Credentials;
-  /** The template that describes the repository and tag information for run log artifact. */
-  logTemplate?: string;
-  /** The value of this property indicates whether the task resource is system task or not. */
-  isSystemTask?: boolean;
-}
-
 /** The event for a webhook. */
 export interface Event extends EventInfo {
   /** The event request message sent to the service URI. */
   eventRequestMessage?: EventRequestMessage;
   /** The event response message received from the service URI. */
   eventResponseMessage?: EventResponseMessage;
-}
-
-/** The parameters for a docker quick build. */
-export interface DockerBuildRequest extends RunRequest {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "DockerBuildRequest";
-  /** The fully qualified image names including the repository and tag. */
-  imageNames?: string[];
-  /** The value of this property indicates whether the image built should be pushed to the registry or not. */
-  isPushEnabled?: boolean;
-  /** The value of this property indicates whether the image cache is enabled or not. */
-  noCache?: boolean;
-  /** The Docker file path relative to the source location. */
-  dockerFilePath: string;
-  /** The name of the target build stage for the docker build. */
-  target?: string;
-  /** The collection of override arguments to be used when executing the run. */
-  arguments?: Argument[];
-  /** Run timeout in seconds. */
-  timeout?: number;
-  /** The platform properties against which the run has to happen. */
-  platform: PlatformProperties;
-  /** The machine configuration of the run agent. */
-  agentConfiguration?: AgentProperties;
-  /**
-   * The URL(absolute or relative) of the source context. It can be an URL to a tar or git repository.
-   * If it is relative URL, the relative path should be obtained from calling listBuildSourceUploadUrl API.
-   */
-  sourceLocation?: string;
-  /** The properties that describes a set of credentials that will be used when this run is invoked. */
-  credentials?: Credentials;
-}
-
-/** The request parameters for a scheduling run against a task file. */
-export interface FileTaskRunRequest extends RunRequest {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "FileTaskRunRequest";
-  /** The template/definition file path relative to the source. */
-  taskFilePath: string;
-  /** The values/parameters file path relative to the source. */
-  valuesFilePath?: string;
-  /** The collection of overridable values that can be passed when running a task. */
-  values?: SetValue[];
-  /** Run timeout in seconds. */
-  timeout?: number;
-  /** The platform properties against which the run has to happen. */
-  platform: PlatformProperties;
-  /** The machine configuration of the run agent. */
-  agentConfiguration?: AgentProperties;
-  /**
-   * The URL(absolute or relative) of the source context. It can be an URL to a tar or git repository.
-   * If it is relative URL, the relative path should be obtained from calling listBuildSourceUploadUrl API.
-   */
-  sourceLocation?: string;
-  /** The properties that describes a set of credentials that will be used when this run is invoked. */
-  credentials?: Credentials;
-}
-
-/** The parameters for a task run request. */
-export interface TaskRunRequest extends RunRequest {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "TaskRunRequest";
-  /** The resource ID of task against which run has to be queued. */
-  taskId: string;
-  /** Set of overridable parameters that can be passed when running a Task. */
-  overrideTaskStepProperties?: OverrideTaskStepProperties;
-}
-
-/** The parameters for a quick task run request. */
-export interface EncodedTaskRunRequest extends RunRequest {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "EncodedTaskRunRequest";
-  /** Base64 encoded value of the template/definition file content. */
-  encodedTaskContent: string;
-  /** Base64 encoded value of the parameters/values file content. */
-  encodedValuesContent?: string;
-  /** The collection of overridable values that can be passed when running a task. */
-  values?: SetValue[];
-  /** Run timeout in seconds. */
-  timeout?: number;
-  /** The platform properties against which the run has to happen. */
-  platform: PlatformProperties;
-  /** The machine configuration of the run agent. */
-  agentConfiguration?: AgentProperties;
-  /**
-   * The URL(absolute or relative) of the source context. It can be an URL to a tar or git repository.
-   * If it is relative URL, the relative path should be obtained from calling listBuildSourceUploadUrl API.
-   */
-  sourceLocation?: string;
-  /** The properties that describes a set of credentials that will be used when this run is invoked. */
-  credentials?: Credentials;
-}
-
-/** The Docker build step. */
-export interface DockerBuildStep extends TaskStepProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Docker";
-  /** The fully qualified image names including the repository and tag. */
-  imageNames?: string[];
-  /** The value of this property indicates whether the image built should be pushed to the registry or not. */
-  isPushEnabled?: boolean;
-  /** The value of this property indicates whether the image cache is enabled or not. */
-  noCache?: boolean;
-  /** The Docker file path relative to the source context. */
-  dockerFilePath: string;
-  /** The name of the target build stage for the docker build. */
-  target?: string;
-  /** The collection of override arguments to be used when executing this build step. */
-  arguments?: Argument[];
-}
-
-/** The properties of a task step. */
-export interface FileTaskStep extends TaskStepProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "FileTask";
-  /** The task template/definition file path relative to the source context. */
-  taskFilePath: string;
-  /** The task values/parameters file path relative to the source context. */
-  valuesFilePath?: string;
-  /** The collection of overridable values that can be passed when running a task. */
-  values?: SetValue[];
-}
-
-/** The properties of a encoded task step. */
-export interface EncodedTaskStep extends TaskStepProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "EncodedTask";
-  /** Base64 encoded value of the template/definition file content. */
-  encodedTaskContent: string;
-  /** Base64 encoded value of the parameters/values file content. */
-  encodedValuesContent?: string;
-  /** The collection of overridable values that can be passed when running a task. */
-  values?: SetValue[];
-}
-
-/** The properties for updating a docker build step. */
-export interface DockerBuildStepUpdateParameters
-  extends TaskStepUpdateParameters {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Docker";
-  /** The fully qualified image names including the repository and tag. */
-  imageNames?: string[];
-  /** The value of this property indicates whether the image built should be pushed to the registry or not. */
-  isPushEnabled?: boolean;
-  /** The value of this property indicates whether the image cache is enabled or not. */
-  noCache?: boolean;
-  /** The Docker file path relative to the source context. */
-  dockerFilePath?: string;
-  /** The collection of override arguments to be used when executing this build step. */
-  arguments?: Argument[];
-  /** The name of the target build stage for the docker build. */
-  target?: string;
-}
-
-/** The properties of updating a task step. */
-export interface FileTaskStepUpdateParameters extends TaskStepUpdateParameters {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "FileTask";
-  /** The task template/definition file path relative to the source context. */
-  taskFilePath?: string;
-  /** The values/parameters file path relative to the source context. */
-  valuesFilePath?: string;
-  /** The collection of overridable values that can be passed when running a task. */
-  values?: SetValue[];
-}
-
-/** The properties for updating encoded task step. */
-export interface EncodedTaskStepUpdateParameters
-  extends TaskStepUpdateParameters {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "EncodedTask";
-  /** Base64 encoded value of the template/definition file content. */
-  encodedTaskContent?: string;
-  /** Base64 encoded value of the parameters/values file content. */
-  encodedValuesContent?: string;
-  /** The collection of overridable values that can be passed when running a task. */
-  values?: SetValue[];
-}
-
-/** Defines headers for CacheRules_create operation. */
-export interface CacheRulesCreateHeaders {
-  azureAsyncOperation?: string;
-}
-
-/** Defines headers for CacheRules_delete operation. */
-export interface CacheRulesDeleteHeaders {
-  location?: string;
-}
-
-/** Defines headers for CacheRules_update operation. */
-export interface CacheRulesUpdateHeaders {
-  azureAsyncOperation?: string;
-}
-
-/** Defines headers for ConnectedRegistries_create operation. */
-export interface ConnectedRegistriesCreateHeaders {
-  azureAsyncOperation?: string;
-}
-
-/** Defines headers for ConnectedRegistries_delete operation. */
-export interface ConnectedRegistriesDeleteHeaders {
-  location?: string;
-}
-
-/** Defines headers for ConnectedRegistries_update operation. */
-export interface ConnectedRegistriesUpdateHeaders {
-  azureAsyncOperation?: string;
-}
-
-/** Defines headers for ConnectedRegistries_deactivate operation. */
-export interface ConnectedRegistriesDeactivateHeaders {
-  location?: string;
-}
-
-/** Defines headers for CredentialSets_create operation. */
-export interface CredentialSetsCreateHeaders {
-  azureAsyncOperation?: string;
-}
-
-/** Defines headers for CredentialSets_delete operation. */
-export interface CredentialSetsDeleteHeaders {
-  location?: string;
-}
-
-/** Defines headers for CredentialSets_update operation. */
-export interface CredentialSetsUpdateHeaders {
-  azureAsyncOperation?: string;
-}
-
-/** Defines headers for ExportPipelines_create operation. */
-export interface ExportPipelinesCreateHeaders {
-  azureAsyncOperation?: string;
-}
-
-/** Defines headers for ExportPipelines_delete operation. */
-export interface ExportPipelinesDeleteHeaders {
-  location?: string;
 }
 
 /** Defines headers for Registries_importImage operation. */
@@ -2370,26 +960,6 @@ export interface RegistriesUpdateHeaders {
 
 /** Defines headers for Registries_generateCredentials operation. */
 export interface RegistriesGenerateCredentialsHeaders {
-  location?: string;
-}
-
-/** Defines headers for ImportPipelines_create operation. */
-export interface ImportPipelinesCreateHeaders {
-  azureAsyncOperation?: string;
-}
-
-/** Defines headers for ImportPipelines_delete operation. */
-export interface ImportPipelinesDeleteHeaders {
-  location?: string;
-}
-
-/** Defines headers for PipelineRuns_create operation. */
-export interface PipelineRunsCreateHeaders {
-  azureAsyncOperation?: string;
-}
-
-/** Defines headers for PipelineRuns_delete operation. */
-export interface PipelineRunsDeleteHeaders {
   location?: string;
 }
 
@@ -2462,6 +1032,66 @@ export interface WebhooksDeleteHeaders {
 export interface WebhooksUpdateHeaders {
   azureAsyncOperation?: string;
 }
+
+/** Known values of {@link ImportMode} that the service accepts. */
+export enum KnownImportMode {
+  /** NoForce */
+  NoForce = "NoForce",
+  /** Force */
+  Force = "Force"
+}
+
+/**
+ * Defines values for ImportMode. \
+ * {@link KnownImportMode} can be used interchangeably with ImportMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NoForce** \
+ * **Force**
+ */
+export type ImportMode = string;
+
+/** Known values of {@link ConnectionStatus} that the service accepts. */
+export enum KnownConnectionStatus {
+  /** Approved */
+  Approved = "Approved",
+  /** Pending */
+  Pending = "Pending",
+  /** Rejected */
+  Rejected = "Rejected",
+  /** Disconnected */
+  Disconnected = "Disconnected"
+}
+
+/**
+ * Defines values for ConnectionStatus. \
+ * {@link KnownConnectionStatus} can be used interchangeably with ConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Approved** \
+ * **Pending** \
+ * **Rejected** \
+ * **Disconnected**
+ */
+export type ConnectionStatus = string;
+
+/** Known values of {@link ActionsRequired} that the service accepts. */
+export enum KnownActionsRequired {
+  /** None */
+  None = "None",
+  /** Recreate */
+  Recreate = "Recreate"
+}
+
+/**
+ * Defines values for ActionsRequired. \
+ * {@link KnownActionsRequired} can be used interchangeably with ActionsRequired,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Recreate**
+ */
+export type ActionsRequired = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
@@ -2540,330 +1170,6 @@ export enum KnownLastModifiedByType {
  * **Key**
  */
 export type LastModifiedByType = string;
-
-/** Known values of {@link ConnectedRegistryMode} that the service accepts. */
-export enum KnownConnectedRegistryMode {
-  /** ReadWrite */
-  ReadWrite = "ReadWrite",
-  /** ReadOnly */
-  ReadOnly = "ReadOnly",
-  /** Registry */
-  Registry = "Registry",
-  /** Mirror */
-  Mirror = "Mirror"
-}
-
-/**
- * Defines values for ConnectedRegistryMode. \
- * {@link KnownConnectedRegistryMode} can be used interchangeably with ConnectedRegistryMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ReadWrite** \
- * **ReadOnly** \
- * **Registry** \
- * **Mirror**
- */
-export type ConnectedRegistryMode = string;
-
-/** Known values of {@link ConnectionState} that the service accepts. */
-export enum KnownConnectionState {
-  /** Online */
-  Online = "Online",
-  /** Offline */
-  Offline = "Offline",
-  /** Syncing */
-  Syncing = "Syncing",
-  /** Unhealthy */
-  Unhealthy = "Unhealthy"
-}
-
-/**
- * Defines values for ConnectionState. \
- * {@link KnownConnectionState} can be used interchangeably with ConnectionState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Online** \
- * **Offline** \
- * **Syncing** \
- * **Unhealthy**
- */
-export type ConnectionState = string;
-
-/** Known values of {@link ActivationStatus} that the service accepts. */
-export enum KnownActivationStatus {
-  /** Active */
-  Active = "Active",
-  /** Inactive */
-  Inactive = "Inactive"
-}
-
-/**
- * Defines values for ActivationStatus. \
- * {@link KnownActivationStatus} can be used interchangeably with ActivationStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Active** \
- * **Inactive**
- */
-export type ActivationStatus = string;
-
-/** Known values of {@link TlsStatus} that the service accepts. */
-export enum KnownTlsStatus {
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled"
-}
-
-/**
- * Defines values for TlsStatus. \
- * {@link KnownTlsStatus} can be used interchangeably with TlsStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
- */
-export type TlsStatus = string;
-
-/** Known values of {@link CertificateType} that the service accepts. */
-export enum KnownCertificateType {
-  /** LocalDirectory */
-  LocalDirectory = "LocalDirectory"
-}
-
-/**
- * Defines values for CertificateType. \
- * {@link KnownCertificateType} can be used interchangeably with CertificateType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **LocalDirectory**
- */
-export type CertificateType = string;
-
-/** Known values of {@link LogLevel} that the service accepts. */
-export enum KnownLogLevel {
-  /** Debug */
-  Debug = "Debug",
-  /** Information */
-  Information = "Information",
-  /** Warning */
-  Warning = "Warning",
-  /** Error */
-  Error = "Error",
-  /** None */
-  None = "None"
-}
-
-/**
- * Defines values for LogLevel. \
- * {@link KnownLogLevel} can be used interchangeably with LogLevel,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Debug** \
- * **Information** \
- * **Warning** \
- * **Error** \
- * **None**
- */
-export type LogLevel = string;
-
-/** Known values of {@link AuditLogStatus} that the service accepts. */
-export enum KnownAuditLogStatus {
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled"
-}
-
-/**
- * Defines values for AuditLogStatus. \
- * {@link KnownAuditLogStatus} can be used interchangeably with AuditLogStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
- */
-export type AuditLogStatus = string;
-
-/** Known values of {@link CredentialName} that the service accepts. */
-export enum KnownCredentialName {
-  /** Credential1 */
-  Credential1 = "Credential1"
-}
-
-/**
- * Defines values for CredentialName. \
- * {@link KnownCredentialName} can be used interchangeably with CredentialName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Credential1**
- */
-export type CredentialName = string;
-
-/** Known values of {@link CredentialHealthStatus} that the service accepts. */
-export enum KnownCredentialHealthStatus {
-  /** Healthy */
-  Healthy = "Healthy",
-  /** Unhealthy */
-  Unhealthy = "Unhealthy"
-}
-
-/**
- * Defines values for CredentialHealthStatus. \
- * {@link KnownCredentialHealthStatus} can be used interchangeably with CredentialHealthStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Healthy** \
- * **Unhealthy**
- */
-export type CredentialHealthStatus = string;
-
-/** Known values of {@link PipelineOptions} that the service accepts. */
-export enum KnownPipelineOptions {
-  /** OverwriteTags */
-  OverwriteTags = "OverwriteTags",
-  /** OverwriteBlobs */
-  OverwriteBlobs = "OverwriteBlobs",
-  /** DeleteSourceBlobOnSuccess */
-  DeleteSourceBlobOnSuccess = "DeleteSourceBlobOnSuccess",
-  /** ContinueOnErrors */
-  ContinueOnErrors = "ContinueOnErrors"
-}
-
-/**
- * Defines values for PipelineOptions. \
- * {@link KnownPipelineOptions} can be used interchangeably with PipelineOptions,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **OverwriteTags** \
- * **OverwriteBlobs** \
- * **DeleteSourceBlobOnSuccess** \
- * **ContinueOnErrors**
- */
-export type PipelineOptions = string;
-
-/** Known values of {@link ImportMode} that the service accepts. */
-export enum KnownImportMode {
-  /** NoForce */
-  NoForce = "NoForce",
-  /** Force */
-  Force = "Force"
-}
-
-/**
- * Defines values for ImportMode. \
- * {@link KnownImportMode} can be used interchangeably with ImportMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NoForce** \
- * **Force**
- */
-export type ImportMode = string;
-
-/** Known values of {@link PipelineSourceType} that the service accepts. */
-export enum KnownPipelineSourceType {
-  /** AzureStorageBlobContainer */
-  AzureStorageBlobContainer = "AzureStorageBlobContainer"
-}
-
-/**
- * Defines values for PipelineSourceType. \
- * {@link KnownPipelineSourceType} can be used interchangeably with PipelineSourceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AzureStorageBlobContainer**
- */
-export type PipelineSourceType = string;
-
-/** Known values of {@link TriggerStatus} that the service accepts. */
-export enum KnownTriggerStatus {
-  /** Disabled */
-  Disabled = "Disabled",
-  /** Enabled */
-  Enabled = "Enabled"
-}
-
-/**
- * Defines values for TriggerStatus. \
- * {@link KnownTriggerStatus} can be used interchangeably with TriggerStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Disabled** \
- * **Enabled**
- */
-export type TriggerStatus = string;
-
-/** Known values of {@link PipelineRunSourceType} that the service accepts. */
-export enum KnownPipelineRunSourceType {
-  /** AzureStorageBlob */
-  AzureStorageBlob = "AzureStorageBlob"
-}
-
-/**
- * Defines values for PipelineRunSourceType. \
- * {@link KnownPipelineRunSourceType} can be used interchangeably with PipelineRunSourceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AzureStorageBlob**
- */
-export type PipelineRunSourceType = string;
-
-/** Known values of {@link PipelineRunTargetType} that the service accepts. */
-export enum KnownPipelineRunTargetType {
-  /** AzureStorageBlob */
-  AzureStorageBlob = "AzureStorageBlob"
-}
-
-/**
- * Defines values for PipelineRunTargetType. \
- * {@link KnownPipelineRunTargetType} can be used interchangeably with PipelineRunTargetType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AzureStorageBlob**
- */
-export type PipelineRunTargetType = string;
-
-/** Known values of {@link ConnectionStatus} that the service accepts. */
-export enum KnownConnectionStatus {
-  /** Approved */
-  Approved = "Approved",
-  /** Pending */
-  Pending = "Pending",
-  /** Rejected */
-  Rejected = "Rejected",
-  /** Disconnected */
-  Disconnected = "Disconnected"
-}
-
-/**
- * Defines values for ConnectionStatus. \
- * {@link KnownConnectionStatus} can be used interchangeably with ConnectionStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Approved** \
- * **Pending** \
- * **Rejected** \
- * **Disconnected**
- */
-export type ConnectionStatus = string;
-
-/** Known values of {@link ActionsRequired} that the service accepts. */
-export enum KnownActionsRequired {
-  /** None */
-  None = "None",
-  /** Recreate */
-  Recreate = "Recreate"
-}
-
-/**
- * Defines values for ActionsRequired. \
- * {@link KnownActionsRequired} can be used interchangeably with ActionsRequired,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **Recreate**
- */
-export type ActionsRequired = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
@@ -2996,24 +1302,6 @@ export enum KnownExportPolicyStatus {
  * **disabled**
  */
 export type ExportPolicyStatus = string;
-
-/** Known values of {@link AzureADAuthenticationAsArmPolicyStatus} that the service accepts. */
-export enum KnownAzureADAuthenticationAsArmPolicyStatus {
-  /** Enabled */
-  Enabled = "enabled",
-  /** Disabled */
-  Disabled = "disabled"
-}
-
-/**
- * Defines values for AzureADAuthenticationAsArmPolicyStatus. \
- * {@link KnownAzureADAuthenticationAsArmPolicyStatus} can be used interchangeably with AzureADAuthenticationAsArmPolicyStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **enabled** \
- * **disabled**
- */
-export type AzureADAuthenticationAsArmPolicyStatus = string;
 
 /** Known values of {@link EncryptionStatus} that the service accepts. */
 export enum KnownEncryptionStatus {
@@ -3203,315 +1491,6 @@ export enum KnownWebhookAction {
  * **chart_delete**
  */
 export type WebhookAction = string;
-
-/** Known values of {@link OS} that the service accepts. */
-export enum KnownOS {
-  /** Windows */
-  Windows = "Windows",
-  /** Linux */
-  Linux = "Linux"
-}
-
-/**
- * Defines values for OS. \
- * {@link KnownOS} can be used interchangeably with OS,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Windows** \
- * **Linux**
- */
-export type OS = string;
-
-/** Known values of {@link RunStatus} that the service accepts. */
-export enum KnownRunStatus {
-  /** Queued */
-  Queued = "Queued",
-  /** Started */
-  Started = "Started",
-  /** Running */
-  Running = "Running",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Error */
-  Error = "Error",
-  /** Timeout */
-  Timeout = "Timeout"
-}
-
-/**
- * Defines values for RunStatus. \
- * {@link KnownRunStatus} can be used interchangeably with RunStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Queued** \
- * **Started** \
- * **Running** \
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **Error** \
- * **Timeout**
- */
-export type RunStatus = string;
-
-/** Known values of {@link RunType} that the service accepts. */
-export enum KnownRunType {
-  /** QuickBuild */
-  QuickBuild = "QuickBuild",
-  /** QuickRun */
-  QuickRun = "QuickRun",
-  /** AutoBuild */
-  AutoBuild = "AutoBuild",
-  /** AutoRun */
-  AutoRun = "AutoRun"
-}
-
-/**
- * Defines values for RunType. \
- * {@link KnownRunType} can be used interchangeably with RunType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **QuickBuild** \
- * **QuickRun** \
- * **AutoBuild** \
- * **AutoRun**
- */
-export type RunType = string;
-
-/** Known values of {@link Architecture} that the service accepts. */
-export enum KnownArchitecture {
-  /** Amd64 */
-  Amd64 = "amd64",
-  /** X86 */
-  X86 = "x86",
-  /** ThreeHundredEightySix */
-  ThreeHundredEightySix = "386",
-  /** Arm */
-  Arm = "arm",
-  /** Arm64 */
-  Arm64 = "arm64"
-}
-
-/**
- * Defines values for Architecture. \
- * {@link KnownArchitecture} can be used interchangeably with Architecture,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **amd64** \
- * **x86** \
- * **386** \
- * **arm** \
- * **arm64**
- */
-export type Architecture = string;
-
-/** Known values of {@link Variant} that the service accepts. */
-export enum KnownVariant {
-  /** V6 */
-  V6 = "v6",
-  /** V7 */
-  V7 = "v7",
-  /** V8 */
-  V8 = "v8"
-}
-
-/**
- * Defines values for Variant. \
- * {@link KnownVariant} can be used interchangeably with Variant,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **v6** \
- * **v7** \
- * **v8**
- */
-export type Variant = string;
-
-/** Known values of {@link TaskStatus} that the service accepts. */
-export enum KnownTaskStatus {
-  /** Disabled */
-  Disabled = "Disabled",
-  /** Enabled */
-  Enabled = "Enabled"
-}
-
-/**
- * Defines values for TaskStatus. \
- * {@link KnownTaskStatus} can be used interchangeably with TaskStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Disabled** \
- * **Enabled**
- */
-export type TaskStatus = string;
-
-/** Known values of {@link StepType} that the service accepts. */
-export enum KnownStepType {
-  /** Docker */
-  Docker = "Docker",
-  /** FileTask */
-  FileTask = "FileTask",
-  /** EncodedTask */
-  EncodedTask = "EncodedTask"
-}
-
-/**
- * Defines values for StepType. \
- * {@link KnownStepType} can be used interchangeably with StepType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Docker** \
- * **FileTask** \
- * **EncodedTask**
- */
-export type StepType = string;
-
-/** Known values of {@link BaseImageDependencyType} that the service accepts. */
-export enum KnownBaseImageDependencyType {
-  /** BuildTime */
-  BuildTime = "BuildTime",
-  /** RunTime */
-  RunTime = "RunTime"
-}
-
-/**
- * Defines values for BaseImageDependencyType. \
- * {@link KnownBaseImageDependencyType} can be used interchangeably with BaseImageDependencyType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **BuildTime** \
- * **RunTime**
- */
-export type BaseImageDependencyType = string;
-
-/** Known values of {@link SourceControlType} that the service accepts. */
-export enum KnownSourceControlType {
-  /** Github */
-  Github = "Github",
-  /** VisualStudioTeamService */
-  VisualStudioTeamService = "VisualStudioTeamService"
-}
-
-/**
- * Defines values for SourceControlType. \
- * {@link KnownSourceControlType} can be used interchangeably with SourceControlType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Github** \
- * **VisualStudioTeamService**
- */
-export type SourceControlType = string;
-
-/** Known values of {@link TokenType} that the service accepts. */
-export enum KnownTokenType {
-  /** PAT */
-  PAT = "PAT",
-  /** OAuth */
-  OAuth = "OAuth"
-}
-
-/**
- * Defines values for TokenType. \
- * {@link KnownTokenType} can be used interchangeably with TokenType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **PAT** \
- * **OAuth**
- */
-export type TokenType = string;
-
-/** Known values of {@link SourceTriggerEvent} that the service accepts. */
-export enum KnownSourceTriggerEvent {
-  /** Commit */
-  Commit = "commit",
-  /** Pullrequest */
-  Pullrequest = "pullrequest"
-}
-
-/**
- * Defines values for SourceTriggerEvent. \
- * {@link KnownSourceTriggerEvent} can be used interchangeably with SourceTriggerEvent,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **commit** \
- * **pullrequest**
- */
-export type SourceTriggerEvent = string;
-
-/** Known values of {@link BaseImageTriggerType} that the service accepts. */
-export enum KnownBaseImageTriggerType {
-  /** All */
-  All = "All",
-  /** Runtime */
-  Runtime = "Runtime"
-}
-
-/**
- * Defines values for BaseImageTriggerType. \
- * {@link KnownBaseImageTriggerType} can be used interchangeably with BaseImageTriggerType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **All** \
- * **Runtime**
- */
-export type BaseImageTriggerType = string;
-
-/** Known values of {@link UpdateTriggerPayloadType} that the service accepts. */
-export enum KnownUpdateTriggerPayloadType {
-  /** Default */
-  Default = "Default",
-  /** Token */
-  Token = "Token"
-}
-
-/**
- * Defines values for UpdateTriggerPayloadType. \
- * {@link KnownUpdateTriggerPayloadType} can be used interchangeably with UpdateTriggerPayloadType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Default** \
- * **Token**
- */
-export type UpdateTriggerPayloadType = string;
-
-/** Known values of {@link SourceRegistryLoginMode} that the service accepts. */
-export enum KnownSourceRegistryLoginMode {
-  /** None */
-  None = "None",
-  /** Default */
-  Default = "Default"
-}
-
-/**
- * Defines values for SourceRegistryLoginMode. \
- * {@link KnownSourceRegistryLoginMode} can be used interchangeably with SourceRegistryLoginMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **Default**
- */
-export type SourceRegistryLoginMode = string;
-
-/** Known values of {@link SecretObjectType} that the service accepts. */
-export enum KnownSecretObjectType {
-  /** Opaque */
-  Opaque = "Opaque",
-  /** Vaultsecret */
-  Vaultsecret = "Vaultsecret"
-}
-
-/**
- * Defines values for SecretObjectType. \
- * {@link KnownSecretObjectType} can be used interchangeably with SecretObjectType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Opaque** \
- * **Vaultsecret**
- */
-export type SecretObjectType = string;
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType =
   | "SystemAssigned"
@@ -3520,222 +1499,6 @@ export type ResourceIdentityType =
   | "None";
 /** Defines values for PasswordName. */
 export type PasswordName = "password" | "password2";
-
-/** Optional parameters. */
-export interface CacheRulesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type CacheRulesListResponse = CacheRulesListResult;
-
-/** Optional parameters. */
-export interface CacheRulesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type CacheRulesGetResponse = CacheRule;
-
-/** Optional parameters. */
-export interface CacheRulesCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type CacheRulesCreateResponse = CacheRule;
-
-/** Optional parameters. */
-export interface CacheRulesDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface CacheRulesUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type CacheRulesUpdateResponse = CacheRule;
-
-/** Optional parameters. */
-export interface CacheRulesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type CacheRulesListNextResponse = CacheRulesListResult;
-
-/** Optional parameters. */
-export interface ConnectedRegistriesListOptionalParams
-  extends coreClient.OperationOptions {
-  /** An OData filter expression that describes a subset of connectedRegistries to return. The parameters that can be filtered are parent.id (the resource id of the connectedRegistry parent), mode, and connectionState. The supported operator is eq. */
-  filter?: string;
-}
-
-/** Contains response data for the list operation. */
-export type ConnectedRegistriesListResponse = ConnectedRegistryListResult;
-
-/** Optional parameters. */
-export interface ConnectedRegistriesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ConnectedRegistriesGetResponse = ConnectedRegistry;
-
-/** Optional parameters. */
-export interface ConnectedRegistriesCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type ConnectedRegistriesCreateResponse = ConnectedRegistry;
-
-/** Optional parameters. */
-export interface ConnectedRegistriesDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface ConnectedRegistriesUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type ConnectedRegistriesUpdateResponse = ConnectedRegistry;
-
-/** Optional parameters. */
-export interface ConnectedRegistriesDeactivateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface ConnectedRegistriesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ConnectedRegistriesListNextResponse = ConnectedRegistryListResult;
-
-/** Optional parameters. */
-export interface CredentialSetsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type CredentialSetsListResponse = CredentialSetListResult;
-
-/** Optional parameters. */
-export interface CredentialSetsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type CredentialSetsGetResponse = CredentialSet;
-
-/** Optional parameters. */
-export interface CredentialSetsCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type CredentialSetsCreateResponse = CredentialSet;
-
-/** Optional parameters. */
-export interface CredentialSetsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface CredentialSetsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type CredentialSetsUpdateResponse = CredentialSet;
-
-/** Optional parameters. */
-export interface CredentialSetsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type CredentialSetsListNextResponse = CredentialSetListResult;
-
-/** Optional parameters. */
-export interface ExportPipelinesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ExportPipelinesListResponse = ExportPipelineListResult;
-
-/** Optional parameters. */
-export interface ExportPipelinesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ExportPipelinesGetResponse = ExportPipeline;
-
-/** Optional parameters. */
-export interface ExportPipelinesCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type ExportPipelinesCreateResponse = ExportPipeline;
-
-/** Optional parameters. */
-export interface ExportPipelinesDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface ExportPipelinesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ExportPipelinesListNextResponse = ExportPipelineListResult;
 
 /** Optional parameters. */
 export interface RegistriesImportImageOptionalParams
@@ -3855,25 +1618,6 @@ export interface RegistriesGenerateCredentialsOptionalParams
 export type RegistriesGenerateCredentialsResponse = GenerateCredentialsResult;
 
 /** Optional parameters. */
-export interface RegistriesScheduleRunOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the scheduleRun operation. */
-export type RegistriesScheduleRunResponse = Run;
-
-/** Optional parameters. */
-export interface RegistriesGetBuildSourceUploadUrlOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getBuildSourceUploadUrl operation. */
-export type RegistriesGetBuildSourceUploadUrlResponse = SourceUploadDefinition;
-
-/** Optional parameters. */
 export interface RegistriesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -3895,48 +1639,6 @@ export interface RegistriesListPrivateLinkResourcesNextOptionalParams
 export type RegistriesListPrivateLinkResourcesNextResponse = PrivateLinkResourceListResult;
 
 /** Optional parameters. */
-export interface ImportPipelinesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ImportPipelinesListResponse = ImportPipelineListResult;
-
-/** Optional parameters. */
-export interface ImportPipelinesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ImportPipelinesGetResponse = ImportPipeline;
-
-/** Optional parameters. */
-export interface ImportPipelinesCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type ImportPipelinesCreateResponse = ImportPipeline;
-
-/** Optional parameters. */
-export interface ImportPipelinesDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface ImportPipelinesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ImportPipelinesListNextResponse = ImportPipelineListResult;
-
-/** Optional parameters. */
 export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -3949,48 +1651,6 @@ export interface OperationsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface PipelineRunsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type PipelineRunsListResponse = PipelineRunListResult;
-
-/** Optional parameters. */
-export interface PipelineRunsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type PipelineRunsGetResponse = PipelineRun;
-
-/** Optional parameters. */
-export interface PipelineRunsCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type PipelineRunsCreateResponse = PipelineRun;
-
-/** Optional parameters. */
-export interface PipelineRunsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface PipelineRunsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type PipelineRunsListNextResponse = PipelineRunListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListOptionalParams
@@ -4277,238 +1937,12 @@ export interface WebhooksListEventsNextOptionalParams
 export type WebhooksListEventsNextResponse = EventListResult;
 
 /** Optional parameters. */
-export interface AgentPoolsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type AgentPoolsGetResponse = AgentPool;
-
-/** Optional parameters. */
-export interface AgentPoolsCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type AgentPoolsCreateResponse = AgentPool;
-
-/** Optional parameters. */
-export interface AgentPoolsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface AgentPoolsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type AgentPoolsUpdateResponse = AgentPool;
-
-/** Optional parameters. */
-export interface AgentPoolsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type AgentPoolsListResponse = AgentPoolListResult;
-
-/** Optional parameters. */
-export interface AgentPoolsGetQueueStatusOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getQueueStatus operation. */
-export type AgentPoolsGetQueueStatusResponse = AgentPoolQueueStatus;
-
-/** Optional parameters. */
-export interface AgentPoolsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type AgentPoolsListNextResponse = AgentPoolListResult;
-
-/** Optional parameters. */
-export interface RunsListOptionalParams extends coreClient.OperationOptions {
-  /** The runs filter to apply on the operation. Arithmetic operators are not supported. The allowed string function is 'contains'. All logical operators except 'Not', 'Has', 'All' are allowed. */
-  filter?: string;
-  /** $top is supported for get list of runs, which limits the maximum number of runs to return. */
-  top?: number;
-}
-
-/** Contains response data for the list operation. */
-export type RunsListResponse = RunListResult;
-
-/** Optional parameters. */
-export interface RunsGetOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type RunsGetResponse = Run;
-
-/** Optional parameters. */
-export interface RunsUpdateOptionalParams extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type RunsUpdateResponse = Run;
-
-/** Optional parameters. */
-export interface RunsGetLogSasUrlOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getLogSasUrl operation. */
-export type RunsGetLogSasUrlResponse = RunGetLogResult;
-
-/** Optional parameters. */
-export interface RunsCancelOptionalParams extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface RunsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type RunsListNextResponse = RunListResult;
-
-/** Optional parameters. */
-export interface TaskRunsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type TaskRunsGetResponse = TaskRun;
-
-/** Optional parameters. */
-export interface TaskRunsCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type TaskRunsCreateResponse = TaskRun;
-
-/** Optional parameters. */
-export interface TaskRunsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface TaskRunsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type TaskRunsUpdateResponse = TaskRun;
-
-/** Optional parameters. */
-export interface TaskRunsGetDetailsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getDetails operation. */
-export type TaskRunsGetDetailsResponse = TaskRun;
-
-/** Optional parameters. */
-export interface TaskRunsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type TaskRunsListResponse = TaskRunListResult;
-
-/** Optional parameters. */
-export interface TaskRunsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type TaskRunsListNextResponse = TaskRunListResult;
-
-/** Optional parameters. */
-export interface TasksListOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type TasksListResponse = TaskListResult;
-
-/** Optional parameters. */
-export interface TasksGetOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type TasksGetResponse = Task;
-
-/** Optional parameters. */
-export interface TasksCreateOptionalParams extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type TasksCreateResponse = Task;
-
-/** Optional parameters. */
-export interface TasksDeleteOptionalParams extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface TasksUpdateOptionalParams extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type TasksUpdateResponse = Task;
-
-/** Optional parameters. */
-export interface TasksGetDetailsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getDetails operation. */
-export type TasksGetDetailsResponse = Task;
-
-/** Optional parameters. */
-export interface TasksListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type TasksListNextResponse = TaskListResult;
-
-/** Optional parameters. */
 export interface ContainerRegistryManagementClientOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
+  /** Api Version */
+  apiVersion?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }
