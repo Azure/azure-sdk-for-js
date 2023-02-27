@@ -1,0 +1,139 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://fakestorageaccount.blob.core.windows.net/container167719876823407896?restype=container",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/xml",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "User-Agent": "azsdk-js-azure-storage-blob/12.13.0 core-rest-pipeline/1.10.2 Node/v14.20.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "8a850194-b698-4846-94ba-6d66a31bcee6",
+        "x-ms-date": "Fri, 24 Feb 2023 00:32:48 GMT",
+        "x-ms-version": "2021-12-02"
+      },
+      "RequestBody": null,
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Date": "Fri, 24 Feb 2023 00:32:45 GMT",
+        "ETag": "\u00220x8DB15FEA6B0D243\u0022",
+        "Last-Modified": "Fri, 24 Feb 2023 00:32:46 GMT",
+        "Server": [
+          "Windows-Azure-Blob/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "x-ms-client-request-id": "8a850194-b698-4846-94ba-6d66a31bcee6",
+        "x-ms-request-id": "86b6e440-301e-001a-40e7-47451c000000",
+        "x-ms-version": "2021-12-02"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://fakestorageaccount.blob.core.windows.net/container167719876823407896/blob167719876827308317",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/xml",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "30",
+        "Content-Type": "application/octet-stream",
+        "User-Agent": "azsdk-js-azure-storage-blob/12.13.0 core-rest-pipeline/1.10.2 Node/v14.20.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-blob-type": "BlockBlob",
+        "x-ms-client-request-id": "5d24fcf4-b6f4-4880-8aaf-dccc54b0a998",
+        "x-ms-date": "Fri, 24 Feb 2023 00:32:48 GMT",
+        "x-ms-encryption-algorithm": "AES256",
+        "x-ms-encryption-key-sha256": "3QFFFpRA5\u002BXANHqwwbT4yXDmrT/2JaLt/FKHjzhOdoE=",
+        "x-ms-version": "2021-12-02"
+      },
+      "RequestBody": "cmFuZG9tc3RyaW5nMTY3NzE5ODc2ODI3NDA4MzM2",
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Content-MD5": "JKUJeTsYx5vmpD4gutgNxA==",
+        "Date": "Fri, 24 Feb 2023 00:32:45 GMT",
+        "ETag": "\u00220x8DB15FEA6B7B9EE\u0022",
+        "Last-Modified": "Fri, 24 Feb 2023 00:32:46 GMT",
+        "Server": [
+          "Windows-Azure-Blob/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "x-ms-client-request-id": "5d24fcf4-b6f4-4880-8aaf-dccc54b0a998",
+        "x-ms-content-crc64": "HlAu2sOTWmI=",
+        "x-ms-encryption-key-sha256": "3QFFFpRA5\u002BXANHqwwbT4yXDmrT/2JaLt/FKHjzhOdoE=",
+        "x-ms-request-id": "86b6e443-301e-001a-42e7-47451c000000",
+        "x-ms-request-server-encrypted": "true",
+        "x-ms-version": "2021-12-02"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://fakestorageaccount.blob.core.windows.net/container167719876823407896/blob167719876827308317",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/xml",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-azure-storage-blob/12.13.0 core-rest-pipeline/1.10.2 Node/v14.20.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "a79ae491-f472-4a77-9f86-412ddb8c8110",
+        "x-ms-date": "Fri, 24 Feb 2023 00:32:48 GMT",
+        "x-ms-version": "2021-12-02"
+      },
+      "RequestBody": null,
+      "StatusCode": 409,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,x-ms-error-code,Content-Length,Date,Transfer-Encoding",
+        "Content-Length": "301",
+        "Content-Type": "application/xml",
+        "Date": "Fri, 24 Feb 2023 00:32:45 GMT",
+        "Server": [
+          "Windows-Azure-Blob/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "x-ms-client-request-id": "a79ae491-f472-4a77-9f86-412ddb8c8110",
+        "x-ms-error-code": "BlobUsesCustomerSpecifiedEncryption",
+        "x-ms-request-id": "86b6e444-301e-001a-43e7-47451c000000",
+        "x-ms-version": "2021-12-02"
+      },
+      "ResponseBody": [
+        "\uFEFF\u003C?xml version=\u00221.0\u0022 encoding=\u0022utf-8\u0022?\u003E\u003CError\u003E\u003CCode\u003EBlobUsesCustomerSpecifiedEncryption\u003C/Code\u003E\u003CMessage\u003EThe blob is encrypted with customer specified encryption, but it was not provided in the request.\n",
+        "RequestId:86b6e444-301e-001a-43e7-47451c000000\n",
+        "Time:2023-02-24T00:32:46.6326199Z\u003C/Message\u003E\u003C/Error\u003E"
+      ]
+    },
+    {
+      "RequestUri": "https://fakestorageaccount.blob.core.windows.net/container167719876823407896?restype=container",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/xml",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-azure-storage-blob/12.13.0 core-rest-pipeline/1.10.2 Node/v14.20.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "908bb491-8adc-47be-89a9-060a5586f69a",
+        "x-ms-date": "Fri, 24 Feb 2023 00:32:48 GMT",
+        "x-ms-version": "2021-12-02"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Date": "Fri, 24 Feb 2023 00:32:45 GMT",
+        "Server": [
+          "Windows-Azure-Blob/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "x-ms-client-request-id": "908bb491-8adc-47be-89a9-060a5586f69a",
+        "x-ms-request-id": "86b6e446-301e-001a-45e7-47451c000000",
+        "x-ms-version": "2021-12-02"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {
+    "blob": "blob167719876827308317",
+    "container": "container167719876823407896",
+    "randomstring": "randomstring167719876827408336"
+  }
+}

@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { AppPlatformManagementClient } = require("@azure/arm-appplatform");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get a Deployment and its properties.
  *
  * @summary Get a Deployment and its properties.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-09-01-preview/examples/Deployments_Get.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/Deployments_Get.json
  */
 async function deploymentsGet() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const appName = "myapp";
   const deploymentName = "mydeployment";
@@ -33,18 +35,17 @@ async function deploymentsGet() {
   );
   console.log(result);
 }
-
-deploymentsGet().catch(console.error);
 
 /**
  * This sample demonstrates how to Get a Deployment and its properties.
  *
  * @summary Get a Deployment and its properties.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-09-01-preview/examples/Deployments_Get_CustomContainer.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/Deployments_Get_CustomContainer.json
  */
 async function deploymentsGetCustomContainer() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const appName = "myapp";
   const deploymentName = "mydeployment";
@@ -59,4 +60,9 @@ async function deploymentsGetCustomContainer() {
   console.log(result);
 }
 
-deploymentsGetCustomContainer().catch(console.error);
+async function main() {
+  deploymentsGet();
+  deploymentsGetCustomContainer();
+}
+
+main().catch(console.error);

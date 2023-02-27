@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { DeviceUpdate } = require("@azure/arm-deviceupdate");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Returns list of operations for Microsoft.DeviceUpdate resource provider.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/Operations_List.json
  */
 async function getsListOfOperations() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["DEVICEUPDATE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new DeviceUpdate(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +30,8 @@ async function getsListOfOperations() {
   console.log(resArray);
 }
 
-getsListOfOperations().catch(console.error);
+async function main() {
+  getsListOfOperations();
+}
+
+main().catch(console.error);

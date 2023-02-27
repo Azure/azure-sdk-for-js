@@ -47,7 +47,7 @@ export function convertIntervalToTimeIntervalObject(timespan: string): QueryTime
 export function objectHasProperty<Thing, PropertyName extends string>(
   thing: Thing,
   property: PropertyName
-): thing is Thing & Record<PropertyName, unknown> {
+): thing is Extract<Thing, Record<PropertyName, unknown>> {
   return typeof thing === "object" && property in (thing as Record<string, unknown>);
 }
 
@@ -70,7 +70,7 @@ export function isDefined<T>(thing: T | undefined | null): thing is T {
 export function isObjectWithProperties<Thing, PropertyName extends string>(
   thing: Thing,
   properties: PropertyName[]
-): thing is Thing & Record<PropertyName, unknown> {
+): thing is Extract<Thing, Record<PropertyName, unknown>> {
   if (!isDefined(thing) || typeof thing !== "object") {
     return false;
   }

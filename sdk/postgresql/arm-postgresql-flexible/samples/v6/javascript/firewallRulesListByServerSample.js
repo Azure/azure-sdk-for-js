@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { PostgreSQLManagementFlexibleServerClient } = require("@azure/arm-postgresql-flexible");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List all the firewall rules in a given PostgreSQL server.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2021-06-01/examples/FirewallRuleListByServer.json
  */
 async function firewallRuleList() {
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const serverName = "testserver";
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
@@ -30,4 +32,8 @@ async function firewallRuleList() {
   console.log(resArray);
 }
 
-firewallRuleList().catch(console.error);
+async function main() {
+  firewallRuleList();
+}
+
+main().catch(console.error);

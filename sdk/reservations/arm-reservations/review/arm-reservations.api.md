@@ -10,28 +10,35 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
-// @public (undocumented)
+// @public
 export interface AppliedReservationList {
     nextLink?: string;
     // (undocumented)
     value?: string[];
 }
 
-// @public (undocumented)
+// @public
 export interface AppliedReservations {
     readonly id?: string;
     readonly name?: string;
-    // (undocumented)
     reservationOrderIds?: AppliedReservationList;
     readonly type?: string;
 }
 
 // @public
+export interface AppliedScopeProperties {
+    displayName?: string;
+    managementGroupId?: string;
+    resourceGroupId?: string;
+    subscriptionId?: string;
+    tenantId?: string;
+}
+
+// @public
 export type AppliedScopeType = string;
 
-// @public (undocumented)
+// @public
 export interface AvailableScopeProperties {
-    // (undocumented)
     properties?: SubscriptionScopeProperties;
 }
 
@@ -58,7 +65,7 @@ export class AzureReservationAPI extends coreClient.ServiceClient {
     // (undocumented)
     exchange: Exchange;
     getAppliedReservationList(subscriptionId: string, options?: GetAppliedReservationListOptionalParams): Promise<GetAppliedReservationListResponse>;
-    getCatalog(subscriptionId: string, options?: GetCatalogOptionalParams): Promise<GetCatalogResponse>;
+    listCatalog(subscriptionId: string, options?: GetCatalogOptionalParams): PagedAsyncIterableIterator<Catalog>;
     // (undocumented)
     operation: Operation;
     // (undocumented)
@@ -81,13 +88,13 @@ export interface AzureReservationAPIOptionalParams extends coreClient.ServiceCli
 
 // @public
 export interface BillingInformation {
-    // (undocumented)
     billingCurrencyProratedAmount?: Price;
-    // (undocumented)
     billingCurrencyRemainingCommitmentAmount?: Price;
-    // (undocumented)
     billingCurrencyTotalPaidAmount?: Price;
 }
+
+// @public
+export type BillingPlan = string;
 
 // @public
 export interface CalculateExchange {
@@ -132,29 +139,27 @@ export interface CalculateExchangeRequest {
 export interface CalculateExchangeRequestProperties {
     reservationsToExchange?: ReservationToReturn[];
     reservationsToPurchase?: PurchaseRequest[];
+    savingsPlansToPurchase?: SavingsPlanPurchaseRequest[];
 }
 
 // @public
 export interface CalculateExchangeResponseProperties {
-    // (undocumented)
     netPayable?: Price;
     policyResult?: ExchangePolicyErrors;
-    // (undocumented)
     purchasesTotal?: Price;
-    // (undocumented)
     refundsTotal?: Price;
     reservationsToExchange?: ReservationToExchange[];
     reservationsToPurchase?: ReservationToPurchaseCalculateExchange[];
+    savingsPlansToPurchase?: SavingsPlanToPurchaseCalculateExchange[];
     sessionId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CalculatePriceResponse {
-    // (undocumented)
     properties?: CalculatePriceResponseProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface CalculatePriceResponseProperties {
     billingCurrencyTotal?: CalculatePriceResponsePropertiesBillingCurrencyTotal;
     grandTotal?: number;
@@ -195,27 +200,25 @@ export interface CalculateRefundPostOptionalParams extends coreClient.OperationO
 // @public
 export type CalculateRefundPostResponse = CalculateRefundResponse;
 
-// @public (undocumented)
+// @public
 export interface CalculateRefundRequest {
     id?: string;
-    // (undocumented)
     properties?: CalculateRefundRequestProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface CalculateRefundRequestProperties {
     reservationToReturn?: ReservationToReturn;
     scope?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CalculateRefundResponse {
     id?: string;
-    // (undocumented)
     properties?: RefundResponseProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface Catalog {
     billingPlans?: {
         [propertyName: string]: ReservationBillingPlan[];
@@ -237,7 +240,14 @@ export interface CatalogMsrp {
     p1Y?: Price;
 }
 
-// @public (undocumented)
+// @public
+export interface CatalogsResult {
+    readonly nextLink?: string;
+    totalItems?: number;
+    readonly value?: Catalog[];
+}
+
+// @public
 export interface ChangeDirectoryRequest {
     destinationTenantId?: string;
 }
@@ -256,6 +266,14 @@ export interface ChangeDirectoryResult {
     isSucceeded?: boolean;
     name?: string;
 }
+
+// @public
+export interface Commitment extends Price {
+    grain?: CommitmentGrain;
+}
+
+// @public
+export type CommitmentGrain = string;
 
 // @public
 export type CreatedByType = string;
@@ -293,9 +311,8 @@ export interface ErrorDetails {
     readonly target?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ErrorModel {
-    // (undocumented)
     error?: ExtendedErrorInfo;
 }
 
@@ -371,21 +388,18 @@ export interface ExchangeRequestProperties {
 
 // @public
 export interface ExchangeResponseProperties {
-    // (undocumented)
     netPayable?: Price;
     policyResult?: ExchangePolicyErrors;
-    // (undocumented)
     purchasesTotal?: Price;
-    // (undocumented)
     refundsTotal?: Price;
     reservationsToExchange?: ReservationToReturnForExchange[];
     reservationsToPurchase?: ReservationToPurchaseExchange[];
+    savingsPlansToPurchase?: SavingsPlanToPurchaseExchange[];
     sessionId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ExtendedErrorInfo {
-    // (undocumented)
     code?: ErrorResponseCode;
     // (undocumented)
     message?: string;
@@ -406,24 +420,43 @@ export interface GetAppliedReservationListOptionalParams extends coreClient.Oper
 export type GetAppliedReservationListResponse = AppliedReservations;
 
 // @public
+export interface GetCatalogNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GetCatalogNextResponse = CatalogsResult;
+
+// @public
 export interface GetCatalogOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
     location?: string;
     offerId?: string;
     planId?: string;
     publisherId?: string;
     reservedResourceType?: string;
+    skip?: number;
+    take?: number;
 }
 
 // @public
-export type GetCatalogResponse = Catalog[];
+export type GetCatalogResponse = CatalogsResult;
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export type InstanceFlexibility = string;
 
 // @public
 export enum KnownAppliedScopeType {
+    ManagementGroup = "ManagementGroup",
     Shared = "Shared",
     Single = "Single"
+}
+
+// @public
+export enum KnownBillingPlan {
+    P1M = "P1M"
 }
 
 // @public
@@ -432,6 +465,11 @@ export enum KnownCalculateExchangeOperationResultStatus {
     Failed = "Failed",
     Pending = "Pending",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownCommitmentGrain {
+    Hourly = "Hourly"
 }
 
 // @public
@@ -448,9 +486,11 @@ export enum KnownDisplayProvisioningState {
     Expired = "Expired",
     Expiring = "Expiring",
     Failed = "Failed",
+    NoBenefit = "NoBenefit",
     Pending = "Pending",
     Processing = "Processing",
-    Succeeded = "Succeeded"
+    Succeeded = "Succeeded",
+    Warning = "Warning"
 }
 
 // @public
@@ -667,6 +707,12 @@ export enum KnownResourceType {
 }
 
 // @public
+export enum KnownSavingsPlanTerm {
+    P1Y = "P1Y",
+    P3Y = "P3Y"
+}
+
+// @public
 export enum KnownUserFriendlyAppliedScopeType {
     ManagementGroup = "ManagementGroup",
     None = "None",
@@ -688,7 +734,7 @@ export enum KnownUserFriendlyRenewState {
 type Location_2 = string;
 export { Location_2 as Location }
 
-// @public (undocumented)
+// @public
 export interface MergeRequest {
     sources?: string[];
 }
@@ -698,7 +744,7 @@ export interface Operation {
     list(options?: OperationListOptionalParams): PagedAsyncIterableIterator<OperationResponse>;
 }
 
-// @public (undocumented)
+// @public
 export interface OperationDisplay {
     // (undocumented)
     description?: string;
@@ -710,7 +756,7 @@ export interface OperationDisplay {
     resource?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface OperationList {
     nextLink?: string;
     // (undocumented)
@@ -731,7 +777,7 @@ export interface OperationListOptionalParams extends coreClient.OperationOptions
 // @public
 export type OperationListResponse = OperationList;
 
-// @public (undocumented)
+// @public
 export interface OperationResponse {
     display?: OperationDisplay;
     isDataAction?: boolean;
@@ -749,8 +795,9 @@ export interface OperationResultError {
 // @public
 export type OperationStatus = string;
 
-// @public (undocumented)
+// @public
 export interface Patch {
+    appliedScopeProperties?: AppliedScopeProperties;
     appliedScopes?: string[];
     appliedScopeType?: AppliedScopeType;
     instanceFlexibility?: InstanceFlexibility;
@@ -758,11 +805,11 @@ export interface Patch {
     renew?: boolean;
     // (undocumented)
     renewProperties?: PatchPropertiesRenewProperties;
+    reviewDateTime?: Date;
 }
 
 // @public (undocumented)
 export interface PatchPropertiesRenewProperties {
-    // (undocumented)
     purchaseProperties?: PurchaseRequest;
 }
 
@@ -781,7 +828,7 @@ export interface PaymentDetail {
 // @public
 export type PaymentStatus = string;
 
-// @public (undocumented)
+// @public
 export interface Price {
     // (undocumented)
     amount?: number;
@@ -791,8 +838,13 @@ export interface Price {
 // @public
 export type ProvisioningState = string;
 
-// @public (undocumented)
+// @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
 export interface PurchaseRequest {
+    appliedScopeProperties?: AppliedScopeProperties;
     appliedScopes?: string[];
     appliedScopeType?: AppliedScopeType;
     billingPlan?: ReservationBillingPlan;
@@ -803,7 +855,7 @@ export interface PurchaseRequest {
     renew?: boolean;
     reservedResourceProperties?: PurchaseRequestPropertiesReservedResourceProperties;
     reservedResourceType?: ReservedResourceType;
-    // (undocumented)
+    reviewDateTime?: Date;
     sku?: SkuName;
     term?: ReservationTerm;
 }
@@ -948,9 +1000,6 @@ export type QuotaRequestStatusGetResponse = QuotaRequestDetails;
 
 // @public
 export interface QuotaRequestStatusListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skiptoken?: string;
-    top?: number;
 }
 
 // @public
@@ -994,11 +1043,8 @@ export type QuotaUpdateResponse = CurrentQuotaLimitBase;
 
 // @public
 export interface RefundBillingInformation {
-    // (undocumented)
     billingCurrencyProratedAmount?: Price;
-    // (undocumented)
     billingCurrencyRemainingCommitmentAmount?: Price;
-    // (undocumented)
     billingCurrencyTotalPaidAmount?: Price;
     billingPlan?: ReservationBillingPlan;
     completedTransactions?: number;
@@ -1007,7 +1053,6 @@ export interface RefundBillingInformation {
 
 // @public
 export interface RefundPolicyError {
-    // (undocumented)
     code?: ErrorResponseCode;
     // (undocumented)
     message?: string;
@@ -1020,20 +1065,17 @@ export interface RefundPolicyResult {
 
 // @public
 export interface RefundPolicyResultProperty {
-    // (undocumented)
     consumedRefundsTotal?: Price;
-    // (undocumented)
     maxRefundLimit?: Price;
     policyErrors?: RefundPolicyError[];
 }
 
-// @public (undocumented)
+// @public
 export interface RefundRequest {
-    // (undocumented)
     properties?: RefundRequestProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface RefundRequestProperties {
     reservationToReturn?: ReservationToReturn;
     returnReason?: string;
@@ -1041,30 +1083,26 @@ export interface RefundRequestProperties {
     sessionId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface RefundResponse {
     id?: string;
-    // (undocumented)
     properties?: RefundResponseProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface RefundResponseProperties {
     billingInformation?: RefundBillingInformation;
-    // (undocumented)
     billingRefundAmount?: Price;
     policyResult?: RefundPolicyResult;
-    // (undocumented)
     pricingRefundAmount?: Price;
     quantity?: number;
     sessionId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface RenewPropertiesResponse {
     billingCurrencyTotal?: RenewPropertiesResponseBillingCurrencyTotal;
     pricingCurrencyTotal?: RenewPropertiesResponsePricingCurrencyTotal;
-    // (undocumented)
     purchaseProperties?: PurchaseRequest;
 }
 
@@ -1093,10 +1131,10 @@ export interface Reservation {
     beginSplitAndWait(reservationOrderId: string, body: SplitRequest, options?: ReservationSplitOptionalParams): Promise<ReservationSplitResponse>;
     beginUpdate(reservationOrderId: string, reservationId: string, parameters: Patch, options?: ReservationUpdateOptionalParams): Promise<PollerLike<PollOperationState<ReservationUpdateResponse>, ReservationUpdateResponse>>;
     beginUpdateAndWait(reservationOrderId: string, reservationId: string, parameters: Patch, options?: ReservationUpdateOptionalParams): Promise<ReservationUpdateResponse>;
-    get(reservationId: string, reservationOrderId: string, options?: ReservationGetOptionalParams): Promise<ReservationGetResponse>;
+    get(reservationOrderId: string, reservationId: string, options?: ReservationGetOptionalParams): Promise<ReservationGetResponse>;
     list(reservationOrderId: string, options?: ReservationListOptionalParams): PagedAsyncIterableIterator<ReservationResponse>;
     listAll(options?: ReservationListAllOptionalParams): PagedAsyncIterableIterator<ReservationResponse>;
-    listRevisions(reservationId: string, reservationOrderId: string, options?: ReservationListRevisionsOptionalParams): PagedAsyncIterableIterator<ReservationResponse>;
+    listRevisions(reservationOrderId: string, reservationId: string, options?: ReservationListRevisionsOptionalParams): PagedAsyncIterableIterator<ReservationResponse>;
     unarchive(reservationOrderId: string, reservationId: string, options?: ReservationUnarchiveOptionalParams): Promise<void>;
 }
 
@@ -1124,7 +1162,7 @@ export interface ReservationGetOptionalParams extends coreClient.OperationOption
 // @public
 export type ReservationGetResponse = ReservationResponse;
 
-// @public (undocumented)
+// @public
 export interface ReservationList {
     nextLink?: string;
     // (undocumented)
@@ -1133,12 +1171,6 @@ export interface ReservationList {
 
 // @public
 export interface ReservationListAllNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    refreshSummary?: string;
-    selectedState?: string;
-    skiptoken?: number;
-    take?: number;
 }
 
 // @public
@@ -1186,12 +1218,18 @@ export interface ReservationListRevisionsOptionalParams extends coreClient.Opera
 export type ReservationListRevisionsResponse = ReservationList;
 
 // @public
+export interface ReservationMergeHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface ReservationMergeOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface ReservationMergeProperties {
     mergeDestination?: string;
     mergeSources?: string[];
@@ -1241,7 +1279,7 @@ export interface ReservationOrderGetOptionalParams extends coreClient.OperationO
 // @public
 export type ReservationOrderGetResponse = ReservationOrderResponse;
 
-// @public (undocumented)
+// @public
 export interface ReservationOrderList {
     nextLink?: string;
     // (undocumented)
@@ -1263,6 +1301,12 @@ export interface ReservationOrderListOptionalParams extends coreClient.Operation
 export type ReservationOrderListResponse = ReservationOrderList;
 
 // @public
+export interface ReservationOrderPurchaseHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface ReservationOrderPurchaseOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1271,7 +1315,7 @@ export interface ReservationOrderPurchaseOptionalParams extends coreClient.Opera
 // @public
 export type ReservationOrderPurchaseResponse = ReservationOrderResponse;
 
-// @public (undocumented)
+// @public
 export interface ReservationOrderResponse {
     benefitStartTime?: Date;
     billingPlan?: ReservationBillingPlan;
@@ -1280,6 +1324,7 @@ export interface ReservationOrderResponse {
     // (undocumented)
     etag?: number;
     expiryDate?: Date;
+    expiryDateTime?: Date;
     readonly id?: string;
     readonly name?: string;
     originalQuantity?: number;
@@ -1288,23 +1333,20 @@ export interface ReservationOrderResponse {
     requestDateTime?: Date;
     // (undocumented)
     reservations?: ReservationResponse[];
+    reviewDateTime?: Date;
     readonly systemData?: SystemData;
     term?: ReservationTerm;
     readonly type?: string;
 }
 
 // @public
-export interface ReservationResponse {
+export interface ReservationResponse extends ProxyResource {
     // (undocumented)
     etag?: number;
-    readonly id?: string;
     kind?: "Microsoft.Compute";
     location?: string;
-    readonly name?: string;
     properties?: ReservationsProperties;
     sku?: SkuName;
-    readonly systemData?: SystemData;
-    readonly type?: string;
 }
 
 // @public
@@ -1315,12 +1357,18 @@ export interface ReservationsListResult {
 }
 
 // @public
+export interface ReservationSplitHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface ReservationSplitOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface ReservationSplitProperties {
     splitDestinations?: string[];
     splitSource?: string;
@@ -1331,6 +1379,7 @@ export type ReservationSplitResponse = ReservationResponse[];
 
 // @public
 export interface ReservationsProperties {
+    appliedScopeProperties?: AppliedScopeProperties;
     appliedScopes?: string[];
     appliedScopeType?: AppliedScopeType;
     archived?: boolean;
@@ -1342,24 +1391,25 @@ export interface ReservationsProperties {
     readonly displayProvisioningState?: string;
     effectiveDateTime?: Date;
     expiryDate?: Date;
+    expiryDateTime?: Date;
     extendedStatusInfo?: ExtendedStatusInfo;
     instanceFlexibility?: InstanceFlexibility;
     readonly lastUpdatedDateTime?: Date;
-    // (undocumented)
     mergeProperties?: ReservationMergeProperties;
     provisioningState?: ProvisioningState;
     readonly provisioningSubState?: string;
     purchaseDate?: Date;
+    purchaseDateTime?: Date;
     quantity?: number;
     renew?: boolean;
     renewDestination?: string;
-    // (undocumented)
     renewProperties?: RenewPropertiesResponse;
     renewSource?: string;
     reservedResourceType?: ReservedResourceType;
+    reviewDateTime?: Date;
     skuDescription?: string;
-    // (undocumented)
     splitProperties?: ReservationSplitProperties;
+    swapProperties?: ReservationSwapProperties;
     term?: ReservationTerm;
     readonly userFriendlyAppliedScopeType?: string;
     readonly userFriendlyRenewState?: string;
@@ -1381,9 +1431,17 @@ export interface ReservationSummary {
     readonly expiredCount?: number;
     readonly expiringCount?: number;
     readonly failedCount?: number;
+    readonly noBenefitCount?: number;
     readonly pendingCount?: number;
     readonly processingCount?: number;
     readonly succeededCount?: number;
+    readonly warningCount?: number;
+}
+
+// @public
+export interface ReservationSwapProperties {
+    swapDestination?: string;
+    swapSource?: string;
 }
 
 // @public
@@ -1392,7 +1450,6 @@ export type ReservationTerm = string;
 // @public
 export interface ReservationToExchange {
     billingInformation?: BillingInformation;
-    // (undocumented)
     billingRefundAmount?: Price;
     quantity?: number;
     reservationId?: string;
@@ -1400,17 +1457,13 @@ export interface ReservationToExchange {
 
 // @public
 export interface ReservationToPurchaseCalculateExchange {
-    // (undocumented)
     billingCurrencyTotal?: Price;
-    // (undocumented)
     properties?: PurchaseRequest;
 }
 
 // @public
 export interface ReservationToPurchaseExchange {
-    // (undocumented)
     billingCurrencyTotal?: Price;
-    // (undocumented)
     properties?: PurchaseRequest;
     reservationId?: string;
     reservationOrderId?: string;
@@ -1426,7 +1479,6 @@ export interface ReservationToReturn {
 // @public
 export interface ReservationToReturnForExchange {
     billingInformation?: BillingInformation;
-    // (undocumented)
     billingRefundAmount?: Price;
     quantity?: number;
     reservationId?: string;
@@ -1435,6 +1487,13 @@ export interface ReservationToReturnForExchange {
 
 // @public
 export interface ReservationUnarchiveOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ReservationUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -1458,6 +1517,14 @@ export interface ReservationUtilizationAggregates {
 export type ReservedResourceType = string;
 
 // @public
+export interface Resource {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
+    readonly type?: string;
+}
+
+// @public
 export interface ResourceName {
     readonly localizedValue?: string;
     value?: string;
@@ -1468,7 +1535,8 @@ export type ResourceType = string;
 
 // @public
 export interface Return {
-    post(reservationOrderId: string, body: RefundRequest, options?: ReturnPostOptionalParams): Promise<ReturnPostResponse>;
+    beginPost(reservationOrderId: string, body: RefundRequest, options?: ReturnPostOptionalParams): Promise<PollerLike<PollOperationState<ReturnPostResponse>, ReturnPostResponse>>;
+    beginPostAndWait(reservationOrderId: string, body: RefundRequest, options?: ReturnPostOptionalParams): Promise<ReturnPostResponse>;
 }
 
 // @public
@@ -1479,12 +1547,44 @@ export interface ReturnPostHeaders {
 
 // @public
 export interface ReturnPostOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
 export type ReturnPostResponse = ReturnPostHeaders & RefundResponse;
 
-// @public (undocumented)
+// @public
+export interface SavingsPlanPurchaseRequest {
+    appliedScopeProperties?: AppliedScopeProperties;
+    appliedScopeType?: AppliedScopeType;
+    billingPlan?: BillingPlan;
+    billingScopeId?: string;
+    commitment?: Commitment;
+    displayName?: string;
+    sku?: SkuName;
+    term?: SavingsPlanTerm;
+}
+
+// @public
+export type SavingsPlanTerm = string;
+
+// @public
+export interface SavingsPlanToPurchaseCalculateExchange {
+    billingCurrencyTotal?: Price;
+    properties?: SavingsPlanPurchaseRequest;
+}
+
+// @public
+export interface SavingsPlanToPurchaseExchange {
+    billingCurrencyTotal?: Price;
+    properties?: SavingsPlanPurchaseRequest;
+    savingsPlanId?: string;
+    savingsPlanOrderId?: string;
+    status?: OperationStatus;
+}
+
+// @public
 export interface ScopeProperties {
     // (undocumented)
     scope?: string;
@@ -1505,32 +1605,32 @@ export interface ServiceErrorDetail {
     readonly message?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SkuCapability {
     name?: string;
     value?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SkuName {
     // (undocumented)
     name?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SkuProperty {
     name?: string;
     value?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SkuRestriction {
     reasonCode?: string;
     type?: string;
     values?: string[];
 }
 
-// @public (undocumented)
+// @public
 export interface SplitRequest {
     quantities?: number[];
     reservationId?: string;
@@ -1547,7 +1647,7 @@ export interface SubRequest {
     unit?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SubscriptionScopeProperties {
     // (undocumented)
     scopes?: ScopeProperties[];

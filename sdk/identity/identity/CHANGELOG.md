@@ -1,14 +1,18 @@
 # Release History
 
-## 3.1.3 (Unreleased)
+## 3.2.0-beta.1 (2023-02-24)
 
 ### Features Added
 
-### Breaking Changes
+- Added support to disable instance discovery on AAD credentials.
+- Added `AzureDeveloperCliCredential` [#24180](https://github.com/Azure/azure-sdk-for-js/pull/24180) and added it to the `DefaultAzureCredential` [#24826](https://github.com/Azure/azure-sdk-for-js/pull/24826) auth flow
+- Added support for `WokloadIdentityCredential`[#24830](https://github.com/Azure/azure-sdk-for-js/pull/24830), added it to `DefaultAzureCredential` auth flow and replaced the in-house implementation of `Token Exchange MSI` in `ManagedIdentity` with `WorkloadIdentityCredential`.
 
-### Bugs Fixed
+## 3.1.3 (2023-01-12)
 
 ### Other Changes
+
+- Upgraded versions of @azure/msal-node, @azure/msal-common and @azure/msal-browser to remove any dependency versions that were depending on old version of jsonwebtoken which had a [security issue](https://nvd.nist.gov/vuln/detail/CVE-2022-23529)
 
 ## 3.1.2 (2022-12-05)
 

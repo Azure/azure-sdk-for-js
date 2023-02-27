@@ -3713,6 +3713,35 @@ export const Codec: coreClient.CompositeMapper = {
   }
 };
 
+export const Fade: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Fade",
+    modelProperties: {
+      duration: {
+        serializedName: "duration",
+        required: true,
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      fadeColor: {
+        serializedName: "fadeColor",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      start: {
+        serializedName: "start",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Layer: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3957,6 +3986,20 @@ export const Filters: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Rectangle"
+        }
+      },
+      fadeIn: {
+        serializedName: "fadeIn",
+        type: {
+          name: "Composite",
+          className: "Fade"
+        }
+      },
+      fadeOut: {
+        serializedName: "fadeOut",
+        type: {
+          name: "Composite",
+          className: "Fade"
         }
       },
       overlays: {
@@ -4646,6 +4689,13 @@ export const StandardEncoderPreset: coreClient.CompositeMapper = {
     polymorphicDiscriminator: Preset.type.polymorphicDiscriminator,
     modelProperties: {
       ...Preset.type.modelProperties,
+      experimentalOptions: {
+        serializedName: "experimentalOptions",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
       filters: {
         serializedName: "filters",
         type: {
@@ -6377,6 +6427,19 @@ export const AacAudio: coreClient.CompositeMapper = {
   }
 };
 
+export const DDAudio: coreClient.CompositeMapper = {
+  serializedName: "#Microsoft.Media.DDAudio",
+  type: {
+    name: "Composite",
+    className: "DDAudio",
+    uberParent: "Audio",
+    polymorphicDiscriminator: Audio.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...Audio.type.modelProperties
+    }
+  }
+};
+
 export const H265Video: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Media.H265Video",
   type: {
@@ -7070,6 +7133,7 @@ export let discriminators = {
   "JobInputClip.#Microsoft.Media.JobInputAsset": JobInputAsset,
   "JobInputClip.#Microsoft.Media.JobInputHttp": JobInputHttp,
   "Audio.#Microsoft.Media.AacAudio": AacAudio,
+  "Audio.#Microsoft.Media.DDAudio": DDAudio,
   "Video.#Microsoft.Media.H265Video": H265Video,
   "Video.#Microsoft.Media.Image": Image,
   "Video.#Microsoft.Media.H264Video": H264Video,

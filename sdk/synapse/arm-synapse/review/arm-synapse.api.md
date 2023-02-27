@@ -11,16 +11,19 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
-export type AttachedDatabaseConfiguration = ProxyResource & {
-    location?: string;
-    readonly systemData?: SystemData;
-    readonly provisioningState?: ResourceProvisioningState;
-    databaseName?: string;
-    kustoPoolResourceId?: string;
+export type ActualState = "Enabling" | "Enabled" | "Disabling" | "Disabled" | "Unknown";
+
+// @public
+export interface AttachedDatabaseConfiguration extends ProxyResource {
     readonly attachedDatabaseNames?: string[];
+    databaseName?: string;
     defaultPrincipalsModificationKind?: DefaultPrincipalsModificationKind;
+    kustoPoolResourceId?: string;
+    location?: string;
+    readonly provisioningState?: ResourceProvisioningState;
+    readonly systemData?: SystemData;
     tableLevelSharingProperties?: TableLevelSharingProperties;
-};
+}
 
 // @public
 export interface AttachedDatabaseConfigurationListResult {
@@ -58,11 +61,11 @@ export interface AvailableRpOperationDisplayInfo {
 }
 
 // @public
-export type AzureADOnlyAuthentication = ProxyResource & {
+export interface AzureADOnlyAuthentication extends ProxyResource {
     azureADOnlyAuthentication?: boolean;
-    readonly state?: StateValue;
     readonly creationDate?: Date;
-};
+    readonly state?: StateValue;
+}
 
 // @public
 export interface AzureADOnlyAuthenticationListResult {
@@ -120,9 +123,9 @@ export interface AzureCapacity {
 }
 
 // @public
-export type AzureEntityResource = Resource & {
+export interface AzureEntityResource extends Resource {
     readonly etag?: string;
-};
+}
 
 // @public
 export interface AzureResourceSku {
@@ -149,26 +152,27 @@ export interface BigDataPoolPatchInfo {
 }
 
 // @public
-export type BigDataPoolResourceInfo = TrackedResource & {
-    provisioningState?: string;
-    autoScale?: AutoScaleProperties;
-    readonly creationDate?: Date;
+export interface BigDataPoolResourceInfo extends TrackedResource {
     autoPause?: AutoPauseProperties;
-    isComputeIsolationEnabled?: boolean;
-    sessionLevelPackagesEnabled?: boolean;
+    autoScale?: AutoScaleProperties;
     cacheSize?: number;
-    dynamicExecutorAllocation?: DynamicExecutorAllocation;
-    sparkEventsFolder?: string;
-    nodeCount?: number;
-    libraryRequirements?: LibraryRequirements;
+    readonly creationDate?: Date;
     customLibraries?: LibraryInfo[];
-    sparkConfigProperties?: SparkConfigProperties;
-    sparkVersion?: string;
     defaultSparkLogFolder?: string;
+    dynamicExecutorAllocation?: DynamicExecutorAllocation;
+    isAutotuneEnabled?: boolean;
+    isComputeIsolationEnabled?: boolean;
+    readonly lastSucceededTimestamp?: Date;
+    libraryRequirements?: LibraryRequirements;
+    nodeCount?: number;
     nodeSize?: NodeSize;
     nodeSizeFamily?: NodeSizeFamily;
-    readonly lastSucceededTimestamp?: Date;
-};
+    provisioningState?: string;
+    sessionLevelPackagesEnabled?: boolean;
+    sparkConfigProperties?: SparkConfigProperties;
+    sparkEventsFolder?: string;
+    sparkVersion?: string;
+}
 
 // @public
 export interface BigDataPoolResourceInfoListResult {
@@ -204,7 +208,7 @@ export interface BigDataPoolsDeleteOptionalParams extends coreClient.OperationOp
 }
 
 // @public
-export type BigDataPoolsDeleteResponse = Record<string, unknown>;
+export type BigDataPoolsDeleteResponse = BigDataPoolResourceInfo;
 
 // @public
 export interface BigDataPoolsGetOptionalParams extends coreClient.OperationOptions {
@@ -266,16 +270,17 @@ export interface CheckNameResult {
 }
 
 // @public
-export type ClusterPrincipalAssignment = ProxyResource & {
-    readonly systemData?: SystemData;
+export interface ClusterPrincipalAssignment extends ProxyResource {
+    readonly aadObjectId?: string;
     principalId?: string;
-    role?: ClusterPrincipalRole;
-    tenantId?: string;
-    principalType?: PrincipalType;
-    readonly tenantName?: string;
     readonly principalName?: string;
+    principalType?: PrincipalType;
     readonly provisioningState?: ResourceProvisioningState;
-};
+    role?: ClusterPrincipalRole;
+    readonly systemData?: SystemData;
+    tenantId?: string;
+    readonly tenantName?: string;
+}
 
 // @public
 export interface ClusterPrincipalAssignmentCheckNameRequest {
@@ -292,22 +297,22 @@ export interface ClusterPrincipalAssignmentListResult {
 export type ClusterPrincipalRole = string;
 
 // @public
-export type CmdkeySetup = CustomSetupBase & {
-    type: "CmdkeySetup";
-    targetName: Record<string, unknown>;
-    userName: Record<string, unknown>;
+export interface CmdkeySetup extends CustomSetupBase {
     password: SecretBaseUnion;
-};
+    targetName: Record<string, unknown>;
+    type: "CmdkeySetup";
+    userName: Record<string, unknown>;
+}
 
 // @public
 export type ColumnDataType = string;
 
 // @public
-export type ComponentSetup = CustomSetupBase & {
-    type: "ComponentSetup";
+export interface ComponentSetup extends CustomSetupBase {
     componentName: string;
     licenseKey?: SecretBaseUnion;
-};
+    type: "ComponentSetup";
+}
 
 // @public
 export type Compression = string;
@@ -350,11 +355,11 @@ export interface CustomSetupBase {
 export type CustomSetupBaseUnion = CustomSetupBase | CmdkeySetup | EnvironmentVariableSetup | ComponentSetup;
 
 // @public
-export type Database = ProxyResource & {
-    location?: string;
+export interface Database extends ProxyResource {
     kind: Kind;
+    location?: string;
     readonly systemData?: SystemData;
-};
+}
 
 // @public
 export interface DatabaseCheckNameRequest {
@@ -368,16 +373,17 @@ export interface DatabaseListResult {
 }
 
 // @public
-export type DatabasePrincipalAssignment = ProxyResource & {
-    readonly systemData?: SystemData;
+export interface DatabasePrincipalAssignment extends ProxyResource {
+    readonly aadObjectId?: string;
     principalId?: string;
-    role?: DatabasePrincipalRole;
-    tenantId?: string;
-    principalType?: PrincipalType;
-    readonly tenantName?: string;
     readonly principalName?: string;
+    principalType?: PrincipalType;
     readonly provisioningState?: ResourceProvisioningState;
-};
+    role?: DatabasePrincipalRole;
+    readonly systemData?: SystemData;
+    tenantId?: string;
+    readonly tenantName?: string;
+}
 
 // @public
 export interface DatabasePrincipalAssignmentCheckNameRequest {
@@ -402,11 +408,11 @@ export interface DatabaseStatistics {
 export type DatabaseUnion = Database | ReadWriteDatabase | ReadOnlyFollowingDatabase;
 
 // @public
-export type DataConnection = ProxyResource & {
-    location?: string;
+export interface DataConnection extends ProxyResource {
     kind: DataConnectionKind;
+    location?: string;
     readonly systemData?: SystemData;
-};
+}
 
 // @public
 export interface DataConnectionCheckNameRequest {
@@ -476,33 +482,33 @@ export interface DataMaskingPoliciesGetOptionalParams extends coreClient.Operati
 export type DataMaskingPoliciesGetResponse = DataMaskingPolicy;
 
 // @public (undocumented)
-export type DataMaskingPolicy = ProxyResource & {
-    readonly location?: string;
-    readonly kind?: string;
-    readonly managedBy?: string;
+export interface DataMaskingPolicy extends ProxyResource {
+    readonly applicationPrincipals?: string;
     dataMaskingState?: DataMaskingState;
     exemptPrincipals?: string;
-    readonly applicationPrincipals?: string;
+    readonly kind?: string;
+    readonly location?: string;
+    readonly managedBy?: string;
     readonly maskingLevel?: string;
-};
+}
 
 // @public
-export type DataMaskingRule = ProxyResource & {
-    readonly location?: string;
-    readonly kind?: string;
-    readonly idPropertiesId?: string;
+export interface DataMaskingRule extends ProxyResource {
     aliasName?: string;
-    ruleState?: DataMaskingRuleState;
-    schemaName?: string;
-    tableName?: string;
     columnName?: string;
+    readonly idPropertiesId?: string;
+    readonly kind?: string;
+    readonly location?: string;
     maskingFunction?: DataMaskingFunction;
     numberFrom?: string;
     numberTo?: string;
     prefixSize?: string;
-    suffixSize?: string;
     replacementString?: string;
-};
+    ruleState?: DataMaskingRuleState;
+    schemaName?: string;
+    suffixSize?: string;
+    tableName?: string;
+}
 
 // @public
 export interface DataMaskingRuleListResult {
@@ -544,9 +550,9 @@ export type DataMaskingRuleState = "Disabled" | "Enabled";
 export type DataMaskingState = "Disabled" | "Enabled";
 
 // @public
-export type DataWarehouseUserActivities = ProxyResource & {
+export interface DataWarehouseUserActivities extends ProxyResource {
     readonly activeQueriesCount?: number;
-};
+}
 
 // @public
 export type DataWarehouseUserActivityName = string;
@@ -555,10 +561,10 @@ export type DataWarehouseUserActivityName = string;
 export type DayOfWeek = string;
 
 // @public
-export type DedicatedSQLminimalTlsSettings = ProxyResource & {
+export interface DedicatedSQLminimalTlsSettings extends ProxyResource {
     readonly location?: string;
     minimalTlsVersion?: string;
-};
+}
 
 // @public
 export interface DedicatedSQLminimalTlsSettingsListResult {
@@ -578,6 +584,9 @@ export interface DedicatedSQLminimalTlsSettingsPatchInfo {
 export type DefaultPrincipalsModificationKind = string;
 
 // @public
+export type DesiredState = "Enabled" | "Disabled";
+
+// @public
 export interface DynamicExecutorAllocation {
     enabled?: boolean;
     maxExecutors?: number;
@@ -591,15 +600,15 @@ export interface EncryptionDetails {
 }
 
 // @public
-export type EncryptionProtector = ProxyResource & {
+export interface EncryptionProtector extends ProxyResource {
     readonly kind?: string;
     readonly location?: string;
-    readonly subregion?: string;
     serverKeyName?: string;
     serverKeyType?: ServerKeyType;
-    readonly uri?: string;
+    readonly subregion?: string;
     readonly thumbprint?: string;
-};
+    readonly uri?: string;
+}
 
 // @public
 export interface EncryptionProtectorListResult {
@@ -617,11 +626,11 @@ export interface EntityReference {
 }
 
 // @public
-export type EnvironmentVariableSetup = CustomSetupBase & {
+export interface EnvironmentVariableSetup extends CustomSetupBase {
     type: "EnvironmentVariableSetup";
     variableName: string;
     variableValue: string;
-};
+}
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -644,51 +653,62 @@ export interface ErrorResponse {
 }
 
 // @public
-export type EventGridDataConnection = DataConnection & {
-    storageAccountResourceId?: string;
-    eventHubResourceId?: string;
-    consumerGroup?: string;
-    tableName?: string;
-    mappingRuleName?: string;
-    dataFormat?: EventGridDataFormat;
-    ignoreFirstRecord?: boolean;
+export interface ErrorResponseAutoGenerated {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorResponseAutoGenerated[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface EventGridDataConnection extends DataConnection {
     blobStorageEventType?: BlobStorageEventType;
+    consumerGroup?: string;
+    dataFormat?: EventGridDataFormat;
+    eventHubResourceId?: string;
+    ignoreFirstRecord?: boolean;
+    kind: "EventGrid";
+    mappingRuleName?: string;
     readonly provisioningState?: ResourceProvisioningState;
-};
+    storageAccountResourceId?: string;
+    tableName?: string;
+}
 
 // @public
 export type EventGridDataFormat = string;
 
 // @public
-export type EventHubDataConnection = DataConnection & {
-    eventHubResourceId?: string;
-    consumerGroup?: string;
-    tableName?: string;
-    mappingRuleName?: string;
-    dataFormat?: EventHubDataFormat;
-    eventSystemProperties?: string[];
+export interface EventHubDataConnection extends DataConnection {
     compression?: Compression;
-    readonly provisioningState?: ResourceProvisioningState;
+    consumerGroup?: string;
+    dataFormat?: EventHubDataFormat;
+    eventHubResourceId?: string;
+    eventSystemProperties?: string[];
+    kind: "EventHub";
     managedIdentityResourceId?: string;
-};
+    mappingRuleName?: string;
+    readonly provisioningState?: ResourceProvisioningState;
+    tableName?: string;
+}
 
 // @public
 export type EventHubDataFormat = string;
 
 // @public
-export type ExtendedServerBlobAuditingPolicy = ProxyResource & {
-    predicateExpression?: string;
-    state?: BlobAuditingPolicyState;
-    storageEndpoint?: string;
-    storageAccountAccessKey?: string;
-    retentionDays?: number;
+export interface ExtendedServerBlobAuditingPolicy extends ProxyResource {
     auditActionsAndGroups?: string[];
-    storageAccountSubscriptionId?: string;
-    isStorageSecondaryKeyInUse?: boolean;
     isAzureMonitorTargetEnabled?: boolean;
-    queueDelayMs?: number;
     isDevopsAuditEnabled?: boolean;
-};
+    isStorageSecondaryKeyInUse?: boolean;
+    predicateExpression?: string;
+    queueDelayMs?: number;
+    retentionDays?: number;
+    state?: BlobAuditingPolicyState;
+    storageAccountAccessKey?: string;
+    storageAccountSubscriptionId?: string;
+    storageEndpoint?: string;
+}
 
 // @public
 export interface ExtendedServerBlobAuditingPolicyListResult {
@@ -732,18 +752,18 @@ export interface ExtendedSqlPoolBlobAuditingPoliciesListBySqlPoolOptionalParams 
 export type ExtendedSqlPoolBlobAuditingPoliciesListBySqlPoolResponse = ExtendedSqlPoolBlobAuditingPolicyListResult;
 
 // @public
-export type ExtendedSqlPoolBlobAuditingPolicy = ProxyResource & {
-    predicateExpression?: string;
-    state?: BlobAuditingPolicyState;
-    storageEndpoint?: string;
-    storageAccountAccessKey?: string;
-    retentionDays?: number;
+export interface ExtendedSqlPoolBlobAuditingPolicy extends ProxyResource {
     auditActionsAndGroups?: string[];
-    storageAccountSubscriptionId?: string;
-    isStorageSecondaryKeyInUse?: boolean;
     isAzureMonitorTargetEnabled?: boolean;
+    isStorageSecondaryKeyInUse?: boolean;
+    predicateExpression?: string;
     queueDelayMs?: number;
-};
+    retentionDays?: number;
+    state?: BlobAuditingPolicyState;
+    storageAccountAccessKey?: string;
+    storageAccountSubscriptionId?: string;
+    storageEndpoint?: string;
+}
 
 // @public
 export interface ExtendedSqlPoolBlobAuditingPolicyListResult {
@@ -764,12 +784,12 @@ export interface FollowerDatabaseListResult {
 }
 
 // @public
-export type GeoBackupPolicy = ProxyResource & {
+export interface GeoBackupPolicy extends ProxyResource {
     readonly kind?: string;
     readonly location?: string;
     state: GeoBackupPolicyState;
     readonly storageType?: string;
-};
+}
 
 // @public
 export interface GeoBackupPolicyListResult {
@@ -781,6 +801,37 @@ export type GeoBackupPolicyName = string;
 
 // @public
 export type GeoBackupPolicyState = "Disabled" | "Enabled";
+
+// @public
+export interface Get {
+    integrationRuntimeEnableInteractivequery(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, integrationRuntimeOperationId: string, options?: GetIntegrationRuntimeEnableInteractivequeryOptionalParams): Promise<GetIntegrationRuntimeEnableInteractivequeryResponse>;
+    integrationRuntimeStart(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, integrationRuntimeOperationId: string, options?: GetIntegrationRuntimeStartOptionalParams): Promise<GetIntegrationRuntimeStartResponse>;
+    integrationRuntimeStop(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, integrationRuntimeOperationId: string, options?: GetIntegrationRuntimeStopOptionalParams): Promise<GetIntegrationRuntimeStopResponse>;
+}
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export interface GetIntegrationRuntimeEnableInteractivequeryOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GetIntegrationRuntimeEnableInteractivequeryResponse = IntegrationRuntimeEnableinteractivequery;
+
+// @public
+export interface GetIntegrationRuntimeStartOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GetIntegrationRuntimeStartResponse = IntegrationRuntimeOperationStatus;
+
+// @public
+export interface GetIntegrationRuntimeStopOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GetIntegrationRuntimeStopResponse = IntegrationRuntimeStopOperationStatus;
 
 // @public
 export interface GetSsisObjectMetadataRequest {
@@ -895,6 +946,14 @@ export interface IntegrationRuntimeDataProxyProperties {
 export type IntegrationRuntimeEdition = string;
 
 // @public
+export interface IntegrationRuntimeEnableinteractivequery {
+    error?: string;
+    name?: string;
+    properties?: Record<string, unknown>;
+    status?: WorkspaceStatus;
+}
+
+// @public
 export type IntegrationRuntimeEntityReferenceType = string;
 
 // @public
@@ -1007,6 +1066,14 @@ export interface IntegrationRuntimeObjectMetadataRefreshOptionalParams extends c
 export type IntegrationRuntimeObjectMetadataRefreshResponse = SsisObjectMetadataStatusResponse;
 
 // @public
+export interface IntegrationRuntimeOperationStatus {
+    error?: string;
+    name?: string;
+    properties?: Record<string, unknown>;
+    status?: WorkspaceStatus;
+}
+
+// @public
 export interface IntegrationRuntimeOutboundNetworkDependenciesCategoryEndpoint {
     category?: string;
     endpoints?: IntegrationRuntimeOutboundNetworkDependenciesEndpoint[];
@@ -1034,9 +1101,10 @@ export interface IntegrationRuntimeRegenerateKeyParameters {
 }
 
 // @public
-export type IntegrationRuntimeResource = SubResource & {
-    properties: IntegrationRuntimeUnion;
-};
+export interface IntegrationRuntimeResource extends SubResource {
+    description?: string;
+    typePropertiesType: IntegrationRuntimeType;
+}
 
 // @public
 export interface IntegrationRuntimes {
@@ -1179,12 +1247,22 @@ export interface IntegrationRuntimeStatusOperations {
 
 // @public
 export interface IntegrationRuntimeStatusResponse {
+    readonly dataFactoryName?: string;
     readonly name?: string;
-    properties: IntegrationRuntimeStatusUnion;
+    readonly state?: IntegrationRuntimeState;
+    type: IntegrationRuntimeType;
 }
 
 // @public (undocumented)
 export type IntegrationRuntimeStatusUnion = IntegrationRuntimeStatus | ManagedIntegrationRuntimeStatus | SelfHostedIntegrationRuntimeStatus;
+
+// @public
+export interface IntegrationRuntimeStopOperationStatus {
+    error?: string;
+    name?: string;
+    properties?: Record<string, unknown>;
+    status?: WorkspaceStatus;
+}
 
 // @public
 export interface IntegrationRuntimesUpdateOptionalParams extends coreClient.OperationOptions {
@@ -1216,26 +1294,27 @@ export interface IntegrationRuntimeVNetProperties {
 }
 
 // @public
-export type IotHubDataConnection = DataConnection & {
-    iotHubResourceId?: string;
+export interface IotHubDataConnection extends DataConnection {
     consumerGroup?: string;
-    tableName?: string;
-    mappingRuleName?: string;
     dataFormat?: IotHubDataFormat;
     eventSystemProperties?: string[];
-    sharedAccessPolicyName?: string;
+    iotHubResourceId?: string;
+    kind: "IotHub";
+    mappingRuleName?: string;
     readonly provisioningState?: ResourceProvisioningState;
-};
+    sharedAccessPolicyName?: string;
+    tableName?: string;
+}
 
 // @public
 export type IotHubDataFormat = string;
 
 // @public
-export type IpFirewallRuleInfo = ProxyResource & {
+export interface IpFirewallRuleInfo extends ProxyResource {
     endIpAddress?: string;
     readonly provisioningState?: ProvisioningState;
     startIpAddress?: string;
-};
+}
 
 // @public
 export interface IpFirewallRuleInfoListResult {
@@ -1278,7 +1357,7 @@ export interface IpFirewallRulesDeleteOptionalParams extends coreClient.Operatio
 }
 
 // @public
-export type IpFirewallRulesDeleteResponse = Record<string, unknown>;
+export type IpFirewallRulesDeleteResponse = IpFirewallRuleInfo;
 
 // @public
 export interface IpFirewallRulesGetOptionalParams extends coreClient.OperationOptions {
@@ -1317,10 +1396,10 @@ export interface KekIdentityProperties {
 }
 
 // @public
-export type Key = ProxyResource & {
+export interface Key extends ProxyResource {
     isActiveCMK?: boolean;
     keyVaultUrl?: string;
-};
+}
 
 // @public
 export interface KeyInfoListResult {
@@ -1376,788 +1455,514 @@ export type Kind = string;
 
 // @public
 export enum KnownAzureADOnlyAuthenticationName {
-    // (undocumented)
     Default = "default"
 }
 
 // @public
 export enum KnownAzureScaleType {
-    // (undocumented)
     Automatic = "automatic",
-    // (undocumented)
     Manual = "manual",
-    // (undocumented)
     None = "none"
 }
 
 // @public
 export enum KnownBlobAuditingPolicyName {
-    // (undocumented)
     Default = "default"
 }
 
 // @public
 export enum KnownBlobStorageEventType {
-    // (undocumented)
     MicrosoftStorageBlobCreated = "Microsoft.Storage.BlobCreated",
-    // (undocumented)
     MicrosoftStorageBlobRenamed = "Microsoft.Storage.BlobRenamed"
 }
 
 // @public
 export enum KnownClusterPrincipalRole {
-    // (undocumented)
     AllDatabasesAdmin = "AllDatabasesAdmin",
-    // (undocumented)
     AllDatabasesViewer = "AllDatabasesViewer"
 }
 
 // @public
 export enum KnownColumnDataType {
-    // (undocumented)
     Bigint = "bigint",
-    // (undocumented)
     Binary = "binary",
-    // (undocumented)
     Bit = "bit",
-    // (undocumented)
     Char = "char",
-    // (undocumented)
     Date = "date",
-    // (undocumented)
     Datetime = "datetime",
-    // (undocumented)
     Datetime2 = "datetime2",
-    // (undocumented)
     Datetimeoffset = "datetimeoffset",
-    // (undocumented)
     Decimal = "decimal",
-    // (undocumented)
     Float = "float",
-    // (undocumented)
     Geography = "geography",
-    // (undocumented)
     Geometry = "geometry",
-    // (undocumented)
     Hierarchyid = "hierarchyid",
-    // (undocumented)
     Image = "image",
-    // (undocumented)
     Int = "int",
-    // (undocumented)
     Money = "money",
-    // (undocumented)
     Nchar = "nchar",
-    // (undocumented)
     Ntext = "ntext",
-    // (undocumented)
     Numeric = "numeric",
-    // (undocumented)
     Nvarchar = "nvarchar",
-    // (undocumented)
     Real = "real",
-    // (undocumented)
     Smalldatetime = "smalldatetime",
-    // (undocumented)
     Smallint = "smallint",
-    // (undocumented)
     Smallmoney = "smallmoney",
-    // (undocumented)
     SqlVariant = "sql_variant",
-    // (undocumented)
     Sysname = "sysname",
-    // (undocumented)
     Text = "text",
-    // (undocumented)
     Time = "time",
-    // (undocumented)
     Timestamp = "timestamp",
-    // (undocumented)
     Tinyint = "tinyint",
-    // (undocumented)
     Uniqueidentifier = "uniqueidentifier",
-    // (undocumented)
     Varbinary = "varbinary",
-    // (undocumented)
     Varchar = "varchar",
-    // (undocumented)
     Xml = "xml"
 }
 
 // @public
 export enum KnownCompression {
-    // (undocumented)
     GZip = "GZip",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownConfigurationType {
-    // (undocumented)
     Artifact = "Artifact",
-    // (undocumented)
     File = "File"
 }
 
 // @public
 export enum KnownConnectionPolicyName {
-    // (undocumented)
     Default = "default"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownCreateMode {
-    // (undocumented)
     Default = "Default",
-    // (undocumented)
     PointInTimeRestore = "PointInTimeRestore",
-    // (undocumented)
     Recovery = "Recovery",
-    // (undocumented)
     Restore = "Restore"
 }
 
 // @public
 export enum KnownDatabasePrincipalRole {
-    // (undocumented)
     Admin = "Admin",
-    // (undocumented)
     Ingestor = "Ingestor",
-    // (undocumented)
     Monitor = "Monitor",
-    // (undocumented)
     UnrestrictedViewer = "UnrestrictedViewer",
-    // (undocumented)
     User = "User",
-    // (undocumented)
     Viewer = "Viewer"
 }
 
 // @public
 export enum KnownDataConnectionKind {
-    // (undocumented)
     EventGrid = "EventGrid",
-    // (undocumented)
     EventHub = "EventHub",
-    // (undocumented)
     IotHub = "IotHub"
 }
 
 // @public
 export enum KnownDataFlowComputeType {
-    // (undocumented)
     ComputeOptimized = "ComputeOptimized",
-    // (undocumented)
     General = "General",
-    // (undocumented)
     MemoryOptimized = "MemoryOptimized"
 }
 
 // @public
 export enum KnownDataWarehouseUserActivityName {
-    // (undocumented)
     Current = "current"
 }
 
 // @public
 export enum KnownDayOfWeek {
-    // (undocumented)
     Friday = "Friday",
-    // (undocumented)
     Monday = "Monday",
-    // (undocumented)
     Saturday = "Saturday",
-    // (undocumented)
     Sunday = "Sunday",
-    // (undocumented)
     Thursday = "Thursday",
-    // (undocumented)
     Tuesday = "Tuesday",
-    // (undocumented)
     Wednesday = "Wednesday"
 }
 
 // @public
 export enum KnownDedicatedSQLMinimalTlsSettingsName {
-    // (undocumented)
     Default = "default"
 }
 
 // @public
 export enum KnownDefaultPrincipalsModificationKind {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     Replace = "Replace",
-    // (undocumented)
     Union = "Union"
 }
 
 // @public
 export enum KnownEncryptionProtectorName {
-    // (undocumented)
     Current = "current"
 }
 
 // @public
 export enum KnownEventGridDataFormat {
-    // (undocumented)
     Apacheavro = "APACHEAVRO",
-    // (undocumented)
     Avro = "AVRO",
-    // (undocumented)
     CSV = "CSV",
-    // (undocumented)
     Json = "JSON",
-    // (undocumented)
     Multijson = "MULTIJSON",
-    // (undocumented)
     ORC = "ORC",
-    // (undocumented)
     Parquet = "PARQUET",
-    // (undocumented)
     PSV = "PSV",
-    // (undocumented)
     RAW = "RAW",
-    // (undocumented)
     Scsv = "SCSV",
-    // (undocumented)
     Singlejson = "SINGLEJSON",
-    // (undocumented)
     Sohsv = "SOHSV",
-    // (undocumented)
     TSV = "TSV",
-    // (undocumented)
     Tsve = "TSVE",
-    // (undocumented)
     TXT = "TXT",
-    // (undocumented)
     W3Clogfile = "W3CLOGFILE"
 }
 
 // @public
 export enum KnownEventHubDataFormat {
-    // (undocumented)
     Apacheavro = "APACHEAVRO",
-    // (undocumented)
     Avro = "AVRO",
-    // (undocumented)
     CSV = "CSV",
-    // (undocumented)
     Json = "JSON",
-    // (undocumented)
     Multijson = "MULTIJSON",
-    // (undocumented)
     ORC = "ORC",
-    // (undocumented)
     Parquet = "PARQUET",
-    // (undocumented)
     PSV = "PSV",
-    // (undocumented)
     RAW = "RAW",
-    // (undocumented)
     Scsv = "SCSV",
-    // (undocumented)
     Singlejson = "SINGLEJSON",
-    // (undocumented)
     Sohsv = "SOHSV",
-    // (undocumented)
     TSV = "TSV",
-    // (undocumented)
     Tsve = "TSVE",
-    // (undocumented)
     TXT = "TXT",
-    // (undocumented)
     W3Clogfile = "W3CLOGFILE"
 }
 
 // @public
 export enum KnownGeoBackupPolicyName {
-    // (undocumented)
     Default = "Default"
 }
 
 // @public
 export enum KnownIntegrationRuntimeAuthKeyName {
-    // (undocumented)
     AuthKey1 = "authKey1",
-    // (undocumented)
     AuthKey2 = "authKey2"
 }
 
 // @public
 export enum KnownIntegrationRuntimeAutoUpdate {
-    // (undocumented)
     Off = "Off",
-    // (undocumented)
     On = "On"
 }
 
 // @public
 export enum KnownIntegrationRuntimeEdition {
-    // (undocumented)
     Enterprise = "Enterprise",
-    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
 export enum KnownIntegrationRuntimeEntityReferenceType {
-    // (undocumented)
     IntegrationRuntimeReference = "IntegrationRuntimeReference",
-    // (undocumented)
     LinkedServiceReference = "LinkedServiceReference"
 }
 
 // @public
 export enum KnownIntegrationRuntimeInternalChannelEncryptionMode {
-    // (undocumented)
     NotEncrypted = "NotEncrypted",
-    // (undocumented)
     NotSet = "NotSet",
-    // (undocumented)
     SslEncrypted = "SslEncrypted"
 }
 
 // @public
 export enum KnownIntegrationRuntimeLicenseType {
-    // (undocumented)
     BasePrice = "BasePrice",
-    // (undocumented)
     LicenseIncluded = "LicenseIncluded"
 }
 
 // @public
 export enum KnownIntegrationRuntimeSsisCatalogPricingTier {
-    // (undocumented)
     Basic = "Basic",
-    // (undocumented)
     Premium = "Premium",
-    // (undocumented)
     PremiumRS = "PremiumRS",
-    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
 export enum KnownIntegrationRuntimeState {
-    // (undocumented)
     AccessDenied = "AccessDenied",
-    // (undocumented)
     Initial = "Initial",
-    // (undocumented)
     Limited = "Limited",
-    // (undocumented)
     NeedRegistration = "NeedRegistration",
-    // (undocumented)
     Offline = "Offline",
-    // (undocumented)
     Online = "Online",
-    // (undocumented)
     Started = "Started",
-    // (undocumented)
     Starting = "Starting",
-    // (undocumented)
     Stopped = "Stopped",
-    // (undocumented)
     Stopping = "Stopping"
 }
 
 // @public
 export enum KnownIntegrationRuntimeType {
-    // (undocumented)
     Managed = "Managed",
-    // (undocumented)
     SelfHosted = "SelfHosted"
 }
 
 // @public
 export enum KnownIntegrationRuntimeUpdateResult {
-    // (undocumented)
     Fail = "Fail",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     Succeed = "Succeed"
 }
 
 // @public
 export enum KnownIotHubDataFormat {
-    // (undocumented)
     Apacheavro = "APACHEAVRO",
-    // (undocumented)
     Avro = "AVRO",
-    // (undocumented)
     CSV = "CSV",
-    // (undocumented)
     Json = "JSON",
-    // (undocumented)
     Multijson = "MULTIJSON",
-    // (undocumented)
     ORC = "ORC",
-    // (undocumented)
     Parquet = "PARQUET",
-    // (undocumented)
     PSV = "PSV",
-    // (undocumented)
     RAW = "RAW",
-    // (undocumented)
     Scsv = "SCSV",
-    // (undocumented)
     Singlejson = "SINGLEJSON",
-    // (undocumented)
     Sohsv = "SOHSV",
-    // (undocumented)
     TSV = "TSV",
-    // (undocumented)
     Tsve = "TSVE",
-    // (undocumented)
     TXT = "TXT",
-    // (undocumented)
     W3Clogfile = "W3CLOGFILE"
 }
 
 // @public
 export enum KnownKind {
-    // (undocumented)
     ReadOnlyFollowing = "ReadOnlyFollowing",
-    // (undocumented)
     ReadWrite = "ReadWrite"
 }
 
 // @public
 export enum KnownLanguageExtensionName {
-    // (undocumented)
     Python = "PYTHON",
     // (undocumented)
     R = "R"
 }
 
 // @public
-export enum KnownManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToManagedIdentityActualState {
-    // (undocumented)
-    Disabled = "Disabled",
-    // (undocumented)
-    Disabling = "Disabling",
-    // (undocumented)
-    Enabled = "Enabled",
-    // (undocumented)
-    Enabling = "Enabling",
-    // (undocumented)
-    Unknown = "Unknown"
-}
-
-// @public
-export enum KnownManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToManagedIdentityDesiredState {
-    // (undocumented)
-    Disabled = "Disabled",
-    // (undocumented)
-    Enabled = "Enabled"
-}
-
-// @public
 export enum KnownManagedIntegrationRuntimeNodeStatus {
-    // (undocumented)
     Available = "Available",
-    // (undocumented)
     Recycling = "Recycling",
-    // (undocumented)
     Starting = "Starting",
-    // (undocumented)
     Unavailable = "Unavailable"
 }
 
 // @public
 export enum KnownManagementOperationState {
-    // (undocumented)
     CancelInProgress = "CancelInProgress",
-    // (undocumented)
     Cancelled = "Cancelled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     InProgress = "InProgress",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownNodeSize {
-    // (undocumented)
     Large = "Large",
-    // (undocumented)
     Medium = "Medium",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     Small = "Small",
-    // (undocumented)
     XLarge = "XLarge",
-    // (undocumented)
     XXLarge = "XXLarge",
-    // (undocumented)
     XXXLarge = "XXXLarge"
 }
 
 // @public
 export enum KnownNodeSizeFamily {
-    // (undocumented)
     HardwareAcceleratedFpga = "HardwareAcceleratedFPGA",
-    // (undocumented)
     HardwareAcceleratedGPU = "HardwareAcceleratedGPU",
-    // (undocumented)
     MemoryOptimized = "MemoryOptimized",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownOperationStatus {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     InProgress = "InProgress",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPrincipalsModificationKind {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     Replace = "Replace",
-    // (undocumented)
     Union = "Union"
 }
 
 // @public
 export enum KnownPrincipalType {
-    // (undocumented)
     App = "App",
-    // (undocumented)
     Group = "Group",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     DeleteError = "DeleteError",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Provisioning = "Provisioning",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownReason {
-    // (undocumented)
     AlreadyExists = "AlreadyExists",
-    // (undocumented)
     Invalid = "Invalid"
 }
 
 // @public
 export enum KnownReplicationState {
-    // (undocumented)
     CatchUP = "CATCH_UP",
-    // (undocumented)
     Pending = "PENDING",
-    // (undocumented)
     Seeding = "SEEDING",
-    // (undocumented)
     Suspended = "SUSPENDED"
 }
 
 // @public
 export enum KnownResourceProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Moving = "Moving",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownSecurityAlertPolicyName {
-    // (undocumented)
     Default = "default"
 }
 
 // @public
 export enum KnownSecurityAlertPolicyNameAutoGenerated {
-    // (undocumented)
     Default = "Default"
 }
 
 // @public
 export enum KnownSelfHostedIntegrationRuntimeNodeStatus {
-    // (undocumented)
     InitializeFailed = "InitializeFailed",
-    // (undocumented)
     Initializing = "Initializing",
-    // (undocumented)
     Limited = "Limited",
-    // (undocumented)
     NeedRegistration = "NeedRegistration",
-    // (undocumented)
     Offline = "Offline",
-    // (undocumented)
     Online = "Online",
-    // (undocumented)
     Upgrading = "Upgrading"
 }
 
 // @public
 export enum KnownServerKeyType {
-    // (undocumented)
     AzureKeyVault = "AzureKeyVault",
-    // (undocumented)
     ServiceManaged = "ServiceManaged"
 }
 
 // @public
 export enum KnownSkuName {
-    // (undocumented)
     ComputeOptimized = "Compute optimized",
-    // (undocumented)
     StorageOptimized = "Storage optimized"
 }
 
 // @public
 export enum KnownSkuSize {
-    // (undocumented)
     ExtraSmall = "Extra small",
-    // (undocumented)
     Large = "Large",
-    // (undocumented)
     Medium = "Medium",
-    // (undocumented)
     Small = "Small"
 }
 
 // @public
 export enum KnownSsisObjectMetadataType {
-    // (undocumented)
     Environment = "Environment",
-    // (undocumented)
     Folder = "Folder",
-    // (undocumented)
     Package = "Package",
-    // (undocumented)
     Project = "Project"
 }
 
 // @public
 export enum KnownState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Starting = "Starting",
-    // (undocumented)
     Stopped = "Stopped",
-    // (undocumented)
     Stopping = "Stopping",
-    // (undocumented)
     Unavailable = "Unavailable",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownStateValue {
-    // (undocumented)
     Consistent = "Consistent",
-    // (undocumented)
     InConsistent = "InConsistent",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownStorageAccountType {
-    // (undocumented)
     GRS = "GRS",
-    // (undocumented)
     LRS = "LRS"
 }
 
 // @public
 export enum KnownTransparentDataEncryptionName {
-    // (undocumented)
     Current = "current"
 }
 
 // @public
 export enum KnownVulnerabilityAssessmentName {
-    // (undocumented)
     Default = "default"
 }
 
 // @public
 export enum KnownVulnerabilityAssessmentScanState {
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     FailedToRun = "FailedToRun",
-    // (undocumented)
     InProgress = "InProgress",
-    // (undocumented)
     Passed = "Passed"
 }
 
 // @public
 export enum KnownVulnerabilityAssessmentScanTriggerType {
-    // (undocumented)
     OnDemand = "OnDemand",
-    // (undocumented)
     Recurring = "Recurring"
 }
 
 // @public
 export enum KnownWorkspacePublicNetworkAccess {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownWorkspaceStatus {
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -2180,21 +1985,21 @@ export interface KustoOperationsListOptionalParams extends coreClient.OperationO
 export type KustoOperationsListResponse = OperationListResult;
 
 // @public
-export type KustoPool = TrackedResource & {
-    sku: AzureSku;
-    readonly etag?: string;
-    readonly systemData?: SystemData;
-    readonly state?: State;
-    readonly provisioningState?: ResourceProvisioningState;
-    readonly uri?: string;
+export interface KustoPool extends TrackedResource {
     readonly dataIngestionUri?: string;
-    readonly stateReason?: string;
-    optimizedAutoscale?: OptimizedAutoscale;
-    enableStreamingIngest?: boolean;
     enablePurge?: boolean;
+    enableStreamingIngest?: boolean;
+    readonly etag?: string;
     readonly languageExtensions?: LanguageExtensionsList;
+    optimizedAutoscale?: OptimizedAutoscale;
+    readonly provisioningState?: ResourceProvisioningState;
+    sku: AzureSku;
+    readonly state?: State;
+    readonly stateReason?: string;
+    readonly systemData?: SystemData;
+    readonly uri?: string;
     workspaceUID?: string;
-};
+}
 
 // @public
 export interface KustoPoolAttachedDatabaseConfigurations {
@@ -2472,6 +2277,27 @@ export interface KustoPoolPrincipalAssignmentsListOptionalParams extends coreCli
 export type KustoPoolPrincipalAssignmentsListResponse = ClusterPrincipalAssignmentListResult;
 
 // @public
+export interface KustoPoolPrivateLinkResources extends ProxyResource {
+    readonly groupId?: string;
+    readonly provisioningState?: ResourceProvisioningState;
+    readonly requiredMembers?: string[];
+    readonly requiredZoneNames?: string[];
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface KustoPoolPrivateLinkResourcesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type KustoPoolPrivateLinkResourcesListResponse = PrivateLinkResources;
+
+// @public
+export interface KustoPoolPrivateLinkResourcesOperations {
+    list(resourceGroupName: string, workspaceName: string, kustoPoolName: string, options?: KustoPoolPrivateLinkResourcesListOptionalParams): PagedAsyncIterableIterator<KustoPoolPrivateLinkResources>;
+}
+
+// @public
 export interface KustoPools {
     beginAddLanguageExtensions(workspaceName: string, kustoPoolName: string, resourceGroupName: string, languageExtensionsToAdd: LanguageExtensionsList, options?: KustoPoolsAddLanguageExtensionsOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginAddLanguageExtensionsAndWait(workspaceName: string, kustoPoolName: string, resourceGroupName: string, languageExtensionsToAdd: LanguageExtensionsList, options?: KustoPoolsAddLanguageExtensionsOptionalParams): Promise<void>;
@@ -2605,22 +2431,22 @@ export interface KustoPoolsUpdateOptionalParams extends coreClient.OperationOpti
 export type KustoPoolsUpdateResponse = KustoPool;
 
 // @public
-export type KustoPoolUpdate = Resource & {
+export interface KustoPoolUpdate extends Resource {
+    readonly dataIngestionUri?: string;
+    enablePurge?: boolean;
+    enableStreamingIngest?: boolean;
+    readonly languageExtensions?: LanguageExtensionsList;
+    optimizedAutoscale?: OptimizedAutoscale;
+    readonly provisioningState?: ResourceProvisioningState;
+    sku?: AzureSku;
+    readonly state?: State;
+    readonly stateReason?: string;
     tags?: {
         [propertyName: string]: string;
     };
-    sku?: AzureSku;
-    readonly state?: State;
-    readonly provisioningState?: ResourceProvisioningState;
     readonly uri?: string;
-    readonly dataIngestionUri?: string;
-    readonly stateReason?: string;
-    optimizedAutoscale?: OptimizedAutoscale;
-    enableStreamingIngest?: boolean;
-    enablePurge?: boolean;
-    readonly languageExtensions?: LanguageExtensionsList;
     workspaceUID?: string;
-};
+}
 
 // @public
 export interface LanguageExtension {
@@ -2691,15 +2517,15 @@ export interface LibraryRequirements {
 }
 
 // @public
-export type LibraryResource = SubResource & {
+export interface LibraryResource extends SubResource {
+    containerName?: string;
+    readonly creatorId?: string;
     namePropertiesName?: string;
     path?: string;
-    containerName?: string;
-    uploadedTimestamp?: Date;
-    typePropertiesType?: string;
     readonly provisioningStatus?: string;
-    readonly creatorId?: string;
-};
+    typePropertiesType?: string;
+    uploadedTimestamp?: Date;
+}
 
 // @public
 export interface LinkedIntegrationRuntime {
@@ -2711,16 +2537,16 @@ export interface LinkedIntegrationRuntime {
 }
 
 // @public
-export type LinkedIntegrationRuntimeKeyAuthorization = LinkedIntegrationRuntimeType & {
+export interface LinkedIntegrationRuntimeKeyAuthorization extends LinkedIntegrationRuntimeType {
     authorizationType: "Key";
     key: SecureString;
-};
+}
 
 // @public
-export type LinkedIntegrationRuntimeRbacAuthorization = LinkedIntegrationRuntimeType & {
+export interface LinkedIntegrationRuntimeRbacAuthorization extends LinkedIntegrationRuntimeType {
     authorizationType: "RBAC";
     resourceId: string;
-};
+}
 
 // @public
 export interface LinkedIntegrationRuntimeType {
@@ -2742,20 +2568,21 @@ export interface ListSqlPoolSecurityAlertPolicies {
 }
 
 // @public
-export type MaintenanceWindowOptions = ProxyResource & {
+export interface MaintenanceWindowOptions extends ProxyResource {
+    allowMultipleMaintenanceWindowsPerCycle?: boolean;
+    defaultDurationInMinutes?: number;
     isEnabled?: boolean;
     maintenanceWindowCycles?: MaintenanceWindowTimeRange[];
-    minDurationInMinutes?: number;
-    defaultDurationInMinutes?: number;
     minCycles?: number;
+    minDurationInMinutes?: number;
     timeGranularityInMinutes?: number;
-    allowMultipleMaintenanceWindowsPerCycle?: boolean;
-};
+}
 
 // @public
-export type MaintenanceWindows = ProxyResource & {
+export interface MaintenanceWindows extends ProxyResource {
+    // (undocumented)
     timeRanges?: MaintenanceWindowTimeRange[];
-};
+}
 
 // @public
 export interface MaintenanceWindowTimeRange {
@@ -2775,32 +2602,26 @@ export interface ManagedIdentity {
 }
 
 // @public
-export type ManagedIdentitySqlControlSettingsModel = ProxyResource & {
+export interface ManagedIdentitySqlControlSettingsModel extends ProxyResource {
     grantSqlControlToManagedIdentity?: ManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToManagedIdentity;
-};
-
-// @public
-export interface ManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToManagedIdentity {
-    readonly actualState?: ManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToManagedIdentityActualState;
-    desiredState?: ManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToManagedIdentityDesiredState;
 }
 
 // @public
-export type ManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToManagedIdentityActualState = string;
+export interface ManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToManagedIdentity {
+    readonly actualState?: ActualState;
+    desiredState?: DesiredState;
+}
 
 // @public
-export type ManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToManagedIdentityDesiredState = string;
-
-// @public
-export type ManagedIntegrationRuntime = IntegrationRuntime & {
-    type: "Managed";
-    readonly state?: IntegrationRuntimeState;
-    referenceName?: string;
-    typeManagedVirtualNetworkType?: string;
-    id?: string;
+export interface ManagedIntegrationRuntime extends IntegrationRuntime {
     computeProperties?: IntegrationRuntimeComputeProperties;
+    id?: string;
+    referenceName?: string;
     ssisProperties?: IntegrationRuntimeSsisProperties;
-};
+    readonly state?: IntegrationRuntimeState;
+    type: "Managed";
+    typeManagedVirtualNetworkType?: string;
+}
 
 // @public
 export interface ManagedIntegrationRuntimeError {
@@ -2834,13 +2655,13 @@ export interface ManagedIntegrationRuntimeOperationResult {
 }
 
 // @public
-export type ManagedIntegrationRuntimeStatus = IntegrationRuntimeStatus & {
-    type: "Managed";
+export interface ManagedIntegrationRuntimeStatus extends IntegrationRuntimeStatus {
     readonly createTime?: Date;
+    readonly lastOperation?: ManagedIntegrationRuntimeOperationResult;
     readonly nodes?: ManagedIntegrationRuntimeNode[];
     readonly otherErrors?: ManagedIntegrationRuntimeError[];
-    readonly lastOperation?: ManagedIntegrationRuntimeOperationResult;
-};
+    type: "Managed";
+}
 
 // @public
 export interface ManagedVirtualNetworkSettings {
@@ -2853,10 +2674,10 @@ export interface ManagedVirtualNetworkSettings {
 export type ManagementOperationState = string;
 
 // @public
-export type MetadataSyncConfig = ProxyResource & {
+export interface MetadataSyncConfig extends ProxyResource {
     enabled?: boolean;
     syncIntervalInMinutes?: number;
-};
+}
 
 // @public
 export type NodeSize = string;
@@ -2989,17 +2810,19 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export type PrivateEndpointConnection = ProxyResource & {
+export interface PrivateEndpointConnection extends ProxyResource {
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: string;
-};
+}
 
 // @public (undocumented)
-export type PrivateEndpointConnectionForPrivateLinkHub = PrivateEndpointConnectionForPrivateLinkHubBasicAutoGenerated & {
+export interface PrivateEndpointConnectionForPrivateLinkHub extends PrivateEndpointConnectionForPrivateLinkHubBasicAutoGenerated {
+    // (undocumented)
     name?: string;
+    // (undocumented)
     type?: string;
-};
+}
 
 // @public
 export interface PrivateEndpointConnectionForPrivateLinkHubBasic {
@@ -3111,10 +2934,10 @@ export interface PrivateEndpointConnectionsPrivateLinkHubListOptionalParams exte
 export type PrivateEndpointConnectionsPrivateLinkHubListResponse = PrivateEndpointConnectionForPrivateLinkHubResourceCollectionResponse;
 
 // @public
-export type PrivateLinkHub = TrackedResource & {
-    provisioningState?: string;
+export interface PrivateLinkHub extends TrackedResource {
     readonly privateEndpointConnections?: PrivateEndpointConnectionForPrivateLinkHubBasic[];
-};
+    provisioningState?: string;
+}
 
 // @public
 export interface PrivateLinkHubInfoListResult {
@@ -3223,9 +3046,9 @@ export interface PrivateLinkHubsUpdateOptionalParams extends coreClient.Operatio
 export type PrivateLinkHubsUpdateResponse = PrivateLinkHub;
 
 // @public
-export type PrivateLinkResource = ProxyResource & {
+export interface PrivateLinkResource extends ProxyResource {
     readonly properties?: PrivateLinkResourceProperties;
-};
+}
 
 // @public
 export interface PrivateLinkResourceListResult {
@@ -3242,8 +3065,7 @@ export interface PrivateLinkResourceProperties {
 
 // @public
 export interface PrivateLinkResources {
-    get(resourceGroupName: string, workspaceName: string, privateLinkResourceName: string, options?: PrivateLinkResourcesGetOptionalParams): Promise<PrivateLinkResourcesGetResponse>;
-    list(resourceGroupName: string, workspaceName: string, options?: PrivateLinkResourcesListOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
+    value?: KustoPoolPrivateLinkResources[];
 }
 
 // @public
@@ -3268,6 +3090,12 @@ export interface PrivateLinkResourcesListOptionalParams extends coreClient.Opera
 export type PrivateLinkResourcesListResponse = PrivateLinkResourceListResult;
 
 // @public
+export interface PrivateLinkResourcesOperations {
+    get(resourceGroupName: string, workspaceName: string, privateLinkResourceName: string, options?: PrivateLinkResourcesGetOptionalParams): Promise<PrivateLinkResourcesGetResponse>;
+    list(resourceGroupName: string, workspaceName: string, options?: PrivateLinkResourcesListOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
+}
+
+// @public
 export interface PrivateLinkServiceConnectionState {
     readonly actionsRequired?: string;
     description?: string;
@@ -3278,7 +3106,8 @@ export interface PrivateLinkServiceConnectionState {
 export type ProvisioningState = string;
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface PurviewConfiguration {
@@ -3319,35 +3148,38 @@ export interface QueryStatistic {
 }
 
 // @public
-export type ReadOnlyFollowingDatabase = Database & {
+export interface ReadOnlyFollowingDatabase extends Database {
+    readonly attachedDatabaseConfigurationName?: string;
+    hotCachePeriod?: string;
+    kind: "ReadOnlyFollowing";
+    readonly leaderClusterResourceId?: string;
+    readonly principalsModificationKind?: PrincipalsModificationKind;
     readonly provisioningState?: ResourceProvisioningState;
     readonly softDeletePeriod?: string;
-    hotCachePeriod?: string;
     readonly statistics?: DatabaseStatistics;
-    readonly leaderClusterResourceId?: string;
-    readonly attachedDatabaseConfigurationName?: string;
-    readonly principalsModificationKind?: PrincipalsModificationKind;
-};
+}
 
 // @public
-export type ReadWriteDatabase = Database & {
+export interface ReadWriteDatabase extends Database {
+    hotCachePeriod?: string;
+    readonly isFollowed?: boolean;
+    kind: "ReadWrite";
     readonly provisioningState?: ResourceProvisioningState;
     softDeletePeriod?: string;
-    hotCachePeriod?: string;
     readonly statistics?: DatabaseStatistics;
-    readonly isFollowed?: boolean;
-};
+}
 
 // @public
 export type Reason = string;
 
 // @public
-export type RecommendedSensitivityLabelUpdate = ProxyResource & {
+export interface RecommendedSensitivityLabelUpdate extends ProxyResource {
+    column?: string;
+    // (undocumented)
     op?: RecommendedSensitivityLabelUpdateKind;
     schema?: string;
     table?: string;
-    column?: string;
-};
+}
 
 // @public
 export type RecommendedSensitivityLabelUpdateKind = "enable" | "disable";
@@ -3359,12 +3191,12 @@ export interface RecommendedSensitivityLabelUpdateList {
 }
 
 // @public
-export type RecoverableSqlPool = ProxyResource & {
+export interface RecoverableSqlPool extends ProxyResource {
     readonly edition?: string;
-    readonly serviceLevelObjective?: string;
     readonly elasticPoolName?: string;
     readonly lastAvailableBackupDate?: Date;
-};
+    readonly serviceLevelObjective?: string;
+}
 
 // @public
 export interface RecoverableSqlPoolListResult {
@@ -3385,19 +3217,19 @@ export interface ReplaceAllIpFirewallRulesRequest {
 }
 
 // @public
-export type ReplicationLink = ProxyResource & {
-    readonly location?: string;
+export interface ReplicationLink extends ProxyResource {
     readonly isTerminationAllowed?: boolean;
-    readonly replicationMode?: string;
-    readonly partnerServer?: string;
+    readonly location?: string;
     readonly partnerDatabase?: string;
     readonly partnerLocation?: string;
-    readonly role?: ReplicationRole;
     readonly partnerRole?: ReplicationRole;
-    readonly startTime?: Date;
+    readonly partnerServer?: string;
     readonly percentComplete?: number;
+    readonly replicationMode?: string;
     readonly replicationState?: ReplicationState;
-};
+    readonly role?: ReplicationRole;
+    readonly startTime?: Date;
+}
 
 // @public
 export interface ReplicationLinkListResult {
@@ -3430,17 +3262,17 @@ export interface ResourceMoveDefinition {
 export type ResourceProvisioningState = string;
 
 // @public
-export type RestorableDroppedSqlPool = ProxyResource & {
-    readonly location?: string;
-    readonly databaseName?: string;
-    readonly edition?: string;
-    readonly maxSizeBytes?: string;
-    readonly serviceLevelObjective?: string;
-    readonly elasticPoolName?: string;
+export interface RestorableDroppedSqlPool extends ProxyResource {
     readonly creationDate?: Date;
+    readonly databaseName?: string;
     readonly deletionDate?: Date;
     readonly earliestRestoreDate?: Date;
-};
+    readonly edition?: string;
+    readonly elasticPoolName?: string;
+    readonly location?: string;
+    readonly maxSizeBytes?: string;
+    readonly serviceLevelObjective?: string;
+}
 
 // @public
 export interface RestorableDroppedSqlPoolListResult {
@@ -3468,13 +3300,13 @@ export interface RestorableDroppedSqlPoolsListByWorkspaceOptionalParams extends 
 export type RestorableDroppedSqlPoolsListByWorkspaceResponse = RestorableDroppedSqlPoolListResult;
 
 // @public
-export type RestorePoint = ProxyResource & {
-    readonly location?: string;
-    readonly restorePointType?: RestorePointType;
+export interface RestorePoint extends ProxyResource {
     readonly earliestRestoreDate?: Date;
+    readonly location?: string;
     readonly restorePointCreationDate?: Date;
     readonly restorePointLabel?: string;
-};
+    readonly restorePointType?: RestorePointType;
+}
 
 // @public
 export interface RestorePointListResult {
@@ -3494,10 +3326,10 @@ export interface SecretBase {
 export type SecretBaseUnion = SecretBase | SecureString;
 
 // @public
-export type SecureString = SecretBase & {
+export interface SecureString extends SecretBase {
     type: "SecureString";
     value: string;
-};
+}
 
 // @public
 export type SecurityAlertPolicyName = string;
@@ -3509,10 +3341,10 @@ export type SecurityAlertPolicyNameAutoGenerated = string;
 export type SecurityAlertPolicyState = "New" | "Enabled" | "Disabled";
 
 // @public
-export type SelfHostedIntegrationRuntime = IntegrationRuntime & {
-    type: "SelfHosted";
+export interface SelfHostedIntegrationRuntime extends IntegrationRuntime {
     linkedInfo?: LinkedIntegrationRuntimeTypeUnion;
-};
+    type: "SelfHosted";
+}
 
 // @public
 export interface SelfHostedIntegrationRuntimeNode {
@@ -3543,44 +3375,45 @@ export interface SelfHostedIntegrationRuntimeNode {
 export type SelfHostedIntegrationRuntimeNodeStatus = string;
 
 // @public
-export type SelfHostedIntegrationRuntimeStatus = IntegrationRuntimeStatus & {
-    type: "SelfHosted";
-    readonly createTime?: Date;
-    readonly taskQueueId?: string;
-    readonly nodeCommunicationChannelEncryptionMode?: string;
-    readonly internalChannelEncryption?: IntegrationRuntimeInternalChannelEncryptionMode;
-    readonly version?: string;
-    nodes?: SelfHostedIntegrationRuntimeNode[];
-    readonly scheduledUpdateDate?: Date;
-    readonly updateDelayOffset?: string;
-    readonly localTimeZoneOffset?: string;
+export interface SelfHostedIntegrationRuntimeStatus extends IntegrationRuntimeStatus {
+    readonly autoUpdate?: IntegrationRuntimeAutoUpdate;
+    readonly autoUpdateETA?: Date;
     readonly capabilities?: {
         [propertyName: string]: string;
     };
-    readonly serviceUrls?: string[];
-    readonly autoUpdate?: IntegrationRuntimeAutoUpdate;
-    readonly versionStatus?: string;
-    links?: LinkedIntegrationRuntime[];
-    readonly pushedVersion?: string;
+    readonly createTime?: Date;
+    readonly internalChannelEncryption?: IntegrationRuntimeInternalChannelEncryptionMode;
     readonly latestVersion?: string;
-    readonly autoUpdateETA?: Date;
-    serviceRegion?: string;
+    links?: LinkedIntegrationRuntime[];
+    readonly localTimeZoneOffset?: string;
     newerVersions?: string[];
-};
+    readonly nodeCommunicationChannelEncryptionMode?: string;
+    nodes?: SelfHostedIntegrationRuntimeNode[];
+    readonly pushedVersion?: string;
+    readonly scheduledUpdateDate?: Date;
+    serviceRegion?: string;
+    readonly serviceUrls?: string[];
+    readonly taskQueueId?: string;
+    type: "SelfHosted";
+    readonly updateDelayOffset?: string;
+    readonly version?: string;
+    readonly versionStatus?: string;
+}
 
 // @public
-export type SensitivityLabel = ProxyResource & {
-    readonly managedBy?: string;
-    readonly schemaName?: string;
-    readonly tableName?: string;
+export interface SensitivityLabel extends ProxyResource {
     readonly columnName?: string;
-    labelName?: string;
-    labelId?: string;
     informationType?: string;
     informationTypeId?: string;
     readonly isDisabled?: boolean;
+    labelId?: string;
+    labelName?: string;
+    readonly managedBy?: string;
+    // (undocumented)
     rank?: SensitivityLabelRank;
-};
+    readonly schemaName?: string;
+    readonly tableName?: string;
+}
 
 // @public
 export interface SensitivityLabelListResult {
@@ -3595,13 +3428,14 @@ export type SensitivityLabelRank = "None" | "Low" | "Medium" | "High" | "Critica
 export type SensitivityLabelSource = "current" | "recommended";
 
 // @public
-export type SensitivityLabelUpdate = ProxyResource & {
+export interface SensitivityLabelUpdate extends ProxyResource {
+    column?: string;
+    // (undocumented)
     op?: SensitivityLabelUpdateKind;
     schema?: string;
-    table?: string;
-    column?: string;
     sensitivityLabel?: SensitivityLabel;
-};
+    table?: string;
+}
 
 // @public
 export type SensitivityLabelUpdateKind = "set" | "remove";
@@ -3613,18 +3447,18 @@ export interface SensitivityLabelUpdateList {
 }
 
 // @public
-export type ServerBlobAuditingPolicy = ProxyResource & {
-    state?: BlobAuditingPolicyState;
-    storageEndpoint?: string;
-    storageAccountAccessKey?: string;
-    retentionDays?: number;
+export interface ServerBlobAuditingPolicy extends ProxyResource {
     auditActionsAndGroups?: string[];
-    storageAccountSubscriptionId?: string;
-    isStorageSecondaryKeyInUse?: boolean;
     isAzureMonitorTargetEnabled?: boolean;
-    queueDelayMs?: number;
     isDevopsAuditEnabled?: boolean;
-};
+    isStorageSecondaryKeyInUse?: boolean;
+    queueDelayMs?: number;
+    retentionDays?: number;
+    state?: BlobAuditingPolicyState;
+    storageAccountAccessKey?: string;
+    storageAccountSubscriptionId?: string;
+    storageEndpoint?: string;
+}
 
 // @public
 export interface ServerBlobAuditingPolicyListResult {
@@ -3636,16 +3470,16 @@ export interface ServerBlobAuditingPolicyListResult {
 export type ServerKeyType = string;
 
 // @public
-export type ServerSecurityAlertPolicy = ProxyResource & {
-    state?: SecurityAlertPolicyState;
-    disabledAlerts?: string[];
-    emailAddresses?: string[];
-    emailAccountAdmins?: boolean;
-    storageEndpoint?: string;
-    storageAccountAccessKey?: string;
-    retentionDays?: number;
+export interface ServerSecurityAlertPolicy extends ProxyResource {
     readonly creationTime?: Date;
-};
+    disabledAlerts?: string[];
+    emailAccountAdmins?: boolean;
+    emailAddresses?: string[];
+    retentionDays?: number;
+    state?: SecurityAlertPolicyState;
+    storageAccountAccessKey?: string;
+    storageEndpoint?: string;
+}
 
 // @public
 export interface ServerSecurityAlertPolicyListResult {
@@ -3671,12 +3505,12 @@ export interface ServerUsageListResult {
 }
 
 // @public
-export type ServerVulnerabilityAssessment = ProxyResource & {
+export interface ServerVulnerabilityAssessment extends ProxyResource {
+    recurringScans?: VulnerabilityAssessmentRecurringScansProperties;
+    storageAccountAccessKey?: string;
     storageContainerPath?: string;
     storageContainerSasKey?: string;
-    storageAccountAccessKey?: string;
-    recurringScans?: VulnerabilityAssessmentRecurringScansProperties;
-};
+}
 
 // @public
 export interface ServerVulnerabilityAssessmentListResult {
@@ -3745,16 +3579,19 @@ export interface SparkConfigurationListResponse {
 }
 
 // @public
-export type SparkConfigurationResource = SubResource & {
-    description?: string;
+export interface SparkConfigurationResource extends SubResource {
+    annotations?: string[];
+    configMergeRule?: {
+        [propertyName: string]: string;
+    };
     configs: {
         [propertyName: string]: string;
     };
-    annotations?: string[];
-    notes?: string;
-    createdBy?: string;
     created?: Date;
-};
+    createdBy?: string;
+    description?: string;
+    notes?: string;
+}
 
 // @public
 export interface SparkConfigurations {
@@ -3776,20 +3613,20 @@ export interface SparkConfigurationsListByWorkspaceOptionalParams extends coreCl
 export type SparkConfigurationsListByWorkspaceResponse = SparkConfigurationListResponse;
 
 // @public
-export type SqlPool = TrackedResource & {
-    sku?: Sku;
-    maxSizeBytes?: number;
+export interface SqlPool extends TrackedResource {
     collation?: string;
-    sourceDatabaseId?: string;
-    recoverableDatabaseId?: string;
-    provisioningState?: string;
-    readonly status?: string;
-    restorePointInTime?: Date;
     createMode?: CreateMode;
     readonly creationDate?: Date;
-    storageAccountType?: StorageAccountType;
+    maxSizeBytes?: number;
+    provisioningState?: string;
+    recoverableDatabaseId?: string;
+    restorePointInTime?: Date;
+    sku?: Sku;
     sourceDatabaseDeletionDate?: Date;
-};
+    sourceDatabaseId?: string;
+    readonly status?: string;
+    storageAccountType?: StorageAccountType;
+}
 
 // @public
 export interface SqlPoolBlobAuditingPolicies {
@@ -3827,17 +3664,17 @@ export interface SqlPoolBlobAuditingPoliciesListBySqlPoolOptionalParams extends 
 export type SqlPoolBlobAuditingPoliciesListBySqlPoolResponse = SqlPoolBlobAuditingPolicyListResult;
 
 // @public
-export type SqlPoolBlobAuditingPolicy = ProxyResource & {
-    readonly kind?: string;
-    state?: BlobAuditingPolicyState;
-    storageEndpoint?: string;
-    storageAccountAccessKey?: string;
-    retentionDays?: number;
+export interface SqlPoolBlobAuditingPolicy extends ProxyResource {
     auditActionsAndGroups?: string[];
-    storageAccountSubscriptionId?: string;
-    isStorageSecondaryKeyInUse?: boolean;
     isAzureMonitorTargetEnabled?: boolean;
-};
+    isStorageSecondaryKeyInUse?: boolean;
+    readonly kind?: string;
+    retentionDays?: number;
+    state?: BlobAuditingPolicyState;
+    storageAccountAccessKey?: string;
+    storageAccountSubscriptionId?: string;
+    storageEndpoint?: string;
+}
 
 // @public
 export interface SqlPoolBlobAuditingPolicyListResult {
@@ -3852,10 +3689,10 @@ export interface SqlPoolBlobAuditingPolicySqlPoolOperationListResult {
 }
 
 // @public
-export type SqlPoolColumn = ProxyResource & {
+export interface SqlPoolColumn extends ProxyResource {
     columnType?: ColumnDataType;
     readonly isComputed?: boolean;
-};
+}
 
 // @public
 export interface SqlPoolColumnListResult {
@@ -3888,17 +3725,17 @@ export interface SqlPoolConnectionPoliciesGetOptionalParams extends coreClient.O
 export type SqlPoolConnectionPoliciesGetResponse = SqlPoolConnectionPolicy;
 
 // @public
-export type SqlPoolConnectionPolicy = ProxyResource & {
+export interface SqlPoolConnectionPolicy extends ProxyResource {
     readonly kind?: string;
     readonly location?: string;
-    securityEnabledAccess?: string;
     proxyDnsName?: string;
     proxyPort?: string;
-    visibility?: string;
-    useServerDefault?: string;
     redirectionState?: string;
+    securityEnabledAccess?: string;
     state?: string;
-};
+    useServerDefault?: string;
+    visibility?: string;
+}
 
 // @public
 export interface SqlPoolDataWarehouseUserActivities {
@@ -3996,34 +3833,37 @@ export interface SqlPoolMetadataSyncConfigsGetOptionalParams extends coreClient.
 export type SqlPoolMetadataSyncConfigsGetResponse = MetadataSyncConfig;
 
 // @public
-export type SqlPoolOperation = ProxyResource & {
+export interface SqlPoolOperation extends ProxyResource {
     readonly databaseName?: string;
+    readonly description?: string;
+    readonly errorCode?: number;
+    readonly errorDescription?: string;
+    readonly errorSeverity?: number;
+    readonly estimatedCompletionTime?: Date;
+    readonly isCancellable?: boolean;
+    readonly isUserError?: boolean;
     readonly operation?: string;
     readonly operationFriendlyName?: string;
     readonly percentComplete?: number;
     readonly serverName?: string;
     readonly startTime?: Date;
     readonly state?: ManagementOperationState;
-    readonly errorCode?: number;
-    readonly errorDescription?: string;
-    readonly errorSeverity?: number;
-    readonly isUserError?: boolean;
-    readonly estimatedCompletionTime?: Date;
-    readonly description?: string;
-    readonly isCancellable?: boolean;
-};
+}
 
 // @public
 export interface SqlPoolOperationResults {
-    getLocationHeaderResult(resourceGroupName: string, workspaceName: string, sqlPoolName: string, operationId: string, options?: SqlPoolOperationResultsGetLocationHeaderResultOptionalParams): Promise<SqlPoolOperationResultsGetLocationHeaderResultResponse>;
+    beginGetLocationHeaderResult(resourceGroupName: string, workspaceName: string, sqlPoolName: string, operationId: string, options?: SqlPoolOperationResultsGetLocationHeaderResultOptionalParams): Promise<PollerLike<PollOperationState<SqlPoolOperationResultsGetLocationHeaderResultResponse>, SqlPoolOperationResultsGetLocationHeaderResultResponse>>;
+    beginGetLocationHeaderResultAndWait(resourceGroupName: string, workspaceName: string, sqlPoolName: string, operationId: string, options?: SqlPoolOperationResultsGetLocationHeaderResultOptionalParams): Promise<SqlPoolOperationResultsGetLocationHeaderResultResponse>;
 }
 
 // @public
 export interface SqlPoolOperationResultsGetLocationHeaderResultOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export type SqlPoolOperationResultsGetLocationHeaderResultResponse = Record<string, unknown>;
+export type SqlPoolOperationResultsGetLocationHeaderResultResponse = SqlPool;
 
 // @public
 export interface SqlPoolOperations {
@@ -4153,14 +3993,16 @@ export interface SqlPools {
     beginPauseAndWait(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: SqlPoolsPauseOptionalParams): Promise<SqlPoolsPauseResponse>;
     beginResume(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: SqlPoolsResumeOptionalParams): Promise<PollerLike<PollOperationState<SqlPoolsResumeResponse>, SqlPoolsResumeResponse>>;
     beginResumeAndWait(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: SqlPoolsResumeOptionalParams): Promise<SqlPoolsResumeResponse>;
+    beginUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, sqlPoolInfo: SqlPoolPatchInfo, options?: SqlPoolsUpdateOptionalParams): Promise<PollerLike<PollOperationState<SqlPoolsUpdateResponse>, SqlPoolsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, workspaceName: string, sqlPoolName: string, sqlPoolInfo: SqlPoolPatchInfo, options?: SqlPoolsUpdateOptionalParams): Promise<SqlPoolsUpdateResponse>;
     get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: SqlPoolsGetOptionalParams): Promise<SqlPoolsGetResponse>;
     listByWorkspace(resourceGroupName: string, workspaceName: string, options?: SqlPoolsListByWorkspaceOptionalParams): PagedAsyncIterableIterator<SqlPool>;
     rename(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: ResourceMoveDefinition, options?: SqlPoolsRenameOptionalParams): Promise<void>;
-    update(resourceGroupName: string, workspaceName: string, sqlPoolName: string, sqlPoolInfo: SqlPoolPatchInfo, options?: SqlPoolsUpdateOptionalParams): Promise<SqlPoolsUpdateResponse>;
 }
 
 // @public
-export type SqlPoolSchema = ProxyResource & {};
+export interface SqlPoolSchema extends ProxyResource {
+}
 
 // @public
 export interface SqlPoolSchemaListResult {
@@ -4183,7 +4025,6 @@ export type SqlPoolSchemasGetResponse = SqlPoolSchema;
 
 // @public
 export interface SqlPoolSchemasListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -4213,7 +4054,7 @@ export interface SqlPoolsDeleteOptionalParams extends coreClient.OperationOption
 }
 
 // @public
-export type SqlPoolsDeleteResponse = Record<string, unknown>;
+export type SqlPoolsDeleteResponse = SqlPool;
 
 // @public
 export interface SqlPoolSecurityAlertPolicies {
@@ -4251,16 +4092,16 @@ export interface SqlPoolSecurityAlertPoliciesListOptionalParams extends coreClie
 export type SqlPoolSecurityAlertPoliciesListResponse = ListSqlPoolSecurityAlertPolicies;
 
 // @public
-export type SqlPoolSecurityAlertPolicy = ProxyResource & {
-    state?: SecurityAlertPolicyState;
-    disabledAlerts?: string[];
-    emailAddresses?: string[];
-    emailAccountAdmins?: boolean;
-    storageEndpoint?: string;
-    storageAccountAccessKey?: string;
-    retentionDays?: number;
+export interface SqlPoolSecurityAlertPolicy extends ProxyResource {
     readonly creationTime?: Date;
-};
+    disabledAlerts?: string[];
+    emailAccountAdmins?: boolean;
+    emailAddresses?: string[];
+    retentionDays?: number;
+    state?: SecurityAlertPolicyState;
+    storageAccountAccessKey?: string;
+    storageEndpoint?: string;
+}
 
 // @public
 export interface SqlPoolSensitivityLabels {
@@ -4302,7 +4143,6 @@ export type SqlPoolSensitivityLabelsGetResponse = SensitivityLabel;
 
 // @public
 export interface SqlPoolSensitivityLabelsListCurrentNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -4318,9 +4158,6 @@ export type SqlPoolSensitivityLabelsListCurrentResponse = SensitivityLabelListRe
 
 // @public
 export interface SqlPoolSensitivityLabelsListRecommendedNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    includeDisabledRecommendations?: boolean;
-    skipToken?: string;
 }
 
 // @public
@@ -4368,7 +4205,7 @@ export interface SqlPoolsPauseOptionalParams extends coreClient.OperationOptions
 }
 
 // @public
-export type SqlPoolsPauseResponse = Record<string, unknown>;
+export type SqlPoolsPauseResponse = SqlPool;
 
 // @public
 export interface SqlPoolsRenameOptionalParams extends coreClient.OperationOptions {
@@ -4381,17 +4218,20 @@ export interface SqlPoolsResumeOptionalParams extends coreClient.OperationOption
 }
 
 // @public
-export type SqlPoolsResumeResponse = Record<string, unknown>;
+export type SqlPoolsResumeResponse = SqlPool;
 
 // @public
 export interface SqlPoolsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
 export type SqlPoolsUpdateResponse = SqlPool;
 
 // @public
-export type SqlPoolTable = ProxyResource & {};
+export interface SqlPoolTable extends ProxyResource {
+}
 
 // @public
 export interface SqlPoolTableColumns {
@@ -4400,7 +4240,6 @@ export interface SqlPoolTableColumns {
 
 // @public
 export interface SqlPoolTableColumnsListByTableNameNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -4435,7 +4274,6 @@ export type SqlPoolTablesGetResponse = SqlPoolTable;
 
 // @public
 export interface SqlPoolTablesListBySchemaNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -4521,12 +4359,12 @@ export interface SqlPoolUsagesListOptionalParams extends coreClient.OperationOpt
 export type SqlPoolUsagesListResponse = SqlPoolUsageListResult;
 
 // @public
-export type SqlPoolVulnerabilityAssessment = ProxyResource & {
+export interface SqlPoolVulnerabilityAssessment extends ProxyResource {
+    recurringScans?: VulnerabilityAssessmentRecurringScansProperties;
+    storageAccountAccessKey?: string;
     storageContainerPath?: string;
     storageContainerSasKey?: string;
-    storageAccountAccessKey?: string;
-    recurringScans?: VulnerabilityAssessmentRecurringScansProperties;
-};
+}
 
 // @public
 export interface SqlPoolVulnerabilityAssessmentListResult {
@@ -4535,9 +4373,9 @@ export interface SqlPoolVulnerabilityAssessmentListResult {
 }
 
 // @public
-export type SqlPoolVulnerabilityAssessmentRuleBaseline = ProxyResource & {
+export interface SqlPoolVulnerabilityAssessmentRuleBaseline extends ProxyResource {
     baselineResults?: SqlPoolVulnerabilityAssessmentRuleBaselineItem[];
-};
+}
 
 // @public
 export interface SqlPoolVulnerabilityAssessmentRuleBaselineItem {
@@ -4587,9 +4425,9 @@ export interface SqlPoolVulnerabilityAssessmentScans {
 }
 
 // @public
-export type SqlPoolVulnerabilityAssessmentScansExport = ProxyResource & {
+export interface SqlPoolVulnerabilityAssessmentScansExport extends ProxyResource {
     readonly exportedReportLocation?: string;
-};
+}
 
 // @public
 export interface SqlPoolVulnerabilityAssessmentScansExportOptionalParams extends coreClient.OperationOptions {
@@ -4750,11 +4588,11 @@ export interface SqlPoolWorkloadGroupListOptionalParams extends coreClient.Opera
 export type SqlPoolWorkloadGroupListResponse = WorkloadGroupListResult;
 
 // @public
-export type SsisEnvironment = SsisObjectMetadata & {
-    type: "Environment";
+export interface SsisEnvironment extends SsisObjectMetadata {
     folderId?: number;
+    type: "Environment";
     variables?: SsisVariable[];
-};
+}
 
 // @public
 export interface SsisEnvironmentReference {
@@ -4765,9 +4603,9 @@ export interface SsisEnvironmentReference {
 }
 
 // @public
-export type SsisFolder = SsisObjectMetadata & {
+export interface SsisFolder extends SsisObjectMetadata {
     type: "Folder";
-};
+}
 
 // @public
 export interface SsisObjectMetadata {
@@ -4798,13 +4636,13 @@ export type SsisObjectMetadataType = string;
 export type SsisObjectMetadataUnion = SsisObjectMetadata | SsisFolder | SsisProject | SsisPackage | SsisEnvironment;
 
 // @public
-export type SsisPackage = SsisObjectMetadata & {
-    type: "Package";
+export interface SsisPackage extends SsisObjectMetadata {
     folderId?: number;
-    projectVersion?: number;
-    projectId?: number;
     parameters?: SsisParameter[];
-};
+    projectId?: number;
+    projectVersion?: number;
+    type: "Package";
+}
 
 // @public
 export interface SsisParameter {
@@ -4823,13 +4661,13 @@ export interface SsisParameter {
 }
 
 // @public
-export type SsisProject = SsisObjectMetadata & {
-    type: "Project";
-    folderId?: number;
-    version?: number;
+export interface SsisProject extends SsisObjectMetadata {
     environmentRefs?: SsisEnvironmentReference[];
+    folderId?: number;
     parameters?: SsisParameter[];
-};
+    type: "Project";
+    version?: number;
+}
 
 // @public
 export interface SsisVariable {
@@ -4852,7 +4690,8 @@ export type StateValue = string;
 export type StorageAccountType = string;
 
 // @public
-export type SubResource = AzureEntityResource & {};
+export interface SubResource extends AzureEntityResource {
+}
 
 // @public (undocumented)
 export class SynapseManagementClient extends coreClient.ServiceClient {
@@ -4869,6 +4708,8 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
     dataMaskingRules: DataMaskingRules;
     // (undocumented)
     extendedSqlPoolBlobAuditingPolicies: ExtendedSqlPoolBlobAuditingPolicies;
+    // (undocumented)
+    get: Get;
     // (undocumented)
     integrationRuntimeAuthKeysOperations: IntegrationRuntimeAuthKeysOperations;
     // (undocumented)
@@ -4906,6 +4747,8 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     kustoPoolPrincipalAssignments: KustoPoolPrincipalAssignments;
     // (undocumented)
+    kustoPoolPrivateLinkResourcesOperations: KustoPoolPrivateLinkResourcesOperations;
+    // (undocumented)
     kustoPools: KustoPools;
     // (undocumented)
     libraries: Libraries;
@@ -4922,7 +4765,7 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     privateLinkHubs: PrivateLinkHubs;
     // (undocumented)
-    privateLinkResources: PrivateLinkResources;
+    privateLinkResourcesOperations: PrivateLinkResourcesOperations;
     // (undocumented)
     restorableDroppedSqlPools: RestorableDroppedSqlPools;
     // (undocumented)
@@ -5053,18 +4896,18 @@ export interface TopQueriesListResult {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public
-export type TransparentDataEncryption = ProxyResource & {
+export interface TransparentDataEncryption extends ProxyResource {
     readonly location?: string;
     status?: TransparentDataEncryptionStatus;
-};
+}
 
 // @public
 export interface TransparentDataEncryptionListResult {
@@ -5123,16 +4966,16 @@ export interface VulnerabilityAssessmentScanError {
 }
 
 // @public
-export type VulnerabilityAssessmentScanRecord = ProxyResource & {
-    readonly scanId?: string;
-    readonly triggerType?: VulnerabilityAssessmentScanTriggerType;
-    readonly state?: VulnerabilityAssessmentScanState;
-    readonly startTime?: Date;
+export interface VulnerabilityAssessmentScanRecord extends ProxyResource {
     readonly endTime?: Date;
     readonly errors?: VulnerabilityAssessmentScanError[];
-    readonly storageContainerPath?: string;
     readonly numberOfFailedSecurityChecks?: number;
-};
+    readonly scanId?: string;
+    readonly startTime?: Date;
+    readonly state?: VulnerabilityAssessmentScanState;
+    readonly storageContainerPath?: string;
+    readonly triggerType?: VulnerabilityAssessmentScanTriggerType;
+}
 
 // @public
 export interface VulnerabilityAssessmentScanRecordListResult {
@@ -5147,14 +4990,14 @@ export type VulnerabilityAssessmentScanState = string;
 export type VulnerabilityAssessmentScanTriggerType = string;
 
 // @public
-export type WorkloadClassifier = ProxyResource & {
-    memberName?: string;
-    label?: string;
+export interface WorkloadClassifier extends ProxyResource {
     context?: string;
-    startTime?: string;
     endTime?: string;
     importance?: string;
-};
+    label?: string;
+    memberName?: string;
+    startTime?: string;
+}
 
 // @public
 export interface WorkloadClassifierListResult {
@@ -5163,14 +5006,14 @@ export interface WorkloadClassifierListResult {
 }
 
 // @public
-export type WorkloadGroup = ProxyResource & {
-    minResourcePercent?: number;
-    maxResourcePercent?: number;
-    minResourcePercentPerRequest?: number;
-    maxResourcePercentPerRequest?: number;
+export interface WorkloadGroup extends ProxyResource {
     importance?: string;
+    maxResourcePercent?: number;
+    maxResourcePercentPerRequest?: number;
+    minResourcePercent?: number;
+    minResourcePercentPerRequest?: number;
     queryExecutionTimeout?: number;
-};
+}
 
 // @public
 export interface WorkloadGroupListResult {
@@ -5179,44 +5022,44 @@ export interface WorkloadGroupListResult {
 }
 
 // @public
-export type Workspace = TrackedResource & {
-    identity?: ManagedIdentity;
-    defaultDataLakeStorage?: DataLakeStorageAccountDetails;
-    sqlAdministratorLoginPassword?: string;
-    managedResourceGroupName?: string;
-    readonly provisioningState?: string;
-    sqlAdministratorLogin?: string;
-    virtualNetworkProfile?: VirtualNetworkProfile;
+export interface Workspace extends TrackedResource {
+    readonly adlaResourceId?: string;
+    azureADOnlyAuthentication?: boolean;
     connectivityEndpoints?: {
         [propertyName: string]: string;
     };
-    managedVirtualNetwork?: string;
-    privateEndpointConnections?: PrivateEndpointConnection[];
+    cspWorkspaceAdminProperties?: CspWorkspaceAdminProperties;
+    defaultDataLakeStorage?: DataLakeStorageAccountDetails;
     encryption?: EncryptionDetails;
-    readonly workspaceUID?: string;
     readonly extraProperties?: {
         [propertyName: string]: Record<string, unknown>;
     };
+    identity?: ManagedIdentity;
+    managedResourceGroupName?: string;
+    managedVirtualNetwork?: string;
     managedVirtualNetworkSettings?: ManagedVirtualNetworkSettings;
-    workspaceRepositoryConfiguration?: WorkspaceRepositoryConfiguration;
-    purviewConfiguration?: PurviewConfiguration;
-    readonly adlaResourceId?: string;
+    privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: string;
     publicNetworkAccess?: WorkspacePublicNetworkAccess;
-    cspWorkspaceAdminProperties?: CspWorkspaceAdminProperties;
+    purviewConfiguration?: PurviewConfiguration;
     readonly settings?: {
         [propertyName: string]: Record<string, unknown>;
     };
-    azureADOnlyAuthentication?: boolean;
+    sqlAdministratorLogin?: string;
+    sqlAdministratorLoginPassword?: string;
     trustedServiceBypassEnabled?: boolean;
-};
+    virtualNetworkProfile?: VirtualNetworkProfile;
+    workspaceRepositoryConfiguration?: WorkspaceRepositoryConfiguration;
+    readonly workspaceUID?: string;
+}
 
 // @public
-export type WorkspaceAadAdminInfo = ProxyResource & {
-    tenantId?: string;
-    login?: string;
+export interface WorkspaceAadAdminInfo extends ProxyResource {
     administratorType?: string;
+    login?: string;
     sid?: string;
-};
+    tenantId?: string;
+}
 
 // @public
 export interface WorkspaceAadAdmins {
@@ -5628,7 +5471,7 @@ export interface WorkspacesDeleteOptionalParams extends coreClient.OperationOpti
 }
 
 // @public
-export type WorkspacesDeleteResponse = Record<string, unknown>;
+export type WorkspacesDeleteResponse = Workspace;
 
 // @public
 export interface WorkspacesGetOptionalParams extends coreClient.OperationOptions {
@@ -5695,6 +5538,9 @@ export interface WorkspaceSqlAadAdminsGetOptionalParams extends coreClient.Opera
 
 // @public
 export type WorkspaceSqlAadAdminsGetResponse = WorkspaceAadAdminInfo;
+
+// @public
+export type WorkspaceStatus = string;
 
 // @public
 export interface WorkspacesUpdateOptionalParams extends coreClient.OperationOptions {

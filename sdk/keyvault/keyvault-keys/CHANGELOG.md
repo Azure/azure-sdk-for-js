@@ -1,5 +1,21 @@
 # Release History
 
+## 4.7.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+- Removed support for OKP key types as introduced in 4.7.0-beta.1.
+  - Removed `KeyClient.createOkpKey`.
+  - Removed `OKP` and `OKP-HSM` from `KnownKeyTypes`.
+  - Removed `EdDSA` from `KnownSignatureAlgorithms`.
+  - Removed `Ed25519` from `KnownKeyCurveNames`.
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 4.7.0-beta.1 (2022-11-10)
 
 - Added support for [Octet Key Pair (OKP)](https://datatracker.ietf.org/doc/html/rfc8037) key types as well as `sign`, `verify`, `signData`, and `verifyData` cryptography operations when using OKP keys.

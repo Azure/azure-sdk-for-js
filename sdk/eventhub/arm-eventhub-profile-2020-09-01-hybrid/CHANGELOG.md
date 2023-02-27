@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.1 (Unreleased)
+## 2.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,25 @@
 
 ### Other Changes
 
+## 2.1.0 (2022-12-20)
+    
+**Features**
+
+  - Added Interface AuthorizationRule
+  - Added Interface Cluster
+  - Added Interface ConsumerGroup
+  - Added Interface EHNamespace
+  - Added Interface Eventhub
+  - Added Interface MessagingRegions
+  - Added Interface PrivateEndpointConnection
+  - Added Interface TrackedResource
+  - Added function getContinuationToken
+  - Interface ConsumerGroupsListByEventHubNextOptionalParams no longer has parameter skip
+  - Interface ConsumerGroupsListByEventHubNextOptionalParams no longer has parameter top
+  - Interface EventHubsListByNamespaceNextOptionalParams no longer has parameter skip
+  - Interface EventHubsListByNamespaceNextOptionalParams no longer has parameter top
+    
+    
 ## 2.0.0 (2022-03-10)
 
 The package of @azure/arm-eventhub-profile-2020-09-01-hybrid is using our next generation design principles since version 2.0.0-beta.1, which contains breaking changes.

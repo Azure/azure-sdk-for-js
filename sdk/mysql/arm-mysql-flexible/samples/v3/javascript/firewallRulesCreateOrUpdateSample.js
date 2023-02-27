@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { MySQLManagementFlexibleServerClient } = require("@azure/arm-mysql-flexible");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates a new firewall rule or updates an existing firewall rule.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/examples/FirewallRuleCreate.json
  */
 async function createAFirewallRule() {
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = "TestGroup";
+  const subscriptionId =
+    process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "TestGroup";
   const serverName = "testserver";
   const firewallRuleName = "rule1";
   const parameters = {
@@ -37,4 +39,8 @@ async function createAFirewallRule() {
   console.log(result);
 }
 
-createAFirewallRule().catch(console.error);
+async function main() {
+  createAFirewallRule();
+}
+
+main().catch(console.error);

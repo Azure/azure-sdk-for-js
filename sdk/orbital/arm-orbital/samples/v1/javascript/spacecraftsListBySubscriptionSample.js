@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureOrbital } = require("@azure/arm-orbital");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Return list of spacecrafts
@@ -18,7 +19,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/SpacecraftsBySubscriptionList.json
  */
 async function listOfSpacecraftBySubscription() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["ORBITAL_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new AzureOrbital(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +29,8 @@ async function listOfSpacecraftBySubscription() {
   console.log(resArray);
 }
 
-listOfSpacecraftBySubscription().catch(console.error);
+async function main() {
+  listOfSpacecraftBySubscription();
+}
+
+main().catch(console.error);

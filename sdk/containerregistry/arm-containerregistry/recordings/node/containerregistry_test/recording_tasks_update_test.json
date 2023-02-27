@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerRegistry/registries/myregistryxxxyy/tasks/mytaskxxx?api-version=2019-06-01-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/88888888-8888-8888-8888-888888888888/resourceGroups/myjstest/providers/Microsoft.ContainerRegistry/registries/myregistryxxxyy/tasks/mytaskxxx?api-version=2019-06-01-preview",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "476",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-containerregistry/10.1.0-beta.4 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "f0fb90e7-c0e5-4831-a878-4a2a2256894c"
+        "User-Agent": "azsdk-js-arm-containerregistry/10.1.0-beta.5 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "7fb1f8b3-1190-42e3-b1a5-4e95d93f8a4c"
       },
       "RequestBody": {
         "tags": {
@@ -51,23 +51,23 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 18 Nov 2022 06:53:36 GMT",
+        "Date": "Fri, 10 Feb 2023 06:18:46 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "ad9a00c8-537a-4b1c-89e8-8c29871c8a9d",
+        "x-ms-correlation-request-id": "494c63de-ccdc-4c85-afc1-bb4a80a9531f",
         "x-ms-ratelimit-remaining-subscription-writes": "1197",
-        "x-ms-request-id": "0b33a54c-47da-4789-8e9b-1ff3e8ef5e3b",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221118T065336Z:ad9a00c8-537a-4b1c-89e8-8c29871c8a9d"
+        "x-ms-request-id": "22fe8e38-b1a0-49da-9b43-3504900bb6b2",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230210T061847Z:494c63de-ccdc-4c85-afc1-bb4a80a9531f"
       },
       "ResponseBody": {
         "type": "Microsoft.ContainerRegistry/registries/tasks",
         "properties": {
           "provisioningState": "Succeeded",
-          "creationDate": "2022-11-18T06:53:28.5282602\u002B00:00",
+          "creationDate": "2023-02-10T06:18:39.6662275\u002B00:00",
           "status": "Enabled",
           "platform": {
             "os": "Linux",
@@ -96,7 +96,7 @@
             }
           }
         },
-        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerRegistry/registries/myregistryxxxyy/tasks/mytaskxxx",
+        "id": "/subscriptions/88888888-8888-8888-8888-888888888888/resourceGroups/myjstest/providers/Microsoft.ContainerRegistry/registries/myregistryxxxyy/tasks/mytaskxxx",
         "name": "mytaskxxx",
         "tags": {
           "testkey": "value"
@@ -105,10 +105,10 @@
         "systemData": {
           "createdBy": "azure_client_id",
           "createdByType": "Application",
-          "createdAt": "2022-11-18T06:53:27.6521971\u002B00:00",
+          "createdAt": "2023-02-10T06:18:38.659972\u002B00:00",
           "lastModifiedBy": "azure_client_id",
           "lastModifiedByType": "Application",
-          "lastModifiedAt": "2022-11-18T06:53:34.9334046\u002B00:00"
+          "lastModifiedAt": "2023-02-10T06:18:45.9568306\u002B00:00"
         }
       }
     }

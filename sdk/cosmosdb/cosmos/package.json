@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "3.17.2",
+  "version": "3.17.3",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for SQL API",
   "sdk-type": "client",
   "keywords": [
@@ -102,7 +102,8 @@
     "semaphore": "^1.0.5",
     "tslib": "^2.2.0",
     "universal-user-agent": "^6.0.0",
-    "uuid": "^8.3.0"
+    "uuid": "^8.3.0",
+    "@azure/abort-controller": "^1.0.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
@@ -119,7 +120,7 @@
     "@types/underscore": "^1.8.8",
     "@types/uuid": "^8.0.0",
     "cross-env": "^7.0.2",
-    "dotenv": "^8.2.0",
+    "dotenv": "^16.0.0",
     "downlevel-dts": "^0.10.0",
     "eslint": "^8.0.0",
     "esm": "^3.2.18",
@@ -133,7 +134,9 @@
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
     "typescript": "~4.8.0",
-    "nock": "^12.0.3"
+    "nock": "^12.0.3",
+    "@types/sinonjs__fake-timers": "~8.1.2",
+    "@sinonjs/fake-timers": "~10.0.2"
   },
   "//sampleConfiguration": {
     "skip": [

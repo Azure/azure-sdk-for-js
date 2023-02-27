@@ -16,6 +16,8 @@ import {
   GatewaysCreateOrUpdateOptionalParams,
   GatewaysCreateOrUpdateResponse,
   GatewaysDeleteOptionalParams,
+  GatewaysListEnvSecretsOptionalParams,
+  GatewaysListEnvSecretsResponse,
   CustomDomainValidatePayload,
   GatewaysValidateDomainOptionalParams,
   GatewaysValidateDomainResponse
@@ -115,6 +117,20 @@ export interface Gateways {
     gatewayName: string,
     options?: GatewaysDeleteOptionalParams
   ): Promise<void>;
+  /**
+   * List sensitive environment variables of Spring Cloud Gateway.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param gatewayName The name of Spring Cloud Gateway.
+   * @param options The options parameters.
+   */
+  listEnvSecrets(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayName: string,
+    options?: GatewaysListEnvSecretsOptionalParams
+  ): Promise<GatewaysListEnvSecretsResponse>;
   /**
    * Check the domains are valid as well as not in use.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

@@ -13,6 +13,9 @@ import {
   ConsumptionManagementClient
 } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists the reservations summaries for daily or monthly grain.
@@ -21,7 +24,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationSummariesDaily.json
  */
 async function reservationSummariesDaily() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const reservationOrderId = "00000000-0000-0000-0000-000000000000";
   const grain = "daily";
   const filter =
@@ -42,8 +47,6 @@ async function reservationSummariesDaily() {
   console.log(resArray);
 }
 
-reservationSummariesDaily().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the reservations summaries for daily or monthly grain.
  *
@@ -51,7 +54,9 @@ reservationSummariesDaily().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationSummariesMonthly.json
  */
 async function reservationSummariesMonthly() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const reservationOrderId = "00000000-0000-0000-0000-000000000000";
   const grain = "monthly";
   const credential = new DefaultAzureCredential();
@@ -66,4 +71,9 @@ async function reservationSummariesMonthly() {
   console.log(resArray);
 }
 
-reservationSummariesMonthly().catch(console.error);
+async function main() {
+  reservationSummariesDaily();
+  reservationSummariesMonthly();
+}
+
+main().catch(console.error);

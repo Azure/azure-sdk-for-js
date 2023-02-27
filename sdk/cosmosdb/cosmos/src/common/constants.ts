@@ -168,6 +168,7 @@ export const Constants = {
   // GlobalDB related constants
   WritableLocations: "writableLocations",
   ReadableLocations: "readableLocations",
+  LocationUnavailableExpirationTimeInMs: 5 * 60 * 1000, // 5 minutes
 
   // ServiceDocument Resource
   ENABLE_MULTIPLE_WRITABLE_LOCATIONS: "enableMultipleWriteLocations",
@@ -184,7 +185,10 @@ export const Constants = {
   AzureNamespace: "Azure.Cosmos",
   AzurePackageName: "@azure/cosmos",
   SDKName: "azure-cosmos-js",
-  SDKVersion: "3.17.2",
+  SDKVersion: "3.17.3",
+
+  // Bulk Operations
+  DefaultMaxBulkRequestBodySizeInBytes: 220201,
 
   Quota: {
     CollectionSize: "collectionSize",
@@ -253,6 +257,7 @@ export enum ResourceType {
   trigger = "triggers",
   item = "docs",
   pkranges = "pkranges",
+  partitionkey = "partitionKey",
 }
 
 /**

@@ -16,10 +16,26 @@ import { PhoneNumbersClient } from "../phoneNumbersClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
+  PhoneNumberAreaCode,
+  PhoneNumberType,
+  PhoneNumbersListAreaCodesNextOptionalParams,
+  PhoneNumbersListAreaCodesOptionalParams,
+  PhoneNumberCountry,
+  PhoneNumbersListAvailableCountriesNextOptionalParams,
+  PhoneNumbersListAvailableCountriesOptionalParams,
+  PhoneNumberLocality,
+  PhoneNumbersListAvailableLocalitiesNextOptionalParams,
+  PhoneNumbersListAvailableLocalitiesOptionalParams,
+  PhoneNumberOffering,
+  PhoneNumbersListOfferingsNextOptionalParams,
+  PhoneNumbersListOfferingsOptionalParams,
   PurchasedPhoneNumber,
   PhoneNumbersListPhoneNumbersNextOptionalParams,
   PhoneNumbersListPhoneNumbersOptionalParams,
-  PhoneNumberType,
+  PhoneNumbersListAreaCodesResponse,
+  PhoneNumbersListAvailableCountriesResponse,
+  PhoneNumbersListAvailableLocalitiesResponse,
+  PhoneNumbersListOfferingsResponse,
   PhoneNumberAssignmentType,
   PhoneNumberCapabilities,
   PhoneNumbersSearchAvailablePhoneNumbersOptionalParams,
@@ -38,6 +54,10 @@ import {
   PhoneNumbersReleasePhoneNumberOptionalParams,
   PhoneNumbersReleasePhoneNumberResponse,
   PhoneNumbersListPhoneNumbersResponse,
+  PhoneNumbersListAreaCodesNextResponse,
+  PhoneNumbersListAvailableCountriesNextResponse,
+  PhoneNumbersListAvailableLocalitiesNextResponse,
+  PhoneNumbersListOfferingsNextResponse,
   PhoneNumbersListPhoneNumbersNextResponse
 } from "../models";
 
@@ -52,6 +72,228 @@ export class PhoneNumbersImpl implements PhoneNumbers {
    */
   constructor(client: PhoneNumbersClient) {
     this.client = client;
+  }
+
+  /**
+   * Gets the list of available area codes.
+   * @param countryCode The ISO 3166-2 country code, e.g. US.
+   * @param phoneNumberType Filter by numberType, e.g. Geographic, TollFree.
+   * @param options The options parameters.
+   */
+  public listAreaCodes(
+    countryCode: string,
+    phoneNumberType: PhoneNumberType,
+    options?: PhoneNumbersListAreaCodesOptionalParams
+  ): PagedAsyncIterableIterator<PhoneNumberAreaCode> {
+    const iter = this.listAreaCodesPagingAll(
+      countryCode,
+      phoneNumberType,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listAreaCodesPagingPage(
+          countryCode,
+          phoneNumberType,
+          options
+        );
+      }
+    };
+  }
+
+  private async *listAreaCodesPagingPage(
+    countryCode: string,
+    phoneNumberType: PhoneNumberType,
+    options?: PhoneNumbersListAreaCodesOptionalParams
+  ): AsyncIterableIterator<PhoneNumberAreaCode[]> {
+    let result = await this._listAreaCodes(
+      countryCode,
+      phoneNumberType,
+      options
+    );
+    yield result.areaCodes || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listAreaCodesNext(
+        countryCode,
+        phoneNumberType,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      yield result.areaCodes || [];
+    }
+  }
+
+  private async *listAreaCodesPagingAll(
+    countryCode: string,
+    phoneNumberType: PhoneNumberType,
+    options?: PhoneNumbersListAreaCodesOptionalParams
+  ): AsyncIterableIterator<PhoneNumberAreaCode> {
+    for await (const page of this.listAreaCodesPagingPage(
+      countryCode,
+      phoneNumberType,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Gets the list of supported countries.
+   * @param options The options parameters.
+   */
+  public listAvailableCountries(
+    options?: PhoneNumbersListAvailableCountriesOptionalParams
+  ): PagedAsyncIterableIterator<PhoneNumberCountry> {
+    const iter = this.listAvailableCountriesPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listAvailableCountriesPagingPage(options);
+      }
+    };
+  }
+
+  private async *listAvailableCountriesPagingPage(
+    options?: PhoneNumbersListAvailableCountriesOptionalParams
+  ): AsyncIterableIterator<PhoneNumberCountry[]> {
+    let result = await this._listAvailableCountries(options);
+    yield result.countries || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listAvailableCountriesNext(
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      yield result.countries || [];
+    }
+  }
+
+  private async *listAvailableCountriesPagingAll(
+    options?: PhoneNumbersListAvailableCountriesOptionalParams
+  ): AsyncIterableIterator<PhoneNumberCountry> {
+    for await (const page of this.listAvailableCountriesPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Gets the list of cities or towns with available phone numbers.
+   * @param countryCode The ISO 3166-2 country code, e.g. US.
+   * @param options The options parameters.
+   */
+  public listAvailableLocalities(
+    countryCode: string,
+    options?: PhoneNumbersListAvailableLocalitiesOptionalParams
+  ): PagedAsyncIterableIterator<PhoneNumberLocality> {
+    const iter = this.listAvailableLocalitiesPagingAll(countryCode, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listAvailableLocalitiesPagingPage(countryCode, options);
+      }
+    };
+  }
+
+  private async *listAvailableLocalitiesPagingPage(
+    countryCode: string,
+    options?: PhoneNumbersListAvailableLocalitiesOptionalParams
+  ): AsyncIterableIterator<PhoneNumberLocality[]> {
+    let result = await this._listAvailableLocalities(countryCode, options);
+    yield result.phoneNumberLocalities || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listAvailableLocalitiesNext(
+        countryCode,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      yield result.phoneNumberLocalities || [];
+    }
+  }
+
+  private async *listAvailableLocalitiesPagingAll(
+    countryCode: string,
+    options?: PhoneNumbersListAvailableLocalitiesOptionalParams
+  ): AsyncIterableIterator<PhoneNumberLocality> {
+    for await (const page of this.listAvailableLocalitiesPagingPage(
+      countryCode,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * List available offerings of capabilities with rates for the given country.
+   * @param countryCode The ISO 3166-2 country code, e.g. US.
+   * @param options The options parameters.
+   */
+  public listOfferings(
+    countryCode: string,
+    options?: PhoneNumbersListOfferingsOptionalParams
+  ): PagedAsyncIterableIterator<PhoneNumberOffering> {
+    const iter = this.listOfferingsPagingAll(countryCode, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listOfferingsPagingPage(countryCode, options);
+      }
+    };
+  }
+
+  private async *listOfferingsPagingPage(
+    countryCode: string,
+    options?: PhoneNumbersListOfferingsOptionalParams
+  ): AsyncIterableIterator<PhoneNumberOffering[]> {
+    let result = await this._listOfferings(countryCode, options);
+    yield result.phoneNumberOfferings || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listOfferingsNext(
+        countryCode,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      yield result.phoneNumberOfferings || [];
+    }
+  }
+
+  private async *listOfferingsPagingAll(
+    countryCode: string,
+    options?: PhoneNumbersListOfferingsOptionalParams
+  ): AsyncIterableIterator<PhoneNumberOffering> {
+    for await (const page of this.listOfferingsPagingPage(
+      countryCode,
+      options
+    )) {
+      yield* page;
+    }
   }
 
   /**
@@ -94,6 +336,90 @@ export class PhoneNumbersImpl implements PhoneNumbers {
     for await (const page of this.listPhoneNumbersPagingPage(options)) {
       yield* page;
     }
+  }
+
+  /**
+   * Gets the list of available area codes.
+   * @param countryCode The ISO 3166-2 country code, e.g. US.
+   * @param phoneNumberType Filter by numberType, e.g. Geographic, TollFree.
+   * @param options The options parameters.
+   */
+  private async _listAreaCodes(
+    countryCode: string,
+    phoneNumberType: PhoneNumberType,
+    options?: PhoneNumbersListAreaCodesOptionalParams
+  ): Promise<PhoneNumbersListAreaCodesResponse> {
+    return tracingClient.withSpan(
+      "PhoneNumbersClient._listAreaCodes",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { countryCode, phoneNumberType, options },
+          listAreaCodesOperationSpec
+        ) as Promise<PhoneNumbersListAreaCodesResponse>;
+      }
+    );
+  }
+
+  /**
+   * Gets the list of supported countries.
+   * @param options The options parameters.
+   */
+  private async _listAvailableCountries(
+    options?: PhoneNumbersListAvailableCountriesOptionalParams
+  ): Promise<PhoneNumbersListAvailableCountriesResponse> {
+    return tracingClient.withSpan(
+      "PhoneNumbersClient._listAvailableCountries",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          listAvailableCountriesOperationSpec
+        ) as Promise<PhoneNumbersListAvailableCountriesResponse>;
+      }
+    );
+  }
+
+  /**
+   * Gets the list of cities or towns with available phone numbers.
+   * @param countryCode The ISO 3166-2 country code, e.g. US.
+   * @param options The options parameters.
+   */
+  private async _listAvailableLocalities(
+    countryCode: string,
+    options?: PhoneNumbersListAvailableLocalitiesOptionalParams
+  ): Promise<PhoneNumbersListAvailableLocalitiesResponse> {
+    return tracingClient.withSpan(
+      "PhoneNumbersClient._listAvailableLocalities",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { countryCode, options },
+          listAvailableLocalitiesOperationSpec
+        ) as Promise<PhoneNumbersListAvailableLocalitiesResponse>;
+      }
+    );
+  }
+
+  /**
+   * List available offerings of capabilities with rates for the given country.
+   * @param countryCode The ISO 3166-2 country code, e.g. US.
+   * @param options The options parameters.
+   */
+  private async _listOfferings(
+    countryCode: string,
+    options?: PhoneNumbersListOfferingsOptionalParams
+  ): Promise<PhoneNumbersListOfferingsResponse> {
+    return tracingClient.withSpan(
+      "PhoneNumbersClient._listOfferings",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { countryCode, options },
+          listOfferingsOperationSpec
+        ) as Promise<PhoneNumbersListOfferingsResponse>;
+      }
+    );
   }
 
   /**
@@ -569,6 +895,99 @@ export class PhoneNumbersImpl implements PhoneNumbers {
   }
 
   /**
+   * ListAreaCodesNext
+   * @param countryCode The ISO 3166-2 country code, e.g. US.
+   * @param phoneNumberType Filter by numberType, e.g. Geographic, TollFree.
+   * @param nextLink The nextLink from the previous successful call to the ListAreaCodes method.
+   * @param options The options parameters.
+   */
+  private async _listAreaCodesNext(
+    countryCode: string,
+    phoneNumberType: PhoneNumberType,
+    nextLink: string,
+    options?: PhoneNumbersListAreaCodesNextOptionalParams
+  ): Promise<PhoneNumbersListAreaCodesNextResponse> {
+    return tracingClient.withSpan(
+      "PhoneNumbersClient._listAreaCodesNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { countryCode, phoneNumberType, nextLink, options },
+          listAreaCodesNextOperationSpec
+        ) as Promise<PhoneNumbersListAreaCodesNextResponse>;
+      }
+    );
+  }
+
+  /**
+   * ListAvailableCountriesNext
+   * @param nextLink The nextLink from the previous successful call to the ListAvailableCountries method.
+   * @param options The options parameters.
+   */
+  private async _listAvailableCountriesNext(
+    nextLink: string,
+    options?: PhoneNumbersListAvailableCountriesNextOptionalParams
+  ): Promise<PhoneNumbersListAvailableCountriesNextResponse> {
+    return tracingClient.withSpan(
+      "PhoneNumbersClient._listAvailableCountriesNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          listAvailableCountriesNextOperationSpec
+        ) as Promise<PhoneNumbersListAvailableCountriesNextResponse>;
+      }
+    );
+  }
+
+  /**
+   * ListAvailableLocalitiesNext
+   * @param countryCode The ISO 3166-2 country code, e.g. US.
+   * @param nextLink The nextLink from the previous successful call to the ListAvailableLocalities
+   *                 method.
+   * @param options The options parameters.
+   */
+  private async _listAvailableLocalitiesNext(
+    countryCode: string,
+    nextLink: string,
+    options?: PhoneNumbersListAvailableLocalitiesNextOptionalParams
+  ): Promise<PhoneNumbersListAvailableLocalitiesNextResponse> {
+    return tracingClient.withSpan(
+      "PhoneNumbersClient._listAvailableLocalitiesNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { countryCode, nextLink, options },
+          listAvailableLocalitiesNextOperationSpec
+        ) as Promise<PhoneNumbersListAvailableLocalitiesNextResponse>;
+      }
+    );
+  }
+
+  /**
+   * ListOfferingsNext
+   * @param countryCode The ISO 3166-2 country code, e.g. US.
+   * @param nextLink The nextLink from the previous successful call to the ListOfferings method.
+   * @param options The options parameters.
+   */
+  private async _listOfferingsNext(
+    countryCode: string,
+    nextLink: string,
+    options?: PhoneNumbersListOfferingsNextOptionalParams
+  ): Promise<PhoneNumbersListOfferingsNextResponse> {
+    return tracingClient.withSpan(
+      "PhoneNumbersClient._listOfferingsNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { countryCode, nextLink, options },
+          listOfferingsNextOperationSpec
+        ) as Promise<PhoneNumbersListOfferingsNextResponse>;
+      }
+    );
+  }
+
+  /**
    * ListPhoneNumbersNext
    * @param nextLink The nextLink from the previous successful call to the ListPhoneNumbers method.
    * @param options The options parameters.
@@ -592,6 +1011,93 @@ export class PhoneNumbersImpl implements PhoneNumbers {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listAreaCodesOperationSpec: coreClient.OperationSpec = {
+  path: "/availablePhoneNumbers/countries/{countryCode}/areaCodes",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PhoneNumberAreaCodes
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  queryParameters: [
+    Parameters.phoneNumberType,
+    Parameters.skip,
+    Parameters.maxPageSize,
+    Parameters.assignmentType,
+    Parameters.locality,
+    Parameters.administrativeDivision,
+    Parameters.apiVersion
+  ],
+  urlParameters: [Parameters.endpoint, Parameters.countryCode],
+  headerParameters: [Parameters.accept, Parameters.acceptLanguage],
+  serializer
+};
+const listAvailableCountriesOperationSpec: coreClient.OperationSpec = {
+  path: "/availablePhoneNumbers/countries",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PhoneNumberCountries
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  queryParameters: [
+    Parameters.skip,
+    Parameters.maxPageSize,
+    Parameters.apiVersion
+  ],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept, Parameters.acceptLanguage],
+  serializer
+};
+const listAvailableLocalitiesOperationSpec: coreClient.OperationSpec = {
+  path: "/availablePhoneNumbers/countries/{countryCode}/localities",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PhoneNumberLocalities
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  queryParameters: [
+    Parameters.skip,
+    Parameters.maxPageSize,
+    Parameters.administrativeDivision,
+    Parameters.apiVersion
+  ],
+  urlParameters: [Parameters.endpoint, Parameters.countryCode],
+  headerParameters: [Parameters.accept, Parameters.acceptLanguage],
+  serializer
+};
+const listOfferingsOperationSpec: coreClient.OperationSpec = {
+  path: "/availablePhoneNumbers/countries/{countryCode}/offerings",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OfferingsResponse
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  queryParameters: [
+    Parameters.skip,
+    Parameters.maxPageSize,
+    Parameters.assignmentType,
+    Parameters.apiVersion,
+    Parameters.phoneNumberType1
+  ],
+  urlParameters: [Parameters.endpoint, Parameters.countryCode],
+  headerParameters: [Parameters.accept, Parameters.acceptLanguage],
+  serializer
+};
 const searchAvailablePhoneNumbersOperationSpec: coreClient.OperationSpec = {
   path: "/availablePhoneNumbers/countries/{countryCode}/:search",
   httpMethod: "POST",
@@ -628,7 +1134,7 @@ const searchAvailablePhoneNumbersOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.countryCode],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -674,7 +1180,7 @@ const purchasePhoneNumbersOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -795,9 +1301,108 @@ const listPhoneNumbersOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
+  queryParameters: [Parameters.skip, Parameters.apiVersion, Parameters.top],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const listAreaCodesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PhoneNumberAreaCodes
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  queryParameters: [
+    Parameters.phoneNumberType,
+    Parameters.skip,
+    Parameters.maxPageSize,
+    Parameters.assignmentType,
+    Parameters.locality,
+    Parameters.administrativeDivision,
+    Parameters.apiVersion
+  ],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.countryCode,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept, Parameters.acceptLanguage],
+  serializer
+};
+const listAvailableCountriesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PhoneNumberCountries
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  queryParameters: [
+    Parameters.skip,
+    Parameters.maxPageSize,
+    Parameters.apiVersion
+  ],
+  urlParameters: [Parameters.endpoint, Parameters.nextLink],
+  headerParameters: [Parameters.accept, Parameters.acceptLanguage],
+  serializer
+};
+const listAvailableLocalitiesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PhoneNumberLocalities
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  queryParameters: [
+    Parameters.skip,
+    Parameters.maxPageSize,
+    Parameters.administrativeDivision,
+    Parameters.apiVersion
+  ],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.countryCode,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept, Parameters.acceptLanguage],
+  serializer
+};
+const listOfferingsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OfferingsResponse
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  queryParameters: [
+    Parameters.skip,
+    Parameters.maxPageSize,
+    Parameters.assignmentType,
+    Parameters.apiVersion,
+    Parameters.phoneNumberType1
+  ],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.countryCode,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept, Parameters.acceptLanguage],
   serializer
 };
 const listPhoneNumbersNextOperationSpec: coreClient.OperationSpec = {
@@ -811,7 +1416,7 @@ const listPhoneNumbersNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
+  queryParameters: [Parameters.skip, Parameters.apiVersion, Parameters.top],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

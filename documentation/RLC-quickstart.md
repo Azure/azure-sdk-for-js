@@ -32,31 +32,28 @@ We are working on to automatically generate everything right now, but currently 
    ```json
    "dependencies": {
      ...
-     "@azure-tools/cadl-typescript": "1.0.0-beta.6"
+     "@azure-tools/cadl-typescript": "latest"
    },
    ```
 
-   ---
-   **NOTE**
-
-    It's always recommended to replace the version of emitter cadl-typescript with the latest version you can find in [npmjs.com](https://www.npmjs.com/package/@azure-tools/cadl-typescript) in latest tag.
-
-   ---
-
-1. **Configure TypeScript emitter in cadl-project.yaml**
+2. **Configure TypeScript emitter in cadl-project.yaml**
 
     In Cadl project, modify (or create) `cadl-project.yaml` and configure the SDK generated, using the emitter options on `@azure-tools/cadl-typescript`
     
     ```yaml
-    emitters:
+    emit:
+      - "@azure-tools/cadl-typescript"
+    options:
       "@azure-tools/cadl-typescript":
         title: Farmbeats
         generateMetadata: true
         generateTest: true
+        "emitter-output-dir": "{output-dir}"
         packageDetails:
           name: "@azure-rest/agrifood-farming"
           description: "Farmbeats Client"
           version: "1.0.0-beta.1"
+
     ```
 
     Here, we need to replace the value in `name`,`description`, `version` in `packageDetails` to **your own service's** package details. Also we have some other options, you could refer to [the link](https://github.com/Azure/autorest.typescript/tree/main/packages/cadl-typescript#emitter-options) for more details.
@@ -68,7 +65,7 @@ We are working on to automatically generate everything right now, but currently 
 
     --- 
 
-1. **Edit rush.json**  
+3. **Edit rush.json**  
     As the libraries in azure-sdk-for-js repository are managed by rush, you need to add an entry in rush.json under projects section for the first time to make sure it works. For example:
 
     ```
@@ -88,7 +85,7 @@ We are working on to automatically generate everything right now, but currently 
 
     --- 
 
-1. **Run command to generate the SDK**  
+4. **Run command to generate the SDK**  
 
     We need to configure `--output-dir` to put generated code. The output dir contains two parts: the {SDK_REPO_ROOT} and {PROJECT_ROOT}.
     

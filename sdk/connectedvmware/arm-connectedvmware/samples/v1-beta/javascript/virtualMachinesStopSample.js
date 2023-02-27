@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureArcVMwareManagementServiceAPI } = require("@azure/arm-connectedvmware");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Stop virtual machine.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/connectedvmware/resource-manager/Microsoft.ConnectedVMwarevSphere/preview/2022-01-10-preview/examples/StopVirtualMachine.json
  */
 async function stopVirtualMachine() {
-  const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["CONNECTEDVMWARE_SUBSCRIPTION_ID"] || "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
+  const resourceGroupName = process.env["CONNECTEDVMWARE_RESOURCE_GROUP"] || "testrg";
   const virtualMachineName = "DemoVM";
   const body = { skipShutdown: true };
   const options = { body };
@@ -33,4 +35,8 @@ async function stopVirtualMachine() {
   console.log(result);
 }
 
-stopVirtualMachine().catch(console.error);
+async function main() {
+  stopVirtualMachine();
+}
+
+main().catch(console.error);
