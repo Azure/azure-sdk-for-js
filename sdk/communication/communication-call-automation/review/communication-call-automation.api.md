@@ -15,17 +15,6 @@ import { PhoneNumberIdentifier } from '@azure/communication-common';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AddParticipantsFailed {
-    callConnectionId?: string;
-    correlationId?: string;
-    kind: "AddParticipantsFailed";
-    operationContext?: string;
-    participants?: CommunicationIdentifier[];
-    resultInformation?: ResultInformation;
-    serverCallId?: string;
-}
-
-// @public
 export interface AddParticipantOptions extends OperationOptions {
     invitationTimeoutInSeconds?: number;
     operationContext?: string;
@@ -35,6 +24,17 @@ export interface AddParticipantOptions extends OperationOptions {
 export interface AddParticipantResult {
     operationContext?: string;
     participant?: CallParticipant;
+}
+
+// @public
+export interface AddParticipantsFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    kind: "AddParticipantsFailed";
+    operationContext?: string;
+    participants?: CommunicationIdentifier[];
+    resultInformation?: ResultInformation;
+    serverCallId?: string;
 }
 
 // @public
@@ -125,6 +125,11 @@ export interface CallConnectionProperties {
 // @public
 export type CallConnectionStateModel = string;
 
+// @public
+export interface CallDisconnected extends RestCallDisconnected {
+    kind: "CallDisconnected";
+}
+
 // @public (undocumented)
 export class CallInvite {
     constructor(targetPhoneNumberIdentity: PhoneNumberIdentifier, callerIdNumber: PhoneNumberIdentifier);
@@ -149,11 +154,6 @@ export class CallInvite {
     readonly voipHeaders?: {
         [propertyName: string]: string;
     };
-}
-
-// @public
-export interface CallDisconnected extends RestCallDisconnected {
-    kind: "CallDisconnected";
 }
 
 // @public
