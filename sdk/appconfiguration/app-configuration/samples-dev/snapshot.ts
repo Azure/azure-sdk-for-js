@@ -58,7 +58,7 @@ export async function main() {
     console.log(`  Found key: ${setting.key}, label: ${setting.label}`);
   }
 
-  await client.getSnapshot({ name: newSnapshot.name as string, etag: newSnapshot.etag });
+  await client.getSnapshot(newSnapshot.name);
 
   // creating a new snapshot
   const newSnapshot2 = await client.createSnapshot(snapshot2);

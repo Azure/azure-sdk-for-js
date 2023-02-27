@@ -5,17 +5,23 @@ import { CompatResponse } from "@azure/core-http-compat";
 import { FeatureFlagValue } from "./featureFlag";
 import { OperationOptions } from "@azure/core-client";
 import { SecretReferenceValue } from "./secretReference";
-import { CompositionType, KeyValueFilter, Snapshot, SnapshotStatus } from "./generated/src";
+import { CompositionType, SnapshotStatus } from "./generated/src";
 /**
  * Fields that uniquely identify a configuration setting
  */
-export interface ConfigurationSettingId extends KeyValueFilter {
+export interface ConfigurationSettingId extends SnapshotSettingsFilter {
   /**
    * The etag for this setting
    */
   etag?: string;
 }
-
+/** Enables filtering of key-values. */
+export interface SnapshotSettingsFilter {
+  /** Filters key-values by their key field. */
+  key: string;
+  /** Filters key-values by their label field. */
+  label?: string;
+}
 /**
  * Necessary fields for updating or creating a new configuration setting
  */
@@ -434,7 +440,7 @@ export interface UpdateSnapshotResponse
     SyncTokenHeaderField,
     HttpResponseField<SyncTokenHeaderField> {}
 
-export { Snapshot, KeyValueFilter, CompositionType, SnapshotStatus };
+export { CompositionType, SnapshotStatus };
 
 /**
  * Fields that uniquely identify a snapshot
@@ -445,7 +451,7 @@ export interface SnapshotInfo {
    */
   name: string;
   /** A list of filters used to filter the key-values included in the snapshot. */
-  filters: KeyValueFilter[];
+  filters: SnapshotSettingsFilter[];
   /** The composition type describes how the key-values within the snapshot are composed. The 'all' composition type includes all key-values. The 'group_by_key' composition type ensures there are no two key-values containing the same key. */
   compositionType?: CompositionType;
   /** The amount of time, in seconds, that a snapshot will remain in the archived state before expiring. This property is only writable during the creation of a snapshot. If not specified, the default lifetime of key-value revisions will be used. */
@@ -465,4 +471,56 @@ export interface SnapshotId {
    * The etag for this snapshot
    */
   etag?: string;
+}
+
+
+export interface Snapshot {
+  /**
+   * The name of the snapshot.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name: string;
+  /**
+   * The current status of the snapshot.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: SnapshotStatus;
+  /**
+   * Provides additional information about the status of the snapshot. The status code values are modeled after HTTP status codes.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statusCode?: number;
+  /** A list of filters used to filter the key-values included in the snapshot. */
+  filters: SnapshotSettingsFilter[];
+  /** The composition type describes how the key-values within the snapshot are composed. The 'all' composition type includes all key-values. The 'group_by_key' composition type ensures there are no two key-values containing the same key. */
+  compositionType?: CompositionType;
+  /**
+   * The time that the snapshot was created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdOn?: Date;
+  /**
+   * The time that the snapshot will expire.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expiresOn?: Date;
+  /** The amount of time, in seconds, that a snapshot will remain in the archived state before expiring. This property is only writable during the creation of a snapshot. If not specified, the default lifetime of key-value revisions will be used. */
+  retentionPeriod?: number;
+  /**
+   * The size in bytes of the snapshot.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly size?: number;
+  /**
+   * The amount of key-values in the snapshot.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly itemCount?: number;
+  /** The tags of the snapshot. */
+  tags?: { [propertyName: string]: string };
+  /**
+   * A value representing the current state of the snapshot.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
 }

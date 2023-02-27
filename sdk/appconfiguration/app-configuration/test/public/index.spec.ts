@@ -1295,7 +1295,7 @@ describe("AppConfigurationClient", () => {
         newSnapshot = await client.createSnapshot(snapshot1);
         console.log(`New snapshot object added ${newSnapshot}`);
 
-        await client.getSnapshot({ name: newSnapshot.name as string, etag: newSnapshot.etag });
+        await client.getSnapshot(newSnapshot.name);
       });
     });
     describe("listConfigurationSettings for Snapshot", () => {

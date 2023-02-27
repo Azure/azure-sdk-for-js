@@ -32,10 +32,11 @@ export class AppConfigurationClient {
     createSnapshot(snapshot: SnapshotInfo, options?: CreateSnapshotOptions): Promise<CreateSnapshotResponse>;
     deleteConfigurationSetting(id: ConfigurationSettingId, options?: DeleteConfigurationSettingOptions): Promise<DeleteConfigurationSettingResponse>;
     getConfigurationSetting(id: ConfigurationSettingId, options?: GetConfigurationSettingOptions): Promise<GetConfigurationSettingResponse>;
-    getSnapshot(snapshotId: SnapshotId, options?: GetSnapshotOptions): Promise<GetSnapshotResponse>;
+    getSnapshot(name: string, options?: GetSnapshotOptions): Promise<GetSnapshotResponse>;
     listConfigurationSettings(options?: ListConfigurationSettingsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
     listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage, PageSettings>;
-    listSnapshots(options?: ListSnapshotsOptions): PagedAsyncIterableIterator<Snapshot, ListSnapshotsPage, PageSettings>;
+    // Warning: (ae-forgotten-export) The symbol "Snapshot_2" needs to be exported by the entry point index.d.ts
+    listSnapshots(options?: ListSnapshotsOptions): PagedAsyncIterableIterator<Snapshot_2, ListSnapshotsPage, PageSettings>;
     recoverSnapshot(snapshotId: SnapshotId, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
     setConfigurationSetting(configurationSetting: SetConfigurationSettingParam | SetConfigurationSettingParam<FeatureFlagValue> | SetConfigurationSettingParam<SecretReferenceValue>, options?: SetConfigurationSettingOptions): Promise<SetConfigurationSettingResponse>;
     setReadOnly(id: ConfigurationSettingId, readOnly: boolean, options?: SetReadOnlyOptions): Promise<SetReadOnlyResponse>;
@@ -56,7 +57,7 @@ export type ConfigurationSetting<T extends string | FeatureFlagValue | SecretRef
 };
 
 // @public
-export interface ConfigurationSettingId extends KeyValueFilter {
+export interface ConfigurationSettingId extends SnapshotSettingsFilter {
     etag?: string;
 }
 
@@ -162,12 +163,6 @@ export function isFeatureFlag(setting: ConfigurationSetting): setting is Configu
 export function isSecretReference(setting: ConfigurationSetting): setting is ConfigurationSetting & Required<Pick<ConfigurationSetting, "value">>;
 
 // @public
-export interface KeyValueFilter {
-    key: string;
-    label?: string;
-}
-
-// @public
 export interface ListConfigurationSettingPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
     items: ConfigurationSetting[];
 }
@@ -268,7 +263,7 @@ export interface Snapshot {
     readonly createdOn?: Date;
     readonly etag?: string;
     readonly expiresOn?: Date;
-    filters: KeyValueFilter[];
+    filters: SnapshotSettingsFilter[];
     readonly itemCount?: number;
     readonly name: string;
     retentionPeriod?: number;
@@ -289,12 +284,18 @@ export interface SnapshotId {
 // @public
 export interface SnapshotInfo {
     compositionType?: CompositionType;
-    filters: KeyValueFilter[];
+    filters: SnapshotSettingsFilter[];
     name: string;
     retentionPeriod?: number;
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface SnapshotSettingsFilter {
+    key: string;
+    label?: string;
 }
 
 // @public

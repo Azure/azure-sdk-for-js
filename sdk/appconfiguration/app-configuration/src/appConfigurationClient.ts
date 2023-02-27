@@ -556,7 +556,7 @@ export class AppConfigurationClient {
    * @param options - Optional parameters for the request.
    */
   getSnapshot(
-    snapshotId: SnapshotId,
+    name: string,
     options: GetSnapshotOptions = {}
   ): Promise<GetSnapshotResponse> {
     return tracingClient.withSpan(
@@ -564,9 +564,8 @@ export class AppConfigurationClient {
       options,
       async (updatedOptions) => {
         logger.info("[getSnapshot] Get a snapshot");
-        const originalResponse = await this.client.getSnapshot(snapshotId.name, {
+        const originalResponse = await this.client.getSnapshot(name, {
           ...updatedOptions,
-          ...checkAndFormatIfAndIfNoneMatch({ etag: snapshotId.etag }, options),
         });
         const response = transformSnapshotResponse(originalResponse);
         assertResponse(response);
