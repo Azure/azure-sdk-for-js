@@ -11,7 +11,7 @@ import { DefaultPerfOptions, ParsedPerfOptions } from "./options";
 import { Snapshot } from "./snapshot";
 import { PerfTestBase, PerfTestConstructor } from "./perfTestBase";
 import { PerfProgram } from "./program";
-import { formatDuration, formatNumber } from "./utils";
+import { formatDuration, formatNumber } from "./utils/utils";
 
 /**
  * The manager program which is responsible for spawning workers which run the actual perf test.
