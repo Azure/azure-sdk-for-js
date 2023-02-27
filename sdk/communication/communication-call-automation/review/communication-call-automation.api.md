@@ -23,7 +23,7 @@ export interface AddParticipantOptions extends OperationOptions {
 // @public
 export interface AddParticipantResult {
     operationContext?: string;
-    participant?: CallParticipantDto;
+    participant?: CallParticipant;
 }
 
 // @public
@@ -64,7 +64,7 @@ export class CallConnection {
     addParticipant(participant: CallInvite, options?: AddParticipantOptions): Promise<AddParticipantResult>;
     getCallConnectionProperties(options?: GetCallConnectionPropertiesOptions): Promise<CallConnectionProperties>;
     getCallMedia(): CallMedia;
-    getParticipant(participantMri: string, options?: GetParticipantOptions): Promise<CallParticipantDto>;
+    getParticipant(participantMri: string, options?: GetParticipantOptions): Promise<CallParticipant>;
     hangUp(isForEveryOne: boolean, options?: HangUpOptions): Promise<void>;
     listParticipants(options?: GetParticipantOptions): Promise<ListParticipantsResult>;
     removeParticipant(participant: CommunicationIdentifier, options?: RemoveParticipantsOptions): Promise<RemoveParticipantsResult>;
@@ -123,7 +123,7 @@ export class CallMedia {
 }
 
 // @public
-export interface CallParticipantDto {
+export interface CallParticipant {
     identifier?: CommunicationIdentifier;
     isMuted?: boolean;
 }
@@ -197,7 +197,7 @@ export enum KnownCallRejectReason {
 // @public
 export interface ListParticipantsResult {
     nextLink?: string;
-    values?: CallParticipantDto[];
+    values?: CallParticipant[];
 }
 
 // @public

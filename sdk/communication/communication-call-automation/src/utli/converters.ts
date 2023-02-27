@@ -13,13 +13,13 @@ import {
   isUnknownIdentifier,
 } from "@azure/communication-common";
 import {
-  CallParticipant,
+  CallParticipantInternal,
   CommunicationIdentifierModel,
   CommunicationIdentifierModelKind,
   KnownCommunicationIdentifierModelKind,
   PhoneNumberIdentifierModel,
 } from "../generated/src";
-import { CallParticipantDto } from "../models/models";
+import { CallParticipant } from "../models/models";
 
 function extractKind(
   identifierModel: CommunicationIdentifierModel
@@ -39,12 +39,16 @@ function extractKind(
 export function PhoneNumberIdentifierModelConverter(
   phoneNumberIdentifier: PhoneNumberIdentifier | undefined
 ): PhoneNumberIdentifierModel | undefined {
-  if (phoneNumberIdentifier == undefined || phoneNumberIdentifier.phoneNumber == undefined) {
+  if (
+    phoneNumberIdentifier == undefined ||
+    phoneNumberIdentifier.phoneNumber == undefined
+  ) {
     return undefined;
   }
 
-  const phoneNumberIdentifierModel =
-    serializeCommunicationIdentifier(phoneNumberIdentifier).phoneNumber;
+  const phoneNumberIdentifierModel = serializeCommunicationIdentifier(
+    phoneNumberIdentifier
+  ).phoneNumber;
   return phoneNumberIdentifierModel;
 }
 
@@ -69,7 +73,9 @@ export function communicationIdentifierConverter(
 ): CommunicationIdentifier {
   const rawId = identifierModel.rawId;
   const kind =
-    identifierModel.kind != undefined ? identifierModel.kind : extractKind(identifierModel);
+    identifierModel.kind != undefined
+      ? identifierModel.kind
+      : extractKind(identifierModel);
 
   if (
     kind == KnownCommunicationIdentifierModelKind.CommunicationUser &&
@@ -134,8 +140,10 @@ export function communicationIdentifierModelConverter(
   throw new Error();
 }
 
-export function callParticipantConverter(acsCallParticipant: CallParticipant): CallParticipantDto {
-  const callParticipant: CallParticipantDto = {
+export function callParticipantConverter(
+  acsCallParticipant: CallParticipantInternal
+): CallParticipant {
+  const callParticipant: CallParticipant = {
     ...acsCallParticipant,
     identifier: acsCallParticipant.identifier
       ? communicationIdentifierConverter(acsCallParticipant.identifier)
