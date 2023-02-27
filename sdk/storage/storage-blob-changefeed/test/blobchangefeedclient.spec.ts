@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { record, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
-import { recorderEnvSetup, getBlobChangeFeedClient, streamToString } from "./utils";
+import { isPlaybackMode, Recorder, env } from "@azure-tools/test-recorder";
+import { recorderEnvSetup, getBlobChangeFeedClient, streamToString, uriSanitizers } from "./utils";
 import { BlobChangeFeedClient, BlobChangeFeedEvent, BlobChangeFeedEventPage } from "../src";
 import { AbortController } from "@azure/abort-controller";
 import { assert } from "@azure/test-utils";
@@ -23,14 +23,17 @@ describe("BlobChangeFeedClient", async () => {
   let changeFeedClient: BlobChangeFeedClient;
 
   before(async function (this: Context) {
-    if (process.env.CHANGE_FEED_ENABLED !== "1" && !isPlaybackMode()) {
+    if (env.CHANGE_FEED_ENABLED !== "1" && !isPlaybackMode()) {
       this.skip();
     }
   });
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    changeFeedClient = getBlobChangeFeedClient();
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    // make sure we add the sanitizers on playback for SAS strings
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    changeFeedClient = getBlobChangeFeedClient(recorder);
   });
 
   afterEach(async function () {
@@ -153,7 +156,7 @@ describe("BlobChangeFeedClient", async () => {
       },
     };
 
-    const client = getBlobChangeFeedClient("", "", {
+    const client = getBlobChangeFeedClient(recorder, "", "", {
       httpClient: MockHttpClient,
     });
     const telemetryString = await fetchTelemetryString(client);
@@ -184,14 +187,17 @@ describe("BlobChangeFeedClient: Change Feed not configured", async () => {
   let changeFeedClient: BlobChangeFeedClient;
 
   before(async function (this: Context) {
-    if (process.env.CHANGE_FEED_ENABLED === "1" && !isPlaybackMode()) {
+    if (env.CHANGE_FEED_ENABLED === "1" && !isPlaybackMode()) {
       this.skip();
     }
   });
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    changeFeedClient = getBlobChangeFeedClient();
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    // make sure we add the sanitizers on playback for SAS strings
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    changeFeedClient = getBlobChangeFeedClient(recorder);
   });
 
   afterEach(async function () {
@@ -213,13 +219,16 @@ describe("Change feed event schema test", async () => {
   let recorder: Recorder;
 
   before(async function (this: Context) {
-    if (process.env.CHANGE_FEED_ENABLED === "1" && !isPlaybackMode()) {
+    if (env.CHANGE_FEED_ENABLED === "1" && !isPlaybackMode()) {
       this.skip();
     }
   });
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    // make sure we add the sanitizers on playback for SAS strings
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
   });
 
   afterEach(async function () {
