@@ -1,16 +1,12 @@
 # Release History
 
-## 3.2.0-beta.1 (Unreleased)
+## 3.2.0-beta.1 (2023-02-24)
 
 ### Features Added
 
 - Added support to disable instance discovery on AAD credentials.
 - Added `AzureDeveloperCliCredential` [#24180](https://github.com/Azure/azure-sdk-for-js/pull/24180) and added it to the `DefaultAzureCredential` [#24826](https://github.com/Azure/azure-sdk-for-js/pull/24826) auth flow
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Added support for `WokloadIdentityCredential`[#24830](https://github.com/Azure/azure-sdk-for-js/pull/24830), added it to `DefaultAzureCredential` auth flow and replaced the in-house implementation of `Token Exchange MSI` in `ManagedIdentity` with `WorkloadIdentityCredential`.
 
 ## 3.1.3 (2023-01-12)
 
