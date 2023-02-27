@@ -73,6 +73,7 @@ import {
 } from "./models";
 import {
   AssessmentIndex,
+  extractErrorPointerIndex,
   parseAssessmentIndex,
   parseHealthcareEntityIndex,
   sortResponseIdObjects,
@@ -127,16 +128,6 @@ function transformDocumentResults<
   const successResults = processSuccess
     ? response.documents.map(processSuccess)
     : response.documents;
-  
-    // Parse target errors
-    for (const error of response.errors) {
-      const targetError = error.error.target;
-      if (targetError){
-        const pointer = targetError.split("/")[-1]
-        // Create Document error
-        
-      }
-    }
   const unsortedResults = (
     successResults as (PublicDocumentSuccess | TextAnalysisErrorResult)[]
   ).concat(response.errors.map((error) => processError(error.id, error.error)));
@@ -404,16 +395,31 @@ function toHealthcareResult(
  */
 export function transformAnalyzeBatchResults(
   docIds: string[],
-  response: AnalyzeTextLROResultUnion[] = []
+  response: AnalyzeTextLROResultUnion[] = [],
+  errors: ErrorModel[] = []
 ): AnalyzeBatchResult[] {
-  return response.map((actionData) => {
+  const errorMap = toIndexErrorMap(errors);
+  return response.map((actionData, idx): AnalyzeBatchResult => {
     const { lastUpdateDateTime: completedOn, actionName, kind } = actionData;
     switch (kind as KnownAnalyzeTextLROResultsKind) {
       case "SentimentAnalysisLROResults": {
+        const kind = "SentimentAnalysis";
+        if (actionData.status === "failed") {
+          const error = errorMap.get(idx);
+          if (!error) {
+            throw new Error("No matched error found for the task");
+          }
+          return {
+            kind,
+            modelVersion: "",
+            failedOn: actionData.lastUpdateDateTime,
+            error: error,
+          };
+        }
         const { results } = actionData as SentimentLROResult;
         const { modelVersion, statistics } = results;
         return {
-          kind: "SentimentAnalysis",
+          kind,
           results: toSentimentAnalysisResult(docIds, results),
           completedOn,
           ...(actionName ? { actionName } : {}),
@@ -422,6 +428,19 @@ export function transformAnalyzeBatchResults(
         };
       }
       case "EntityRecognitionLROResults": {
+        const kind = "EntityRecognition";
+        if (actionData.status === "failed") {
+          const error = errorMap.get(idx);
+          if (!error) {
+            throw new Error("No matched error found for the task");
+          }
+          return {
+            kind,
+            modelVersion: "",
+            failedOn: actionData.lastUpdateDateTime,
+            error: error,
+          };
+        }
         const { results } = actionData as EntityRecognitionLROResult;
         const { modelVersion, statistics } = results;
         return {
@@ -434,10 +453,23 @@ export function transformAnalyzeBatchResults(
         };
       }
       case "PiiEntityRecognitionLROResults": {
+        const kind = "PiiEntityRecognition";
+        if (actionData.status === "failed") {
+          const error = errorMap.get(idx);
+          if (!error) {
+            throw new Error("No matched error found for the task");
+          }
+          return {
+            kind,
+            modelVersion: "",
+            failedOn: actionData.lastUpdateDateTime,
+            error: error,
+          };
+        }
         const { results } = actionData as PiiEntityRecognitionLROResult;
         const { modelVersion, statistics } = results;
         return {
-          kind: "PiiEntityRecognition",
+          kind,
           results: toPiiEntityRecognitionResult(docIds, results),
           completedOn,
           ...(actionName ? { actionName } : {}),
@@ -446,10 +478,23 @@ export function transformAnalyzeBatchResults(
         };
       }
       case "KeyPhraseExtractionLROResults": {
+        const kind = "KeyPhraseExtraction";
+        if (actionData.status === "failed") {
+          const error = errorMap.get(idx);
+          if (!error) {
+            throw new Error("No matched error found for the task");
+          }
+          return {
+            kind,
+            modelVersion: "",
+            failedOn: actionData.lastUpdateDateTime,
+            error: error,
+          };
+        }
         const { results } = actionData as KeyPhraseExtractionLROResult;
         const { modelVersion, statistics } = results;
         return {
-          kind: "KeyPhraseExtraction",
+          kind,
           results: toKeyPhraseExtractionResult(docIds, results),
           completedOn,
           ...(actionName ? { actionName } : {}),
@@ -458,10 +503,23 @@ export function transformAnalyzeBatchResults(
         };
       }
       case "EntityLinkingLROResults": {
+        const kind = "EntityLinking";
+        if (actionData.status === "failed") {
+          const error = errorMap.get(idx);
+          if (!error) {
+            throw new Error("No matched error found for the task");
+          }
+          return {
+            kind,
+            modelVersion: "",
+            failedOn: actionData.lastUpdateDateTime,
+            error: error,
+          };
+        }
         const { results } = actionData as EntityLinkingLROResult;
         const { modelVersion, statistics } = results;
         return {
-          kind: "EntityLinking",
+          kind,
           results: toEntityLinkingResult(docIds, results),
           completedOn,
           ...(actionName ? { actionName } : {}),
@@ -470,10 +528,23 @@ export function transformAnalyzeBatchResults(
         };
       }
       case "HealthcareLROResults": {
+        const kind = "Healthcare";
+        if (actionData.status === "failed") {
+          const error = errorMap.get(idx);
+          if (!error) {
+            throw new Error("No matched error found for the task");
+          }
+          return {
+            kind,
+            modelVersion: "",
+            failedOn: actionData.lastUpdateDateTime,
+            error: error,
+          };
+        }
         const { results } = actionData as HealthcareLROResult;
         const { modelVersion, statistics } = results;
         return {
-          kind: "Healthcare",
+          kind,
           results: toHealthcareResult(docIds, results),
           completedOn,
           ...(actionName ? { actionName } : {}),
@@ -482,10 +553,24 @@ export function transformAnalyzeBatchResults(
         };
       }
       case "CustomEntityRecognitionLROResults": {
+        const kind = "CustomEntityRecognition";
+        if (actionData.status === "failed") {
+          const error = errorMap.get(idx);
+          if (!error) {
+            throw new Error("No matched error found for the task");
+          }
+          return {
+            kind,
+            projectName: "",
+            deploymentName: "",
+            failedOn: actionData.lastUpdateDateTime,
+            error: error,
+          };
+        }
         const { results } = actionData as CustomEntityRecognitionLROResult;
         const { deploymentName, projectName, statistics } = results;
         return {
-          kind: "CustomEntityRecognition",
+          kind,
           results: transformDocumentResults<CustomEntitiesResultDocumentsItem>(docIds, results),
           completedOn,
           ...(actionName ? { actionName } : {}),
@@ -495,10 +580,24 @@ export function transformAnalyzeBatchResults(
         };
       }
       case "CustomSingleLabelClassificationLROResults": {
+        const kind = "CustomSingleLabelClassification";
+        if (actionData.status === "failed") {
+          const error = errorMap.get(idx);
+          if (!error) {
+            throw new Error("No matched error found for the task");
+          }
+          return {
+            kind,
+            projectName: "",
+            deploymentName: "",
+            failedOn: actionData.lastUpdateDateTime,
+            error: error,
+          };
+        }
         const { results } = actionData as CustomSingleLabelClassificationLROResult;
         const { deploymentName, projectName, statistics } = results;
         return {
-          kind: "CustomSingleLabelClassification",
+          kind,
           results: transformDocumentResults<CustomLabelClassificationResultDocumentsItem>(
             docIds,
             results
@@ -511,10 +610,24 @@ export function transformAnalyzeBatchResults(
         };
       }
       case "CustomMultiLabelClassificationLROResults": {
+        const kind = "CustomMultiLabelClassification";
+        if (actionData.status === "failed") {
+          const error = errorMap.get(idx);
+          if (!error) {
+            throw new Error("No matched error found for the task");
+          }
+          return {
+            kind,
+            projectName: "",
+            deploymentName: "",
+            failedOn: actionData.lastUpdateDateTime,
+            error: error,
+          };
+        }
         const { results } = actionData as CustomMultiLabelClassificationLROResult;
         const { deploymentName, projectName, statistics } = results;
         return {
-          kind: "CustomMultiLabelClassification",
+          kind,
           results: transformDocumentResults<CustomLabelClassificationResultDocumentsItem>(
             docIds,
             results
@@ -527,10 +640,23 @@ export function transformAnalyzeBatchResults(
         };
       }
       case "ExtractiveSummarizationLROResults": {
+        const kind = "ExtractiveSummarization";
+        if (actionData.status === "failed") {
+          const error = errorMap.get(idx);
+          if (!error) {
+            throw new Error("No matched error found for the task");
+          }
+          return {
+            kind,
+            modelVersion: "",
+            failedOn: actionData.lastUpdateDateTime,
+            error: error,
+          };
+        }
         const { results } = actionData as ExtractiveSummarizationLROResult;
         const { modelVersion, statistics } = results;
         return {
-          kind: "ExtractiveSummarization",
+          kind,
           results: transformDocumentResults<ExtractedSummaryDocumentResultWithDetectedLanguage>(
             docIds,
             results
@@ -542,10 +668,23 @@ export function transformAnalyzeBatchResults(
         };
       }
       case "AbstractiveSummarizationLROResults": {
+        const kind = "AbstractiveSummarization";
+        if (actionData.status === "failed") {
+          const error = errorMap.get(idx);
+          if (!error) {
+            throw new Error("No matched error found for the task");
+          }
+          return {
+            kind,
+            modelVersion: "",
+            failedOn: actionData.lastUpdateDateTime,
+            error: error,
+          };
+        }
         const { results } = actionData as AbstractiveSummarizationLROResult;
         const { modelVersion, statistics } = results;
         return {
-          kind: "AbstractiveSummarization",
+          kind,
           results: transformDocumentResults<AbstractiveSummaryDocumentResultWithDetectedLanguage>(
             docIds,
             results
@@ -561,4 +700,17 @@ export function transformAnalyzeBatchResults(
       }
     }
   });
+}
+/**
+ * @internal
+ * Transform a list of error into index and error Map
+ */
+function toIndexErrorMap(errors: ErrorModel[]): Map<number, TextAnalysisError> {
+  const errorMap = new Map<number, TextAnalysisError>();
+  for (const error of errors) {
+    const position = extractErrorPointerIndex(error);
+    const { target, ...errorWithoutTarget } = error;
+    errorMap.set(position, toTextAnalysisError(errorWithoutTarget));
+  }
+  return errorMap;
 }

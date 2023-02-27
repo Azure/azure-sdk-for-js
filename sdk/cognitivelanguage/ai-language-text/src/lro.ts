@@ -258,7 +258,7 @@ export function processAnalyzeResult(options: {
         });
         const flatResponse = response.flatResponse as AnalyzeTextJobStatusResponse;
         return {
-          page: transformAnalyzeBatchResults(docIds, flatResponse.tasks.items),
+          page: transformAnalyzeBatchResults(docIds, flatResponse.tasks.items, flatResponse.errors),
           nextPageLink: flatResponse.nextLink,
         };
       },

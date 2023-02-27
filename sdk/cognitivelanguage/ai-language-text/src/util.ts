@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { LanguageDetectionInput, TextDocumentInput } from "./generated";
+import { ErrorModel, LanguageDetectionInput, TextDocumentInput } from "./generated";
 import { TextAnalysisOperationOptions } from "./models";
 import { logger } from "./logger";
 
@@ -162,4 +162,25 @@ export function getOperationOptions<OptionsT extends TextAnalysisOperationOption
     },
     rest,
   };
+}
+
+/**
+ *
+ * @param error error with the target in the JSON error pointer format "#/items/0
+ * @returns number: the position of the task with error
+ */
+export function extractErrorPointerIndex(error: ErrorModel): number {
+  if (!error.target) {
+    throw new Error("Error target is not defined to parse the error pointer");
+  }
+  let position: number;
+
+  const listTarget = error.target.split("/");
+  position = parseInt(listTarget.pop() as string);
+
+  if (isNaN(position)) {
+    throw new Error("Error parsing the error pointer");
+  }
+
+  return position;
 }

@@ -7,12 +7,14 @@ import {
   EntityLinkingResult,
   EntityRecognitionResult,
   KeyPhraseExtractionResult,
+  KnownErrorCode,
   LanguageDetectionResult,
   PiiEntityRecognitionResult,
   PiiEntityRecognitionSuccessResult,
   SentimentAnalysisResult,
 } from "../../src/";
 
+const failedOn = undefined as any;
 const modelVersion = undefined as any;
 const completedOn = undefined as any;
 const deploymentName = undefined as any;
@@ -7238,5 +7240,36 @@ export const expectation72: LanguageDetectionResult[] = [
     primaryLanguage: { name: "Hindi", iso6391Name: "hi", confidenceScore: 1, script: "Latin" },
     id: "0",
     warnings: [],
+  },
+];
+
+export const expectation73: AnalyzeBatchResult[] = [
+  {
+    kind: "EntityRecognition",
+    error: {
+      code: KnownErrorCode.InvalidRequest,
+      message: "oh my bad",
+    },
+    modelVersion,
+    failedOn,
+  },
+  {
+    kind: "Healthcare",
+    results: [
+      {
+        entities: [],
+        entityRelations: [],
+        id: "0",
+        warnings: [
+          {
+            code: "DocumentTruncated",
+            message:
+              "Document is large and must be split to be processed; relations across splits may not be caught by the model",
+          },
+        ],
+      },
+    ],
+    completedOn,
+    modelVersion,
   },
 ];
