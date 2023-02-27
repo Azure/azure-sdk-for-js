@@ -122,7 +122,6 @@ describe("GlobalEndpointManager", function () {
         }
       );
       await gem.refreshEndpointList();
-      console.log("get all read endpoints", gem.getReadEndpoints());
       await gem.markCurrentLocationUnavailableForRead(
         "https://test-westus2.documents.azure.com:443/"
       );
