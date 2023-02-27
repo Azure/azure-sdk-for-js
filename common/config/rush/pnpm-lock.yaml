@@ -3855,7 +3855,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230224
+      typescript: 5.1.0-dev.20230227
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8604,8 +8604,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230224:
-    resolution: {integrity: sha512-ntlbPkFF0PM1+lmvLenUGwo+3EJPq5QAvAsw+6HA6KTOHpF3IcmYE57rcgpL54NLXhqz84RNTtcmb4dttBuBsA==}
+  /typescript/5.1.0-dev.20230227:
+    resolution: {integrity: sha512-nPxrgb/3C40X3eXsCPUpiVEgQltswKoAh3Zwm7tDIVE4ldDr3flXq63odqyWUuOZFc/+NCFdm80RpTB0nz2M8w==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -16460,12 +16460,13 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-eRIXj9ZOIB+2R29nFpAx8TzLwZQQZ96HeBk5lhek323XM5B2hKGHdJ+cl48aaWqcw7jt2QMgedJWrRfJjOMfAw==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-qfPzLc1jOVm4MFtYsaTz6K5f7N1pVk7tm/s0BGV0l8Ch+60mXKN+4PNL2DTPV1spTYjN0mAIEdlBJfRfrzTjrA==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.33.7
+      '@sinonjs/fake-timers': 10.0.2
       '@types/debug': 4.1.7
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
