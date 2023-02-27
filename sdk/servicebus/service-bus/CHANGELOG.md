@@ -1,6 +1,6 @@
 # Release History
 
-## 7.8.1-beta.1 (2022-02-24)
+## 7.8.1-beta.1 (2022-02-27)
 
 ### Bugs Fixed
 
