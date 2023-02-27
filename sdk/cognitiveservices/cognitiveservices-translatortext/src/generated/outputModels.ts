@@ -186,34 +186,15 @@ export interface TransliteratedTextOutput {
   script: string;
 }
 
-/** Detected Language with alternatives */
-export interface DetectedLanguageWithAlternativesOutput
-  extends DetectedLanguageElementOutput {
-  /** An array of other possible languages. */
-  alternatives: Array<DetectedLanguageOutput>;
-}
-
-/** Detected language */
-export interface DetectedLanguageElementOutput {
-  /** Code of the detected language. */
-  language: string;
-  /**
-   * A float value indicating the confidence in the result. The score is between zero and one
-   * and a low score indicates a low confidence.
-   */
-  score: number;
-  /** A boolean value which is true if the detected language is one of the languages supported for text translation. */
-  isTranslationSupported: boolean;
-  /** A boolean value which is true if the detected language is one of the languages supported for transliteration. */
-  isTransliterationSupported: boolean;
-}
-
 /** Elemented containing break sentence result. */
 export interface BreakSentenceElementOutput {
   /** The detectedLanguage property is only present in the result object when language auto-detection is requested. */
   detectedLanguage?: DetectedLanguageOutput;
-  /** Sentence boundaries in the input and output texts. */
-  sentLen: SentenceLengthOutput;
+  /**
+   * An integer array representing the lengths of the sentences in the input text.
+   * The length of the array is the number of sentences, and the values are the length of each sentence.
+   */
+  sentLen: number[];
 }
 
 /** Dictionary Lookup Element */

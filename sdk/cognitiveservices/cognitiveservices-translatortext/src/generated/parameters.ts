@@ -183,24 +183,6 @@ export type TransliterateParameters = TransliterateQueryParam &
   TransliterateBodyParam &
   RequestParameters;
 
-export interface DetectHeaders {
-  /** A client-generated GUID to uniquely identify the request. */
-  "X-ClientTraceId"?: string;
-}
-
-export interface DetectBodyParam {
-  /** Array of the text for which values the language detection will be applied. */
-  body: Array<InputTextElement>;
-}
-
-export interface DetectHeaderParam {
-  headers?: RawHttpHeadersInput & DetectHeaders;
-}
-
-export type DetectParameters = DetectHeaderParam &
-  DetectBodyParam &
-  RequestParameters;
-
 export interface BreakSentenceHeaders {
   /** A client-generated GUID to uniquely identify the request. */
   "X-ClientTraceId"?: string;

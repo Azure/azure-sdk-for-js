@@ -5,7 +5,6 @@ import {
   GetLanguagesParameters,
   TranslateParameters,
   TransliterateParameters,
-  DetectParameters,
   BreakSentenceParameters,
   DictionaryLookupParameters,
   DictionaryExamplesParameters,
@@ -17,8 +16,6 @@ import {
   TranslateDefaultResponse,
   Transliterate200Response,
   TransliterateDefaultResponse,
-  Detect200Response,
-  DetectDefaultResponse,
   BreakSentence200Response,
   BreakSentenceDefaultResponse,
   DictionaryLookup200Response,
@@ -47,13 +44,6 @@ export interface Transliterate {
   post(
     options: TransliterateParameters
   ): StreamableMethod<Transliterate200Response | TransliterateDefaultResponse>;
-}
-
-export interface Detect {
-  /** Detect Languages */
-  post(
-    options: DetectParameters
-  ): StreamableMethod<Detect200Response | DetectDefaultResponse>;
 }
 
 export interface BreakSentence {
@@ -88,8 +78,6 @@ export interface Routes {
   (path: "/translate"): Translate;
   /** Resource for '/transliterate' has methods for the following verbs: post */
   (path: "/transliterate"): Transliterate;
-  /** Resource for '/detect' has methods for the following verbs: post */
-  (path: "/detect"): Detect;
   /** Resource for '/breaksentence' has methods for the following verbs: post */
   (path: "/breaksentence"): BreakSentence;
   /** Resource for '/dictionary/lookup' has methods for the following verbs: post */

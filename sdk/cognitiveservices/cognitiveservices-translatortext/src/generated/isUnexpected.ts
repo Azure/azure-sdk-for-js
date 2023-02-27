@@ -8,8 +8,6 @@ import {
   TranslateDefaultResponse,
   Transliterate200Response,
   TransliterateDefaultResponse,
-  Detect200Response,
-  DetectDefaultResponse,
   BreakSentence200Response,
   BreakSentenceDefaultResponse,
   DictionaryLookup200Response,
@@ -22,7 +20,6 @@ const responseMap: Record<string, string[]> = {
   "GET /languages": ["200"],
   "POST /translate": ["200"],
   "POST /transliterate": ["200"],
-  "POST /detect": ["200"],
   "POST /breaksentence": ["200"],
   "POST /dictionary/lookup": ["200"],
   "POST /dictionary/examples": ["200"],
@@ -37,9 +34,6 @@ export function isUnexpected(
 export function isUnexpected(
   response: Transliterate200Response | TransliterateDefaultResponse
 ): response is TransliterateDefaultResponse;
-export function isUnexpected(
-  response: Detect200Response | DetectDefaultResponse
-): response is DetectDefaultResponse;
 export function isUnexpected(
   response: BreakSentence200Response | BreakSentenceDefaultResponse
 ): response is BreakSentenceDefaultResponse;
@@ -57,8 +51,6 @@ export function isUnexpected(
     | TranslateDefaultResponse
     | Transliterate200Response
     | TransliterateDefaultResponse
-    | Detect200Response
-    | DetectDefaultResponse
     | BreakSentence200Response
     | BreakSentenceDefaultResponse
     | DictionaryLookup200Response
@@ -69,7 +61,6 @@ export function isUnexpected(
   | GetLanguagesDefaultResponse
   | TranslateDefaultResponse
   | TransliterateDefaultResponse
-  | DetectDefaultResponse
   | BreakSentenceDefaultResponse
   | DictionaryLookupDefaultResponse
   | DictionaryExamplesDefaultResponse {
