@@ -33,12 +33,12 @@ export interface WebPushClientContext {
   /**
    * @internal
    */
-  onForegroundMessage?: WebPushNotificationHandler;
+  onPush?: WebPushNotificationHandler;
 
   /**
    * @internal
    */
-  onBackgroundMessage?: WebPushNotificationHandler;
+  onNotificationClick?: NotificationClickHandler;
 
   /**
    * @internal
@@ -51,14 +51,15 @@ export interface WebPushClientContext {
   requestUrl(): URL;
 }
 
-export interface WebPushNotification extends Notification {
-  clickAction?: string;
-}
-
 /**
  * Represents a Notification Hubs Web Push handler.
  */
-export type WebPushNotificationHandler = (value: WebPushNotification) => Promise<void>;
+export type WebPushNotificationHandler = (value: PushMessageData) => Promise<void>;
+
+/**
+ * Represents a Notification click handler.
+ */
+export type NotificationClickHandler = (value: NotificationEvent) => Promise<void>;
 
 /**
  * Represents a Web Push unsubscribe function.

@@ -18,6 +18,10 @@ export async function addTemplate(
   templateName: string,
   templateBody: string
 ): Promise<NotificationHubResponse> {
+  if (!clientContext) {
+    throw new WebPushError("clientContext is not properly initilized");
+  }
+
   const installation = await getInternalInstallation(clientContext);
   if (!installation) {
     throw new WebPushError("Installation not set, initialize through getInstallation() first");
