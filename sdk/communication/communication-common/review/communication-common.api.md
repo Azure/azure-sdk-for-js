@@ -96,9 +96,9 @@ export const isUnknownIdentifier: (identifier: CommunicationIdentifier) => ident
 
 // @public
 export interface MicrosoftBotIdentifier {
+    botId: string;
     cloud?: "public" | "dod" | "gcch";
     isGlobal?: boolean;
-    microsoftBotId: string;
     rawId?: string;
 }
 
