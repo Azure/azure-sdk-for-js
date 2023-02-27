@@ -58,6 +58,7 @@ matrix([[true, false]], async function (useAad) {
 
     it("cannot retrieve a not existing trunk", async () => {
       try {
+        await client.setTrunks([]);
         await client.getTrunk("not.existing.fqdn");
       } catch (error: any) {
         assert.equal(error.code, "NotFound");

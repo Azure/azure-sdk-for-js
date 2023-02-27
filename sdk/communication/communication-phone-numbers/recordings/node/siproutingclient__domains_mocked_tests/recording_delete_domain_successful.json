@@ -1,0 +1,46 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/sip?api-version=2022-09-01-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "32",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.4 core-rest-pipeline/1.10.2 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "bK7xzf\u002BpqZFbj5YfhE3A2Hg5Lci/3s8BHVL1WZ/7DYA=",
+        "x-ms-date": "Thu, 12 Jan 2023 13:32:15 GMT",
+        "x-ms-useragent": "acs-mock-test"
+      },
+      "RequestBody": {
+        "domains": {
+          "contoso.com": null
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 12 Jan 2023 13:28:47 GMT",
+        "MS-CV": "zqnSKrkR702ZvrrEXx6DrA.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0DwvAYwAAAAA0fwIBMMVGSqOFOIT8pLHOQlVEMDFFREdFMDIxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "37ms"
+      },
+      "ResponseBody": {
+        "domains": {},
+        "trunks": {},
+        "routes": []
+      }
+    }
+  ],
+  "Variables": {
+    "domain-1": "testdomain5c001ca0cea146588e4908876c5c5481.com"
+  }
+}

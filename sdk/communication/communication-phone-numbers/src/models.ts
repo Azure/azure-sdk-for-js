@@ -78,6 +78,11 @@ export interface ListSipRoutesOptions extends OperationOptions {}
 export interface ListSipTrunksOptions extends GetSipTrunkOptions {}
 
 /**
+ * Additional options that can be passed to list SIP trunks.
+ */
+export interface ListSipDomainsOptions extends OperationOptions {}
+
+/**
  * Additional options that can be passed to get SIP trunk.
  */
 export interface GetSipTrunkOptions extends OperationOptions {
@@ -146,4 +151,18 @@ export interface SipTrunk {
    * Represents health state of a SIP trunk for routing calls.
    */
   readonly health?: SipTrunkHealth;
+}
+
+/**
+ * Represents a SIP domain for routing calls. See RFC 4904.
+ */
+export interface SipDomain {
+  /**
+   * Gets or sets domain uri.
+   */
+  domainName: string;
+  /**
+   * Gets or sets enabled flag
+   */
+  enabled: boolean;
 }

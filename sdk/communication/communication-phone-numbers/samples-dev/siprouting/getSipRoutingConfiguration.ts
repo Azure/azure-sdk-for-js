@@ -19,7 +19,7 @@ export async function main() {
   // Get trunks
   const trunks = await client.listTrunks();
   for await (const trunk of trunks) {
-    console.log(`Trunk ${trunk.fqdn}:${trunk.sipSignalingPort}`);
+    console.log(`Trunk ${trunk.fqdn}:${trunk.sipSignalingPort} with property enabled:${trunk.enabled}`);
   }
 
   // Get routes
@@ -27,6 +27,12 @@ export async function main() {
   for await (const route of routes) {
     console.log(`Route ${route.name} with pattern ${route.numberPattern}`);
     console.log(`Route's trunks: ${route.trunks?.join()}`);
+  }
+
+  // Get domains
+  const domains = await client.listDomains();
+  for (const domain of domains) {
+    console.log(`Domain ${domain.domainName} with property enabled:${domain.enabled}`);
   }
 }
 

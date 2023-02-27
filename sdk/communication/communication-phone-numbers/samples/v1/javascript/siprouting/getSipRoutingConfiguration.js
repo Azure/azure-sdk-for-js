@@ -28,6 +28,12 @@ async function main() {
     console.log(`Route ${route.name} with pattern ${route.numberPattern}`);
     console.log(`Route's trunks: ${route.trunks?.join()}`);
   }
+
+  // Get domains
+  const domains = await client.getDomains();
+  for (const domain of domains) {
+    console.log(`Domain ${domain.domainUri} with property enabled:${domain.enabled}`);
+  }
 }
 
 main().catch((error) => {

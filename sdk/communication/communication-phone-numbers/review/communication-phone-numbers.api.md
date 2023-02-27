@@ -224,14 +224,25 @@ export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchReq
 }
 
 // @public
+export interface SipDomain {
+    domainName: string;
+    enabled: boolean;
+}
+
+// @public
 export class SipRoutingClient {
     constructor(connectionString: string, options?: SipRoutingClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: SipRoutingClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: SipRoutingClientOptions);
+    deleteDomain(domainName: string, options?: OperationOptions): Promise<void>;
     deleteTrunk(fqdn: string, options?: OperationOptions): Promise<void>;
     getTrunk(fqdn: string, options?: GetSipTrunkOptions): Promise<SipTrunk>;
+    listDomain(domainName: string, options?: OperationOptions): Promise<SipDomain>;
+    listDomains(options?: OperationOptions): Promise<SipDomain[]>;    
     listRoutes(options?: ListSipRoutesOptions): PagedAsyncIterableIterator<SipTrunkRoute>;
     listTrunks(options?: ListSipTrunksOptions): PagedAsyncIterableIterator<SipTrunk>;
+    setDomain(domain: SipDomain, options?: OperationOptions): Promise<SipDomain>;
+    setDomains(domains: SipDomain[], options?: OperationOptions): Promise<SipDomain[]>;
     setRoutes(routes: SipTrunkRoute[], options?: OperationOptions): Promise<SipTrunkRoute[]>;
     setTrunk(trunk: SipTrunk, options?: OperationOptions): Promise<SipTrunk>;
     setTrunks(trunks: SipTrunk[], options?: OperationOptions): Promise<SipTrunk[]>;

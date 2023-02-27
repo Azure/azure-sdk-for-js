@@ -83,7 +83,7 @@
         "Strict-Transport-Security": "max-age=2592000",
         "X-Azure-Ref": "0gsP0YwAAAAB2\u002BhO4efawQLIOAB1rWH/ZTE9OMjEyMDUwNzE3MDA5AGNjOTI3NThkLTA1ZjctNGFkNi1hYTVlLTBmYTk3MThkODk4NQ==",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "111ms"
+        "X-Processing-Time": "77ms"
       },
       "ResponseBody": {
         "domains": {

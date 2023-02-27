@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SipTrunk as RestSipTrunk, TrunkPatch } from "./generated/src/siprouting/models";
-import { SipTrunk } from "./models";
+import { SipTrunk as RestSipTrunk, TrunkPatch, Domain as RestSipDomain } from "./generated/src/siprouting/models";
+import { SipTrunk, SipDomain } from "./models";
 
 /**
  * @internal
@@ -36,6 +36,42 @@ export function transformIntoRestModel(trunks: SipTrunk[]): {
       sipSignalingPort: trunk.sipSignalingPort,
       enabled: trunk.enabled,
     } as TrunkPatch;
+  });
+
+  return result;
+}
+
+/**
+ * @internal
+ * Transforming SIP domains REST model to SDK model
+ */
+export function transformDomainsFromRestModel(
+  domains: { [propertyName: string]: RestSipDomain } | undefined
+): SipDomain[] {
+  const result: SipDomain[] = [];
+
+  if (domains) {
+    Object.keys(domains).forEach((domain: string) => {
+      const currentDomain = domains[domain];
+      const enabledFlag = currentDomain.enabled;
+      result.push({ domainName: domain, enabled: enabledFlag } as SipDomain);
+    });
+  }
+
+  return result;
+}
+
+/**
+ * @internal
+ * Transforming SIP domains SDK model to REST model
+ */
+export function transformDomainsIntoRestModel(domains: SipDomain[]): {
+  [propertyName: string]: RestSipDomain;
+} {
+  const result: { [propertyName: string]: RestSipDomain } = {};
+
+  domains.forEach((domain: SipDomain) => {
+    result[domain.domainName] = { enabled: domain.enabled } as RestSipDomain;
   });
 
   return result;

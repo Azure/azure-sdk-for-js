@@ -40,6 +40,16 @@ directive:
       }
 ```
 
+### Directive renaming "Domain" model to "SipDomain"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: "$.definitions.Domain"
+    transform: >
+      $["x-ms-client-name"] = "SipDomain";
+```
+
 ### Directive renaming "Trunk" model to "SipTrunk"
 
 ```yaml
@@ -76,6 +86,14 @@ directive:
 directive:
   - from: swagger-document
     where: "$.definitions.TrunkPatch"
+    transform: >
+      $["x-nullable"] = true;
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: "$.definitions.DomainPatch"
     transform: >
       $["x-nullable"] = true;
 ```

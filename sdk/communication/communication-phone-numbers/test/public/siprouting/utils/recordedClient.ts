@@ -12,12 +12,14 @@ import {
   env,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { SipRoutingClient, SipTrunk, SipTrunkRoute } from "../../../../src";
+import { SipDomain, SipRoutingClient, SipTrunk, SipTrunkRoute } from "../../../../src";
 import { parseConnectionString } from "@azure/communication-common";
 import { TokenCredential } from "@azure/identity";
 import { isNode } from "@azure/test-utils";
 import { createTestCredential } from "@azure-tools/test-credential";
-// import { v4 as uuid } from "uuid";
+import { v4 as uuid } from "uuid";
+import { createMSUserAgentPolicy } from "./msUserAgentPolicy";
+import { AdditionalPolicyConfig } from "@azure/core-client";
 
 if (isNode) {
   dotenv.config();
@@ -58,6 +60,12 @@ const sanitizerOptions: SanitizerOptions = {
       value: `sanitized`,
     },
   ],
+  headerSanitizers: [
+    {
+      key: "Sec-Fetch-Dest",
+      value: "empty",
+    },
+  ],
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -78,13 +86,15 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
 }
 
 export async function createRecordedClient(
-  context: Context
+  context: Context,
+  mockedAPI: boolean = false
 ): Promise<RecordedClient<SipRoutingClient>> {
   const recorder = await createRecorder(context.currentTest);
+  const policies = getAdditionalPolicies(mockedAPI);
 
   const client = new SipRoutingClient(
     assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"),
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({ additionalPolicies: policies })
   );
 
   return { client, recorder };
@@ -99,9 +109,11 @@ export function createMockToken(): TokenCredential {
 }
 
 export async function createRecordedClientWithToken(
-  context: Context
+  context: Context,
+  mockedAPI: boolean = false
 ): Promise<RecordedClient<SipRoutingClient>> {
   const recorder = await createRecorder(context.currentTest);
+  const policies = getAdditionalPolicies(mockedAPI);
 
   let credential: TokenCredential;
   const endpoint = parseConnectionString(
@@ -114,7 +126,11 @@ export async function createRecordedClientWithToken(
     credential = createTestCredential();
   }
 
-  const client = new SipRoutingClient(endpoint, credential, recorder.configureClientOptions({}));
+  const client = new SipRoutingClient(
+    endpoint,
+    credential,
+    recorder.configureClientOptions({ additionalPolicies: policies })
+  );
 
   // casting is a workaround to enable min-max testing
   return { client, recorder };
@@ -128,12 +144,19 @@ export async function clearSipConfiguration(): Promise<void> {
   await client.setTrunks([]);
 }
 
-let fqdnNumber = 0;
+let fqdnNumber = 1;
+let domainNumber = 1;
 export function getUniqueFqdn(recorder: Recorder): string {
   // const uniqueDomain = uuid().replace(/-/g, "");
   fqdnNumber++;
   return recorder.variable(`fqdn-${fqdnNumber}`, `test${fqdnNumber}.nostojic13012023.skype.net`);
 }
+
+export function getUniqueDomain(recorder: Recorder): string {
+  const uniqueDomain = uuid().replace(/-/g, "");
+  return recorder.variable(`domain-${domainNumber++}`, `testdomain${uniqueDomain}.com`);
+}
+
 export function resetUniqueFqdns(): void {
   fqdnNumber = 0;
 }
@@ -155,4 +178,27 @@ export async function listAllRoutes(client: SipRoutingClient): Promise<SipTrunkR
     result.push(route);
   }
   return result;
+}
+
+export async function listAllDomains(client: SipRoutingClient): Promise<SipDomain[]> {
+  const result = [];
+  for await (const route of client.listDomains()) {
+    result.push(route);
+  }
+  return result;
+}
+
+export function resetUniqueDomains(): void {
+  domainNumber = 1;
+}
+
+export function getAdditionalPolicies(mockedApi: boolean): AdditionalPolicyConfig[] {
+  const additionalPolicies: AdditionalPolicyConfig[] = [
+    {
+      policy: createMSUserAgentPolicy(mockedApi),
+      position: "perRetry",
+    },
+  ];
+
+  return additionalPolicies;
 }
