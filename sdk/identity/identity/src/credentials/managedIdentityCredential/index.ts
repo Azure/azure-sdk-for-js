@@ -231,57 +231,57 @@ export class ManagedIdentityCredential implements TokenCredential {
       // If it's null, it means we don't yet know whether
       // the endpoint is available and need to check for it.
       if (this.isEndpointUnavailable !== true) {
-        const appTokenParameters: AppTokenProviderParameters = {
-          correlationId: this.identityClient.getCorrelationId(),
-          tenantId: options?.tenantId || "organizations",
-          scopes: Array.isArray(scopes) ? scopes : [scopes],
-          claims: options?.claims,
-        };
+        const availableMSI = await this.cachedAvailableMSI(scopes, updatedOptions);
+        if (availableMSI.name === "tokenExchangeMsi") {
+          result = await this.authenticateManagedIdentity(scopes, updatedOptions);
+        } else {
+          const appTokenParameters: AppTokenProviderParameters = {
+            correlationId: this.identityClient.getCorrelationId(),
+            tenantId: options?.tenantId || "organizations",
+            scopes: Array.isArray(scopes) ? scopes : [scopes],
+            claims: options?.claims,
+          };
 
-        this.confidentialApp.SetAppTokenProvider(
-          async (appTokenProviderParameters = appTokenParameters) => {
-            logger.info(
-              `SetAppTokenProvider invoked with parameters- ${JSON.stringify(
-                appTokenProviderParameters
-              )}`
-            );
-
-            const availableMSI = await this.cachedAvailableMSI(scopes, updatedOptions);
-            const appTokenParams = { ...appTokenProviderParameters };
-            if (availableMSI.name === "tokenExchangeMsi") {
-              appTokenParams.tenantId = process.env.AZURE_TENANT_ID!;
-            }
-            const resultToken = await this.authenticateManagedIdentity(scopes, {
-              ...updatedOptions,
-              ...appTokenParams,
-            });
-
-            if (resultToken) {
-              logger.info(`SetAppTokenProvider has saved the token in cache`);
-
-              const expiresInSeconds = resultToken?.expiresOnTimestamp
-                ? Math.floor((resultToken.expiresOnTimestamp - Date.now()) / 1000)
-                : 0;
-
-              return {
-                accessToken: resultToken?.token,
-                expiresInSeconds,
-              };
-            } else {
+          this.confidentialApp.SetAppTokenProvider(
+            async (appTokenProviderParameters = appTokenParameters) => {
               logger.info(
-                `SetAppTokenProvider token has "no_access_token_returned" as the saved token`
+                `SetAppTokenProvider invoked with parameters- ${JSON.stringify(
+                  appTokenProviderParameters
+                )}`
               );
-              return {
-                accessToken: "no_access_token_returned",
-                expiresInSeconds: 0,
-              };
+
+              const resultToken = await this.authenticateManagedIdentity(scopes, {
+                ...updatedOptions,
+                ...appTokenProviderParameters,
+              });
+
+              if (resultToken) {
+                logger.info(`SetAppTokenProvider has saved the token in cache`);
+
+                const expiresInSeconds = resultToken?.expiresOnTimestamp
+                  ? Math.floor((resultToken.expiresOnTimestamp - Date.now()) / 1000)
+                  : 0;
+
+                return {
+                  accessToken: resultToken?.token,
+                  expiresInSeconds,
+                };
+              } else {
+                logger.info(
+                  `SetAppTokenProvider token has "no_access_token_returned" as the saved token`
+                );
+                return {
+                  accessToken: "no_access_token_returned",
+                  expiresInSeconds: 0,
+                };
+              }
             }
-          }
-        );
-        const authenticationResult = await this.confidentialApp.acquireTokenByClientCredential({
-          ...appTokenParameters,
-        });
-        result = this.handleResult(scopes, authenticationResult || undefined);
+          );
+          const authenticationResult = await this.confidentialApp.acquireTokenByClientCredential({
+            ...appTokenParameters,
+          });
+          result = this.handleResult(scopes, authenticationResult || undefined);
+        }
         if (result === null) {
           // If authenticateManagedIdentity returns null,
           // it means no MSI endpoints are available.
