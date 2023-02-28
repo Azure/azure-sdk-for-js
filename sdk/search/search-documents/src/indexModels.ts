@@ -748,7 +748,7 @@ export type SelectFields<T extends object> = T extends Array<infer U>
     : never
   : {
       // Only consider string keys
-      [K in Exclude<keyof T, symbol | number>]: NonNullable<T[K]> extends object
+      [K in keyof T & string]: NonNullable<T[K]> extends object
         ? NonNullable<T[K]> extends ExcludedODataTypes
           ? // Excluded, so don't recur
             K
@@ -762,7 +762,7 @@ export type SelectFields<T extends object> = T extends Array<infer U>
           : never
         : // Not an object, so can't recur
           K;
-    }[Exclude<keyof T, symbol | number>];
+    }[keyof T & string];
 
 /**
  * Deeply pick fields of T using valid Cognitive Search OData $select
