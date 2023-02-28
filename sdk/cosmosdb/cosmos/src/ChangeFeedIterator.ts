@@ -19,7 +19,8 @@ export class ChangeFeedIterator<T> {
   private nextIfNoneMatch: string;
   private ifModifiedSince: string;
   private lastStatusCode: number;
-  private isPartitionSpecified: boolean;
+  private partitionKeyRangeIds: string[];
+  private currentPartitionId: number;
 
   /**
    * @internal
@@ -31,9 +32,6 @@ export class ChangeFeedIterator<T> {
     private partitionKey: string | number | boolean,
     private changeFeedOptions: ChangeFeedOptions
   ) {
-    // partition key XOR partition key range id
-    const partitionKeyValid = partitionKey !== undefined;
-    this.isPartitionSpecified = partitionKeyValid;
 
     let canUseStartFromBeginning = true;
     if (changeFeedOptions.continuation) {
@@ -52,6 +50,10 @@ export class ChangeFeedIterator<T> {
     if (canUseStartFromBeginning && !changeFeedOptions.startFromBeginning) {
       this.nextIfNoneMatch = ChangeFeedIterator.IfNoneMatchAllHeaderValue;
     }
+    
+    this.partitionKeyRangeIds = [];
+    this.currentPartitionId = -1;
+
   }
 
   /**
@@ -62,7 +64,19 @@ export class ChangeFeedIterator<T> {
    * @returns Boolean value representing if whether there are potentially additional results that can be retrieved.
    */
   get hasMoreResults(): boolean {
-    return this.lastStatusCode !== StatusCodes.NotModified;
+    if(this.partitionKey !== undefined) {
+        return this.lastStatusCode !== StatusCodes.NotModified;
+    }
+    else if(this.lastStatusCode === StatusCodes.NotModified) {
+      if(this.currentPartitionId !== this.partitionKeyRangeIds.length - 1) {
+        this.currentPartitionId +=1;
+        this.lastStatusCode = undefined;
+        this.nextIfNoneMatch = undefined;
+      }
+      else 
+        return false;
+    }
+    return true;
   }
 
   /**
@@ -88,11 +102,6 @@ export class ChangeFeedIterator<T> {
   }
 
   private async getFeedResponse(): Promise<ChangeFeedResponse<Array<T & Resource>>> {
-    if (!this.isPartitionSpecified) {
-      throw new Error(
-        "Container is partitioned, but no partition key or partition key range id was specified."
-      );
-    }
     const feedOptions: FeedOptions = { initialHeaders: {}, useIncrementalFeed: true };
 
     if (typeof this.changeFeedOptions.maxItemCount === "number") {
@@ -114,6 +123,14 @@ export class ChangeFeedIterator<T> {
       feedOptions.initialHeaders[Constants.HttpHeaders.IfModifiedSince] = this.ifModifiedSince;
     }
 
+    if (this.currentPartitionId === -1 && this.partitionKeyRangeIds.length === 0) {
+      const { resources } = await this.clientContext.queryPartitionKeyRanges(this.resourceId, undefined, {}).fetchAll();
+      for(const partitionKeyRange of resources) {
+        this.partitionKeyRangeIds.push(partitionKeyRange.id);
+      }
+      this.currentPartitionId = 0;
+    }
+
     const response: Response<Array<T & Resource>> = await (this.clientContext.queryFeed<T>({
       path: this.resourceLink,
       resourceType: ResourceType.item,
@@ -122,8 +139,8 @@ export class ChangeFeedIterator<T> {
       query: undefined,
       options: feedOptions,
       partitionKey: this.partitionKey,
+      partitionKeyRangeId: (this.partitionKey === undefined) ? this.partitionKeyRangeIds[this.currentPartitionId] : undefined,
     }) as Promise<any>); // TODO: some funky issues with query feed. Probably need to change it up.
-
     return new ChangeFeedResponse(
       response.result,
       response.result ? response.result.length : 0,
