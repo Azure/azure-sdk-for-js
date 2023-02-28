@@ -2,6 +2,16 @@
 
 ## 1.1.0-beta.2 (2023-03-07)
 
+### Features Added
+
+- Add support for logging API warnings that are part of warn-text response headers.
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.1.0-beta.1 (2022-11-17)
 
 ### Features Added
