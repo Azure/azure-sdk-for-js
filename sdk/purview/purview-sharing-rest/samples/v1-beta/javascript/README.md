@@ -2,24 +2,12 @@
 
 These sample programs show how to use the JavaScript client libraries for Purview Sharing in some common scenarios.
 
-| **File Name**                                                                     | **Description**                                                                                  |
-| --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| [activateTenantEmailRegistrationSample.js][activatetenantemailregistrationsample] | Activates the email registration for current tenant                                              |
-| [createOrReplaceReceivedShareSample.js][createorreplacereceivedsharesample]       | Update changes to a received share                                                               |
-| [createOrReplaceSentShareSample.js][createorreplacesentsharesample]               | Create or replace a sent share                                                                   |
-| [createSentShareInvitationSample.js][createsentshareinvitationsample]             | Create a recipient for a given sent share                                                        |
-| [deleteReceivedShareSample.js][deletereceivedsharesample]                         | Delete a received share                                                                          |
-| [deleteSentShareInvitationSample.js][deletesentshareinvitationsample]             | Delete a sent share invitation                                                                   |
-| [deleteSentShareSample.js][deletesentsharesample]                                 | Delete a sent share                                                                              |
-| [getAllAttachedReceivedSharesSample.js][getallattachedreceivedsharessample]       | List attached received shares                                                                    |
-| [getAllDetachedReceivedSharesSample.js][getalldetachedreceivedsharessample]       | List detached received shares                                                                    |
-| [getAllSentShareInvitationsSample.js][getallsentshareinvitationssample]           | List sent share recipients                                                                       |
-| [getAllSentSharesSample.js][getallsentsharessample]                               | List sent shares                                                                                 |
-| [getReceivedShareSample.js][getreceivedsharesample]                               | Get a received share                                                                             |
-| [getSentShareInvitationSample.js][getsentshareinvitationsample]                   | Get recipient for a given sent share                                                             |
-| [getSentShareSample.js][getsentsharesample]                                       | Get a sent share                                                                                 |
-| [notifyUserSentShareInvitationSample.js][notifyusersentshareinvitationsample]     | Notifies the user recipient of the sent share invitation, does not apply to service invitations. |
-| [tenantEmailRegistrationSample.js][tenantemailregistrationsample]                 | Register an email for the current tenant                                                         |
+| **File Name**                                                     | **Description**                          |
+| ----------------------------------------------------------------- | ---------------------------------------- |
+| [manageSharesSample.js][managesharessample]                       | Get a sent share                         |
+| [receiverOperationsSample.js][receiveroperationssample]           | List detached received shares            |
+| [senderOperationsSample.js][senderoperationssample]               | Create or replace a sent share           |
+| [tenantEmailRegistrationSample.js][tenantemailregistrationsample] | Register an email for the current tenant |
 
 ## Prerequisites
 
@@ -46,34 +34,22 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node activateTenantEmailRegistrationSample.js
+node manageSharesSample.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<endpoint>" ACTIVATION_CODE="<activation code>" node activateTenantEmailRegistrationSample.js
+npx cross-env ENDPOINT="<endpoint>" SENDER_STORAGE_ACCOUNT_RESOURCE_ID="<sender storage account resource id>" RECEIVER_STORAGE_ACCOUNT_RESOURCE_ID="<receiver storage account resource id>" node manageSharesSample.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[activatetenantemailregistrationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-sharing-rest/samples/v1-beta/javascript/activateTenantEmailRegistrationSample.js
-[createorreplacereceivedsharesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-sharing-rest/samples/v1-beta/javascript/createOrReplaceReceivedShareSample.js
-[createorreplacesentsharesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-sharing-rest/samples/v1-beta/javascript/createOrReplaceSentShareSample.js
-[createsentshareinvitationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-sharing-rest/samples/v1-beta/javascript/createSentShareInvitationSample.js
-[deletereceivedsharesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-sharing-rest/samples/v1-beta/javascript/deleteReceivedShareSample.js
-[deletesentshareinvitationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-sharing-rest/samples/v1-beta/javascript/deleteSentShareInvitationSample.js
-[deletesentsharesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-sharing-rest/samples/v1-beta/javascript/deleteSentShareSample.js
-[getallattachedreceivedsharessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-sharing-rest/samples/v1-beta/javascript/getAllAttachedReceivedSharesSample.js
-[getalldetachedreceivedsharessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-sharing-rest/samples/v1-beta/javascript/getAllDetachedReceivedSharesSample.js
-[getallsentshareinvitationssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-sharing-rest/samples/v1-beta/javascript/getAllSentShareInvitationsSample.js
-[getallsentsharessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-sharing-rest/samples/v1-beta/javascript/getAllSentSharesSample.js
-[getreceivedsharesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-sharing-rest/samples/v1-beta/javascript/getReceivedShareSample.js
-[getsentshareinvitationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-sharing-rest/samples/v1-beta/javascript/getSentShareInvitationSample.js
-[getsentsharesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-sharing-rest/samples/v1-beta/javascript/getSentShareSample.js
-[notifyusersentshareinvitationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-sharing-rest/samples/v1-beta/javascript/notifyUserSentShareInvitationSample.js
+[managesharessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-sharing-rest/samples/v1-beta/javascript/manageSharesSample.js
+[receiveroperationssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-sharing-rest/samples/v1-beta/javascript/receiverOperationsSample.js
+[senderoperationssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-sharing-rest/samples/v1-beta/javascript/senderOperationsSample.js
 [tenantemailregistrationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-sharing-rest/samples/v1-beta/javascript/tenantEmailRegistrationSample.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/purview-sharing?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
