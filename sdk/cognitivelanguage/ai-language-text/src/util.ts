@@ -175,8 +175,7 @@ export function extractErrorPointerIndex(error: ErrorModel): number {
   }
   let position: number;
 
-  const listTarget = error.target.split("/");
-  position = parseInt(listTarget.pop() as string);
+  position = parseInt(error.target.split("/").pop() as string);
 
   if (isNaN(position)) {
     throw new Error("Error parsing the error pointer");

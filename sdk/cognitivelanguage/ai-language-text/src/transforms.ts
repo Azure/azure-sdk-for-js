@@ -50,6 +50,7 @@ import {
 } from "./generated";
 import {
   AnalyzeActionName,
+  AnalyzeBatchActionName,
   AnalyzeBatchResult,
   AnalyzeResult,
   DynamicClassificationResult,
@@ -401,20 +402,12 @@ export function transformAnalyzeBatchResults(
   const errorMap = toIndexErrorMap(errors);
   return response.map((actionData, idx): AnalyzeBatchResult => {
     const { lastUpdateDateTime: completedOn, actionName, kind } = actionData;
+    const error = errorMap.get(idx);
     switch (kind as KnownAnalyzeTextLROResultsKind) {
       case "SentimentAnalysisLROResults": {
         const kind = "SentimentAnalysis";
         if (actionData.status === "failed") {
-          const error = errorMap.get(idx);
-          if (!error) {
-            throw new Error("No matched error found for the task");
-          }
-          return {
-            kind,
-            modelVersion: "",
-            failedOn: actionData.lastUpdateDateTime,
-            error: error,
-          };
+          return returnErrorTask(kind, error, completedOn);
         }
         const { results } = actionData as SentimentLROResult;
         const { modelVersion, statistics } = results;
@@ -430,16 +423,7 @@ export function transformAnalyzeBatchResults(
       case "EntityRecognitionLROResults": {
         const kind = "EntityRecognition";
         if (actionData.status === "failed") {
-          const error = errorMap.get(idx);
-          if (!error) {
-            throw new Error("No matched error found for the task");
-          }
-          return {
-            kind,
-            modelVersion: "",
-            failedOn: actionData.lastUpdateDateTime,
-            error: error,
-          };
+          return returnErrorTask(kind, error, completedOn);
         }
         const { results } = actionData as EntityRecognitionLROResult;
         const { modelVersion, statistics } = results;
@@ -455,16 +439,7 @@ export function transformAnalyzeBatchResults(
       case "PiiEntityRecognitionLROResults": {
         const kind = "PiiEntityRecognition";
         if (actionData.status === "failed") {
-          const error = errorMap.get(idx);
-          if (!error) {
-            throw new Error("No matched error found for the task");
-          }
-          return {
-            kind,
-            modelVersion: "",
-            failedOn: actionData.lastUpdateDateTime,
-            error: error,
-          };
+          return returnErrorTask(kind, error, completedOn);
         }
         const { results } = actionData as PiiEntityRecognitionLROResult;
         const { modelVersion, statistics } = results;
@@ -480,16 +455,7 @@ export function transformAnalyzeBatchResults(
       case "KeyPhraseExtractionLROResults": {
         const kind = "KeyPhraseExtraction";
         if (actionData.status === "failed") {
-          const error = errorMap.get(idx);
-          if (!error) {
-            throw new Error("No matched error found for the task");
-          }
-          return {
-            kind,
-            modelVersion: "",
-            failedOn: actionData.lastUpdateDateTime,
-            error: error,
-          };
+          return returnErrorTask(kind, error, completedOn);
         }
         const { results } = actionData as KeyPhraseExtractionLROResult;
         const { modelVersion, statistics } = results;
@@ -505,16 +471,7 @@ export function transformAnalyzeBatchResults(
       case "EntityLinkingLROResults": {
         const kind = "EntityLinking";
         if (actionData.status === "failed") {
-          const error = errorMap.get(idx);
-          if (!error) {
-            throw new Error("No matched error found for the task");
-          }
-          return {
-            kind,
-            modelVersion: "",
-            failedOn: actionData.lastUpdateDateTime,
-            error: error,
-          };
+          return returnErrorTask(kind, error, completedOn);
         }
         const { results } = actionData as EntityLinkingLROResult;
         const { modelVersion, statistics } = results;
@@ -530,16 +487,7 @@ export function transformAnalyzeBatchResults(
       case "HealthcareLROResults": {
         const kind = "Healthcare";
         if (actionData.status === "failed") {
-          const error = errorMap.get(idx);
-          if (!error) {
-            throw new Error("No matched error found for the task");
-          }
-          return {
-            kind,
-            modelVersion: "",
-            failedOn: actionData.lastUpdateDateTime,
-            error: error,
-          };
+          return returnErrorTask(kind, error, completedOn);
         }
         const { results } = actionData as HealthcareLROResult;
         const { modelVersion, statistics } = results;
@@ -555,17 +503,7 @@ export function transformAnalyzeBatchResults(
       case "CustomEntityRecognitionLROResults": {
         const kind = "CustomEntityRecognition";
         if (actionData.status === "failed") {
-          const error = errorMap.get(idx);
-          if (!error) {
-            throw new Error("No matched error found for the task");
-          }
-          return {
-            kind,
-            projectName: "",
-            deploymentName: "",
-            failedOn: actionData.lastUpdateDateTime,
-            error: error,
-          };
+          return returnErrorCustomTask(kind, error, completedOn);
         }
         const { results } = actionData as CustomEntityRecognitionLROResult;
         const { deploymentName, projectName, statistics } = results;
@@ -582,17 +520,7 @@ export function transformAnalyzeBatchResults(
       case "CustomSingleLabelClassificationLROResults": {
         const kind = "CustomSingleLabelClassification";
         if (actionData.status === "failed") {
-          const error = errorMap.get(idx);
-          if (!error) {
-            throw new Error("No matched error found for the task");
-          }
-          return {
-            kind,
-            projectName: "",
-            deploymentName: "",
-            failedOn: actionData.lastUpdateDateTime,
-            error: error,
-          };
+          return returnErrorCustomTask(kind, error, completedOn);
         }
         const { results } = actionData as CustomSingleLabelClassificationLROResult;
         const { deploymentName, projectName, statistics } = results;
@@ -612,17 +540,7 @@ export function transformAnalyzeBatchResults(
       case "CustomMultiLabelClassificationLROResults": {
         const kind = "CustomMultiLabelClassification";
         if (actionData.status === "failed") {
-          const error = errorMap.get(idx);
-          if (!error) {
-            throw new Error("No matched error found for the task");
-          }
-          return {
-            kind,
-            projectName: "",
-            deploymentName: "",
-            failedOn: actionData.lastUpdateDateTime,
-            error: error,
-          };
+          return returnErrorCustomTask(kind, error, completedOn);
         }
         const { results } = actionData as CustomMultiLabelClassificationLROResult;
         const { deploymentName, projectName, statistics } = results;
@@ -642,16 +560,7 @@ export function transformAnalyzeBatchResults(
       case "ExtractiveSummarizationLROResults": {
         const kind = "ExtractiveSummarization";
         if (actionData.status === "failed") {
-          const error = errorMap.get(idx);
-          if (!error) {
-            throw new Error("No matched error found for the task");
-          }
-          return {
-            kind,
-            modelVersion: "",
-            failedOn: actionData.lastUpdateDateTime,
-            error: error,
-          };
+          return returnErrorTask(kind, error, completedOn);
         }
         const { results } = actionData as ExtractiveSummarizationLROResult;
         const { modelVersion, statistics } = results;
@@ -670,16 +579,7 @@ export function transformAnalyzeBatchResults(
       case "AbstractiveSummarizationLROResults": {
         const kind = "AbstractiveSummarization";
         if (actionData.status === "failed") {
-          const error = errorMap.get(idx);
-          if (!error) {
-            throw new Error("No matched error found for the task");
-          }
-          return {
-            kind,
-            modelVersion: "",
-            failedOn: actionData.lastUpdateDateTime,
-            error: error,
-          };
+          return returnErrorTask(kind, error, completedOn);
         }
         const { results } = actionData as AbstractiveSummarizationLROResult;
         const { modelVersion, statistics } = results;
@@ -713,4 +613,52 @@ function toIndexErrorMap(errors: ErrorModel[]): Map<number, TextAnalysisError> {
     errorMap.set(position, toTextAnalysisError(errorWithoutTarget));
   }
   return errorMap;
+}
+
+/**
+ * Return the error for non-custom task
+ *
+ * @param kind non custom task kind
+ * @param error error returned from the service
+ * @param failedOn the LastUpdateDateTime from the service
+ * @returns AnalyzeBatchResult with error
+ */
+function returnErrorTask(
+  kind: AnalyzeBatchActionName,
+  error: TextAnalysisError | undefined,
+  failedOn: Date
+): AnalyzeBatchResult {
+  if (!error) {
+    throw new Error("No matched error found for the task");
+  }
+  return {
+    kind,
+    modelVersion: "",
+    failedOn,
+    error: error,
+  } as AnalyzeBatchResult;;
+}
+/**
+ * Return the error for non-custom task
+ *
+ * @param kind non custom task kind
+ * @param error error returned from the service
+ * @param failedOn the LastUpdateDateTime from the service
+ * @returns AnalyzeBatchResult for custom task with error
+ */
+function returnErrorCustomTask(
+  kind: AnalyzeBatchActionName,
+  error: TextAnalysisError | undefined,
+  failedOn: Date
+): AnalyzeBatchResult {
+  if (!error) {
+    throw new Error("No matched error found for the task");
+  }
+  return {
+    kind,
+    projectName: "",
+    deploymentName: "",
+    failedOn,
+    error: error,
+  } as AnalyzeBatchResult;;
 }
