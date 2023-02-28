@@ -365,13 +365,13 @@ export class UsernamePasswordCredential implements TokenCredential {
 export interface UsernamePasswordCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions {
 }
 
-// @public
+// @public @deprecated
 export class VisualStudioCodeCredential implements TokenCredential {
     constructor(options?: VisualStudioCodeCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
-// @public
+// @public @deprecated
 export interface VisualStudioCodeCredentialOptions extends MultiTenantTokenCredentialOptions {
     tenantId?: string;
 }

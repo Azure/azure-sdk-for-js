@@ -6,9 +6,8 @@
 
 import { IdentityPlugin } from '@azure/identity';
 
-// @public
+// @public @deprecated
 export const vsCodePlugin: IdentityPlugin;
-
 
 // (No @packageDocumentation comment for this package)
 
