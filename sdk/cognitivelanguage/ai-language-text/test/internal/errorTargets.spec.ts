@@ -7,7 +7,7 @@ import { extractErrorPointerIndex } from "../../src/util";
 import { expectation73 } from "../public/expectations";
 import { assertActionsResults } from "../public/utils/resultHelper";
 
-describe.only("Error targets", function () {
+describe("Error targets", function () {
   let client: TextAnalysisClient;
 
   before(async function () {
