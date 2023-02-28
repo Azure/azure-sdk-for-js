@@ -183,8 +183,6 @@ The tested client needs to install the recording policy that redirects requests 
 const client = new AnyCoreV2Client(/** args **/, recorder.configureClientOptions(/** client options **/));
 ```
 
-_Note: If your client relies on `@azure/core-http` instead of the core-v2 libraries(i.e., `@azure/core-client` and `@azure/core-rest-pipeline`), please use `recorder.configureClientOptionsCoreV1()` instead of `recorder.configureClientOptions()`._
-
 Recording starts with the `recorder.start()` method.
 
 ```js
