@@ -19,7 +19,10 @@ export class IndexUtilizationInfo {
       return false;
     }
 
-    return IndexUtilizationInfo.tryCreateFromDelimitedString(atob(delimitedString), out);
+    return IndexUtilizationInfo.tryCreateFromDelimitedString(
+      Buffer.from(delimitedString, "base64").toString(),
+      out
+    );
   }
 
   public static tryCreateFromDelimitedString(
