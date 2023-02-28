@@ -104,7 +104,7 @@ testWithServiceTypes((serviceVersion) => {
             const error = translate(new Error("I break receivers for fun."));
             receiver["_onError"]!(error);
           }
-        }, 50);
+        }, 10);
 
         try {
           // There is only 1 message.
@@ -160,7 +160,7 @@ testWithServiceTypes((serviceVersion) => {
             error.retryable = true;
             receiver["_onError"]!(error);
           }
-        }, 50);
+        }, 10);
 
         // There is only 1 message.
         const events = await receiver.receiveBatch(2, 20);

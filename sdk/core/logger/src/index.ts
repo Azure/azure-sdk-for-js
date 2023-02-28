@@ -52,7 +52,7 @@ if (logLevelFromEnv) {
 }
 
 /**
- * Immediately enables logging at the specified log level.
+ * Immediately enables logging at the specified log level. If no level is specified, logging is disabled.
  * @param level - The log level to enable for logging.
  * Options from most verbose to least verbose are:
  * - verbose
@@ -113,7 +113,7 @@ export interface AzureLogger {
    */
   info: Debugger;
   /**
-   * Used for detailed trbouleshooting scenarios. This is
+   * Used for detailed troubleshooting scenarios. This is
    * intended for use by developers / system administrators
    * for diagnosing specific failures.
    */
@@ -160,11 +160,7 @@ function createLogger(parent: AzureClientLogger, level: AzureLogLevel): AzureDeb
 }
 
 function shouldEnable(logger: AzureDebugger): boolean {
-  if (azureLogLevel && levelMap[logger.level] <= levelMap[azureLogLevel]) {
-    return true;
-  } else {
-    return false;
-  }
+  return Boolean(azureLogLevel && levelMap[logger.level] <= levelMap[azureLogLevel]);
 }
 
 function isAzureLogLevel(logLevel: string): logLevel is AzureLogLevel {
