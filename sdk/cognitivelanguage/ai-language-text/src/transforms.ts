@@ -635,7 +635,7 @@ function returnErrorTask(
     kind,
     modelVersion: "",
     failedOn,
-    error: error,
+    error,
   } as AnalyzeBatchResult;
 }
 /**
