@@ -8,7 +8,7 @@ import { WorkloadIdentityCredential } from "./workloadIdentityCredential";
 /**
  * Options for the {@link WorkloadIdentityCredential}
  */
-export interface WorkloadIdentityCredentialOptions
+export interface WorkloadIdentityDefaultAzureCredentialOptions
   extends MultiTenantTokenCredentialOptions,
     AuthorityValidationOptions {
 }

@@ -46,9 +46,11 @@ export class DefaultManagedIdentityCredential extends ManagedIdentityCredential 
   // Constructor overload with just the other default options
   // Last constructor overload with Union of all options not required since the above two constructor overloads have optional properties
   constructor(options?: DefaultAzureCredentialOptions) {
+    
     const managedIdentityClientId =
       (options as DefaultAzureCredentialClientIdOptions)?.managedIdentityClientId ??
       process.env.AZURE_CLIENT_ID;
+    const workloadIdentityClientId = (options as DefaultAzureCredentialClientIdOptions)?.workloadIdentityClientId ?? managedIdentityClientId;
     const managedResourceId = (options as DefaultAzureCredentialResourceIdOptions)
       ?.managedIdentityResourceId;
     const workloadFile = process.env.AZURE_FEDERATED_TOKEN_FILE;
@@ -60,13 +62,11 @@ export class DefaultManagedIdentityCredential extends ManagedIdentityCredential 
         resourceId: managedResourceId,
       };
       super(managedIdentityResourceIdOptions);
-    } else if (workloadFile) {
+    } else if (workloadFile && workloadIdentityClientId) {
       const workloadIdentityCredentialOptions: WorkloadIdentityCredentialOptions = {
-        ...options,
-        clientId: managedIdentityClientId,
-        federatedTokenFilePath: workloadFile,
+        ...options
       };
-      super(workloadIdentityCredentialOptions);
+      super(workloadIdentityClientId, workloadIdentityCredentialOptions);
     } else if (managedIdentityClientId) {
       const managedIdentityClientOptions: ManagedIdentityCredentialClientIdOptions = {
         ...options,
@@ -77,7 +77,22 @@ export class DefaultManagedIdentityCredential extends ManagedIdentityCredential 
       super(options);
     }
   }
+  private getWorkloadIdentityCredentialIfAvailable(defaultAzureClientOptions: DefaultAzureCredentialClientIdOptions): WorkloadIdentityCredential | undefined
+   {
+
+    const tenantId = process.env.AZURE_TENANT_ID;
+    const federatedTokenFilePath = process.env.AZURE_FEDERATED_TOKEN_FILE;
+    const azureAuthorityHost = process.env.AZURE_AUTHORITY_HOST;
+    const clientId = (defaultAzureClientOptions.workloadIdentityClientId) ? defaultAzureClientOptions.workloadIdentityClientId : ((defaultAzureClientOptions.managedIdentityClientId) ? defaultAzureClientOptions.managedIdentityClientId : process.env.AZURE_CLIENT_ID) ;
+    if (tenantId && clientId && federatedTokenFilePath) {
+        return new WorkloadIdentityCredential(tenantId, clientId, federatedTokenFilePath, {
+          authorityHost: azureAuthorityHost
+        });
+    }
+    return undefined;
 }
+}
+
 
 export const defaultCredentials: DefaultCredentialConstructor[] = [
   EnvironmentCredential,
