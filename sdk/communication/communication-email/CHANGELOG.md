@@ -2,8 +2,6 @@
 
 ## 1.0.0-beta.2 (2023-03-01)
 
-### Features Added
-
 ### Other Changes
 
 - Updated to `@azure/communication-common` 2.2.0.
