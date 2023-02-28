@@ -635,7 +635,7 @@ function returnErrorTask(
     kind,
     modelVersion: "",
     failedOn,
-    error: error,
+    error,
   } as AnalyzeBatchResult;
 }
 /**
@@ -659,6 +659,6 @@ function returnErrorCustomTask(
     projectName: "",
     deploymentName: "",
     failedOn,
-    error: error,
+    error,
   } as AnalyzeBatchResult;
 }
