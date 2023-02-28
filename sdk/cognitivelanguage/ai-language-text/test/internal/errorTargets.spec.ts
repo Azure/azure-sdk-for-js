@@ -14,7 +14,7 @@ describe("Error targets", function () {
     client = mockClientResponse();
   });
 
-  it("1 action failed 1 action succeeded", async function () {
+  it("handles a mix of action results with failed actions", async function () {
     const docs = ["I will go to the park."];
     const poller = await client.beginAnalyzeBatch(
       [
@@ -32,7 +32,7 @@ describe("Error targets", function () {
   });
 });
 
-describe("Parse error targets", function () {
+describe("extractErrorPointerIndex", function () {
   it("Successful parsing the index", async function () {
     const error = {
       code: KnownErrorCode.InvalidRequest,
@@ -42,7 +42,7 @@ describe("Parse error targets", function () {
     assert.equal(extractErrorPointerIndex(error), 2);
   });
 
-  it("Throw error for no target present", async function () {
+  it("Throws an error if no target field present", async function () {
     const error = {
       code: KnownErrorCode.InvalidRequest,
       message: "error",
