@@ -173,9 +173,7 @@ export function extractErrorPointerIndex(error: ErrorModel): number {
   if (!error.target) {
     throw new Error("Unexpected response from service - no target present");
   }
-  let position: number;
-
-  position = parseInt(error.target.split("/").pop() as string);
+  const position = parseInt(error.target.split("/").pop() as string);
 
   if (isNaN(position)) {
     throw new Error(
