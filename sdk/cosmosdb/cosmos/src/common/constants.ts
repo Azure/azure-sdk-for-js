@@ -102,8 +102,8 @@ export const Constants = {
     // Response header that holds the serialized version of query metrics.
     QueryMetrics: "x-ms-documentdb-query-metrics",
 
-    //IndexMetrics
-    //Request header to tell backend to give you index metrics.
+    // IndexMetrics
+    // Request header to tell backend to give you index metrics.
     PopulateIndexMetrics: "x-ms-cosmos-populateindexmetrics",
     // Response header that holds the serialized version of index metrics.
     IndexUtilization: "x-ms-cosmos-index-utilization",

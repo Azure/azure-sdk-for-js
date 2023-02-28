@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { SingleIndexUtilizationEntity } from "./SingleIndexUtilizationEntity";
 import { CompositeIndexUtilizationEntity } from "./CompositeIndexUtilizationEntity";
 export class IndexUtilizationInfo {

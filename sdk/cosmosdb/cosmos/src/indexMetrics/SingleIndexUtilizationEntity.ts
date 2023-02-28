@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /**
  * Query index utilization data for single index (sub-structure of the Index Utilization metrics) in the Azure Cosmos database service.
  */

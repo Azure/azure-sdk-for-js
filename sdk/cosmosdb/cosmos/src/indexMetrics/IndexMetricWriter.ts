@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import Constants from "./Constants";
 import { CompositeIndexUtilizationEntity } from "./CompositeIndexUtilizationEntity";
 import { IndexUtilizationInfo } from "./IndexUtilizationInfo";

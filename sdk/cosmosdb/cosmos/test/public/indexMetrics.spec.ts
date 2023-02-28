@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import assert from "assert";
 import { Suite } from "mocha";
 import { IndexMetricWriter, IndexUtilizationInfo } from "../../src/indexMetrics";
