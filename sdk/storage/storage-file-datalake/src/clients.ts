@@ -111,7 +111,10 @@ import { fsCreateReadStream, fsStat } from "./utils/utils.node";
 import {
   PathAppendDataHeaders,
   PathCreateHeaders,
+  PathDeleteHeaders,
+  PathFlushDataHeaders,
   PathGetPropertiesHeaders,
+  PathSetAccessControlHeaders,
   PathSetExpiryHeaders,
 } from "./generated/src";
 
@@ -471,19 +474,21 @@ export class DataLakePathClient extends StorageClient {
     options.conditions = options.conditions || {};
     const { span, updatedOptions } = createSpan("DataLakePathClient-delete", options);
     try {
-      let continuation;
-      let response;
+      let continuation: string | undefined;
+      let response: PathDeleteResponse;
 
       // How to handle long delete loop?
       do {
-        response = await this.pathContext.delete({
-          ...updatedOptions,
-          continuation,
-          recursive,
-          leaseAccessConditions: options.conditions,
-          modifiedAccessConditions: options.conditions,
-          abortSignal: options.abortSignal,
-        });
+        response = assertResponse<PathDeleteHeaders, PathDeleteHeaders>(
+          await this.pathContext.delete({
+            ...updatedOptions,
+            continuation,
+            recursive,
+            leaseAccessConditions: options.conditions,
+            modifiedAccessConditions: options.conditions,
+            abortSignal: options.abortSignal,
+          })
+        );
         continuation = response.continuation;
       } while (continuation !== undefined && continuation !== "");
 
@@ -596,12 +601,14 @@ export class DataLakePathClient extends StorageClient {
     options.conditions = options.conditions || {};
     const { span, updatedOptions } = createSpan("DataLakePathClient-setAccessControl", options);
     try {
-      return await this.pathContext.setAccessControl({
-        ...updatedOptions,
-        acl: toAclString(acl),
-        leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: options.conditions,
-      });
+      return assertResponse<PathSetAccessControlHeaders, PathSetAccessControlHeaders>(
+        await this.pathContext.setAccessControl({
+          ...updatedOptions,
+          acl: toAclString(acl),
+          leaseAccessConditions: options.conditions,
+          modifiedAccessConditions: options.conditions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -715,12 +722,14 @@ export class DataLakePathClient extends StorageClient {
     options.conditions = options.conditions || {};
     const { span, updatedOptions } = createSpan("DataLakePathClient-setPermissions", options);
     try {
-      return await this.pathContext.setAccessControl({
-        ...updatedOptions,
-        permissions: toPermissionsString(permissions),
-        leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: options.conditions,
-      });
+      return assertResponse<PathSetAccessControlHeaders, PathSetAccessControlHeaders>(
+        await this.pathContext.setAccessControl({
+          ...updatedOptions,
+          permissions: toPermissionsString(permissions),
+          leaseAccessConditions: options.conditions,
+          modifiedAccessConditions: options.conditions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1451,17 +1460,19 @@ export class DataLakeFileClient extends DataLakePathClient {
     const { span, updatedOptions } = createSpan("DataLakeFileClient-flush", options);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return await this.pathContextInternal.flushData({
-        ...updatedOptions,
-        position,
-        contentLength: 0,
-        leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: options.conditions,
-        cpkInfo: options.customerProvidedKey,
-        proposedLeaseId: options.proposedLeaseId,
-        leaseDuration: options.leaseDuration,
-        leaseAction: options.leaseAction,
-      });
+      return assertResponse<PathFlushDataHeaders, PathFlushDataHeaders>(
+        await this.pathContextInternal.flushData({
+          ...updatedOptions,
+          position,
+          contentLength: 0,
+          leaseAccessConditions: options.conditions,
+          modifiedAccessConditions: options.conditions,
+          cpkInfo: options.customerProvidedKey,
+          proposedLeaseId: options.proposedLeaseId,
+          leaseDuration: options.leaseDuration,
+          leaseAction: options.leaseAction,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

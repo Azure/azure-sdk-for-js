@@ -285,7 +285,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     create(options?: FileCreateOptions): Promise<FileCreateResponse>;
     createIfNotExists(resourceType: PathResourceTypeModel, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
     createIfNotExists(options?: FileCreateIfNotExistsOptions): Promise<FileCreateIfNotExistsResponse>;
-    flush(position: number, options?: FileFlushOptions): Promise<PathFlushDataResponse>;
+    flush(position: number, options?: FileFlushOptions): Promise<FileFlushResponse>;
     generateSasUrl(options: FileGenerateSasUrlOptions): Promise<string>;
     query(query: string, options?: FileQueryOptions): Promise<FileReadResponse>;
     read(offset?: number, count?: number, options?: FileReadOptions): Promise<FileReadResponse>;
@@ -293,9 +293,9 @@ export class DataLakeFileClient extends DataLakePathClient {
     readToBuffer(offset?: number, count?: number, options?: FileReadToBufferOptions): Promise<Buffer>;
     readToFile(filePath: string, offset?: number, count?: number, options?: FileReadOptions): Promise<FileReadResponse>;
     setExpiry(mode: FileExpiryMode, options?: FileSetExpiryOptions): Promise<FileSetExpiryResponse>;
-    upload(data: Buffer | Blob | ArrayBuffer | ArrayBufferView, options?: FileParallelUploadOptions): Promise<PathFlushDataResponse>;
-    uploadFile(filePath: string, options?: FileParallelUploadOptions): Promise<PathFlushDataResponse>;
-    uploadStream(stream: Readable, options?: FileParallelUploadOptions): Promise<PathFlushDataResponse>;
+    upload(data: Buffer | Blob | ArrayBuffer | ArrayBufferView, options?: FileParallelUploadOptions): Promise<FileUploadResponse>;
+    uploadFile(filePath: string, options?: FileParallelUploadOptions): Promise<FileUploadResponse>;
+    uploadStream(stream: Readable, options?: FileParallelUploadOptions): Promise<FileUploadResponse>;
 }
 
 // Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
@@ -363,7 +363,7 @@ export class DataLakePathClient extends StorageClient {
     setAccessControlRecursive(acl: PathAccessControlItem[], options?: PathChangeAccessControlRecursiveOptions): Promise<PathChangeAccessControlRecursiveResponse>;
     setHttpHeaders(httpHeaders: PathHttpHeaders, options?: PathSetHttpHeadersOptions): Promise<PathSetHttpHeadersResponse>;
     setMetadata(metadata?: Metadata, options?: PathSetMetadataOptions): Promise<PathSetMetadataResponse>;
-    setPermissions(permissions: PathPermissions, options?: PathSetPermissionsOptions): Promise<PathSetAccessControlResponse>;
+    setPermissions(permissions: PathPermissions, options?: PathSetPermissionsOptions): Promise<PathSetPermissionsResponse>;
     toDirectoryClient(): DataLakeDirectoryClient;
     toFileClient(): DataLakeFileClient;
     updateAccessControlRecursive(acl: PathAccessControlItem[], options?: PathChangeAccessControlRecursiveOptions): Promise<PathChangeAccessControlRecursiveResponse>;
@@ -549,6 +549,9 @@ export interface FileFlushOptions extends CommonOptions {
     // (undocumented)
     retainUncommittedData?: boolean;
 }
+
+// @public (undocumented)
+export type FileFlushResponse = WithResponse<PathFlushDataHeaders, PathFlushDataHeaders>;
 
 // @public
 export interface FileGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
@@ -1039,6 +1042,9 @@ export type FileSystemUndeletePathResponse = WithResponse<PathUndeleteHeaders & 
 // @public
 export type FileSystemUndeleteResponse = ContainerUndeleteResponse;
 
+// @public (undocumented)
+export type FileUploadResponse = WithResponse<PathFlushDataHeaders, PathFlushDataHeaders>;
+
 // @public
 export function generateAccountSASQueryParameters(accountSASSignatureValues: AccountSASSignatureValues, sharedKeyCredential: StorageSharedKeyCredential): SASQueryParameters;
 
@@ -1131,9 +1137,6 @@ export interface ListPathsSegmentOptions extends ListPathsOptions {
     // (undocumented)
     maxResults?: number;
 }
-
-// @public
-export type ListPathsSegmentResponse = FileSystemListPathsHeaders & PathListModel;
 
 // @public
 export const logger: AzureLogger;
@@ -1299,8 +1302,8 @@ export interface PathCreateOptions extends CommonOptions {
     umask?: string;
 }
 
-// @public
-export type PathCreateResponse = PathCreateHeaders;
+// @public (undocumented)
+export type PathCreateResponse = WithResponse<PathCreateHeaders, PathCreateHeaders>;
 
 // @public
 export interface PathDeleteHeaders {
@@ -1325,8 +1328,8 @@ export interface PathDeleteOptions extends CommonOptions {
     conditions?: DataLakeRequestConditions;
 }
 
-// @public
-export type PathDeleteResponse = PathDeleteHeaders;
+// @public (undocumented)
+export type PathDeleteResponse = WithResponse<PathDeleteHeaders, PathDeleteHeaders>;
 
 // @public
 export interface PathExistsOptions extends CommonOptions {
@@ -1347,11 +1350,6 @@ export interface PathFlushDataHeaders {
     requestId?: string;
     version?: string;
 }
-
-// @public
-type PathFlushDataResponse = PathFlushDataHeaders;
-export { PathFlushDataResponse as FileFlushResponse }
-export { PathFlushDataResponse as FileUploadResponse }
 
 // @public (undocumented)
 export interface PathGetAccessControlHeaders {
@@ -1647,10 +1645,8 @@ export interface PathSetAccessControlOptions extends CommonOptions {
     owner?: string;
 }
 
-// @public
-type PathSetAccessControlResponse = PathSetAccessControlHeaders;
-export { PathSetAccessControlResponse }
-export { PathSetAccessControlResponse as PathSetPermissionsResponse }
+// @public (undocumented)
+export type PathSetAccessControlResponse = WithResponse<PathSetAccessControlHeaders, PathSetAccessControlHeaders>;
 
 // @public (undocumented)
 export interface PathSetHttpHeadersHeaders {
@@ -1722,6 +1718,9 @@ export interface PathSetPermissionsOptions extends CommonOptions {
     // (undocumented)
     owner?: string;
 }
+
+// @public (undocumented)
+export type PathSetPermissionsResponse = WithResponse<PathSetAccessControlHeaders, PathSetAccessControlHeaders>;
 
 // @public
 export interface PathUndeleteHeaders {

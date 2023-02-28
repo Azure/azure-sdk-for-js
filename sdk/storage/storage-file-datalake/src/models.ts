@@ -44,10 +44,12 @@ import {
   LeaseAction,
   ListBlobsHierarchySegmentResponse,
   PathAppendDataHeaders,
-  PathCreateResponse,
-  PathDeleteResponse,
+  PathCreateHeaders,
+  PathDeleteHeaders,
+  PathFlushDataHeaders,
   PathGetPropertiesHeaders as PathGetPropertiesHeadersModel,
   PathList as PathListModel,
+  PathSetAccessControlHeaders,
   PathSetExpiryHeaders,
   PathUndeleteHeaders,
 } from "./generated/src/models";
@@ -75,32 +77,36 @@ export {
   EncryptionAlgorithmType,
   FileSystemListPathsHeaders,
   FileSystemListBlobHierarchySegmentHeaders,
-  FileSystemListPathsResponse as ListPathsSegmentResponse,
   ListBlobsHierarchySegmentResponse,
   Path as PathModel,
   PathList as PathListModel,
   PathCreateHeaders,
   PathDeleteHeaders,
-  PathDeleteResponse,
   PathGetPropertiesHeaders as PathGetPropertiesHeadersModel,
   PathSetAccessControlHeaders,
-  PathSetAccessControlResponse,
-  PathSetAccessControlResponse as PathSetPermissionsResponse,
   PathResourceType as PathResourceTypeModel,
   PathUndeleteHeaders,
   PathUpdateHeaders,
   PathAppendDataHeaders,
   PathFlushDataHeaders,
-  PathFlushDataResponse as FileFlushResponse,
-  PathFlushDataResponse as FileUploadResponse,
   PathGetPropertiesAction as PathGetPropertiesActionModel,
   PathRenameMode as PathRenameModeModel,
   PathExpiryOptions as FileExpiryMode,
   PathSetExpiryHeaders as FileSetExpiryHeaders,
 } from "./generated/src/models";
 
-export { PathCreateResponse };
-
+export type PathCreateResponse = WithResponse<PathCreateHeaders, PathCreateHeaders>;
+export type PathDeleteResponse = WithResponse<PathDeleteHeaders, PathDeleteHeaders>;
+export type FileFlushResponse = WithResponse<PathFlushDataHeaders, PathFlushDataHeaders>;
+export type FileUploadResponse = WithResponse<PathFlushDataHeaders, PathFlushDataHeaders>;
+export type PathSetAccessControlResponse = WithResponse<
+  PathSetAccessControlHeaders,
+  PathSetAccessControlHeaders
+>;
+export type PathSetPermissionsResponse = WithResponse<
+  PathSetAccessControlHeaders,
+  PathSetAccessControlHeaders
+>;
 export type FileAppendResponse = WithResponse<PathAppendDataHeaders, PathAppendDataHeaders>;
 export type FileSetExpiryResponse = WithResponse<PathSetExpiryHeaders, PathSetExpiryHeaders>;
 
