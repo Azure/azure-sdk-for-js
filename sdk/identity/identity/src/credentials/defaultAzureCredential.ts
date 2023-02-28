@@ -18,7 +18,6 @@ import { EnvironmentCredential } from "./environmentCredential";
 import { TokenCredential } from "@azure/core-auth";
 import { AzureDeveloperCliCredential } from "./azureDeveloperCliCredential";
 import { WorkloadIdentityCredential } from "./workloadIdentityCredential";
-import { WorkloadIdentityCredentialOptions } from "./workloadIdentityCredentialOptions";
 
 /**
  * The type of a class that implements TokenCredential and accepts either
@@ -49,10 +48,13 @@ export class DefaultManagedIdentityCredential extends ManagedIdentityCredential 
     const managedIdentityClientId =
       (options as DefaultAzureCredentialClientIdOptions)?.managedIdentityClientId ??
       process.env.AZURE_CLIENT_ID;
+    const workloadIdentityClientId =
+      (options as DefaultAzureCredentialClientIdOptions)?.workloadIdentityClientId ??
+      managedIdentityClientId;
     const managedResourceId = (options as DefaultAzureCredentialResourceIdOptions)
       ?.managedIdentityResourceId;
     const workloadFile = process.env.AZURE_FEDERATED_TOKEN_FILE;
-
+    const tenantId = options?.tenantId ?? process.env.AZURE_TENANT_ID;
     // ManagedIdentityCredential throws if both the resourceId and the clientId are provided.
     if (managedResourceId) {
       const managedIdentityResourceIdOptions: ManagedIdentityCredentialResourceIdOptions = {
@@ -60,13 +62,12 @@ export class DefaultManagedIdentityCredential extends ManagedIdentityCredential 
         resourceId: managedResourceId,
       };
       super(managedIdentityResourceIdOptions);
-    } else if (workloadFile) {
-      const workloadIdentityCredentialOptions: WorkloadIdentityCredentialOptions = {
+    } else if (workloadFile && workloadIdentityClientId) {
+      const workloadIdentityCredentialOptions: DefaultAzureCredentialOptions = {
         ...options,
-        clientId: managedIdentityClientId,
-        federatedTokenFilePath: workloadFile,
+        tenantId: tenantId,
       };
-      super(workloadIdentityCredentialOptions);
+      super(workloadIdentityClientId, workloadIdentityCredentialOptions);
     } else if (managedIdentityClientId) {
       const managedIdentityClientOptions: ManagedIdentityCredentialClientIdOptions = {
         ...options,
