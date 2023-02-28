@@ -54,7 +54,7 @@ export class DefaultManagedIdentityCredential extends ManagedIdentityCredential 
     const managedResourceId = (options as DefaultAzureCredentialResourceIdOptions)
       ?.managedIdentityResourceId;
     const workloadFile = process.env.AZURE_FEDERATED_TOKEN_FILE;
-    const tenantId = process.env.AZURE_TENANT_ID;
+    const tenantId = options?.tenantId ?? process.env.AZURE_TENANT_ID;
     // ManagedIdentityCredential throws if both the resourceId and the clientId are provided.
     if (managedResourceId) {
       const managedIdentityResourceIdOptions: ManagedIdentityCredentialResourceIdOptions = {
