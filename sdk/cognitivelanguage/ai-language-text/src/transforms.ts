@@ -401,9 +401,9 @@ export function transformAnalyzeBatchResults(
 ): AnalyzeBatchResult[] {
   const errorMap = toIndexErrorMap(errors);
   return response.map((actionData, idx): AnalyzeBatchResult => {
-    const { lastUpdateDateTime: completedOn, actionName, kind } = actionData;
+    const { lastUpdateDateTime: completedOn, actionName, kind: resultKind } = actionData;
     const error = errorMap.get(idx);
-    switch (kind as KnownAnalyzeTextLROResultsKind) {
+    switch (resultKind as KnownAnalyzeTextLROResultsKind) {
       case "SentimentAnalysisLROResults": {
         const kind = "SentimentAnalysis";
         if (actionData.status === "failed") {
@@ -596,7 +596,7 @@ export function transformAnalyzeBatchResults(
         };
       }
       default: {
-        throw new Error(`Unsupported results kind: ${kind}`);
+        throw new Error(`Unsupported results kind: ${resultKind}`);
       }
     }
   });
@@ -618,10 +618,10 @@ function toIndexErrorMap(errors: ErrorModel[]): Map<number, TextAnalysisError> {
 /**
  * Return the error for non-custom task
  *
- * @param kind non custom task kind
- * @param error error returned from the service
- * @param failedOn the LastUpdateDateTime from the service
- * @returns AnalyzeBatchResult with error
+ * @param kind - non custom task kind
+ * @param error - error returned from the service
+ * @param failedOn - the LastUpdateDateTime from the service
+ * @returns - AnalyzeBatchResult with error
  */
 function returnErrorTask(
   kind: AnalyzeBatchActionName,
@@ -641,9 +641,9 @@ function returnErrorTask(
 /**
  * Return the error for non-custom task
  *
- * @param kind non custom task kind
- * @param error error returned from the service
- * @param failedOn the LastUpdateDateTime from the service
+ * @param kind - non custom task kind
+ * @param error - error returned from the service
+ * @param failedOn - the LastUpdateDateTime from the service
  * @returns AnalyzeBatchResult for custom task with error
  */
 function returnErrorCustomTask(

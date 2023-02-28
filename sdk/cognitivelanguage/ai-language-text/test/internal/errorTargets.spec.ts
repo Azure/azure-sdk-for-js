@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { createHttpHeaders, PipelineRequest } from "@azure/core-rest-pipeline";
 import { assert } from "@azure/test-utils";
 import { KnownErrorCode } from "../../src/generated";
@@ -139,7 +142,7 @@ function mockClientResponse(): TextAnalysisClient {
     httpClient: {
       sendRequest(request) {
         const makeResponse = responseList.shift();
-        if (makeResponse == undefined) {
+        if (makeResponse === undefined) {
           throw new Error("Unexpected request");
         }
         return Promise.resolve(makeResponse(request));

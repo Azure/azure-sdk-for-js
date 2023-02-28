@@ -166,7 +166,7 @@ export function getOperationOptions<OptionsT extends TextAnalysisOperationOption
 
 /**
  *
- * @param error error with the target in the JSON error pointer format "#/items/0
+ * @param error - error with the target in the JSON error pointer format "#/items/0
  * @returns number: the position of the task with error
  */
 export function extractErrorPointerIndex(error: ErrorModel): number {
@@ -177,7 +177,7 @@ export function extractErrorPointerIndex(error: ErrorModel): number {
 
   if (isNaN(position)) {
     throw new Error(
-      `Unexpected response from service - action pointer \"${error.target}\" is not a valid action pointer.`
+      `Unexpected response from service - action pointer "${error.target}" is not a valid action pointer.`
     );
   }
 
