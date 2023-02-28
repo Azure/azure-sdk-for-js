@@ -2415,12 +2415,12 @@ export type SearchOptions<Model extends object, Fields extends SelectFields<Mode
 
 // @public
 export type SearchPick<T extends object, Paths extends SelectFields<T>> = [T] extends [never] ? object : // We're going to get a union of individual interfaces for each field in T that's selected, so convert that to an intersection.
-UnionToIntersection<Paths extends `${infer FieldName}/${infer RestPaths}` ? FieldName extends Exclude<keyof T, symbol | number> ? NonNullable<T[FieldName]> extends Array<infer U> ? U extends object ? RestPaths extends SelectFields<U> ? {
-    [K in FieldName]: Array<SearchPick<U, RestPaths> | Extract<U, null | undefined>> | Extract<T[K], undefined>;
+UnionToIntersection<Paths extends `${infer FieldName}/${infer RestPaths}` ? FieldName extends keyof T & string ? NonNullable<T[FieldName]> extends Array<infer Elem> ? Elem extends object ? RestPaths extends SelectFields<Elem> ? {
+    [Key in FieldName]: Array<SearchPick<Elem, RestPaths> | Extract<Elem, null | undefined>> | Extract<T[Key], undefined>;
 } : never : never : NonNullable<T[FieldName]> extends object ? {
-    [K in FieldName]: RestPaths extends SelectFields<T[K] & {}> ? SearchPick<T[K] & {}, RestPaths> | Extract<T[K], null | undefined> : never;
+    [Key in FieldName]: RestPaths extends SelectFields<T[Key] & {}> ? SearchPick<T[Key] & {}, RestPaths> | Extract<T[Key], null | undefined> : never;
 } : never : never : Paths extends keyof T ? {
-    [K in Paths]: T[K];
+    [Key in Paths]: T[Key];
 } : never> & {};
 
 // @public
@@ -2514,10 +2514,10 @@ export interface SearchSuggester {
 }
 
 // @public
-export type SelectFields<T extends object> = T extends Array<infer U> ? NonNullable<U> extends object ? SelectFields<NonNullable<U>> : never : {
-    [K in Exclude<keyof T, symbol | number>]: NonNullable<T[K]> extends object ? NonNullable<T[K]> extends ExcludedODataTypes ? K : SelectFields<NonNullable<T[K]>> extends infer NextPaths ? NextPaths extends string ? // Union this key with all the next paths separated with '/'
-    K | `${K}/${NextPaths}` : K : never : K;
-}[Exclude<keyof T, symbol | number>];
+export type SelectFields<T extends object> = T extends Array<infer Elem> ? NonNullable<Elem> extends object ? SelectFields<NonNullable<Elem>> : never : {
+    [Key in keyof T & string]: NonNullable<T[Key]> extends object ? NonNullable<T[Key]> extends ExcludedODataTypes ? Key : SelectFields<NonNullable<T[Key]>> extends infer NextPaths ? NextPaths extends string ? // Union this key with all the next paths separated with '/'
+    Key | `${Key}/${NextPaths}` : Key : never : Key;
+}[keyof T & string];
 
 // @public
 export interface SemanticConfiguration {
