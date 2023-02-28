@@ -194,11 +194,13 @@ export class VisualStudioCodeCredential implements TokenCredential {
     if (findCredentials === undefined) {
       throw new CredentialUnavailableError(
         [
-          "No implementation of `VisualStudioCodeCredential` is available.",
-          "You must install the identity-vscode plugin package (`npm install --save-dev @azure/identity-vscode`)",
-          "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
-          "`useIdentityPlugin(vsCodePlugin)` before creating a `VisualStudioCodeCredential`.",
-          "To troubleshoot, visit https://aka.ms/azsdk/js/identity/vscodecredential/troubleshoot.",
+          "`VisualStudioCodeCredential` has no available implementation. Note that this credential type **is deprecated**",
+          "and may be removed in a future version. No replacement credential is available at this time. The method that this",
+          "credential used to extract the `Azure.Account` access token has been out of date and non-functional since Feb. 14,",
+          "2022 (version 0.10.0 of the Azure.Account extension for VS Code). As an alternative, please consider using `AzureCliCredential`",
+          "to authenticate via the Azure CLI (see: https://github.com/azure/azure-sdk-for-js/tree/main/sdk/identity/identity#authenticate-via-the-azure-cli).",
+          "In the future, if Visual Studio Code authentication becomes viable again, this credential type may be undeprecated or",
+          "reintroduced if it has been removed.",
         ].join(" ")
       );
     }
