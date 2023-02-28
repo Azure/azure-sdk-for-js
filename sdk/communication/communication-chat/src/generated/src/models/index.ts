@@ -161,6 +161,8 @@ export interface ChatMessageContent {
   topic?: string;
   /** Chat message content for messages of types participantAdded or participantRemoved. */
   participants?: ChatParticipant[];
+  /** List of attachments for this message */
+  attachments?: ChatAttachment[];
   /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set. */
   initiatorCommunicationIdentifier?: CommunicationIdentifierModel;
 }
@@ -173,6 +175,22 @@ export interface ChatParticipant {
   displayName?: string;
   /** Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   shareHistoryTime?: Date;
+}
+
+/** An attachment in a chat message. */
+export interface ChatAttachment {
+  /** Id of the attachment */
+  id: string;
+  /** The type of attachment. */
+  attachmentType: AttachmentType;
+  /** The type of content of the attachment, if available */
+  contentType?: string;
+  /** The name of the attachment content. */
+  name?: string;
+  /** The URL where the attachment can be downloaded */
+  url: string;
+  /** The URL where the preview of attachment can be downloaded */
+  previewUrl?: string;
 }
 
 /** Request payload for updating a chat message. */
@@ -300,6 +318,39 @@ export enum KnownCommunicationCloudEnvironmentModel {
  * **gcch**
  */
 export type CommunicationCloudEnvironmentModel = string;
+
+/** Known values of {@link AttachmentType} that the service accepts. */
+export enum KnownAttachmentType {
+  /** TeamsInlineImage */
+  TeamsInlineImage = "teamsInlineImage"
+}
+
+/**
+ * Defines values for AttachmentType. \
+ * {@link KnownAttachmentType} can be used interchangeably with AttachmentType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **teamsInlineImage**
+ */
+export type AttachmentType = string;
+
+/** Known values of {@link ImageSize} that the service accepts. */
+export enum KnownImageSize {
+  /** Original */
+  Original = "original",
+  /** Small */
+  Small = "small"
+}
+
+/**
+ * Defines values for ImageSize. \
+ * {@link KnownImageSize} can be used interchangeably with ImageSize,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **original** \
+ * **small**
+ */
+export type ImageSize = string;
 /** Defines values for ChatMessageType. */
 export type ChatMessageType =
   | "text"

@@ -451,6 +451,18 @@ export const ChatMessageContent: coreClient.CompositeMapper = {
           }
         }
       },
+      attachments: {
+        serializedName: "attachments",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ChatAttachment"
+            }
+          }
+        }
+      },
       initiatorCommunicationIdentifier: {
         serializedName: "initiatorCommunicationIdentifier",
         type: {
@@ -484,6 +496,54 @@ export const ChatParticipant: coreClient.CompositeMapper = {
         serializedName: "shareHistoryTime",
         type: {
           name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const ChatAttachment: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ChatAttachment",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      attachmentType: {
+        serializedName: "attachmentType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      contentType: {
+        serializedName: "contentType",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      url: {
+        serializedName: "url",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      previewUrl: {
+        serializedName: "previewUrl",
+        type: {
+          name: "String"
         }
       }
     }
