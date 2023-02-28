@@ -36,7 +36,7 @@ describe("Error targets", function () {
 });
 
 describe("extractErrorPointerIndex", function () {
-  it(“Parses the index if present", async function () {
+  it("Successful parsing the index", async function () {
     const error = {
       code: KnownErrorCode.InvalidRequest,
       message: "error",
