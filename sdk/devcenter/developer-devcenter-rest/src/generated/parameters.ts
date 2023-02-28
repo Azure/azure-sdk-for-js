@@ -2,12 +2,7 @@
 // Licensed under the MIT license.
 
 import { RequestParameters } from "@azure-rest/core-client";
-import {
-  DevBox,
-  Environment,
-  EnvironmentUpdateProperties,
-  ActionRequest
-} from "./models";
+import { DevBox, Environment } from "./models";
 
 export interface DevCenterListProjectsQueryParamProperties {
   /** An OData filter clause to apply to the operation. */
@@ -124,21 +119,34 @@ export interface DevBoxesStopDevBoxQueryParam {
 
 export type DevBoxesStopDevBoxParameters = DevBoxesStopDevBoxQueryParam &
   RequestParameters;
+export type DevBoxesRestartDevBoxParameters = RequestParameters;
 export type DevBoxesGetRemoteConnectionParameters = RequestParameters;
-export type DevBoxesListUpcomingActionsParameters = RequestParameters;
-export type DevBoxesGetUpcomingActionParameters = RequestParameters;
-export type DevBoxesSkipUpcomingActionParameters = RequestParameters;
+export type DevBoxesListActionsParameters = RequestParameters;
+export type DevBoxesGetActionParameters = RequestParameters;
+export type DevBoxesSkipActionParameters = RequestParameters;
 
-export interface DevBoxesDelayUpcomingActionQueryParamProperties {
-  /** The delayed action time (UTC). */
-  delayUntil: Date | string;
+export interface DevBoxesDelayActionQueryParamProperties {
+  /** The time to delay the Dev Box action or actions until. */
+  until: Date | string;
 }
 
-export interface DevBoxesDelayUpcomingActionQueryParam {
-  queryParameters: DevBoxesDelayUpcomingActionQueryParamProperties;
+export interface DevBoxesDelayActionQueryParam {
+  queryParameters: DevBoxesDelayActionQueryParamProperties;
 }
 
-export type DevBoxesDelayUpcomingActionParameters = DevBoxesDelayUpcomingActionQueryParam &
+export type DevBoxesDelayActionParameters = DevBoxesDelayActionQueryParam &
+  RequestParameters;
+
+export interface DevBoxesDelayActionsQueryParamProperties {
+  /** The time to delay the Dev Box action or actions until. */
+  until: Date | string;
+}
+
+export interface DevBoxesDelayActionsQueryParam {
+  queryParameters: DevBoxesDelayActionsQueryParamProperties;
+}
+
+export type DevBoxesDelayActionsParameters = DevBoxesDelayActionsQueryParam &
   RequestParameters;
 
 export interface EnvironmentsListEnvironmentsQueryParamProperties {
@@ -166,88 +174,58 @@ export type EnvironmentsListEnvironmentsByUserParameters = EnvironmentsListEnvir
   RequestParameters;
 export type EnvironmentsGetEnvironmentByUserParameters = RequestParameters;
 
-export interface EnvironmentsCreateOrUpdateEnvironmentBodyParam {
-  /** Represents a environment. */
+export interface EnvironmentsCreateOrReplaceEnvironmentBodyParam {
+  /** Represents an environment. */
   body: Environment;
 }
 
-export interface EnvironmentsCreateOrUpdateEnvironmentMediaTypesParam {
+export interface EnvironmentsCreateOrReplaceEnvironmentMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
 }
 
-export type EnvironmentsCreateOrUpdateEnvironmentParameters = EnvironmentsCreateOrUpdateEnvironmentMediaTypesParam &
-  EnvironmentsCreateOrUpdateEnvironmentBodyParam &
-  RequestParameters;
-
-export interface EnvironmentsUpdateEnvironmentBodyParam {
-  /** Updatable environment properties. */
-  body: EnvironmentUpdateProperties;
-}
-
-export interface EnvironmentsUpdateEnvironmentMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/merge-patch+json";
-}
-
-export type EnvironmentsUpdateEnvironmentParameters = EnvironmentsUpdateEnvironmentMediaTypesParam &
-  EnvironmentsUpdateEnvironmentBodyParam &
+export type EnvironmentsCreateOrReplaceEnvironmentParameters = EnvironmentsCreateOrReplaceEnvironmentMediaTypesParam &
+  EnvironmentsCreateOrReplaceEnvironmentBodyParam &
   RequestParameters;
 export type EnvironmentsDeleteEnvironmentParameters = RequestParameters;
 
-export interface EnvironmentsDeployEnvironmentActionBodyParam {
-  /** Action properties overriding the environment's default values. */
-  body: ActionRequest;
-}
-
-export interface EnvironmentsDeployEnvironmentActionMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
-}
-
-export type EnvironmentsDeployEnvironmentActionParameters = EnvironmentsDeployEnvironmentActionMediaTypesParam &
-  EnvironmentsDeployEnvironmentActionBodyParam &
-  RequestParameters;
-
-export interface EnvironmentsCustomEnvironmentActionBodyParam {
-  /** Action properties overriding the environment's default values. */
-  body: ActionRequest;
-}
-
-export interface EnvironmentsCustomEnvironmentActionMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
-}
-
-export type EnvironmentsCustomEnvironmentActionParameters = EnvironmentsCustomEnvironmentActionMediaTypesParam &
-  EnvironmentsCustomEnvironmentActionBodyParam &
-  RequestParameters;
-
-export interface EnvironmentsListCatalogItemsQueryParamProperties {
+export interface EnvironmentsListCatalogsByProjectQueryParamProperties {
   /** The maximum number of resources to return from the operation. Example: 'top=10'. */
   top?: number;
 }
 
-export interface EnvironmentsListCatalogItemsQueryParam {
-  queryParameters?: EnvironmentsListCatalogItemsQueryParamProperties;
+export interface EnvironmentsListCatalogsByProjectQueryParam {
+  queryParameters?: EnvironmentsListCatalogsByProjectQueryParamProperties;
 }
 
-export type EnvironmentsListCatalogItemsParameters = EnvironmentsListCatalogItemsQueryParam &
+export type EnvironmentsListCatalogsByProjectParameters = EnvironmentsListCatalogsByProjectQueryParam &
   RequestParameters;
-export type EnvironmentsGetCatalogItemParameters = RequestParameters;
+export type EnvironmentsGetCatalogParameters = RequestParameters;
 
-export interface EnvironmentsListCatalogItemVersionsQueryParamProperties {
+export interface EnvironmentsListEnvironmentDefinitionsByProjectQueryParamProperties {
   /** The maximum number of resources to return from the operation. Example: 'top=10'. */
   top?: number;
 }
 
-export interface EnvironmentsListCatalogItemVersionsQueryParam {
-  queryParameters?: EnvironmentsListCatalogItemVersionsQueryParamProperties;
+export interface EnvironmentsListEnvironmentDefinitionsByProjectQueryParam {
+  queryParameters?: EnvironmentsListEnvironmentDefinitionsByProjectQueryParamProperties;
 }
 
-export type EnvironmentsListCatalogItemVersionsParameters = EnvironmentsListCatalogItemVersionsQueryParam &
+export type EnvironmentsListEnvironmentDefinitionsByProjectParameters = EnvironmentsListEnvironmentDefinitionsByProjectQueryParam &
   RequestParameters;
-export type EnvironmentsGetCatalogItemVersionParameters = RequestParameters;
+
+export interface EnvironmentsListEnvironmentDefinitionsByCatalogQueryParamProperties {
+  /** The maximum number of resources to return from the operation. Example: 'top=10'. */
+  top?: number;
+}
+
+export interface EnvironmentsListEnvironmentDefinitionsByCatalogQueryParam {
+  queryParameters?: EnvironmentsListEnvironmentDefinitionsByCatalogQueryParamProperties;
+}
+
+export type EnvironmentsListEnvironmentDefinitionsByCatalogParameters = EnvironmentsListEnvironmentDefinitionsByCatalogQueryParam &
+  RequestParameters;
+export type EnvironmentsGetEnvironmentDefinitionParameters = RequestParameters;
 
 export interface EnvironmentsListEnvironmentTypesQueryParamProperties {
   /** The maximum number of resources to return from the operation. Example: 'top=10'. */

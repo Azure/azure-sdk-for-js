@@ -2,9 +2,9 @@ import { DefaultAzureCredential } from "@azure/identity";
 import {
   ProjectOutput,
   isUnexpected,
-  CatalogItemOutput,
+  EnvironmentDefinitionOutput,
   EnvironmentTypeOutput,
-  EnvironmentsCreateOrUpdateEnvironmentParameters,
+  EnvironmentsCreateOrReplaceEnvironmentParameters,
   getLongRunningPoller,
   paginate,
 } from "@azure-rest/developer-devcenter";
@@ -46,35 +46,35 @@ async function createEnvironment() {
   const projectName: string = firstProject.name;
 
   // Get all catalog items for the first project
-  const catalogItemList = await client
-    .path("/projects/{projectName}/catalogItems", projectName)
+  const environmentDefinitionList = await client
+    .path("/projects/{projectName}/environmentDefinitions", projectName)
     .get();
-  const catalogItems: CatalogItemOutput[] = [];
+  const environmentDefinitions: EnvironmentDefinitionOutput[] = [];
 
-  if (isUnexpected(catalogItemList)) {
-    throw new Error(catalogItemList.body.error.message);
+  if (isUnexpected(environmentDefinitionList)) {
+    throw new Error(environmentDefinitionList.body.error.message);
   }
 
-  console.log("Iterating through pool results:");
+  console.log("Iterating through environment definition results:");
 
-  for await (const catalogItem of paginate(client, catalogItemList)) {
-    const { catalogName, name } = catalogItem;
-    console.log(`Received catalog item "${name}" from catalog "${catalogName}"`);
-    catalogItems.push(catalogItem);
+  for await (const environmentDefinition of paginate(client, environmentDefinitionList)) {
+    const { catalogName, name } = environmentDefinition;
+    console.log(`Received environment definition "${name}" from catalog "${catalogName}"`);
+    environmentDefinitions.push(environmentDefinition);
   }
 
-  if (catalogItems.length < 1) {
-    throw "No catalog items found.";
+  if (environmentDefinitions.length < 1) {
+    throw "No environment definitions found.";
   }
 
-  const firstCatalogItem = catalogItems[0];
+  const firstEnvironmentDefinition = environmentDefinitions[0];
 
-  if (!firstCatalogItem.name) {
-    throw "Catalog item is missing name";
+  if (!firstEnvironmentDefinition.name) {
+    throw "Environment definition is missing name";
   }
 
-  if (!firstCatalogItem.catalogName) {
-    throw "Catalog item is missing catalog name";
+  if (!firstEnvironmentDefinition.catalogName) {
+    throw "Environment definition is missing catalog name";
   }
 
   // Get all environment types for the first project
@@ -87,7 +87,7 @@ async function createEnvironment() {
     throw new Error(environmentTypeList.body.error.message);
   }
 
-  console.log("Iterating through catalog item results:");
+  console.log("Iterating through environment type results:");
 
   for await (const environmentType of paginate(client, environmentTypeList)) {
     const { name } = environmentType;
@@ -106,12 +106,12 @@ async function createEnvironment() {
   }
 
   // Create an environment with the first catalog item and environment type
-  const environmentsCreateParameters: EnvironmentsCreateOrUpdateEnvironmentParameters = {
+  const environmentsCreateParameters: EnvironmentsCreateOrReplaceEnvironmentParameters = {
     contentType: "application/json",
     body: {
-      catalogItemName: firstCatalogItem.name,
+      environmentDefinitionName: firstEnvironmentDefinition.name,
       environmentType: firstEnvironmentType.name,
-      catalogName: firstCatalogItem.catalogName,
+      catalogName: firstEnvironmentDefinition.catalogName,
     },
   };
 

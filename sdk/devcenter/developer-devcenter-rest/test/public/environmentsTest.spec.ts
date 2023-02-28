@@ -7,7 +7,7 @@ import { Context } from "mocha";
 import { createRecordedClient, createRecorder } from "./utils/recordedClient";
 import {
   AzureDevCenterClient,
-  EnvironmentsCreateOrUpdateEnvironmentParameters,
+  EnvironmentsCreateOrReplaceEnvironmentParameters,
   getLongRunningPoller,
   isUnexpected,
 } from "../../src/index";
@@ -35,20 +35,20 @@ describe("DevCenter Environments Operations Test", () => {
     // Build client and fetch required parameters
     const projectName = env["DEFAULT_PROJECT_NAME"] || "sdk-project-hdhjgzht7tgyq";
     const catalogName = env["DEFAULT_CATALOG_NAME"] || "sdk-default-catalog";
-    const catalogItemName = env["DEFAULT_CATALOG_ITEM_NAME"] || "Empty";
+    const environmentDefinitionName = env["DEFAULT_ENVIRONMENT_DEFINITION_NAME"] || "Empty";
     const environmentTypeName =
       env["DEFAULT_ENVIRONMENT_TYPE_NAME"] || "sdk-environment-type-5x47m3lk7iv3i";
     const environmentName = "SdkTest-Environment";
     const userId = "me";
 
     console.log(
-      `Running test for ${endpoint} -- ${projectName} -- ${catalogName} -- ${catalogItemName} -- ${environmentTypeName} -- ${environmentName}`
+      `Running test for ${endpoint} -- ${projectName} -- ${catalogName} -- ${environmentDefinitionName} -- ${environmentTypeName} -- ${environmentName}`
     );
 
-    const environmentsCreateParameters: EnvironmentsCreateOrUpdateEnvironmentParameters = {
+    const environmentsCreateParameters: EnvironmentsCreateOrReplaceEnvironmentParameters = {
       contentType: "application/json",
       body: {
-        catalogItemName: catalogItemName,
+        environmentDefinitionName: environmentDefinitionName,
         environmentType: environmentTypeName,
         catalogName: catalogName,
       },

@@ -12,9 +12,11 @@ export interface ProjectListResultOutput {
 /** Project details. */
 export interface ProjectOutput {
   /** Name of the project */
-  name?: string;
+  name: string;
   /** Description of the project. */
   description?: string;
+  /** When specified, indicates the maximum number of Dev Boxes a single user can create across all pools in the project. */
+  maxDevBoxesPerUser?: number;
 }
 
 /** An error response from the service. */
@@ -46,21 +48,25 @@ export interface PoolListResultOutput {
 /** A pool of Dev Boxes. */
 export interface PoolOutput {
   /** Pool name */
-  name?: string;
+  name: string;
   /** Azure region where Dev Boxes in the pool are located */
-  location?: string;
+  location: string;
   /** The operating system type of Dev Boxes in this pool */
   osType?: "Windows";
   /** Hardware settings for the Dev Boxes created in this pool */
   hardwareProfile?: HardwareProfileOutput;
   /** Indicates whether hibernate is enabled/disabled or unknown. */
-  hibernateSupport?: "Disabled" | "Enabled";
+  hibernateSupport?: "Enabled" | "Disabled" | "OsUnsupported";
   /** Storage settings for Dev Box created in this pool */
   storageProfile?: StorageProfileOutput;
   /** Image settings for Dev Boxes create in this pool */
   imageReference?: ImageReferenceOutput;
   /** Indicates whether owners of Dev Boxes in this pool are local administrators on the Dev Boxes. */
   localAdministrator?: "Enabled" | "Disabled";
+  /** Stop on disconnect configuration settings for Dev Boxes created in this pool. */
+  stopOnDisconnect?: StopOnDisconnectConfigurationOutput;
+  /** Overall health status of the Pool. Indicates whether or not the Pool is available to create Dev Boxes. */
+  healthStatus: "Unknown" | "Pending" | "Healthy" | "Warning" | "Unhealthy";
 }
 
 /** Hardware specifications for the Dev Box. */
@@ -99,6 +105,14 @@ export interface ImageReferenceOutput {
   publishedDate?: string;
 }
 
+/** Stop on disconnect configuration settings for Dev Boxes created in this pool. */
+export interface StopOnDisconnectConfigurationOutput {
+  /** Indicates whether the feature to stop the devbox on disconnect once the grace period has lapsed is enabled. */
+  status: "Enabled" | "Disabled";
+  /** The specified time in minutes to wait before stopping a Dev Box once disconnect is detected. */
+  gracePeriodMinutes?: number;
+}
+
 /** The Schedule list result */
 export interface ScheduleListResultOutput {
   /** Current page of results */
@@ -110,15 +124,15 @@ export interface ScheduleListResultOutput {
 /** A Schedule to execute action. */
 export interface ScheduleOutput {
   /** Display name for the Schedule */
-  name?: string;
+  name: string;
   /** Supported type this scheduled task represents. */
-  type?: "StopDevBox";
+  type: "StopDevBox";
   /** The frequency of this scheduled task. */
-  frequency?: "Daily";
+  frequency: "Daily";
   /** The target time to trigger the action. The format is HH:MM. */
-  time?: string;
+  time: string;
   /** The IANA timezone id at which the schedule should execute. */
-  timeZone?: string;
+  timeZone: string;
 }
 
 /** The Dev Box list result */
@@ -129,7 +143,7 @@ export interface DevBoxListResultOutput {
   nextLink?: string;
 }
 
-/** A DevBox Dev Box */
+/** A Dev Box */
 export interface DevBoxOutput {
   /** Display name for the Dev Box */
   name?: string;
@@ -138,7 +152,7 @@ export interface DevBoxOutput {
   /** The name of the Dev Box pool this machine belongs to. */
   poolName: string;
   /** Indicates whether hibernate is enabled/disabled or unknown. */
-  hibernateSupport?: "Disabled" | "Enabled";
+  hibernateSupport?: "Enabled" | "Disabled" | "OsUnsupported";
   /** The current provisioning state of the Dev Box. */
   provisioningState?: string;
   /** The current action state of the Dev Box. This is state is based on previous action performed by user. */
@@ -146,14 +160,14 @@ export interface DevBoxOutput {
   /** The current power state of the Dev Box. */
   powerState?:
     | "Unknown"
+    | "Running"
     | "Deallocated"
     | "PoweredOff"
-    | "Running"
     | "Hibernated";
   /** A unique identifier for the Dev Box. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000). */
   uniqueId?: string;
   /** Provisioning or action error details. Populated only for error states. */
-  errorDetails?: ProvisioningErrorOutput;
+  error?: CloudErrorBodyOutput;
   /** Azure region where this Dev Box is located. This will be the same region as the Virtual Network it is attached to. */
   location?: string;
   /** The operating system type of this Dev Box. */
@@ -172,44 +186,90 @@ export interface DevBoxOutput {
   localAdministrator?: "Enabled" | "Disabled";
 }
 
-/** Error details */
-export interface ProvisioningErrorOutput {
+/** The current status of an async operation */
+export interface OperationStatusOutput {
+  /** Fully qualified ID for the operation status. */
+  id?: string;
+  /** The operation id name */
+  name?: string;
+  /** Provisioning state of the resource. */
+  status: string;
+  /** The id of the resource. */
+  resourceId?: string;
+  /** The start time of the operation */
+  startTime?: string;
+  /** The end time of the operation */
+  endTime?: string;
+  /** Percent of the operation that is complete */
+  percentComplete?: number;
+  /** Custom operation properties, populated only for a successful operation. */
+  properties?: Record<string, unknown>;
+  /** Operation Error message */
+  error?: OperationStatusErrorOutput;
+}
+
+/** Operation Error message */
+export interface OperationStatusErrorOutput {
   /** The error code. */
   code?: string;
   /** The error message. */
   message?: string;
 }
 
-/** Provides RDP connection information */
+/** Provides remote connection information for a Dev Box. */
 export interface RemoteConnectionOutput {
-  /** URL to open a browser based RDP session */
+  /** URL to open a browser based RDP session. */
   webUrl?: string;
-  /** Link to open a Remote Desktop session */
+  /** Link to open a Remote Desktop session. */
   rdpConnectionUrl?: string;
 }
 
-/** The Upcoming Action list result */
-export interface UpcomingActionsListResultOutput {
+/** The actions list result */
+export interface DevBoxActionsListResultOutput {
   /** Current page of results */
-  value: Array<UpcomingActionOutput>;
+  value: Array<DevBoxActionOutput>;
   /** The URL to get the next set of results. */
   nextLink?: string;
 }
 
-/** An upcoming Action. */
-export interface UpcomingActionOutput {
-  /** Uniquely identifies the action. */
-  id?: string;
+/** An action which will take place on a Dev Box. */
+export interface DevBoxActionOutput {
+  /** The name of the action. */
+  name: string;
   /** The action that will be taken. */
-  actionType?: "Stop";
-  /** The reason for this action. */
-  reason?: "Schedule";
-  /** The target time the action will be triggered (UTC). */
-  scheduledTime?: string;
-  /** The original scheduled time for the action (UTC). */
-  originalScheduledTime?: string;
+  actionType: "Stop";
   /** The id of the resource which triggered this action */
-  sourceId?: string;
+  sourceId: string;
+  /** The earliest time that the action could occur (UTC). */
+  suspendedUntil?: string;
+  /** Details about the next run of this action. */
+  next?: DevBoxNextActionOutput;
+}
+
+/** Details about the next run of an action. */
+export interface DevBoxNextActionOutput {
+  /** The time the action will be triggered (UTC). */
+  scheduledTime: string;
+}
+
+/** The actions list result */
+export interface DevBoxActionsDelayMultipleResultOutput {
+  /** Current page of results */
+  value: Array<DevBoxActionDelayResultOutput>;
+  /** The URL to get the next set of results. */
+  nextLink?: string;
+}
+
+/** The action delay result */
+export interface DevBoxActionDelayResultOutput {
+  /** The name of the action. */
+  name: string;
+  /** The result of the delay operation on this action. */
+  result: "Succeeded" | "Failed";
+  /** The delayed action */
+  action?: DevBoxActionOutput;
+  /** Information about the error that occurred. Only populated on error. */
+  error?: CloudErrorBodyOutput;
 }
 
 /** Results of the environment list operation. */
@@ -232,135 +292,78 @@ export interface EnvironmentOutput extends EnvironmentUpdatePropertiesOutput {
   provisioningState?: string;
   /** The identifier of the resource group containing the environment's resources. */
   resourceGroupId?: string;
+  /** Name of the catalog. */
+  catalogName: string;
+  /** Name of the environment definition. */
+  environmentDefinitionName: string;
+  /** Provisioning error details. Populated only for error states. */
+  error?: CloudErrorBodyOutput;
 }
 
 /** Properties of an environment. These properties can be updated after the resource has been created. */
 export interface EnvironmentUpdatePropertiesOutput {
-  /** Description of the Environment. */
-  description?: string;
-  /** Name of the catalog. */
-  catalogName?: string;
-  /** Name of the catalog item. */
-  catalogItemName?: string;
-  /** Parameters object for the deploy action */
+  /** Parameters object for the environment. */
   parameters?: Record<string, unknown>;
-  /** Set of supported scheduled tasks to help manage cost. */
-  scheduledTasks?: Record<string, ScheduledTaskOutput>;
-  /** Key value pairs that will be applied to resources deployed in this environment as tags. */
-  tags?: Record<string, string>;
 }
 
-/** Scheduled task to auto-expire an environment. */
-export interface ScheduledTaskOutput {
-  /** Supported type this scheduled task represents. */
-  type: "AutoExpire";
-  /** Indicates whether or not this scheduled task is enabled. */
-  enabled?: "Enabled" | "Disabled";
-  /** Date/time by which the environment should expire */
-  startTime: string;
-}
-
-/** Results of the catalog item list operation. */
-export interface CatalogItemListResultOutput {
+/** Results of the catalog list operation. */
+export interface CatalogListResultOutput {
   /** Current page of results. */
-  value: Array<CatalogItemOutput>;
+  value: Array<CatalogOutput>;
   /** URL to get the next set of results if there are any. */
   nextLink?: string;
 }
 
-/** A catalog item. */
-export interface CatalogItemOutput {
-  /** Unique identifier of the catalog item. */
-  id?: string;
-  /** Name of the catalog item. */
-  name?: string;
+/** A catalog. */
+export interface CatalogOutput {
   /** Name of the catalog. */
-  catalogName?: string;
+  name: string;
 }
 
-/** Results of the catalog item list operation. */
-export interface CatalogItemVersionListResultOutput {
+/** Results of the environment definition list operation. */
+export interface EnvironmentDefinitionListResultOutput {
   /** Current page of results. */
-  value: Array<CatalogItemVersionOutput>;
+  value: Array<EnvironmentDefinitionOutput>;
   /** URL to get the next set of results if there are any. */
   nextLink?: string;
 }
 
-/** A catalog item version. */
-export interface CatalogItemVersionOutput {
-  /** Unique identifier of the catalog item. */
-  catalogItemId?: string;
-  /** Name of the catalog item. */
-  catalogItemName?: string;
+/** An environment definition. */
+export interface EnvironmentDefinitionOutput {
+  /** The ID of the environment definition. */
+  id: string;
+  /** Name of the environment definition. */
+  name: string;
   /** Name of the catalog. */
-  catalogName?: string;
-  /** The version of the catalog item. */
-  version?: string;
-  /** A short summary of the catalog item. */
-  summary?: string;
-  /** A long description of the catalog item. */
+  catalogName: string;
+  /** A short description of the environment definition. */
   description?: string;
-  /** Path to the catalog item entrypoint file. */
-  templatePath?: string;
-  /** JSON schema defining the parameters object passed to actions */
+  /** Input parameters passed to an environment. */
+  parameters?: Array<EnvironmentDefinitionParameterOutput>;
+  /** JSON schema defining the parameters object passed to an environment. */
   parametersSchema?: string;
-  /** Input parameters passed to actions */
-  parameters?: Array<CatalogItemParameterOutput>;
-  /** Custom actions for the catalog item. */
-  actions?: Array<CatalogItemActionOutput>;
-  /** The default container image to use to execute actions */
-  runner?: string;
-  /** Defines whether the specific catalog item version can be used. */
-  status?: "Enabled" | "Disabled";
-  /** Whether the version is eligible to be the latest version. */
-  eligibleForLatestVersion?: boolean;
+  /** Path to the Environment Definition entrypoint file. */
+  templatePath?: string;
 }
 
-/** Properties of an Catalog Item parameter */
-export interface CatalogItemParameterOutput {
+/** Properties of an Environment Definition parameter */
+export interface EnvironmentDefinitionParameterOutput {
   /** Unique ID of the parameter */
-  id?: string;
+  id: string;
   /** Display name of the parameter */
   name?: string;
   /** Description of the parameter */
   description?: string;
   /** Default value of the parameter */
-  default?: Record<string, unknown>;
-  /** A string of one of the basic JSON types (number, integer, null, array, object, boolean, string) */
-  type?:
-    | "array"
-    | "boolean"
-    | "integer"
-    | "null"
-    | "number"
-    | "object"
-    | "string";
+  default?: string;
+  /** A string of one of the basic JSON types (number, integer, array, object, boolean, string) */
+  type: "array" | "boolean" | "integer" | "number" | "object" | "string";
   /** Whether or not this parameter is read-only.  If true, default should have a value. */
   readOnly?: boolean;
   /** Whether or not this parameter is required */
-  required?: boolean;
+  required: boolean;
   /** An array of allowed values */
-  allowed?: Array<Record<string, unknown>>;
-}
-
-/** An action that can be taken on a catalog item. */
-export interface CatalogItemActionOutput {
-  /** Unique identifier of the action */
-  id?: string;
-  /** Display name of the action */
-  name?: string;
-  /** Description of the action */
-  description?: string;
-  /** JSON schema defining the parameters specific to the custom action */
-  parametersSchema?: string;
-  /** Input parameters passed to the action */
-  parameters?: Array<CatalogItemParameterOutput>;
-  /** The action type. */
-  type?: "Custom" | "Deploy" | "Delete";
-  /** Name of the custom action type */
-  typeName?: string;
-  /** The container image to use to execute the action */
-  runner?: string;
+  allowed?: Array<string>;
 }
 
 /** Result of the environment type list operation. */
@@ -374,9 +377,9 @@ export interface EnvironmentTypeListResultOutput {
 /** Properties of an environment type. */
 export interface EnvironmentTypeOutput {
   /** Name of the environment type */
-  name?: string;
+  name: string;
   /** Id of a subscription or management group that the environment type will be mapped to. The environment's resources will be deployed into this subscription or management group. */
-  deploymentTargetId?: string;
-  /** Defines whether this Environment Type can be used in this Project. */
-  status?: "Enabled" | "Disabled";
+  deploymentTargetId: string;
+  /** Indicates whether this environment type is enabled for use in this project. */
+  status: "Enabled" | "Disabled";
 }

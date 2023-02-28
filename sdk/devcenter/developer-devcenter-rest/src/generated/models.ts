@@ -1,6 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/** An error response from the service. */
+export interface CloudErrorBody {
+  /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
+  code: string;
+  /** A message describing the error, intended to be suitable for display in a user interface. */
+  message: string;
+  /** The target of the particular error. For example, the name of the property in error. */
+  target?: string;
+  /** A list of additional details about the error. */
+  details?: Array<CloudErrorBody>;
+}
+
 /** Hardware specifications for the Dev Box. */
 export interface HardwareProfile {
   /** The name of the SKU */
@@ -37,7 +49,7 @@ export interface ImageReference {
   publishedDate?: Date | string;
 }
 
-/** A DevBox Dev Box */
+/** A Dev Box */
 export interface DevBox {
   /** Display name for the Dev Box */
   name?: string;
@@ -46,7 +58,7 @@ export interface DevBox {
   /** The name of the Dev Box pool this machine belongs to. */
   poolName: string;
   /** Indicates whether hibernate is enabled/disabled or unknown. */
-  hibernateSupport?: "Disabled" | "Enabled";
+  hibernateSupport?: "Enabled" | "Disabled" | "OsUnsupported";
   /** The current provisioning state of the Dev Box. */
   provisioningState?: string;
   /** The current action state of the Dev Box. This is state is based on previous action performed by user. */
@@ -54,14 +66,14 @@ export interface DevBox {
   /** The current power state of the Dev Box. */
   powerState?:
     | "Unknown"
+    | "Running"
     | "Deallocated"
     | "PoweredOff"
-    | "Running"
     | "Hibernated";
   /** A unique identifier for the Dev Box. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000). */
   uniqueId?: string;
   /** Provisioning or action error details. Populated only for error states. */
-  errorDetails?: ProvisioningError;
+  error?: CloudErrorBody;
   /** Azure region where this Dev Box is located. This will be the same region as the Virtual Network it is attached to. */
   location?: string;
   /** The operating system type of this Dev Box. */
@@ -80,14 +92,6 @@ export interface DevBox {
   localAdministrator?: "Enabled" | "Disabled";
 }
 
-/** Error details */
-export interface ProvisioningError {
-  /** The error code. */
-  code?: string;
-  /** The error message. */
-  message?: string;
-}
-
 /** Properties of an environment. */
 export interface Environment extends EnvironmentUpdateProperties {
   /** Environment name. */
@@ -100,38 +104,16 @@ export interface Environment extends EnvironmentUpdateProperties {
   provisioningState?: string;
   /** The identifier of the resource group containing the environment's resources. */
   resourceGroupId?: string;
+  /** Name of the catalog. */
+  catalogName: string;
+  /** Name of the environment definition. */
+  environmentDefinitionName: string;
+  /** Provisioning error details. Populated only for error states. */
+  error?: CloudErrorBody;
 }
 
 /** Properties of an environment. These properties can be updated after the resource has been created. */
 export interface EnvironmentUpdateProperties {
-  /** Description of the Environment. */
-  description?: string;
-  /** Name of the catalog. */
-  catalogName?: string;
-  /** Name of the catalog item. */
-  catalogItemName?: string;
-  /** Parameters object for the deploy action */
-  parameters?: Record<string, unknown>;
-  /** Set of supported scheduled tasks to help manage cost. */
-  scheduledTasks?: Record<string, ScheduledTask>;
-  /** Key value pairs that will be applied to resources deployed in this environment as tags. */
-  tags?: Record<string, string>;
-}
-
-/** Scheduled task to auto-expire an environment. */
-export interface ScheduledTask {
-  /** Supported type this scheduled task represents. */
-  type: "AutoExpire";
-  /** Indicates whether or not this scheduled task is enabled. */
-  enabled?: "Enabled" | "Disabled";
-  /** Date/time by which the environment should expire */
-  startTime: Date | string;
-}
-
-/** Action request */
-export interface ActionRequest {
-  /** The Catalog Item action id to execute */
-  actionId: string;
-  /** Parameters object for the Action */
+  /** Parameters object for the environment. */
   parameters?: Record<string, unknown>;
 }
