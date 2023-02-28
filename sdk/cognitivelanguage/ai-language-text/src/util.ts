@@ -171,14 +171,16 @@ export function getOperationOptions<OptionsT extends TextAnalysisOperationOption
  */
 export function extractErrorPointerIndex(error: ErrorModel): number {
   if (!error.target) {
-    throw new Error("Error target is not defined to parse the error pointer");
+    throw new Error("Unexpected response from service - no target present");
   }
   let position: number;
 
   position = parseInt(error.target.split("/").pop() as string);
 
   if (isNaN(position)) {
-    throw new Error("Error parsing the error pointer");
+    throw new Error(
+      `Unexpected response from service - action pointer \"${error.target}\" is not a valid action pointer.`
+    );
   }
 
   return position;

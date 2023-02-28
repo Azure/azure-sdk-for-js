@@ -132,7 +132,7 @@ function createSendPollRequest<TOptions extends OperationOptions>(settings: {
         opOptions: addOnResponse(options, (_, response) => {
           const castResponse = response as AnalyzeTextJobStatusResponse;
           if (castResponse.status.toLowerCase() === "partiallysucceeded") {
-            castResponse.status = "failed";
+            castResponse.status = "succeeded";
           }
         }),
         path,

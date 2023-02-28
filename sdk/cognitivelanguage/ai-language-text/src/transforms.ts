@@ -629,7 +629,7 @@ function returnErrorTask(
   failedOn: Date
 ): AnalyzeBatchResult {
   if (!error) {
-    throw new Error("No matched error found for the task");
+    throw new Error("Unexpected response from service - no errors for missing action results.");
   }
   return {
     kind,
@@ -652,7 +652,7 @@ function returnErrorCustomTask(
   failedOn: Date
 ): AnalyzeBatchResult {
   if (!error) {
-    throw new Error("No matched error found for the task");
+    throw new Error("Unexpected response from service - no errors for missing action results.");
   }
   return {
     kind,

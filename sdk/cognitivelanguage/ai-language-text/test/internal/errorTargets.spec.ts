@@ -37,7 +37,7 @@ describe("Parse error targets", function () {
     const error = {
       code: KnownErrorCode.InvalidRequest,
       message: "error",
-      target: "#/tasks/items/2", // first action failed
+      target: "#/tasks/items/2",
     };
     assert.equal(extractErrorPointerIndex(error), 2);
   });
@@ -49,7 +49,7 @@ describe("Parse error targets", function () {
     };
     assert.Throw(
       () => extractErrorPointerIndex(error),
-      "Error target is not defined to parse the error pointer"
+      "Unexpected response from service - no target present"
     );
   });
 
@@ -59,7 +59,10 @@ describe("Parse error targets", function () {
       message: "error",
       target: "invalid target", // invalid JSON formar
     };
-    assert.Throw(() => extractErrorPointerIndex(error), "Error parsing the error pointer");
+    assert.Throw(
+      () => extractErrorPointerIndex(error),
+      'Unexpected response from service - action pointer "invalid target" is not a valid action pointer.'
+    );
   });
 });
 
@@ -107,7 +110,7 @@ function mockClientResponse(): TextAnalysisClient {
           {
             kind: "HealthcareLROResults",
             lastUpdateDateTime: "2022-11-01T22:55:29.619398Z",
-            status: "succeeded",
+            status: "partiallySucceeded",
             results: {
               documents: [
                 {
