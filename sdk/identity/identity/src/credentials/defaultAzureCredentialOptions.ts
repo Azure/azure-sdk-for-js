@@ -18,7 +18,7 @@ export interface DefaultAzureCredentialClientIdOptions extends DefaultAzureCrede
    * Optionally pass in a user assigned client ID to be used by the {@link WorkloadIdentityCredential}.
    * This client ID can also be passed through to the {@link WorkloadIdentityCredential} through the environment variable: AZURE_CLIENT_ID.
    */
-  workloadIdentityClientId? :string;
+  workloadIdentityClientId?: string;
 }
 
 /**

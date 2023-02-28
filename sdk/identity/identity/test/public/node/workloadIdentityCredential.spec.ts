@@ -11,7 +11,12 @@ import { Context } from "mocha";
 import { assert } from "@azure/test-utils";
 import { createJWTTokenFromCertificate } from "./utils/utils";
 import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "fs";
-import { DefaultAzureCredential, ManagedIdentityCredential, WorkloadIdentityCredential } from "../../../src";
+import {
+  DefaultAzureCredential,
+  ManagedIdentityCredential,
+  WorkloadIdentityCredential,
+  WorkloadIdentityCredentialOptions,
+} from "../../../src";
 
 describe("WorkloadIdentityCredential", function () {
   let cleanup: MsalTestCleanup;
@@ -28,9 +33,10 @@ describe("WorkloadIdentityCredential", function () {
   });
 
   const scope = "https://vault.azure.net/.default";
-  const tenantId = env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!;
-  const clientId = env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!;
-  const certificatePath = env.IDENTITY_SP_CERT_PEM || path.join("assets", "fake-cert.pem");
+  const tenantId = env.TEST_TENANT_ID || env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!;
+  const clientId = env.TEST_CLIENT_ID || env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!;
+  const certificatePath =
+    env.TEST_CERT || env.IDENTITY_SP_CERT_PEM || path.join("assets", "fake-cert.pem");
   const authorityHost = `https://login.microsoftonline.com/${tenantId}`;
 
   async function getAssertion(): Promise<string> {
@@ -40,9 +46,12 @@ describe("WorkloadIdentityCredential", function () {
 
   it("authenticates with WorkloadIdentity Credential", async function (this: Context) {
     const fileDir = await setupFileandEnv("workload-identity");
-    const credential = new WorkloadIdentityCredential(tenantId, clientId, fileDir.tempFile,
+    const credential = new WorkloadIdentityCredential(
       recorder.configureClientOptions({
-      })
+        tenantId,
+        clientId,
+        federatedTokenFilePath: fileDir.tempFile,
+      } as WorkloadIdentityCredentialOptions)
     );
     try {
       const token = await credential.getToken(scope);
@@ -67,17 +76,16 @@ describe("WorkloadIdentityCredential", function () {
     }
   });
 
-  it.only("authenticates with DefaultAzure Credential", async function (this: Context) {
+  it("authenticates with DefaultAzure Credential", async function (this: Context) {
     const fileDir = await setupFileandEnv("token-exchange-msi");
     const credential = new DefaultAzureCredential(recorder.configureClientOptions({}));
     try {
       const token = await credential.getToken(scope);
       assert.ok(token?.token);
       assert.ok(token?.expiresOnTimestamp! > Date.now());
-    }catch(e){
+    } catch (e) {
       console.log(e);
-    } 
-    finally {
+    } finally {
       unlinkSync(fileDir.tempFile);
       rmdirSync(fileDir.tempDir);
     }

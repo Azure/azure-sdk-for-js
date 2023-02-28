@@ -18,7 +18,6 @@ import { EnvironmentCredential } from "./environmentCredential";
 import { TokenCredential } from "@azure/core-auth";
 import { AzureDeveloperCliCredential } from "./azureDeveloperCliCredential";
 import { WorkloadIdentityCredential } from "./workloadIdentityCredential";
-import { WorkloadIdentityCredentialOptions } from "./workloadIdentityCredentialOptions";
 
 /**
  * The type of a class that implements TokenCredential and accepts either
@@ -46,15 +45,16 @@ export class DefaultManagedIdentityCredential extends ManagedIdentityCredential 
   // Constructor overload with just the other default options
   // Last constructor overload with Union of all options not required since the above two constructor overloads have optional properties
   constructor(options?: DefaultAzureCredentialOptions) {
-    
     const managedIdentityClientId =
       (options as DefaultAzureCredentialClientIdOptions)?.managedIdentityClientId ??
       process.env.AZURE_CLIENT_ID;
-    const workloadIdentityClientId = (options as DefaultAzureCredentialClientIdOptions)?.workloadIdentityClientId ?? managedIdentityClientId;
+    const workloadIdentityClientId =
+      (options as DefaultAzureCredentialClientIdOptions)?.workloadIdentityClientId ??
+      managedIdentityClientId;
     const managedResourceId = (options as DefaultAzureCredentialResourceIdOptions)
       ?.managedIdentityResourceId;
     const workloadFile = process.env.AZURE_FEDERATED_TOKEN_FILE;
-
+    const tenantId = process.env.AZURE_TENANT_ID;
     // ManagedIdentityCredential throws if both the resourceId and the clientId are provided.
     if (managedResourceId) {
       const managedIdentityResourceIdOptions: ManagedIdentityCredentialResourceIdOptions = {
@@ -63,8 +63,9 @@ export class DefaultManagedIdentityCredential extends ManagedIdentityCredential 
       };
       super(managedIdentityResourceIdOptions);
     } else if (workloadFile && workloadIdentityClientId) {
-      const workloadIdentityCredentialOptions: WorkloadIdentityCredentialOptions = {
-        ...options
+      const workloadIdentityCredentialOptions: DefaultAzureCredentialOptions = {
+        ...options,
+        tenantId: tenantId,
       };
       super(workloadIdentityClientId, workloadIdentityCredentialOptions);
     } else if (managedIdentityClientId) {
@@ -77,22 +78,7 @@ export class DefaultManagedIdentityCredential extends ManagedIdentityCredential 
       super(options);
     }
   }
-  private getWorkloadIdentityCredentialIfAvailable(defaultAzureClientOptions: DefaultAzureCredentialClientIdOptions): WorkloadIdentityCredential | undefined
-   {
-
-    const tenantId = process.env.AZURE_TENANT_ID;
-    const federatedTokenFilePath = process.env.AZURE_FEDERATED_TOKEN_FILE;
-    const azureAuthorityHost = process.env.AZURE_AUTHORITY_HOST;
-    const clientId = (defaultAzureClientOptions.workloadIdentityClientId) ? defaultAzureClientOptions.workloadIdentityClientId : ((defaultAzureClientOptions.managedIdentityClientId) ? defaultAzureClientOptions.managedIdentityClientId : process.env.AZURE_CLIENT_ID) ;
-    if (tenantId && clientId && federatedTokenFilePath) {
-        return new WorkloadIdentityCredential(tenantId, clientId, federatedTokenFilePath, {
-          authorityHost: azureAuthorityHost
-        });
-    }
-    return undefined;
 }
-}
-
 
 export const defaultCredentials: DefaultCredentialConstructor[] = [
   EnvironmentCredential,
