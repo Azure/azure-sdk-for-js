@@ -369,6 +369,8 @@ export const Constants: {
         ResponseContinuationTokenLimitInKB: string;
         PopulateQueryMetrics: string;
         QueryMetrics: string;
+        PopulateIndexMetrics: string;
+        IndexUtilization: string;
         Version: string;
         OwnerFullName: string;
         OwnerId: string;
@@ -755,6 +757,7 @@ export interface FeedOptions extends SharedOptions {
     maxDegreeOfParallelism?: number;
     maxItemCount?: number;
     partitionKey?: any;
+    populateIndexMetrics?: boolean;
     populateQueryMetrics?: boolean;
     useIncrementalFeed?: boolean;
 }
@@ -770,6 +773,8 @@ export class FeedResponse<TResource> {
     get continuationToken(): string;
     // (undocumented)
     readonly hasMoreResults: boolean;
+    // (undocumented)
+    get indexMetrics(): string;
     // (undocumented)
     get queryMetrics(): string;
     // (undocumented)
