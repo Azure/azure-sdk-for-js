@@ -33,10 +33,9 @@ describe.skip("WorkloadIdentityCredential", function () {
   });
 
   const scope = "https://vault.azure.net/.default";
-  const tenantId = env.TEST_TENANT_ID || env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!;
-  const clientId = env.TEST_CLIENT_ID || env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!;
-  const certificatePath =
-    env.TEST_CERT || env.IDENTITY_SP_CERT_PEM || path.join("assets", "fake-cert.pem");
+  const tenantId = env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!;
+  const clientId = env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!;
+  const certificatePath = env.IDENTITY_SP_CERT_PEM || path.join("assets", "fake-cert.pem");
   const authorityHost = `https://login.microsoftonline.com/${tenantId}`;
 
   async function getAssertion(): Promise<string> {

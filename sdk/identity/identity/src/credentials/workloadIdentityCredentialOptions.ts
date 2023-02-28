@@ -24,6 +24,10 @@ export interface WorkloadIdentityCredentialOptions
   federatedTokenFilePath: string;
 }
 
+/**
+ * @internal
+ * @hidden
+ */
 export interface WorkloadIdentityDefaultCredentialOptions
   extends MultiTenantTokenCredentialOptions,
     AuthorityValidationOptions {}
