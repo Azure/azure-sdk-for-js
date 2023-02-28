@@ -741,27 +741,27 @@ export type ExcludedODataTypes = Date | GeographyPoint;
  * Produces a union of valid Cognitive Search OData $select paths for T
  * using a post-order traversal of the field tree rooted at T.
  */
-export type SelectFields<T extends object> = T extends Array<infer U>
+export type SelectFields<T extends object> = T extends Array<infer Elem>
   ? // Allow selecting fields only from elements which are objects
-    NonNullable<U> extends object
-    ? SelectFields<NonNullable<U>>
+    NonNullable<Elem> extends object
+    ? SelectFields<NonNullable<Elem>>
     : never
   : {
       // Only consider string keys
-      [K in keyof T & string]: NonNullable<T[K]> extends object
-        ? NonNullable<T[K]> extends ExcludedODataTypes
+      [Key in keyof T & string]: NonNullable<T[Key]> extends object
+        ? NonNullable<T[Key]> extends ExcludedODataTypes
           ? // Excluded, so don't recur
-            K
-          : SelectFields<NonNullable<T[K]>> extends infer NextPaths
+            Key
+          : SelectFields<NonNullable<T[Key]>> extends infer NextPaths
           ? // Narrow NextPaths' type for template literal
             NextPaths extends string
             ? // Union this key with all the next paths separated with '/'
-              K | `${K}/${NextPaths}`
+              Key | `${Key}/${NextPaths}`
             : // We didn't infer any nested paths, so just use this key
-              K
+              Key
           : never
         : // Not an object, so can't recur
-          K;
+          Key;
     }[keyof T & string];
 
 /**
@@ -776,16 +776,16 @@ export type SearchPick<T extends object, Paths extends SelectFields<T>> = [T] ex
       // Fortunately, template literal types are not greedy, so we can infer the field name easily.
       Paths extends `${infer FieldName}/${infer RestPaths}`
         ? // Symbols and numbers are invalid types for field names
-          FieldName extends Exclude<keyof T, symbol | number>
-          ? NonNullable<T[FieldName]> extends Array<infer U>
-            ? U extends object
+          FieldName extends keyof T & string
+          ? NonNullable<T[FieldName]> extends Array<infer Elem>
+            ? Elem extends object
               ? // Extends clause is necessary to refine the constraint of RestPaths
-                RestPaths extends SelectFields<U>
+                RestPaths extends SelectFields<Elem>
                 ? // Narrow the type of every element in the array
                   {
-                    [K in FieldName]:
-                      | Array<SearchPick<U, RestPaths> | Extract<U, null | undefined>>
-                      | Extract<T[K], undefined>;
+                    [Key in FieldName]:
+                      | Array<SearchPick<Elem, RestPaths> | Extract<Elem, null | undefined>>
+                      | Extract<T[Key], undefined>;
                   }
                 : // Unreachable by construction
                   never
@@ -794,19 +794,19 @@ export type SearchPick<T extends object, Paths extends SelectFields<T>> = [T] ex
             : NonNullable<T[FieldName]> extends object
             ? // Recur :)
               {
-                [K in FieldName]: RestPaths extends SelectFields<
-                  T[K] & {
+                [Key in FieldName]: RestPaths extends SelectFields<
+                  T[Key] & {
                     // This empty intersection fixes `NonNullable<T[K]>` not being narrowed to an object type in older versions of TS
                   }
                 >
                   ?
                       | SearchPick<
-                          T[K] & {
+                          T[Key] & {
                             // Ditto
                           },
                           RestPaths
                         >
-                      | Extract<T[K], null | undefined>
+                      | Extract<T[Key], null | undefined>
                   : // Unreachable by construction
                     never;
               }
@@ -816,7 +816,7 @@ export type SearchPick<T extends object, Paths extends SelectFields<T>> = [T] ex
             never
         : // Otherwise, capture the paths that are simple keys of T itself
         Paths extends keyof T
-        ? { [K in Paths]: T[K] }
+        ? { [Key in Paths]: T[Key] }
         : // Unreachable by construction
           never
     > & {
