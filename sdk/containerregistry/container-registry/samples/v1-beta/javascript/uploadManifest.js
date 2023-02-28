@@ -29,7 +29,7 @@ async function main() {
   );
 
   const layer = Buffer.from("Hello, world");
-  const { digest: layerDigest } = await client.uploadBlob(() => Readable.from(layer));
+  const { digest: layerDigest } = await client.uploadBlob(Readable.from(layer));
 
   const config = Buffer.from(
     JSON.stringify({
@@ -42,7 +42,7 @@ async function main() {
     })
   );
 
-  const { digest: configDigest } = await client.uploadBlob(() => Readable.from(config));
+  const { digest: configDigest } = await client.uploadBlob(Readable.from(config));
 
   const manifest = {
     schemaVersion: 2,

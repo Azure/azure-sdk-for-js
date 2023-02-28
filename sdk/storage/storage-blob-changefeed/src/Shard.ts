@@ -6,9 +6,8 @@ import { ChunkFactory } from "./ChunkFactory";
 import { Chunk } from "./Chunk";
 import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
 import { ShardCursor } from "./models/ChangeFeedCursor";
-import { AbortSignalLike } from "@azure/core-http";
-import { createSpan } from "./utils/tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { tracingClient } from "./utils/tracing";
 
 /**
  * Options to configure {@link Shard.getChange} operation.
@@ -52,8 +51,7 @@ export class Shard {
   public async getChange(
     options: ShardGetChangeOptions = {}
   ): Promise<BlobChangeFeedEvent | undefined> {
-    const { span, updatedOptions } = createSpan("Shard-getChange", options);
-    try {
+    return tracingClient.withSpan("Shard-getChange", options, async (updatedOptions) => {
       let event: BlobChangeFeedEvent | undefined = undefined;
       while (event === undefined && this.hasNext()) {
         event = await this.currentChunk!.getChange();
@@ -73,15 +71,7 @@ export class Shard {
         }
       }
       return event;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   public getCursor(): ShardCursor | undefined {

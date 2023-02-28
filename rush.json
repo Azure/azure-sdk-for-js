@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */{
+ */ {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -426,6 +426,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-tools/communication-toll-free-verification",
+      "projectFolder": "sdk/communication/communication-toll-free-verification",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/communication-sms",
       "projectFolder": "sdk/communication/communication-sms",
       "versionPolicyName": "client"
@@ -593,11 +598,6 @@
     {
       "packageName": "@azure/maps-common",
       "projectFolder": "sdk/maps/maps-common",
-      "versionPolicyName": "client"
-    },
-    {
-      "packageName": "@azure/maps-search",
-      "projectFolder": "sdk/maps/maps-search",
       "versionPolicyName": "client"
     },
     {
@@ -1865,7 +1865,7 @@
     },
     {
       "packageName": "@azure-rest/load-testing",
-      "projectFolder": "sdk/loadtestservice/load-testing-rest",
+      "projectFolder": "sdk/loadtesting/load-testing-rest",
       "versionPolicyName": "client"
     },
     {
@@ -1890,7 +1890,7 @@
     },
     {
       "packageName": "@azure/arm-loadtesting",
-      "projectFolder": "sdk/loadtestservice/arm-loadtesting",
+      "projectFolder": "sdk/loadtesting/arm-loadtesting",
       "versionPolicyName": "management"
     },
     {
@@ -1906,6 +1906,21 @@
     {
       "packageName": "@azure/arm-servicenetworking",
       "projectFolder": "sdk/servicenetworking/arm-servicenetworking",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-dataprotection",
+      "projectFolder": "sdk/dataprotection/arm-dataprotection",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-liftrqumulo",
+      "projectFolder": "sdk/liftrqumulo/arm-liftrqumulo",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storagemover",
+      "projectFolder": "sdk/storagemover/arm-storagemover",
       "versionPolicyName": "management"
     }
   ]

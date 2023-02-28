@@ -4,6 +4,7 @@ import { multicoreUtils, WorkerData, WorkerMulticoreUtils } from "./multicore";
 import { PerfTestBase, PerfTestConstructor } from "./perfTestBase";
 import { PerfProgram } from "./program";
 import { DefaultPerfOptions, ParsedPerfOptions } from "./options";
+import { runWithCpuProfile } from "./utils/profiling";
 
 export class WorkerPerfProgram implements PerfProgram {
   private testClass: PerfTestConstructor;
@@ -75,15 +76,21 @@ export class WorkerPerfProgram implements PerfProgram {
     await Promise.all(this.tests.map((test) => test.postSetup?.()));
     await exitStage("postSetup");
 
-    if (this.options.warmup.value! > 0) {
+    if (this.options.warmup.value > 0) {
       await enterStage("warmup");
       await this.runTests(this.options.warmup.value!);
       await exitStage("warmup");
     }
 
-    for (let iteration = 0; iteration < this.options.iterations.value!; ++iteration) {
+    for (let iteration = 0; iteration < this.options.iterations.value; ++iteration) {
       await enterStage("test");
-      await this.runTests(this.options.duration.value!);
+      const duration = this.options.duration.value;
+      const testRunner = () => this.runTests(duration);
+      if (this.options.profile.value) {
+        await runWithCpuProfile(testRunner, this.options["profile-path"].value);
+      } else {
+        await testRunner();
+      }
       await exitStage("test");
     }
 

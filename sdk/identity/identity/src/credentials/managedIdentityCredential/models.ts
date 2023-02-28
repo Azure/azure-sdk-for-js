@@ -18,6 +18,7 @@ export interface MSIConfiguration {
  * @internal
  */
 export interface MSI {
+  name: string;
   isAvailable(options: {
     scopes: string | string[];
     identityClient?: IdentityClient;
