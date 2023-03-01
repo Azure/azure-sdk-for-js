@@ -6,10 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { PathOperations } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { StorageClientContext } from "../storageClientContext";
+import { StorageClient } from "../storageClient";
 import {
   PathCreateOptionalParams,
   PathCreateResponse,
@@ -41,15 +43,15 @@ import {
   PathUndeleteResponse
 } from "../models";
 
-/** Class representing a Path. */
-export class Path {
-  private readonly client: StorageClientContext;
+/** Class containing PathOperations operations. */
+export class PathOperationsImpl implements PathOperations {
+  private readonly client: StorageClient;
 
   /**
-   * Initialize a new instance of the class Path class.
+   * Initialize a new instance of the class PathOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: StorageClientContext) {
+  constructor(client: StorageClient) {
     this.client = client;
   }
 
@@ -62,13 +64,7 @@ export class Path {
    * @param options The options parameters.
    */
   create(options?: PathCreateOptionalParams): Promise<PathCreateResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      createOperationSpec
-    ) as Promise<PathCreateResponse>;
+    return this.client.sendOperationRequest({ options }, createOperationSpec);
   }
 
   /**
@@ -94,19 +90,13 @@ export class Path {
   update(
     action: PathUpdateAction,
     mode: PathSetAccessControlRecursiveMode,
-    body: coreHttp.HttpRequestBody,
+    body: coreRestPipeline.RequestBodyType,
     options?: PathUpdateOptionalParams
   ): Promise<PathUpdateResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      action,
-      mode,
-      body,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { action, mode, body, options },
       updateOperationSpec
-    ) as Promise<PathUpdateResponse>;
+    );
   }
 
   /**
@@ -129,14 +119,10 @@ export class Path {
     xMsLeaseAction: PathLeaseAction,
     options?: PathLeaseOptionalParams
   ): Promise<PathLeaseResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      xMsLeaseAction,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { xMsLeaseAction, options },
       leaseOperationSpec
-    ) as Promise<PathLeaseResponse>;
+    );
   }
 
   /**
@@ -147,13 +133,7 @@ export class Path {
    * @param options The options parameters.
    */
   read(options?: PathReadOptionalParams): Promise<PathReadResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      readOperationSpec
-    ) as Promise<PathReadResponse>;
+    return this.client.sendOperationRequest({ options }, readOperationSpec);
   }
 
   /**
@@ -167,13 +147,10 @@ export class Path {
   getProperties(
     options?: PathGetPropertiesOptionalParams
   ): Promise<PathGetPropertiesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       getPropertiesOperationSpec
-    ) as Promise<PathGetPropertiesResponse>;
+    );
   }
 
   /**
@@ -183,13 +160,7 @@ export class Path {
    * @param options The options parameters.
    */
   delete(options?: PathDeleteOptionalParams): Promise<PathDeleteResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      deleteOperationSpec
-    ) as Promise<PathDeleteResponse>;
+    return this.client.sendOperationRequest({ options }, deleteOperationSpec);
   }
 
   /**
@@ -199,13 +170,10 @@ export class Path {
   setAccessControl(
     options?: PathSetAccessControlOptionalParams
   ): Promise<PathSetAccessControlResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       setAccessControlOperationSpec
-    ) as Promise<PathSetAccessControlResponse>;
+    );
   }
 
   /**
@@ -219,14 +187,10 @@ export class Path {
     mode: PathSetAccessControlRecursiveMode,
     options?: PathSetAccessControlRecursiveOptionalParams
   ): Promise<PathSetAccessControlRecursiveResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      mode,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { mode, options },
       setAccessControlRecursiveOperationSpec
-    ) as Promise<PathSetAccessControlRecursiveResponse>;
+    );
   }
 
   /**
@@ -236,13 +200,10 @@ export class Path {
   flushData(
     options?: PathFlushDataOptionalParams
   ): Promise<PathFlushDataResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       flushDataOperationSpec
-    ) as Promise<PathFlushDataResponse>;
+    );
   }
 
   /**
@@ -251,17 +212,13 @@ export class Path {
    * @param options The options parameters.
    */
   appendData(
-    body: coreHttp.HttpRequestBody,
+    body: coreRestPipeline.RequestBodyType,
     options?: PathAppendDataOptionalParams
   ): Promise<PathAppendDataResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      body,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { body, options },
       appendDataOperationSpec
-    ) as Promise<PathAppendDataResponse>;
+    );
   }
 
   /**
@@ -273,14 +230,10 @@ export class Path {
     expiryOptions: PathExpiryOptions,
     options?: PathSetExpiryOptionalParams
   ): Promise<PathSetExpiryResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      expiryOptions,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { expiryOptions, options },
       setExpiryOperationSpec
-    ) as Promise<PathSetExpiryResponse>;
+    );
   }
 
   /**
@@ -290,19 +243,13 @@ export class Path {
   undelete(
     options?: PathUndeleteOptionalParams
   ): Promise<PathUndeleteResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      undeleteOperationSpec
-    ) as Promise<PathUndeleteResponse>;
+    return this.client.sendOperationRequest({ options }, undeleteOperationSpec);
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const createOperationSpec: coreHttp.OperationSpec = {
+const createOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}/{path}",
   httpMethod: "PUT",
   responses: {
@@ -357,7 +304,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const updateOperationSpec: coreHttp.OperationSpec = {
+const updateOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}/{path}",
   httpMethod: "PATCH",
   responses: {
@@ -412,7 +359,7 @@ const updateOperationSpec: coreHttp.OperationSpec = {
   mediaType: "binary",
   serializer
 };
-const leaseOperationSpec: coreHttp.OperationSpec = {
+const leaseOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}/{path}",
   httpMethod: "POST",
   responses: {
@@ -448,7 +395,7 @@ const leaseOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const readOperationSpec: coreHttp.OperationSpec = {
+const readOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}/{path}",
   httpMethod: "GET",
   responses: {
@@ -490,7 +437,7 @@ const readOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const getPropertiesOperationSpec: coreHttp.OperationSpec = {
+const getPropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}/{path}",
   httpMethod: "HEAD",
   responses: {
@@ -516,7 +463,7 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const deleteOperationSpec: coreHttp.OperationSpec = {
+const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}/{path}",
   httpMethod: "DELETE",
   responses: {
@@ -546,7 +493,7 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const setAccessControlOperationSpec: coreHttp.OperationSpec = {
+const setAccessControlOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}/{path}",
   httpMethod: "PATCH",
   responses: {
@@ -576,7 +523,7 @@ const setAccessControlOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const setAccessControlRecursiveOperationSpec: coreHttp.OperationSpec = {
+const setAccessControlRecursiveOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}/{path}",
   httpMethod: "PATCH",
   responses: {
@@ -606,7 +553,7 @@ const setAccessControlRecursiveOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const flushDataOperationSpec: coreHttp.OperationSpec = {
+const flushDataOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}/{path}",
   httpMethod: "PATCH",
   responses: {
@@ -651,7 +598,7 @@ const flushDataOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const appendDataOperationSpec: coreHttp.OperationSpec = {
+const appendDataOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}/{path}",
   httpMethod: "PATCH",
   responses: {
@@ -690,7 +637,7 @@ const appendDataOperationSpec: coreHttp.OperationSpec = {
   mediaType: "binary",
   serializer
 };
-const setExpiryOperationSpec: coreHttp.OperationSpec = {
+const setExpiryOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}/{path}",
   httpMethod: "PUT",
   responses: {
@@ -713,7 +660,7 @@ const setExpiryOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const undeleteOperationSpec: coreHttp.OperationSpec = {
+const undeleteOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}/{path}",
   httpMethod: "PUT",
   responses: {
