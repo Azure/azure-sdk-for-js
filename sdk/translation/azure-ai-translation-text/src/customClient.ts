@@ -42,7 +42,7 @@ export default function createClient(
 
   const baseUrl = options.baseUrl ?? `${serviceEndpoint}`;
 
-  const userAgentInfo = `azsdk-js-cognitiveservices-translator-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-azure-ai-translation-text-rest/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

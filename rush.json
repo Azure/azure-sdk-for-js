@@ -331,8 +331,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure-rest/cognitiveservices-translator",
-      "projectFolder": "sdk/cognitiveservices/cognitiveservices-translatortext",
+      "packageName": "@azure-rest/azure-ai-translation-text",
+      "projectFolder": "sdk/translation/azure-ai-translation-text",
       "versionPolicyName": "client"
     },
     {

@@ -22,8 +22,8 @@ Dictionary example Returns grammatical structure and context examples for the so
 
 Key links:
 
-- [Package (NPM)](https://www.npmjs.com/package/@azure-rest/cognitiveservices-translator)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/cognitiveservices-translator?view=azure-node-preview)
+- [Package (NPM)](https://www.npmjs.com/package/@azure-rest/azure-ai-translation-text)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/azure-ai-translation-text?view=azure-node-preview)
 
 ## Getting started
 
@@ -35,12 +35,12 @@ Key links:
 
 - You must have an [Azure subscription](https://azure.microsoft.com/free/) to use this package.
 
-### Install the `@azure-rest/cognitiveservices-translator` package
+### Install the `@azure-rest/azure-ai-translation-text` package
 
 Install the Azure TextTranslation REST client REST client library for JavaScript with `npm`:
 
 ```bash
-npm install @azure-rest/cognitiveservices-translator
+npm install @azure-rest/azure-ai-translation-text
 ```
 
 ### Create and authenticate a `TextTranslationClient`
