@@ -4,11 +4,11 @@
 /** Response for the languages API. */
 export interface GetLanguagesResultOutput {
   /** Languages that support translate API. */
-  translation: Record<string, TranslationLanguageOutput>;
+  translation?: Record<string, TranslationLanguageOutput>;
   /** Languages that support transliteration API. */
-  transliteration: Record<string, TransliterationLanguageOutput>;
+  transliteration?: Record<string, TransliterationLanguageOutput>;
   /** Languages that support dictionary API. */
-  dictionary: Record<string, SourceDictionaryLanguageOutput>;
+  dictionary?: Record<string, SourceDictionaryLanguageOutput>;
 }
 
 /**
