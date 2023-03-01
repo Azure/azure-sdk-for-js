@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ManagedServiceIdentityClient } = require("@azure/arm-msi");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create or update a federated identity credential under the specified user assigned identity.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/FederatedIdentityCredentialCreate.json
  */
 async function federatedIdentityCredentialCreate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rgName";
+  const subscriptionId = process.env["MSI_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["MSI_RESOURCE_GROUP"] || "rgName";
   const resourceName = "resourceName";
   const federatedIdentityCredentialResourceName = "ficResourceName";
   const parameters = {
@@ -38,4 +39,8 @@ async function federatedIdentityCredentialCreate() {
   console.log(result);
 }
 
-federatedIdentityCredentialCreate().catch(console.error);
+async function main() {
+  federatedIdentityCredentialCreate();
+}
+
+main().catch(console.error);

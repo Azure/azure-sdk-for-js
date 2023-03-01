@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { CommunicationServiceManagementClient } from "@azure/arm-communication";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Handles requests to list all resources in a subscription.
@@ -18,7 +21,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/emailServices/listBySubscription.json
  */
 async function listEmailServiceResourcesBySubscription() {
-  const subscriptionId = "12345";
+  const subscriptionId =
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "12345";
   const credential = new DefaultAzureCredential();
   const client = new CommunicationServiceManagementClient(
     credential,
@@ -31,4 +35,8 @@ async function listEmailServiceResourcesBySubscription() {
   console.log(resArray);
 }
 
-listEmailServiceResourcesBySubscription().catch(console.error);
+async function main() {
+  listEmailServiceResourcesBySubscription();
+}
+
+main().catch(console.error);

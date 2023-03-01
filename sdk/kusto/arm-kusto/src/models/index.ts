@@ -16,7 +16,8 @@ export type DataConnectionUnion =
   | DataConnection
   | EventHubDataConnection
   | IotHubDataConnection
-  | EventGridDataConnection;
+  | EventGridDataConnection
+  | CosmosDbDataConnection;
 
 /** Azure SKU definition. */
 export interface AzureSku {
@@ -127,6 +128,8 @@ export interface LanguageExtensionsList {
 export interface LanguageExtension {
   /** The language extension name. */
   languageExtensionName?: LanguageExtensionName;
+  /** The language extension image name. */
+  languageExtensionImageName?: LanguageExtensionImageName;
 }
 
 /** Represents an accepted audience trusted by the cluster. */
@@ -257,12 +260,16 @@ export interface TableLevelSharingProperties {
   tablesToExclude?: string[];
   /** List of external tables to include in the follower database */
   externalTablesToInclude?: string[];
-  /** List of external tables exclude from the follower database */
+  /** List of external tables to exclude from the follower database */
   externalTablesToExclude?: string[];
   /** List of materialized views to include in the follower database */
   materializedViewsToInclude?: string[];
-  /** List of materialized views exclude from the follower database */
+  /** List of materialized views to exclude from the follower database */
   materializedViewsToExclude?: string[];
+  /** List of functions to include in the follower database */
+  functionsToInclude?: string[];
+  /** List of functions to exclude from the follower database */
+  functionsToExclude?: string[];
 }
 
 export interface DiagnoseVirtualNetworkResult {
@@ -325,6 +332,36 @@ export interface SkuLocationInfoItem {
   location: string;
   /** The available zone of the SKU. */
   zones?: string[];
+  /** Gets details of capabilities available to a SKU in specific zones. */
+  zoneDetails?: ResourceSkuZoneDetails[];
+}
+
+/** Describes The zonal capabilities of a SKU. */
+export interface ResourceSkuZoneDetails {
+  /**
+   * The set of zones that the SKU is available in with the specified capabilities.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string[];
+  /**
+   * A list of capabilities that are available for the SKU in the specified list of zones.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly capabilities?: ResourceSkuCapabilities[];
+}
+
+/** Describes The SKU capabilities object. */
+export interface ResourceSkuCapabilities {
+  /**
+   * An invariant to describe the feature.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * An invariant if the feature is measured by quantity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: string;
 }
 
 /** The result returned from a cluster check name availability request. */
@@ -673,11 +710,8 @@ export interface ClusterUpdate extends Resource {
   keyVaultProperties?: KeyVaultProperties;
   /** A boolean value that indicates if the purge operations are enabled. */
   enablePurge?: boolean;
-  /**
-   * List of the cluster's language extensions.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly languageExtensions?: LanguageExtensionsList;
+  /** List of the cluster's language extensions. */
+  languageExtensions?: LanguageExtensionsList;
   /** A boolean value that indicates if double encryption is enabled. */
   enableDoubleEncryption?: boolean;
   /** Public network access to the cluster is enabled by default. When disabled, only private endpoint connection to the cluster is allowed */
@@ -984,11 +1018,8 @@ export interface Cluster extends TrackedResource {
   keyVaultProperties?: KeyVaultProperties;
   /** A boolean value that indicates if the purge operations are enabled. */
   enablePurge?: boolean;
-  /**
-   * List of the cluster's language extensions.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly languageExtensions?: LanguageExtensionsList;
+  /** List of the cluster's language extensions. */
+  languageExtensions?: LanguageExtensionsList;
   /** A boolean value that indicates if double encryption is enabled. */
   enableDoubleEncryption?: boolean;
   /** Public network access to the cluster is enabled by default. When disabled, only private endpoint connection to the cluster is allowed */
@@ -1197,6 +1228,36 @@ export interface EventGridDataConnection extends DataConnection {
   readonly provisioningState?: ProvisioningState;
 }
 
+/** Class representing a CosmosDb data connection. */
+export interface CosmosDbDataConnection extends DataConnection {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "CosmosDb";
+  /** The case-sensitive name of the existing target table in your cluster. Retrieved data is ingested into this table. */
+  tableName?: string;
+  /** The name of an existing mapping rule to use when ingesting the retrieved data. */
+  mappingRuleName?: string;
+  /** The resource ID of a managed system or user-assigned identity. The identity is used to authenticate with Cosmos DB. */
+  managedIdentityResourceId?: string;
+  /**
+   * The object ID of the managed identity resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly managedIdentityObjectId?: string;
+  /** The resource ID of the Cosmos DB account used to create the data connection. */
+  cosmosDbAccountResourceId?: string;
+  /** The name of an existing database in the Cosmos DB account. */
+  cosmosDbDatabase?: string;
+  /** The name of an existing container in the Cosmos DB database. */
+  cosmosDbContainer?: string;
+  /** Optional. If defined, the data connection retrieves Cosmos DB documents created or updated after the specified retrieval start date. */
+  retrievalStartDate?: Date;
+  /**
+   * The provisioned state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
 /** Defines headers for Clusters_update operation. */
 export interface ClustersUpdateHeaders {
   /** URL to query for status of the operation. */
@@ -1269,10 +1330,14 @@ export enum KnownAzureSkuName {
   StandardL8SV3 = "Standard_L8s_v3",
   /** StandardL16SV3 */
   StandardL16SV3 = "Standard_L16s_v3",
+  /** StandardL32SV3 */
+  StandardL32SV3 = "Standard_L32s_v3",
   /** StandardL8AsV3 */
   StandardL8AsV3 = "Standard_L8as_v3",
   /** StandardL16AsV3 */
   StandardL16AsV3 = "Standard_L16as_v3",
+  /** StandardL32AsV3 */
+  StandardL32AsV3 = "Standard_L32as_v3",
   /** StandardE64IV3 */
   StandardE64IV3 = "Standard_E64i_v3",
   /** StandardE80IdsV4 */
@@ -1380,8 +1445,10 @@ export enum KnownAzureSkuName {
  * **Standard_L16s_v2** \
  * **Standard_L8s_v3** \
  * **Standard_L16s_v3** \
+ * **Standard_L32s_v3** \
  * **Standard_L8as_v3** \
  * **Standard_L16as_v3** \
+ * **Standard_L32as_v3** \
  * **Standard_E64i_v3** \
  * **Standard_E80ids_v4** \
  * **Standard_E2a_v4** \
@@ -1543,7 +1610,9 @@ export enum KnownProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Moving */
-  Moving = "Moving"
+  Moving = "Moving",
+  /** Canceled */
+  Canceled = "Canceled"
 }
 
 /**
@@ -1556,7 +1625,8 @@ export enum KnownProvisioningState {
  * **Deleting** \
  * **Succeeded** \
  * **Failed** \
- * **Moving**
+ * **Moving** \
+ * **Canceled**
  */
 export type ProvisioningState = string;
 
@@ -1577,6 +1647,33 @@ export enum KnownLanguageExtensionName {
  * **R**
  */
 export type LanguageExtensionName = string;
+
+/** Known values of {@link LanguageExtensionImageName} that the service accepts. */
+export enum KnownLanguageExtensionImageName {
+  /** R */
+  R = "R",
+  /** Python365 */
+  Python365 = "Python3_6_5",
+  /** Python3912 */
+  Python3912 = "Python3_9_12",
+  /** Python3912IncludeDeepLearning */
+  Python3912IncludeDeepLearning = "Python3_9_12IncludeDeepLearning",
+  /** Python3108 */
+  Python3108 = "Python3_10_8"
+}
+
+/**
+ * Defines values for LanguageExtensionImageName. \
+ * {@link KnownLanguageExtensionImageName} can be used interchangeably with LanguageExtensionImageName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **R** \
+ * **Python3_6_5** \
+ * **Python3_9_12** \
+ * **Python3_9_12IncludeDeepLearning** \
+ * **Python3_10_8**
+ */
+export type LanguageExtensionImageName = string;
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
@@ -1864,7 +1961,9 @@ export enum KnownDataConnectionKind {
   /** EventGrid */
   EventGrid = "EventGrid",
   /** IotHub */
-  IotHub = "IotHub"
+  IotHub = "IotHub",
+  /** CosmosDb */
+  CosmosDb = "CosmosDb"
 }
 
 /**
@@ -1874,7 +1973,8 @@ export enum KnownDataConnectionKind {
  * ### Known values supported by the service
  * **EventHub** \
  * **EventGrid** \
- * **IotHub**
+ * **IotHub** \
+ * **CosmosDb**
  */
 export type DataConnectionKind = string;
 
@@ -2368,6 +2468,12 @@ export interface ClusterPrincipalAssignmentsListOptionalParams
 
 /** Contains response data for the list operation. */
 export type ClusterPrincipalAssignmentsListResponse = ClusterPrincipalAssignmentListResult;
+
+/** Optional parameters. */
+export interface SkusListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SkusListResponse = SkuDescriptionList;
 
 /** Optional parameters. */
 export interface DatabasesCheckNameAvailabilityOptionalParams

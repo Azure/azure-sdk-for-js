@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { NginxManagementClient } = require("@azure/arm-nginx");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List all certificates of given Nginx deployment
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Certificates_List.json
  */
 async function certificatesList() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["NGINX_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["NGINX_RESOURCE_GROUP"] || "myResourceGroup";
   const deploymentName = "myDeployment";
   const credential = new DefaultAzureCredential();
   const client = new NginxManagementClient(credential, subscriptionId);
@@ -30,4 +32,8 @@ async function certificatesList() {
   console.log(resArray);
 }
 
-certificatesList().catch(console.error);
+async function main() {
+  certificatesList();
+}
+
+main().catch(console.error);

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a Recovery Services vault.
  *
  * @summary Creates or updates a Recovery Services vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/PUTVault.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/PUTVault.json
  */
 async function createOrUpdateRecoveryServicesVault() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function createOrUpdateRecoveryServicesVault() {
   const vault: Vault = {
     identity: { type: "SystemAssigned" },
     location: "West US",
-    properties: {},
+    properties: { publicNetworkAccess: "Enabled" },
     sku: { name: "Standard" }
   };
   const credential = new DefaultAzureCredential();
@@ -48,7 +48,7 @@ async function createOrUpdateRecoveryServicesVault() {
  * This sample demonstrates how to Creates or updates a Recovery Services vault.
  *
  * @summary Creates or updates a Recovery Services vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/PUTVault_WithMonitoringSettings.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/PUTVault_WithMonitoringSettings.json
  */
 async function createOrUpdateVaultWithMonitoringSetting() {
   const subscriptionId =
@@ -65,7 +65,8 @@ async function createOrUpdateVaultWithMonitoringSetting() {
       monitoringSettings: {
         azureMonitorAlertSettings: { alertsForAllJobFailures: "Enabled" },
         classicAlertSettings: { alertsForCriticalOperations: "Disabled" }
-      }
+      },
+      publicNetworkAccess: "Enabled"
     },
     sku: { name: "Standard" }
   };
@@ -83,7 +84,7 @@ async function createOrUpdateVaultWithMonitoringSetting() {
  * This sample demonstrates how to Creates or updates a Recovery Services vault.
  *
  * @summary Creates or updates a Recovery Services vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/PUTVault_WithCMK.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/PUTVault_WithCMK.json
  */
 async function createOrUpdateVaultWithCustomerManagedKeys() {
   const subscriptionId =
@@ -112,7 +113,8 @@ async function createOrUpdateVaultWithCustomerManagedKeys() {
           keyUri:
             "https://cmk2xkv.vault.azure.net/keys/Key1/0767b348bb1a4c07baa6c4ec0055d2b3"
         }
-      }
+      },
+      publicNetworkAccess: "Enabled"
     },
     sku: { name: "Standard" }
   };
@@ -130,7 +132,7 @@ async function createOrUpdateVaultWithCustomerManagedKeys() {
  * This sample demonstrates how to Creates or updates a Recovery Services vault.
  *
  * @summary Creates or updates a Recovery Services vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/PUTVault_WithUserAssignedIdentity.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/PUTVault_WithUserAssignedIdentity.json
  */
 async function createOrUpdateVaultWithUserAssignedIdentity() {
   const subscriptionId =
@@ -148,7 +150,7 @@ async function createOrUpdateVaultWithUserAssignedIdentity() {
       }
     },
     location: "West US",
-    properties: {},
+    properties: { publicNetworkAccess: "Enabled" },
     sku: { name: "Standard" }
   };
   const credential = new DefaultAzureCredential();

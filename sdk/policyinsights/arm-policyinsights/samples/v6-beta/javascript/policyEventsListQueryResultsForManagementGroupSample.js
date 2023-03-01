@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { PolicyInsightsClient } = require("@azure/arm-policyinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Queries policy events for the resources under the management group.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_QueryManagementGroupScope.json
  */
 async function queryAtManagementGroupScope() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
   const managementGroupName = "myManagementGroup";
   const credential = new DefaultAzureCredential();
@@ -33,8 +35,6 @@ async function queryAtManagementGroupScope() {
   console.log(resArray);
 }
 
-queryAtManagementGroupScope().catch(console.error);
-
 /**
  * This sample demonstrates how to Queries policy events for the resources under the management group.
  *
@@ -42,7 +42,8 @@ queryAtManagementGroupScope().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_QueryManagementGroupScopeNextLink.json
  */
 async function queryAtManagementGroupScopeWithNextLink() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
   const managementGroupName = "myManagementGroup";
   const skipToken = "WpmWfBSvPhkAK6QD";
@@ -62,4 +63,9 @@ async function queryAtManagementGroupScopeWithNextLink() {
   console.log(resArray);
 }
 
-queryAtManagementGroupScopeWithNextLink().catch(console.error);
+async function main() {
+  queryAtManagementGroupScope();
+  queryAtManagementGroupScopeWithNextLink();
+}
+
+main().catch(console.error);

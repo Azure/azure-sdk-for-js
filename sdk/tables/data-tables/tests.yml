@@ -1,8 +1,5 @@
 trigger: none
 
-variables:
-    jobMatrixFilter: ^((?!8x_node).)*$
-
 stages:
   - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:

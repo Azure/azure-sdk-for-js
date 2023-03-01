@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { CapacityPool, NetAppManagementClient } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or Update a capacity pool
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-05-01/examples/Pools_CreateOrUpdate.json
  */
 async function poolsCreateOrUpdate() {
-  const subscriptionId = "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
-  const resourceGroupName = "myRG";
+  const subscriptionId =
+    process.env["NETAPP_SUBSCRIPTION_ID"] ||
+    "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
+  const resourceGroupName = process.env["NETAPP_RESOURCE_GROUP"] || "myRG";
   const accountName = "account1";
   const poolName = "pool1";
   const body: CapacityPool = {
@@ -39,4 +44,8 @@ async function poolsCreateOrUpdate() {
   console.log(result);
 }
 
-poolsCreateOrUpdate().catch(console.error);
+async function main() {
+  poolsCreateOrUpdate();
+}
+
+main().catch(console.error);

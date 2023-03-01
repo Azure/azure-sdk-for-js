@@ -112,8 +112,34 @@ export type DevBoxesCreateDevBoxParameters = DevBoxesCreateDevBoxMediaTypesParam
   RequestParameters;
 export type DevBoxesDeleteDevBoxParameters = RequestParameters;
 export type DevBoxesStartDevBoxParameters = RequestParameters;
-export type DevBoxesStopDevBoxParameters = RequestParameters;
+
+export interface DevBoxesStopDevBoxQueryParamProperties {
+  /** Optional parameter to hibernate the dev box. */
+  hibernate?: boolean;
+}
+
+export interface DevBoxesStopDevBoxQueryParam {
+  queryParameters?: DevBoxesStopDevBoxQueryParamProperties;
+}
+
+export type DevBoxesStopDevBoxParameters = DevBoxesStopDevBoxQueryParam &
+  RequestParameters;
 export type DevBoxesGetRemoteConnectionParameters = RequestParameters;
+export type DevBoxesListUpcomingActionsParameters = RequestParameters;
+export type DevBoxesGetUpcomingActionParameters = RequestParameters;
+export type DevBoxesSkipUpcomingActionParameters = RequestParameters;
+
+export interface DevBoxesDelayUpcomingActionQueryParamProperties {
+  /** The delayed action time (UTC). */
+  delayUntil: Date | string;
+}
+
+export interface DevBoxesDelayUpcomingActionQueryParam {
+  queryParameters: DevBoxesDelayUpcomingActionQueryParamProperties;
+}
+
+export type DevBoxesDelayUpcomingActionParameters = DevBoxesDelayUpcomingActionQueryParam &
+  RequestParameters;
 
 export interface EnvironmentsListEnvironmentsQueryParamProperties {
   /** The maximum number of resources to return from the operation. Example: 'top=10'. */
@@ -183,20 +209,6 @@ export type EnvironmentsDeployEnvironmentActionParameters = EnvironmentsDeployEn
   EnvironmentsDeployEnvironmentActionBodyParam &
   RequestParameters;
 
-export interface EnvironmentsDeleteEnvironmentActionBodyParam {
-  /** Action properties overriding the environment's default values. */
-  body: ActionRequest;
-}
-
-export interface EnvironmentsDeleteEnvironmentActionMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
-}
-
-export type EnvironmentsDeleteEnvironmentActionParameters = EnvironmentsDeleteEnvironmentActionMediaTypesParam &
-  EnvironmentsDeleteEnvironmentActionBodyParam &
-  RequestParameters;
-
 export interface EnvironmentsCustomEnvironmentActionBodyParam {
   /** Action properties overriding the environment's default values. */
   body: ActionRequest;
@@ -210,8 +222,6 @@ export interface EnvironmentsCustomEnvironmentActionMediaTypesParam {
 export type EnvironmentsCustomEnvironmentActionParameters = EnvironmentsCustomEnvironmentActionMediaTypesParam &
   EnvironmentsCustomEnvironmentActionBodyParam &
   RequestParameters;
-export type EnvironmentsListArtifactsByEnvironmentParameters = RequestParameters;
-export type EnvironmentsListArtifactsByEnvironmentAndPathParameters = RequestParameters;
 
 export interface EnvironmentsListCatalogItemsQueryParamProperties {
   /** The maximum number of resources to return from the operation. Example: 'top=10'. */

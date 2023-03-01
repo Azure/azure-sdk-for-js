@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update vault extended info.
  *
  * @summary Update vault extended info.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/UpdateVaultExtendedInfo.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/UpdateVaultExtendedInfo.json
  */
 async function patchExtendedInfoOfResource() {
   const subscriptionId =

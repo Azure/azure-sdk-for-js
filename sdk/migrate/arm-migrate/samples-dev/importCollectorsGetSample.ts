@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { AzureMigrateV2 } from "@azure/arm-migrate";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get a Import collector.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/migrate/resource-manager/Microsoft.Migrate/stable/2019-10-01/examples/ImportCollectors_Get.json
  */
 async function importCollectorsGet() {
-  const subscriptionId = "31be0ff4-c932-4cb3-8efc-efa411d79280";
-  const resourceGroupName = "markusavstestrg";
+  const subscriptionId =
+    process.env["MIGRATE_SUBSCRIPTION_ID"] ||
+    "31be0ff4-c932-4cb3-8efc-efa411d79280";
+  const resourceGroupName =
+    process.env["MIGRATE_RESOURCE_GROUP"] || "markusavstestrg";
   const projectName = "rajoshCCY9671project";
   const importCollectorName = "importCollector2951";
   const credential = new DefaultAzureCredential();
@@ -32,4 +38,8 @@ async function importCollectorsGet() {
   console.log(result);
 }
 
-importCollectorsGet().catch(console.error);
+async function main() {
+  importCollectorsGet();
+}
+
+main().catch(console.error);

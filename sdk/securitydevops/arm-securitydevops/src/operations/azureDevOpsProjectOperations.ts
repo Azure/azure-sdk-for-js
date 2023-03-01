@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { AzureDevOpsProjectOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -67,12 +68,16 @@ export class AzureDevOpsProjectOperationsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           azureDevOpsConnectorName,
           azureDevOpsOrgName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -82,16 +87,23 @@ export class AzureDevOpsProjectOperationsImpl
     resourceGroupName: string,
     azureDevOpsConnectorName: string,
     azureDevOpsOrgName: string,
-    options?: AzureDevOpsProjectListOptionalParams
+    options?: AzureDevOpsProjectListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AzureDevOpsProject[]> {
-    let result = await this._list(
-      resourceGroupName,
-      azureDevOpsConnectorName,
-      azureDevOpsOrgName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AzureDevOpsProjectListOperationResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        azureDevOpsConnectorName,
+        azureDevOpsOrgName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -101,7 +113,9 @@ export class AzureDevOpsProjectOperationsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -542,7 +556,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

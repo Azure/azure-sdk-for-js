@@ -24,7 +24,7 @@ export { AuthenticationRecord } from "./msal/types";
 export { serializeAuthenticationRecord, deserializeAuthenticationRecord } from "./msal/utils";
 export { TokenCredentialOptions } from "./tokenCredentialOptions";
 export { MultiTenantTokenCredentialOptions } from "./credentials/multiTenantTokenCredentialOptions";
-
+export { AuthorityValidationOptions } from "./credentials/authorityValidationOptions";
 // TODO: Export again once we're ready to release this feature.
 // export { RegionalAuthority } from "./regionalAuthority";
 
@@ -89,6 +89,8 @@ export { UsernamePasswordCredentialOptions } from "./credentials/usernamePasswor
 export { VisualStudioCodeCredential } from "./credentials/visualStudioCodeCredential";
 export { VisualStudioCodeCredentialOptions } from "./credentials/visualStudioCodeCredentialOptions";
 export { OnBehalfOfCredential } from "./credentials/onBehalfOfCredential";
+export { WorkloadIdentityCredential } from "./credentials/workloadIdentityCredential";
+export { WorkloadIdentityCredentialOptions } from "./credentials/workloadIdentityCredentialOptions";
 
 export { TokenCachePersistenceOptions } from "./msal/nodeFlows/tokenCachePersistenceOptions";
 

@@ -318,7 +318,6 @@ export type ContactProfilesGetResponse = ContactProfile;
 
 // @public
 export interface ContactProfilesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    skiptoken?: string;
 }
 
 // @public
@@ -334,7 +333,6 @@ export type ContactProfilesListBySubscriptionResponse = ContactProfileListResult
 
 // @public
 export interface ContactProfilesListNextOptionalParams extends coreClient.OperationOptions {
-    skiptoken?: string;
 }
 
 // @public
@@ -425,7 +423,6 @@ export type ContactsGetResponse = Contact;
 
 // @public
 export interface ContactsListNextOptionalParams extends coreClient.OperationOptions {
-    skiptoken?: string;
 }
 
 // @public
@@ -465,6 +462,9 @@ export interface EndPoint {
     port: string;
     protocol: Protocol;
 }
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export enum KnownActionType {
@@ -797,7 +797,6 @@ export type SpacecraftsListAvailableContactsResponse = AvailableContactsListResu
 
 // @public
 export interface SpacecraftsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    skiptoken?: string;
 }
 
 // @public
@@ -813,7 +812,6 @@ export type SpacecraftsListBySubscriptionResponse = SpacecraftListResult;
 
 // @public
 export interface SpacecraftsListNextOptionalParams extends coreClient.OperationOptions {
-    skiptoken?: string;
 }
 
 // @public

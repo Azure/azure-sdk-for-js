@@ -6,7 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./cacheRules";
 export * from "./connectedRegistries";
+export * from "./credentialSets";
 export * from "./exportPipelines";
 export * from "./registries";
 export * from "./importPipelines";

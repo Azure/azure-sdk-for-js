@@ -86,6 +86,7 @@ export const imdsMsiRetryConfig = {
  * Defines how to determine whether the Azure IMDS MSI is available, and also how to retrieve a token from the Azure IMDS MSI.
  */
 export const imdsMsi: MSI = {
+  name: "imdsMsi",
   async isAvailable({
     scopes,
     identityClient,

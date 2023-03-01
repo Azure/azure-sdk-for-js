@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ManagedServiceIdentityClient } from "@azure/arm-msi";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists all the userAssignedIdentities available under the specified subscription.
@@ -18,7 +21,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/IdentityListBySubscription.json
  */
 async function identityListBySubscription() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["MSI_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new ManagedServiceIdentityClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +31,8 @@ async function identityListBySubscription() {
   console.log(resArray);
 }
 
-identityListBySubscription().catch(console.error);
+async function main() {
+  identityListBySubscription();
+}
+
+main().catch(console.error);

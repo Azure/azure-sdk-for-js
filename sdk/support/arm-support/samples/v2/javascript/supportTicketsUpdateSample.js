@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { MicrosoftSupport } = require("@azure/arm-support");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to This API allows you to update the severity level, ticket status, and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.<br/><br/>Changing the ticket status to _closed_ is allowed only on an unassigned case. When an engineer is actively working on the ticket, send your ticket closure request by sending a note to your engineer.
@@ -18,7 +19,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2020-04-01/examples/UpdateContactDetailsOfSupportTicketForSubscription.json
  */
 async function updateContactDetailsOfASupportTicket() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";
   const supportTicketName = "testticket";
   const updateSupportTicket = {
     contactDetails: {
@@ -39,8 +40,6 @@ async function updateContactDetailsOfASupportTicket() {
   console.log(result);
 }
 
-updateContactDetailsOfASupportTicket().catch(console.error);
-
 /**
  * This sample demonstrates how to This API allows you to update the severity level, ticket status, and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.<br/><br/>Changing the ticket status to _closed_ is allowed only on an unassigned case. When an engineer is actively working on the ticket, send your ticket closure request by sending a note to your engineer.
  *
@@ -48,7 +47,7 @@ updateContactDetailsOfASupportTicket().catch(console.error);
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2020-04-01/examples/UpdateSeverityOfSupportTicketForSubscription.json
  */
 async function updateSeverityOfASupportTicket() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";
   const supportTicketName = "testticket";
   const updateSupportTicket = { severity: "critical" };
   const credential = new DefaultAzureCredential();
@@ -57,8 +56,6 @@ async function updateSeverityOfASupportTicket() {
   console.log(result);
 }
 
-updateSeverityOfASupportTicket().catch(console.error);
-
 /**
  * This sample demonstrates how to This API allows you to update the severity level, ticket status, and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.<br/><br/>Changing the ticket status to _closed_ is allowed only on an unassigned case. When an engineer is actively working on the ticket, send your ticket closure request by sending a note to your engineer.
  *
@@ -66,7 +63,7 @@ updateSeverityOfASupportTicket().catch(console.error);
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2020-04-01/examples/UpdateStatusOfSupportTicketForSubscription.json
  */
 async function updateStatusOfASupportTicket() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";
   const supportTicketName = "testticket";
   const updateSupportTicket = { status: "closed" };
   const credential = new DefaultAzureCredential();
@@ -75,4 +72,10 @@ async function updateStatusOfASupportTicket() {
   console.log(result);
 }
 
-updateStatusOfASupportTicket().catch(console.error);
+async function main() {
+  updateContactDetailsOfASupportTicket();
+  updateSeverityOfASupportTicket();
+  updateStatusOfASupportTicket();
+}
+
+main().catch(console.error);

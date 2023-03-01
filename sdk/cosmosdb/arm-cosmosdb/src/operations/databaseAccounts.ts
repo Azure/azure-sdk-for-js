@@ -12,8 +12,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DatabaseAccountGetResults,
   DatabaseAccountsListOptionalParams,
@@ -38,8 +42,10 @@ import {
   DatabaseAccountsCreateOrUpdateOptionalParams,
   DatabaseAccountsCreateOrUpdateResponse,
   DatabaseAccountsDeleteOptionalParams,
+  DatabaseAccountsDeleteResponse,
   FailoverPolicies,
   DatabaseAccountsFailoverPriorityChangeOptionalParams,
+  DatabaseAccountsFailoverPriorityChangeResponse,
   DatabaseAccountsListKeysOptionalParams,
   DatabaseAccountsListKeysResponse,
   DatabaseAccountsListConnectionStringsOptionalParams,
@@ -397,8 +403,8 @@ export class DatabaseAccountsImpl implements DatabaseAccounts {
     updateParameters: DatabaseAccountUpdateParameters,
     options?: DatabaseAccountsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DatabaseAccountsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DatabaseAccountsUpdateResponse>,
       DatabaseAccountsUpdateResponse
     >
   > {
@@ -408,7 +414,7 @@ export class DatabaseAccountsImpl implements DatabaseAccounts {
     ): Promise<DatabaseAccountsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -441,13 +447,16 @@ export class DatabaseAccountsImpl implements DatabaseAccounts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, updateParameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, updateParameters, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DatabaseAccountsUpdateResponse,
+      OperationState<DatabaseAccountsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -490,8 +499,8 @@ export class DatabaseAccountsImpl implements DatabaseAccounts {
     createUpdateParameters: DatabaseAccountCreateUpdateParameters,
     options?: DatabaseAccountsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DatabaseAccountsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DatabaseAccountsCreateOrUpdateResponse>,
       DatabaseAccountsCreateOrUpdateResponse
     >
   > {
@@ -501,7 +510,7 @@ export class DatabaseAccountsImpl implements DatabaseAccounts {
     ): Promise<DatabaseAccountsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -534,13 +543,16 @@ export class DatabaseAccountsImpl implements DatabaseAccounts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, createUpdateParameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, createUpdateParameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DatabaseAccountsCreateOrUpdateResponse,
+      OperationState<DatabaseAccountsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -580,14 +592,19 @@ export class DatabaseAccountsImpl implements DatabaseAccounts {
     resourceGroupName: string,
     accountName: string,
     options?: DatabaseAccountsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DatabaseAccountsDeleteResponse>,
+      DatabaseAccountsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<DatabaseAccountsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -620,13 +637,16 @@ export class DatabaseAccountsImpl implements DatabaseAccounts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DatabaseAccountsDeleteResponse,
+      OperationState<DatabaseAccountsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -643,7 +663,7 @@ export class DatabaseAccountsImpl implements DatabaseAccounts {
     resourceGroupName: string,
     accountName: string,
     options?: DatabaseAccountsDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<DatabaseAccountsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       accountName,
@@ -667,14 +687,19 @@ export class DatabaseAccountsImpl implements DatabaseAccounts {
     accountName: string,
     failoverParameters: FailoverPolicies,
     options?: DatabaseAccountsFailoverPriorityChangeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DatabaseAccountsFailoverPriorityChangeResponse>,
+      DatabaseAccountsFailoverPriorityChangeResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<DatabaseAccountsFailoverPriorityChangeResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -707,13 +732,16 @@ export class DatabaseAccountsImpl implements DatabaseAccounts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, failoverParameters, options },
-      failoverPriorityChangeOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, failoverParameters, options },
+      spec: failoverPriorityChangeOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DatabaseAccountsFailoverPriorityChangeResponse,
+      OperationState<DatabaseAccountsFailoverPriorityChangeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -735,7 +763,7 @@ export class DatabaseAccountsImpl implements DatabaseAccounts {
     accountName: string,
     failoverParameters: FailoverPolicies,
     options?: DatabaseAccountsFailoverPriorityChangeOptionalParams
-  ): Promise<void> {
+  ): Promise<DatabaseAccountsFailoverPriorityChangeResponse> {
     const poller = await this.beginFailoverPriorityChange(
       resourceGroupName,
       accountName,
@@ -816,14 +844,14 @@ export class DatabaseAccountsImpl implements DatabaseAccounts {
     accountName: string,
     regionParameterForOffline: RegionForOnlineOffline,
     options?: DatabaseAccountsOfflineRegionOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -856,13 +884,18 @@ export class DatabaseAccountsImpl implements DatabaseAccounts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, regionParameterForOffline, options },
-      offlineRegionOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        accountName,
+        regionParameterForOffline,
+        options
+      },
+      spec: offlineRegionOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -903,14 +936,14 @@ export class DatabaseAccountsImpl implements DatabaseAccounts {
     accountName: string,
     regionParameterForOnline: RegionForOnlineOffline,
     options?: DatabaseAccountsOnlineRegionOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -943,13 +976,18 @@ export class DatabaseAccountsImpl implements DatabaseAccounts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, regionParameterForOnline, options },
-      onlineRegionOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        accountName,
+        regionParameterForOnline,
+        options
+      },
+      spec: onlineRegionOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1024,14 +1062,14 @@ export class DatabaseAccountsImpl implements DatabaseAccounts {
     accountName: string,
     keyToRegenerate: DatabaseAccountRegenerateKeyParameters,
     options?: DatabaseAccountsRegenerateKeyOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1064,13 +1102,13 @@ export class DatabaseAccountsImpl implements DatabaseAccounts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, keyToRegenerate, options },
-      regenerateKeyOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, keyToRegenerate, options },
+      spec: regenerateKeyOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1256,7 +1294,20 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
+  responses: {
+    200: {
+      headersMapper: Mappers.DatabaseAccountsDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.DatabaseAccountsDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.DatabaseAccountsDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.DatabaseAccountsDeleteHeaders
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1270,7 +1321,20 @@ const failoverPriorityChangeOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/failoverPriorityChange",
   httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
+  responses: {
+    200: {
+      headersMapper: Mappers.DatabaseAccountsFailoverPriorityChangeHeaders
+    },
+    201: {
+      headersMapper: Mappers.DatabaseAccountsFailoverPriorityChangeHeaders
+    },
+    202: {
+      headersMapper: Mappers.DatabaseAccountsFailoverPriorityChangeHeaders
+    },
+    204: {
+      headersMapper: Mappers.DatabaseAccountsFailoverPriorityChangeHeaders
+    }
+  },
   requestBody: Parameters.failoverParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [

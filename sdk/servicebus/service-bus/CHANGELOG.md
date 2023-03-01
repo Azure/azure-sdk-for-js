@@ -1,5 +1,17 @@
 # Release History
 
+## 7.8.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Pass `skipParsingBodyAsJson` and `skipConvertingDate` options to peek operations. (PR #24950)[https://github.com/Azure/azure-sdk-for-js/pull/24950]
+
+### Other Changes
+
 ## 7.8.0 (2023-02-07)
 
 ### Features Added

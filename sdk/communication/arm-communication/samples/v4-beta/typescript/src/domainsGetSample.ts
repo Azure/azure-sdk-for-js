@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { CommunicationServiceManagementClient } from "@azure/arm-communication";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get the Domains resource and its properties.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/domains/get.json
  */
 async function getDomainsResource() {
-  const subscriptionId = "12345";
-  const resourceGroupName = "MyResourceGroup";
+  const subscriptionId =
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "12345";
+  const resourceGroupName =
+    process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
   const emailServiceName = "MyEmailServiceResource";
   const domainName = "mydomain.com";
   const credential = new DefaultAzureCredential();
@@ -35,4 +40,8 @@ async function getDomainsResource() {
   console.log(result);
 }
 
-getDomainsResource().catch(console.error);
+async function main() {
+  getDomainsResource();
+}
+
+main().catch(console.error);
