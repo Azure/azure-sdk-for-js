@@ -11,8 +11,6 @@ import { expectation73 } from "../public/expectations";
 import { assertActionsResults } from "../public/utils/resultHelper";
 
 describe("Error targets", function () {
-  let client: TextAnalysisClient;
-
   it("handles a mix of action results with failed actions", async function () {
     const client = mockClientResponse();
     const docs = ["I will go to the park."];
