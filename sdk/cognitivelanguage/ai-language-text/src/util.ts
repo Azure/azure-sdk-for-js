@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { LanguageDetectionInput, TextDocumentInput } from "./generated";
+import { ErrorModel, LanguageDetectionInput, TextDocumentInput } from "./generated";
 import { TextAnalysisOperationOptions } from "./models";
 import { logger } from "./logger";
 
@@ -162,4 +162,24 @@ export function getOperationOptions<OptionsT extends TextAnalysisOperationOption
     },
     rest,
   };
+}
+
+/**
+ *
+ * @param error - error with the target in the JSON error pointer format "#/items/0
+ * @returns number: the position of the task with error
+ */
+export function extractErrorPointerIndex(error: ErrorModel): number {
+  if (!error.target) {
+    throw new Error("Unexpected response from service - no target present");
+  }
+  const position = parseInt(error.target.split("/").pop() as string);
+
+  if (isNaN(position)) {
+    throw new Error(
+      `Unexpected response from service - action pointer "${error.target}" is not a valid action pointer.`
+    );
+  }
+
+  return position;
 }
