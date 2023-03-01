@@ -1591,16 +1591,6 @@ packages:
       - '@types/node'
     dev: false
 
-  /@microsoft/api-extractor-model/7.26.4_@types+node@12.20.55:
-    resolution: {integrity: sha512-PDCgCzXDo+SLY5bsfl4bS7hxaeEtnXj7XtuzEE+BtALp7B5mK/NrS2kHWU69pohgsRmEALycQdaQPXoyT2i5MQ==}
-    dependencies:
-      '@microsoft/tsdoc': 0.14.2
-      '@microsoft/tsdoc-config': 0.16.2
-      '@rushstack/node-core-library': 3.55.2_@types+node@12.20.55
-    transitivePeerDependencies:
-      - '@types/node'
-    dev: false
-
   /@microsoft/api-extractor-model/7.26.4_@types+node@14.18.36:
     resolution: {integrity: sha512-PDCgCzXDo+SLY5bsfl4bS7hxaeEtnXj7XtuzEE+BtALp7B5mK/NrS2kHWU69pohgsRmEALycQdaQPXoyT2i5MQ==}
     dependencies:
@@ -1629,26 +1619,6 @@ packages:
       '@microsoft/tsdoc': 0.14.2
       '@microsoft/tsdoc-config': 0.16.2
       '@rushstack/node-core-library': 3.55.2
-      '@rushstack/rig-package': 0.3.18
-      '@rushstack/ts-command-line': 4.13.2
-      colors: 1.2.5
-      lodash: 4.17.21
-      resolve: 1.22.1
-      semver: 7.3.8
-      source-map: 0.6.1
-      typescript: 4.8.4
-    transitivePeerDependencies:
-      - '@types/node'
-    dev: false
-
-  /@microsoft/api-extractor/7.34.4_@types+node@12.20.55:
-    resolution: {integrity: sha512-HOdcci2nT40ejhwPC3Xja9G+WSJmWhCUKKryRfQYsmE9cD+pxmBaKBKCbuS9jUcl6bLLb4Gz+h7xEN5r0QiXnQ==}
-    hasBin: true
-    dependencies:
-      '@microsoft/api-extractor-model': 7.26.4_@types+node@12.20.55
-      '@microsoft/tsdoc': 0.14.2
-      '@microsoft/tsdoc-config': 0.16.2
-      '@rushstack/node-core-library': 3.55.2_@types+node@12.20.55
       '@rushstack/rig-package': 0.3.18
       '@rushstack/ts-command-line': 4.13.2
       colors: 1.2.5
@@ -2062,24 +2032,6 @@ packages:
       z-schema: 5.0.5
     dev: false
 
-  /@rushstack/node-core-library/3.55.2_@types+node@12.20.55:
-    resolution: {integrity: sha512-SaLe/x/Q/uBVdNFK5V1xXvsVps0y7h1sN7aSJllQyFbugyOaxhNRF25bwEDnicARNEjJw0pk0lYnJQ9Kr6ev0A==}
-    peerDependencies:
-      '@types/node': '*'
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-    dependencies:
-      '@types/node': 12.20.55
-      colors: 1.2.5
-      fs-extra: 7.0.1
-      import-lazy: 4.0.0
-      jju: 1.4.0
-      resolve: 1.22.1
-      semver: 7.3.8
-      z-schema: 5.0.5
-    dev: false
-
   /@rushstack/node-core-library/3.55.2_@types+node@14.18.36:
     resolution: {integrity: sha512-SaLe/x/Q/uBVdNFK5V1xXvsVps0y7h1sN7aSJllQyFbugyOaxhNRF25bwEDnicARNEjJw0pk0lYnJQ9Kr6ev0A==}
     peerDependencies:
@@ -2399,10 +2351,6 @@ packages:
     dependencies:
       '@types/node': 18.14.2
       form-data: 3.0.1
-    dev: false
-
-  /@types/node/12.20.55:
-    resolution: {integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==}
     dev: false
 
   /@types/node/14.18.36:
@@ -3933,24 +3881,6 @@ packages:
       semver: 7.3.8
       shelljs: 0.8.5
       typescript: 5.1.0-dev.20230227
-    dev: false
-
-  /downlevel-dts/0.7.0:
-    resolution: {integrity: sha512-tcjGqElN0/oad/LJBlaxmZ3zOYEQOBbGuirKzif8s1jeRiWBdNX9H6OBFlRjOQkosXgV+qSjs4osuGCivyZ4Jw==}
-    hasBin: true
-    dependencies:
-      semver: 7.3.8
-      shelljs: 0.8.5
-      typescript: 4.9.5
-    dev: false
-
-  /downlevel-dts/0.8.0:
-    resolution: {integrity: sha512-wBy+Q0Ya/1XRz9MMaj3BXH95E8aSckY3lppmUnf8Qv7dUg0wbWm3szDiVL4PdAvwcS7JbBBDPhCXeAGNT3ttFQ==}
-    hasBin: true
-    dependencies:
-      semver: 7.3.8
-      shelljs: 0.8.5
-      typescript: 4.9.5
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -15861,20 +15791,20 @@ packages:
     dev: false
 
   file:projects/communication-toll-free-verification.tgz:
-    resolution: {integrity: sha512-SaLxY/lsHkLik7nd1FRec6WKrL30TcOUSWYCbT8tSD73OEyD/Rq+EShUQY3s4WoSLA1+4OD3jNqFLQ8TQ/IqGg==, tarball: file:projects/communication-toll-free-verification.tgz}
+    resolution: {integrity: sha512-BA+C8eB9YGFjK5/9w8TiQjX1Xa8hcyrE5geRTnguIT/dCBni2BWPXesjYDxT5UY5P3l3SkorpN1+OEB2TGz4dg==, tarball: file:projects/communication-toll-free-verification.tgz}
     name: '@rush-temp/communication-toll-free-verification'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.4_@types+node@12.20.55
+      '@microsoft/api-extractor': 7.34.4_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 14.18.36
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
+      dotenv: 16.0.3
       eslint: 8.35.0
       inherits: 2.0.4
       karma: 6.4.1
@@ -15895,7 +15825,7 @@ packages:
       rimraf: 3.0.2
       sinon: 9.2.4
       tslib: 2.5.0
-      typescript: 4.2.4
+      typescript: 4.8.4
       uuid: 8.3.2
     transitivePeerDependencies:
       - bufferutil
@@ -16594,7 +16524,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-n23KTnCfe9M0fTikGbTyqnmNiQoex1eTeF4+ZA28LiUjNlqHWlaPQZOS6GhCPH3abvJyQOaSmK11VCTbRd7SHA==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-4/0mZtb7b7FgLnzecjsVfv9ewj3aGYdB+YyEuDf1ilB2Y6LlmYKY6nqpk587WN1HrVdYx6JVGcN8oY0az3XURA==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -16624,7 +16554,7 @@ packages:
       cross-env: 7.0.3
       decompress: 4.2.1
       dotenv: 16.0.3
-      downlevel-dts: 0.7.0
+      downlevel-dts: 0.10.1
       env-paths: 2.2.1
       eslint: 8.35.0
       fs-extra: 11.1.0
@@ -17005,7 +16935,7 @@ packages:
     dev: false
 
   file:projects/functions-authentication-events.tgz:
-    resolution: {integrity: sha512-k1QsVQof11fMAj7lWg2zkfsZx1fVuIXoZx/Uv/p2MkylJzaO3KegluZ5CTxWFruEliFShm/VKGdNBaj+H15PEw==, tarball: file:projects/functions-authentication-events.tgz}
+    resolution: {integrity: sha512-lWjz9hrR6YCkAGTItETU/kB/pG3CheSWsIURuWOM9egfM0ZuJ6IxM8OrqJuwz4nGP/YzDAaJWzj4jwGhiK1NyA==, tarball: file:projects/functions-authentication-events.tgz}
     name: '@rush-temp/functions-authentication-events'
     version: 0.0.0
     dependencies:
@@ -17018,7 +16948,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.1
       eslint: 8.35.0
       esm: 3.2.25
       inherits: 2.0.4
@@ -17555,12 +17485,12 @@ packages:
     dev: false
 
   file:projects/maps-common.tgz:
-    resolution: {integrity: sha512-fhAOVrIv0eDfEkSVb8QIFVK1t+auIXdek0PdUZtoUZqYEHc/EjZoVgg9RJQK1YNMgsxSb3k/iKFRXtqQ3TecOw==, tarball: file:projects/maps-common.tgz}
+    resolution: {integrity: sha512-ME4CemEf7mtQp41sNoBVPcstbaPgPjuy+pdmm0nqvLHicw5TzwVvg+bzjUr1hacIwQ541qViDAcd/FIuQfgjtw==, tarball: file:projects/maps-common.tgz}
     name: '@rush-temp/maps-common'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.34.4
-      downlevel-dts: 0.8.0
+      downlevel-dts: 0.10.1
       eslint: 8.35.0
       prettier: 2.8.4
       rimraf: 3.0.2
@@ -19671,7 +19601,7 @@ packages:
     dev: false
 
   file:projects/test-utils-perf.tgz:
-    resolution: {integrity: sha512-6zzcoXQnT/rCizMHw++j+aEcAQEedJz9XIpc+R/6edRn9aprq3QjvSTc7/EY89c5Y/grf5Rtd3iSlGm980Okqg==, tarball: file:projects/test-utils-perf.tgz}
+    resolution: {integrity: sha512-ItwQW/sYOYRNu3aTBbwuYSRyjgqKF7AMlKMCwFtN6qs/+RrTRqOtLQeEEp3tjjJayC+kzpxh5I5tXvHLfOFuWw==, tarball: file:projects/test-utils-perf.tgz}
     name: '@rush-temp/test-utils-perf'
     version: 0.0.0
     dependencies:

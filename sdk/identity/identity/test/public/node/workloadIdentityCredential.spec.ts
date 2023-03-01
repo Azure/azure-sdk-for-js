@@ -11,7 +11,12 @@ import { Context } from "mocha";
 import { assert } from "@azure/test-utils";
 import { createJWTTokenFromCertificate } from "./utils/utils";
 import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "fs";
-import { ManagedIdentityCredential, WorkloadIdentityCredential } from "../../../src";
+import {
+  DefaultAzureCredential,
+  ManagedIdentityCredential,
+  WorkloadIdentityCredential,
+  WorkloadIdentityCredentialOptions,
+} from "../../../src";
 
 describe.skip("WorkloadIdentityCredential", function () {
   let cleanup: MsalTestCleanup;
@@ -42,10 +47,10 @@ describe.skip("WorkloadIdentityCredential", function () {
     const fileDir = await setupFileandEnv("workload-identity");
     const credential = new WorkloadIdentityCredential(
       recorder.configureClientOptions({
-        clientId: clientId,
-        tenantId: tenantId,
+        tenantId,
+        clientId,
         federatedTokenFilePath: fileDir.tempFile,
-      })
+      } as WorkloadIdentityCredentialOptions)
     );
     try {
       const token = await credential.getToken(scope);
@@ -69,6 +74,22 @@ describe.skip("WorkloadIdentityCredential", function () {
       rmdirSync(fileDir.tempDir);
     }
   });
+
+  it("authenticates with DefaultAzure Credential", async function (this: Context) {
+    const fileDir = await setupFileandEnv("token-exchange-msi");
+    const credential = new DefaultAzureCredential(recorder.configureClientOptions({}));
+    try {
+      const token = await credential.getToken(scope);
+      assert.ok(token?.token);
+      assert.ok(token?.expiresOnTimestamp! > Date.now());
+    } catch (e) {
+      console.log(e);
+    } finally {
+      unlinkSync(fileDir.tempFile);
+      rmdirSync(fileDir.tempDir);
+    }
+  });
+
   async function setupFileandEnv(testName: string): Promise<FileDirectory> {
     const testTitle = testName + Date.now().toString();
     const tempDir = mkdtempSync(join(tmpdir(), testTitle));
