@@ -12,7 +12,7 @@ export interface EmailClientOptions extends CommonClientOptions {}
 /** Content of the email. */
 export type EmailContent = HtmlEmailContent | PlainTextEmailContent;
 
-/** Content of the email with a required html operty. */
+/** Content of the email with a required html property. */
 export interface HtmlEmailContent {
   /** Subject of the email message */
   subject: string;
