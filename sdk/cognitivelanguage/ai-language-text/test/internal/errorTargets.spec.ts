@@ -13,11 +13,8 @@ import { assertActionsResults } from "../public/utils/resultHelper";
 describe("Error targets", function () {
   let client: TextAnalysisClient;
 
-  before(async function () {
-    client = mockClientResponse();
-  });
-
   it("handles a mix of action results with failed actions", async function () {
+    const client = mockClientResponse();
     const docs = ["I will go to the park."];
     const poller = await client.beginAnalyzeBatch(
       [
