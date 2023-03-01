@@ -24,7 +24,7 @@ import { PartitionKeyRange } from "./PartitionKeyRange";
 import { Offer, OfferDefinition } from "../Offer";
 import { OfferResponse } from "../Offer/OfferResponse";
 import { Resource } from "../Resource";
-import { CosmosDiagnosticContext, getEmptyCosmosDiagnostics } from "../../request/CosmosDiagnostics";
+import { getEmptyCosmosDiagnostics } from "../../request";
 
 /**
  * Operations for reading, replacing, or deleting a specific, existing container by id.
@@ -134,7 +134,13 @@ export class Container {
       options,
     });
     this.clientContext.partitionKeyDefinitionCache[this.url] = response.result.partitionKey;
-    return new ContainerResponse(response.result, response.headers, response.code, response.diagnostics, this);
+    return new ContainerResponse(
+      response.result,
+      response.headers,
+      response.code,
+      response.diagnostics,
+      this
+    );
   }
 
   /** Replace the container's definition */
@@ -157,7 +163,13 @@ export class Container {
       resourceId: id,
       options,
     });
-    return new ContainerResponse(response.result, response.headers, response.code, response.diagnostics, this);
+    return new ContainerResponse(
+      response.result,
+      response.headers,
+      response.code,
+      response.diagnostics,
+      this
+    );
   }
 
   /** Delete the container */
@@ -171,7 +183,13 @@ export class Container {
       resourceId: id,
       options,
     });
-    return new ContainerResponse(response.result, response.headers, response.code, response.diagnostics, this);
+    return new ContainerResponse(
+      response.result,
+      response.headers,
+      response.code,
+      response.diagnostics,
+      this
+    );
   }
 
   /**
@@ -264,6 +282,12 @@ export class Container {
       partitionKey: partitionKey,
       method: HTTPMethod.post,
     });
-    return new ContainerResponse(response.result, response.headers, response.code, response.diagnostics, this);
+    return new ContainerResponse(
+      response.result,
+      response.headers,
+      response.code,
+      response.diagnostics,
+      this
+    );
   }
 }

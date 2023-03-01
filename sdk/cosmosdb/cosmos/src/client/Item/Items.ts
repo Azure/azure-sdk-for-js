@@ -268,9 +268,9 @@ export class Items {
       body.id = uuid();
     }
 
-    const {diagnosticContext, partitionKeyDefinition} = await this.readAndRecordPartitionKeyDefinition();
+    const { diagnosticContext, partitionKeyDefinition } =
+      await this.readAndRecordPartitionKeyDefinition();
     const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
-
 
     const err = {};
     if (!isItemResourceValid(body, err)) {
@@ -287,7 +287,7 @@ export class Items {
       resourceId: id,
       options,
       partitionKey,
-      diagnosticContext
+      diagnosticContext,
     });
 
     const ref = new Item(
@@ -336,7 +336,8 @@ export class Items {
     body: T,
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
-    const {diagnosticContext, partitionKeyDefinition} = await this.readAndRecordPartitionKeyDefinition();
+    const { diagnosticContext, partitionKeyDefinition } =
+      await this.readAndRecordPartitionKeyDefinition();
     const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
 
     // Generate random document id if the id is missing in the payload and
@@ -360,7 +361,7 @@ export class Items {
       resourceId: id,
       options,
       partitionKey,
-      diagnosticContext
+      diagnosticContext,
     });
 
     const ref = new Item(
@@ -410,11 +411,12 @@ export class Items {
     operations: OperationInput[],
     bulkOptions?: BulkOptions,
     options?: RequestOptions
-  ): Promise<OperationResponse[] & {diagnostics: CosmosDiagnosticContext}> {
+  ): Promise<OperationResponse[] & { diagnostics: CosmosDiagnosticContext }> {
     const { resources: partitionKeyRanges } = await this.container
       .readPartitionKeyRanges()
       .fetchAll();
-    const {diagnosticContext, partitionKeyDefinition} = await this.readAndRecordPartitionKeyDefinition();
+    const { diagnosticContext, partitionKeyDefinition } =
+      await this.readAndRecordPartitionKeyDefinition();
     const batches: Batch[] = partitionKeyRanges.map((keyRange: PartitionKeyRange) => {
       return {
         min: keyRange.minInclusive,
@@ -475,7 +477,7 @@ export class Items {
           }
         })
     );
-    let response: any = orderedResponses;
+    const response: any = orderedResponses;
     response.diagnostics = diagnosticContext.getDiagnostics();
     return response;
   }
@@ -533,13 +535,15 @@ export class Items {
     }
   }
 
-  private async readAndRecordPartitionKeyDefinition(): Promise<{ diagnosticContext: CosmosDiagnosticContext, partitionKeyDefinition: PartitionKeyDefinition}> {
+  private async readAndRecordPartitionKeyDefinition(): Promise<{
+    diagnosticContext: CosmosDiagnosticContext;
+    partitionKeyDefinition: PartitionKeyDefinition;
+  }> {
     const diagnosticContext: CosmosDiagnosticContext = new CosmosDiagnosticContext();
 
     const { resource: partitionKeyDefinition, diagnostics } =
       await this.container.readPartitionKeyDefinition();
     diagnosticContext.recordMetaDataQuery(diagnostics, MetadataType.PARTITION_KEY_RANGE_LOOK_UP);
-    return { diagnosticContext, partitionKeyDefinition}; 
+    return { diagnosticContext, partitionKeyDefinition };
   }
-
 }

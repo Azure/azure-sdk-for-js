@@ -22,5 +22,6 @@ export { TimeoutError } from "./TimeoutError";
 export {
   CosmosDiagnosticContext,
   CosmosDiagnostics,
-  MetadataType
-} from './CosmosDiagnostics'
+  MetadataType,
+  getEmptyCosmosDiagnostics,
+} from "./CosmosDiagnostics";

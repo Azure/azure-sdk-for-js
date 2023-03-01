@@ -28,7 +28,11 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
       return { result, headers: aggregateHeaders, diagnostics };
     }
     // If both limit and offset are 0, return nothing
-    return { result: undefined, headers: getInitialHeader(), diagnostics: getEmptyCosmosDiagnostics() };
+    return {
+      result: undefined,
+      headers: getInitialHeader(),
+      diagnostics: getEmptyCosmosDiagnostics(),
+    };
   }
 
   public hasMoreResults(): boolean {

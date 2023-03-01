@@ -49,7 +49,7 @@ export async function execute({
     requestContext.client.clearSessionToken(requestContext.path);
     delete requestContext.headers["x-ms-session-token"];
   }
-   
+
   try {
     const response = await executeRequest(requestContext);
     response.headers[Constants.ThrottleRetryCount] =
@@ -112,20 +112,23 @@ function setupRetryPolicies(retryPolicies: RetryPolicies, requestContext: Reques
 
 function selectRetryPolicy(err: any, retryPolicies: RetryPolicies) {
   let retryPolicy: RetryPolicy;
-  if (err.code === StatusCodes.ENOTFOUND ||
+  if (
+    err.code === StatusCodes.ENOTFOUND ||
     err.code === "REQUEST_SEND_ERROR" ||
     (err.code === StatusCodes.Forbidden &&
       (err.substatus === SubStatusCodes.DatabaseAccountNotFound ||
-        err.substatus === SubStatusCodes.WriteForbidden))) {
+        err.substatus === SubStatusCodes.WriteForbidden))
+  ) {
     retryPolicy = retryPolicies.endpointDiscoveryRetryPolicy;
   } else if (err.code === StatusCodes.TooManyRequests) {
     retryPolicy = retryPolicies.resourceThrottleRetryPolicy;
-  } else if (err.code === StatusCodes.NotFound &&
-    err.substatus === SubStatusCodes.ReadSessionNotAvailable) {
+  } else if (
+    err.code === StatusCodes.NotFound &&
+    err.substatus === SubStatusCodes.ReadSessionNotAvailable
+  ) {
     retryPolicy = retryPolicies.sessionReadRetryPolicy;
   } else {
     retryPolicy = retryPolicies.defaultRetryPolicy;
   }
   return retryPolicy;
 }
-

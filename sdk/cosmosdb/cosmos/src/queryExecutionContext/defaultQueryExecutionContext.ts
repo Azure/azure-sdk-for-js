@@ -74,7 +74,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
       return {
         result: this.resources[this.currentIndex],
         headers: getInitialHeader(),
-        diagnostics: getEmptyCosmosDiagnostics()
+        diagnostics: getEmptyCosmosDiagnostics(),
       };
     }
 
@@ -84,15 +84,19 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
       if (this.resources.length === 0) {
         if (!this.continuationToken && this.currentPartitionIndex >= this.fetchFunctions.length) {
           this.state = DefaultQueryExecutionContext.STATES.ended;
-          return { result: undefined, headers, diagnostics: getEmptyCosmosDiagnostics()};
+          return { result: undefined, headers, diagnostics: getEmptyCosmosDiagnostics() };
         } else {
           return this.current();
         }
       }
-      return { result: this.resources[this.currentIndex], headers, diagnostics};
+      return { result: this.resources[this.currentIndex], headers, diagnostics };
     } else {
       this.state = DefaultQueryExecutionContext.STATES.ended;
-      return { result: undefined, headers: getInitialHeader(), diagnostics: getEmptyCosmosDiagnostics() };
+      return {
+        result: undefined,
+        headers: getInitialHeader(),
+        diagnostics: getEmptyCosmosDiagnostics(),
+      };
     }
   }
 
@@ -116,7 +120,11 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
    */
   public async fetchMore(): Promise<Response<any>> {
     if (this.currentPartitionIndex >= this.fetchFunctions.length) {
-      return { headers: getInitialHeader(), result: undefined, diagnostics: getEmptyCosmosDiagnostics() };
+      return {
+        headers: getInitialHeader(),
+        result: undefined,
+        diagnostics: getEmptyCosmosDiagnostics(),
+      };
     }
 
     // Keep to the original continuation and to restore the value after fetchFunction call
@@ -125,7 +133,11 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
 
     // Return undefined if there is no more results
     if (this.currentPartitionIndex >= this.fetchFunctions.length) {
-      return { headers: getInitialHeader(), result: undefined, diagnostics: getEmptyCosmosDiagnostics() };
+      return {
+        headers: getInitialHeader(),
+        result: undefined,
+        diagnostics: getEmptyCosmosDiagnostics(),
+      };
     }
 
     let resources;

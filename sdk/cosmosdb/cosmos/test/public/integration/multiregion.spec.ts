@@ -64,7 +64,7 @@ const databaseAccountResponse = {
       '{"maxSqlQueryInputLength":262144,"maxJoinsPerSqlQuery":5,"maxLogicalAndPerSqlQuery":500,"maxLogicalOrPerSqlQuery":500,"maxUdfRefPerSqlQuery":10,"maxInExpressionItemsCount":16000,"queryMaxInMemorySortDocumentCount":500,"maxQueryRequestTimeoutFraction":0.9,"sqlAllowNonFiniteNumbers":false,"sqlAllowAggregateFunctions":true,"sqlAllowSubQuery":true,"sqlAllowScalarSubQuery":true,"allowNewKeywords":true,"sqlAllowLike":false,"sqlAllowGroupByClause":true,"maxSpatialQueryCells":12,"spatialMaxGeometryPointCount":256,"sqlAllowTop":true,"enableSpatialIndexing":true}',
   },
   code: 200,
-  diagnostics: getEmptyCosmosDiagnostics()
+  diagnostics: getEmptyCosmosDiagnostics(),
 };
 
 const collectionResponse = {
@@ -108,7 +108,7 @@ const collectionResponse = {
     _conflicts: "conflicts/",
   },
   code: 200,
-  diagnostics: getEmptyCosmosDiagnostics()
+  diagnostics: getEmptyCosmosDiagnostics(),
 };
 
 describe("Multi-region tests", function (this: Suite) {

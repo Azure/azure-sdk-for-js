@@ -15,7 +15,7 @@ describe("Plugin", function () {
       result: {
         message: "yay",
       },
-      diagnostics: getEmptyCosmosDiagnostics()
+      diagnostics: getEmptyCosmosDiagnostics(),
     };
     let requestCount = 0;
     const FAILCOUNT = 2;
@@ -57,7 +57,7 @@ describe("Plugin", function () {
       result: {
         message: "yay",
       },
-      diagnostics: getEmptyCosmosDiagnostics()
+      diagnostics: getEmptyCosmosDiagnostics(),
     };
     let requestCount = 0;
     const alwaysSucceed: Plugin<any> = async () => {
@@ -100,7 +100,7 @@ describe("Plugin", function () {
       result: {
         message: "yay",
       },
-      diagnostics: getEmptyCosmosDiagnostics()
+      diagnostics: getEmptyCosmosDiagnostics(),
     };
     let innerRequestCount = 0;
     const alwaysSucceed: Plugin<any> = async () => {

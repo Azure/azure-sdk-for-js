@@ -16,7 +16,7 @@ export class UnorderedDistinctEndpointComponent implements ExecutionContext {
     if (result) {
       const hashedResult = await hashObject(result);
       if (this.hashedResults.has(hashedResult)) {
-        return { result: undefined, headers, diagnostics};
+        return { result: undefined, headers, diagnostics };
       }
       this.hashedResults.add(hashedResult);
     }

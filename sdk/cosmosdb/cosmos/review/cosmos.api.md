@@ -106,22 +106,24 @@ export class ClientContext {
     // (undocumented)
     clearSessionToken(path: string): void;
     // (undocumented)
-    create<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey, }: {
+    create<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticContext }: {
         body: T;
         path: string;
         resourceType: ResourceType;
         resourceId: string;
         options?: RequestOptions;
         partitionKey?: PartitionKey;
+        diagnosticContext?: CosmosDiagnosticContext;
     }): Promise<Response_2<T & U & Resource>>;
     // (undocumented)
-    delete<T>({ path, resourceType, resourceId, options, partitionKey, method, }: {
+    delete<T>({ path, resourceType, resourceId, options, partitionKey, method, diagnosticContext }: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
         options?: RequestOptions;
         partitionKey?: PartitionKey;
         method?: HTTPMethod;
+        diagnosticContext?: CosmosDiagnosticContext;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
     execute<T>({ sprocLink, params, options, partitionKey, }: {
@@ -146,13 +148,14 @@ export class ClientContext {
         [containerUrl: string]: any;
     };
     // (undocumented)
-    patch<T>({ body, path, resourceType, resourceId, options, partitionKey, }: {
+    patch<T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticContext }: {
         body: any;
         path: string;
         resourceType: ResourceType;
         resourceId: string;
         options?: RequestOptions;
         partitionKey?: PartitionKey;
+        diagnosticContext?: CosmosDiagnosticContext;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
     queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, partitionKeyRangeId, partitionKey, }: {
@@ -176,24 +179,27 @@ export class ClientContext {
         resourceId: string;
         options?: RequestOptions;
         partitionKey?: PartitionKey;
+        diagnosticContext?: CosmosDiagnosticContext;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
-    replace<T>({ body, path, resourceType, resourceId, options, partitionKey, }: {
+    replace<T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticContext }: {
         body: any;
         path: string;
         resourceType: ResourceType;
         resourceId: string;
         options?: RequestOptions;
         partitionKey?: PartitionKey;
+        diagnosticContext?: CosmosDiagnosticContext;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
-    upsert<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey, }: {
+    upsert<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticContext }: {
         body: T;
         path: string;
         resourceType: ResourceType;
         resourceId: string;
         options?: RequestOptions;
         partitionKey?: PartitionKey;
+        diagnosticContext?: CosmosDiagnosticContext;
     }): Promise<Response_2<T & U & Resource>>;
 }
 
@@ -513,7 +519,7 @@ export interface ContainerRequest extends VerboseOmit<ContainerDefinition, "part
 
 // @public
 export class ContainerResponse extends ResourceResponse<ContainerDefinition & Resource> {
-    constructor(resource: ContainerDefinition & Resource, headers: CosmosHeaders, statusCode: number, container: Container);
+    constructor(resource: ContainerDefinition & Resource, headers: CosmosHeaders, statusCode: number, diagnostics: CosmosDiagnostics, container: Container);
     readonly container: Container;
 }
 
@@ -564,6 +570,35 @@ export interface CosmosClientOptions {
     tokenProvider?: TokenProvider;
     userAgentSuffix?: string;
 }
+
+// @public (undocumented)
+export class CosmosDiagnosticContext {
+    constructor();
+    // (undocumented)
+    getDiagnostics(): CosmosDiagnostics;
+    // (undocumented)
+    ingestHeaders(headers: CosmosHeaders): void;
+    // (undocumented)
+    mergeDiagnostics(diagnostics: CosmosDiagnostics): void;
+    // (undocumented)
+    recordEndpointContactEvent(location: string): void;
+    // (undocumented)
+    recordFailedAttempt(statusCode: string): void;
+    // (undocumented)
+    recordMetaDataQuery(diagnostics: CosmosDiagnostics, metaDataType: MetadataType): void;
+    // (undocumented)
+    recordResponse(): void;
+    // (undocumented)
+    recordSerializationEvent(): void;
+}
+
+// @public (undocumented)
+export type CosmosDiagnostics = {
+    activityId: string;
+    requestStartTimeUTC: number;
+    requestEndTimeUTC: number;
+    clientSideRequestStatistics: ClientSideRequestStatistics;
+};
 
 // @public (undocumented)
 export interface CosmosHeaders {
@@ -786,6 +821,9 @@ export enum GeospatialType {
     Geometry = "Geometry"
 }
 
+// @public (undocumented)
+export function getEmptyCosmosDiagnostics(): CosmosDiagnostics;
+
 // @public
 export class GlobalEndpointManager {
     constructor(options: CosmosClientOptions, readDatabaseAccount: (opts: RequestOptions) => Promise<ResourceResponse<DatabaseAccount>>);
@@ -804,7 +842,7 @@ export class GlobalEndpointManager {
     markCurrentLocationUnavailableForWrite(endpoint: string): Promise<void>;
     refreshEndpointList(): Promise<void>;
     // (undocumented)
-    resolveServiceEndpoint(resourceType: ResourceType, operationType: OperationType): Promise<string>;
+    resolveServiceEndpoint(resourceType: ResourceType, operationType: OperationType, requestContext?: RequestContext): Promise<string>;
 }
 
 // @public (undocumented)
@@ -905,7 +943,9 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
 export class Items {
     constructor(container: Container, clientContext: ClientContext);
     batch(operations: OperationInput[], partitionKey?: string, options?: RequestOptions): Promise<Response_2<OperationResponse[]>>;
-    bulk(operations: OperationInput[], bulkOptions?: BulkOptions, options?: RequestOptions): Promise<OperationResponse[]>;
+    bulk(operations: OperationInput[], bulkOptions?: BulkOptions, options?: RequestOptions): Promise<OperationResponse[] & {
+        diagnostics: CosmosDiagnosticContext;
+    }>;
     changeFeed(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     changeFeed<T>(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
@@ -954,6 +994,20 @@ interface Location_2 {
     unavailable?: boolean;
 }
 export { Location_2 as Location }
+
+// @public (undocumented)
+export enum MetadataType {
+    // (undocumented)
+    CONTAINER_LOOK_UP = 0,
+    // (undocumented)
+    DATABASE_ACCOUNT_LOOKUP = 4,
+    // (undocumented)
+    MASTER_ADDRESS_LOOK_UP = 3,
+    // (undocumented)
+    PARTITION_KEY_RANGE_LOOK_UP = 1,
+    // (undocumented)
+    SERVER_ADDRESS_LOOKUP = 2
+}
 
 // @public
 export type Next<T> = (context: RequestContext) => Promise<Response_2<T>>;
@@ -1427,6 +1481,8 @@ export interface RequestContext {
     // (undocumented)
     connectionPolicy: ConnectionPolicy;
     // (undocumented)
+    diagnosticContext: CosmosDiagnosticContext;
+    // (undocumented)
     endpoint?: string;
     // (undocumented)
     globalEndpointManager: GlobalEndpointManager;
@@ -1504,9 +1560,11 @@ export interface Resource {
 
 // @public (undocumented)
 export class ResourceResponse<TResource> {
-    constructor(resource: TResource | undefined, headers: CosmosHeaders_2, statusCode: StatusCode, substatus?: SubStatusCode);
+    constructor(resource: TResource | undefined, headers: CosmosHeaders_2, statusCode: StatusCode, diagnostics?: CosmosDiagnostics, substatus?: SubStatusCode);
     // (undocumented)
     get activityId(): string;
+    // (undocumented)
+    readonly diagnostics?: CosmosDiagnostics;
     // (undocumented)
     get etag(): string;
     // (undocumented)
@@ -1555,6 +1613,8 @@ export enum ResourceType {
 interface Response_2<T> {
     // (undocumented)
     code?: number;
+    // (undocumented)
+    diagnostics: CosmosDiagnostics;
     // (undocumented)
     headers: CosmosHeaders;
     // (undocumented)
@@ -2106,6 +2166,10 @@ export class Users {
     readAll(options?: FeedOptions): QueryIterator<UserDefinition & Resource>;
     upsert(body: UserDefinition, options?: RequestOptions): Promise<UserResponse>;
 }
+
+// Warnings were encountered during analysis:
+//
+// src/request/CosmosDiagnostics.ts:9:5 - (ae-forgotten-export) The symbol "ClientSideRequestStatistics" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

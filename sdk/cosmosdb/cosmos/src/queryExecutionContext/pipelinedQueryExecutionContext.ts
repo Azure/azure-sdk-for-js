@@ -130,7 +130,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           return {
             result: undefined,
             headers: this.fetchMoreRespHeaders,
-            diagnostics
+            diagnostics,
           };
         } else {
           // Just give what we have

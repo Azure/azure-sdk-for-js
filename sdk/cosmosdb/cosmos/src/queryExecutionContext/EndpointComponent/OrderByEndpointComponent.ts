@@ -21,7 +21,7 @@ export class OrderByEndpointComponent implements ExecutionContext {
     return {
       result: item !== undefined ? item.payload : undefined,
       headers,
-      diagnostics
+      diagnostics,
     };
   }
 

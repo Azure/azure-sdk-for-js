@@ -34,7 +34,7 @@ async function httpRequest(requestContext: RequestContext): Promise<{
   result: any;
   code: number;
   substatus: number;
-  diagnostics: CosmosDiagnostics
+  diagnostics: CosmosDiagnostics;
 }> {
   const controller = new AbortController();
   const signal = controller.signal;
@@ -151,7 +151,7 @@ async function httpRequest(requestContext: RequestContext): Promise<{
     result,
     code: response.status,
     substatus,
-    diagnostics: requestContext.diagnosticContext.getDiagnostics()
+    diagnostics: requestContext.diagnosticContext.getDiagnostics(),
   };
 }
 

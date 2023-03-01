@@ -160,8 +160,11 @@ export class DocumentProducer {
     }
 
     try {
-      const { result: resources, headers: headerResponse, diagnostics } =
-        await this.internalExecutionContext.fetchMore();
+      const {
+        result: resources,
+        headers: headerResponse,
+        diagnostics,
+      } = await this.internalExecutionContext.fetchMore();
       ++this.generation;
       this._updateStates(undefined, resources === undefined);
       if (resources !== undefined) {
@@ -192,7 +195,11 @@ export class DocumentProducer {
         const bufferedError = new FetchResult(undefined, err);
         this.fetchResults.push(bufferedError);
         // Putting a dummy result so that the rest of code flows
-        return { result: [bufferedError], headers: err.headers, diagnostics: getEmptyCosmosDiagnostics() };
+        return {
+          result: [bufferedError],
+          headers: err.headers,
+          diagnostics: getEmptyCosmosDiagnostics(),
+        };
       } else {
         this._updateStates(err, err.resources === undefined);
         throw err;
@@ -254,7 +261,7 @@ export class DocumentProducer {
           return {
             result: undefined,
             headers: this._getAndResetActiveResponseHeaders(),
-            diagnostics: getEmptyCosmosDiagnostics()
+            diagnostics: getEmptyCosmosDiagnostics(),
           };
         case FetchResultType.Exception:
           fetchResult.error.headers = this._getAndResetActiveResponseHeaders();
@@ -263,7 +270,7 @@ export class DocumentProducer {
           return {
             result: fetchResult.feedResponse,
             headers: this._getAndResetActiveResponseHeaders(),
-            diagnostics: getEmptyCosmosDiagnostics()
+            diagnostics: getEmptyCosmosDiagnostics(),
           };
       }
     }
@@ -273,7 +280,7 @@ export class DocumentProducer {
       return {
         result: undefined,
         headers: this._getAndResetActiveResponseHeaders(),
-        diagnostics: getEmptyCosmosDiagnostics()
+        diagnostics: getEmptyCosmosDiagnostics(),
       };
     }
 

@@ -34,5 +34,5 @@ export interface RequestContext {
   plugins: PluginConfig[];
   partitionKey?: PartitionKey;
   pipeline?: Pipeline;
-  diagnosticContext: CosmosDiagnosticContext
+  diagnosticContext: CosmosDiagnosticContext;
 }

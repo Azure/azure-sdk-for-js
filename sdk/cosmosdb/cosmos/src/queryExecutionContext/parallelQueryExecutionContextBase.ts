@@ -330,7 +330,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           return resolve({
             result: undefined,
             headers: this._getAndResetActiveResponseHeaders(),
-            diagnostics: getEmptyCosmosDiagnostics()
+            diagnostics: getEmptyCosmosDiagnostics(),
           });
         }
 
@@ -357,12 +357,12 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
           let item: any;
           let headers: CosmosHeaders;
-          let diagnostics
+          let diagnostics;
           try {
             const response = await documentProducer.nextItem();
             item = response.result;
             headers = response.headers;
-            diagnostics = response.diagnostics
+            diagnostics = response.diagnostics;
             this._mergeWithActiveResponseHeaders(headers);
             if (item === undefined) {
               // this should never happen
@@ -377,7 +377,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               return resolve({
                 result: undefined,
                 headers: this._getAndResetActiveResponseHeaders(),
-                diagnostics
+                diagnostics,
               });
             }
           } catch (err: any) {
@@ -432,7 +432,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           return resolve({
             result: item,
             headers: this._getAndResetActiveResponseHeaders(),
-            diagnostics
+            diagnostics,
           });
         };
         this._repairExecutionContextIfNeeded(ifCallback, elseCallback).catch(reject);

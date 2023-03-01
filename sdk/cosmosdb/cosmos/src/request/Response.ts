@@ -11,5 +11,5 @@ export interface Response<T> {
   result?: T;
   code?: number;
   substatus?: number;
-  diagnostics: CosmosDiagnostics
+  diagnostics: CosmosDiagnostics;
 }

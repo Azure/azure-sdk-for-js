@@ -86,7 +86,7 @@ export class ClientContext {
     resourceId: string;
     options?: RequestOptions;
     partitionKey?: PartitionKey;
-    diagnosticContext?: CosmosDiagnosticContext
+    diagnosticContext?: CosmosDiagnosticContext;
   }): Promise<Response<T & Resource>> {
     try {
       const request: RequestContext = {
@@ -250,7 +250,7 @@ export class ClientContext {
     options = {},
     partitionKey,
     method = HTTPMethod.delete,
-    diagnosticContext
+    diagnosticContext,
   }: {
     path: string;
     resourceType: ResourceType;
@@ -258,7 +258,7 @@ export class ClientContext {
     options?: RequestOptions;
     partitionKey?: PartitionKey;
     method?: HTTPMethod;
-    diagnosticContext?: CosmosDiagnosticContext
+    diagnosticContext?: CosmosDiagnosticContext;
   }): Promise<Response<T & Resource>> {
     try {
       const request: RequestContext = {
@@ -299,7 +299,7 @@ export class ClientContext {
     resourceId,
     options = {},
     partitionKey,
-    diagnosticContext
+    diagnosticContext,
   }: {
     body: any;
     path: string;
@@ -307,7 +307,7 @@ export class ClientContext {
     resourceId: string;
     options?: RequestOptions;
     partitionKey?: PartitionKey;
-    diagnosticContext?: CosmosDiagnosticContext
+    diagnosticContext?: CosmosDiagnosticContext;
   }): Promise<Response<T & Resource>> {
     try {
       const request: RequestContext = {
@@ -346,7 +346,7 @@ export class ClientContext {
     resourceId,
     options = {},
     partitionKey,
-    diagnosticContext
+    diagnosticContext,
   }: {
     body: T;
     path: string;
@@ -354,7 +354,7 @@ export class ClientContext {
     resourceId: string;
     options?: RequestOptions;
     partitionKey?: PartitionKey;
-    diagnosticContext?: CosmosDiagnosticContext
+    diagnosticContext?: CosmosDiagnosticContext;
   }): Promise<Response<T & U & Resource>> {
     try {
       const request: RequestContext = {
@@ -392,10 +392,20 @@ export class ClientContext {
     resultFn: (result: { [key: string]: any }) => any[]
   ): Response<any> {
     if (isQuery) {
-      return { result: resultFn(res.result), headers: res.headers, code: res.code,diagnostics: res.diagnostics };
+      return {
+        result: resultFn(res.result),
+        headers: res.headers,
+        code: res.code,
+        diagnostics: res.diagnostics,
+      };
     } else {
       const newResult = resultFn(res.result).map((body: any) => body);
-      return { result: newResult, headers: res.headers, code: res.code, diagnostics: res.diagnostics};
+      return {
+        result: newResult,
+        headers: res.headers,
+        code: res.code,
+        diagnostics: res.diagnostics,
+      };
     }
   }
 
@@ -432,7 +442,7 @@ export class ClientContext {
     resourceId,
     options = {},
     partitionKey,
-    diagnosticContext
+    diagnosticContext,
   }: {
     body: any;
     path: string;
@@ -440,7 +450,7 @@ export class ClientContext {
     resourceId: string;
     options?: RequestOptions;
     partitionKey?: PartitionKey;
-    diagnosticContext?: CosmosDiagnosticContext
+    diagnosticContext?: CosmosDiagnosticContext;
   }): Promise<Response<T & Resource>> {
     try {
       const request: RequestContext = {
@@ -479,7 +489,7 @@ export class ClientContext {
     resourceId,
     options = {},
     partitionKey,
-    diagnosticContext
+    diagnosticContext,
   }: {
     body: T;
     path: string;
@@ -487,7 +497,7 @@ export class ClientContext {
     resourceId: string;
     options?: RequestOptions;
     partitionKey?: PartitionKey;
-    diagnosticContext?: CosmosDiagnosticContext
+    diagnosticContext?: CosmosDiagnosticContext;
   }): Promise<Response<T & U & Resource>> {
     try {
       const request: RequestContext = {
@@ -561,8 +571,6 @@ export class ClientContext {
     return executePlugins(request, RequestHandler.request, PluginOn.operation);
   }
 
-
-
   /**
    * Gets the Database account information.
    * @param options - `urlConnection` in the options is the endpoint url whose database account needs to be retrieved.
@@ -590,7 +598,11 @@ export class ClientContext {
     );
 
     const databaseAccount = new DatabaseAccount(result, headers);
-    return { result: databaseAccount, headers, diagnostics: request.diagnosticContext.getDiagnostics()};
+    return {
+      result: databaseAccount,
+      headers,
+      diagnostics: request.diagnosticContext.getDiagnostics(),
+    };
   }
 
   public getWriteEndpoint(): Promise<string> {
@@ -655,7 +667,6 @@ export class ClientContext {
     }
   }
 
-  
   public async bulk<T>({
     body,
     path,
@@ -792,7 +803,7 @@ export class ClientContext {
     client?: ClientContext;
     pipeline?: Pipeline;
     plugins: PluginConfig[];
-    diagnosticContext: CosmosDiagnosticContext
+    diagnosticContext: CosmosDiagnosticContext;
   } {
     return {
       globalEndpointManager: this.globalEndpointManager,
@@ -801,16 +812,23 @@ export class ClientContext {
       client: this,
       plugins: this.cosmosClientOptions.plugins,
       pipeline: this.pipeline,
-      diagnosticContext: diagnosticContext ?? new CosmosDiagnosticContext()
+      diagnosticContext: diagnosticContext ?? new CosmosDiagnosticContext(),
     };
   }
 }
 
+type MetadataDiagnosticsRecoredrWrapper = (
+  func: (...args: any[]) => Response<any>,
+  ctx: CosmosDiagnosticContext,
+  ...args: Parameters<typeof func>
+) => ReturnType<typeof func>;
 
-type MetadataDiagnosticsRecoredrWrapper = (func: (...args: any[]) => Response<any>, ctx: CosmosDiagnosticContext, ...args: Parameters<typeof func>) => ReturnType<typeof func>;
-
-export const meta: MetadataDiagnosticsRecoredrWrapper = <T>(func: (...args: any[]) => Response<T>, ctx: CosmosDiagnosticContext, ...args: Parameters<typeof func>): Response<T> => {
+export const meta: MetadataDiagnosticsRecoredrWrapper = <T>(
+  func: (...args: any[]) => Response<T>,
+  ctx: CosmosDiagnosticContext,
+  ...args: Parameters<typeof func>
+): Response<T> => {
   const resource: Response<T> = func(args);
-  ctx.mergeDiagnostics(resource.diagnostics)
-  return resource
-}
+  ctx.mergeDiagnostics(resource.diagnostics);
+  return resource;
+};

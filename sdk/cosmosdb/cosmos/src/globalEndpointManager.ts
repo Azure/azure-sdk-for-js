@@ -127,7 +127,10 @@ export class GlobalEndpointManager {
       });
       this.writeableLocations = response.resource.writableLocations;
       this.readableLocations = response.resource.readableLocations;
-      requestContext.diagnosticContext.recordMetaDataQuery(response.diagnostics, MetadataType.DATABASE_ACCOUNT_LOOKUP);
+      requestContext.diagnosticContext.recordMetaDataQuery(
+        response.diagnostics,
+        MetadataType.DATABASE_ACCOUNT_LOOKUP
+      );
     }
 
     const locations = isReadRequest(operationType)
@@ -157,7 +160,7 @@ export class GlobalEndpointManager {
     }
     location = location ? location.databaseAccountEndpoint : this.defaultEndpoint;
     requestContext.diagnosticContext.recordEndpointContactEvent(location);
-    return location
+    return location;
   }
 
   /**

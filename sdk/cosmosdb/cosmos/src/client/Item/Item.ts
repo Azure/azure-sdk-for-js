@@ -86,7 +86,7 @@ export class Item {
         resourceId: id,
         options,
         partitionKey: this.partitionKey,
-        diagnosticContext
+        diagnosticContext,
       });
     } catch (error: any) {
       if (error.code !== StatusCodes.NotFound) {
@@ -151,7 +151,7 @@ export class Item {
       resourceId: id,
       options,
       partitionKey: this.partitionKey,
-      diagnosticContext
+      diagnosticContext,
     });
     return new ItemResponse(
       response.result,
@@ -246,5 +246,4 @@ export class Item {
     }
     return diagnosticContext;
   }
-
 }

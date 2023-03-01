@@ -25,7 +25,7 @@ describe("defaultQueryExecutionContext", function () {
           },
         ],
         substatus: 0,
-        diagnostics: getEmptyCosmosDiagnostics()
+        diagnostics: getEmptyCosmosDiagnostics(),
       };
     };
 
@@ -65,7 +65,7 @@ describe("defaultQueryExecutionContext", function () {
           },
         ],
         substatus: 0,
-        diagnostics: getEmptyCosmosDiagnostics()
+        diagnostics: getEmptyCosmosDiagnostics(),
       };
     };
 
