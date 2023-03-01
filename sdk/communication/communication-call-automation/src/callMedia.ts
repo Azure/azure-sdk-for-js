@@ -29,8 +29,8 @@ import {
 } from "./models/options";
 
 /**
-* CallMedia class represents call media related APIs.
-*/
+ * CallMedia class represents call media related APIs.
+ */
 export class CallMedia {
   private readonly callConnectionId: string;
   private readonly callMediaImpl: CallMediaImpl;
