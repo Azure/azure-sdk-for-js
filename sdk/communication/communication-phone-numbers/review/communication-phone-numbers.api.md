@@ -10,10 +10,13 @@ import { CommonClientOptions } from '@azure/core-client';
 import * as coreClient from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
+
+// @public
+export type AssignmentType = string;
 
 // @public
 export interface BeginPurchasePhoneNumbersOptions extends OperationOptions {
@@ -33,6 +36,12 @@ export interface BeginUpdatePhoneNumberCapabilitiesOptions extends OperationOpti
 
 // @public
 export type GetPurchasedPhoneNumberOptions = OperationOptions;
+
+// @public
+export enum KnownAssignmentType {
+    Application = "application",
+    Person = "person"
+}
 
 // @public
 export interface ListAvailableCountriesOptions extends OperationOptions {
@@ -125,10 +134,10 @@ export class PhoneNumbersClient {
     constructor(connectionString: string, options?: PhoneNumbersClientOptions);
     constructor(url: string, credential: KeyCredential, options?: PhoneNumbersClientOptions);
     constructor(url: string, credential: TokenCredential, options?: PhoneNumbersClientOptions);
-    beginPurchasePhoneNumbers(searchId: string, options?: BeginPurchasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PurchasePhoneNumbersResult>, PurchasePhoneNumbersResult>>;
-    beginReleasePhoneNumber(phoneNumber: string, options?: BeginReleasePhoneNumberOptions): Promise<PollerLike<PollOperationState<ReleasePhoneNumberResult>, ReleasePhoneNumberResult>>;
-    beginSearchAvailablePhoneNumbers(search: SearchAvailablePhoneNumbersRequest, options?: BeginSearchAvailablePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>>;
-    beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberCapabilitiesOptions): Promise<PollerLike<PollOperationState<PurchasedPhoneNumber>, PurchasedPhoneNumber>>;
+    beginPurchasePhoneNumbers(searchId: string, options?: BeginPurchasePhoneNumbersOptions): Promise<SimplePollerLike<OperationState<PurchasePhoneNumbersResult>, PurchasePhoneNumbersResult>>;
+    beginReleasePhoneNumber(phoneNumber: string, options?: BeginReleasePhoneNumberOptions): Promise<SimplePollerLike<OperationState<ReleasePhoneNumberResult>, ReleasePhoneNumberResult>>;
+    beginSearchAvailablePhoneNumbers(search: SearchAvailablePhoneNumbersRequest, options?: BeginSearchAvailablePhoneNumbersOptions): Promise<SimplePollerLike<OperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>>;
+    beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberCapabilitiesOptions): Promise<SimplePollerLike<OperationState<PurchasedPhoneNumber>, PurchasedPhoneNumber>>;
     getPurchasedPhoneNumber(phoneNumber: string, options?: GetPurchasedPhoneNumberOptions): Promise<PurchasedPhoneNumber>;
     listAvailableCountries(options?: ListAvailableCountriesOptions): PagedAsyncIterableIterator<PhoneNumberCountry>;
     listAvailableGeographicAreaCodes(countryCode: string, options?: ListGeographicAreaCodesOptions): PagedAsyncIterableIterator<PhoneNumberAreaCode>;
@@ -167,11 +176,14 @@ export interface PhoneNumberSearchResult {
 export interface PhoneNumbersListAreaCodesOptionalParams extends coreClient.OperationOptions {
     acceptLanguage?: string;
     administrativeDivision?: string;
-    assignmentType?: PhoneNumberAssignmentType;
+    assignmentType?: AssignmentType;
     locality?: string;
     maxPageSize?: number;
     skip?: number;
 }
+
+// @public
+export type PhoneNumberSource = "cloud" | "operatorConnect";
 
 // @public
 export type PhoneNumberType = "geographic" | "tollFree";
@@ -183,9 +195,13 @@ export interface PurchasedPhoneNumber {
     cost: PhoneNumberCost;
     countryCode: string;
     id: string;
+    operatorId: string;
+    operatorName: string;
     phoneNumber: string;
+    phoneNumberSource: PhoneNumberSource;
     phoneNumberType: PhoneNumberType;
     purchaseDate: Date;
+    tollFreeVerificationStatus: TollFreeVerificationStatus;
 }
 
 // @public
@@ -241,6 +257,9 @@ export interface SipTrunkRoute {
     numberPattern: string;
     trunks?: string[];
 }
+
+// @public
+export type TollFreeVerificationStatus = "draft" | "submitted" | "updateRequested" | "denied" | "approved" | "cancelled" | "none";
 
 // (No @packageDocumentation comment for this package)
 

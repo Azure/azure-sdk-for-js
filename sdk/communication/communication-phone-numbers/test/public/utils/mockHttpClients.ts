@@ -31,6 +31,10 @@ export const getPhoneNumberHttpClient: HttpClient = createMockHttpClient<Purchas
   200,
   {
     id: "16155550100",
+    operatorId: "d2fea165-4540-4ec8-a93f-6ed0baca28cd",
+    operatorName: "Microsoft",
+    phoneNumberSource: "cloud",
+    tollFreeVerificationStatus: "submitted",
     phoneNumber: "+16155550100",
     countryCode: "US",
     phoneNumberType: "geographic",
@@ -52,6 +56,10 @@ export const mockListPhoneNumbersHttpClient = createMockHttpClient<PurchasedPhon
   phoneNumbers: [
     {
       id: "16155550100",
+      operatorId: "d2fea165-4540-4ec8-a93f-6ed0baca28cd",
+      operatorName: "Microsoft",
+      phoneNumberSource: "cloud",
+      tollFreeVerificationStatus: "submitted",
       phoneNumber: "+16155550100",
       countryCode: "US",
       assignmentType: "application",
@@ -68,5 +76,5 @@ export const mockListPhoneNumbersHttpClient = createMockHttpClient<PurchasedPhon
       },
     },
   ],
-  nextLink: "/phoneNumbers?api-version=2022-06-01-preview&skip=1&top=1",
+  nextLink: "/phoneNumbers?api-version=2022-12-02-preview2&skip=1&top=1",
 });

@@ -45,7 +45,7 @@ matrix([[true, false]], async function (useAad) {
       const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);
 
       const results = await searchPoller.pollUntilDone();
-      assert.ok(searchPoller.getOperationState().isCompleted);
+      assert.ok(searchPoller.getOperationState().status === "succeeded");
       assert.equal(results.phoneNumbers.length, 1);
     }).timeout(60000);
 

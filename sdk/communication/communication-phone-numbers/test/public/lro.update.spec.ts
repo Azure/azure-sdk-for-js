@@ -46,7 +46,7 @@ matrix([[true, false]], async function (useAad) {
 
       const phoneNumber = await updatePoller.pollUntilDone();
       await updatePoller.pollUntilDone();
-      assert.ok(updatePoller.getOperationState().isCompleted);
+      assert.ok(updatePoller.getOperationState().status === "succeeded");
       assert.deepEqual(phoneNumber.capabilities, update);
     }).timeout(120000);
 

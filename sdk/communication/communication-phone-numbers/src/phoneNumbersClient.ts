@@ -9,7 +9,7 @@ import {
 } from "@azure/communication-common";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import { PollOperationState, PollerLike } from "@azure/core-lro";
+import { OperationState, SimplePollerLike } from "@azure/core-lro";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PhoneNumbersClient as PhoneNumbersGeneratedClient } from "./generated/src";
 import {
@@ -209,7 +209,7 @@ export class PhoneNumbersClient {
   public beginReleasePhoneNumber(
     phoneNumber: string,
     options: BeginReleasePhoneNumberOptions = {}
-  ): Promise<PollerLike<PollOperationState<ReleasePhoneNumberResult>, ReleasePhoneNumberResult>> {
+  ): Promise<SimplePollerLike<OperationState<ReleasePhoneNumberResult>, ReleasePhoneNumberResult>> {
     return tracingClient.withSpan(
       "PhoneNumbersClient-beginReleasePhoneNumber",
       options,
@@ -244,7 +244,7 @@ export class PhoneNumbersClient {
   public beginSearchAvailablePhoneNumbers(
     search: SearchAvailablePhoneNumbersRequest,
     options: BeginSearchAvailablePhoneNumbersOptions = {}
-  ): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>> {
+  ): Promise<SimplePollerLike<OperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>> {
     return tracingClient.withSpan(
       "PhoneNumbersClient-beginSearchAvailablePhoneNumbers",
       options,
@@ -289,7 +289,7 @@ export class PhoneNumbersClient {
     searchId: string,
     options: BeginPurchasePhoneNumbersOptions = {}
   ): Promise<
-    PollerLike<PollOperationState<PurchasePhoneNumbersResult>, PurchasePhoneNumbersResult>
+    SimplePollerLike<OperationState<PurchasePhoneNumbersResult>, PurchasePhoneNumbersResult>
   > {
     return tracingClient.withSpan(
       "PhoneNumbersClient-beginPurchasePhoneNumbers",
@@ -326,7 +326,7 @@ export class PhoneNumbersClient {
     phoneNumber: string,
     request: PhoneNumberCapabilitiesRequest,
     options: BeginUpdatePhoneNumberCapabilitiesOptions = {}
-  ): Promise<PollerLike<PollOperationState<PurchasedPhoneNumber>, PurchasedPhoneNumber>> {
+  ): Promise<SimplePollerLike<OperationState<PurchasedPhoneNumber>, PurchasedPhoneNumber>> {
     if (!phoneNumber) {
       throw Error("phone number can't be empty");
     }

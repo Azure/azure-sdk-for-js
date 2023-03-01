@@ -46,7 +46,7 @@ matrix([[true, false]], async function (useAad) {
       const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);
       const searchResults = await searchPoller.pollUntilDone();
 
-      assert.ok(searchPoller.getOperationState().isCompleted);
+      assert.ok(searchPoller.getOperationState().status === "succeeded");
       assert.isNotEmpty(searchResults.searchId);
       assert.isNotEmpty(searchResults.phoneNumbers);
       assert.equal(searchResults.phoneNumbers.length, 1);
@@ -58,7 +58,7 @@ matrix([[true, false]], async function (useAad) {
       const purchasePoller = await client.beginPurchasePhoneNumbers(searchResults.searchId);
 
       await purchasePoller.pollUntilDone();
-      assert.ok(purchasePoller.getOperationState().isCompleted);
+      assert.ok(purchasePoller.getOperationState().status === "succeeded");
 
       console.log(`Purchased ${purchasedPhoneNumber}`);
 
@@ -72,7 +72,7 @@ matrix([[true, false]], async function (useAad) {
       const releasePoller = await client.beginReleasePhoneNumber(purchasedPhoneNumber as string);
 
       await releasePoller.pollUntilDone();
-      assert.ok(releasePoller.getOperationState().isCompleted);
+      assert.ok(releasePoller.getOperationState().status === "succeeded");
       const result = releasePoller.getOperationState().result! as any;
       assert.equal(result.body.status, "succeeded");
 
