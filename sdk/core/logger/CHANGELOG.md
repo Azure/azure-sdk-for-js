@@ -1,14 +1,10 @@
 # Release History
 
-## 1.0.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.0.4 (2023-03-02)
 
 ### Other Changes
+
+- Improve docstring for setLogLevel [PR #24998](https://github.com/Azure/azure-sdk-for-js/pull/24998)
 
 ## 1.0.3 (2021-09-30)
 
