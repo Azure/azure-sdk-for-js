@@ -15,7 +15,6 @@ import {
   OperationSummary,
   OperationDetails,
   DocumentClassifierDetails,
-  GetOperationResponse,
   ClassifierDocumentTypeDetails,
 } from "./generated";
 import { accept1 } from "./generated/models/parameters";
@@ -211,7 +210,7 @@ export class DocumentModelAdministrationClient {
         this.createAdministrationPoller({
           options: finalOptions,
           start: () =>
-            this._restClient.buildDocumentModel(
+            this._restClient.documentModels.buildModel(
               {
                 modelId,
                 description: finalOptions.description,
@@ -277,7 +276,7 @@ export class DocumentModelAdministrationClient {
         this.createAdministrationPoller({
           options: finalOptions,
           start: () =>
-            this._restClient.composeDocumentModel(
+            this._restClient.documentModels.composeModel(
               {
                 modelId,
                 componentModels: [...componentModelIds].map((submodelId) => ({
@@ -318,7 +317,7 @@ export class DocumentModelAdministrationClient {
       "DocumentModelAdministrationClient.getCopyAuthorization",
       options,
       (finalOptions) =>
-        this._restClient.authorizeCopyDocumentModel(
+        this._restClient.documentModels.authorizeModelCopy(
           {
             modelId: destinationModelId,
             description: finalOptions.description,
@@ -378,7 +377,7 @@ export class DocumentModelAdministrationClient {
         this.createAdministrationPoller({
           options: finalOptions,
           start: () =>
-            this._restClient.copyDocumentModelTo(sourceModelId, authorization, finalOptions),
+            this._restClient.documentModels.copyModelTo(sourceModelId, authorization, finalOptions),
         })
     );
   }
@@ -431,7 +430,7 @@ export class DocumentModelAdministrationClient {
                     headerParameters: [accept1],
                     serializer: SERIALIZER,
                   }
-                ) as Promise<GetOperationResponse>;
+                ) as Promise<OperationDetails>;
               }
             )
         : () =>
@@ -441,7 +440,7 @@ export class DocumentModelAdministrationClient {
               (options) => {
                 const { operationId } = JSON.parse(resumeFrom) as { operationId: string };
 
-                return this._restClient.getOperation(operationId, options);
+                return this._restClient.miscellaneous.getOperation(operationId, options);
               }
             );
 
@@ -456,7 +455,7 @@ export class DocumentModelAdministrationClient {
             "DocumentModelAdminstrationClient.createDocumentModelPoller-poll",
             definition.options,
             async (options) => {
-              const res = await this._restClient.getOperation(operationId, options);
+              const res = await this._restClient.miscellaneous.getOperation(operationId, options);
 
               return toTrainingPollOperationState(res as DocumentModelBuildResponse);
             }
@@ -491,7 +490,7 @@ export class DocumentModelAdministrationClient {
         this.createAdministrationPoller<DocumentClassifierOperationState>({
           options: finalOptions,
           start: () =>
-            this._restClient.buildDocumentClassifier(
+            this._restClient.documentClassifiers.buildClassifier(
               {
                 classifierId,
                 description: finalOptions.description,
@@ -531,7 +530,7 @@ export class DocumentModelAdministrationClient {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.getResourceDetails",
       options,
-      (finalOptions) => this._restClient.getResourceDetails(finalOptions)
+      (finalOptions) => this._restClient.miscellaneous.getResourceInfo(finalOptions)
     );
   }
 
@@ -584,7 +583,7 @@ export class DocumentModelAdministrationClient {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.getDocumentModel",
       options,
-      (finalOptions) => this._restClient.getDocumentModel(modelId, finalOptions)
+      (finalOptions) => this._restClient.documentModels.getModel(modelId, finalOptions)
     );
   }
 
@@ -646,7 +645,7 @@ export class DocumentModelAdministrationClient {
   public listDocumentModels(
     options: ListModelsOptions = {}
   ): PagedAsyncIterableIterator<DocumentModelSummary> {
-    return this._restClient.listDocumentModels(options);
+    return this._restClient.documentModels.listModels(options);
   }
 
   /**
@@ -681,7 +680,7 @@ export class DocumentModelAdministrationClient {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.getOperation",
       options,
-      (finalOptions) => this._restClient.getOperation(operationId, finalOptions)
+      (finalOptions) => this._restClient.miscellaneous.getOperation(operationId, finalOptions)
     );
   }
 
@@ -727,7 +726,7 @@ export class DocumentModelAdministrationClient {
   public listOperations(
     options: ListOperationsOptions = {}
   ): PagedAsyncIterableIterator<OperationSummary> {
-    return this._restClient.listOperations(options);
+    return this._restClient.miscellaneous.listOperations(options);
   }
 
   /**
@@ -749,7 +748,7 @@ export class DocumentModelAdministrationClient {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.deleteDocumentModel",
       options,
-      (finalOptions) => this._restClient.deleteDocumentModel(modelId, finalOptions)
+      (finalOptions) => this._restClient.documentModels.deleteModel(modelId, finalOptions)
     );
   }
 
@@ -764,14 +763,14 @@ export class DocumentModelAdministrationClient {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.getDocumentClassifier",
       options,
-      (finalOptions) => this._restClient.getDocumentClassifier(classifierId, finalOptions)
+      (finalOptions) => this._restClient.documentClassifiers.getClassifier(classifierId, finalOptions)
     );
   }
 
   public listDocumentClassifiers(
     options: ListModelsOptions = {}
   ): PagedAsyncIterableIterator<DocumentClassifierDetails> {
-    return this._restClient.listDocumentClassifiers(options);
+    return this._restClient.documentClassifiers.listClassifiers(options);
   }
 
   public deleteDocumentClassifier(
@@ -781,7 +780,7 @@ export class DocumentModelAdministrationClient {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.deleteDocumentClassifier",
       options,
-      (finalOptions) => this._restClient.deleteDocumentClassifier(classifierId, finalOptions)
+      (finalOptions) => this._restClient.documentClassifiers.deleteClassifier(classifierId, finalOptions)
     );
   }
 

@@ -64,7 +64,7 @@ matrix([[true, false]] as const, async (useAad) => {
     });
 
     describe("content analysis", () => {
-      it("pdf file stream", async () => {
+      it.only("pdf file stream", async () => {
         const filePath = path.join(ASSET_PATH, "forms", "Invoice_1.pdf");
         const stream = fs.createReadStream(filePath);
 

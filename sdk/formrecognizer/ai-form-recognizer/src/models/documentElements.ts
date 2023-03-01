@@ -12,6 +12,7 @@ import {
   DocumentAnnotationKind,
   DocumentBarcodeKind,
   DocumentFormulaKind,
+  DocumentPageKind,
 } from "../generated";
 
 /** Simple document elements such as words, selection marks and lines are bounded by the polygon. */
@@ -193,6 +194,15 @@ export interface DocumentFormula extends HasBoundingPolygon {
 
 /** Content and layout elements extracted from a page from the input. */
 export interface DocumentPage {
+  /**
+   * The type of content that this page represents. One of:
+   * 
+   *   - "document": A page from a PDF or image file. All content from Office/HTML files is represented as a single page.
+   *   - "sheet": A sheet from a spreadsheet.
+   *   - "slide": A slide from a presentation.
+   *   - "image": An embedded image from an Office/HTML file.
+   */
+  kind: DocumentPageKind,
   /** 1-based page number in the input document. */
   pageNumber: number;
   /** The general orientation of the content in clockwise direction, measured in degrees between (-180, 180]. */

@@ -145,7 +145,8 @@ export const modelId: OperationURLParameter = {
   parameterPath: "modelId",
   mapper: {
     constraints: {
-      Pattern: new RegExp("[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}")
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}$"),
+      MaxLength: 64
     },
     serializedName: "modelId",
     required: true,
@@ -191,7 +192,7 @@ export const stringIndexType: OperationQueryParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-10-31-preview",
+    defaultValue: "2023-02-28-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -216,15 +217,15 @@ export const features: OperationQueryParameter = {
   collectionFormat: "CSV"
 };
 
-export const additionalFields: OperationQueryParameter = {
-  parameterPath: ["options", "additionalFields"],
+export const queryFields: OperationQueryParameter = {
+  parameterPath: ["options", "queryFields"],
   mapper: {
-    serializedName: "additionalFields",
+    serializedName: "queryFields",
     type: {
       name: "Sequence",
       element: {
         constraints: {
-          Pattern: new RegExp("[\\p{L}\\p{M}\\p{N}_]{1,64}")
+          Pattern: new RegExp("^[\\p{L}\\p{M}\\p{N}_]{1,64}$")
         },
         type: {
           name: "String"
@@ -241,7 +242,7 @@ export const resultId: OperationURLParameter = {
     serializedName: "resultId",
     required: true,
     type: {
-      name: "String"
+      name: "Uuid"
     }
   }
 };
@@ -278,13 +279,25 @@ export const copyToRequest: OperationParameter = {
   mapper: CopyAuthorizationMapper
 };
 
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
 export const operationId: OperationURLParameter = {
   parameterPath: "operationId",
   mapper: {
     serializedName: "operationId",
     required: true,
     type: {
-      name: "String"
+      name: "Uuid"
     }
   }
 };
@@ -298,32 +311,13 @@ export const classifierId: OperationURLParameter = {
   parameterPath: "classifierId",
   mapper: {
     constraints: {
-      Pattern: new RegExp("[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}")
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}$"),
+      MaxLength: 64
     },
     serializedName: "classifierId",
     required: true,
     type: {
       name: "String"
-    }
-  }
-};
-
-export const contentType4: OperationParameter = {
-  parameterPath: "contentType",
-  mapper: {
-    serializedName: "Content-Type",
-    required: true,
-    type: {
-      name: "Enum",
-      allowedValues: [
-        "application/octet-stream",
-        "application/pdf",
-        "image/bmp",
-        "image/heif",
-        "image/jpeg",
-        "image/png",
-        "image/tiff"
-      ]
     }
   }
 };
@@ -340,17 +334,15 @@ export const classifyRequest: OperationParameter = {
 
 export const classifyRequest1: OperationParameter = {
   parameterPath: ["options", "classifyRequest"],
-  mapper: ClassifyDocumentRequestMapper
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
   mapper: {
-    serializedName: "nextLink",
-    required: true,
+    serializedName: "classifyRequest",
     type: {
       name: "String"
     }
-  },
-  skipEncoding: true
+  }
+};
+
+export const classifyRequest2: OperationParameter = {
+  parameterPath: ["options", "classifyRequest"],
+  mapper: ClassifyDocumentRequestMapper
 };

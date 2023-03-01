@@ -236,8 +236,6 @@ export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): D
     formulas: generated.formulas?.map(
       (formula): DocumentFormula => ({
         ...formula,
-        // TODO: typo in spec
-        kind: formula.kinde!,
         polygon: toBoundingPolygon(formula.polygon),
       })
     ),

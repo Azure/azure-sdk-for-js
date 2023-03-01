@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-/// <reference lib="esnext.asynciterable" />
-export * from "./models";
-export { GeneratedClient } from "./generatedClient";
-export * from "./operationsInterfaces";
+export * from "./documentModels";
+export * from "./miscellaneous";
+export * from "./documentClassifiers";

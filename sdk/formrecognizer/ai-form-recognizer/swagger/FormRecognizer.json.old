@@ -3,14 +3,13 @@
   "info": {
     "title": "Form Recognizer Client",
     "description": "Extracts content, layout, and structured data from documents.",
-    "version": "2023-02-28-preview"
+    "version": "2022-08-31"
   },
   "securityDefinitions": {
     "apim_key": {
       "type": "apiKey",
       "name": "Ocp-Apim-Subscription-Key",
-      "in": "header",
-      "description": "The secret key for your Azure Cognitive Services subscription."
+      "in": "header"
     }
   },
   "security": [
@@ -33,7 +32,7 @@
       "post": {
         "summary": "Analyze document",
         "description": "Analyzes document with document model.",
-        "operationId": "DocumentModels_AnalyzeDocument",
+        "operationId": "AnalyzeDocument",
         "tags": ["Analysis"],
         "consumes": [
           "application/json",
@@ -43,11 +42,7 @@
           "image/png",
           "image/tiff",
           "image/bmp",
-          "image/heif",
-          "text/html",
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-          "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+          "image/heif"
         ],
         "produces": ["application/json"],
         "parameters": [
@@ -74,12 +69,6 @@
             "schema": {
               "$ref": "#/definitions/AnalyzeDocumentRequest"
             }
-          },
-          {
-            "$ref": "#/parameters/QueryFeatures"
-          },
-          {
-            "$ref": "#/parameters/QueryQueryFields"
           }
         ],
         "responses": {
@@ -88,8 +77,7 @@
             "headers": {
               "Operation-Location": {
                 "type": "string",
-                "description": "URL used to track the progress and obtain the result of the analyze operation.",
-                "format": "url"
+                "description": "URL used to track the progress and obtain the result of the analyze operation."
               }
             }
           },
@@ -115,7 +103,7 @@
       "get": {
         "summary": "Get analyze result",
         "description": "Gets the result of document analysis.",
-        "operationId": "DocumentModels_GetAnalyzeResult",
+        "operationId": "GetAnalyzeDocumentResult",
         "tags": ["Analysis"],
         "consumes": [],
         "produces": ["application/json"],
@@ -155,7 +143,7 @@
       "post": {
         "summary": "Build document model",
         "description": "Builds a custom document analysis model.",
-        "operationId": "DocumentModels_BuildModel",
+        "operationId": "BuildDocumentModel",
         "tags": ["Creation"],
         "consumes": ["application/json"],
         "produces": ["application/json"],
@@ -179,8 +167,7 @@
             "headers": {
               "Operation-Location": {
                 "type": "string",
-                "description": "Operation result URL.",
-                "format": "url"
+                "description": "Operation result URL."
               }
             }
           },
@@ -203,7 +190,7 @@
       "post": {
         "summary": "Compose document model",
         "description": "Creates a new document model from document types of existing document models.",
-        "operationId": "DocumentModels_ComposeModel",
+        "operationId": "ComposeDocumentModel",
         "tags": ["Creation"],
         "consumes": ["application/json"],
         "produces": ["application/json"],
@@ -227,8 +214,7 @@
             "headers": {
               "Operation-Location": {
                 "type": "string",
-                "description": "Operation result URL.",
-                "format": "url"
+                "description": "Operation result URL."
               }
             }
           },
@@ -251,7 +237,7 @@
       "post": {
         "summary": "Generate copy authorization",
         "description": "Generates authorization to copy a document model to this location with specified modelId and optional description.",
-        "operationId": "DocumentModels_AuthorizeModelCopy",
+        "operationId": "AuthorizeCopyDocumentModel",
         "tags": ["Creation"],
         "consumes": ["application/json"],
         "produces": ["application/json"],
@@ -294,7 +280,7 @@
       "post": {
         "summary": "Copy document model",
         "description": "Copies document model to the target resource, region, and modelId.",
-        "operationId": "DocumentModels_CopyModelTo",
+        "operationId": "CopyDocumentModelTo",
         "tags": ["Creation"],
         "consumes": ["application/json"],
         "produces": ["application/json"],
@@ -321,8 +307,7 @@
             "headers": {
               "Operation-Location": {
                 "type": "string",
-                "description": "Operation result URL.",
-                "format": "url"
+                "description": "Operation result URL."
               }
             }
           },
@@ -345,7 +330,7 @@
       "get": {
         "summary": "List operations",
         "description": "Lists all operations.",
-        "operationId": "Miscellaneous_ListOperations",
+        "operationId": "GetOperations",
         "tags": ["Operation"],
         "consumes": [],
         "produces": ["application/json"],
@@ -383,7 +368,7 @@
       "get": {
         "summary": "Get operation",
         "description": "Gets operation info.",
-        "operationId": "Miscellaneous_GetOperation",
+        "operationId": "GetOperation",
         "tags": ["Operation"],
         "consumes": [],
         "produces": ["application/json"],
@@ -420,7 +405,7 @@
       "get": {
         "summary": "List document models",
         "description": "List all document models",
-        "operationId": "DocumentModels_ListModels",
+        "operationId": "GetDocumentModels",
         "tags": ["Management"],
         "consumes": [],
         "produces": ["application/json"],
@@ -458,7 +443,7 @@
       "get": {
         "summary": "Get document model",
         "description": "Gets detailed document model information.",
-        "operationId": "DocumentModels_GetModel",
+        "operationId": "GetDocumentModel",
         "tags": ["Management"],
         "consumes": [],
         "produces": ["application/json"],
@@ -496,7 +481,7 @@
       "delete": {
         "summary": "Delete document model",
         "description": "Deletes document model.",
-        "operationId": "DocumentModels_DeleteModel",
+        "operationId": "DeleteDocumentModel",
         "tags": ["Management"],
         "consumes": [],
         "produces": ["application/json"],
@@ -526,273 +511,11 @@
         }
       }
     },
-    "/documentClassifiers:build": {
-      "post": {
-        "summary": "Build document classifier",
-        "description": "Builds a custom document classifier.",
-        "operationId": "DocumentClassifiers_BuildClassifier",
-        "tags": ["Classifier"],
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
-        "parameters": [
-          {
-            "$ref": "#/parameters/QueryApiVersion"
-          },
-          {
-            "name": "buildRequest",
-            "description": "Building request parameters.",
-            "required": true,
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/BuildDocumentClassifierRequest"
-            }
-          }
-        ],
-        "responses": {
-          "202": {
-            "description": "Request is queued successfully.",
-            "headers": {
-              "Operation-Location": {
-                "type": "string",
-                "description": "Operation result URL.",
-                "format": "url"
-              }
-            }
-          },
-          "default": {
-            "description": "Error encountered.",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-long-running-operation": true,
-        "x-ms-examples": {
-          "BuildDocumentModel": {
-            "$ref": "./examples/BuildDocumentClassifier.json"
-          }
-        }
-      }
-    },
-    "/documentClassifiers": {
-      "get": {
-        "summary": "List document classifiers",
-        "description": "List all document classifiers.",
-        "operationId": "DocumentClassifiers_ListClassifiers",
-        "tags": ["Classifier"],
-        "consumes": [],
-        "produces": ["application/json"],
-        "parameters": [
-          {
-            "$ref": "#/parameters/QueryApiVersion"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK.",
-            "schema": {
-              "$ref": "#/definitions/GetDocumentClassifiersResponse"
-            }
-          },
-          "default": {
-            "description": "Error encountered.",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink",
-          "itemName": "value"
-        },
-        "x-ms-examples": {
-          "GetDocumentModels": {
-            "$ref": "./examples/GetDocumentClassifiers.json"
-          }
-        }
-      }
-    },
-    "/documentClassifiers/{classifierId}": {
-      "get": {
-        "summary": "Get document classifier",
-        "description": "Gets detailed document classifier information.",
-        "operationId": "DocumentClassifiers_GetClassifier",
-        "tags": ["Classifier"],
-        "consumes": [],
-        "produces": ["application/json"],
-        "parameters": [
-          {
-            "$ref": "#/parameters/PathDocumentClassifierId"
-          },
-          {
-            "$ref": "#/parameters/QueryApiVersion"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK.",
-            "schema": {
-              "$ref": "#/definitions/DocumentClassifierDetails"
-            }
-          },
-          "default": {
-            "description": "Error encountered.",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "GetDocumentClassifier": {
-            "$ref": "./examples/GetDocumentClassifier.json"
-          }
-        }
-      },
-      "delete": {
-        "summary": "Delete document classifier",
-        "description": "Deletes document classifier.",
-        "operationId": "DocumentClassifiers_DeleteClassifier",
-        "tags": ["Classifier"],
-        "consumes": [],
-        "produces": ["application/json"],
-        "parameters": [
-          {
-            "$ref": "#/parameters/PathDocumentClassifierId"
-          },
-          {
-            "$ref": "#/parameters/QueryApiVersion"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Deleting document classifier."
-          },
-          "default": {
-            "description": "Error encountered.",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "DeleteDocumentClassifier": {
-            "$ref": "./examples/DeleteDocumentClassifier.json"
-          }
-        }
-      }
-    },
-    "/documentClassifiers/{classifierId}:analyze": {
-      "post": {
-        "summary": "Classify document",
-        "description": "Classifies document with document classifier.",
-        "operationId": "DocumentClassifiers_ClassifyDocument",
-        "tags": ["Classifier"],
-        "consumes": [
-          "application/json",
-          "application/octet-stream",
-          "application/pdf",
-          "image/jpeg",
-          "image/png",
-          "image/tiff",
-          "image/bmp",
-          "image/heif",
-          "text/html",
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-          "application/vnd.openxmlformats-officedocument.presentationml.presentation"
-        ],
-        "produces": ["application/json"],
-        "parameters": [
-          {
-            "$ref": "#/parameters/PathDocumentClassifierId"
-          },
-          {
-            "$ref": "#/parameters/QueryStringIndexType"
-          },
-          {
-            "$ref": "#/parameters/QueryApiVersion"
-          },
-          {
-            "name": "classifyRequest",
-            "description": "Classify request parameters.",
-            "required": false,
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/ClassifyDocumentRequest"
-            }
-          }
-        ],
-        "responses": {
-          "202": {
-            "description": "Request is queued successfully.",
-            "headers": {
-              "Operation-Location": {
-                "type": "string",
-                "description": "URL used to track the progress and obtain the result of the classification operation.",
-                "format": "url"
-              }
-            }
-          },
-          "default": {
-            "description": "Error encountered.",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-long-running-operation": true,
-        "x-ms-examples": {
-          "ClassifyDocument_Url": {
-            "$ref": "./examples/ClassifyDocument_Url.json"
-          }
-        }
-      }
-    },
-    "/documentClassifiers/{classifierId}/analyzeResults/{resultId}": {
-      "get": {
-        "summary": "Get document classifier result",
-        "description": "Gets the result of document classifier.",
-        "operationId": "DocumentClassifiers_GetClassifyResult",
-        "tags": ["Classifier"],
-        "consumes": [],
-        "produces": ["application/json"],
-        "parameters": [
-          {
-            "$ref": "#/parameters/PathDocumentClassifierId"
-          },
-          {
-            "$ref": "#/parameters/PathResultId"
-          },
-          {
-            "$ref": "#/parameters/QueryApiVersion"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK.",
-            "schema": {
-              "$ref": "#/definitions/AnalyzeResultOperation"
-            }
-          },
-          "default": {
-            "description": "Error encountered.",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "GetClassifyDocumentResult": {
-            "$ref": "./examples/GetClassifyDocumentResult.json"
-          }
-        }
-      }
-    },
     "/info": {
       "get": {
         "summary": "Get resource info",
         "description": "Return information about the current resource.",
-        "operationId": "Miscellaneous_GetResourceInfo",
+        "operationId": "GetResourceDetails",
         "tags": ["Management"],
         "consumes": [],
         "produces": ["application/json"],
@@ -855,10 +578,6 @@
         "azureBlobSource": {
           "description": "Azure Blob Storage location containing the training data.",
           "$ref": "#/definitions/AzureBlobContentSource"
-        },
-        "azureBlobFileListSource": {
-          "description": "Azure Blob Storage file list specifying the training data.",
-          "$ref": "#/definitions/AzureBlobFileListSource"
         },
         "tags": {
           "description": "List of key-value tag attributes associated with the document model.",
@@ -941,8 +660,7 @@
         },
         "nextLink": {
           "description": "Link to the next page of operations.",
-          "type": "string",
-          "format": "url"
+          "type": "string"
         }
       }
     },
@@ -964,7 +682,13 @@
           "type": "string"
         },
         "status": {
-          "$ref": "#/definitions/OperationStatus"
+          "description": "Operation status.",
+          "type": "string",
+          "enum": ["notStarted", "running", "failed", "succeeded", "canceled"],
+          "x-ms-enum": {
+            "name": "OperationStatus",
+            "modelAsString": false
+          }
         },
         "percentCompleted": {
           "description": "Operation progress (0-100).",
@@ -985,16 +709,20 @@
         },
         "kind": {
           "description": "Type of operation.",
-          "type": "string"
+          "type": "string",
+          "enum": ["documentModelBuild", "documentModelCompose", "documentModelCopyTo"],
+          "x-ms-enum": {
+            "name": "OperationKind",
+            "modelAsString": true
+          }
         },
         "resourceLocation": {
           "description": "URL of the resource targeted by this operation.",
-          "type": "string",
-          "format": "url"
+          "type": "string"
         },
         "apiVersion": {
           "description": "API version used to create this operation.",
-          "$ref": "#/definitions/ApiVersion"
+          "type": "string"
         },
         "tags": {
           "description": "List of key-value tag attributes associated with the document model.",
@@ -1071,138 +799,17 @@
         },
         "nextLink": {
           "description": "Link to the next page of document models.",
-          "type": "string",
-          "format": "url"
-        }
-      }
-    },
-    "DocumentClassifierBuildOperationDetails": {
-      "description": "Get Operation response object.",
-      "x-ms-discriminator-value": "documentClassifierBuild",
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "#/definitions/OperationDetails"
-        }
-      ],
-      "properties": {
-        "result": {
-          "description": "Operation result upon success.",
-          "$ref": "#/definitions/DocumentClassifierDetails"
-        }
-      }
-    },
-    "BuildDocumentClassifierRequest": {
-      "description": "Request body to build a new custom document classifier.",
-      "type": "object",
-      "required": ["classifierId", "docTypes"],
-      "properties": {
-        "classifierId": {
-          "$ref": "#/definitions/DocumentClassifierId"
-        },
-        "description": {
-          "$ref": "#/definitions/DocumentClassifierDescription"
-        },
-        "docTypes": {
-          "description": "List of document types to classify against.",
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/ClassifierDocumentTypeDetails"
-          }
-        }
-      }
-    },
-    "GetDocumentClassifiersResponse": {
-      "description": "List document classifiers response object.",
-      "type": "object",
-      "required": ["value"],
-      "properties": {
-        "value": {
-          "description": "List of document classifiers.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DocumentClassifierDetails"
-          }
-        },
-        "nextLink": {
-          "description": "Link to the next page of document classifiers.",
-          "type": "string",
-          "format": "url"
-        }
-      }
-    },
-    "ClassifyDocumentRequest": {
-      "description": "Document classification parameters.",
-      "type": "object",
-      "properties": {
-        "urlSource": {
-          "description": "Document URL to classify",
-          "$ref": "#/definitions/UrlContentSource"
-        },
-        "base64Source": {
-          "description": "Base64 encoding of the document to classify",
-          "$ref": "#/definitions/Base64ContentSource"
-        }
-      }
-    },
-    "DocumentClassifierDetails": {
-      "description": "Document classifier info.",
-      "type": "object",
-      "required": ["classifierId", "createdDateTime", "apiVersion", "docTypes"],
-      "properties": {
-        "classifierId": {
-          "$ref": "#/definitions/DocumentClassifierId"
-        },
-        "description": {
-          "$ref": "#/definitions/DocumentClassifierDescription"
-        },
-        "createdDateTime": {
-          "description": "Date and time (UTC) when the document classifier was created.",
-          "type": "string",
-          "format": "date-time"
-        },
-        "expirationDateTime": {
-          "description": "Date and time (UTC) when the document classifier will expire.",
-          "type": "string",
-          "format": "date-time"
-        },
-        "apiVersion": {
-          "description": "API version used to create this document classifier.",
-          "$ref": "#/definitions/ApiVersion"
-        },
-        "docTypes": {
-          "description": "List of document types to classify against.",
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/ClassifierDocumentTypeDetails"
-          }
-        }
-      }
-    },
-    "ClassifierDocumentTypeDetails": {
-      "description": "Training data source.",
-      "type": "object",
-      "properties": {
-        "azureBlobSource": {
-          "description": "Azure Blob Storage location containing the training data.",
-          "$ref": "#/definitions/AzureBlobContentSource"
-        },
-        "azureBlobFileListSource": {
-          "description": "Azure Blob Storage file list specifying the training data.",
-          "$ref": "#/definitions/AzureBlobFileListSource"
+          "type": "string"
         }
       }
     },
     "ResourceDetails": {
       "description": "General information regarding the current resource.",
       "type": "object",
-      "required": ["customDocumentModels", "customNeuralDocumentModelBuilds"],
+      "required": ["customDocumentModels"],
       "properties": {
         "customDocumentModels": {
           "$ref": "#/definitions/CustomDocumentModelsDetails"
-        },
-        "customNeuralDocumentModelBuilds": {
-          "$ref": "#/definitions/QuotaDetails"
         }
       }
     },
@@ -1223,31 +830,14 @@
         }
       }
     },
-    "QuotaDetails": {
-      "description": "Quota used, limit, and next reset date/time.",
-      "type": "object",
-      "required": ["used", "quota", "quotaResetDateTime"],
-      "properties": {
-        "used": {
-          "description": "Amount of the resource quota used.",
-          "type": "integer",
-          "format": "int32"
-        },
-        "quota": {
-          "description": "Resource quota limit.",
-          "type": "integer",
-          "format": "int32"
-        },
-        "quotaResetDateTime": {
-          "description": "Date/time when the resource quota usage will be reset.",
-          "type": "string",
-          "format": "date-time"
-        }
-      }
-    },
     "ApiVersion": {
       "description": "API version.",
-      "type": "string"
+      "type": "string",
+      "enum": ["2022-08-31"],
+      "x-ms-enum": {
+        "name": "ApiVersion",
+        "modelAsString": true
+      }
     },
     "ErrorResponse": {
       "description": "Error response object.",
@@ -1309,7 +899,7 @@
     "UrlContentSource": {
       "description": "Content at specified URL.",
       "type": "string",
-      "format": "url"
+      "format": "uri"
     },
     "Base64ContentSource": {
       "description": "Content represented via Base64 encoding.",
@@ -1324,26 +914,10 @@
         "containerUrl": {
           "description": "Azure Blob Storage container URL.",
           "type": "string",
-          "format": "url"
+          "format": "uri"
         },
         "prefix": {
           "description": "Blob name prefix.",
-          "type": "string"
-        }
-      }
-    },
-    "AzureBlobFileListSource": {
-      "description": "File list in Azure Blob Storage.",
-      "type": "object",
-      "required": ["containerUrl", "fileList"],
-      "properties": {
-        "containerUrl": {
-          "description": "Azure Blob Storage container URL.",
-          "type": "string",
-          "format": "url"
-        },
-        "fileList": {
-          "description": "Path to a JSONL file within the container specifying a subset of documents for training.",
           "type": "string"
         }
       }
@@ -1375,8 +949,7 @@
         },
         "targetModelLocation": {
           "description": "URL of the copied document model in the target account.",
-          "type": "string",
-          "format": "url"
+          "type": "string"
         },
         "accessToken": {
           "description": "Token used to authorize the request.",
@@ -1387,37 +960,6 @@
           "type": "string",
           "format": "date-time"
         }
-      }
-    },
-    "OperationStatus": {
-      "description": "Operation status.",
-      "type": "string",
-      "enum": ["notStarted", "running", "failed", "succeeded", "canceled"],
-      "x-ms-enum": {
-        "name": "OperationStatus",
-        "modelAsString": false,
-        "values": [
-          {
-            "value": "notStarted",
-            "description": "The operation has not started yet."
-          },
-          {
-            "value": "running",
-            "description": "The operation is in progress."
-          },
-          {
-            "value": "failed",
-            "description": "The operation has failed."
-          },
-          {
-            "value": "succeeded",
-            "description": "The operation has succeeded."
-          },
-          {
-            "value": "canceled",
-            "description": "The operation has been canceled."
-          }
-        ]
       }
     },
     "OperationSummary": {
@@ -1437,7 +979,13 @@
           "type": "string"
         },
         "status": {
-          "$ref": "#/definitions/OperationStatus"
+          "description": "Operation status.",
+          "type": "string",
+          "enum": ["notStarted", "running", "failed", "succeeded", "canceled"],
+          "x-ms-enum": {
+            "name": "OperationStatus",
+            "modelAsString": false
+          }
         },
         "percentCompleted": {
           "description": "Operation progress (0-100).",
@@ -1459,43 +1007,19 @@
         "kind": {
           "description": "Type of operation.",
           "type": "string",
-          "enum": [
-            "documentModelBuild",
-            "documentModelCompose",
-            "documentModelCopyTo",
-            "documentClassifierBuild"
-          ],
+          "enum": ["documentModelBuild", "documentModelCompose", "documentModelCopyTo"],
           "x-ms-enum": {
             "name": "OperationKind",
-            "modelAsString": true,
-            "values": [
-              {
-                "value": "documentModelBuild",
-                "description": "Build a new custom document model."
-              },
-              {
-                "value": "documentModelCompose",
-                "description": "Compose a new custom document model from existing models."
-              },
-              {
-                "value": "documentModelCopyTo",
-                "description": "Copy an existing document model to potentially a different resource, region, or subscription."
-              },
-              {
-                "value": "documentClassifierBuild",
-                "description": "Build a new custom classifier model."
-              }
-            ]
+            "modelAsString": true
           }
         },
         "resourceLocation": {
           "description": "URL of the resource targeted by this operation.",
-          "type": "string",
-          "format": "url"
+          "type": "string"
         },
         "apiVersion": {
           "description": "API version used to create this operation.",
-          "$ref": "#/definitions/ApiVersion"
+          "type": "string"
         },
         "tags": {
           "description": "List of key-value tag attributes associated with the document model.",
@@ -1522,14 +1046,9 @@
           "type": "string",
           "format": "date-time"
         },
-        "expirationDateTime": {
-          "description": "Date and time (UTC) when the document model will expire.",
-          "type": "string",
-          "format": "date-time"
-        },
         "apiVersion": {
           "description": "API version used to create this document model.",
-          "$ref": "#/definitions/ApiVersion"
+          "type": "string"
         },
         "tags": {
           "description": "List of key-value tag attributes associated with the document model.",
@@ -1556,14 +1075,9 @@
           "type": "string",
           "format": "date-time"
         },
-        "expirationDateTime": {
-          "description": "Date and time (UTC) when the document model will expire.",
-          "type": "string",
-          "format": "date-time"
-        },
         "apiVersion": {
           "description": "API version used to create this document model.",
-          "$ref": "#/definitions/ApiVersion"
+          "type": "string"
         },
         "tags": {
           "description": "List of key-value tag attributes associated with the document model.",
@@ -1653,25 +1167,7 @@
           "enum": ["notStarted", "running", "failed", "succeeded"],
           "x-ms-enum": {
             "name": "AnalyzeResultOperationStatus",
-            "modelAsString": false,
-            "values": [
-              {
-                "value": "notStarted",
-                "description": "The operation has not started yet."
-              },
-              {
-                "value": "running",
-                "description": "The operation is in progress."
-              },
-              {
-                "value": "failed",
-                "description": "The operation has failed."
-              },
-              {
-                "value": "succeeded",
-                "description": "The operation has succeeded."
-              }
-            ]
+            "modelAsString": false
           }
         },
         "createdDateTime": {
@@ -1768,35 +1264,8 @@
     "DocumentPage": {
       "description": "Content and layout elements extracted from a page from the input.",
       "type": "object",
-      "required": ["kind", "pageNumber", "spans"],
+      "required": ["pageNumber", "spans"],
       "properties": {
-        "kind": {
-          "description": "Kind of document page.",
-          "type": "string",
-          "enum": ["document", "sheet", "slide", "image"],
-          "x-ms-enum": {
-            "name": "DocumentPageKind",
-            "modelAsString": true,
-            "values": [
-              {
-                "value": "document",
-                "description": "A page from a PDF or image file.  All content from Office/HTML files is represented as a single page."
-              },
-              {
-                "value": "sheet",
-                "description": "A sheet from a spreadsheet."
-              },
-              {
-                "value": "slide",
-                "description": "A slide from a presentation."
-              },
-              {
-                "value": "image",
-                "description": "An embedded image from an Office/HTML file."
-              }
-            ]
-          }
-        },
         "pageNumber": {
           "description": "1-based page number in the input document.",
           "type": "integer",
@@ -1826,17 +1295,7 @@
           "enum": ["pixel", "inch"],
           "x-ms-enum": {
             "name": "LengthUnit",
-            "modelAsString": true,
-            "values": [
-              {
-                "value": "pixel",
-                "description": "Length unit for image files."
-              },
-              {
-                "value": "inch",
-                "description": "Length unit for PDF files."
-              }
-            ]
+            "modelAsString": true
           }
         },
         "spans": {
@@ -1865,34 +1324,6 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/DocumentLine"
-          }
-        },
-        "annotations": {
-          "description": "Extracted annotations from the page.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DocumentAnnotation"
-          }
-        },
-        "barcodes": {
-          "description": "Extracted barcodes from the page.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DocumentBarcode"
-          }
-        },
-        "formulas": {
-          "description": "Extracted formulas from the page.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DocumentFormula"
-          }
-        },
-        "images": {
-          "description": "Extracted images from the page.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DocumentImage"
           }
         }
       }
@@ -1949,17 +1380,7 @@
       "enum": ["selected", "unselected"],
       "x-ms-enum": {
         "name": "SelectionMarkState",
-        "modelAsString": true,
-        "values": [
-          {
-            "value": "selected",
-            "description": "The selection mark is selected, often indicated by a check ✓ or cross X inside the selection mark."
-          },
-          {
-            "value": "unselected",
-            "description": "The selection mark is not selected."
-          }
-        ]
+        "modelAsString": true
       }
     },
     "DocumentLine": {
@@ -1984,227 +1405,6 @@
         }
       }
     },
-    "DocumentAnnotation": {
-      "description": "An annotation object that represents a visual annotation in the document, such as checks ✓ and crosses X.",
-      "type": "object",
-      "required": ["kind", "polygon", "confidence"],
-      "properties": {
-        "kind": {
-          "description": "Annotation kind.",
-          "type": "string",
-          "enum": ["check", "cross"],
-          "x-ms-enum": {
-            "name": "DocumentAnnotationKind",
-            "modelAsString": true,
-            "values": [
-              {
-                "value": "check",
-                "description": "A visual check ✓."
-              },
-              {
-                "value": "cross",
-                "description": "A visual cross X."
-              }
-            ]
-          }
-        },
-        "polygon": {
-          "description": "Bounding polygon of the annotation.",
-          "$ref": "#/definitions/BoundingPolygon"
-        },
-        "confidence": {
-          "description": "Confidence of correctly extracting the annotation.",
-          "$ref": "#/definitions/Confidence"
-        }
-      }
-    },
-    "DocumentBarcode": {
-      "description": "A barcode object.",
-      "type": "object",
-      "required": ["kind", "value", "span", "confidence"],
-      "properties": {
-        "kind": {
-          "description": "Barcode kind.",
-          "type": "string",
-          "enum": [
-            "QRCode",
-            "PDF417",
-            "UPCA",
-            "UPCE",
-            "Code39",
-            "Code128",
-            "EAN8",
-            "EAN13",
-            "DataBar",
-            "Code93",
-            "Codabar",
-            "DataBarExpanded",
-            "ITF",
-            "MicroQRCode",
-            "Aztec",
-            "DataMatrix",
-            "MaxiCode"
-          ],
-          "x-ms-enum": {
-            "name": "DocumentBarcodeKind",
-            "modelAsString": true,
-            "values": [
-              {
-                "value": "QRCode",
-                "description": "QR code, as defined in ISO/IEC 18004:2015."
-              },
-              {
-                "value": "PDF417",
-                "description": "PDF417, as defined in ISO 15438."
-              },
-              {
-                "value": "UPCA",
-                "description": "GS1 12-digit Universal Product Code."
-              },
-              {
-                "value": "UPCE",
-                "description": "GS1 6-digit Universal Product Code."
-              },
-              {
-                "value": "Code39",
-                "description": "Code 39 barcode, as defined in ISO/IEC 16388:2007."
-              },
-              {
-                "value": "Code128",
-                "description": "Code 128 barcode, as defined in ISO/IEC 15417:2007."
-              },
-              {
-                "value": "EAN8",
-                "description": "GS1 8-digit International Article Number (European Article Number)."
-              },
-              {
-                "value": "EAN13",
-                "description": "GS1 13-digit International Article Number (European Article Number)."
-              },
-              {
-                "value": "DataBar",
-                "description": "GS1 DataBar barcode."
-              },
-              {
-                "value": "Code93",
-                "description": "Code 93 barcode, as defined in ANSI/AIM BC5-1995."
-              },
-              {
-                "value": "Codabar",
-                "description": "Codabar barcode, as defined in ANSI/AIM BC3-1995."
-              },
-              {
-                "value": "DataBarExpanded",
-                "description": "GS1 DataBar Expanded barcode."
-              },
-              {
-                "value": "ITF",
-                "description": "Interleaved 2 of 5 barcode, as defined in ANSI/AIM BC2-1995."
-              },
-              {
-                "value": "MicroQRCode",
-                "description": "Micro QR code, as defined in ISO/IEC 23941:2022."
-              },
-              {
-                "value": "Aztec",
-                "description": "Aztec code, as defined in ISO/IEC 24778:2008."
-              },
-              {
-                "value": "DataMatrix",
-                "description": "Data matrix code, as defined in ISO/IEC 16022:2006."
-              },
-              {
-                "value": "MaxiCode",
-                "description": "MaxiCode, as defined in ISO/IEC 16023:2000."
-              }
-            ]
-          }
-        },
-        "value": {
-          "description": "Barcode value",
-          "type": "string"
-        },
-        "polygon": {
-          "description": "Bounding polygon of the barcode.",
-          "$ref": "#/definitions/BoundingPolygon"
-        },
-        "span": {
-          "description": "Location of the barcode in the reading order concatenated content.",
-          "$ref": "#/definitions/DocumentSpan"
-        },
-        "confidence": {
-          "description": "Confidence of correctly extracting the barcode.",
-          "$ref": "#/definitions/Confidence"
-        }
-      }
-    },
-    "DocumentFormula": {
-      "description": "A formula object.",
-      "type": "object",
-      "required": ["kind", "value", "span", "confidence"],
-      "properties": {
-        "kind": {
-          "description": "Formula kind.",
-          "type": "string",
-          "enum": ["inline", "display"],
-          "x-ms-enum": {
-            "name": "DocumentFormulaKind",
-            "modelAsString": true,
-            "values": [
-              {
-                "value": "inline",
-                "description": "A formula embedded within the content of a paragraph."
-              },
-              {
-                "value": "display",
-                "description": "A formula in display mode that takes up an entire line."
-              }
-            ]
-          }
-        },
-        "value": {
-          "description": "LaTex expression describing the formula.",
-          "type": "string"
-        },
-        "polygon": {
-          "description": "Bounding polygon of the formula.",
-          "$ref": "#/definitions/BoundingPolygon"
-        },
-        "span": {
-          "description": "Location of the formula in the reading order concatenated content.",
-          "$ref": "#/definitions/DocumentSpan"
-        },
-        "confidence": {
-          "description": "Confidence of correctly extracting the formula.",
-          "$ref": "#/definitions/Confidence"
-        }
-      }
-    },
-    "DocumentImage": {
-      "description": "An image object detected in the page.",
-      "type": "object",
-      "required": ["span", "pageNumber", "confidence"],
-      "properties": {
-        "polygon": {
-          "description": "Bounding polygon of the image.",
-          "$ref": "#/definitions/BoundingPolygon"
-        },
-        "span": {
-          "description": "Location of the image in the reading order concatenated content.",
-          "$ref": "#/definitions/DocumentSpan"
-        },
-        "pageNumber": {
-          "description": "1-based page number of the page that contains the image.",
-          "type": "integer",
-          "format": "int32",
-          "minimum": 1
-        },
-        "confidence": {
-          "description": "Confidence of correctly identifying the image.",
-          "$ref": "#/definitions/Confidence"
-        }
-      }
-    },
     "DocumentParagraph": {
       "description": "A paragraph object consisting with contiguous lines generally with common alignment and spacing.",
       "type": "object",
@@ -2213,48 +1413,10 @@
         "role": {
           "description": "Semantic role of the paragraph.",
           "type": "string",
-          "enum": [
-            "pageHeader",
-            "pageFooter",
-            "pageNumber",
-            "title",
-            "sectionHeading",
-            "footnote",
-            "formulaBlock"
-          ],
+          "enum": ["pageHeader", "pageFooter", "pageNumber", "title", "sectionHeading", "footnote"],
           "x-ms-enum": {
             "name": "ParagraphRole",
-            "modelAsString": true,
-            "values": [
-              {
-                "value": "pageHeader",
-                "description": "Text near the top edge of the page."
-              },
-              {
-                "value": "pageFooter",
-                "description": "Text near the bottom edge of the page."
-              },
-              {
-                "value": "pageNumber",
-                "description": "Page number."
-              },
-              {
-                "value": "title",
-                "description": "Top-level title describing the entire document."
-              },
-              {
-                "value": "sectionHeading",
-                "description": "Sub heading describing a section of the document."
-              },
-              {
-                "value": "footnote",
-                "description": "A note usually placed after the main content on a page."
-              },
-              {
-                "value": "formulaBlock",
-                "description": "A block of formulas, often with shared alignment."
-              }
-            ]
+            "modelAsString": true
           }
         },
         "content": {
@@ -2329,29 +1491,7 @@
           "default": "content",
           "x-ms-enum": {
             "name": "DocumentTableCellKind",
-            "modelAsString": true,
-            "values": [
-              {
-                "value": "content",
-                "description": "Contains the main content/data."
-              },
-              {
-                "value": "rowHeader",
-                "description": "Describes the content of the row."
-              },
-              {
-                "value": "columnHeader",
-                "description": "Describes the content of the column."
-              },
-              {
-                "value": "stubHead",
-                "description": "Describes the row headers, usually located at the top left corner of a table."
-              },
-              {
-                "value": "description",
-                "description": "Describes the content in (parts of) the table."
-              }
-            ]
+            "modelAsString": true
           }
         },
         "rowIndex": {
@@ -2411,10 +1551,6 @@
           "description": "Field value of the key-value pair.",
           "$ref": "#/definitions/DocumentKeyValueElement"
         },
-        "commonName": {
-          "description": "Common name of the key-value pair.",
-          "type": "string"
-        },
         "confidence": {
           "description": "Confidence of correctly extracting the key-value pair.",
           "$ref": "#/definitions/Confidence"
@@ -2454,58 +1590,6 @@
         "isHandwritten": {
           "description": "Is content handwritten?",
           "type": "boolean"
-        },
-        "similarFontFamily": {
-          "description": "Visually most similar font from among the set of supported font families, with fallback fonts following CSS convention (ex. 'Arial, sans-serif').",
-          "type": "string"
-        },
-        "fontStyle": {
-          "description": "Font style.",
-          "type": "string",
-          "enum": ["normal", "italic"],
-          "x-ms-enum": {
-            "name": "FontStyle",
-            "modelAsString": true,
-            "values": [
-              {
-                "value": "normal",
-                "description": "Characters are represented normally."
-              },
-              {
-                "value": "italic",
-                "description": "Characters are visually slanted to the right."
-              }
-            ]
-          }
-        },
-        "fontWeight": {
-          "description": "Font weight.",
-          "type": "string",
-          "enum": ["normal", "bold"],
-          "x-ms-enum": {
-            "name": "FontWeight",
-            "modelAsString": true,
-            "values": [
-              {
-                "value": "normal",
-                "description": "Characters are represented normally."
-              },
-              {
-                "value": "bold",
-                "description": "Characters are represented with thicker strokes."
-              }
-            ]
-          }
-        },
-        "color": {
-          "description": "Foreground color in #rrggbb hexadecimal format.",
-          "type": "string",
-          "pattern": "^#[0-9a-f]{6}$"
-        },
-        "backgroundColor": {
-          "description": "Background color in #rrggbb hexadecimal format..",
-          "type": "string",
-          "pattern": "^#[0-9a-f]{6}$"
         },
         "spans": {
           "description": "Location of the text elements in the concatenated content the style applies to.",
@@ -2624,17 +1708,7 @@
           "enum": ["signed", "unsigned"],
           "x-ms-enum": {
             "name": "DocumentSignatureType",
-            "modelAsString": true,
-            "values": [
-              {
-                "value": "signed",
-                "description": "A signature is detected."
-              },
-              {
-                "value": "unsigned",
-                "description": "No signatures are detected."
-              }
-            ]
+            "modelAsString": true
           }
         },
         "valueCountryRegion": {
@@ -2662,10 +1736,6 @@
         "valueAddress": {
           "description": "Address value.",
           "$ref": "#/definitions/AddressValue"
-        },
-        "valueBoolean": {
-          "description": "Boolean value.",
-          "type": "boolean"
         },
         "content": {
           "description": "Field content.",
@@ -2707,70 +1777,11 @@
         "array",
         "object",
         "currency",
-        "address",
-        "boolean"
+        "address"
       ],
       "x-ms-enum": {
         "name": "DocumentFieldType",
-        "modelAsString": true,
-        "values": [
-          {
-            "value": "string",
-            "description": "Plain text."
-          },
-          {
-            "value": "date",
-            "description": "Date, normalized to ISO 8601 (YYYY-MM-DD) format."
-          },
-          {
-            "value": "time",
-            "description": "Time, normalized to ISO 8601 (hh:mm:ss) format."
-          },
-          {
-            "value": "phoneNumber",
-            "description": "Phone number, normalized to E.164 (+{CountryCode}{SubscriberNumber}) format."
-          },
-          {
-            "value": "number",
-            "description": "Floating point number, normalized to double precision floating point."
-          },
-          {
-            "value": "integer",
-            "description": "Integer number, normalized to 64-bit signed integer."
-          },
-          {
-            "value": "selectionMark",
-            "description": "Is field selected?"
-          },
-          {
-            "value": "countryRegion",
-            "description": "Country/region, normalized to ISO 3166-1 alpha-3 format (ex. USA)."
-          },
-          {
-            "value": "signature",
-            "description": "Is signature present?"
-          },
-          {
-            "value": "array",
-            "description": "List of subfields of the same type."
-          },
-          {
-            "value": "object",
-            "description": "Named list of subfields of potentially different types."
-          },
-          {
-            "value": "currency",
-            "description": "Currency amount with optional currency symbol and unit."
-          },
-          {
-            "value": "address",
-            "description": "Parsed address."
-          },
-          {
-            "value": "boolean",
-            "description": "Boolean value, normalized to true or false."
-          }
-        ]
+        "modelAsString": true
       }
     },
     "CurrencyValue": {
@@ -2785,10 +1796,6 @@
         },
         "currencySymbol": {
           "description": "Currency symbol label, if any.",
-          "type": "string"
-        },
-        "currencyCode": {
-          "description": "Resolved currency code (ISO 4217), if any.",
           "type": "string"
         }
       }
@@ -2828,37 +1835,13 @@
         "streetAddress": {
           "description": "Street-level address, excluding city, state, countryRegion, and postalCode.",
           "type": "string"
-        },
-        "unit": {
-          "description": "Apartment or office number",
-          "type": "string"
-        },
-        "cityDistrict": {
-          "description": "Districts or boroughs within a city, such as Brooklyn in New York City or City of Westminster in London.",
-          "type": "string"
-        },
-        "stateDistrict": {
-          "description": "Second-level administrative division used in certain locales.",
-          "type": "string"
-        },
-        "suburb": {
-          "description": "Unofficial neighborhood name, like Chinatown.",
-          "type": "string"
-        },
-        "house": {
-          "description": "Build name, such as World Trade Center.",
-          "type": "string"
-        },
-        "level": {
-          "description": "Floor number, such as 3F.",
-          "type": "string"
         }
       }
     },
     "DocumentModelId": {
       "description": "Unique document model name.",
       "type": "string",
-      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}$"
+      "pattern": "[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}"
     },
     "DocumentModelDescription": {
       "description": "Document model description.",
@@ -2871,17 +1854,7 @@
       "enum": ["template", "neural"],
       "x-ms-enum": {
         "name": "DocumentBuildMode",
-        "modelAsString": true,
-        "values": [
-          {
-            "value": "template",
-            "description": "Target documents with similar visual templates."
-          },
-          {
-            "value": "neural",
-            "description": "Support documents with diverse visual templates."
-          }
-        ]
+        "modelAsString": true
       }
     },
     "DocType": {
@@ -2889,16 +1862,6 @@
       "type": "string",
       "minLength": 2,
       "maxLength": 64
-    },
-    "DocumentClassifierId": {
-      "description": "Unique document classifier name.",
-      "type": "string",
-      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}$"
-    },
-    "DocumentClassifierDescription": {
-      "description": "Document classifier description.",
-      "type": "string",
-      "maxLength": 4096
     },
     "BoundingPolygon": {
       "description": "Bounding polygon, with coordinates specified relative to the top-left of the page. The numbers represent the x, y values of the polygon vertices, clockwise from the left (-180 degrees inclusive) relative to the element orientation.",
@@ -2956,21 +1919,7 @@
       "enum": ["textElements", "unicodeCodePoint", "utf16CodeUnit"],
       "x-ms-enum": {
         "name": "StringIndexType",
-        "modelAsString": true,
-        "values": [
-          {
-            "value": "textElements",
-            "description": "User-perceived display character, or grapheme cluster, as defined by Unicode 8.0.0."
-          },
-          {
-            "value": "unicodeCodePoint",
-            "description": "Character unit represented by a single unicode code point.  Used by Python 3."
-          },
-          {
-            "value": "utf16CodeUnit",
-            "description": "Character unit represented by a 16-bit Unicode code unit.  Used by JavaScript, Java, and .NET."
-          }
-        ]
+        "modelAsString": true
       },
       "default": "textElements"
     }
@@ -2982,7 +1931,6 @@
       "x-ms-parameter-location": "client",
       "required": true,
       "type": "string",
-      "format": "url",
       "in": "path",
       "x-ms-skip-url-encoding": true
     },
@@ -2992,6 +1940,11 @@
       "required": true,
       "type": "string",
       "in": "query",
+      "enum": ["2022-08-31"],
+      "x-ms-enum": {
+        "name": "ApiVersion",
+        "modelAsString": true
+      },
       "x-ms-parameter-location": "client"
     },
     "PathDocumentModelId": {
@@ -2999,18 +1952,7 @@
       "description": "Unique document model name.",
       "required": true,
       "type": "string",
-      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}$",
-      "maxLength": 64,
-      "in": "path",
-      "x-ms-parameter-location": "method"
-    },
-    "PathDocumentClassifierId": {
-      "name": "classifierId",
-      "description": "Unique document classifier name.",
-      "required": true,
-      "type": "string",
-      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}$",
-      "maxLength": 64,
+      "pattern": "[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}",
       "in": "path",
       "x-ms-parameter-location": "method"
     },
@@ -3019,9 +1961,6 @@
       "description": "Unique operation ID.",
       "required": true,
       "type": "string",
-      "format": "uuid",
-      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-      "maxLength": 36,
       "in": "path",
       "x-ms-parameter-location": "method"
     },
@@ -3030,9 +1969,6 @@
       "description": "Analyze operation result ID.",
       "required": true,
       "type": "string",
-      "format": "uuid",
-      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-      "maxLength": 36,
       "in": "path",
       "x-ms-parameter-location": "method"
     },
@@ -3062,71 +1998,9 @@
       "enum": ["textElements", "unicodeCodePoint", "utf16CodeUnit"],
       "x-ms-enum": {
         "name": "StringIndexType",
-        "modelAsString": true,
-        "values": [
-          {
-            "value": "textElements",
-            "description": "User-perceived display character, or grapheme cluster, as defined by Unicode 8.0.0."
-          },
-          {
-            "value": "unicodeCodePoint",
-            "description": "Character unit represented by a single unicode code point.  Used by Python 3."
-          },
-          {
-            "value": "utf16CodeUnit",
-            "description": "Character unit represented by a 16-bit Unicode code unit.  Used by JavaScript, Java, and .NET."
-          }
-        ]
+        "modelAsString": true
       },
       "default": "textElements",
-      "x-ms-parameter-location": "method"
-    },
-    "QueryFeatures": {
-      "name": "features",
-      "description": "List of optional analysis features.",
-      "required": false,
-      "type": "array",
-      "in": "query",
-      "items": {
-        "type": "string",
-        "enum": ["ocr.highResolution", "ocr.formula", "ocr.font", "queryFields.premium"],
-        "x-ms-enum": {
-          "name": "DocumentAnalysisFeature",
-          "modelAsString": true,
-          "values": [
-            {
-              "value": "ocr.highResolution",
-              "description": "Perform OCR at a higher resolution to handle documents with fine print."
-            },
-            {
-              "value": "ocr.formula",
-              "description": "Enable the detection of mathematical expressions the document."
-            },
-            {
-              "value": "ocr.font",
-              "description": "Enable the recognition of various font styles."
-            },
-            {
-              "value": "queryFields.premium",
-              "description": "Enable extraction of additional fields via the queryFields query parameter."
-            }
-          ]
-        }
-      },
-      "collectionFormat": "csv",
-      "x-ms-parameter-location": "method"
-    },
-    "QueryQueryFields": {
-      "name": "queryFields",
-      "description": "List of additional fields to extract.  Ex. \"NumberOfGuests,StoreNumber\"",
-      "required": false,
-      "type": "array",
-      "in": "query",
-      "items": {
-        "type": "string",
-        "pattern": "^[\\p{L}\\p{M}\\p{N}_]{1,64}$"
-      },
-      "collectionFormat": "csv",
       "x-ms-parameter-location": "method"
     }
   }

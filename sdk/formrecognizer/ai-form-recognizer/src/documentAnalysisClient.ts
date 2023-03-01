@@ -499,7 +499,7 @@ export class DocumentAnalysisClient {
               async () => {
                 const [contentType, analyzeRequest] = toAnalyzeRequest(input);
 
-                const { operationLocation } = await this._restClient.analyzeDocument(
+                const { operationLocation } = await this._restClient.documentModels.analyzeDocument(
                   definition.initialModelId,
                   contentType as any,
                   {

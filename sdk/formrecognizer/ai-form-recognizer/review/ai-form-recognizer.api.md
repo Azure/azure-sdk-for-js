@@ -18,13 +18,19 @@ import { TokenCredential } from '@azure/core-auth';
 // @public
 export interface AddressValue {
     city?: string;
+    cityDistrict?: string;
     countryRegion?: string;
+    house?: string;
     houseNumber?: string;
+    level?: string;
     poBox?: string;
     postalCode?: string;
     road?: string;
     state?: string;
+    stateDistrict?: string;
     streetAddress?: string;
+    suburb?: string;
+    unit?: string;
 }
 
 // @public
@@ -472,6 +478,8 @@ export interface DocumentPage {
     // (undocumented)
     formulas?: DocumentFormula[];
     height?: number;
+    // Warning: (ae-forgotten-export) The symbol "DocumentPageKind" needs to be exported by the entry point index.d.ts
+    kind: DocumentPageKind;
     lines?: DocumentLine[];
     pageNumber: number;
     selectionMarks?: DocumentSelectionMark[];
@@ -533,11 +541,10 @@ export interface DocumentStyle {
     backgroundColor?: string;
     color?: string;
     confidence: number;
-    fontFamily?: FontFamily;
-    fontName?: string;
     fontStyle?: FontStyle;
     fontWeight?: FontWeight;
     isHandwritten?: boolean;
+    similarFontFamily?: string;
     spans: DocumentSpan[];
 }
 
@@ -605,9 +612,6 @@ export interface ErrorModel {
 }
 
 // @public
-export type FontFamily = string;
-
-// @public
 export type FontStyle = string;
 
 // @public
@@ -643,9 +647,6 @@ export interface GetModelOptions extends OperationOptions {
 // @public
 export interface GetOperationOptions extends OperationOptions {
 }
-
-// @public
-export type GetOperationResponse = OperationDetailsUnion;
 
 // @public
 export interface GetResourceDetailsOptions extends OperationOptions {
@@ -744,6 +745,8 @@ export interface PollerOptions<TState extends PollOperationState<unknown>> exten
 // @public
 export interface ResourceDetails {
     customDocumentModels: CustomDocumentModelsDetails;
+    // Warning: (ae-forgotten-export) The symbol "QuotaDetails" needs to be exported by the entry point index.d.ts
+    customNeuralDocumentModelBuilds: QuotaDetails;
 }
 
 // @public

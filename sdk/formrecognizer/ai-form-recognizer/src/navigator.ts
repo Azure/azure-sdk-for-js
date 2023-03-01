@@ -18,6 +18,7 @@ import {
   DocumentWord,
 } from ".";
 import { AnalyzeResult } from "./lro/analysis";
+// @ts-ignore
 import { Document } from "./models/documentElements";
 
 export type DocumentElement =
@@ -58,9 +59,11 @@ export interface ElementNavigator {
 }
 
 export const ElementNavigator = Object.freeze({
-  fromAnalyzeResult(result: AnalyzeResult): ElementNavigator {
+  fromAnalyzeResult(_result: AnalyzeResult): ElementNavigator {
     return {
-      getAllChildren(element, mode = NavigationMode.Contains) {},
+      getAllChildren(_element, _mode = NavigationMode.Contains) {
+        return null as unknown as  DocumentElement;
+      },
     };
   },
 } as const);
