@@ -37,6 +37,19 @@ export interface AddParticipantsRequest {
     participants: ChatParticipant[];
 }
 
+// @public (undocumented)
+export type AttachmentType = string;
+
+// @public
+export interface ChatAttachment {
+    attachmentType: AttachmentType;
+    contentType?: string;
+    id: string;
+    name?: string;
+    previewUrl?: string;
+    url: string;
+}
+
 // @public
 export class ChatClient {
     constructor(endpoint: string, credential: CommunicationTokenCredential, options?: ChatClientOptions);
@@ -103,6 +116,7 @@ export interface ChatMessage {
 
 // @public
 export interface ChatMessageContent {
+    attachments?: ChatAttachment[];
     initiator?: CommunicationIdentifierKind;
     message?: string;
     participants?: ChatParticipant[];
@@ -206,6 +220,11 @@ export type GetMessageOptions = OperationOptions;
 
 // @public
 export type GetPropertiesOptions = OperationOptions;
+
+// @public (undocumented)
+export enum KnownAttachmentType {
+    TeamsInlineImage = "teamsInlineImage"
+}
 
 // @public
 export type ListChatThreadsOptions = RestListChatThreadsOptions;
