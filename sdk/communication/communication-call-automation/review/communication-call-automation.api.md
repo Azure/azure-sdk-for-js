@@ -159,10 +159,42 @@ export class CallInvite {
 // @public
 export class CallMedia {
     constructor(callConnectionId: string, callMediaImpl: CallMediaImpl);
+    cancelAllMediaOperations(): Promise<void>;
+    play(playSource: FileSource, playTo: CommunicationIdentifier[], playOptions?: PlayOptions): Promise<void>;
+    playToAll(playSource: FileSource, playOptions?: PlayOptions): Promise<void>;
+    startRecognizing(recognizeOptions: CallMediaRecognizeDtmfOptions): Promise<void>;
+}
+
+// @public
+export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions {
     // (undocumented)
-    readonly callConnectionId: string;
+    interToneTimeoutInSeconds: number;
     // (undocumented)
-    readonly callMediaImpl: CallMediaImpl;
+    readonly kind?: "callMediaRecognizeDtmfOptions";
+    // (undocumented)
+    maxTonesToCollect: number;
+    // (undocumented)
+    stopDtmfTones: DtmfTone[];
+}
+
+// @public
+export interface CallMediaRecognizeOptions {
+    // (undocumented)
+    initialSilenceTimeoutInSeconds: number;
+    // (undocumented)
+    interruptCallMediaOperation: boolean;
+    // (undocumented)
+    interruptPrompt: boolean;
+    // (undocumented)
+    operationContext: string;
+    // (undocumented)
+    playPrompt: FileSource;
+    // (undocumented)
+    recognizeInputType: RecognizeInputType;
+    // (undocumented)
+    stopCurrentOperations: boolean;
+    // (undocumented)
+    targetParticipant: CommunicationIdentifier;
 }
 
 // @public
@@ -222,6 +254,38 @@ export interface CreateCallOptions extends OperationOptions {
 
 // @public
 export type CreateCallResult = CallResult;
+
+// @public
+export enum DtmfTone {
+    // (undocumented)
+    A = "a",
+    Asterisk = "asterisk",
+    // (undocumented)
+    B = "b",
+    // (undocumented)
+    C = "c",
+    // (undocumented)
+    D = "d",
+    Eight = "eight",
+    Five = "five",
+    Four = "four",
+    Nine = "nine",
+    One = "one",
+    Pound = "pound",
+    Seven = "seven",
+    Six = "six",
+    Three = "three",
+    Two = "two",
+    Zero = "zero"
+}
+
+// @public
+export interface FileSource extends PlaySource {
+    // (undocumented)
+    readonly kind?: "fileSource";
+    // (undocumented)
+    uri: string;
+}
 
 // @public
 export type GetCallConnectionPropertiesOptions = OperationOptions;
@@ -298,6 +362,20 @@ export interface PlayFailed extends RestPlayFailed {
 }
 
 // @public
+export interface PlayOptions extends OperationOptions {
+    // (undocumented)
+    loop?: boolean;
+    // (undocumented)
+    operationContext?: string;
+}
+
+// @public
+export interface PlaySource {
+    // (undocumented)
+    playSourceId?: string;
+}
+
+// @public
 export interface RecognizeCanceled extends RestRecognizeCanceled {
     kind: "RecognizeCanceled";
 }
@@ -310,6 +388,12 @@ export interface RecognizeCompleted extends RestRecognizeCompleted {
 // @public
 export interface RecognizeFailed extends RestRecognizeFailed {
     kind: "RecognizeFailed";
+}
+
+// @public
+export enum RecognizeInputType {
+    Choices = "choices",
+    Dtmf = "dtmf"
 }
 
 // @public

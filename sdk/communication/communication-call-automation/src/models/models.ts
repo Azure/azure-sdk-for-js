@@ -97,6 +97,81 @@ export interface RecordingStateResponseDto {
   recordingState?: RecordingState;
 }
 
+/** The PlaySource model. */
+export interface PlaySource {
+  playSourceId?: string;
+}
+
+/** The FileSource model. */
+export interface FileSource extends PlaySource {
+  uri: string;
+  readonly kind?: "fileSource";
+}
+
+/** Options to configure the recognize operation. */
+export interface CallMediaRecognizeOptions {
+  recognizeInputType: RecognizeInputType,
+  playPrompt: FileSource,
+  interruptCallMediaOperation: boolean,
+  stopCurrentOperations: boolean,
+  operationContext: string,
+  interruptPrompt: boolean,
+  initialSilenceTimeoutInSeconds: number,
+  targetParticipant: CommunicationIdentifier
+}
+
+/** The recognize configuration specific to Dtmf. */
+export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions {
+  interToneTimeoutInSeconds: number,
+  maxTonesToCollect: number,
+  stopDtmfTones: DtmfTone[],
+  readonly kind?: "callMediaRecognizeDtmfOptions"
+}
+
+/** A Dtmf Tone. */
+export enum DtmfTone {
+  /** Zero */
+  Zero = "zero",
+  /** One */
+  One = "one",
+  /** Two */
+  Two = "two",
+  /** Three */
+  Three = "three",
+  /** Four */
+  Four = "four",
+  /** Five */
+  Five = "five",
+  /** Six */
+  Six = "six",
+  /** Seven */
+  Seven = "seven",
+  /** Eight */
+  Eight = "eight",
+  /** Nine */
+  Nine = "nine",
+  /** A */
+  A = "a",
+  /** B */
+  B = "b",
+  /** C */
+  C = "c",
+  /** D */
+  D = "d",
+  /** Pound */
+  Pound = "pound",
+  /** Asterisk */
+  Asterisk = "asterisk"
+}
+
+/** The type of the recognition that the service accepts. */
+export enum RecognizeInputType {
+  /** Dtmf */
+  Dtmf = "dtmf",
+  /** Choices */
+  Choices = "choices"
+}
+
 function instanceOfPhoneNumberIdentity(
   object: any
 ): object is PhoneNumberIdentifier {
