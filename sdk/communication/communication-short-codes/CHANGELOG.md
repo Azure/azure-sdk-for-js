@@ -6,10 +6,6 @@
 
 Includes all changes from 1.0.0-beta.1 to 1.0.0-beta.5
 
-## 1.0.0-beta.5 (2023-03-07)
-
-### Features Added
-
 ### Other Changes
 
 - Updated to `@azure/communication-common` 2.2.0.
