@@ -415,7 +415,7 @@ export class EventHubReceiver extends LinkEntity {
       );
 
       // Wait for the connectionContext to be ready to open the link.
-      await this._context.readyToOpenLink();
+      await this._context.readyToOpenLink({ abortSignal });
       await this._negotiateClaim({ setTokenRenewal: false, abortSignal, timeoutInMs });
 
       const receiverOptions: CreateReceiverOptions = {
@@ -466,7 +466,7 @@ export class EventHubReceiver extends LinkEntity {
    * Creates the options that need to be specified while creating an AMQP receiver link.
    */
   private _createReceiverOptions(options: CreateReceiverOptions): RheaReceiverOptions {
-    const rcvrOptions: RheaReceiverOptions = {
+    const receiverOptions: RheaReceiverOptions = {
       name: this.name,
       autoaccept: true,
       source: {
@@ -481,13 +481,13 @@ export class EventHubReceiver extends LinkEntity {
     };
 
     if (typeof this.ownerLevel === "number") {
-      rcvrOptions.properties = {
+      receiverOptions.properties = {
         [Constants.attachEpoch]: types.wrap_long(this.ownerLevel),
       };
     }
 
     if (this.options.trackLastEnqueuedEventProperties) {
-      rcvrOptions.desired_capabilities = Constants.enableReceiverRuntimeMetricName;
+      receiverOptions.desired_capabilities = Constants.enableReceiverRuntimeMetricName;
     }
 
     const eventPosition = options.eventPosition || this.eventPosition;
@@ -495,12 +495,12 @@ export class EventHubReceiver extends LinkEntity {
       // Set filter on the receiver if event position is specified.
       const filterClause = getEventPositionFilter(eventPosition);
       if (filterClause) {
-        (rcvrOptions.source as any).filter = {
+        (receiverOptions.source as any).filter = {
           "apache.org:selector-filter:string": types.wrap_described(filterClause, 0x468c00000004),
         };
       }
     }
-    return rcvrOptions;
+    return receiverOptions;
   }
 
   /**
@@ -740,7 +740,5 @@ export function waitForEvents(
           .then(() => delay(readIntervalWaitTimeInMs, updatedOptions))
           .then(receivedAfterWait),
         delay(maxWaitTimeInMs, updatedOptions).then(receivedNone),
-      ]).finally(() => {
-        aborter.abort();
-      });
+      ]).finally(() => aborter.abort());
 }
