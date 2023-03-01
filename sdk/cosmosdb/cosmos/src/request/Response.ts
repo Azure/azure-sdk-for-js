@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { CosmosHeaders } from "../index";
+import { CosmosDiagnostics } from "./CosmosDiagnostics";
 
 /**
  * @hidden
@@ -10,4 +11,5 @@ export interface Response<T> {
   result?: T;
   code?: number;
   substatus?: number;
+  diagnostics: CosmosDiagnostics
 }

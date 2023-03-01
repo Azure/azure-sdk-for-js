@@ -4,6 +4,7 @@ import { AzureLogger, createClientLogger } from "@azure/logger";
 import { Constants } from "../common";
 import { ClientSideMetrics, QueryMetrics } from "../queryMetrics";
 import { FeedOptions, Response } from "../request";
+import { getEmptyCosmosDiagnostics } from "../request/CosmosDiagnostics";
 import { getInitialHeader } from "./headerUtils";
 import { ExecutionContext } from "./index";
 
@@ -73,24 +74,25 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
       return {
         result: this.resources[this.currentIndex],
         headers: getInitialHeader(),
+        diagnostics: getEmptyCosmosDiagnostics()
       };
     }
 
     if (this._canFetchMore()) {
-      const { result: resources, headers } = await this.fetchMore();
+      const { result: resources, headers, diagnostics } = await this.fetchMore();
       this.resources = resources;
       if (this.resources.length === 0) {
         if (!this.continuationToken && this.currentPartitionIndex >= this.fetchFunctions.length) {
           this.state = DefaultQueryExecutionContext.STATES.ended;
-          return { result: undefined, headers };
+          return { result: undefined, headers, diagnostics: getEmptyCosmosDiagnostics()};
         } else {
           return this.current();
         }
       }
-      return { result: this.resources[this.currentIndex], headers };
+      return { result: this.resources[this.currentIndex], headers, diagnostics};
     } else {
       this.state = DefaultQueryExecutionContext.STATES.ended;
-      return { result: undefined, headers: getInitialHeader() };
+      return { result: undefined, headers: getInitialHeader(), diagnostics: getEmptyCosmosDiagnostics() };
     }
   }
 
@@ -114,7 +116,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
    */
   public async fetchMore(): Promise<Response<any>> {
     if (this.currentPartitionIndex >= this.fetchFunctions.length) {
-      return { headers: getInitialHeader(), result: undefined };
+      return { headers: getInitialHeader(), result: undefined, diagnostics: getEmptyCosmosDiagnostics() };
     }
 
     // Keep to the original continuation and to restore the value after fetchFunction call
@@ -123,11 +125,12 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
 
     // Return undefined if there is no more results
     if (this.currentPartitionIndex >= this.fetchFunctions.length) {
-      return { headers: getInitialHeader(), result: undefined };
+      return { headers: getInitialHeader(), result: undefined, diagnostics: getEmptyCosmosDiagnostics() };
     }
 
     let resources;
     let responseHeaders;
+    let diagnostics;
     try {
       let p: Promise<Response<any>>;
       if (this.nextFetchFunction !== undefined) {
@@ -141,6 +144,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
       const response = await p;
       resources = response.result;
       responseHeaders = response.headers;
+      diagnostics = response.diagnostics;
 
       this.continuationToken = responseHeaders[Constants.HttpHeaders.Continuation];
       if (!this.continuationToken) {
@@ -196,7 +200,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
       responseHeaders[Constants.HttpHeaders.QueryMetrics]["0"] = queryMetrics;
     }
 
-    return { result: resources, headers: responseHeaders };
+    return { result: resources, headers: responseHeaders, diagnostics };
   }
 
   private _canFetchMore(): boolean {

@@ -43,33 +43,13 @@ export async function execute({
 }: ExecuteArgs): Promise<Response<any>> {
   // TODO: any response
   if (!retryPolicies) {
-    retryPolicies = {
-      endpointDiscoveryRetryPolicy: new EndpointDiscoveryRetryPolicy(
-        requestContext.globalEndpointManager,
-        requestContext.operationType
-      ),
-      resourceThrottleRetryPolicy: new ResourceThrottleRetryPolicy(
-        requestContext.connectionPolicy.retryOptions.maxRetryAttemptCount,
-        requestContext.connectionPolicy.retryOptions.fixedRetryIntervalInMilliseconds,
-        requestContext.connectionPolicy.retryOptions.maxWaitTimeInSeconds
-      ),
-      sessionReadRetryPolicy: new SessionRetryPolicy(
-        requestContext.globalEndpointManager,
-        requestContext.resourceType,
-        requestContext.operationType,
-        requestContext.connectionPolicy
-      ),
-      defaultRetryPolicy: new DefaultRetryPolicy(requestContext.operationType),
-    };
+    retryPolicies = setupRetryPolicies(retryPolicies, requestContext);
   }
   if (retryContext && retryContext.clearSessionTokenNotAvailable) {
     requestContext.client.clearSessionToken(requestContext.path);
     delete requestContext.headers["x-ms-session-token"];
   }
-  requestContext.endpoint = await requestContext.globalEndpointManager.resolveServiceEndpoint(
-    requestContext.resourceType,
-    requestContext.operationType
-  );
+   
   try {
     const response = await executeRequest(requestContext);
     response.headers[Constants.ThrottleRetryCount] =
@@ -79,26 +59,8 @@ export async function execute({
     return response;
   } catch (err: any) {
     // TODO: any error
-    let retryPolicy: RetryPolicy = null;
     const headers = err.headers || {};
-    if (
-      err.code === StatusCodes.ENOTFOUND ||
-      err.code === "REQUEST_SEND_ERROR" ||
-      (err.code === StatusCodes.Forbidden &&
-        (err.substatus === SubStatusCodes.DatabaseAccountNotFound ||
-          err.substatus === SubStatusCodes.WriteForbidden))
-    ) {
-      retryPolicy = retryPolicies.endpointDiscoveryRetryPolicy;
-    } else if (err.code === StatusCodes.TooManyRequests) {
-      retryPolicy = retryPolicies.resourceThrottleRetryPolicy;
-    } else if (
-      err.code === StatusCodes.NotFound &&
-      err.substatus === SubStatusCodes.ReadSessionNotAvailable
-    ) {
-      retryPolicy = retryPolicies.sessionReadRetryPolicy;
-    } else {
-      retryPolicy = retryPolicies.defaultRetryPolicy;
-    }
+    const retryPolicy: RetryPolicy = selectRetryPolicy(err, retryPolicies);
     const results = await retryPolicy.shouldRetry(err, retryContext, requestContext.endpoint);
     if (!results) {
       headers[Constants.ThrottleRetryCount] =
@@ -108,12 +70,14 @@ export async function execute({
       err.headers = { ...err.headers, ...headers };
       throw err;
     } else {
-      requestContext.retryCount++;
-      const newUrl = (results as any)[1]; // TODO: any hack
-      if (newUrl !== undefined) {
-        requestContext.endpoint = newUrl;
-      }
       await sleep(retryPolicy.retryAfterInMs);
+      requestContext.retryCount++;
+      requestContext.diagnosticContext.recordFailedAttempt(err.code);
+      requestContext.endpoint = await requestContext.globalEndpointManager.resolveServiceEndpoint(
+        requestContext.resourceType,
+        requestContext.operationType,
+        requestContext
+      );
       return execute({
         executeRequest,
         requestContext,
@@ -123,3 +87,45 @@ export async function execute({
     }
   }
 }
+
+function setupRetryPolicies(retryPolicies: RetryPolicies, requestContext: RequestContext) {
+  retryPolicies = {
+    endpointDiscoveryRetryPolicy: new EndpointDiscoveryRetryPolicy(
+      requestContext.globalEndpointManager,
+      requestContext.operationType
+    ),
+    resourceThrottleRetryPolicy: new ResourceThrottleRetryPolicy(
+      requestContext.connectionPolicy.retryOptions.maxRetryAttemptCount,
+      requestContext.connectionPolicy.retryOptions.fixedRetryIntervalInMilliseconds,
+      requestContext.connectionPolicy.retryOptions.maxWaitTimeInSeconds
+    ),
+    sessionReadRetryPolicy: new SessionRetryPolicy(
+      requestContext.globalEndpointManager,
+      requestContext.resourceType,
+      requestContext.operationType,
+      requestContext.connectionPolicy
+    ),
+    defaultRetryPolicy: new DefaultRetryPolicy(requestContext.operationType),
+  };
+  return retryPolicies;
+}
+
+function selectRetryPolicy(err: any, retryPolicies: RetryPolicies) {
+  let retryPolicy: RetryPolicy;
+  if (err.code === StatusCodes.ENOTFOUND ||
+    err.code === "REQUEST_SEND_ERROR" ||
+    (err.code === StatusCodes.Forbidden &&
+      (err.substatus === SubStatusCodes.DatabaseAccountNotFound ||
+        err.substatus === SubStatusCodes.WriteForbidden))) {
+    retryPolicy = retryPolicies.endpointDiscoveryRetryPolicy;
+  } else if (err.code === StatusCodes.TooManyRequests) {
+    retryPolicy = retryPolicies.resourceThrottleRetryPolicy;
+  } else if (err.code === StatusCodes.NotFound &&
+    err.substatus === SubStatusCodes.ReadSessionNotAvailable) {
+    retryPolicy = retryPolicies.sessionReadRetryPolicy;
+  } else {
+    retryPolicy = retryPolicies.defaultRetryPolicy;
+  }
+  return retryPolicy;
+}
+

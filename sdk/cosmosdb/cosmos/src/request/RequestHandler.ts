@@ -18,6 +18,7 @@ import { Response as CosmosResponse } from "./Response";
 import { TimeoutError } from "./TimeoutError";
 import { getCachedDefaultHttpClient } from "../utils/cachedClient";
 import { AzureLogger, createClientLogger } from "@azure/logger";
+import { CosmosDiagnostics } from "./CosmosDiagnostics";
 
 const logger: AzureLogger = createClientLogger("RequestHandler");
 
@@ -33,6 +34,7 @@ async function httpRequest(requestContext: RequestContext): Promise<{
   result: any;
   code: number;
   substatus: number;
+  diagnostics: CosmosDiagnostics
 }> {
   const controller = new AbortController();
   const signal = controller.signal;
@@ -149,6 +151,7 @@ async function httpRequest(requestContext: RequestContext): Promise<{
     result,
     code: response.status,
     substatus,
+    diagnostics: requestContext.diagnosticContext.getDiagnostics()
   };
 }
 

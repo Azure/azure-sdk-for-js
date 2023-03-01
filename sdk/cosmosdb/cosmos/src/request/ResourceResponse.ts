@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 import { Constants } from "../common";
 import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
+import { CosmosDiagnostics } from "./CosmosDiagnostics";
 import { StatusCode, SubStatusCode } from "./StatusCodes";
 
 export class ResourceResponse<TResource> {
@@ -9,7 +10,8 @@ export class ResourceResponse<TResource> {
     public readonly resource: TResource | undefined,
     public readonly headers: CosmosHeaders,
     public readonly statusCode: StatusCode,
-    public readonly substatus?: SubStatusCode
+    public readonly diagnostics?: CosmosDiagnostics,
+    public readonly substatus?: SubStatusCode,
   ) {}
   public get requestCharge(): number {
     return Number(this.headers[Constants.HttpHeaders.RequestCharge]) || 0;

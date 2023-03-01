@@ -8,6 +8,7 @@ import { hashObject } from "../../utils/hashObject";
 import { Aggregator, createAggregator } from "../Aggregators";
 import { getInitialHeader, mergeHeaders } from "../headerUtils";
 import { emptyGroup, extractAggregateResult } from "./emptyGroup";
+import { getEmptyCosmosDiagnostics } from "../../request/CosmosDiagnostics";
 
 interface GroupByResponse {
   result: GroupByResult;
@@ -30,11 +31,11 @@ export class GroupByEndpointComponent implements ExecutionContext {
   public async nextItem(): Promise<Response<any>> {
     // If we have a full result set, begin returning results
     if (this.aggregateResultArray.length > 0) {
-      return { result: this.aggregateResultArray.pop(), headers: getInitialHeader() };
+      return { result: this.aggregateResultArray.pop(), headers: getInitialHeader(), diagnostics: getEmptyCosmosDiagnostics() };
     }
 
     if (this.completed) {
-      return { result: undefined, headers: getInitialHeader() };
+      return { result: undefined, headers: getInitialHeader(), diagnostics: getEmptyCosmosDiagnostics() };
     }
 
     const aggregateHeaders = getInitialHeader();
@@ -88,7 +89,7 @@ export class GroupByEndpointComponent implements ExecutionContext {
       this.aggregateResultArray.push(groupResult);
     }
     this.completed = true;
-    return { result: this.aggregateResultArray.pop(), headers: aggregateHeaders };
+    return { result: this.aggregateResultArray.pop(), headers: aggregateHeaders, diagnostics: getEmptyCosmosDiagnostics() };
   }
 
   public hasMoreResults(): boolean {

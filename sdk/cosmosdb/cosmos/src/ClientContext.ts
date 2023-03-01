@@ -30,6 +30,7 @@ import { SessionContext } from "./session/SessionContext";
 import { BulkOptions } from "./utils/batch";
 import { sanitizeEndpoint } from "./utils/checkURL";
 import { AzureLogger, createClientLogger } from "@azure/logger";
+import { CosmosDiagnosticContext } from "./request";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 
@@ -85,6 +86,7 @@ export class ClientContext {
     resourceId: string;
     options?: RequestOptions;
     partitionKey?: PartitionKey;
+    diagnosticContext?: CosmosDiagnosticContext
   }): Promise<Response<T & Resource>> {
     try {
       const request: RequestContext = {
@@ -104,7 +106,8 @@ export class ClientContext {
       // read will use ReadEndpoint since it uses GET operation
       request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
         request.resourceType,
-        request.operationType
+        request.operationType,
+        request
       );
       const response = await executePlugins(request, RequestHandler.request, PluginOn.operation);
       this.captureSessionToken(undefined, path, OperationType.Read, response.headers);
@@ -155,7 +158,8 @@ export class ClientContext {
     }
     request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
       request.resourceType,
-      request.operationType
+      request.operationType,
+      request
     );
     request.headers = await this.buildHeaders(request);
     if (query !== undefined) {
@@ -200,7 +204,8 @@ export class ClientContext {
 
     request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
       request.resourceType,
-      request.operationType
+      request.operationType,
+      request
     );
     request.headers = await this.buildHeaders(request);
     request.headers[Constants.HttpHeaders.IsQueryPlan] = "True";
@@ -245,6 +250,7 @@ export class ClientContext {
     options = {},
     partitionKey,
     method = HTTPMethod.delete,
+    diagnosticContext
   }: {
     path: string;
     resourceType: ResourceType;
@@ -252,10 +258,11 @@ export class ClientContext {
     options?: RequestOptions;
     partitionKey?: PartitionKey;
     method?: HTTPMethod;
+    diagnosticContext?: CosmosDiagnosticContext
   }): Promise<Response<T & Resource>> {
     try {
       const request: RequestContext = {
-        ...this.getContextDerivedPropsForRequestCreation(),
+        ...this.getContextDerivedPropsForRequestCreation(diagnosticContext),
         method: method,
         operationType: OperationType.Delete,
         path,
@@ -264,13 +271,13 @@ export class ClientContext {
         resourceId,
         partitionKey,
       };
-
       request.headers = await this.buildHeaders(request);
       this.applySessionToken(request);
       // deleteResource will use WriteEndpoint since it uses DELETE operation
       request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
         request.resourceType,
-        request.operationType
+        request.operationType,
+        request
       );
       const response = await executePlugins(request, RequestHandler.request, PluginOn.operation);
       if (parseLink(path).type !== "colls") {
@@ -292,6 +299,7 @@ export class ClientContext {
     resourceId,
     options = {},
     partitionKey,
+    diagnosticContext
   }: {
     body: any;
     path: string;
@@ -299,10 +307,11 @@ export class ClientContext {
     resourceId: string;
     options?: RequestOptions;
     partitionKey?: PartitionKey;
+    diagnosticContext?: CosmosDiagnosticContext
   }): Promise<Response<T & Resource>> {
     try {
       const request: RequestContext = {
-        ...this.getContextDerivedPropsForRequestCreation(),
+        ...this.getContextDerivedPropsForRequestCreation(diagnosticContext),
         method: HTTPMethod.patch,
         operationType: OperationType.Patch,
         path,
@@ -312,14 +321,14 @@ export class ClientContext {
         options,
         partitionKey,
       };
-
       request.headers = await this.buildHeaders(request);
       this.applySessionToken(request);
 
       // patch will use WriteEndpoint
       request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
         request.resourceType,
-        request.operationType
+        request.operationType,
+        request
       );
       const response = await executePlugins(request, RequestHandler.request, PluginOn.operation);
       this.captureSessionToken(undefined, path, OperationType.Patch, response.headers);
@@ -337,6 +346,7 @@ export class ClientContext {
     resourceId,
     options = {},
     partitionKey,
+    diagnosticContext
   }: {
     body: T;
     path: string;
@@ -344,10 +354,11 @@ export class ClientContext {
     resourceId: string;
     options?: RequestOptions;
     partitionKey?: PartitionKey;
+    diagnosticContext?: CosmosDiagnosticContext
   }): Promise<Response<T & U & Resource>> {
     try {
       const request: RequestContext = {
-        ...this.getContextDerivedPropsForRequestCreation(),
+        ...this.getContextDerivedPropsForRequestCreation(diagnosticContext),
         method: HTTPMethod.post,
         operationType: OperationType.Create,
         path,
@@ -357,14 +368,14 @@ export class ClientContext {
         options,
         partitionKey,
       };
-
       request.headers = await this.buildHeaders(request);
       // create will use WriteEndpoint since it uses POST operation
       this.applySessionToken(request);
 
       request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
         request.resourceType,
-        request.operationType
+        request.operationType,
+        request
       );
       const response = await executePlugins(request, RequestHandler.request, PluginOn.operation);
       this.captureSessionToken(undefined, path, OperationType.Create, response.headers);
@@ -381,10 +392,10 @@ export class ClientContext {
     resultFn: (result: { [key: string]: any }) => any[]
   ): Response<any> {
     if (isQuery) {
-      return { result: resultFn(res.result), headers: res.headers, code: res.code };
+      return { result: resultFn(res.result), headers: res.headers, code: res.code,diagnostics: res.diagnostics };
     } else {
       const newResult = resultFn(res.result).map((body: any) => body);
-      return { result: newResult, headers: res.headers, code: res.code };
+      return { result: newResult, headers: res.headers, code: res.code, diagnostics: res.diagnostics};
     }
   }
 
@@ -421,6 +432,7 @@ export class ClientContext {
     resourceId,
     options = {},
     partitionKey,
+    diagnosticContext
   }: {
     body: any;
     path: string;
@@ -428,10 +440,11 @@ export class ClientContext {
     resourceId: string;
     options?: RequestOptions;
     partitionKey?: PartitionKey;
+    diagnosticContext?: CosmosDiagnosticContext
   }): Promise<Response<T & Resource>> {
     try {
       const request: RequestContext = {
-        ...this.getContextDerivedPropsForRequestCreation(),
+        ...this.getContextDerivedPropsForRequestCreation(diagnosticContext),
         method: HTTPMethod.put,
         operationType: OperationType.Replace,
         path,
@@ -441,14 +454,14 @@ export class ClientContext {
         options,
         partitionKey,
       };
-
       request.headers = await this.buildHeaders(request);
       this.applySessionToken(request);
 
       // replace will use WriteEndpoint since it uses PUT operation
       request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
         request.resourceType,
-        request.operationType
+        request.operationType,
+        request
       );
       const response = await executePlugins(request, RequestHandler.request, PluginOn.operation);
       this.captureSessionToken(undefined, path, OperationType.Replace, response.headers);
@@ -466,6 +479,7 @@ export class ClientContext {
     resourceId,
     options = {},
     partitionKey,
+    diagnosticContext
   }: {
     body: T;
     path: string;
@@ -473,10 +487,11 @@ export class ClientContext {
     resourceId: string;
     options?: RequestOptions;
     partitionKey?: PartitionKey;
+    diagnosticContext?: CosmosDiagnosticContext
   }): Promise<Response<T & U & Resource>> {
     try {
       const request: RequestContext = {
-        ...this.getContextDerivedPropsForRequestCreation(),
+        ...this.getContextDerivedPropsForRequestCreation(diagnosticContext),
         method: HTTPMethod.post,
         operationType: OperationType.Upsert,
         path,
@@ -486,7 +501,6 @@ export class ClientContext {
         options,
         partitionKey,
       };
-
       request.headers = await this.buildHeaders(request);
       request.headers[Constants.HttpHeaders.IsUpsert] = true;
       this.applySessionToken(request);
@@ -494,7 +508,8 @@ export class ClientContext {
       // upsert will use WriteEndpoint since it uses POST operation
       request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
         request.resourceType,
-        request.operationType
+        request.operationType,
+        request
       );
       const response = await executePlugins(request, RequestHandler.request, PluginOn.operation);
       this.captureSessionToken(undefined, path, OperationType.Upsert, response.headers);
@@ -540,10 +555,13 @@ export class ClientContext {
     // executeStoredProcedure will use WriteEndpoint since it uses POST operation
     request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
       request.resourceType,
-      request.operationType
+      request.operationType,
+      request
     );
     return executePlugins(request, RequestHandler.request, PluginOn.operation);
   }
+
+
 
   /**
    * Gets the Database account information.
@@ -563,7 +581,6 @@ export class ClientContext {
       resourceType: ResourceType.none,
       options,
     };
-
     request.headers = await this.buildHeaders(request);
     // await options.beforeOperation({ endpoint, request, headers: requestHeaders });
     const { result, headers } = await executePlugins(
@@ -573,8 +590,7 @@ export class ClientContext {
     );
 
     const databaseAccount = new DatabaseAccount(result, headers);
-
-    return { result: databaseAccount, headers };
+    return { result: databaseAccount, headers, diagnostics: request.diagnosticContext.getDiagnostics()};
   }
 
   public getWriteEndpoint(): Promise<string> {
@@ -618,7 +634,6 @@ export class ClientContext {
         options,
         partitionKey,
       };
-
       request.headers = await this.buildHeaders(request);
       request.headers[Constants.HttpHeaders.IsBatchRequest] = true;
       request.headers[Constants.HttpHeaders.IsBatchAtomic] = true;
@@ -627,8 +642,10 @@ export class ClientContext {
 
       request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
         request.resourceType,
-        request.operationType
+        request.operationType,
+        request
       );
+
       const response = await executePlugins(request, RequestHandler.request, PluginOn.operation);
       this.captureSessionToken(undefined, path, OperationType.Batch, response.headers);
       return response;
@@ -638,6 +655,7 @@ export class ClientContext {
     }
   }
 
+  
   public async bulk<T>({
     body,
     path,
@@ -664,7 +682,6 @@ export class ClientContext {
         resourceId,
         options,
       };
-
       request.headers = await this.buildHeaders(request);
       request.headers[Constants.HttpHeaders.IsBatchRequest] = true;
       request.headers[Constants.HttpHeaders.PartitionKeyRangeID] = partitionKeyRangeId;
@@ -676,7 +693,8 @@ export class ClientContext {
 
       request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
         request.resourceType,
-        request.operationType
+        request.operationType,
+        request
       );
       const response = await executePlugins(request, RequestHandler.request, PluginOn.operation);
       this.captureSessionToken(undefined, path, OperationType.Batch, response.headers);
@@ -767,13 +785,14 @@ export class ClientContext {
    * Returns collection of properties which are derived from the context for Request Creation
    * @returns
    */
-  private getContextDerivedPropsForRequestCreation(): {
+  private getContextDerivedPropsForRequestCreation(diagnosticContext?: CosmosDiagnosticContext): {
     globalEndpointManager: GlobalEndpointManager;
     connectionPolicy: ConnectionPolicy;
     requestAgent: Agent;
     client?: ClientContext;
     pipeline?: Pipeline;
     plugins: PluginConfig[];
+    diagnosticContext: CosmosDiagnosticContext
   } {
     return {
       globalEndpointManager: this.globalEndpointManager,
@@ -782,6 +801,16 @@ export class ClientContext {
       client: this,
       plugins: this.cosmosClientOptions.plugins,
       pipeline: this.pipeline,
+      diagnosticContext: diagnosticContext ?? new CosmosDiagnosticContext()
     };
   }
+}
+
+
+type MetadataDiagnosticsRecoredrWrapper = (func: (...args: any[]) => Response<any>, ctx: CosmosDiagnosticContext, ...args: Parameters<typeof func>) => ReturnType<typeof func>;
+
+export const meta: MetadataDiagnosticsRecoredrWrapper = <T>(func: (...args: any[]) => Response<T>, ctx: CosmosDiagnosticContext, ...args: Parameters<typeof func>): Response<T> => {
+  const resource: Response<T> = func(args);
+  ctx.mergeDiagnostics(resource.diagnostics)
+  return resource
 }

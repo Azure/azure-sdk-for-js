@@ -14,6 +14,7 @@ import { DocumentProducer } from "./documentProducer";
 import { ExecutionContext } from "./ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { SqlQuerySpec } from "./SqlQuerySpec";
+import { getEmptyCosmosDiagnostics } from "../request/CosmosDiagnostics";
 
 /** @hidden */
 const logger: AzureLogger = createClientLogger("parallelQueryExecutionContextBase");
@@ -329,6 +330,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           return resolve({
             result: undefined,
             headers: this._getAndResetActiveResponseHeaders(),
+            diagnostics: getEmptyCosmosDiagnostics()
           });
         }
 
@@ -355,10 +357,12 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
           let item: any;
           let headers: CosmosHeaders;
+          let diagnostics
           try {
             const response = await documentProducer.nextItem();
             item = response.result;
             headers = response.headers;
+            diagnostics = response.diagnostics
             this._mergeWithActiveResponseHeaders(headers);
             if (item === undefined) {
               // this should never happen
@@ -373,6 +377,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               return resolve({
                 result: undefined,
                 headers: this._getAndResetActiveResponseHeaders(),
+                diagnostics
               });
             }
           } catch (err: any) {
@@ -427,6 +432,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           return resolve({
             result: item,
             headers: this._getAndResetActiveResponseHeaders(),
+            diagnostics
           });
         };
         this._repairExecutionContextIfNeeded(ifCallback, elseCallback).catch(reject);

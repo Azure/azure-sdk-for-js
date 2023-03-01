@@ -28,6 +28,8 @@ import {
 } from "../../utils/batch";
 import { hashV1PartitionKey } from "../../utils/hashing/v1";
 import { hashV2PartitionKey } from "../../utils/hashing/v2";
+import { CosmosDiagnosticContext, MetadataType } from "../../request/CosmosDiagnostics";
+import { PartitionKeyDefinition } from "../../documents";
 
 /**
  * @hidden
@@ -266,8 +268,9 @@ export class Items {
       body.id = uuid();
     }
 
-    const { resource: partitionKeyDefinition } = await this.container.readPartitionKeyDefinition();
+    const {diagnosticContext, partitionKeyDefinition} = await this.readAndRecordPartitionKeyDefinition();
     const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
+
 
     const err = {};
     if (!isItemResourceValid(body, err)) {
@@ -284,6 +287,7 @@ export class Items {
       resourceId: id,
       options,
       partitionKey,
+      diagnosticContext
     });
 
     const ref = new Item(
@@ -332,7 +336,7 @@ export class Items {
     body: T,
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
-    const { resource: partitionKeyDefinition } = await this.container.readPartitionKeyDefinition();
+    const {diagnosticContext, partitionKeyDefinition} = await this.readAndRecordPartitionKeyDefinition();
     const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
 
     // Generate random document id if the id is missing in the payload and
@@ -356,6 +360,7 @@ export class Items {
       resourceId: id,
       options,
       partitionKey,
+      diagnosticContext
     });
 
     const ref = new Item(
@@ -405,11 +410,11 @@ export class Items {
     operations: OperationInput[],
     bulkOptions?: BulkOptions,
     options?: RequestOptions
-  ): Promise<OperationResponse[]> {
+  ): Promise<OperationResponse[] & {diagnostics: CosmosDiagnosticContext}> {
     const { resources: partitionKeyRanges } = await this.container
       .readPartitionKeyRanges()
       .fetchAll();
-    const { resource: definition } = await this.container.getPartitionKeyDefinition();
+    const {diagnosticContext, partitionKeyDefinition} = await this.readAndRecordPartitionKeyDefinition();
     const batches: Batch[] = partitionKeyRanges.map((keyRange: PartitionKeyRange) => {
       return {
         min: keyRange.minInclusive,
@@ -420,10 +425,10 @@ export class Items {
       };
     });
     operations
-      .map((operation) => decorateOperation(operation, definition, options))
+      .map((operation) => decorateOperation(operation, partitionKeyDefinition, options))
       .forEach((operation: Operation, index: number) => {
-        const partitionProp = definition.paths[0].replace("/", "");
-        const isV2 = definition.version && definition.version === 2;
+        const partitionProp = partitionKeyDefinition.paths[0].replace("/", "");
+        const isV2 = partitionKeyDefinition.version && partitionKeyDefinition.version === 2;
         const toHashKey = getPartitionKeyToHash(operation, partitionProp);
         const hashed = isV2 ? hashV2PartitionKey(toHashKey) : hashV1PartitionKey(toHashKey);
         const batchForKey = batches.find((batch: Batch) => {
@@ -453,6 +458,7 @@ export class Items {
               bulkOptions,
               options,
             });
+            diagnosticContext.mergeDiagnostics(response.diagnostics);
             response.result.forEach((operationResponse: OperationResponse, index: number) => {
               orderedResponses[batch.indexes[index]] = operationResponse;
             });
@@ -469,7 +475,9 @@ export class Items {
           }
         })
     );
-    return orderedResponses;
+    let response: any = orderedResponses;
+    response.diagnostics = diagnosticContext.getDiagnostics();
+    return response;
   }
 
   /**
@@ -524,4 +532,14 @@ export class Items {
       throw new Error(`Batch request error: ${err.message}`);
     }
   }
+
+  private async readAndRecordPartitionKeyDefinition(): Promise<{ diagnosticContext: CosmosDiagnosticContext, partitionKeyDefinition: PartitionKeyDefinition}> {
+    const diagnosticContext: CosmosDiagnosticContext = new CosmosDiagnosticContext();
+
+    const { resource: partitionKeyDefinition, diagnostics } =
+      await this.container.readPartitionKeyDefinition();
+    diagnosticContext.recordMetaDataQuery(diagnostics, MetadataType.PARTITION_KEY_RANGE_LOOK_UP);
+    return { diagnosticContext, partitionKeyDefinition}; 
+  }
+
 }

@@ -7,6 +7,7 @@ import { OperationType, ResourceType } from "../../../src";
 import * as fakeTimers from "@sinonjs/fake-timers";
 
 import assert from "assert";
+import { CosmosDiagnosticContext } from "../../../src/request/CosmosDiagnostics";
 
 const locationUnavailabilityExpiratationTime = 6 * 60 * 1000;
 const headers = {

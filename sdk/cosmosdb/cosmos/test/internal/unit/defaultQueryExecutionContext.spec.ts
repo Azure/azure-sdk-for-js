@@ -7,6 +7,7 @@ import {
 import { FeedOptions } from "../../../src";
 import assert from "assert";
 import { sleep } from "../../../src/common";
+import { getEmptyCosmosDiagnostics } from "../../../src/request/CosmosDiagnostics";
 
 describe("defaultQueryExecutionContext", function () {
   it("should not buffer items if bufferItems is false", async function () {
@@ -24,6 +25,7 @@ describe("defaultQueryExecutionContext", function () {
           },
         ],
         substatus: 0,
+        diagnostics: getEmptyCosmosDiagnostics()
       };
     };
 
@@ -63,6 +65,7 @@ describe("defaultQueryExecutionContext", function () {
           },
         ],
         substatus: 0,
+        diagnostics: getEmptyCosmosDiagnostics()
       };
     };
 

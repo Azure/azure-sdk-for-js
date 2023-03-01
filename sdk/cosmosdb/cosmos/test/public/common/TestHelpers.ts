@@ -8,7 +8,6 @@ import {
   DatabaseDefinition,
   PermissionDefinition,
   RequestOptions,
-  Response,
   UserDefinition,
 } from "../../../src";
 import { ItemDefinition, ItemResponse, PermissionResponse, Resource, User } from "../../../src";
@@ -51,7 +50,7 @@ export async function removeAllDatabases(client: CosmosClient = defaultClient): 
     }
 
     await Promise.all(
-      databases.map<Promise<Response<DatabaseDefinition>>>(async (database: DatabaseDefinition) =>
+      databases.map(async (database: DatabaseDefinition & Resource) =>
         client.database(database.id).delete()
       )
     );

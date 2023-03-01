@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { Response } from "../../request";
+import { getEmptyCosmosDiagnostics } from "../../request/CosmosDiagnostics";
 import { ExecutionContext } from "../ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "../headerUtils";
 
@@ -21,13 +22,13 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
       mergeHeaders(aggregateHeaders, headers);
     }
     if (this.limit > 0) {
-      const { result, headers } = await this.executionContext.nextItem();
+      const { result, headers, diagnostics } = await this.executionContext.nextItem();
       this.limit--;
       mergeHeaders(aggregateHeaders, headers);
-      return { result, headers: aggregateHeaders };
+      return { result, headers: aggregateHeaders, diagnostics };
     }
     // If both limit and offset are 0, return nothing
-    return { result: undefined, headers: getInitialHeader() };
+    return { result: undefined, headers: getInitialHeader(), diagnostics: getEmptyCosmosDiagnostics() };
   }
 
   public hasMoreResults(): boolean {

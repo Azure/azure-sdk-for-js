@@ -3,8 +3,7 @@
 import { OperationType, ResourceType, isReadRequest } from "./common";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { Location, DatabaseAccount } from "./documents";
-import { RequestOptions } from "./index";
-import { Constants } from "./common/constants";
+import { Constants, MetadataType, RequestContext, RequestOptions } from "./index";
 import { ResourceResponse } from "./request";
 
 /**
@@ -51,14 +50,14 @@ export class GlobalEndpointManager {
    * Gets the current read endpoint from the endpoint cache.
    */
   public async getReadEndpoint(): Promise<string> {
-    return this.resolveServiceEndpoint(ResourceType.item, OperationType.Read);
+    return this.resolveServiceEndpoint(ResourceType.item, OperationType.Read, {} as any);
   }
 
   /**
    * Gets the current write endpoint from the endpoint cache.
    */
   public async getWriteEndpoint(): Promise<string> {
-    return this.resolveServiceEndpoint(ResourceType.item, OperationType.Replace);
+    return this.resolveServiceEndpoint(ResourceType.item, OperationType.Replace, {} as any);
   }
 
   public async getReadEndpoints(): Promise<ReadonlyArray<string>> {
@@ -109,7 +108,8 @@ export class GlobalEndpointManager {
 
   public async resolveServiceEndpoint(
     resourceType: ResourceType,
-    operationType: OperationType
+    operationType: OperationType,
+    requestContext?: RequestContext
   ): Promise<string> {
     // If endpoint discovery is disabled, always use the user provided endpoint
     if (!this.options.connectionPolicy.enableEndpointDiscovery) {
@@ -122,11 +122,12 @@ export class GlobalEndpointManager {
     }
 
     if (this.readableLocations.length === 0 || this.writeableLocations.length === 0) {
-      const { resource: databaseAccount } = await this.readDatabaseAccount({
+      const response: ResourceResponse<any> = await this.readDatabaseAccount({
         urlConnection: this.defaultEndpoint,
       });
-      this.writeableLocations = databaseAccount.writableLocations;
-      this.readableLocations = databaseAccount.readableLocations;
+      this.writeableLocations = response.resource.writableLocations;
+      this.readableLocations = response.resource.readableLocations;
+      requestContext.diagnosticContext.recordMetaDataQuery(response.diagnostics, MetadataType.DATABASE_ACCOUNT_LOOKUP);
     }
 
     const locations = isReadRequest(operationType)
@@ -154,7 +155,9 @@ export class GlobalEndpointManager {
         return loc.unavailable !== true;
       });
     }
-    return location ? location.databaseAccountEndpoint : this.defaultEndpoint;
+    location = location ? location.databaseAccountEndpoint : this.defaultEndpoint;
+    requestContext.diagnosticContext.recordEndpointContactEvent(location);
+    return location
   }
 
   /**

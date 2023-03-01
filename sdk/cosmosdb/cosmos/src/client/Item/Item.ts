@@ -12,6 +12,7 @@ import {
 import { PartitionKey } from "../../documents";
 import { extractPartitionKey, undefinedPartitionKey } from "../../extractPartitionKey";
 import { RequestOptions, Response } from "../../request";
+import { CosmosDiagnosticContext, MetadataType } from "../../request/CosmosDiagnostics";
 import { PatchRequestBody } from "../../utils/patch";
 import { Container } from "../Container";
 import { Resource } from "../Resource";
@@ -74,12 +75,7 @@ export class Item {
   public async read<T extends ItemDefinition = any>(
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
-    if (this.partitionKey === undefined) {
-      const { resource: partitionKeyDefinition } =
-        await this.container.readPartitionKeyDefinition();
-      this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
-    }
-
+    const diagnosticContext: CosmosDiagnosticContext = await this.initializeAndSetupContext();
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
     let response: Response<T & Resource>;
@@ -90,6 +86,7 @@ export class Item {
         resourceId: id,
         options,
         partitionKey: this.partitionKey,
+        diagnosticContext
       });
     } catch (error: any) {
       if (error.code !== StatusCodes.NotFound) {
@@ -138,12 +135,7 @@ export class Item {
     body: T,
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
-    if (this.partitionKey === undefined) {
-      const { resource: partitionKeyDefinition } =
-        await this.container.readPartitionKeyDefinition();
-      this.partitionKey = extractPartitionKey(body, partitionKeyDefinition);
-    }
-
+    const diagnosticContext: CosmosDiagnosticContext = await this.initializeAndSetupContext();
     const err = {};
     if (!isItemResourceValid(body, err)) {
       throw err;
@@ -159,6 +151,7 @@ export class Item {
       resourceId: id,
       options,
       partitionKey: this.partitionKey,
+      diagnosticContext
     });
     return new ItemResponse(
       response.result,
@@ -242,4 +235,16 @@ export class Item {
       this
     );
   }
+
+  private async initializeAndSetupContext(): Promise<CosmosDiagnosticContext> {
+    const diagnosticContext: CosmosDiagnosticContext = new CosmosDiagnosticContext();
+    if (this.partitionKey === undefined) {
+      const { resource: partitionKeyDefinition, diagnostics } =
+        await this.container.readPartitionKeyDefinition();
+      diagnosticContext.recordMetaDataQuery(diagnostics, MetadataType.PARTITION_KEY_RANGE_LOOK_UP);
+      this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
+    }
+    return diagnosticContext;
+  }
+
 }

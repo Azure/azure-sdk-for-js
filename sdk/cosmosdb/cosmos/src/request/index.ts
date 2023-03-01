@@ -19,3 +19,8 @@ export { StatusCode, SubStatusCode } from "./StatusCodes";
 export { FeedResponse } from "./FeedResponse";
 export { RequestContext } from "./RequestContext";
 export { TimeoutError } from "./TimeoutError";
+export {
+  CosmosDiagnosticContext,
+  CosmosDiagnostics,
+  MetadataType
+} from './CosmosDiagnostics'

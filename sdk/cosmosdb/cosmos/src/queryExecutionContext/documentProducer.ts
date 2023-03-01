@@ -12,6 +12,7 @@ import {
 } from "../common";
 import { FeedOptions } from "../request";
 import { Response } from "../request";
+import { getEmptyCosmosDiagnostics } from "../request/CosmosDiagnostics";
 import { DefaultQueryExecutionContext } from "./defaultQueryExecutionContext";
 import { FetchResult, FetchResultType } from "./FetchResult";
 import { CosmosHeaders, getInitialHeader, mergeHeaders } from "./headerUtils";
@@ -159,7 +160,7 @@ export class DocumentProducer {
     }
 
     try {
-      const { result: resources, headers: headerResponse } =
+      const { result: resources, headers: headerResponse, diagnostics } =
         await this.internalExecutionContext.fetchMore();
       ++this.generation;
       this._updateStates(undefined, resources === undefined);
@@ -182,7 +183,7 @@ export class DocumentProducer {
           queryMetrics;
       }
 
-      return { result: resources, headers: headerResponse };
+      return { result: resources, headers: headerResponse, diagnostics };
     } catch (err: any) {
       // TODO: any error
       if (DocumentProducer._needPartitionKeyRangeCacheRefresh(err)) {
@@ -191,7 +192,7 @@ export class DocumentProducer {
         const bufferedError = new FetchResult(undefined, err);
         this.fetchResults.push(bufferedError);
         // Putting a dummy result so that the rest of code flows
-        return { result: [bufferedError], headers: err.headers };
+        return { result: [bufferedError], headers: err.headers, diagnostics: getEmptyCosmosDiagnostics() };
       } else {
         this._updateStates(err, err.resources === undefined);
         throw err;
@@ -218,7 +219,7 @@ export class DocumentProducer {
     }
 
     try {
-      const { result, headers } = await this.current();
+      const { result, headers, diagnostics } = await this.current();
 
       const fetchResult = this.fetchResults.shift();
       this._updateStates(undefined, result === undefined);
@@ -227,12 +228,12 @@ export class DocumentProducer {
       }
       switch (fetchResult.fetchResultType) {
         case FetchResultType.Done:
-          return { result: undefined, headers };
+          return { result: undefined, headers, diagnostics };
         case FetchResultType.Exception:
           fetchResult.error.headers = headers;
           throw fetchResult.error;
         case FetchResultType.Result:
-          return { result: fetchResult.feedResponse, headers };
+          return { result: fetchResult.feedResponse, headers, diagnostics };
       }
     } catch (err: any) {
       this._updateStates(err, err.item === undefined);
@@ -253,6 +254,7 @@ export class DocumentProducer {
           return {
             result: undefined,
             headers: this._getAndResetActiveResponseHeaders(),
+            diagnostics: getEmptyCosmosDiagnostics()
           };
         case FetchResultType.Exception:
           fetchResult.error.headers = this._getAndResetActiveResponseHeaders();
@@ -261,6 +263,7 @@ export class DocumentProducer {
           return {
             result: fetchResult.feedResponse,
             headers: this._getAndResetActiveResponseHeaders(),
+            diagnostics: getEmptyCosmosDiagnostics()
           };
       }
     }
@@ -270,14 +273,15 @@ export class DocumentProducer {
       return {
         result: undefined,
         headers: this._getAndResetActiveResponseHeaders(),
+        diagnostics: getEmptyCosmosDiagnostics()
       };
     }
 
     // If there are no more bufferd items and there are still items to be fetched then buffer more
-    const { result, headers } = await this.bufferMore();
+    const { result, headers, diagnostics } = await this.bufferMore();
     mergeHeaders(this.respHeaders, headers);
     if (result === undefined) {
-      return { result: undefined, headers: this.respHeaders };
+      return { result: undefined, headers: this.respHeaders, diagnostics };
     }
     return this.current();
   }

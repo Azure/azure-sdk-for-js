@@ -14,7 +14,7 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
     subsstatusCode: number,
     item: Item
   ) {
-    super(resource, headers, statusCode, subsstatusCode);
+    super(resource, headers, statusCode, undefined, subsstatusCode);
     this.item = item;
   }
   /** Reference to the {@link Item} the response corresponds to. */

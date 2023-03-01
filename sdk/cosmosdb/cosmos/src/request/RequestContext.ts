@@ -10,6 +10,7 @@ import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
 import { FeedOptions } from "./FeedOptions";
 import { RequestOptions } from "./RequestOptions";
 import { Pipeline } from "@azure/core-rest-pipeline";
+import { CosmosDiagnosticContext } from "./CosmosDiagnostics";
 
 /**
  * @hidden
@@ -33,4 +34,5 @@ export interface RequestContext {
   plugins: PluginConfig[];
   partitionKey?: PartitionKey;
   pipeline?: Pipeline;
+  diagnosticContext: CosmosDiagnosticContext
 }
