@@ -5,6 +5,7 @@ import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { MSI, MSIConfiguration } from "./models";
 import { WorkloadIdentityCredential } from "../workloadIdentityCredential";
 import { credentialLogger } from "../../util/logging";
+import { WorkloadIdentityCredentialOptions } from "../workloadIdentityCredentialOptions";
 
 const msiName = "ManagedIdentityCredential - Token Exchange";
 const logger = credentialLogger(msiName);
@@ -41,7 +42,7 @@ export function tokenExchangeMsi(): MSI {
         federatedTokenFilePath: process.env.AZURE_FEDERATED_TOKEN_FILE,
         ...identityClientTokenCredentialOptions,
         disableInstanceDiscovery: true,
-      });
+      } as WorkloadIdentityCredentialOptions);
       const token = await workloadIdentityCredential.getToken(scopes, getTokenOptions);
       return token;
     },
