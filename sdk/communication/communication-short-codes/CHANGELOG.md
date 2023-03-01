@@ -4,7 +4,7 @@
 
 ### Features Added
 
-Includes all changes from 1.0.0-beta.1 to 1.0.0-beta.5
+Includes all changes from 1.0.0-beta.1 to 1.0.0-beta.4
 
 ### Other Changes
 
