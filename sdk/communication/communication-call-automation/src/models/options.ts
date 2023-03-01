@@ -79,6 +79,14 @@ export interface RemoveParticipantsOptions extends OperationOptions {
 }
 
 /**
+ * Options to play audio.
+ */
+export interface PlayOptions extends OperationOptions {
+  loop?: boolean;
+  operationContext?: string;
+}
+
+/**
  * Options to get call connection properties.
  */
 export type GetCallConnectionPropertiesOptions = OperationOptions;
