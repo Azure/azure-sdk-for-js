@@ -128,7 +128,7 @@ export class GlobalEndpointManager {
       this.writeableLocations = response.resource.writableLocations;
       this.readableLocations = response.resource.readableLocations;
       if (requestContext !== undefined) {
-        requestContext.diagnosticContext.recordMetaDataQuery(
+        requestContext.diagnosticContext.recordMetaDataLookup(
           response.diagnostics,
           MetadataType.DATABASE_ACCOUNT_LOOKUP
         );

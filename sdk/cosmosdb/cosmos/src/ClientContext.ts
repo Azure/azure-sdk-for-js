@@ -243,7 +243,7 @@ export class ClientContext {
         query,
         options: innerOptions,
       });
-      diagnosticCtx.recordMetaDataQuery(
+      diagnosticCtx.recordMetaDataLookup(
         response.diagnostics,
         MetadataType.PARTITION_KEY_RANGE_LOOK_UP
       );

@@ -220,7 +220,8 @@ export type ClientSideRequestStatistics = {
     locationEndpointsContacted: string[];
     retryDiagnostics: RetryDiagnostics;
     metadataDiagnostics: MetadataDiagnostics;
-    totalPayloadSizeInBytes: number;
+    requestPayloadLength: number;
+    responsePayloadLength: number;
 };
 
 // @public
@@ -579,13 +580,11 @@ export interface CosmosClientOptions {
     userAgentSuffix?: string;
 }
 
-// @public (undocumented)
+// @public
 export class CosmosDiagnosticContext {
     constructor();
     // (undocumented)
     getDiagnostics(): CosmosDiagnostics;
-    // (undocumented)
-    ingestHeaders(headers: CosmosHeaders): void;
     // (undocumented)
     mergeDiagnostics(diagnostics: CosmosDiagnostics): void;
     // (undocumented)
@@ -593,10 +592,14 @@ export class CosmosDiagnosticContext {
     // (undocumented)
     recordFailedAttempt(statusCode: string): void;
     // (undocumented)
-    recordMetaDataQuery(diagnostics: CosmosDiagnostics, metaDataType: MetadataType): void;
+    recordMetaDataLookup(diagnostics: CosmosDiagnostics, metaDataType: MetadataType): void;
+    // (undocumented)
+    recordRequestPayload(payload: string): void;
+    // (undocumented)
+    recordResponseStats(payload: string, headers: CosmosHeaders): void;
 }
 
-// @public (undocumented)
+// @public
 export interface CosmosDiagnostics {
     // (undocumented)
     activityId: string;
@@ -788,8 +791,8 @@ export type ExistingKeyOperation = {
 // @public (undocumented)
 export function extractPartitionKey(document: unknown, partitionKeyDefinition: PartitionKeyDefinition): PartitionKey[];
 
-// @public (undocumented)
-export interface FailedAttempt {
+// @public
+export interface FailedRequestAttempt {
     // (undocumented)
     attemptNumber: number;
     // (undocumented)
@@ -847,7 +850,7 @@ export enum GeospatialType {
     Geometry = "Geometry"
 }
 
-// @public (undocumented)
+// @public
 export function getEmptyCosmosDiagnostics(): CosmosDiagnostics;
 
 // @public
@@ -1021,12 +1024,12 @@ interface Location_2 {
 }
 export { Location_2 as Location }
 
-// @public (undocumented)
+// @public
 export type MetadataDiagnostics = {
     metadataLookups: MetadataLookup[];
 };
 
-// @public (undocumented)
+// @public
 export interface MetadataLookup {
     // (undocumented)
     activityId: string;
@@ -1673,9 +1676,9 @@ export { Response_2 as Response }
 
 export { RestError }
 
-// @public (undocumented)
+// @public
 export type RetryDiagnostics = {
-    failedAttempts: FailedAttempt[];
+    failedAttempts: FailedRequestAttempt[];
 };
 
 // @public

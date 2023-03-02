@@ -241,7 +241,7 @@ export class Item {
     if (this.partitionKey === undefined) {
       const { resource: partitionKeyDefinition, diagnostics } =
         await this.container.readPartitionKeyDefinition();
-      diagnosticContext.recordMetaDataQuery(diagnostics, MetadataType.PARTITION_KEY_RANGE_LOOK_UP);
+      diagnosticContext.recordMetaDataLookup(diagnostics, MetadataType.PARTITION_KEY_RANGE_LOOK_UP);
       this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
     }
     return diagnosticContext;

@@ -27,6 +27,6 @@ export {
   MetadataType,
   ClientSideRequestStatistics,
   RetryDiagnostics,
-  FailedAttempt,
+  FailedRequestAttempt,
   getEmptyCosmosDiagnostics,
 } from "./CosmosDiagnostics";

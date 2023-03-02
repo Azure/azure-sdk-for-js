@@ -56,14 +56,14 @@ async function httpRequest(requestContext: RequestContext): Promise<{
   }, requestContext.connectionPolicy.requestTimeout);
 
   let response: PipelineResponse;
-
   if (requestContext.body) {
     requestContext.body = bodyFromData(requestContext.body);
+    requestContext.diagnosticContext.recordRequestPayload(requestContext.body);
   }
-
   const httpsClient = getCachedDefaultHttpClient();
   const url = trimSlashes(requestContext.endpoint) + requestContext.path;
   const reqHeaders = createHttpHeaders(requestContext.headers as any);
+
   const pipelineRequest = createPipelineRequest({
     url,
     headers: reqHeaders,
@@ -105,7 +105,7 @@ async function httpRequest(requestContext: RequestContext): Promise<{
       ? null
       : JSON.parse(response.bodyAsText);
   const headers = response.headers.toJSON();
-
+  requestContext.diagnosticContext.recordResponseStats(result, reqHeaders);
   const substatus = headers[Constants.HttpHeaders.SubStatus]
     ? parseInt(headers[Constants.HttpHeaders.SubStatus], 10)
     : undefined;
