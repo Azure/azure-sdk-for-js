@@ -16,7 +16,7 @@ foreach ($packagePath in $packagePaths) {
       $baseVer = $depVer.replace("~","").replace("^","")
       $version = [AzureEngSemanticVersion]::new($baseVer)
       if ($version.IsPrerelease) {
-        throw "Found dependency on preview/pre-release package $($dependency.Name) with version range $depVer. Please pin dependencies to preview packages."
+        throw "Found dependency on preview/pre-release package '$($dependency.Name)' with version range '$depVer'. Please pin dependencies to preview packages."
       }
     }
   }
