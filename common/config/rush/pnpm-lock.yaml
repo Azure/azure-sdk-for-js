@@ -3925,7 +3925,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230227
+      typescript: 5.1.0-dev.20230302
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -7605,12 +7605,14 @@ packages:
     resolution: {integrity: sha512-V2hovdzFbOi77/WajaSMXk2OLm+xNIeQdMMuB7icj7bk6zi2F8GGAxigcnDFpJHbNyNcgyJDiP+8nOrY5cZGrA==}
     dev: false
 
-  /rhea-promise/2.1.0:
-    resolution: {integrity: sha512-CRMwdJ/o4oO/xKcvAwAsd0AHy5fVvSlqso7AadRmaaLGzAzc9LCoW7FOFnucI8THasVmOeCnv5c/fH/n7FcNaA==}
+  /rhea-promise/3.0.0:
+    resolution: {integrity: sha512-aj0nweqb7avqIo+PANLyOCQV6wlTw3j1Ktk+sPgfiIVUC5U6qt5l1FIXTbXUfNH6pJ3YCDT+bRIYGramJ53pAA==}
     dependencies:
       debug: 3.2.7
-      rhea: 2.0.8
+      rhea: 3.0.2
       tslib: 2.5.0
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /rhea/1.0.24:
@@ -7623,6 +7625,14 @@ packages:
     resolution: {integrity: sha512-IgwlP4D2lzinBSll5f35tAWa30dGCZhG9Ujd1DiaB7MUGegIjAaLzqATCw3ha+h9oq9mXcitqayBbNIXYdvtFg==}
     dependencies:
       debug: 3.2.7
+    dev: false
+
+  /rhea/3.0.2:
+    resolution: {integrity: sha512-0G1ZNM9yWin8VLvTxyISKH6KfR6gl1TW/1+5yMKPf2r1efhkzTLze09iFtT2vpDjuWIVtSmXz8r18lk/dO8qwQ==}
+    dependencies:
+      debug: 4.3.4
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /rimraf/2.7.1:
@@ -8644,8 +8654,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230227:
-    resolution: {integrity: sha512-nPxrgb/3C40X3eXsCPUpiVEgQltswKoAh3Zwm7tDIVE4ldDr3flXq63odqyWUuOZFc/+NCFdm80RpTB0nz2M8w==}
+  /typescript/5.1.0-dev.20230302:
+    resolution: {integrity: sha512-zyc2TZ4vL1jj9NZ3LKoaqE1zTu/G6NeMwVfSA1tVpxQfT7fwiKtkJcecOAsdESok9KaFNTm/sy80/25/Umx32A==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -15980,7 +15990,7 @@ packages:
     dev: false
 
   file:projects/core-amqp.tgz:
-    resolution: {integrity: sha512-U+joAn92vPb6skMx+maC7M/cXqr0zneShlDTVlohuGJ6rc9e19pBcsMWyFpayh9f+XeK5Is+VRAeNwi1D5QirA==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-iOn0gopYJ+AQiGZsRJQCwP0V2RctsMO3NtUK/NgXMan3l9Nx6t5o2LvdpFcPJHjmu4K8Lg95D2kfvdBsAsm/gw==, tarball: file:projects/core-amqp.tgz}
     name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
@@ -16015,7 +16025,7 @@ packages:
       process: 0.11.10
       puppeteer: 19.7.2_typescript@4.8.4
       rhea: 2.0.8
-      rhea-promise: 2.1.0
+      rhea-promise: 3.0.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-shim: 1.0.0
@@ -16765,7 +16775,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-HJ7gYO9DwwDF4it35pIJ3OjhKTxqQYd4TAUZy8gYlCstAYivfSS/kqoB913iqJz04KxZ52BpoEpjt3N0+OHnUA==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-nspvwwUR8rNNQLwfb1oUH5G7w51vnXslBR8j/kRFg2vQI6VnPboSdniqHIlU87SnWum+UsKjXHTL8TxlYIzmmg==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
@@ -16820,7 +16830,7 @@ packages:
       prettier: 2.8.4
       process: 0.11.10
       puppeteer: 19.7.2_typescript@4.8.4
-      rhea-promise: 2.1.0
+      rhea-promise: 3.0.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-shim: 1.0.0
@@ -18891,7 +18901,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-GoKvx4EwXa5DXWnoz4066bw0PaXkeRNxZWP5raLJOTF6Rsknb3bCM3SxR4px3J+vbikFoEgcd/W9KgaoOiWStg==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-KExfKNzDi7wrDzv6AnuIc6Gu31TmcWjiXm0oQsdNkSsuQ/fkEr9BU+QKdj60dK/dHO75imbobWeLuS005CKaJA==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
@@ -18946,7 +18956,7 @@ packages:
       process: 0.11.10
       promise: 8.3.0
       puppeteer: 19.7.2_typescript@4.8.4
-      rhea-promise: 2.1.0
+      rhea-promise: 3.0.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-shim: 1.0.0
@@ -19076,7 +19086,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-xuXx7xw2PY3EfFu3Y2ZhtncwocIC2pYEbZudC76SeEw2+SFX58NBKRvspIr6XKH0CYFLtIeflkeCwmjc1WsCdw==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-H+1+hOCQ8fol8EJZj522Y1j1k5pE72nNkgDzgnP+gUOIh0KlNsHDjHCh2+keKPNZcq6fU1joESBcwUbHoZ7QKw==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
