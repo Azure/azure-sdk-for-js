@@ -1,10 +1,10 @@
-# Azure Template client library samples for JavaScript (Beta)
+# Azure Communication Services - Call Automation client library samples for JavaScript (Beta)
 
-These sample programs show how to use the JavaScript client libraries for Azure Template in some common scenarios.
+These sample programs show how to use the JavaScript client libraries for Azure Communication Services - Call Automation in some common scenarios.
 
-| **File Name**                                         | **Description**                                                            |
-| ----------------------------------------------------- | -------------------------------------------------------------------------- |
-| [getConfigurationSetting.js][getconfigurationsetting] | Demonstrates the use of a ConfigurationClient to retrieve a setting value. |
+| **File Name**                                         | **Description**     |
+| ----------------------------------------------------- | ------------------- |
+| [getConfigurationSetting.js][getconfigurationsetting] | TODO: build samples |
 
 ## Prerequisites
 
@@ -12,7 +12,7 @@ The sample programs are compatible with [LTS versions of Node.js](https://github
 
 You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
 
-- [Azure App Configuration][createinstance_azureappconfiguration]
+- [Azure Communication Services Resource][createinstance_azurecommunicationservicesresource]
 
 Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
@@ -39,15 +39,15 @@ node getConfigurationSetting.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env APPCONFIG_ENDPOINT="<appconfig endpoint>" APPCONFIG_TEST_SETTING_KEY="<appconfig test setting key>" node getConfigurationSetting.js
+npx cross-env  node getConfigurationSetting.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[getconfigurationsetting]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/template/template/samples/v1-beta/javascript/getConfigurationSetting.js
-[apiref]: https://docs.microsoft.com/javascript/api/
+[getconfigurationsetting]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-call-automation/samples/v1-beta/javascript/getConfigurationSetting.js
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-call-automation
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azureappconfiguration]: https://docs.microsoft.com/azure/azure-app-configuration/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template/README.md
+[createinstance_azurecommunicationservicesresource]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-call-automation/README.md
