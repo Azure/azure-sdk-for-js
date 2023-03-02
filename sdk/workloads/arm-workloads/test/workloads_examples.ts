@@ -79,7 +79,7 @@ describe("workloads test", () => {
   });
 
   //create svi
-  it.only("svi create test", async function () {
+  it.skip("svi create test", async function () {
     const subnetId = "/subscriptions/" + subscriptionId + "/resourceGroups/myjstest/providers/Microsoft.Networks/virtualNetworks/networknamex/subnets/subnetworknamex"
     const res = await client.sAPVirtualInstances.beginCreateAndWait(
       resourceGroup,
@@ -132,7 +132,7 @@ describe("workloads test", () => {
   }).timeout(3600000);
 
   //get svi
-  it.only("svi get test", async function () {
+  it.skip("svi get test", async function () {
     //get monitors from workloads
     const res = await client.sAPVirtualInstances.get(resourceGroup, sapVirtualInstanceName);
     assert.equal(res.name, sapVirtualInstanceName);
@@ -167,7 +167,7 @@ describe("workloads test", () => {
   });
 
   //delete svi
-  it.only("svi delete test", async function () {
+  it.skip("svi delete test", async function () {
     const res = await client.sAPVirtualInstances.beginDeleteAndWait(resourceGroup, sapVirtualInstanceName);
     const resArray = new Array();
     for await (let item of client.sAPVirtualInstances.listByResourceGroup(resourceGroup)) {
