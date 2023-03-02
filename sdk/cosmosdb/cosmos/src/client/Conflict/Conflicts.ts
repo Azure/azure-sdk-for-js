@@ -4,7 +4,7 @@ import { ClientContext } from "../../ClientContext";
 import { getIdFromLink, getPathFromLink, ResourceType } from "../../common";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
-import { FeedOptions } from "../../request";
+import { CosmosDiagnosticContext, FeedOptions } from "../../request";
 import { Container } from "../Container";
 import { Resource } from "../Resource";
 import { ConflictDefinition } from "./ConflictDefinition";
@@ -38,16 +38,22 @@ export class Conflicts {
     const path = getPathFromLink(this.container.url, ResourceType.conflicts);
     const id = getIdFromLink(this.container.url);
 
-    return new QueryIterator(this.clientContext, query, options, (innerOptions) => {
-      return this.clientContext.queryFeed({
-        path,
-        resourceType: ResourceType.conflicts,
-        resourceId: id,
-        resultFn: (result) => result.Conflicts,
-        query,
-        options: innerOptions,
-      });
-    });
+    return new QueryIterator(
+      this.clientContext,
+      query,
+      options,
+      (innerOptions) => {
+        return this.clientContext.queryFeed({
+          path,
+          resourceType: ResourceType.conflicts,
+          resourceId: id,
+          resultFn: (result) => result.Conflicts,
+          query,
+          options: innerOptions,
+        });
+      },
+      new CosmosDiagnosticContext()
+    );
   }
 
   /**

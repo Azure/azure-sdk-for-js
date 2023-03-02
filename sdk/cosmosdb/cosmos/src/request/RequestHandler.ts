@@ -112,7 +112,7 @@ async function httpRequest(requestContext: RequestContext): Promise<{
 
   if (response.status >= 400) {
     const errorResponse: ErrorResponse = new ErrorResponse(result.message);
-
+    errorResponse.diagnostics = requestContext.diagnosticContext.getDiagnostics();
     logger.warning(
       response.status +
         " " +

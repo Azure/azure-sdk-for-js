@@ -72,6 +72,7 @@ export async function execute({
       headers[Constants.ThrottleRetryWaitTimeInMs] =
         retryPolicies.resourceThrottleRetryPolicy.cummulativeWaitTimeinMs;
       err.headers = { ...err.headers, ...headers };
+      err.diagnostics = requestContext.diagnosticContext.getDiagnostics();
       throw err;
     } else {
       await sleep(retryPolicy.retryAfterInMs);

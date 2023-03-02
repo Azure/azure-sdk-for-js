@@ -93,8 +93,11 @@ export class Items {
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const id = getIdFromLink(this.container.url);
 
-    const fetchFunction: FetchFunctionCallback = (innerOptions: FeedOptions) => {
-      return this.clientContext.queryFeed({
+    const fetchFunction: FetchFunctionCallback = async (
+      innerOptions: FeedOptions,
+      diagnosticContext: CosmosDiagnosticContext
+    ) => {
+      const response: Response<any> = await this.clientContext.queryFeed({
         path,
         resourceType: ResourceType.item,
         resourceId: id,
@@ -103,6 +106,8 @@ export class Items {
         options: innerOptions,
         partitionKey: options.partitionKey,
       });
+      diagnosticContext.mergeDiagnostics(response.diagnostics);
+      return response;
     };
 
     return new QueryIterator(
@@ -110,6 +115,7 @@ export class Items {
       query,
       options,
       fetchFunction,
+      new CosmosDiagnosticContext(),
       this.container.url,
       ResourceType.item
     );

@@ -12,7 +12,13 @@ import {
 import { PartitionKey, PartitionKeyDefinition } from "../../documents";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
-import { FeedOptions, RequestOptions, ResourceResponse, Response } from "../../request";
+import {
+  CosmosDiagnosticContext,
+  FeedOptions,
+  RequestOptions,
+  ResourceResponse,
+  Response,
+} from "../../request";
 import { PartitionedQueryExecutionInfo } from "../../request/ErrorResponse";
 import { Conflict, Conflicts } from "../Conflict";
 import { Database } from "../Database";
@@ -260,7 +266,12 @@ export class Container {
 
   public readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange> {
     feedOptions = feedOptions || {};
-    return this.clientContext.queryPartitionKeyRanges(this.url, undefined, feedOptions);
+    return this.clientContext.queryPartitionKeyRanges(
+      this.url,
+      new CosmosDiagnosticContext(),
+      undefined,
+      feedOptions
+    );
   }
 
   /**

@@ -1,40 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { v4 } from "uuid";
 import { Constants } from "../common";
 import { CosmosHeaders } from "../queryExecutionContext";
 
-export type CosmosDiagnostics = {
+export interface CosmosDiagnostics {
+  id: string;
+  startTimeUTC: number;
+  endTimeUTC: number;
   activityId: string;
-  requestStartTimeUTC: number;
-  requestEndTimeUTC: number;
   clientSideRequestStatistics: ClientSideRequestStatistics;
-};
-
-export function getEmptyCosmosDiagnostics(): CosmosDiagnostics {
-  return {
-    activityId: "",
-    requestEndTimeUTC: 0,
-    requestStartTimeUTC: 0,
-    clientSideRequestStatistics: {
-      locationEndpointsContacted: [],
-      retryDiagnostics: {
-        failedAttempts: [],
-      },
-      metadataDiagnostics: {
-        metadataLookups: [],
-      },
-      totalPayloadSizeInBytes: 0,
-    },
-  };
 }
 
-export type FailedAttempt = {
+export interface FailedAttempt {
+  id: string;
   attemptNumber: number;
   startTimeUTC: number;
   endTimeUTC: number;
   statusCode: string;
-};
+}
 
 export type MetadataDiagnostics = {
   metadataLookups: MetadataLookup[];
@@ -44,12 +29,13 @@ export type RetryDiagnostics = {
   failedAttempts: FailedAttempt[];
 };
 
-export type MetadataLookup = {
+export interface MetadataLookup {
+  id: string;
   startTimeUTC: number;
   endTimeUTC: number;
   metaDataType: MetadataType;
   activityId: string;
-};
+}
 
 export enum MetadataType {
   CONTAINER_LOOK_UP,
@@ -69,6 +55,25 @@ export type ClientSideRequestStatistics = {
 // TODO: check about UTC timestamp.
 export function getCurrentTimestamp(): number {
   return Date.now();
+}
+
+export function getEmptyCosmosDiagnostics(): CosmosDiagnostics {
+  return {
+    id: v4(),
+    activityId: "",
+    endTimeUTC: 0,
+    startTimeUTC: 0,
+    clientSideRequestStatistics: {
+      locationEndpointsContacted: [],
+      retryDiagnostics: {
+        failedAttempts: [],
+      },
+      metadataDiagnostics: {
+        metadataLookups: [],
+      },
+      totalPayloadSizeInBytes: 0,
+    },
+  };
 }
 
 export class CosmosDiagnosticContext {
@@ -91,6 +96,7 @@ export class CosmosDiagnosticContext {
 
   public recordFailedAttempt(statusCode: string): void {
     const attempt: FailedAttempt = {
+      id: v4(),
       attemptNumber: this.retryAttempNumber,
       startTimeUTC: this.retryStartTimeUTC,
       endTimeUTC: getCurrentTimestamp(),
@@ -103,10 +109,11 @@ export class CosmosDiagnosticContext {
 
   public recordMetaDataQuery(diagnostics: CosmosDiagnostics, metaDataType: MetadataType): void {
     const metaDataRequest = {
-      startTimeUTC: diagnostics.requestStartTimeUTC,
-      endTimeUTC: diagnostics.requestEndTimeUTC,
+      startTimeUTC: diagnostics.startTimeUTC,
+      endTimeUTC: diagnostics.endTimeUTC,
       activityId: diagnostics.activityId,
       metaDataType,
+      id: v4(),
     };
     this.metadataLookups.push(metaDataRequest);
   }
@@ -134,9 +141,10 @@ export class CosmosDiagnosticContext {
   public getDiagnostics(): CosmosDiagnostics {
     this.recordSessionEnd();
     return {
+      id: v4(),
       activityId: this.getActivityId(),
-      requestStartTimeUTC: this.requestStartTimeUTC,
-      requestEndTimeUTC: this.requestEndTimeUTC,
+      startTimeUTC: this.requestStartTimeUTC,
+      endTimeUTC: this.requestEndTimeUTC,
       clientSideRequestStatistics: {
         locationEndpointsContacted: [...this.locationEndpointsContacted],
         metadataDiagnostics: {

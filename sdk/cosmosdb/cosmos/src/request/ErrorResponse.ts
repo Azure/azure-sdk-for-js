@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { CosmosHeaders } from "../index";
+import { CosmosDiagnostics, CosmosHeaders } from "../index";
 
 export interface ErrorBody {
   code: string;
@@ -64,4 +64,5 @@ export class ErrorResponse extends Error {
   retryAfterInMs?: number;
   retryAfterInMilliseconds?: number;
   [key: string]: any;
+  diagnostics: CosmosDiagnostics;
 }

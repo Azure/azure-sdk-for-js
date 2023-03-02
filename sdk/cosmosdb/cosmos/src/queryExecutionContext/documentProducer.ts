@@ -12,7 +12,7 @@ import {
 } from "../common";
 import { FeedOptions } from "../request";
 import { Response } from "../request";
-import { getEmptyCosmosDiagnostics } from "../request/CosmosDiagnostics";
+import { CosmosDiagnosticContext, getEmptyCosmosDiagnostics } from "../request/CosmosDiagnostics";
 import { DefaultQueryExecutionContext } from "./defaultQueryExecutionContext";
 import { FetchResult, FetchResultType } from "./FetchResult";
 import { CosmosHeaders, getInitialHeader, mergeHeaders } from "./headerUtils";
@@ -45,7 +45,8 @@ export class DocumentProducer {
     collectionLink: string,
     query: SqlQuerySpec,
     targetPartitionKeyRange: PartitionKeyRange,
-    options: FeedOptions
+    options: FeedOptions,
+    diagnosticContext: CosmosDiagnosticContext
   ) {
     // TODO: any options
     this.collectionLink = collectionLink;
@@ -60,7 +61,11 @@ export class DocumentProducer {
     this.continuationToken = undefined;
     this.respHeaders = getInitialHeader();
 
-    this.internalExecutionContext = new DefaultQueryExecutionContext(options, this.fetchFunction);
+    this.internalExecutionContext = new DefaultQueryExecutionContext(
+      options,
+      this.fetchFunction,
+      diagnosticContext
+    );
   }
   /**
    * Synchronously gives the contiguous buffered results (stops at the first non result) if any

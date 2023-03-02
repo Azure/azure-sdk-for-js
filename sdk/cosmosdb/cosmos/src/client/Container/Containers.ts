@@ -12,7 +12,7 @@ import {
 import { DEFAULT_PARTITION_KEY_PATH } from "../../common/partitionKeys";
 import { mergeHeaders, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
-import { FeedOptions, RequestOptions } from "../../request";
+import { CosmosDiagnosticContext, FeedOptions, RequestOptions } from "../../request";
 import { Database } from "../Database";
 import { Resource } from "../Resource";
 import { Container } from "./Container";
@@ -72,16 +72,22 @@ export class Containers {
     const path = getPathFromLink(this.database.url, ResourceType.container);
     const id = getIdFromLink(this.database.url);
 
-    return new QueryIterator(this.clientContext, query, options, (innerOptions) => {
-      return this.clientContext.queryFeed<ContainerDefinition>({
-        path,
-        resourceType: ResourceType.container,
-        resourceId: id,
-        resultFn: (result) => result.DocumentCollections,
-        query,
-        options: innerOptions,
-      });
-    });
+    return new QueryIterator(
+      this.clientContext,
+      query,
+      options,
+      (innerOptions) => {
+        return this.clientContext.queryFeed<ContainerDefinition>({
+          path,
+          resourceType: ResourceType.container,
+          resourceId: id,
+          resultFn: (result) => result.DocumentCollections,
+          query,
+          options: innerOptions,
+        });
+      },
+      new CosmosDiagnosticContext()
+    );
   }
 
   /**

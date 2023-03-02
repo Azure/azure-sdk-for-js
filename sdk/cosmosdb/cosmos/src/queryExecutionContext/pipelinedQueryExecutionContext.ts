@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../ClientContext";
-import { Response, FeedOptions } from "../request";
+import { Response, FeedOptions, CosmosDiagnosticContext } from "../request";
 import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { CosmosHeaders } from "./CosmosHeaders";
 import { OffsetLimitEndpointComponent } from "./EndpointComponent/OffsetLimitEndpointComponent";
@@ -28,7 +28,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     private collectionLink: string,
     private query: string | SqlQuerySpec,
     private options: FeedOptions,
-    private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo
+    private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
+    private diagnosticContext: CosmosDiagnosticContext
   ) {
     this.endpoint = null;
     this.pageSize = options["maxItemCount"];
@@ -47,7 +48,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           this.collectionLink,
           this.query,
           this.options,
-          this.partitionedQueryExecutionInfo
+          this.partitionedQueryExecutionInfo,
+          this.diagnosticContext
         )
       );
     } else {
@@ -56,7 +58,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         this.collectionLink,
         this.query,
         this.options,
-        this.partitionedQueryExecutionInfo
+        this.partitionedQueryExecutionInfo,
+        this.diagnosticContext
       );
     }
     if (

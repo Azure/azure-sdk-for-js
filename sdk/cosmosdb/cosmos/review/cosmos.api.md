@@ -171,7 +171,7 @@ export class ClientContext {
         partitionKey?: PartitionKey;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
-    queryPartitionKeyRanges(collectionLink: string, query?: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<PartitionKeyRange>;
+    queryPartitionKeyRanges(collectionLink: string, diagnosticContext: CosmosDiagnosticContext, query?: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<PartitionKeyRange>;
     // (undocumented)
     read<T>({ path, resourceType, resourceId, options, partitionKey, }: {
         path: string;
@@ -597,12 +597,18 @@ export class CosmosDiagnosticContext {
 }
 
 // @public (undocumented)
-export type CosmosDiagnostics = {
+export interface CosmosDiagnostics {
+    // (undocumented)
     activityId: string;
-    requestStartTimeUTC: number;
-    requestEndTimeUTC: number;
+    // (undocumented)
     clientSideRequestStatistics: ClientSideRequestStatistics;
-};
+    // (undocumented)
+    endTimeUTC: number;
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    startTimeUTC: number;
+}
 
 // @public (undocumented)
 export interface CosmosHeaders {
@@ -761,6 +767,8 @@ export class ErrorResponse extends Error {
     // (undocumented)
     code?: number;
     // (undocumented)
+    diagnostics: CosmosDiagnostics;
+    // (undocumented)
     headers?: CosmosHeaders;
     // (undocumented)
     retryAfterInMilliseconds?: number;
@@ -781,12 +789,18 @@ export type ExistingKeyOperation = {
 export function extractPartitionKey(document: unknown, partitionKeyDefinition: PartitionKeyDefinition): PartitionKey[];
 
 // @public (undocumented)
-export type FailedAttempt = {
+export interface FailedAttempt {
+    // (undocumented)
     attemptNumber: number;
-    startTimeUTC: number;
+    // (undocumented)
     endTimeUTC: number;
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    startTimeUTC: number;
+    // (undocumented)
     statusCode: string;
-};
+}
 
 // @public
 export interface FeedOptions extends SharedOptions {
@@ -1013,12 +1027,18 @@ export type MetadataDiagnostics = {
 };
 
 // @public (undocumented)
-export type MetadataLookup = {
-    startTimeUTC: number;
-    endTimeUTC: number;
-    metaDataType: MetadataType;
+export interface MetadataLookup {
+    // (undocumented)
     activityId: string;
-};
+    // (undocumented)
+    endTimeUTC: number;
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    metaDataType: MetadataType;
+    // (undocumented)
+    startTimeUTC: number;
+}
 
 // @public (undocumented)
 export enum MetadataType {
@@ -1330,10 +1350,12 @@ export interface QueryInfo {
 // @public
 export class QueryIterator<T> {
     // Warning: (ae-forgotten-export) The symbol "FetchFunctionCallback" needs to be exported by the entry point index.d.ts
-    constructor(clientContext: ClientContext, query: SqlQuerySpec | string, options: FeedOptions, fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[], resourceLink?: string, resourceType?: ResourceType);
+    constructor(clientContext: ClientContext, query: SqlQuerySpec | string, options: FeedOptions, fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[], diagnosticContext?: CosmosDiagnosticContext, resourceLink?: string, resourceType?: ResourceType);
     fetchAll(): Promise<FeedResponse<T>>;
     fetchNext(): Promise<FeedResponse<T>>;
     getAsyncIterator(): AsyncIterable<FeedResponse<T>>;
+    // (undocumented)
+    getDiagnostics(): CosmosDiagnostics;
     hasMoreResults(): boolean;
     reset(): void;
 }

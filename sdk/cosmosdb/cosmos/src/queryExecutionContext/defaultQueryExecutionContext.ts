@@ -4,13 +4,16 @@ import { AzureLogger, createClientLogger } from "@azure/logger";
 import { Constants } from "../common";
 import { ClientSideMetrics, QueryMetrics } from "../queryMetrics";
 import { FeedOptions, Response } from "../request";
-import { getEmptyCosmosDiagnostics } from "../request/CosmosDiagnostics";
+import { CosmosDiagnosticContext, getEmptyCosmosDiagnostics } from "../request/CosmosDiagnostics";
 import { getInitialHeader } from "./headerUtils";
 import { ExecutionContext } from "./index";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 /** @hidden */
-export type FetchFunctionCallback = (options: FeedOptions) => Promise<Response<any>>;
+export type FetchFunctionCallback = (
+  options: FeedOptions,
+  diagnosticContext: CosmosDiagnosticContext
+) => Promise<Response<any>>;
 
 /** @hidden */
 enum STATES {
@@ -46,7 +49,8 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
    */
   constructor(
     options: FeedOptions,
-    fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[]
+    fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[],
+    private diagnosticContext: CosmosDiagnosticContext
   ) {
     this.resources = [];
     this.currentIndex = 0;
@@ -151,7 +155,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
         this.nextFetchFunction = undefined;
       } else {
         logger.verbose("using fresh fetch");
-        p = this.fetchFunctions[this.currentPartitionIndex](this.options);
+        p = this.fetchFunctions[this.currentPartitionIndex](this.options, this.diagnosticContext);
       }
       const response = await p;
       resources = response.result;
@@ -166,7 +170,10 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
       if (this.options && this.options.bufferItems === true) {
         const fetchFunction = this.fetchFunctions[this.currentPartitionIndex];
         this.nextFetchFunction = fetchFunction
-          ? fetchFunction({ ...this.options, continuationToken: this.continuationToken })
+          ? fetchFunction(
+              { ...this.options, continuationToken: this.continuationToken },
+              this.diagnosticContext
+            )
           : undefined;
       }
     } catch (err: any) {

@@ -19,7 +19,7 @@ import { PluginConfig, PluginOn, executePlugins } from "./plugins/Plugin";
 import { FetchFunctionCallback, SqlQuerySpec } from "./queryExecutionContext";
 import { CosmosHeaders } from "./queryExecutionContext/CosmosHeaders";
 import { QueryIterator } from "./queryIterator";
-import { ErrorResponse } from "./request";
+import { ErrorResponse, MetadataType } from "./request";
 import { FeedOptions, RequestOptions, Response } from "./request";
 import { PartitionedQueryExecutionInfo } from "./request/ErrorResponse";
 import { getHeaders } from "./request/request";
@@ -225,13 +225,17 @@ export class ClientContext {
 
   public queryPartitionKeyRanges(
     collectionLink: string,
+    diagnosticContext: CosmosDiagnosticContext,
     query?: string | SqlQuerySpec,
     options?: FeedOptions
   ): QueryIterator<PartitionKeyRange> {
     const path = getPathFromLink(collectionLink, ResourceType.pkranges);
     const id = getIdFromLink(collectionLink);
-    const cb: FetchFunctionCallback = (innerOptions) => {
-      return this.queryFeed({
+    const cb: FetchFunctionCallback = async (
+      innerOptions,
+      diagnosticCtx: CosmosDiagnosticContext
+    ) => {
+      const response = await this.queryFeed({
         path,
         resourceType: ResourceType.pkranges,
         resourceId: id,
@@ -239,8 +243,13 @@ export class ClientContext {
         query,
         options: innerOptions,
       });
+      diagnosticCtx.recordMetaDataQuery(
+        response.diagnostics,
+        MetadataType.PARTITION_KEY_RANGE_LOOK_UP
+      );
+      return response;
     };
-    return new QueryIterator<PartitionKeyRange>(this, query, options, cb);
+    return new QueryIterator<PartitionKeyRange>(this, query, options, cb, diagnosticContext);
   }
 
   public async delete<T>({

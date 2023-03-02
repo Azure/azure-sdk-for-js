@@ -15,7 +15,7 @@ import {
   PipelinedQueryExecutionContext,
   SqlQuerySpec,
 } from "./queryExecutionContext";
-import { Response } from "./request";
+import { CosmosDiagnosticContext, CosmosDiagnostics, Response } from "./request";
 import { ErrorResponse, PartitionedQueryExecutionInfo } from "./request/ErrorResponse";
 import { FeedOptions } from "./request/FeedOptions";
 import { FeedResponse } from "./request/FeedResponse";
@@ -39,6 +39,7 @@ export class QueryIterator<T> {
     private query: SqlQuerySpec | string,
     private options: FeedOptions,
     private fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[],
+    private diagnosticContext: CosmosDiagnosticContext = new CosmosDiagnosticContext(),
     private resourceLink?: string,
     private resourceType?: ResourceType
   ) {
@@ -170,8 +171,13 @@ export class QueryIterator<T> {
     this.queryPlanPromise = undefined;
     this.queryExecutionContext = new DefaultQueryExecutionContext(
       this.options,
-      this.fetchFunctions
+      this.fetchFunctions,
+      this.diagnosticContext
     );
+  }
+
+  public getDiagnostics(): CosmosDiagnostics {
+    return this.diagnosticContext.getDiagnostics();
   }
 
   private async toArrayImplementation(): Promise<FeedResponse<T>> {
@@ -224,7 +230,8 @@ export class QueryIterator<T> {
       this.resourceLink,
       this.query,
       this.options,
-      queryPlan
+      queryPlan,
+      this.diagnosticContext
     );
   }
 
