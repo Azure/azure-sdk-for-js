@@ -4,6 +4,7 @@
 import {
   getLongRunningPoller,
   InPlaceReceivedShareOutput,
+  isUnexpected,
   OperationResponseOutput,
   PurviewSharingClient,
   ReceivedShareListOutput,
@@ -35,7 +36,11 @@ describe("Received Shares Operations", () => {
     });
 
     assert.strictEqual(response.status, "200");
-    const detachedReceivedShares = response.body as ReceivedShareListOutput;
+    if (isUnexpected(response)) {
+      throw response.body.error;
+    }
+
+    const detachedReceivedShares: ReceivedShareListOutput = response.body;
     assert.isNotEmpty(detachedReceivedShares.value);
 
     const detachedReceivedShare = detachedReceivedShares.value[0];
@@ -83,8 +88,10 @@ describe("Received Shares Operations", () => {
     const response = await poller.pollUntilDone();
     assert.strictEqual(response.status, "200");
     console.log(`Received Share ${receivedShareId} attached to destination store.`);
-
-    const receivedShareResponse = response.body as InPlaceReceivedShareOutput;
+    if (isUnexpected(response)) {
+      throw response.body.error;
+    }
+    const receivedShareResponse: InPlaceReceivedShareOutput = response.body;
     assert.strictEqual(receivedShareResponse.id, receivedShareId);
     assert.strictEqual(receivedShareResponse.properties.state, "Succeeded");
     assert.strictEqual(receivedShareResponse.properties.shareStatus, "Attached");
@@ -97,7 +104,11 @@ describe("Received Shares Operations", () => {
       .get({ queryParameters: { referenceName: env.STORAGE_ACCOUNT_RESOURCE_ID ?? "" } });
 
     assert.strictEqual(response.status, "200");
-    const attachedReceivedShares = response.body as ReceivedShareListOutput;
+    if (isUnexpected(response)) {
+      throw response.body.error;
+    }
+
+    const attachedReceivedShares: ReceivedShareListOutput = response.body;
     assert.isNotEmpty(attachedReceivedShares.value);
 
     const attachedReceivedShare = attachedReceivedShares.value[0];
@@ -114,8 +125,11 @@ describe("Received Shares Operations", () => {
 
     assert.strictEqual(initialResponse.status, "202");
     console.log(`Received Share ${receivedShareId} delete initiated.`);
+    if (isUnexpected(initialResponse)) {
+      throw initialResponse.body.error;
+    }
 
-    const initialOperationResponse = initialResponse.body as OperationResponseOutput;
+    const initialOperationResponse: OperationResponseOutput = initialResponse.body;
     assert.strictEqual(initialOperationResponse.status, "NotStarted");
 
     const poller = await getLongRunningPoller(client, initialResponse, {
@@ -124,8 +138,11 @@ describe("Received Shares Operations", () => {
 
     const response = await poller.pollUntilDone();
     assert.strictEqual(response.status, "200");
+    if (isUnexpected(response)) {
+      throw response.body.error;
+    }
 
-    const operationResponse = response.body as OperationResponseOutput;
+    const operationResponse: OperationResponseOutput = response.body;
     assert.strictEqual(operationResponse.status, "Succeeded");
     assert.isNull(operationResponse.error);
     console.log(`Received Share ${receivedShareId} deleted.`);

@@ -8,6 +8,7 @@ import createPurviewSharingClient, {
   SentSharesCreateSentShareInvitationParameters,
   InPlaceSentShareOutput,
   SentShareInvitationOutput,
+  isUnexpected,
 } from "@azure-rest/purview-sharing";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -54,9 +55,14 @@ async function createOrReplaceSentShare(
   const initialResponse = await client.path("/sentShares/{sentShareId}", sentShareId).put(options);
   const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
-  console.log(result);
 
-  return result.body as InPlaceSentShareOutput;
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+
+  const sentShareDetails = result.body;
+  console.log(sentShareDetails);
+  return sentShareDetails;
 }
 
 /**
@@ -87,9 +93,14 @@ async function createSentShareServiceInvitation(
       sentShareInvitationId
     )
     .put(options);
-  console.log(result);
 
-  return result.body as SentShareInvitationOutput;
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+
+  const sentShareInvitationDetails = result.body;
+  console.log(sentShareInvitationDetails);
+  return sentShareInvitationDetails;
 }
 
 /**
@@ -120,9 +131,14 @@ async function createSentShareUserInvitation(
       sentShareInvitationId
     )
     .put(options);
-  console.log(result);
 
-  return result.body as SentShareInvitationOutput;
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+
+  const sentShareInvitationDetails = result.body;
+  console.log(sentShareInvitationDetails);
+  return sentShareInvitationDetails;
 }
 
 async function main() {

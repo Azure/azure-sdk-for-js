@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 const createPurviewSharingClient = require("@azure-rest/purview-sharing").default,
-  { getLongRunningPoller } = require("@azure-rest/purview-sharing");
+  { getLongRunningPoller, isUnexpected } = require("@azure-rest/purview-sharing");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
@@ -41,9 +41,14 @@ async function createOrReplaceSentShare(client, sentShareId, storageAccountResou
   const initialResponse = await client.path("/sentShares/{sentShareId}", sentShareId).put(options);
   const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
-  console.log(result);
 
-  return result.body;
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+
+  const sentShareDetails = result.body;
+  console.log(sentShareDetails);
+  return sentShareDetails;
 }
 
 /**
@@ -70,9 +75,14 @@ async function createSentShareServiceInvitation(client, sentShareId, sentShareIn
       sentShareInvitationId
     )
     .put(options);
-  console.log(result);
 
-  return result.body;
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+
+  const sentShareInvitationDetails = result.body;
+  console.log(sentShareInvitationDetails);
+  return sentShareInvitationDetails;
 }
 
 /**
@@ -99,9 +109,14 @@ async function createSentShareUserInvitation(client, sentShareId, sentShareInvit
       sentShareInvitationId
     )
     .put(options);
-  console.log(result);
 
-  return result.body;
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+
+  const sentShareInvitationDetails = result.body;
+  console.log(sentShareInvitationDetails);
+  return sentShareInvitationDetails;
 }
 
 async function main() {

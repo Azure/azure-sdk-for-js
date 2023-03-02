@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 const createPurviewSharingClient = require("@azure-rest/purview-sharing").default,
-  { getLongRunningPoller, paginate } = require("@azure-rest/purview-sharing");
+  { getLongRunningPoller, isUnexpected, paginate } = require("@azure-rest/purview-sharing");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
@@ -13,7 +13,13 @@ require("dotenv").config();
  */
 async function getSentShare(client, sentShareId) {
   const result = await client.path("/sentShares/{sentShareId}", sentShareId).get();
-  console.log(result);
+
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+
+  const sentShareDetails = result.body;
+  console.log(sentShareDetails);
 }
 
 /**
@@ -29,7 +35,13 @@ async function getSentShareInvitation(client, sentShareId, sentShareInvitationId
       sentShareInvitationId
     )
     .get();
-  console.log(result);
+
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+
+  const sentShareInvitationDetails = result.body;
+  console.log(sentShareInvitationDetails);
 }
 
 /**
@@ -45,7 +57,13 @@ async function notifyUserSentShareInvitation(client, sentShareId, sentShareInvit
       sentShareInvitationId
     )
     .post();
-  console.log(result);
+
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+
+  const sentShareInvitationDetails = result.body;
+  console.log(sentShareInvitationDetails);
 }
 
 /**
@@ -60,10 +78,14 @@ async function getAllSentShareInvitations(client, sentShareId) {
 
   const pageData = paginate(client, initialResponse);
   const result = [];
+
   for await (const item of pageData) {
-    result.push(item);
+    const invitation = item;
+    invitation && result.push(invitation);
   }
+
   console.log(result);
+  return result;
 }
 
 /**
@@ -81,10 +103,14 @@ async function getAllSentShares(client, storageAccountResourceId) {
   const initialResponse = await client.path("/sentShares").get(options);
   const pageData = paginate(client, initialResponse);
   const result = [];
+
   for await (const item of pageData) {
-    result.push(item);
+    const sentShare = item;
+    sentShare && result.push(sentShare);
   }
+
   console.log(result);
+  return result;
 }
 
 /**
@@ -94,7 +120,13 @@ async function getAllSentShares(client, storageAccountResourceId) {
  */
 async function getReceivedShare(client, receivedShareId) {
   const result = await client.path("/receivedShares/{receivedShareId}", receivedShareId).get();
-  console.log(result);
+
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+
+  const receivedShareDetails = result.body;
+  console.log(receivedShareDetails);
 }
 
 /**
@@ -113,9 +145,12 @@ async function getAllAttachedReceivedShares(client, storageAccountResourceId) {
   const pageData = paginate(client, initialResponse);
   const result = [];
   for await (const item of pageData) {
-    result.push(item);
+    const receivedShare = item;
+    receivedShare && result.push(receivedShare);
   }
+
   console.log(result);
+  return result;
 }
 
 /**
@@ -130,7 +165,12 @@ async function deleteReceivedShare(client, receivedShareId) {
 
   const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
-  console.log(result);
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+
+  const operationDetails = result.body;
+  console.log(operationDetails);
 }
 
 /**
@@ -149,7 +189,13 @@ async function deleteSentShareInvitation(client, sentShareId, sentShareInvitatio
 
   const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
-  console.log(result);
+
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+
+  const operationDetails = result.body;
+  console.log(operationDetails);
 }
 
 /**
@@ -162,7 +208,13 @@ async function deleteSentShare(client, sentShareId) {
 
   const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
-  console.log(result);
+
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+
+  const operationDetails = result.body;
+  console.log(operationDetails);
 }
 
 async function main() {
@@ -174,18 +226,36 @@ async function main() {
   const credential = new DefaultAzureCredential();
   const client = createPurviewSharingClient(endpoint, credential);
 
-  const sentShareId = "FF4A2AAE-8755-47BB-9C00-A774B5A7006E";
-  const sentShareInvitationId = "9F154FA4-93D1-426B-A908-A9CAC7192B21";
-  const receivedShareId = "0D67B9C8-A6C6-4990-9EDE-12EA059D3002";
+  const allSentShares = await getAllSentShares(client, senderStorageAccountResourceId);
+  const sentShareId = allSentShares[0]?.id;
+  if (!sentShareId) {
+    console.log("No sent shares available");
+    return;
+  }
 
   getSentShare(client, sentShareId);
+
+  const allInvitations = await getAllSentShareInvitations(client, sentShareId);
+  const sentShareInvitationId = allInvitations[0]?.id;
+  if (!sentShareInvitationId) {
+    console.log("No sent shares invitations available");
+    return;
+  }
+
   getSentShareInvitation(client, sentShareId, sentShareInvitationId);
   notifyUserSentShareInvitation(client, sentShareId, sentShareInvitationId);
-  getAllSentShareInvitations(client, sentShareId);
-  getAllSentShares(client, senderStorageAccountResourceId);
+
+  const allReceivedShares = await getAllAttachedReceivedShares(
+    client,
+    receiverStorageAccountResourceId
+  );
+  const receivedShareId = allReceivedShares[0]?.id;
+  if (!receivedShareId) {
+    console.log("No sent shares invitations available");
+    return;
+  }
 
   getReceivedShare(client, receivedShareId);
-  getAllAttachedReceivedShares(client, receiverStorageAccountResourceId);
 
   deleteReceivedShare(client, receivedShareId);
   deleteSentShareInvitation(client, sentShareId, sentShareInvitationId);

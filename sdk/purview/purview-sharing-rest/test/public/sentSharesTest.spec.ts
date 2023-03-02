@@ -4,6 +4,7 @@
 import {
   getLongRunningPoller,
   InPlaceSentShareOutput,
+  isUnexpected,
   OperationResponseOutput,
   PurviewSharingClient,
   SentShareInvitationListOutput,
@@ -67,8 +68,11 @@ describe("Sent Shares Operations", () => {
 
     assert.strictEqual(response.status, "201");
     console.log(`Sent Share ${sentShareId} created.`);
+    if (isUnexpected(response)) {
+      throw response.body.error;
+    }
 
-    const sentShareResponse = response.body as InPlaceSentShareOutput;
+    const sentShareResponse = response.body;
     assert.strictEqual(sentShareResponse.id, sentShareId);
     assert.strictEqual(sentShareResponse.properties.state, "Succeeded");
     assert.strictEqual(sentShareResponse.properties.displayName, displayName);
@@ -80,8 +84,11 @@ describe("Sent Shares Operations", () => {
 
     assert.strictEqual(response.status, "200");
     console.log(`Sent Share ${sentShareId} retrieved.`);
+    if (isUnexpected(response)) {
+      throw response.body.error;
+    }
 
-    const sentShareResponse = response.body as InPlaceSentShareOutput;
+    const sentShareResponse: InPlaceSentShareOutput = response.body;
     assert.strictEqual(sentShareResponse.properties.displayName, "JS-SDK-Sent-Share");
     assert.strictEqual(sentShareResponse.shareKind, "InPlace");
     assert.strictEqual(sentShareResponse.id, sentShareId);
@@ -133,8 +140,11 @@ describe("Sent Shares Operations", () => {
     const response = await poller.pollUntilDone();
     assert.strictEqual(response.status, "200");
     console.log(`Sent Share ${sentShareId} updated.`);
+    if (isUnexpected(response)) {
+      throw response.body.error;
+    }
 
-    const sentShareResponse = response.body as InPlaceSentShareOutput;
+    const sentShareResponse: InPlaceSentShareOutput = response.body;
     assert.strictEqual(sentShareResponse.id, sentShareId);
     assert.strictEqual(sentShareResponse.properties.state, "Succeeded");
     assert.strictEqual(sentShareResponse.properties.displayName, displayName);
@@ -147,8 +157,11 @@ describe("Sent Shares Operations", () => {
       .get({ queryParameters: { referenceName: env.STORAGE_ACCOUNT_RESOURCE_ID ?? "" } });
 
     assert.strictEqual(response.status, "200");
+    if (isUnexpected(response)) {
+      throw response.body.error;
+    }
 
-    const sentsharesListResponse = response.body as SentShareListOutput;
+    const sentsharesListResponse: SentShareListOutput = response.body;
     assert.strictEqual(sentsharesListResponse.value.length, 1);
     console.log("Retrieved Sent Shares.");
 
@@ -181,8 +194,15 @@ describe("Sent Shares Operations", () => {
     console.log(
       `Sent Share invitation ${sentShareUserInvitationId} for user ${targetEmail} created.`
     );
+    if (isUnexpected(response)) {
+      throw response.body.error;
+    }
 
-    const invitationResponse = response.body as UserInvitationOutput;
+    if (response.body.invitationKind !== "User") {
+      assert.fail("Unexpected invitation kind.");
+    }
+
+    const invitationResponse: UserInvitationOutput = response.body;
     assert.strictEqual(invitationResponse.id, sentShareUserInvitationId);
     assert.strictEqual(invitationResponse.properties.shareStatus, "Detached");
     assert.strictEqual(invitationResponse.properties.state, "Succeeded");
@@ -200,8 +220,15 @@ describe("Sent Shares Operations", () => {
 
     assert.strictEqual(response.status, "200");
     console.log(`Sent Share invitation ${sentShareUserInvitationId} notified.`);
+    if (isUnexpected(response)) {
+      throw response.body.error;
+    }
 
-    const invitationResponse = response.body as UserInvitationOutput;
+    if (response.body.invitationKind !== "User") {
+      assert.fail("Unexpected invitation kind.");
+    }
+
+    const invitationResponse: UserInvitationOutput = response.body;
     assert.strictEqual(invitationResponse.id, sentShareUserInvitationId);
     assert.strictEqual(invitationResponse.properties.shareStatus, "Detached");
     assert.strictEqual(invitationResponse.properties.state, "Succeeded");
@@ -230,8 +257,15 @@ describe("Sent Shares Operations", () => {
     console.log(
       `Sent Share invitation ${sentShareServiceInvitationId} for service ${targetActiveDirectoryId}_${targetObjectId} created.`
     );
+    if (isUnexpected(response)) {
+      throw response.body.error;
+    }
 
-    const invitationResponse = response.body as ServiceInvitationOutput;
+    if (response.body.invitationKind !== "Service") {
+      assert.fail("Unexpected invitation kind.");
+    }
+
+    const invitationResponse: ServiceInvitationOutput = response.body;
     assert.strictEqual(invitationResponse.id, sentShareServiceInvitationId);
     assert.strictEqual(invitationResponse.properties.shareStatus, "Detached");
     assert.strictEqual(invitationResponse.properties.state, "Succeeded");
@@ -253,8 +287,15 @@ describe("Sent Shares Operations", () => {
 
     assert.strictEqual(response.status, "200");
     console.log(`Sent Share Invitation ${sentShareServiceInvitationId} retrieved.`);
+    if (isUnexpected(response)) {
+      throw response.body.error;
+    }
 
-    const invitationResponse = response.body as ServiceInvitationOutput;
+    if (response.body.invitationKind !== "Service") {
+      assert.fail("Unexpected invitation kind.");
+    }
+
+    const invitationResponse: ServiceInvitationOutput = response.body;
     assert.strictEqual(invitationResponse.id, sentShareServiceInvitationId);
     assert.strictEqual(invitationResponse.properties.shareStatus, "Detached");
     assert.strictEqual(invitationResponse.properties.state, "Succeeded");
@@ -271,8 +312,11 @@ describe("Sent Shares Operations", () => {
       .get();
 
     assert.strictEqual(response.status, "200");
+    if (isUnexpected(response)) {
+      throw response.body.error;
+    }
 
-    const sentsharesListResponse = response.body as SentShareInvitationListOutput;
+    const sentsharesListResponse: SentShareInvitationListOutput = response.body;
     assert.strictEqual(sentsharesListResponse.value.length, 2);
     console.log("Retrieved Sent Share Invitations.");
 
@@ -301,8 +345,11 @@ describe("Sent Shares Operations", () => {
 
     assert.strictEqual(initialResponse.status, "202");
     console.log(`Sent Share Invitation ${sentShareUserInvitationId} delete initiated.`);
+    if (isUnexpected(initialResponse)) {
+      throw initialResponse.body.error;
+    }
 
-    const initialOperationResponse = initialResponse.body as OperationResponseOutput;
+    const initialOperationResponse: OperationResponseOutput = initialResponse.body;
     assert.strictEqual(initialOperationResponse.status, "NotStarted");
 
     const poller = await getLongRunningPoller(client, initialResponse, {
@@ -311,8 +358,11 @@ describe("Sent Shares Operations", () => {
 
     const response = await poller.pollUntilDone();
     assert.strictEqual(response.status, "200");
+    if (isUnexpected(response)) {
+      throw response.body.error;
+    }
 
-    const operationResponse = response.body as OperationResponseOutput;
+    const operationResponse: OperationResponseOutput = response.body;
     assert.strictEqual(operationResponse.status, "Succeeded");
     assert.isNull(operationResponse.error);
     console.log(`Sent Share Invitation ${sentShareId} deleted.`);
@@ -323,8 +373,11 @@ describe("Sent Shares Operations", () => {
 
     assert.strictEqual(initialResponse.status, "202");
     console.log(`Sent Share ${sentShareId} delete initiated.`);
+    if (isUnexpected(initialResponse)) {
+      throw initialResponse.body.error;
+    }
 
-    const initialOperationResponse = initialResponse.body as OperationResponseOutput;
+    const initialOperationResponse: OperationResponseOutput = initialResponse.body;
     assert.strictEqual(initialOperationResponse.status, "NotStarted");
 
     const poller = await getLongRunningPoller(client, initialResponse, {
@@ -333,8 +386,10 @@ describe("Sent Shares Operations", () => {
 
     const response = await poller.pollUntilDone();
     assert.strictEqual(response.status, "200");
-
-    const operationResponse = response.body as OperationResponseOutput;
+    if (isUnexpected(response)) {
+      throw response.body.error;
+    }
+    const operationResponse: OperationResponseOutput = response.body;
     assert.strictEqual(operationResponse.status, "Succeeded");
     assert.isNull(operationResponse.error);
     console.log(`Sent Share ${sentShareId} deleted.`);

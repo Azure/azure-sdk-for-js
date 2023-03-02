@@ -44,7 +44,7 @@ export async function getLongRunningPoller<TResult extends HttpResponse>(
   };
 
   options.resolveOnUnsuccessful = options.resolveOnUnsuccessful ?? true;
-  return createHttpPoller(poller, options);
+  return await createHttpPoller(poller, options);
 }
 
 /**

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 const createPurviewSharingClient = require("@azure-rest/purview-sharing").default,
-  { getLongRunningPoller, paginate } = require("@azure-rest/purview-sharing");
+  { getLongRunningPoller, paginate, isUnexpected } = require("@azure-rest/purview-sharing");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
@@ -65,9 +65,14 @@ async function createOrReplaceReceivedShare(
     .put(options);
   const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
-  console.log(result);
 
-  return result.body;
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+
+  const receivedShareDetails = result.body;
+  console.log(receivedShareDetails);
+  return receivedShareDetails;
 }
 
 /**
@@ -77,7 +82,13 @@ async function createOrReplaceReceivedShare(
  */
 async function registerTenantEmail(client) {
   const result = await client.path("/emails:register").post();
-  console.log(result);
+
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+
+  const tenantEmailRegistrationDetails = result.body;
+  console.log(tenantEmailRegistrationDetails);
 }
 
 /**
@@ -90,7 +101,13 @@ async function activateTenantEmailRegistrationSample(client, activationCode) {
     body: { properties: { activationCode } },
   };
   const result = await client.path("/emails:activate").post(options);
-  console.log(result);
+
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+
+  const tenantEmailRegistrationDetails = result.body;
+  console.log(tenantEmailRegistrationDetails);
 }
 
 async function main() {

@@ -11,7 +11,7 @@ description: Purview Sharing Client
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src
-input-file: https://github.com/Azure/azure-rest-api-specs/blob/main/specification/purview/data-plane/Azure.Analytics.Purview.Share/preview/2023-02-15-preview/share.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/12cbd66750c4dfe302e9eca42b1fc727f8c02700/specification/purview/data-plane/Azure.Analytics.Purview.Share/preview/2023-02-15-preview/share.json
 package-version: 1.0.0-beta.1
 rest-level-client: true
 add-credentials: true

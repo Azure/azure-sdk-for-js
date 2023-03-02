@@ -2,12 +2,11 @@
 
 These sample programs show how to use the TypeScript client libraries for Purview Sharing in some common scenarios.
 
-| **File Name**                                                     | **Description**                          |
-| ----------------------------------------------------------------- | ---------------------------------------- |
-| [manageSharesSample.ts][managesharessample]                       | Get a sent share                         |
-| [receiverOperationsSample.ts][receiveroperationssample]           | List detached received shares            |
-| [senderOperationsSample.ts][senderoperationssample]               | Create or replace a sent share           |
-| [tenantEmailRegistrationSample.ts][tenantemailregistrationsample] | Register an email for the current tenant |
+| **File Name**                                           | **Description**                |
+| ------------------------------------------------------- | ------------------------------ |
+| [manageSharesSample.ts][managesharessample]             | Get a sent share               |
+| [receiverOperationsSample.ts][receiveroperationssample] | List detached received shares  |
+| [senderOperationsSample.ts][senderoperationssample]     | Create or replace a sent share |
 
 ## Prerequisites
 
@@ -62,7 +61,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [managesharessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-sharing-rest/samples/v1-beta/typescript/src/manageSharesSample.ts
 [receiveroperationssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-sharing-rest/samples/v1-beta/typescript/src/receiverOperationsSample.ts
 [senderoperationssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-sharing-rest/samples/v1-beta/typescript/src/senderOperationsSample.ts
-[tenantemailregistrationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-sharing-rest/samples/v1-beta/typescript/src/tenantEmailRegistrationSample.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/purview-sharing?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-sharing-rest/README.md

@@ -9,6 +9,7 @@ import createPurviewSharingClient, {
   ReceivedSharesActivateTenantEmailRegistrationParameters,
   PurviewSharingClient,
   ReceivedShareOutput,
+  isUnexpected,
 } from "@azure-rest/purview-sharing";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -74,9 +75,14 @@ async function createOrReplaceReceivedShare(
     .put(options);
   const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
-  console.log(result);
 
-  return result.body as InPlaceReceivedShareOutput;
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+
+  const receivedShareDetails = result.body;
+  console.log(receivedShareDetails);
+  return receivedShareDetails;
 }
 
 /**
@@ -86,7 +92,13 @@ async function createOrReplaceReceivedShare(
  */
 async function registerTenantEmail(client: PurviewSharingClient): Promise<void> {
   const result = await client.path("/emails:register").post();
-  console.log(result);
+
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+
+  const tenantEmailRegistrationDetails = result.body;
+  console.log(tenantEmailRegistrationDetails);
 }
 
 /**
@@ -102,7 +114,13 @@ async function activateTenantEmailRegistrationSample(
     body: { properties: { activationCode } },
   };
   const result = await client.path("/emails:activate").post(options);
-  console.log(result);
+
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+
+  const tenantEmailRegistrationDetails = result.body;
+  console.log(tenantEmailRegistrationDetails);
 }
 
 async function main() {
