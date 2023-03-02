@@ -79,7 +79,7 @@ describe("storageMover test", () => {
     assert.equal(res.name, storageMoverName);
   });
 
-  it.skip("agents create test", async function () {
+  it("agents create test", async function () {
     const arcResourceid = "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.HybridCompute/machines/testhybridCompute"
     const res = await client.agents.createOrUpdate(
       resourceGroup,
