@@ -3,7 +3,7 @@
 import { ClientContext } from "../../ClientContext";
 import { createDatabaseUri, getIdFromLink, getPathFromLink, ResourceType } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
-import { RequestOptions } from "../../request";
+import { CosmosDiagnosticContext, RequestOptions } from "../../request";
 import { Container, Containers } from "../Container";
 import { User, Users } from "../User";
 import { DatabaseDefinition } from "./DatabaseDefinition";
@@ -105,6 +105,7 @@ export class Database {
       resourceType: ResourceType.database,
       resourceId: id,
       options,
+      diagnosticContext: new CosmosDiagnosticContext()
     });
     return new DatabaseResponse(response.result, response.headers, response.code, this);
   }

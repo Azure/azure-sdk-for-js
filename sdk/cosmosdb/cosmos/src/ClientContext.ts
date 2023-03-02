@@ -817,18 +817,18 @@ export class ClientContext {
   }
 }
 
-type MetadataDiagnosticsRecoredrWrapper = (
-  func: (...args: any[]) => Response<any>,
-  ctx: CosmosDiagnosticContext,
-  ...args: Parameters<typeof func>
-) => ReturnType<typeof func>;
+// type MetadataDiagnosticsRecoredrWrapper = (
+//   func: (...args: any[]) => Response<any>,
+//   ctx: CosmosDiagnosticContext,
+//   ...args: Parameters<typeof func>
+// ) => ReturnType<typeof func>;
 
-export const meta: MetadataDiagnosticsRecoredrWrapper = <T>(
-  func: (...args: any[]) => Response<T>,
-  ctx: CosmosDiagnosticContext,
-  ...args: Parameters<typeof func>
-): Response<T> => {
-  const resource: Response<T> = func(args);
-  ctx.mergeDiagnostics(resource.diagnostics);
-  return resource;
-};
+// export const meta: MetadataDiagnosticsRecoredrWrapper = <T>(
+//   func: (...args: any[]) => Response<T>,
+//   ctx: CosmosDiagnosticContext,
+//   ...args: Parameters<typeof func>
+// ): Response<T> => {
+//   const resource: Response<T> = func(args);
+//   ctx.mergeDiagnostics(resource.diagnostics);
+//   return resource;
+// };

@@ -49,6 +49,10 @@ export async function execute({
     requestContext.client.clearSessionToken(requestContext.path);
     delete requestContext.headers["x-ms-session-token"];
   }
+  requestContext.endpoint = await requestContext.globalEndpointManager.resolveServiceEndpoint(
+    requestContext.resourceType,
+    requestContext.operationType
+  );
 
   try {
     const response = await executeRequest(requestContext);
@@ -73,11 +77,6 @@ export async function execute({
       await sleep(retryPolicy.retryAfterInMs);
       requestContext.retryCount++;
       requestContext.diagnosticContext.recordFailedAttempt(err.code);
-      requestContext.endpoint = await requestContext.globalEndpointManager.resolveServiceEndpoint(
-        requestContext.resourceType,
-        requestContext.operationType,
-        requestContext
-      );
       return execute({
         executeRequest,
         requestContext,

@@ -50,14 +50,14 @@ export class GlobalEndpointManager {
    * Gets the current read endpoint from the endpoint cache.
    */
   public async getReadEndpoint(): Promise<string> {
-    return this.resolveServiceEndpoint(ResourceType.item, OperationType.Read, {} as any);
+    return this.resolveServiceEndpoint(ResourceType.item, OperationType.Read);
   }
 
   /**
    * Gets the current write endpoint from the endpoint cache.
    */
   public async getWriteEndpoint(): Promise<string> {
-    return this.resolveServiceEndpoint(ResourceType.item, OperationType.Replace, {} as any);
+    return this.resolveServiceEndpoint(ResourceType.item, OperationType.Replace);
   }
 
   public async getReadEndpoints(): Promise<ReadonlyArray<string>> {
@@ -127,10 +127,12 @@ export class GlobalEndpointManager {
       });
       this.writeableLocations = response.resource.writableLocations;
       this.readableLocations = response.resource.readableLocations;
-      requestContext.diagnosticContext.recordMetaDataQuery(
-        response.diagnostics,
-        MetadataType.DATABASE_ACCOUNT_LOOKUP
-      );
+      if(requestContext !== undefined ) {
+        requestContext.diagnosticContext.recordMetaDataQuery(
+          response.diagnostics,
+          MetadataType.DATABASE_ACCOUNT_LOOKUP
+        );
+      }
     }
 
     const locations = isReadRequest(operationType)
@@ -159,7 +161,9 @@ export class GlobalEndpointManager {
       });
     }
     location = location ? location.databaseAccountEndpoint : this.defaultEndpoint;
-    requestContext.diagnosticContext.recordEndpointContactEvent(location);
+    if(requestContext !== undefined ) {
+      requestContext.diagnosticContext.recordEndpointContactEvent(location);
+    }
     return location;
   }
 

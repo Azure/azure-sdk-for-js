@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { CosmosClient, PluginOn, CosmosClientOptions, PluginConfig } from "../../../src";
+import { CosmosClient, PluginOn, CosmosClientOptions, PluginConfig, getEmptyCosmosDiagnostics } from "../../../src";
 import { masterKey } from "../common/_fakeTestSecrets";
 import assert from "assert";
 
@@ -13,6 +13,7 @@ const databaseAccountResponse = () => ({
     "content-location": "https://failovertest.documents.azure.com/",
     "content-type": "application/json",
   },
+  diagnostics: getEmptyCosmosDiagnostics(),
   result: {
     _self: "",
     id: "failovertest",
@@ -65,6 +66,7 @@ const databaseAccountResponse = () => ({
 
 const collectionResponse = {
   headers: {},
+  diagnostics: getEmptyCosmosDiagnostics(),
   result: {
     id: "RegionalFailover6198",
     indexingPolicy: {
@@ -116,6 +118,7 @@ const readResponse = {
     _attachments: "attachments/",
     _ts: 1572274840,
   },
+  diagnostics: getEmptyCosmosDiagnostics(),
   code: 200,
 };
 
@@ -123,12 +126,14 @@ const DatabaseAccountNotFoundResponse = {
   code: 403,
   substatus: 1008,
   headers: {},
+  diagnostics: getEmptyCosmosDiagnostics(),
 };
 
 const WriteForbiddenResponse = {
   code: 403,
   substatus: 3,
   headers: {},
+  diagnostics: getEmptyCosmosDiagnostics(),
 };
 
 describe("Region Failover", () => {

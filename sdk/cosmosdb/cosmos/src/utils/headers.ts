@@ -19,6 +19,7 @@ export async function generateHeaders(
       [Constants.HttpHeaders.XDate]: date.toUTCString(),
     };
   }
+  // console.log(`Here is the time for token: ${date}`);
   const sig = await signature(masterKey, method, resourceType, resourceId, date);
 
   return {

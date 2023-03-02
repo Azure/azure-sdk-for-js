@@ -9,8 +9,8 @@ import { PluginConfig } from "../plugins/Plugin";
 import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
 import { FeedOptions } from "./FeedOptions";
 import { RequestOptions } from "./RequestOptions";
-import { Pipeline } from "@azure/core-rest-pipeline";
 import { CosmosDiagnosticContext } from "./CosmosDiagnostics";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 /**
  * @hidden

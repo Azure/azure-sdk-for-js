@@ -50,7 +50,7 @@ export async function removeAllDatabases(client: CosmosClient = defaultClient): 
     }
 
     await Promise.all(
-      databases.map(async (database: DatabaseDefinition & Resource) =>
+      databases.map((database: DatabaseDefinition) =>
         client.database(database.id).delete()
       )
     );

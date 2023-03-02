@@ -106,7 +106,7 @@ export class ClientContext {
     // (undocumented)
     clearSessionToken(path: string): void;
     // (undocumented)
-    create<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticContext }: {
+    create<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticContext, }: {
         body: T;
         path: string;
         resourceType: ResourceType;
@@ -116,7 +116,7 @@ export class ClientContext {
         diagnosticContext?: CosmosDiagnosticContext;
     }): Promise<Response_2<T & U & Resource>>;
     // (undocumented)
-    delete<T>({ path, resourceType, resourceId, options, partitionKey, method, diagnosticContext }: {
+    delete<T>({ path, resourceType, resourceId, options, partitionKey, method, diagnosticContext, }: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
@@ -148,7 +148,7 @@ export class ClientContext {
         [containerUrl: string]: any;
     };
     // (undocumented)
-    patch<T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticContext }: {
+    patch<T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticContext, }: {
         body: any;
         path: string;
         resourceType: ResourceType;
@@ -182,7 +182,7 @@ export class ClientContext {
         diagnosticContext?: CosmosDiagnosticContext;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
-    replace<T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticContext }: {
+    replace<T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticContext, }: {
         body: any;
         path: string;
         resourceType: ResourceType;
@@ -192,7 +192,7 @@ export class ClientContext {
         diagnosticContext?: CosmosDiagnosticContext;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
-    upsert<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticContext }: {
+    upsert<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticContext, }: {
         body: T;
         path: string;
         resourceType: ResourceType;
@@ -214,6 +214,14 @@ export class ClientSideMetrics {
     // (undocumented)
     static readonly zero: ClientSideMetrics;
 }
+
+// @public (undocumented)
+export type ClientSideRequestStatistics = {
+    locationEndpointsContacted: string[];
+    retryDiagnostics: RetryDiagnostics;
+    metadataDiagnostics: MetadataDiagnostics;
+    totalPayloadSizeInBytes: number;
+};
 
 // @public
 export class Conflict {
@@ -586,10 +594,6 @@ export class CosmosDiagnosticContext {
     recordFailedAttempt(statusCode: string): void;
     // (undocumented)
     recordMetaDataQuery(diagnostics: CosmosDiagnostics, metaDataType: MetadataType): void;
-    // (undocumented)
-    recordResponse(): void;
-    // (undocumented)
-    recordSerializationEvent(): void;
 }
 
 // @public (undocumented)
@@ -775,6 +779,14 @@ export type ExistingKeyOperation = {
 
 // @public (undocumented)
 export function extractPartitionKey(document: unknown, partitionKeyDefinition: PartitionKeyDefinition): PartitionKey[];
+
+// @public (undocumented)
+export type FailedAttempt = {
+    attemptNumber: number;
+    startTimeUTC: number;
+    endTimeUTC: number;
+    statusCode: string;
+};
 
 // @public
 export interface FeedOptions extends SharedOptions {
@@ -994,6 +1006,19 @@ interface Location_2 {
     unavailable?: boolean;
 }
 export { Location_2 as Location }
+
+// @public (undocumented)
+export type MetadataDiagnostics = {
+    metadataLookups: MetadataLookup[];
+};
+
+// @public (undocumented)
+export type MetadataLookup = {
+    startTimeUTC: number;
+    endTimeUTC: number;
+    metaDataType: MetadataType;
+    activityId: string;
+};
 
 // @public (undocumented)
 export enum MetadataType {
@@ -1626,6 +1651,11 @@ export { Response_2 as Response }
 
 export { RestError }
 
+// @public (undocumented)
+export type RetryDiagnostics = {
+    failedAttempts: FailedAttempt[];
+};
+
 // @public
 export interface RetryOptions {
     fixedRetryIntervalInMilliseconds: number;
@@ -2166,10 +2196,6 @@ export class Users {
     readAll(options?: FeedOptions): QueryIterator<UserDefinition & Resource>;
     upsert(body: UserDefinition, options?: RequestOptions): Promise<UserResponse>;
 }
-
-// Warnings were encountered during analysis:
-//
-// src/request/CosmosDiagnostics.ts:9:5 - (ae-forgotten-export) The symbol "ClientSideRequestStatistics" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
