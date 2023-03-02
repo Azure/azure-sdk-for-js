@@ -671,7 +671,7 @@ export class DataLakePathClient extends StorageClient {
       "DataLakePathClient-getProperties",
       options,
       async (updatedOptions) => {
-        return await this.blobClient.getProperties({
+        return this.blobClient.getProperties({
           ...options,
           customerProvidedKey: toBlobCpkInfo(options.customerProvidedKey),
           tracingOptions: updatedOptions.tracingOptions,
@@ -698,7 +698,7 @@ export class DataLakePathClient extends StorageClient {
       "DataLakePathClient-setHttpHeaders",
       options,
       async (updatedOptions) => {
-        return await this.blobClient.setHTTPHeaders(
+        return this.blobClient.setHTTPHeaders(
           {
             blobCacheControl: httpHeaders.cacheControl,
             blobContentType: httpHeaders.contentType,
@@ -1111,7 +1111,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       "DataLakeFileClient-create",
       pathCreateOptions,
       async (updatedOptions) => {
-        return await super.create("file", updatedOptions);
+        return super.create("file", updatedOptions);
       }
     );
   }
@@ -1338,7 +1338,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       options,
       async (updatedOptions) => {
         const size = (await fsStat(filePath)).size;
-        return await this.uploadSeekableInternal(
+        return this.uploadSeekableInternal(
           (offset: number, contentSize: number) => {
             return () =>
               fsCreateReadStream(filePath, {
@@ -1418,7 +1418,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         });
         // append() with empty data would return error, so do not continue
         if (size === 0) {
-          return await createRes;
+          return createRes;
         } else {
           await createRes;
         }
@@ -1467,7 +1467,7 @@ export class DataLakeFileClient extends DataLakePathClient {
             tracingOptions: updatedOptions.tracingOptions,
           });
 
-          return await this.flush(size, {
+          return this.flush(size, {
             abortSignal: options.abortSignal,
             conditions: options.conditions,
             close: options.close,
@@ -1508,7 +1508,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         }
         await batch.do();
 
-        return await this.flush(size, {
+        return this.flush(size, {
           abortSignal: options.abortSignal,
           conditions: options.conditions,
           close: options.close,
@@ -1600,7 +1600,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         );
         await scheduler.do();
 
-        return await this.flush(transferProgress, {
+        return this.flush(transferProgress, {
           abortSignal: options.abortSignal,
           conditions: options.conditions,
           close: options.close,
