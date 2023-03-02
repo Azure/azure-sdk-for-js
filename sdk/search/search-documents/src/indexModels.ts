@@ -743,88 +743,87 @@ export type ExcludedODataTypes = Date | GeographyPoint;
  */
 export type SelectFields<T extends object> = T extends Array<infer Elem>
   ? // Allow selecting fields only from elements which are objects
-    NonNullable<Elem> extends object
-    ? SelectFields<NonNullable<Elem>>
+    Elem extends object
+    ? SelectFields<Elem>
     : never
   : {
       // Only consider string keys
-      [Key in keyof T as Key & string]: NonNullable<T[Key]> extends object
-        ? NonNullable<T[Key]> extends ExcludedODataTypes
-          ? // Excluded, so don't recur
-            Key
-          : SelectFields<NonNullable<T[Key]>> extends infer NextPaths
-          ? // Narrow NextPaths' type for template literal
-            NextPaths extends string
-            ? // Union this key with all the next paths separated with '/'
-              Key | `${Key}/${NextPaths}`
-            : // We didn't infer any nested paths, so just use this key
+      [Key in keyof T]: Key extends string
+        ? NonNullable<T[Key]> extends object
+          ? NonNullable<T[Key]> extends ExcludedODataTypes
+            ? // Excluded, so don't recur
               Key
-          : never
-        : // Not an object, so can't recur
-          Key;
-    }[keyof T & string];
+            : SelectFields<NonNullable<T[Key]>> extends infer NextPaths
+            ? // Narrow NextPaths' type for template literal
+              NextPaths extends string
+              ? // Union this key with all the next paths separated with '/'
+                Key | `${Key}/${NextPaths}`
+              : // We didn't infer any nested paths, so just use this key
+                Key
+            : never
+          : // Not an object, so can't recur
+            Key
+        : never;
+    }[keyof T & string] &
+      // Filter out undefined properties
+      string;
 
 /**
  * Deeply pick fields of T using valid Cognitive Search OData $select
  * paths.
  */
-export type SearchPick<T extends object, Paths extends SelectFields<T>> = [T] extends [never]
-  ? object
-  : // We're going to get a union of individual interfaces for each field in T that's selected, so convert that to an intersection.
-    UnionToIntersection<
-      // Paths is a union or single string type, so if it's a union it will be _distributed_ over this conditional.
-      // Fortunately, template literal types are not greedy, so we can infer the field name easily.
-      Paths extends `${infer FieldName}/${infer RestPaths}`
-        ? // Symbols and numbers are invalid types for field names
-          FieldName extends keyof T & string
-          ? NonNullable<T[FieldName]> extends Array<infer Elem>
-            ? Elem extends object
-              ? // Extends clause is necessary to refine the constraint of RestPaths
-                RestPaths extends SelectFields<Elem>
-                ? // Narrow the type of every element in the array
-                  {
-                    [Key in FieldName]:
-                      | Array<SearchPick<Elem, RestPaths> | Extract<Elem, null | undefined>>
-                      | Extract<T[Key], undefined>;
-                  }
-                : // Unreachable by construction
-                  never
-              : // Don't recur on arrays of non-object types
-                never
-            : NonNullable<T[FieldName]> extends object
-            ? // Recur :)
-              {
-                [Key in FieldName]: RestPaths extends SelectFields<
-                  T[Key] & {
-                    // This empty intersection fixes `NonNullable<T[K]>` not being narrowed to an object type in older versions of TS
-                  }
-                >
-                  ?
-                      | SearchPick<
-                          T[Key] & {
-                            // Ditto
-                          },
-                          RestPaths
-                        >
-                      | Extract<T[Key], null | undefined>
+export type SearchPick<T extends object, Paths extends SelectFields<T>> =
+  // The default behavior of a client with no model is to return an object type
+  [T] extends [never]
+    ? object
+    : // We're going to get a union of individual interfaces for each field in T that's selected, so convert that to an intersection.
+      UnionToIntersection<
+        // Paths is a union or single string type, so if it's a union it will be _distributed_ over this conditional.
+        // Fortunately, template literal types are not greedy, so we can infer the field name easily.
+        Paths extends `${infer FieldName}/${infer RestPaths}`
+          ? // Symbols and numbers are invalid types for field names
+            FieldName extends keyof T & string
+            ? NonNullable<T[FieldName]> extends Array<infer Elem>
+              ? Elem extends object
+                ? // Extends clause is necessary to refine the constraint of RestPaths
+                  RestPaths extends SelectFields<Elem>
+                  ? // Narrow the type of every element in the array
+                    {
+                      [Key in keyof T as Key & FieldName]: Array<SearchPick<Elem, RestPaths>>;
+                    }
                   : // Unreachable by construction
-                    never;
-              }
-            : // Unreachable by construction
+                    never
+                : // Don't recur on arrays of non-object types
+                  never
+              : NonNullable<T[FieldName]> extends object
+              ? // Recur :)
+                {
+                  [Key in keyof T as Key & FieldName]: RestPaths extends SelectFields<
+                    T[Key] & {
+                      // This empty intersection fixes `T[Key]` not being narrowed to an object type in older versions of TS
+                    }
+                  >
+                    ? SearchPick<
+                        T[Key] & {
+                          // Ditto
+                        },
+                        RestPaths
+                      >
+                    : // Unreachable by construction
+                      never;
+                }
+              : // Unreachable by construction
+                never
+            : // Ignore symbols and numbers
               never
-          : // Ignore symbols and numbers
-            never
-        : // Otherwise, capture the paths that are simple keys of T itself
-        Paths extends keyof T
-        ? { [Key in Paths]: T[Key] }
-        : // Unreachable by construction
-          never
-    > & {
-      // This useless intersection actually prevents the TypeScript language server from
-      // expanding the definition of SearchPick<T, Paths> in IntelliSense. Since we're
-      // sure the type always yields an object, this intersection does not alter the type
-      // at all, only the display string of the type.
-    };
+          : // Otherwise, capture the paths that are simple keys of T itself
+            Pick<T, Paths>
+      > & {
+        // This useless intersection actually prevents the TypeScript language server from
+        // expanding the definition of SearchPick<T, Paths> in IntelliSense. Since we're
+        // sure the type always yields an object, this intersection does not alter the type
+        // at all, only the display string of the type.
+      };
 
 export type ExtractDocumentKey<Model> = {
   [K in keyof Model as Model[K] extends string | undefined ? K : never]: Model[K];
