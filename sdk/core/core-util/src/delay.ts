@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { createAbortablePromise } from "./createAbortablePromise";
 
 const StandardAbortMessage = "The delay was aborted.";
 
@@ -17,58 +18,6 @@ export interface DelayOptions {
    * The abort error message associated with containing operation.
    */
   abortErrorMsg?: string;
-}
-
-/**
- * Creates an abortable promise.
- * @param buildPromise - A function that takes the resolve and reject functions as parameters.
- * @param options - The options for the abortable promise.
- * @returns A promise that can be aborted.
- * @internal
- */
-export function createAbortablePromise<T>(
-  buildPromise: (
-    resolve: (value: T | PromiseLike<T>) => void,
-    reject: (reason?: any) => void
-  ) => void,
-  options?: {
-    cleanupBeforeAbort?: () => void;
-    abortSignal?: AbortSignalLike;
-    abortErrorMsg?: string;
-  }
-): Promise<T> {
-  const { cleanupBeforeAbort, abortSignal, abortErrorMsg } = options ?? {};
-  return new Promise((resolve, reject) => {
-    function rejectOnAbort(): void {
-      reject(new AbortError(abortErrorMsg ?? "The operation was aborted."));
-    }
-    function removeListeners(): void {
-      abortSignal?.removeEventListener("abort", onAbort);
-    }
-    function onAbort(): void {
-      cleanupBeforeAbort?.();
-      removeListeners();
-      rejectOnAbort();
-    }
-    if (abortSignal?.aborted) {
-      return rejectOnAbort();
-    }
-    try {
-      buildPromise(
-        (x) => {
-          removeListeners();
-          resolve(x);
-        },
-        (x) => {
-          removeListeners();
-          reject(x);
-        }
-      );
-    } catch (err) {
-      reject(err);
-    }
-    abortSignal?.addEventListener("abort", onAbort);
-  });
 }
 
 /**
