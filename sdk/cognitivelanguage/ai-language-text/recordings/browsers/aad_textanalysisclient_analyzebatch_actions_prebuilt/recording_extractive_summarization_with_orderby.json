@@ -18,9 +18,9 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "5ff14499-1817-4f44-8976-e7693c634580",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
+        "x-ms-client-request-id": "201ce2d8-6675-495f-b06e-737eae8d6a77",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.2 core-rest-pipeline/1.10.2 OS"
       },
       "RequestBody": {
         "analysisInput": {
@@ -48,19 +48,19 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "96fdacf3-502b-4fdb-be06-1a6b9a334522",
+        "apim-request-id": "b92c6608-c493-4fd0-983c-052d7c229bac",
         "Content-Length": "0",
-        "Date": "Tue, 01 Nov 2022 23:03:30 GMT",
-        "operation-location": "https://endpoint/language/analyze-text/jobs/868cfed4-399b-4433-b0fa-cd49224bf8a2?api-version=2022-10-01-preview",
+        "Date": "Thu, 02 Mar 2023 23:37:54 GMT",
+        "operation-location": "https://endpoint/language/analyze-text/jobs/c9ff8817-5977-47dc-a3c6-7ada428f37aa?api-version=2022-10-01-preview",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "193",
+        "x-envoy-upstream-service-time": "260",
         "x-ms-region": "East US"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/868cfed4-399b-4433-b0fa-cd49224bf8a2?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/c9ff8817-5977-47dc-a3c6-7ada428f37aa?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -75,124 +75,28 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "3f0599f0-6ddf-44d9-b82e-f58c3b0f57f2",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
+        "x-ms-client-request-id": "59d7b036-9821-4584-96ee-946de7a031a9",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.2 core-rest-pipeline/1.10.2 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "6465a83b-027d-4f38-9a52-fa80cda652ca",
-        "Content-Length": "279",
+        "apim-request-id": "c9870b33-eff8-4570-98ee-d49565a305b4",
+        "Content-Length": "283",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 01 Nov 2022 23:03:30 GMT",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "12",
-        "x-ms-region": "East US"
-      },
-      "ResponseBody": {
-        "jobId": "868cfed4-399b-4433-b0fa-cd49224bf8a2",
-        "lastUpdateDateTime": "2022-11-01T23:03:31Z",
-        "createdDateTime": "2022-11-01T23:03:31Z",
-        "expirationDateTime": "2022-11-02T23:03:31Z",
-        "status": "running",
-        "errors": [],
-        "tasks": {
-          "completed": 0,
-          "failed": 0,
-          "inProgress": 1,
-          "total": 1,
-          "items": []
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/868cfed4-399b-4433-b0fa-cd49224bf8a2?api-version=2022-10-01-preview",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "c78b906e-28ed-4cf9-b73e-1804fbde57ae",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "apim-request-id": "3663342b-f341-4585-8572-5c11930f8fcb",
-        "Content-Length": "279",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 01 Nov 2022 23:03:30 GMT",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "12",
-        "x-ms-region": "East US"
-      },
-      "ResponseBody": {
-        "jobId": "868cfed4-399b-4433-b0fa-cd49224bf8a2",
-        "lastUpdateDateTime": "2022-11-01T23:03:31Z",
-        "createdDateTime": "2022-11-01T23:03:31Z",
-        "expirationDateTime": "2022-11-02T23:03:31Z",
-        "status": "running",
-        "errors": [],
-        "tasks": {
-          "completed": 0,
-          "failed": 0,
-          "inProgress": 1,
-          "total": 1,
-          "items": []
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/868cfed4-399b-4433-b0fa-cd49224bf8a2?api-version=2022-10-01-preview",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "6db58bfa-14e7-48de-aa81-9599cc5870ed",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "apim-request-id": "675327ff-9c19-49c7-a4a5-bea577abe151",
-        "Content-Length": "279",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 01 Nov 2022 23:03:33 GMT",
+        "Date": "Thu, 02 Mar 2023 23:37:54 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
         "x-envoy-upstream-service-time": "11",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "868cfed4-399b-4433-b0fa-cd49224bf8a2",
-        "lastUpdateDateTime": "2022-11-01T23:03:31Z",
-        "createdDateTime": "2022-11-01T23:03:31Z",
-        "expirationDateTime": "2022-11-02T23:03:31Z",
-        "status": "running",
+        "jobId": "c9ff8817-5977-47dc-a3c6-7ada428f37aa",
+        "lastUpdatedDateTime": "2023-03-02T23:37:55Z",
+        "createdDateTime": "2023-03-02T23:37:55Z",
+        "expirationDateTime": "2023-03-03T23:37:55Z",
+        "status": "notStarted",
         "errors": [],
         "tasks": {
           "completed": 0,
@@ -204,7 +108,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/868cfed4-399b-4433-b0fa-cd49224bf8a2?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/c9ff8817-5977-47dc-a3c6-7ada428f37aa?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -219,27 +123,123 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "c59c0f17-f45e-4227-93a5-b80deb90e175",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
+        "x-ms-client-request-id": "c49acc69-95fc-46b1-8022-030c355c9b86",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.2 core-rest-pipeline/1.10.2 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "8f36dab1-25c3-4c6c-ab54-6affd95ac0e9",
-        "Content-Length": "2063",
+        "apim-request-id": "860f7962-c65f-4bb9-b2a2-1b76f56a65db",
+        "Content-Length": "280",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 01 Nov 2022 23:03:35 GMT",
+        "Date": "Thu, 02 Mar 2023 23:37:54 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "170",
+        "x-envoy-upstream-service-time": "11",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "868cfed4-399b-4433-b0fa-cd49224bf8a2",
-        "lastUpdateDateTime": "2022-11-01T23:03:36Z",
-        "createdDateTime": "2022-11-01T23:03:31Z",
-        "expirationDateTime": "2022-11-02T23:03:31Z",
+        "jobId": "c9ff8817-5977-47dc-a3c6-7ada428f37aa",
+        "lastUpdatedDateTime": "2023-03-02T23:37:55Z",
+        "createdDateTime": "2023-03-02T23:37:55Z",
+        "expirationDateTime": "2023-03-03T23:37:55Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1,
+          "items": []
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/c9ff8817-5977-47dc-a3c6-7ada428f37aa?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
+        "x-ms-client-request-id": "5acbf8c9-5b7f-4a9b-993a-e49c76649abc",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.2 core-rest-pipeline/1.10.2 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "71321809-7ea5-4186-bd5f-25706f9da38f",
+        "Content-Length": "280",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 02 Mar 2023 23:37:56 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "12",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": {
+        "jobId": "c9ff8817-5977-47dc-a3c6-7ada428f37aa",
+        "lastUpdatedDateTime": "2023-03-02T23:37:55Z",
+        "createdDateTime": "2023-03-02T23:37:55Z",
+        "expirationDateTime": "2023-03-03T23:37:55Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1,
+          "items": []
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/c9ff8817-5977-47dc-a3c6-7ada428f37aa?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
+        "x-ms-client-request-id": "d7e964bd-9b46-4bed-b1d9-d0069bad92c4",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.2 core-rest-pipeline/1.10.2 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "f1cd7518-004b-4ab6-836f-1540e1014a01",
+        "Content-Length": "1985",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 02 Mar 2023 23:37:58 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "63",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": {
+        "jobId": "c9ff8817-5977-47dc-a3c6-7ada428f37aa",
+        "lastUpdatedDateTime": "2023-03-02T23:37:58Z",
+        "createdDateTime": "2023-03-02T23:37:55Z",
+        "expirationDateTime": "2023-03-03T23:37:55Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -250,7 +250,7 @@
           "items": [
             {
               "kind": "ExtractiveSummarizationLROResults",
-              "lastUpdateDateTime": "2022-11-01T23:03:36.1302637Z",
+              "lastUpdateDateTime": "2023-03-02T23:37:58.7600785Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -264,16 +264,16 @@
                         "length": 156
                       },
                       {
-                        "text": "Windows is already accessible in the cloud via Azure Virtual Desktop, which offers customers flexibility to create and run their own virtualization service.",
-                        "rankScore": 0.43,
-                        "offset": 2453,
-                        "length": 156
+                        "text": "Today, low-bandwidth satellite internet service links the people of Nunavut to each other and with the rest of the world.",
+                        "rankScore": 0.96,
+                        "offset": 377,
+                        "length": 121
                       },
                       {
-                        "text": "With Windows 365, she added, IT admins can manage and deploy Cloud PCs using the same tools they use today to manage physical PCs.",
-                        "rankScore": 0.25,
-                        "offset": 3161,
-                        "length": 130
+                        "text": "No roads or rails connect the 39,000 people dispersed across Nunavut, a territory in northeastern Canada that spans three time zones and features fjord-cut isles that stretch into the Arctic Circle off the west coast of Greenland.",
+                        "rankScore": 0.91,
+                        "offset": 10,
+                        "length": 230
                       }
                     ],
                     "warnings": []
@@ -288,23 +288,23 @@
                         "length": 234
                       },
                       {
-                        "text": "In this new world of Windows 365, remote workers flip the lid on their laptop, bootup the family workstation or clip a keyboard onto a tablet, launch a native app or modern web browser and login to their Windows 365 account.",
-                        "rankScore": 0.84,
-                        "offset": 479,
-                        "length": 224
-                      },
-                      {
                         "text": "Windows 365 was in the works before COVID-19 sent companies around the world on a scramble to secure solutions to support employees suddenly forced to work from home, but \u201Cwhat really put the firecracker behind it was the pandemic, it accelerated everything,\u201D McKelvey said.",
-                        "rankScore": 0.79,
+                        "rankScore": 0.95,
                         "offset": 10,
                         "length": 274
+                      },
+                      {
+                        "text": "It enables employees accustomed to working from home to continue working from home;",
+                        "rankScore": 0.89,
+                        "offset": 1337,
+                        "length": 83
                       }
                     ],
                     "warnings": []
                   }
                 ],
                 "errors": [],
-                "modelVersion": "2022-08-31-preview"
+                "modelVersion": "2023-02-01-preview"
               }
             }
           ]
@@ -312,7 +312,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/868cfed4-399b-4433-b0fa-cd49224bf8a2?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/c9ff8817-5977-47dc-a3c6-7ada428f37aa?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -327,27 +327,27 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "aff28023-2004-4053-b284-5c1e10db9d74",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
+        "x-ms-client-request-id": "8b617f9f-cdcb-41c4-824b-794ff6a44338",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.2 core-rest-pipeline/1.10.2 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "fb346f15-899b-4e71-9e99-140a9595eb79",
-        "Content-Length": "2063",
+        "apim-request-id": "6427d46e-1bce-48eb-a446-505f9d08c3ca",
+        "Content-Length": "1985",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 01 Nov 2022 23:03:35 GMT",
+        "Date": "Thu, 02 Mar 2023 23:38:00 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "51",
+        "x-envoy-upstream-service-time": "69",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "868cfed4-399b-4433-b0fa-cd49224bf8a2",
-        "lastUpdateDateTime": "2022-11-01T23:03:36Z",
-        "createdDateTime": "2022-11-01T23:03:31Z",
-        "expirationDateTime": "2022-11-02T23:03:31Z",
+        "jobId": "c9ff8817-5977-47dc-a3c6-7ada428f37aa",
+        "lastUpdatedDateTime": "2023-03-02T23:37:58Z",
+        "createdDateTime": "2023-03-02T23:37:55Z",
+        "expirationDateTime": "2023-03-03T23:37:55Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -358,7 +358,7 @@
           "items": [
             {
               "kind": "ExtractiveSummarizationLROResults",
-              "lastUpdateDateTime": "2022-11-01T23:03:36.1302637Z",
+              "lastUpdateDateTime": "2023-03-02T23:37:58.7600785Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -372,16 +372,16 @@
                         "length": 156
                       },
                       {
-                        "text": "Windows is already accessible in the cloud via Azure Virtual Desktop, which offers customers flexibility to create and run their own virtualization service.",
-                        "rankScore": 0.43,
-                        "offset": 2453,
-                        "length": 156
+                        "text": "Today, low-bandwidth satellite internet service links the people of Nunavut to each other and with the rest of the world.",
+                        "rankScore": 0.96,
+                        "offset": 377,
+                        "length": 121
                       },
                       {
-                        "text": "With Windows 365, she added, IT admins can manage and deploy Cloud PCs using the same tools they use today to manage physical PCs.",
-                        "rankScore": 0.25,
-                        "offset": 3161,
-                        "length": 130
+                        "text": "No roads or rails connect the 39,000 people dispersed across Nunavut, a territory in northeastern Canada that spans three time zones and features fjord-cut isles that stretch into the Arctic Circle off the west coast of Greenland.",
+                        "rankScore": 0.91,
+                        "offset": 10,
+                        "length": 230
                       }
                     ],
                     "warnings": []
@@ -396,23 +396,23 @@
                         "length": 234
                       },
                       {
-                        "text": "In this new world of Windows 365, remote workers flip the lid on their laptop, bootup the family workstation or clip a keyboard onto a tablet, launch a native app or modern web browser and login to their Windows 365 account.",
-                        "rankScore": 0.84,
-                        "offset": 479,
-                        "length": 224
-                      },
-                      {
                         "text": "Windows 365 was in the works before COVID-19 sent companies around the world on a scramble to secure solutions to support employees suddenly forced to work from home, but \u201Cwhat really put the firecracker behind it was the pandemic, it accelerated everything,\u201D McKelvey said.",
-                        "rankScore": 0.79,
+                        "rankScore": 0.95,
                         "offset": 10,
                         "length": 274
+                      },
+                      {
+                        "text": "It enables employees accustomed to working from home to continue working from home;",
+                        "rankScore": 0.89,
+                        "offset": 1337,
+                        "length": 83
                       }
                     ],
                     "warnings": []
                   }
                 ],
                 "errors": [],
-                "modelVersion": "2022-08-31-preview"
+                "modelVersion": "2023-02-01-preview"
               }
             }
           ]

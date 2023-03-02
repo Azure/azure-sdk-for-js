@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "11308",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "5a5e5ada-4c97-4af4-91b8-5af1eb3b5e99"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.2 core-rest-pipeline/1.10.2 Node/v19.5.0 OS/(x64-Linux-5.4.0-1103-azure)",
+        "x-ms-client-request-id": "4cd9ce9d-7ef9-4b33-a9bc-e4da21257153"
       },
       "RequestBody": {
         "analysisInput": {
@@ -37,84 +37,45 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "e6df9a45-e6e8-4930-983d-d146a48ca4cc",
+        "apim-request-id": "901870d6-46ee-4986-80c1-9ac5e39a2036",
         "Content-Length": "0",
-        "Date": "Tue, 01 Nov 2022 22:56:22 GMT",
-        "operation-location": "https://endpoint/language/analyze-text/jobs/8e5e9c5b-31e8-4c07-8868-0b3894d4efae?api-version=2022-10-01-preview",
+        "Date": "Thu, 02 Mar 2023 23:36:25 GMT",
+        "operation-location": "https://endpoint/language/analyze-text/jobs/1f9c6bd1-5b64-467b-b61f-5eeb8023d71e?api-version=2022-10-01-preview",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "271",
+        "x-envoy-upstream-service-time": "188",
         "x-ms-region": "East US"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/8e5e9c5b-31e8-4c07-8868-0b3894d4efae?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/1f9c6bd1-5b64-467b-b61f-5eeb8023d71e?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "fe62f23e-a5d2-492d-81d2-67f67c963420"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.2 core-rest-pipeline/1.10.2 Node/v19.5.0 OS/(x64-Linux-5.4.0-1103-azure)",
+        "x-ms-client-request-id": "fcd54ae3-9c54-4cf4-8593-b0eb20c062ac"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "c990bf5c-8115-48b0-8d7c-ce601c75064e",
-        "Content-Length": "282",
+        "apim-request-id": "e7c131db-76eb-48fe-977d-76cd67964e00",
+        "Content-Length": "280",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 01 Nov 2022 22:56:23 GMT",
+        "Date": "Thu, 02 Mar 2023 23:36:25 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "12",
+        "x-envoy-upstream-service-time": "8",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "8e5e9c5b-31e8-4c07-8868-0b3894d4efae",
-        "lastUpdateDateTime": "2022-11-01T22:56:23Z",
-        "createdDateTime": "2022-11-01T22:56:23Z",
-        "expirationDateTime": "2022-11-02T22:56:23Z",
-        "status": "notStarted",
-        "errors": [],
-        "tasks": {
-          "completed": 0,
-          "failed": 0,
-          "inProgress": 1,
-          "total": 1,
-          "items": []
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/8e5e9c5b-31e8-4c07-8868-0b3894d4efae?api-version=2022-10-01-preview",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "49f581ad-a141-4250-8061-9269ae81317c"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "apim-request-id": "37eebe70-43d8-4649-b11b-a4880b024e91",
-        "Content-Length": "279",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 01 Nov 2022 22:56:23 GMT",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "7",
-        "x-ms-region": "East US"
-      },
-      "ResponseBody": {
-        "jobId": "8e5e9c5b-31e8-4c07-8868-0b3894d4efae",
-        "lastUpdateDateTime": "2022-11-01T22:56:23Z",
-        "createdDateTime": "2022-11-01T22:56:23Z",
-        "expirationDateTime": "2022-11-02T22:56:23Z",
+        "jobId": "1f9c6bd1-5b64-467b-b61f-5eeb8023d71e",
+        "lastUpdatedDateTime": "2023-03-02T23:36:25Z",
+        "createdDateTime": "2023-03-02T23:36:25Z",
+        "expirationDateTime": "2023-03-03T23:36:25Z",
         "status": "running",
         "errors": [],
         "tasks": {
@@ -127,72 +88,33 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/8e5e9c5b-31e8-4c07-8868-0b3894d4efae?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/1f9c6bd1-5b64-467b-b61f-5eeb8023d71e?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "c8d761a5-d259-4768-b556-9c24e595abcf"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.2 core-rest-pipeline/1.10.2 Node/v19.5.0 OS/(x64-Linux-5.4.0-1103-azure)",
+        "x-ms-client-request-id": "c124bab1-ed56-4629-9607-7f16828be106"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "ead163da-ec6a-4f29-a333-1a2ca5276e6f",
-        "Content-Length": "279",
+        "apim-request-id": "769f0bee-f0c7-442b-90bf-e1dd268184fb",
+        "Content-Length": "280",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 01 Nov 2022 22:56:25 GMT",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "9",
-        "x-ms-region": "East US"
-      },
-      "ResponseBody": {
-        "jobId": "8e5e9c5b-31e8-4c07-8868-0b3894d4efae",
-        "lastUpdateDateTime": "2022-11-01T22:56:23Z",
-        "createdDateTime": "2022-11-01T22:56:23Z",
-        "expirationDateTime": "2022-11-02T22:56:23Z",
-        "status": "running",
-        "errors": [],
-        "tasks": {
-          "completed": 0,
-          "failed": 0,
-          "inProgress": 1,
-          "total": 1,
-          "items": []
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/8e5e9c5b-31e8-4c07-8868-0b3894d4efae?api-version=2022-10-01-preview",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "d2d7f583-96c1-4079-b23e-d9f622bae797"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "apim-request-id": "66d4d93a-7f14-43c4-9c5e-c4a2547a12bf",
-        "Content-Length": "279",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 01 Nov 2022 22:56:27 GMT",
+        "Date": "Thu, 02 Mar 2023 23:36:25 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
         "x-envoy-upstream-service-time": "10",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "8e5e9c5b-31e8-4c07-8868-0b3894d4efae",
-        "lastUpdateDateTime": "2022-11-01T22:56:27Z",
-        "createdDateTime": "2022-11-01T22:56:23Z",
-        "expirationDateTime": "2022-11-02T22:56:23Z",
+        "jobId": "1f9c6bd1-5b64-467b-b61f-5eeb8023d71e",
+        "lastUpdatedDateTime": "2023-03-02T23:36:25Z",
+        "createdDateTime": "2023-03-02T23:36:25Z",
+        "expirationDateTime": "2023-03-03T23:36:25Z",
         "status": "running",
         "errors": [],
         "tasks": {
@@ -205,33 +127,72 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/8e5e9c5b-31e8-4c07-8868-0b3894d4efae?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/1f9c6bd1-5b64-467b-b61f-5eeb8023d71e?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "7d3c396f-faaf-4201-b0cd-54fe7a241332"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.2 core-rest-pipeline/1.10.2 Node/v19.5.0 OS/(x64-Linux-5.4.0-1103-azure)",
+        "x-ms-client-request-id": "aeaf64ec-ef46-40e3-81ba-aefd3301f22b"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "5c6a7779-8dbe-4f82-8735-57b234f6ff83",
-        "Content-Length": "2063",
+        "apim-request-id": "8b253d1a-fe78-41b4-82c5-35ae9eb6e94f",
+        "Content-Length": "280",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 01 Nov 2022 22:56:29 GMT",
+        "Date": "Thu, 02 Mar 2023 23:36:27 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "55",
+        "x-envoy-upstream-service-time": "11",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "8e5e9c5b-31e8-4c07-8868-0b3894d4efae",
-        "lastUpdateDateTime": "2022-11-01T22:56:28Z",
-        "createdDateTime": "2022-11-01T22:56:23Z",
-        "expirationDateTime": "2022-11-02T22:56:23Z",
+        "jobId": "1f9c6bd1-5b64-467b-b61f-5eeb8023d71e",
+        "lastUpdatedDateTime": "2023-03-02T23:36:27Z",
+        "createdDateTime": "2023-03-02T23:36:25Z",
+        "expirationDateTime": "2023-03-03T23:36:25Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1,
+          "items": []
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/1f9c6bd1-5b64-467b-b61f-5eeb8023d71e?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.2 core-rest-pipeline/1.10.2 Node/v19.5.0 OS/(x64-Linux-5.4.0-1103-azure)",
+        "x-ms-client-request-id": "fa610b93-0567-4523-9c45-d43762df46cc"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "e0085114-dd79-49b7-a77f-e990de89f504",
+        "Content-Length": "1985",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 02 Mar 2023 23:36:29 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "62",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": {
+        "jobId": "1f9c6bd1-5b64-467b-b61f-5eeb8023d71e",
+        "lastUpdatedDateTime": "2023-03-02T23:36:28Z",
+        "createdDateTime": "2023-03-02T23:36:25Z",
+        "expirationDateTime": "2023-03-03T23:36:25Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -242,7 +203,7 @@
           "items": [
             {
               "kind": "ExtractiveSummarizationLROResults",
-              "lastUpdateDateTime": "2022-11-01T22:56:28.7676986Z",
+              "lastUpdateDateTime": "2023-03-02T23:36:28.1736471Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -250,22 +211,22 @@
                     "id": "0",
                     "sentences": [
                       {
-                        "text": "Windows is already accessible in the cloud via Azure Virtual Desktop, which offers customers flexibility to create and run their own virtualization service.",
-                        "rankScore": 0.43,
-                        "offset": 2453,
-                        "length": 156
+                        "text": "No roads or rails connect the 39,000 people dispersed across Nunavut, a territory in northeastern Canada that spans three time zones and features fjord-cut isles that stretch into the Arctic Circle off the west coast of Greenland.",
+                        "rankScore": 0.91,
+                        "offset": 10,
+                        "length": 230
+                      },
+                      {
+                        "text": "Today, low-bandwidth satellite internet service links the people of Nunavut to each other and with the rest of the world.",
+                        "rankScore": 0.96,
+                        "offset": 377,
+                        "length": 121
                       },
                       {
                         "text": "Windows 365 is a new virtualization technology for Windows that is easy to set up and deploy for today\u2019s login-from-anywhere, mobile and elastic workforces.",
                         "rankScore": 1.0,
                         "offset": 2610,
                         "length": 156
-                      },
-                      {
-                        "text": "With Windows 365, she added, IT admins can manage and deploy Cloud PCs using the same tools they use today to manage physical PCs.",
-                        "rankScore": 0.25,
-                        "offset": 3161,
-                        "length": 130
                       }
                     ],
                     "warnings": []
@@ -275,28 +236,28 @@
                     "sentences": [
                       {
                         "text": "Windows 365 was in the works before COVID-19 sent companies around the world on a scramble to secure solutions to support employees suddenly forced to work from home, but \u201Cwhat really put the firecracker behind it was the pandemic, it accelerated everything,\u201D McKelvey said.",
-                        "rankScore": 0.79,
+                        "rankScore": 0.95,
                         "offset": 10,
                         "length": 274
-                      },
-                      {
-                        "text": "In this new world of Windows 365, remote workers flip the lid on their laptop, bootup the family workstation or clip a keyboard onto a tablet, launch a native app or modern web browser and login to their Windows 365 account.",
-                        "rankScore": 0.84,
-                        "offset": 479,
-                        "length": 224
                       },
                       {
                         "text": "The ability to login to a Cloud PC from anywhere on any device is part of Microsoft\u2019s larger strategy around tailoring products such as Microsoft Teams and Microsoft 365 for the post-pandemic hybrid workforce of the future, she added.",
                         "rankScore": 1.0,
                         "offset": 1102,
                         "length": 234
+                      },
+                      {
+                        "text": "It enables employees accustomed to working from home to continue working from home;",
+                        "rankScore": 0.89,
+                        "offset": 1337,
+                        "length": 83
                       }
                     ],
                     "warnings": []
                   }
                 ],
                 "errors": [],
-                "modelVersion": "2022-08-31-preview"
+                "modelVersion": "2023-02-01-preview"
               }
             }
           ]
@@ -304,33 +265,33 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/8e5e9c5b-31e8-4c07-8868-0b3894d4efae?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/1f9c6bd1-5b64-467b-b61f-5eeb8023d71e?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "9836caa8-f7fa-44c6-a4a0-288c4f230b61"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.2 core-rest-pipeline/1.10.2 Node/v19.5.0 OS/(x64-Linux-5.4.0-1103-azure)",
+        "x-ms-client-request-id": "6fa2b180-14a1-4397-9dd8-db881a1e4bc0"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "c11cf040-968a-4354-a4b1-967edb77b67b",
-        "Content-Length": "2063",
+        "apim-request-id": "5214fdbb-3fec-466d-b458-d651e47c9376",
+        "Content-Length": "1985",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 01 Nov 2022 22:56:29 GMT",
+        "Date": "Thu, 02 Mar 2023 23:36:29 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "38",
+        "x-envoy-upstream-service-time": "91",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "8e5e9c5b-31e8-4c07-8868-0b3894d4efae",
-        "lastUpdateDateTime": "2022-11-01T22:56:28Z",
-        "createdDateTime": "2022-11-01T22:56:23Z",
-        "expirationDateTime": "2022-11-02T22:56:23Z",
+        "jobId": "1f9c6bd1-5b64-467b-b61f-5eeb8023d71e",
+        "lastUpdatedDateTime": "2023-03-02T23:36:28Z",
+        "createdDateTime": "2023-03-02T23:36:25Z",
+        "expirationDateTime": "2023-03-03T23:36:25Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -341,7 +302,7 @@
           "items": [
             {
               "kind": "ExtractiveSummarizationLROResults",
-              "lastUpdateDateTime": "2022-11-01T22:56:28.7676986Z",
+              "lastUpdateDateTime": "2023-03-02T23:36:28.1736471Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -349,22 +310,22 @@
                     "id": "0",
                     "sentences": [
                       {
-                        "text": "Windows is already accessible in the cloud via Azure Virtual Desktop, which offers customers flexibility to create and run their own virtualization service.",
-                        "rankScore": 0.43,
-                        "offset": 2453,
-                        "length": 156
+                        "text": "No roads or rails connect the 39,000 people dispersed across Nunavut, a territory in northeastern Canada that spans three time zones and features fjord-cut isles that stretch into the Arctic Circle off the west coast of Greenland.",
+                        "rankScore": 0.91,
+                        "offset": 10,
+                        "length": 230
+                      },
+                      {
+                        "text": "Today, low-bandwidth satellite internet service links the people of Nunavut to each other and with the rest of the world.",
+                        "rankScore": 0.96,
+                        "offset": 377,
+                        "length": 121
                       },
                       {
                         "text": "Windows 365 is a new virtualization technology for Windows that is easy to set up and deploy for today\u2019s login-from-anywhere, mobile and elastic workforces.",
                         "rankScore": 1.0,
                         "offset": 2610,
                         "length": 156
-                      },
-                      {
-                        "text": "With Windows 365, she added, IT admins can manage and deploy Cloud PCs using the same tools they use today to manage physical PCs.",
-                        "rankScore": 0.25,
-                        "offset": 3161,
-                        "length": 130
                       }
                     ],
                     "warnings": []
@@ -374,28 +335,28 @@
                     "sentences": [
                       {
                         "text": "Windows 365 was in the works before COVID-19 sent companies around the world on a scramble to secure solutions to support employees suddenly forced to work from home, but \u201Cwhat really put the firecracker behind it was the pandemic, it accelerated everything,\u201D McKelvey said.",
-                        "rankScore": 0.79,
+                        "rankScore": 0.95,
                         "offset": 10,
                         "length": 274
-                      },
-                      {
-                        "text": "In this new world of Windows 365, remote workers flip the lid on their laptop, bootup the family workstation or clip a keyboard onto a tablet, launch a native app or modern web browser and login to their Windows 365 account.",
-                        "rankScore": 0.84,
-                        "offset": 479,
-                        "length": 224
                       },
                       {
                         "text": "The ability to login to a Cloud PC from anywhere on any device is part of Microsoft\u2019s larger strategy around tailoring products such as Microsoft Teams and Microsoft 365 for the post-pandemic hybrid workforce of the future, she added.",
                         "rankScore": 1.0,
                         "offset": 1102,
                         "length": 234
+                      },
+                      {
+                        "text": "It enables employees accustomed to working from home to continue working from home;",
+                        "rankScore": 0.89,
+                        "offset": 1337,
+                        "length": 83
                       }
                     ],
                     "warnings": []
                   }
                 ],
                 "errors": [],
-                "modelVersion": "2022-08-31-preview"
+                "modelVersion": "2023-02-01-preview"
               }
             }
           ]

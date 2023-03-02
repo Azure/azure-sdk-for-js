@@ -29,6 +29,10 @@ export async function assertActionsResults(
         "confidenceScore",
         "confidenceScores",
         "failedOn",
+        "text",
+        "length",
+        "offset",
+        "rankScore",
         ...excludedAdditionalProps,
       ] as any);
     }

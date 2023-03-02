@@ -369,7 +369,14 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionsResults(await poller.pollUntilDone(), expectation27);
+            
+            const results = await poller.pollUntilDone();
+            for await (const actionResult of results){
+              if (actionResult.kind == "ExtractiveSummarization" && !actionResult.error) {
+                assert.equal(actionResult.results.length, 2, "Expected two results corresponding to the two documents");
+              }
+            }
+            await assertActionsResults(results, expectation27);
           });
 
           it("extractive summarization with maxSentenceCount", async function () {
@@ -387,7 +394,19 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionsResults(await poller.pollUntilDone(), expectation28);
+            const results = await poller.pollUntilDone();
+            for await (const actionResult of results){
+              if (actionResult.kind == "ExtractiveSummarization" && !actionResult.error) {
+                  for (const result of actionResult.results) {
+                    if (!result.error) {
+                      // The max sentence count is 2, so the number of sentences should be 2 or less
+                      assert.isAtMost(result.sentences.length, 2, "Expected maximum 2 sentences");
+                  }
+                }
+              }
+            }
+
+            await assertActionsResults(results, expectation28);
           });
 
           it("extractive summarization with orderBy", async function () {
@@ -405,7 +424,13 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionsResults(await poller.pollUntilDone(), expectation29);
+            const results = await poller.pollUntilDone();
+            for await (const actionResult of results){
+              if (actionResult.kind == "ExtractiveSummarization" && !actionResult.error) {
+                assert.equal(actionResult.results.length, 2, "Expected two results corresponding to the two documents");
+              }
+            }
+            await assertActionsResults(results, expectation29);
           });
 
           it("abstractive summarization", async function () {
