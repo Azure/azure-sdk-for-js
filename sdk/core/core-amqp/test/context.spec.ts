@@ -174,7 +174,7 @@ describe("ConnectionContextBase", function () {
     should.exist(context.connectionLock);
     should.exist(context.negotiateClaimLock);
     const tlsConnectionOptions = context.connection.options as TlsConnectionOptions;
-    tlsConnectionOptions.host!.should.equal("hostname.servicebus.windows.net");
+    tlsConnectionOptions.host!.should.equal("127.0.0.1");
     context.connection.options.hostname!.should.equal("hostname.servicebus.windows.net");
     context.wasConnectionCloseCalled.should.equal(false);
     context.connection.should.instanceOf(Connection);
