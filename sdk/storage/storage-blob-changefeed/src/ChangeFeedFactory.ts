@@ -21,8 +21,7 @@ import { ChunkFactory } from "./ChunkFactory";
 import { AvroReaderFactory } from "./AvroReaderFactory";
 import { Segment } from "./Segment";
 import { BlobChangeFeedListChangesOptions } from "./models/models";
-import { createSpan } from "./utils/tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { tracingClient } from "./utils/tracing";
 import { LazyLoadingBlobStreamFactory } from "./LazyLoadingBlobStreamFactory";
 
 interface MetaSegments {
@@ -75,9 +74,7 @@ export class ChangeFeedFactory {
     continuationToken?: string,
     options: BlobChangeFeedListChangesOptions = {}
   ): Promise<ChangeFeed> {
-    const { span, updatedOptions } = createSpan("ChangeFeedFactory-create", options);
-
-    try {
+    return tracingClient.withSpan("ChangeFeedFactory-create", options, async (updatedOptions) => {
       const containerClient = blobServiceClient.getContainerClient(CHANGE_FEED_CONTAINER_NAME);
       let cursor: ChangeFeedCursor | undefined = undefined;
       // Create cursor.
@@ -180,14 +177,6 @@ export class ChangeFeedFactory {
         options.start,
         options.end
       );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 }

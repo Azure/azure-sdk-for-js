@@ -1,14 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { ContainerClient } from "@azure/storage-blob";
+import {
+  ContainerClient,
+  AnonymousCredential,
+  newPipeline,
+  Pipeline,
+  StoragePipelineOptions,
+} from "@azure/storage-blob";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { SpanStatusCode } from "@azure/core-tracing";
 
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient";
-import { FileSystem } from "./generated/src/operations";
+import { FileSystemOperationsImpl as FileSystem } from "./generated/src/operations";
 import {
   AccessPolicy,
   FileSystemCreateOptions,
@@ -40,14 +45,15 @@ import {
   FileSystemUndeletePathResponse,
   FileSystemUndeletePathOption,
   ListDeletedPathsSegmentOptions,
+  PathUndeleteHeaders,
 } from "./models";
-import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import { toContainerPublicAccessType, toPublicAccessType, toPermissions } from "./transforms";
-import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
+import { createSpan } from "./utils/tracing";
 import {
   appendToURLPath,
   appendToURLQuery,
+  assertResponse,
   EscapePath,
   windowsFileTimeTicksToTime,
 } from "./utils/utils.common";
@@ -600,9 +606,8 @@ export class DataLakeFileSystemClient extends StorageClient {
     try {
       const rawResponse = await this.fileSystemContext.listPaths(options.recursive || false, {
         continuation,
-        ...options,
+        ...updatedOptions,
         upn: options.userPrincipalName,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
 
       const response = rawResponse as FileSystemListPathsResponse;
@@ -752,9 +757,8 @@ export class DataLakeFileSystemClient extends StorageClient {
     try {
       const rawResponse = await this.fileSystemContextToBlobEndpoint.listBlobHierarchySegment({
         marker: continuation,
-        ...options,
+        ...updatedOptions,
         prefix: options.prefix === "" ? undefined : options.prefix,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
 
       const response = rawResponse as FileSystemListDeletedPathsResponse;
@@ -807,11 +811,13 @@ export class DataLakeFileSystemClient extends StorageClient {
         this.pipeline
       );
 
-      const rawResponse = await pathClient.blobPathContext.undelete({
-        undeleteSource: "?" + DeletionIdKey + "=" + deletionId,
-        ...options,
-        tracingOptions: updatedOptions.tracingOptions,
-      });
+      const rawResponse = assertResponse<PathUndeleteHeaders, PathUndeleteHeaders>(
+        await pathClient.blobPathContext.undelete({
+          undeleteSource: "?" + DeletionIdKey + "=" + deletionId,
+          ...options,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
 
       if (rawResponse.resourceType === PathResultTypeConstants.DirectoryResourceType) {
         return {

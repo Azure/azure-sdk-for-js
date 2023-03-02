@@ -7,12 +7,14 @@ import {
   EntityLinkingResult,
   EntityRecognitionResult,
   KeyPhraseExtractionResult,
+  KnownErrorCode,
   LanguageDetectionResult,
   PiiEntityRecognitionResult,
   PiiEntityRecognitionSuccessResult,
   SentimentAnalysisResult,
 } from "../../src/";
 
+const failedOn = undefined as any;
 const modelVersion = undefined as any;
 const completedOn = undefined as any;
 const deploymentName = undefined as any;
@@ -3977,7 +3979,7 @@ export const expectation30: AnalyzeBatchResult[] = [
         id: "0",
         summaries: [
           {
-            text: "Microsoft’s Cloud PC puts Windows in the cloud.\nCloud PCs are easy to set up and deploy for today’s mobile and elastic workforces.\n\nCloud PCs can be accessed through a native app or web browser on any device, from anywhere with an internet connection.",
+            text: "Microsoft is releasing Windows 365, a new operating system that is easy to set up and deploy for today’s login-from- anywhere, mobile and elastic workforces. The Cloud PC is a new virtualization technology for Windows that is easier to set Up and Deploy for today's login. The Cloud PCs are accessible through a native application or web browser on any device, from anywhere with an internet connection.",
             contexts: [{ offset: 0, length: 7519 }],
           },
         ],
@@ -3987,7 +3989,7 @@ export const expectation30: AnalyzeBatchResult[] = [
         id: "1",
         summaries: [
           {
-            text: "Microsoft’s new Cloud PC, Windows 365, is designed for the hybrid workforce.\nThe ability to login to a Cloud PC from anywhere on any device is part of Microsoft’S larger strategy around tailoring products for the post-pandemic hybrid workforce of the future.",
+            text: "Microsoft is rolling out Windows 365 Cloud PCs for employees forced to work from home. The ability to login to a Cloud PC from anywhere on any device is part of a larger strategy around tailoring products such as Microsoft Teams and Microsoft 365 for the post-pandemic hybrid workforce of the future.",
             contexts: [{ offset: 0, length: 3416 }],
           },
         ],
@@ -4007,7 +4009,7 @@ export const expectation31: AnalyzeBatchResult[] = [
         id: "0",
         summaries: [
           {
-            text: "Microsoft’s Cloud PC puts Windows in the cloud.",
+            text: "Microsoft is releasing Windows 365, a new operating system that is easy to set up and deploy for today’s login-from- anywhere, mobile and elastic workforces. The Cloud PC is a new virtualization technology for Windows that is easier to set Up and Deploy for today's login. The Cloud PCs are accessible through a native application or web browser on any device, from anywhere with an internet connection.",
             contexts: [{ offset: 0, length: 7519 }],
           },
         ],
@@ -4017,7 +4019,7 @@ export const expectation31: AnalyzeBatchResult[] = [
         id: "1",
         summaries: [
           {
-            text: "Microsoft’s new Cloud PC, Windows 365, is designed to support a hybrid workforce.",
+            text: "Microsoft is rolling out Windows 365 Cloud PCs for employees forced to work from home. The ability to login to a Cloud PC from anywhere on any device is part of a larger strategy around tailoring products such as Microsoft Teams and Microsoft 365 for the post-pandemic hybrid workforce of the future.",
             contexts: [{ offset: 0, length: 3416 }],
           },
         ],
@@ -7238,5 +7240,36 @@ export const expectation72: LanguageDetectionResult[] = [
     primaryLanguage: { name: "Hindi", iso6391Name: "hi", confidenceScore: 1, script: "Latin" },
     id: "0",
     warnings: [],
+  },
+];
+
+export const expectation73: AnalyzeBatchResult[] = [
+  {
+    kind: "EntityRecognition",
+    error: {
+      code: KnownErrorCode.InvalidRequest,
+      message: "oh my bad",
+    },
+    modelVersion,
+    failedOn,
+  },
+  {
+    kind: "Healthcare",
+    results: [
+      {
+        entities: [],
+        entityRelations: [],
+        id: "0",
+        warnings: [
+          {
+            code: "DocumentTruncated",
+            message:
+              "Document is large and must be split to be processed; relations across splits may not be caught by the model",
+          },
+        ],
+      },
+    ],
+    completedOn,
+    modelVersion,
   },
 ];

@@ -61,6 +61,7 @@
     "types/latest/",
     "types/3.1/",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "repository": "github:Azure/azure-sdk-for-js",
