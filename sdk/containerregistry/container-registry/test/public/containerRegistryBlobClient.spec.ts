@@ -141,7 +141,12 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       }
     });
 
-    it("can download Docker manifest", async () => {
+    it("can download Docker manifest", async function (this: Mocha.Context) {
+      if (isPlaybackMode()) {
+        // Temporarily skip during playback while dealing with recorder issue: https://github.com/Azure/azure-sdk-tools/issues/3015
+        this.skip();
+      }
+
       const helloWorldClient = createBlobClient(
         assertEnvironmentVariable("CONTAINER_REGISTRY_ENDPOINT"),
         "library/hello-world",
