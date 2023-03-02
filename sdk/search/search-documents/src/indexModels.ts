@@ -748,7 +748,7 @@ export type SelectFields<T extends object> = T extends Array<infer Elem>
     : never
   : {
       // Only consider string keys
-      [Key in keyof T & string]: NonNullable<T[Key]> extends object
+      [Key in keyof T as Key & string]: NonNullable<T[Key]> extends object
         ? NonNullable<T[Key]> extends ExcludedODataTypes
           ? // Excluded, so don't recur
             Key
