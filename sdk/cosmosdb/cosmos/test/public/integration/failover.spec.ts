@@ -1,6 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { CosmosClient, PluginOn, CosmosClientOptions, PluginConfig, getEmptyCosmosDiagnostics } from "../../../src";
+import {
+  CosmosClient,
+  PluginOn,
+  CosmosClientOptions,
+  PluginConfig,
+  getEmptyCosmosDiagnostics,
+} from "../../../src";
 import { masterKey } from "../common/_fakeTestSecrets";
 import assert from "assert";
 

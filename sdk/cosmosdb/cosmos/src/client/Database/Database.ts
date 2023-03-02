@@ -105,7 +105,7 @@ export class Database {
       resourceType: ResourceType.database,
       resourceId: id,
       options,
-      diagnosticContext: new CosmosDiagnosticContext()
+      diagnosticContext: new CosmosDiagnosticContext(),
     });
     return new DatabaseResponse(response.result, response.headers, response.code, this);
   }

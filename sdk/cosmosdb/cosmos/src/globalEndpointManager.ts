@@ -127,7 +127,7 @@ export class GlobalEndpointManager {
       });
       this.writeableLocations = response.resource.writableLocations;
       this.readableLocations = response.resource.readableLocations;
-      if(requestContext !== undefined ) {
+      if (requestContext !== undefined) {
         requestContext.diagnosticContext.recordMetaDataQuery(
           response.diagnostics,
           MetadataType.DATABASE_ACCOUNT_LOOKUP
@@ -161,7 +161,7 @@ export class GlobalEndpointManager {
       });
     }
     location = location ? location.databaseAccountEndpoint : this.defaultEndpoint;
-    if(requestContext !== undefined ) {
+    if (requestContext !== undefined) {
       requestContext.diagnosticContext.recordEndpointContactEvent(location);
     }
     return location;

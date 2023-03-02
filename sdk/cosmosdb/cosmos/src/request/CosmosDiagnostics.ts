@@ -59,7 +59,6 @@ export enum MetadataType {
   DATABASE_ACCOUNT_LOOKUP,
 }
 
-
 export type ClientSideRequestStatistics = {
   locationEndpointsContacted: string[];
   retryDiagnostics: RetryDiagnostics;
@@ -112,9 +111,9 @@ export class CosmosDiagnosticContext {
     this.metadataLookups.push(metaDataRequest);
   }
 
-//   public recordSerializationEvent() {}
+  //   public recordSerializationEvent() {}
 
-//   public recordResponse() {}
+  //   public recordResponse() {}
 
   public mergeDiagnostics(diagnostics: CosmosDiagnostics): void {
     diagnostics.clientSideRequestStatistics.locationEndpointsContacted.forEach((endpoint) =>
