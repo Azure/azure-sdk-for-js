@@ -565,17 +565,23 @@ export function isIpEndpointStyle(parsedUrl: URL): boolean {
  */
 export function windowsFileTimeTicksToTime(timeNumber: string | undefined): Date | undefined {
   if (!timeNumber) return undefined;
-  const timeNumberInternal = parseInt(timeNumber!);
-
-  if (timeNumberInternal === 0) return undefined;
-
   // A windows file time is a 64-bit value that represents the number of 100-nanosecond intervals that have elapsed
   // since 12:00 A.M. January 1, 1601 Coordinated Universal Time (UTC).
-  // Date accepts a value that represents miliseconds from 12:00 A.M. January 1, 1970
-  // Here should correct the year number after converting.
-  const date = new Date(timeNumberInternal / 10000);
-  date.setUTCFullYear(date.getUTCFullYear() - 369);
-  return date;
+  // JS Date accepts a value that represents milliseconds from 12:00 A.M. January 1, 1970
+  // So, we'll handle the calculations in milliseconds from here
+
+  // Time in milliseconds since "12:00 A.M. January 1, 1601"
+  const timeElapsed = parseInt(timeNumber.substring(0, timeNumber.length - 4));
+
+  if (timeElapsed === 0) return undefined;
+
+  // Reference - https://stackoverflow.com/a/24188106/4137356
+
+  // Milliseconds calculated relative to "12:00 A.M. January 1, 1970" (will be negative)
+  const initialFrameOfReference = Date.UTC(1601, 0, 1);
+
+  // (TimeAt1601 - TimeAt1970) + (Current - TimeAt1601) = (Current - TimeAt1970)
+  return new Date(initialFrameOfReference + timeElapsed);
 }
 
 export function ensureCpkIfSpecified(cpk: CpkInfo | undefined, isHttps: boolean): void {
