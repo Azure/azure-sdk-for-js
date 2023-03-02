@@ -108,6 +108,19 @@ describe("storageMover test", () => {
         }
       });
     assert.equal(res.name, endpointName);
+
+    const result = await client.endpoints.createOrUpdate(
+      resourceGroup,
+      storageMoverName,
+      endpointName1,
+      {
+        properties: {
+          endpointType: "NfsMount",
+          host: endpointName1,
+          export: ""
+        }
+      });
+    assert.equal(result.name, endpointName1);
   });
 
   it("projects create test", async function () {
@@ -121,17 +134,7 @@ describe("storageMover test", () => {
     assert.equal(res.name, projectName);
   });
 
-  it.skip("jobDefinitions create test", async function () {
-    const result = await client.endpoints.createOrUpdate(
-      resourceGroup,
-      storageMoverName,
-      endpointName1,
-      {
-        properties: {
-          endpointType: "NfsMount",
-        }
-      });
-
+  it("jobDefinitions create test", async function () {
     const res = await client.jobDefinitions.createOrUpdate(
       resourceGroup,
       storageMoverName,
@@ -139,11 +142,11 @@ describe("storageMover test", () => {
       jobDefinitionName,
       {
         description: "Example Job Definition Description",
-        agentName: "migration-agent",
+        agentName: agentName,
         copyMode: "Additive",
         sourceName: endpointName1,
         sourceSubpath: "/",
-        targetName: endpointName1,
+        targetName: endpointName,
         targetSubpath: "/"
       });
     assert.equal(res.name, jobDefinitionName);
@@ -169,7 +172,7 @@ describe("storageMover test", () => {
     assert.equal(res.name, projectName);
   });
 
-  it.skip("jobDefinitions get test", async function () {
+  it("jobDefinitions get test", async function () {
     const res = await client.jobDefinitions.get(resourceGroup, storageMoverName, projectName, jobDefinitionName);
     assert.equal(res.name, jobDefinitionName);
   });
@@ -198,7 +201,7 @@ describe("storageMover test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it.skip("jobDefinitions list test", async function () {
+  it("jobDefinitions list test", async function () {
     const resArray = new Array();
     for await (let item of client.jobDefinitions.list(resourceGroup, storageMoverName, projectName)) {
       resArray.push(item);
@@ -214,7 +217,7 @@ describe("storageMover test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it.skip("jobDefinitions delete test", async function () {
+  it("jobDefinitions delete test", async function () {
     const resArray = new Array();
     const res = await client.jobDefinitions.beginDeleteAndWait(resourceGroup, storageMoverName, projectName, jobDefinitionName)
     for await (let item of client.jobDefinitions.list(resourceGroup, storageMoverName, projectName)) {

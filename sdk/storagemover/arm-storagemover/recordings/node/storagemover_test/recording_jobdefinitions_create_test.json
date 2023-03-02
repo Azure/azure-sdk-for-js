@@ -1,0 +1,76 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.StorageMover/storageMovers/storageMoverName/projects/testendproject/jobDefinitions/testjobDefinition?api-version=2023-03-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "210",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-storagemover/1.0.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "4b831a4f-3fc1-47c4-a631-3cf27586a04d"
+      },
+      "RequestBody": {
+        "properties": {
+          "description": "Example Job Definition Description",
+          "copyMode": "Additive",
+          "sourceName": "testendpoint1",
+          "sourceSubpath": "/",
+          "targetName": "testendpoint",
+          "targetSubpath": "/",
+          "agentName": "testagent"
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 02 Mar 2023 09:27:57 GMT",
+        "ETag": "\u0022000016b2-0000-0100-0000-64006c1c0000\u0022",
+        "Expires": "-1",
+        "mise-correlation-id": "f5e9f389-1a0a-47fc-bb55-4a2a13b8c3aa",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "81ef2123-7eba-4531-89f1-4616f62aec45",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-writes": "1197",
+        "x-ms-request-id": "44c60894-9771-439f-b4b4-32342a452bf1",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230302T092757Z:81ef2123-7eba-4531-89f1-4616f62aec45"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.StorageMover/storageMovers/storageMoverName/projects/testendproject/jobDefinitions/testjobDefinition",
+        "name": "testjobDefinition",
+        "type": "microsoft.storagemover/storagemovers/projects/jobdefinitions",
+        "systemData": {
+          "createdBy": "azure_client_id",
+          "createdByType": "Application",
+          "createdAt": "2023-03-02T09:27:56.0984618Z",
+          "lastModifiedBy": "azure_client_id",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2023-03-02T09:27:56.0984618Z"
+        },
+        "properties": {
+          "copyMode": "Additive",
+          "sourceName": "testendpoint1",
+          "sourceResourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.StorageMover/storageMovers/storageMoverName/endpoints/testendpoint1",
+          "sourceSubpath": "/",
+          "targetName": "testendpoint",
+          "targetResourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.StorageMover/storageMovers/storageMoverName/endpoints/testendpoint",
+          "targetSubpath": "/",
+          "agentName": "testagent",
+          "agentResourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.StorageMover/storageMovers/storageMoverName/agents/testagent",
+          "description": "Example Job Definition Description",
+          "provisioningState": "Succeeded"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
