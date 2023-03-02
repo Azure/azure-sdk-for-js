@@ -6,15 +6,17 @@ import { Context } from "mocha";
 
 import { SipRoutingClient } from "../../../src";
 
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { SipDomain, SipTrunk } from "../../../src/models";
 import {
   createRecordedClient,
   createRecordedClientWithToken,
   getUniqueDomain,
   resetUniqueDomains,
-  clearSipConfiguration,
   listAllDomains,
+  clearSipConfiguration,
+  getUniqueFqdn,
+  resetUniqueFqdns,
 } from "./utils/recordedClient";
 import { matrix } from "@azure/test-utils";
 
@@ -25,7 +27,6 @@ matrix([[true, false]], async function (useAad) {
     let firstDomain = "";
     let secondDomain = "";
 
-    // to be removed once API is finished
     before(async function () {
       console.log("SipRoutingClient - delete domain");
 
@@ -46,39 +47,40 @@ matrix([[true, false]], async function (useAad) {
       if (!this.currentTest?.isPending()) {
         await recorder.stop();
       }
+      resetUniqueFqdns()
       resetUniqueDomains();
     });
 
     it("can delete an existing domain", async () => {
       const domain: SipDomain = {
         domainName: firstDomain,
-        enabled: true,
+        enabled: false,
       };
 
       await client.setDomain(domain);
       await client.deleteDomain(firstDomain);
-      assert.exists(
+      assert.notExists(
         (await listAllDomains(client)).find((value) => value.domainName === domain.domainName)
       );
     });
 
     it("cannot delete non existing domain but succeeds", async () => {
-      await client.setDomains([]);
-      const storedDomain = await client.deleteDomain("notExisting.fqdn.com");
-      assert.isNotNull(storedDomain);
-      assert.isEmpty(storedDomain);
+      const initialDomains = await listAllDomains(client);
+      await client.deleteDomain("notExisting.fqdn.com");
+      const resultingDomains = await listAllDomains(client);
+      assert.deepEqual(initialDomains,resultingDomains);
     });
 
     it("cannot delete domain if depended trunks exist", async () => {
       const domainName = secondDomain;
       const domain: SipDomain = {
         domainName: domainName,
-        enabled: true,
+        enabled: false,
       };
       const trunk: SipTrunk = {
-        fqdn: generateTrunk(domainName),
+        fqdn: getUniqueFqdn(recorder, domainName),
         sipSignalingPort: 5678,
-        enabled: true,
+        enabled: false,
       };
       await client.setDomain(domain);
       await client.setTrunk(trunk);
@@ -87,7 +89,7 @@ matrix([[true, false]], async function (useAad) {
         await client.deleteDomain(domainName);
       } catch (error: any) {
         assert.equal(error.code, "UnprocessableConfiguration");
-        const storedDomains = await client.listDomains();
+        const storedDomains = await listAllDomains(client);
         assert.isNotNull(storedDomains);
         assert.isArray(storedDomains);
         assert.isNotEmpty(storedDomains);
@@ -97,12 +99,3 @@ matrix([[true, false]], async function (useAad) {
     });
   });
 });
-
-function generateTrunk(domain: string): string {
-  const length = 12;
-  let random = 0;
-  do {
-    random = Math.floor(Math.random() * 10 ** length);
-  } while (random < 10 ** (length - 1));
-  return `${random}.${domain}`;
-}

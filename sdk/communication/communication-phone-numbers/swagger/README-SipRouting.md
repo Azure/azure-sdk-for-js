@@ -11,7 +11,7 @@ package-version: 1.2.0-alpha.20230221.2
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-phonenumber-siprouting-2021-05-01-preview
+tag: package-phonenumber-siprouting-2023-01-01-preview
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/4642bf0933d3cb4f318c2c1bcb4effc210499e33/specification/communication/data-plane/SipRouting/preview/2023-01-01-preview/communicationservicessiprouting.json
 model-date-time-as-string: false
 optional-response-headers: true

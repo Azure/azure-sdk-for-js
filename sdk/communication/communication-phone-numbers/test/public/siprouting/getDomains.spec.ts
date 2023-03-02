@@ -6,15 +6,15 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import { matrix } from "@azure/test-utils";
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { SipDomain, SipRoutingClient } from "../../../src/sipRoutingClient";
 import {
   createRecordedClient,
   createRecordedClientWithToken,
   getUniqueDomain,
   resetUniqueDomains,
-  clearSipConfiguration,
-  listAllDomains
+  listAllDomains,
+  clearSipConfiguration
 } from "./utils/recordedClient";
 
 matrix([[true, false]], async function (useAad) {
@@ -24,7 +24,7 @@ matrix([[true, false]], async function (useAad) {
     let firstDomain = "";
     let secondDomain = "";
     let thirdDomain = "";
-    let forthDomain = "";
+    let fourthDomain = "";
 
     // to be removed once API is finished
     before(async function () {
@@ -42,7 +42,7 @@ matrix([[true, false]], async function (useAad) {
       firstDomain = getUniqueDomain(recorder);
       secondDomain = getUniqueDomain(recorder);
       thirdDomain = getUniqueDomain(recorder);
-      forthDomain = getUniqueDomain(recorder);
+      fourthDomain = getUniqueDomain(recorder);
     });
 
     afterEach(async function (this: Context) {
@@ -52,8 +52,22 @@ matrix([[true, false]], async function (useAad) {
       resetUniqueDomains();
     });
 
-    it("cannot retrieve a not existing domain", async () => {
-      await client.setDomain({ domainName: firstDomain, enabled: true } as SipDomain);
+    it("cannot retrieve nonexisting domain", async () => {
+      try {
+        await client.getDomain(fourthDomain);
+      } catch (error: any) {
+        assert.equal(error.code, "NotFound");
+        return;
+      }
+      assert.fail("NotFound expected.");
+    });
+
+    it("can retrieve domains", async () => {
+      assert.isArray(await listAllDomains(client));
+    });
+
+    it("can retrieve existing domain", async () => {
+      await client.setDomain({ domainName: firstDomain, enabled: false } as SipDomain);
 
       const domain = await client.getDomain(firstDomain);
       if(domain == null){
@@ -61,36 +75,28 @@ matrix([[true, false]], async function (useAad) {
       }
 
       assert.isNotNull(domain);
-      assert.equal(domain?.enabled, true);
+      assert.equal(domain?.enabled, false);
     });
 
     it("can retrieve domains", async () => {
       assert.isArray(await listAllDomains(client));
     });
 
-    it("can retrieve empty domains", async () => {
-      await client.setDomains([]);
-
-      const domains = await listAllDomains(client);
-
-      assert.isNotNull(domains);
-      assert.isArray(domains);
-      assert.isEmpty(domains);
-    });
-
     it("can retrieve not empty domains", async () => {
       const expectedDomains = [
-        { domainName: secondDomain, enabled: true },
-        { domainName: thirdDomain, enabled: true },
-        { domainName: forthDomain, enabled: true },
+        { domainName: secondDomain, enabled: false },
+        { domainName: thirdDomain, enabled: false },
       ];
-      await client.setDomains(expectedDomains);
+      const initialDomains = await listAllDomains(client);
 
-      const domains = await listAllDomains(client);
+      await client.setDomain(expectedDomains[0]);
+      await client.setDomain(expectedDomains[1]);
 
-      assert.isNotNull(domains);
-      assert.isArray(domains);
-      assert.deepEqual(domains, expectedDomains);
+      const resultingDmains = await listAllDomains(client);
+
+      assert.isNotNull(resultingDmains);
+      assert.isArray(resultingDmains);
+      assert.deepEqual(resultingDmains, [...initialDomains, ...expectedDomains]);
     });
   });
 });

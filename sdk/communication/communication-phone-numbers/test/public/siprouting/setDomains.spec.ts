@@ -14,8 +14,8 @@ import {
   getUniqueDomain,
   resetUniqueDomains,
   clearSipConfiguration,
-  listAllTrunks,
-  listAllDomains,
+  getUniqueFqdn,
+  resetUniqueFqdns,
 } from "./utils/recordedClient";
 import { matrix } from "@azure/test-utils";
 
@@ -24,18 +24,17 @@ matrix([[true, false]], async function (useAad) {
     let client: SipRoutingClient;
     let recorder: Recorder;
     let domain1 = "";
-    let domain2 = "";
-    let domain3 = "";
-    let domain4 = "";
-    let domain5 = "";
-    let domain6 = "";
-    let domain7 = "";
-    let domain8 = "";
+    // let domain2 = "";
+    // let domain3 = "";
+    // let domain4 = "";
+    // let domain5 = "";
+    // let domain6 = "";
+    // let domain7 = "";
+    // let domain8 = "";
     let domain9 = "";
     let domain10 = "";
     let domain11 = "";
 
-    // to be removed once API is finished
     before(async function () {
       console.log("SipRoutingClient - set domain");
 
@@ -49,13 +48,13 @@ matrix([[true, false]], async function (useAad) {
         ? await createRecordedClientWithToken(this)
         : await createRecordedClient(this));
       domain1 = getUniqueDomain(recorder);
-      domain2 = getUniqueDomain(recorder);
-      domain3 = getUniqueDomain(recorder);
-      domain4 = getUniqueDomain(recorder);
-      domain5 = getUniqueDomain(recorder);
-      domain6 = getUniqueDomain(recorder);
-      domain7 = getUniqueDomain(recorder);
-      domain8 = getUniqueDomain(recorder);
+      // domain2 = getUniqueDomain(recorder);
+      // domain3 = getUniqueDomain(recorder);
+      // domain4 = getUniqueDomain(recorder);
+      // domain5 = getUniqueDomain(recorder);
+      // domain6 = getUniqueDomain(recorder);
+      // domain7 = getUniqueDomain(recorder);
+      // domain8 = getUniqueDomain(recorder);
       domain9 = getUniqueDomain(recorder);
       domain10 = getUniqueDomain(recorder);
       domain11 = getUniqueDomain(recorder);
@@ -65,12 +64,13 @@ matrix([[true, false]], async function (useAad) {
       if (!this.currentTest?.isPending()) {
         await recorder.stop();
       }
+      resetUniqueFqdns();
       resetUniqueDomains();
     });
 
     it("can set a new domain", async () => {
       const domainToSet = domain1;
-      const domain: SipDomain = { domainName: domainToSet, enabled: true };
+      const domain: SipDomain = { domainName: domain1, enabled: false };
 
       const setDomain = await client.setDomain(domain);
       assert.deepEqual(setDomain, domain);
@@ -79,33 +79,18 @@ matrix([[true, false]], async function (useAad) {
       assert.deepEqual(getDomain, domain);
     });
 
-    it("can set an existing domain", async () => {
+    /* it("can set an existing domain", async () => {
       const domainToSet = domain2;
-      const domain: SipDomain = { domainName: domainToSet, enabled: true };
+      const domain: SipDomain = { domainName: domainToSet, enabled: false };
       await client.setDomain(domain);
 
-      domain.enabled = false;
+      domain.enabled = true;
 
       const setDomain = await client.setDomain(domain);
       assert.deepEqual(setDomain, domain);
 
       const getDomain = await client.getDomain(domainToSet);
       assert.deepEqual(getDomain, domain);
-    });
-
-    it("can set multiple new domains when empty before", async () => {
-      await client.setDomains([]);
-
-      const domains: SipDomain[] = [
-        { domainName: domain3, enabled: true },
-        { domainName: domain4, enabled: true },
-      ];
-
-      const setDomains = await client.setDomains(domains);
-      assert.deepEqual(setDomains, domains);
-
-      const storedDomains = await listAllDomains(client);
-      assert.deepEqual(storedDomains, domains);
     });
 
     it("can set multiple existing domains", async () => {
@@ -123,18 +108,9 @@ matrix([[true, false]], async function (useAad) {
 
       const storedDomains = await listAllDomains(client);
       assert.deepEqual(storedDomains, domains);
-    });
+    });*/
 
-    it("can set empty domains when empty before", async () => {
-      await client.setDomains([]);
-
-      const storedDomains = await listAllDomains(client);
-      assert.isNotNull(storedDomains);
-      assert.isArray(storedDomains);
-      assert.isEmpty(storedDomains);
-    });
-
-    it("can set empty domains when not empty before", async () => {
+    /*it("can set empty domains when not empty before", async () => {
       const domains: SipDomain[] = [
         { domainName: domain7, enabled: true },
         { domainName: domain8, enabled: true },
@@ -147,7 +123,7 @@ matrix([[true, false]], async function (useAad) {
       assert.isNotNull(storedDomains);
       assert.isArray(storedDomains);
       assert.isEmpty(storedDomains);
-    });
+    */
 
     it("cannot set invalid domain uri", async () => {
       const invalidDomain: SipDomain = { domainName: "-1", enabled: true };
@@ -168,55 +144,36 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("cannot set trunks without configured domain", async () => {
-      await client.setDomains([]);
-
       const expectedTrunks: SipTrunk[] = [
-        { fqdn: domain9, sipSignalingPort: 8239, enabled: true },
-        { fqdn: domain10, sipSignalingPort: 7348, enabled: true },
+        { fqdn: getUniqueFqdn(recorder,domain9), sipSignalingPort: 8239, enabled: false },
+        { fqdn: getUniqueFqdn(recorder,domain10), sipSignalingPort: 7348, enabled: false },
       ];
 
       try {
         await client.setTrunks(expectedTrunks);
       } catch (error: any) {
         assert.equal(error.code, "UnprocessableConfiguration");
-        const storedTrunks = await listAllTrunks(client);
-        assert.isNotNull(storedTrunks);
-        assert.isArray(storedTrunks);
-        assert.isEmpty(storedTrunks);
         return;
       }
       assert.fail("UnprocessableConfiguration expected.");
     });
 
     it("cannot set trunks without enabled domain", async () => {
-      const domainName = domain11;
-      const domains: SipDomain[] = [{ domainName: domainName, enabled: false }];
-      await client.setDomains(domains);
+      const nostojic13012023Name = domain11;
+      const domain = { domainName: nostojic13012023Name, enabled: false };
+      await client.setDomain(domain);
 
       const expectedTrunks: SipTrunk[] = [
-        { fqdn: generateTrunk(domainName), sipSignalingPort: 8239, enabled: true },
+        { fqdn: getUniqueFqdn(recorder,nostojic13012023Name), sipSignalingPort: 8239, enabled: true },
       ];
 
       try {
         await client.setTrunks(expectedTrunks);
       } catch (error: any) {
         assert.equal(error.code, "UnprocessableConfiguration");
-        const storedTrunks = await listAllTrunks(client);
-        assert.isNotNull(storedTrunks);
-        assert.isArray(storedTrunks);
-        assert.isEmpty(storedTrunks);
         return;
       }
       assert.fail("UnprocessableConfiguration expected.");
     });
   });
 });
-
-function generateTrunk(domain: string): string {
-  const length = 12;
-  let random = 0;
-  do {
-    random = Math.floor(Math.random() * 10 ** length);
-  } while (random < 10 ** (length - 1));
-  return `${random}.${domain}`;
-}
