@@ -36,7 +36,7 @@ describe("Plugin API", function (this: Mocha.Suite) {
   it("Calling getToken on VisualStudioCodeCredential throws if not initialized", async function () {
     await assertRejects(
       new VisualStudioCodeCredential().getToken("https://graph.microsoft.com/.default"),
-      /No implementation of `VisualStudioCodeCredential`.*@azure\/identity-vscode/
+      /`VisualStudioCodeCredential` has no available implementation.*deprecated/
     );
   });
 });
