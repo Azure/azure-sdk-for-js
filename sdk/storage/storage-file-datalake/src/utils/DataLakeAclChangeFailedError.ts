@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { RestError } from "@azure/core-http";
+import { RestError } from "@azure/core-rest-pipeline";
 
 /**
  * An error thrown when an operation is interrupted and can be continued later on.
