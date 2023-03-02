@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import { EmailRecipients, EmailAttachment, EmailAddress } from "./models";
 
 /**
  * Client options used to configure Email Client API requests.
@@ -31,6 +32,24 @@ export interface PlainTextEmailContent {
   html?: string;
 }
 
+/** Message payload for sending an email */
+export interface EmailMessage {
+  /** Custom email headers to be passed. */
+  headers?: { [propertyName: string]: string };
+  /** Sender email address from a verified domain. */
+  senderAddress: string;
+  /** Email content to be sent. */
+  content: EmailContent;
+  /** Recipients for the email. */
+  recipients: EmailRecipients;
+  /** List of attachments. Please note that we limit the total size of an email request (which includes attachments) to 10MB. */
+  attachments?: EmailAttachment[];
+  /** Email addresses where recipients' replies will be sent to. */
+  replyTo?: EmailAddress[];
+  /** Indicates whether user engagement tracking should be disabled for this request if the resource-level user engagement tracking setting was already enabled in the control plane. */
+  userEngagementTrackingDisabled?: boolean;
+}
+
 /** Optional parameters for the beginSend method. */
 export interface EmailSendOptionalParams extends OperationOptions {
   /** This is the ID used by the status monitor for this long running operation. */
@@ -45,7 +64,6 @@ export {
   EmailRecipients,
   EmailAddress,
   EmailAttachment,
-  EmailMessage,
   EmailSendResponse,
   EmailSendHeaders,
   EmailSendResult,

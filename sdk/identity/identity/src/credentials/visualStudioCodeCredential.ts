@@ -195,8 +195,12 @@ export class VisualStudioCodeCredential implements TokenCredential {
     await this.prepareOnce();
 
     const tenantId =
-      processMultiTenantRequest(this.tenantId, options, this.additionallyAllowedTenantIds) ||
-      this.tenantId;
+      processMultiTenantRequest(
+        this.tenantId,
+        options,
+        this.additionallyAllowedTenantIds,
+        logger
+      ) || this.tenantId;
 
     if (findCredentials === undefined) {
       throw new CredentialUnavailableError(
