@@ -368,6 +368,7 @@ export interface UsernamePasswordCredentialOptions extends MultiTenantTokenCrede
 
 // @public @deprecated
 export class VisualStudioCodeCredential implements TokenCredential {
+    // @deprecated
     constructor(options?: VisualStudioCodeCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
