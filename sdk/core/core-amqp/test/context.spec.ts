@@ -141,6 +141,8 @@ describe("ConnectionContextBase", function () {
     should.exist(context.connectionId);
     should.exist(context.connectionLock);
     should.exist(context.negotiateClaimLock);
+    const tlsConnectionOptions = context.connection.options as TlsConnectionOptions;
+    tlsConnectionOptions.port!.should.equal(5671);
     context.wasConnectionCloseCalled.should.equal(false);
     context.connection.should.instanceOf(Connection);
     context.connection.options.properties!.product.should.equal("MSJSClient");
