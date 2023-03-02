@@ -1,0 +1,60 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.StorageMover/storageMovers/storageMoverName/endpoints?api-version=2023-03-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-storagemover/1.0.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "27541ffe-7a36-4e50-a439-a1d67ddab873"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 02 Mar 2023 08:56:16 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "3decad96-a9fa-48b7-9536-15fec3e215cd",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-reads": "11961",
+        "x-ms-request-id": "62cfb691-dc1b-41d3-9f3f-56d26deb5e24",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230302T085616Z:3decad96-a9fa-48b7-9536-15fec3e215cd"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.StorageMover/storageMovers/storageMoverName/endpoints/testendpoint",
+            "name": "testendpoint",
+            "type": "microsoft.storagemover/storagemovers/endpoints",
+            "systemData": {
+              "createdBy": "azure_client_id",
+              "createdByType": "Application",
+              "createdAt": "2023-03-02T08:56:08.2912487Z",
+              "lastModifiedBy": "azure_client_id",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2023-03-02T08:56:08.2912487Z"
+            },
+            "properties": {
+              "storageAccountResourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/teststorageaccountxxx1",
+              "blobContainerName": "testblob",
+              "endpointType": "AzureStorageBlobContainer",
+              "description": "Example Storage Container Endpoint Description",
+              "provisioningState": "Succeeded"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}
