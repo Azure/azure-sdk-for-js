@@ -29,13 +29,15 @@ async function getAllDetachedReceivedShares(): Promise<InPlaceReceivedShareOutpu
 
   const initialResponse = await client.path("/receivedShares/detached").get();
   const pageData = paginate(client, initialResponse);
-  const result = [];
+
+  const result: InPlaceReceivedShareOutput[] = [];
   for await (const item of pageData) {
-    result.push(item);
+    const receivedShare = item as InPlaceReceivedShareOutput;
+    receivedShare && result.push(receivedShare);
   }
   console.log(result);
 
-  return result as InPlaceReceivedShareOutput[];
+  return result;
 }
 
 /**

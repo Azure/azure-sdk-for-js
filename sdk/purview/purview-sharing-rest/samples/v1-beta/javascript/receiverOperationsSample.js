@@ -19,9 +19,11 @@ async function getAllDetachedReceivedShares() {
 
   const initialResponse = await client.path("/receivedShares/detached").get();
   const pageData = paginate(client, initialResponse);
+
   const result = [];
   for await (const item of pageData) {
-    result.push(item);
+    const receivedShare = item;
+    receivedShare && result.push(receivedShare);
   }
   console.log(result);
 
