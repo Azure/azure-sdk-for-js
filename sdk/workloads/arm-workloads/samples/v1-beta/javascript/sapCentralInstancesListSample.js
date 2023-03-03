@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { WorkloadsClient } = require("@azure/arm-workloads");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
- * This sample demonstrates how to Lists the SAP Central Instances in an SVI.
+ * This sample demonstrates how to Lists the SAP Central Services Instance resource for the given Virtual Instance for SAP solutions resource.
  *
- * @summary Lists the SAP Central Instances in an SVI.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPCentralInstances_List.json
+ * @summary Lists the SAP Central Services Instance resource for the given Virtual Instance for SAP solutions resource.
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPCentralInstances_List.json
  */
 async function sapCentralInstancesList() {
-  const subscriptionId = "6d875e77-e412-4d7d-9af4-8895278b4443";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] || "6d875e77-e412-4d7d-9af4-8895278b4443";
+  const resourceGroupName = process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
   const sapVirtualInstanceName = "X00";
   const credential = new DefaultAzureCredential();
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -33,4 +35,8 @@ async function sapCentralInstancesList() {
   console.log(resArray);
 }
 
-sapCentralInstancesList().catch(console.error);
+async function main() {
+  sapCentralInstancesList();
+}
+
+main().catch(console.error);

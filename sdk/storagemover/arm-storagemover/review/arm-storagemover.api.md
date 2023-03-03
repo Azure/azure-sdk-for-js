@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type ActionType = string;
@@ -44,7 +44,7 @@ export interface AgentPropertiesErrorDetails {
 
 // @public
 export interface Agents {
-    beginDelete(resourceGroupName: string, storageMoverName: string, agentName: string, options?: AgentsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, storageMoverName: string, agentName: string, options?: AgentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, storageMoverName: string, agentName: string, options?: AgentsDeleteOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, storageMoverName: string, agentName: string, agent: Agent, options?: AgentsCreateOrUpdateOptionalParams): Promise<AgentsCreateOrUpdateResponse>;
     get(resourceGroupName: string, storageMoverName: string, agentName: string, options?: AgentsGetOptionalParams): Promise<AgentsGetResponse>;
@@ -152,7 +152,7 @@ export interface EndpointList {
 
 // @public
 export interface Endpoints {
-    beginDelete(resourceGroupName: string, storageMoverName: string, endpointName: string, options?: EndpointsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, storageMoverName: string, endpointName: string, options?: EndpointsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, storageMoverName: string, endpointName: string, options?: EndpointsDeleteOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, storageMoverName: string, endpointName: string, endpoint: Endpoint, options?: EndpointsCreateOrUpdateOptionalParams): Promise<EndpointsCreateOrUpdateResponse>;
     get(resourceGroupName: string, storageMoverName: string, endpointName: string, options?: EndpointsGetOptionalParams): Promise<EndpointsGetResponse>;
@@ -254,7 +254,7 @@ export interface JobDefinitionList {
 
 // @public
 export interface JobDefinitions {
-    beginDelete(resourceGroupName: string, storageMoverName: string, projectName: string, jobDefinitionName: string, options?: JobDefinitionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, storageMoverName: string, projectName: string, jobDefinitionName: string, options?: JobDefinitionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, storageMoverName: string, projectName: string, jobDefinitionName: string, options?: JobDefinitionsDeleteOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, storageMoverName: string, projectName: string, jobDefinitionName: string, jobDefinition: JobDefinition, options?: JobDefinitionsCreateOrUpdateOptionalParams): Promise<JobDefinitionsCreateOrUpdateResponse>;
     get(resourceGroupName: string, storageMoverName: string, projectName: string, jobDefinitionName: string, options?: JobDefinitionsGetOptionalParams): Promise<JobDefinitionsGetResponse>;
@@ -558,7 +558,7 @@ export interface ProjectList {
 
 // @public
 export interface Projects {
-    beginDelete(resourceGroupName: string, storageMoverName: string, projectName: string, options?: ProjectsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, storageMoverName: string, projectName: string, options?: ProjectsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, storageMoverName: string, projectName: string, options?: ProjectsDeleteOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, storageMoverName: string, projectName: string, project: Project, options?: ProjectsCreateOrUpdateOptionalParams): Promise<ProjectsCreateOrUpdateResponse>;
     get(resourceGroupName: string, storageMoverName: string, projectName: string, options?: ProjectsGetOptionalParams): Promise<ProjectsGetResponse>;
@@ -673,7 +673,7 @@ export interface StorageMoverList {
 
 // @public
 export interface StorageMovers {
-    beginDelete(resourceGroupName: string, storageMoverName: string, options?: StorageMoversDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, storageMoverName: string, options?: StorageMoversDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, storageMoverName: string, options?: StorageMoversDeleteOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, storageMoverName: string, storageMover: StorageMover, options?: StorageMoversCreateOrUpdateOptionalParams): Promise<StorageMoversCreateOrUpdateResponse>;
     get(resourceGroupName: string, storageMoverName: string, options?: StorageMoversGetOptionalParams): Promise<StorageMoversGetResponse>;

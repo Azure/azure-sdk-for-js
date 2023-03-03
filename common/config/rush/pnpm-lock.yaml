@@ -1855,22 +1855,6 @@ packages:
     engines: {node: '>=14'}
     dev: false
 
-  /@rollup/plugin-commonjs/21.1.0_rollup@2.79.1:
-    resolution: {integrity: sha512-6ZtHx3VHIp2ReNNDxHjuUml6ur+WcQ28N1yHgCQwsbNkQg2suhxGMDQGJOn/KuDxKtd1xuZP5xSTwBA4GQ8hbA==}
-    engines: {node: '>= 8.0.0'}
-    peerDependencies:
-      rollup: ^2.38.3
-    dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@2.79.1
-      commondir: 1.0.1
-      estree-walker: 2.0.2
-      glob: 7.2.3
-      is-reference: 1.2.1
-      magic-string: 0.25.9
-      resolve: 1.22.1
-      rollup: 2.79.1
-    dev: false
-
   /@rollup/plugin-commonjs/24.0.1_rollup@2.79.1:
     resolution: {integrity: sha512-15LsiWRZk4eOGqvrJyu3z3DaBu5BhXIMeWnijSRvd8irrrg9SHpQ1pH+BUK4H6Z9wL9yOxZJMTLU+Au86XHxow==}
     engines: {node: '>=14.0.0'}
@@ -1904,15 +1888,6 @@ packages:
       rollup: 2.79.1
     dev: false
 
-  /@rollup/plugin-json/4.1.0_rollup@2.79.1:
-    resolution: {integrity: sha512-yfLbTdNS6amI/2OpmbiBoW12vngr5NW2jCJVZSBEz+H5KfUJZ2M7sDjk0U6GOOdCWFVScShte29o9NezJ53TPw==}
-    peerDependencies:
-      rollup: ^1.20.0 || ^2.0.0
-    dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@2.79.1
-      rollup: 2.79.1
-    dev: false
-
   /@rollup/plugin-json/6.0.0_rollup@2.79.1:
     resolution: {integrity: sha512-i/4C5Jrdr1XUarRhVu27EEwjt4GObltD7c+MkCIpO2QIbojw8MUs+CCTqOphQi3Qtg1FLmYt+l+6YeoIf51J7w==}
     engines: {node: '>=14.0.0'}
@@ -1923,17 +1898,6 @@ packages:
         optional: true
     dependencies:
       '@rollup/pluginutils': 5.0.2_rollup@2.79.1
-      rollup: 2.79.1
-    dev: false
-
-  /@rollup/plugin-multi-entry/4.1.0_rollup@2.79.1:
-    resolution: {integrity: sha512-nellK5pr50W0JA2+bDJbG8F79GBP802J40YRoC0wyfpTAeAn5mJ4eaFiB/MN+YoX9hgb/6RJoZl9leDjZnUFKw==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      rollup: ^1.20.0 || ^2.0.0
-    dependencies:
-      '@rollup/plugin-virtual': 2.1.0_rollup@2.79.1
-      matched: 5.0.1
       rollup: 2.79.1
     dev: false
 
@@ -1998,15 +1962,6 @@ packages:
       rollup: 2.79.1
       tslib: 2.5.0
       typescript: 4.8.4
-    dev: false
-
-  /@rollup/plugin-virtual/2.1.0_rollup@2.79.1:
-    resolution: {integrity: sha512-CPPAtlKT53HFqC8jFHb/V5WErpU8Hrq2TyCR0A7kPQMlF2wNUf0o1xuAc+Qxj8NCZM0Z3Yvl+FbUXfJjVWqDwA==}
-    engines: {node: '>=8.0.0'}
-    peerDependencies:
-      rollup: ^1.20.0||^2.0.0
-    dependencies:
-      rollup: 2.79.1
     dev: false
 
   /@rollup/plugin-virtual/3.0.1_rollup@2.79.1:
@@ -6275,12 +6230,6 @@ packages:
       lodash: 4.17.21
     dev: false
 
-  /magic-string/0.25.9:
-    resolution: {integrity: sha512-RmF0AsMzgt25qzqqLc1+MbHmhdx0ojF2Fvs4XnOqz2ZOBXzzkEwc/dJQZCYHAn7v1jbVOjAZfK8msRn4BxO4VQ==}
-    dependencies:
-      sourcemap-codec: 1.4.8
-    dev: false
-
   /magic-string/0.27.0:
     resolution: {integrity: sha512-8UnnX2PeRAPZuN12svgR9j7M1uWMovg/CEnIwIG0LFkXSJJe4PdfUGiTGl8V9bsBHFUtfVINcSyYxd7q+kx9fA==}
     engines: {node: '>=12'}
@@ -8027,11 +7976,6 @@ packages:
   /source-map/0.7.4:
     resolution: {integrity: sha512-l3BikUxvPOcn5E74dZiq5BGsTb5yEwhaTSzccU6t4sDOH8NWJCstKO5QT2CvtFoK6F0saL7p9xHAqHOlCPJygA==}
     engines: {node: '>= 8'}
-    dev: false
-
-  /sourcemap-codec/1.4.8:
-    resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
-    deprecated: Please use @jridgewell/sourcemap-codec instead
     dev: false
 
   /spawn-command/0.0.2-1:
@@ -14811,22 +14755,22 @@ packages:
     dev: false
 
   file:projects/arm-storagemover.tgz:
-    resolution: {integrity: sha512-cXP6J+f3Ey4/lzoizhS4youf3EUBb2Arxa6OEoW32NLr1qTdGVFxsvj570zcr6woAb/fZVNV+RQdyQ3i1pwr5w==, tarball: file:projects/arm-storagemover.tgz}
+    resolution: {integrity: sha512-m1PmBajz4L2+XrvrRgXQnbOh5bkcv3QjfosI1+d8S8Yc/8unkil2btD+E5SMTv40YQI/Wb0Fy3wpP+QvAqGgag==, tarball: file:projects/arm-storagemover.tgz}
     name: '@rush-temp/arm-storagemover'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.34.4_@types+node@14.18.36
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.3
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -15249,29 +15193,30 @@ packages:
     dev: false
 
   file:projects/arm-workloads.tgz:
-    resolution: {integrity: sha512-fsDG26ufc+S/k6gvWO9TtSImJtSVYDDWPyH9QKxL/gJGSwQadcDFA1TM1MNNOvsVvkmM0gtet2yohItGx44aAg==, tarball: file:projects/arm-workloads.tgz}
+    resolution: {integrity: sha512-E81Vz4SF5SrbapEqf6sX+rIjYzVmq91XA1wamsaAFZq0RATBNGwOs2SYlgn33ccBEotnEWMhYIzh7sciZLaNhA==, tarball: file:projects/arm-workloads.tgz}
     name: '@rush-temp/arm-workloads'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.4
+      '@microsoft/api-extractor': 7.34.4_@types+node@14.18.36
       '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
       '@rollup/plugin-json': 6.0.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
       typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
