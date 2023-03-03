@@ -45,7 +45,7 @@ public void CreateTextAnalyticsClient()
 
 ## The JavaScript solution
 
-The Azure SDK for JavaScript will also utilize this pattern where there will be a `snippets` directory under the `test` directory.  The README snippets will reside in the `readme.spec.ts` and will have the following form where the top level `describe` method text is `readme-snippets`, and the subsequent `it` method text would be the snippet to be inserted such as the following for the `template` project.  We would then initialize the client as normal with fallbacks to a sample value if not defined in the `process.env` such as `"<endpoint>"`.
+The Azure SDK utilizes a similar pattern based on a snippet file that is unit-testable. Within each package, all code snippets are authored as unit-tests using the Mocha test framework in a file named **`snippets.spec.ts`**. The snippet file must have the following form, as an example:
 
 ```typescript
 import { DefaultAzureCredential } from "@azure/identity";
