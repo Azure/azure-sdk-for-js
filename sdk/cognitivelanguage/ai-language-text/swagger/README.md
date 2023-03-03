@@ -274,6 +274,11 @@ directive:
       $["x-ms-enum"].name = "WarningCode";
 
   - from: swagger-document
+    where: $.definitions.AnalyzeTextJobsInput.properties
+    transform: >
+      delete $["defaultLanguage"];
+
+  - from: swagger-document
     where: $.definitions.DocumentWarning.properties
     transform: >
       delete $["targetRef"];

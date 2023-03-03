@@ -84,10 +84,6 @@ export interface BeginAnalyzeBatchOptions extends TextAnalysisOperationOptions {
    * The operation's display name.
    */
   displayName?: string;
-  /**
-   * Default language code to use for records requesting automatic language detection
-   */
-  defaultLanguage?: string;
 }
 
 /**
