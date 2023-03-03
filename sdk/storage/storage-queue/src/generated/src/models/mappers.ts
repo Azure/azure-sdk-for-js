@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
-export const QueueServiceProperties: coreHttp.CompositeMapper = {
+export const QueueServiceProperties: coreClient.CompositeMapper = {
   serializedName: "QueueServiceProperties",
   xmlName: "StorageServiceProperties",
   type: {
@@ -58,7 +58,7 @@ export const QueueServiceProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const Logging: coreHttp.CompositeMapper = {
+export const Logging: coreClient.CompositeMapper = {
   serializedName: "Logging",
   type: {
     name: "Composite",
@@ -108,7 +108,7 @@ export const Logging: coreHttp.CompositeMapper = {
   }
 };
 
-export const RetentionPolicy: coreHttp.CompositeMapper = {
+export const RetentionPolicy: coreClient.CompositeMapper = {
   serializedName: "RetentionPolicy",
   type: {
     name: "Composite",
@@ -136,7 +136,7 @@ export const RetentionPolicy: coreHttp.CompositeMapper = {
   }
 };
 
-export const Metrics: coreHttp.CompositeMapper = {
+export const Metrics: coreClient.CompositeMapper = {
   serializedName: "Metrics",
   type: {
     name: "Composite",
@@ -176,7 +176,7 @@ export const Metrics: coreHttp.CompositeMapper = {
   }
 };
 
-export const CorsRule: coreHttp.CompositeMapper = {
+export const CorsRule: coreClient.CompositeMapper = {
   serializedName: "CorsRule",
   type: {
     name: "Composite",
@@ -229,7 +229,7 @@ export const CorsRule: coreHttp.CompositeMapper = {
   }
 };
 
-export const StorageError: coreHttp.CompositeMapper = {
+export const StorageError: coreClient.CompositeMapper = {
   serializedName: "StorageError",
   type: {
     name: "Composite",
@@ -253,7 +253,7 @@ export const StorageError: coreHttp.CompositeMapper = {
   }
 };
 
-export const QueueServiceStatistics: coreHttp.CompositeMapper = {
+export const QueueServiceStatistics: coreClient.CompositeMapper = {
   serializedName: "QueueServiceStatistics",
   xmlName: "StorageServiceStats",
   type: {
@@ -272,7 +272,7 @@ export const QueueServiceStatistics: coreHttp.CompositeMapper = {
   }
 };
 
-export const GeoReplication: coreHttp.CompositeMapper = {
+export const GeoReplication: coreClient.CompositeMapper = {
   serializedName: "GeoReplication",
   type: {
     name: "Composite",
@@ -299,7 +299,7 @@ export const GeoReplication: coreHttp.CompositeMapper = {
   }
 };
 
-export const ListQueuesSegmentResponse: coreHttp.CompositeMapper = {
+export const ListQueuesSegmentResponse: coreClient.CompositeMapper = {
   serializedName: "ListQueuesSegmentResponse",
   xmlName: "EnumerationResults",
   type: {
@@ -365,7 +365,7 @@ export const ListQueuesSegmentResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const QueueItem: coreHttp.CompositeMapper = {
+export const QueueItem: coreClient.CompositeMapper = {
   serializedName: "QueueItem",
   xmlName: "Queue",
   type: {
@@ -392,7 +392,7 @@ export const QueueItem: coreHttp.CompositeMapper = {
   }
 };
 
-export const SignedIdentifier: coreHttp.CompositeMapper = {
+export const SignedIdentifier: coreClient.CompositeMapper = {
   serializedName: "SignedIdentifier",
   type: {
     name: "Composite",
@@ -418,7 +418,7 @@ export const SignedIdentifier: coreHttp.CompositeMapper = {
   }
 };
 
-export const AccessPolicy: coreHttp.CompositeMapper = {
+export const AccessPolicy: coreClient.CompositeMapper = {
   serializedName: "AccessPolicy",
   type: {
     name: "Composite",
@@ -449,7 +449,7 @@ export const AccessPolicy: coreHttp.CompositeMapper = {
   }
 };
 
-export const DequeuedMessageItem: coreHttp.CompositeMapper = {
+export const DequeuedMessageItem: coreClient.CompositeMapper = {
   serializedName: "DequeuedMessageItem",
   xmlName: "QueueMessage",
   xmlIsWrapped: true,
@@ -517,7 +517,7 @@ export const DequeuedMessageItem: coreHttp.CompositeMapper = {
   }
 };
 
-export const QueueMessage: coreHttp.CompositeMapper = {
+export const QueueMessage: coreClient.CompositeMapper = {
   serializedName: "QueueMessage",
   type: {
     name: "Composite",
@@ -535,7 +535,7 @@ export const QueueMessage: coreHttp.CompositeMapper = {
   }
 };
 
-export const EnqueuedMessage: coreHttp.CompositeMapper = {
+export const EnqueuedMessage: coreClient.CompositeMapper = {
   serializedName: "EnqueuedMessage",
   xmlName: "QueueMessage",
   xmlIsWrapped: true,
@@ -587,7 +587,7 @@ export const EnqueuedMessage: coreHttp.CompositeMapper = {
   }
 };
 
-export const PeekedMessageItem: coreHttp.CompositeMapper = {
+export const PeekedMessageItem: coreClient.CompositeMapper = {
   serializedName: "PeekedMessageItem",
   xmlName: "QueueMessage",
   xmlIsWrapped: true,
@@ -639,7 +639,7 @@ export const PeekedMessageItem: coreHttp.CompositeMapper = {
   }
 };
 
-export const ServiceSetPropertiesHeaders: coreHttp.CompositeMapper = {
+export const ServiceSetPropertiesHeaders: coreClient.CompositeMapper = {
   serializedName: "Service_setPropertiesHeaders",
   type: {
     name: "Composite",
@@ -677,7 +677,7 @@ export const ServiceSetPropertiesHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const ServiceSetPropertiesExceptionHeaders: coreHttp.CompositeMapper = {
+export const ServiceSetPropertiesExceptionHeaders: coreClient.CompositeMapper = {
   serializedName: "Service_setPropertiesExceptionHeaders",
   type: {
     name: "Composite",
@@ -701,7 +701,7 @@ export const ServiceSetPropertiesExceptionHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const ServiceGetPropertiesHeaders: coreHttp.CompositeMapper = {
+export const ServiceGetPropertiesHeaders: coreClient.CompositeMapper = {
   serializedName: "Service_getPropertiesHeaders",
   type: {
     name: "Composite",
@@ -739,7 +739,7 @@ export const ServiceGetPropertiesHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const ServiceGetPropertiesExceptionHeaders: coreHttp.CompositeMapper = {
+export const ServiceGetPropertiesExceptionHeaders: coreClient.CompositeMapper = {
   serializedName: "Service_getPropertiesExceptionHeaders",
   type: {
     name: "Composite",
@@ -763,7 +763,7 @@ export const ServiceGetPropertiesExceptionHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const ServiceGetStatisticsHeaders: coreHttp.CompositeMapper = {
+export const ServiceGetStatisticsHeaders: coreClient.CompositeMapper = {
   serializedName: "Service_getStatisticsHeaders",
   type: {
     name: "Composite",
@@ -808,7 +808,7 @@ export const ServiceGetStatisticsHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const ServiceGetStatisticsExceptionHeaders: coreHttp.CompositeMapper = {
+export const ServiceGetStatisticsExceptionHeaders: coreClient.CompositeMapper = {
   serializedName: "Service_getStatisticsExceptionHeaders",
   type: {
     name: "Composite",
@@ -832,7 +832,7 @@ export const ServiceGetStatisticsExceptionHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const ServiceListQueuesSegmentHeaders: coreHttp.CompositeMapper = {
+export const ServiceListQueuesSegmentHeaders: coreClient.CompositeMapper = {
   serializedName: "Service_listQueuesSegmentHeaders",
   type: {
     name: "Composite",
@@ -877,7 +877,7 @@ export const ServiceListQueuesSegmentHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const ServiceListQueuesSegmentExceptionHeaders: coreHttp.CompositeMapper = {
+export const ServiceListQueuesSegmentExceptionHeaders: coreClient.CompositeMapper = {
   serializedName: "Service_listQueuesSegmentExceptionHeaders",
   type: {
     name: "Composite",
@@ -901,7 +901,7 @@ export const ServiceListQueuesSegmentExceptionHeaders: coreHttp.CompositeMapper 
   }
 };
 
-export const QueueCreateHeaders: coreHttp.CompositeMapper = {
+export const QueueCreateHeaders: coreClient.CompositeMapper = {
   serializedName: "Queue_createHeaders",
   type: {
     name: "Composite",
@@ -946,7 +946,7 @@ export const QueueCreateHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const QueueCreateExceptionHeaders: coreHttp.CompositeMapper = {
+export const QueueCreateExceptionHeaders: coreClient.CompositeMapper = {
   serializedName: "Queue_createExceptionHeaders",
   type: {
     name: "Composite",
@@ -970,7 +970,7 @@ export const QueueCreateExceptionHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const QueueDeleteHeaders: coreHttp.CompositeMapper = {
+export const QueueDeleteHeaders: coreClient.CompositeMapper = {
   serializedName: "Queue_deleteHeaders",
   type: {
     name: "Composite",
@@ -1015,7 +1015,7 @@ export const QueueDeleteHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const QueueDeleteExceptionHeaders: coreHttp.CompositeMapper = {
+export const QueueDeleteExceptionHeaders: coreClient.CompositeMapper = {
   serializedName: "Queue_deleteExceptionHeaders",
   type: {
     name: "Composite",
@@ -1039,7 +1039,7 @@ export const QueueDeleteExceptionHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const QueueGetPropertiesHeaders: coreHttp.CompositeMapper = {
+export const QueueGetPropertiesHeaders: coreClient.CompositeMapper = {
   serializedName: "Queue_getPropertiesHeaders",
   type: {
     name: "Composite",
@@ -1047,12 +1047,12 @@ export const QueueGetPropertiesHeaders: coreHttp.CompositeMapper = {
     modelProperties: {
       metadata: {
         serializedName: "x-ms-meta",
+        headerCollectionPrefix: "x-ms-meta-",
         xmlName: "x-ms-meta",
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
-        },
-        headerCollectionPrefix: "x-ms-meta-"
+        }
       },
       approximateMessagesCount: {
         serializedName: "x-ms-approximate-messages-count",
@@ -1100,7 +1100,7 @@ export const QueueGetPropertiesHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const QueueGetPropertiesExceptionHeaders: coreHttp.CompositeMapper = {
+export const QueueGetPropertiesExceptionHeaders: coreClient.CompositeMapper = {
   serializedName: "Queue_getPropertiesExceptionHeaders",
   type: {
     name: "Composite",
@@ -1124,7 +1124,7 @@ export const QueueGetPropertiesExceptionHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const QueueSetMetadataHeaders: coreHttp.CompositeMapper = {
+export const QueueSetMetadataHeaders: coreClient.CompositeMapper = {
   serializedName: "Queue_setMetadataHeaders",
   type: {
     name: "Composite",
@@ -1169,7 +1169,7 @@ export const QueueSetMetadataHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const QueueSetMetadataExceptionHeaders: coreHttp.CompositeMapper = {
+export const QueueSetMetadataExceptionHeaders: coreClient.CompositeMapper = {
   serializedName: "Queue_setMetadataExceptionHeaders",
   type: {
     name: "Composite",
@@ -1193,7 +1193,7 @@ export const QueueSetMetadataExceptionHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const QueueGetAccessPolicyHeaders: coreHttp.CompositeMapper = {
+export const QueueGetAccessPolicyHeaders: coreClient.CompositeMapper = {
   serializedName: "Queue_getAccessPolicyHeaders",
   type: {
     name: "Composite",
@@ -1238,7 +1238,7 @@ export const QueueGetAccessPolicyHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const QueueGetAccessPolicyExceptionHeaders: coreHttp.CompositeMapper = {
+export const QueueGetAccessPolicyExceptionHeaders: coreClient.CompositeMapper = {
   serializedName: "Queue_getAccessPolicyExceptionHeaders",
   type: {
     name: "Composite",
@@ -1262,7 +1262,7 @@ export const QueueGetAccessPolicyExceptionHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const QueueSetAccessPolicyHeaders: coreHttp.CompositeMapper = {
+export const QueueSetAccessPolicyHeaders: coreClient.CompositeMapper = {
   serializedName: "Queue_setAccessPolicyHeaders",
   type: {
     name: "Composite",
@@ -1307,7 +1307,7 @@ export const QueueSetAccessPolicyHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const QueueSetAccessPolicyExceptionHeaders: coreHttp.CompositeMapper = {
+export const QueueSetAccessPolicyExceptionHeaders: coreClient.CompositeMapper = {
   serializedName: "Queue_setAccessPolicyExceptionHeaders",
   type: {
     name: "Composite",
@@ -1331,7 +1331,7 @@ export const QueueSetAccessPolicyExceptionHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const MessagesDequeueHeaders: coreHttp.CompositeMapper = {
+export const MessagesDequeueHeaders: coreClient.CompositeMapper = {
   serializedName: "Messages_dequeueHeaders",
   type: {
     name: "Composite",
@@ -1376,7 +1376,7 @@ export const MessagesDequeueHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const MessagesDequeueExceptionHeaders: coreHttp.CompositeMapper = {
+export const MessagesDequeueExceptionHeaders: coreClient.CompositeMapper = {
   serializedName: "Messages_dequeueExceptionHeaders",
   type: {
     name: "Composite",
@@ -1400,7 +1400,7 @@ export const MessagesDequeueExceptionHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const MessagesClearHeaders: coreHttp.CompositeMapper = {
+export const MessagesClearHeaders: coreClient.CompositeMapper = {
   serializedName: "Messages_clearHeaders",
   type: {
     name: "Composite",
@@ -1445,7 +1445,7 @@ export const MessagesClearHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const MessagesClearExceptionHeaders: coreHttp.CompositeMapper = {
+export const MessagesClearExceptionHeaders: coreClient.CompositeMapper = {
   serializedName: "Messages_clearExceptionHeaders",
   type: {
     name: "Composite",
@@ -1469,7 +1469,7 @@ export const MessagesClearExceptionHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const MessagesEnqueueHeaders: coreHttp.CompositeMapper = {
+export const MessagesEnqueueHeaders: coreClient.CompositeMapper = {
   serializedName: "Messages_enqueueHeaders",
   type: {
     name: "Composite",
@@ -1514,7 +1514,7 @@ export const MessagesEnqueueHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const MessagesEnqueueExceptionHeaders: coreHttp.CompositeMapper = {
+export const MessagesEnqueueExceptionHeaders: coreClient.CompositeMapper = {
   serializedName: "Messages_enqueueExceptionHeaders",
   type: {
     name: "Composite",
@@ -1538,7 +1538,7 @@ export const MessagesEnqueueExceptionHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const MessagesPeekHeaders: coreHttp.CompositeMapper = {
+export const MessagesPeekHeaders: coreClient.CompositeMapper = {
   serializedName: "Messages_peekHeaders",
   type: {
     name: "Composite",
@@ -1583,7 +1583,7 @@ export const MessagesPeekHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const MessagesPeekExceptionHeaders: coreHttp.CompositeMapper = {
+export const MessagesPeekExceptionHeaders: coreClient.CompositeMapper = {
   serializedName: "Messages_peekExceptionHeaders",
   type: {
     name: "Composite",
@@ -1607,7 +1607,7 @@ export const MessagesPeekExceptionHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const MessageIdUpdateHeaders: coreHttp.CompositeMapper = {
+export const MessageIdUpdateHeaders: coreClient.CompositeMapper = {
   serializedName: "MessageId_updateHeaders",
   type: {
     name: "Composite",
@@ -1666,7 +1666,7 @@ export const MessageIdUpdateHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const MessageIdUpdateExceptionHeaders: coreHttp.CompositeMapper = {
+export const MessageIdUpdateExceptionHeaders: coreClient.CompositeMapper = {
   serializedName: "MessageId_updateExceptionHeaders",
   type: {
     name: "Composite",
@@ -1690,7 +1690,7 @@ export const MessageIdUpdateExceptionHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const MessageIdDeleteHeaders: coreHttp.CompositeMapper = {
+export const MessageIdDeleteHeaders: coreClient.CompositeMapper = {
   serializedName: "MessageId_deleteHeaders",
   type: {
     name: "Composite",
@@ -1735,7 +1735,7 @@ export const MessageIdDeleteHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const MessageIdDeleteExceptionHeaders: coreHttp.CompositeMapper = {
+export const MessageIdDeleteExceptionHeaders: coreClient.CompositeMapper = {
   serializedName: "MessageId_deleteExceptionHeaders",
   type: {
     name: "Composite",
