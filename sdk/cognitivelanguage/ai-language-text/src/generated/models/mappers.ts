@@ -1580,6 +1580,7 @@ export const AbstractiveSummary: coreClient.CompositeMapper = {
       },
       contexts: {
         serializedName: "contexts",
+        required: true,
         type: {
           name: "Sequence",
           element: {

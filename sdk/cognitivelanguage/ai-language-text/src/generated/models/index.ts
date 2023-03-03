@@ -568,7 +568,7 @@ export interface AbstractiveSummary {
   /** The text of the summary. */
   text: string;
   /** The context list of the summary. */
-  contexts?: SummaryContext[];
+  contexts: SummaryContext[];
 }
 
 /** The context of the summary. */
