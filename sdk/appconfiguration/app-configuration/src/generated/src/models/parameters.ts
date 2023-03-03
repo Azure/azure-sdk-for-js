@@ -245,11 +245,17 @@ export const select1: OperationQueryParameter = {
 export const status: OperationQueryParameter = {
   parameterPath: ["options", "status"],
   mapper: {
-    serializedName: "Status",
+    serializedName: "status",
     type: {
-      name: "String"
+      name: "Sequence",
+      element: {
+        type: {
+          name: "String"
+        }
+      }
     }
-  }
+  },
+  collectionFormat: "CSV"
 };
 
 export const accept4: OperationParameter = {

@@ -269,7 +269,7 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
 
   /**
    * Updates the state of a key-value snapshot.
-   * @param name The name of the key-value snapshot to delete.
+   * @param name The name of the key-value snapshot to update.
    * @param entity The parameters used to update the snapshot.
    * @param options The options parameters.
    */

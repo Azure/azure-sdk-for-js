@@ -5,6 +5,8 @@ import {
   AppConfigurationClient,
   ConfigurationSetting,
   ConfigurationSettingParam,
+  ConfigurationSettingsFilter,
+  CreateSnapshotResponse,
   Snapshot,
 } from "../../src";
 import { Recorder, delay, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
@@ -20,7 +22,6 @@ import {
 } from "./utils/testHelpers";
 import { Context } from "mocha";
 import { assert } from "chai";
-import { CreateSnapshotResponse } from "../../src/generated/src";
 
 describe("AppConfigurationClient", () => {
   let client: AppConfigurationClient;
@@ -1258,44 +1259,77 @@ describe("AppConfigurationClient", () => {
     let key2: string;
     let snapshot1: Snapshot;
     let snapshot2: Snapshot;
+    let filter1: ConfigurationSettingsFilter;
+    let filter2: ConfigurationSettingsFilter;
     let newSnapshot: CreateSnapshotResponse;
 
-    beforeEach(async () => {
-      key2 = "Samples:key2";
-      key1 = "Samples:key1";
+    before(async () => {
+      key1 = "key1";
+      key2 = "key2";
+      filter1 = {
+        key: key1,
+      };
+      filter2 = {
+        key: key2,
+      };
       snapshot1 = {
-        name: "mySnapshot",
-        filters: [
-          {
-            key: key1,
-          },
-        ],
+        name: "testSnapshot1",
+        retentionPeriod: 0,
+        filters: [filter1],
       };
       snapshot2 = {
-        name: "mySnapshot2",
-        filters: [
-          {
-            key: key2,
-          },
-        ],
+        name: "testSnapshot2",
+        filters: [filter1, filter2],
       };
 
-      // creating a new setting
-      console.log(`Adding in new setting ${key1}`);
+      // creating a new setting for key1
       await client.addConfigurationSetting({ key: key1, value: "value1" });
 
-      // creating a new setting
-      console.log(`Adding in new setting ${key2}`);
+      // creating a new setting for key2
       await client.addConfigurationSetting({ key: key2, value: "value2" });
     });
 
-    describe("createSnapshot", () => {
+    after(async () => {
+      // delete a new setting for key2
+      await client.deleteConfigurationSetting({ key: key1 });
+      // delete a new setting for key2
+      await client.deleteConfigurationSetting({ key: key2 });
+    });
+
+    describe.only("createSnapshot", () => {
       it("create a snapshot", async () => {
         // creating a new snapshot
         newSnapshot = await client.createSnapshot(snapshot1);
-        console.log(`New snapshot object added ${newSnapshot}`);
+        assert.equal(
+          newSnapshot.name,
+          "testSnapshot1",
+          "Unexpected name in result from createSnapshot()."
+        );
+        assert.equal(
+          newSnapshot.retentionPeriod,
+          0,
+          "Unexpected retentionPeriod in result from createSnapshot()."
+        );
+        assert.equal(
+          newSnapshot.filters[0],
+          filter1,
+          "Unexpected filters in result from createSnapshot()."
+        );
+        assert.equal(
+          newSnapshot.filters.length,
+          1,
+          "Unexpected filters in result from createSnapshot()."
+        );
+      });
 
-        await client.getSnapshot(newSnapshot.name);
+      it("service will throw error when try to create a snapshot of the same name", async () => {
+        // creating a new snapshot
+        newSnapshot = await client.createSnapshot(snapshot1);
+        assert.equal(
+          newSnapshot.name,
+          "testSnapshot1",
+          "Unexpected name in result from createSnapshot()."
+        );
       });
     });
     describe("listConfigurationSettings for Snapshot", () => {

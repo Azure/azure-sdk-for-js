@@ -501,7 +501,7 @@ export interface GetKeyValuesOptionalParams
   label?: string;
   /** Used to select what fields are present in the returned resource(s). */
   select?: KeyValueFields[];
-  /** A filter used get key-values for a snapshot. Not valid when used with 'key' and 'label' filters. */
+  /** A filter used get key-values for a snapshot. The value should be the name of the snapshot. Not valid when used with 'key' and 'label' filters. */
   snapshot?: string;
 }
 
@@ -602,7 +602,7 @@ export interface GetSnapshotsOptionalParams
   /** Used to select what fields are present in the returned resource(s). */
   select?: SnapshotFields[];
   /** Used to filter returned snapshots by their status property. */
-  status?: SnapshotStatus;
+  status?: SnapshotStatus[];
 }
 
 /** Contains response data for the getSnapshots operation. */
@@ -786,7 +786,7 @@ export interface GetKeyValuesNextOptionalParams
   label?: string;
   /** Used to select what fields are present in the returned resource(s). */
   select?: KeyValueFields[];
-  /** A filter used get key-values for a snapshot. Not valid when used with 'key' and 'label' filters. */
+  /** A filter used get key-values for a snapshot. The value should be the name of the snapshot. Not valid when used with 'key' and 'label' filters. */
   snapshot?: string;
 }
 
@@ -804,7 +804,7 @@ export interface GetSnapshotsNextOptionalParams
   /** Used to select what fields are present in the returned resource(s). */
   select?: SnapshotFields[];
   /** Used to filter returned snapshots by their status property. */
-  status?: SnapshotStatus;
+  status?: SnapshotStatus[];
 }
 
 /** Contains response data for the getSnapshotsNext operation. */

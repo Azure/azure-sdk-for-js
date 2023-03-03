@@ -12,7 +12,7 @@ add-credentials: false
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://github.com/Azure/azure-rest-api-specs/blob/3751704f5318f1175875c94b66af769db917f2d3/specification/appconfiguration/data-plane/Microsoft.AppConfiguration/preview/2022-11-01-preview/appconfiguration.json
+input-file: https://github.com/Azure/azure-rest-api-specs/blob/248debe72f013a99929f9cf41a0fd0c605188b88/specification/appconfiguration/data-plane/Microsoft.AppConfiguration/preview/2022-11-01-preview/appconfiguration.json
 model-date-time-as-string: false
 optional-response-headers: true
 sample-generation: false
@@ -123,4 +123,3 @@ directive:
       $.required = $.required || [];
       $.required.push('name');
 ```
-

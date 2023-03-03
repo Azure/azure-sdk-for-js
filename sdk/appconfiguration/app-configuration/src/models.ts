@@ -288,7 +288,7 @@ export interface ListSettingsOptions extends OptionalFields {
   labelFilter?: string;
 
   /**
-   * Filters for snapshots. Value of a strin
+   * A filter used get configuration setting for a snapshot. Not valid when used with 'key' and 'label' filters
    */
   snapshotName?: string;
 }
@@ -309,7 +309,7 @@ export interface ListSnapshots extends OptionalSnapshotFields {
   nameFilter?: string;
 
   /** Used to filter returned snapshots by their status property. */
-  statusFilter?: SnapshotStatus;
+  statusFilter?: SnapshotStatus[];
 }
 
 /**

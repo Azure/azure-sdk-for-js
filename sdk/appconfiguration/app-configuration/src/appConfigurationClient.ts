@@ -555,10 +555,7 @@ export class AppConfigurationClient {
    * @param name - The name of the snapshot.
    * @param options - Optional parameters for the request.
    */
-  getSnapshot(
-    name: string,
-    options: GetSnapshotOptions = {}
-  ): Promise<GetSnapshotResponse> {
+  getSnapshot(name: string, options: GetSnapshotOptions = {}): Promise<GetSnapshotResponse> {
     return tracingClient.withSpan(
       "AppConfigurationClient.getSnapshot",
       options,
