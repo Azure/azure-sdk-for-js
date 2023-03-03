@@ -4,7 +4,17 @@
 
 This document specifies how the Azure SDK for JavaScript team verifies README code snippets from each package.  This document covers various solutions to the problem in detail and describes the solution supported by our standard tooling. 
 
-## Unit Tests as Documentation Prior Art
+## Background and motivation
+
+At the time of writing, code snippets in the Azure SDK for JS are not subject to any automated testing, and we rely on human analysis (customers or partner teams) to identify and report malformed or erroneous code snippets. In the past, we have discussed using an off-the-shelf snippet extraction tool, but the Azure SDK for JS architecture introduces some challenges:
+
+1. We present code snippets in plain JavaScript, not TypeScript, but our sources and tests are written in TypeScript.
+2. Our JavaScript snippets must execute cleanly on our minimum-supported Node.js target without requiring further transpilation (for example, with Babel).
+2. We need to support snippets within documentation comments just as well as snippets in README documents.
+
+We therefore require a system that enables us to extract the canonical TypeScript source of a snippet, transpile it to a suitable JavaScript representation, and insert it into target snippet locations in documentation files.
+
+### Prior art: unit-testable snippets in the C# SDK
 
 The Azure SDK for .NET publishes their README documentation snippets as unit tests in a samples directory, for example for [Text Analytics](https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/textanalytics/Azure.AI.TextAnalytics/tests/samples/SampleSnippets.cs).  Each unit test is decorated with a `#region` which is then extracted into the README.  The [Snippet Generator Tool](https://github.com/Azure/azure-sdk-tools/tree/main/tools/snippet-generator/Azure.Sdk.Tools.SnippetGenerator) can be run to extract the snippets into the README.
 
