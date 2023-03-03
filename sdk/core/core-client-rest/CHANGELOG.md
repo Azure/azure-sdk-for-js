@@ -1,14 +1,10 @@
 # Release History
 
-## 1.1.1 (Unreleased)
+## 1.1.1 (2023-03-02)
 
-### Features Added
+### Bug Fixed
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Fix issue where multiple parameters within same path segment are not replaced correctly [24997](https://github.com/Azure/azure-sdk-for-js/pull/24997)
 
 ## 1.1.0 (2023-02-02)
 
