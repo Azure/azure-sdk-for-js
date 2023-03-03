@@ -91,8 +91,7 @@ export const assignmentType: OperationQueryParameter = {
   mapper: {
     serializedName: "assignmentType",
     type: {
-      name: "Enum",
-      allowedValues: ["person", "application"]
+      name: "String"
     }
   }
 };
@@ -120,7 +119,7 @@ export const administrativeDivision: OperationQueryParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-12-01",
+    defaultValue: "2022-12-02-preview2",
     isConstant: true,
     serializedName: "api-version",
     type: {

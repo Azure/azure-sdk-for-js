@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PhoneNumberAreaCode,
   PhoneNumberType,
@@ -101,8 +101,8 @@ export interface PhoneNumbers {
     capabilities: PhoneNumberCapabilities,
     options?: PhoneNumbersSearchAvailablePhoneNumbersOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PhoneNumbersSearchAvailablePhoneNumbersResponse>,
+    SimplePollerLike<
+      OperationState<PhoneNumbersSearchAvailablePhoneNumbersResponse>,
       PhoneNumbersSearchAvailablePhoneNumbersResponse
     >
   >;
@@ -138,8 +138,8 @@ export interface PhoneNumbers {
   beginPurchasePhoneNumbers(
     options?: PhoneNumbersPurchasePhoneNumbersOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PhoneNumbersPurchasePhoneNumbersResponse>,
+    SimplePollerLike<
+      OperationState<PhoneNumbersPurchasePhoneNumbersResponse>,
       PhoneNumbersPurchasePhoneNumbersResponse
     >
   >;
@@ -178,8 +178,8 @@ export interface PhoneNumbers {
     phoneNumber: string,
     options?: PhoneNumbersUpdateCapabilitiesOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PhoneNumbersUpdateCapabilitiesResponse>,
+    SimplePollerLike<
+      OperationState<PhoneNumbersUpdateCapabilitiesResponse>,
       PhoneNumbersUpdateCapabilitiesResponse
     >
   >;
@@ -212,8 +212,8 @@ export interface PhoneNumbers {
     phoneNumber: string,
     options?: PhoneNumbersReleasePhoneNumberOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PhoneNumbersReleasePhoneNumberResponse>,
+    SimplePollerLike<
+      OperationState<PhoneNumbersReleasePhoneNumberResponse>,
       PhoneNumbersReleasePhoneNumberResponse
     >
   >;

@@ -619,6 +619,34 @@ export const PurchasedPhoneNumber: coreClient.CompositeMapper = {
           name: "Composite",
           className: "PhoneNumberCost"
         }
+      },
+      operatorId: {
+        serializedName: "operatorId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      operatorName: {
+        serializedName: "operatorName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      phoneNumberSource: {
+        serializedName: "phoneNumberSource",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      tollFreeVerificationStatus: {
+        serializedName: "tollFreeVerificationStatus",
+        required: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }

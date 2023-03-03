@@ -1,30 +1,31 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/offerings?skip=0\u0026maxPageSize=100\u0026api-version=2022-12-01",
+      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/offerings?skip=0\u0026maxPageSize=100\u0026api-version=2022-12-02-preview2",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.2 Node/v18.13.0 OS/(x64-Linux-5.15.79.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Fri, 06 Jan 2023 17:32:56 GMT"
+        "x-ms-date": "Fri, 03 Mar 2023 17:26:11 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-03-07, 2022-12-01",
+        "api-supported-versions": "2021-03-07, 2022-12-01, 2022-12-02-preview2",
+        "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
+        "Content-Length": "659",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 Jan 2023 17:32:55 GMT",
-        "MS-CV": "qLoPEkCU5EmBFhB6zxAAew.0",
+        "Date": "Fri, 03 Mar 2023 17:26:12 GMT",
+        "MS-CV": "oEGqZtKM3EahWrq/5ECI5w.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0Rlu4YwAAAAANxZknZmQaRp20GhotAdU1TUVYMzBFREdFMDQyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0tC0CZAAAAAB\u002BdCaHl6vSTIfOrWoaXNxoREZXMzBFREdFMTYwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1218ms"
+        "X-Processing-Time": "777ms"
       },
       "ResponseBody": {
         "phoneNumberOfferings": [
