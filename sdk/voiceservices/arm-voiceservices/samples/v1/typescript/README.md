@@ -1,4 +1,4 @@
-# client library samples for TypeScript (Beta)
+# client library samples for TypeScript
 
 These sample programs show how to use the TypeScript client libraries for in some common scenarios.
 
@@ -68,19 +68,19 @@ npx cross-env VOICESERVICES_SUBSCRIPTION_ID="<voiceservices subscription id>" VO
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[communicationsgatewayscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1-beta/typescript/src/communicationsGatewaysCreateOrUpdateSample.ts
-[communicationsgatewaysdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1-beta/typescript/src/communicationsGatewaysDeleteSample.ts
-[communicationsgatewaysgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1-beta/typescript/src/communicationsGatewaysGetSample.ts
-[communicationsgatewayslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1-beta/typescript/src/communicationsGatewaysListByResourceGroupSample.ts
-[communicationsgatewayslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1-beta/typescript/src/communicationsGatewaysListBySubscriptionSample.ts
-[communicationsgatewaysupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1-beta/typescript/src/communicationsGatewaysUpdateSample.ts
-[nameavailabilitychecklocalsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1-beta/typescript/src/nameAvailabilityCheckLocalSample.ts
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1-beta/typescript/src/operationsListSample.ts
-[testlinescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1-beta/typescript/src/testLinesCreateOrUpdateSample.ts
-[testlinesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1-beta/typescript/src/testLinesDeleteSample.ts
-[testlinesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1-beta/typescript/src/testLinesGetSample.ts
-[testlineslistbycommunicationsgatewaysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1-beta/typescript/src/testLinesListByCommunicationsGatewaySample.ts
-[testlinesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1-beta/typescript/src/testLinesUpdateSample.ts
+[communicationsgatewayscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1/typescript/src/communicationsGatewaysCreateOrUpdateSample.ts
+[communicationsgatewaysdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1/typescript/src/communicationsGatewaysDeleteSample.ts
+[communicationsgatewaysgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1/typescript/src/communicationsGatewaysGetSample.ts
+[communicationsgatewayslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1/typescript/src/communicationsGatewaysListByResourceGroupSample.ts
+[communicationsgatewayslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1/typescript/src/communicationsGatewaysListBySubscriptionSample.ts
+[communicationsgatewaysupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1/typescript/src/communicationsGatewaysUpdateSample.ts
+[nameavailabilitychecklocalsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1/typescript/src/nameAvailabilityCheckLocalSample.ts
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1/typescript/src/operationsListSample.ts
+[testlinescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1/typescript/src/testLinesCreateOrUpdateSample.ts
+[testlinesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1/typescript/src/testLinesDeleteSample.ts
+[testlinesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1/typescript/src/testLinesGetSample.ts
+[testlineslistbycommunicationsgatewaysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1/typescript/src/testLinesListByCommunicationsGatewaySample.ts
+[testlinesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1/typescript/src/testLinesUpdateSample.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-voiceservices?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/voiceservices/arm-voiceservices/README.md

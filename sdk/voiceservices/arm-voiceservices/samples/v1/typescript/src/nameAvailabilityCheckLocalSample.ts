@@ -30,7 +30,7 @@ async function checkLocalNameAvailability() {
   const location = "useast";
   const body: CheckNameAvailabilityRequest = {
     name: "myname",
-    type: "Microsoft.VoiceServices/CommunicationsGateway"
+    type: "Microsoft.VoiceServices/CommunicationsGateways"
   };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftVoiceServices(credential, subscriptionId);
