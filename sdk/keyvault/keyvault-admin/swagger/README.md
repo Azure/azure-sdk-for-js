@@ -11,12 +11,12 @@ generate-metadata: false
 add-credentials: false
 license-header: MICROSOFT_MIT_NO_VERSION
 input-file:
-  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/d78681a9d322bbd8d33ecaad7e6aaa2d513513b4/specification/keyvault/data-plane/Microsoft.KeyVault/preview/7.4-preview.1/rbac.json
-  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/d78681a9d322bbd8d33ecaad7e6aaa2d513513b4/specification/keyvault/data-plane/Microsoft.KeyVault/preview/7.4-preview.1/backuprestore.json
-  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/d78681a9d322bbd8d33ecaad7e6aaa2d513513b4/specification/keyvault/data-plane/Microsoft.KeyVault/preview/7.4-preview.1/settings.json
+  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/551275acb80e1f8b39036b79dfc35a8f63b601a7/specification/keyvault/data-plane/Microsoft.KeyVault/stable/7.4/rbac.json
+  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/551275acb80e1f8b39036b79dfc35a8f63b601a7/specification/keyvault/data-plane/Microsoft.KeyVault/stable/7.4/backuprestore.json
+  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/551275acb80e1f8b39036b79dfc35a8f63b601a7/specification/keyvault/data-plane/Microsoft.KeyVault/stable/7.4/settings.json
 output-folder: ../
 source-code-folder-path: ./src/generated
-package-version: 4.4.0-beta.2
+package-version: 4.5.0
 use-extension:
   "@autorest/typescript": "6.0.0-beta.15"
 ```
@@ -78,16 +78,4 @@ directive:
   - rename-operation:
       from: GetSettingValue
       to: GetSetting
-```
-
-### Fix listSettings response based on actual response
-
-See https://github.com/Azure/azure-rest-api-specs/issues/21334
-
-```yaml
-directive:
-  - where-model: SettingsListResult
-    rename-property:
-      from: value
-      to: settings
 ```

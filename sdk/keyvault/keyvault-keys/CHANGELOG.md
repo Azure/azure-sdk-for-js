@@ -1,6 +1,6 @@
 # Release History
 
-## 4.7.0-beta.2 (Unreleased)
+## 4.7.0 (Unreleased)
 
 ### Features Added
 
@@ -15,6 +15,8 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+- `KeyClient` and `CryptographyClient` now support service version 7.4 by default.
 
 ## 4.7.0-beta.1 (2022-11-10)
 
