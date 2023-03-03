@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets a private link resource.
  *
  * @summary Gets a private link resource.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoPrivateLinkResourcesGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoPrivateLinkResourcesGet.json
  */
 async function getsPrivateEndpointConnection() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = "kustorptest";
+  const subscriptionId =
+    process.env["KUSTO_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-123456789098";
+  const resourceGroupName =
+    process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
   const clusterName = "kustoCluster";
   const privateLinkResourceName = "cluster";
   const credential = new DefaultAzureCredential();
@@ -32,4 +38,8 @@ async function getsPrivateEndpointConnection() {
   console.log(result);
 }
 
-getsPrivateEndpointConnection().catch(console.error);
+async function main() {
+  getsPrivateEndpointConnection();
+}
+
+main().catch(console.error);

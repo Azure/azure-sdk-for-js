@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ProviderInstances } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -61,8 +62,16 @@ export class ProviderInstancesImpl implements ProviderInstances {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, monitorName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          monitorName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -70,11 +79,18 @@ export class ProviderInstancesImpl implements ProviderInstances {
   private async *listPagingPage(
     resourceGroupName: string,
     monitorName: string,
-    options?: ProviderInstancesListOptionalParams
+    options?: ProviderInstancesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ProviderInstance[]> {
-    let result = await this._list(resourceGroupName, monitorName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ProviderInstancesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, monitorName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -83,7 +99,9 @@ export class ProviderInstancesImpl implements ProviderInstances {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -309,7 +327,8 @@ export class ProviderInstancesImpl implements ProviderInstances {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -435,7 +454,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.monitorName,
     Parameters.providerInstanceName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -482,7 +501,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

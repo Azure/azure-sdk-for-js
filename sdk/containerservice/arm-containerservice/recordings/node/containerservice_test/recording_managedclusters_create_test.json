@@ -39,7 +39,7 @@
       },
       "StatusCode": 201,
       "ResponseHeaders": {
-        "azure-asyncoperation": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+        "azure-asyncoperation": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
         "Cache-Control": "no-cache",
         "Content-Length": "2369",
         "Content-Type": "application/json",
@@ -55,7 +55,7 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230118T081856Z:822db48f-7886-4808-9ad1-cf411157435a"
       },
       "ResponseBody": {
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz",
+        "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz",
         "location": "eastus",
         "name": "myreourcexyz",
         "type": "Microsoft.ContainerService/ManagedClusters",
@@ -114,9 +114,15 @@
             "dnsServiceIP": "10.0.0.10",
             "dockerBridgeCidr": "172.17.0.1/16",
             "outboundType": "loadBalancer",
-            "podCidrs": ["10.244.0.0/16"],
-            "serviceCidrs": ["10.0.0.0/16"],
-            "ipFamilies": ["IPv4"]
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ]
           },
           "maxAgentPools": 100,
           "securityProfile": {},
@@ -144,7 +150,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -181,7 +187,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -218,7 +224,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -255,7 +261,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -292,7 +298,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -329,7 +335,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -366,7 +372,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -403,7 +409,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -440,7 +446,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -477,7 +483,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -514,7 +520,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -551,7 +557,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -588,7 +594,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -625,7 +631,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -662,7 +668,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -699,7 +705,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -736,7 +742,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -773,7 +779,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -810,7 +816,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -847,7 +853,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -884,7 +890,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -921,7 +927,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -958,7 +964,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -995,7 +1001,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1032,7 +1038,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1069,7 +1075,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1106,7 +1112,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1143,7 +1149,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1180,7 +1186,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1217,7 +1223,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1254,7 +1260,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1291,7 +1297,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1328,7 +1334,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1365,7 +1371,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1402,7 +1408,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1439,7 +1445,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1476,7 +1482,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1513,7 +1519,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1550,7 +1556,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1587,7 +1593,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1624,7 +1630,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1661,7 +1667,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1698,7 +1704,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1735,7 +1741,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1772,7 +1778,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1809,7 +1815,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1846,7 +1852,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1883,7 +1889,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1920,7 +1926,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1957,7 +1963,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1994,7 +2000,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2031,7 +2037,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2068,7 +2074,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2105,7 +2111,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2142,7 +2148,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2179,7 +2185,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2216,7 +2222,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2253,7 +2259,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2290,7 +2296,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2327,7 +2333,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2364,7 +2370,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2401,7 +2407,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2438,7 +2444,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2475,7 +2481,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2512,7 +2518,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2549,7 +2555,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2586,7 +2592,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2623,7 +2629,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2660,7 +2666,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2697,7 +2703,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2734,7 +2740,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2771,7 +2777,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2808,7 +2814,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2845,7 +2851,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2882,7 +2888,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2919,7 +2925,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2956,7 +2962,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2993,7 +2999,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3030,7 +3036,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3067,7 +3073,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3104,7 +3110,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3141,7 +3147,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3178,7 +3184,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3215,7 +3221,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3252,7 +3258,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3289,7 +3295,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3326,7 +3332,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3363,7 +3369,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3400,7 +3406,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3437,7 +3443,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3474,7 +3480,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3511,7 +3517,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3548,7 +3554,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3585,7 +3591,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3622,7 +3628,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3659,7 +3665,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3696,7 +3702,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3733,7 +3739,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3770,7 +3776,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3807,7 +3813,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3844,7 +3850,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3881,7 +3887,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3918,7 +3924,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3955,7 +3961,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3992,7 +3998,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -4029,7 +4035,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -4066,7 +4072,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -4103,7 +4109,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -4140,7 +4146,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -4177,7 +4183,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ContainerService/locations/eastus/operations/366ec6c1-29a9-44df-b967-9090fa0e3f57?api-version=2017-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -4246,7 +4252,7 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230118T082315Z:8e837b4b-cbec-4a3b-a543-5c55c37021c1"
       },
       "ResponseBody": {
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz",
+        "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz",
         "location": "eastus",
         "name": "myreourcexyz",
         "type": "Microsoft.ContainerService/ManagedClusters",
@@ -4300,7 +4306,7 @@
               },
               "effectiveOutboundIPs": [
                 {
-                  "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/MC_myjstest_myreourcexyz_eastus/providers/Microsoft.Network/publicIPAddresses/69178596-d780-4baf-a021-de067c75aa63"
+                  "id": "/subscriptions/azure_subscription_id/resourceGroups/MC_myjstest_myreourcexyz_eastus/providers/Microsoft.Network/publicIPAddresses/69178596-d780-4baf-a021-de067c75aa63"
                 }
               ],
               "backendPoolType": "nodeIPConfiguration"
@@ -4310,9 +4316,15 @@
             "dnsServiceIP": "10.0.0.10",
             "dockerBridgeCidr": "172.17.0.1/16",
             "outboundType": "loadBalancer",
-            "podCidrs": ["10.244.0.0/16"],
-            "serviceCidrs": ["10.0.0.0/16"],
-            "ipFamilies": ["IPv4"]
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ]
           },
           "maxAgentPools": 100,
           "autoScalerProfile": {

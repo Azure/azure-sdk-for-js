@@ -149,6 +149,9 @@ export interface FilteringTag {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface IdentityProperties {
     readonly principalId?: string;
     readonly tenantId?: string;

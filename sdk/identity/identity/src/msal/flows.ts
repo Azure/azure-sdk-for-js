@@ -17,6 +17,7 @@ export interface MsalFlowOptions {
   authorityHost?: string;
   authenticationRecord?: AuthenticationRecord;
   disableAutomaticAuthentication?: boolean;
+  disableInstanceDiscovery?: boolean;
   getAssertion?: () => Promise<string>;
 }
 

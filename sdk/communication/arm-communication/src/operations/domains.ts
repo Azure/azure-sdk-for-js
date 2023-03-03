@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Domains } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,6 +19,7 @@ import {
   DomainResource,
   DomainsListByEmailServiceResourceNextOptionalParams,
   DomainsListByEmailServiceResourceOptionalParams,
+  DomainsListByEmailServiceResourceResponse,
   DomainsGetOptionalParams,
   DomainsGetResponse,
   DomainsCreateOrUpdateOptionalParams,
@@ -26,7 +28,6 @@ import {
   UpdateDomainRequestParameters,
   DomainsUpdateOptionalParams,
   DomainsUpdateResponse,
-  DomainsListByEmailServiceResourceResponse,
   VerificationParameter,
   DomainsInitiateVerificationOptionalParams,
   DomainsInitiateVerificationResponse,
@@ -71,11 +72,15 @@ export class DomainsImpl implements Domains {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByEmailServiceResourcePagingPage(
           resourceGroupName,
           emailServiceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -84,15 +89,22 @@ export class DomainsImpl implements Domains {
   private async *listByEmailServiceResourcePagingPage(
     resourceGroupName: string,
     emailServiceName: string,
-    options?: DomainsListByEmailServiceResourceOptionalParams
+    options?: DomainsListByEmailServiceResourceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DomainResource[]> {
-    let result = await this._listByEmailServiceResource(
-      resourceGroupName,
-      emailServiceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DomainsListByEmailServiceResourceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByEmailServiceResource(
+        resourceGroupName,
+        emailServiceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByEmailServiceResourceNext(
         resourceGroupName,
@@ -101,7 +113,9 @@ export class DomainsImpl implements Domains {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -873,7 +887,6 @@ const listByEmailServiceResourceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { MLTeamAccountManagementClient } from "@azure/arm-machinelearningexperimentation";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes a machine learning workspace.
@@ -18,8 +21,12 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/machinelearningexperimentation/resource-manager/Microsoft.MachineLearningExperimentation/preview/2017-05-01-preview/examples/WorkspaceDelete.json
  */
 async function workspaceDelete() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["MACHINELEARNINGEXPERIMENTATION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["MACHINELEARNINGEXPERIMENTATION_RESOURCE_GROUP"] ||
+    "myResourceGroup";
   const accountName = "myAccount";
   const workspaceName = "testworkspace";
   const credential = new DefaultAzureCredential();
@@ -32,4 +39,8 @@ async function workspaceDelete() {
   console.log(result);
 }
 
-workspaceDelete().catch(console.error);
+async function main() {
+  workspaceDelete();
+}
+
+main().catch(console.error);

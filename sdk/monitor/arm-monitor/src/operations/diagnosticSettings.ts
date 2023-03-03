@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { DiagnosticSettings } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,12 +15,12 @@ import { MonitorClient } from "../monitorClient";
 import {
   DiagnosticSettingsResource,
   DiagnosticSettingsListOptionalParams,
+  DiagnosticSettingsListResponse,
   DiagnosticSettingsGetOptionalParams,
   DiagnosticSettingsGetResponse,
   DiagnosticSettingsCreateOrUpdateOptionalParams,
   DiagnosticSettingsCreateOrUpdateResponse,
-  DiagnosticSettingsDeleteOptionalParams,
-  DiagnosticSettingsListResponse
+  DiagnosticSettingsDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -53,17 +53,22 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceUri, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceUri, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceUri: string,
-    options?: DiagnosticSettingsListOptionalParams
+    options?: DiagnosticSettingsListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<DiagnosticSettingsResource[]> {
-    let result = await this._list(resourceUri, options);
+    let result: DiagnosticSettingsListResponse;
+    result = await this._list(resourceUri, options);
     yield result.value || [];
   }
 

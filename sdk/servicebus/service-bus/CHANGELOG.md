@@ -1,16 +1,20 @@
 # Release History
 
-## 7.7.4 (Unreleased)
+## 7.8.1 (2023-03-07)
+
+### Bugs Fixed
+
+- Pass `skipParsingBodyAsJson` and `skipConvertingDate` options to peek operations. (PR #24950)[https://github.com/Azure/azure-sdk-for-js/pull/24950]
+
+## 7.8.0 (2023-02-07)
 
 ### Features Added
 
-### Breaking Changes
+- Add an option to skip converting Date type into UNIX epoch number for properties in message annotations or application properties. (PR #24539)[https://github.com/Azure/azure-sdk-for-js/pull/24539]
 
 ### Bugs Fixed
 
 - Ensure unique `replyTo` when new link is needed in ManagementClient. (PR #24509)[https://github.com/Azure/azure-sdk-for-js/pull/24509]
-
-### Other Changes
 
 ## 7.7.3 (2022-11-08)
 

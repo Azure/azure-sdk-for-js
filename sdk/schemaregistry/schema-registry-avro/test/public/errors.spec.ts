@@ -9,9 +9,9 @@ import { assertError } from "./utils/assertError";
 import chaiPromises from "chai-as-promised";
 import { createTestRegistry } from "./utils/mockedRegistryClient";
 import { createTestSerializer } from "./utils/mockedSerializer";
-import { isLive } from "./utils/isLive";
 import { testGroup } from "./utils/dummies";
 import { v4 as uuid } from "uuid";
+import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 
 chaiUse(chaiPromises);
 
@@ -19,22 +19,28 @@ describe("Error scenarios", function () {
   let serializer: AvroSerializer;
   let registry: SchemaRegistry;
   let serializerNoAutoReg: AvroSerializer;
-  before(async function () {
-    registry = createTestRegistry();
+  let recorder: Recorder;
+
+  beforeEach(async function () {
+    recorder = new Recorder(this.currentTest);
+    registry = createTestRegistry({ recorder });
     serializer = await createTestSerializer({
       registry,
       serializerOptions: {
         autoRegisterSchemas: true,
         groupName: testGroup,
       },
+      recorder,
     });
     serializerNoAutoReg = await createTestSerializer({
       serializerOptions: {
         autoRegisterSchemas: false,
         groupName: testGroup,
       },
+      recorder,
     });
   });
+
   describe("Schema validation", function () {
     it("unrecognized content type", async function () {
       await assert.isRejected(
@@ -171,7 +177,7 @@ describe("Error scenarios", function () {
       /**
        * This test can not run in live mode because the service will validate the schema.
        */
-      if (isLive) {
+      if (isLiveMode()) {
         this.skip();
       }
       const { id } = await registry.registerSchema({
@@ -410,7 +416,7 @@ describe("Error scenarios", function () {
        * onResponse is not implemented in the mocked registry because it will
        * add very little value so the test is skipped in playback mode.
        */
-      if (!isLive) {
+      if (!isLiveMode()) {
         this.skip();
       }
       let ran = false;
@@ -420,6 +426,7 @@ describe("Error scenarios", function () {
             ran = true;
           },
         },
+        recorder,
       });
       const customSerializer = await createTestSerializer({
         registry: unusedRegistry,
@@ -427,6 +434,7 @@ describe("Error scenarios", function () {
           autoRegisterSchemas: true,
           groupName: testGroup,
         },
+        recorder,
       });
       await assertError(
         customSerializer.serialize(

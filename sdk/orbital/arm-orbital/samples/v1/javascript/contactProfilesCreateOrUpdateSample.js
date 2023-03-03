@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureOrbital } = require("@azure/arm-orbital");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or updates a contact profile
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/ContactProfileCreate.json
  */
 async function createAContactProfile() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["ORBITAL_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["ORBITAL_RESOURCE_GROUP"] || "rg1";
   const contactProfileName = "AQUA_DIRECTPLAYBACK_WITH_UPLINK";
   const location = "westus";
   const credential = new DefaultAzureCredential();
@@ -32,4 +33,8 @@ async function createAContactProfile() {
   console.log(result);
 }
 
-createAContactProfile().catch(console.error);
+async function main() {
+  createAContactProfile();
+}
+
+main().catch(console.error);

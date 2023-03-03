@@ -45,8 +45,8 @@ const assertThrowsTooManyProperties = (
   }, /^Only one of the properties in \[[\w,"\s]+\] should be present.$/);
 };
 
-describe("Identifier model serializer", () => {
-  it("can serialize", () => {
+describe("Identifier model serializer", function () {
+  it("can serialize", function () {
     assertSerialize(
       {
         communicationUserId:
@@ -141,13 +141,13 @@ describe("Identifier model serializer", () => {
     );
   });
 
-  it("serializes as unknown identifier if kind not understood", () => {
+  it("serializes as unknown identifier if kind not understood", function () {
     assertSerialize({ kind: "foobar", id: "42", someOtherProp: true } as any, {
       rawId: "42",
     });
   });
 
-  it("can deserialize", () => {
+  it("can deserialize", function () {
     assertDeserialize(
       {
         communicationUser: {
@@ -323,14 +323,14 @@ describe("Identifier model serializer", () => {
     );
   });
 
-  it("deserializes as unknown identifier if kind not understood", () => {
+  it("deserializes as unknown identifier if kind not understood", function () {
     assertDeserialize({ rawId: "42", someOtherProp: true } as any, {
       kind: "unknown",
       id: "42",
     });
   });
 
-  it("throws if property is missing", () => {
+  it("throws if property is missing", function () {
     assertThrowsMissingProperty(
       {
         communicationUser: {} as any,
@@ -380,7 +380,7 @@ describe("Identifier model serializer", () => {
     }, `Property rawId is required for identifier of type unknown.`);
   });
 
-  it("ignores additional properties", () => {
+  it("ignores additional properties", function () {
     assert.doesNotThrow(() => {
       deserializeCommunicationIdentifier({
         microsoftTeamsUser: {
@@ -394,7 +394,7 @@ describe("Identifier model serializer", () => {
     });
   });
 
-  it("throws if more than one nested model", () => {
+  it("throws if more than one nested model", function () {
     assertThrowsTooManyProperties({
       rawId: "rawId",
       microsoftTeamsUser: {

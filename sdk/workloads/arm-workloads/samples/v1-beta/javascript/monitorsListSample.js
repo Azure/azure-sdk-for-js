@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 const { WorkloadsClient } = require("@azure/arm-workloads");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets a list of SAP monitors in the specified subscription. The operations returns various properties of each SAP monitor.
  *
  * @summary Gets a list of SAP monitors in the specified subscription. The operations returns various properties of each SAP monitor.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/monitors_List.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/monitors_List.json
  */
 async function listAllSapMonitorsInASubscription() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new WorkloadsClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +30,8 @@ async function listAllSapMonitorsInASubscription() {
   console.log(resArray);
 }
 
-listAllSapMonitorsInASubscription().catch(console.error);
+async function main() {
+  listAllSapMonitorsInASubscription();
+}
+
+main().catch(console.error);

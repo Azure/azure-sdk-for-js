@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Volumes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,9 +19,10 @@ import {
   Volume,
   VolumesListNextOptionalParams,
   VolumesListOptionalParams,
+  VolumesListResponse,
   Replication,
   VolumesListReplicationsOptionalParams,
-  VolumesListResponse,
+  VolumesListReplicationsResponse,
   VolumesGetOptionalParams,
   VolumesGetResponse,
   VolumesCreateOrUpdateOptionalParams,
@@ -37,7 +39,6 @@ import {
   VolumesReestablishReplicationOptionalParams,
   VolumesReplicationStatusOptionalParams,
   VolumesReplicationStatusResponse,
-  VolumesListReplicationsResponse,
   VolumesResyncReplicationOptionalParams,
   VolumesDeleteReplicationOptionalParams,
   AuthorizeRequest,
@@ -90,12 +91,16 @@ export class VolumesImpl implements Volumes {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           accountName,
           poolName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -105,16 +110,23 @@ export class VolumesImpl implements Volumes {
     resourceGroupName: string,
     accountName: string,
     poolName: string,
-    options?: VolumesListOptionalParams
+    options?: VolumesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Volume[]> {
-    let result = await this._list(
-      resourceGroupName,
-      accountName,
-      poolName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VolumesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        accountName,
+        poolName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -124,7 +136,9 @@ export class VolumesImpl implements Volumes {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -173,13 +187,17 @@ export class VolumesImpl implements Volumes {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listReplicationsPagingPage(
           resourceGroupName,
           accountName,
           poolName,
           volumeName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -190,9 +208,11 @@ export class VolumesImpl implements Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesListReplicationsOptionalParams
+    options?: VolumesListReplicationsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Replication[]> {
-    let result = await this._listReplications(
+    let result: VolumesListReplicationsResponse;
+    result = await this._listReplications(
       resourceGroupName,
       accountName,
       poolName,
@@ -2152,7 +2172,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

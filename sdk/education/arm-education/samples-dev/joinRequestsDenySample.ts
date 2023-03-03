@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { EducationManagementClient } from "@azure/arm-education";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deny student joining the redeemable lab
@@ -33,4 +36,8 @@ async function joinRequestDeny() {
   console.log(result);
 }
 
-joinRequestDeny().catch(console.error);
+async function main() {
+  joinRequestDeny();
+}
+
+main().catch(console.error);

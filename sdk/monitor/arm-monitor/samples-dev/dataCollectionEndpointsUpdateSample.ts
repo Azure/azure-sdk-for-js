@@ -14,6 +14,9 @@ import {
   MonitorClient
 } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates part of a data collection endpoint.
@@ -22,8 +25,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-09-01-preview/examples/DataCollectionEndpointsUpdate.json
  */
 async function updateDataCollectionEndpoint() {
-  const subscriptionId = "703362b3-f278-4e4b-9179-c76eaf41ffc2";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] ||
+    "703362b3-f278-4e4b-9179-c76eaf41ffc2";
+  const resourceGroupName =
+    process.env["MONITOR_RESOURCE_GROUP"] || "myResourceGroup";
   const dataCollectionEndpointName = "myCollectionEndpoint";
   const body: ResourceForUpdate = { tags: { tag1: "A", tag2: "B", tag3: "C" } };
   const options: DataCollectionEndpointsUpdateOptionalParams = { body };
@@ -37,4 +43,8 @@ async function updateDataCollectionEndpoint() {
   console.log(result);
 }
 
-updateDataCollectionEndpoint().catch(console.error);
+async function main() {
+  updateDataCollectionEndpoint();
+}
+
+main().catch(console.error);

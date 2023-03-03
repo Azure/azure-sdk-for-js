@@ -11,6 +11,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureReservationAPI } from "../azureReservationAPI";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   RefundRequest,
   ReturnPostOptionalParams,
@@ -30,20 +32,84 @@ export class ReturnImpl implements Return {
   }
 
   /**
-   * Return a reservation.
+   * Return a reservation and get refund information.
    * @param reservationOrderId Order Id of the reservation
    * @param body Information needed for returning reservation.
    * @param options The options parameters.
    */
-  post(
+  async beginPost(
+    reservationOrderId: string,
+    body: RefundRequest,
+    options?: ReturnPostOptionalParams
+  ): Promise<
+    PollerLike<PollOperationState<ReturnPostResponse>, ReturnPostResponse>
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ReturnPostResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { reservationOrderId, body, options },
+      postOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Return a reservation and get refund information.
+   * @param reservationOrderId Order Id of the reservation
+   * @param body Information needed for returning reservation.
+   * @param options The options parameters.
+   */
+  async beginPostAndWait(
     reservationOrderId: string,
     body: RefundRequest,
     options?: ReturnPostOptionalParams
   ): Promise<ReturnPostResponse> {
-    return this.client.sendOperationRequest(
-      { reservationOrderId, body, options },
-      postOperationSpec
-    );
+    const poller = await this.beginPost(reservationOrderId, body, options);
+    return poller.pollUntilDone();
   }
 }
 // Operation Specifications
@@ -54,7 +120,19 @@ const postOperationSpec: coreClient.OperationSpec = {
     "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/return",
   httpMethod: "POST",
   responses: {
+    200: {
+      bodyMapper: Mappers.RefundResponse,
+      headersMapper: Mappers.ReturnPostHeaders
+    },
+    201: {
+      bodyMapper: Mappers.RefundResponse,
+      headersMapper: Mappers.ReturnPostHeaders
+    },
     202: {
+      bodyMapper: Mappers.RefundResponse,
+      headersMapper: Mappers.ReturnPostHeaders
+    },
+    204: {
       bodyMapper: Mappers.RefundResponse,
       headersMapper: Mappers.ReturnPostHeaders
     },

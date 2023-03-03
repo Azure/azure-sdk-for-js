@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureVMwareSolutionAPI } = require("@azure/arm-avs");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get an addon by name in a private cloud
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/Addons_Get_ArcReg.json
  */
 async function addonsGetArcReg() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "group1";
+  const subscriptionId =
+    process.env["AVS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["AVS_RESOURCE_GROUP"] || "group1";
   const privateCloudName = "cloud1";
   const addonName = "arc";
   const credential = new DefaultAzureCredential();
@@ -28,8 +30,6 @@ async function addonsGetArcReg() {
   console.log(result);
 }
 
-addonsGetArcReg().catch(console.error);
-
 /**
  * This sample demonstrates how to Get an addon by name in a private cloud
  *
@@ -37,8 +37,9 @@ addonsGetArcReg().catch(console.error);
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/Addons_Get_HCX.json
  */
 async function addonsGetHcx() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "group1";
+  const subscriptionId =
+    process.env["AVS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["AVS_RESOURCE_GROUP"] || "group1";
   const privateCloudName = "cloud1";
   const addonName = "hcx";
   const credential = new DefaultAzureCredential();
@@ -47,8 +48,6 @@ async function addonsGetHcx() {
   console.log(result);
 }
 
-addonsGetHcx().catch(console.error);
-
 /**
  * This sample demonstrates how to Get an addon by name in a private cloud
  *
@@ -56,8 +55,9 @@ addonsGetHcx().catch(console.error);
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/Addons_Get_SRM.json
  */
 async function addonsGetSrm() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "group1";
+  const subscriptionId =
+    process.env["AVS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["AVS_RESOURCE_GROUP"] || "group1";
   const privateCloudName = "cloud1";
   const addonName = "srm";
   const credential = new DefaultAzureCredential();
@@ -66,8 +66,6 @@ async function addonsGetSrm() {
   console.log(result);
 }
 
-addonsGetSrm().catch(console.error);
-
 /**
  * This sample demonstrates how to Get an addon by name in a private cloud
  *
@@ -75,8 +73,9 @@ addonsGetSrm().catch(console.error);
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/Addons_Get_VR.json
  */
 async function addonsGetVr() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "group1";
+  const subscriptionId =
+    process.env["AVS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["AVS_RESOURCE_GROUP"] || "group1";
   const privateCloudName = "cloud1";
   const addonName = "vr";
   const credential = new DefaultAzureCredential();
@@ -85,4 +84,11 @@ async function addonsGetVr() {
   console.log(result);
 }
 
-addonsGetVr().catch(console.error);
+async function main() {
+  addonsGetArcReg();
+  addonsGetHcx();
+  addonsGetSrm();
+  addonsGetVr();
+}
+
+main().catch(console.error);

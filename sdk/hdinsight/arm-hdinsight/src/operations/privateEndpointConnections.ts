@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PrivateEndpointConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -64,11 +65,15 @@ export class PrivateEndpointConnectionsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByClusterPagingPage(
           resourceGroupName,
           clusterName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -77,15 +82,22 @@ export class PrivateEndpointConnectionsImpl
   private async *listByClusterPagingPage(
     resourceGroupName: string,
     clusterName: string,
-    options?: PrivateEndpointConnectionsListByClusterOptionalParams
+    options?: PrivateEndpointConnectionsListByClusterOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PrivateEndpointConnection[]> {
-    let result = await this._listByCluster(
-      resourceGroupName,
-      clusterName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PrivateEndpointConnectionsListByClusterResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByCluster(
+        resourceGroupName,
+        clusterName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByClusterNext(
         resourceGroupName,
@@ -94,7 +106,9 @@ export class PrivateEndpointConnectionsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -486,7 +500,6 @@ const listByClusterNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

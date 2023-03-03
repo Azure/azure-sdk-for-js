@@ -244,17 +244,19 @@ export class ClientContext {
     resourceId,
     options = {},
     partitionKey,
+    method = HTTPMethod.delete,
   }: {
     path: string;
     resourceType: ResourceType;
     resourceId: string;
     options?: RequestOptions;
     partitionKey?: PartitionKey;
+    method?: HTTPMethod;
   }): Promise<Response<T & Resource>> {
     try {
       const request: RequestContext = {
         ...this.getContextDerivedPropsForRequestCreation(),
-        method: HTTPMethod.delete,
+        method: method,
         operationType: OperationType.Delete,
         path,
         resourceType,

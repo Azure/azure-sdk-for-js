@@ -75,6 +75,13 @@ export interface SendManagementRequestOptions extends SendRequestOptions {
    * prefer to work directly with the bytes present in the message body than have the client attempt to parse it.
    */
   skipParsingBodyAsJson?: boolean;
+  /**
+   * Whether to skip converting Date type on properties of message annotations
+   * or application properties into numbers when receiving the message. By
+   * default, properties of Date type is converted into UNIX epoch number for
+   * compatibility.
+   */
+  skipConvertingDate?: boolean;
 }
 
 /**
@@ -546,10 +553,10 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         const messages = result.body.messages as { message: Buffer }[];
         for (const msg of messages) {
           const decodedMessage = RheaMessageUtil.decode(msg.message);
-          const message = fromRheaMessage(
-            decodedMessage as any,
-            options?.skipParsingBodyAsJson ?? false
-          );
+          const message = fromRheaMessage(decodedMessage as any, {
+            skipParsingBodyAsJson: options?.skipParsingBodyAsJson ?? false,
+            skipConvertingDate: options?.skipConvertingDate ?? false,
+          });
           messageList.push(message);
           this._lastPeekedSequenceNumber = message.sequenceNumber!;
         }
@@ -866,7 +873,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           { tag: msg["lock-token"] } as any,
           false,
           receiveMode,
-          options?.skipParsingBodyAsJson ?? false
+          options?.skipParsingBodyAsJson ?? false,
+          false
         );
         messageList.push(message);
       }

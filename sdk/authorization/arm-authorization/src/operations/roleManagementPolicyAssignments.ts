@@ -6,23 +6,23 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { RoleManagementPolicyAssignments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AuthorizationManagementClientContext } from "../authorizationManagementClientContext";
+import { AuthorizationManagementClient } from "../authorizationManagementClient";
 import {
   RoleManagementPolicyAssignment,
   RoleManagementPolicyAssignmentsListForScopeNextOptionalParams,
   RoleManagementPolicyAssignmentsListForScopeOptionalParams,
+  RoleManagementPolicyAssignmentsListForScopeResponse,
   RoleManagementPolicyAssignmentsGetOptionalParams,
   RoleManagementPolicyAssignmentsGetResponse,
   RoleManagementPolicyAssignmentsCreateOptionalParams,
   RoleManagementPolicyAssignmentsCreateResponse,
   RoleManagementPolicyAssignmentsDeleteOptionalParams,
-  RoleManagementPolicyAssignmentsListForScopeResponse,
   RoleManagementPolicyAssignmentsListForScopeNextResponse
 } from "../models";
 
@@ -30,13 +30,13 @@ import {
 /** Class containing RoleManagementPolicyAssignments operations. */
 export class RoleManagementPolicyAssignmentsImpl
   implements RoleManagementPolicyAssignments {
-  private readonly client: AuthorizationManagementClientContext;
+  private readonly client: AuthorizationManagementClient;
 
   /**
    * Initialize a new instance of the class RoleManagementPolicyAssignments class.
    * @param client Reference to the service client
    */
-  constructor(client: AuthorizationManagementClientContext) {
+  constructor(client: AuthorizationManagementClient) {
     this.client = client;
   }
 
@@ -57,23 +57,35 @@ export class RoleManagementPolicyAssignmentsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listForScopePagingPage(scope, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listForScopePagingPage(scope, options, settings);
       }
     };
   }
 
   private async *listForScopePagingPage(
     scope: string,
-    options?: RoleManagementPolicyAssignmentsListForScopeOptionalParams
+    options?: RoleManagementPolicyAssignmentsListForScopeOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<RoleManagementPolicyAssignment[]> {
-    let result = await this._listForScope(scope, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RoleManagementPolicyAssignmentsListForScopeResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listForScope(scope, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listForScopeNext(scope, continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -269,7 +281,6 @@ const listForScopeNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.scope, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

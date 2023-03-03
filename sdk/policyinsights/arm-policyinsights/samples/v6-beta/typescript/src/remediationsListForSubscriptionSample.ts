@@ -13,6 +13,9 @@ import {
   PolicyInsightsClient
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets all remediations for the subscription.
@@ -21,7 +24,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2021-10-01/examples/Remediations_ListSubscriptionScope.json
  */
 async function listRemediationsAtSubscriptionScope() {
-  const subscriptionId = "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
@@ -31,8 +36,6 @@ async function listRemediationsAtSubscriptionScope() {
   console.log(resArray);
 }
 
-listRemediationsAtSubscriptionScope().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets all remediations for the subscription.
  *
@@ -40,7 +43,9 @@ listRemediationsAtSubscriptionScope().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2021-10-01/examples/Remediations_ListSubscriptionScope_WithQuery.json
  */
 async function listRemediationsAtSubscriptionScopeWithQueryParameters() {
-  const subscriptionId = "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
   const top = 1;
   const filter =
     "PolicyAssignmentId eq '/subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/providers/microsoft.authorization/policyassignments/b101830944f246d8a14088c5' AND PolicyDefinitionReferenceId eq 'storageSkuDef'";
@@ -56,4 +61,9 @@ async function listRemediationsAtSubscriptionScopeWithQueryParameters() {
   console.log(resArray);
 }
 
-listRemediationsAtSubscriptionScopeWithQueryParameters().catch(console.error);
+async function main() {
+  listRemediationsAtSubscriptionScope();
+  listRemediationsAtSubscriptionScopeWithQueryParameters();
+}
+
+main().catch(console.error);

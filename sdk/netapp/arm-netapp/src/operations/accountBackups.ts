@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { AccountBackups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -55,8 +55,16 @@ export class AccountBackupsImpl implements AccountBackups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, accountName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          accountName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -64,9 +72,11 @@ export class AccountBackupsImpl implements AccountBackups {
   private async *listPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountBackupsListOptionalParams
+    options?: AccountBackupsListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Backup[]> {
-    let result = await this._list(resourceGroupName, accountName, options);
+    let result: AccountBackupsListResponse;
+    result = await this._list(resourceGroupName, accountName, options);
     yield result.value || [];
   }
 

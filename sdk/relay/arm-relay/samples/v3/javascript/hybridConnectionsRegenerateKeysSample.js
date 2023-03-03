@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { RelayAPI } = require("@azure/arm-relay");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Regenerates the primary or secondary connection strings to the hybrid connection.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/relay/resource-manager/Microsoft.Relay/stable/2017-04-01/examples/HybridConnection/RelayHybridConnectionAuthorizationRuleRegenrateKey.json
  */
 async function relayHybridConnectionAuthorizationRuleRegenrateKey() {
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = "resourcegroup";
+  const subscriptionId =
+    process.env["RELAY_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["RELAY_RESOURCE_GROUP"] || "resourcegroup";
   const namespaceName = "example-RelayNamespace-01";
   const hybridConnectionName = "example-Relay-Hybrid-01";
   const authorizationRuleName = "example-RelayAuthRules-01";
@@ -36,4 +38,8 @@ async function relayHybridConnectionAuthorizationRuleRegenrateKey() {
   console.log(result);
 }
 
-relayHybridConnectionAuthorizationRuleRegenrateKey().catch(console.error);
+async function main() {
+  relayHybridConnectionAuthorizationRuleRegenrateKey();
+}
+
+main().catch(console.error);
