@@ -144,6 +144,7 @@ A file may opt out of snippet extraction using a comment directive. Any files co
 - For TypeScript Files: `// dev-tool snippets ignore`.
 
 For readability, these directive comments SHOULD be placed at or near the top of the file, but the file will be ignored if it contains this text anywhere.
+
 ### Parsing the TypeScript Tests
 
 Snippets are extracted using the TypeScript compiler API. Strictly, a code snippet is extracted using the following method:
