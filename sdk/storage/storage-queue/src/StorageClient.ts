@@ -4,7 +4,7 @@
 import { StorageClient as GeneratedStorageClient } from "./generated/src/storageClient";
 import { getAccountNameFromUrl, getStorageClientContext } from "./utils/utils.common";
 import { OperationTracingOptions } from "@azure/core-tracing";
-import { Credential, AnonymousCredential, Pipeline } from "@azure/storage-blob";
+import { Credential, AnonymousCredential, Pipeline, BlobServiceClient } from "@azure/storage-blob";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { isNode } from "@azure/core-util";
 
@@ -58,6 +58,8 @@ export abstract class StorageClient {
     this.url = url;
     this.accountName = getAccountNameFromUrl(url);
     this.pipeline = pipeline;
+    // creating this BlobServiceClient allows us to use the converted V2 Pipeline attached to `pipeline`.
+    new BlobServiceClient(url, pipeline);
     this.storageClientContext = getStorageClientContext(url, pipeline);
 
     // Retrieve credential from the pipeline.
