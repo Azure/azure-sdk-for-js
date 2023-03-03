@@ -16,7 +16,7 @@ We therefore require a system that enables us to extract the canonical TypeScrip
 
 ### Prior art: unit-testable snippets in the C# SDK
 
-The Azure SDK for .NET publishes their README documentation snippets as unit tests in a samples directory, for example for [Text Analytics](https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/textanalytics/Azure.AI.TextAnalytics/tests/samples/SampleSnippets.cs).  Each unit test is decorated with a `#region` which is then extracted into the README.  The [Snippet Generator Tool](https://github.com/Azure/azure-sdk-tools/tree/main/tools/snippet-generator/Azure.Sdk.Tools.SnippetGenerator) can be run to extract the snippets into the README.
+The Azure SDK for .NET authors README documentation snippets as unit tests in a samples directory, for example: [Text Analytics](https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/textanalytics/Azure.AI.TextAnalytics/tests/samples/SampleSnippets.cs).  Each unit test is decorated with a `#region` which is used to extract the snippet text and insert it into a README.  The [Snippet Generator Tool](https://github.com/Azure/azure-sdk-tools/tree/main/tools/snippet-generator/Azure.Sdk.Tools.SnippetGenerator) performs the extraction & insertion.
 
 The `README.md` has named snippet fences such as the following, and the names correspond to a given named region inside `SampleSnippets.cs`
 
