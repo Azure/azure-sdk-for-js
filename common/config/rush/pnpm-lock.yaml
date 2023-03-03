@@ -670,7 +670,7 @@ packages:
     dependencies:
       '@azure/core-auth': 1.4.0
       '@azure/core-rest-pipeline': 1.10.1
-      '@azure/core-util': 1.1.1
+      '@azure/core-util': 1.2.0
       tslib: 2.5.0
     transitivePeerDependencies:
       - supports-color
@@ -839,7 +839,7 @@ packages:
       '@azure/core-auth': 1.4.0
       '@azure/core-rest-pipeline': 1.10.1
       '@azure/core-tracing': 1.0.1
-      '@azure/core-util': 1.1.1
+      '@azure/core-util': 1.2.0
       '@azure/logger': 1.0.3
       tslib: 2.5.0
     transitivePeerDependencies:
@@ -887,7 +887,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.4.0
       '@azure/core-tracing': 1.0.0-preview.13
-      '@azure/core-util': 1.1.1
+      '@azure/core-util': 1.2.0
       '@azure/logger': 1.0.3
       '@types/node-fetch': 2.6.2
       '@types/tunnel': 0.0.3
@@ -949,7 +949,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.4.0
       '@azure/core-tracing': 1.0.1
-      '@azure/core-util': 1.1.1
+      '@azure/core-util': 1.2.0
       '@azure/logger': 1.0.3
       form-data: 4.0.0
       http-proxy-agent: 5.0.0
@@ -993,9 +993,9 @@ packages:
       tslib: 2.5.0
     dev: false
 
-  /@azure/core-util/1.1.1:
-    resolution: {integrity: sha512-A4TBYVQCtHOigFb2ETiiKFDocBoI1Zk2Ui1KpI42aJSIDexF7DHQFpnjonltXAIU/ceH+1fsZAWWgvX6/AKzog==}
-    engines: {node: '>=12.0.0'}
+  /@azure/core-util/1.2.0:
+    resolution: {integrity: sha512-ffGIw+Qs8bNKNLxz5UPkz4/VBM/EZY07mPve1ZYFqYUdPwFqRj0RPk0U7LZMOfT7GCck9YjuT1Rfp1PApNl1ng==}
+    engines: {node: '>=14.0.0'}
     dependencies:
       '@azure/abort-controller': 1.1.0
       tslib: 2.5.0
@@ -1043,7 +1043,7 @@ packages:
       '@azure/core-client': 1.7.1
       '@azure/core-rest-pipeline': 1.10.1
       '@azure/core-tracing': 1.0.1
-      '@azure/core-util': 1.1.1
+      '@azure/core-util': 1.2.0
       '@azure/logger': 1.0.3
       '@azure/msal-browser': 2.32.2
       '@azure/msal-common': 7.6.0
@@ -1070,7 +1070,7 @@ packages:
       '@azure/core-paging': 1.5.0
       '@azure/core-rest-pipeline': 1.10.1
       '@azure/core-tracing': 1.0.1
-      '@azure/core-util': 1.1.1
+      '@azure/core-util': 1.2.0
       '@azure/logger': 1.0.3
       tslib: 2.5.0
     transitivePeerDependencies:
@@ -1089,7 +1089,7 @@ packages:
       '@azure/core-paging': 1.5.0
       '@azure/core-rest-pipeline': 1.10.1
       '@azure/core-tracing': 1.0.1
-      '@azure/core-util': 1.1.1
+      '@azure/core-util': 1.2.0
       '@azure/logger': 1.0.3
       tslib: 2.5.0
     transitivePeerDependencies:
@@ -1108,7 +1108,7 @@ packages:
       '@azure/core-paging': 1.5.0
       '@azure/core-rest-pipeline': 1.10.1
       '@azure/core-tracing': 1.0.1
-      '@azure/core-util': 1.1.1
+      '@azure/core-util': 1.2.0
       '@azure/logger': 1.0.3
       tslib: 2.5.0
     transitivePeerDependencies:
@@ -3914,7 +3914,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230207
+      typescript: 5.1.0-dev.20230302
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8799,8 +8799,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230207:
-    resolution: {integrity: sha512-MBas9Ly9cx5yODCQZFKjteVtRa8//VshqSThNpX8D3XxPQEG+yBhtizEUPwrc2kLx33xnr7qGABEifZeepuKwg==}
+  /typescript/5.1.0-dev.20230302:
+    resolution: {integrity: sha512-zyc2TZ4vL1jj9NZ3LKoaqE1zTu/G6NeMwVfSA1tVpxQfT7fwiKtkJcecOAsdESok9KaFNTm/sy80/25/Umx32A==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -16582,7 +16582,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-dXVFPuOZHo4tN5g/MQLa2PrQ+XohVF/rQzsVd4F0bQYLGSaVN5LX9D9398fbBdPphbKZREveEeuvROBTGH+yjA==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-eRIXj9ZOIB+2R29nFpAx8TzLwZQQZ96HeBk5lhek323XM5B2hKGHdJ+cl48aaWqcw7jt2QMgedJWrRfJjOMfAw==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
@@ -19363,12 +19363,13 @@ packages:
     dev: false
 
   file:projects/storage-queue.tgz:
-    resolution: {integrity: sha512-69nCh458hyDp6eGDpsvO/R8fh9PV9WlsAgDxepRSa+2pHhvAfNbmqNK/UgGtBM+a941Gjl1iqJVXgBfNJBdAyg==, tarball: file:projects/storage-queue.tgz}
+    resolution: {integrity: sha512-srwWd+k9MPfMFiBPPTkuLNL/CwUc0U45pmW7cYAJVLPmwFzv7z/ruZhV6W/Kv8E5qev6yGgUaiVfh6az0EkzUQ==, tarball: file:projects/storage-queue.tgz}
     name: '@rush-temp/storage-queue'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/core-util': 1.2.0
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.34.3_@types+node@14.18.36
       '@types/chai': 4.3.4
