@@ -51,12 +51,12 @@ The Azure SDK utilizes a similar pattern based on a snippet file that is unit-te
 import { DefaultAzureCredential } from "@azure/identity";
 import { ConfigurationClient } from "@azure/template";
 
-describe("readme-snippets", () => {
+describe("snippets", function () {
 
-  it("CreateConfigurationClient", async () => {
-    const endpoint = process.env.ENDPOINT || "<endpoint>";
+  it("GetConfigurationSetting", async function () {
+    const endpoint = process.env.ENDPOINT ?? "<endpoint>";
     const credential = new DefaultAzureCredential();
-    const key = process.env.KEY || "<key>";
+    const key = process.env.KEY ?? "<key>";
 
     const client = new ConfigurationClient(endpoint, credential);
 
@@ -66,6 +66,8 @@ describe("readme-snippets", () => {
 
 });
 ```
+
+The top level `describe` call defines a suite named `"snippets"`, and any nested `it` calls define unit tests where the name given is the name of the corresponding snippet. The above file defines a single snippet named `"GetConfigurationSetting"`. The snippet initializes the client using environment variables but coalesces those values to string literals if the environment variables are undefined. Because the resulting `setting` variable is unused, the `@ts-ignore` designation must be applied to prevent a compiler error.
 
 The README shall have gated sections just as the Azure SDK for .NET such as the following:
 
