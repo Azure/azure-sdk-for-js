@@ -20,9 +20,9 @@ The Azure SDK for .NET authors README documentation snippets as unit tests in a 
 
 The `README.md` has named snippet fences such as the following, and the names correspond to a given named region inside `SampleSnippets.cs`
 
-```md
-C# Snippet:CreateTextAnalyticsClientTokenCredential
-```
+````md
+```C# Snippet:CreateTextAnalyticsClientTokenCredential
+````
 
 The Unit Tests would look like this in C# where it would either have sample text for the README, or pull variables from the environment if generating snippets versus running a unit test.
 
