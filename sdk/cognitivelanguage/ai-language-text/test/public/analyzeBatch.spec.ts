@@ -399,7 +399,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
 
             // The max sentence count is 2, so the number of sentences should be 2 or less
             for await (const actionResult of results) {
-              if (actionResult.kind == "ExtractiveSummarization" && !actionResult.error) {
+              if (actionResult.kind === "ExtractiveSummarization" && !actionResult.error) {
                 for (const result of actionResult.results) {
                   if (!result.error) {
                     assert.isAtMost(
