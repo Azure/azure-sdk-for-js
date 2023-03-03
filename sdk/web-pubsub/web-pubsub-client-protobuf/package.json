@@ -11,11 +11,13 @@
   "types": "types/web-pubsub-client-protobuf.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:browser": "pbjs -t static-module -w commonjs -o ./src/clientProto.js ./src/protos/client.proto && pbts -o ./src/clientProto.d.ts ./src/clientProto.js && tsc -p . && dev-tool run bundle",
-    "build:node": "pbjs -t static-module -w es6 -o ./src/clientProto.js ./src/protos/client.proto && pbts -o ./src/clientProto.d.ts ./src/clientProto.js && tsc -p . && dev-tool run bundle",
+    "build:browser": "npm run build-protobuf && tsc -p . && npm run copy-files && dev-tool run bundle",
+    "build:node": "npm run build-protobuf && tsc -p . && npm run copy-files && dev-tool run bundle",
     "build:samples": "dev-tool samples publish -f",
-    "build:test": "pbjs -t static-module -w commonjs -o ./src/clientProto.js ./src/protos/client.proto && pbts -o ./src/clientProto.d.ts ./src/clientProto.js && tsc -p . && dev-tool run bundle",
-    "build": "pbjs -t static-module -w commonjs -o ./src/clientProto.js ./src/protos/client.proto && pbts -o ./src/clientProto.d.ts ./src/clientProto.js && npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local",
+    "build:test": "npm run build-protobuf && tsc -p . && npm run copy-files && dev-tool run bundle",
+    "build": "npm run clean && npm run build-protobuf && tsc -p . && npm run copy-files && dev-tool run bundle && api-extractor run --local",
+    "copy-files": "copyfiles ./src/clientProto.js ./dist-esm/",
+    "build-protobuf": "pbjs -t static-module -w es6 -o ./src/clientProto.js ./src/protos/client.proto && pbts -o ./src/clientProto.d.ts ./src/clientProto.js",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm test-dist temp types *.tgz *.log",
@@ -110,7 +112,8 @@
     "mock-socket": "^9.1.5",
     "util": "^0.12.1",
     "@types/ws": "^7.4.5",
-    "protobufjs-cli": "1.0.2"
+    "protobufjs-cli": "1.0.2",
+    "copyfiles": "2.4.1"
   },
   "//sampleConfiguration": {
     "productName": "Azure Web PubSub Client",

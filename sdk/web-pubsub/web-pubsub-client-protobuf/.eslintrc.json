@@ -1,7 +1,7 @@
 {
   "plugins": ["@azure/azure-sdk"],
   "extends": ["plugin:@azure/azure-sdk/azure-sdk-base"],
-  "ignorePatterns": ["src/clientProto.js", "clientProto.d.ts"],
+  "ignorePatterns": ["src/clientProto.js", "src/clientProto.d.ts"],
   "rules": {
     "no-return-await": "off",
     "no-empty": "off",
