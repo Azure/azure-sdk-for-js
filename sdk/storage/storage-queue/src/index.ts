@@ -1,23 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RestError } from "@azure/core-http";
+import { RestError } from "@azure/core-rest-pipeline";
 
 export * from "./AccountSASPermissions";
 export * from "./AccountSASResourceTypes";
 export * from "./AccountSASServices";
 export * from "./AccountSASSignatureValues";
-export * from "./credentials/AnonymousCredential";
-export * from "./credentials/Credential";
-export * from "./credentials/StorageSharedKeyCredential";
 export { SasIPRange } from "./SasIPRange";
-export * from "./Pipeline";
-export * from "./policies/AnonymousCredentialPolicy";
-export * from "./policies/CredentialPolicy";
-export * from "./StorageRetryPolicyFactory";
-export * from "./StorageBrowserPolicyFactory";
+export {
+  StorageRetryPolicyFactory,
+  StorageBrowserPolicyFactory,
+  AnonymousCredentialPolicy,
+  AnonymousCredential,
+  CredentialPolicy,
+  Credential,
+  StorageSharedKeyCredential,
+  StorageSharedKeyCredentialPolicy,
+  Pipeline,
+  newPipeline,
+} from "@azure/storage-blob";
 export { Metadata } from "./models";
-export * from "./policies/StorageSharedKeyCredentialPolicy";
 export * from "./QueueClient";
 export * from "./QueueSASPermissions";
 export * from "./QueueSASSignatureValues";
