@@ -14,13 +14,13 @@
       "RequestBody": null,
       "StatusCode": 202,
       "ResponseHeaders": {
-        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ServiceNetworking/locations/northcentralus/operations/98830db5-753c-4da8-8dcd-3a84bb950a7f?api-version=2022-10-01-preview",
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ServiceNetworking/locations/northcentralus/operations/98830db5-753c-4da8-8dcd-3a84bb950a7f?api-version=2022-10-01-preview",
         "Cache-Control": "no-cache",
         "Content-Length": "4",
         "Content-Type": "application/json; charset=utf-8",
         "Date": "Mon, 09 Jan 2023 02:08:45 GMT",
         "Expires": "-1",
-        "Location": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ServiceNetworking/locations/northcentralus/operationResults/98830db5-753c-4da8-8dcd-3a84bb950a7f?api-version=2022-10-01-preview",
+        "Location": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ServiceNetworking/locations/northcentralus/operationResults/98830db5-753c-4da8-8dcd-3a84bb950a7f?api-version=2022-10-01-preview",
         "Pragma": "no-cache",
         "Retry-After": "10",
         "Server": "Microsoft-HTTPAPI/2.0",
@@ -37,7 +37,7 @@
       "ResponseBody": "null"
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ServiceNetworking/locations/northcentralus/operations/98830db5-753c-4da8-8dcd-3a84bb950a7f?api-version=2022-10-01-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ServiceNetworking/locations/northcentralus/operations/98830db5-753c-4da8-8dcd-3a84bb950a7f?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -75,7 +75,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ServiceNetworking/locations/northcentralus/operations/98830db5-753c-4da8-8dcd-3a84bb950a7f?api-version=2022-10-01-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ServiceNetworking/locations/northcentralus/operations/98830db5-753c-4da8-8dcd-3a84bb950a7f?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -113,7 +113,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ServiceNetworking/locations/northcentralus/operations/98830db5-753c-4da8-8dcd-3a84bb950a7f?api-version=2022-10-01-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ServiceNetworking/locations/northcentralus/operations/98830db5-753c-4da8-8dcd-3a84bb950a7f?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -151,7 +151,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ServiceNetworking/locations/northcentralus/operations/98830db5-753c-4da8-8dcd-3a84bb950a7f?api-version=2022-10-01-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ServiceNetworking/locations/northcentralus/operations/98830db5-753c-4da8-8dcd-3a84bb950a7f?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -189,7 +189,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ServiceNetworking/locations/northcentralus/operations/98830db5-753c-4da8-8dcd-3a84bb950a7f?api-version=2022-10-01-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ServiceNetworking/locations/northcentralus/operations/98830db5-753c-4da8-8dcd-3a84bb950a7f?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -227,7 +227,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ServiceNetworking/locations/northcentralus/operations/98830db5-753c-4da8-8dcd-3a84bb950a7f?api-version=2022-10-01-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ServiceNetworking/locations/northcentralus/operations/98830db5-753c-4da8-8dcd-3a84bb950a7f?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -265,7 +265,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ServiceNetworking/locations/northcentralus/operations/98830db5-753c-4da8-8dcd-3a84bb950a7f?api-version=2022-10-01-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ServiceNetworking/locations/northcentralus/operations/98830db5-753c-4da8-8dcd-3a84bb950a7f?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -303,7 +303,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ServiceNetworking/locations/northcentralus/operations/98830db5-753c-4da8-8dcd-3a84bb950a7f?api-version=2022-10-01-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ServiceNetworking/locations/northcentralus/operations/98830db5-753c-4da8-8dcd-3a84bb950a7f?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -341,7 +341,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ServiceNetworking/locations/northcentralus/operations/98830db5-753c-4da8-8dcd-3a84bb950a7f?api-version=2022-10-01-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ServiceNetworking/locations/northcentralus/operations/98830db5-753c-4da8-8dcd-3a84bb950a7f?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -379,7 +379,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.ServiceNetworking/locations/northcentralus/operations/98830db5-753c-4da8-8dcd-3a84bb950a7f?api-version=2022-10-01-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ServiceNetworking/locations/northcentralus/operations/98830db5-753c-4da8-8dcd-3a84bb950a7f?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",

@@ -12,14 +12,14 @@ import {
   mockUpdateRoomsResult,
 } from "./utils/mockedClient";
 
-describe("[Mocked] RoomsClient", async () => {
+describe("[Mocked] RoomsClient", async function () {
   let roomsClient: RoomsClient;
 
-  afterEach(() => {
+  afterEach(function () {
     sinon.restore();
   });
 
-  it("makes successful create Rooms request", async () => {
+  it("makes successful create Rooms request", async function () {
     const mockHttpClient = generateHttpClient(201, mockCreateRoomsResult);
 
     roomsClient = createRoomsClient(mockHttpClient);
@@ -42,7 +42,7 @@ describe("[Mocked] RoomsClient", async () => {
     assert.isNotEmpty(request.headers.get("repeatability-request-id"));
   });
 
-  it("makes update Rooms request", async () => {
+  it("makes update Rooms request", async function () {
     const mockHttpClient = generateHttpClient(200, mockUpdateRoomsResult);
     roomsClient = createRoomsClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
@@ -65,7 +65,7 @@ describe("[Mocked] RoomsClient", async () => {
     assert.deepEqual(request.body as string, JSON.stringify(sendOptions));
   });
 
-  it("makes add Participant request", async () => {
+  it("makes add Participant request", async function () {
     const mockHttpClient = generateHttpClient(200, mockUpdateRoomsResult);
     roomsClient = createRoomsClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");

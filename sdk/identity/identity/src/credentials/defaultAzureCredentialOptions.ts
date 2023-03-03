@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AuthorityValidationOptions } from "./authorityValidationOptions";
 import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions";
 
 /**
@@ -13,6 +14,11 @@ export interface DefaultAzureCredentialClientIdOptions extends DefaultAzureCrede
    * This client ID can also be passed through to the {@link ManagedIdentityCredential} through the environment variable: AZURE_CLIENT_ID.
    */
   managedIdentityClientId?: string;
+  /**
+   * Optionally pass in a user assigned client ID to be used by the {@link WorkloadIdentityCredential}.
+   * This client ID can also be passed through to the {@link WorkloadIdentityCredential} through the environment variable: AZURE_CLIENT_ID.
+   */
+  workloadIdentityClientId?: string;
 }
 
 /**
@@ -33,7 +39,9 @@ export interface DefaultAzureCredentialResourceIdOptions extends DefaultAzureCre
 /**
  * Provides options to configure the {@link DefaultAzureCredential} class.
  */
-export interface DefaultAzureCredentialOptions extends MultiTenantTokenCredentialOptions {
+export interface DefaultAzureCredentialOptions
+  extends MultiTenantTokenCredentialOptions,
+    AuthorityValidationOptions {
   /**
    * Optionally pass in a Tenant ID to be used as part of the credential.
    * By default it may use a generic tenant ID depending on the underlying credential.

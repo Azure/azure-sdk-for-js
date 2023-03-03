@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RestError } from "@azure/core-http";
+import { RestError } from "@azure/core-rest-pipeline";
 
 export * from "./BlobServiceClient";
 export * from "./Clients";
@@ -26,7 +26,25 @@ export {
   ModificationConditions,
   MatchConditions,
 } from "./models";
-export * from "./Pipeline";
+export {
+  Pipeline,
+  PipelineLike,
+  PipelineOptions,
+  isPipelineLike,
+  newPipeline,
+  StoragePipelineOptions,
+  RequestPolicyFactory,
+  RequestPolicy,
+  RequestPolicyOptions,
+  WebResource,
+  HttpOperationResponse,
+  HttpHeaders,
+  HttpRequestBody,
+  IHttpClient,
+  StorageOAuthScopes,
+  ServiceClientOptions,
+} from "./Pipeline";
+export { BaseRequestPolicy } from "./policies/RequestPolicy";
 export * from "./policies/AnonymousCredentialPolicy";
 export * from "./policies/CredentialPolicy";
 export * from "./StorageRetryPolicyFactory";

@@ -13,16 +13,22 @@ import {
   AppPlatformManagementClient
 } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create a new Service or update an exiting Service.
  *
  * @summary Create a new Service or update an exiting Service.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-09-01-preview/examples/Services_CreateOrUpdate.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/Services_CreateOrUpdate.json
  */
 async function servicesCreateOrUpdate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const resource: ServiceResource = {
     location: "eastus",
@@ -40,17 +46,18 @@ async function servicesCreateOrUpdate() {
   console.log(result);
 }
 
-servicesCreateOrUpdate().catch(console.error);
-
 /**
  * This sample demonstrates how to Create a new Service or update an exiting Service.
  *
  * @summary Create a new Service or update an exiting Service.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-09-01-preview/examples/Services_CreateOrUpdate_Enterprise.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/Services_CreateOrUpdate_Enterprise.json
  */
 async function servicesCreateOrUpdateEnterprise() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const resource: ServiceResource = {
     location: "eastus",
@@ -74,17 +81,18 @@ async function servicesCreateOrUpdateEnterprise() {
   console.log(result);
 }
 
-servicesCreateOrUpdateEnterprise().catch(console.error);
-
 /**
  * This sample demonstrates how to Create a new Service or update an exiting Service.
  *
  * @summary Create a new Service or update an exiting Service.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-09-01-preview/examples/Services_CreateOrUpdate_VNetInjection.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/Services_CreateOrUpdate_VNetInjection.json
  */
 async function servicesCreateOrUpdateVNetInjection() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const resource: ServiceResource = {
     location: "eastus",
@@ -114,4 +122,10 @@ async function servicesCreateOrUpdateVNetInjection() {
   console.log(result);
 }
 
-servicesCreateOrUpdateVNetInjection().catch(console.error);
+async function main() {
+  servicesCreateOrUpdate();
+  servicesCreateOrUpdateEnterprise();
+  servicesCreateOrUpdateVNetInjection();
+}
+
+main().catch(console.error);

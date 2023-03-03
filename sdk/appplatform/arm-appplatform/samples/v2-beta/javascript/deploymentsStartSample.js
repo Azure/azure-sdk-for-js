@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { AppPlatformManagementClient } = require("@azure/arm-appplatform");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Start the deployment.
  *
  * @summary Start the deployment.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-09-01-preview/examples/Deployments_Start.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/Deployments_Start.json
  */
 async function deploymentsStart() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const appName = "myapp";
   const deploymentName = "mydeployment";
@@ -34,4 +36,8 @@ async function deploymentsStart() {
   console.log(result);
 }
 
-deploymentsStart().catch(console.error);
+async function main() {
+  deploymentsStart();
+}
+
+main().catch(console.error);

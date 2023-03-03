@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ResourceConnectorManagementClient } = require("@azure/arm-resourceconnector");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the upgrade graph of an Appliance with a specified resource group and name and specific release train.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/preview/2022-04-15-preview/examples/UpgradeGraph.json
  */
 async function getApplianceUpgradeGraph() {
-  const subscriptionId = "11111111-2222-3333-4444-555555555555";
-  const resourceGroupName = "testresourcegroup";
+  const subscriptionId =
+    process.env["RESOURCECONNECTOR_SUBSCRIPTION_ID"] || "11111111-2222-3333-4444-555555555555";
+  const resourceGroupName = process.env["RESOURCECONNECTOR_RESOURCE_GROUP"] || "testresourcegroup";
   const resourceName = "appliance01";
   const upgradeGraph = "stable";
   const credential = new DefaultAzureCredential();
@@ -32,4 +34,8 @@ async function getApplianceUpgradeGraph() {
   console.log(result);
 }
 
-getApplianceUpgradeGraph().catch(console.error);
+async function main() {
+  getApplianceUpgradeGraph();
+}
+
+main().catch(console.error);

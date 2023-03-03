@@ -8,4 +8,4 @@
 
 export * from "./models";
 export { StorageClient } from "./storageClient";
-export { StorageClientContext } from "./storageClientContext";
+export * from "./operationsInterfaces";

@@ -13,14 +13,21 @@ export function getHeaderName(): string {
 }
 
 interface NavigatorEx extends Navigator {
-  // oscpu is not yet standards-compliant, but can not be undefined in TypeScript 3.6.2
-  readonly oscpu: string;
+  userAgentData?: {
+    platform?: string;
+  };
 }
 
 /**
  * @internal
  */
 export function setPlatformSpecificData(map: Map<string, string>): void {
-  const navigator = self.navigator as NavigatorEx;
-  map.set("OS", (navigator.oscpu || navigator.platform).replace(" ", ""));
+  const localNavigator = globalThis.navigator as NavigatorEx;
+  map.set(
+    "OS",
+    (localNavigator?.userAgentData?.platform ?? localNavigator?.platform ?? "unknown").replace(
+      " ",
+      ""
+    )
+  );
 }

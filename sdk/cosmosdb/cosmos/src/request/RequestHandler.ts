@@ -90,15 +90,18 @@ async function httpRequest(requestContext: RequestContext): Promise<{
         throw error;
       }
       // If the user didn't cancel, it must be an abort we called due to timeout
-      throw new TimeoutError();
+      throw new TimeoutError(
+        `Timeout Error! Request took more than ${requestContext.connectionPolicy.requestTimeout} ms`
+      );
     }
     throw error;
   }
 
   clearTimeout(timeout);
-
   const result =
-    response.status === 204 || response.status === 304 ? null : JSON.parse(response.bodyAsText);
+    response.status === 204 || response.status === 304 || response.bodyAsText === ""
+      ? null
+      : JSON.parse(response.bodyAsText);
   const headers = response.headers.toJSON();
 
   const substatus = headers[Constants.HttpHeaders.SubStatus]

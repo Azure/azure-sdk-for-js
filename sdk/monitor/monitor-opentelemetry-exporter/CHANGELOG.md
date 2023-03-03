@@ -1,14 +1,10 @@
 # Release History
 
-## 1.0.0-beta.11 (Unreleased)
+## 1.0.0-beta.11 (2023-02-02)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Add attach and feature Statsbeat Metrics.
 
 ## 1.0.0-beta.10 (2022-11-09)
 

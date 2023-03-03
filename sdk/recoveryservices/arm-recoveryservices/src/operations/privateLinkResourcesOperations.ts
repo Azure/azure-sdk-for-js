@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PrivateLinkResourcesOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -38,8 +39,7 @@ export class PrivateLinkResourcesOperationsImpl
 
   /**
    * Returns the list of private link resources that need to be created for Backup and SiteRecovery
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the recovery services vault.
    * @param options The options parameters.
    */
@@ -56,8 +56,16 @@ export class PrivateLinkResourcesOperationsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, vaultName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          vaultName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -65,11 +73,18 @@ export class PrivateLinkResourcesOperationsImpl
   private async *listPagingPage(
     resourceGroupName: string,
     vaultName: string,
-    options?: PrivateLinkResourcesListOptionalParams
+    options?: PrivateLinkResourcesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PrivateLinkResource[]> {
-    let result = await this._list(resourceGroupName, vaultName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PrivateLinkResourcesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, vaultName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -78,7 +93,9 @@ export class PrivateLinkResourcesOperationsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -98,8 +115,7 @@ export class PrivateLinkResourcesOperationsImpl
 
   /**
    * Returns the list of private link resources that need to be created for Backup and SiteRecovery
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the recovery services vault.
    * @param options The options parameters.
    */
@@ -116,8 +132,7 @@ export class PrivateLinkResourcesOperationsImpl
 
   /**
    * Returns a specified private link resource that need to be created for Backup and SiteRecovery
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the recovery services vault.
    * @param privateLinkResourceName
    * @param options The options parameters.
@@ -136,8 +151,7 @@ export class PrivateLinkResourcesOperationsImpl
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the recovery services vault.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -213,7 +227,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

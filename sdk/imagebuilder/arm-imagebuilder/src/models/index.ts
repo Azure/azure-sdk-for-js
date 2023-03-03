@@ -235,7 +235,7 @@ export interface Operation {
   display?: OperationDisplay;
   /** The intended executor of the operation. */
   origin?: string;
-  /** Any object */
+  /** Properties of the operation. */
   properties?: Record<string, unknown>;
   /** The flag that indicates whether the operation applies to data plane. */
   isDataAction?: boolean;
@@ -264,7 +264,7 @@ export interface PlatformImagePurchasePlan {
 }
 
 /** Describes an image source from [Azure Gallery Images](https://docs.microsoft.com/en-us/rest/api/compute/virtualmachineimages). */
-export type ImageTemplatePlatformImageSource = ImageTemplateSource & {
+export interface ImageTemplatePlatformImageSource extends ImageTemplateSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "PlatformImage";
   /** Image Publisher in [Azure Gallery Images](https://docs.microsoft.com/en-us/rest/api/compute/virtualmachineimages). */
@@ -282,26 +282,27 @@ export type ImageTemplatePlatformImageSource = ImageTemplateSource & {
   readonly exactVersion?: string;
   /** Optional configuration of purchase plan for platform image. */
   planInfo?: PlatformImagePurchasePlan;
-};
+}
 
 /** Describes an image source that is a managed image in customer subscription. This image must reside in the same subscription and region as the Image Builder template. */
-export type ImageTemplateManagedImageSource = ImageTemplateSource & {
+export interface ImageTemplateManagedImageSource extends ImageTemplateSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ManagedImage";
   /** ARM resource id of the managed image in customer subscription */
   imageId: string;
-};
+}
 
 /** Describes an image source that is an image version in a shared image gallery. */
-export type ImageTemplateSharedImageVersionSource = ImageTemplateSource & {
+export interface ImageTemplateSharedImageVersionSource
+  extends ImageTemplateSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SharedImageVersion";
   /** ARM resource id of the image version in the shared image gallery */
   imageVersionId: string;
-};
+}
 
 /** Runs a shell script during the customization phase (Linux). Corresponds to Packer shell provisioner. Exactly one of 'scriptUri' or 'inline' can be specified. */
-export type ImageTemplateShellCustomizer = ImageTemplateCustomizer & {
+export interface ImageTemplateShellCustomizer extends ImageTemplateCustomizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Shell";
   /** URI of the shell script to be run for customizing. It can be a github link, SAS URI for Azure Storage, etc */
@@ -310,10 +311,11 @@ export type ImageTemplateShellCustomizer = ImageTemplateCustomizer & {
   sha256Checksum?: string;
   /** Array of shell commands to execute */
   inline?: string[];
-};
+}
 
 /** Reboots a VM and waits for it to come back online (Windows). Corresponds to Packer windows-restart provisioner */
-export type ImageTemplateRestartCustomizer = ImageTemplateCustomizer & {
+export interface ImageTemplateRestartCustomizer
+  extends ImageTemplateCustomizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "WindowsRestart";
   /** Command to execute the restart [Default: 'shutdown /r /f /t 0 /c "packer restart"'] */
@@ -322,10 +324,11 @@ export type ImageTemplateRestartCustomizer = ImageTemplateCustomizer & {
   restartCheckCommand?: string;
   /** Restart timeout specified as a string of magnitude and unit, e.g. '5m' (5 minutes) or '2h' (2 hours) [Default: '5m'] */
   restartTimeout?: string;
-};
+}
 
 /** Installs Windows Updates. Corresponds to Packer Windows Update Provisioner (https://github.com/rgl/packer-provisioner-windows-update) */
-export type ImageTemplateWindowsUpdateCustomizer = ImageTemplateCustomizer & {
+export interface ImageTemplateWindowsUpdateCustomizer
+  extends ImageTemplateCustomizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "WindowsUpdate";
   /** Criteria to search updates. Omit or specify empty string to use the default (search all). Refer to above link for examples and detailed description of this field. */
@@ -334,10 +337,11 @@ export type ImageTemplateWindowsUpdateCustomizer = ImageTemplateCustomizer & {
   filters?: string[];
   /** Maximum number of updates to apply at a time. Omit or specify 0 to use the default (1000) */
   updateLimit?: number;
-};
+}
 
 /** Runs the specified PowerShell on the VM (Windows). Corresponds to Packer powershell provisioner. Exactly one of 'scriptUri' or 'inline' can be specified. */
-export type ImageTemplatePowerShellCustomizer = ImageTemplateCustomizer & {
+export interface ImageTemplatePowerShellCustomizer
+  extends ImageTemplateCustomizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "PowerShell";
   /** URI of the PowerShell script to be run for customizing. It can be a github link, SAS URI for Azure Storage, etc */
@@ -352,10 +356,10 @@ export type ImageTemplatePowerShellCustomizer = ImageTemplateCustomizer & {
   runAsSystem?: boolean;
   /** Valid exit codes for the PowerShell script. [Default: 0] */
   validExitCodes?: number[];
-};
+}
 
 /** Uploads files to VMs (Linux, Windows). Corresponds to Packer file provisioner */
-export type ImageTemplateFileCustomizer = ImageTemplateCustomizer & {
+export interface ImageTemplateFileCustomizer extends ImageTemplateCustomizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "File";
   /** The URI of the file to be uploaded for customizing the VM. It can be a github link, SAS URI for Azure Storage, etc */
@@ -364,10 +368,11 @@ export type ImageTemplateFileCustomizer = ImageTemplateCustomizer & {
   sha256Checksum?: string;
   /** The absolute path to a file (with nested directory structures already created) where the file (from sourceUri) will be uploaded to in the VM */
   destination?: string;
-};
+}
 
 /** Runs the specified shell script during the validation phase (Linux). Corresponds to Packer shell provisioner. Exactly one of 'scriptUri' or 'inline' can be specified. */
-export type ImageTemplateShellValidator = ImageTemplateInVMValidator & {
+export interface ImageTemplateShellValidator
+  extends ImageTemplateInVMValidator {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Shell";
   /** URI of the shell script to be run for validation. It can be a github link, Azure Storage URI, etc */
@@ -376,10 +381,11 @@ export type ImageTemplateShellValidator = ImageTemplateInVMValidator & {
   sha256Checksum?: string;
   /** Array of shell commands to execute */
   inline?: string[];
-};
+}
 
 /** Runs the specified PowerShell script during the validation phase (Windows). Corresponds to Packer powershell provisioner. Exactly one of 'scriptUri' or 'inline' can be specified. */
-export type ImageTemplatePowerShellValidator = ImageTemplateInVMValidator & {
+export interface ImageTemplatePowerShellValidator
+  extends ImageTemplateInVMValidator {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "PowerShell";
   /** URI of the PowerShell script to be run for validation. It can be a github link, Azure Storage URI, etc */
@@ -394,20 +400,22 @@ export type ImageTemplatePowerShellValidator = ImageTemplateInVMValidator & {
   runAsSystem?: boolean;
   /** Valid exit codes for the PowerShell script. [Default: 0] */
   validExitCodes?: number[];
-};
+}
 
 /** Distribute as a Managed Disk Image. */
-export type ImageTemplateManagedImageDistributor = ImageTemplateDistributor & {
+export interface ImageTemplateManagedImageDistributor
+  extends ImageTemplateDistributor {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ManagedImage";
   /** Resource Id of the Managed Disk Image */
   imageId: string;
   /** Azure location for the image, should match if image already exists */
   location: string;
-};
+}
 
 /** Distribute via Shared Image Gallery. */
-export type ImageTemplateSharedImageDistributor = ImageTemplateDistributor & {
+export interface ImageTemplateSharedImageDistributor
+  extends ImageTemplateDistributor {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SharedImage";
   /** Resource Id of the Shared Image Gallery image */
@@ -418,27 +426,27 @@ export type ImageTemplateSharedImageDistributor = ImageTemplateDistributor & {
   excludeFromLatest?: boolean;
   /** Storage account type to be used to store the shared image. Omit to use the default (Standard_LRS). */
   storageAccountType?: SharedImageStorageAccountType;
-};
+}
 
 /** Distribute via VHD in a storage account. */
-export type ImageTemplateVhdDistributor = ImageTemplateDistributor & {
+export interface ImageTemplateVhdDistributor extends ImageTemplateDistributor {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "VHD";
-};
+}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource;
+export interface ProxyResource extends Resource {}
 
 /** Image template is an ARM resource managed by Microsoft.VirtualMachineImages provider */
-export type ImageTemplate = TrackedResource & {
+export interface ImageTemplate extends TrackedResource {
   /** The identity of the image template, if configured. */
   identity: ImageTemplateIdentity;
   /** Specifies the properties used to describe the source image. */
@@ -475,10 +483,10 @@ export type ImageTemplate = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly exactStagingResourceGroup?: string;
-};
+}
 
 /** Represents an output that was created by running an image template. */
-export type RunOutput = ProxyResource & {
+export interface RunOutput extends ProxyResource {
   /** The resource id of the artifact. */
   artifactId?: string;
   /** The location URI of the artifact. */
@@ -488,24 +496,39 @@ export type RunOutput = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** Known values of {@link ProvisioningErrorCode} that the service accepts. */
 export enum KnownProvisioningErrorCode {
+  /** BadSourceType */
   BadSourceType = "BadSourceType",
+  /** BadPIRSource */
   BadPIRSource = "BadPIRSource",
+  /** BadManagedImageSource */
   BadManagedImageSource = "BadManagedImageSource",
+  /** BadSharedImageVersionSource */
   BadSharedImageVersionSource = "BadSharedImageVersionSource",
+  /** BadCustomizerType */
   BadCustomizerType = "BadCustomizerType",
+  /** UnsupportedCustomizerType */
   UnsupportedCustomizerType = "UnsupportedCustomizerType",
+  /** NoCustomizerScript */
   NoCustomizerScript = "NoCustomizerScript",
+  /** BadValidatorType */
   BadValidatorType = "BadValidatorType",
+  /** UnsupportedValidatorType */
   UnsupportedValidatorType = "UnsupportedValidatorType",
+  /** NoValidatorScript */
   NoValidatorScript = "NoValidatorScript",
+  /** BadDistributeType */
   BadDistributeType = "BadDistributeType",
+  /** BadSharedImageDistribute */
   BadSharedImageDistribute = "BadSharedImageDistribute",
+  /** BadStagingResourceGroup */
   BadStagingResourceGroup = "BadStagingResourceGroup",
+  /** ServerError */
   ServerError = "ServerError",
+  /** Other */
   Other = "Other"
 }
 
@@ -534,9 +557,13 @@ export type ProvisioningErrorCode = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -554,7 +581,9 @@ export type CreatedByType = string;
 
 /** Known values of {@link SharedImageStorageAccountType} that the service accepts. */
 export enum KnownSharedImageStorageAccountType {
+  /** StandardLRS */
   StandardLRS = "Standard_LRS",
+  /** StandardZRS */
   StandardZRS = "Standard_ZRS"
 }
 

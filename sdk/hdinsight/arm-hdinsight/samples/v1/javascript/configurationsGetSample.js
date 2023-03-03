@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { HDInsightManagementClient } = require("@azure/arm-hdinsight");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to The configuration object for the specified cluster. This API is not recommended and might be removed in the future. Please consider using List configurations API instead.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/HDI_Configurations_Get.json
  */
 async function getCoreSiteSettings() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cluster1";
   const configurationName = "core-site";
   const credential = new DefaultAzureCredential();
@@ -28,4 +29,8 @@ async function getCoreSiteSettings() {
   console.log(result);
 }
 
-getCoreSiteSettings().catch(console.error);
+async function main() {
+  getCoreSiteSettings();
+}
+
+main().catch(console.error);

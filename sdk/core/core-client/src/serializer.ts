@@ -954,9 +954,15 @@ function deserializeCompositeType(
       let propertyInstance;
       let res = responseBody;
       // traversing the object step by step.
+      let steps = 0;
       for (const item of paths) {
         if (!res) break;
+        steps++;
         res = res[item];
+      }
+      // only accept null when reaching the last position of object otherwise it would be undefined
+      if (res === null && steps < paths.length) {
+        res = undefined;
       }
       propertyInstance = res;
       const polymorphicDiscriminator = mapper.type.polymorphicDiscriminator;

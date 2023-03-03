@@ -1,0 +1,70 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/88888888-8888-8888-8888-888888888888/resourceGroups/myjstest/providers/Microsoft.DataProtection/backupVaults?api-version=2023-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dataprotection/1.0.0-beta.2 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "8a8c882f-9ad7-473d-9e41-567c95d7c3f3"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 10 Feb 2023 06:05:25 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "9d172af2-907d-4a8e-a8b7-777a25a8769f",
+        "x-ms-ratelimit-remaining-subscription-resource-requests": "497",
+        "x-ms-request-id": "9d172af2-907d-4a8e-a8b7-777a25a8769f",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230210T060525Z:9d172af2-907d-4a8e-a8b7-777a25a8769f"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "location": "eastus",
+            "tags": {
+              "key1": "val1"
+            },
+            "properties": {
+              "provisioningState": "Succeeded",
+              "storageSettings": [
+                {
+                  "datastoreType": "VaultStore",
+                  "type": "LocallyRedundant"
+                }
+              ],
+              "isVaultProtectedByResourceGuard": false,
+              "monitoringSettings": {
+                "azureMonitorAlertSettings": {
+                  "alertsForAllJobFailures": "Enabled"
+                }
+              },
+              "securitySettings": {
+                "softDeleteSettings": {
+                  "state": "On",
+                  "retentionDurationInDays": 14.0
+                }
+              }
+            },
+            "id": "/subscriptions/88888888-8888-8888-8888-888888888888/resourceGroups/myjstest/providers/Microsoft.DataProtection/backupVaults/swaggerExample",
+            "name": "swaggerExample",
+            "type": "Microsoft.DataProtection/backupVaults"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

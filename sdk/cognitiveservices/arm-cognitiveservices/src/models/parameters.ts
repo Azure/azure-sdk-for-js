@@ -18,7 +18,9 @@ import {
   CheckDomainAvailabilityParameter as CheckDomainAvailabilityParameterMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   Deployment as DeploymentMapper,
-  CommitmentPlan as CommitmentPlanMapper
+  CommitmentPlan as CommitmentPlanMapper,
+  PatchResourceTagsAndSku as PatchResourceTagsAndSkuMapper,
+  CommitmentPlanAccountAssociation as CommitmentPlanAccountAssociationMapper
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -96,7 +98,7 @@ export const accountName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-10-01",
+    defaultValue: "2022-12-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -233,4 +235,42 @@ export const commitmentPlanName: OperationURLParameter = {
 export const commitmentPlan: OperationParameter = {
   parameterPath: "commitmentPlan",
   mapper: CommitmentPlanMapper
+};
+
+export const commitmentPlanName1: OperationURLParameter = {
+  parameterPath: "commitmentPlanName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$")
+    },
+    serializedName: "commitmentPlanName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const commitmentPlan1: OperationParameter = {
+  parameterPath: "commitmentPlan",
+  mapper: PatchResourceTagsAndSkuMapper
+};
+
+export const commitmentPlanAssociationName: OperationURLParameter = {
+  parameterPath: "commitmentPlanAssociationName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$")
+    },
+    serializedName: "commitmentPlanAssociationName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const association: OperationParameter = {
+  parameterPath: "association",
+  mapper: CommitmentPlanAccountAssociationMapper
 };

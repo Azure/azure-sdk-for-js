@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { AzureOrbital } from "@azure/arm-orbital";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates a spacecraft resource
@@ -18,8 +21,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/SpacecraftCreate.json
  */
 async function createASpacecraft() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["ORBITAL_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["ORBITAL_RESOURCE_GROUP"] || "rg1";
   const spacecraftName = "AQUA";
   const location = "westus";
   const credential = new DefaultAzureCredential();
@@ -32,4 +35,8 @@ async function createASpacecraft() {
   console.log(result);
 }
 
-createASpacecraft().catch(console.error);
+async function main() {
+  createASpacecraft();
+}
+
+main().catch(console.error);

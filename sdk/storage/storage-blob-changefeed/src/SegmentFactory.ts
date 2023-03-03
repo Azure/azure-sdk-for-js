@@ -9,9 +9,8 @@ import { Segment } from "./Segment";
 import { SegmentCursor } from "./models/ChangeFeedCursor";
 import { bodyToString } from "./utils/utils.node";
 import { parseDateFromSegmentPath } from "./utils/utils.common";
-import { AbortSignalLike } from "@azure/core-http";
-import { createSpan } from "./utils/tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { tracingClient } from "./utils/tracing";
 
 export interface SegmentManifest {
   version?: number;
@@ -46,9 +45,7 @@ export class SegmentFactory {
     cursor?: SegmentCursor,
     options: CreateSegmentOptions = {}
   ): Promise<Segment> {
-    const { span, updatedOptions } = createSpan("SegmentFactory-create", options);
-
-    try {
+    return tracingClient.withSpan("SegmentFactory-create", options, async (updatedOptions) => {
       const shards: Shard[] = [];
       const dateTime: Date = parseDateFromSegmentPath(manifestPath);
 
@@ -89,14 +86,6 @@ export class SegmentFactory {
         }
       }
       return new Segment(shards, shardIndex, dateTime, manifestPath);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 }

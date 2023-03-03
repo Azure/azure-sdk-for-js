@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { WorkloadsClient } from "@azure/arm-workloads";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
- * This sample demonstrates how to Deletes the SAP Central Instance. <br><br>This will be used by service only. Delete by end user will return a Bad Request error.
+ * This sample demonstrates how to Deletes the SAP Central Services Instance resource. <br><br>This will be used by service only. Delete operation on this resource by end user will return a Bad Request error. You can delete the parent resource, which is the Virtual Instance for SAP solutions resource, using the delete operation on it.
  *
- * @summary Deletes the SAP Central Instance. <br><br>This will be used by service only. Delete by end user will return a Bad Request error.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPCentralInstances_Delete.json
+ * @summary Deletes the SAP Central Services Instance resource. <br><br>This will be used by service only. Delete operation on this resource by end user will return a Bad Request error. You can delete the parent resource, which is the Virtual Instance for SAP solutions resource, using the delete operation on it.
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPCentralInstances_Delete.json
  */
 async function sapCentralInstancesDelete() {
-  const subscriptionId = "6d875e77-e412-4d7d-9af4-8895278b4443";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "6d875e77-e412-4d7d-9af4-8895278b4443";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
   const sapVirtualInstanceName = "X00";
   const centralInstanceName = "centralServer";
   const credential = new DefaultAzureCredential();
@@ -32,4 +38,8 @@ async function sapCentralInstancesDelete() {
   console.log(result);
 }
 
-sapCentralInstancesDelete().catch(console.error);
+async function main() {
+  sapCentralInstancesDelete();
+}
+
+main().catch(console.error);

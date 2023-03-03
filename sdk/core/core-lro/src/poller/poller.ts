@@ -13,7 +13,7 @@ import {
 } from "./models";
 import { deserializeState, initOperation, pollOperation } from "./operation";
 import { POLL_INTERVAL_IN_MS } from "./constants";
-import { delayMs } from "./util/delayMs";
+import { delay } from "@azure/core-util";
 
 const createStateProxy: <TResult, TState extends OperationState<TResult>>() => StateProxy<
   TState,
@@ -53,6 +53,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
     getOperationLocation,
     getStatusFromInitialResponse,
     getStatusFromPollResponse,
+    isOperationError,
     getResourceLocation,
     getPollingInterval,
     resolveOnUnsuccessful,
@@ -90,7 +91,6 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
           setErrorAsResult: !resolveOnUnsuccessful,
         });
     let resultPromise: Promise<TResult> | undefined;
-    let cancelJob: (() => void) | undefined;
     const abortController = new AbortController();
     // Progress handlers
     type Handler = (state: TState) => void;
@@ -106,7 +106,6 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
       isStopped: () => resultPromise === undefined,
       stopPolling: () => {
         abortController.abort();
-        cancelJob?.();
       },
       toString: () =>
         JSON.stringify({
@@ -126,9 +125,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
           if (!poller.isDone()) {
             await poller.poll({ abortSignal });
             while (!poller.isDone()) {
-              const delay = delayMs(currentPollIntervalInMs);
-              cancelJob = delay.cancel;
-              await delay;
+              await delay(currentPollIntervalInMs, { abortSignal });
               await poller.poll({ abortSignal });
             }
           }
@@ -168,6 +165,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
           state,
           stateProxy,
           getOperationLocation,
+          isOperationError,
           withOperationLocation,
           getPollingInterval,
           getOperationStatus: getStatusFromPollResponse,

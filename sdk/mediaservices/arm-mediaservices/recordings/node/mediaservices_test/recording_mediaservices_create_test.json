@@ -63,7 +63,7 @@
           "tier": "Standard"
         },
         "kind": "StorageV2",
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/mystorageaccountxxx111",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/mystorageaccountxxx111",
         "name": "mystorageaccountxxx111",
         "type": "Microsoft.Storage/storageAccounts",
         "location": "westeurope",
