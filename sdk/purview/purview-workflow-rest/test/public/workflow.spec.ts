@@ -9,6 +9,7 @@ import { Context } from "mocha";
 import { PurviewWorkflowClient } from "../../src/clientDefinitions";
 import { CreateOrReplaceWorkflowParameters } from "../../src/parameters";
 import { isUnexpected } from "../../src/isUnexpected";
+import { assert } from "chai";
 
 describe("Get a workflow", () => {
   let recorder: Recorder;
@@ -104,6 +105,8 @@ describe("Get a workflow", () => {
     if (isUnexpected(createResult)) {
       throw createResult.body.error;
     }
+
+    assert.equal(createResult.body.id, workflowId);
   });
 
   it("should get a workflow", async function () {
@@ -111,5 +114,7 @@ describe("Get a workflow", () => {
     if (isUnexpected(getResult)) {
       throw getResult.body.error;
     }
+
+    assert.equal(getResult.body.id, workflowId);
   });
 });

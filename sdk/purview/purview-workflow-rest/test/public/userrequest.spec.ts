@@ -9,6 +9,7 @@ import { Context } from "mocha";
 import { PurviewWorkflowClient } from "../../src/clientDefinitions";
 import { SubmitUserRequestsParameters } from "../../src/parameters";
 import { isUnexpected } from "../../src/isUnexpected";
+import { assert } from "chai";
 
 describe("Submit a user request", () => {
   let recorder: Recorder;
@@ -43,9 +44,9 @@ describe("Submit a user request", () => {
       },
     };
     const result = await client.path("/userrequests").post(options);
-
     if (isUnexpected(result)) {
       throw result.body.error;
     }
+    assert.equal(result.body.status, "InProgress");
   });
 });
