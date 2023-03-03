@@ -142,12 +142,15 @@ A file may opt out of snippet extraction using a comment directive. Any files co
 For readability, these directive comments SHOULD be placed at or near the top of the file, but the file will be ignored if it contains this text anywhere.
 ### Parsing the TypeScript Tests
 
-These are the rules for parsing the unit tests for the Azure SDK for JavaScript.  Any deviations from this pattern shall be an error.
+Snippets are extracted using the TypeScript compiler API. Strictly, a code snippet is extracted using the following method:
 
-1. Each `it` method will be extracted as a `CallExpression` with the `StringLiteral` as the name of the snippet name
-2. The method body will be a child of the `ArrowFunction` or `FunctionExpression` as a `Block`
-3. Any `BinaryOperation` where the operator is `BarBarToken` and the left expression is a `process.env` access expression OR nullish coalescing operator where the left hand side is a `process.env` access will be replaced by the right hand side expression.
-4. An import will be added to the generated code snippet for every `Identifier` which has a `Symbol` with a declaration of an `ImportSpecifier`.
+1. The file `test/snippets.spec.ts` is read and parsed in the context of the package local to where `dev-tool` was invoked.
+2. Each `CallExpression` where the called expression is the literal identifier `it` and the first argument is a `StringLiteral` and the second argument is a function expression (`ArrowFunction` or `FunctionExpression`) is treated as the definition of a snippet, where the snippet name is the extracted `StringLiteral` text.
+3. If the second argument is an `ArrowFunction`, its body must be a `Block` (i.e. it is not allowed for the function's body to be an `Expression` as in `() => "test"`, it must be `() => { return "test"; }` instead).
+4. Any `BinaryOperation` where the operator is `BarBarToken` or `QuestionMarkQuestionMarkToken` (i.e. a binary logical or operation or nullish coalescing operator) and where the left-hand-side expression is a `process.env` access expression will be replaced by the right hand side expression within the extracted `Block`.
+5. The symbols within the `Block` are analyzed to determine whether or not they refer to the definitions within any imports (their type symbols resolve to an import source that is an `ImportSpecifier`), and corresponding `import` declarations are added to the beginning of the extracted `Block` 
+6. The contents of the extracted & modified `Block` are validated to ensure they do not contain any syntax that will not function on our minimum-supported Node.js target.
+7. If the target language (as declared in the code fence) is `js` or `javascript`, the extracted & modified `Block` is transpiled to JavaScript using the same method we use for compiling samples.
 
 ### Work required
 
