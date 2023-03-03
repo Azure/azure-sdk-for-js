@@ -10,7 +10,7 @@
         "Connection": "keep-alive",
         "Content-Length": "76",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-alpha.20230221.2 core-rest-pipeline/1.9.2 Node/v18.13.0 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-alpha.20230303.1 core-rest-pipeline/1.9.2 Node/v18.13.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "NvbaLx12k7om8Eb2Mz5JTOeWwwiatQPMhs7greocAsM=",
         "x-ms-date": "Thu, 02 Mar 2023 09:15:01 GMT"
@@ -117,7 +117,7 @@
         "Connection": "keep-alive",
         "Content-Length": "75",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-alpha.20230221.2 core-rest-pipeline/1.9.2 Node/v18.13.0 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-alpha.20230303.1 core-rest-pipeline/1.9.2 Node/v18.13.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "WJRlbixLeXiu9fluf2XiAYjt8B/3U4zFLp4lRqaRk7g=",
         "x-ms-date": "Thu, 02 Mar 2023 09:15:02 GMT"

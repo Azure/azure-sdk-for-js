@@ -22,7 +22,7 @@
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "8KkYp\u002BPCev4PDVlg3lQ161Ts1axFIrgfmPjn6kTWbVg=",
         "x-ms-date": "Thu, 02 Mar 2023 13:32:46 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-alpha.20230221.2 core-rest-pipeline/1.9.2 OS/Win32"
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-alpha.20230303.1 core-rest-pipeline/1.9.2 OS/Win32"
       },
       "RequestBody": {
         "trunks": {
@@ -82,7 +82,7 @@
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
         "x-ms-date": "Thu, 02 Mar 2023 13:32:48 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-alpha.20230221.2 core-rest-pipeline/1.9.2 OS/Win32"
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-alpha.20230303.1 core-rest-pipeline/1.9.2 OS/Win32"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -137,7 +137,7 @@
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "P2NPMlC5wF2LqCDyVuh6Nc0vtKKNeXSsW8IZsZgw87Y=",
         "x-ms-date": "Thu, 02 Mar 2023 13:32:48 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-alpha.20230221.2 core-rest-pipeline/1.9.2 OS/Win32"
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-alpha.20230303.1 core-rest-pipeline/1.9.2 OS/Win32"
       },
       "RequestBody": {
         "trunks": {
@@ -189,7 +189,7 @@
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
         "x-ms-date": "Thu, 02 Mar 2023 13:32:49 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-alpha.20230221.2 core-rest-pipeline/1.9.2 OS/Win32"
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-alpha.20230303.1 core-rest-pipeline/1.9.2 OS/Win32"
       },
       "RequestBody": null,
       "StatusCode": 200,

@@ -22,7 +22,7 @@
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "TsP/K5Z7Qsj9mONDLYrj7rYvZ6bDhNeWI85Sq4gLutI=",
         "x-ms-date": "Thu, 02 Mar 2023 13:32:28 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-alpha.20230221.2 core-rest-pipeline/1.9.2 OS/Win32"
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-alpha.20230303.1 core-rest-pipeline/1.9.2 OS/Win32"
       },
       "RequestBody": {
         "domains": {
@@ -81,7 +81,7 @@
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "5BZtJTiEv6ePrRbZyknN7VHS0mKQ5VMDpyFXOfBEH2I=",
         "x-ms-date": "Thu, 02 Mar 2023 13:32:29 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-alpha.20230221.2 core-rest-pipeline/1.9.2 OS/Win32"
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-alpha.20230303.1 core-rest-pipeline/1.9.2 OS/Win32"
       },
       "RequestBody": {
         "domains": {
@@ -133,7 +133,7 @@
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
         "x-ms-date": "Thu, 02 Mar 2023 13:32:30 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-alpha.20230221.2 core-rest-pipeline/1.9.2 OS/Win32"
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-alpha.20230303.1 core-rest-pipeline/1.9.2 OS/Win32"
       },
       "RequestBody": null,
       "StatusCode": 200,
