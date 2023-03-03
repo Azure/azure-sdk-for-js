@@ -69,7 +69,7 @@ describe("snippets", function () {
 
 The top level `describe` call defines a suite named `"snippets"`, and any nested `it` calls define unit tests where the name given is the name of the corresponding snippet. The above file defines a single snippet named `"GetConfigurationSetting"`. The snippet initializes the client using environment variables but coalesces those values to string literals if the environment variables are undefined. Because the resulting `setting` variable is unused, the `@ts-ignore` designation must be applied to prevent a compiler error.
 
-The README shall have gated sections just as the Azure SDK for .NET such as the following:
+To create a code snippet in a README file or documentation comment, the snippet name is applied to the code fence (just as we saw in the Azure SDK for .NET example above):
 
 ```md
 ts snippet:CreateConfigurationClient
