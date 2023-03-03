@@ -15,6 +15,7 @@ import { KeyCredential, TokenCredential, isTokenCredential } from '@azure/core-a
 import { CommonClientOptions, InternalClientPipelineOptions } from '@azure/core-client';
 import { tracingClient, logger } from './utils';
 import { CommunicationError, DomainVerificationClient as DomainVerificationGeneratedClient } from './generated/src';
+import { KnownChallengeType} from './generated/src/models'
 
 /**
  * Client options used to configure DomainVerification Client API requests.
@@ -131,7 +132,7 @@ export class DomainVerificationClient {
   ): Promise<DomainOwnership> {
     return tracingClient.withSpan("DomainVerificationClient-verifyDomainOwnership",options,async (updatedOptions) => {
       try {
-        var result = await this.client.verifyDomainOwnership.post(domain, updatedOptions);
+        var result = await this.client.verifyDomainOwnership.post(domain, KnownChallengeType.TXT, updatedOptions);
         return ConvertToDomainOwnership(result);
       } catch (e: any) {
         throw {

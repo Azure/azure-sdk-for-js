@@ -30,16 +30,6 @@ generate-test: false
 ```yaml
 directive:
   - from: swagger-document
-    where: $.definitions.challengeType["x-ms-enum"]
-    transform: >
-      if ($.modelAsString) {
-        $.modelAsString = false
-      }
-```
-
-```yaml
-directive:
-  - from: swagger-document
     where: $.definitions.status["x-ms-enum"]
     transform: >
       if ($.modelAsString) {

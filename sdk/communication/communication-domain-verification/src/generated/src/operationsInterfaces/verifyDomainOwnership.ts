@@ -7,6 +7,7 @@
  */
 
 import {
+  ChallengeType,
   VerifyDomainOwnershipPostOptionalParams,
   VerifyDomainOwnershipPostResponse
 } from "../models";
@@ -16,10 +17,12 @@ export interface VerifyDomainOwnership {
   /**
    * Verify domain by testing the challenge for given domain
    * @param domain Verified Domain
+   * @param challengeType Type of domain verification challenge
    * @param options The options parameters.
    */
   post(
     domain: string,
+    challengeType: ChallengeType,
     options?: VerifyDomainOwnershipPostOptionalParams
   ): Promise<VerifyDomainOwnershipPostResponse>;
 }
