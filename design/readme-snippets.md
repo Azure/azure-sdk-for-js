@@ -107,6 +107,25 @@ This system works for JSDoc code snippets just as well as README code snippets. 
    */
 ```
 
+### The snippet extraction tool
+
+The snippet extractor is part of `dev-tool`, and is invoked using the following command:
+
+```bash
+$ npx dev-tool run update-snippets
+```
+
+The tool detects the current package and runs the above-described process automatically. If any code fences denoting `js`, `ts`, `javascript`, or `typescript` language tags are encountered and do not declare a snippet name (`snippet:<Name>`), an error is thrown.
+
+
+It MAY be possible to automatically migrate a package from a state where the snippets are not named to a state where the snippets are named. If this functionality is supported for a package, it can be invoked using the `--migrate` flag to the `update-snippets` command:
+
+```bash
+$ npx dev-tool run update-snippets --migrate
+```
+
+This will attempt a BEST EFFORT migration. It is not expected that this will yield a perfect, or even a compiling result. It is expected that maintainers MUST manually verify the correctness of the resulting migration.
+
 ### Files subject to snippet extraction
 
 The following set of files within a package directory is subject to snippet extraction:
