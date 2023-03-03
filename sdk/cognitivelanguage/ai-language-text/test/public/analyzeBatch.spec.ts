@@ -434,7 +434,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
 
             // Assert that the sentences are in descending rankScore order
             for await (const actionResult of results) {
-              if (actionResult.kind == "ExtractiveSummarization" && !actionResult.error) {
+              if (actionResult.kind === "ExtractiveSummarization" && !actionResult.error) {
                 for (const result of actionResult.results) {
                   if (!result.error) {
                     assert.isTrue(
