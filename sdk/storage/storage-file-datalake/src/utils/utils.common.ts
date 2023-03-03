@@ -571,7 +571,7 @@ export function windowsFileTimeTicksToTime(timeNumber: string | undefined): Date
   // So, we'll handle the calculations in milliseconds from here
 
   // Time in milliseconds since "12:00 A.M. January 1, 1601"
-  const timeElapsed = parseInt(timeNumber.substring(0, timeNumber.length - 4));
+  const timeElapsed = parseInt(timeNumber)/10000;
 
   if (timeElapsed === 0) return undefined;
 
@@ -580,7 +580,7 @@ export function windowsFileTimeTicksToTime(timeNumber: string | undefined): Date
   // Milliseconds calculated relative to "12:00 A.M. January 1, 1970" (will be negative)
   const initialFrameOfReference = Date.UTC(1601, 0, 1);
 
-  // (TimeAt1601 - TimeAt1970) + (Current - TimeAt1601) = (Current - TimeAt1970)
+  // TimeRelativeTo1970 = (TimeAt1601 - TimeAt1970) + (Current - TimeAt1601) = (Current - TimeAt1970)
   return new Date(initialFrameOfReference + timeElapsed);
 }
 
