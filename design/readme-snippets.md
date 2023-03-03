@@ -71,9 +71,11 @@ The top level `describe` call defines a suite named `"snippets"`, and any nested
 
 To create a code snippet in a README file or documentation comment, the snippet name is applied to the code fence (just as we saw in the Azure SDK for .NET example above):
 
-```md
-ts snippet:CreateConfigurationClient
-```
+````md
+```js snippet:GetConfigurationSetting
+````
+
+Following the migration of a package to utilize this snippet extraction system, it is an error for any snippet to be unnamed. All JavaScript and TypeScript snippets **MUST** declare a name, and that name **MUST** match the name of a snippet in the `snippets.spec.ts` file. 
 
 The resulting text from the above unit test should be then inserted into the README during compilation time where it will pull in appropriate imports from the top level as necessary, and fall back to the sample text for each configuration value.
 
