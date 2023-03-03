@@ -74,29 +74,3 @@ export function assertActionResults<T>(
   const { excludedAdditionalProps = ["confidenceScore", "confidenceScores"] } = options;
   assert.deepEqualExcludingEvery(result, expectation, excludedAdditionalProps as any);
 }
-
-export async function assertSummarizationActionsResults(
-  actions: PagedAnalyzeBatchResult,
-  expectations: AnalyzeBatchResult[],
-  options: {
-    maxPageSize?: number;
-    excludedAdditionalProps?: string[];
-  } = {}
-): Promise<void> {
-  const { maxPageSize, excludedAdditionalProps = [] } = options;
-  let actionIndex = 0;
-  for await (const page of actions.byPage(maxPageSize !== undefined ? { maxPageSize } : {})) {
-    for (const action of page) {
-      assert.deepEqualExcludingEvery(action, expectations[actionIndex++], [
-        "completedOn",
-        "modelVersion",
-        "failedOn",
-        "text",
-        "rankScore",
-        "offset",
-        "length",
-        ...excludedAdditionalProps,
-      ] as any);
-    }
-  }
-}
