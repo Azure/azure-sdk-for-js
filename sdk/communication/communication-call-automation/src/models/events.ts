@@ -15,14 +15,15 @@ import {
   RecognizeCompleted as RestRecognizeCompleted,
   RecognizeFailed as RestRecognizeFailed,
   RecognizeCanceled as RestRecognizeCanceled,
-  ResultInformation,
+  ResultInformation
 } from "../generated/src/models";
 
+import { CallParticipant } from "./models";
 
 /** Callback events for Call Automation */
 export type CallAutomationEvent =
-  | AddParticipantsSucceeded
-  | AddParticipantsFailed
+  | AddParticipantSucceeded
+  | AddParticipantFailed
   | CallConnected
   | CallDisconnected
   | CallTransferAccepted
@@ -51,8 +52,8 @@ export {
   ResultInformation
 };
 
-/** The participants successfully added event. */
-export interface AddParticipantsSucceeded {
+/** The participant successfully added event. */
+export interface AddParticipantSucceeded {
   /** Call connection ID. */
   callConnectionId?: string;
   /** Server call ID. */
@@ -63,14 +64,14 @@ export interface AddParticipantsSucceeded {
   operationContext?: string;
   /** Contains the resulting SIP code/sub-code and message from NGC services. */
   resultInformation?: ResultInformation;
-  /** The list of participants in the call. */
-  participants?: CommunicationIdentifier[];
+  /** The participant in the call. */
+  participant?: CommunicationIdentifier;
   /** kind of this event. */
-  kind: "AddParticipantsSucceeded";
+  kind: "AddParticipantSucceeded";
 }
 
-/** The failed to add participants event. */
-export interface AddParticipantsFailed {
+/** The failed to add participant event. */
+export interface AddParticipantFailed {
   /** Call connection ID. */
   callConnectionId?: string;
   /** Server call ID. */
@@ -81,10 +82,10 @@ export interface AddParticipantsFailed {
   operationContext?: string;
   /** Contains the resulting SIP code/sub-code and message from NGC services. */
   resultInformation?: ResultInformation;
-  /** The list of participants in the call. */
-  participants?: CommunicationIdentifier[];
+  /** The participant in the call. */
+  participant?: CommunicationIdentifier;
   /** kind of this event. */
-  kind: "AddParticipantsFailed";
+  kind: "AddParticipantFailed";
 }
 
 /** Event when call was established. */
@@ -120,7 +121,7 @@ export interface ParticipantsUpdated {
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId?: string;
   /** The list of participants in the call. */
-  participants?: CommunicationIdentifier[];
+  participants?: CallParticipant[];
   /** kind of this event. */
   kind: "ParticipantsUpdated";
 }

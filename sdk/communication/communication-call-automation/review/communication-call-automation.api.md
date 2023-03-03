@@ -15,6 +15,17 @@ import { PhoneNumberIdentifier } from '@azure/communication-common';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export interface AddParticipantFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    kind: "AddParticipantFailed";
+    operationContext?: string;
+    participant?: CommunicationIdentifier;
+    resultInformation?: ResultInformation;
+    serverCallId?: string;
+}
+
+// @public
 export interface AddParticipantOptions extends OperationOptions {
     invitationTimeoutInSeconds?: number;
     operationContext?: string;
@@ -27,23 +38,12 @@ export interface AddParticipantResult {
 }
 
 // @public
-export interface AddParticipantsFailed {
+export interface AddParticipantSucceeded {
     callConnectionId?: string;
     correlationId?: string;
-    kind: "AddParticipantsFailed";
+    kind: "AddParticipantSucceeded";
     operationContext?: string;
-    participants?: CommunicationIdentifier[];
-    resultInformation?: ResultInformation;
-    serverCallId?: string;
-}
-
-// @public
-export interface AddParticipantsSucceeded {
-    callConnectionId?: string;
-    correlationId?: string;
-    kind: "AddParticipantsSucceeded";
-    operationContext?: string;
-    participants?: CommunicationIdentifier[];
+    participant?: CommunicationIdentifier;
     resultInformation?: ResultInformation;
     serverCallId?: string;
 }
@@ -79,7 +79,7 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type CallAutomationEvent = AddParticipantsSucceeded | AddParticipantsFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed;
+export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed;
 
 // @public
 export class CallAutomationEventParser {
@@ -342,7 +342,7 @@ export interface ParticipantsUpdated {
     callConnectionId?: string;
     correlationId?: string;
     kind: "ParticipantsUpdated";
-    participants?: CommunicationIdentifier[];
+    participants?: CallParticipant[];
     serverCallId?: string;
 }
 

@@ -3,12 +3,15 @@
 
 import { createSerializer } from "@azure/core-client";
 
-import { communicationIdentifierConverter } from "./utli/converters";
+import {
+  communicationIdentifierConverter,
+  callParticipantConverter
+ } from "./utli/converters";
 
 import {
   CallAutomationEvent,
-  AddParticipantsSucceeded,
-  AddParticipantsFailed,
+  AddParticipantSucceeded,
+  AddParticipantFailed,
   CallConnected,
   CallDisconnected,
   CallTransferAccepted,
@@ -24,7 +27,7 @@ import {
 } from "./models/events";
 
 import { CloudEventMapper } from "./models/mapper";
-import { CommunicationIdentifierModel } from "./generated/src";
+import { CallParticipantInternal } from "./generated/src";
 
 const serializer = createSerializer();
 
@@ -56,13 +59,13 @@ export class CallAutomationEventParser {
     let callbackEvent: CallAutomationEvent;
     let parsed: any = data;
     switch (eventType) {
-      case "Microsoft.Communication.AddParticipantsSucceeded":
-        callbackEvent = { kind: "AddParticipantsSucceeded" } as AddParticipantsSucceeded;
-        parsed = communicationIdentifierParserForEvent(data);
+      case "Microsoft.Communication.AddParticipantSucceeded":
+        callbackEvent = { kind: "AddParticipantSucceeded" } as AddParticipantSucceeded;
+        data.participant = communicationIdentifierConverter(data.participant)
         break;
-      case "Microsoft.Communication.AddParticipantsFailed":
-        callbackEvent = { kind: "AddParticipantsFailed" } as AddParticipantsFailed;
-        parsed = communicationIdentifierParserForEvent(data);
+      case "Microsoft.Communication.AddParticipantFailed":
+        callbackEvent = { kind: "AddParticipantFailed" } as AddParticipantFailed;
+        data.participant = communicationIdentifierConverter(data.participant)
         break;
       case "Microsoft.Communication.CallConnected":
         callbackEvent = { kind: "CallConnected" } as CallConnected;
@@ -78,7 +81,7 @@ export class CallAutomationEventParser {
         break;
       case "Microsoft.Communication.ParticipantsUpdated":
         callbackEvent = { kind: "ParticipantsUpdated" } as ParticipantsUpdated;
-        parsed = communicationIdentifierParserForEvent(data);
+        parsed = participantsParserForEvent(data);
         break;
       case "Microsoft.Communication.RecordingStateChanged":
         callbackEvent = { kind: "RecordingStateChanged" } as RecordingStateChanged;
@@ -134,13 +137,13 @@ function parseAndWrap(
   }
 }
 
-function communicationIdentifierParserForEvent(data: any): any {
+function participantsParserForEvent(data: any): any {
   const { participants, ...rest } = data;
   return {
     ...rest,
     participants: participants?.map(
-      (participant: CommunicationIdentifierModel) =>
-        communicationIdentifierConverter(participant)
+      (participant: CallParticipantInternal) =>
+      callParticipantConverter(participant)
     ),
   };
 }
