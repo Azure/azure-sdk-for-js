@@ -78,10 +78,6 @@ matrix([[true, false]], async function (useAad) {
       assert.equal(domain?.enabled, false);
     });
 
-    it("can retrieve domains", async () => {
-      assert.isArray(await listAllDomains(client));
-    });
-
     it("can retrieve not empty domains", async () => {
       const expectedDomains = [
         { domainName: secondDomain, enabled: false },

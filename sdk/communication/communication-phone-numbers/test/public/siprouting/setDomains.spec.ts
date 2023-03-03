@@ -24,13 +24,6 @@ matrix([[true, false]], async function (useAad) {
     let client: SipRoutingClient;
     let recorder: Recorder;
     let domain1 = "";
-    // let domain2 = "";
-    // let domain3 = "";
-    // let domain4 = "";
-    // let domain5 = "";
-    // let domain6 = "";
-    // let domain7 = "";
-    // let domain8 = "";
     let domain9 = "";
     let domain10 = "";
     let domain11 = "";
@@ -48,13 +41,6 @@ matrix([[true, false]], async function (useAad) {
         ? await createRecordedClientWithToken(this)
         : await createRecordedClient(this));
       domain1 = getUniqueDomain(recorder);
-      // domain2 = getUniqueDomain(recorder);
-      // domain3 = getUniqueDomain(recorder);
-      // domain4 = getUniqueDomain(recorder);
-      // domain5 = getUniqueDomain(recorder);
-      // domain6 = getUniqueDomain(recorder);
-      // domain7 = getUniqueDomain(recorder);
-      // domain8 = getUniqueDomain(recorder);
       domain9 = getUniqueDomain(recorder);
       domain10 = getUniqueDomain(recorder);
       domain11 = getUniqueDomain(recorder);
@@ -77,53 +63,7 @@ matrix([[true, false]], async function (useAad) {
 
       const getDomain = await client.getDomain(domainToSet);
       assert.deepEqual(getDomain, domain);
-    });
-
-    /* it("can set an existing domain", async () => {
-      const domainToSet = domain2;
-      const domain: SipDomain = { domainName: domainToSet, enabled: false };
-      await client.setDomain(domain);
-
-      domain.enabled = true;
-
-      const setDomain = await client.setDomain(domain);
-      assert.deepEqual(setDomain, domain);
-
-      const getDomain = await client.getDomain(domainToSet);
-      assert.deepEqual(getDomain, domain);
-    });
-
-    it("can set multiple existing domains", async () => {
-      const domains: SipDomain[] = [
-        { domainName: domain5, enabled: true },
-        { domainName: domain6, enabled: true },
-      ];
-      await client.setDomains(domains);
-
-      domains[0].enabled = false;
-      domains[1].enabled = false;
-
-      const setDomains = await client.setDomains(domains);
-      assert.deepEqual(setDomains, domains);
-
-      const storedDomains = await listAllDomains(client);
-      assert.deepEqual(storedDomains, domains);
-    });*/
-
-    /*it("can set empty domains when not empty before", async () => {
-      const domains: SipDomain[] = [
-        { domainName: domain7, enabled: true },
-        { domainName: domain8, enabled: true },
-      ];
-      await client.setDomains(domains);
-
-      await client.setDomains([]);
-
-      const storedDomains = await listAllDomains(client);
-      assert.isNotNull(storedDomains);
-      assert.isArray(storedDomains);
-      assert.isEmpty(storedDomains);
-    */
+    });  
 
     it("cannot set invalid domain uri", async () => {
       const invalidDomain: SipDomain = { domainName: "-1", enabled: true };
