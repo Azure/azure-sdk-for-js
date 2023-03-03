@@ -3,17 +3,17 @@
 
 import { OperationOptions } from "@azure/core-client";
 import {
-  Status
+  Status as DomainVerificationStatus
 } from "./generated/src/models";
 
 export {
-  Status
+  Status as DomainVerificationStatus
 } from "./generated/src/models";
 
 /** Represents Domain that was verified */
 export interface DomainOwnership {
   /** Status of domain verification */
-  status: Status;
+  status: DomainVerificationStatus;
 }
 
 /** Represents Domain ownership verification challenge */

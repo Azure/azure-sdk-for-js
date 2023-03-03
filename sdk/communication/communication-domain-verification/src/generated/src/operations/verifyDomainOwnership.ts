@@ -12,6 +12,7 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DomainVerificationClientContext } from "../domainVerificationClientContext";
 import {
+  ChallengeType,
   VerifyDomainOwnershipPostOptionalParams,
   VerifyDomainOwnershipPostResponse
 } from "../models";
@@ -31,14 +32,16 @@ export class VerifyDomainOwnershipImpl implements VerifyDomainOwnership {
   /**
    * Verify domain by testing the challenge for given domain
    * @param domain Verified Domain
+   * @param challengeType Type of domain verification challenge
    * @param options The options parameters.
    */
   post(
     domain: string,
+    challengeType: ChallengeType,
     options?: VerifyDomainOwnershipPostOptionalParams
   ): Promise<VerifyDomainOwnershipPostResponse> {
     return this.client.sendOperationRequest(
-      { domain, options },
+      { domain, challengeType, options },
       postOperationSpec
     );
   }

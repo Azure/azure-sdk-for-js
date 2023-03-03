@@ -119,9 +119,8 @@ export const DomainOwnershipVerificationRequest: coreClient.CompositeMapper = {
         }
       },
       challengeType: {
-        defaultValue: "TXT",
-        isConstant: true,
         serializedName: "challengeType",
+        required: true,
         type: {
           name: "String"
         }

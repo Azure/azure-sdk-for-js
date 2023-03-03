@@ -54,7 +54,7 @@ export interface DomainOwnershipVerificationRequest {
   /** Verified Domain */
   domain: string;
   /** Type of domain verification challenge */
-  challengeType: "TXT";
+  challengeType: ChallengeType;
 }
 
 /** Represents Domain that was verified */
@@ -87,6 +87,20 @@ export interface VerifyDomainOwnershipPostExceptionHeaders {
   xMsErrorCode?: string;
 }
 
+/** Known values of {@link ChallengeType} that the service accepts. */
+export enum KnownChallengeType {
+  /** Indicates DNS record type TXT */
+  TXT = "TXT"
+}
+
+/**
+ * Defines values for ChallengeType. \
+ * {@link KnownChallengeType} can be used interchangeably with ChallengeType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **TXT**: Indicates DNS record type TXT
+ */
+export type ChallengeType = string;
 /** Defines values for Status. */
 export type Status = "Verified" | "NotVerified" | "VerificationPending";
 

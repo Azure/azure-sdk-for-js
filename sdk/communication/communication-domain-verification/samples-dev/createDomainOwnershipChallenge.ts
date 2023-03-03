@@ -21,9 +21,12 @@ async function main() {
     process.env.COMMUNICATION_SAMPLES_CONNECTION_STRING ||
     "endpoint=https://resourceName.communication.azure.net/;accessKey=test-key";
 
+  // You will need to set any of these environment variables or edit the following values
+  const domainName = process.env.ACS_DOMAIN_OWNERSHIP_CHALLENGE || "<domain name>";
+
   const client = new DomainVerificationClient(connectionString);
 
-  const result = await client.createDomainOwnershipChallenge("contoso.com");
+  const result = await client.createDomainOwnershipChallenge(domainName);
 
   console.log("The value of challenge is:", result.value);
   console.log("Details:", result);
