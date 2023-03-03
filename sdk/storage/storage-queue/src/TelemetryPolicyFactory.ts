@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import {
-  isNode,
   RequestPolicy,
+  RequestPolicyOptionsLike as RequestPolicyOptions,
   RequestPolicyFactory,
-  RequestPolicyOptions,
-  UserAgentOptions,
-} from "@azure/core-http";
+} from "@azure/core-http-compat";
+import { isNode } from "@azure/core-util";
+import { UserAgentPolicyOptions } from "@azure/core-rest-pipeline";
 import * as os from "os";
 
 import { TelemetryPolicy } from "./policies/TelemetryPolicy";
@@ -26,7 +26,7 @@ export class TelemetryPolicyFactory implements RequestPolicyFactory {
    * Creates an instance of TelemetryPolicyFactory.
    * @param telemetry -
    */
-  constructor(telemetry?: UserAgentOptions) {
+  constructor(telemetry?: UserAgentPolicyOptions) {
     const userAgentInfo: string[] = [];
 
     if (isNode) {

@@ -1,18 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  HttpResponse,
-  TokenCredential,
-  isTokenCredential,
-  isNode,
-  getDefaultProxySettings,
-  URLBuilder,
-  RequestOptionsBase,
-} from "@azure/core-http";
+import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
+import { OperationOptions } from "@azure/core-client";
 import { SpanStatusCode } from "@azure/core-tracing";
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { isNode } from "@azure/core-util";
 import {
-  EnqueuedMessage,
   DequeuedMessageItem,
   MessagesDequeueHeaders,
   MessagesEnqueueHeaders,
@@ -30,9 +24,18 @@ import {
   SignedIdentifierModel,
 } from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { Messages, MessageId, Queue } from "./generated/src/operations";
-import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
-import { StorageClient, CommonOptions } from "./StorageClient";
+import { Messages, MessageId, Queue } from "./generated/src/operationsInterfaces";
+import { QueueImpl, MessagesImpl, MessageIdImpl } from "./generated/src/operations";
+import { StorageClient } from "./StorageClient";
+import {
+  CommonOptions,
+  WithResponse,
+  AnonymousCredential,
+  Pipeline,
+  newPipeline,
+  StoragePipelineOptions,
+} from "@azure/storage-blob";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import {
   appendToURLPath,
   extractConnectionStringParts,
@@ -41,8 +44,6 @@ import {
   getStorageClientContext,
   appendToURLQuery,
 } from "./utils/utils.common";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
 import { Metadata } from "./models";
 import { generateQueueSASQueryParameters } from "./QueueSASSignatureValues";
@@ -163,27 +164,11 @@ export interface SignedIdentifier {
 /**
  * Contains response data for the {@link QueueClient.getAccessPolicy} operation.
  */
-export declare type QueueGetAccessPolicyResponse = {
-  signedIdentifiers: SignedIdentifier[];
-} & QueueGetAccessPolicyHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: QueueGetAccessPolicyHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SignedIdentifierModel[];
-    };
-  };
+export declare type QueueGetAccessPolicyResponse = WithResponse<
+  {
+    signedIdentifiers: SignedIdentifier[];
+  } & QueueGetAccessPolicyHeaders
+>;
 
 /**
  * Options to configure {@link QueueClient.clearMessages} operation
@@ -197,7 +182,7 @@ export interface QueueClearMessagesOptions extends CommonOptions {
 }
 
 /** Optional parameters. */
-export interface MessagesEnqueueOptionalParams extends RequestOptionsBase {
+export interface MessagesEnqueueOptionalParams extends OperationOptions {
   /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -214,7 +199,7 @@ export interface MessagesEnqueueOptionalParams extends RequestOptionsBase {
 export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, CommonOptions {}
 
 /** Optional parameters. */
-export interface MessagesDequeueOptionalParams extends RequestOptionsBase {
+export interface MessagesDequeueOptionalParams extends OperationOptions {
   /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -231,7 +216,7 @@ export interface MessagesDequeueOptionalParams extends RequestOptionsBase {
 export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParams, CommonOptions {}
 
 /** Optional parameters. */
-export interface MessagesPeekOptionalParams extends RequestOptionsBase {
+export interface MessagesPeekOptionalParams extends OperationOptions {
   /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -248,51 +233,35 @@ export interface QueuePeekMessagesOptions extends MessagesPeekOptionalParams, Co
 /**
  * Contains the response data for the {@link QueueClient.sendMessage} operation.
  */
-export declare type QueueSendMessageResponse = {
-  /**
-   * The ID of the sent Message.
-   */
-  messageId: string;
-  /**
-   * This value is required to delete the Message.
-   * If deletion fails using this popreceipt then the message has been received
-   * by another client.
-   */
-  popReceipt: string;
-  /**
-   * The time that the message was inserted into the
-   * Queue.
-   */
-  insertedOn: Date;
-  /**
-   * The time that the message will expire and be
-   * automatically deleted.
-   */
-  expiresOn: Date;
-  /**
-   * The time that the message will again become
-   * visible in the Queue.
-   */
-  nextVisibleOn: Date;
-} & MessagesEnqueueHeaders & {
+export declare type QueueSendMessageResponse = WithResponse<
+  {
     /**
-     * The underlying HTTP response.
+     * The ID of the sent Message.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: MessagesEnqueueHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnqueuedMessage[];
-    };
-  };
+    messageId: string;
+    /**
+     * This value is required to delete the Message.
+     * If deletion fails using this popreceipt then the message has been received
+     * by another client.
+     */
+    popReceipt: string;
+    /**
+     * The time that the message was inserted into the
+     * Queue.
+     */
+    insertedOn: Date;
+    /**
+     * The time that the message will expire and be
+     * automatically deleted.
+     */
+    expiresOn: Date;
+    /**
+     * The time that the message will again become
+     * visible in the Queue.
+     */
+    nextVisibleOn: Date;
+  } & MessagesEnqueueHeaders
+>;
 
 /**
  * The object returned in the `receivedMessageItems` array when calling {@link QueueClient.receiveMessages}.
@@ -304,52 +273,20 @@ export declare type ReceivedMessageItem = DequeuedMessageItem;
 /**
  * Contains the response data for the {@link QueueClient.receiveMessages} operation.
  */
-export declare type QueueReceiveMessageResponse = {
-  receivedMessageItems: ReceivedMessageItem[];
-} & MessagesDequeueHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: MessagesDequeueHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReceivedMessageItem[];
-    };
-  };
+export declare type QueueReceiveMessageResponse = WithResponse<
+  {
+    receivedMessageItems: ReceivedMessageItem[];
+  } & MessagesDequeueHeaders
+>;
 
 /**
  * Contains the response data for the {@link QueueClient.peekMessages} operation.
  */
-export declare type QueuePeekMessagesResponse = {
-  peekedMessageItems: PeekedMessageItem[];
-} & MessagesPeekHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: MessagesPeekHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeekedMessageItem[];
-    };
-  };
+export declare type QueuePeekMessagesResponse = WithResponse<
+  {
+    peekedMessageItems: PeekedMessageItem[];
+  } & MessagesPeekHeaders
+>;
 
 /**
  * Options to configure the {@link QueueClient.deleteMessage} operation
@@ -589,7 +526,7 @@ export class QueueClient extends StorageClient {
     }
     super(url, pipeline);
     this._name = this.getQueueNameFromUrl();
-    this.queueContext = new Queue(this.storageClientContext);
+    this.queueContext = new QueueImpl(this.storageClientContext);
 
     // MessagesContext
     // Build the url with "messages"
@@ -598,7 +535,9 @@ export class QueueClient extends StorageClient {
       ? appendToURLPath(partsOfUrl[0], "messages") + "?" + partsOfUrl[1]
       : appendToURLPath(partsOfUrl[0], "messages");
 
-    this.messagesContext = new Messages(getStorageClientContext(this._messagesUrl, this.pipeline));
+    this.messagesContext = new MessagesImpl(
+      getStorageClientContext(this._messagesUrl, this.pipeline)
+    );
   }
 
   private getMessageIdContext(messageId: string): MessageId {
@@ -608,7 +547,7 @@ export class QueueClient extends StorageClient {
       ? appendToURLPath(partsOfUrl[0], messageId) + "?" + partsOfUrl[1]
       : appendToURLPath(partsOfUrl[0], messageId);
 
-    return new MessageId(getStorageClientContext(urlWithMessageId, this.pipeline));
+    return new MessageIdImpl(getStorageClientContext(urlWithMessageId, this.pipeline));
   }
 
   /**
@@ -1254,21 +1193,21 @@ export class QueueClient extends StorageClient {
       // IPv4/IPv6 address hosts, Endpoints - `http://127.0.0.1:10001/devstoreaccount1/myqueue`
       // http://localhost:10001/devstoreaccount1/queuename
 
-      const parsedUrl = URLBuilder.parse(this.url);
+      const parsedUrl = new URL(this.url);
 
-      if (parsedUrl.getHost()!.split(".")[1] === "queue") {
+      if (parsedUrl.hostname.split(".")[1] === "queue") {
         // "https://myaccount.queue.core.windows.net/queuename".
         // .getPath() -> /queuename
-        queueName = parsedUrl.getPath()!.split("/")[1];
+        queueName = parsedUrl.pathname.split("/")[1];
       } else if (isIpEndpointStyle(parsedUrl)) {
         // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/queuename
         // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/queuename
         // .getPath() -> /devstoreaccount1/queuename
-        queueName = parsedUrl.getPath()!.split("/")[2];
+        queueName = parsedUrl.pathname.split("/")[2];
       } else {
         // "https://customdomain.com/queuename".
         // .getPath() -> /queuename
-        queueName = parsedUrl.getPath()!.split("/")[1];
+        queueName = parsedUrl.pathname.split("/")[1];
       }
 
       if (!queueName) {

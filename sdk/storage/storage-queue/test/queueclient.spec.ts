@@ -6,7 +6,7 @@ import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { QueueClient, QueueServiceClient } from "../src";
 import { setSpan, context } from "@azure/core-tracing";
 import { SpanGraph, setTracer } from "@azure/test-utils";
-import { RestError } from "@azure/core-http";
+import { RestError } from "@azure/core-rest-pipeline";
 import { Recorder, record } from "@azure-tools/test-recorder";
 import { recorderEnvSetup } from "./utils/testutils.common";
 import { Context } from "mocha";

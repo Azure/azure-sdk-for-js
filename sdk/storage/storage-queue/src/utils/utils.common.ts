@@ -1,15 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { AbortSignalLike } from "@azure/abort-controller";
-import { HttpHeaders, URLBuilder } from "@azure/core-http";
+import { HttpHeaders, createHttpHeaders } from "@azure/core-rest-pipeline";
 import {
   HeaderConstants,
   URLConstants,
   DevelopmentConnectionString,
   PathStylePorts,
 } from "./constants";
-import { StorageClientContext } from "../generated/src/storageClientContext";
-import { Pipeline } from "../Pipeline";
+import { StorageClient as GeneratedStorageClient } from "../generated/src/storageClient";
+import { Pipeline } from "@azure/storage-blob";
+import { ExtendedServiceClientOptions } from "@azure/core-http-compat";
+import { StoragePipelineOptions } from "@azure/storage-blob";
+import { HttpClient, Pipeline as CorePipeline } from "@azure/core-rest-pipeline";
+
+let testOnlyHttpClient: HttpClient | undefined;
 
 /**
  * Append a string to URL path. Will remove duplicated "/" in front of the string
@@ -20,11 +25,11 @@ import { Pipeline } from "../Pipeline";
  * @returns An updated URL string
  */
 export function appendToURLPath(url: string, name: string): string {
-  const urlParsed = URLBuilder.parse(url);
+  const urlParsed = new URL(url);
 
-  let path = urlParsed.getPath();
+  let path = urlParsed.pathname;
   path = path ? (path.endsWith("/") ? `${path}${name}` : `${path}/${name}`) : name;
-  urlParsed.setPath(path);
+  urlParsed.pathname = path;
 
   return urlParsed.toString();
 }
@@ -39,8 +44,27 @@ export function appendToURLPath(url: string, name: string): string {
  * @returns An updated URL string
  */
 export function setURLParameter(url: string, name: string, value?: string): string {
-  const urlParsed = URLBuilder.parse(url);
-  urlParsed.setQueryParameter(name, value);
+  const urlParsed = new URL(url);
+  const encodedName = encodeURIComponent(name);
+  const encodedValue = value ? encodeURIComponent(value) : undefined;
+  // mutating searchParams will change the encoding, so we have to do this ourselves
+  const searchString = urlParsed.search === "" ? "?" : urlParsed.search;
+
+  const searchPieces: string[] = [];
+
+  for (const pair of searchString.slice(1).split("&")) {
+    if (pair) {
+      const [key] = pair.split("=", 2);
+      if (key !== encodedName) {
+        searchPieces.push(pair);
+      }
+    }
+  }
+  if (encodedValue) {
+    searchPieces.push(`${encodedName}=${encodedValue}`);
+  }
+
+  urlParsed.search = searchPieces.length ? `?${searchPieces.join("&")}` : "";
   return urlParsed.toString();
 }
 
@@ -52,8 +76,8 @@ export function setURLParameter(url: string, name: string, value?: string): stri
  * @returns Parameter value(s) for the given parameter name.
  */
 export function getURLParameter(url: string, name: string): string | string[] | undefined {
-  const urlParsed = URLBuilder.parse(url);
-  return urlParsed.getQueryParameterValue(name);
+  const urlParsed = new URL(url);
+  return urlParsed.searchParams.get(name) ?? undefined;
 }
 
 /**
@@ -64,8 +88,8 @@ export function getURLParameter(url: string, name: string): string | string[] | 
  * @returns An updated URL string
  */
 export function setURLHost(url: string, host: string): string {
-  const urlParsed = URLBuilder.parse(url);
-  urlParsed.setHost(host);
+  const urlParsed = new URL(url);
+  urlParsed.hostname = host;
   return urlParsed.toString();
 }
 
@@ -76,8 +100,12 @@ export function setURLHost(url: string, host: string): string {
  * @returns The path part of the given URL string.
  */
 export function getURLPath(url: string): string | undefined {
-  const urlParsed = URLBuilder.parse(url);
-  return urlParsed.getPath();
+  try {
+    const urlParsed = new URL(url);
+    return urlParsed.pathname;
+  } catch (e) {
+    return undefined;
+  }
 }
 
 /**
@@ -87,13 +115,13 @@ export function getURLPath(url: string): string | undefined {
  * @returns query key value string pairs from the given URL string.
  */
 export function getURLQueries(url: string): { [key: string]: string } {
-  let queryString = URLBuilder.parse(url).getQuery();
+  let queryString = new URL(url).search;
   if (!queryString) {
     return {};
   }
 
   queryString = queryString.trim();
-  queryString = queryString.startsWith("?") ? queryString.substr(1) : queryString;
+  queryString = queryString.startsWith("?") ? queryString.substring(1) : queryString;
 
   let querySubStrings: string[] = queryString.split("&");
   querySubStrings = querySubStrings.filter((value: string) => {
@@ -321,15 +349,15 @@ export function sanitizeURL(url: string): string {
  * @param originalHeader - original headers
  * @returns sanitized headers
  */
-export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
-  const headers: HttpHeaders = new HttpHeaders();
-  for (const header of originalHeader.headersArray()) {
-    if (header.name.toLowerCase() === HeaderConstants.AUTHORIZATION) {
-      headers.set(header.name, "*****");
-    } else if (header.name.toLowerCase() === HeaderConstants.X_MS_COPY_SOURCE) {
-      headers.set(header.name, sanitizeURL(header.value));
+export function sanitizeHeaders(originalHeaders: HttpHeaders): HttpHeaders {
+  const headers: HttpHeaders = createHttpHeaders();
+  for (const [name, value] of originalHeaders) {
+    if (name.toLowerCase() === HeaderConstants.AUTHORIZATION) {
+      headers.set(name, "*****");
+    } else if (name.toLowerCase() === HeaderConstants.X_MS_COPY_SOURCE) {
+      headers.set(name, sanitizeURL(value));
     } else {
-      headers.set(header.name, header.value);
+      headers.set(name, value);
     }
   }
 
@@ -342,17 +370,17 @@ export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
  * @returns with the account name
  */
 export function getAccountNameFromUrl(url: string): string {
-  const parsedUrl: URLBuilder = URLBuilder.parse(url);
+  const parsedUrl = new URL(url);
   let accountName;
   try {
-    if (parsedUrl.getHost()!.split(".")[1] === "queue") {
-      // `${defaultEndpointsProtocol}://${accountName}.queue.${endpointSuffix}`;
-      accountName = parsedUrl.getHost()!.split(".")[0];
+    if (parsedUrl.hostname.split(".")[1] === "blob") {
+      // `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`;
+      accountName = parsedUrl.hostname.split(".")[0];
     } else if (isIpEndpointStyle(parsedUrl)) {
       // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/
       // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/
       // .getPath() -> /devstoreaccount1/
-      accountName = parsedUrl.getPath()!.split("/")[1];
+      accountName = parsedUrl.pathname.split("/")[1];
     } else {
       // Custom domain case: "https://customdomain.com/containername/blob".
       accountName = "";
@@ -363,13 +391,8 @@ export function getAccountNameFromUrl(url: string): string {
   }
 }
 
-export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
-  if (parsedUrl.getHost() === undefined) {
-    return false;
-  }
-
-  const host =
-    parsedUrl.getHost()! + (parsedUrl.getPort() === undefined ? "" : ":" + parsedUrl.getPort());
+export function isIpEndpointStyle(parsedUrl: URL): boolean {
+  const host = parsedUrl.host;
 
   // Case 1: Ipv6, use a broad regex to find out candidates whose host contains two ':'.
   // Case 2: localhost(:port), use broad regex to match port part.
@@ -379,7 +402,7 @@ export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
     /^.*:.*:.*$|^localhost(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
       host
     ) ||
-    (parsedUrl.getPort() !== undefined && PathStylePorts.includes(parsedUrl.getPort()!))
+    (Boolean(parsedUrl.port) && PathStylePorts.includes(parsedUrl.port))
   );
 }
 
@@ -389,12 +412,37 @@ export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
  * @param pipeline - a pipeline containing HTTP request policies
  * @returns new StorageClientContext
  */
-export function getStorageClientContext(url: string, pipeline: Pipeline): StorageClientContext {
-  const storageClientContext = new StorageClientContext(url, pipeline.toServiceClientOptions());
+export function getStorageClientContext(url: string, pipeline: Pipeline): GeneratedStorageClient {
+  const storageClientContext = new GeneratedStorageClient(url, getCoreClientOptions(pipeline));
 
   // Override protocol layer's default content-type
   (storageClientContext as any).requestContentType = undefined;
   return storageClientContext;
+}
+
+// This function relies on the Pipeline already being initialized by a storage-blob client
+function getCoreClientOptions(pipeline: Pipeline): ExtendedServiceClientOptions {
+  const { httpClient: v1Client, ...restOptions } = pipeline.options as StoragePipelineOptions;
+  let httpClient: HttpClient = (pipeline as any)._coreHttpClient;
+  if (!httpClient) {
+    throw new Error("Pipeline not correctly initialized; missing V2 HttpClient");
+  }
+
+  // check if we're running in a browser test mode and use the xhr client
+  if (testOnlyHttpClient && httpClient !== testOnlyHttpClient) {
+    httpClient = testOnlyHttpClient;
+    (pipeline as any)._coreHttpClient = testOnlyHttpClient;
+  }
+
+  const corePipeline: CorePipeline = (pipeline as any)._corePipeline;
+  if (!corePipeline) {
+    throw new Error("Pipeline not correctly initialized; missing V2 Pipeline");
+  }
+  return {
+    ...restOptions,
+    httpClient,
+    pipeline: corePipeline,
+  };
 }
 
 /**
@@ -405,15 +453,15 @@ export function getStorageClientContext(url: string, pipeline: Pipeline): Storag
  * @returns An updated URL string.
  */
 export function appendToURLQuery(url: string, queryParts: string): string {
-  const urlParsed = URLBuilder.parse(url);
+  const urlParsed = new URL(url);
 
-  let query = urlParsed.getQuery();
+  let query = urlParsed.search;
   if (query) {
     query += "&" + queryParts;
   } else {
     query = queryParts;
   }
 
-  urlParsed.setQuery(query);
+  urlParsed.search = query;
   return urlParsed.toString();
 }

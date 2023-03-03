@@ -1,12 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  TokenCredential,
-  isTokenCredential,
-  isNode,
-  getDefaultProxySettings,
-} from "@azure/core-http";
+import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { isNode } from "@azure/core-util";
 import { SpanStatusCode } from "@azure/core-tracing";
 import {
   QueueCreateResponse,
@@ -19,8 +16,8 @@ import {
   ServiceSetPropertiesResponse,
 } from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { Service } from "./generated/src/operations";
-import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
+import { Service } from "./generated/src/operationsInterfaces";
+import { ServiceImpl } from "./generated/src/operations";
 import { StorageClient, CommonOptions } from "./StorageClient";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -29,8 +26,13 @@ import {
   appendToURLQuery,
   extractConnectionStringParts,
 } from "./utils/utils.common";
+import {
+  AnonymousCredential,
+  newPipeline,
+  StoragePipelineOptions,
+  Pipeline,
+} from "@azure/storage-blob";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
 import { QueueClient, QueueCreateOptions, QueueDeleteOptions } from "./QueueClient";
 import { AccountSASPermissions } from "./AccountSASPermissions";
@@ -290,7 +292,7 @@ export class QueueServiceClient extends StorageClient {
       pipeline = newPipeline(new AnonymousCredential(), options);
     }
     super(url, pipeline);
-    this.serviceContext = new Service(this.storageClientContext);
+    this.serviceContext = new ServiceImpl(this.storageClientContext);
   }
 
   /**

@@ -5,10 +5,10 @@ import { assert } from "chai";
 import { getQSU, getConnectionStringFromEnvironment } from "../utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { QueueClient } from "../../src/QueueClient";
-import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
-import { TokenCredential } from "@azure/core-http";
+import { StorageSharedKeyCredential } from "../../src/";
+import { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { newPipeline } from "../../src";
+import { newPipeline } from "@azure/storage-blob";
 import { recorderEnvSetup } from "../utils/index.browser";
 import { Context } from "mocha";
 

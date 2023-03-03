@@ -2,16 +2,16 @@
 // Licensed under the MIT license.
 
 import {
-  BaseRequestPolicy,
-  HttpHeaders,
-  HttpOperationResponse,
-  isNode,
   RequestPolicy,
-  RequestPolicyOptions,
-  WebResource,
-} from "@azure/core-http";
-
+  RequestPolicyOptionsLike as RequestPolicyOptions,
+  WebResourceLike as WebResource,
+  CompatResponse as HttpOperationResponse,
+  toHttpHeadersLike,
+} from "@azure/core-http-compat";
+import { BaseRequestPolicy } from "@azure/storage-blob";
+import { isNode } from "@azure/core-util";
 import { HeaderConstants } from "../utils/constants";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
 
 /**
  * TelemetryPolicy is a policy used to tag user-agent header for every requests.
@@ -41,7 +41,7 @@ export class TelemetryPolicy extends BaseRequestPolicy {
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     if (isNode) {
       if (!request.headers) {
-        request.headers = new HttpHeaders();
+        request.headers = toHttpHeadersLike(createHttpHeaders());
       }
       if (!request.headers.get(HeaderConstants.USER_AGENT)) {
         request.headers.set(HeaderConstants.USER_AGENT, this.telemetry);

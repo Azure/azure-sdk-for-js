@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
-import { newPipeline } from "../../src/Pipeline";
+import { StorageSharedKeyCredential } from "../../src/";
+import { newPipeline } from "@azure/storage-blob";
 import { QueueServiceClient } from "../../src/QueueServiceClient";
 import {
   generateAccountSASQueryParameters,

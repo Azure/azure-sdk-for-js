@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { newPipeline } from "../../src";
+import { newPipeline } from "@azure/storage-blob";
 import { getQSU, getConnectionStringFromEnvironment } from "../utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { QueueClient } from "../../src/QueueClient";
-import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
+import { StorageSharedKeyCredential } from "../../src/";
 import { recorderEnvSetup } from "../utils/index.browser";
 import { Context } from "mocha";
 
