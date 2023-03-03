@@ -107,6 +107,20 @@ This system works for JSDoc code snippets just as well as README code snippets. 
    */
 ```
 
+### Files subject to snippet extraction
+
+The following set of files within a package directory is subject to snippet extraction:
+
+- Any Markdown file (ending with `.md`) immediately within the package directory (not any subfolder).
+- Any Markdown file (ending with `.md`) within the `samples-dev` folder of the package or any of its children with unlimited depth.
+- Any TypeScript file (ending with `.ts` in the `src`, `test`, or `samples-dev` folders of the package or any of their children with unlimited depth.
+
+A file may opt out of snippet extraction using a comment directive. Any files containing the following text are ignored:
+
+- For Markdown files, `<!-- dev-tool snippets ignore -->`.
+- For TypeScript Files: `// dev-tool snippets ignore`.
+
+For readability, these directive comments SHOULD be placed at or near the top of the file, but the file will be ignored if it contains this text anywhere.
 ### Parsing the TypeScript Tests
 
 These are the rules for parsing the unit tests for the Azure SDK for JavaScript.  Any deviations from this pattern shall be an error.
