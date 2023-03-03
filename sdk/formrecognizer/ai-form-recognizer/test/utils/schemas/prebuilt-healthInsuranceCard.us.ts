@@ -3,8 +3,8 @@
 
 // Model:       prebuilt-healthInsuranceCard.us
 // Description: Extract key information from US health insurance cards.
-// API Version: 2022-08-31
-// Created:     Thu Aug 25 2022
+// API Version: 2023-02-28-preview
+// Created:     Thu Mar 02 2023
 
 import * as fr from "../../../src";
 
@@ -15,7 +15,8 @@ export const PrebuiltHealthInsuranceCardUsModel = fr.createModelFromSchema(
   modelInfo()
 ) as fr.DocumentModel<PrebuiltHealthInsuranceCardUsResult>;
 
-export interface PrebuiltHealthInsuranceCardUsResult extends fr.AnalyzeResultCommon {
+export interface PrebuiltHealthInsuranceCardUsResult
+  extends fr.AnalyzeResultCommon {
   /**
    * Extracted pages.
    */
@@ -104,15 +105,13 @@ export interface HealthInsuranceCardUsFields {
   /**
    * Array holding list of CoPay Benefits
    */
-  copays?: fr.DocumentArrayField<fr.DocumentObjectField<HealthInsuranceCardUsCopaysElement>>;
+  copays?: fr.DocumentArrayField<
+    fr.DocumentObjectField<HealthInsuranceCardUsCopaysElement>
+  >;
   /**
    * `HealthInsuranceCardUs` "Payer" field
    */
   payer?: fr.DocumentObjectField<HealthInsuranceCardUsPayer>;
-  /**
-   * `HealthInsuranceCardUs` "MedicareMedicaidInfo" field
-   */
-  medicareMedicaidInfo?: fr.DocumentObjectField<HealthInsuranceCardUsMedicareMedicaidInfo>;
   /**
    * `HealthInsuranceCardUs` "Plan" field
    */
@@ -130,7 +129,7 @@ export interface HealthInsuranceCardUsMember {
   /**
    * Member date of birth
    */
-  dateOfBirth?: fr.DocumentStringField;
+  birthDate?: fr.DocumentStringField;
   /**
    * Member name employer
    */
@@ -155,10 +154,6 @@ export interface HealthInsuranceCardUsDependentsElement {
    * Dependent name
    */
   name?: fr.DocumentStringField;
-  /**
-   * Dependent Membership Identification Suffix
-   */
-  idNumberSuffix?: fr.DocumentStringField;
 }
 
 /**
@@ -182,7 +177,7 @@ export interface HealthInsuranceCardUsPrescriptionInfo {
   /**
    * ANSI issuer identification number (IIN)
    */
-  issuerId?: fr.DocumentStringField;
+  issuer?: fr.DocumentStringField;
   /**
    * Prescription issued BIN number
    */
@@ -240,20 +235,6 @@ export interface HealthInsuranceCardUsPayer {
 }
 
 /**
- * Describes the fields of `HealthInsuranceCardUsMedicareMedicaidInfo`.
- */
-export interface HealthInsuranceCardUsMedicareMedicaidInfo {
-  /**
-   * Hospital and facilities effective date
-   */
-  partAEffectiveDate?: fr.DocumentStringField;
-  /**
-   * Medical and services effictive date
-   */
-  partBEffectiveDate?: fr.DocumentStringField;
-}
-
-/**
  * Describes the fields of `HealthInsuranceCardUsPlan`.
  */
 export interface HealthInsuranceCardUsPlan {
@@ -262,9 +243,13 @@ export interface HealthInsuranceCardUsPlan {
    */
   number?: fr.DocumentStringField;
   /**
-   * Plan name - If see Medicaid -\> then medicaid
+   * Plan name - If see Medicaid -> then medicaid
    */
   name?: fr.DocumentStringField;
+  /**
+   * Plan type
+   */
+  type?: fr.DocumentStringField;
 }
 
 /**
@@ -274,8 +259,8 @@ function modelInfo() {
   return {
     modelId: "prebuilt-healthInsuranceCard.us",
     description: "Extract key information from US health insurance cards.",
-    createdOn: "2022-08-31T00:00:00.000Z",
-    apiVersion: "2022-08-31",
+    createdOn: "2023-02-28T00:00:00.000Z",
+    apiVersion: "2023-02-28-preview",
     docTypes: {
       "healthInsuranceCard.us": {
         buildMode: "template",
@@ -291,7 +276,7 @@ function modelInfo() {
                 type: "string",
                 description: "Member name",
               },
-              DateOfBirth: {
+              BirthDate: {
                 type: "string",
                 description: "Member date of birth",
               },
@@ -321,10 +306,6 @@ function modelInfo() {
                   type: "string",
                   description: "Dependent name",
                 },
-                IdNumberSuffix: {
-                  type: "string",
-                  description: "Dependent Membership Identification Suffix",
-                },
               },
             },
           },
@@ -349,7 +330,7 @@ function modelInfo() {
           PrescriptionInfo: {
             type: "object",
             properties: {
-              IssuerId: {
+              Issuer: {
                 type: "string",
                 description: "ANSI issuer identification number (IIN)",
               },
@@ -418,19 +399,6 @@ function modelInfo() {
               },
             },
           },
-          MedicareMedicaidInfo: {
-            type: "object",
-            properties: {
-              PartAEffectiveDate: {
-                type: "string",
-                description: "Hospital and facilities effective date",
-              },
-              PartBEffectiveDate: {
-                type: "string",
-                description: "Medical and services effictive date",
-              },
-            },
-          },
           Plan: {
             type: "object",
             properties: {
@@ -441,6 +409,10 @@ function modelInfo() {
               Name: {
                 type: "string",
                 description: "Plan name - If see Medicaid -> then medicaid",
+              },
+              Type: {
+                type: "string",
+                description: "Plan type",
               },
             },
           },

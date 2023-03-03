@@ -3,8 +3,8 @@
 
 // Model:       prebuilt-invoice
 // Description: Extract key information from invoices.
-// API Version: 2022-08-31
-// Created:     Thu Aug 25 2022
+// API Version: 2023-02-28-preview
+// Created:     Thu Mar 02 2023
 
 import * as fr from "../../../src";
 
@@ -136,6 +136,10 @@ export interface InvoiceFields {
    */
   subTotal?: fr.DocumentCurrencyField;
   /**
+   * Total discount field identified on this invoice
+   */
+  totalDiscount?: fr.DocumentCurrencyField;
+  /**
    * Total tax field identified on this invoice
    */
   totalTax?: fr.DocumentCurrencyField;
@@ -162,11 +166,11 @@ export interface InvoiceFields {
   /**
    * Explicit service address or property address for the customer
    */
-  serviceAddress?: fr.DocumentStringField;
+  serviceAddress?: fr.DocumentAddressField;
   /**
    * Name associated with the ServiceAddress
    */
-  serviceAddressRecipient?: fr.DocumentAddressField;
+  serviceAddressRecipient?: fr.DocumentStringField;
   /**
    * First date for the service period (for example, a utility bill service period)
    */
@@ -188,9 +192,53 @@ export interface InvoiceFields {
    */
   paymentTerm?: fr.DocumentStringField;
   /**
+   * List of payment details
+   */
+  paymentDetails?: fr.DocumentArrayField<
+    fr.DocumentObjectField<InvoicePaymentDetailsElement>
+  >;
+  /**
+   * List of tax details
+   */
+  taxDetails?: fr.DocumentArrayField<
+    fr.DocumentObjectField<InvoiceTaxDetailsElement>
+  >;
+  /**
    * List of line items
    */
   items?: fr.DocumentArrayField<fr.DocumentObjectField<InvoiceItemsElement>>;
+}
+
+/**
+ * Describes the fields of `InvoicePaymentDetailsElement`.
+ *
+ * List of payment details
+ */
+export interface InvoicePaymentDetailsElement {
+  /**
+   * International bank account number
+   */
+  iBAN?: fr.DocumentStringField;
+  /**
+   * ISO9362, an international standard for Business Identifier Codes (BIC)
+   */
+  sWIFT?: fr.DocumentStringField;
+}
+
+/**
+ * Describes the fields of `InvoiceTaxDetailsElement`.
+ *
+ * List of tax details
+ */
+export interface InvoiceTaxDetailsElement {
+  /**
+   * The amount of the tax detail
+   */
+  amount?: fr.DocumentCurrencyField;
+  /**
+   * The rate of the tax detail
+   */
+  rate?: fr.DocumentStringField;
 }
 
 /**
@@ -224,6 +272,10 @@ export interface InvoiceItemsElement {
    */
   tax?: fr.DocumentCurrencyField;
   /**
+   * Tax rate associated with each line item
+   */
+  taxRate?: fr.DocumentStringField;
+  /**
    * The unit of the line item, e.g, kg, lb etc.
    */
   unit?: fr.DocumentStringField;
@@ -240,8 +292,8 @@ function modelInfo() {
   return {
     modelId: "prebuilt-invoice",
     description: "Extract key information from invoices.",
-    createdOn: "2022-08-31T00:00:00.000Z",
-    apiVersion: "2022-08-31",
+    createdOn: "2023-02-28T00:00:00.000Z",
+    apiVersion: "2023-02-28-preview",
     docTypes: {
       invoice: {
         buildMode: "template",
@@ -263,7 +315,8 @@ function modelInfo() {
           },
           InvoiceId: {
             type: "string",
-            description: "ID for this specific invoice (often 'Invoice Number')",
+            description:
+              "ID for this specific invoice (often 'Invoice Number')",
             example: "INV-100",
           },
           InvoiceDate: {
@@ -326,6 +379,11 @@ function modelInfo() {
             description: "Subtotal field identified on this invoice",
             example: "$100.00",
           },
+          TotalDiscount: {
+            type: "currency",
+            description: "Total discount field identified on this invoice",
+            example: "$5.00",
+          },
           TotalTax: {
             type: "currency",
             description: "Total tax field identified on this invoice",
@@ -348,7 +406,8 @@ function modelInfo() {
           },
           RemittanceAddress: {
             type: "address",
-            description: "Explicit remittance or payment address for the customer",
+            description:
+              "Explicit remittance or payment address for the customer",
             example: "123 Remit St New York, NY, 10001",
           },
           RemittanceAddressRecipient: {
@@ -357,12 +416,13 @@ function modelInfo() {
             example: "Contoso Billing",
           },
           ServiceAddress: {
-            type: "string",
-            description: "Explicit service address or property address for the customer",
+            type: "address",
+            description:
+              "Explicit service address or property address for the customer",
             example: "123 Service St, Redmond WA, 98052",
           },
           ServiceAddressRecipient: {
-            type: "address",
+            type: "string",
             description: "Name associated with the ServiceAddress",
             example: "Microsoft Services",
           },
@@ -385,13 +445,56 @@ function modelInfo() {
           },
           CustomerTaxId: {
             type: "string",
-            description: "The government ID number associated with the customer",
+            description:
+              "The government ID number associated with the customer",
             example: "765432-1",
           },
           PaymentTerm: {
             type: "string",
-            description: "The terms under which the payment is meant to be paid",
+            description:
+              "The terms under which the payment is meant to be paid",
             example: "Net90",
+          },
+          PaymentDetails: {
+            type: "array",
+            description: "List of payment details",
+            items: {
+              type: "object",
+              description: "A single payment detail",
+              properties: {
+                IBAN: {
+                  type: "string",
+                  description: "International bank account number",
+                  example: "DE 94 700 700 100 029 49 00 00",
+                },
+                SWIFT: {
+                  type: "string",
+                  description:
+                    "ISO9362, an international standard for Business Identifier Codes (BIC)",
+                  example: "DEUTDEMMXXX",
+                },
+              },
+            },
+          },
+          TaxDetails: {
+            type: "array",
+            description: "List of tax details",
+            items: {
+              type: "object",
+              description: "A single tax detail",
+              properties: {
+                Amount: {
+                  type: "currency",
+                  description: "The amount of the tax detail",
+                  example: "29,520.00",
+                },
+                Rate: {
+                  type: "string",
+                  description: "The rate of the tax detail",
+                  example: "18 %",
+                },
+              },
+            },
           },
           Items: {
             type: "array",
@@ -399,7 +502,8 @@ function modelInfo() {
             items: {
               type: "object",
               description: "A single line item",
-              example: "3/4/2021\nA123\nConsulting Services\n2 hours\n$30.00\n10%\n$60.00",
+              example:
+                "3/4/2021\nA123\nConsulting Services\n2 hours\n$30.00\n10%\n$60.00",
               properties: {
                 Amount: {
                   type: "currency",
@@ -433,6 +537,11 @@ function modelInfo() {
                   description:
                     "Tax associated with each line item. Possible values include tax amount, tax %, and tax Y/N",
                   example: "$6.00",
+                },
+                TaxRate: {
+                  type: "string",
+                  description: "Tax rate associated with each line item",
+                  example: "18 %",
                 },
                 Unit: {
                   type: "string",

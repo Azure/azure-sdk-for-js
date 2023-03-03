@@ -3,8 +3,8 @@
 
 // Model:       prebuilt-vaccinationCard
 // Description: Extract key information from US Covid-19 CDC vaccination cards.
-// API Version: 2022-08-31
-// Created:     Thu Aug 25 2022
+// API Version: 2023-02-28-preview
+// Created:     Thu Mar 02 2023
 
 import * as fr from "../../../src";
 
@@ -74,7 +74,9 @@ export interface VaccinationCovid19UsFields {
   /**
    * Array holding all the Covid-19 shots received by the cardholder
    */
-  vaccines?: fr.DocumentArrayField<fr.DocumentObjectField<VaccinationCovid19UsVaccinesElement>>;
+  vaccines?: fr.DocumentArrayField<
+    fr.DocumentObjectField<VaccinationCovid19UsVaccinesElement>
+  >;
 }
 
 /**
@@ -121,9 +123,10 @@ export interface VaccinationCovid19UsVaccinesElement {
 function modelInfo() {
   return {
     modelId: "prebuilt-vaccinationCard",
-    description: "Extract key information from US Covid-19 CDC vaccination cards.",
-    createdOn: "2022-08-31T00:00:00.000Z",
-    apiVersion: "2022-08-31",
+    description:
+      "Extract key information from US Covid-19 CDC vaccination cards.",
+    createdOn: "2023-02-28T00:00:00.000Z",
+    apiVersion: "2023-02-28-preview",
     docTypes: {
       "vaccination.covid19.us": {
         buildMode: "template",
@@ -155,7 +158,8 @@ function modelInfo() {
           },
           Vaccines: {
             type: "array",
-            description: "Array holding all the Covid-19 shots received by the cardholder",
+            description:
+              "Array holding all the Covid-19 shots received by the cardholder",
             items: {
               type: "object",
               properties: {

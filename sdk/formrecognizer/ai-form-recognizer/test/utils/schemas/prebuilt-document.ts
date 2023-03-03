@@ -3,8 +3,8 @@
 
 // Model:       prebuilt-document
 // Description: Extract text, layout, entities, and general key-value pairs from documents.
-// API Version: 2022-08-31
-// Created:     Thu Aug 25 2022
+// API Version: 2023-02-28-preview
+// Created:     Thu Mar 02 2023
 
 import * as fr from "../../../src";
 
@@ -44,8 +44,9 @@ export interface PrebuiltDocumentResult extends fr.AnalyzeResultCommon {
 function modelInfo() {
   return {
     modelId: "prebuilt-document",
-    description: "Extract text, layout, entities, and general key-value pairs from documents.",
-    createdOn: "2022-08-31T00:00:00.000Z",
-    apiVersion: "2022-08-31",
+    description:
+      "Extract text, layout, entities, and general key-value pairs from documents.",
+    createdOn: "2023-02-28T00:00:00.000Z",
+    apiVersion: "2023-02-28-preview",
   } as const;
 }

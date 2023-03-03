@@ -3,8 +3,8 @@
 
 // Model:       prebuilt-receipt
 // Description: Extract key information from receipts.
-// API Version: 2022-08-31
-// Created:     Thu Aug 25 2022
+// API Version: 2023-02-28-preview
+// Created:     Thu Mar 02 2023
 
 import * as fr from "../../../src";
 
@@ -295,7 +295,9 @@ export interface ReceiptRetailMealFields {
   /**
    * `ReceiptRetailMeal` "Items" field
    */
-  items?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptRetailMealItemsElement>>;
+  items?: fr.DocumentArrayField<
+    fr.DocumentObjectField<ReceiptRetailMealItemsElement>
+  >;
 }
 
 /**
@@ -363,7 +365,9 @@ export interface ReceiptCreditCardFields {
   /**
    * `ReceiptCreditCard` "Items" field
    */
-  items?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptCreditCardItemsElement>>;
+  items?: fr.DocumentArrayField<
+    fr.DocumentObjectField<ReceiptCreditCardItemsElement>
+  >;
 }
 
 /**
@@ -499,7 +503,9 @@ export interface ReceiptParkingFields {
   /**
    * `ReceiptParking` "Items" field
    */
-  items?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptParkingItemsElement>>;
+  items?: fr.DocumentArrayField<
+    fr.DocumentObjectField<ReceiptParkingItemsElement>
+  >;
 }
 
 /**
@@ -563,7 +569,9 @@ export interface ReceiptHotelFields {
   /**
    * `ReceiptHotel` "Items" field
    */
-  items?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptHotelItemsElement>>;
+  items?: fr.DocumentArrayField<
+    fr.DocumentObjectField<ReceiptHotelItemsElement>
+  >;
 }
 
 /**
@@ -595,8 +603,8 @@ function modelInfo() {
   return {
     modelId: "prebuilt-receipt",
     description: "Extract key information from receipts.",
-    createdOn: "2022-08-31T00:00:00.000Z",
-    apiVersion: "2022-08-31",
+    createdOn: "2023-02-28T00:00:00.000Z",
+    apiVersion: "2023-02-28-preview",
     docTypes: {
       receipt: {
         buildMode: "template",
