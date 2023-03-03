@@ -33,6 +33,6 @@ describe("Logging", function () {
     await client.beginAnalyzeBatch([{ kind: "EntityRecognition" }], ["I need coffee"], "en");
     sinon.assert.callCount(spy, 1);
     sinon.assert.calledWithMatch(spy, content);
-    setLogLevel("error");
+    setLogLevel();
   });
 });

@@ -63,6 +63,7 @@ function prepareRequestOptions(
  * Defines how to determine whether the Azure App Service MSI is available, and also how to retrieve a token from the Azure App Service MSI.
  */
 export const appServiceMsi2019: MSI = {
+  name: "appServiceMsi2019",
   async isAvailable({ scopes }): Promise<boolean> {
     const resource = mapScopesToResource(scopes);
     if (!resource) {

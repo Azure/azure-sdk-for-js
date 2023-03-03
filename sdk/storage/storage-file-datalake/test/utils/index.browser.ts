@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
 
 import { DataLakeServiceClient } from "../../src";
-import { AnonymousCredential } from "../../src/credentials/AnonymousCredential";
-import { newPipeline } from "../../src/Pipeline";
+import { setTestOnlySetHttpClient } from "../../src/StorageClient";
+import { newPipeline, AnonymousCredential } from "@azure/storage-blob";
 import { SimpleTokenCredential } from "./testutils.common";
+import { createXhrHttpClient } from "@azure/test-utils";
+import { isLiveMode } from "@azure-tools/test-recorder";
 
 export * from "./testutils.common";
 
-export function getGenericCredential(accountType: string): AnonymousCredential {
-  const _accountType = accountType; // bypass compiling error
-  accountType = _accountType;
+export function getGenericCredential(): AnonymousCredential {
   return new AnonymousCredential();
 }
 
@@ -31,6 +31,9 @@ export function getGenericDataLakeServiceClient(
   accountType: string,
   accountNameSuffix: string = ""
 ): DataLakeServiceClient {
+  if (!isLiveMode()) {
+    setTestOnlySetHttpClient(createXhrHttpClient());
+  }
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
 
@@ -45,20 +48,23 @@ export function getGenericDataLakeServiceClient(
     );
   }
 
-  if (accountSAS) {
-    accountSAS = accountSAS.startsWith("?") ? accountSAS : `?${accountSAS}`;
+  accountSAS = accountSAS.startsWith("?") ? accountSAS : `?${accountSAS}`;
+
+  // don't add the test account SAS value.
+  if (accountSAS === "?fakeSasToken") {
+    accountSAS = "";
   }
 
-  const credentials = getGenericCredential(accountType);
-  const pipeline = newPipeline(credentials, {
-    // Enable logger when debugging
-    // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
-  });
+  const credentials = getGenericCredential();
+  const pipeline = newPipeline(credentials);
   const dfsPrimaryURL = `https://${accountName}${accountNameSuffix}.dfs.core.windows.net${accountSAS}`;
   return new DataLakeServiceClient(dfsPrimaryURL, pipeline);
 }
 
 export function getTokenDataLakeServiceClient(): DataLakeServiceClient {
+  if (!isLiveMode()) {
+    setTestOnlySetHttpClient(createXhrHttpClient());
+  }
   const accountNameEnvVar = `DFS_ACCOUNT_NAME`;
   const accountName = (self as any).__env__[accountNameEnvVar];
 
@@ -167,6 +173,14 @@ export function getBrowserFile(name: string, size: number): File {
 }
 
 export function getSASConnectionStringFromEnvironment(): string {
+  if (!isLiveMode()) {
+    setTestOnlySetHttpClient(createXhrHttpClient());
+  }
   const env = (self as any).__env__;
-  return `BlobEndpoint=https://${env.DFS_ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${env.DFS_ACCOUNT_NAME}.queue.core.windows.net/;FileEndpoint=https://${env.DFS_ACCOUNT_NAME}.file.core.windows.net/;TableEndpoint=https://${env.DFS_ACCOUNT_NAME}.table.core.windows.net/;SharedAccessSignature=${env.DFS_ACCOUNT_SAS}`;
+  let sasToken: string = env.DFS_ACCOUNT_SAS;
+  // connection string SAS doesn't have the prefix
+  if (sasToken && sasToken.startsWith("?")) {
+    sasToken = sasToken.slice(1);
+  }
+  return `BlobEndpoint=https://${env.DFS_ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${env.DFS_ACCOUNT_NAME}.queue.core.windows.net/;FileEndpoint=https://${env.DFS_ACCOUNT_NAME}.file.core.windows.net/;TableEndpoint=https://${env.DFS_ACCOUNT_NAME}.table.core.windows.net/;SharedAccessSignature=${sasToken}`;
 }

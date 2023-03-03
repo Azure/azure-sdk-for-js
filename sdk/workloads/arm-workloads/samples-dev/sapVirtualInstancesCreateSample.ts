@@ -14,16 +14,620 @@ import {
   WorkloadsClient
 } from "@azure/arm-workloads";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
- * This sample demonstrates how to Creates an Virtual Instance for SAP.
+ * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
- * @summary Creates an Virtual Instance for SAP.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_Distributed.json
+ * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_CustomFullResourceNames_Distributed.json
  */
-async function sapVirtualInstancesCreateDistributed() {
-  const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
-  const resourceGroupName = "test-rg";
+async function createInfrastructureWithOSConfigurationWithCustomResourceNamesForDistributedSystem() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
+  const sapVirtualInstanceName = "X00";
+  const body: SAPVirtualInstance = {
+    configuration: {
+      appLocation: "eastus",
+      configurationType: "DeploymentWithOSConfig",
+      infrastructureConfiguration: {
+        appResourceGroup: "X00-RG",
+        applicationServer: {
+          instanceCount: 6,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP",
+              publisher: "RedHat",
+              sku: "7.4",
+              version: "7.4.2019062505"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_E32ds_v4"
+          }
+        },
+        centralServer: {
+          instanceCount: 1,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP",
+              publisher: "RedHat",
+              sku: "7.4",
+              version: "7.4.2019062505"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_E16ds_v4"
+          }
+        },
+        customResourceNames: {
+          applicationServer: {
+            availabilitySetName: "appAvSet",
+            virtualMachines: [
+              {
+                dataDiskNames: { default: ["app0disk0"] },
+                hostName: "apphostName0",
+                networkInterfaces: [{ networkInterfaceName: "appnic0" }],
+                osDiskName: "app0osdisk",
+                vmName: "appvm0"
+              },
+              {
+                dataDiskNames: { default: ["app1disk0"] },
+                hostName: "apphostName1",
+                networkInterfaces: [{ networkInterfaceName: "appnic1" }],
+                osDiskName: "app1osdisk",
+                vmName: "appvm1"
+              }
+            ]
+          },
+          centralServer: {
+            virtualMachines: [
+              {
+                dataDiskNames: { default: ["ascsdisk0"] },
+                hostName: "ascshostName",
+                networkInterfaces: [{ networkInterfaceName: "ascsnic" }],
+                osDiskName: "ascsosdisk",
+                vmName: "ascsvm"
+              }
+            ]
+          },
+          databaseServer: {
+            virtualMachines: [
+              {
+                dataDiskNames: {
+                  hanaData: ["hanadata0", "hanadata1"],
+                  hanaLog: ["hanalog0", "hanalog1", "hanalog2"],
+                  hanaShared: ["hanashared0", "hanashared1"],
+                  usrSap: ["usrsap0"]
+                },
+                hostName: "dbhostName",
+                networkInterfaces: [{ networkInterfaceName: "dbnic" }],
+                osDiskName: "dbosdisk",
+                vmName: "dbvm"
+              }
+            ]
+          },
+          namingPatternType: "FullResourceName",
+          sharedStorage: {
+            sharedStorageAccountName: "storageacc",
+            sharedStorageAccountPrivateEndPointName: "peForxNFS"
+          }
+        },
+        databaseServer: {
+          databaseType: "HANA",
+          instanceCount: 1,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/dbsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP",
+              publisher: "RedHat",
+              sku: "7.4",
+              version: "7.4.2019062505"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_M32ts"
+          }
+        },
+        deploymentType: "ThreeTier"
+      },
+      osSapConfiguration: { sapFqdn: "xyz.test.com" }
+    },
+    environment: "Prod",
+    location: "westcentralus",
+    sapProduct: "S4HANA",
+    tags: {}
+  };
+  const options: SAPVirtualInstancesCreateOptionalParams = { body };
+  const credential = new DefaultAzureCredential();
+  const client = new WorkloadsClient(credential, subscriptionId);
+  const result = await client.sAPVirtualInstances.beginCreateAndWait(
+    resourceGroupName,
+    sapVirtualInstanceName,
+    options
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
+ *
+ * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_CustomFullResourceNames_HA_AvSet.json
+ */
+async function createInfrastructureWithOSConfigurationWithCustomResourceNamesForHaSystemWithAvailabilitySet() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
+  const sapVirtualInstanceName = "X00";
+  const body: SAPVirtualInstance = {
+    configuration: {
+      appLocation: "eastus",
+      configurationType: "DeploymentWithOSConfig",
+      infrastructureConfiguration: {
+        appResourceGroup: "X00-RG",
+        applicationServer: {
+          instanceCount: 6,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP",
+              publisher: "RedHat",
+              sku: "7.4",
+              version: "7.4.2019062505"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_E32ds_v4"
+          }
+        },
+        centralServer: {
+          instanceCount: 2,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP",
+              publisher: "RedHat",
+              sku: "7.4",
+              version: "7.4.2019062505"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_E16ds_v4"
+          }
+        },
+        customResourceNames: {
+          applicationServer: {
+            availabilitySetName: "appAvSet",
+            virtualMachines: [
+              {
+                dataDiskNames: { default: ["app0disk0"] },
+                hostName: "apphostName0",
+                networkInterfaces: [{ networkInterfaceName: "appnic0" }],
+                osDiskName: "app0osdisk",
+                vmName: "appvm0"
+              },
+              {
+                dataDiskNames: { default: ["app1disk0"] },
+                hostName: "apphostName1",
+                networkInterfaces: [{ networkInterfaceName: "appnic1" }],
+                osDiskName: "app1osdisk",
+                vmName: "appvm1"
+              }
+            ]
+          },
+          centralServer: {
+            availabilitySetName: "csAvSet",
+            loadBalancer: {
+              backendPoolNames: ["ascsBackendPool"],
+              frontendIpConfigurationNames: ["ascsip0", "ersip0"],
+              healthProbeNames: ["ascsHealthProbe", "ersHealthProbe"],
+              loadBalancerName: "ascslb"
+            },
+            virtualMachines: [
+              {
+                hostName: "ascshostName",
+                networkInterfaces: [{ networkInterfaceName: "ascsnic" }],
+                osDiskName: "ascsosdisk",
+                vmName: "ascsvm"
+              },
+              {
+                hostName: "ershostName",
+                networkInterfaces: [{ networkInterfaceName: "ersnic" }],
+                osDiskName: "ersosdisk",
+                vmName: "ersvm"
+              }
+            ]
+          },
+          databaseServer: {
+            availabilitySetName: "dbAvSet",
+            loadBalancer: {
+              backendPoolNames: ["dbBackendPool"],
+              frontendIpConfigurationNames: ["dbip"],
+              healthProbeNames: ["dbHealthProbe"],
+              loadBalancerName: "dblb"
+            },
+            virtualMachines: [
+              {
+                dataDiskNames: {
+                  hanaData: ["hanadatapr0", "hanadatapr1"],
+                  hanaLog: ["hanalogpr0", "hanalogpr1", "hanalogpr2"],
+                  hanaShared: ["hanasharedpr0", "hanasharedpr1"],
+                  usrSap: ["usrsappr0"]
+                },
+                hostName: "dbprhostName",
+                networkInterfaces: [{ networkInterfaceName: "dbprnic" }],
+                osDiskName: "dbprosdisk",
+                vmName: "dbvmpr"
+              },
+              {
+                dataDiskNames: {
+                  hanaData: ["hanadatasr0", "hanadatasr1"],
+                  hanaLog: ["hanalogsr0", "hanalogsr1", "hanalogsr2"],
+                  hanaShared: ["hanasharedsr0", "hanasharedsr1"],
+                  usrSap: ["usrsapsr0"]
+                },
+                hostName: "dbsrhostName",
+                networkInterfaces: [{ networkInterfaceName: "dbsrnic" }],
+                osDiskName: "dbsrosdisk",
+                vmName: "dbvmsr"
+              }
+            ]
+          },
+          namingPatternType: "FullResourceName",
+          sharedStorage: {
+            sharedStorageAccountName: "storageacc",
+            sharedStorageAccountPrivateEndPointName: "peForxNFS"
+          }
+        },
+        databaseServer: {
+          databaseType: "HANA",
+          instanceCount: 2,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/dbsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP",
+              publisher: "RedHat",
+              sku: "7.4",
+              version: "7.4.2019062505"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_M32ts"
+          }
+        },
+        deploymentType: "ThreeTier",
+        highAvailabilityConfig: { highAvailabilityType: "AvailabilitySet" }
+      },
+      osSapConfiguration: { sapFqdn: "xyz.test.com" }
+    },
+    environment: "Prod",
+    location: "westcentralus",
+    sapProduct: "S4HANA",
+    tags: {}
+  };
+  const options: SAPVirtualInstancesCreateOptionalParams = { body };
+  const credential = new DefaultAzureCredential();
+  const client = new WorkloadsClient(credential, subscriptionId);
+  const result = await client.sAPVirtualInstances.beginCreateAndWait(
+    resourceGroupName,
+    sapVirtualInstanceName,
+    options
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
+ *
+ * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_CustomFullResourceNames_HA_AvZone.json
+ */
+async function createInfrastructureWithOSConfigurationWithCustomResourceNamesForHaSystemWithAvailabilityZone() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
+  const sapVirtualInstanceName = "X00";
+  const body: SAPVirtualInstance = {
+    configuration: {
+      appLocation: "eastus",
+      configurationType: "DeploymentWithOSConfig",
+      infrastructureConfiguration: {
+        appResourceGroup: "X00-RG",
+        applicationServer: {
+          instanceCount: 6,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP",
+              publisher: "RedHat",
+              sku: "7.4",
+              version: "7.4.2019062505"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_E32ds_v4"
+          }
+        },
+        centralServer: {
+          instanceCount: 2,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP",
+              publisher: "RedHat",
+              sku: "7.4",
+              version: "7.4.2019062505"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_E16ds_v4"
+          }
+        },
+        customResourceNames: {
+          applicationServer: {
+            virtualMachines: [
+              {
+                dataDiskNames: { default: ["app0disk0"] },
+                hostName: "apphostName0",
+                networkInterfaces: [{ networkInterfaceName: "appnic0" }],
+                osDiskName: "app0osdisk",
+                vmName: "appvm0"
+              },
+              {
+                dataDiskNames: { default: ["app1disk0"] },
+                hostName: "apphostName1",
+                networkInterfaces: [{ networkInterfaceName: "appnic1" }],
+                osDiskName: "app1osdisk",
+                vmName: "appvm1"
+              }
+            ]
+          },
+          centralServer: {
+            loadBalancer: {
+              backendPoolNames: ["ascsBackendPool"],
+              frontendIpConfigurationNames: ["ascsip0", "ersip0"],
+              healthProbeNames: ["ascsHealthProbe", "ersHealthProbe"],
+              loadBalancerName: "ascslb"
+            },
+            virtualMachines: [
+              {
+                hostName: "ascshostName",
+                networkInterfaces: [{ networkInterfaceName: "ascsnic" }],
+                osDiskName: "ascsosdisk",
+                vmName: "ascsvm"
+              },
+              {
+                hostName: "ershostName",
+                networkInterfaces: [{ networkInterfaceName: "ersnic" }],
+                osDiskName: "ersosdisk",
+                vmName: "ersvm"
+              }
+            ]
+          },
+          databaseServer: {
+            loadBalancer: {
+              backendPoolNames: ["dbBackendPool"],
+              frontendIpConfigurationNames: ["dbip"],
+              healthProbeNames: ["dbHealthProbe"],
+              loadBalancerName: "dblb"
+            },
+            virtualMachines: [
+              {
+                dataDiskNames: {
+                  hanaData: ["hanadatapr0", "hanadatapr1"],
+                  hanaLog: ["hanalogpr0", "hanalogpr1", "hanalogpr2"],
+                  hanaShared: ["hanasharedpr0", "hanasharedpr1"],
+                  usrSap: ["usrsappr0"]
+                },
+                hostName: "dbprhostName",
+                networkInterfaces: [{ networkInterfaceName: "dbprnic" }],
+                osDiskName: "dbprosdisk",
+                vmName: "dbvmpr"
+              },
+              {
+                dataDiskNames: {
+                  hanaData: ["hanadatasr0", "hanadatasr1"],
+                  hanaLog: ["hanalogsr0", "hanalogsr1", "hanalogsr2"],
+                  hanaShared: ["hanasharedsr0", "hanasharedsr1"],
+                  usrSap: ["usrsapsr0"]
+                },
+                hostName: "dbsrhostName",
+                networkInterfaces: [{ networkInterfaceName: "dbsrnic" }],
+                osDiskName: "dbsrosdisk",
+                vmName: "dbvmsr"
+              }
+            ]
+          },
+          namingPatternType: "FullResourceName",
+          sharedStorage: {
+            sharedStorageAccountName: "storageacc",
+            sharedStorageAccountPrivateEndPointName: "peForxNFS"
+          }
+        },
+        databaseServer: {
+          databaseType: "HANA",
+          instanceCount: 2,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/dbsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP",
+              publisher: "RedHat",
+              sku: "7.4",
+              version: "7.4.2019062505"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_M32ts"
+          }
+        },
+        deploymentType: "ThreeTier",
+        highAvailabilityConfig: { highAvailabilityType: "AvailabilityZone" }
+      },
+      osSapConfiguration: { sapFqdn: "xyz.test.com" }
+    },
+    environment: "Prod",
+    location: "westcentralus",
+    sapProduct: "S4HANA",
+    tags: {}
+  };
+  const options: SAPVirtualInstancesCreateOptionalParams = { body };
+  const credential = new DefaultAzureCredential();
+  const client = new WorkloadsClient(credential, subscriptionId);
+  const result = await client.sAPVirtualInstances.beginCreateAndWait(
+    resourceGroupName,
+    sapVirtualInstanceName,
+    options
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
+ *
+ * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_CustomFullResourceNames_SingleServer.json
+ */
+async function createInfrastructureWithOSConfigurationWithCustomResourceNamesForSingleServerSystem() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
+  const sapVirtualInstanceName = "X00";
+  const body: SAPVirtualInstance = {
+    configuration: {
+      appLocation: "eastus",
+      configurationType: "DeploymentWithOSConfig",
+      infrastructureConfiguration: {
+        appResourceGroup: "X00-RG",
+        databaseType: "HANA",
+        deploymentType: "SingleServer",
+        networkConfiguration: { isSecondaryIpEnabled: true },
+        subnetId:
+          "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+        virtualMachineConfiguration: {
+          imageReference: {
+            offer: "RHEL-SAP",
+            publisher: "RedHat",
+            sku: "7.4",
+            version: "7.4.2019062505"
+          },
+          osProfile: {
+            adminUsername: "{your-username}",
+            osConfiguration: {
+              disablePasswordAuthentication: true,
+              osType: "Linux",
+              sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+            }
+          },
+          vmSize: "Standard_E32ds_v4"
+        }
+      },
+      osSapConfiguration: { sapFqdn: "xyz.test.com" }
+    },
+    environment: "NonProd",
+    location: "westcentralus",
+    sapProduct: "S4HANA",
+    tags: {}
+  };
+  const options: SAPVirtualInstancesCreateOptionalParams = { body };
+  const credential = new DefaultAzureCredential();
+  const client = new WorkloadsClient(credential, subscriptionId);
+  const result = await client.sAPVirtualInstances.beginCreateAndWait(
+    resourceGroupName,
+    sapVirtualInstanceName,
+    options
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
+ *
+ * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_Distributed.json
+ */
+async function createInfrastructureOnlyForDistributedSystem() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
   const sapVirtualInstanceName = "X00";
   const body: SAPVirtualInstance = {
     configuration: {
@@ -34,7 +638,7 @@ async function sapVirtualInstancesCreateDistributed() {
         applicationServer: {
           instanceCount: 6,
           subnetId:
-            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/dindurkhya-e2etesting/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
           virtualMachineConfiguration: {
             imageReference: {
               offer: "RHEL-SAP",
@@ -56,7 +660,7 @@ async function sapVirtualInstancesCreateDistributed() {
         centralServer: {
           instanceCount: 1,
           subnetId:
-            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/dindurkhya-e2etesting/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
           virtualMachineConfiguration: {
             imageReference: {
               offer: "RHEL-SAP",
@@ -79,7 +683,7 @@ async function sapVirtualInstancesCreateDistributed() {
           databaseType: "HANA",
           instanceCount: 1,
           subnetId:
-            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/dindurkhya-e2etesting/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/dbsubnet",
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/dbsubnet",
           virtualMachineConfiguration: {
             imageReference: {
               offer: "RHEL-SAP",
@@ -117,17 +721,18 @@ async function sapVirtualInstancesCreateDistributed() {
   console.log(result);
 }
 
-sapVirtualInstancesCreateDistributed().catch(console.error);
-
 /**
- * This sample demonstrates how to Creates an Virtual Instance for SAP.
+ * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
- * @summary Creates an Virtual Instance for SAP.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_HA_AvSet.json
+ * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_HA_AvSet.json
  */
-async function sapVirtualInstancesCreateHaAvSet() {
-  const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
-  const resourceGroupName = "test-rg";
+async function createInfrastructureOnlyForHaSystemWithAvailabilitySet() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
   const sapVirtualInstanceName = "X00";
   const body: SAPVirtualInstance = {
     configuration: {
@@ -138,7 +743,7 @@ async function sapVirtualInstancesCreateHaAvSet() {
         applicationServer: {
           instanceCount: 5,
           subnetId:
-            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/dindurkhya-e2etesting/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
           virtualMachineConfiguration: {
             imageReference: {
               offer: "RHEL-SAP",
@@ -160,7 +765,7 @@ async function sapVirtualInstancesCreateHaAvSet() {
         centralServer: {
           instanceCount: 2,
           subnetId:
-            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/dindurkhya-e2etesting/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
           virtualMachineConfiguration: {
             imageReference: {
               offer: "RHEL-SAP",
@@ -183,7 +788,7 @@ async function sapVirtualInstancesCreateHaAvSet() {
           databaseType: "HANA",
           instanceCount: 2,
           subnetId:
-            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/dindurkhya-e2etesting/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/dbsubnet",
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/dbsubnet",
           virtualMachineConfiguration: {
             imageReference: {
               offer: "RHEL-SAP",
@@ -222,17 +827,18 @@ async function sapVirtualInstancesCreateHaAvSet() {
   console.log(result);
 }
 
-sapVirtualInstancesCreateHaAvSet().catch(console.error);
-
 /**
- * This sample demonstrates how to Creates an Virtual Instance for SAP.
+ * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
- * @summary Creates an Virtual Instance for SAP.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_HA_AvZone.json
+ * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_HA_AvZone.json
  */
-async function sapVirtualInstancesCreateHaAvZone() {
-  const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
-  const resourceGroupName = "test-rg";
+async function createInfrastructureOnlyForHaSystemWithAvailabilityZone() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
   const sapVirtualInstanceName = "X00";
   const body: SAPVirtualInstance = {
     configuration: {
@@ -243,7 +849,7 @@ async function sapVirtualInstancesCreateHaAvZone() {
         applicationServer: {
           instanceCount: 6,
           subnetId:
-            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/dindurkhya-e2etesting/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
           virtualMachineConfiguration: {
             imageReference: {
               offer: "RHEL-SAP",
@@ -265,7 +871,7 @@ async function sapVirtualInstancesCreateHaAvZone() {
         centralServer: {
           instanceCount: 2,
           subnetId:
-            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/dindurkhya-e2etesting/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
           virtualMachineConfiguration: {
             imageReference: {
               offer: "RHEL-SAP",
@@ -288,7 +894,7 @@ async function sapVirtualInstancesCreateHaAvZone() {
           databaseType: "HANA",
           instanceCount: 2,
           subnetId:
-            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/dindurkhya-e2etesting/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/dbsubnet",
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/dbsubnet",
           virtualMachineConfiguration: {
             imageReference: {
               offer: "RHEL-SAP",
@@ -327,17 +933,18 @@ async function sapVirtualInstancesCreateHaAvZone() {
   console.log(result);
 }
 
-sapVirtualInstancesCreateHaAvZone().catch(console.error);
-
 /**
- * This sample demonstrates how to Creates an Virtual Instance for SAP.
+ * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
- * @summary Creates an Virtual Instance for SAP.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_SingleServer.json
+ * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_SingleServer.json
  */
-async function sapVirtualInstancesCreateSingleServer() {
-  const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
-  const resourceGroupName = "test-rg";
+async function createInfrastructureOnlyForSingleServerSystem() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
   const sapVirtualInstanceName = "X00";
   const body: SAPVirtualInstance = {
     configuration: {
@@ -349,7 +956,7 @@ async function sapVirtualInstancesCreateSingleServer() {
         deploymentType: "SingleServer",
         networkConfiguration: { isSecondaryIpEnabled: true },
         subnetId:
-          "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/dindurkhya-e2etesting/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+          "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
         virtualMachineConfiguration: {
           imageReference: {
             offer: "RHEL-SAP",
@@ -385,17 +992,18 @@ async function sapVirtualInstancesCreateSingleServer() {
   console.log(result);
 }
 
-sapVirtualInstancesCreateSingleServer().catch(console.error);
-
 /**
- * This sample demonstrates how to Creates an Virtual Instance for SAP.
+ * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
- * @summary Creates an Virtual Instance for SAP.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_WithOSConfig_Distributed.json
+ * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_DiskDetails_Distributed.json
  */
-async function sapVirtualInstancesCreateWithOsconfigDistributed() {
-  const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
-  const resourceGroupName = "test-rg";
+async function createInfrastructureWithDiskAndOSConfigurationForDistributedSystemRecommended() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
   const sapVirtualInstanceName = "X00";
   const body: SAPVirtualInstance = {
     configuration: {
@@ -449,6 +1057,32 @@ async function sapVirtualInstancesCreateWithOsconfigDistributed() {
         },
         databaseServer: {
           databaseType: "HANA",
+          diskConfiguration: {
+            diskVolumeConfigurations: {
+              backup: {
+                count: 2,
+                sizeGB: 256,
+                sku: { name: "StandardSSD_LRS" }
+              },
+              "hana/data": {
+                count: 4,
+                sizeGB: 128,
+                sku: { name: "Premium_LRS" }
+              },
+              "hana/log": {
+                count: 3,
+                sizeGB: 128,
+                sku: { name: "Premium_LRS" }
+              },
+              "hana/shared": {
+                count: 1,
+                sizeGB: 256,
+                sku: { name: "StandardSSD_LRS" }
+              },
+              os: { count: 1, sizeGB: 64, sku: { name: "StandardSSD_LRS" } },
+              "usr/sap": { count: 1, sizeGB: 128, sku: { name: "Premium_LRS" } }
+            }
+          },
           instanceCount: 1,
           subnetId:
             "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/dindurkhya-e2etesting/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/dbsubnet",
@@ -472,15 +1106,7 @@ async function sapVirtualInstancesCreateWithOsconfigDistributed() {
         },
         deploymentType: "ThreeTier"
       },
-      osSapConfiguration: {
-        deployerVmPackages: {
-          storageAccountId:
-            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/yb-SapInstall/providers/Microsoft.Storage/storageAccounts/ybteststorageaccount",
-          url:
-            "https://ybteststorageaccount.blob.core.windows.net/sapbits/deployervmpackages/DeployerVMPackages.zip"
-        },
-        sapFqdn: "xyz.test.com"
-      }
+      osSapConfiguration: { sapFqdn: "xyz.test.com" }
     },
     environment: "Prod",
     location: "westcentralus",
@@ -498,17 +1124,18 @@ async function sapVirtualInstancesCreateWithOsconfigDistributed() {
   console.log(result);
 }
 
-sapVirtualInstancesCreateWithOsconfigDistributed().catch(console.error);
-
 /**
- * This sample demonstrates how to Creates an Virtual Instance for SAP.
+ * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
- * @summary Creates an Virtual Instance for SAP.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_WithOSConfig_HA_AvSet.json
+ * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_DiskDetails_HA_AvSet.json
  */
-async function sapVirtualInstancesCreateWithOsconfigHaAvSet() {
-  const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
-  const resourceGroupName = "test-rg";
+async function createInfrastructureWithDiskAndOSConfigurationForHaSystemWithAvailabilitySetRecommended() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
   const sapVirtualInstanceName = "X00";
   const body: SAPVirtualInstance = {
     configuration: {
@@ -562,6 +1189,32 @@ async function sapVirtualInstancesCreateWithOsconfigHaAvSet() {
         },
         databaseServer: {
           databaseType: "HANA",
+          diskConfiguration: {
+            diskVolumeConfigurations: {
+              backup: {
+                count: 2,
+                sizeGB: 256,
+                sku: { name: "StandardSSD_LRS" }
+              },
+              "hana/data": {
+                count: 4,
+                sizeGB: 128,
+                sku: { name: "Premium_LRS" }
+              },
+              "hana/log": {
+                count: 3,
+                sizeGB: 128,
+                sku: { name: "Premium_LRS" }
+              },
+              "hana/shared": {
+                count: 1,
+                sizeGB: 256,
+                sku: { name: "StandardSSD_LRS" }
+              },
+              os: { count: 1, sizeGB: 64, sku: { name: "StandardSSD_LRS" } },
+              "usr/sap": { count: 1, sizeGB: 128, sku: { name: "Premium_LRS" } }
+            }
+          },
           instanceCount: 2,
           subnetId:
             "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/dindurkhya-e2etesting/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/dbsubnet",
@@ -586,15 +1239,7 @@ async function sapVirtualInstancesCreateWithOsconfigHaAvSet() {
         deploymentType: "ThreeTier",
         highAvailabilityConfig: { highAvailabilityType: "AvailabilitySet" }
       },
-      osSapConfiguration: {
-        deployerVmPackages: {
-          storageAccountId:
-            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/yb-SapInstall/providers/Microsoft.Storage/storageAccounts/ybteststorageaccount",
-          url:
-            "https://ybteststorageaccount.blob.core.windows.net/sapbits/deployervmpackages/DeployerVMPackages.zip"
-        },
-        sapFqdn: "xyz.test.com"
-      }
+      osSapConfiguration: { sapFqdn: "xyz.test.com" }
     },
     environment: "Prod",
     location: "westcentralus",
@@ -612,17 +1257,18 @@ async function sapVirtualInstancesCreateWithOsconfigHaAvSet() {
   console.log(result);
 }
 
-sapVirtualInstancesCreateWithOsconfigHaAvSet().catch(console.error);
-
 /**
- * This sample demonstrates how to Creates an Virtual Instance for SAP.
+ * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
- * @summary Creates an Virtual Instance for SAP.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_WithOSConfig_HA_AvZone.json
+ * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_DiskDetails_HA_AvZone.json
  */
-async function sapVirtualInstancesCreateWithOsconfigHaAvZone() {
-  const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
-  const resourceGroupName = "test-rg";
+async function createInfrastructureWithDiskAndOSConfigurationForHaSystemWithAvailabilityZoneRecommended() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
   const sapVirtualInstanceName = "X00";
   const body: SAPVirtualInstance = {
     configuration: {
@@ -676,6 +1322,32 @@ async function sapVirtualInstancesCreateWithOsconfigHaAvZone() {
         },
         databaseServer: {
           databaseType: "HANA",
+          diskConfiguration: {
+            diskVolumeConfigurations: {
+              backup: {
+                count: 2,
+                sizeGB: 256,
+                sku: { name: "StandardSSD_LRS" }
+              },
+              "hana/data": {
+                count: 4,
+                sizeGB: 128,
+                sku: { name: "Premium_LRS" }
+              },
+              "hana/log": {
+                count: 3,
+                sizeGB: 128,
+                sku: { name: "Premium_LRS" }
+              },
+              "hana/shared": {
+                count: 1,
+                sizeGB: 256,
+                sku: { name: "StandardSSD_LRS" }
+              },
+              os: { count: 1, sizeGB: 64, sku: { name: "StandardSSD_LRS" } },
+              "usr/sap": { count: 1, sizeGB: 128, sku: { name: "Premium_LRS" } }
+            }
+          },
           instanceCount: 2,
           subnetId:
             "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/dindurkhya-e2etesting/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/dbsubnet",
@@ -700,15 +1372,7 @@ async function sapVirtualInstancesCreateWithOsconfigHaAvZone() {
         deploymentType: "ThreeTier",
         highAvailabilityConfig: { highAvailabilityType: "AvailabilityZone" }
       },
-      osSapConfiguration: {
-        deployerVmPackages: {
-          storageAccountId:
-            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/yb-SapInstall/providers/Microsoft.Storage/storageAccounts/ybteststorageaccount",
-          url:
-            "https://ybteststorageaccount.blob.core.windows.net/sapbits/deployervmpackages/DeployerVMPackages.zip"
-        },
-        sapFqdn: "xyz.test.com"
-      }
+      osSapConfiguration: { sapFqdn: "xyz.test.com" }
     },
     environment: "Prod",
     location: "westcentralus",
@@ -726,17 +1390,18 @@ async function sapVirtualInstancesCreateWithOsconfigHaAvZone() {
   console.log(result);
 }
 
-sapVirtualInstancesCreateWithOsconfigHaAvZone().catch(console.error);
-
 /**
- * This sample demonstrates how to Creates an Virtual Instance for SAP.
+ * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
- * @summary Creates an Virtual Instance for SAP.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_WithOSConfig_SingleServer.json
+ * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_DiskDetails_SingleServer.json
  */
-async function sapVirtualInstancesCreateWithOsconfigSingleServer() {
-  const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
-  const resourceGroupName = "test-rg";
+async function createInfrastructureWithDiskAndOSConfigurationsForSingleServerSystemRecommended() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
   const sapVirtualInstanceName = "X00";
   const body: SAPVirtualInstance = {
     configuration: {
@@ -745,6 +1410,24 @@ async function sapVirtualInstancesCreateWithOsconfigSingleServer() {
       infrastructureConfiguration: {
         appResourceGroup: "X00-RG",
         databaseType: "HANA",
+        dbDiskConfiguration: {
+          diskVolumeConfigurations: {
+            backup: { count: 2, sizeGB: 256, sku: { name: "StandardSSD_LRS" } },
+            "hana/data": {
+              count: 4,
+              sizeGB: 128,
+              sku: { name: "Premium_LRS" }
+            },
+            "hana/log": { count: 3, sizeGB: 128, sku: { name: "Premium_LRS" } },
+            "hana/shared": {
+              count: 1,
+              sizeGB: 256,
+              sku: { name: "StandardSSD_LRS" }
+            },
+            os: { count: 1, sizeGB: 64, sku: { name: "StandardSSD_LRS" } },
+            "usr/sap": { count: 1, sizeGB: 128, sku: { name: "Premium_LRS" } }
+          }
+        },
         deploymentType: "SingleServer",
         networkConfiguration: { isSecondaryIpEnabled: true },
         subnetId:
@@ -767,14 +1450,906 @@ async function sapVirtualInstancesCreateWithOsconfigSingleServer() {
           vmSize: "Standard_E32ds_v4"
         }
       },
-      osSapConfiguration: {
-        deployerVmPackages: {
-          storageAccountId:
-            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/yb-SapInstall/providers/Microsoft.Storage/storageAccounts/ybteststorageaccount",
-          url:
-            "https://ybteststorageaccount.blob.core.windows.net/sapbits/deployervmpackages/DeployerVMPackages.zip"
+      osSapConfiguration: { sapFqdn: "xyz.test.com" }
+    },
+    environment: "NonProd",
+    location: "westcentralus",
+    sapProduct: "S4HANA",
+    tags: {}
+  };
+  const options: SAPVirtualInstancesCreateOptionalParams = { body };
+  const credential = new DefaultAzureCredential();
+  const client = new WorkloadsClient(credential, subscriptionId);
+  const result = await client.sAPVirtualInstances.beginCreateAndWait(
+    resourceGroupName,
+    sapVirtualInstanceName,
+    options
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
+ *
+ * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_WithOSConfig_Distributed.json
+ */
+async function createInfrastructureWithOSConfigurationForDistributedSystemRecommended() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
+  const sapVirtualInstanceName = "X00";
+  const body: SAPVirtualInstance = {
+    configuration: {
+      appLocation: "eastus",
+      configurationType: "DeploymentWithOSConfig",
+      infrastructureConfiguration: {
+        appResourceGroup: "X00-RG",
+        applicationServer: {
+          instanceCount: 6,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP",
+              publisher: "RedHat",
+              sku: "7.4",
+              version: "7.4.2019062505"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_E32ds_v4"
+          }
         },
-        sapFqdn: "xyz.test.com"
+        centralServer: {
+          instanceCount: 1,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP",
+              publisher: "RedHat",
+              sku: "7.4",
+              version: "7.4.2019062505"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_E16ds_v4"
+          }
+        },
+        databaseServer: {
+          databaseType: "HANA",
+          instanceCount: 1,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/dbsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP",
+              publisher: "RedHat",
+              sku: "7.4",
+              version: "7.4.2019062505"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_M32ts"
+          }
+        },
+        deploymentType: "ThreeTier"
+      },
+      osSapConfiguration: { sapFqdn: "xyz.test.com" }
+    },
+    environment: "Prod",
+    location: "westcentralus",
+    sapProduct: "S4HANA",
+    tags: {}
+  };
+  const options: SAPVirtualInstancesCreateOptionalParams = { body };
+  const credential = new DefaultAzureCredential();
+  const client = new WorkloadsClient(credential, subscriptionId);
+  const result = await client.sAPVirtualInstances.beginCreateAndWait(
+    resourceGroupName,
+    sapVirtualInstanceName,
+    options
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
+ *
+ * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_WithOSConfig_HA_AvSet.json
+ */
+async function createInfrastructureWithOSConfigurationForHaSystemWithAvailabilitySetRecommended() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
+  const sapVirtualInstanceName = "X00";
+  const body: SAPVirtualInstance = {
+    configuration: {
+      appLocation: "eastus",
+      configurationType: "DeploymentWithOSConfig",
+      infrastructureConfiguration: {
+        appResourceGroup: "X00-RG",
+        applicationServer: {
+          instanceCount: 6,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP",
+              publisher: "RedHat",
+              sku: "7.4",
+              version: "7.4.2019062505"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_E32ds_v4"
+          }
+        },
+        centralServer: {
+          instanceCount: 2,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP",
+              publisher: "RedHat",
+              sku: "7.4",
+              version: "7.4.2019062505"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_E16ds_v4"
+          }
+        },
+        databaseServer: {
+          databaseType: "HANA",
+          instanceCount: 2,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/dbsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP",
+              publisher: "RedHat",
+              sku: "7.4",
+              version: "7.4.2019062505"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_M32ts"
+          }
+        },
+        deploymentType: "ThreeTier",
+        highAvailabilityConfig: { highAvailabilityType: "AvailabilitySet" }
+      },
+      osSapConfiguration: { sapFqdn: "xyz.test.com" }
+    },
+    environment: "Prod",
+    location: "westcentralus",
+    sapProduct: "S4HANA",
+    tags: {}
+  };
+  const options: SAPVirtualInstancesCreateOptionalParams = { body };
+  const credential = new DefaultAzureCredential();
+  const client = new WorkloadsClient(credential, subscriptionId);
+  const result = await client.sAPVirtualInstances.beginCreateAndWait(
+    resourceGroupName,
+    sapVirtualInstanceName,
+    options
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
+ *
+ * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_WithOSConfig_HA_AvZone.json
+ */
+async function createInfrastructureWithOSConfigurationForHaSystemWithAvailabilityZoneRecommended() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
+  const sapVirtualInstanceName = "X00";
+  const body: SAPVirtualInstance = {
+    configuration: {
+      appLocation: "eastus",
+      configurationType: "DeploymentWithOSConfig",
+      infrastructureConfiguration: {
+        appResourceGroup: "X00-RG",
+        applicationServer: {
+          instanceCount: 6,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP",
+              publisher: "RedHat",
+              sku: "7.4",
+              version: "7.4.2019062505"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_E32ds_v4"
+          }
+        },
+        centralServer: {
+          instanceCount: 2,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP",
+              publisher: "RedHat",
+              sku: "7.4",
+              version: "7.4.2019062505"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_E16ds_v4"
+          }
+        },
+        databaseServer: {
+          databaseType: "HANA",
+          instanceCount: 2,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/dbsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP",
+              publisher: "RedHat",
+              sku: "7.4",
+              version: "7.4.2019062505"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_M32ts"
+          }
+        },
+        deploymentType: "ThreeTier",
+        highAvailabilityConfig: { highAvailabilityType: "AvailabilityZone" }
+      },
+      osSapConfiguration: { sapFqdn: "xyz.test.com" }
+    },
+    environment: "Prod",
+    location: "westcentralus",
+    sapProduct: "S4HANA",
+    tags: {}
+  };
+  const options: SAPVirtualInstancesCreateOptionalParams = { body };
+  const credential = new DefaultAzureCredential();
+  const client = new WorkloadsClient(credential, subscriptionId);
+  const result = await client.sAPVirtualInstances.beginCreateAndWait(
+    resourceGroupName,
+    sapVirtualInstanceName,
+    options
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
+ *
+ * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_WithOSConfig_SingleServer.json
+ */
+async function createInfrastructureWithOSConfigurationForSingleServerSystemRecommended() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
+  const sapVirtualInstanceName = "X00";
+  const body: SAPVirtualInstance = {
+    configuration: {
+      appLocation: "eastus",
+      configurationType: "DeploymentWithOSConfig",
+      infrastructureConfiguration: {
+        appResourceGroup: "X00-RG",
+        databaseType: "HANA",
+        deploymentType: "SingleServer",
+        networkConfiguration: { isSecondaryIpEnabled: true },
+        subnetId:
+          "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+        virtualMachineConfiguration: {
+          imageReference: {
+            offer: "RHEL-SAP",
+            publisher: "RedHat",
+            sku: "7.4",
+            version: "7.4.2019062505"
+          },
+          osProfile: {
+            adminUsername: "{your-username}",
+            osConfiguration: {
+              disablePasswordAuthentication: true,
+              osType: "Linux",
+              sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+            }
+          },
+          vmSize: "Standard_E32ds_v4"
+        }
+      },
+      osSapConfiguration: { sapFqdn: "xyz.test.com" }
+    },
+    environment: "NonProd",
+    location: "westcentralus",
+    sapProduct: "S4HANA",
+    tags: {}
+  };
+  const options: SAPVirtualInstancesCreateOptionalParams = { body };
+  const credential = new DefaultAzureCredential();
+  const client = new WorkloadsClient(credential, subscriptionId);
+  const result = await client.sAPVirtualInstances.beginCreateAndWait(
+    resourceGroupName,
+    sapVirtualInstanceName,
+    options
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
+ *
+ * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_Distributed_CreateTrans.json
+ */
+async function createInfrastructureWithANewSapTransFileshare() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
+  const sapVirtualInstanceName = "X00";
+  const body: SAPVirtualInstance = {
+    configuration: {
+      appLocation: "eastus",
+      configurationType: "DeploymentWithOSConfig",
+      infrastructureConfiguration: {
+        appResourceGroup: "X00-RG",
+        applicationServer: {
+          instanceCount: 6,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP",
+              publisher: "RedHat",
+              sku: "7.4",
+              version: "7.4.2019062505"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_E32ds_v4"
+          }
+        },
+        centralServer: {
+          instanceCount: 1,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP",
+              publisher: "RedHat",
+              sku: "7.4",
+              version: "7.4.2019062505"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_E16ds_v4"
+          }
+        },
+        databaseServer: {
+          databaseType: "HANA",
+          instanceCount: 1,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/dbsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP",
+              publisher: "RedHat",
+              sku: "7.4",
+              version: "7.4.2019062505"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_M32ts"
+          }
+        },
+        deploymentType: "ThreeTier",
+        storageConfiguration: {
+          transportFileShareConfiguration: {
+            configurationType: "CreateAndMount",
+            resourceGroup: "test-rg",
+            storageAccountName: "input-sa-name"
+          }
+        }
+      },
+      osSapConfiguration: { sapFqdn: "xyz.test.com" }
+    },
+    environment: "Prod",
+    location: "westcentralus",
+    sapProduct: "S4HANA",
+    tags: {}
+  };
+  const options: SAPVirtualInstancesCreateOptionalParams = { body };
+  const credential = new DefaultAzureCredential();
+  const client = new WorkloadsClient(credential, subscriptionId);
+  const result = await client.sAPVirtualInstances.beginCreateAndWait(
+    resourceGroupName,
+    sapVirtualInstanceName,
+    options
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
+ *
+ * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_Distributed_MountTrans.json
+ */
+async function createInfrastructureWithAnExistingSapTransFileshare() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
+  const sapVirtualInstanceName = "X00";
+  const body: SAPVirtualInstance = {
+    configuration: {
+      appLocation: "eastus",
+      configurationType: "DeploymentWithOSConfig",
+      infrastructureConfiguration: {
+        appResourceGroup: "X00-RG",
+        applicationServer: {
+          instanceCount: 6,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP",
+              publisher: "RedHat",
+              sku: "7.4",
+              version: "7.4.2019062505"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_E32ds_v4"
+          }
+        },
+        centralServer: {
+          instanceCount: 1,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP",
+              publisher: "RedHat",
+              sku: "7.4",
+              version: "7.4.2019062505"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_E16ds_v4"
+          }
+        },
+        databaseServer: {
+          databaseType: "HANA",
+          instanceCount: 1,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/dbsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP",
+              publisher: "RedHat",
+              sku: "7.4",
+              version: "7.4.2019062505"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_M32ts"
+          }
+        },
+        deploymentType: "ThreeTier",
+        storageConfiguration: {
+          transportFileShareConfiguration: {
+            configurationType: "Mount",
+            id: "fileshareID",
+            privateEndpointId: "pe-arm-id"
+          }
+        }
+      },
+      osSapConfiguration: { sapFqdn: "xyz.test.com" }
+    },
+    environment: "Prod",
+    location: "westcentralus",
+    sapProduct: "S4HANA",
+    tags: {}
+  };
+  const options: SAPVirtualInstancesCreateOptionalParams = { body };
+  const credential = new DefaultAzureCredential();
+  const client = new WorkloadsClient(credential, subscriptionId);
+  const result = await client.sAPVirtualInstances.beginCreateAndWait(
+    resourceGroupName,
+    sapVirtualInstanceName,
+    options
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
+ *
+ * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_Distributed_SkipTransMount.json
+ */
+async function createInfrastructureWithoutSapTransFileshare() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
+  const sapVirtualInstanceName = "X00";
+  const body: SAPVirtualInstance = {
+    configuration: {
+      appLocation: "eastus",
+      configurationType: "DeploymentWithOSConfig",
+      infrastructureConfiguration: {
+        appResourceGroup: "X00-RG",
+        applicationServer: {
+          instanceCount: 6,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP",
+              publisher: "RedHat",
+              sku: "7.4",
+              version: "7.4.2019062505"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_E32ds_v4"
+          }
+        },
+        centralServer: {
+          instanceCount: 1,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP",
+              publisher: "RedHat",
+              sku: "7.4",
+              version: "7.4.2019062505"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_E16ds_v4"
+          }
+        },
+        databaseServer: {
+          databaseType: "HANA",
+          instanceCount: 1,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/dbsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP",
+              publisher: "RedHat",
+              sku: "7.4",
+              version: "7.4.2019062505"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_M32ts"
+          }
+        },
+        deploymentType: "ThreeTier",
+        storageConfiguration: {
+          transportFileShareConfiguration: { configurationType: "Skip" }
+        }
+      },
+      osSapConfiguration: { sapFqdn: "xyz.test.com" }
+    },
+    environment: "Prod",
+    location: "westcentralus",
+    sapProduct: "S4HANA",
+    tags: {}
+  };
+  const options: SAPVirtualInstancesCreateOptionalParams = { body };
+  const credential = new DefaultAzureCredential();
+  const client = new WorkloadsClient(credential, subscriptionId);
+  const result = await client.sAPVirtualInstances.beginCreateAndWait(
+    resourceGroupName,
+    sapVirtualInstanceName,
+    options
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
+ *
+ * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_DetectInstallation_Distributed.json
+ */
+async function detectSapSoftwareInstallationOnADistributedSystem() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
+  const sapVirtualInstanceName = "X00";
+  const body: SAPVirtualInstance = {
+    configuration: {
+      appLocation: "eastus",
+      configurationType: "DeploymentWithOSConfig",
+      infrastructureConfiguration: {
+        appResourceGroup: "{{resourcegrp}}",
+        applicationServer: {
+          instanceCount: 2,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/app",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP-HA",
+              publisher: "RedHat",
+              sku: "84sapha-gen2",
+              version: "8.4.2021091202"
+            },
+            osProfile: {
+              adminUsername: "azureuser",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: {
+                  privateKey: "{{privateKey}}",
+                  publicKey: "{{sshkey}}"
+                }
+              }
+            },
+            vmSize: "Standard_E4ds_v4"
+          }
+        },
+        centralServer: {
+          instanceCount: 1,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/app",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP-HA",
+              publisher: "RedHat",
+              sku: "84sapha-gen2",
+              version: "8.4.2021091202"
+            },
+            osProfile: {
+              adminUsername: "azureuser",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: {
+                  privateKey: "{{privateKey}}",
+                  publicKey: "{{sshkey}}"
+                }
+              }
+            },
+            vmSize: "Standard_E4ds_v4"
+          }
+        },
+        databaseServer: {
+          instanceCount: 1,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/app",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP-HA",
+              publisher: "RedHat",
+              sku: "84sapha-gen2",
+              version: "8.4.2021091202"
+            },
+            osProfile: {
+              adminUsername: "azureuser",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: {
+                  privateKey: "{{privateKey}}",
+                  publicKey: "{{sshkey}}"
+                }
+              }
+            },
+            vmSize: "Standard_M32ts"
+          }
+        },
+        deploymentType: "ThreeTier",
+        networkConfiguration: { isSecondaryIpEnabled: true }
+      },
+      osSapConfiguration: { sapFqdn: "sap.bpaas.com" },
+      softwareConfiguration: {
+        centralServerVmId:
+          "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Compute/virtualMachines/sapq20scsvm0",
+        softwareInstallationType: "External"
+      }
+    },
+    environment: "Prod",
+    location: "eastus2",
+    sapProduct: "S4HANA",
+    tags: { createdBy: "azureuser" }
+  };
+  const options: SAPVirtualInstancesCreateOptionalParams = { body };
+  const credential = new DefaultAzureCredential();
+  const client = new WorkloadsClient(credential, subscriptionId);
+  const result = await client.sAPVirtualInstances.beginCreateAndWait(
+    resourceGroupName,
+    sapVirtualInstanceName,
+    options
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
+ *
+ * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_DetectInstallation_SingleServer.json
+ */
+async function detectSapSoftwareInstallationOnASingleServerSystem() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
+  const sapVirtualInstanceName = "X00";
+  const body: SAPVirtualInstance = {
+    configuration: {
+      appLocation: "eastus",
+      configurationType: "DeploymentWithOSConfig",
+      infrastructureConfiguration: {
+        appResourceGroup: "X00-RG",
+        databaseType: "HANA",
+        deploymentType: "SingleServer",
+        networkConfiguration: { isSecondaryIpEnabled: true },
+        subnetId:
+          "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+        virtualMachineConfiguration: {
+          imageReference: {
+            offer: "RHEL-SAP-HA",
+            publisher: "RedHat",
+            sku: "84sapha-gen2",
+            version: "8.4.2021091202"
+          },
+          osProfile: {
+            adminUsername: "{your-username}",
+            osConfiguration: {
+              disablePasswordAuthentication: true,
+              osType: "Linux",
+              sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+            }
+          },
+          vmSize: "Standard_E32ds_v4"
+        }
+      },
+      osSapConfiguration: { sapFqdn: "xyz.test.com" },
+      softwareConfiguration: {
+        centralServerVmId:
+          "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Compute/virtualMachines/sapq20scsvm0",
+        softwareInstallationType: "External"
       }
     },
     environment: "NonProd",
@@ -793,4 +2368,521 @@ async function sapVirtualInstancesCreateWithOsconfigSingleServer() {
   console.log(result);
 }
 
-sapVirtualInstancesCreateWithOsconfigSingleServer().catch(console.error);
+/**
+ * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
+ *
+ * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_DetectInstallation_HA_AvSet.json
+ */
+async function detectSapSoftwareInstallationOnAnHaSystemWithAvailabilitySet() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
+  const sapVirtualInstanceName = "X00";
+  const body: SAPVirtualInstance = {
+    configuration: {
+      appLocation: "eastus",
+      configurationType: "DeploymentWithOSConfig",
+      infrastructureConfiguration: {
+        appResourceGroup: "X00-RG",
+        applicationServer: {
+          instanceCount: 6,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP-HA",
+              publisher: "RedHat",
+              sku: "84sapha-gen2",
+              version: "8.4.2021091202"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_E32ds_v4"
+          }
+        },
+        centralServer: {
+          instanceCount: 2,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP-HA",
+              publisher: "RedHat",
+              sku: "84sapha-gen2",
+              version: "8.4.2021091202"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_E16ds_v4"
+          }
+        },
+        databaseServer: {
+          databaseType: "HANA",
+          instanceCount: 2,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/dbsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP-HA",
+              publisher: "RedHat",
+              sku: "84sapha-gen2",
+              version: "8.4.2021091202"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_M32ts"
+          }
+        },
+        deploymentType: "ThreeTier",
+        highAvailabilityConfig: { highAvailabilityType: "AvailabilitySet" }
+      },
+      osSapConfiguration: { sapFqdn: "xyz.test.com" },
+      softwareConfiguration: {
+        centralServerVmId:
+          "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Compute/virtualMachines/sapq20scsvm0",
+        softwareInstallationType: "External"
+      }
+    },
+    environment: "Prod",
+    location: "westcentralus",
+    sapProduct: "S4HANA",
+    tags: {}
+  };
+  const options: SAPVirtualInstancesCreateOptionalParams = { body };
+  const credential = new DefaultAzureCredential();
+  const client = new WorkloadsClient(credential, subscriptionId);
+  const result = await client.sAPVirtualInstances.beginCreateAndWait(
+    resourceGroupName,
+    sapVirtualInstanceName,
+    options
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
+ *
+ * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_DetectInstallation_HA_AvZone.json
+ */
+async function detectSapSoftwareInstallationOnAnHaSystemWithAvailabilityZone() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
+  const sapVirtualInstanceName = "X00";
+  const body: SAPVirtualInstance = {
+    configuration: {
+      appLocation: "eastus",
+      configurationType: "DeploymentWithOSConfig",
+      infrastructureConfiguration: {
+        appResourceGroup: "X00-RG",
+        applicationServer: {
+          instanceCount: 6,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP-HA",
+              publisher: "RedHat",
+              sku: "84sapha-gen2",
+              version: "8.4.2021091202"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_E32ds_v4"
+          }
+        },
+        centralServer: {
+          instanceCount: 2,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/appsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP-HA",
+              publisher: "RedHat",
+              sku: "84sapha-gen2",
+              version: "8.4.2021091202"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_E16ds_v4"
+          }
+        },
+        databaseServer: {
+          databaseType: "HANA",
+          instanceCount: 2,
+          subnetId:
+            "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/dbsubnet",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP-HA",
+              publisher: "RedHat",
+              sku: "84sapha-gen2",
+              version: "8.4.2021091202"
+            },
+            osProfile: {
+              adminUsername: "{your-username}",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: { privateKey: "xyz", publicKey: "abc" }
+              }
+            },
+            vmSize: "Standard_M32ts"
+          }
+        },
+        deploymentType: "ThreeTier",
+        highAvailabilityConfig: { highAvailabilityType: "AvailabilityZone" }
+      },
+      osSapConfiguration: { sapFqdn: "xyz.test.com" },
+      softwareConfiguration: {
+        centralServerVmId:
+          "/subscriptions/49d64d54-e966-4c46-a868-1999802b762c/resourceGroups/test-rg/providers/Microsoft.Compute/virtualMachines/sapq20scsvm0",
+        softwareInstallationType: "External"
+      }
+    },
+    environment: "Prod",
+    location: "westcentralus",
+    sapProduct: "S4HANA",
+    tags: {}
+  };
+  const options: SAPVirtualInstancesCreateOptionalParams = { body };
+  const credential = new DefaultAzureCredential();
+  const client = new WorkloadsClient(credential, subscriptionId);
+  const result = await client.sAPVirtualInstances.beginCreateAndWait(
+    resourceGroupName,
+    sapVirtualInstanceName,
+    options
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
+ *
+ * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Install_Distributed.json
+ */
+async function installSapSoftwareOnDistributedSystem() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
+  const sapVirtualInstanceName = "X00";
+  const body: SAPVirtualInstance = {
+    configuration: {
+      appLocation: "eastus",
+      configurationType: "DeploymentWithOSConfig",
+      infrastructureConfiguration: {
+        appResourceGroup: "{{resourcegrp}}",
+        applicationServer: {
+          instanceCount: 2,
+          subnetId:
+            "/subscriptions/8e17e36c-42e9-4cd5-a078-7b44883414e0/resourceGroups/test-rg/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/app",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP-HA",
+              publisher: "RedHat",
+              sku: "8.2",
+              version: "8.2.2021091201"
+            },
+            osProfile: {
+              adminUsername: "azureuser",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: {
+                  privateKey: "{{privateKey}}",
+                  publicKey: "{{sshkey}}"
+                }
+              }
+            },
+            vmSize: "Standard_E4ds_v4"
+          }
+        },
+        centralServer: {
+          instanceCount: 1,
+          subnetId:
+            "/subscriptions/8e17e36c-42e9-4cd5-a078-7b44883414e0/resourceGroups/test-rg/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/app",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP-HA",
+              publisher: "RedHat",
+              sku: "8.2",
+              version: "8.2.2021091201"
+            },
+            osProfile: {
+              adminUsername: "azureuser",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: {
+                  privateKey: "{{privateKey}}",
+                  publicKey: "{{sshkey}}"
+                }
+              }
+            },
+            vmSize: "Standard_E4ds_v4"
+          }
+        },
+        databaseServer: {
+          instanceCount: 1,
+          subnetId:
+            "/subscriptions/8e17e36c-42e9-4cd5-a078-7b44883414e0/resourceGroups/test-rg/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/app",
+          virtualMachineConfiguration: {
+            imageReference: {
+              offer: "RHEL-SAP-HA",
+              publisher: "RedHat",
+              sku: "8.2",
+              version: "8.2.2021091201"
+            },
+            osProfile: {
+              adminUsername: "azureuser",
+              osConfiguration: {
+                disablePasswordAuthentication: true,
+                osType: "Linux",
+                sshKeyPair: {
+                  privateKey: "{{privateKey}}",
+                  publicKey: "{{sshkey}}"
+                }
+              }
+            },
+            vmSize: "Standard_M32ts"
+          }
+        },
+        deploymentType: "ThreeTier",
+        networkConfiguration: { isSecondaryIpEnabled: true }
+      },
+      osSapConfiguration: { sapFqdn: "sap.bpaas.com" },
+      softwareConfiguration: {
+        bomUrl:
+          "https://teststorageaccount.blob.core.windows.net/sapbits/sapfiles/boms/S41909SPS03_v0011ms/S41909SPS03_v0011ms.yaml",
+        sapBitsStorageAccountId:
+          "/subscriptions/8e17e36c-42e9-4cd5-a078-7b44883414e0/resourceGroups/test-rg/providers/Microsoft.Storage/storageAccounts/teststorageaccount",
+        softwareInstallationType: "SAPInstallWithoutOSConfig",
+        softwareVersion: "SAP S/4HANA 1909 SPS 03"
+      }
+    },
+    environment: "Prod",
+    location: "eastus2",
+    sapProduct: "S4HANA",
+    tags: { createdBy: "azureuser" }
+  };
+  const options: SAPVirtualInstancesCreateOptionalParams = { body };
+  const credential = new DefaultAzureCredential();
+  const client = new WorkloadsClient(credential, subscriptionId);
+  const result = await client.sAPVirtualInstances.beginCreateAndWait(
+    resourceGroupName,
+    sapVirtualInstanceName,
+    options
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
+ *
+ * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Install_SingleServer.json
+ */
+async function installSapSoftwareOnSingleServerSystem() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
+  const sapVirtualInstanceName = "X00";
+  const body: SAPVirtualInstance = {
+    configuration: {
+      appLocation: "eastus",
+      configurationType: "DeploymentWithOSConfig",
+      infrastructureConfiguration: {
+        appResourceGroup: "test-rg",
+        deploymentType: "SingleServer",
+        subnetId:
+          "/subscriptions/8e17e36c-42e9-4cd5-a078-7b44883414e0/resourceGroups/test-rg/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/testsubnet",
+        virtualMachineConfiguration: {
+          imageReference: {
+            offer: "SLES-SAP",
+            publisher: "SUSE",
+            sku: "12-sp4-gen2",
+            version: "2022.02.01"
+          },
+          osProfile: {
+            adminUsername: "azureappadmin",
+            osConfiguration: {
+              disablePasswordAuthentication: true,
+              osType: "Linux",
+              sshKeyPair: {
+                privateKey: "{{privateKey}}",
+                publicKey: "{{sshkey}}"
+              }
+            }
+          },
+          vmSize: "Standard_E32ds_v4"
+        }
+      },
+      osSapConfiguration: { sapFqdn: "sap.bpaas.com" },
+      softwareConfiguration: {
+        bomUrl:
+          "https://teststorageaccount.blob.core.windows.net/sapbits/sapfiles/boms/S41909SPS03_v0011ms/S41909SPS03_v0011ms.yaml",
+        sapBitsStorageAccountId:
+          "/subscriptions/8e17e36c-42e9-4cd5-a078-7b44883414e0/resourceGroups/test-rg/providers/Microsoft.Storage/storageAccounts/teststorageaccount",
+        softwareInstallationType: "SAPInstallWithoutOSConfig",
+        softwareVersion: "SAP S/4HANA 1909 SPS 03"
+      }
+    },
+    environment: "NonProd",
+    location: "eastus2",
+    sapProduct: "S4HANA",
+    tags: {}
+  };
+  const options: SAPVirtualInstancesCreateOptionalParams = { body };
+  const credential = new DefaultAzureCredential();
+  const client = new WorkloadsClient(credential, subscriptionId);
+  const result = await client.sAPVirtualInstances.beginCreateAndWait(
+    resourceGroupName,
+    sapVirtualInstanceName,
+    options
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
+ *
+ * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_Discover_CustomMrgStorageAccountName.json
+ */
+async function registerExistingSapSystemAsVirtualInstanceForSapSolutionsWithOptionalCustomizations() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
+  const sapVirtualInstanceName = "X00";
+  const body: SAPVirtualInstance = {
+    configuration: {
+      centralServerVmId:
+        "/subscriptions/8e17e36c-42e9-4cd5-a078-7b44883414e0/resourceGroups/test-rg/providers/Microsoft.Compute/virtualMachines/sapq20scsvm0",
+      configurationType: "Discovery",
+      managedRgStorageAccountName: "q20saacssgrs"
+    },
+    environment: "NonProd",
+    location: "northeurope",
+    sapProduct: "S4HANA",
+    tags: { createdby: "abc@microsoft.com", test: "abc" }
+  };
+  const options: SAPVirtualInstancesCreateOptionalParams = { body };
+  const credential = new DefaultAzureCredential();
+  const client = new WorkloadsClient(credential, subscriptionId);
+  const result = await client.sAPVirtualInstances.beginCreateAndWait(
+    resourceGroupName,
+    sapVirtualInstanceName,
+    options
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
+ *
+ * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_Discover.json
+ */
+async function registerExistingSapSystemAsVirtualInstanceForSapSolutions() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
+  const sapVirtualInstanceName = "X00";
+  const body: SAPVirtualInstance = {
+    configuration: {
+      centralServerVmId:
+        "/subscriptions/8e17e36c-42e9-4cd5-a078-7b44883414e0/resourceGroups/test-rg/providers/Microsoft.Compute/virtualMachines/sapq20scsvm0",
+      configurationType: "Discovery"
+    },
+    environment: "NonProd",
+    location: "northeurope",
+    sapProduct: "S4HANA",
+    tags: { createdby: "abc@microsoft.com", test: "abc" }
+  };
+  const options: SAPVirtualInstancesCreateOptionalParams = { body };
+  const credential = new DefaultAzureCredential();
+  const client = new WorkloadsClient(credential, subscriptionId);
+  const result = await client.sAPVirtualInstances.beginCreateAndWait(
+    resourceGroupName,
+    sapVirtualInstanceName,
+    options
+  );
+  console.log(result);
+}
+
+async function main() {
+  createInfrastructureWithOSConfigurationWithCustomResourceNamesForDistributedSystem();
+  createInfrastructureWithOSConfigurationWithCustomResourceNamesForHaSystemWithAvailabilitySet();
+  createInfrastructureWithOSConfigurationWithCustomResourceNamesForHaSystemWithAvailabilityZone();
+  createInfrastructureWithOSConfigurationWithCustomResourceNamesForSingleServerSystem();
+  createInfrastructureOnlyForDistributedSystem();
+  createInfrastructureOnlyForHaSystemWithAvailabilitySet();
+  createInfrastructureOnlyForHaSystemWithAvailabilityZone();
+  createInfrastructureOnlyForSingleServerSystem();
+  createInfrastructureWithDiskAndOSConfigurationForDistributedSystemRecommended();
+  createInfrastructureWithDiskAndOSConfigurationForHaSystemWithAvailabilitySetRecommended();
+  createInfrastructureWithDiskAndOSConfigurationForHaSystemWithAvailabilityZoneRecommended();
+  createInfrastructureWithDiskAndOSConfigurationsForSingleServerSystemRecommended();
+  createInfrastructureWithOSConfigurationForDistributedSystemRecommended();
+  createInfrastructureWithOSConfigurationForHaSystemWithAvailabilitySetRecommended();
+  createInfrastructureWithOSConfigurationForHaSystemWithAvailabilityZoneRecommended();
+  createInfrastructureWithOSConfigurationForSingleServerSystemRecommended();
+  createInfrastructureWithANewSapTransFileshare();
+  createInfrastructureWithAnExistingSapTransFileshare();
+  createInfrastructureWithoutSapTransFileshare();
+  detectSapSoftwareInstallationOnADistributedSystem();
+  detectSapSoftwareInstallationOnASingleServerSystem();
+  detectSapSoftwareInstallationOnAnHaSystemWithAvailabilitySet();
+  detectSapSoftwareInstallationOnAnHaSystemWithAvailabilityZone();
+  installSapSoftwareOnDistributedSystem();
+  installSapSoftwareOnSingleServerSystem();
+  registerExistingSapSystemAsVirtualInstanceForSapSolutionsWithOptionalCustomizations();
+  registerExistingSapSystemAsVirtualInstanceForSapSolutions();
+}
+
+main().catch(console.error);
