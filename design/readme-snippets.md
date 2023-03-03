@@ -1,6 +1,6 @@
 # Verification of README snippets
 
-**STATUS**: Implemented
+**STATUS**: Work in Progress (https://github.com/Azure/azure-sdk-for-js/pull/24536)
 
 This is a document to specify how we on the Azure SDK for JavaScript team will verify README code snippets from each package.  This document will go over various solutions to the problem in detail and discuss the solution.
 
