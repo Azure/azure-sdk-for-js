@@ -152,11 +152,10 @@ Snippets are extracted using the TypeScript compiler API. Strictly, a code snipp
 6. The contents of the extracted & modified `Block` are validated to ensure they do not contain any syntax that will not function on our minimum-supported Node.js target.
 7. If the target language (as declared in the code fence) is `js` or `javascript`, the extracted & modified `Block` is transpiled to JavaScript using the same method we use for compiling samples.
 
-### Work required
+## Implementation status
 
-The work required to make this happen has the following parts:
-
-- Write the TypeScript AST parser for the snippets using the above rules.
-- Write a scanner to scan the README for the appropriate snippets and insert.
-- Write a scanner to scan the source files for appropriate snippets and insert.
-- Create DevTool Command and insert into the npm scripts for each project.
+- [x] Write the TypeScript AST parser for the snippets using the above rules.
+- [x] Write a scanner to scan the README for the appropriate snippets and insert.
+- [x] Write a scanner to scan the source files for appropriate snippets and insert.
+- [x] Create DevTool Command and insert into the npm scripts for each project.
+- [ ] (Stretch) Support automated migration well.
