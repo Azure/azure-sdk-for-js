@@ -571,7 +571,7 @@ export function windowsFileTimeTicksToTime(timeNumber: string | undefined): Date
   // So, we'll handle the calculations in milliseconds from here
 
   // Time in milliseconds since "12:00 A.M. January 1, 1601"
-  const timeElapsed = parseInt(timeNumber)/10000;
+  const timeElapsed = parseInt(timeNumber) / 10000;
 
   if (timeElapsed === 0) return undefined;
 
