@@ -77,9 +77,9 @@ To create a code snippet in a README file or documentation comment, the snippet 
 
 Following the migration of a package to utilize this snippet extraction system, it is an error for any snippet to be unnamed. All JavaScript and TypeScript snippets **MUST** declare a name, and that name **MUST** match the name of a snippet in the `snippets.spec.ts` file. 
 
-The resulting text from the above unit test should be then inserted into the README during compilation time where it will pull in appropriate imports from the top level as necessary, and fall back to the sample text for each configuration value.
+The snippet extraction tool will then extract the text of the corresponding snippet within the `snippets.spec.ts` file, transpile and validate it, and then update the fence contents with the resulting JavaScript source. It automatically detects the relevant imports and replaces the `process.env` coalescent access expressions we saw above with _only_ the simple string example value from the right hand side.
 
-```typescript
+ ```typescript
 import { DefaultAzureCredential } from "@azure/identity";
 import { ConfigurationClient } from "@azure/template";
 
