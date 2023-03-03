@@ -24,7 +24,7 @@ The `README.md` has named snippet fences such as the following, and the names co
 ```C# Snippet:CreateTextAnalyticsClientTokenCredential
 ````
 
-The Unit Tests would look like this in C# where it would either have sample text for the README, or pull variables from the environment if generating snippets versus running a unit test.
+The C# snippet unit tests further use a `SNIPPET` preprocessor definition to either include string values or environment variables for commonly-used data, so that the snippet tests can use environment variables in live testing contexts, but will present simple string values in when rendered as snippets in Markdown.
 
 ```csharp
 [Test]
