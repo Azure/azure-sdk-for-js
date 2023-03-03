@@ -1,6 +1,6 @@
 # Release History
 
-## 1.2.0-alpha.20230221.2 (Unreleased)
+## 1.2.0-alpha.20230303.1 (2023-03-03)
 
 ### Features Added
 
