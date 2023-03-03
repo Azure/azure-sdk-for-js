@@ -1527,7 +1527,7 @@ export const AbstractiveSummarizationTaskParametersBase: coreClient.CompositeMap
     name: "Composite",
     className: "AbstractiveSummarizationTaskParametersBase",
     modelProperties: {
-      maxSentenceCount: {
+      sentenceCount: {
         serializedName: "sentenceCount",
         type: {
           name: "Number"
