@@ -88,7 +88,7 @@ const client = new ConfigurationClient(endpoint, credential);
 const setting = await client.getConfigurationSetting(key);
 ```
 
-This will also be used for JSDoc code snippets that shall be inserted into the source files themselves.  For example, for the `ConfigurationClient` class constructor, the following would be inserted.  All source files will be scanned for the matching `ts snippet:<SomeSnippetIdentifier>` and the insertion will be done.
+This system works for JSDoc code snippets just as well as README code snippets.  For example, for the `ConfigurationClient` class constructor, the following snippet is subject to automatic updating/replacement by the snippet extractor:
 
 ```typescript
   /**
