@@ -23,7 +23,7 @@
 
 ### Bugs Fixed
 
-- Fixes the date properties(`createdOn` and `expiresOn`) in the returned responses of `DataLakeFileSystemClient` to calculate the date more accurately. [#25072](https://github.com/Azure/azure-sdk-for-js/pull/25072)
+- Fixes the date properties(`createdOn` and `expiresOn`) in the returned responses of `DataLakeFileSystemClient` by calculating the date more accurately. [#25072](https://github.com/Azure/azure-sdk-for-js/pull/25072)
 
 ### Other Changes
 
