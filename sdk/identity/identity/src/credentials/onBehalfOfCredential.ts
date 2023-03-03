@@ -121,7 +121,8 @@ export class OnBehalfOfCredential implements TokenCredential {
       newOptions.tenantId = processMultiTenantRequest(
         this.tenantId,
         newOptions,
-        this.additionallyAllowedTenantIds
+        this.additionallyAllowedTenantIds,
+        logger
       );
 
       const arrayScopes = ensureScopes(scopes);

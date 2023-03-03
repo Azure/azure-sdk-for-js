@@ -23,7 +23,7 @@ import {
   ResourceGuardsGetOptionalParams,
   ResourceGuardsGetResponse,
   ResourceGuardsDeleteOptionalParams,
-  PatchResourceRequestInput,
+  PatchResourceGuardInput,
   ResourceGuardsPatchOptionalParams,
   ResourceGuardsPatchResponse,
   ResourceGuardsGetDefaultDisableSoftDeleteRequestsObjectOptionalParams,
@@ -52,7 +52,7 @@ export interface ResourceGuards {
   ): PagedAsyncIterableIterator<ResourceGuardResource>;
   /**
    * Returns ResourceGuards collection belonging to a ResourceGroup.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listResourcesInResourceGroup(
@@ -62,7 +62,7 @@ export interface ResourceGuards {
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param options The options parameters.
    */
@@ -74,7 +74,7 @@ export interface ResourceGuards {
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param options The options parameters.
    */
@@ -86,7 +86,7 @@ export interface ResourceGuards {
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param options The options parameters.
    */
@@ -98,7 +98,7 @@ export interface ResourceGuards {
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param options The options parameters.
    */
@@ -110,7 +110,7 @@ export interface ResourceGuards {
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param options The options parameters.
    */
@@ -122,7 +122,7 @@ export interface ResourceGuards {
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param options The options parameters.
    */
@@ -133,7 +133,7 @@ export interface ResourceGuards {
   ): PagedAsyncIterableIterator<DppBaseResource>;
   /**
    * Creates or updates a ResourceGuard resource belonging to a resource group.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName The name of ResourceGuard
    * @param parameters Request body for operation
    * @param options The options parameters.
@@ -146,7 +146,7 @@ export interface ResourceGuards {
   ): Promise<ResourceGuardsPutResponse>;
   /**
    * Returns a ResourceGuard belonging to a resource group.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName The name of ResourceGuard
    * @param options The options parameters.
    */
@@ -157,7 +157,7 @@ export interface ResourceGuards {
   ): Promise<ResourceGuardsGetResponse>;
   /**
    * Deletes a ResourceGuard resource from the resource group.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName The name of ResourceGuard
    * @param options The options parameters.
    */
@@ -169,7 +169,7 @@ export interface ResourceGuards {
   /**
    * Updates a ResourceGuard resource belonging to a resource group. For example, updating tags for a
    * resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName The name of ResourceGuard
    * @param parameters Request body for operation
    * @param options The options parameters.
@@ -177,13 +177,13 @@ export interface ResourceGuards {
   patch(
     resourceGroupName: string,
     resourceGuardsName: string,
-    parameters: PatchResourceRequestInput,
+    parameters: PatchResourceGuardInput,
     options?: ResourceGuardsPatchOptionalParams
   ): Promise<ResourceGuardsPatchResponse>;
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param requestName
    * @param options The options parameters.
@@ -197,7 +197,7 @@ export interface ResourceGuards {
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param requestName
    * @param options The options parameters.
@@ -213,7 +213,7 @@ export interface ResourceGuards {
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param requestName
    * @param options The options parameters.
@@ -227,7 +227,7 @@ export interface ResourceGuards {
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param requestName
    * @param options The options parameters.
@@ -241,7 +241,7 @@ export interface ResourceGuards {
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param requestName
    * @param options The options parameters.
@@ -257,7 +257,7 @@ export interface ResourceGuards {
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceGuardsName
    * @param requestName
    * @param options The options parameters.

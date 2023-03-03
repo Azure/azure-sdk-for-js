@@ -11,11 +11,28 @@ import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   CommitmentPlan,
   CommitmentPlansListOptionalParams,
+  CommitmentPlansListPlansByResourceGroupOptionalParams,
+  CommitmentPlansListPlansBySubscriptionOptionalParams,
+  CommitmentPlanAccountAssociation,
+  CommitmentPlansListAssociationsOptionalParams,
   CommitmentPlansGetOptionalParams,
   CommitmentPlansGetResponse,
   CommitmentPlansCreateOrUpdateOptionalParams,
   CommitmentPlansCreateOrUpdateResponse,
-  CommitmentPlansDeleteOptionalParams
+  CommitmentPlansDeleteOptionalParams,
+  CommitmentPlansCreateOrUpdatePlanOptionalParams,
+  CommitmentPlansCreateOrUpdatePlanResponse,
+  PatchResourceTagsAndSku,
+  CommitmentPlansUpdatePlanOptionalParams,
+  CommitmentPlansUpdatePlanResponse,
+  CommitmentPlansDeletePlanOptionalParams,
+  CommitmentPlansGetPlanOptionalParams,
+  CommitmentPlansGetPlanResponse,
+  CommitmentPlansGetAssociationOptionalParams,
+  CommitmentPlansGetAssociationResponse,
+  CommitmentPlansCreateOrUpdateAssociationOptionalParams,
+  CommitmentPlansCreateOrUpdateAssociationResponse,
+  CommitmentPlansDeleteAssociationOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,6 +49,34 @@ export interface CommitmentPlans {
     accountName: string,
     options?: CommitmentPlansListOptionalParams
   ): PagedAsyncIterableIterator<CommitmentPlan>;
+  /**
+   * Returns all the resources of a particular type belonging to a resource group
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  listPlansByResourceGroup(
+    resourceGroupName: string,
+    options?: CommitmentPlansListPlansByResourceGroupOptionalParams
+  ): PagedAsyncIterableIterator<CommitmentPlan>;
+  /**
+   * Returns all the resources of a particular type belonging to a subscription.
+   * @param options The options parameters.
+   */
+  listPlansBySubscription(
+    options?: CommitmentPlansListPlansBySubscriptionOptionalParams
+  ): PagedAsyncIterableIterator<CommitmentPlan>;
+  /**
+   * Gets the associations of the Cognitive Services commitment plan.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param commitmentPlanName The name of the commitmentPlan associated with the Cognitive Services
+   *                           Account
+   * @param options The options parameters.
+   */
+  listAssociations(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    options?: CommitmentPlansListAssociationsOptionalParams
+  ): PagedAsyncIterableIterator<CommitmentPlanAccountAssociation>;
   /**
    * Gets the specified commitmentPlans associated with the Cognitive Services account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -89,5 +134,191 @@ export interface CommitmentPlans {
     accountName: string,
     commitmentPlanName: string,
     options?: CommitmentPlansDeleteOptionalParams
+  ): Promise<void>;
+  /**
+   * Create Cognitive Services commitment plan.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param commitmentPlanName The name of the commitmentPlan associated with the Cognitive Services
+   *                           Account
+   * @param commitmentPlan The parameters to provide for the created commitment plan.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdatePlan(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentPlan: CommitmentPlan,
+    options?: CommitmentPlansCreateOrUpdatePlanOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<CommitmentPlansCreateOrUpdatePlanResponse>,
+      CommitmentPlansCreateOrUpdatePlanResponse
+    >
+  >;
+  /**
+   * Create Cognitive Services commitment plan.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param commitmentPlanName The name of the commitmentPlan associated with the Cognitive Services
+   *                           Account
+   * @param commitmentPlan The parameters to provide for the created commitment plan.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdatePlanAndWait(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentPlan: CommitmentPlan,
+    options?: CommitmentPlansCreateOrUpdatePlanOptionalParams
+  ): Promise<CommitmentPlansCreateOrUpdatePlanResponse>;
+  /**
+   * Create Cognitive Services commitment plan.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param commitmentPlanName The name of the commitmentPlan associated with the Cognitive Services
+   *                           Account
+   * @param commitmentPlan The parameters to provide for the created commitment plan.
+   * @param options The options parameters.
+   */
+  beginUpdatePlan(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentPlan: PatchResourceTagsAndSku,
+    options?: CommitmentPlansUpdatePlanOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<CommitmentPlansUpdatePlanResponse>,
+      CommitmentPlansUpdatePlanResponse
+    >
+  >;
+  /**
+   * Create Cognitive Services commitment plan.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param commitmentPlanName The name of the commitmentPlan associated with the Cognitive Services
+   *                           Account
+   * @param commitmentPlan The parameters to provide for the created commitment plan.
+   * @param options The options parameters.
+   */
+  beginUpdatePlanAndWait(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentPlan: PatchResourceTagsAndSku,
+    options?: CommitmentPlansUpdatePlanOptionalParams
+  ): Promise<CommitmentPlansUpdatePlanResponse>;
+  /**
+   * Deletes a Cognitive Services commitment plan from the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param commitmentPlanName The name of the commitmentPlan associated with the Cognitive Services
+   *                           Account
+   * @param options The options parameters.
+   */
+  beginDeletePlan(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    options?: CommitmentPlansDeletePlanOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Deletes a Cognitive Services commitment plan from the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param commitmentPlanName The name of the commitmentPlan associated with the Cognitive Services
+   *                           Account
+   * @param options The options parameters.
+   */
+  beginDeletePlanAndWait(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    options?: CommitmentPlansDeletePlanOptionalParams
+  ): Promise<void>;
+  /**
+   * Returns a Cognitive Services commitment plan specified by the parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param commitmentPlanName The name of the commitmentPlan associated with the Cognitive Services
+   *                           Account
+   * @param options The options parameters.
+   */
+  getPlan(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    options?: CommitmentPlansGetPlanOptionalParams
+  ): Promise<CommitmentPlansGetPlanResponse>;
+  /**
+   * Gets the association of the Cognitive Services commitment plan.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param commitmentPlanName The name of the commitmentPlan associated with the Cognitive Services
+   *                           Account
+   * @param commitmentPlanAssociationName The name of the commitment plan association with the Cognitive
+   *                                      Services Account
+   * @param options The options parameters.
+   */
+  getAssociation(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentPlanAssociationName: string,
+    options?: CommitmentPlansGetAssociationOptionalParams
+  ): Promise<CommitmentPlansGetAssociationResponse>;
+  /**
+   * Create or update the association of the Cognitive Services commitment plan.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param commitmentPlanName The name of the commitmentPlan associated with the Cognitive Services
+   *                           Account
+   * @param commitmentPlanAssociationName The name of the commitment plan association with the Cognitive
+   *                                      Services Account
+   * @param association The commitmentPlan properties.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAssociation(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentPlanAssociationName: string,
+    association: CommitmentPlanAccountAssociation,
+    options?: CommitmentPlansCreateOrUpdateAssociationOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<CommitmentPlansCreateOrUpdateAssociationResponse>,
+      CommitmentPlansCreateOrUpdateAssociationResponse
+    >
+  >;
+  /**
+   * Create or update the association of the Cognitive Services commitment plan.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param commitmentPlanName The name of the commitmentPlan associated with the Cognitive Services
+   *                           Account
+   * @param commitmentPlanAssociationName The name of the commitment plan association with the Cognitive
+   *                                      Services Account
+   * @param association The commitmentPlan properties.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAssociationAndWait(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentPlanAssociationName: string,
+    association: CommitmentPlanAccountAssociation,
+    options?: CommitmentPlansCreateOrUpdateAssociationOptionalParams
+  ): Promise<CommitmentPlansCreateOrUpdateAssociationResponse>;
+  /**
+   * Deletes the association of the Cognitive Services commitment plan.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param commitmentPlanName The name of the commitmentPlan associated with the Cognitive Services
+   *                           Account
+   * @param commitmentPlanAssociationName The name of the commitment plan association with the Cognitive
+   *                                      Services Account
+   * @param options The options parameters.
+   */
+  beginDeleteAssociation(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentPlanAssociationName: string,
+    options?: CommitmentPlansDeleteAssociationOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Deletes the association of the Cognitive Services commitment plan.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param commitmentPlanName The name of the commitmentPlan associated with the Cognitive Services
+   *                           Account
+   * @param commitmentPlanAssociationName The name of the commitment plan association with the Cognitive
+   *                                      Services Account
+   * @param options The options parameters.
+   */
+  beginDeleteAssociationAndWait(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentPlanAssociationName: string,
+    options?: CommitmentPlansDeleteAssociationOptionalParams
   ): Promise<void>;
 }

@@ -54,7 +54,7 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/core-auth": "^1.3.2",
-    "@azure-tools/test-recorder": "^2.0.0",
+    "@azure-tools/test-recorder": "^3.0.0",
     "@azure/identity": "^2.1.0-beta.2"
   },
   "devDependencies": {
@@ -65,7 +65,7 @@
     "eslint": "^8.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
-    "typescript": "~4.6.0",
+    "typescript": "~4.8.0",
     "ts-node": "^10.0.0"
   }
 }

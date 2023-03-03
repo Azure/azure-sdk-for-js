@@ -26,6 +26,23 @@ export interface AzureMonitorAlertSettings {
 export type BackupStorageVersion = string;
 
 // @public
+export interface CapabilitiesProperties {
+    // (undocumented)
+    dnsZones?: DNSZone[];
+}
+
+// @public
+export interface CapabilitiesResponse extends ResourceCapabilitiesBase {
+    properties?: CapabilitiesResponseProperties;
+}
+
+// @public
+export interface CapabilitiesResponseProperties {
+    // (undocumented)
+    dnsZones?: DNSZoneResponse[];
+}
+
+// @public
 export interface CertificateRequest {
     properties?: RawCertificateData;
 }
@@ -114,6 +131,16 @@ export type CreatedByType = string;
 export type CrossRegionRestore = string;
 
 // @public
+export interface DNSZone {
+    subResource?: VaultSubResourceType;
+}
+
+// @public
+export interface DNSZoneResponse extends DNSZone {
+    requiredZoneNames?: string[];
+}
+
+// @public
 export interface ErrorAdditionalInfo {
     readonly info?: Record<string, unknown>;
     readonly type?: string;
@@ -154,6 +181,15 @@ export interface IdentityData {
         [propertyName: string]: UserIdentity;
     };
 }
+
+// @public
+export interface ImmutabilitySettings {
+    // (undocumented)
+    state?: ImmutabilityState;
+}
+
+// @public
+export type ImmutabilityState = string;
 
 // @public
 export type InfrastructureEncryptionState = string;
@@ -202,6 +238,13 @@ export enum KnownCrossRegionRestore {
 }
 
 // @public
+export enum KnownImmutabilityState {
+    Disabled = "Disabled",
+    Locked = "Locked",
+    Unlocked = "Unlocked"
+}
+
+// @public
 export enum KnownInfrastructureEncryptionState {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -221,6 +264,12 @@ export enum KnownProvisioningState {
     Failed = "Failed",
     Pending = "Pending",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownPublicNetworkAccess {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -278,6 +327,13 @@ export enum KnownUsagesUnit {
 export enum KnownVaultPrivateEndpointState {
     Enabled = "Enabled",
     None = "None"
+}
+
+// @public
+export enum KnownVaultSubResourceType {
+    AzureBackup = "AzureBackup",
+    AzureBackupSecondary = "AzureBackup_secondary",
+    AzureSiteRecovery = "AzureSiteRecovery"
 }
 
 // @public
@@ -361,6 +417,7 @@ export interface PrivateEndpoint {
 
 // @public
 export interface PrivateEndpointConnection {
+    groupIds?: VaultSubResourceType[];
     readonly privateEndpoint?: PrivateEndpoint;
     readonly privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: ProvisioningState;
@@ -432,6 +489,9 @@ export interface PrivateLinkServiceConnectionState {
 export type ProvisioningState = string;
 
 // @public
+export type PublicNetworkAccess = string;
+
+// @public
 export interface RawCertificateData {
     authType?: AuthType;
     certificate?: Uint8Array;
@@ -439,8 +499,16 @@ export interface RawCertificateData {
 
 // @public
 export interface RecoveryServices {
+    capabilities(location: string, input: ResourceCapabilities, options?: RecoveryServicesCapabilitiesOptionalParams): Promise<RecoveryServicesCapabilitiesResponse>;
     checkNameAvailability(resourceGroupName: string, location: string, input: CheckNameAvailabilityParameters, options?: RecoveryServicesCheckNameAvailabilityOptionalParams): Promise<RecoveryServicesCheckNameAvailabilityResponse>;
 }
+
+// @public
+export interface RecoveryServicesCapabilitiesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RecoveryServicesCapabilitiesResponse = CapabilitiesResponse;
 
 // @public
 export interface RecoveryServicesCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
@@ -532,6 +600,16 @@ export interface Resource {
 }
 
 // @public
+export interface ResourceCapabilities extends ResourceCapabilitiesBase {
+    properties?: CapabilitiesProperties;
+}
+
+// @public
+export interface ResourceCapabilitiesBase {
+    type: string;
+}
+
+// @public
 export interface ResourceCertificateAndAadDetails extends ResourceCertificateDetails {
     aadAudience?: string;
     aadAuthority: string;
@@ -572,6 +650,11 @@ export type ResourceIdentityType = string;
 
 // @public
 export type ResourceMoveState = string;
+
+// @public
+export interface SecuritySettings {
+    immutabilitySettings?: ImmutabilitySettings;
+}
 
 // @public
 export interface Sku {
@@ -728,7 +811,9 @@ export interface VaultProperties {
     readonly privateEndpointStateForBackup?: VaultPrivateEndpointState;
     readonly privateEndpointStateForSiteRecovery?: VaultPrivateEndpointState;
     readonly provisioningState?: string;
+    publicNetworkAccess?: PublicNetworkAccess;
     redundancySettings?: VaultPropertiesRedundancySettings;
+    securitySettings?: SecuritySettings;
     upgradeDetails?: UpgradeDetails;
 }
 
@@ -813,6 +898,9 @@ export interface VaultsListBySubscriptionIdOptionalParams extends coreClient.Ope
 
 // @public
 export type VaultsListBySubscriptionIdResponse = VaultList;
+
+// @public
+export type VaultSubResourceType = string;
 
 // @public
 export interface VaultsUpdateOptionalParams extends coreClient.OperationOptions {

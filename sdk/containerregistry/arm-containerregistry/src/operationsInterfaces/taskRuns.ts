@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   TaskRun,
   TaskRunsListOptionalParams,
@@ -65,8 +65,8 @@ export interface TaskRuns {
     taskRun: TaskRun,
     options?: TaskRunsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TaskRunsCreateResponse>,
+    SimplePollerLike<
+      OperationState<TaskRunsCreateResponse>,
       TaskRunsCreateResponse
     >
   >;
@@ -97,7 +97,7 @@ export interface TaskRuns {
     registryName: string,
     taskRunName: string,
     options?: TaskRunsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a specified task run resource.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
@@ -126,8 +126,8 @@ export interface TaskRuns {
     updateParameters: TaskRunUpdateParameters,
     options?: TaskRunsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TaskRunsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<TaskRunsUpdateResponse>,
       TaskRunsUpdateResponse
     >
   >;

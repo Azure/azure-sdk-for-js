@@ -15,25 +15,17 @@ import {
   isLiveMode,
   isPlaybackMode,
   isRecordMode,
-  once,
   RecorderError,
   RecorderStartOptions,
   RecordingStateManager,
 } from "./utils/utils";
 import { Test } from "mocha";
-import { sessionFilePath } from "./utils/sessionFilePath";
+import { assetsJsonPath, sessionFilePath } from "./utils/sessionFilePath";
 import { SanitizerOptions } from "./utils/utils";
 import { paths } from "./utils/paths";
 import { addSanitizers, transformsInfo } from "./sanitizer";
 import { handleEnvSetup } from "./utils/envSetupForPlayback";
 import { CustomMatcherOptions, Matcher, setMatcher } from "./matcher";
-import {
-  DefaultHttpClient,
-  HttpClient as HttpClientCoreV1,
-  HttpOperationResponse,
-  WebResource,
-  WebResourceLike,
-} from "@azure/core-http";
 import { addTransform, Transform } from "./transform";
 import { createRecordingRequest } from "./utils/createRecordingRequest";
 import { AdditionalPolicyConfig } from "@azure/core-client";
@@ -42,17 +34,12 @@ import { setRecordingOptions } from "./options";
 import { isNode } from "@azure/core-util";
 import { env } from "./utils/env";
 import { decodeBase64 } from "./utils/encoding";
-import { isHttpHeadersLike } from "./utils/typeGuards";
-import { relativeAssetsPath } from "./utils/relativePathCalculator";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
  * eventually save them in record mode and playing them back in playback mode.
  *
- * For Core V2 SDKs,
  * - Use the `configureClient` method to add recorder policy on your client.
- * For core-v1 SDKs,
- * - Use the `configureClientOptionsCoreV1` method to modify the httpClient on your client options
  *
  * Other than configuring your clients, use `start`, `stop`, `addSanitizers` methods to use the recorder.
  */
@@ -70,7 +57,7 @@ export class Recorder {
     if (isRecordMode() || isPlaybackMode()) {
       if (this.testContext) {
         this.sessionFile = sessionFilePath(this.testContext);
-        this.assetsJson = relativeAssetsPath();
+        this.assetsJson = assetsJsonPath();
 
         logger.info(`[Recorder#constructor] Using a session file located at ${this.sessionFile}`);
         this.httpClient = createDefaultHttpClient();
@@ -85,12 +72,9 @@ export class Recorder {
 
   /**
    * redirectRequest updates the request in record and playback modes to hit the proxy-tool with appropriate headers.
-   * Works for both core-v1 and core-v2
-   *
-   * - WebResource -> core-v1
-   * - PipelineRequest -> core-v2 (recorderHttpPolicy calls this method on the request to modify and hit the proxy-tool with appropriate headers.)
+   * recorderHttpPolicy calls this method on the request.
    */
-  private redirectRequest(request: WebResource | PipelineRequest): void {
+  private redirectRequest(request: PipelineRequest): void {
     const upstreamUrl = new URL(request.url);
     const redirectedUrl = new URL(request.url);
     const testProxyUrl = new URL(Recorder.url);
@@ -133,39 +117,29 @@ export class Recorder {
 
       request.headers.set("x-recording-upstream-base-uri", upstreamUrl.origin);
       request.url = redirectedUrl.toString();
-
-      if (!(request instanceof WebResource)) {
-        // for core-v2
-        request.allowInsecureConnection = true;
-      }
+      request.allowInsecureConnection = true;
+      
     }
   }
 
   /**
    * revertRequestChanges reverts the request in record and playback modes back to the existing url.
-   * Works for both core-v1 and core-v2
    *
-   * - WebResource -> core-v1
-   * - PipelineRequest -> core-v2
-   *
-   * Wrokflow:
+   * Workflow:
    *   - recorderHttpPolicy calls this method after the request is made
    *   1. "redirectRequest" method is called to update the request with the proxy-tool url
    *   2. Request hits the proxy tool, proxy-tool hits the service and returns the response
    *   3. Using `revertRequestChanges`, we revert the request back to the original url
    */
-  private revertRequestChanges(request: WebResource | PipelineRequest, originalUrl: string): void {
+  private revertRequestChanges(request: PipelineRequest, originalUrl: string): void {
     logger.info(
       `[Recorder#revertRequestChanges] "undo"s the URL changes made by the recorder to hit the test proxy after the response is received,`,
       request
     );
-    const headers = request.headers;
-    const deleteHeaderFunc = isHttpHeadersLike(headers)
-      ? /* core-v1 */ headers.remove
-      : /* core-v2 */ headers.delete;
-    ["x-recording-id", "x-recording-mode"].forEach((headerName) =>
-      deleteHeaderFunc.call(headers, headerName)
-    );
+    const proxyHeaders = ["x-recording-id", "x-recording-mode"];
+    for (const headerName of proxyHeaders) {
+      request.headers.delete(headerName);
+    }
     request.url = originalUrl;
   }
 
@@ -260,10 +234,39 @@ export class Recorder {
         logger.verbose("[Recorder#start] Setting redirect mode");
         await setRecordingOptions(Recorder.url, this.httpClient, { handleRedirects: !isNode });
         logger.verbose("[Recorder#start] Sending the start request to the test proxy");
-        const rsp = await this.httpClient.sendRequest({
+        let rsp = await this.httpClient.sendRequest({
           ...req,
           allowInsecureConnection: true,
         });
+
+        // If the error is due to the assets.json not existing, try again without specifying an assets.json. This will
+        // occur with SDKs that have not migrated to asset sync yet.
+        // TODO: remove once everyone has migrated to asset sync
+        if (rsp.status === 400 && rsp.headers.get("x-request-known-exception") === "true") {
+          const errorMessage = decodeBase64(rsp.headers.get("x-request-known-exception-error")!);
+          if (
+            errorMessage.includes("The provided assets") &&
+            errorMessage.includes("does not exist")
+          ) {
+            logger.info(
+              "[Recorder#start] start request failed, trying again without assets.json specified"
+            );
+
+            const retryRequest = createRecordingRequest(
+              startUri,
+              this.sessionFile,
+              this.recordingId,
+              "POST",
+              undefined
+            );
+
+            rsp = await this.httpClient.sendRequest({
+              ...retryRequest,
+              allowInsecureConnection: true,
+            });
+          }
+        }
+
         if (rsp.status !== 200) {
           logger.error("[Recorder#start] Could not start the recorder", rsp);
           throw new RecorderError("Start request failed.");
@@ -397,24 +400,7 @@ export class Recorder {
     return options;
   }
 
-  /**
-   * For core-v1 - libraries depending on core-http.
-   * This method adds the custom httpClient to the client options.
-   *
-   * Helps in redirecting the requests to the proxy tool instead of directly going to the service.
-   */
-  public configureClientOptionsCoreV1<T>(
-    options: T & {
-      httpClient?: HttpClientCoreV1;
-    }
-  ): T & {
-    httpClient?: HttpClientCoreV1;
-  } {
-    if (isLiveMode()) return options;
-    return { ...options, httpClient: once(() => this.createHttpClientCoreV1())() };
-  }
-
-  private handleTestProxyErrors(response: HttpOperationResponse | PipelineResponse) {
+  private handleTestProxyErrors(response: PipelineResponse) {
     if (response.headers.get("x-request-mismatch") === "true") {
       const errorMessage = decodeBase64(response.headers.get("x-request-mismatch-error") ?? "");
       logger.error(
@@ -448,23 +434,6 @@ export class Recorder {
         const response = await next(request);
         this.handleTestProxyErrors(response);
         this.revertRequestChanges(request, originalUrl);
-        return response;
-      },
-    };
-  }
-
-  /**
-   * Creates a client that supports redirecting the requests to the proxy-tool.
-   * Needed for the core-v1 SDKs(SDKs depending on core-http)
-   */
-  private createHttpClientCoreV1(): HttpClientCoreV1 {
-    const client = new DefaultHttpClient();
-    return {
-      sendRequest: async (request: WebResourceLike): Promise<HttpOperationResponse> => {
-        this.redirectRequest(request);
-        const response = await client.sendRequest(request);
-        this.handleTestProxyErrors(response);
-
         return response;
       },
     };

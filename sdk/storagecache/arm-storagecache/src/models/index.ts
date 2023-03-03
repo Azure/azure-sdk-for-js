@@ -690,6 +690,10 @@ export interface Nfs3Target {
   target?: string;
   /** Identifies the StorageCache usage model to be used for this storage target. */
   usageModel?: string;
+  /** Amount of time (in seconds) the cache waits before it checks the back-end storage for file updates. */
+  verificationTimer?: number;
+  /** Amount of time (in seconds) the cache waits after the last file change before it copies the changed file to back-end storage. */
+  writeBackTimer?: number;
 }
 
 /** Properties pertaining to the ClfsTarget */
@@ -710,6 +714,10 @@ export interface BlobNfsTarget {
   target?: string;
   /** Identifies the StorageCache usage model to be used for this storage target. */
   usageModel?: string;
+  /** Amount of time (in seconds) the cache waits before it checks the back-end storage for file updates. */
+  verificationTimer?: number;
+  /** Amount of time (in seconds) the cache waits after the last file change before it copies the changed file to back-end storage. */
+  writeBackTimer?: number;
 }
 
 /** Resource used by a Cache. */
@@ -775,6 +783,54 @@ export interface StorageTarget extends StorageTargetResource {
   readonly allocationPercentage?: number;
 }
 
+/** Defines headers for Caches_delete operation. */
+export interface CachesDeleteHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Caches_update operation. */
+export interface CachesUpdateHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Caches_debugInfo operation. */
+export interface CachesDebugInfoHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Caches_flush operation. */
+export interface CachesFlushHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Caches_start operation. */
+export interface CachesStartHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Caches_stop operation. */
+export interface CachesStopHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
 /** Defines headers for Caches_startPrimingJob operation. */
 export interface CachesStartPrimingJobHeaders {
   /** Location URI to poll for result */
@@ -807,8 +863,72 @@ export interface CachesResumePrimingJobHeaders {
   azureAsyncOperation?: string;
 }
 
+/** Defines headers for Caches_upgradeFirmware operation. */
+export interface CachesUpgradeFirmwareHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
 /** Defines headers for Caches_spaceAllocation operation. */
 export interface CachesSpaceAllocationHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for StorageTargets_dnsRefresh operation. */
+export interface StorageTargetsDnsRefreshHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for StorageTargets_delete operation. */
+export interface StorageTargetsDeleteHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for StorageTargets_restoreDefaults operation. */
+export interface StorageTargetsRestoreDefaultsHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for StorageTarget_flush operation. */
+export interface StorageTargetFlushHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for StorageTarget_suspend operation. */
+export interface StorageTargetSuspendHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for StorageTarget_resume operation. */
+export interface StorageTargetResumeHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for StorageTarget_invalidate operation. */
+export interface StorageTargetInvalidateHeaders {
   /** Location URI to poll for result */
   location?: string;
   /** URI to poll for the operation status */
@@ -1265,8 +1385,6 @@ export type CachesGetResponse = Cache;
 /** Optional parameters. */
 export interface CachesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** Object containing the user-selectable properties of the new Cache. If read-only properties are included, they must match the existing values of those properties. */
-  cache?: Cache;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1281,6 +1399,10 @@ export interface CachesUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** Object containing the user-selectable properties of the Cache. If read-only properties are included, they must match the existing values of those properties. */
   cache?: Cache;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
 /** Contains response data for the update operation. */
@@ -1449,8 +1571,6 @@ export type StorageTargetsGetResponse = StorageTarget;
 /** Optional parameters. */
 export interface StorageTargetsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** Object containing the definition of a Storage Target. */
-  storagetarget?: StorageTarget;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1459,6 +1579,15 @@ export interface StorageTargetsCreateOrUpdateOptionalParams
 
 /** Contains response data for the createOrUpdate operation. */
 export type StorageTargetsCreateOrUpdateResponse = StorageTarget;
+
+/** Optional parameters. */
+export interface StorageTargetsRestoreDefaultsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface StorageTargetsListByCacheNextOptionalParams

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ConnectedRegistry,
   ConnectedRegistriesListOptionalParams,
@@ -27,7 +27,7 @@ import {
 export interface ConnectedRegistries {
   /**
    * Lists all connected registries for the specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -38,7 +38,7 @@ export interface ConnectedRegistries {
   ): PagedAsyncIterableIterator<ConnectedRegistry>;
   /**
    * Gets the properties of the connected registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param connectedRegistryName The name of the connected registry.
    * @param options The options parameters.
@@ -51,7 +51,7 @@ export interface ConnectedRegistries {
   ): Promise<ConnectedRegistriesGetResponse>;
   /**
    * Creates a connected registry for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param connectedRegistryName The name of the connected registry.
    * @param connectedRegistryCreateParameters The parameters for creating a connectedRegistry.
@@ -64,14 +64,14 @@ export interface ConnectedRegistries {
     connectedRegistryCreateParameters: ConnectedRegistry,
     options?: ConnectedRegistriesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ConnectedRegistriesCreateResponse>,
+    SimplePollerLike<
+      OperationState<ConnectedRegistriesCreateResponse>,
       ConnectedRegistriesCreateResponse
     >
   >;
   /**
    * Creates a connected registry for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param connectedRegistryName The name of the connected registry.
    * @param connectedRegistryCreateParameters The parameters for creating a connectedRegistry.
@@ -86,7 +86,7 @@ export interface ConnectedRegistries {
   ): Promise<ConnectedRegistriesCreateResponse>;
   /**
    * Deletes a connected registry from a container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param connectedRegistryName The name of the connected registry.
    * @param options The options parameters.
@@ -96,10 +96,10 @@ export interface ConnectedRegistries {
     registryName: string,
     connectedRegistryName: string,
     options?: ConnectedRegistriesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a connected registry from a container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param connectedRegistryName The name of the connected registry.
    * @param options The options parameters.
@@ -112,7 +112,7 @@ export interface ConnectedRegistries {
   ): Promise<void>;
   /**
    * Updates a connected registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param connectedRegistryName The name of the connected registry.
    * @param connectedRegistryUpdateParameters The parameters for updating a connectedRegistry.
@@ -125,14 +125,14 @@ export interface ConnectedRegistries {
     connectedRegistryUpdateParameters: ConnectedRegistryUpdateParameters,
     options?: ConnectedRegistriesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ConnectedRegistriesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ConnectedRegistriesUpdateResponse>,
       ConnectedRegistriesUpdateResponse
     >
   >;
   /**
    * Updates a connected registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param connectedRegistryName The name of the connected registry.
    * @param connectedRegistryUpdateParameters The parameters for updating a connectedRegistry.
@@ -147,7 +147,7 @@ export interface ConnectedRegistries {
   ): Promise<ConnectedRegistriesUpdateResponse>;
   /**
    * Deactivates the connected registry instance.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param connectedRegistryName The name of the connected registry.
    * @param options The options parameters.
@@ -157,10 +157,10 @@ export interface ConnectedRegistries {
     registryName: string,
     connectedRegistryName: string,
     options?: ConnectedRegistriesDeactivateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deactivates the connected registry instance.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param connectedRegistryName The name of the connected registry.
    * @param options The options parameters.

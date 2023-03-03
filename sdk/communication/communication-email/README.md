@@ -18,7 +18,7 @@ npm install @azure/communication-email
 
 ## Examples
 
-`EmailClient` provides the functionality to send email messages .
+`EmailClient` provides the functionality to send email messages.
 
 ## Authentication
 
@@ -42,7 +42,7 @@ AZURE_CLIENT_SECRET, AZURE_CLIENT_ID and AZURE_TENANT_ID environment variables a
 
 ```typescript
 import { DefaultAzureCredential } from "@azure/identity";
-import { SmsClient } from "@azure/communication-email";
+import { EmailClient } from "@azure/communication-email";
 
 const endpoint = "https://<resource-name>.communication.azure.com";
 let credential = new DefaultAzureCredential();
@@ -51,11 +51,11 @@ const client = new EmailClient(endpoint, credential);
 
 ### Send an Email Message
 
-To send an email message, call the `send` function from the `EmailClient`.
+To send an email message, call the `beginSend` function from the `EmailClient`. This will return a poller. You can use this poller to check on the status of the operation and retrieve the result once it's finished.
 
 ```javascript Snippet:Azure_Communication_Email_Send
-const emailMessage = {
-  sender: "sender@contoso.com",
+const message = {
+  senderAddress: "sender@contoso.com",
   content: {
     subject: "This is the subject",
     plainText: "This is the body",
@@ -63,14 +63,15 @@ const emailMessage = {
   recipients: {
     to: [
       {
-        email: "customer@domain.com",
+        address: "customer@domain.com",
         displayName: "Customer Name",
       },
     ],
   },
 };
 
-const response = await emailClient.send(emailMessage);
+const poller = await emailClient.beginSend(message);
+const response = await poller.pollUntilDone();
 ```
 
 ### Send an Email Message to Multiple Recipients
@@ -78,8 +79,8 @@ const response = await emailClient.send(emailMessage);
 To send an email message to multiple recipients, add a object for each recipient type and an object for each recipient.
 
 ```javascript Snippet:Azure_Communication_Email_Send_Multiple_Recipients
-const emailMessage = {
-  sender: "sender@contoso.com",
+const message = {
+  senderAddress: "sender@contoso.com",
   content: {
     subject: "This is the subject",
     plainText: "This is the body",
@@ -87,38 +88,39 @@ const emailMessage = {
   recipients: {
     to: [
       {
-        email: "customer1@domain.com",
+        address: "customer1@domain.com",
         displayName: "Customer Name 1",
       },
       {
-        email: "customer2@domain.com",
+        address: "customer2@domain.com",
         displayName: "Customer Name 2",
       },
     ],
     cc: [
       {
-        email: "ccCustomer1@domain.com",
+        address: "ccCustomer1@domain.com",
         displayName: " CC Customer 1",
       },
       {
-        email: "ccCustomer2@domain.com",
+        address: "ccCustomer2@domain.com",
         displayName: "CC Customer 2",
       },
     ],
     bcc: [
       {
-        email: "bccCustomer1@domain.com",
+        address: "bccCustomer1@domain.com",
         displayName: " BCC Customer 1",
       },
       {
-        email: "bccCustomer2@domain.com",
+        address: "bccCustomer2@domain.com",
         displayName: "BCC Customer 2",
       },
     ],
   },
 };
 
-const response = await emailClient.send(emailMessage);
+const poller = await emailClient.beginSend(message);
+const response = await poller.pollUntilDone();
 ```
 
 ### Send Email with Attachments
@@ -128,8 +130,8 @@ Azure Communication Services support sending email with attachments.
 ```javascript Snippet:Azure_Communication_Email_Send_With_Attachments
 const filePath = "C://readme.txt";
 
-const emailMessage = {
-  sender: "sender@contoso.com",
+const message = {
+  senderAddress: "sender@contoso.com",
   content: {
     subject: "This is the subject",
     plainText: "This is the body",
@@ -137,7 +139,7 @@ const emailMessage = {
   recipients: {
     to: [
       {
-        email: "customer@domain.com",
+        address: "customer@domain.com",
         displayName: "Customer Name",
       },
     ],
@@ -145,23 +147,13 @@ const emailMessage = {
   attachments: [
     {
       name: path.basename(filePath),
-      attachmentType: "txt",
-      contentBytesBase64: readFileSync(filePath, "base64"),
+      contentType: "text/plain",
+      contentInBase64: readFileSync(filePath, "base64"),
     },
   ],
 };
 
-const response = await emailClient.send(emailMessage);
-```
-
-### Get Email Message Status
-
-The result from the `send` call contains a `messageId` which can be used to query the status of the email.
-
-```javascript Snippet:Azure_Communication_Email_GetSendStatus
-const response = await emailClient.send(emailMessage);
-
-const status = await emailClient.getSendStatus(response.messageId);
+const response = await emailClient.send(message);
 ```
 
 ## Next steps
