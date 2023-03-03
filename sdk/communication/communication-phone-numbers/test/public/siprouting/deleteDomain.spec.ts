@@ -6,16 +6,16 @@ import { Context } from "mocha";
 
 import { SipRoutingClient } from "../../../src";
 
-import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { SipDomain, SipTrunk } from "../../../src/models";
 import {
+  clearSipConfiguration,
   createRecordedClient,
   createRecordedClientWithToken,
   getUniqueDomain,
-  resetUniqueDomains,
-  listAllDomains,
-  clearSipConfiguration,
   getUniqueFqdn,
+  listAllDomains,
+  resetUniqueDomains,
   resetUniqueFqdns,
 } from "./utils/recordedClient";
 import { matrix } from "@azure/test-utils";
@@ -47,7 +47,7 @@ matrix([[true, false]], async function (useAad) {
       if (!this.currentTest?.isPending()) {
         await recorder.stop();
       }
-      resetUniqueFqdns()
+      resetUniqueFqdns();
       resetUniqueDomains();
     });
 
@@ -68,7 +68,7 @@ matrix([[true, false]], async function (useAad) {
       const initialDomains = await listAllDomains(client);
       await client.deleteDomain("notExisting.fqdn.com");
       const resultingDomains = await listAllDomains(client);
-      assert.deepEqual(initialDomains,resultingDomains);
+      assert.deepEqual(initialDomains, resultingDomains);
     });
 
     it("cannot delete domain if depended trunks exist", async () => {

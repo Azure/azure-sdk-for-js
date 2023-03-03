@@ -19,7 +19,9 @@ export async function main() {
   // Get trunks
   const trunks = await client.listTrunks();
   for await (const trunk of trunks) {
-    console.log(`Trunk ${trunk.fqdn}:${trunk.sipSignalingPort} with property enabled:${trunk.enabled}`);
+    console.log(
+      `Trunk ${trunk.fqdn}:${trunk.sipSignalingPort} with property enabled:${trunk.enabled}`
+    );
   }
 
   // Get routes

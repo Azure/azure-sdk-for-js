@@ -6,15 +6,15 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import { matrix } from "@azure/test-utils";
-import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { SipDomain, SipRoutingClient } from "../../../src/sipRoutingClient";
 import {
+  clearSipConfiguration,
   createRecordedClient,
   createRecordedClientWithToken,
   getUniqueDomain,
-  resetUniqueDomains,
   listAllDomains,
-  clearSipConfiguration
+  resetUniqueDomains,
 } from "./utils/recordedClient";
 
 matrix([[true, false]], async function (useAad) {
@@ -70,7 +70,7 @@ matrix([[true, false]], async function (useAad) {
       await client.setDomain({ domainName: firstDomain, enabled: false } as SipDomain);
 
       const domain = await client.getDomain(firstDomain);
-      if(domain == null){
+      if (domain == null) {
         assert.fail("Single domain not found.");
       }
 

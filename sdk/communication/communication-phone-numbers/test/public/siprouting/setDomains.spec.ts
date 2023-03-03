@@ -9,12 +9,12 @@ import { SipRoutingClient } from "../../../src";
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { SipDomain, SipTrunk } from "../../../src/models";
 import {
+  clearSipConfiguration,
   createRecordedClient,
   createRecordedClientWithToken,
   getUniqueDomain,
-  resetUniqueDomains,
-  clearSipConfiguration,
   getUniqueFqdn,
+  resetUniqueDomains,
   resetUniqueFqdns,
 } from "./utils/recordedClient";
 import { matrix } from "@azure/test-utils";
@@ -63,7 +63,7 @@ matrix([[true, false]], async function (useAad) {
 
       const getDomain = await client.getDomain(domainToSet);
       assert.deepEqual(getDomain, domain);
-    });  
+    });
 
     it("cannot set invalid domain uri", async () => {
       const invalidDomain: SipDomain = { domainName: "-1", enabled: true };
@@ -85,8 +85,8 @@ matrix([[true, false]], async function (useAad) {
 
     it("cannot set trunks without configured domain", async () => {
       const expectedTrunks: SipTrunk[] = [
-        { fqdn: getUniqueFqdn(recorder,domain9), sipSignalingPort: 8239, enabled: false },
-        { fqdn: getUniqueFqdn(recorder,domain10), sipSignalingPort: 7348, enabled: false },
+        { fqdn: getUniqueFqdn(recorder, domain9), sipSignalingPort: 8239, enabled: false },
+        { fqdn: getUniqueFqdn(recorder, domain10), sipSignalingPort: 7348, enabled: false },
       ];
 
       try {
@@ -104,7 +104,11 @@ matrix([[true, false]], async function (useAad) {
       await client.setDomain(domain);
 
       const expectedTrunks: SipTrunk[] = [
-        { fqdn: getUniqueFqdn(recorder,nostojic13012023Name), sipSignalingPort: 8239, enabled: true },
+        {
+          fqdn: getUniqueFqdn(recorder, nostojic13012023Name),
+          sipSignalingPort: 8239,
+          enabled: true,
+        },
       ];
 
       try {

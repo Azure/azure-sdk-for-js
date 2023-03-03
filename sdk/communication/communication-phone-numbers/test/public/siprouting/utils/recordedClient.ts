@@ -36,7 +36,7 @@ const envSetupForPlayback: { [k: string]: string } = {
   COMMUNICATION_ENDPOINT: "https://endpoint/",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "azure_tenant_id"
+  AZURE_TENANT_ID: "azure_tenant_id",
 };
 
 const sanitizerOptions: SanitizerOptions = {
@@ -141,7 +141,7 @@ export async function clearSipConfiguration(): Promise<void> {
   );
   await client.setRoutes([]);
   await client.setTrunks([]);
-  const verifiedDomains = (await listAllDomains(client)).filter(x => x.enabled === true);
+  const verifiedDomains = (await listAllDomains(client)).filter((x) => x.enabled === true);
   await client.setDomains(verifiedDomains);
 }
 
@@ -149,7 +149,10 @@ let fqdnNumber = 1;
 let domainNumber = 1;
 export function getUniqueFqdn(recorder: Recorder, domain = ""): string {
   fqdnNumber++;
-  const fqdn = domain.length>0 ? (`test${fqdnNumber}.` + domain) : (`test${fqdnNumber}.` + env.AZURE_TEST_DOMAIN)  ;
+  const fqdn =
+    domain.length > 0
+      ? `test${fqdnNumber}.` + domain
+      : `test${fqdnNumber}.` + env.AZURE_TEST_DOMAIN;
   return recorder.variable(`fqdn-${fqdnNumber}`, fqdn);
 }
 

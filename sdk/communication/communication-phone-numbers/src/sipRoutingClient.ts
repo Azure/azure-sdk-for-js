@@ -22,11 +22,12 @@ import {
   SipTrunk,
   SipTrunkRoute,
 } from "./models";
-import { 
-  transformFromRestModel, 
+import {
+  transformFromRestModel,
   transformIntoRestModel,
   transformDomainsFromRestModel,
-  transformDomainsIntoRestModel } from "./mappers";
+  transformDomainsIntoRestModel,
+} from "./mappers";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { logger } from "./utils";
@@ -175,15 +176,19 @@ export class SipRoutingClient {
    * @param options - The options parameters.
    */
   public async getDomain(domainName: string, options: OperationOptions = {}): Promise<SipDomain> {
-    return tracingClient.withSpan("SipRoutingClient-listDomains", options, async (updatedOptions) => {
-      const domains = await this.getDomainsInternal(updatedOptions);
-      const domain = domains.find((value: SipDomain) => value.domainName === domainName);
-      if (domain) {
-        return domain;
-      }
+    return tracingClient.withSpan(
+      "SipRoutingClient-listDomains",
+      options,
+      async (updatedOptions) => {
+        const domains = await this.getDomainsInternal(updatedOptions);
+        const domain = domains.find((value: SipDomain) => value.domainName === domainName);
+        if (domain) {
+          return domain;
+        }
 
-      throw { code: "NotFound", message: "Not Found" } as SipRoutingError;
-    });
+        throw { code: "NotFound", message: "Not Found" } as SipRoutingError;
+      }
+    );
   }
 
   /**
