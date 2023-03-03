@@ -8,6 +8,7 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreHttpCompat from "@azure/core-http-compat";
+import { WithResponse } from "@azure/storage-blob";
 
 /** Storage Service Properties. */
 export interface QueueServiceProperties {
@@ -713,7 +714,7 @@ export interface QueueCreateOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Contains response data for the create operation. */
-export type QueueCreateResponse = QueueCreateHeaders;
+export type QueueCreateResponse = WithResponse<QueueCreateHeaders>;
 
 /** Optional parameters. */
 export interface QueueDeleteOptionalParams extends coreClient.OperationOptions {
@@ -736,7 +737,7 @@ export interface QueueGetPropertiesOptionalParams
 }
 
 /** Contains response data for the getProperties operation. */
-export type QueueGetPropertiesResponse = QueueGetPropertiesHeaders;
+export type QueueGetPropertiesResponse = WithResponse<QueueGetPropertiesHeaders>;
 
 /** Optional parameters. */
 export interface QueueSetMetadataOptionalParams
@@ -762,8 +763,8 @@ export interface QueueGetAccessPolicyOptionalParams
 }
 
 /** Contains response data for the getAccessPolicy operation. */
-export type QueueGetAccessPolicyResponse = QueueGetAccessPolicyHeaders &
-  SignedIdentifier[];
+export type QueueGetAccessPolicyResponse = WithResponse<QueueGetAccessPolicyHeaders &
+  SignedIdentifier[]>;
 
 /** Optional parameters. */
 export interface QueueSetAccessPolicyOptionalParams
@@ -793,8 +794,8 @@ export interface MessagesDequeueOptionalParams
 }
 
 /** Contains response data for the dequeue operation. */
-export type MessagesDequeueResponse = MessagesDequeueHeaders &
-  DequeuedMessageItem[];
+export type MessagesDequeueResponse = WithResponse<MessagesDequeueHeaders &
+  DequeuedMessageItem[]>;
 
 /** Optional parameters. */
 export interface MessagesClearOptionalParams
@@ -822,8 +823,8 @@ export interface MessagesEnqueueOptionalParams
 }
 
 /** Contains response data for the enqueue operation. */
-export type MessagesEnqueueResponse = MessagesEnqueueHeaders &
-  EnqueuedMessage[];
+export type MessagesEnqueueResponse = WithResponse<MessagesEnqueueHeaders &
+  EnqueuedMessage[]>;
 
 /** Optional parameters. */
 export interface MessagesPeekOptionalParams
@@ -837,7 +838,7 @@ export interface MessagesPeekOptionalParams
 }
 
 /** Contains response data for the peek operation. */
-export type MessagesPeekResponse = MessagesPeekHeaders & PeekedMessageItem[];
+export type MessagesPeekResponse = WithResponse<MessagesPeekHeaders & PeekedMessageItem[]>;
 
 /** Optional parameters. */
 export interface MessageIdUpdateOptionalParams
