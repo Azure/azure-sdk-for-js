@@ -16,7 +16,7 @@ export async function main() {
   // Build client
   const client = new SipRoutingClient(connectionString);
 
-  // Get trunks
+  // List trunks
   const trunks = await client.listTrunks();
   for await (const trunk of trunks) {
     console.log(
@@ -24,14 +24,14 @@ export async function main() {
     );
   }
 
-  // Get routes
+  // List routes
   const routes = await client.listRoutes();
   for await (const route of routes) {
     console.log(`Route ${route.name} with pattern ${route.numberPattern}`);
     console.log(`Route's trunks: ${route.trunks?.join()}`);
   }
 
-  // Get domains
+  // List domains
   const domains = await client.listDomains();
   for await (const domain of domains) {
     console.log(`Domain ${domain.domainName} with property enabled:${domain.enabled}`);

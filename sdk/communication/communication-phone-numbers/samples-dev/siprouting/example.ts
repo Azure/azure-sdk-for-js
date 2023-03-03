@@ -57,12 +57,12 @@ export async function main() {
     sipSignalingPort: 4321,
   });
 
-  // Get trunks
+  // List trunks
   for await (const trunk of client.listTrunks()) {
     console.log(`Trunk ${trunk.fqdn}:${trunk.sipSignalingPort}`);
   }
 
-  // Get routes
+  // List routes
   for await (const route of client.listRoutes()) {
     console.log(`Route ${route.name} with pattern ${route.numberPattern}`);
     console.log(`Route's trunks: ${route.trunks?.join()}`);
