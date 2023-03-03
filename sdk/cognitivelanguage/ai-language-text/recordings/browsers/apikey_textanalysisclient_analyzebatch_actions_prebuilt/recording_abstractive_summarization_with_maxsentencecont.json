@@ -19,7 +19,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
-        "x-ms-client-request-id": "bceb0c41-c0a6-4b4b-b614-955fb235b752",
+        "x-ms-client-request-id": "afd5ff80-5b64-47c4-b33a-d018c230c9aa",
         "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.2 core-rest-pipeline/1.10.2 OS"
       },
       "RequestBody": {
@@ -48,19 +48,19 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "d15e7d3f-d960-4fdc-ad7b-04d30121a810",
+        "apim-request-id": "f61fce0c-15f5-4dab-aaa7-d812e223ec7d",
         "Content-Length": "0",
-        "Date": "Thu, 02 Mar 2023 23:37:39 GMT",
-        "operation-location": "https://endpoint/language/analyze-text/jobs/e09bd72a-bd3e-4bb4-8c2b-5d49fe76c918?api-version=2022-10-01-preview",
+        "Date": "Fri, 03 Mar 2023 20:06:40 GMT",
+        "operation-location": "https://endpoint/language/analyze-text/jobs/a3225d05-d88f-43dc-a4d2-25c324aef777?api-version=2022-10-01-preview",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "197",
+        "x-envoy-upstream-service-time": "271",
         "x-ms-region": "East US"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/e09bd72a-bd3e-4bb4-8c2b-5d49fe76c918?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/a3225d05-d88f-43dc-a4d2-25c324aef777?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -76,26 +76,26 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
-        "x-ms-client-request-id": "d51b1fd0-cb8e-4198-841c-a9522b2d8da0",
+        "x-ms-client-request-id": "2e561e3d-ccd6-4de8-9d31-8c60a4217baf",
         "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.2 core-rest-pipeline/1.10.2 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "9d554eb3-9b29-464f-9298-11ec58007a80",
+        "apim-request-id": "598147ce-9788-4880-b97e-7e1a6dfd1496",
         "Content-Length": "283",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 02 Mar 2023 23:37:39 GMT",
+        "Date": "Fri, 03 Mar 2023 20:06:40 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "11",
+        "x-envoy-upstream-service-time": "9",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "e09bd72a-bd3e-4bb4-8c2b-5d49fe76c918",
-        "lastUpdatedDateTime": "2023-03-02T23:37:39Z",
-        "createdDateTime": "2023-03-02T23:37:39Z",
-        "expirationDateTime": "2023-03-03T23:37:39Z",
+        "jobId": "a3225d05-d88f-43dc-a4d2-25c324aef777",
+        "lastUpdatedDateTime": "2023-03-03T20:06:41Z",
+        "createdDateTime": "2023-03-03T20:06:40Z",
+        "expirationDateTime": "2023-03-04T20:06:40Z",
         "status": "notStarted",
         "errors": [],
         "tasks": {
@@ -108,7 +108,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/e09bd72a-bd3e-4bb4-8c2b-5d49fe76c918?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/a3225d05-d88f-43dc-a4d2-25c324aef777?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -124,26 +124,26 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
-        "x-ms-client-request-id": "c4865902-05d5-49cd-b422-50082c2f541a",
+        "x-ms-client-request-id": "c02e9e61-73aa-461a-a791-968e1307e472",
         "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.2 core-rest-pipeline/1.10.2 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "db43526a-887e-4909-9018-4d745ec694d6",
+        "apim-request-id": "07424983-73f8-416a-adbc-01fbf16804df",
         "Content-Length": "283",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 02 Mar 2023 23:37:39 GMT",
+        "Date": "Fri, 03 Mar 2023 20:06:40 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "11",
+        "x-envoy-upstream-service-time": "10",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "e09bd72a-bd3e-4bb4-8c2b-5d49fe76c918",
-        "lastUpdatedDateTime": "2023-03-02T23:37:39Z",
-        "createdDateTime": "2023-03-02T23:37:39Z",
-        "expirationDateTime": "2023-03-03T23:37:39Z",
+        "jobId": "a3225d05-d88f-43dc-a4d2-25c324aef777",
+        "lastUpdatedDateTime": "2023-03-03T20:06:41Z",
+        "createdDateTime": "2023-03-03T20:06:40Z",
+        "expirationDateTime": "2023-03-04T20:06:40Z",
         "status": "notStarted",
         "errors": [],
         "tasks": {
@@ -156,7 +156,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/e09bd72a-bd3e-4bb4-8c2b-5d49fe76c918?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/a3225d05-d88f-43dc-a4d2-25c324aef777?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -172,26 +172,26 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
-        "x-ms-client-request-id": "bb290e8b-f343-4850-a0ca-8348ebebb768",
+        "x-ms-client-request-id": "8a2ecffc-40e4-4891-82e1-bc741d075ea9",
         "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.2 core-rest-pipeline/1.10.2 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "2215a916-cd19-4c12-a310-52336c59d334",
-        "Content-Length": "986",
+        "apim-request-id": "1c839df7-a966-4a67-b672-755208bdce5c",
+        "Content-Length": "969",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 02 Mar 2023 23:37:41 GMT",
+        "Date": "Fri, 03 Mar 2023 20:06:42 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "57",
+        "x-envoy-upstream-service-time": "61",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "e09bd72a-bd3e-4bb4-8c2b-5d49fe76c918",
-        "lastUpdatedDateTime": "2023-03-02T23:37:41Z",
-        "createdDateTime": "2023-03-02T23:37:39Z",
-        "expirationDateTime": "2023-03-03T23:37:39Z",
+        "jobId": "a3225d05-d88f-43dc-a4d2-25c324aef777",
+        "lastUpdatedDateTime": "2023-03-03T20:06:42Z",
+        "createdDateTime": "2023-03-03T20:06:40Z",
+        "expirationDateTime": "2023-03-04T20:06:40Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -202,7 +202,7 @@
           "items": [
             {
               "kind": "AbstractiveSummarizationLROResults",
-              "lastUpdateDateTime": "2023-03-02T23:37:41.5155494Z",
+              "lastUpdateDateTime": "2023-03-03T20:06:42.5046951Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -224,7 +224,7 @@
                   {
                     "summaries": [
                       {
-                        "text": "Microsoft\u2019s Cloud PC is a solution for companies that want to support employees working from home, but the pandemic accelerated the development of the Cloud PC.",
+                        "text": "Microsoft\u2019s Cloud PC solution is designed to support employees working from home, and the pandemic accelerated the development of the solution.",
                         "contexts": [
                           {
                             "offset": 0,
@@ -246,7 +246,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/e09bd72a-bd3e-4bb4-8c2b-5d49fe76c918?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/a3225d05-d88f-43dc-a4d2-25c324aef777?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -262,26 +262,26 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
-        "x-ms-client-request-id": "6d1cc8e9-974c-41ea-9519-b89b59ebdc27",
+        "x-ms-client-request-id": "a3de20c3-fcb6-4cc7-8e53-cb3c02fe8338",
         "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.2 core-rest-pipeline/1.10.2 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "6f38334a-9e64-4c6c-879a-fa27f31fddce",
-        "Content-Length": "986",
+        "apim-request-id": "ce38c218-1621-4b42-b725-4900a0cda8c4",
+        "Content-Length": "969",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 02 Mar 2023 23:37:41 GMT",
+        "Date": "Fri, 03 Mar 2023 20:06:42 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "66",
+        "x-envoy-upstream-service-time": "80",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "e09bd72a-bd3e-4bb4-8c2b-5d49fe76c918",
-        "lastUpdatedDateTime": "2023-03-02T23:37:41Z",
-        "createdDateTime": "2023-03-02T23:37:39Z",
-        "expirationDateTime": "2023-03-03T23:37:39Z",
+        "jobId": "a3225d05-d88f-43dc-a4d2-25c324aef777",
+        "lastUpdatedDateTime": "2023-03-03T20:06:42Z",
+        "createdDateTime": "2023-03-03T20:06:40Z",
+        "expirationDateTime": "2023-03-04T20:06:40Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -292,7 +292,7 @@
           "items": [
             {
               "kind": "AbstractiveSummarizationLROResults",
-              "lastUpdateDateTime": "2023-03-02T23:37:41.5155494Z",
+              "lastUpdateDateTime": "2023-03-03T20:06:42.5046951Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -314,7 +314,7 @@
                   {
                     "summaries": [
                       {
-                        "text": "Microsoft\u2019s Cloud PC is a solution for companies that want to support employees working from home, but the pandemic accelerated the development of the Cloud PC.",
+                        "text": "Microsoft\u2019s Cloud PC solution is designed to support employees working from home, and the pandemic accelerated the development of the solution.",
                         "contexts": [
                           {
                             "offset": 0,
