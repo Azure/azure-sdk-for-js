@@ -13,6 +13,7 @@ import {
   getSuspendedMigration,
   loadMigrations,
   removeMigrationStateFile,
+  runMigration,
   SuspendedMigrationState,
 } from "../util/migrations";
 import * as git from "../util/git";
@@ -151,12 +152,15 @@ async function startMigrationPass(project: ProjectInfo, migrationDate: Date): Pr
       log.error(`A migration is suspended in package '${otherPackage.name}'.`);
     } else {
       log.error(`Migration '${suspended.id}' is currently suspended.`);
+      log.error(
+        "Run `dev-tool migrate --continue` to resume it if you have resolved its outstanding issues."
+      );
     }
     return false;
   }
 
   // Check fof a git diff. We refuse to start a new pass if there is a diff.
-  if (await git.hasDiff(await resolveRoot())) {
+  if (!process.env.DEV_TOOL_UNSAFE_FORCE && (await git.hasDiff(await resolveRoot()))) {
     log.error("Refusing to run a migration on a dirty work tree.");
     log.error("Commit or stash your changes, then run `dev-tool migrate` again.");
     return false;
@@ -173,10 +177,70 @@ async function startMigrationPass(project: ProjectInfo, migrationDate: Date): Pr
   log.info(`Last migration: ${project.packageJson[METADATA_KEY].migrationDate ?? "never"}`);
 
   for (const migration of pending) {
-    // const status = await runMigration(project, migration);
-    // if (status.suspended) {
-    //   log.warn("");
-    // }
+    log.info(`Applying migration '${migration.id}' (${migration.date.toLocaleDateString()})`);
+    log.info(`  - Description: ${migration.description}`);
+
+    const status = await runMigration(project, migration);
+
+    switch (status.kind) {
+      case "success": {
+        log.success(`Migration '${migration.id}' applied successfully.`);
+        continue;
+      }
+      case "suspended": {
+        log.warn(`'${migration.id}' suspended during ${status.phase}.`);
+        log.warn("  Description: ", migration.description);
+
+        if (status.phase === "execution") {
+          log.warn(
+            "This migration requires manual intervention. It cannot be performed automatically."
+          );
+          log.warn(
+            "Check the state of the current package and ensure that it has been migrated as appropriate."
+          );
+          log.warn(
+            "When you are sure that the package has been migrated correctly, run `dev-tool migrate --continue`."
+          );
+        } else if (migration.validation) {
+          // Automated validation failed
+          log.warn("The automated validation for this migration failed:", status.reason);
+          log.warn(
+            "Manually correct the migration results and then run `dev-tool migrate --continue` to run the validation again."
+          );
+        } else {
+          // No validation
+          log.warn(
+            "This migration was automatically executed, but cannot be automatically validated."
+          );
+          log.warn(
+            "Manually check the migration results and then run `dev-tool migrate --continue` when you are sure they are correct to continue."
+          );
+        }
+
+        if (migration.url) {
+          log.warn(
+            "You will find helpful information for this migration at the following URL:",
+            migration.url
+          );
+        }
+
+        return true;
+      }
+      case "error": {
+        log.error(`Encountered an error running migration: '${migration.id}'.`);
+        log.error("Stack trace:", status.error.stack);
+        log.error(
+          "The migration pass has been suspended. The failed migration terminated in an unexpected way and may have damaged the working tree."
+        );
+        log.error(
+          "Errors must be fixed and the migration must be performed _MANUALLY_. To abort the migration, run `dev-tool migrate --abort`."
+        );
+        log.error(
+          "If you have migrated the package manually, and you are sure that the migration is correct, you can continue using `dev-tool migrate --continue`."
+        );
+        return false;
+      }
+    }
   }
 
   return true;

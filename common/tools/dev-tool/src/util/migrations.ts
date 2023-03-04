@@ -48,7 +48,7 @@ export interface Migration {
    *
    * @param project - the package's ProjectInfo
    */
-  validation?: (project: ProjectInfo) => Promise<void>;
+  validation?: (project: ProjectInfo) => Promise<void>; // TODO: do we need to differentiate "error" vs "failure" return modes?
 }
 
 let SORTED = true;
@@ -259,6 +259,143 @@ export async function getSuspendedMigration(): Promise<SuspendedMigrationState |
   }
 
   return result as SuspendedMigrationState;
+}
+
+// #endregion
+
+// #region execution
+
+export type MigrationExitState =
+  | MigrationSuspendedExitState
+  | MigrationErrorExitState
+  | MigrationSuccessExitState;
+
+/**
+ * The state of a migration that suspends normally. This can happen because:
+ *
+ * - The migration has no `execution`, so it is suspended to allow the user to manually migrate the package.
+ * - The migration DOES have an `execution`, but no `validation`, so it is suspended to allow the user to manually
+ *   validate an automated migration.
+ * - The migration has no `execution`, was already suspended, and was continued but the automated `validation` failed.
+ *   The migration is then suspended to allow the user to correct the migration.
+ * - The migration has both an execution and a validation, but the validation simply fails.
+ */
+export interface MigrationSuspendedExitState {
+  kind: "suspended";
+  phase: "execution" | "validation";
+  reason: string;
+}
+
+/**
+ * The state of a migration that exited due to an unrecoverable error. For example, if the `execution` function of a
+ * migration throws an error. Such failures may leave the working tree in a dirty or corrupt state. The migration is
+ * ultimately suspended, and the user is expected to either abort the migration or clean it up.
+ */
+export interface MigrationErrorExitState {
+  kind: "error";
+  error: Error;
+}
+
+/**
+ * The state of a migration that exited successfully.
+ */
+export interface MigrationSuccessExitState {
+  kind: "success";
+}
+
+/**
+ * Executes an unapplied migration.
+ *
+ * @param project - the working project
+ * @param migration - the migration object
+ * @returns the state of the migration at exit
+ */
+export async function runMigration(
+  project: ProjectInfo,
+  migration: Migration
+): Promise<MigrationExitState> {
+  if (migration.execution) {
+    // Migration has automation.
+    try {
+      await migration.execution(project);
+    } catch (e) {
+      // Execution failed, need to suspend to allow the user to correct it.
+      await suspendMigration(migration.id, project);
+      return {
+        kind: "error",
+        error: e as Error,
+      };
+    }
+  } else {
+    // No automated execution, so suspend and return to the user.
+    await suspendMigration(migration.id, project);
+    return {
+      kind: "suspended",
+      phase: "execution",
+      reason: "requires manual intervention",
+    };
+  }
+
+  if (migration.validation) {
+    try {
+      await migration.validation(project);
+      // Migration validated
+      return {
+        kind: "success",
+      };
+    } catch (e) {
+      // Migration failed. We pass this back up the chain as an error rather than a suspension because if we made it here,
+      // then the migration was automated. An automated migration is not expected to fail validation.
+      await suspendMigration(migration.id, project);
+      return {
+        kind: "suspended",
+        phase: "validation",
+        reason: `validation of automated migration failed: ${(e as Error).message}`,
+      };
+    }
+  } else {
+    // If we made it here, we know the `execution` was automated. Otherwise We would have resumed from `validateResumed`.
+    // We need to suspend and allow the user to validate the automated validation.
+    await suspendMigration(migration.id, project);
+    return {
+      kind: "suspended",
+      phase: "validation",
+      reason: "requires manual validation",
+    };
+  }
+}
+
+/**
+ * Validates a resumed migration, returning an exit status.
+ *
+ * @param project - the working project
+ * @param migration - the migration to run
+ * @returns the exit state
+ */
+export async function validateResumedMigration(
+  project: ProjectInfo,
+  migration: Migration
+): Promise<MigrationExitState> {
+  if (!migration.validation) {
+    // We assume that if a migration with no `--continue` is resumed, the user has ensured it is done correctly.
+    return {
+      kind: "success",
+    };
+  } else {
+    try {
+      await migration.validation(project);
+      return {
+        kind: "success",
+      };
+    } catch (e) {
+      await suspendMigration(migration.id, project);
+      return {
+        kind: "suspended",
+        phase: "validation",
+        reason: `validation failed: ${(e as Error).message}`,
+      };
+    }
+  }
 }
 
 // #endregion
