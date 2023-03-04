@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { FileInfo } from "../findMatchingFiles";
+import { METADATA_KEY } from "../resolveProject";
 
 /**
  * The oldest Node version that we guarantee sample programs will support.
@@ -123,7 +124,9 @@ declare global {
 }
 
 export function getSampleConfiguration(packageJson: PackageJson): SampleConfiguration {
-  return packageJson[SAMPLE_CONFIGURATION_KEY] ?? {};
+  return (
+    packageJson[METADATA_KEY].sampleConfiguration ?? packageJson[SAMPLE_CONFIGURATION_KEY] ?? {}
+  );
 }
 
 /**

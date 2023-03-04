@@ -5,6 +5,7 @@ import fs from "fs-extra";
 import path from "path";
 
 import { createPrinter } from "./printer";
+import { SampleConfiguration } from "./samples/configuration";
 
 const { debug } = createPrinter("resolve-project");
 
@@ -26,6 +27,7 @@ declare global {
   interface PackageJson {
     name: string;
     version: string;
+    "sdk-type"?: "client" | "mgmt" | "perf-test" | "utility";
     description: string;
     main: string;
     types: string;
@@ -51,7 +53,36 @@ declare global {
 
     dependencies: Record<string, string>;
     devDependencies: Record<string, string>;
+
+    [METADATA_KEY]: AzureSdkMetadata;
   }
+}
+
+export const METADATA_KEY = "//metadata";
+
+/**
+ * Metadata that is specifically used by the Azure SDK tooling.
+ */
+export interface AzureSdkMetadata {
+  /**
+   * Configuration for samples.
+   */
+  sampleConfiguration?: SampleConfiguration;
+
+  /**
+   * The date this package was last migrated.
+   */
+  migrationDate?: string;
+
+  /**
+   * Paths that contain instances of the package's version number that should be updated automatically.
+   */
+  constantPaths: Array<{
+    /** The path to the containing file. */
+    path: string;
+    /** A line prefix to match */
+    prefix: string;
+  }>;
 }
 
 /**
@@ -152,8 +183,7 @@ export async function resolveProject(workingDirectory: string): Promise<ProjectI
  * @param start - an optional starting point (defaults to CWD)
  * @returns an absolute path to the root of the monorepo
  */
-export async function resolveRoot(start?: string): Promise<string> {
-  start ??= process.cwd();
+export async function resolveRoot(start: string = process.cwd()): Promise<string> {
   if (await fs.pathExists(path.join(start, "rush.json"))) {
     return start;
   } else {
