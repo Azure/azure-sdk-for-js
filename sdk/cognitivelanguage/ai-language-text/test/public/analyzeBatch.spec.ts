@@ -471,13 +471,13 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             });
           });
 
-          it("abstractive summarization with maxSentenceCont", async function () {
+          it("abstractive summarization with sentenceCount", async function () {
             const docs = [windows365ArticlePart1, windows365ArticlePart2];
             const poller = await client.beginAnalyzeBatch(
               [
                 {
                   kind: AnalyzeBatchActionNames.AbstractiveSummarization,
-                  maxSentenceCount: 1,
+                  sentenceCount: 1,
                 },
               ],
               docs,
