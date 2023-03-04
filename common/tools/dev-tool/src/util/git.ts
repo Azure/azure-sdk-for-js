@@ -32,3 +32,14 @@ export function hasDiff(treePath: string): Promise<boolean> {
     }
   });
 }
+
+export function commitAll(message: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const command = spawn("git", ["commit", "-a", "-m", message], {
+      stdio: "inherit",
+    });
+
+    command.on("exit", (code) => (code === 0 ? resolve() : reject("git exited nonzero")));
+    command.on("error", reject);
+  });
+}

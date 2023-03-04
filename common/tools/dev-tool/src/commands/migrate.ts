@@ -15,6 +15,7 @@ import {
   removeMigrationStateFile,
   runMigration,
   SuspendedMigrationState,
+  updateMigrationDate,
 } from "../util/migrations";
 import * as git from "../util/git";
 
@@ -184,6 +185,10 @@ async function startMigrationPass(project: ProjectInfo, migrationDate: Date): Pr
 
     switch (status.kind) {
       case "success": {
+        await updateMigrationDate(project, migration);
+
+        git.commitAll(`dev-tool: applied migration '${migration.id}'`);
+
         log.success(`Migration '${migration.id}' applied successfully.`);
         continue;
       }

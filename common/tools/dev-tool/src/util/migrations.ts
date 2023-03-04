@@ -6,7 +6,7 @@ import { userInfo } from "os";
 import path from "path";
 import { findMatchingFiles } from "./findMatchingFiles";
 import { createPrinter } from "./printer";
-import { ProjectInfo } from "./resolveProject";
+import { METADATA_KEY, ProjectInfo } from "./resolveProject";
 
 const { debug } = createPrinter("util/migrations");
 
@@ -36,6 +36,9 @@ export interface Migration {
    *
    * This function throws an error if it cannot complete successfully. Automatic migrations are assumed to be best-effort
    * and must be manually or automatically validated.
+   *
+   * TODO: migrations need a control surface that allows them to create new untracked files that we will then commit to
+   * git after the migration has run.
    *
    * @param project - the package's ProjectInfo
    */
@@ -396,6 +399,19 @@ export async function validateResumedMigration(
       };
     }
   }
+}
+
+export async function updateMigrationDate(
+  project: ProjectInfo,
+  migration: Migration
+): Promise<void> {
+  const packageJsonPath = path.join(project.path, "package.json");
+
+  const packageJson = JSON.parse((await readFile(packageJsonPath)).toString("utf-8"));
+
+  packageJson[METADATA_KEY].migrationDate = migration.date.toISOString();
+
+  await writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2));
 }
 
 // #endregion
