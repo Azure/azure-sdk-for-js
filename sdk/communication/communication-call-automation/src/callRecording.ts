@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { CallRecordingImpl } from "./generated/src/operations";
-import { StartCallRecordingRequest, RecordingStateResponse } from "./generated/src/models/index";
-import { StartCallRecordingRequestDto, RecordingStateResponseDto } from "./models/models";
+import { StartCallRecordingRequest } from "./generated/src/models/index";
 import {
-  CallRecordingStartRecordingOptions,
+  RecordingStateResult,
+} from "./models/responses";
+import {
+  StartRecordingOptions,
   CallRecordingStopRecordingOptions,
   CallRecordingPauseRecordingOptions,
   CallRecordingGetRecordingPropertiesOptions,
@@ -27,20 +29,21 @@ export class CallRecording {
    * @param options - Operation options.
    */
   public async startRecording(
-    request: StartCallRecordingRequestDto,
-    options: CallRecordingStartRecordingOptions = {}
-  ): Promise<RecordingStateResponse> {
+    options: StartRecordingOptions
+  ): Promise<RecordingStateResult> {
     const startCallRecordingRequest: StartCallRecordingRequest = {
-      ...request,
+      ...options,
     };
-    if (request.callLocator.kind === "groupCallLocator") {
+
+    if (options.callLocator.kind === "groupCallLocator") {
       startCallRecordingRequest.callLocator.kind = "groupCallLocator";
-      startCallRecordingRequest.callLocator.groupCallId = request.callLocator.id;
+      startCallRecordingRequest.callLocator.groupCallId = options.callLocator.id;
     } else {
       startCallRecordingRequest.callLocator.kind = "serverCallLocator";
-      startCallRecordingRequest.callLocator.serverCallId = request.callLocator.id;
+      startCallRecordingRequest.callLocator.serverCallId = options.callLocator.id;
     }
-    const response: RecordingStateResponseDto = {
+
+    const response: RecordingStateResult = {
       ...(await this.callRecordingImpl.startRecording(startCallRecordingRequest, options)),
     };
 
@@ -52,11 +55,11 @@ export class CallRecording {
    * @param recordingId - The recordingId associated with the recording.
    * @param options - Additional request options contains getRecordingProperties api options.
    */
-  public async getRecordingProperties(
+  public async getRecordingState(
     recordingId: string,
-    options: CallRecordingGetRecordingPropertiesOptions
-  ): Promise<RecordingStateResponseDto> {
-    const response: RecordingStateResponseDto = {
+    options: CallRecordingGetRecordingPropertiesOptions = {}
+  ): Promise<RecordingStateResult> {
+    const response: RecordingStateResult = {
       ...(await this.callRecordingImpl.getRecordingProperties(recordingId, options)),
     };
 
@@ -70,7 +73,7 @@ export class CallRecording {
    */
   public async stopRecording(
     recordingId: string,
-    options: CallRecordingStopRecordingOptions
+    options: CallRecordingStopRecordingOptions = {}
   ): Promise<void> {
     return this.callRecordingImpl.stopRecording(recordingId, options);
   }
@@ -82,7 +85,7 @@ export class CallRecording {
    */
   public async pauseRecording(
     recordingId: string,
-    options: CallRecordingPauseRecordingOptions
+    options: CallRecordingPauseRecordingOptions = {}
   ): Promise<void> {
     return this.callRecordingImpl.pauseRecording(recordingId, options);
   }
@@ -94,7 +97,7 @@ export class CallRecording {
    */
   public async resumeRecording(
     recordingId: string,
-    options: CallRecordingResumeRecordingOptionalParams
+    options: CallRecordingResumeRecordingOptionalParams = {}
   ): Promise<void> {
     return this.callRecordingImpl.resumeRecording(recordingId, options);
   }
