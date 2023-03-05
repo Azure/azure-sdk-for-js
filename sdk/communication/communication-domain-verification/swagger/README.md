@@ -8,7 +8,7 @@
 package-name: "@azure/communication-domain-verification"
 title: Domain Verification Client
 description: Domain Verification Client
-package-version: 1.0.0-beta.2
+package-version: 1.0.0-beta.1
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated

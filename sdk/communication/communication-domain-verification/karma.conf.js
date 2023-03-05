@@ -61,7 +61,9 @@ module.exports = function (config) {
       "TEST_MODE",
       "AZURE_USERAGENT_OVERRIDE",
       "AZURE_LOG_LEVEL",
-      "RECORDINGS_RELATIVE_PATH"
+      "RECORDINGS_RELATIVE_PATH",
+      "ACS_DOMAIN_OWNERSHIP_CHALLENGE",
+      "ACS_VERIFIED_DOMAIN_NAME"
     ],
 
     // test results reporter to use
