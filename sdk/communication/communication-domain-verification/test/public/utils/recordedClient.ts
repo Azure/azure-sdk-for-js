@@ -6,13 +6,14 @@ import * as dotenv from 'dotenv';
 import {
     Recorder, RecorderStartOptions, assertEnvironmentVariable, env, isPlaybackMode
 } from '@azure-tools/test-recorder';
-import { ClientSecretCredential, DefaultAzureCredential, TokenCredential } from '@azure/identity';
+import { TokenCredential } from '@azure/identity';
 import { parseConnectionString } from '@azure/communication-common';
 import { AdditionalPolicyConfig } from '@azure/core-client';
-import { Context } from 'mocha';
+import { Context, Test } from 'mocha';
 import { isNode } from '@azure/test-utils';
 import { DomainVerificationClient } from '../../../src';
 import { createMSUserAgentPolicy } from './msUserAgentPolicy';
+import { createTestCredential } from "@azure-tools/test-credential";
 
 if (isNode) {
   dotenv.config({ path: __dirname });
@@ -50,79 +51,69 @@ export const recorderOptions: RecorderStartOptions = {
   },
 };
 
-export function createMockToken(): {
-  getToken: (_scopes: string) => Promise<{ token: string; expiresOnTimestamp: number }>;
-} {
+export function createMockToken(): TokenCredential {
   return {
-    getToken: async (_scopes: string) => {
+    getToken: async (_scopes) => {
       return { token: "testToken", expiresOnTimestamp: 11111 };
     },
   };
 }
 
+export async function createRecorder(context: Test | undefined): Promise<Recorder> {
+  const recorder = new Recorder(context);
+  await recorder.start(recorderOptions);
+  await recorder.setMatcher("CustomDefaultMatcher", {
+    excludedHeaders: [
+      "Accept-Language", // This is env-dependent
+      "x-ms-content-sha256", // This is dependent on the current datetime
+    ],
+  });
+  return recorder;
+}
+
 export async function createRecordedClient(
   context: Context
 ): Promise<RecordedClient<DomainVerificationClient>> {
-  const recorder = new Recorder(context.currentTest);
-  await recorder.start(recorderOptions);    
+  const recorder = await createRecorder(context.currentTest);
   const policies = getAdditionalPolicies();
 
-  // casting is a workaround to enable min-max testing
   return {
     client: new DomainVerificationClient(
-      assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"),
-      recorder.configureClientOptions({ "additionalPolicies": policies})),
+      assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"),
+      recorder.configureClientOptions({ additionalPolicies: policies})),
     recorder,
   };
 }
 
-export function createRecordedClientWithToken(
+export async function createRecordedClientWithToken(
   context: Context
-): RecordedClient<DomainVerificationClient> | undefined {
-  const recorder = new Recorder(context.currentTest);
+): Promise<RecordedClient<DomainVerificationClient>> {
+  const recorder = await createRecorder(context.currentTest);
   let credential: TokenCredential;
+
   const endpoint = parseConnectionString(
     assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING")
   ).endpoint;
+
   if (isPlaybackMode()) {
     credential = createMockToken();
-
-    // casting is a workaround to enable min-max testing
-    return {
-      client: new DomainVerificationClient(
-        endpoint,
-        credential,
-        recorder.configureClientOptions({})
-      ),
-      recorder,
-    };
-  }
-
-  if (isNode) {
-    credential = new DefaultAzureCredential();
   } else {
-    credential = new ClientSecretCredential(
-      assertEnvironmentVariable("AZURE_TENANT_ID"),
-      assertEnvironmentVariable("AZURE_CLIENT_ID"),
-      assertEnvironmentVariable("AZURE_CLIENT_SECRET")
-    );
+    credential = createTestCredential();
   }
 
-  // casting is a workaround to enable min-max testing
-  return {
-    client: new DomainVerificationClient(
-      endpoint,
-      credential,
-      recorder.configureClientOptions(getAdditionalPolicies())
-    ),
-    recorder,
-  };
+  const client = new DomainVerificationClient(
+    endpoint,
+    credential,
+    recorder.configureClientOptions({ additionalPolicies: getAdditionalPolicies()})
+  )
+
+  return {client, recorder};
 }
 
 export function getAdditionalPolicies():AdditionalPolicyConfig[] {  
   const additionalPolicies: AdditionalPolicyConfig[] = [
     {
-      policy: createMSUserAgentPolicy(),
+      policy: createMSUserAgentPolicy(false),
       position: "perRetry",
     },
   ];

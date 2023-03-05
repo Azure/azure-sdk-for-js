@@ -15,7 +15,7 @@ export interface CreateDomainOwnershipChallengeOptions extends OperationOptions 
 
 // @public
 export interface DomainOwnership {
-    status: Status;
+    status: DomainVerificationStatus;
 }
 
 // @public
@@ -37,7 +37,7 @@ export interface DomainVerificationClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type Status = "Verified" | "NotVerified" | "VerificationPending";
+export type DomainVerificationStatus = "Verified" | "NotVerified" | "VerificationPending";
 
 // @public
 export interface VerifyDomainOwnershipOptions extends OperationOptions {
