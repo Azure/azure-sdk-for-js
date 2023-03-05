@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { AbortSignalLike } from "@azure/abort-controller";
-import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
+import { HttpHeaders, HttpHeadersLike, HttpResponse, isNode, URLBuilder } from "@azure/core-http";
 import { ContainerEncryptionScope } from "@azure/storage-blob";
 import { CpkInfo, FileSystemEncryptionScope } from "../models";
 
@@ -632,4 +632,32 @@ export function EscapePath(pathName: string): string {
     split[i] = encodeURIComponent(split[i]);
   }
   return split.join("/");
+}
+
+export interface RawResponseWithEncryptionContextLike {
+  encryptionContext?: string;
+  _response: HttpResponse & {
+    parsedHeaders: {
+      encryptionContext?: string;
+    };
+  };
+}
+
+/**
+ * Parse value of encryption context from headers in raw response.
+ */
+export function ParseEncryptionContextHeaderValue(
+  rawResponse: RawResponseWithEncryptionContextLike
+): RawResponseWithEncryptionContextLike {
+  const response = rawResponse;
+  if (rawResponse._response) {
+    const headers = rawResponse._response.headers as HttpHeadersLike;
+    if (headers) {
+      response.encryptionContext = headers.get("x-ms-encryption-context");
+      if (response._response.parsedHeaders) {
+        response._response.parsedHeaders.encryptionContext = response.encryptionContext;
+      }
+    }
+  }
+  return response;
 }

@@ -96,6 +96,7 @@ import {
   ensureCpkIfSpecified,
   EscapePath,
   getURLPathAndQuery,
+  ParseEncryptionContextHeaderValue,
   setURLPath,
   setURLQueries,
 } from "./utils/utils.common";
@@ -731,11 +732,13 @@ export class DataLakePathClient extends StorageClient {
   ): Promise<PathGetPropertiesResponse> {
     const { span, updatedOptions } = createSpan("DataLakePathClient-getProperties", options);
     try {
-      return await this.blobClient.getProperties({
+      const response = (await this.blobClient.getProperties({
         ...options,
         customerProvidedKey: toBlobCpkInfo(options.customerProvidedKey),
         tracingOptions: updatedOptions.tracingOptions,
-      });
+      })) as PathGetPropertiesResponse;
+
+      return ParseEncryptionContextHeaderValue(response);
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1352,7 +1355,9 @@ export class DataLakeFileClient extends DataLakePathClient {
         customerProvidedKey: toBlobCpkInfo(updatedOptions.customerProvidedKey),
       });
 
-      const response = rawResponse as FileReadResponse;
+      const response = ParseEncryptionContextHeaderValue(
+        rawResponse as FileReadResponse
+      ) as FileReadResponse;
       if (!isNode && !response.contentAsBlob) {
         response.contentAsBlob = rawResponse.blobBody;
       }
@@ -1574,6 +1579,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         pathHttpHeaders: options.pathHttpHeaders,
         customerProvidedKey: updatedOptions.customerProvidedKey,
         tracingOptions: updatedOptions.tracingOptions,
+        encryptionContext: updatedOptions.encryptionContext,
       });
       // append() with empty data would return error, so do not continue
       if (size === 0) {
@@ -1715,6 +1721,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         pathHttpHeaders: options.pathHttpHeaders,
         customerProvidedKey: options.customerProvidedKey,
         tracingOptions: updatedOptions.tracingOptions,
+        encryptionContext: updatedOptions.encryptionContext,
       });
 
       // After the File is Create, Lease ID is the only valid request parameter.

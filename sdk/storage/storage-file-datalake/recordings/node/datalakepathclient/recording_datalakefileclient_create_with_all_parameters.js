@@ -1,115 +1,115 @@
 let nock = require('nock');
 
-module.exports.hash = "2eae36d94f824b56537def308ffd3870";
+module.exports.hash = "154e5736c8f1222181d1491bbf75618c";
 
-module.exports.testInfo = {"uniqueName":{"filesystem":"filesystem165451934558606952","file":"file165451934806101062","testfile":"testfile165451935515900121"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{"filesystem":"filesystem167782474240006248","file":"file167782474267809056","testfile":"testfile167782474351307497"},"newDate":{}}
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/filesystem165451934558606952')
+  .put('/filesystem167782474240006248')
   .query(true)
   .reply(201, "", [
   'Transfer-Encoding',
   'chunked',
   'Last-Modified',
-  'Mon, 06 Jun 2022 12:42:27 GMT',
+  'Fri, 03 Mar 2023 06:25:42 GMT',
   'ETag',
-  '"0x8DA47BA03511AB3"',
+  '"0x8DB1BB01DB19E94"',
   'x-ms-request-id',
-  '346ac4b8-701e-0008-0ba2-79c247000000',
+  '9c318182-201e-0000-0498-4de568000000',
   'x-ms-client-request-id',
-  '4f1d9005-f97e-4208-bc7c-9ef2b6e09d41',
+  'd396b7c8-4880-4e41-8a47-03e7f94ea077',
   'x-ms-version',
-  '2021-06-08',
+  '2021-12-02',
   'Date',
-  'Mon, 06 Jun 2022 12:42:27 GMT'
+  'Fri, 03 Mar 2023 06:25:42 GMT'
 ]);
 
 nock('https://fakestorageaccount.dfs.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/filesystem165451934558606952/file165451934806101062')
+  .put('/filesystem167782474240006248/file167782474267809056')
   .query(true)
   .reply(201, "", [
   'Last-Modified',
-  'Mon, 06 Jun 2022 12:42:29 GMT',
+  'Fri, 03 Mar 2023 06:25:43 GMT',
   'ETag',
-  '"0x8DA47BA04A47D7A"',
+  '"0x8DB1BB01DDF1DDA"',
   'x-ms-request-server-encrypted',
   'true',
   'x-ms-request-id',
-  '36ee0cbb-701f-0008-28a2-79c247000000',
+  '73489dd0-601f-0004-7798-4d0ec4000000',
   'x-ms-version',
-  '2021-08-06',
+  '2022-11-02',
   'x-ms-client-request-id',
-  'd5a44c52-4e6c-49fc-a533-1a1e31135aa6',
+  'ac9c4dbe-16e3-4804-870b-7846b9a52196',
   'Date',
-  'Mon, 06 Jun 2022 12:42:29 GMT',
+  'Fri, 03 Mar 2023 06:25:42 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://fakestorageaccount.dfs.core.windows.net:443', {"encodedQueryParams":true})
-  .patch('/filesystem165451934558606952/file165451934806101062', "Hello World")
+  .patch('/filesystem167782474240006248/file167782474267809056', "Hello World")
   .query(true)
   .reply(202, "", [
   'x-ms-request-server-encrypted',
   'true',
   'x-ms-request-id',
-  '36ee0cbc-701f-0008-29a2-79c247000000',
+  '73489dd1-601f-0004-7898-4d0ec4000000',
   'x-ms-version',
-  '2021-08-06',
+  '2022-11-02',
   'x-ms-client-request-id',
-  '566d8f51-863e-4327-9cfe-1373267d7bfe',
+  'd92ff710-7bd3-46ce-bd3f-836741a83746',
   'Date',
-  'Mon, 06 Jun 2022 12:42:29 GMT',
+  'Fri, 03 Mar 2023 06:25:43 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://fakestorageaccount.dfs.core.windows.net:443', {"encodedQueryParams":true})
-  .patch('/filesystem165451934558606952/file165451934806101062')
+  .patch('/filesystem167782474240006248/file167782474267809056')
   .query(true)
   .reply(200, "", [
   'Last-Modified',
-  'Mon, 06 Jun 2022 12:42:29 GMT',
+  'Fri, 03 Mar 2023 06:25:43 GMT',
   'ETag',
-  '"0x8DA47BA04FD3474"',
+  '"0x8DB1BB01E34C60F"',
   'x-ms-request-server-encrypted',
   'false',
   'x-ms-request-id',
-  '36ee0cbd-701f-0008-2aa2-79c247000000',
+  '73489dd2-601f-0004-7998-4d0ec4000000',
   'x-ms-version',
-  '2021-08-06',
+  '2022-11-02',
   'x-ms-client-request-id',
-  'a04b8a65-9e77-40f9-889e-d296bda147c5',
+  '4c687b12-79e8-4795-ab77-9f5f81253b80',
   'Date',
-  'Mon, 06 Jun 2022 12:42:29 GMT',
+  'Fri, 03 Mar 2023 06:25:43 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://fakestorageaccount.dfs.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/filesystem165451934558606952/testfile165451935515900121')
+  .put('/filesystem167782474240006248/testfile167782474351307497')
   .query(true)
   .reply(201, "", [
   'Last-Modified',
-  'Mon, 06 Jun 2022 12:42:35 GMT',
+  'Fri, 03 Mar 2023 06:25:44 GMT',
   'ETag',
-  '"0x8DA47BA0837E42C"',
+  '"0x8DB1BB01E5E13DC"',
   'x-ms-request-server-encrypted',
   'true',
   'x-ms-request-id',
-  '36ee0cbe-701f-0008-2ba2-79c247000000',
+  '73489dd3-601f-0004-7a98-4d0ec4000000',
   'x-ms-version',
-  '2021-08-06',
+  '2022-11-02',
   'x-ms-client-request-id',
-  'ea8ce5a1-e7a2-40bb-a6cc-8ae74aa81ed5',
+  'de0dcdf1-ec50-43ef-93e2-40949df1b86d',
   'Date',
-  'Mon, 06 Jun 2022 12:42:34 GMT',
+  'Fri, 03 Mar 2023 06:25:43 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .head('/filesystem165451934558606952/testfile165451935515900121')
+  .head('/filesystem167782474240006248/testfile167782474351307497')
   .reply(200, [], [
   'Cache-Control',
   'control',
@@ -122,17 +122,17 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Content-Language',
   'language',
   'Last-Modified',
-  'Mon, 06 Jun 2022 12:42:35 GMT',
+  'Fri, 03 Mar 2023 06:25:44 GMT',
   'Accept-Ranges',
   'bytes',
   'ETag',
-  '"0x8DA47BA0837E42C"',
+  '"0x8DB1BB01E5E13DC"',
   'x-ms-request-id',
-  '346ac4bf-701e-0008-0da2-79c247000000',
+  '9c318185-201e-0000-0598-4de568000000',
   'x-ms-client-request-id',
-  'c1f731aa-d97e-4e19-ba64-6696f9705172',
+  'fde119d1-ab8c-4d5d-9681-0481b587be2b',
   'x-ms-version',
-  '2021-06-08',
+  '2021-12-02',
   'x-ms-resource-type',
   'file',
   'x-ms-meta-a',
@@ -140,9 +140,9 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'x-ms-meta-b',
   'b',
   'x-ms-creation-time',
-  'Mon, 06 Jun 2022 12:42:35 GMT',
+  'Fri, 03 Mar 2023 06:25:44 GMT',
   'x-ms-expiry-time',
-  'Mon, 06 Jun 2022 12:43:35 GMT',
+  'Fri, 03 Mar 2023 06:26:44 GMT',
   'x-ms-lease-status',
   'locked',
   'x-ms-lease-state',
@@ -155,6 +155,8 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'disposition',
   'x-ms-server-encrypted',
   'true',
+  'x-ms-encryption-context',
+  'EncryptionContext',
   'x-ms-access-tier',
   'Cool',
   'x-ms-access-tier-inferred',
@@ -165,24 +167,18 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   '$superuser',
   'x-ms-permissions',
   'rwx-w----',
-  'Access-Control-Expose-Headers',
-  'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,x-ms-resource-type,x-ms-meta-a,x-ms-meta-b,Content-Type,Content-Encoding,Content-Language,Cache-Control,Last-Modified,ETag,x-ms-creation-time,x-ms-expiry-time,x-ms-lease-status,x-ms-lease-state,x-ms-lease-duration,x-ms-blob-type,Content-Disposition,x-ms-server-encrypted,x-ms-access-tier,x-ms-access-tier-inferred,Accept-Ranges,x-ms-owner,x-ms-group,x-ms-permissions',
-  'Access-Control-Allow-Origin',
-  '*',
   'Date',
-  'Mon, 06 Jun 2022 12:42:34 GMT'
+  'Fri, 03 Mar 2023 06:25:44 GMT'
 ]);
 
 nock('https://fakestorageaccount.dfs.core.windows.net:443', {"encodedQueryParams":true})
-  .head('/filesystem165451934558606952/testfile165451935515900121')
+  .head('/filesystem167782474240006248/testfile167782474351307497')
   .query(true)
   .reply(200, "", [
   'Last-Modified',
-  'Mon, 06 Jun 2022 12:42:35 GMT',
+  'Fri, 03 Mar 2023 06:25:44 GMT',
   'ETag',
-  '"0x8DA47BA0837E42C"',
-  'Vary',
-  'Origin',
+  '"0x8DB1BB01E5E13DC"',
   'x-ms-owner',
   '$superuser',
   'x-ms-group',
@@ -192,27 +188,27 @@ nock('https://fakestorageaccount.dfs.core.windows.net:443', {"encodedQueryParams
   'x-ms-acl',
   'user::rwx,group::-w-,other::---',
   'x-ms-request-id',
-  '36ee0cbf-701f-0008-2ca2-79c247000000',
+  '73489dd4-601f-0004-7b98-4d0ec4000000',
   'x-ms-version',
-  '2021-08-06',
+  '2022-11-02',
   'x-ms-client-request-id',
-  '343b6713-b721-4801-9f08-8c582e8c2dc1',
+  '190cfc69-eaef-411b-b8e1-b1e0ca2574ea',
   'Date',
-  'Mon, 06 Jun 2022 12:42:36 GMT'
+  'Fri, 03 Mar 2023 06:25:44 GMT'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/filesystem165451934558606952')
+  .delete('/filesystem167782474240006248')
   .query(true)
   .reply(202, "", [
   'Transfer-Encoding',
   'chunked',
   'x-ms-request-id',
-  '346ac4c0-701e-0008-0ea2-79c247000000',
+  '9c318186-201e-0000-0698-4de568000000',
   'x-ms-client-request-id',
-  'e692d14c-933a-4d19-b2eb-37d320d0833b',
+  '7e74ecfb-545f-41f2-942e-8dcd973666c3',
   'x-ms-version',
-  '2021-06-08',
+  '2021-12-02',
   'Date',
-  'Mon, 06 Jun 2022 12:42:37 GMT'
+  'Fri, 03 Mar 2023 06:25:44 GMT'
 ]);

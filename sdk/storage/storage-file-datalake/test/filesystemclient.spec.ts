@@ -260,6 +260,28 @@ describe("DataLakeFileSystemClient", () => {
     await dirClient.delete();
   });
 
+  it("listPaths - Encryption context", async function (this: Context) {
+    const encryptionContext = "EncryptionContext";
+
+    const cClient = serviceClient.getFileSystemClient(recorder.getUniqueName(fileSystemName));
+    await cClient.create();
+
+    const fileClient = cClient.getFileClient(recorder.getUniqueName(`file`));
+    await fileClient.create({ encryptionContext: encryptionContext });
+
+    const dirClient = cClient.getFileClient(recorder.getUniqueName(`dir`));
+    await dirClient.create({ encryptionContext: encryptionContext });
+
+    const result = (await cClient.listPaths().byPage().next()).value as FileSystemListPathsResponse;
+
+    assert.equal(result.pathItems!.length, 2);
+    assert.equal(result.pathItems![0].encryptionContext, encryptionContext);
+    assert.equal(result.pathItems![1].encryptionContext, encryptionContext);
+
+    await fileClient.delete();
+    await dirClient.delete();
+  });
+
   it("listPaths - PagedAsyncIterableIterator with Encryption Scope", async function (this: Context) {
     let encryptionScopeName;
     try {

@@ -353,7 +353,8 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.proposedLeaseId,
     Parameters.leaseDuration,
     Parameters.expiryOptions,
-    Parameters.expiresOn
+    Parameters.expiresOn,
+    Parameters.encryptionContext
   ],
   serializer
 };
