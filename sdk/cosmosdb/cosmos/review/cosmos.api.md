@@ -961,6 +961,14 @@ export { Location_2 as Location }
 export type Next<T> = (context: RequestContext) => Promise<Response_2<T>>;
 
 // @public
+export type NonePartitionKeyType = {
+    [K in any]: never;
+};
+
+// @public
+export type NullPartitionKeyType = null;
+
+// @public
 export class Offer {
     constructor(client: CosmosClient, id: string, clientContext: ClientContext);
     // (undocumented)
@@ -1082,20 +1090,32 @@ export interface PartitionedQueryExecutionInfo {
     queryRanges: QueryRange[];
 }
 
-// Warning: (ae-forgotten-export) The symbol "PrimitivePartitionKeyValue" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
+// @public
 export type PartitionKey = PrimitivePartitionKeyValue | PrimitivePartitionKeyValue[];
 
 // @public (undocumented)
 export interface PartitionKeyDefinition {
-    // Warning: (ae-forgotten-export) The symbol "PartitionKeyKind" needs to be exported by the entry point index.d.ts
     kind?: PartitionKeyKind;
     paths: string[];
     // (undocumented)
     systemKey?: boolean;
-    // Warning: (ae-forgotten-export) The symbol "PartitionKeyDefinitionVersion" needs to be exported by the entry point index.d.ts
     version?: PartitionKeyDefinitionVersion;
+}
+
+// @public
+export enum PartitionKeyDefinitionVersion {
+    // (undocumented)
+    V1 = 1,
+    // (undocumented)
+    V2 = 2
+}
+
+// @public
+export enum PartitionKeyKind {
+    // (undocumented)
+    Hash = "Hash",
+    // (undocumented)
+    MultiHash = "MultiHash"
 }
 
 // @public (undocumented)
@@ -1228,6 +1248,9 @@ export enum PluginOn {
     operation = "operation",
     request = "request"
 }
+
+// @public
+export type PrimitivePartitionKeyValue = string | number | boolean | NullPartitionKeyType | NonePartitionKeyType;
 
 // @public (undocumented)
 export interface QueryInfo {
