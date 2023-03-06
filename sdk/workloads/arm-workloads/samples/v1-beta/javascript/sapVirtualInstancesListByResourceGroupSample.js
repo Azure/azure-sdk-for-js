@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { WorkloadsClient } = require("@azure/arm-workloads");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
- * This sample demonstrates how to Gets all Virtual Instances for SAP in a resource group.
+ * This sample demonstrates how to Gets all Virtual Instances for SAP solutions resources in a Resource Group.
  *
- * @summary Gets all Virtual Instances for SAP in a resource group.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_ListByResourceGroup.json
+ * @summary Gets all Virtual Instances for SAP solutions resources in a Resource Group.
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_ListByResourceGroup.json
  */
 async function sapVirtualInstancesListByResourceGroup() {
-  const subscriptionId = "6d875e77-e412-4d7d-9af4-8895278b4443";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] || "6d875e77-e412-4d7d-9af4-8895278b4443";
+  const resourceGroupName = process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
   const credential = new DefaultAzureCredential();
   const client = new WorkloadsClient(credential, subscriptionId);
   const resArray = new Array();
@@ -29,4 +31,8 @@ async function sapVirtualInstancesListByResourceGroup() {
   console.log(resArray);
 }
 
-sapVirtualInstancesListByResourceGroup().catch(console.error);
+async function main() {
+  sapVirtualInstancesListByResourceGroup();
+}
+
+main().catch(console.error);

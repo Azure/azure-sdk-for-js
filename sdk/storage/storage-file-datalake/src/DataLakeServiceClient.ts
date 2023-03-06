@@ -3,17 +3,22 @@
 
 import "@azure/core-paging";
 
-import { getDefaultProxySettings, isNode, TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
+import { isNode } from "@azure/core-util";
 import {
+  AnonymousCredential,
   BlobServiceClient,
   ServiceGetPropertiesOptions,
   ServiceSetPropertiesOptions,
   ServiceSetPropertiesResponse,
+  Pipeline,
+  StoragePipelineOptions,
+  newPipeline,
 } from "@azure/storage-blob";
-
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
+
 import { DataLakeFileSystemClient } from "./DataLakeFileSystemClient";
 import {
   FileSystemItem,
@@ -25,7 +30,6 @@ import {
   ServiceUndeleteFileSystemOptions,
   FileSystemUndeleteResponse,
 } from "./models";
-import { Pipeline, StoragePipelineOptions, newPipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import {
   appendToURLPath,

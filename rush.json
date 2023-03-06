@@ -326,6 +326,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/purview-sharing",
+      "projectFolder": "sdk/purview/purview-sharing-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/purview-workflow",
       "projectFolder": "sdk/purview/purview-workflow-rest",
       "versionPolicyName": "client"
@@ -428,6 +433,11 @@
     {
       "packageName": "@azure-tools/communication-alpha-ids",
       "projectFolder": "sdk/communication/communication-alpha-ids",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-tools/communication-toll-free-verification",
+      "projectFolder": "sdk/communication/communication-toll-free-verification",
       "versionPolicyName": "client"
     },
     {

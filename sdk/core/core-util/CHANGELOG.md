@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.2 (Unreleased)
+## 1.2.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.2.0 (2023-03-02)
+
+### Features Added
+
+- Add `createAbortablePromise` which creates promises that can be aborted.
 
 ## 1.1.1 (2022-10-06)
 

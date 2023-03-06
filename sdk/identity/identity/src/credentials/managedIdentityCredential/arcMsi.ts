@@ -107,6 +107,7 @@ async function filePathRequest(
  * Defines how to determine whether the Azure Arc MSI is available, and also how to retrieve a token from the Azure Arc MSI.
  */
 export const arcMsi: MSI = {
+  name: "arc",
   async isAvailable({ scopes }): Promise<boolean> {
     const resource = mapScopesToResource(scopes);
     if (!resource) {

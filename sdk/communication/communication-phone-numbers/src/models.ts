@@ -67,6 +67,16 @@ export interface ListLocalitiesOptions extends OperationOptions {
 }
 
 /**
+ * Additional options that can be passed to list SIP routes.
+ */
+export interface ListSipRoutesOptions extends OperationOptions {}
+
+/**
+ * Additional options that can be passed to list SIP trunks.
+ */
+export interface ListSipTrunksOptions extends OperationOptions {}
+
+/**
  * Additional options that can be passed to the available offerings request.
  */
 export interface ListOfferingsOptions extends OperationOptions {

@@ -74,6 +74,7 @@ describe("GlobalEndpointManager", function () {
         "https://test-eastus2.documents.azure.com:443/"
       );
     });
+
     it("should allow you to pass a normalized preferred location", async function () {
       gem = new GlobalEndpointManager(
         {
@@ -99,6 +100,7 @@ describe("GlobalEndpointManager", function () {
         "https://test-eastus2.documents.azure.com:443/"
       );
     });
+
     it("should resolve to endpoint when call made after server unavailability time", async function () {
       const clock: fakeTimers.InstalledClock = fakeTimers.install();
 
@@ -119,25 +121,19 @@ describe("GlobalEndpointManager", function () {
           return response;
         }
       );
-
+      await gem.refreshEndpointList();
       await gem.markCurrentLocationUnavailableForRead(
         "https://test-westus2.documents.azure.com:443/"
       );
-      assert.equal(
-        await gem.resolveServiceEndpoint(ResourceType.item, OperationType.Read),
-        "https://test.documents.azure.com:443/"
-      );
+      assert.equal(await gem.getReadEndpoint(), "https://test-eastus2.documents.azure.com:443/");
       clock.tick(locationUnavailabilityExpiratationTime);
       await gem.refreshEndpointList();
-      assert.equal(
-        await gem.resolveServiceEndpoint(ResourceType.item, OperationType.Read),
-        "https://test-westus2.documents.azure.com:443/"
-      );
+      assert.equal(await gem.getReadEndpoint(), "https://test-westus2.documents.azure.com:443/");
       clock.uninstall();
     });
   });
 
-  describe("#markCurrentLocationUnavailableForRead", function () {
+  describe("#markCurrentLocationUnavailable", function () {
     const gem = new GlobalEndpointManager(
       {
         endpoint: "https://test.documents.azure.com:443/",
@@ -157,16 +153,19 @@ describe("GlobalEndpointManager", function () {
       }
     );
 
+    beforeEach(async () => {
+      await gem.refreshEndpointList();
+    });
+
     it("should mark the current location unavailable for read", async function () {
       // We don't block on init for database account calls
       await gem.markCurrentLocationUnavailableForRead(
-        "https://test-westus2.documents.azure.com:443/"
+        "https://test-eastus2.documents.azure.com:443/"
       );
-
       /* As we have marked current location unavailable for read,
         next read should go to the next location or default endpoint
       */
-      assert.equal(await gem.getReadEndpoint(), "https://test.documents.azure.com:443/");
+      assert.equal(await gem.getReadEndpoint(), "https://test-westus2.documents.azure.com:443/");
     });
     it("should mark the current location unavailable for write", async function () {
       // We don't block on init for database account calls

@@ -131,6 +131,7 @@ If used from Node.js, the `DefaultAzureCredential` will attempt to authenticate 
 ![DefaultAzureCredential authentication flow][defaultauthflow_image]
 
 1. **Environment** - The `DefaultAzureCredential` will read account information specified via [environment variables](#environment-variables) and use it to authenticate.
+1. **Workload Identity** - If the application is deployed to Azure Kubernetes Service with Managed Identity enabled, `DefaultAzureCredential` will authenticate with it.
 1. **Managed Identity** - If the application is deployed to an Azure host with Managed Identity enabled, the `DefaultAzureCredential` will authenticate with that account.
 1. **Azure Developer CLI** - If the developer has authenticated an account via the Azure Developer CLI `azd login` command, the `DefaultAzureCredential` will authenticate with that account.
 1. **Azure CLI** - If the developer has authenticated an account via the Azure CLI `az login` command, the `DefaultAzureCredential` will authenticate with that account.
@@ -236,6 +237,7 @@ Not all credentials require this configuration. Credentials that authenticate th
 | [`ChainedTokenCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/chainedtokencredential?view=azure-node-latest)       | Allows users to define custom authentication flows composing multiple credentials.                               | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#chaining-credentials)                                            |
 | [`EnvironmentCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/environmentcredential?view=azure-node-latest)         | Authenticates a service principal or user via credential information specified in environment variables.         | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-service-principal-with-environment-credentials) |
 | [`ManagedIdentityCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/managedidentitycredential?view=azure-node-latest) | Authenticates the managed identity of an Azure resource.                                                         | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-in-azure-with-managed-identity)                   |
+|`WorkloadIdentityCredential`| Supports [Azure AD workload identity](https://learn.microsoft.com/azure/aks/workload-identity-overview) on Kubernetes. | |
 
 ### Authenticate service principals
 

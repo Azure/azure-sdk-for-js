@@ -1,17 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 
-import {
-  DataLakeFileSystemClient,
-  FileSystemSASPermissions,
-  newPipeline,
-  StorageSharedKeyCredential,
-} from "../../src";
+import { DataLakeFileSystemClient, FileSystemSASPermissions, newPipeline } from "../../src";
 import { PublicAccessType } from "../../src/models";
 import { getDataLakeServiceClient, recorderEnvSetup } from "../utils";
 import { assertClientUsesTokenCredential } from "../utils/assert";
@@ -81,8 +76,7 @@ describe("DataLakeFileSystemClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential", async () => {
-    const factories = (fileSystemClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = fileSystemClient.credential;
     const newClient = new DataLakeFileSystemClient(fileSystemClient.url, credential);
 
     const result = await newClient.getProperties();
@@ -99,8 +93,7 @@ describe("DataLakeFileSystemClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
-    const factories = (fileSystemClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = fileSystemClient.credential;
     const newClient = new DataLakeFileSystemClient(fileSystemClient.url, credential, {
       retryOptions: {
         maxTries: 5,
@@ -133,8 +126,7 @@ describe("DataLakeFileSystemClient Node.js only", () => {
   });
 
   it("can be created with a url and a pipeline", async () => {
-    const factories = (fileSystemClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = fileSystemClient.credential;
     const pipeline = newPipeline(credential);
     const newClient = new DataLakeFileSystemClient(fileSystemClient.url, pipeline);
 
