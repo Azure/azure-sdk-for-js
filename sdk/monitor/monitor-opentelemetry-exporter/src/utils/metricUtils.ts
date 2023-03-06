@@ -3,19 +3,8 @@
 
 import { Attributes } from "@opentelemetry/api";
 import { DataPointType, Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics";
-import {
-  TelemetryItem as Envelope,
-  MetricsData,
-  MetricDataPoint,
-  KnownContextTagKeys,
-} from "../generated";
-import { Tags } from "../types";
-import {
-  PreAggregatedMetricPropertyNames,
-  StandardMetricIds,
-  StandardMetrics,
-} from "./constants/applicationinsights";
-import { createTagsFromResource, getDependencyTarget } from "./common";
+import { TelemetryItem as Envelope, MetricsData, MetricDataPoint } from "../generated";
+import { createTagsFromResource } from "./common";
 
 function createPropertiesFromMetricAttributes(attributes?: Attributes): {
   [propertyName: string]: string;
