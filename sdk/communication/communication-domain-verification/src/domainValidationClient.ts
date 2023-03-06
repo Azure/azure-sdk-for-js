@@ -2,20 +2,25 @@
 // Licensed under the MIT license.
 
 import {
-  CreateDomainOwnershipChallengeOptions, DomainOwnershipChallenge,
-  VerifyDomainOwnershipOptions, DomainOwnership
-} from './models';
+  CreateDomainOwnershipChallengeOptions,
+  DomainOwnershipChallenge,
+  VerifyDomainOwnershipOptions,
+  DomainOwnership,
+} from "./models";
+import { ConvertToDomainOwnership } from "./mappers";
 import {
-  ConvertToDomainOwnership
-} from './mappers'
+  createCommunicationAuthPolicy,
+  isKeyCredential,
+  parseClientArguments,
+} from "@azure/communication-common";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
+import { tracingClient, logger } from "./utils";
 import {
-    createCommunicationAuthPolicy, isKeyCredential, parseClientArguments
-} from '@azure/communication-common';
-import { KeyCredential, TokenCredential, isTokenCredential } from '@azure/core-auth';
-import { CommonClientOptions, InternalClientPipelineOptions } from '@azure/core-client';
-import { tracingClient, logger } from './utils';
-import { CommunicationError, DomainVerificationClient as DomainVerificationGeneratedClient } from './generated/src';
-import { KnownChallengeType} from './generated/src/models'
+  CommunicationError,
+  DomainVerificationClient as DomainVerificationGeneratedClient,
+} from "./generated/src";
+import { KnownChallengeType } from "./generated/src/models";
 
 /**
  * Client options used to configure DomainVerification Client API requests.
@@ -26,17 +31,17 @@ export interface DomainVerificationClientOptions extends CommonClientOptions {}
  * Checks whether the type of a value is DomainVerificationClientOptions or not.
  *
  * @param options - The value being checked.
- * @returns 
+ * @returns
  */
 const isDomainVerificationClientOptions = (
   options: any
 ): options is DomainVerificationClientOptions =>
   options && !isKeyCredential(options) && !isTokenCredential(options);
 
-  /**
-   * A DomainVerificationClient represents a Client to the Azure Communication Domain Verification service allowing you
-   * to verify domain.
-   */
+/**
+ * A DomainVerificationClient represents a Client to the Azure Communication Domain Verification service allowing you
+ * to verify domain.
+ */
 export class DomainVerificationClient {
   private client: DomainVerificationGeneratedClient;
 
@@ -106,17 +111,20 @@ export class DomainVerificationClient {
     domain: string,
     options: CreateDomainOwnershipChallengeOptions = {}
   ): Promise<DomainOwnershipChallenge> {
-    return tracingClient.withSpan("DomainVerificationClient-createDomainOwnershipChallenge", options, async (updatedOptions) => {
-      try {
-        return await this.client.createDomainOwnershipChallenge.post(domain, updatedOptions);
-      } catch (e: any) {
-        throw {
-          code: e.code,
-          message: e.message,
-        } as CommunicationError;
+    return tracingClient.withSpan(
+      "DomainVerificationClient-createDomainOwnershipChallenge",
+      options,
+      async (updatedOptions) => {
+        try {
+          return await this.client.createDomainOwnershipChallenge.post(domain, updatedOptions);
+        } catch (e: any) {
+          throw {
+            code: e.code,
+            message: e.message,
+          } as CommunicationError;
+        }
       }
-    });
-    
+    );
   }
 
   /**
@@ -130,16 +138,24 @@ export class DomainVerificationClient {
     domain: string,
     options: VerifyDomainOwnershipOptions = {}
   ): Promise<DomainOwnership> {
-    return tracingClient.withSpan("DomainVerificationClient-verifyDomainOwnership",options,async (updatedOptions) => {
-      try {
-        var result = await this.client.verifyDomainOwnership.post(domain, KnownChallengeType.TXT, updatedOptions);
-        return ConvertToDomainOwnership(result);
-      } catch (e: any) {
-        throw {
-          code: e.code,
-          message: e.message,
-        } as CommunicationError;
+    return tracingClient.withSpan(
+      "DomainVerificationClient-verifyDomainOwnership",
+      options,
+      async (updatedOptions) => {
+        try {
+          const result = await this.client.verifyDomainOwnership.post(
+            domain,
+            KnownChallengeType.TXT,
+            updatedOptions
+          );
+          return ConvertToDomainOwnership(result);
+        } catch (e: any) {
+          throw {
+            code: e.code,
+            message: e.message,
+          } as CommunicationError;
+        }
       }
-    });    
+    );
   }
 }

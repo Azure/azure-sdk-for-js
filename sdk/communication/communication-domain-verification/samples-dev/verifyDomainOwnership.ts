@@ -5,9 +5,7 @@
  * @summary Demonstrates the use of a DomainVerificationClient to create domain ownership challenge and verify domain ownership.
  */
 
-import {
-  DomainVerificationClient,
-} from "@azure-tools/communication-domain-verification";
+import { DomainVerificationClient } from "@azure-tools/communication-domain-verification";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";

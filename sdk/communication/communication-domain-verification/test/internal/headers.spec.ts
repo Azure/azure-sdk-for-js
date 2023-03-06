@@ -9,7 +9,7 @@ import sinon from "sinon";
 import { DomainVerificationClient } from "../../src/domainValidationClient";
 import { Context } from "mocha";
 import { createMockToken } from "../public/utils/recordedClient";
-import { getDomainOwnershipChallengeHttpClient } from '../public/utils/mockHttpClients'
+import { getDomainOwnershipChallengeHttpClient } from "../public/utils/mockHttpClients";
 import { PipelineRequest } from "@azure/core-rest-pipeline";
 import { SDK_VERSION } from "../../src/utils/constants";
 
@@ -19,7 +19,7 @@ describe("SipRoutingClient - headers", function () {
   const domainName = "contoso.com";
 
   let client = new DomainVerificationClient(endpoint, new AzureKeyCredential(accessKey), {
-    httpClient: getDomainOwnershipChallengeHttpClient
+    httpClient: getDomainOwnershipChallengeHttpClient,
   });
   let request: PipelineRequest;
 
