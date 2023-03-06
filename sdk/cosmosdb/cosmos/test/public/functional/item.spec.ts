@@ -633,6 +633,56 @@ describe("bulk/batch item operations", async function () {
           assert.equal(response[4].resourceBody.name, "nice");
           assert.equal(response[4].statusCode, 200);
         });
+        it("Check case when cumulative size of all operations is less than threshold", async function () {
+          const operations: OperationInput[] = [...Array(10).keys()].map(
+            () =>
+              ({
+                ...generateOperationOfSize(
+                  100,
+                  { partitionKey: "key_value" },
+                  { key: "key_value" }
+                ),
+              } as any)
+          );
+          const response = await container.items.bulk(operations);
+          // Create
+          response.forEach((res, index) =>
+            assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`)
+          );
+        });
+        it("Check case when cumulative size of all operations is greater than threshold", async function () {
+          const operations: OperationInput[] = [...Array(10).keys()].map(
+            () =>
+              ({
+                ...generateOperationOfSize(
+                  Math.floor(Constants.DefaultMaxBulkRequestBodySizeInBytes / 2)
+                ),
+                partitionKey: {},
+              } as any)
+          );
+          const response = await container.items.bulk(operations);
+          // Create
+          response.forEach((res, index) =>
+            assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`)
+          );
+        });
+        it("Check case when cumulative size of all operations is greater than threshold", async function () {
+          const operations: OperationInput[] = [...Array(50).keys()].map(
+            () =>
+              ({
+                ...generateOperationOfSize(
+                  Math.floor(Constants.DefaultMaxBulkRequestBodySizeInBytes / 2),
+                  {},
+                  { key: "key_value" }
+                ),
+              } as any)
+          );
+          const response = await container.items.bulk(operations);
+          // Create
+          response.forEach((res, index) =>
+            assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`)
+          );
+        });
       });
       describe("single partition container", async function () {
         let container: Container;
