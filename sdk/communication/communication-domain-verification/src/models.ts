@@ -2,13 +2,9 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-client";
-import {
-  Status as DomainVerificationStatus
-} from "./generated/src/models";
+import { Status as DomainVerificationStatus } from "./generated/src/models";
 
-export {
-  Status as DomainVerificationStatus
-} from "./generated/src/models";
+export { Status as DomainVerificationStatus } from "./generated/src/models";
 
 /** Represents Domain that was verified */
 export interface DomainOwnership {

@@ -26,4 +26,5 @@ export const createMockHttpClient = <T = Record<string, unknown>>(
   };
 };
 
-export const getDomainOwnershipChallengeHttpClient: HttpClient = createMockHttpClient<DomainOwnershipChallenge>(200, { "value": "MS123456" } );
+export const getDomainOwnershipChallengeHttpClient: HttpClient =
+  createMockHttpClient<DomainOwnershipChallenge>(200, { value: "MS123456" });

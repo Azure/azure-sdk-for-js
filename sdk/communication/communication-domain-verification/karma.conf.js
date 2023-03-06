@@ -63,7 +63,7 @@ module.exports = function (config) {
       "AZURE_LOG_LEVEL",
       "RECORDINGS_RELATIVE_PATH",
       "ACS_DOMAIN_OWNERSHIP_CHALLENGE",
-      "ACS_VERIFIED_DOMAIN_NAME"
+      "ACS_VERIFIED_DOMAIN_NAME",
     ],
 
     // test results reporter to use

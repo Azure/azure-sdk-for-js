@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DomainVerificationStatus } from '../../../src/models';
-import { API_VERSION, ROOT_DOMAIN } from '../../../src/utils/constants'
+import { DomainVerificationStatus } from "../../../src/models";
+import { API_VERSION, ROOT_DOMAIN } from "../../../src/utils/constants";
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
+import * as dotenv from "dotenv";
 dotenv.config();
 
 const DEFAULT_ACS_VERIFIED_DOMAIN = `domain-1-${API_VERSION}.${ROOT_DOMAIN}`;
@@ -28,5 +28,5 @@ export function getInvalidDomain(): string {
 }
 
 export function getDomainStatus(): DomainVerificationStatus {
-  return  "NotVerified";
+  return "NotVerified";
 }

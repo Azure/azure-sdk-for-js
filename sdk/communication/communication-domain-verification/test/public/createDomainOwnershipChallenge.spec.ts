@@ -2,13 +2,16 @@
 // Licensed under the MIT license.
 
 import {
-  getDomain, getEmptyDomain, getInvalidDomain, getVerificationValue
-} from './utils/testDomainValidationData';
-import { assert } from 'chai';
-import { Context } from 'mocha';
-import { Recorder } from '@azure-tools/test-recorder';
-import { DomainVerificationClient } from '../../src';
-import { createRecordedClient } from './utils/recordedClient';
+  getDomain,
+  getEmptyDomain,
+  getInvalidDomain,
+  getVerificationValue,
+} from "./utils/testDomainValidationData";
+import { assert } from "chai";
+import { Context } from "mocha";
+import { Recorder } from "@azure-tools/test-recorder";
+import { DomainVerificationClient } from "../../src";
+import { createRecordedClient } from "./utils/recordedClient";
 
 describe("Domain Verification Client - Create Domain Ownership Challenge", () => {
   let recorder: Recorder;

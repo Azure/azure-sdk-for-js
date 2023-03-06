@@ -1,18 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as dotenv from 'dotenv';
+import * as dotenv from "dotenv";
 
 import {
-    Recorder, RecorderStartOptions, assertEnvironmentVariable, env, isPlaybackMode
-} from '@azure-tools/test-recorder';
-import { TokenCredential } from '@azure/identity';
-import { parseConnectionString } from '@azure/communication-common';
-import { AdditionalPolicyConfig } from '@azure/core-client';
-import { Context, Test } from 'mocha';
-import { isNode } from '@azure/test-utils';
-import { DomainVerificationClient } from '../../../src';
-import { createMSUserAgentPolicy } from './msUserAgentPolicy';
+  Recorder,
+  RecorderStartOptions,
+  assertEnvironmentVariable,
+  env,
+  isPlaybackMode,
+} from "@azure-tools/test-recorder";
+import { TokenCredential } from "@azure/identity";
+import { parseConnectionString } from "@azure/communication-common";
+import { AdditionalPolicyConfig } from "@azure/core-client";
+import { Context, Test } from "mocha";
+import { isNode } from "@azure/test-utils";
+import { DomainVerificationClient } from "../../../src";
+import { createMSUserAgentPolicy } from "./msUserAgentPolicy";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 if (isNode) {
@@ -80,7 +84,8 @@ export async function createRecordedClient(
   return {
     client: new DomainVerificationClient(
       assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"),
-      recorder.configureClientOptions({ additionalPolicies: policies})),
+      recorder.configureClientOptions({ additionalPolicies: policies })
+    ),
     recorder,
   };
 }
@@ -104,13 +109,13 @@ export async function createRecordedClientWithToken(
   const client = new DomainVerificationClient(
     endpoint,
     credential,
-    recorder.configureClientOptions({ additionalPolicies: getAdditionalPolicies()})
-  )
+    recorder.configureClientOptions({ additionalPolicies: getAdditionalPolicies() })
+  );
 
-  return {client, recorder};
+  return { client, recorder };
 }
 
-export function getAdditionalPolicies():AdditionalPolicyConfig[] {  
+export function getAdditionalPolicies(): AdditionalPolicyConfig[] {
   const additionalPolicies: AdditionalPolicyConfig[] = [
     {
       policy: createMSUserAgentPolicy(false),
