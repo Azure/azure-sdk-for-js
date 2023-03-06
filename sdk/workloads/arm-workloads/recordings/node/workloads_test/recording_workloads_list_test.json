@@ -1,0 +1,39 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Workloads/monitors?api-version=2023-04-01/subscriptions/azure_subscription_id/providers/Microsoft.Workloads/monitors?api-version=2023-04-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-workloads/1.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "0ed59976-8045-4b3c-805c-4c97795d94d9"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "369",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 06 Mar 2023 09:13:11 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "daf97ddd-ab7e-4d47-a63a-4083e493e063",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "daf97ddd-ab7e-4d47-a63a-4083e493e063",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230306T091311Z:daf97ddd-ab7e-4d47-a63a-4083e493e063"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidResourceType",
+          "message": "The resource type \u0027monitors\u0027 could not be found in the namespace \u0027Microsoft.Workloads\u0027 for api version \u00272023-04-01/subscriptions/azure_subscription_id/providers/Microsoft.Workloads/monitors?api-version=2023-04-01\u0027. The supported api-versions are \u00272021-12-01-preview,2022-11-01-preview,2022-10-15-preview,2023-04-01\u0027."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

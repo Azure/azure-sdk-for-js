@@ -1,0 +1,55 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Workloads/monitors/myMonitor?api-version=2023-04-01/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Workloads/monitors/myMonitor?api-version=2023-04-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "487",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-workloads/1.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "b438a0bd-7f4d-4217-9290-8b390c96ecf7"
+      },
+      "RequestBody": {
+        "tags": {
+          "key": "value"
+        },
+        "location": "eastus2",
+        "properties": {
+          "appLocation": "eastus2",
+          "routingPreference": "RouteAll",
+          "managedResourceGroupConfiguration": {
+            "name": "myManagedRg"
+          },
+          "logAnalyticsWorkspaceArmId": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/microsoft.operationalinsights/workspaces/myWorkspace",
+          "monitorSubnet": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/virtualnetworkabc/subnets/mySubnet"
+        }
+      },
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "561",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 06 Mar 2023 09:13:09 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "d33617e5-f1dd-443a-924f-9b043af13d05",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "d33617e5-f1dd-443a-924f-9b043af13d05",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230306T091310Z:d33617e5-f1dd-443a-924f-9b043af13d05"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "NoRegisteredProviderFound",
+          "message": "No registered resource provider found for location \u0027eastus2\u0027 and API version \u00272023-04-01/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Workloads/monitors/myMonitor?api-version=2023-04-01\u0027 for type \u0027monitors\u0027. The supported api-versions are \u00272021-12-01-preview, 2022-11-01-preview, 2022-10-15-preview, 2023-04-01\u0027. The supported locations are \u0027eastus, eastus2, northeurope, australiaeast, eastasia, centralindia, westus3, westeurope, westus2, japaneast, canadacentral\u0027."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
