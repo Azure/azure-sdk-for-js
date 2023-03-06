@@ -19,6 +19,35 @@ Domain Verification library provides capabilities to create TXT challenge to ver
 npm install @azure-tools/communication-domain-verification
 ```
 
+## Authentication
+
+To create a client object to access the Communication Services API, you will need a `connection string` or the `endpoint` of your Communication Services resource and a `credential`. The Domain Verification client can use either Azure Active Directory credentials or an API key credential to authenticate.
+
+You can get a key and/or connection string from your Communication Services resource in the [Azure Portal][azure_portal]. You can also find the endpoint for your Communication Services resource in the [Azure Portal][azure_portal].
+
+Once you have a key, you can authenticate the client with any of the following methods:
+
+### Using a connection string
+
+```typescript
+import { DomainVerificationClient } from "@azure/communication-domain-verification";
+
+const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
+const client = new DomainVerificationClient(connectionString);
+```
+
+### Using an access key with `AzureKeyCredential`
+
+If you use a key to initialize the client you will also need to provide the appropriate endpoint. You can get this endpoint from your Communication Services resource in [Azure Portal][azure_portal]. Once you have a key and endpoint, you can authenticate with the following code:
+
+```typescript
+import { AzureKeyCredential } from "@azure/core-auth";
+import { DomainVerificationClient } from "@azure/communication-domain-verification";
+
+const credential = new AzureKeyCredential("<key-from-resource>");
+const client = new DomainVerificationClient("<endpoint-from-resource>", credential);
+```
+
 ### Using an Azure Active Directory Credential
 
 Connection string authentication is used in most of the examples, but you can also authenticate with Azure Active Directory using the [Azure Identity library][azure_identity]. To use the [DefaultAzureCredential][defaultazurecredential] provider shown below, or other credential providers provided with the Azure SDK, please install the [`@azure/identity`][azure_identity] package:
