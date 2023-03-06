@@ -80,7 +80,7 @@ export class EventHubReceiver extends LinkEntity {
    */
   private _receiver?: Receiver;
   /**
-   * The error handler provided by the batching or streaming flavors of receive operations on the `EventHubConsumer`
+   * A callback to be called on errors.
    */
   private _onError?: (error: MessagingError | Error) => void;
   /**
@@ -336,10 +336,6 @@ export class EventHubReceiver extends LinkEntity {
     return result;
   }
 
-  private _addCredit(credit: number): void {
-    this._receiver?.addCredit(credit);
-  }
-
   /**
    * Creates a new AMQP receiver under a new AMQP session.
    */
@@ -496,7 +492,7 @@ export class EventHubReceiver extends LinkEntity {
                 // add credits
                 const existingCredits = this._receiver?.credit ?? 0;
                 const creditsToAdd = Math.max(eventsToRetrieveCount - existingCredits, 0);
-                this._addCredit(creditsToAdd);
+                this._receiver?.addCredit(creditsToAdd);
                 logger.verbose(
                   "[%s] Setting the wait timer for %d seconds for receiver '%s'.",
                   this._context.connectionId,
