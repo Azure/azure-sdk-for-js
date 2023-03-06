@@ -302,6 +302,7 @@ specifiers:
   '@rush-temp/purview-catalog': file:./projects/purview-catalog.tgz
   '@rush-temp/purview-scanning': file:./projects/purview-scanning.tgz
   '@rush-temp/purview-sharing': file:./projects/purview-sharing.tgz
+  '@rush-temp/purview-workflow': file:./projects/purview-workflow.tgz
   '@rush-temp/quantum-jobs': file:./projects/quantum-jobs.tgz
   '@rush-temp/schema-registry': file:./projects/schema-registry.tgz
   '@rush-temp/schema-registry-avro': file:./projects/schema-registry-avro.tgz
@@ -632,6 +633,7 @@ dependencies:
   '@rush-temp/purview-catalog': file:projects/purview-catalog.tgz
   '@rush-temp/purview-scanning': file:projects/purview-scanning.tgz
   '@rush-temp/purview-sharing': file:projects/purview-sharing.tgz
+  '@rush-temp/purview-workflow': file:projects/purview-workflow.tgz
   '@rush-temp/quantum-jobs': file:projects/quantum-jobs.tgz
   '@rush-temp/schema-registry': file:projects/schema-registry.tgz
   '@rush-temp/schema-registry-avro': file:projects/schema-registry-avro.tgz
@@ -3895,7 +3897,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230303
+      typescript: 5.1.0-dev.20230305
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8603,8 +8605,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230303:
-    resolution: {integrity: sha512-aDocbsouqGny1M8Kjxn8svqDUy5xoINdPpuh4t0UDoitl6nsHZ61suF1HLfMj9P/A1Bl6Tpjq6GTaRtrElq4aQ==}
+  /typescript/5.1.0-dev.20230305:
+    resolution: {integrity: sha512-iOW2dkTfPzIqkNaYZ0Lj9ucgvOkvCfxw44a4sdan2dI8wdbZLNhj3yfVMHG+GU4e1pxXwAAUAIY2Nh2uFAp0zw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -18660,6 +18662,49 @@ packages:
   file:projects/purview-sharing.tgz:
     resolution: {integrity: sha512-R7O0pyh0E2f3zNMEHRHtI9+/6Ie9eEJHUENdxPfZrKQHaPiUqeOL3zxfens/Qb5iRukrG/R+Zupeezawa8RxTQ==, tarball: file:projects/purview-sharing.tgz}
     name: '@rush-temp/purview-sharing'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 2.0.0
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.4_@types+node@14.18.36
+      '@types/chai': 4.3.4
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.36
+      autorest: 3.6.3
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.0.3
+      eslint: 8.35.0
+      karma: 6.4.1
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-junit-reporter: 2.0.1_karma@6.4.1
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.1
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 2.1.3
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 15.1.0
+      prettier: 2.8.4
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.5.0
+      typescript: 4.8.4
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/purview-workflow.tgz:
+    resolution: {integrity: sha512-54RTY0YW19P/Y8odQu9PoDwq/afg6uUWEJHTLKuxk+MmM7XM+IXXXsELVl60FTlGcjco9YdvfVIKh7ZKUcUWuQ==, tarball: file:projects/purview-workflow.tgz}
+    name: '@rush-temp/purview-workflow'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 2.0.0
