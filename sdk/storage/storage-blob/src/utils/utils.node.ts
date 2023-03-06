@@ -39,6 +39,8 @@ export async function streamToBuffer(
 
       let chunk = stream.read();
       if (!chunk) {
+        clearTimeout(timeout);
+        resolve();
         return;
       }
       if (typeof chunk === "string") {
@@ -50,6 +52,12 @@ export async function streamToBuffer(
 
       buffer.fill(chunk.slice(0, chunkLength), offset + pos, offset + pos + chunkLength);
       pos += chunkLength;
+      
+      // Resolving streamToBuffer as we have read all necessary content.
+      if (pos >= count) { 
+        clearTimeout(timeout);
+        resolve();
+      }
     });
 
     stream.on("end", () => {
