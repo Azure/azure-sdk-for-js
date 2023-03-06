@@ -2,13 +2,9 @@
 
 ## 2.5.2 (Unreleased)
 
-### Features Added
-
-### Breaking Changes
-
 ### Bugs Fixed
 
-### Other Changes
+- Change the LRO warning to verbose to reduce confusion when we meet unrecognized operation status
 
 ## 2.5.1 (2023-02-02)
 
