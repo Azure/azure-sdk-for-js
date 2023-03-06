@@ -1,0 +1,128 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.StorageMover/storageMovers/storageMoverName/endpoints/testendpoint?api-version=2023-03-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "310",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-storagemover/1.0.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "803c971b-dd10-4608-a4ba-126522555f86"
+      },
+      "RequestBody": {
+        "properties": {
+          "endpointType": "AzureStorageBlobContainer",
+          "description": "Example Storage Container Endpoint Description",
+          "storageAccountResourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/teststorageaccountxxx1",
+          "blobContainerName": "testblob"
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 02 Mar 2023 09:46:22 GMT",
+        "ETag": "\u002205006808-0000-0100-0000-6400706d0000\u0022",
+        "Expires": "-1",
+        "mise-correlation-id": "47857def-0af7-43e4-b61d-90bd5863ba44",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "8805a510-a6be-4006-b685-3ab9d27c41a1",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-writes": "1197",
+        "x-ms-request-id": "244685a1-b21c-4812-ba2f-789a1c8cc189",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230302T094622Z:8805a510-a6be-4006-b685-3ab9d27c41a1"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.StorageMover/storageMovers/storageMoverName/endpoints/testendpoint",
+        "name": "testendpoint",
+        "type": "microsoft.storagemover/storagemovers/endpoints",
+        "systemData": {
+          "createdBy": "azure_client_id",
+          "createdByType": "Application",
+          "createdAt": "2023-03-02T09:46:21.4639992Z",
+          "lastModifiedBy": "azure_client_id",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2023-03-02T09:46:21.4639992Z"
+        },
+        "properties": {
+          "storageAccountResourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/teststorageaccountxxx1",
+          "blobContainerName": "testblob",
+          "endpointType": "AzureStorageBlobContainer",
+          "description": "Example Storage Container Endpoint Description",
+          "provisioningState": "Succeeded"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.StorageMover/storageMovers/storageMoverName/endpoints/testendpoint1?api-version=2023-03-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "77",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-storagemover/1.0.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "16b4c582-6501-402e-86c8-e5392663c8a4"
+      },
+      "RequestBody": {
+        "properties": {
+          "endpointType": "NfsMount",
+          "host": "testendpoint1",
+          "export": ""
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 02 Mar 2023 09:46:23 GMT",
+        "ETag": "\u002205006908-0000-0100-0000-6400706e0000\u0022",
+        "Expires": "-1",
+        "mise-correlation-id": "cf0a0361-6f93-4179-be92-53843abdd4ad",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "fa5e7072-897d-482e-8fa9-618d6230f9fa",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-writes": "1196",
+        "x-ms-request-id": "bac93d74-c940-400e-b896-29508819ee94",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230302T094623Z:fa5e7072-897d-482e-8fa9-618d6230f9fa"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.StorageMover/storageMovers/storageMoverName/endpoints/testendpoint1",
+        "name": "testendpoint1",
+        "type": "microsoft.storagemover/storagemovers/endpoints",
+        "systemData": {
+          "createdBy": "azure_client_id",
+          "createdByType": "Application",
+          "createdAt": "2023-03-02T09:46:22.4172142Z",
+          "lastModifiedBy": "azure_client_id",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2023-03-02T09:46:22.4172142Z"
+        },
+        "properties": {
+          "host": "testendpoint1",
+          "nfsVersion": "NFSauto",
+          "export": "",
+          "endpointType": "NfsMount",
+          "provisioningState": "Succeeded"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

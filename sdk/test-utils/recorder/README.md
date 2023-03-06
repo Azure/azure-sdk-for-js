@@ -62,7 +62,7 @@ From this point forward, we'll assume that you're developing (perhaps contributi
 
 ```bash
 cd sdk/tables/data-tables
-rush add -p @azure-tools/test-recorder@^2.0.0 --dev
+rush add -p @azure-tools/test-recorder@^3.0.0 --dev
 ```
 
 If you are using `@azure/identity` in your tests, also install `"@azure-tools/test-credential"` package.
@@ -79,7 +79,7 @@ With a following `rush update`, you may see something like below.
   "devDependencies": {
     // ... your devDependencies
     "@azure-tools/test-credential": "^1.0.0", // If you are using `@azure/identity` in your tests
-    "@azure-tools/test-recorder": "^2.0.0"
+    "@azure-tools/test-recorder": "^3.0.0"
     // ... more of your devDependencies
   }
   // ... more of your package.json properties
@@ -182,8 +182,6 @@ The tested client needs to install the recording policy that redirects requests 
 ```js
 const client = new AnyCoreV2Client(/** args **/, recorder.configureClientOptions(/** client options **/));
 ```
-
-_Note: If your client relies on `@azure/core-http` instead of the core-v2 libraries(i.e., `@azure/core-client` and `@azure/core-rest-pipeline`), please use `recorder.configureClientOptionsCoreV1()` instead of `recorder.configureClientOptions()`._
 
 Recording starts with the `recorder.start()` method.
 
@@ -540,7 +538,7 @@ Follow the below two methods if you wish to run the proxy tool yourself without 
 
 ### Next steps
 
-The test-recorder(v2.0) might not be used yet in each one of the libraries in the `azure-sdk-for-js` repository (we're working on it). In the mean time, an easy way to find where we're using this package is by going through the following search link:
+The test-recorder(v3.0) might not be used yet in each one of the libraries in the `azure-sdk-for-js` repository (we're working on it). In the mean time, an easy way to find where we're using this package is by going through the following search link:
 <https://github.com/Azure/azure-sdk-for-js/search?q=test-recorder>
 
 ### Contributing
