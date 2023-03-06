@@ -6,6 +6,7 @@
 
 - Add support for logging API warnings that are part of warn-text response headers.
 - Add support for `partiallySucceeded` status and parse action error pointers.
+- Change `AbstractiveSummarizationAction` property from `maxSentenceCount` to `sentenceCount`.
 
 ## 1.1.0-beta.1 (2022-11-17)
 
