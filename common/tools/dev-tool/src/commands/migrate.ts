@@ -149,6 +149,13 @@ function areMigrationsApplied(migrationIds: string[], migrationDate: Date): bool
   return result;
 }
 
+/**
+ * Begins a new migration pass.
+ *
+ * @param project - the project to run the migrations on
+ * @param migrationDate - the date to compare the migrations against (MUST match the date in the package.json)
+ * @returns true if the migration pass exited normally, false otherwise
+ */
 async function startMigrationPass(project: ProjectInfo, migrationDate: Date): Promise<boolean> {
   const suspended = await getSuspendedMigration();
   if (suspended) {
@@ -184,7 +191,14 @@ async function startMigrationPass(project: ProjectInfo, migrationDate: Date): Pr
   return runMigrations(pending, project);
 }
 
-async function runMigrations(pending: Migration[], project: ProjectInfo) {
+/**
+ * Runs a list of migrations on a project.
+ *
+ * @param pending - the list of pending migrations to run
+ * @param project - the project to run the migrations on
+ * @returns true if all migrations succeeded, false otherwise
+ */
+async function runMigrations(pending: Migration[], project: ProjectInfo): Promise<boolean> {
   for (const migration of pending) {
     log.info(`Applying migration '${migration.id}' (${migration.date.toLocaleDateString()})`);
     log.info(`  - Description: ${migration.description}`);
@@ -212,14 +226,27 @@ async function runMigrations(pending: Migration[], project: ProjectInfo) {
   return true;
 }
 
+/**
+ * Updates the repo state after a migration has succeeded. This includes updating the migration date in the package.json
+ * and committing the changes.
+ *
+ * @param project - the project to apply the migration succeeded state to
+ * @param migration - the migration that succeeded
+ */
 async function onMigrationSuccess(project: ProjectInfo, migration: Migration) {
   await updateMigrationDate(project, migration);
 
-  git.commitAll(`dev-tool: applied migration '${migration.id}'`);
+  await git.commitAll(`dev-tool: applied migration '${migration.id}'`);
 
   log.success(`Migration '${migration.id}' applied successfully.`);
 }
 
+/**
+ * Prints an error message about a migration that failed.
+ *
+ * @param migration - the migration that failed
+ * @param status - the exit state of the migration
+ */
 function printMigrationError(migration: Migration, status: MigrationErrorExitState) {
   log.error(`Encountered an error running migration: '${migration.id}'.`);
   log.error("Stack trace:", status.error.stack);
@@ -234,6 +261,12 @@ function printMigrationError(migration: Migration, status: MigrationErrorExitSta
   );
 }
 
+/**
+ * Prints a warning about a migration that was suspended.
+ *
+ * @param migration - the migration that was suspended
+ * @param status - the exit state of the migration
+ */
 function printMigrationSuspendedWarning(migration: Migration, status: MigrationSuspendedExitState) {
   log.warn(`'${migration.id}' suspended during ${status.phase}.`);
   log.warn("  Description: ", migration.description);
@@ -336,6 +369,12 @@ async function continueMigration(project: ProjectInfo): Promise<boolean> {
   }
 }
 
+/**
+ * Validates that a migration can be resumed in the context of the current project.
+ *
+ * @param project - the working project
+ * @returns the suspended migration state, or undefined if no migration is suspended
+ */
 async function validateSuspendedState(
   project: ProjectInfo
 ): Promise<SuspendedMigrationState | undefined> {
