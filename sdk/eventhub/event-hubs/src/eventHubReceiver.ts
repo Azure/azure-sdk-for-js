@@ -616,6 +616,9 @@ function delay(
   }, options).finally(() => clearTimeout(token));
 }
 
+/**
+ * @internal
+ */
 export function checkOnInterval(
   waitTimeInMs: number,
   check: () => boolean,
@@ -643,6 +646,7 @@ export function checkOnInterval(
  * @param queue - The queue to read from.
  * @param options - The options bag.
  * @returns a promise that will resolve when it is time to read from the queue
+ * @internal
  */
 export function waitForEvents(
   maxEventCount: number,
