@@ -7,7 +7,7 @@ import { createMigration } from "../util/migrations";
 export default createMigration(
   "foo", // unique ID
   "2023-03-06T18:46:38+00:00", // ISO timestamp that the migration becomes effective
-  'sets `package.json["//metadata"].foo = true`', // short description of the migration
+  'sets `<package.json>["//metadata"].foo = true`', // short description of the migration
   {
     validation: async (project) => {
       // This function throws an error if the migration was not performed successfully.
