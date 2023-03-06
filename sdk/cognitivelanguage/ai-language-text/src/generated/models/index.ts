@@ -547,8 +547,8 @@ export interface Pagination {
 
 /** Supported parameters for an Abstractive Summarization task. */
 export interface AbstractiveSummarizationTaskParametersBase {
-  /** The max number of sentences to be part of the summary. */
-  maxSentenceCount?: number;
+  /** It controls the approximate number of sentences in the output summaries. */
+  sentenceCount?: number;
   /**
    * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
    *

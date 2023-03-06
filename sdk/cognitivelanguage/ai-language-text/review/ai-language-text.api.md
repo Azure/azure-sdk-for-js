@@ -15,7 +15,7 @@ import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AbstractiveSummarizationAction {
-    maxSentenceCount?: number;
+    sentenceCount?: number;
     stringIndexType?: StringIndexType;
 }
 
