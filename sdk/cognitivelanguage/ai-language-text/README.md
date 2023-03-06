@@ -40,7 +40,7 @@ Please see the [Migration Guide](https://github.com/azure/azure-sdk-for-js/blob/
 
 ## What's New
 
-For a list of what's new, check out this blog post [What's New in Azure Cognitive Service for Language?](https://learn.microsoft.com/en-us/azure/cognitive-services/language-service/whats-new?tabs=javascript) For a quick introduction and tutorial of the new features, see 
+For a list of what's new, check out this blog post [What's New in Azure Cognitive Service for Language?](https://learn.microsoft.com/azure/cognitive-services/language-service/whats-new?tabs=javascript) For a quick introduction and tutorial of the new features, see 
 [New beta release of Text Analytics](https://devblogs.microsoft.com/azure-sdk/announcing-the-new-beta-release-of-azure-text-analytics-libraries/).
 
 ## Getting started
