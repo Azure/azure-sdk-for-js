@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { WorkloadsClient } from "@azure/arm-workloads";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
- * This sample demonstrates how to Deletes the SAP Application Server Instance. <br><br>This operation will be used by service only. Delete by end user will return a Bad Request error.
+ * This sample demonstrates how to Deletes the SAP Application Server Instance resource. <br><br>This operation will be used by service only. Delete by end user will return a Bad Request error.
  *
- * @summary Deletes the SAP Application Server Instance. <br><br>This operation will be used by service only. Delete by end user will return a Bad Request error.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPApplicationServerInstances_Delete.json
+ * @summary Deletes the SAP Application Server Instance resource. <br><br>This operation will be used by service only. Delete by end user will return a Bad Request error.
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPApplicationServerInstances_Delete.json
  */
 async function sapApplicationServerInstancesDelete() {
-  const subscriptionId = "6d875e77-e412-4d7d-9af4-8895278b4443";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "6d875e77-e412-4d7d-9af4-8895278b4443";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
   const sapVirtualInstanceName = "X00";
   const applicationInstanceName = "app01";
   const credential = new DefaultAzureCredential();
@@ -32,4 +38,8 @@ async function sapApplicationServerInstancesDelete() {
   console.log(result);
 }
 
-sapApplicationServerInstancesDelete().catch(console.error);
+async function main() {
+  sapApplicationServerInstancesDelete();
+}
+
+main().catch(console.error);
