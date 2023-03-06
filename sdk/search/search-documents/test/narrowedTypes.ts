@@ -1,3 +1,8 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+
 import { SearchClient, SelectFields } from "../src/index";
 
 type Model = {
@@ -18,7 +23,7 @@ type Model2 = {
 
 // The model with all properties set to optional should be transparent, i.e.
 // narrowed documents should be able to be used in any context Model can be
-//@ts-ignore
+// @ts-ignore
 async function fun() {
   const client = new SearchClient<Model>("azure", "sdk", "js" as any, {});
   const wideDocument: Model = { key: "azure", a: null, b: null, c: [], d: [{ a: "sdk", b: null }] };
@@ -110,7 +115,7 @@ async function fun() {
 }
 
 // This model strictly enforces which properties should be present.
-//@ts-ignore
+// @ts-ignore
 async function fun2() {
   const client = new SearchClient<Model2>("azure", "sdk", "js" as any, {});
   const wideDocument: Model2 = {
@@ -143,15 +148,15 @@ async function fun2() {
     const document: Model2 = result.document;
     result.document = wideDocument;
     const isNarrowed: typeof narrowedDocument = result.document;
-    //@ts-expect-error
+    // @ts-expect-error
     result.document = narrowedDocument;
     result.document = document;
-    //@ts-ignore
+    // @ts-ignore
     result.document = isNarrowed;
     break;
   }
   for await (const result of select2.results) {
-    //@ts-expect-error
+    // @ts-expect-error
     const document: Model2 = result.document;
     result.document = wideDocument;
     const isNarrowed: typeof narrowedDocument = result.document;
@@ -161,7 +166,7 @@ async function fun2() {
     break;
   }
   for await (const result of select3.results) {
-    //@ts-expect-error
+    // @ts-expect-error
     const document: Model2 = result.document;
     result.document = wideDocument;
     const isNarrowed: typeof narrowedDocument = result.document;
@@ -185,10 +190,10 @@ async function fun2() {
     const document: Model2 = result.document;
     result.document = wideDocument;
     const isNarrowed: typeof narrowedDocument = result.document;
-    //@ts-expect-error
+    // @ts-expect-error
     result.document = narrowedDocument;
     result.document = document;
-    //@ts-ignore
+    // @ts-ignore
     result.document = isNarrowed;
     break;
   }
@@ -196,10 +201,10 @@ async function fun2() {
     const document: Model2 = result.document;
     result.document = wideDocument;
     const isNarrowed: typeof narrowedDocument = result.document;
-    //@ts-expect-error
+    // @ts-expect-error
     result.document = narrowedDocument;
     result.document = document;
-    //@ts-ignore
+    // @ts-ignore
     result.document = isNarrowed;
     break;
   }
@@ -207,10 +212,10 @@ async function fun2() {
     const document: Model2 = result.document;
     result.document = wideDocument;
     const isNarrowed: typeof narrowedDocument = result.document;
-    //@ts-expect-error
+    // @ts-expect-error
     result.document = narrowedDocument;
     result.document = document;
-    //@ts-ignore
+    // @ts-ignore
     result.document = isNarrowed;
     break;
   }
