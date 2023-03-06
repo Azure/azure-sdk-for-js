@@ -33,14 +33,6 @@ export class ReceiveHandler {
   }
 
   /**
-   * The consumer group from which the handler is receiving events.
-   * @readonly
-   */
-  get consumerGroup(): string | undefined {
-    return this._receiver ? this._receiver.consumerGroup : undefined;
-  }
-
-  /**
    * Indicates whether the receiver is connected/open.
    * `true` - is open; `false` otherwise.
    * @readonly

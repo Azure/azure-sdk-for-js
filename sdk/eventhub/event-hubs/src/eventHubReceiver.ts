@@ -59,11 +59,6 @@ export interface LastEnqueuedEventProperties {
  */
 export class EventHubReceiver extends LinkEntity {
   /**
-   * The EventHub consumer group from which the receiver will
-   * receive messages. (Default: "default").
-   */
-  readonly consumerGroup: string;
-  /**
    * The receiver runtime info.
    */
   private readonly runtimeInfo: LastEnqueuedEventProperties;
@@ -95,7 +90,7 @@ export class EventHubReceiver extends LinkEntity {
   /**
    * Indicates if messages are being received from this receiver.
    */
-  private _isReceivingMessages: boolean = false;
+  private _isReceiving: boolean = false;
   /**
    * Indicated if messages are being received in streaming mode.
    */
@@ -104,7 +99,9 @@ export class EventHubReceiver extends LinkEntity {
    * Denotes if close() was called on this receiver
    */
   private _isClosed: boolean = false;
-
+  /**
+   * The queue of received messages that have not yet been returned to the customer.
+   */
   private readonly queue: ReceivedEventData[] = [];
   /**
    * Returns sequenceNumber of the last event received from the service. This will not match the
@@ -120,7 +117,7 @@ export class EventHubReceiver extends LinkEntity {
    * @readonly
    */
   get isReceivingMessages(): boolean {
-    return this._isReceivingMessages;
+    return this._isReceiving;
   }
 
   /**
@@ -159,9 +156,8 @@ export class EventHubReceiver extends LinkEntity {
       partitionId: partitionId,
       name: context.config.getReceiverAddress(partitionId, consumerGroup),
     });
-    this.consumerGroup = consumerGroup;
-    this.address = context.config.getReceiverAddress(partitionId, this.consumerGroup);
-    this.audience = context.config.getReceiverAudience(partitionId, this.consumerGroup);
+    this.address = context.config.getReceiverAddress(partitionId, consumerGroup);
+    this.audience = context.config.getReceiverAudience(partitionId, consumerGroup);
     this.ownerLevel = options.ownerLevel;
     this.eventPosition = eventPosition;
     this.options = options;
@@ -313,7 +309,7 @@ export class EventHubReceiver extends LinkEntity {
   clearHandlers(): void {
     if (!this) return;
     this._onError = undefined;
-    this._isReceivingMessages = false;
+    this._isReceiving = false;
     this._isStreaming = false;
   }
 
@@ -488,7 +484,7 @@ export class EventHubReceiver extends LinkEntity {
     maxWaitTimeInSeconds: number = 60,
     abortSignal?: AbortSignalLike
   ): Promise<ReceivedEventData[]> {
-    this._isReceivingMessages = true;
+    this._isReceiving = true;
     this._isStreaming = false;
 
     const cleanupBeforeAbort = (): Promise<void> => {
