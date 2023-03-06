@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of provider instances in the specified SAP monitor. The operations returns various properties of each provider instances.
  *
  * @summary Gets a list of provider instances in the specified SAP monitor. The operations returns various properties of each provider instances.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/ProviderInstances_List.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/ProviderInstances_List.json
  */
 async function listAllSapMonitorsProvidersInASubscription() {
   const subscriptionId =

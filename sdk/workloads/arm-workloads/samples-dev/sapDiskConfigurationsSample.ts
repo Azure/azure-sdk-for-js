@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the SAP Disk Configuration Layout prod/non-prod SAP System.
  *
  * @summary Get the SAP Disk Configuration Layout prod/non-prod SAP System.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPDiskConfigurations_NonProd.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPDiskConfigurations_NonProd.json
  */
 async function sapDiskConfigurationsNonProd() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function sapDiskConfigurationsNonProd() {
  * This sample demonstrates how to Get the SAP Disk Configuration Layout prod/non-prod SAP System.
  *
  * @summary Get the SAP Disk Configuration Layout prod/non-prod SAP System.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPDiskConfigurations_Prod.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPDiskConfigurations_Prod.json
  */
 async function sapDiskConfigurationsProd() {
   const subscriptionId =

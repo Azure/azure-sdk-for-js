@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Creates the SAP Central Services Instance resource. <br><br>This will be used by service only. PUT operation on this resource by end user will return a Bad Request error.
  *
  * @summary Creates the SAP Central Services Instance resource. <br><br>This will be used by service only. PUT operation on this resource by end user will return a Bad Request error.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPCentralInstances_Create_HA_AvSet.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPCentralInstances_Create_HA_AvSet.json
  */
 async function createSapCentralInstancesForHaSystemWithAvailabilitySet() {
   const subscriptionId =
@@ -52,7 +52,7 @@ async function createSapCentralInstancesForHaSystemWithAvailabilitySet() {
  * This sample demonstrates how to Creates the SAP Central Services Instance resource. <br><br>This will be used by service only. PUT operation on this resource by end user will return a Bad Request error.
  *
  * @summary Creates the SAP Central Services Instance resource. <br><br>This will be used by service only. PUT operation on this resource by end user will return a Bad Request error.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPCentralInstances_Create.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPCentralInstances_Create.json
  */
 async function sapCentralInstancesCreate() {
   const subscriptionId =

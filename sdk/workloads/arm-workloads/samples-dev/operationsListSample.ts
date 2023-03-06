@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all the available API operations under this PR
  *
  * @summary Lists all the available API operations under this PR
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/Operations_List.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/Operations_List.json
  */
 async function operations() {
   const subscriptionId =

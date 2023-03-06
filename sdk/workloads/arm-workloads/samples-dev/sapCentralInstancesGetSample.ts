@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the SAP Central Services Instance resource.
  *
  * @summary Gets the SAP Central Services Instance resource.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPCentralInstances_Get.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPCentralInstances_Get.json
  */
 async function sapCentralInstancesGet() {
   const subscriptionId =

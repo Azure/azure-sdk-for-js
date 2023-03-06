@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all Virtual Instances for SAP solutions resources in a Resource Group.
  *
  * @summary Gets all Virtual Instances for SAP solutions resources in a Resource Group.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_ListByResourceGroup.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPVirtualInstances_ListByResourceGroup.json
  */
 async function sapVirtualInstancesListByResourceGroup() {
   const subscriptionId =

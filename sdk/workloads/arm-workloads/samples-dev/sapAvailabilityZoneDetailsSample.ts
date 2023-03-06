@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the recommended SAP Availability Zone Pair Details for your region.
  *
  * @summary Get the recommended SAP Availability Zone Pair Details for your region.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPAvailabilityZoneDetails_eastus.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPAvailabilityZoneDetails_eastus.json
  */
 async function sapAvailabilityZoneDetailsEastus() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function sapAvailabilityZoneDetailsEastus() {
  * This sample demonstrates how to Get the recommended SAP Availability Zone Pair Details for your region.
  *
  * @summary Get the recommended SAP Availability Zone Pair Details for your region.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPAvailabilityZoneDetails_northeurope.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPAvailabilityZoneDetails_northeurope.json
  */
 async function sapAvailabilityZoneDetailsNortheurope() {
   const subscriptionId =

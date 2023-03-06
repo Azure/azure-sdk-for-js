@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Patches the SAP Landscape Monitor Dashboard for the specified subscription, resource group, and SAP monitor name.
  *
  * @summary Patches the SAP Landscape Monitor Dashboard for the specified subscription, resource group, and SAP monitor name.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/SapLandscapeMonitor_Update.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/SapLandscapeMonitor_Update.json
  */
 async function updateSapMonitor() {
   const subscriptionId =

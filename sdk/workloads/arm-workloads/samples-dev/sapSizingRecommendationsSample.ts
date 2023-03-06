@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get SAP sizing recommendations by providing input SAPS for application tier and memory required for database tier
  *
  * @summary Get SAP sizing recommendations by providing input SAPS for application tier and memory required for database tier
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPSizingRecommendations_S4HANA_Distributed.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPSizingRecommendations_S4HANA_Distributed.json
  */
 async function sapSizingRecommendationsS4HanaDistributed() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function sapSizingRecommendationsS4HanaDistributed() {
  * This sample demonstrates how to Get SAP sizing recommendations by providing input SAPS for application tier and memory required for database tier
  *
  * @summary Get SAP sizing recommendations by providing input SAPS for application tier and memory required for database tier
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPSizingRecommendations_S4HANA_HA_AvSet.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPSizingRecommendations_S4HANA_HA_AvSet.json
  */
 async function sapSizingRecommendationsS4HanaDistributedHaAvSet() {
   const subscriptionId =
@@ -52,7 +52,7 @@ async function sapSizingRecommendationsS4HanaDistributedHaAvSet() {
  * This sample demonstrates how to Get SAP sizing recommendations by providing input SAPS for application tier and memory required for database tier
  *
  * @summary Get SAP sizing recommendations by providing input SAPS for application tier and memory required for database tier
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPSizingRecommendations_S4HANA_HA_AvZone.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPSizingRecommendations_S4HANA_HA_AvZone.json
  */
 async function sapSizingRecommendationsS4HanaDistributedHaAvZone() {
   const subscriptionId =
@@ -69,7 +69,7 @@ async function sapSizingRecommendationsS4HanaDistributedHaAvZone() {
  * This sample demonstrates how to Get SAP sizing recommendations by providing input SAPS for application tier and memory required for database tier
  *
  * @summary Get SAP sizing recommendations by providing input SAPS for application tier and memory required for database tier
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPSizingRecommendations_S4HANA_SingleServer.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPSizingRecommendations_S4HANA_SingleServer.json
  */
 async function sapSizingRecommendationsS4HanaSingleServer() {
   const subscriptionId =

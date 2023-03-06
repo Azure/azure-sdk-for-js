@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Stops the SAP Application, that is the Application server instances and Central Services instance.
  *
  * @summary Stops the SAP Application, that is the Application server instances and Central Services instance.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Stop.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPVirtualInstances_Stop.json
  */
 async function sapVirtualInstancesStop() {
   const subscriptionId =

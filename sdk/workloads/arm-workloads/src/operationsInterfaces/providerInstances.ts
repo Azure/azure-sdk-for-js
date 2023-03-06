@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ProviderInstance,
   ProviderInstancesListOptionalParams,
@@ -64,8 +64,8 @@ export interface ProviderInstances {
     providerInstanceParameter: ProviderInstance,
     options?: ProviderInstancesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ProviderInstancesCreateResponse>,
+    SimplePollerLike<
+      OperationState<ProviderInstancesCreateResponse>,
       ProviderInstancesCreateResponse
     >
   >;
@@ -99,8 +99,8 @@ export interface ProviderInstances {
     providerInstanceName: string,
     options?: ProviderInstancesDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ProviderInstancesDeleteResponse>,
+    SimplePollerLike<
+      OperationState<ProviderInstancesDeleteResponse>,
       ProviderInstancesDeleteResponse
     >
   >;

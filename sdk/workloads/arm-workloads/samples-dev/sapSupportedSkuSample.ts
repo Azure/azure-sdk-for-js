@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a list of SAP supported SKUs for ASCS, Application and Database tier.
  *
  * @summary Get a list of SAP supported SKUs for ASCS, Application and Database tier.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPSupportedSkus_Distributed.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPSupportedSkus_Distributed.json
  */
 async function sapSupportedSkusDistributed() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function sapSupportedSkusDistributed() {
  * This sample demonstrates how to Get a list of SAP supported SKUs for ASCS, Application and Database tier.
  *
  * @summary Get a list of SAP supported SKUs for ASCS, Application and Database tier.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPSupportedSkus_DistributedHA_AvSet.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPSupportedSkus_DistributedHA_AvSet.json
  */
 async function sapSupportedSkusDistributedHaAvSet() {
   const subscriptionId =
@@ -52,7 +52,7 @@ async function sapSupportedSkusDistributedHaAvSet() {
  * This sample demonstrates how to Get a list of SAP supported SKUs for ASCS, Application and Database tier.
  *
  * @summary Get a list of SAP supported SKUs for ASCS, Application and Database tier.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPSupportedSkus_DistributedHA_AvZone.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPSupportedSkus_DistributedHA_AvZone.json
  */
 async function sapSupportedSkusDistributedHaAvZone() {
   const subscriptionId =
@@ -69,7 +69,7 @@ async function sapSupportedSkusDistributedHaAvZone() {
  * This sample demonstrates how to Get a list of SAP supported SKUs for ASCS, Application and Database tier.
  *
  * @summary Get a list of SAP supported SKUs for ASCS, Application and Database tier.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPSupportedSkus_SingleServer.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPSupportedSkus_SingleServer.json
  */
 async function sapSupportedSkusSingleServer() {
   const subscriptionId =

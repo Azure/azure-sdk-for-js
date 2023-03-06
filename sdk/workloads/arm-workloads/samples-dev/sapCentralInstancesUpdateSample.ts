@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Updates the SAP Central Services Instance resource. <br><br>This can be used to update tags on the resource.
  *
  * @summary Updates the SAP Central Services Instance resource. <br><br>This can be used to update tags on the resource.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPCentralInstances_Update.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPCentralInstances_Update.json
  */
 async function sapCentralInstancesUpdate() {
   const subscriptionId =

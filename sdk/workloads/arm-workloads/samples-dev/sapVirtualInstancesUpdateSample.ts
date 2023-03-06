@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Updates a Virtual Instance for SAP solutions resource
  *
  * @summary Updates a Virtual Instance for SAP solutions resource
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Update.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPVirtualInstances_Update.json
  */
 async function sapVirtualInstancesUpdate() {
   const subscriptionId =

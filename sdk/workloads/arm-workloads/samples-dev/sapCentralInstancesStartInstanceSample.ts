@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Starts the SAP Central Services Instance.
  *
  * @summary Starts the SAP Central Services Instance.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPCentralInstances_StartInstance.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPCentralInstances_StartInstance.json
  */
 async function startTheSapCentralServicesInstance() {
   const subscriptionId =

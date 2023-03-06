@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of SAP monitors in the specified resource group.
  *
  * @summary Gets a list of SAP monitors in the specified resource group.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/monitors_ListByRG.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/monitors_ListByRG.json
  */
 async function listAllSapMonitorsInAResourceGroup() {
   const subscriptionId =

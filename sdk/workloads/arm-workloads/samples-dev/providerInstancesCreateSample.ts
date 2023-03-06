@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
  * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/Db2ProviderInstances_Create.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/Db2ProviderInstances_Create.json
  */
 async function createADb2Provider() {
   const subscriptionId =
@@ -58,7 +58,7 @@ async function createADb2Provider() {
  * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
  * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/Db2ProviderInstances_Create_Root_Certificate.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/Db2ProviderInstances_Create_Root_Certificate.json
  */
 async function createADb2ProviderWithRootCertificate() {
   const subscriptionId =
@@ -96,7 +96,7 @@ async function createADb2ProviderWithRootCertificate() {
  * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
  * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/MsSqlServerProviderInstance_Create.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/MsSqlServerProviderInstance_Create.json
  */
 async function createAMSSqlServerProvider() {
   const subscriptionId =
@@ -135,7 +135,7 @@ async function createAMSSqlServerProvider() {
  * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
  * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/MsSqlServerProviderInstance_Create_Root_Certificate.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/MsSqlServerProviderInstance_Create_Root_Certificate.json
  */
 async function createAMSSqlServerProviderWithRootCertificate() {
   const subscriptionId =
@@ -172,7 +172,7 @@ async function createAMSSqlServerProviderWithRootCertificate() {
  * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
  * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/PrometheusOSProviderInstances_Create.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/PrometheusOSProviderInstances_Create.json
  */
 async function createAOSProvider() {
   const subscriptionId =
@@ -207,7 +207,7 @@ async function createAOSProvider() {
  * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
  * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/PrometheusOSProviderInstances_Create_Root_Certificate.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/PrometheusOSProviderInstances_Create_Root_Certificate.json
  */
 async function createAOSProviderWithRootCertificate() {
   const subscriptionId =
@@ -240,7 +240,7 @@ async function createAOSProviderWithRootCertificate() {
  * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
  * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/PrometheusHaClusterProviderInstances_Create.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/PrometheusHaClusterProviderInstances_Create.json
  */
 async function createAPrometheusHaClusterProvider() {
   const subscriptionId =
@@ -277,7 +277,7 @@ async function createAPrometheusHaClusterProvider() {
  * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
  * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/PrometheusHaClusterProviderInstances_Create_Root_Certificate.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/PrometheusHaClusterProviderInstances_Create_Root_Certificate.json
  */
 async function createAPrometheusHaClusterProviderWithRootCertificate() {
   const subscriptionId =
@@ -312,7 +312,7 @@ async function createAPrometheusHaClusterProviderWithRootCertificate() {
  * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
  * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/ProviderInstances_Create.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/ProviderInstances_Create.json
  */
 async function createASapMonitorHanaProvider() {
   const subscriptionId =
@@ -354,7 +354,7 @@ async function createASapMonitorHanaProvider() {
  * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
  * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/ProviderInstances_Create_Root_Certificate.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/ProviderInstances_Create_Root_Certificate.json
  */
 async function createASapMonitorHanaProviderWithRootCertificate() {
   const subscriptionId =
@@ -394,7 +394,7 @@ async function createASapMonitorHanaProviderWithRootCertificate() {
  * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
  * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/NetWeaverProviderInstances_Create.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/NetWeaverProviderInstances_Create.json
  */
 async function createASapMonitorNetWeaverProvider() {
   const subscriptionId =
@@ -436,7 +436,7 @@ async function createASapMonitorNetWeaverProvider() {
  * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
  * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/NetWeaverProviderInstances_Create_Root_Certificate.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/NetWeaverProviderInstances_Create_Root_Certificate.json
  */
 async function createASapMonitorNetWeaverProviderWithRootCertificate() {
   const subscriptionId =

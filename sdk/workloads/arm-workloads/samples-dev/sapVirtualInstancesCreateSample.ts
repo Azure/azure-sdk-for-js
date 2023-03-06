@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_CustomFullResourceNames_Distributed.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPVirtualInstances_Create_CustomFullResourceNames_Distributed.json
  */
 async function createInfrastructureWithOSConfigurationWithCustomResourceNamesForDistributedSystem() {
   const subscriptionId =
@@ -45,8 +45,8 @@ async function createInfrastructureWithOSConfigurationWithCustomResourceNamesFor
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -67,8 +67,8 @@ async function createInfrastructureWithOSConfigurationWithCustomResourceNamesFor
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -143,8 +143,8 @@ async function createInfrastructureWithOSConfigurationWithCustomResourceNamesFor
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -181,7 +181,7 @@ async function createInfrastructureWithOSConfigurationWithCustomResourceNamesFor
  * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_CustomFullResourceNames_HA_AvSet.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPVirtualInstances_Create_CustomFullResourceNames_HA_AvSet.json
  */
 async function createInfrastructureWithOSConfigurationWithCustomResourceNamesForHaSystemWithAvailabilitySet() {
   const subscriptionId =
@@ -204,8 +204,8 @@ async function createInfrastructureWithOSConfigurationWithCustomResourceNamesFor
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -226,8 +226,8 @@ async function createInfrastructureWithOSConfigurationWithCustomResourceNamesFor
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -333,8 +333,8 @@ async function createInfrastructureWithOSConfigurationWithCustomResourceNamesFor
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -372,7 +372,7 @@ async function createInfrastructureWithOSConfigurationWithCustomResourceNamesFor
  * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_CustomFullResourceNames_HA_AvZone.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPVirtualInstances_Create_CustomFullResourceNames_HA_AvZone.json
  */
 async function createInfrastructureWithOSConfigurationWithCustomResourceNamesForHaSystemWithAvailabilityZone() {
   const subscriptionId =
@@ -395,8 +395,8 @@ async function createInfrastructureWithOSConfigurationWithCustomResourceNamesFor
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -417,8 +417,8 @@ async function createInfrastructureWithOSConfigurationWithCustomResourceNamesFor
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -521,8 +521,8 @@ async function createInfrastructureWithOSConfigurationWithCustomResourceNamesFor
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -560,7 +560,7 @@ async function createInfrastructureWithOSConfigurationWithCustomResourceNamesFor
  * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_CustomFullResourceNames_SingleServer.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPVirtualInstances_Create_CustomFullResourceNames_SingleServer.json
  */
 async function createInfrastructureWithOSConfigurationWithCustomResourceNamesForSingleServerSystem() {
   const subscriptionId =
@@ -584,8 +584,8 @@ async function createInfrastructureWithOSConfigurationWithCustomResourceNamesFor
           imageReference: {
             offer: "RHEL-SAP",
             publisher: "RedHat",
-            sku: "7.4",
-            version: "7.4.2019062505"
+            sku: "84sapha-gen2",
+            version: "latest"
           },
           osProfile: {
             adminUsername: "{your-username}",
@@ -620,7 +620,7 @@ async function createInfrastructureWithOSConfigurationWithCustomResourceNamesFor
  * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_Distributed.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPVirtualInstances_Create_Distributed.json
  */
 async function createInfrastructureOnlyForDistributedSystem() {
   const subscriptionId =
@@ -643,8 +643,8 @@ async function createInfrastructureOnlyForDistributedSystem() {
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -665,8 +665,8 @@ async function createInfrastructureOnlyForDistributedSystem() {
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -688,8 +688,8 @@ async function createInfrastructureOnlyForDistributedSystem() {
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -725,7 +725,7 @@ async function createInfrastructureOnlyForDistributedSystem() {
  * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_HA_AvSet.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPVirtualInstances_Create_HA_AvSet.json
  */
 async function createInfrastructureOnlyForHaSystemWithAvailabilitySet() {
   const subscriptionId =
@@ -748,8 +748,8 @@ async function createInfrastructureOnlyForHaSystemWithAvailabilitySet() {
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -770,8 +770,8 @@ async function createInfrastructureOnlyForHaSystemWithAvailabilitySet() {
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -793,8 +793,8 @@ async function createInfrastructureOnlyForHaSystemWithAvailabilitySet() {
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -831,7 +831,7 @@ async function createInfrastructureOnlyForHaSystemWithAvailabilitySet() {
  * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_HA_AvZone.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPVirtualInstances_Create_HA_AvZone.json
  */
 async function createInfrastructureOnlyForHaSystemWithAvailabilityZone() {
   const subscriptionId =
@@ -854,8 +854,8 @@ async function createInfrastructureOnlyForHaSystemWithAvailabilityZone() {
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -876,8 +876,8 @@ async function createInfrastructureOnlyForHaSystemWithAvailabilityZone() {
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -899,8 +899,8 @@ async function createInfrastructureOnlyForHaSystemWithAvailabilityZone() {
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -937,7 +937,7 @@ async function createInfrastructureOnlyForHaSystemWithAvailabilityZone() {
  * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_SingleServer.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPVirtualInstances_Create_SingleServer.json
  */
 async function createInfrastructureOnlyForSingleServerSystem() {
   const subscriptionId =
@@ -961,8 +961,8 @@ async function createInfrastructureOnlyForSingleServerSystem() {
           imageReference: {
             offer: "RHEL-SAP",
             publisher: "RedHat",
-            sku: "7.4",
-            version: "7.4.2019062505"
+            sku: "84sapha-gen2",
+            version: "latest"
           },
           osProfile: {
             adminUsername: "{your-username}",
@@ -996,7 +996,7 @@ async function createInfrastructureOnlyForSingleServerSystem() {
  * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_DiskDetails_Distributed.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPVirtualInstances_Create_DiskDetails_Distributed.json
  */
 async function createInfrastructureWithDiskAndOSConfigurationForDistributedSystemRecommended() {
   const subscriptionId =
@@ -1019,8 +1019,8 @@ async function createInfrastructureWithDiskAndOSConfigurationForDistributedSyste
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -1041,8 +1041,8 @@ async function createInfrastructureWithDiskAndOSConfigurationForDistributedSyste
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -1090,8 +1090,8 @@ async function createInfrastructureWithDiskAndOSConfigurationForDistributedSyste
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -1128,7 +1128,7 @@ async function createInfrastructureWithDiskAndOSConfigurationForDistributedSyste
  * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_DiskDetails_HA_AvSet.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPVirtualInstances_Create_DiskDetails_HA_AvSet.json
  */
 async function createInfrastructureWithDiskAndOSConfigurationForHaSystemWithAvailabilitySetRecommended() {
   const subscriptionId =
@@ -1151,8 +1151,8 @@ async function createInfrastructureWithDiskAndOSConfigurationForHaSystemWithAvai
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -1173,8 +1173,8 @@ async function createInfrastructureWithDiskAndOSConfigurationForHaSystemWithAvai
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -1222,8 +1222,8 @@ async function createInfrastructureWithDiskAndOSConfigurationForHaSystemWithAvai
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -1261,7 +1261,7 @@ async function createInfrastructureWithDiskAndOSConfigurationForHaSystemWithAvai
  * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_DiskDetails_HA_AvZone.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPVirtualInstances_Create_DiskDetails_HA_AvZone.json
  */
 async function createInfrastructureWithDiskAndOSConfigurationForHaSystemWithAvailabilityZoneRecommended() {
   const subscriptionId =
@@ -1284,8 +1284,8 @@ async function createInfrastructureWithDiskAndOSConfigurationForHaSystemWithAvai
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -1306,8 +1306,8 @@ async function createInfrastructureWithDiskAndOSConfigurationForHaSystemWithAvai
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -1355,8 +1355,8 @@ async function createInfrastructureWithDiskAndOSConfigurationForHaSystemWithAvai
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -1394,7 +1394,7 @@ async function createInfrastructureWithDiskAndOSConfigurationForHaSystemWithAvai
  * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_DiskDetails_SingleServer.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPVirtualInstances_Create_DiskDetails_SingleServer.json
  */
 async function createInfrastructureWithDiskAndOSConfigurationsForSingleServerSystemRecommended() {
   const subscriptionId =
@@ -1436,8 +1436,8 @@ async function createInfrastructureWithDiskAndOSConfigurationsForSingleServerSys
           imageReference: {
             offer: "RHEL-SAP",
             publisher: "RedHat",
-            sku: "7.4",
-            version: "7.4.2019062505"
+            sku: "84sapha-gen2",
+            version: "latest"
           },
           osProfile: {
             adminUsername: "{your-username}",
@@ -1472,7 +1472,7 @@ async function createInfrastructureWithDiskAndOSConfigurationsForSingleServerSys
  * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_WithOSConfig_Distributed.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPVirtualInstances_Create_WithOSConfig_Distributed.json
  */
 async function createInfrastructureWithOSConfigurationForDistributedSystemRecommended() {
   const subscriptionId =
@@ -1495,8 +1495,8 @@ async function createInfrastructureWithOSConfigurationForDistributedSystemRecomm
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -1517,8 +1517,8 @@ async function createInfrastructureWithOSConfigurationForDistributedSystemRecomm
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -1540,8 +1540,8 @@ async function createInfrastructureWithOSConfigurationForDistributedSystemRecomm
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -1578,7 +1578,7 @@ async function createInfrastructureWithOSConfigurationForDistributedSystemRecomm
  * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_WithOSConfig_HA_AvSet.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPVirtualInstances_Create_WithOSConfig_HA_AvSet.json
  */
 async function createInfrastructureWithOSConfigurationForHaSystemWithAvailabilitySetRecommended() {
   const subscriptionId =
@@ -1601,8 +1601,8 @@ async function createInfrastructureWithOSConfigurationForHaSystemWithAvailabilit
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -1623,8 +1623,8 @@ async function createInfrastructureWithOSConfigurationForHaSystemWithAvailabilit
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -1646,8 +1646,8 @@ async function createInfrastructureWithOSConfigurationForHaSystemWithAvailabilit
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -1685,7 +1685,7 @@ async function createInfrastructureWithOSConfigurationForHaSystemWithAvailabilit
  * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_WithOSConfig_HA_AvZone.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPVirtualInstances_Create_WithOSConfig_HA_AvZone.json
  */
 async function createInfrastructureWithOSConfigurationForHaSystemWithAvailabilityZoneRecommended() {
   const subscriptionId =
@@ -1708,8 +1708,8 @@ async function createInfrastructureWithOSConfigurationForHaSystemWithAvailabilit
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -1730,8 +1730,8 @@ async function createInfrastructureWithOSConfigurationForHaSystemWithAvailabilit
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -1753,8 +1753,8 @@ async function createInfrastructureWithOSConfigurationForHaSystemWithAvailabilit
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -1792,7 +1792,7 @@ async function createInfrastructureWithOSConfigurationForHaSystemWithAvailabilit
  * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_WithOSConfig_SingleServer.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPVirtualInstances_Create_WithOSConfig_SingleServer.json
  */
 async function createInfrastructureWithOSConfigurationForSingleServerSystemRecommended() {
   const subscriptionId =
@@ -1816,8 +1816,8 @@ async function createInfrastructureWithOSConfigurationForSingleServerSystemRecom
           imageReference: {
             offer: "RHEL-SAP",
             publisher: "RedHat",
-            sku: "7.4",
-            version: "7.4.2019062505"
+            sku: "84sapha-gen2",
+            version: "latest"
           },
           osProfile: {
             adminUsername: "{your-username}",
@@ -1852,9 +1852,9 @@ async function createInfrastructureWithOSConfigurationForSingleServerSystemRecom
  * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_Distributed_CreateTrans.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPVirtualInstances_Create_Distributed_CreateTransport.json
  */
-async function createInfrastructureWithANewSapTransFileshare() {
+async function createInfrastructureWithANewSapTransportDirectoryFileshare() {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -1875,8 +1875,8 @@ async function createInfrastructureWithANewSapTransFileshare() {
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -1897,8 +1897,8 @@ async function createInfrastructureWithANewSapTransFileshare() {
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -1920,8 +1920,8 @@ async function createInfrastructureWithANewSapTransFileshare() {
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -1938,8 +1938,8 @@ async function createInfrastructureWithANewSapTransFileshare() {
         storageConfiguration: {
           transportFileShareConfiguration: {
             configurationType: "CreateAndMount",
-            resourceGroup: "test-rg",
-            storageAccountName: "input-sa-name"
+            resourceGroup: "rgName",
+            storageAccountName: "storageName"
           }
         }
       },
@@ -1965,9 +1965,9 @@ async function createInfrastructureWithANewSapTransFileshare() {
  * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_Distributed_MountTrans.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPVirtualInstances_Create_Distributed_MountTransport.json
  */
-async function createInfrastructureWithAnExistingSapTransFileshare() {
+async function createInfrastructureWithAnExistingSapTransportDirectoryFileshare() {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -1988,8 +1988,8 @@ async function createInfrastructureWithAnExistingSapTransFileshare() {
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -2010,8 +2010,8 @@ async function createInfrastructureWithAnExistingSapTransFileshare() {
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -2033,8 +2033,8 @@ async function createInfrastructureWithAnExistingSapTransFileshare() {
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -2051,8 +2051,10 @@ async function createInfrastructureWithAnExistingSapTransFileshare() {
         storageConfiguration: {
           transportFileShareConfiguration: {
             configurationType: "Mount",
-            id: "fileshareID",
-            privateEndpointId: "pe-arm-id"
+            id:
+              "/subscriptions/49d64d54-e888-4c46-a868-1936802b762c/resourceGroups/testrg/providers/Microsoft.Network/privateEndpoints/endpoint",
+            privateEndpointId:
+              "/subscriptions/49d64d54-e888-4c46-a868-1936802b762c/resourceGroups/testrg/providers/Microsoft.Network/privateEndpoints/endpoint"
           }
         }
       },
@@ -2078,9 +2080,9 @@ async function createInfrastructureWithAnExistingSapTransFileshare() {
  * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_Distributed_SkipTransMount.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPVirtualInstances_Create_Distributed_SkipTransport.json
  */
-async function createInfrastructureWithoutSapTransFileshare() {
+async function createInfrastructureWithoutASapTransportDirectoryFileshare() {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -2101,8 +2103,8 @@ async function createInfrastructureWithoutSapTransFileshare() {
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -2123,8 +2125,8 @@ async function createInfrastructureWithoutSapTransFileshare() {
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -2146,8 +2148,8 @@ async function createInfrastructureWithoutSapTransFileshare() {
             imageReference: {
               offer: "RHEL-SAP",
               publisher: "RedHat",
-              sku: "7.4",
-              version: "7.4.2019062505"
+              sku: "84sapha-gen2",
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -2187,7 +2189,7 @@ async function createInfrastructureWithoutSapTransFileshare() {
  * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_DetectInstallation_Distributed.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPVirtualInstances_DetectInstallation_Distributed.json
  */
 async function detectSapSoftwareInstallationOnADistributedSystem() {
   const subscriptionId =
@@ -2211,7 +2213,7 @@ async function detectSapSoftwareInstallationOnADistributedSystem() {
               offer: "RHEL-SAP-HA",
               publisher: "RedHat",
               sku: "84sapha-gen2",
-              version: "8.4.2021091202"
+              version: "latest"
             },
             osProfile: {
               adminUsername: "azureuser",
@@ -2236,7 +2238,7 @@ async function detectSapSoftwareInstallationOnADistributedSystem() {
               offer: "RHEL-SAP-HA",
               publisher: "RedHat",
               sku: "84sapha-gen2",
-              version: "8.4.2021091202"
+              version: "latest"
             },
             osProfile: {
               adminUsername: "azureuser",
@@ -2261,7 +2263,7 @@ async function detectSapSoftwareInstallationOnADistributedSystem() {
               offer: "RHEL-SAP-HA",
               publisher: "RedHat",
               sku: "84sapha-gen2",
-              version: "8.4.2021091202"
+              version: "latest"
             },
             osProfile: {
               adminUsername: "azureuser",
@@ -2307,7 +2309,7 @@ async function detectSapSoftwareInstallationOnADistributedSystem() {
  * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_DetectInstallation_SingleServer.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPVirtualInstances_DetectInstallation_SingleServer.json
  */
 async function detectSapSoftwareInstallationOnASingleServerSystem() {
   const subscriptionId =
@@ -2332,7 +2334,7 @@ async function detectSapSoftwareInstallationOnASingleServerSystem() {
             offer: "RHEL-SAP-HA",
             publisher: "RedHat",
             sku: "84sapha-gen2",
-            version: "8.4.2021091202"
+            version: "latest"
           },
           osProfile: {
             adminUsername: "{your-username}",
@@ -2372,7 +2374,7 @@ async function detectSapSoftwareInstallationOnASingleServerSystem() {
  * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_DetectInstallation_HA_AvSet.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPVirtualInstances_DetectInstallation_HA_AvSet.json
  */
 async function detectSapSoftwareInstallationOnAnHaSystemWithAvailabilitySet() {
   const subscriptionId =
@@ -2396,7 +2398,7 @@ async function detectSapSoftwareInstallationOnAnHaSystemWithAvailabilitySet() {
               offer: "RHEL-SAP-HA",
               publisher: "RedHat",
               sku: "84sapha-gen2",
-              version: "8.4.2021091202"
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -2418,7 +2420,7 @@ async function detectSapSoftwareInstallationOnAnHaSystemWithAvailabilitySet() {
               offer: "RHEL-SAP-HA",
               publisher: "RedHat",
               sku: "84sapha-gen2",
-              version: "8.4.2021091202"
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -2441,7 +2443,7 @@ async function detectSapSoftwareInstallationOnAnHaSystemWithAvailabilitySet() {
               offer: "RHEL-SAP-HA",
               publisher: "RedHat",
               sku: "84sapha-gen2",
-              version: "8.4.2021091202"
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -2484,7 +2486,7 @@ async function detectSapSoftwareInstallationOnAnHaSystemWithAvailabilitySet() {
  * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_DetectInstallation_HA_AvZone.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPVirtualInstances_DetectInstallation_HA_AvZone.json
  */
 async function detectSapSoftwareInstallationOnAnHaSystemWithAvailabilityZone() {
   const subscriptionId =
@@ -2508,7 +2510,7 @@ async function detectSapSoftwareInstallationOnAnHaSystemWithAvailabilityZone() {
               offer: "RHEL-SAP-HA",
               publisher: "RedHat",
               sku: "84sapha-gen2",
-              version: "8.4.2021091202"
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -2530,7 +2532,7 @@ async function detectSapSoftwareInstallationOnAnHaSystemWithAvailabilityZone() {
               offer: "RHEL-SAP-HA",
               publisher: "RedHat",
               sku: "84sapha-gen2",
-              version: "8.4.2021091202"
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -2553,7 +2555,7 @@ async function detectSapSoftwareInstallationOnAnHaSystemWithAvailabilityZone() {
               offer: "RHEL-SAP-HA",
               publisher: "RedHat",
               sku: "84sapha-gen2",
-              version: "8.4.2021091202"
+              version: "latest"
             },
             osProfile: {
               adminUsername: "{your-username}",
@@ -2596,7 +2598,7 @@ async function detectSapSoftwareInstallationOnAnHaSystemWithAvailabilityZone() {
  * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Install_Distributed.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPVirtualInstances_Install_Distributed.json
  */
 async function installSapSoftwareOnDistributedSystem() {
   const subscriptionId =
@@ -2719,7 +2721,7 @@ async function installSapSoftwareOnDistributedSystem() {
  * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Install_SingleServer.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPVirtualInstances_Install_SingleServer.json
  */
 async function installSapSoftwareOnSingleServerSystem() {
   const subscriptionId =
@@ -2788,7 +2790,7 @@ async function installSapSoftwareOnSingleServerSystem() {
  * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_Discover_CustomMrgStorageAccountName.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPVirtualInstances_Create_Discover_CustomMrgStorageAccountName.json
  */
 async function registerExistingSapSystemAsVirtualInstanceForSapSolutionsWithOptionalCustomizations() {
   const subscriptionId =
@@ -2824,7 +2826,7 @@ async function registerExistingSapSystemAsVirtualInstanceForSapSolutionsWithOpti
  * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
  *
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_Discover.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPVirtualInstances_Create_Discover.json
  */
 async function registerExistingSapSystemAsVirtualInstanceForSapSolutions() {
   const subscriptionId =
@@ -2872,9 +2874,9 @@ async function main() {
   createInfrastructureWithOSConfigurationForHaSystemWithAvailabilitySetRecommended();
   createInfrastructureWithOSConfigurationForHaSystemWithAvailabilityZoneRecommended();
   createInfrastructureWithOSConfigurationForSingleServerSystemRecommended();
-  createInfrastructureWithANewSapTransFileshare();
-  createInfrastructureWithAnExistingSapTransFileshare();
-  createInfrastructureWithoutSapTransFileshare();
+  createInfrastructureWithANewSapTransportDirectoryFileshare();
+  createInfrastructureWithAnExistingSapTransportDirectoryFileshare();
+  createInfrastructureWithoutASapTransportDirectoryFileshare();
   detectSapSoftwareInstallationOnADistributedSystem();
   detectSapSoftwareInstallationOnASingleServerSystem();
   detectSapSoftwareInstallationOnAnHaSystemWithAvailabilitySet();

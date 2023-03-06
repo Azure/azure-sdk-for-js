@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Patches the Tags field of a SAP monitor for the specified subscription, resource group, and SAP monitor name.
  *
  * @summary Patches the Tags field of a SAP monitor for the specified subscription, resource group, and SAP monitor name.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/monitors_PatchTags_Delete.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/monitors_PatchTags_Delete.json
  */
 async function deleteTagsFieldOfASapMonitor() {
   const subscriptionId =
@@ -42,7 +42,7 @@ async function deleteTagsFieldOfASapMonitor() {
  * This sample demonstrates how to Patches the Tags field of a SAP monitor for the specified subscription, resource group, and SAP monitor name.
  *
  * @summary Patches the Tags field of a SAP monitor for the specified subscription, resource group, and SAP monitor name.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/monitors_PatchTags.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/monitors_PatchTags.json
  */
 async function updateTagsFieldOfASapMonitor() {
   const subscriptionId =

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Starts the database instance of the SAP system.
  *
  * @summary Starts the database instance of the SAP system.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPDatabaseInstances_StartInstance.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPDatabaseInstances_StartInstance.json
  */
 async function startTheDatabaseInstanceOfTheSapSystem() {
   const subscriptionId =

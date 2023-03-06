@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the SAP Application Server Instance corresponding to the Virtual Instance for SAP solutions resource.
  *
  * @summary Gets the SAP Application Server Instance corresponding to the Virtual Instance for SAP solutions resource.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPApplicationServerInstances_Get.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPApplicationServerInstances_Get.json
  */
 async function sapApplicationServerInstancesGet() {
   const subscriptionId =

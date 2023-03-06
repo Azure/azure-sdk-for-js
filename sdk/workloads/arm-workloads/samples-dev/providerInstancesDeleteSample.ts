@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
  * @summary Deletes a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/ProviderInstances_Delete.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/ProviderInstances_Delete.json
  */
 async function deletesASapMonitorProvider() {
   const subscriptionId =

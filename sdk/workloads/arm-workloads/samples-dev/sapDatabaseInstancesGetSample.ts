@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the SAP Database Instance resource.
  *
  * @summary Gets the SAP Database Instance resource.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPDatabaseInstances_Get.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPDatabaseInstances_Get.json
  */
 async function sapDatabaseInstancesGet() {
   const subscriptionId =
