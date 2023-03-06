@@ -40,8 +40,15 @@ Please see the [Migration Guide](https://github.com/azure/azure-sdk-for-js/blob/
 
 ## What's New
 
-For a list of what's new, check out this blog post [What's New in Azure Cognitive Service for Language?](https://learn.microsoft.com/azure/cognitive-services/language-service/whats-new?tabs=javascript) For a quick introduction and tutorial of the new features, see 
-[New beta release of Text Analytics](https://devblogs.microsoft.com/azure-sdk/announcing-the-new-beta-release-of-azure-text-analytics-libraries/).
+For a list of what's new, check out this blog post [What's New in Azure Cognitive Service for Language?](https://learn.microsoft.com/azure/cognitive-services/language-service/whats-new?tabs=javascript) and see the short samples below
+
+* [Abstractive Summarization](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#abstractive-summarization)
+* [Dynamic Classification](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#dynamic-classification)
+* [Language Detection with Script Detection](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#language-detection)
+* [Automatic Language Detection](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#automatic-language-detection)
+* [Entity Regconition With Resolution](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#entity-recognition-with-resolution)
+* [Healthcare Analysis](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#healthcare-analysis)
+
 
 ## Getting started
 
@@ -186,20 +193,31 @@ if (result.error !== undefined) {
 
 ## Samples
 
-* [Sentiment Analysis](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#sentiment-analysis)
-* [Entity Recognition](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#entity-recognition)
-* [PII Entity Recognition](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#sentiment-analysis)
-* [Entity Linking](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#pii-entity-recognition)
-* [Key Phrase Extraction](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#key-phrase-extraction)
+### Client Usage
+* [Actions Batching](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/batching.ts)
+* [Choose Model Version](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/modelVersion.ts)
+* [Paging](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/paging.ts)
+* [Rehydrate Polling](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/rehydratePolling.ts)
+* [Get Statistics](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/stats.ts)
+
+### Prebuilt Task
+* [Abstractive Summarization](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/abstractiveSummarization.ts)
+* [Dynamic Classification](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/dynamicClassification.ts)
 * [Language Detection](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#language-detection)
-* [Dynamic Classification](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#dynamic-classification)
-* [Healthcare Analysis](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#healthcare-analysis)
-* [Extractive Summarization](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#extractive-summarization)
-* [Abstractive Summarization](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#abstractive-summarization)
-* [Custom Entity Recognition](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#custom-entity-recognition)
-* [Custom Single-lable Classfication](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#custom-single-label-classification)
-* [Custom Multi-lable Classfication](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#custom-multi-label-classification)
-* [Action Batching](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#action-batching)
+* [Entity Linking](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/entityLinking.ts)
+* [Entity Regconition](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/entityRecognition.ts)
+* [Extractive Summarization](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/extractiveSummarization.ts)
+* [Healthcare Analysis](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/healthcare.ts)
+* [Key Phrase Extraction](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/keyPhraseExtraction.ts)
+* [Language Detection](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/languageDetection.ts)
+* [Opinion Mining](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/opinionMining.ts)
+* [PII Entity Recognition](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/piiEntityRecognition.ts)
+* [Sentiment Analysis](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/sentimentAnalysis.ts)
+
+### Custom Tasks
+* [Custom Entity Recognition](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/customEntityRecognition.ts)
+* [Custom Single-lable Classfication](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/customSingleLabelClassification.ts)
+* [Custom Multi-lable Classfication](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/customMultiLabelClassification.ts)
 
 ## Troubleshooting
 
