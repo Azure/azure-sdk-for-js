@@ -212,7 +212,6 @@ export interface BatchActionSuccessResult<T, Kind extends AnalyzeBatchActionName
 
 // @public
 export interface BeginAnalyzeBatchOptions extends TextAnalysisOperationOptions {
-    defaultLanguage?: string;
     displayName?: string;
     updateIntervalInMs?: number;
 }

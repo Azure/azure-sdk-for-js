@@ -945,7 +945,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             "auto",
             {
               updateIntervalInMs: pollingInterval,
-              defaultLanguage: "en",
             }
           );
           await assertActionsResults(await poller.pollUntilDone(), expectation71);

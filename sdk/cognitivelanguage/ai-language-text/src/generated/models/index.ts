@@ -133,8 +133,6 @@ export interface InnerErrorModel {
 export interface AnalyzeTextJobsInput {
   /** Optional display name for the analysis job. */
   displayName?: string;
-  /** Default language to use for records requesting automatic language detection. */
-  defaultLanguage?: string;
   analysisInput: MultiLanguageAnalysisInput;
   /** The set of tasks to execute on the input documents. */
   tasks: AnalyzeBatchActionUnion[];

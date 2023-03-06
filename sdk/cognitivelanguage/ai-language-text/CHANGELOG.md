@@ -8,6 +8,10 @@
 - Add support for `partiallySucceeded` status and parse action error pointers.
 - Change `AbstractiveSummarizationAction` property from `maxSentenceCount` to `sentenceCount`.
 
+### Breaking Changes
+
+- Remove `defaultLanguage` from the `BeginAnalyzeBatchOptions` interface.
+
 ## 1.1.0-beta.1 (2022-11-17)
 
 ### Features Added
