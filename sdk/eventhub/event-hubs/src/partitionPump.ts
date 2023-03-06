@@ -190,9 +190,8 @@ export class PartitionPump {
       // before it has a chance to be emitted.
       this._abortController.abort();
 
-      if (this._receiver) {
-        await this._receiver.close();
-      }
+      await this._receiver?.close();
+
       await this._partitionProcessor.close(reason);
     } catch (err: any) {
       logger.warning(`An error occurred while closing the receiver: ${err?.name}: ${err?.message}`);

@@ -109,7 +109,6 @@ export class LinkEntity {
 
   /**
    * Negotiates cbs claim for the LinkEntity.
-   * @returns Promise<void>
    */
   protected async _negotiateClaim({
     abortSignal,
@@ -266,7 +265,7 @@ export class LinkEntity {
           this.name,
           this.address
         );
-      } catch (err: any) {
+      } catch (err) {
         logger.verbose(
           "[%s] An error occurred while closing the %s '%s' with address '%s': %O",
           this._context.connectionId,
