@@ -367,8 +367,7 @@ directive:
       $.description = "Options for a dynamic classification action.";
   - where-model: AbstractiveSummarizationTaskParametersBase
     transform:
-      $.properties.sentenceCount.description = "The max number of sentences to be part of the summary.";
-      $.properties.sentenceCount["x-ms-client-name"] = "maxSentenceCount";
+      $.properties.sentenceCount.description = "The approximate number of sentences to be part of the summary.";
   - rename-model:
       from: AbstractiveSummarizationTaskParameters
       to: AbstractiveSummarizationAction
