@@ -4,7 +4,7 @@
 
 ### Bugs Fixed
 
-- Change the LRO warning to verbose to reduce confusion when we meet unrecognized operation status
+- Change the logging level for unrecognized operation statuses from warning to verbose.
 
 ## 2.5.1 (2023-02-02)
 
