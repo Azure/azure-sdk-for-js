@@ -40,7 +40,7 @@ export interface AbstractiveSummarizationSuccessResult extends TextAnalysisSucce
 
 // @public
 export interface AbstractiveSummary {
-    contexts?: SummaryContext[];
+    contexts: SummaryContext[];
     text: string;
 }
 

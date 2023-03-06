@@ -1,0 +1,33 @@
+{
+  "name": "@azure-samples/purview-sharing-js-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Purview Sharing client library samples for JavaScript (Beta)",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/purview/purview-sharing-rest"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-sharing-rest",
+  "dependencies": {
+    "@azure-rest/purview-sharing": "next",
+    "dotenv": "latest",
+    "@azure/identity": "^2.0.1"
+  }
+}

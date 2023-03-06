@@ -41,7 +41,7 @@
     "rimraf": "^3.0.0",
     "dotenv": "^16.0.0",
     "@azure/identity": "^2.0.1",
-    "@azure-tools/test-recorder": "^2.0.0",
+    "@azure-tools/test-recorder": "^3.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "mocha": "^7.1.1",
     "@types/chai": "^4.2.8",
