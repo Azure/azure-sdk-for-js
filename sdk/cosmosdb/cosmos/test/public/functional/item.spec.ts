@@ -316,7 +316,7 @@ describe("Create, Upsert, Read, Update, Replace, Delete Operations on Item", fun
     );
 
     await bulkDeleteItems(container, returnedDocuments, dataset.partitinKeyDef);
-  };
+  }
 
   const dataSetForDefaultPartitionKey: CRUDTestDataSet = {
     containerDef: { id: "sample container" },
@@ -575,9 +575,13 @@ describe("bulk/batch item operations", async function () {
         it("Check case when cumulative size of all operations is less than threshold", async function () {
           const operations: OperationInput[] = [...Array(10).keys()].map(
             () =>
-            ({
-              ...generateOperationOfSize(100, { partitionKey: "key_value" }, { key: "key_value" }),
-            } as any)
+              ({
+                ...generateOperationOfSize(
+                  100,
+                  { partitionKey: "key_value" },
+                  { key: "key_value" }
+                ),
+              } as any)
           );
           const response = await container.items.bulk(operations);
           // Create
@@ -588,12 +592,12 @@ describe("bulk/batch item operations", async function () {
         it("Check case when cumulative size of all operations is greater than threshold", async function () {
           const operations: OperationInput[] = [...Array(10).keys()].map(
             () =>
-            ({
-              ...generateOperationOfSize(
-                Math.floor(Constants.DefaultMaxBulkRequestBodySizeInBytes / 2)
-              ),
-              partitionKey: {},
-            } as any)
+              ({
+                ...generateOperationOfSize(
+                  Math.floor(Constants.DefaultMaxBulkRequestBodySizeInBytes / 2)
+                ),
+                partitionKey: {},
+              } as any)
           );
           const response = await container.items.bulk(operations);
           // Create
@@ -604,13 +608,13 @@ describe("bulk/batch item operations", async function () {
         it("Check case when cumulative size of all operations is greater than threshold", async function () {
           const operations: OperationInput[] = [...Array(50).keys()].map(
             () =>
-            ({
-              ...generateOperationOfSize(
-                Math.floor(Constants.DefaultMaxBulkRequestBodySizeInBytes / 2),
-                {},
-                { key: "key_value" }
-              ),
-            } as any)
+              ({
+                ...generateOperationOfSize(
+                  Math.floor(Constants.DefaultMaxBulkRequestBodySizeInBytes / 2),
+                  {},
+                  { key: "key_value" }
+                ),
+              } as any)
           );
           const response = await container.items.bulk(operations);
           // Create
