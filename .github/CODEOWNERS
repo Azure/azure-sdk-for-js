@@ -14,7 +14,13 @@
 
 /.devcontainer/ @jeremymeng
 /documentation/ @jeremymeng
-/samples/       @jeremymeng
+/samples/       @jeremymeng @witemple-msft
+
+################
+# Architecture
+################
+
+/design/ @bterlson @mpodwysocki @joheredi @jeremymeng @witemple-msft
 
 ################
 # Automation
@@ -138,6 +144,7 @@
 
 # PRLabel: %Purview
 /sdk/purview/ @qiaozha
+/sdk/purview/purview-sharing-rest/ @anniruddh
 
 # PRLabel: %Personalizer
 /sdk/personalizer/ @sharathmalladi
@@ -1463,8 +1470,8 @@
 # Config
 ###########
 /.vscode/ @mikeharder @ckairen @deyaaeldeen
-/common/ @mikeharder @ckairen @witemple-msft @deyaaeldeen
-/common/config/rush/pnpm-lock.yaml @ckairen @witemple-msft @deyaaeldeen @jeremymeng
+/common/ @mikeharder @ckairen @deyaaeldeen
+/common/config/rush/pnpm-lock.yaml @ckairen @deyaaeldeen @jeremymeng
 /common/smoke-test/ @mikeharder @ckairen @witemple-msft @deyaaeldeen @benbp
 
 /rush.json @mikeharder @ckairen
