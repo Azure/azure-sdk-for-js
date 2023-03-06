@@ -365,9 +365,6 @@ directive:
   - where-model: DynamicClassificationAction
     transform:
       $.description = "Options for a dynamic classification action.";
-  - where-model: AbstractiveSummarizationTaskParametersBase
-    transform:
-      $.properties.sentenceCount.description = "The approximate number of sentences to be part of the summary.";
   - rename-model:
       from: AbstractiveSummarizationTaskParameters
       to: AbstractiveSummarizationAction
