@@ -4,7 +4,7 @@
 
 ### Bugs Fixed
 
-- Fixing a bug where events were not always received in order [#23993](https://github.com/Azure/azure-sdk-for-js/issues/23993).
+- Fixing a bug where events were not always received in order [[#23993]](https://github.com/Azure/azure-sdk-for-js/issues/23993).
 
 ### Other Changes
 
