@@ -32,13 +32,13 @@ export async function streamToBuffer(
 
     stream.on("readable", () => {
       if (pos >= count) {
+        clearTimeout(timeout);
+        resolve();
         return;
       }
 
       let chunk = stream.read();
       if (!chunk) {
-        clearTimeout(timeout);
-        resolve();
         return;
       }
       if (typeof chunk === "string") {
