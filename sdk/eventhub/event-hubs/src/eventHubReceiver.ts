@@ -322,7 +322,13 @@ export class EventHubReceiver extends LinkEntity {
       return;
     }
     const receiverLink = this._receiver;
-    this._deleteFromCache();
+    this._receiver = undefined;
+    delete this._context.receivers[this.name];
+    logger.verbose(
+      "[%s] Deleted the receiver '%s' from the client cache.",
+      this._context.connectionId,
+      this.name
+    );
     return this._closeLink(receiverLink)
       .catch((err) => {
         logger.warning(
@@ -353,16 +359,6 @@ export class EventHubReceiver extends LinkEntity {
 
   private _addCredit(credit: number): void {
     this._receiver?.addCredit(credit);
-  }
-
-  private _deleteFromCache(): void {
-    this._receiver = undefined;
-    delete this._context.receivers[this.name];
-    logger.verbose(
-      "[%s] Deleted the receiver '%s' from the client cache.",
-      this._context.connectionId,
-      this.name
-    );
   }
 
   /**
