@@ -426,6 +426,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-tools/communication-verified-recipients",
+      "projectFolder": "sdk/communication/communication-verified-recipients",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-tools/communication-alpha-ids",
       "projectFolder": "sdk/communication/communication-alpha-ids",
       "versionPolicyName": "client"
