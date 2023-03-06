@@ -2420,8 +2420,9 @@ T
 UnionToIntersection<Paths extends `${infer FieldName}/${infer RestPaths}` ? FieldName extends keyof T & string ? NonNullable<T[FieldName]> extends Array<infer Elem> ? Elem extends object ? RestPaths extends SelectFields<Elem> ? {
     [Key in keyof T as Key & FieldName]: Array<SearchPick<Elem, RestPaths>>;
 } : never : never : NonNullable<T[FieldName]> extends object ? {
-    [Key in keyof T as Key & FieldName]: RestPaths extends SelectFields<T[Key] & {}> ? SearchPick<T[Key] & {}, RestPaths> : never;
-} : never : never : Pick<T, Paths>> & {};
+    [Key in keyof T as Key & FieldName]: RestPaths extends SelectFields<T[Key] & {}> ? SearchPick<T[Key] & {}, RestPaths> | Extract<T[Key], null> : never;
+} : never : never : // Otherwise, capture the paths that are simple keys of T itself
+Pick<T, Paths> | Extract<T, null>> & {};
 
 // @public
 export interface SearchRequest {

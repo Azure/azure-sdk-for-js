@@ -803,12 +803,14 @@ export type SearchPick<T extends object, Paths extends SelectFields<T>> =
                       // This empty intersection fixes `T[Key]` not being narrowed to an object type in older versions of TS
                     }
                   >
-                    ? SearchPick<
-                        T[Key] & {
-                          // Ditto
-                        },
-                        RestPaths
-                      >
+                    ?
+                        | SearchPick<
+                            T[Key] & {
+                              // Ditto
+                            },
+                            RestPaths
+                          >
+                        | Extract<T[Key], null>
                     : // Unreachable by construction
                       never;
                 }
@@ -817,7 +819,7 @@ export type SearchPick<T extends object, Paths extends SelectFields<T>> =
             : // Ignore symbols and numbers
               never
           : // Otherwise, capture the paths that are simple keys of T itself
-            Pick<T, Paths>
+            Pick<T, Paths> | Extract<T, null>
       > & {
         // This useless intersection actually prevents the TypeScript language server from
         // expanding the definition of SearchPick<T, Paths> in IntelliSense. Since we're
