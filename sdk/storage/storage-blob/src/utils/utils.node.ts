@@ -32,8 +32,6 @@ export async function streamToBuffer(
 
     stream.on("readable", () => {
       if (pos >= count) {
-        clearTimeout(timeout);
-        resolve();
         return;
       }
 
