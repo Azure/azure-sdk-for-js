@@ -88,14 +88,6 @@ export class EventHubReceiver extends LinkEntity {
    */
   private _checkpoint: number = -1;
   /**
-   * Indicates if messages are being received from this receiver.
-   */
-  private _isReceiving: boolean = false;
-  /**
-   * Indicated if messages are being received in streaming mode.
-   */
-  private _isStreaming: boolean = false;
-  /**
    * Denotes if close() was called on this receiver
    */
   private _isClosed: boolean = false;
@@ -110,14 +102,6 @@ export class EventHubReceiver extends LinkEntity {
    */
   get checkpoint(): number {
     return this._checkpoint;
-  }
-
-  /**
-   * Indicates if messages are being received from this receiver.
-   * @readonly
-   */
-  get isReceivingMessages(): boolean {
-    return this._isReceiving;
   }
 
   /**
@@ -204,9 +188,6 @@ export class EventHubReceiver extends LinkEntity {
       this.runtimeInfo.retrievedOn = data.retrievalTime;
     }
 
-    if (this._isStreaming) {
-      this._addCredit(1);
-    }
     this.queue.push(receivedEventData);
   }
 
@@ -304,13 +285,11 @@ export class EventHubReceiver extends LinkEntity {
   }
 
   /**
-   * Clears the user-provided handlers and updates the receiving messages flag.
+   * Clears the _onError callback.
    */
   clearHandlers(): void {
     if (!this) return;
     this._onError = undefined;
-    this._isReceiving = false;
-    this._isStreaming = false;
   }
 
   /**
@@ -480,9 +459,6 @@ export class EventHubReceiver extends LinkEntity {
     maxWaitTimeInSeconds: number = 60,
     abortSignal?: AbortSignalLike
   ): Promise<ReceivedEventData[]> {
-    this._isReceiving = true;
-    this._isStreaming = false;
-
     const cleanupBeforeAbort = (): Promise<void> => {
       logAbort(this._context.connectionId, this.name, this.address);
       return this.close();
