@@ -1,111 +1,57 @@
-## Azure BatchServiceClient SDK for JavaScript
+# Azure BatchService REST client library for JavaScript
 
-This package contains an isomorphic SDK for BatchServiceClient.
+A client for issuing REST requests to the Azure Batch service.
+
+**Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
+
+Key links:
+
+- [Package (NPM)](https://www.npmjs.com/package/@azure-rest/batch)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/batch?view=azure-node-preview)
+
+## Getting started
 
 ### Currently supported environments
 
-- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
-- Latest versions of Safari, Chrome, Edge, and Firefox.
+- LTS versions of Node.js
 
-See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+### Prerequisites
 
-### How to Install
+- You must have an [Azure subscription](https://azure.microsoft.com/free/) to use this package.
 
-```bash
-npm install @azure/batch
-```
+### Install the `@azure-rest/batch` package
 
-### How to use
-
-#### nodejs - Authentication, client creation and list application as an example written in TypeScript.
-
-##### Install @azure/ms-rest-nodeauth
+Install the Azure BatchService REST client REST client library for JavaScript with `npm`:
 
 ```bash
-npm install @azure/ms-rest-nodeauth
+npm install @azure-rest/batch
 ```
 
-##### Authentication
+### Create and authenticate a `BatchServiceClient`
 
-1. Use the `BatchSharedKeyCredentials` exported from `@azure/batch`.
+To use an [Azure Active Directory (AAD) token credential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token),
+provide an instance of the desired credential type obtained from the
+[@azure/identity](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) library.
 
-```typescript
-import { BatchServiceClient, BatchSharedKeyCredentials } from "@azure/batch";
+To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) 
 
-const batchAccountName = process.env["AZURE_BATCH_ACCOUNT_NAME"] || "";
-const batchAccountKey = process.env["AZURE_BATCH_ACCOUNT_KEY"] || "";
-const batchEndpoint = process.env["AZURE_BATCH_ENDPOINT"] || "";
+After setup, you can choose which type of [credential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) from `@azure/identity` to use.
+As an example, [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential)
+can be used to authenticate the client.
 
-async function main(): Promise<void> {
-  try {
-    const creds = new BatchSharedKeyCredentials(batchAccountName, batchAccountKey);
-    const client = new BatchServiceClient(creds, batchEndpoint);
-  } catch (err) {
-    console.log(err);
-  }
-}
+Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables:
+AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
+
+## Troubleshooting
+
+### Logging
+
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
+
+```javascript
+const { setLogLevel } = require("@azure/logger");
+
+setLogLevel("info");
 ```
 
-2. Use the `MSIVmTokenCredentials` exported from `@azure/ms-rest-nodeauth`.
-
-```typescript
-import { BatchServiceClient } from "@azure/batch";
-import { loginWithVmMSI } from "@azure/ms-rest-nodeauth";
-
-const batchEndpoint = process.env["AZURE_BATCH_ENDPOINT"] || "";
-
-async function main(): Promise<void> {
-  try {
-    const creds = await loginWithVmMSI({
-      resource: "https://batch.core.windows.net/"
-    });
-    const client = new BatchServiceClient(creds, batchEndpoint);
-  } catch (err) {
-    console.log(err);
-  }
-}
-```
-
-##### Sample code
-
-```typescript
-import { BatchServiceClient, BatchServiceModels, BatchSharedKeyCredentials } from "@azure/batch";
-
-const batchAccountName = process.env["AZURE_BATCH_ACCOUNT_NAME"] || "";
-const batchAccountKey = process.env["AZURE_BATCH_ACCOUNT_KEY"] || "";
-const batchEndpoint = process.env["AZURE_BATCH_ENDPOINT"] || "";
-
-const creds = new BatchSharedKeyCredentials(batchAccountName, batchAccountKey);
-const client = new BatchServiceClient(creds, batchEndpoint);
-
-const options: BatchServiceModels.JobListOptionalParams = {
-  jobListOptions: { maxResults: 10 }
-};
-
-async function loop(res: BatchServiceModels.JobListResponse, nextLink?: string): Promise<void> {
-  if (nextLink !== undefined) {
-    const res1 = await client.job.listNext(nextLink);
-    if (res1.length) {
-      for (const item of res1) {
-        res.push(item);
-      }
-    }
-    return loop(res, res1.odatanextLink);
-  }
-  return Promise.resolve();
-}
-
-async function main(): Promise<void> {
-  const result = await client.job.list(options);
-  await loop(result, result.odatanextLink);
-  console.dir(result, { depth: null, colors: true });
-}
-
-main().catch((err) => console.log("An error occurred: ", err));
-```
-
-## Related projects
-
-- [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fbatch%2Fbatch%2FREADME.png)
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).

@@ -213,6 +213,7 @@ specifiers:
   '@rush-temp/arm-workloads': file:./projects/arm-workloads.tgz
   '@rush-temp/arm-workspaces': file:./projects/arm-workspaces.tgz
   '@rush-temp/attestation': file:./projects/attestation.tgz
+  '@rush-temp/batch': file:./projects/batch.tgz
   '@rush-temp/communication-alpha-ids': file:./projects/communication-alpha-ids.tgz
   '@rush-temp/communication-chat': file:./projects/communication-chat.tgz
   '@rush-temp/communication-common': file:./projects/communication-common.tgz
@@ -543,6 +544,7 @@ dependencies:
   '@rush-temp/arm-workloads': file:projects/arm-workloads.tgz
   '@rush-temp/arm-workspaces': file:projects/arm-workspaces.tgz
   '@rush-temp/attestation': file:projects/attestation.tgz
+  '@rush-temp/batch': file:projects/batch.tgz
   '@rush-temp/communication-alpha-ids': file:projects/communication-alpha-ids.tgz
   '@rush-temp/communication-chat': file:projects/communication-chat.tgz
   '@rush-temp/communication-common': file:projects/communication-common.tgz
@@ -3895,7 +3897,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230303
+      typescript: 5.1.0-dev.20230306
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8603,8 +8605,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230303:
-    resolution: {integrity: sha512-aDocbsouqGny1M8Kjxn8svqDUy5xoINdPpuh4t0UDoitl6nsHZ61suF1HLfMj9P/A1Bl6Tpjq6GTaRtrElq4aQ==}
+  /typescript/5.1.0-dev.20230306:
+    resolution: {integrity: sha512-CqMT7nhnVNKfaT1giN+UjFUSqN2gBI17K8JoT+I1LgPU/G9oYypuG+91pz8Kjk/GW/BG685khZ0YfFrADj+KPQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -15313,6 +15315,66 @@ packages:
       - '@swc/wasm'
       - bufferutil
       - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/batch.tgz:
+    resolution: {integrity: sha512-Ks4nTeXne3tWklnW7fXHkfUffghsrEbCz5PgMJc8/mm68CPLbMXS3xvev33tTaezi07gmewNjOn2rQMZyYOrmg==, tarball: file:projects/batch.tgz}
+    name: '@rush-temp/batch'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.4_@types+node@14.18.36
+      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
+      '@rollup/plugin-inject': 5.0.3_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@rollup/plugin-replace': 5.0.2_rollup@2.79.1
+      '@rollup/plugin-typescript': 11.0.0_6cslydldi7sjtrphlipqm26hmy
+      '@types/chai': 4.3.4
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.36
+      '@types/uuid': 8.3.4
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.0.3
+      downlevel-dts: 0.10.1
+      eslint: 8.35.0
+      esm: 3.2.25
+      karma: 6.4.1
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 2.1.2
+      karma-json-preprocessor: 0.3.3_karma@6.4.1
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@6.4.1
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.1
+      karma-sourcemap-loader: 0.3.8
+      mocha: 7.2.0
+      mocha-junit-reporter: 2.2.0_mocha@7.2.0
+      nyc: 15.1.0
+      prettier: 2.8.4
+      puppeteer: 19.7.2_typescript@4.8.4
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-shim: 1.0.0
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
+      ts-node: 10.9.1_gjo33tkf7m2dtuw6tmxt3xwf4q
+      tslib: 2.5.0
+      typescript: 4.8.4
+      util: 0.12.5
+      uuid: 9.0.0
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - bufferutil
+      - debug
+      - encoding
       - supports-color
       - utf-8-validate
     dev: false
