@@ -7,12 +7,14 @@ import {
   EntityLinkingResult,
   EntityRecognitionResult,
   KeyPhraseExtractionResult,
+  KnownErrorCode,
   LanguageDetectionResult,
   PiiEntityRecognitionResult,
   PiiEntityRecognitionSuccessResult,
   SentimentAnalysisResult,
 } from "../../src/";
 
+const failedOn = undefined as any;
 const modelVersion = undefined as any;
 const completedOn = undefined as any;
 const deploymentName = undefined as any;
@@ -3977,7 +3979,7 @@ export const expectation30: AnalyzeBatchResult[] = [
         id: "0",
         summaries: [
           {
-            text: "Microsoft is releasing Windows 365, a new operating system that puts Microsoft’s flagship operating system in the cloud. The Cloud PC is a new virtualization technology for Windows that is easy to set up and deploy for today’s login-from- anywhere, mobile and elastic workforces. The cloud PC is available later this calendar year.",
+            text: "Microsoft is releasing Windows 365, a new operating system that is easy to set up and deploy for today’s login-from- anywhere, mobile and elastic workforces. The Cloud PC is a new virtualization technology for Windows that is easier to set Up and Deploy for today's login. The Cloud PCs are accessible through a native application or web browser on any device, from anywhere with an internet connection.",
             contexts: [{ offset: 0, length: 7519 }],
           },
         ],
@@ -4007,7 +4009,7 @@ export const expectation31: AnalyzeBatchResult[] = [
         id: "0",
         summaries: [
           {
-            text: "Microsoft is releasing Windows 365, a new operating system that puts Microsoft’s flagship operating system in the cloud. The Cloud PC is a new virtualization technology for Windows that is easy to set up and deploy for today’s login-from- anywhere, mobile and elastic workforces. The cloud PC is available later this calendar year.",
+            text: "Microsoft is releasing Windows 365, a new operating system that is easy to set up and deploy for today’s login-from- anywhere, mobile and elastic workforces. The Cloud PC is a new virtualization technology for Windows that is easier to set Up and Deploy for today's login. The Cloud PCs are accessible through a native application or web browser on any device, from anywhere with an internet connection.",
             contexts: [{ offset: 0, length: 7519 }],
           },
         ],
@@ -7238,5 +7240,36 @@ export const expectation72: LanguageDetectionResult[] = [
     primaryLanguage: { name: "Hindi", iso6391Name: "hi", confidenceScore: 1, script: "Latin" },
     id: "0",
     warnings: [],
+  },
+];
+
+export const expectation73: AnalyzeBatchResult[] = [
+  {
+    kind: "EntityRecognition",
+    error: {
+      code: KnownErrorCode.InvalidRequest,
+      message: "oh my bad",
+    },
+    modelVersion,
+    failedOn,
+  },
+  {
+    kind: "Healthcare",
+    results: [
+      {
+        entities: [],
+        entityRelations: [],
+        id: "0",
+        warnings: [
+          {
+            code: "DocumentTruncated",
+            message:
+              "Document is large and must be split to be processed; relations across splits may not be caught by the model",
+          },
+        ],
+      },
+    ],
+    completedOn,
+    modelVersion,
   },
 ];

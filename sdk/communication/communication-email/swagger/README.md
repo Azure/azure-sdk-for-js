@@ -11,9 +11,9 @@ description: Email REST API Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-2021-10-01-preview
+tag: package-2023-01-15-preview
 package-version: 1.0.0-beta.2
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/communication/data-plane/Email/readme.md
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ac7f9d6f1003acf6e54682534f30a9f5ec7fc5d2/specification/communication/data-plane/Email/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 typescript: true
@@ -28,16 +28,6 @@ use-extension:
 
 See the [AutoRest samples](https://github.com/Azure/autorest/tree/master/Samples/3b-custom-transformations)
 for more about how we're customizing things.
-
-### Change the bCC property to bcc
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions.EmailRecipients.properties.bCC
-    transform: >
-      $["x-ms-client-name"] = "bcc"
-```
 
 ### Remove "To" from the required properties
 
