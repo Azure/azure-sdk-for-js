@@ -215,6 +215,13 @@ directive:
       $["x-ms-client-name"] = "includeStatistics";
 
   - from: swagger-document
+    where: $.definitions.AbstractiveSummary.required
+    transform: >
+      if (!$.find((x) => x === "contexts")) {
+          $.push("contexts");
+      }
+
+  - from: swagger-document
     where: $.definitions[*]
     transform: >
       if ($.description && $.description.includes("showStats")) {
@@ -272,6 +279,11 @@ directive:
     where: $.definitions.DocumentWarning.properties.code
     transform: >
       $["x-ms-enum"].name = "WarningCode";
+
+  - from: swagger-document
+    where: $.definitions.AnalyzeTextJobsInput.properties
+    transform: >
+      delete $["defaultLanguage"];
 
   - from: swagger-document
     where: $.definitions.DocumentWarning.properties
@@ -358,10 +370,6 @@ directive:
   - where-model: DynamicClassificationAction
     transform:
       $.description = "Options for a dynamic classification action.";
-  - where-model: AbstractiveSummarizationTaskParametersBase
-    transform:
-      $.properties.sentenceCount.description = "The max number of sentences to be part of the summary.";
-      $.properties.sentenceCount["x-ms-client-name"] = "maxSentenceCount";
   - rename-model:
       from: AbstractiveSummarizationTaskParameters
       to: AbstractiveSummarizationAction
