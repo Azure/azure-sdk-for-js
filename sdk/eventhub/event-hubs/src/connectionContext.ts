@@ -33,6 +33,8 @@ import { EventHubSender } from "./eventHubSender";
 import { getRuntimeInfo } from "./util/runtimeInfo";
 import { isCredential } from "./util/typeGuards";
 import { packageJsonInfo } from "./util/constants";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { createAbortablePromise } from "@azure/core-util";
 
 /**
  * @internal
@@ -77,7 +79,7 @@ export interface ConnectionContext extends ConnectionContextBase {
    * An AMQP link cannot be opened if the AMQP connection
    * is in the process of closing or disconnecting.
    */
-  readyToOpenLink(): Promise<void>;
+  readyToOpenLink(options?: { abortSignal?: AbortSignalLike }): Promise<void>;
   /**
    * Closes all AMQP links, sessions and connection.
    */
@@ -100,7 +102,7 @@ export interface ConnectionContextInternalMembers extends ConnectionContext {
   /**
    * Resolves once the context's connection emits a `disconnected` event.
    */
-  waitForDisconnectedEvent(): Promise<void>;
+  waitForDisconnectedEvent(options?: { abortSignal?: AbortSignalLike }): Promise<void>;
   /**
    * Resolves once the connection has finished being reset.
    * Connections are reset as part of reacting to a `disconnected` event.
@@ -203,27 +205,27 @@ export namespace ConnectionContext {
         // then the rhea connection is in the process of terminating.
         return Boolean(!this.connection.isOpen() && this.connection.isRemoteOpen());
       },
-      async readyToOpenLink() {
+      async readyToOpenLink(optionsArg?: { abortSignal?: AbortSignalLike }) {
         // Check that the connection isn't in the process of closing.
         // This can happen when the idle timeout has been reached but
         // the underlying socket is waiting to be destroyed.
         if (this.isConnectionClosing()) {
           // Wait for the disconnected event that indicates the underlying socket has closed.
-          await this.waitForDisconnectedEvent();
+          await this.waitForDisconnectedEvent(optionsArg);
         }
 
         // Wait for the connection to be reset.
         await this.waitForConnectionReset();
       },
-      waitForDisconnectedEvent() {
-        return new Promise((resolve) => {
+      waitForDisconnectedEvent(optionsArg?: { abortSignal?: AbortSignalLike }) {
+        return createAbortablePromise((resolve) => {
           logger.verbose(
             `[${this.connectionId}] Attempting to reinitialize connection` +
               ` but the connection is in the process of closing.` +
               ` Waiting for the disconnect event before continuing.`
           );
           this.connection.once(ConnectionEvents.disconnected, resolve);
-        });
+        }, optionsArg);
       },
       waitForConnectionReset() {
         // Check if the connection is currently in the process of disconnecting.

@@ -33,7 +33,10 @@ describe("BlockBlobClient", () => {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
-      { uriSanitizers, removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source"] } },
+      {
+        uriSanitizers,
+        removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source", "x-ms-encryption-key"] },
+      },
       ["playback", "record"]
     );
     const blobServiceClient = getBSU(recorder);

@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { WorkloadsClient } from "@azure/arm-workloads";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets a list of SAP monitors in the specified resource group.
  *
  * @summary Gets a list of SAP monitors in the specified resource group.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/monitors_ListByRG.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/monitors_ListByRG.json
  */
 async function listAllSapMonitorsInAResourceGroup() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "example-rg";
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "example-rg";
   const credential = new DefaultAzureCredential();
   const client = new WorkloadsClient(credential, subscriptionId);
   const resArray = new Array();
@@ -31,4 +37,8 @@ async function listAllSapMonitorsInAResourceGroup() {
   console.log(resArray);
 }
 
-listAllSapMonitorsInAResourceGroup().catch(console.error);
+async function main() {
+  listAllSapMonitorsInAResourceGroup();
+}
+
+main().catch(console.error);
