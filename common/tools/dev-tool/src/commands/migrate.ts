@@ -7,15 +7,19 @@ import { leafCommand } from "../framework/command";
 import { makeCommandInfo } from "../framework/command";
 import { cwd } from "process";
 import {
-  getAppliedMigrations,
+  listAppliedMigrations,
   getMigrationById,
-  getPendingMigrations,
+  listPendingMigrations,
   getSuspendedMigration,
   loadMigrations,
   removeMigrationStateFile,
   runMigration,
   SuspendedMigrationState,
   updateMigrationDate,
+  validateResumedMigration,
+  Migration,
+  MigrationSuspendedExitState,
+  MigrationErrorExitState,
 } from "../util/migrations";
 import * as git from "../util/git";
 
@@ -82,14 +86,14 @@ export default leafCommand(commandInfo, async (options) => {
   } else {
     // Handle submodes
     if (!!options.list) {
-      for (const m of getPendingMigrations(migrationDate)) {
+      for (const m of listPendingMigrations(migrationDate)) {
         // TODO: create a migration formatter that displays good info.
         log.info(m.id);
       }
 
       return true;
     } else if (!!options["list-applied"]) {
-      for (const m of getAppliedMigrations(migrationDate)) {
+      for (const m of listAppliedMigrations(migrationDate)) {
         // TODO: create a migration formatter that displays good info.
         log.info(m.id);
       }
@@ -167,7 +171,7 @@ async function startMigrationPass(project: ProjectInfo, migrationDate: Date): Pr
     return false;
   }
 
-  const pending = [...getPendingMigrations(migrationDate)];
+  const pending = [...listPendingMigrations(migrationDate)];
 
   if (pending.length === 0) {
     log.info("Package is up to date. Nothing to do!");
@@ -177,6 +181,10 @@ async function startMigrationPass(project: ProjectInfo, migrationDate: Date): Pr
   log.info(`Starting migration pass for '${project.name}'.`);
   log.info(`Last migration: ${project.packageJson[METADATA_KEY].migrationDate ?? "never"}`);
 
+  return runMigrations(pending, project);
+}
+
+async function runMigrations(pending: Migration[], project: ProjectInfo) {
   for (const migration of pending) {
     log.info(`Applying migration '${migration.id}' (${migration.date.toLocaleDateString()})`);
     log.info(`  - Description: ${migration.description}`);
@@ -185,70 +193,79 @@ async function startMigrationPass(project: ProjectInfo, migrationDate: Date): Pr
 
     switch (status.kind) {
       case "success": {
-        await updateMigrationDate(project, migration);
-
-        git.commitAll(`dev-tool: applied migration '${migration.id}'`);
-
-        log.success(`Migration '${migration.id}' applied successfully.`);
+        await onMigrationSuccess(project, migration);
         continue;
       }
       case "suspended": {
-        log.warn(`'${migration.id}' suspended during ${status.phase}.`);
-        log.warn("  Description: ", migration.description);
-
-        if (status.phase === "execution") {
-          log.warn(
-            "This migration requires manual intervention. It cannot be performed automatically."
-          );
-          log.warn(
-            "Check the state of the current package and ensure that it has been migrated as appropriate."
-          );
-          log.warn(
-            "When you are sure that the package has been migrated correctly, run `dev-tool migrate --continue`."
-          );
-        } else if (migration.validation) {
-          // Automated validation failed
-          log.warn("The automated validation for this migration failed:", status.reason);
-          log.warn(
-            "Manually correct the migration results and then run `dev-tool migrate --continue` to run the validation again."
-          );
-        } else {
-          // No validation
-          log.warn(
-            "This migration was automatically executed, but cannot be automatically validated."
-          );
-          log.warn(
-            "Manually check the migration results and then run `dev-tool migrate --continue` when you are sure they are correct to continue."
-          );
-        }
-
-        if (migration.url) {
-          log.warn(
-            "You will find helpful information for this migration at the following URL:",
-            migration.url
-          );
-        }
-
+        printMigrationSuspendedWarning(migration, status);
         return true;
       }
       case "error": {
-        log.error(`Encountered an error running migration: '${migration.id}'.`);
-        log.error("Stack trace:", status.error.stack);
-        log.error(
-          "The migration pass has been suspended. The failed migration terminated in an unexpected way and may have damaged the working tree."
-        );
-        log.error(
-          "Errors must be fixed and the migration must be performed _MANUALLY_. To abort the migration, run `dev-tool migrate --abort`."
-        );
-        log.error(
-          "If you have migrated the package manually, and you are sure that the migration is correct, you can continue using `dev-tool migrate --continue`."
-        );
+        printMigrationError(migration, status);
         return false;
       }
     }
   }
 
+  log.success("All migrations applied successfully.");
+
   return true;
+}
+
+async function onMigrationSuccess(project: ProjectInfo, migration: Migration) {
+  await updateMigrationDate(project, migration);
+
+  git.commitAll(`dev-tool: applied migration '${migration.id}'`);
+
+  log.success(`Migration '${migration.id}' applied successfully.`);
+}
+
+function printMigrationError(migration: Migration, status: MigrationErrorExitState) {
+  log.error(`Encountered an error running migration: '${migration.id}'.`);
+  log.error("Stack trace:", status.error.stack);
+  log.error(
+    "The migration pass has been suspended. The failed migration terminated in an unexpected way and may have damaged the working tree."
+  );
+  log.error(
+    "Errors must be fixed and the migration must be performed _MANUALLY_. To abort the migration, run `dev-tool migrate --abort`."
+  );
+  log.error(
+    "If you have migrated the package manually, and you are sure that the migration is correct, you can continue using `dev-tool migrate --continue`."
+  );
+}
+
+function printMigrationSuspendedWarning(migration: Migration, status: MigrationSuspendedExitState) {
+  log.warn(`'${migration.id}' suspended during ${status.phase}.`);
+  log.warn("  Description: ", migration.description);
+
+  if (status.phase === "execution") {
+    log.warn("This migration requires manual intervention. It cannot be performed automatically.");
+    log.warn(
+      "Check the state of the current package and ensure that it has been migrated as appropriate."
+    );
+    log.warn(
+      "When you are sure that the package has been migrated correctly, run `dev-tool migrate --continue`."
+    );
+  } else if (migration.validation) {
+    // Automated validation failed
+    log.warn("The automated validation for this migration failed:", status.reason);
+    log.warn(
+      "Manually correct the migration results and then run `dev-tool migrate --continue` to run the validation again."
+    );
+  } else {
+    // No validation
+    log.warn("This migration was automatically executed, but cannot be automatically validated.");
+    log.warn(
+      "Manually check the migration results and then run `dev-tool migrate --continue` when you are sure they are correct to continue."
+    );
+  }
+
+  if (migration.url) {
+    log.warn(
+      "You will find helpful information for this migration at the following URL:",
+      migration.url
+    );
+  }
 }
 
 /**
@@ -280,8 +297,43 @@ async function continueMigration(project: ProjectInfo): Promise<boolean> {
   if (!suspendedMigration) return false;
 
   // TODO: load migration, and if successful resume migration
+  const migration = getMigrationById(suspendedMigration.id);
 
-  return true;
+  if (!migration)
+    throw new Error(`unreachable: suspended migration '${suspendedMigration.id}' is unknown`);
+
+  const state = await validateResumedMigration(project, migration);
+
+  log.info(`Resuming migration from '${migration.id}' (${migration.date.toLocaleDateString()})`);
+
+  switch (state.kind) {
+    case "success": {
+      await onMigrationSuccess(project, migration);
+
+      const pending = [...listPendingMigrations(migration.date)];
+
+      if (pending.length === 0) {
+        log.info("No more migrations to apply. Migration pass complete.");
+        return true;
+      } else {
+        log.info(`Continuing migration pass for '${project.name}'.`);
+      }
+
+      return runMigrations(pending, project);
+    }
+    case "suspended": {
+      printMigrationSuspendedWarning(migration, state);
+
+      return true;
+    }
+    case "error": {
+      printMigrationError(migration, state);
+      return false;
+    }
+    default:
+      const __exhaust: never = state;
+      throw new Error(`unreachable: ${__exhaust}`);
+  }
 }
 
 async function validateSuspendedState(

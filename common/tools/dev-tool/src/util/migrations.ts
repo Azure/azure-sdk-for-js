@@ -90,6 +90,10 @@ export function createMigration(
   return migration;
 }
 
+/**
+ * Sorts and returns the migrations. If the migrations are already sorted, this function won't sort them again.
+ * @internal
+ */
 function getSortedMigrations(): readonly Migration[] {
   if (!SORTED) {
     MIGRATIONS.sort((m1, m2) => (m1.date < m2.date ? -1 : 1));
@@ -98,25 +102,84 @@ function getSortedMigrations(): readonly Migration[] {
   return MIGRATIONS;
 }
 
-export function* getPendingMigrations(date: Date): Iterable<Migration> {
-  // TODO: binary search if this gets large
-  for (const m of getSortedMigrations()) {
-    if (m.date > date) yield m;
-  }
+/**
+ * @param migration - the migration in question
+ * @param date - a `migrationDate` to compare to
+ * @returns true if the migration is considered 'applied'
+ */
+export function isPending(migration: Migration, date: Date): boolean {
+  return migration.date > date;
 }
 
-export function* getAppliedMigrations(date: Date): Iterable<Migration> {
+/**
+ * Finds the index of the first migration in a sorted list that is `pending` relative to a `date` using a binary search.
+ *
+ * @param date - the `migrationDate` to compare against
+ * @returns the index of the first pending migration, or the length of the list if all migrations are applied.
+ */
+function findFirstPendingMigrationIndex(migrations: readonly Migration[], date: Date): number {
+  let low = 0;
+  let high = migrations.length - 1;
+
+  while (low <= high) {
+    const mid = Math.floor((low + high) / 2);
+    const m = migrations[mid];
+
+    if (isPending(m, date)) {
+      if (mid === 0 || !isPending(migrations[mid - 1], date)) return mid;
+      high = mid - 1;
+    } else {
+      low = mid + 1;
+    }
+  }
+
+  return migrations.length;
+}
+
+/**
+ * Get an iterable of all migrations that are pending relative to a `date`.
+ *
+ * @param date - a `migrationDate` to compare against
+ */
+export function* listPendingMigrations(date: Date): Iterable<Migration> {
   const migrations = getSortedMigrations();
-  if (migrations.length === 0) return;
+  const firstIndex = findFirstPendingMigrationIndex(migrations, date);
 
-  let idx = 0;
-  let m: Migration;
-  while ((m = migrations[idx]) && m.date <= date) {
-    yield m;
-    idx += 1;
+  for (const m of migrations.slice(firstIndex)) {
+    if (isPending(m, date)) yield m;
   }
 }
 
+/**
+ * @param migration - the migration in question
+ * @param date - a `migrationDate` to compare to
+ * @returns true if the migration is considered 'applied'
+ */
+export function isApplied(migration: Migration, date: Date): boolean {
+  return !isPending(migration, date);
+}
+
+/**
+ * Get an iterable of all migrations that have been applied relative to a `date`.
+ *
+ * @param date - a `migrationDate` to compare against
+ */
+export function* listAppliedMigrations(date: Date): Iterable<Migration> {
+  const migrations = getSortedMigrations();
+
+  for (const migration of migrations) {
+    if (isApplied(migration, date)) {
+      yield migration;
+    } else break;
+  }
+}
+
+/**
+ * Gets a migration by its ID. This requires that the migration be registered using `createMigration`.
+ *
+ * @param id - the ID of the migration to search for.
+ * @returns
+ */
 export function getMigrationById(id: string): Migration | undefined {
   return MIGRATIONS_BY_ID.get(id);
 }
@@ -148,13 +211,20 @@ export interface SuspendedMigrationState {
 const STATE_PATH_SUFFIX = ["azsdk-dev-tool", "state", "migration-suspended"];
 
 let _stateFile: string;
+
 /**
+ * Gets the path to the state file. This function is cached and the result will only be computed once.
+ *
  * @returns the OS-appropriate file path where a migration state file may be stored
  */
 function getStateFilePath(): string {
   return (_stateFile ??= _getStateFilePath());
 }
 
+/**
+ * Helper for computing the stateFile path.
+ * @internal
+ */
 function _getStateFilePath(): string {
   switch (process.platform) {
     case "win32": {
@@ -204,12 +274,15 @@ function _getStateFilePath(): string {
   }
 }
 
-export async function isMigrationSuspended(
-  stateFile: string = getStateFilePath()
-): Promise<boolean> {
+/**
+ * Determines whether or not any migration is currently suspended.
+ *
+ * @returns - true if the state file exists, false otherwise
+ */
+export async function isMigrationSuspended(): Promise<boolean> {
   let stats: Stats;
   try {
-    stats = await stat(stateFile);
+    stats = await stat(getStateFilePath());
   } catch {
     return false;
   }
@@ -219,18 +292,25 @@ export async function isMigrationSuspended(
   return false;
 }
 
+/**
+ * Unconditionally deletes the migration state file.
+ */
 export async function removeMigrationStateFile(): Promise<void> {
-  const stateFile = getStateFilePath();
-  if (!(await isMigrationSuspended(stateFile)))
+  if (!(await isMigrationSuspended()))
     throw new Error("dev-tool migration state file does not exist");
 
-  await rm(stateFile);
+  await rm(getStateFilePath());
 }
 
-export async function suspendMigration(id: string, project: ProjectInfo) {
+/**
+ * Writes a migration state to the state file.
+ * @param migration - the migration to suspend
+ * @param project - the project the migration is running in
+ */
+export async function suspendMigration(migration: Migration, project: ProjectInfo) {
   const stateFile = getStateFilePath();
 
-  if (await isMigrationSuspended(stateFile)) {
+  if (await isMigrationSuspended()) {
     throw new Error(
       "A migration is already suspended. It must be removed before another migration can be suspended."
     );
@@ -241,15 +321,20 @@ export async function suspendMigration(id: string, project: ProjectInfo) {
   await writeFile(
     stateFile,
     JSON.stringify({
-      id,
+      id: migration.id,
       path: project.path,
     } as SuspendedMigrationState)
   );
 }
 
+/**
+ * Reads the migration state file and parses its contents.
+ *
+ * @returns - the suspended migration state or undefined if none exists
+ */
 export async function getSuspendedMigration(): Promise<SuspendedMigrationState | undefined> {
   const stateFile = getStateFilePath();
-  if (!(await isMigrationSuspended(stateFile))) return undefined;
+  if (!(await isMigrationSuspended())) return undefined;
 
   const result = JSON.parse((await readFile(stateFile)).toString("utf-8"));
 
@@ -307,7 +392,7 @@ export interface MigrationSuccessExitState {
 }
 
 /**
- * Executes an unapplied migration.
+ * Executes a pending migration.
  *
  * @param project - the working project
  * @param migration - the migration object
@@ -323,7 +408,7 @@ export async function runMigration(
       await migration.execution(project);
     } catch (e) {
       // Execution failed, need to suspend to allow the user to correct it.
-      await suspendMigration(migration.id, project);
+      await suspendMigration(migration, project);
       return {
         kind: "error",
         error: e as Error,
@@ -331,7 +416,7 @@ export async function runMigration(
     }
   } else {
     // No automated execution, so suspend and return to the user.
-    await suspendMigration(migration.id, project);
+    await suspendMigration(migration, project);
     return {
       kind: "suspended",
       phase: "execution",
@@ -349,7 +434,7 @@ export async function runMigration(
     } catch (e) {
       // Migration failed. We pass this back up the chain as an error rather than a suspension because if we made it here,
       // then the migration was automated. An automated migration is not expected to fail validation.
-      await suspendMigration(migration.id, project);
+      await suspendMigration(migration, project);
       return {
         kind: "suspended",
         phase: "validation",
@@ -359,7 +444,7 @@ export async function runMigration(
   } else {
     // If we made it here, we know the `execution` was automated. Otherwise We would have resumed from `validateResumed`.
     // We need to suspend and allow the user to validate the automated validation.
-    await suspendMigration(migration.id, project);
+    await suspendMigration(migration, project);
     return {
       kind: "suspended",
       phase: "validation",
@@ -391,7 +476,7 @@ export async function validateResumedMigration(
         kind: "success",
       };
     } catch (e) {
-      await suspendMigration(migration.id, project);
+      await suspendMigration(migration, project);
       return {
         kind: "suspended",
         phase: "validation",
@@ -401,6 +486,12 @@ export async function validateResumedMigration(
   }
 }
 
+/**
+ * Updates the migration date of a Project so that it will consider `migration` to be applied.
+ *
+ * @param project - the project to update
+ * @param migration - the applied migration
+ */
 export async function updateMigrationDate(
   project: ProjectInfo,
   migration: Migration
