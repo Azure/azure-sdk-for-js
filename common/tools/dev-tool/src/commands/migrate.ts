@@ -20,6 +20,7 @@ import {
   Migration,
   MigrationSuspendedExitState,
   MigrationErrorExitState,
+  isApplied,
 } from "../util/migrations";
 import * as git from "../util/git";
 
@@ -53,6 +54,12 @@ export const commandInfo = makeCommandInfo("migrate", "manage and run code migra
       "returns true (exit 0) if the current package has applied the given migration (or all given migrations if specified multiple times)",
     allowMultiple: true,
   },
+  quiet: {
+    kind: "boolean",
+    description: "reduce output verbosity",
+    default: false,
+    alias: "q",
+  },
 });
 
 export default leafCommand(commandInfo, async (options) => {
@@ -79,6 +86,7 @@ export default leafCommand(commandInfo, async (options) => {
   if (subModes.every((m) => !m)) {
     return await startMigrationPass(project, migrationDate);
   }
+
   // Too many modes
   else if ((subModes = subModes.filter((m) => !!m)).length > 1) {
     log.error("Only one of `--list`, `--abort`, `--continue`, and `--has` may be specified.");
@@ -86,22 +94,16 @@ export default leafCommand(commandInfo, async (options) => {
   } else {
     // Handle submodes
     if (!!options.list) {
-      for (const m of listPendingMigrations(migrationDate)) {
-        // TODO: create a migration formatter that displays good info.
-        log.info(m.id);
-      }
+      printMigrations(listPendingMigrations(migrationDate), options.quiet);
 
       return true;
     } else if (!!options["list-applied"]) {
-      for (const m of listAppliedMigrations(migrationDate)) {
-        // TODO: create a migration formatter that displays good info.
-        log.info(m.id);
-      }
+      printMigrations(listAppliedMigrations(migrationDate), options.quiet);
 
       return true;
     } else if (!!options.has) {
       try {
-        process.exit(areMigrationsApplied(options.has, migrationDate) ? 0 : 1);
+        process.exit(areMigrationsApplied(options.has, migrationDate, options.quiet) ? 0 : 1);
       } catch ({ message }) {
         log.error(message);
         return false;
@@ -117,15 +119,51 @@ export default leafCommand(commandInfo, async (options) => {
 });
 
 /**
+ * Prints a list of migrations to the console.
+ * @param migrations - the migrations to print
+ * @param quiet - whether to print the full migration information or just the IDs
+ */
+function printMigrations(migrations: Iterable<Migration>, quiet: boolean): void {
+  if (quiet) {
+    for (const m of migrations) {
+      log.info(m.id);
+    }
+  } else {
+    for (const m of migrations) {
+      const automation =
+        m.execution && m.validation
+          ? "both"
+          : m.execution
+          ? "execution"
+          : m.validation
+          ? "validation"
+          : "none";
+
+      log.info(`${m.id} - ${m.description}`);
+      log.info(`  Date: ${m.date.toLocaleDateString()}`);
+
+      if (m.url) log.info(`  URL: ${m.url}`);
+
+      log.info(`  Automation: ${automation}`);
+    }
+  }
+}
+
+/**
  * Checks if a list of migrations are considered applied relative to a given date.
  *
  * Throws an error lazily if any migration IDs are unknown.
  *
  * @param migrationIds - the migration IDs to check
  * @param migrationDate - the date to check against
+ * @param quiet - whether to print migration information
  * @returns true if all the migrations have been applied, false otherwise
  */
-function areMigrationsApplied(migrationIds: string[], migrationDate: Date): boolean {
+function areMigrationsApplied(
+  migrationIds: string[],
+  migrationDate: Date,
+  quiet: boolean
+): boolean {
   // Resolve each of the migrations listed and return true if all of them are applied.
   let result = true;
   const unknownMigrations: string[] = [];
@@ -136,7 +174,11 @@ function areMigrationsApplied(migrationIds: string[], migrationDate: Date): bool
     if (!migration) {
       unknownMigrations.push(id);
     } else {
-      result &&= migration.date <= migrationDate;
+      const applied = isApplied(migration, migrationDate);
+      if (!quiet) {
+        log.info(`${id} - ${applied ? "applied" : "not applied"}`);
+      }
+      result &&= applied;
     }
   }
 
@@ -226,6 +268,8 @@ async function runMigrations(pending: Migration[], project: ProjectInfo): Promis
   return true;
 }
 
+// #region Migration state hooks
+
 /**
  * Updates the repo state after a migration has succeeded. This includes updating the migration date in the package.json
  * and committing the changes.
@@ -300,6 +344,8 @@ function printMigrationSuspendedWarning(migration: Migration, status: MigrationS
     );
   }
 }
+
+// #endregion
 
 /**
  * Aborts a suspended migration.
