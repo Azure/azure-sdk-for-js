@@ -335,9 +335,9 @@ async function continueMigration(project: ProjectInfo): Promise<boolean> {
   if (!migration)
     throw new Error(`unreachable: suspended migration '${suspendedMigration.id}' is unknown`);
 
-  const state = await validateResumedMigration(project, migration);
-
   log.info(`Resuming migration from '${migration.id}' (${migration.date.toLocaleDateString()})`);
+
+  const state = await validateResumedMigration(project, migration);
 
   switch (state.kind) {
     case "success": {

@@ -289,7 +289,7 @@ export async function isMigrationSuspended(): Promise<boolean> {
 
   if (!stats.isFile()) throw new Error("dev-tool migration statefile corrupted: not a file");
 
-  return false;
+  return true;
 }
 
 /**
@@ -466,17 +466,18 @@ export async function validateResumedMigration(
 ): Promise<MigrationExitState> {
   if (!migration.validation) {
     // We assume that if a migration with no `--continue` is resumed, the user has ensured it is done correctly.
+    await removeMigrationStateFile();
     return {
       kind: "success",
     };
   } else {
     try {
       await migration.validation(project);
+      await removeMigrationStateFile();
       return {
         kind: "success",
       };
     } catch (e) {
-      await suspendMigration(migration, project);
       return {
         kind: "suspended",
         phase: "validation",
