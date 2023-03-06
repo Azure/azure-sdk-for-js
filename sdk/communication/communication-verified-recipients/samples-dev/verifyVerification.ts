@@ -25,12 +25,12 @@ async function main() {
   const verificationId = "7e5dd7e1-5203-41ab-960e-65c1eb804fc6";
 
   // body of the request
-  const VerificationRequest = {
+  const verificationRequest = {
     verificationCode: "1682793",
   };
 
   // verifying your phone number
-  const status = await client.verifyIdentity(verificationId, VerificationRequest);
+  const status = await client.verifyIdentity(verificationId, verificationRequest);
   console.log(status);
 }
 

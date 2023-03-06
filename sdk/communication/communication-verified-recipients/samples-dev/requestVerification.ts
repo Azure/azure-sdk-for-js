@@ -23,13 +23,13 @@ export async function main() {
   const client = new VerifiedRecipientsClient(connectionString);
 
   // body of the request
-  const VerificationRequest = {
+  const verificationRequest = {
     identity: "+11234567890",
     channel: "sms",
   };
 
   // get the verification status
-  var status = await client.requestVerification(VerificationRequest);
+  var status = await client.requestVerification(verificationRequest);
 
   // print the status of the phone number
   console.log(status);
