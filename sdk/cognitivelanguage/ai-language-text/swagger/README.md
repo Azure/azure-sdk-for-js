@@ -215,6 +215,13 @@ directive:
       $["x-ms-client-name"] = "includeStatistics";
 
   - from: swagger-document
+    where: $.definitions.AbstractiveSummary.required
+    transform: >
+      if (!$.find((x) => x === "contexts")) {
+          $.push("contexts");
+      }
+
+  - from: swagger-document
     where: $.definitions[*]
     transform: >
       if ($.description && $.description.includes("showStats")) {
