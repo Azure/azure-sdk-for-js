@@ -1,5 +1,11 @@
 # Release History
 
+## 3.17.3-beta.1 (2023-03-06)
+
+### Features Added
+
+- Added Hierarchical Partition feature. [#23416](https://github.com/Azure/azure-sdk-for-js/issues/23416)
+
 ## 3.17.3 (2023-02-13)
 
 ### Features Added
