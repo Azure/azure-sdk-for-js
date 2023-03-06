@@ -18,9 +18,6 @@ import { CosmosHeaders } from "../queryExecutionContext";
  */
 export interface CosmosDiagnostics {
   id: string;
-  startTimeUTC: number;
-  endTimeUTC: number;
-  activityId: string;
   clientSideRequestStatistics: ClientSideRequestStatistics;
 }
 
@@ -68,6 +65,9 @@ export enum MetadataType {
 }
 
 export type ClientSideRequestStatistics = {
+  requestStartTimeUTC: number;
+  requestEndTimeUTC: number;
+  activityId: string;
   locationEndpointsContacted: string[];
   retryDiagnostics: RetryDiagnostics;
   metadataDiagnostics: MetadataDiagnostics;
@@ -86,10 +86,10 @@ export function getCurrentTimestamp(): number {
 export function getEmptyCosmosDiagnostics(): CosmosDiagnostics {
   return {
     id: v4(),
-    activityId: "",
-    endTimeUTC: 0,
-    startTimeUTC: 0,
     clientSideRequestStatistics: {
+      activityId: "",
+      requestEndTimeUTC: 0,
+      requestStartTimeUTC: 0,
       locationEndpointsContacted: [],
       retryDiagnostics: {
         failedAttempts: [],
@@ -151,9 +151,9 @@ export class CosmosDiagnosticContext {
 
   public recordMetaDataLookup(diagnostics: CosmosDiagnostics, metaDataType: MetadataType): void {
     const metaDataRequest = {
-      startTimeUTC: diagnostics.startTimeUTC,
-      endTimeUTC: diagnostics.endTimeUTC,
-      activityId: diagnostics.activityId,
+      startTimeUTC: diagnostics.clientSideRequestStatistics.requestStartTimeUTC,
+      endTimeUTC: diagnostics.clientSideRequestStatistics.requestEndTimeUTC,
+      activityId: diagnostics.clientSideRequestStatistics.activityId,
       metaDataType,
       id: v4(),
     };
@@ -184,10 +184,11 @@ export class CosmosDiagnosticContext {
     this.recordSessionEnd();
     return {
       id: v4(),
-      activityId: this.getActivityId(),
-      startTimeUTC: this.requestStartTimeUTC,
-      endTimeUTC: this.requestEndTimeUTC,
+
       clientSideRequestStatistics: {
+        activityId: this.getActivityId(),
+        requestStartTimeUTC: this.requestStartTimeUTC,
+        requestEndTimeUTC: this.requestEndTimeUTC,
         locationEndpointsContacted: [...this.locationEndpointsContacted],
         metadataDiagnostics: {
           metadataLookups: [...this.metadataLookups],
