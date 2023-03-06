@@ -52,22 +52,13 @@ export function resourceMetricsToEnvelope(
 
   metrics.scopeMetrics.forEach((scopeMetric) => {
     scopeMetric.metrics.forEach((metric) => {
-      const isStandardMetric = metric.descriptor?.name?.startsWith("azureMonitor.");
       metric.dataPoints.forEach((dataPoint) => {
         let baseData: MetricsData = {
           metrics: [],
           version: 2,
           properties: {},
         };
-        if (isStandardMetric) {
-          baseData.properties = createStandardMetricsProperties(
-            metric.descriptor.name,
-            dataPoint.attributes,
-            tags
-          );
-        } else {
-          baseData.properties = createPropertiesFromMetricAttributes(dataPoint.attributes);
-        }
+        baseData.properties = createPropertiesFromMetricAttributes(dataPoint.attributes);
         var metricDataPoint: MetricDataPoint = {
           name: metric.descriptor.name,
           value: 0,
@@ -106,41 +97,4 @@ export function resourceMetricsToEnvelope(
   });
 
   return envelopes;
-}
-
-function createStandardMetricsProperties(
-  name: string,
-  attributes: Attributes,
-  tags: Tags
-): {
-  [propertyName: string]: string;
-} {
-  const properties: { [propertyName: string]: string } = {};
-  properties[PreAggregatedMetricPropertyNames.IsAutocollected] = "True";
-  properties[PreAggregatedMetricPropertyNames.cloudRoleInstance] =
-    tags[KnownContextTagKeys.AiCloudRoleInstance];
-  properties[PreAggregatedMetricPropertyNames.cloudRoleName] =
-    tags[KnownContextTagKeys.AiCloudRole];
-
-  if (name == StandardMetrics.HTTP_REQUEST_DURATION) {
-    properties[PreAggregatedMetricPropertyNames.metricId] = StandardMetricIds.REQUEST_DURATION;
-    let statusCode = String(attributes["http.status_code"]);
-    properties[PreAggregatedMetricPropertyNames.requestResultCode] = statusCode;
-    properties[PreAggregatedMetricPropertyNames.requestSuccess] =
-      statusCode == "200" ? "True" : "False";
-  } else if (name == StandardMetrics.HTTP_DEPENDENCY_DURATION) {
-    properties[PreAggregatedMetricPropertyNames.metricId] = StandardMetricIds.DEPENDENCY_DURATION;
-    let statusCode = String(attributes["http.status_code"]);
-    properties[PreAggregatedMetricPropertyNames.dependencyTarget] = getDependencyTarget(attributes);
-    properties[PreAggregatedMetricPropertyNames.dependencyResultCode] = statusCode;
-    properties[PreAggregatedMetricPropertyNames.dependencyType] = "http";
-    properties[PreAggregatedMetricPropertyNames.dependencySuccess] =
-      statusCode == "200" ? "True" : "False";
-  } else if (name == StandardMetrics.TRACE_COUNT) {
-    properties[PreAggregatedMetricPropertyNames.metricId] = StandardMetricIds.TRACE_COUNT;
-  } else if (name == StandardMetrics.EXCEPTION_COUNT) {
-    properties[PreAggregatedMetricPropertyNames.metricId] = StandardMetricIds.EXCEPTION_COUNT;
-  }
-
-  return properties;
 }
