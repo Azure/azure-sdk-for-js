@@ -176,16 +176,8 @@ export async function listAllTrunks(
   return result;
 }
 
-export async function listAllRoutes(client: SipRoutingClient): Promise<SipTrunkRoute[]> {
-  const result = [];
-  for await (const route of client.listRoutes()) {
-    result.push(route);
-  }
-  return result;
-}
-
 export async function listAllDomains(client: SipRoutingClient): Promise<SipDomain[]> {
-  const result = [];
+  const result: SipDomain[] = [];
   for await (const domain of client.listDomains()) {
     result.push(domain);
   }
@@ -205,4 +197,14 @@ export function getAdditionalPolicies(mockedApi: boolean): AdditionalPolicyConfi
   ];
 
   return additionalPolicies;
+}
+
+export async function listAllRoutes(client: SipRoutingClient): Promise<SipTrunkRoute[]> {
+  const result: SipTrunkRoute[] = [];
+  for await (const route of client.listRoutes()) {
+    if (route) {
+      result.push(route);
+    }
+  }
+  return result;
 }
