@@ -1,15 +1,6 @@
-# Azure DomainVerification client library for JavaScript
+# Azure Domain Verification client library for JavaScript
 
-Domain Verification Client
-
-**Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
-
-Key links:
-
-- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-domain-verification)
-- [Package (NPM)](https://www.npmjs.com/package/@azure-tools/communication-domain-verification)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-tools/communication-domain-verification?view=azure-node-preview)
-- [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
+Domain Verification library provides capabilities to create TXT challenge to verify domain and actually verify domain
 
 ## Getting started
 
@@ -19,29 +10,103 @@ Key links:
 
 ### Prerequisites
 
-- You must have an [Azure subscription](https://azure.microsoft.com/free/) to use this package.
+- An [Azure subscription][azure_sub].
+- An existing Communication Services resource. If you need to create the resource, you can use the [Azure Portal][azure_portal], the [Azure PowerShell][azure_powershell], or the [Azure CLI][azure_cli].
 
-### Install the `@azure-tools/communication-domain-verification` package
-
-Install the Azure DomainVerification client REST client library for JavaScript with `npm`:
+### Installing
 
 ```bash
 npm install @azure-tools/communication-domain-verification
 ```
 
-### Create and authenticate a `DomainVerification`
+### Using an Azure Active Directory Credential
 
-To use an [Azure Active Directory (AAD) token credential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token),
-provide an instance of the desired credential type obtained from the
-[@azure/identity](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) library.
+Connection string authentication is used in most of the examples, but you can also authenticate with Azure Active Directory using the [Azure Identity library][azure_identity]. To use the [DefaultAzureCredential][defaultazurecredential] provider shown below, or other credential providers provided with the Azure SDK, please install the [`@azure/identity`][azure_identity] package:
 
-To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity)
+```bash
+npm install @azure/identity
+```
 
-After setup, you can choose which type of [credential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) from `@azure/identity` to use.
-As an example, [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential)
-can be used to authenticate the client.
+The [`@azure/identity`][azure_identity] package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`][azure_identity_readme] provides more details and samples to get you started.
 
-Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables:
-AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
+```typescript
+import { DefaultAzureCredential } from "@azure/identity";
+import { DomainVerificationClient } from "@azure/communication-domain-verification";
+
+let credential = new DefaultAzureCredential();
+const client = new DomainVerificationClient("<endpoint-from-resource>", credential);
+```
+
+## Usage
+
+The following sections provide code snippets that cover some of the common tasks using the Azure Communication Services Domain Verification client. The scenarios that are covered here consist of:
+
+- [Crate Verification Challenge](#create-verification-challenge)
+- [Verify Domain Ownership](#verify-domain-ownership)
+
+
+#### Crate Verification Challenge
+
+Create domain verification challenge
+
+```typescript
+import { DomainVerificationClient } from "@azure/communication-domain-verification";
+
+const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
+const client = new DomainVerificationClient(connectionString);
+
+async function main() {
+  const domainName = "contoso.com";
+  let result = await client.createDomainOwnershipChallenge(domainName)
+  
+  console.log(`Domain verification challenge value is ${result.value}`);
+}
+
+main();
+```
+
+#### Verify Domain Ownership
+
+Create domain verification challenge
+
+```typescript
+import { DomainVerificationClient } from "@azure/communication-domain-verification";
+
+const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
+const client = new DomainVerificationClient(connectionString);
+
+async function main() {
+  const domainName = "contoso.com";
+  let result = await client.verifyDomainOwnership(domainName)
+  
+  console.log(`Domain verification status is: ${result.status}`);
+}
+
+main();
+```
 
 ## Troubleshooting
+
+## Next steps
+
+Please take a look at the
+[samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-domain-verification/samples)
+directory for detailed examples on how to use this library.
+
+## Contributing
+
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
+
+## Related projects
+
+- [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
+
+[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_sub]: https://azure.microsoft.com/free/
+[azure_portal]: https://portal.azure.com
+[azure_powershell]: https://docs.microsoft.com/powershell/module/az.communication/new-azcommunicationservice
+[defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
+[azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
+[azure_identity_readme]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcommunication%2Fcommunication-domain-verification%2FREADME.png)
