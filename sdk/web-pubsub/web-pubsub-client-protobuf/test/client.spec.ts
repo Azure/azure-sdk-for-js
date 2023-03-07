@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { JoinGroupMessage, LeaveGroupMessage, SendEventMessage, SendToGroupMessage, SequenceAckMessage } from "@azure/web-pubsub-client";
+import {
+  JoinGroupMessage,
+  LeaveGroupMessage,
+  SendEventMessage,
+  SendToGroupMessage,
+  SequenceAckMessage,
+} from "@azure/web-pubsub-client";
 import { WebPubSubProtobufProtocol } from "../src/index";
 import { assert } from "chai";
 
@@ -17,12 +23,12 @@ describe("WebPubSubClient", function () {
     {
       testName: "JoinGroup2",
       message: { kind: "joinGroup", group: "group", ackId: 44133 } as JoinGroupMessage,
-      payload: "MgsKBWdyb3VwEOXYAg=="
+      payload: "MgsKBWdyb3VwEOXYAg==",
     },
     {
       testName: "leaveGroup1",
       message: { kind: "leaveGroup", group: "group" } as LeaveGroupMessage,
-      payload: "OgcKBWdyb3Vw"
+      payload: "OgcKBWdyb3Vw",
     },
     {
       testName: "leaveGroup2",
@@ -68,7 +74,7 @@ describe("WebPubSubClient", function () {
       message: {
         kind: "sendToGroup",
         group: "group",
-        data: {type_url: "example", value: new TextEncoder().encode("xyz").buffer},
+        data: { type_url: "example", value: new TextEncoder().encode("xyz").buffer },
         dataType: "protobuf",
         ackId: 12345,
         noEcho: true,
@@ -112,7 +118,7 @@ describe("WebPubSubClient", function () {
       message: {
         kind: "sendEvent",
         event: "event",
-        data: {type_url: "example", value: new TextEncoder().encode("xyz").buffer},
+        data: { type_url: "example", value: new TextEncoder().encode("xyz").buffer },
         dataType: "protobuf",
         ackId: 12345,
       } as SendEventMessage,
@@ -133,6 +139,6 @@ describe("WebPubSubClient", function () {
   });
 
   function arrayBufferToBase64(buffer: ArrayBuffer): string {
-    return Buffer.from(buffer).toString('base64');
+    return Buffer.from(buffer).toString("base64");
   }
 });
