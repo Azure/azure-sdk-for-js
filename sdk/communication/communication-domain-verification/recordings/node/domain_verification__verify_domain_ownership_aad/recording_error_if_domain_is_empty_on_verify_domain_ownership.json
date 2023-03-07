@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/sip:verifyDomainOwnership?api-version=2022-09-01-preview",
+      "RequestUri": "https://endpoint/sip:verifyDomainOwnership?api-version=2022-09-01-preview/sip:verifyDomainOwnership?api-version=2022-09-01-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
