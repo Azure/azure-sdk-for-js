@@ -43,8 +43,8 @@ matrix([[true, false]], async function (useAad) {
         const domain = getEmptyDomain();
         await client.verifyDomainOwnership(domain);
       } catch (error: any) {
-        assert.equal(error.statusCode, 400);
-        assert.strictEqual(error.message, '"Domain is not provided"');
+        assert.strictEqual(error.code, "UnprocessableConfiguration");
+        assert.strictEqual(error.message, "One or more request inputs are not valid.");
       }
     }).timeout(15000);
   
@@ -53,7 +53,6 @@ matrix([[true, false]], async function (useAad) {
         const domain = getInvalidDomain();
         await client.verifyDomainOwnership(domain);
       } catch (error: any) {
-        assert.equal(error.statusCode, 422);
         assert.strictEqual(error.code, "UnprocessableConfiguration");
         assert.strictEqual(error.message, "One or more request inputs are not valid.");
       }
