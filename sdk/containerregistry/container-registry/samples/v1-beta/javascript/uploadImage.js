@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Uploads and downloads a blob to and from the repository.
+ * @summary Uploadsan image to the repository.
  */
 
 const {
@@ -13,8 +13,6 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const dotenv = require("dotenv");
 const { Readable } = require("stream");
 dotenv.config();
-
-const BLOB_CONTENT = Buffer.from("Hello world!");
 
 async function main() {
   // endpoint should be in the form of "https://myregistryname.azurecr.io"
@@ -30,14 +28,29 @@ async function main() {
     }
   );
 
-  const uploadResult = await client.uploadBlob(Readable.from(BLOB_CONTENT));
+  const config = Buffer.from("Sample config");
+  const uploadConfigResult = await client.uploadBlob(Readable.from(config));
 
-  // Calling downloadBlob on the uploaded blob (identified by the digest) gives a readable stream containing the blob's content.
-  const downloadResult = await client.downloadBlob(uploadResult.digest);
+  const layer = Buffer.from("Sample layer");
+  const uploadLayerResult = await client.uploadBlob(Readable.from(layer));
 
-  // The downloaded content can be piped to another stream, e.g. one created using fs.createWriteStream to download to a file.
-  // In this example, we pipe the content to the standard output stream.
-  downloadResult.content.pipe(process.stdout);
+  const manifest = {
+    schemaVersion: 2,
+    config: {
+      digest: uploadConfigResult.digest,
+      size: config.byteLength,
+      mediaType: "application/vnd.oci.image.config.v1+json",
+    },
+    layers: [
+      {
+        digest: uploadLayerResult.digest,
+        size: layer.byteLength,
+        mediaType: "application/vnd.oci.image.layer.v1.tar",
+      },
+    ],
+  };
+
+  await client.uploadManifest(manifest, { tag: "demo" });
 }
 
 main().catch((err) => {
