@@ -15,10 +15,8 @@ export function configureStorageClient(recorder: Recorder, client: StorageClient
   const options = recorder.configureClientOptions({});
 
   const pipeline: Pipeline = client["storageClientContext"].pipeline;
-  const pipeline2: Pipeline = client["storageClientContextToBlobEndpoint"].pipeline;
   for (const { policy } of options.additionalPolicies ?? []) {
     pipeline.addPolicy(policy, { afterPhase: "Sign", afterPolicies: ["injectorPolicy"] });
-    pipeline2.addPolicy(policy, { afterPhase: "Sign", afterPolicies: ["injectorPolicy"] });
   }
 }
 
