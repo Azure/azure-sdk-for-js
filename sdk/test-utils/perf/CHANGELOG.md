@@ -2,6 +2,8 @@
 
 ## 1.0.0 (Unreleased)
 
+- [#25122](https://github.com/Azure/azure-sdk-for-js/pull/25122) Fixes the bug where the long and short names are not recognized for the boolean options if they are different from the key presented in the options bag.
+
 ### 2023-02-16
 
 - [#14146](https://github.com/Azure/azure-sdk-for-js/pull/14146) Adds profiling support to the perf framework. Two new options "profile" and "profile-path" introduced.
