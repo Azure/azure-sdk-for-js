@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AgentPool,
   AgentPoolsListOptionalParams,
@@ -55,8 +55,8 @@ export interface AgentPools {
     agentPoolName: string,
     options?: AgentPoolsAbortLatestOperationOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AgentPoolsAbortLatestOperationResponse>,
+    SimplePollerLike<
+      OperationState<AgentPoolsAbortLatestOperationResponse>,
       AgentPoolsAbortLatestOperationResponse
     >
   >;
@@ -103,8 +103,8 @@ export interface AgentPools {
     parameters: AgentPool,
     options?: AgentPoolsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AgentPoolsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AgentPoolsCreateOrUpdateResponse>,
       AgentPoolsCreateOrUpdateResponse
     >
   >;
@@ -136,8 +136,8 @@ export interface AgentPools {
     agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AgentPoolsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<AgentPoolsDeleteResponse>,
       AgentPoolsDeleteResponse
     >
   >;
@@ -194,7 +194,7 @@ export interface AgentPools {
     resourceName: string,
     agentPoolName: string,
     options?: AgentPoolsUpgradeNodeImageVersionOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Upgrading the node image version of an agent pool applies the newest OS and runtime updates to the
    * nodes. AKS provides one new image per week with the latest updates. For more details on node image

@@ -1026,6 +1026,13 @@ export const MediaServiceUpdate: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      minimumTlsVersion: {
+        defaultValue: "Tls12",
+        serializedName: "properties.minimumTlsVersion",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2747,6 +2754,18 @@ export const LiveEventInput: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      timedMetadataEndpoints: {
+        serializedName: "timedMetadataEndpoints",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LiveEventTimedMetadataEndpoint"
+            }
+          }
+        }
       }
     }
   }
@@ -2827,6 +2846,21 @@ export const LiveEventEndpoint: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      url: {
+        serializedName: "url",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LiveEventTimedMetadataEndpoint: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LiveEventTimedMetadataEndpoint",
+    modelProperties: {
       url: {
         serializedName: "url",
         type: {
@@ -3039,6 +3073,599 @@ export const LiveEventActionInput: coreClient.CompositeMapper = {
         serializedName: "removeOutputsOnStop",
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const LiveEventGetStatusResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LiveEventGetStatusResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LiveEventStatus"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const LiveEventStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LiveEventStatus",
+    modelProperties: {
+      state: {
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
+      },
+      healthStatus: {
+        serializedName: "healthStatus",
+        type: {
+          name: "String"
+        }
+      },
+      healthDescriptions: {
+        serializedName: "healthDescriptions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      lastUpdatedTime: {
+        serializedName: "lastUpdatedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      ingestion: {
+        serializedName: "ingestion",
+        type: {
+          name: "Composite",
+          className: "LiveEventIngestion"
+        }
+      },
+      trackStatus: {
+        serializedName: "trackStatus",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LiveEventTrackStatus"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const LiveEventIngestion: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LiveEventIngestion",
+    modelProperties: {
+      streamName: {
+        serializedName: "streamName",
+        type: {
+          name: "String"
+        }
+      },
+      begin: {
+        serializedName: "begin",
+        type: {
+          name: "DateTime"
+        }
+      },
+      end: {
+        serializedName: "end",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endReason: {
+        serializedName: "endReason",
+        type: {
+          name: "String"
+        }
+      },
+      ingestInterruptions: {
+        serializedName: "ingestInterruptions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LiveEventIngestInterruption"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const LiveEventIngestInterruption: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LiveEventIngestInterruption",
+    modelProperties: {
+      begin: {
+        serializedName: "begin",
+        type: {
+          name: "DateTime"
+        }
+      },
+      end: {
+        serializedName: "end",
+        type: {
+          name: "DateTime"
+        }
+      },
+      duration: {
+        serializedName: "duration",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      reason: {
+        serializedName: "reason",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LiveEventTrackStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LiveEventTrackStatus",
+    modelProperties: {
+      trackId: {
+        serializedName: "trackId",
+        type: {
+          name: "String"
+        }
+      },
+      expectedBitrate: {
+        serializedName: "expectedBitrate",
+        type: {
+          name: "Number"
+        }
+      },
+      incomingBitrate: {
+        serializedName: "incomingBitrate",
+        type: {
+          name: "Number"
+        }
+      },
+      ingestDrift: {
+        serializedName: "ingestDrift",
+        type: {
+          name: "String"
+        }
+      },
+      requestReceived: {
+        serializedName: "requestReceived",
+        type: {
+          name: "Number"
+        }
+      },
+      requestSucceeded: {
+        serializedName: "requestSucceeded",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const LiveEventGetStreamEventsResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LiveEventGetStreamEventsResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LiveEventStreamEvent"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const LiveEventStreamEvent: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LiveEventStreamEvent",
+    modelProperties: {
+      eventType: {
+        serializedName: "eventType",
+        type: {
+          name: "String"
+        }
+      },
+      eventTime: {
+        serializedName: "eventTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      eventLevel: {
+        serializedName: "eventLevel",
+        type: {
+          name: "String"
+        }
+      },
+      data: {
+        serializedName: "data",
+        type: {
+          name: "Composite",
+          className: "LiveEventStreamEventData"
+        }
+      }
+    }
+  }
+};
+
+export const LiveEventStreamEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LiveEventStreamEventData",
+    modelProperties: {
+      trackName: {
+        serializedName: "trackName",
+        type: {
+          name: "String"
+        }
+      },
+      streamId: {
+        serializedName: "streamId",
+        type: {
+          name: "String"
+        }
+      },
+      trackId: {
+        serializedName: "trackId",
+        type: {
+          name: "Number"
+        }
+      },
+      mediaType: {
+        serializedName: "mediaType",
+        type: {
+          name: "String"
+        }
+      },
+      bitrate: {
+        serializedName: "bitrate",
+        type: {
+          name: "Number"
+        }
+      },
+      mediaTimestamp: {
+        serializedName: "mediaTimestamp",
+        type: {
+          name: "String"
+        }
+      },
+      timescale: {
+        serializedName: "timescale",
+        type: {
+          name: "String"
+        }
+      },
+      previousFragmentTimestamp: {
+        serializedName: "previousFragmentTimestamp",
+        type: {
+          name: "String"
+        }
+      },
+      previousFragmentDuration: {
+        serializedName: "previousFragmentDuration",
+        type: {
+          name: "String"
+        }
+      },
+      currentFragmentTimestamp: {
+        serializedName: "currentFragmentTimestamp",
+        type: {
+          name: "String"
+        }
+      },
+      fragmentOneTimestamp: {
+        serializedName: "fragmentOneTimestamp",
+        type: {
+          name: "String"
+        }
+      },
+      fragmentOneDuration: {
+        serializedName: "fragmentOneDuration",
+        type: {
+          name: "String"
+        }
+      },
+      fragmentTwoTimestamp: {
+        serializedName: "fragmentTwoTimestamp",
+        type: {
+          name: "String"
+        }
+      },
+      fragmentTwoDuration: {
+        serializedName: "fragmentTwoDuration",
+        type: {
+          name: "String"
+        }
+      },
+      fragmentDropReason: {
+        serializedName: "fragmentDropReason",
+        type: {
+          name: "String"
+        }
+      },
+      discontinuityGap: {
+        serializedName: "discontinuityGap",
+        type: {
+          name: "Number"
+        }
+      },
+      streamName: {
+        serializedName: "streamName",
+        type: {
+          name: "String"
+        }
+      },
+      resultCode: {
+        serializedName: "resultCode",
+        type: {
+          name: "String"
+        }
+      },
+      resultMessage: {
+        serializedName: "resultMessage",
+        type: {
+          name: "String"
+        }
+      },
+      duration: {
+        serializedName: "duration",
+        type: {
+          name: "String"
+        }
+      },
+      resolution: {
+        serializedName: "resolution",
+        type: {
+          name: "String"
+        }
+      },
+      minTime: {
+        serializedName: "minTime",
+        type: {
+          name: "String"
+        }
+      },
+      minTimeMediaType: {
+        serializedName: "minTimeMediaType",
+        type: {
+          name: "String"
+        }
+      },
+      maxTime: {
+        serializedName: "maxTime",
+        type: {
+          name: "String"
+        }
+      },
+      maxTimeMediaType: {
+        serializedName: "maxTimeMediaType",
+        type: {
+          name: "String"
+        }
+      },
+      timescaleOfMinTime: {
+        serializedName: "timescaleOfMinTime",
+        type: {
+          name: "String"
+        }
+      },
+      timescaleOfMaxTime: {
+        serializedName: "timescaleOfMaxTime",
+        type: {
+          name: "String"
+        }
+      },
+      remoteIp: {
+        serializedName: "remoteIp",
+        type: {
+          name: "String"
+        }
+      },
+      remotePort: {
+        serializedName: "remotePort",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LiveEventGetTrackIngestHeartbeatsResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LiveEventGetTrackIngestHeartbeatsResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LiveEventTrackEvent"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const LiveEventTrackEvent: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LiveEventTrackEvent",
+    modelProperties: {
+      eventType: {
+        serializedName: "eventType",
+        type: {
+          name: "String"
+        }
+      },
+      eventTime: {
+        serializedName: "eventTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      data: {
+        serializedName: "data",
+        type: {
+          name: "Composite",
+          className: "LiveEventTrackEventData"
+        }
+      }
+    }
+  }
+};
+
+export const LiveEventTrackEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LiveEventTrackEventData",
+    modelProperties: {
+      trackName: {
+        serializedName: "trackName",
+        type: {
+          name: "String"
+        }
+      },
+      trackType: {
+        serializedName: "trackType",
+        type: {
+          name: "String"
+        }
+      },
+      bitrate: {
+        serializedName: "bitrate",
+        type: {
+          name: "Number"
+        }
+      },
+      incomingBitrate: {
+        serializedName: "incomingBitrate",
+        type: {
+          name: "Number"
+        }
+      },
+      lastTimestamp: {
+        serializedName: "lastTimestamp",
+        type: {
+          name: "String"
+        }
+      },
+      timescale: {
+        serializedName: "timescale",
+        type: {
+          name: "String"
+        }
+      },
+      overlapCount: {
+        serializedName: "overlapCount",
+        type: {
+          name: "Number"
+        }
+      },
+      discontinuityCount: {
+        serializedName: "discontinuityCount",
+        type: {
+          name: "Number"
+        }
+      },
+      nonincreasingCount: {
+        serializedName: "nonincreasingCount",
+        type: {
+          name: "Number"
+        }
+      },
+      unexpectedBitrate: {
+        serializedName: "unexpectedBitrate",
+        type: {
+          name: "Boolean"
+        }
+      },
+      state: {
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
+      },
+      healthy: {
+        serializedName: "healthy",
+        type: {
+          name: "Boolean"
+        }
+      },
+      lastFragmentArrivalTime: {
+        serializedName: "lastFragmentArrivalTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      ingestDriftValue: {
+        serializedName: "ingestDriftValue",
+        type: {
+          name: "String"
+        }
+      },
+      transcriptionState: {
+        serializedName: "transcriptionState",
+        type: {
+          name: "String"
+        }
+      },
+      transcriptionLanguage: {
+        serializedName: "transcriptionLanguage",
+        type: {
+          name: "String"
         }
       }
     }
@@ -6098,6 +6725,13 @@ export const MediaService: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      minimumTlsVersion: {
+        defaultValue: "Tls12",
+        serializedName: "properties.minimumTlsVersion",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -7059,6 +7693,69 @@ export const OperationResultsGetHeaders: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LiveEventsListGetStatusHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LiveEventsListGetStatusHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LiveEventsListGetStreamEventsHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LiveEventsListGetStreamEventsHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LiveEventsListGetTrackIngestHeartbeatsHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LiveEventsListGetTrackIngestHeartbeatsHeaders",
+    modelProperties: {
       location: {
         serializedName: "location",
         type: {

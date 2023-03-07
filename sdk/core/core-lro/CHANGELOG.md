@@ -2,13 +2,9 @@
 
 ## 2.5.2 (Unreleased)
 
-### Features Added
-
-### Breaking Changes
-
 ### Bugs Fixed
 
-### Other Changes
+- Change the logging level for unrecognized operation statuses from warning to verbose.
 
 ## 2.5.1 (2023-02-02)
 
