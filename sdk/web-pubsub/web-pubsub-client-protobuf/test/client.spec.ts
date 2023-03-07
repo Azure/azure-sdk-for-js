@@ -132,20 +132,7 @@ describe("WebPubSubClient", function () {
     });
   });
 
-  function arrayBufferToBase64(buffer: ArrayBuffer) {
-    // Create a Uint8Array from the buffer
-    let bytes = new Uint8Array(buffer);
-    // Create an empty string to store the base64 encoded string
-    let base64 = "";
-    // Loop through the bytes and concatenate the ASCII characters
-    for (let i = 0; i < bytes.length; i++) {
-      base64 += String.fromCharCode(bytes[i]);
-    }
-    // Use the btoa function to encode the string to base64
-    return btoa(base64);
+  function arrayBufferToBase64(buffer: ArrayBuffer): string {
+    return Buffer.from(buffer).toString('base64');
   }
-
-  // function base64ToArrayBuffer(base64: string) {
-  //   return Uint8Array.from(atob(base64), c => c.charCodeAt(0))
-  // }
 });
