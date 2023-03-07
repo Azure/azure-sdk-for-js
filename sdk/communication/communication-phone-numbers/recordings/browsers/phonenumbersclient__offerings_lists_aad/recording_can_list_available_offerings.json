@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/offerings?skip=0\u0026maxPageSize=100\u0026api-version=2022-12-01",
+      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/offerings?skip=0\u0026maxPageSize=100\u0026api-version=2022-12-02-preview2",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -16,22 +16,25 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/108.0.5351.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.2 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-03-07, 2022-12-01",
+        "Accept-Ranges": "bytes",
+        "api-supported-versions": "2021-03-07, 2022-12-01, 2022-12-02-preview2",
+        "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
+        "Connection": "keep-alive",
+        "Content-Length": "659",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 Jan 2023 17:36:59 GMT",
-        "MS-CV": "6nBazgOiVkyddFOAAsTQUw.0",
+        "Date": "Tue, 07 Mar 2023 00:25:54 GMT",
+        "MS-CV": "3Mtudc0DAU2PVoMkgMVU6w.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0Oly4YwAAAACVzDLZRrTHSIQ9xTaOl6aeTUVYMzBFREdFMTEwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "x-azure-ref": "20230307T002551Z-mu008msuq534mdx7fn3aasr10s00000002b0000000028gff",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1216ms"
+        "X-Processing-Time": "2892ms"
       },
       "ResponseBody": {
         "phoneNumberOfferings": [
