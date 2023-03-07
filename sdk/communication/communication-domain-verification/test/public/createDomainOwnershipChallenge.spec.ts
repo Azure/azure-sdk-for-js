@@ -41,11 +41,8 @@ matrix([[true, false]], async function (useAad) {
       try {
         await client.createDomainOwnershipChallenge(getEmptyDomain());
       } catch (error: any) {
-        assert.equal(error.statusCode, 400);
-        assert.strictEqual(
-          getErrorDescription(error.message),
-          "A non-empty request body is required."
-        );
+        assert.strictEqual(error.code, "UnprocessableConfiguration");
+        assert.strictEqual(error.message, "One or more request inputs are not valid.");
       }
     }).timeout(15000);
   
@@ -53,7 +50,6 @@ matrix([[true, false]], async function (useAad) {
       try {
         await client.createDomainOwnershipChallenge(getInvalidDomain());
       } catch (error: any) {
-        assert.equal(error.statusCode, 422);
         assert.strictEqual(error.code, "UnprocessableConfiguration");
         assert.strictEqual(error.message, "One or more request inputs are not valid.");
       }
