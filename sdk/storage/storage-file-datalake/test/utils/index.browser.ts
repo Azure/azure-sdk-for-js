@@ -4,11 +4,9 @@
 import { TokenCredential } from "@azure/core-auth";
 
 import { DataLakeServiceClient } from "../../src";
-import { setTestOnlySetHttpClient } from "../../src/StorageClient";
 import { newPipeline, AnonymousCredential } from "@azure/storage-blob";
-import { SimpleTokenCredential } from "./testutils.common";
-import { createXhrHttpClient } from "@azure/test-utils";
-import { isLiveMode } from "@azure-tools/test-recorder";
+import { configureStorageClient, SimpleTokenCredential } from "./testutils.common";
+import { env, Recorder } from "@azure-tools/test-recorder";
 
 export * from "./testutils.common";
 
@@ -18,7 +16,7 @@ export function getGenericCredential(): AnonymousCredential {
 
 export function getTokenCredential(): TokenCredential {
   const accountTokenEnvVar = `DFS_ACCOUNT_TOKEN`;
-  const accountToken = (self as any).__env__[accountTokenEnvVar];
+  const accountToken = env[accountTokenEnvVar];
 
   if (!accountToken || accountToken === "") {
     throw new Error(`${accountTokenEnvVar} environment variables not specified.`);
@@ -28,19 +26,17 @@ export function getTokenCredential(): TokenCredential {
 }
 
 export function getGenericDataLakeServiceClient(
+  recorder: Recorder,
   accountType: string,
   accountNameSuffix: string = ""
 ): DataLakeServiceClient {
-  if (!isLiveMode()) {
-    setTestOnlySetHttpClient(createXhrHttpClient());
-  }
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
 
-  const accountName = (self as any).__env__[accountNameEnvVar];
+  const accountName = env[accountNameEnvVar];
 
   let accountSAS: string | undefined;
-  accountSAS = (self as any).__env__[accountSASEnvVar];
+  accountSAS = env[accountSASEnvVar];
 
   if (!accountName || !accountSAS || accountName === "" || accountSAS === "") {
     throw new Error(
@@ -58,40 +54,38 @@ export function getGenericDataLakeServiceClient(
   const credentials = getGenericCredential();
   const pipeline = newPipeline(credentials);
   const dfsPrimaryURL = `https://${accountName}${accountNameSuffix}.dfs.core.windows.net${accountSAS}`;
-  return new DataLakeServiceClient(dfsPrimaryURL, pipeline);
+  const client = new DataLakeServiceClient(dfsPrimaryURL, pipeline);
+  configureStorageClient(recorder, client);
+  return client;
 }
 
-export function getTokenDataLakeServiceClient(): DataLakeServiceClient {
-  if (!isLiveMode()) {
-    setTestOnlySetHttpClient(createXhrHttpClient());
-  }
+export function getTokenDataLakeServiceClient(recorder: Recorder): DataLakeServiceClient {
   const accountNameEnvVar = `DFS_ACCOUNT_NAME`;
-  const accountName = (self as any).__env__[accountNameEnvVar];
+  const accountName = env[accountNameEnvVar];
 
-  if (!accountName || accountName === "") {
+  if (!accountName) {
     throw new Error(`${accountNameEnvVar} environment variables not specified.`);
   }
 
   const credentials = getTokenCredential();
-  const pipeline = newPipeline(credentials, {
-    // Enable logger when debugging
-    // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
-  });
+  const pipeline = newPipeline(credentials);
   const dfsPrimaryURL = `https://${accountName}.dfs.core.windows.net/`;
-  return new DataLakeServiceClient(dfsPrimaryURL, pipeline);
+  const client = new DataLakeServiceClient(dfsPrimaryURL, pipeline);
+  configureStorageClient(recorder, client);
+  return client;
 }
 
-export function getDataLakeServiceClient(): DataLakeServiceClient {
-  return getGenericDataLakeServiceClient("DFS_");
+export function getDataLakeServiceClient(recorder: Recorder): DataLakeServiceClient {
+  return getGenericDataLakeServiceClient(recorder, "DFS_");
 }
 
-export function getAlternateDataLakeServiceClient(): DataLakeServiceClient {
-  return getGenericDataLakeServiceClient("SECONDARY_", "-secondary");
+export function getAlternateDataLakeServiceClient(recorder: Recorder): DataLakeServiceClient {
+  return getGenericDataLakeServiceClient(recorder, "SECONDARY_", "-secondary");
 }
 
 export function getEncryptionScope(): string {
   const encryptionScopeEnvVar = "ENCRYPTION_SCOPE";
-  const encryptionScope = (self as any).__env__[encryptionScopeEnvVar];
+  const encryptionScope = env[encryptionScopeEnvVar];
 
   if (!encryptionScope) {
     throw new Error(`${encryptionScopeEnvVar} environment variables not specified.`);
@@ -173,11 +167,7 @@ export function getBrowserFile(name: string, size: number): File {
 }
 
 export function getSASConnectionStringFromEnvironment(): string {
-  if (!isLiveMode()) {
-    setTestOnlySetHttpClient(createXhrHttpClient());
-  }
-  const env = (self as any).__env__;
-  let sasToken: string = env.DFS_ACCOUNT_SAS;
+  let sasToken: string = env.DFS_ACCOUNT_SAS ?? "";
   // connection string SAS doesn't have the prefix
   if (sasToken && sasToken.startsWith("?")) {
     sasToken = sasToken.slice(1);

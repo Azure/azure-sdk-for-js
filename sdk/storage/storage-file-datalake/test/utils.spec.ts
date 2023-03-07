@@ -8,7 +8,7 @@ import {
   sanitizeURL,
   extractConnectionStringParts,
 } from "../src/utils/utils.common";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { recorderEnvSetup } from "./utils";
 import { Context } from "mocha";
 
@@ -39,8 +39,9 @@ describe("Utility Helpers", () => {
     );
   }
 
-  beforeEach(function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
   });
 
   afterEach(async function () {

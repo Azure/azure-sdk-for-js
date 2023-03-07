@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { TokenCredential } from "@azure/core-auth";
-import { env } from "@azure-tools/test-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
 import { randomBytes } from "crypto";
 import * as fs from "fs";
 import * as path from "path";
@@ -14,7 +14,7 @@ import {
   StoragePipelineOptions,
   StorageSharedKeyCredential,
 } from "@azure/storage-blob";
-import { getUniqueName, SimpleTokenCredential } from "./testutils.common";
+import { getUniqueName, SimpleTokenCredential, configureStorageClient } from "./testutils.common";
 import {
   AccountSASPermissions,
   AccountSASResourceTypes,
@@ -32,8 +32,8 @@ export function getGenericCredential(accountType: string): StorageSharedKeyCrede
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;
 
-  const accountName = process.env[accountNameEnvVar];
-  const accountKey = process.env[accountKeyEnvVar];
+  const accountName = env[accountNameEnvVar];
+  const accountKey = env[accountKeyEnvVar];
 
   if (!accountName || !accountKey || accountName === "" || accountKey === "") {
     throw new Error(
@@ -46,7 +46,7 @@ export function getGenericCredential(accountType: string): StorageSharedKeyCrede
 
 export function getTokenCredential(): TokenCredential {
   const accountTokenEnvVar = `DFS_ACCOUNT_TOKEN`;
-  const accountToken = process.env[accountTokenEnvVar];
+  const accountToken = env[accountTokenEnvVar];
 
   if (!accountToken || accountToken === "") {
     throw new Error(`${accountTokenEnvVar} environment variables not specified.`);
@@ -61,8 +61,8 @@ export function getTokenCredential(): TokenCredential {
 export function getSASToken(accountType: string, sasValues: DataLakeSASSignatureValues): string {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;
-  const accountName = process.env[accountNameEnvVar];
-  const accountKey = process.env[accountKeyEnvVar];
+  const accountName = env[accountNameEnvVar];
+  const accountKey = env[accountKeyEnvVar];
 
   if (!accountName || !accountKey || accountName === "" || accountKey === "") {
     throw new Error(
@@ -78,6 +78,7 @@ export function getSASToken(accountType: string, sasValues: DataLakeSASSignature
 }
 
 export function getSASFileSystemClient(
+  recorder: Recorder,
   accountType: string,
   sasValues: DataLakeSASSignatureValues,
   accountNameSuffix: string = "",
@@ -87,10 +88,13 @@ export function getSASFileSystemClient(
   const sasToken = getSASToken(accountType, sasValues);
   const pipeline = newPipeline(undefined, { ...pipelineOptions });
   const dfsPrimaryURL = `https://${credential.accountName}${accountNameSuffix}.dfs.core.windows.net/${sasValues.fileSystemName}/?${sasToken}`;
-  return new DataLakeFileSystemClient(dfsPrimaryURL, pipeline);
+  const client = new DataLakeFileSystemClient(dfsPrimaryURL, pipeline);
+  configureStorageClient(recorder, client);
+  return client;
 }
 
 export function getGenericDataLakeServiceClient(
+  recorder: Recorder,
   accountType: string,
   accountNameSuffix: string = "",
   pipelineOptions: StoragePipelineOptions = {}
@@ -99,55 +103,50 @@ export function getGenericDataLakeServiceClient(
     env.STORAGE_CONNECTION_STRING &&
     env.STORAGE_CONNECTION_STRING.startsWith("UseDevelopmentStorage=true")
   ) {
-    throw Error(
+    throw new Error(
       `getGenericDataLakeServiceClient() doesn't support creating DataLakeServiceClient from connection string.`
     );
   } else {
     const credential = getGenericCredential(accountType);
-    const pipeline = newPipeline(credential, {
-      ...pipelineOptions,
-      // Enable logger when debugging
-      // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
-      // proxyOptions: {
-      //   host: "127.0.0.1",
-      //   port: 8888
-      // }
-    });
+    const pipeline = newPipeline(credential, pipelineOptions);
     const dfsPrimaryURL = `https://${credential.accountName}${accountNameSuffix}.dfs.core.windows.net/`;
-    return new DataLakeServiceClient(dfsPrimaryURL, pipeline);
+    const client = new DataLakeServiceClient(dfsPrimaryURL, pipeline);
+    configureStorageClient(recorder, client);
+    return client;
   }
 }
 
-export function getTokenDataLakeServiceClient(): DataLakeServiceClient {
+export function getTokenDataLakeServiceClient(recorder: Recorder): DataLakeServiceClient {
   const accountNameEnvVar = `DFS_ACCOUNT_NAME`;
 
-  const accountName = process.env[accountNameEnvVar];
+  const accountName = env[accountNameEnvVar];
   if (!accountName || accountName === "") {
     throw new Error(`${accountNameEnvVar} environment variables not specified.`);
   }
 
   const credential = getTokenCredential();
-  const pipeline = newPipeline(credential, {
-    // Enable logger when debugging
-    // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
-  });
+  const pipeline = newPipeline(credential);
   const dfsPrimaryURL = `https://${accountName}.dfs.core.windows.net/`;
-  return new DataLakeServiceClient(dfsPrimaryURL, pipeline);
+  const client = new DataLakeServiceClient(dfsPrimaryURL, pipeline);
+  configureStorageClient(recorder, client);
+  return client;
 }
 
 export function getDataLakeServiceClient(
+  recorder: Recorder,
   pipelineOptions: StoragePipelineOptions = {}
 ): DataLakeServiceClient {
-  return getGenericDataLakeServiceClient("DFS_", undefined, pipelineOptions);
+  return getGenericDataLakeServiceClient(recorder, "DFS_", undefined, pipelineOptions);
 }
 
 export function getDataLakeServiceClientWithDefaultCredential(
+  recorder: Recorder,
   accountType: string = "DFS_",
   pipelineOptions: StoragePipelineOptions = {},
   accountNameSuffix: string = ""
 ): DataLakeServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
-  const accountName = process.env[accountNameEnvVar];
+  const accountName = env[accountNameEnvVar];
   if (!accountName || accountName === "") {
     throw new Error(`${accountNameEnvVar} environment variables not specified.`);
   }
@@ -157,25 +156,34 @@ export function getDataLakeServiceClientWithDefaultCredential(
     ...pipelineOptions,
   });
   const dfsPrimaryURL = `https://${accountName}${accountNameSuffix}.dfs.core.windows.net/`;
-  return new DataLakeServiceClient(dfsPrimaryURL, pipeline);
+  const client = new DataLakeServiceClient(dfsPrimaryURL, pipeline);
+  configureStorageClient(recorder, client);
+  return client;
 }
 
 export function getDataLakeFileSystemClientWithSASCredential(
+  recorder: Recorder,
   sasValues: DataLakeSASSignatureValues,
   accountType: string = "DFS_",
   accountNameSuffix: string = "",
   pipelineOptions: StoragePipelineOptions = {}
 ): DataLakeFileSystemClient {
-  return getSASFileSystemClient(accountType, sasValues, accountNameSuffix, pipelineOptions);
+  return getSASFileSystemClient(
+    recorder,
+    accountType,
+    sasValues,
+    accountNameSuffix,
+    pipelineOptions
+  );
 }
 
-export function getAlternateDataLakeServiceClient(): DataLakeServiceClient {
-  return getGenericDataLakeServiceClient("SECONDARY_", "-secondary");
+export function getAlternateDataLakeServiceClient(recorder: Recorder): DataLakeServiceClient {
+  return getGenericDataLakeServiceClient(recorder, "SECONDARY_", "-secondary");
 }
 
 export function getEncryptionScope(): string {
   const encryptionScopeEnvVar = "ENCRYPTION_SCOPE";
-  const encryptionScope = process.env[encryptionScopeEnvVar];
+  const encryptionScope = env[encryptionScopeEnvVar];
 
   if (!encryptionScope) {
     throw new Error(`${encryptionScopeEnvVar}  environment variables not specified.`);
@@ -253,7 +261,7 @@ export async function createRandomLocalFile(
 
 export function getConnectionStringFromEnvironment(accountType: string = "DFS_"): string {
   const connectionStringEnvVar = `${accountType}STORAGE_CONNECTION_STRING`;
-  const connectionString = process.env[connectionStringEnvVar];
+  const connectionString = env[connectionStringEnvVar];
 
   if (!connectionString) {
     throw new Error(`${connectionStringEnvVar} environment variables not specified.`);

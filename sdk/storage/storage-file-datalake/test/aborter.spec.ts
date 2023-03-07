@@ -5,8 +5,8 @@ import { assert } from "chai";
 
 import { AbortController, AbortSignal } from "@azure/abort-controller";
 import { DataLakeFileSystemClient } from "../src";
-import { getDataLakeServiceClient, recorderEnvSetup } from "./utils";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { getDataLakeServiceClient, getUniqueName, recorderEnvSetup } from "./utils";
+import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
 describe("Aborter", () => {
@@ -16,9 +16,10 @@ describe("Aborter", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    const serviceClient = getDataLakeServiceClient();
-    fileSystemName = recorder.getUniqueName("container");
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    const serviceClient = getDataLakeServiceClient(recorder);
+    fileSystemName = recorder.variable("container", getUniqueName("container"));
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
   });
 
