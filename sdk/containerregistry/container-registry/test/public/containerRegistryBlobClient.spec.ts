@@ -13,6 +13,7 @@ import { Context } from "mocha";
 import { createBlobClient, recorderStartOptions, serviceVersions } from "../utils/utils";
 import fs from "fs";
 import { Readable } from "stream";
+import { readStreamToEnd } from "../../src/utils/helpers";
 
 versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
   onVersions({ minVer: "2021-07-01" }).describe("ContainerRegistryBlobClient", function () {
@@ -90,7 +91,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
 
     it("can upload OCI manifest from stream", async function (this: Mocha.Context) {
       if (isPlaybackMode()) {
-        // Temporarily skip during playback while dealing with recorder issue
+        // Temporarily skip during playback while dealing with recorder issue: https://github.com/Azure/azure-sdk-tools/issues/3015
         this.skip();
       }
 
@@ -98,6 +99,26 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
 
       const manifestStream = fs.createReadStream("test/data/oci-artifact/manifest.json");
       const uploadResult = await client.uploadManifest(manifestStream);
+      const downloadResult = await client.downloadManifest(uploadResult.digest);
+
+      assert.equal(downloadResult.digest, uploadResult.digest);
+      assert.deepStrictEqual(downloadResult.manifest, manifest);
+
+      await client.deleteManifest(uploadResult.digest);
+    });
+
+    it("can upload OCI manifest from buffer", async function (this: Mocha.Context) {
+      if (isPlaybackMode()) {
+        // Temporarily skip during playback while dealing with recorder issue: https://github.com/Azure/azure-sdk-tools/issues/3015
+        this.skip();
+      }
+
+      await uploadManifestPrerequisites();
+
+      const manifestBuffer = await readStreamToEnd(
+        fs.createReadStream("test/data/oci-artifact/manifest.json")
+      );
+      const uploadResult = await client.uploadManifest(manifestBuffer);
       const downloadResult = await client.downloadManifest(uploadResult.digest);
 
       assert.equal(downloadResult.digest, uploadResult.digest);
@@ -190,6 +211,13 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       const downloadResult = await client.downloadBlob(
         "sha256:654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed"
       );
+      assert.equal(digest, downloadResult.digest);
+    });
+
+    it("can upload blob from a buffer", async () => {
+      const blob = Buffer.alloc(1024, 0x00);
+      const { digest } = await client.uploadBlob(blob);
+      const downloadResult = await client.downloadBlob(digest);
       assert.equal(digest, downloadResult.digest);
     });
 

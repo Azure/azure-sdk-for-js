@@ -197,8 +197,7 @@ export class ContainerRegistryBlobClient {
         if (Buffer.isBuffer(manifest)) {
           manifestBody = manifest;
           tagOrDigest ??= await calculateDigest(manifest);
-        }
-        if (isReadableStream(manifest)) {
+        } else if (isReadableStream(manifest)) {
           manifestBody = await readStreamToEnd(manifest);
           tagOrDigest ??= await calculateDigest(manifestBody);
         } else {
