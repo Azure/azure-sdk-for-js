@@ -1,15 +1,9 @@
 # Release History
 
-## 1.2.0-beta.5 (Unreleased)
-
-### Features Added
+## 1.2.0-alpha.20230307.3 (2023-03-07)
 
 ### Breaking Changes
 - Changed public methods `getTrunks` to `listTrunks` and `getRoutes` to `listRoutes`.
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 1.2.0-beta.4 (2023-01-10)
 - Adds support for Azure Communication Services Phone Numbers Browse API Methods.
