@@ -281,6 +281,11 @@ directive:
       $["x-ms-enum"].name = "WarningCode";
 
   - from: swagger-document
+    where: $.definitions.AnalyzeTextJobsInput.properties
+    transform: >
+      delete $["defaultLanguage"];
+
+  - from: swagger-document
     where: $.definitions.DocumentWarning.properties
     transform: >
       delete $["targetRef"];
@@ -365,10 +370,6 @@ directive:
   - where-model: DynamicClassificationAction
     transform:
       $.description = "Options for a dynamic classification action.";
-  - where-model: AbstractiveSummarizationTaskParametersBase
-    transform:
-      $.properties.sentenceCount.description = "The max number of sentences to be part of the summary.";
-      $.properties.sentenceCount["x-ms-client-name"] = "maxSentenceCount";
   - rename-model:
       from: AbstractiveSummarizationTaskParameters
       to: AbstractiveSummarizationAction
