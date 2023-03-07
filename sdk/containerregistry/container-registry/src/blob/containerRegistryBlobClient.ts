@@ -276,7 +276,7 @@ export class ContainerRegistryBlobClient {
           digest: response.dockerContentDigest,
           mediaType: response.mediaType,
           manifest,
-          manifestStream: Readable.from(bodyData),
+          content: Readable.from(bodyData),
         };
       }
     );

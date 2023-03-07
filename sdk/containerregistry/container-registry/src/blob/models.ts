@@ -50,7 +50,7 @@ export interface DownloadManifestResult {
   /**
    * The manifest stream that was downloaded.
    */
-  manifestStream: NodeJS.ReadableStream;
+  content: NodeJS.ReadableStream;
 }
 
 /**

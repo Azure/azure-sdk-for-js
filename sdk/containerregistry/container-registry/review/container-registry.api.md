@@ -160,9 +160,9 @@ export interface DownloadManifestOptions extends OperationOptions {
 
 // @public
 export interface DownloadManifestResult {
+    content: NodeJS.ReadableStream;
     digest: string;
     manifest?: OciManifest;
-    manifestStream: NodeJS.ReadableStream;
     mediaType: string;
 }
 
