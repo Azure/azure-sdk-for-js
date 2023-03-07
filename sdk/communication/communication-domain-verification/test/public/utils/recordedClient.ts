@@ -3,12 +3,7 @@
 
 import * as dotenv from "dotenv";
 
-import {
-  Recorder,
-  RecorderStartOptions,
-  env,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import { Recorder, RecorderStartOptions, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { TokenCredential } from "@azure/identity";
 import { parseConnectionString } from "@azure/communication-common";
 import { Context, Test } from "mocha";
@@ -91,7 +86,7 @@ export async function createRecordedClientWithToken(
 ): Promise<RecordedClient<DomainVerificationClient>> {
   const recorder = await createRecorder(context.currentTest);
   let credential: TokenCredential;
-  
+
   const endpoint = parseConnectionString(
     env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? ""
   ).endpoint;
