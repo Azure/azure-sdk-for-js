@@ -64,6 +64,12 @@ Make sure to name your PR with the following format when you are ready to submit
 
 Additionally, write a good description about what your PR does in the description section. This will help your reviewers have a better understanding of what you are trying to accomplish.
 
+## Test Resources
+
+Each SDK has a set of required test resource definitions necessary for its live tests to function correctly. These are commonly defined in a top-level `test-resources.json` file, and are shared by all of the SDKs.
+
+If a specific SDK needs a resource that's not defined within the shared definition, it should define its own set of required resources. In that case, use the common resources file as a blueprint and expand on it.
+
 ## Samples
 
 Each SDK has a `samples` folder in the test package where you can run example code for every function the of the SDK. These samples may have special requirements such as specific environment variables you may have to setup before running them. Make sure to take a look at these files and setup the environment as it is expected.
