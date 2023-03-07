@@ -2,6 +2,8 @@
 
 ## 1.0.0 (Unreleased)
 
+### 2023-03-07
+
 - [#25122](https://github.com/Azure/azure-sdk-for-js/pull/25122) Fixes the bug where the long and short names are not recognized for the boolean options if they are different from the key presented in the options bag.
 
 ### 2023-02-16
