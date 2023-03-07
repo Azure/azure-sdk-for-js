@@ -21,6 +21,8 @@ import {
   isBrowser,
   getEncryptionScope,
   getUniqueName,
+  configureStorageClient,
+  uriSanitizers,
 } from "./utils";
 
 describe("DataLakeServiceClient", () => {
@@ -29,6 +31,8 @@ describe("DataLakeServiceClient", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    // make sure we add the sanitizers on playback for SAS strings
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
   });
 
   afterEach(async function () {
@@ -532,6 +536,7 @@ describe("DataLakeServiceClient", () => {
         },
       }
     );
+    configureStorageClient(recorder, newClient);
 
     const listIter = newClient.listFileSystems();
     await listIter.next();
@@ -539,10 +544,8 @@ describe("DataLakeServiceClient", () => {
   });
 
   it("renameFileSystem should work", async function (this: Context) {
-    if (isLiveMode()) {
-      // Turn on this case when the Container Rename feature is ready in the service side.
-      this.skip();
-    }
+    // Turn on this case when the Container Rename feature is ready in the service side.
+    this.skip();
 
     const serviceClient = getDataLakeServiceClient(recorder);
     const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
@@ -561,10 +564,8 @@ describe("DataLakeServiceClient", () => {
   });
 
   it("renameFileSystem should work with source lease", async function (this: Context) {
-    if (isLiveMode()) {
-      // Turn on this case when the Container Rename feature is ready in the service side.
-      this.skip();
-    }
+    // Turn on this case when the Container Rename feature is ready in the service side.
+    this.skip();
 
     const serviceClient = getDataLakeServiceClient(recorder);
     const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));

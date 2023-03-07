@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import { TokenCredential } from "@azure/core-auth";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { env, Recorder } from "@azure-tools/test-recorder";
 import { randomBytes } from "crypto";
 import * as fs from "fs";
 import * as path from "path";
-import { DefaultAzureCredential } from "@azure/identity";
 
 import { DataLakeServiceClient } from "../../src/DataLakeServiceClient";
 import {
@@ -151,7 +151,7 @@ export function getDataLakeServiceClientWithDefaultCredential(
     throw new Error(`${accountNameEnvVar} environment variables not specified.`);
   }
 
-  const credential = new DefaultAzureCredential();
+  const credential = createTestCredential();
   const pipeline = newPipeline(credential, {
     ...pipelineOptions,
   });

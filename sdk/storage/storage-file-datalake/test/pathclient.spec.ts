@@ -18,6 +18,7 @@ import {
 } from "./utils";
 import { Context } from "mocha";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
+import { useFakeTimers } from "sinon";
 
 describe("DataLakePathClient", () => {
   let fileSystemName: string;
@@ -133,8 +134,7 @@ describe("DataLakePathClient", () => {
   });
 
   it("DataLakeFileClient create with absolute expiry", async () => {
-    const now = new Date();
-    const recordedNow = new Date(recorder.variable("now", new Date().toISOString())); // Flaky workaround for the recording to work.
+    const now = new Date(recorder.variable("now", new Date().toISOString())); // Flaky workaround for the recording to work.
     const delta = 20 * 1000;
     const expiresOn = new Date(now.getTime() + delta);
 
@@ -143,7 +143,7 @@ describe("DataLakePathClient", () => {
     await testFileClient.create({ expiresOn: expiresOn });
 
     const result = await testFileClient.getProperties();
-    const recordedExpiresOn = new Date(recordedNow.getTime() + delta);
+    const recordedExpiresOn = new Date(expiresOn.getTime());
     recordedExpiresOn.setMilliseconds(0); // milliseconds dropped
     assert.equal(result.expiresOn?.getTime(), recordedExpiresOn.getTime());
 
@@ -315,8 +315,7 @@ describe("DataLakePathClient", () => {
   });
 
   it("DataLakeFileClient createIfNotExists with absolute expiry", async () => {
-    const now = new Date();
-    const recordedNow = new Date(recorder.variable("now", new Date().toISOString())); // Flaky workaround for the recording to work.
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     const delta = 20 * 1000;
     const expiresOn = new Date(now.getTime() + delta);
 
@@ -325,7 +324,7 @@ describe("DataLakePathClient", () => {
     await testFileClient.createIfNotExists({ expiresOn: expiresOn });
 
     const result = await testFileClient.getProperties();
-    const recordedExpiresOn = new Date(recordedNow.getTime() + delta);
+    const recordedExpiresOn = new Date(expiresOn.getTime());
     recordedExpiresOn.setMilliseconds(0); // milliseconds dropped
     assert.equal(result.expiresOn?.getTime(), recordedExpiresOn.getTime());
 
@@ -495,7 +494,7 @@ describe("DataLakePathClient", () => {
   });
 
   it("DataLakeDirectoryClient create with absolute expiry", async () => {
-    const now = new Date();
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     const delta = 20 * 1000;
     const expiresOn = new Date(now.getTime() + delta);
 
@@ -503,7 +502,7 @@ describe("DataLakePathClient", () => {
     const testDirClient = fileSystemClient.getDirectoryClient(testDirName);
 
     try {
-      await testDirClient.create({ expiresOn: expiresOn });
+      await testDirClient.create({ expiresOn });
       assert.fail("Creating directory with expiry should fail.");
     } catch (error) {
       assert.ok((error as any).message.includes("Set Expiry is not supported for a directory"));
@@ -612,7 +611,7 @@ describe("DataLakePathClient", () => {
   });
 
   it("DataLakeDirectoryClient createIfNotExists with absolute expiry", async () => {
-    const now = new Date();
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     const delta = 20 * 1000;
     const expiresOn = new Date(now.getTime() + delta);
 
@@ -1213,14 +1212,20 @@ describe("DataLakePathClient", () => {
   });
 
   it("set expiry - Absolute", async () => {
-    const now = new Date();
-    const recordedNow = new Date(recorder.variable("now", new Date().toISOString())); // Flaky workaround for the recording to work.
+    const now = new Date(recorder.variable("now", new Date().toISOString())); // Flaky workaround for the recording to work.
     const delta = 5 * 1000;
     const expiresOn = new Date(now.getTime() + delta);
-    await fileClient.setExpiry("Absolute", { expiresOn });
+    const clock = useFakeTimers(now);
+    let setExpiryPromise: Promise<unknown>;
+    try {
+      setExpiryPromise = fileClient.setExpiry("Absolute", { expiresOn });
+    } finally {
+      clock.restore();
+    }
+    await setExpiryPromise;
 
     const getRes = await fileClient.getProperties();
-    const recordedExpiresOn = new Date(recordedNow.getTime() + delta);
+    const recordedExpiresOn = new Date(expiresOn.getTime());
     recordedExpiresOn.setMilliseconds(0); // milliseconds dropped
     assert.equal(getRes.expiresOn?.getTime(), recordedExpiresOn.getTime());
 
@@ -1687,7 +1692,9 @@ describe("DataLakePathClient - Encryption Scope", () => {
 
   afterEach(async function () {
     await fileSystemClient?.deleteIfExists();
-    await recorder.stop();
+    if (recorder) {
+      await recorder.stop();
+    }
   });
 
   it("DataLakeFileClient - getProperties should return Encryption Scope", async () => {

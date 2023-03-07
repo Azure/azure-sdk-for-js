@@ -6,7 +6,11 @@ import { assert } from "chai";
 import { Context } from "mocha";
 
 import { DataLakeServiceClient } from "../../src";
-import { recorderEnvSetup, getConnectionStringFromEnvironment } from "../utils";
+import {
+  recorderEnvSetup,
+  getConnectionStringFromEnvironment,
+  configureStorageClient,
+} from "../utils";
 
 describe("DataLakeServiceClient", () => {
   let recorder: Recorder;
@@ -29,6 +33,7 @@ describe("DataLakeServiceClient", () => {
         },
       }
     );
+    configureStorageClient(recorder, newClient);
 
     const listIter = newClient.listFileSystems();
     await listIter.next();

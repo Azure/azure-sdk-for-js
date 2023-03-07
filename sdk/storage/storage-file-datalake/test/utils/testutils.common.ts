@@ -23,7 +23,7 @@ export function configureStorageClient(recorder: Recorder, client: StorageClient
 function getUriSanitizerForQueryParam(paramName: string) {
   return {
     regex: true,
-    target: `http.+?[^&]*&?(?<param>${paramName}=[^&]+&?)`,
+    target: `http.+\\?([^&=]+=[^&=]+&)*(?<param>${paramName}=[^&=]+&?)`,
     groupForReplace: "param",
     value: "",
   };
@@ -50,7 +50,7 @@ export const recorderEnvSetup: RecorderStartOptions = {
     ENCRYPTION_SCOPE_2: "antjoscope2",
     // Comment following line to skip user delegation key/SAS related cases in record and play
     // which depends on this environment variable
-    DFS_ACCOUNT_TOKEN: `${mockAccountKey}`,
+    // DFS_ACCOUNT_TOKEN: `${mockAccountKey}`,
     DFS_SOFT_DELETE_ACCOUNT_NAME: `${mockAccountName}`,
     DFS_SOFT_DELETE_ACCOUNT_KEY: `${mockAccountKey}`,
     DFS_SOFT_DELETE_ACCOUNT_SAS: `${mockSas}`,

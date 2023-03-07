@@ -24,6 +24,7 @@ import {
   recorderEnvSetup,
   getDataLakeFileSystemClientWithSASCredential,
   getUniqueName,
+  uriSanitizers,
 } from "../utils";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
 
@@ -40,6 +41,16 @@ describe("DataLakePathClient Node.js only", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    // make sure we add the sanitizers on playback for SAS strings
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: ["x-ms-rename-source"],
+        },
+      },
+      ["record", "playback"]
+    );
     serviceClient = getDataLakeServiceClient(recorder);
     fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
@@ -711,10 +722,11 @@ describe("DataLakePathClient Node.js only", () => {
 
   it("move with shared key to authenticate source, SAS to authenticate destination", async () => {
     const destFileName = recorder.variable("destfile", getUniqueName("destfile"));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     const sasFileSystemClient = getDataLakeFileSystemClientWithSASCredential(recorder, {
       fileSystemName: fileSystemClient.name,
       pathName: destFileName,
-      expiresOn: new Date(Date.now() + 60 * 1000),
+      expiresOn: new Date(now.getTime() + 60 * 1000),
       permissions: DataLakeSASPermissions.parse("rwm"),
     });
     const sasDestFileClient = sasFileSystemClient.getFileClient(destFileName);
@@ -724,9 +736,10 @@ describe("DataLakePathClient Node.js only", () => {
 
   it("move with SAS to authenticate source, SAS to authenticate destination", async () => {
     const destFileName = recorder.variable("destfile", getUniqueName("destfile"));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     const sasFileSystemClient = getDataLakeFileSystemClientWithSASCredential(recorder, {
       fileSystemName: fileSystemClient.name,
-      expiresOn: new Date(Date.now() + 60 * 1000),
+      expiresOn: new Date(now.getTime() + 60 * 1000),
       permissions: DataLakeSASPermissions.parse("rwdm"),
     });
     const sasDestFileClient = sasFileSystemClient.getFileClient(destFileName);
@@ -753,7 +766,7 @@ describe("DataLakePathClient Node.js only", () => {
     await fileClient2.append(csvContent, 0, csvContent.length);
     await fileClient2.flush(csvContent.length);
 
-    await fileClient2.query("select * from BlobStorage", {
+    const response = await fileClient2.query("select * from BlobStorage", {
       outputTextConfiguration: {
         kind: "arrow",
         schema: [
@@ -766,6 +779,7 @@ describe("DataLakePathClient Node.js only", () => {
         ],
       },
     });
+    await bodyToString(response);
   });
 
   it("query should work with Parquet input configuration", async function (this: Context) {

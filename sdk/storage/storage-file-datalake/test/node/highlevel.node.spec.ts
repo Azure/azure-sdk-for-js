@@ -44,6 +44,14 @@ describe("Highlevel Node.js only", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: ["x-ms-proposed-lease-id", "x-ms-lease-id", "x-ms-rename-source"],
+        },
+      },
+      ["record", "playback"]
+    );
     const serviceClient = getDataLakeServiceClient(recorder, {
       keepAliveOptions: {
         enable: true,
@@ -57,15 +65,13 @@ describe("Highlevel Node.js only", () => {
   });
 
   afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+    if (fileSystemClient) {
       await fileSystemClient.deleteIfExists();
-      await recorder.stop();
     }
+    await recorder.stop();
   });
 
   before(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
     if (!fs.existsSync(tempFolderPath)) {
       fs.mkdirSync(tempFolderPath);
     }
@@ -73,16 +79,11 @@ describe("Highlevel Node.js only", () => {
     tempFileLargeLength = 257 * MB;
     tempFileSmall = await createRandomLocalFile(tempFolderPath, 15, MB);
     tempFileSmallLength = 15 * MB;
-
-    await recorder.stop();
   });
 
   after(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
     fs.unlinkSync(tempFileLarge);
     fs.unlinkSync(tempFileSmall);
-    await recorder.stop();
   });
 
   it("upload and read with cpk", async () => {

@@ -3,6 +3,7 @@
 
 import { assert, getYieldedValue } from "@azure/test-utils";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { useFakeTimers } from "sinon";
 
 import {
   DataLakeFileSystemClient,
@@ -285,8 +286,7 @@ describe("DataLakeFileSystemClient", () => {
   });
 
   it("listPaths - ExpiryTime, Absolute", async () => {
-    const now = new Date();
-    const recordedNow = new Date(recorder.variable("now", new Date().toISOString())); // Flaky workaround for the recording to work.
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     const delta = 30 * 1000;
     const expiresOn = new Date(now.getTime() + delta);
     const fileClient = fileSystemClient.getFileClient(
@@ -297,12 +297,19 @@ describe("DataLakeFileSystemClient", () => {
     await fileClient.create();
     await fileClient.append(content, 0, content.length);
     await fileClient.flush(content.length);
-    await fileClient.setExpiry("Absolute", { expiresOn });
+    const clock = useFakeTimers(now);
+    let setExpiryPromise: Promise<unknown>;
+    try {
+      setExpiryPromise = fileClient.setExpiry("Absolute", { expiresOn });
+    } finally {
+      clock.restore();
+    }
+    await setExpiryPromise;
 
     const result = (await fileSystemClient.listPaths().byPage().next())
       .value as FileSystemListPathsResponse;
 
-    const recordedExpiresOn = new Date(recordedNow.getTime() + delta);
+    const recordedExpiresOn = new Date(expiresOn.getTime());
     recordedExpiresOn.setMilliseconds(0); // milliseconds dropped
     assert.equal(result.pathItems![0].expiresOn?.getTime(), recordedExpiresOn.getTime());
     await fileClient.delete();
