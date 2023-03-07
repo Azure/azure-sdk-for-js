@@ -90,7 +90,7 @@ export async function main() {
           }
         }
       }
-      
+
       if (result.fhirBundle) {
         console.log(`FHIR object: ${JSON.stringify(result.fhirBundle, undefined, 2)}`);
       }

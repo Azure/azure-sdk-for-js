@@ -4,8 +4,8 @@
 /**
  * In this sample, we use the complementary automatic language detection
  * with an abstractive summarization task to receive the detected
- * language of the input document. 
- * 
+ * language of the input document.
+ *
  * The abstractive summarization feature is part of a gated preview. Access can
  * be request in {@link https://aka.ms/applyforgatedsummarizationfeatures}.
  *
@@ -13,7 +13,11 @@
  * @azsdk-weight 50
  */
 
-import { TextAnalysisClient, AzureKeyCredential, AnalyzeBatchAction } from "@azure/ai-language-text";
+import {
+  TextAnalysisClient,
+  AzureKeyCredential,
+  AnalyzeBatchAction,
+} from "@azure/ai-language-text";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -79,9 +83,9 @@ export async function main() {
       for (const summary of result.summaries) {
         console.log(summary.text);
       }
-      
+
       if (result.detectedLanguage) {
-        const { name, iso6391Name, confidenceScore } = result.detectedLanguage;      
+        const { name, iso6391Name, confidenceScore } = result.detectedLanguage;
         console.log(
           "Document identified as",
           name,

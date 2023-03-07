@@ -6,7 +6,7 @@
  * written language of several documents written in different languages. The
  * endpoint provides a primary language as well as a score representing the
  * service's confidence in the correctness of its assessment.
- * 
+ *
  * Script detection feature can be enabled with the "2022-04-10-preview" model version.
  *
  * @summary detects the language of a piece of text
@@ -46,7 +46,7 @@ export async function main() {
         `Primary language: ${doc.primaryLanguage.name} (iso6391 name: ${doc.primaryLanguage.iso6391Name})`
       );
       if (doc.primaryLanguage.script) {
-        console.log(`Detected script: ${doc.primaryLanguage.script}`); 
+        console.log(`Detected script: ${doc.primaryLanguage.script}`);
       }
     }
   }

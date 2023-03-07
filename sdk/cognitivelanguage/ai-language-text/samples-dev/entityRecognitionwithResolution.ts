@@ -10,7 +10,11 @@
  * @azsdk-weight 100
  */
 
-import { TextAnalysisClient, AzureKeyCredential, AnalyzeBatchAction } from "@azure/ai-language-text";
+import {
+  TextAnalysisClient,
+  AzureKeyCredential,
+  AnalyzeBatchAction,
+} from "@azure/ai-language-text";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -31,20 +35,15 @@ export async function main() {
 
   const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
 
-  const actions: AnalyzeBatchAction[] =[
+  const actions: AnalyzeBatchAction[] = [
     {
       kind: "EntityRecognition",
       modelVersion: "2022-10-01-preview",
     },
-  ];            
-  const poller = await client.beginAnalyzeBatch(
-    actions,
-    documents,
-    "en",
-  );
+  ];
+  const poller = await client.beginAnalyzeBatch(actions, documents, "en");
   const results = await poller.pollUntilDone();
   for await (const actionResult of results) {
-
     if (actionResult.kind !== "EntityRecognition") {
       throw new Error(`Expected abstractive summarization results but got: ${actionResult.kind}`);
     }
@@ -53,14 +52,14 @@ export async function main() {
       const { code, message } = actionResult.error;
       throw new Error(`Unexpected error (${code}): ${message}`);
     }
-    
+
     for (const result of actionResult.results) {
       console.log(`- Document ${result.id}`);
       if (result.error) {
         const { code, message } = result.error;
         throw new Error(`Unexpected error (${code}): ${message}`);
       }
-      
+
       console.log("\tRecognized Entities:");
       for (const entity of result.entities) {
         console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
@@ -74,7 +73,6 @@ export async function main() {
           }
         }
       }
-      
     }
   }
 }
