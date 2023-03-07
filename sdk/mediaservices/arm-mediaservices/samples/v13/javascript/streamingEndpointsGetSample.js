@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a streaming endpoint.
  *
  * @summary Gets a streaming endpoint.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-08-01/examples/streamingendpoint-list-by-name.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-11-01/examples/streamingendpoint-list-by-name.json
  */
 async function getAStreamingEndpointByName() {
   const subscriptionId =
