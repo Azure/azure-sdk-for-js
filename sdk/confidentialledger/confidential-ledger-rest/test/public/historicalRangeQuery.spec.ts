@@ -2,19 +2,16 @@
 // Licensed under the MIT license.
 import {
   ConfidentialLedgerClient,
-  CreateLedgerEntryParameters,
-  LedgerEntry,
-  isUnexpected,
-  paginate,
+  CreateLedgerEntryParameters, isUnexpected, LedgerEntry, paginate
 } from "../../src";
 
 import { createClient, createRecorder } from "./utils/recordedClient";
 
-import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
+import { Context } from "mocha";
 
-describe("Range query should be successful", () => {
+describe("Range query should be successful", function () {
   let recorder: Recorder;
   let client: ConfidentialLedgerClient;
 

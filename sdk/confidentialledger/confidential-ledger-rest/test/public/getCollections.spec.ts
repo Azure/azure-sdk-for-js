@@ -2,17 +2,15 @@
 // Licensed under the MIT license.
 import {
   ConfidentialLedgerClient,
-  CreateLedgerEntryParameters,
-  LedgerEntry,
-  isUnexpected,
+  CreateLedgerEntryParameters, isUnexpected, LedgerEntry
 } from "../../src";
 import { createClient, createRecorder } from "./utils/recordedClient";
 
-import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
+import { Context } from "mocha";
 
-describe("Get Collections", () => {
+describe("Get Collections", function () {
   let recorder: Recorder;
   let client: ConfidentialLedgerClient;
 
