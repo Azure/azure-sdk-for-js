@@ -14,21 +14,27 @@ import {
   ListSettingsResponse,
   KeyVaultSetting,
   SettingsClientOptions,
+  BooleanKeyVaultSetting,
 } from "./settingsClientModels";
 
 function makeSetting(generatedSetting: GeneratedSetting): KeyVaultSetting {
   if (generatedSetting.type === "boolean") {
     return {
+      kind: "boolean",
       name: generatedSetting.name,
       value: generatedSetting.value === "true" ? true : false,
-      kind: "boolean",
     };
   } else {
     return {
+      kind: generatedSetting.type,
       name: generatedSetting.name,
       value: generatedSetting.value,
     };
   }
+}
+
+export function isBooleanSetting(setting: KeyVaultSetting): setting is BooleanKeyVaultSetting {
+  return setting.kind === "boolean" && typeof setting.value === "boolean";
 }
 
 /**
