@@ -57,7 +57,7 @@ export interface UnknownKeyVaultSetting extends KeyVaultSettingCommon {
   /**
    * The kind of the setting.
    */
-  kind?: never;
+  kind?: undefined;
 }
 
 /**

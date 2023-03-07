@@ -290,7 +290,7 @@ export type SUPPORTED_API_VERSIONS = "7.2" | "7.3" | "7.4-preview.1";
 
 // @public
 export interface UnknownKeyVaultSetting extends KeyVaultSettingCommon {
-    kind?: never;
+    kind?: undefined;
     value: unknown;
 }
 
