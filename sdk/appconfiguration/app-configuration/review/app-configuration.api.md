@@ -197,7 +197,7 @@ export interface ListSettingsOptions extends OptionalFields {
 // @public
 export interface ListSnapshots extends OptionalSnapshotFields {
     nameFilter?: string;
-    statusFilter?: SnapshotStatus;
+    statusFilter?: SnapshotStatus[];
 }
 
 // @public

@@ -1268,9 +1268,11 @@ describe("AppConfigurationClient", () => {
       key2 = "key2";
       filter1 = {
         key: key1,
+        label: "label1"
       };
       filter2 = {
         key: key2,
+        label: "label2",
       };
       snapshot1 = {
         name: "testSnapshot1",
@@ -1281,12 +1283,6 @@ describe("AppConfigurationClient", () => {
         name: "testSnapshot2",
         filters: [filter1, filter2],
       };
-
-      // creating a new setting for key1
-      await client.addConfigurationSetting({ key: key1, value: "value1" });
-
-      // creating a new setting for key2
-      await client.addConfigurationSetting({ key: key2, value: "value2" });
     });
 
     after(async () => {
@@ -1296,10 +1292,16 @@ describe("AppConfigurationClient", () => {
       await client.deleteConfigurationSetting({ key: key2 });
     });
 
-    describe.only("createSnapshot", () => {
-      it("create a snapshot", async () => {
+    describe("createSnapshot", () => {
+      it.only("create a snapshot", async () => {
+        // creating a new setting for key1
+        // await client.addConfigurationSetting({ key: key1, value: "value1" });
+
+        // // creating a new setting for key2
+        // await client.addConfigurationSetting({ key: key2, value: "value2" });
         // creating a new snapshot
         newSnapshot = await client.createSnapshot(snapshot1);
+        console.log(newSnapshot);
         assert.equal(
           newSnapshot.name,
           "testSnapshot1",
@@ -1332,6 +1334,7 @@ describe("AppConfigurationClient", () => {
         );
       });
     });
+
     describe("listConfigurationSettings for Snapshot", () => {
       it("list a snapshot configuration setting", async () => {
         // getting the configuration settting of the snapshot

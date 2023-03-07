@@ -531,7 +531,7 @@ export class AppConfigurationClient {
       options,
       async (updatedOptions) => {
         logger.info("[createSnapshot] Creating snapshot");
-        const originalResponse = await this.client.createSnapshot(
+        const originalResponse = await this.client.beginCreateSnapshotAndWait(
           snapshot.name,
           { ...snapshot },
           {
