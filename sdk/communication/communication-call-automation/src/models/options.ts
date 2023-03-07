@@ -3,7 +3,8 @@
 
 import { PhoneNumberIdentifier } from "@azure/communication-common";
 import { OperationOptions } from "@azure/core-client";
-import { MediaStreamingConfiguration,
+import {
+  MediaStreamingConfiguration,
   ServerCallLocator,
   GroupCallLocator
 } from "../models/models";
@@ -111,7 +112,7 @@ export type GetParticipantOptions = OperationOptions;
 /**
  * Options to get a start a recording.
  */
-export interface StartRecordingOptions  extends OperationOptions {
+export interface StartRecordingOptions extends OperationOptions {
 
   /** The call locator. */
   callLocator: ServerCallLocator | GroupCallLocator;
@@ -139,19 +140,19 @@ export interface StartRecordingOptions  extends OperationOptions {
 /**
  * Options to get a stop a recording.
  */
-export type CallRecordingStopRecordingOptions = OperationOptions;
+export type StopRecordingOptions = OperationOptions;
 
 /**
  * Options to get a pause a recording.
  */
-export type CallRecordingPauseRecordingOptions = OperationOptions;
+export type PauseRecordingOptions = OperationOptions;
 
 /**
  * Options to get recording properties.
  */
-export type CallRecordingGetRecordingPropertiesOptions = OperationOptions;
+export type GetRecordingPropertiesOptions = OperationOptions;
 
 /**
  * Options to resume recording.
  */
-export type CallRecordingResumeRecordingOptionalParams = OperationOptions;
+export type ResumeRecordingOptions = OperationOptions;

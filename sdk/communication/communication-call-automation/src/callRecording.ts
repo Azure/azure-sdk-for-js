@@ -7,10 +7,10 @@ import {
 } from "./models/responses";
 import {
   StartRecordingOptions,
-  CallRecordingStopRecordingOptions,
-  CallRecordingPauseRecordingOptions,
-  CallRecordingGetRecordingPropertiesOptions,
-  CallRecordingResumeRecordingOptionalParams,
+  StopRecordingOptions,
+  PauseRecordingOptions,
+  GetRecordingPropertiesOptions,
+  ResumeRecordingOptions,
 } from "./models/options";
 
 /**
@@ -57,7 +57,7 @@ export class CallRecording {
    */
   public async getRecordingState(
     recordingId: string,
-    options: CallRecordingGetRecordingPropertiesOptions = {}
+    options: GetRecordingPropertiesOptions = {}
   ): Promise<RecordingStateResult> {
     const response: RecordingStateResult = {
       ...(await this.callRecordingImpl.getRecordingProperties(recordingId, options)),
@@ -73,7 +73,7 @@ export class CallRecording {
    */
   public async stopRecording(
     recordingId: string,
-    options: CallRecordingStopRecordingOptions = {}
+    options: StopRecordingOptions = {}
   ): Promise<void> {
     return this.callRecordingImpl.stopRecording(recordingId, options);
   }
@@ -85,7 +85,7 @@ export class CallRecording {
    */
   public async pauseRecording(
     recordingId: string,
-    options: CallRecordingPauseRecordingOptions = {}
+    options: PauseRecordingOptions = {}
   ): Promise<void> {
     return this.callRecordingImpl.pauseRecording(recordingId, options);
   }
@@ -97,7 +97,7 @@ export class CallRecording {
    */
   public async resumeRecording(
     recordingId: string,
-    options: CallRecordingResumeRecordingOptionalParams = {}
+    options: ResumeRecordingOptions = {}
   ): Promise<void> {
     return this.callRecordingImpl.resumeRecording(recordingId, options);
   }
