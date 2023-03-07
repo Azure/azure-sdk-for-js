@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3ABw0gxrZQxqgzdIwOlu1xEUZXCp2JpJcOmCOGGGRgPQI1%40thread.v2/messages?api-version=2023-04-01-preview",
+      "RequestUri": "https://endpoint/chat/threads/19%3Av-DGVtwlzXn-hcgKowrAGtygzoQxoPZVzQuajTqf3Ls1%40thread.v2/messages?api-version=2023-04-01-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -20,8 +20,8 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
-        "x-ms-client-request-id": "2c807006-b028-4a07-af27-c15828b5bf20",
-        "x-ms-useragent": "azsdk-js-communication-chat/1.3.1-beta.1 core-rest-pipeline/1.10.2 OS"
+        "x-ms-client-request-id": "c567050b-f1d6-4cd6-9e75-320f79ba080f",
+        "x-ms-useragent": "azsdk-js-communication-chat/1.3.2-beta.1 core-rest-pipeline/1.10.2 OS"
       },
       "RequestBody": {
         "content": "content",
@@ -36,16 +36,16 @@
         "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview",
         "Content-Length": "22",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 07 Mar 2023 01:16:36 GMT",
-        "Location": "https://endpoint/chat/threads/19%3ABw0gxrZQxqgzdIwOlu1xEUZXCp2JpJcOmCOGGGRgPQI1@thread.v2/messages/1678151796655",
-        "MS-CV": "omxjlEEes06a2Xt\u002B7ZU17A.0",
+        "Date": "Tue, 07 Mar 2023 19:45:32 GMT",
+        "Location": "https://endpoint/chat/threads/19%3Av-DGVtwlzXn-hcgKowrAGtygzoQxoPZVzQuajTqf3Ls1@thread.v2/messages/1678218332335",
+        "MS-CV": "8fr/2PS110OXIcIlMlPNpg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0dJAGZAAAAAAmdAotWaZuSY1CX5I00JaWWVZSMzExMDAwMTE1MDI5ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+        "X-Azure-Ref": "0XJQHZAAAAAAqKVp0bKE2S6SxSskLFCHrU0pDRURHRTAzMTYAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "117ms"
+        "X-Processing-Time": "162ms"
       },
       "ResponseBody": {
-        "id": "1678151796655"
+        "id": "1678218332335"
       }
     }
   ],
