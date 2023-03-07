@@ -151,9 +151,7 @@ export function getUniqueFqdn(recorder: Recorder, domain = ""): string {
 
   fqdnNumber++;
   const fqdn =
-    domain.length > 0
-      ? `test${fqdnNumber}.` + domain
-      : `test${fqdnNumber}.` + env.AZURE_TEST_DOMAIN;
+    domain.length > 0 ? `test${fqdnNumber}.` + domain : `test${fqdnNumber}.` + getAzureTestDomain();
   return recorder.variable(`fqdn-${fqdnNumber}`, fqdn);
 }
 
