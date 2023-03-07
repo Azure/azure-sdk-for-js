@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3A5t6BZZhMhTG9yN54rMiVcs-kny91gVXsRP9Arl693UI1%40thread.v2/messages/1653551992406?api-version=2021-09-07",
+      "RequestUri": "https://endpoint/chat/threads/19%3ABw0gxrZQxqgzdIwOlu1xEUZXCp2JpJcOmCOGGGRgPQI1%40thread.v2/messages/1678151796655?api-version=2023-04-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -17,39 +17,39 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
-        "x-ms-client-request-id": "7b26841a-b1a4-41b7-80b4-257317d06d27",
-        "x-ms-useragent": "azsdk-js-communication-chat/1.2.0 core-rest-pipeline/1.8.2 OS/MacIntel"
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
+        "x-ms-client-request-id": "00290a45-8e3f-4d56-9c1c-8996b3ac650b",
+        "x-ms-useragent": "azsdk-js-communication-chat/1.3.1-beta.1 core-rest-pipeline/1.10.2 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Expose-Headers": "Location",
-        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2021-10-01-preview7",
+        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview",
+        "Content-Length": "432",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 26 May 2022 07:59:53 GMT",
-        "MS-CV": "7y\u002BrHbSDJ0CvZDbfAkeYpg.0",
+        "Date": "Tue, 07 Mar 2023 01:16:37 GMT",
+        "MS-CV": "6qcE3nZ1N0ac4Xk73qwOfg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0eTOPYgAAAABoJTo1MroMRaMhBDYNmlhTUFJHMDFFREdFMDYwOQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0dZAGZAAAAAD6iDrt9ZTuSYEUTk9LLkHcWVZSMzExMDAwMTE1MDI5ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "89ms"
+        "X-Processing-Time": "67ms"
       },
       "ResponseBody": {
-        "id": "1653551992406",
+        "id": "1678151796655",
         "type": "text",
         "sequenceId": "4",
-        "version": "1653551992406",
+        "version": "1678151796655",
         "content": {
           "message": "content"
         },
         "senderDisplayName": "",
-        "createdOn": "2022-05-26T07:59:52Z",
+        "createdOn": "2023-03-07T01:16:36Z",
         "senderCommunicationIdentifier": {
-          "rawId": "8:acs:a5ba7870-ef05-4e2b-9901-7751faa29e20_00000011-9f42-a365-83fe-08482200b65a",
+          "rawId": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000017-5985-e3e7-df68-563a0d001a46",
           "communicationUser": {
-            "id": "8:acs:a5ba7870-ef05-4e2b-9901-7751faa29e20_00000011-9f42-a365-83fe-08482200b65a"
+            "id": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000017-5985-e3e7-df68-563a0d001a46"
           }
         },
         "metadata": {

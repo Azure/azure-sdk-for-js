@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3A5t6BZZhMhTG9yN54rMiVcs-kny91gVXsRP9Arl693UI1%40thread.v2/messages?api-version=2021-09-07",
+      "RequestUri": "https://endpoint/chat/threads/19%3ABw0gxrZQxqgzdIwOlu1xEUZXCp2JpJcOmCOGGGRgPQI1%40thread.v2/messages?api-version=2023-04-01-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -19,9 +19,9 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
-        "x-ms-client-request-id": "46bfad64-9595-476b-965d-6357dc8d36f0",
-        "x-ms-useragent": "azsdk-js-communication-chat/1.2.0 core-rest-pipeline/1.8.2 OS/MacIntel"
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
+        "x-ms-client-request-id": "2c807006-b028-4a07-af27-c15828b5bf20",
+        "x-ms-useragent": "azsdk-js-communication-chat/1.3.1-beta.1 core-rest-pipeline/1.10.2 OS"
       },
       "RequestBody": {
         "content": "content",
@@ -33,19 +33,19 @@
       "ResponseHeaders": {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Expose-Headers": "Location",
-        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2021-10-01-preview7",
+        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview",
+        "Content-Length": "22",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 26 May 2022 07:59:52 GMT",
-        "Location": "https://endpoint/chat/threads/19%3A5t6BZZhMhTG9yN54rMiVcs-kny91gVXsRP9Arl693UI1@thread.v2/messages/1653551992406",
-        "MS-CV": "r1OV9PIcYE\u002BWNrxDU/T5Wg.0",
+        "Date": "Tue, 07 Mar 2023 01:16:36 GMT",
+        "Location": "https://endpoint/chat/threads/19%3ABw0gxrZQxqgzdIwOlu1xEUZXCp2JpJcOmCOGGGRgPQI1@thread.v2/messages/1678151796655",
+        "MS-CV": "omxjlEEes06a2Xt\u002B7ZU17A.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0eDOPYgAAAAC\u002BTQJ6EIJoS5HzRwLYnFRSUFJHMDFFREdFMDYwOQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0dJAGZAAAAAAmdAotWaZuSY1CX5I00JaWWVZSMzExMDAwMTE1MDI5ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "147ms"
+        "X-Processing-Time": "117ms"
       },
       "ResponseBody": {
-        "id": "1653551992406"
+        "id": "1678151796655"
       }
     }
   ],

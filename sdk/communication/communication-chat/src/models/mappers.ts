@@ -10,6 +10,7 @@ import * as RestModel from "../generated/src/models";
 import { AddParticipantsRequest } from "./requests";
 import { CreateChatThreadOptions } from "./options";
 import {
+  ChatAttachment,
   ChatMessage,
   ChatMessageContent,
   ChatMessageReadReceipt,
@@ -72,13 +73,22 @@ export const mapToChatParticipantSdkModel = (
   };
 };
 
+export const mapToChatAttachmentSdkModel = (
+  attachments: RestModel.ChatAttachment
+): ChatAttachment => {
+  const { ...otherAttachments } = attachments;
+  let result: ChatAttachment = { ...otherAttachments };
+  return result;
+};
+
 /**
  * @internal
  */
 export const mapToChatContentSdkModel = (
   content: RestModel.ChatMessageContent
 ): ChatMessageContent => {
-  const { participants, initiatorCommunicationIdentifier, ...otherChatContents } = content;
+  const { participants, attachments, initiatorCommunicationIdentifier, ...otherChatContents } =
+    content;
   let result: ChatMessageContent = { ...otherChatContents };
   if (initiatorCommunicationIdentifier) {
     const initiator = deserializeCommunicationIdentifier(
@@ -90,6 +100,12 @@ export const mapToChatContentSdkModel = (
     result = {
       ...result,
       participants: participants?.map((participant) => mapToChatParticipantSdkModel(participant)),
+    };
+  }
+  if (attachments) {
+    result = {
+      ...result,
+      attachments: attachments?.map((attachment) => mapToChatAttachmentSdkModel(attachment)),
     };
   }
   return result;
