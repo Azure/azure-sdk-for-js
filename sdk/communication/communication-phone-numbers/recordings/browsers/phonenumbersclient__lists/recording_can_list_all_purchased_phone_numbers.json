@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/phoneNumbers?skip=0\u0026api-version=2022-12-01\u0026top=100",
+      "RequestUri": "https://endpoint/phoneNumbers?skip=0\u0026api-version=2022-12-02-preview2\u0026top=100",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -16,24 +16,59 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/108.0.5351.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Fri, 06 Jan 2023 17:34:40 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+        "x-ms-date": "Tue, 07 Mar 2023 17:21:44 GMT",
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.3 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 503,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store",
+        "Content-Length": "998",
+        "Content-Type": "text/html",
+        "Date": "Tue, 07 Mar 2023 17:22:16 GMT",
+        "X-Azure-ExternalError": "0x80072ee2,OriginTimeout",
+        "X-Azure-Ref": "0qXIHZAAAAADyAhZm7LemSpH4kD7U/e2gREZXMzBFREdFMTYxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE="
+      },
+      "ResponseBody": "\u003C!DOCTYPE html PUBLIC \u0027-//W3C//DTD XHTML 1.0 Transitional//EN\u0027 \u0027http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\u0027\u003E\u003Chtml xmlns=\u0027http://www.w3.org/1999/xhtml\u0027\u003E\u003Chead\u003E\u003Cmeta content=\u0027text/html; charset=utf-8\u0027 http-equiv=\u0027content-type\u0027/\u003E\u003Cstyle type=\u0027text/css\u0027\u003Ebody {font-family:Arial; margin-left:40px; }img  { border:0 none; }#content { margin-left: auto; margin-right: auto }#message h2 { font-size: 20px; font-weight: normal; color: #000000; margin: 34px 0px 0px 0px }#message p  { font-size: 13px; color: #000000; margin: 7px 0px 0px0px}#errorref { font-size: 11px; color: #737373; margin-top: 41px }\u003C/style\u003E\u003Ctitle\u003EService unavailable\u003C/title\u003E\u003C/head\u003E\u003Cbody\u003E\u003Cdiv id=\u0027content\u0027\u003E\u003Cdiv id=\u0027message\u0027\u003E\u003Ch2\u003EOur services aren\u0027t available right now\u003C/h2\u003E\u003Cp\u003EWe\u0027re working to restore all services as soon as possible. Please check back soon.\u003C/p\u003E\u003C/div\u003E\u003Cdiv id=\u0027errorref\u0027\u003E\u003Cspan\u003E0qXIHZAAAAADyAhZm7LemSpH4kD7U/e2gREZXMzBFREdFMTYxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=\u003C/span\u003E\u003C/div\u003E\u003C/div\u003E\u003C/body\u003E\u003C/html\u003E"
+    },
+    {
+      "RequestUri": "https://endpoint/phoneNumbers?skip=0\u0026api-version=2022-12-02-preview2\u0026top=100",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Tue, 07 Mar 2023 17:21:44 GMT",
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.3 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01",
+        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01, 2022-12-02-preview2",
+        "Cache-Control": "max-age=60, private, stale-while-revalidate=604800",
+        "Content-Length": "43686",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 Jan 2023 17:34:40 GMT",
-        "MS-CV": "w63cTtsP2U2RU4ZCBZtTTw.0",
+        "Date": "Tue, 07 Mar 2023 17:22:18 GMT",
+        "MS-CV": "YaudSN5OjEeOn/K78PFW\u002BA.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0rlu4YwAAAADghvalIZDiQp2vv6WamhDkTUVYMzBFREdFMTEwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0yXIHZAAAAACwT/emQlTsS4iA1AuTV4\u002B1REZXMzBFREdFMTYxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "2916ms"
+        "X-Processing-Time": "1372ms"
       },
       "ResponseBody": {
         "phoneNumbers": [
@@ -52,7 +87,11 @@
               "amount": 1.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -69,7 +108,11 @@
               "amount": 1.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -86,7 +129,11 @@
               "amount": 1.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -103,7 +150,11 @@
               "amount": 1.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -120,7 +171,11 @@
               "amount": 1.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -137,7 +192,11 @@
               "amount": 1.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -154,7 +213,11 @@
               "amount": 1.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -171,7 +234,11 @@
               "amount": 1.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -188,7 +255,11 @@
               "amount": 1.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -205,7 +276,11 @@
               "amount": 1.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -222,7 +297,11 @@
               "amount": 1.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -239,7 +318,11 @@
               "amount": 1.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -256,7 +339,11 @@
               "amount": 1.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -273,7 +360,11 @@
               "amount": 1.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -290,7 +381,11 @@
               "amount": 1.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -307,7 +402,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -324,7 +423,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -341,7 +444,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -358,7 +465,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -375,7 +486,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -383,7 +498,7 @@
             "countryCode": "US",
             "phoneNumberType": "tollFree",
             "capabilities": {
-              "calling": "none",
+              "calling": "outbound",
               "sms": "outbound"
             },
             "assignmentType": "application",
@@ -392,7 +507,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -409,7 +528,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -426,7 +549,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -443,7 +570,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -460,7 +591,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -477,7 +612,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -494,7 +633,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -511,7 +654,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -528,7 +675,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -545,7 +696,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -562,7 +717,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -579,7 +738,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -596,7 +759,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -613,7 +780,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -630,7 +801,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -647,7 +822,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -664,7 +843,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -681,7 +864,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -698,7 +885,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -715,7 +906,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -732,7 +927,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -749,7 +948,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -766,7 +969,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -783,7 +990,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -800,7 +1011,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -808,7 +1023,7 @@
             "countryCode": "US",
             "phoneNumberType": "tollFree",
             "capabilities": {
-              "calling": "outbound",
+              "calling": "none",
               "sms": "outbound"
             },
             "assignmentType": "application",
@@ -817,7 +1032,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -834,7 +1053,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -851,7 +1074,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -868,7 +1095,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -885,7 +1116,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -902,7 +1137,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -919,7 +1158,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -936,7 +1179,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -953,7 +1200,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -970,7 +1221,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -987,7 +1242,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1004,7 +1263,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1021,7 +1284,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1038,7 +1305,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1055,7 +1326,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1072,7 +1347,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1089,7 +1368,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1106,7 +1389,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1123,7 +1410,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1140,7 +1431,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1157,7 +1452,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1174,7 +1473,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1191,7 +1494,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1208,7 +1515,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1225,7 +1536,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1242,7 +1557,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1259,7 +1578,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1276,7 +1599,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1293,7 +1620,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1310,7 +1641,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1327,7 +1662,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1344,7 +1683,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1361,7 +1704,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1378,7 +1725,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1395,7 +1746,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1412,7 +1767,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1429,7 +1788,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1446,7 +1809,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1463,7 +1830,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1480,7 +1851,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1497,7 +1872,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1514,7 +1893,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1531,7 +1914,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1548,7 +1935,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1565,7 +1956,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1582,7 +1977,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1599,7 +1998,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1616,7 +2019,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1633,7 +2040,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1650,7 +2061,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1667,7 +2082,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1684,7 +2103,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1701,7 +2124,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1718,7 +2145,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1735,14 +2166,18 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           }
         ],
-        "nextLink": "/phoneNumbers?skip=100\u0026api-version=2022-12-01\u0026top=100"
+        "nextLink": "/phoneNumbers?skip=100\u0026api-version=2022-12-02-preview2\u0026top=100"
       }
     },
     {
-      "RequestUri": "https://endpoint/phoneNumbers?skip=100\u0026api-version=2022-12-01\u0026top=100",
+      "RequestUri": "https://endpoint/phoneNumbers?skip=100\u0026api-version=2022-12-02-preview2\u0026top=100",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1757,24 +2192,25 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/108.0.5351.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Fri, 06 Jan 2023 17:34:43 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+        "x-ms-date": "Tue, 07 Mar 2023 17:22:17 GMT",
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.3 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01",
+        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01, 2022-12-02-preview2",
+        "Cache-Control": "max-age=60, private, stale-while-revalidate=604800",
+        "Content-Length": "43942",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 Jan 2023 17:34:42 GMT",
-        "MS-CV": "ot3ukAWOxESUVkN0HYDKmw.0",
+        "Date": "Tue, 07 Mar 2023 17:22:19 GMT",
+        "MS-CV": "8j1Qq7WlREGx/WM8A4Gw3A.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0sVu4YwAAAACzjKVhVs/nR5PkS62yR9jKTUVYMzBFREdFMTEwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0ynIHZAAAAAAuWD8G6zl/S7Ozl2mcUqa8REZXMzBFREdFMTYxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "2276ms"
+        "X-Processing-Time": "1137ms"
       },
       "ResponseBody": {
         "phoneNumbers": [
@@ -1793,7 +2229,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1810,7 +2250,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1827,7 +2271,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1844,7 +2292,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1861,7 +2313,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1878,7 +2334,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1895,7 +2355,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1912,7 +2376,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1929,7 +2397,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1946,7 +2418,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1963,7 +2439,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1980,7 +2460,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -1997,7 +2481,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2014,7 +2502,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2031,7 +2523,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2048,7 +2544,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2065,7 +2565,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2082,7 +2586,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2099,7 +2607,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2116,7 +2628,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2133,7 +2649,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2150,7 +2670,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2167,7 +2691,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2184,7 +2712,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2201,7 +2733,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2218,7 +2754,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2235,7 +2775,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2252,7 +2796,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2269,7 +2817,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2286,7 +2838,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2303,7 +2859,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2320,7 +2880,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2337,7 +2901,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2354,7 +2922,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2371,7 +2943,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2388,7 +2964,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2405,7 +2985,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2422,7 +3006,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2439,7 +3027,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2456,7 +3048,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2473,7 +3069,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2490,7 +3090,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2507,7 +3111,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2524,7 +3132,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2541,7 +3153,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2558,7 +3174,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2575,7 +3195,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2592,7 +3216,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2609,7 +3237,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2626,7 +3258,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2643,7 +3279,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2660,7 +3300,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2677,7 +3321,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2694,7 +3342,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2711,7 +3363,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2728,7 +3384,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2745,7 +3405,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2762,7 +3426,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2779,7 +3447,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2796,7 +3468,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2813,7 +3489,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2830,7 +3510,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2847,7 +3531,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2864,7 +3552,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2881,7 +3573,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2898,7 +3594,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2915,7 +3615,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2932,7 +3636,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2949,7 +3657,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2966,7 +3678,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -2983,7 +3699,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3000,7 +3720,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3017,7 +3741,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3034,7 +3762,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3051,7 +3783,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3068,7 +3804,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3085,7 +3825,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3102,7 +3846,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3119,7 +3867,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3136,7 +3888,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3153,7 +3909,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3170,7 +3930,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3187,7 +3951,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3204,7 +3972,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3221,7 +3993,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3238,7 +4014,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3255,7 +4035,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3272,7 +4056,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3289,7 +4077,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3306,7 +4098,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3323,7 +4119,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3340,7 +4140,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3357,7 +4161,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3374,7 +4182,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3391,7 +4203,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3408,7 +4224,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3425,7 +4245,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3442,7 +4266,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3459,7 +4287,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3476,14 +4308,18 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           }
         ],
-        "nextLink": "/phoneNumbers?skip=200\u0026api-version=2022-12-01\u0026top=100"
+        "nextLink": "/phoneNumbers?skip=200\u0026api-version=2022-12-02-preview2\u0026top=100"
       }
     },
     {
-      "RequestUri": "https://endpoint/phoneNumbers?skip=200\u0026api-version=2022-12-01\u0026top=100",
+      "RequestUri": "https://endpoint/phoneNumbers?skip=200\u0026api-version=2022-12-02-preview2\u0026top=100",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3498,24 +4334,25 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/108.0.5351.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Fri, 06 Jan 2023 17:34:45 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+        "x-ms-date": "Tue, 07 Mar 2023 17:22:18 GMT",
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.3 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01",
+        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01, 2022-12-02-preview2",
+        "Cache-Control": "max-age=60, private, stale-while-revalidate=604800",
+        "Content-Length": "14364",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 Jan 2023 17:34:44 GMT",
-        "MS-CV": "xrQbozK8b0ewionzkZQRrQ.0",
+        "Date": "Tue, 07 Mar 2023 17:22:20 GMT",
+        "MS-CV": "vqlvTo8LgUmrzC/M3PAjBw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0s1u4YwAAAADJPQiHgQbzTp0YjEL\u002Bih3TTUVYMzBFREdFMTEwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0y3IHZAAAAAALFozhjNovRosM5D0ECP5\u002BREZXMzBFREdFMTYxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1948ms"
+        "X-Processing-Time": "986ms"
       },
       "ResponseBody": {
         "phoneNumbers": [
@@ -3534,7 +4371,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3551,7 +4392,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3568,7 +4413,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3585,7 +4434,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3602,7 +4455,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3619,7 +4476,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3636,7 +4497,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3653,7 +4518,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3670,7 +4539,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3687,7 +4560,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3704,7 +4581,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3721,7 +4602,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3738,7 +4623,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3755,7 +4644,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3772,7 +4665,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3789,7 +4686,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3806,7 +4707,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3823,7 +4728,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3840,7 +4749,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3857,7 +4770,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3874,7 +4791,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3891,7 +4812,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3908,7 +4833,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3925,7 +4854,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3942,7 +4875,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3959,7 +4896,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3976,7 +4917,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -3993,7 +4938,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -4010,7 +4959,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -4027,7 +4980,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -4044,7 +5001,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -4061,7 +5022,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           },
           {
             "id": "14155550100",
@@ -4078,7 +5043,11 @@
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
-            }
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft",
+            "phoneNumberSource": "cloud",
+            "tollFreeVerificationStatus": "none"
           }
         ]
       }
