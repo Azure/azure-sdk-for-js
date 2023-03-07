@@ -63,7 +63,7 @@ async function main() {
 main();
 ```
 
-### Entity Recognition with Resolutions
+### Entity Resolutions
 
 Recognize and categorize entities in text as people, places, organizations, dates/times, quantities, currencies, etc. The latest beta release can resolve entities to standard formats. Resolutions provide predictable formats for common quantifiable types and can normalize values to a single, well-known format.
 
