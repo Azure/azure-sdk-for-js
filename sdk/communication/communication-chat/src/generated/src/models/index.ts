@@ -333,24 +333,6 @@ export enum KnownAttachmentType {
  * **teamsInlineImage**
  */
 export type AttachmentType = string;
-
-/** Known values of {@link ImageSize} that the service accepts. */
-export enum KnownImageSize {
-  /** Original */
-  Original = "original",
-  /** Small */
-  Small = "small"
-}
-
-/**
- * Defines values for ImageSize. \
- * {@link KnownImageSize} can be used interchangeably with ImageSize,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **original** \
- * **small**
- */
-export type ImageSize = string;
 /** Defines values for ChatMessageType. */
 export type ChatMessageType =
   | "text"
