@@ -7,13 +7,30 @@ import {
   parseClientArguments,
 } from "@azure/communication-common";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { SipRoutingClient as SipRoutingGeneratedClient } from "./generated/src/siprouting/sipRoutingClient";
+import {
+  SipConfigurationPatch,
+  SipRoutingError,
+  SipRoutingGetOptionalParams,
+} from "./generated/src/siprouting/models";
+import {
+  GetSipTrunkOptions,
+  ListSipRoutesOptions,
+  ListSipTrunksOptions,
+  ListSipDomainsOptions,
+  SipDomain,
+  SipTrunk,
+  SipTrunkRoute,
+} from "./models";
+import {
+  transformFromRestModel,
+  transformIntoRestModel,
+  transformDomainsFromRestModel,
+  transformDomainsIntoRestModel,
+} from "./mappers";
+import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { logger } from "./utils";
-import { SipRoutingClient as SipRoutingGeneratedClient } from "./generated/src/siprouting/sipRoutingClient";
-import { SipConfigurationPatch, SipRoutingError } from "./generated/src/siprouting/models";
-import { ListSipRoutesOptions, ListSipTrunksOptions, SipTrunk, SipTrunkRoute } from "./models";
-import { transformFromRestModel, transformIntoRestModel } from "./mappers";
-import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { tracingClient } from "./generated/src/tracing";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
@@ -104,33 +121,18 @@ export class SipRoutingClient {
    * @param options - The options parameters.
    */
   public listTrunks(options: ListSipTrunksOptions = {}): PagedAsyncIterableIterator<SipTrunk> {
-    const { span, updatedOptions } = tracingClient.startSpan(
-      "SipRoutingClient-listTrunks",
-      options
-    );
-
-    try {
-      const iter = this.listTrunksPagingAll({ ...updatedOptions });
-      return {
-        next() {
-          return iter.next();
-        },
-        [Symbol.asyncIterator]() {
-          return this;
-        },
-        byPage: () => {
-          return this.listTrunksPagingPage({ ...updatedOptions });
-        },
-      };
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    const iter = this.listTrunksPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listTrunksPagingPage(options);
+      },
+    };
   }
 
   /**
@@ -138,7 +140,7 @@ export class SipRoutingClient {
    * @param fqdn - The trunk's FQDN.
    * @param options - The options parameters.
    */
-  public async getTrunk(fqdn: string, options: OperationOptions = {}): Promise<SipTrunk> {
+  public async getTrunk(fqdn: string, options: GetSipTrunkOptions = {}): Promise<SipTrunk> {
     return tracingClient.withSpan("SipRoutingClient-getTrunk", options, async (updatedOptions) => {
       const trunks = await this.getTrunksInternal(updatedOptions);
       const trunk = trunks.find((value: SipTrunk) => value.fqdn === fqdn);
@@ -150,37 +152,128 @@ export class SipRoutingClient {
   }
 
   /**
+   * Gets the SIP domains.
+   * @param options - The options parameters.
+   */
+  public listDomains(options: ListSipDomainsOptions = {}): PagedAsyncIterableIterator<SipDomain> {
+    const iter = this.listDomainsPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listDomainsPagingPage(options);
+      },
+    };
+  }
+
+  /**
+   * Gets the SIP domain.
+   * @param domainName - The domain's name (ex: contoso.com).
+   * @param options - The options parameters.
+   */
+  public async getDomain(domainName: string, options: OperationOptions = {}): Promise<SipDomain> {
+    return tracingClient.withSpan(
+      "SipRoutingClient-listDomains",
+      options,
+      async (updatedOptions) => {
+        const domains = await this.getDomainsInternal(updatedOptions);
+        const domain = domains.find((value: SipDomain) => value.domainName === domainName);
+        if (domain) {
+          return domain;
+        }
+
+        throw { code: "NotFound", message: "Not Found" } as SipRoutingError;
+      }
+    );
+  }
+
+  /**
    * Lists the SIP trunk routes.
    * @param options - The options parameters.
    */
   public listRoutes(options: ListSipRoutesOptions = {}): PagedAsyncIterableIterator<SipTrunkRoute> {
-    const { span, updatedOptions } = tracingClient.startSpan(
-      "SipRoutingClient-listRoutes",
-      options
-    );
+    const iter = this.listRoutesPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listRoutesPagingPage(options);
+      },
+    };
+  }
 
-    try {
-      const iter = this.listRoutesPagingAll({ ...updatedOptions });
-      return {
-        next() {
-          return iter.next();
-        },
-        [Symbol.asyncIterator]() {
-          return this;
-        },
-        byPage: () => {
-          return this.listRoutesPagingPage({ ...updatedOptions });
-        },
+  /**
+   * Sets the SIP domains.
+   * @param domains - The SIP domains to be set.
+   * @param options - The options parameters.
+   */
+  public async setDomains(
+    domains: SipDomain[],
+    options: OperationOptions = {}
+  ): Promise<SipDomain[]> {
+    return tracingClient.withSpan(
+      "SipRoutingClient-setDomains",
+      options,
+      async (updatedOptions) => {
+        const patch: SipConfigurationPatch = { domains: transformDomainsIntoRestModel(domains) };
+        let config = await this.client.sipRouting.get(updatedOptions);
+        const storedDomains = transformDomainsFromRestModel(config.domains).map(
+          (domain) => domain.domainName
+        );
+        const setDomains = domains.map((domain) => domain.domainName);
+        storedDomains.forEach((storedDomain) => {
+          const shouldDeleteStoredDomain = !setDomains.find((value) => value === storedDomain);
+          if (shouldDeleteStoredDomain) {
+            patch.domains![storedDomain] = null;
+          }
+        });
+
+        const isPatchNeeded = Object.keys(patch.domains!).length > 0;
+        if (isPatchNeeded) {
+          const payload = {
+            ...updatedOptions,
+            ...patch,
+          };
+          config = await this.client.sipRouting.patch(payload);
+        }
+
+        return transformDomainsFromRestModel(config.domains);
+      }
+    );
+  }
+
+  /**
+   * Sets the SIP domain.
+   * @param domain - The SIP domain to be set.
+   * @param options - The options parameters.
+   */
+  public async setDomain(domain: SipDomain, options: OperationOptions = {}): Promise<SipDomain> {
+    return tracingClient.withSpan("SipRoutingClient-setDomain", options, async (updatedOptions) => {
+      const patch: SipConfigurationPatch = {
+        domains: transformDomainsIntoRestModel([domain]),
       };
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+      const payload = {
+        ...updatedOptions,
+        ...patch,
+      };
+      const config = await this.client.sipRouting.patch(payload);
+      const storedDomains = transformDomainsFromRestModel(config.domains).find(
+        (value: SipDomain) => value.domainName === domain.domainName
+      );
+      if (storedDomains) {
+        return storedDomains;
+      }
+
+      throw { code: "NotFound", message: "Not Found" } as SipRoutingError;
+    });
   }
 
   /**
@@ -191,7 +284,7 @@ export class SipRoutingClient {
   public async setTrunks(trunks: SipTrunk[], options: OperationOptions = {}): Promise<SipTrunk[]> {
     return tracingClient.withSpan("SipRoutingClient-setTrunks", options, async (updatedOptions) => {
       const patch: SipConfigurationPatch = { trunks: transformIntoRestModel(trunks) };
-      let config = await this.client.getSipConfiguration(updatedOptions);
+      let config = await this.client.sipRouting.get(updatedOptions);
       const storedFqdns = transformFromRestModel(config.trunks).map((trunk) => trunk.fqdn);
       const setFqdns = trunks.map((trunk) => trunk.fqdn);
       storedFqdns.forEach((storedFqdn) => {
@@ -207,7 +300,7 @@ export class SipRoutingClient {
           ...updatedOptions,
           ...patch,
         };
-        config = await this.client.patchSipConfiguration(payload);
+        config = await this.client.sipRouting.patch(payload);
       }
 
       return transformFromRestModel(config.trunks);
@@ -228,7 +321,7 @@ export class SipRoutingClient {
         ...updatedOptions,
         ...patch,
       };
-      const config = await this.client.patchSipConfiguration(payload);
+      const config = await this.client.sipRouting.patch(payload);
       const storedTrunk = transformFromRestModel(config.trunks).find(
         (value: SipTrunk) => value.fqdn === trunk.fqdn
       );
@@ -257,7 +350,7 @@ export class SipRoutingClient {
         ...updatedOptions,
         ...patch,
       };
-      const config = await this.client.patchSipConfiguration(payload);
+      const config = await this.client.sipRouting.patch(payload);
       const storedRoutes = config.routes || (await this.getRoutesInternal(updatedOptions));
       return storedRoutes;
     });
@@ -283,19 +376,59 @@ export class SipRoutingClient {
           ...updatedOptions,
           ...patch,
         };
-        await this.client.patchSipConfiguration(payload);
+        await this.client.sipRouting.patch(payload);
+      }
+    );
+  }
+
+  /**
+   * Deletes the SIP domain.
+   * @param domainName - The domain's name (ex: contoso.com).
+   * @param options - The options parameters.
+   */
+  public async deleteDomain(domainName: string, options: OperationOptions = {}): Promise<void> {
+    return tracingClient.withSpan(
+      "SipRoutingClient-deleteDomain",
+      options,
+      async (updatedOptions) => {
+        const domains: any = {};
+        domains[domainName] = null;
+        const patch: SipConfigurationPatch = {
+          domains: domains,
+        };
+
+        const payload = {
+          ...updatedOptions,
+          ...patch,
+        };
+        await this.client.sipRouting.patch(payload);
       }
     );
   }
 
   private async getRoutesInternal(options: OperationOptions): Promise<SipTrunkRoute[]> {
-    const config = await this.client.getSipConfiguration(options);
+    const config = await this.client.sipRouting.get(options);
     return config.routes || [];
   }
 
-  private async getTrunksInternal(options: OperationOptions): Promise<SipTrunk[]> {
-    const config = await this.client.getSipConfiguration(options);
+  private async getTrunksInternal(options: GetSipTrunkOptions): Promise<SipTrunk[]> {
+    const { includeHealth, ...requestOptions } = options;
+    let updatedOptions = requestOptions;
+
+    if (includeHealth) {
+      updatedOptions = {
+        ...requestOptions,
+        expand: "trunks/health",
+      } as SipRoutingGetOptionalParams;
+    }
+
+    const config = await this.client.sipRouting.get(updatedOptions);
     return transformFromRestModel(config.trunks);
+  }
+
+  private async getDomainsInternal(options: OperationOptions = {}): Promise<SipDomain[]> {
+    const config = await this.client.sipRouting.get(options);
+    return transformDomainsFromRestModel(config.domains);
   }
 
   private async *listRoutesPagingAll(
@@ -314,10 +447,25 @@ export class SipRoutingClient {
     }
   }
 
+  private async *listDomainsPagingAll(
+    options?: ListSipDomainsOptions
+  ): AsyncIterableIterator<SipDomain> {
+    for await (const page of this.listDomainsPagingPage(options)) {
+      yield* page;
+    }
+  }
+
   private async *listTrunksPagingPage(
     options: ListSipTrunksOptions = {}
   ): AsyncIterableIterator<SipTrunk[]> {
-    const apiResult = await this.getTrunksInternal(options as OperationOptions);
+    const apiResult = await this.getTrunksInternal(options as GetSipTrunkOptions);
+    yield apiResult;
+  }
+
+  private async *listDomainsPagingPage(
+    options: ListSipDomainsOptions = {}
+  ): AsyncIterableIterator<SipDomain[]> {
+    const apiResult = await this.getDomainsInternal(options as OperationOptions);
     yield apiResult;
   }
 

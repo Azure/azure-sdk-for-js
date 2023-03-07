@@ -1,0 +1,150 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/sip?api-version=2023-01-01-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "76",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-alpha.20230303.1 core-rest-pipeline/1.9.2 Node/v18.13.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized"
+      },
+      "RequestBody": {
+        "domains": {
+          "b0073b96deba448c9206437fa7267692.skype.net": {
+            "enabled": false
+          }
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
+        "Content-Length": "1182",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 02 Mar 2023 09:14:49 GMT",
+        "MS-CV": "WJUmmlgW5kOsIModlgZLlQ.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0CWkAZAAAAAC4y9kqKKHIS70CHXti11/5UFJHMDFFREdFMDkwOABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "1260ms"
+      },
+      "ResponseBody": {
+        "domains": {
+          "nostojic13012023.skype.net": {
+            "enabled": true
+          },
+          "nostojic14012023.skype.net": {
+            "enabled": true
+          },
+          "dummysdkdomain.skype.net": {
+            "enabled": false
+          },
+          "ae361c7621994cf9a9d224519941b195.skype.net": {
+            "enabled": false
+          },
+          "f11855af8e0c41c598ede37be6f536be.skype.net": {
+            "enabled": false
+          },
+          "71eaee8595e04654aa90fdaeabff00ce.skype.net": {
+            "enabled": false
+          },
+          "d7986681c63e4188b911180de5ad91b5.skype.net": {
+            "enabled": false
+          },
+          "6d5d265df8954287975a6403fdd17431.skype.net": {
+            "enabled": false
+          },
+          "58577265eafb4281b581743074e97a21.skype.net": {
+            "enabled": false
+          },
+          "b2d99271916349019b7da2c0b1754b40.skype.net": {
+            "enabled": false
+          },
+          "2796f421d8ed42be8acd5c227b1851b0.skype.net": {
+            "enabled": false
+          },
+          "6039857f17cc4ff29dc57977b9771a94.skype.net": {
+            "enabled": false
+          },
+          "cd3483b953a54617860c1d9d9b77eeed.skype.net": {
+            "enabled": false
+          },
+          "af70c23fd86b4183911c07fc1d720d08.skype.net": {
+            "enabled": false
+          },
+          "21f320a4d95540e99546b64d7e5780ae.skype.net": {
+            "enabled": false
+          },
+          "a5a8f5f0f80c42be811bc8ec17aea9e7.skype.net": {
+            "enabled": false
+          },
+          "0c6b2cf4f05e4b759ee655b833f76c40.skype.net": {
+            "enabled": false
+          },
+          "e6027315787b4d8f8549f13b488bc8af.skype.net": {
+            "enabled": false
+          },
+          "b0073b96deba448c9206437fa7267692.skype.net": {
+            "enabled": false
+          }
+        },
+        "trunks": {},
+        "routes": []
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/sip?api-version=2023-01-01-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "75",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-alpha.20230303.1 core-rest-pipeline/1.9.2 Node/v18.13.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized"
+      },
+      "RequestBody": {
+        "domains": {
+          "b0073b96deba448c9206437fa7267692.skype.net": {
+            "enabled": true
+          }
+        }
+      },
+      "StatusCode": 422,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
+        "Content-Type": "application/json",
+        "Date": "Thu, 02 Mar 2023 09:14:50 GMT",
+        "MS-CV": "x1UAoP9Y7U\u002BY4Zd6TOSS4Q.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0CmkAZAAAAAC9T51OEAlxSI96f9HSz7C8UFJHMDFFREdFMDkwOABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "925ms"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "UnprocessableConfiguration",
+          "message": "One or more request inputs are not valid.",
+          "innererror": {
+            "code": "UnknownError",
+            "message": "Provided domain is not verified"
+          }
+        }
+      }
+    }
+  ],
+  "Variables": {
+    "domain-1": "20386f18c93741c8932a57c7df589a8d.skype.net",
+    "domain-2": "b0073b96deba448c9206437fa7267692.skype.net",
+    "domain-3": "39215d719cdc4b8cbc3fd52e1900f220.skype.net",
+    "domain-4": "6b546b4176fe432b93e88f03ad4bc623.skype.net",
+    "domain-5": "4a8d7457b23f4bc286a6f3f76f33bab3.skype.net"
+  }
+}

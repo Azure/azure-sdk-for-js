@@ -1,81 +1,103 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/sip?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/sip?api-version=2023-01-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-alpha.20230303.1 core-rest-pipeline/1.9.2 Node/v18.13.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
+        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
+        "Content-Length": "129",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 Jan 2023 17:33:07 GMT",
-        "MS-CV": "zGDTmgsTP0GN2Sl1AaMjkg.0",
+        "Date": "Thu, 02 Mar 2023 14:04:54 GMT",
+        "MS-CV": "5zQg1qQ5hkCdYCAAe67jgg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0U1u4YwAAAAC0wGy91P3OTpCdGtVhKhwCTUVYMzBFREdFMDQyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0B60AZAAAAABAo7l8qO9oTrNhGiWGfA52UFJHMDFFREdFMDkxMABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "57ms"
+        "X-Processing-Time": "170ms"
       },
       "ResponseBody": {
+        "domains": {
+          "nostojic13012023.skype.net": {
+            "enabled": true
+          },
+          "nostojic14012023.skype.net": {
+            "enabled": true
+          }
+        },
         "trunks": {},
         "routes": []
       }
     },
     {
-      "RequestUri": "https://endpoint/sip?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/sip?api-version=2023-01-01-preview",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "222",
+        "Content-Length": "240",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-alpha.20230303.1 core-rest-pipeline/1.9.2 Node/v18.13.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized"
       },
       "RequestBody": {
         "trunks": {
-          "test.3661d4f977524c089206e093d93a9698.com": {
-            "sipSignalingPort": 1239
+          "test1.nostojic13012023.skype.net": {
+            "sipSignalingPort": 1239,
+            "enabled": true
           },
-          "test.ea902f4242da47e98ac3a204943037d2.com": {
-            "sipSignalingPort": 2348
+          "test2.nostojic13012023.skype.net": {
+            "sipSignalingPort": 2348,
+            "enabled": true
           },
-          "test.a870bc8e1b9a4d53b977eba3819e7127.com": {
-            "sipSignalingPort": 3457
+          "test3.nostojic13012023.skype.net": {
+            "sipSignalingPort": 3457,
+            "enabled": true
           }
         }
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
+        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
+        "Content-Length": "356",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 Jan 2023 17:33:07 GMT",
-        "MS-CV": "UxIwG/G4j0KUjMwLIoZOxg.0",
+        "Date": "Thu, 02 Mar 2023 14:04:56 GMT",
+        "MS-CV": "pDmH2jze0UqllL2IksVfrg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0VFu4YwAAAAD1T1Fg8dNMQaCn7zGCWi1HTUVYMzBFREdFMDQyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0B60AZAAAAABA4A33j/RYRKDa0bwVnXZJUFJHMDFFREdFMDkxMABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "386ms"
+        "X-Processing-Time": "1145ms"
       },
       "ResponseBody": {
+        "domains": {
+          "nostojic13012023.skype.net": {
+            "enabled": true
+          },
+          "nostojic14012023.skype.net": {
+            "enabled": true
+          }
+        },
         "trunks": {
-          "test.3661d4f977524c089206e093d93a9698.com": {
+          "test1.nostojic13012023.skype.net": {
+            "enabled": true,
             "sipSignalingPort": 1239
           },
-          "test.ea902f4242da47e98ac3a204943037d2.com": {
+          "test2.nostojic13012023.skype.net": {
+            "enabled": true,
             "sipSignalingPort": 2348
           },
-          "test.a870bc8e1b9a4d53b977eba3819e7127.com": {
+          "test3.nostojic13012023.skype.net": {
+            "enabled": true,
             "sipSignalingPort": 3457
           }
         },
@@ -83,38 +105,49 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/sip?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/sip?api-version=2023-01-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-alpha.20230303.1 core-rest-pipeline/1.9.2 Node/v18.13.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
+        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
+        "Content-Length": "356",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 Jan 2023 17:33:07 GMT",
-        "MS-CV": "br9eMVHoqkWIr9q887NxxA.0",
+        "Date": "Thu, 02 Mar 2023 14:04:56 GMT",
+        "MS-CV": "jjEFbvENv0\u002Bj0pvFnYoZSQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0VFu4YwAAAABUoSXeAO3JRK73Zv217J1RTUVYMzBFREdFMDQyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0CK0AZAAAAACpy3VMBReGQJxKOz9F7KuDUFJHMDFFREdFMDkxMABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "53ms"
+        "X-Processing-Time": "171ms"
       },
       "ResponseBody": {
+        "domains": {
+          "nostojic13012023.skype.net": {
+            "enabled": true
+          },
+          "nostojic14012023.skype.net": {
+            "enabled": true
+          }
+        },
         "trunks": {
-          "test.3661d4f977524c089206e093d93a9698.com": {
+          "test1.nostojic13012023.skype.net": {
+            "enabled": true,
             "sipSignalingPort": 1239
           },
-          "test.ea902f4242da47e98ac3a204943037d2.com": {
+          "test2.nostojic13012023.skype.net": {
+            "enabled": true,
             "sipSignalingPort": 2348
           },
-          "test.a870bc8e1b9a4d53b977eba3819e7127.com": {
+          "test3.nostojic13012023.skype.net": {
+            "enabled": true,
             "sipSignalingPort": 3457
           }
         },
@@ -123,9 +156,9 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "test.3661d4f977524c089206e093d93a9698.com",
-    "fqdn-2": "test.ea902f4242da47e98ac3a204943037d2.com",
-    "fqdn-3": "test.a870bc8e1b9a4d53b977eba3819e7127.com",
-    "fqdn-4": "test.a73a089214d94d068d44f62b1863ddb6.com"
+    "fqdn-1": "test1.nostojic13012023.skype.net",
+    "fqdn-2": "test2.nostojic13012023.skype.net",
+    "fqdn-3": "test3.nostojic13012023.skype.net",
+    "fqdn-4": "test4.nostojic13012023.skype.net"
   }
 }

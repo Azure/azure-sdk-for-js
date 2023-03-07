@@ -349,13 +349,18 @@ const client = new SipRoutingClient(connectionString);
 async function main() {
   const trunks = await client.getTrunks();
   const routes = await client.getRoutes();
+  const domains = await client.getDomains();
   for (const trunk of trunks) {
-    console.log(`Trunk ${trunk.fqdn}:${trunk.sipSignalingPort}`);
+    console.log(`Trunk ${trunk.fqdn}:${trunk.sipSignalingPort} with property enabled: ${trunk.enabled}`);
   }
   
   for (const route of routes) {
     console.log(`Route ${route.name} with pattern ${route.numberPattern}`);
     console.log(`Route's trunks: ${route.trunks?.join()}`);
+  }
+
+  for (const domain of domains) {
+    console.log(`Domain ${domain.domainUri} with property enabled: ${domain.enabled}`);
   }
 }
 
@@ -376,10 +381,12 @@ async function main() {
   await client.setTrunks([
     {
       fqdn: 'sbc.one.domain.com',
-      sipSignalingPort: 1234
+      sipSignalingPort: 1234,
+      enabled: true
     },{
       fqdn: 'sbc.two.domain.com',
-      sipSignalingPort: 1234
+      sipSignalingPort: 1234,
+      enabled: true
     }
   ]);
 
@@ -394,6 +401,13 @@ async function main() {
       description: "route's description",
       numberPattern: "^.*$",
       trunks: [ 'sbc.two.domain.com', 'sbc.one.domain.com' ]
+    }
+  ]);
+
+  await client.setDomains([
+    {
+      fqdn: 'domain.com',
+      enabled: true
     }
   ]);
 }

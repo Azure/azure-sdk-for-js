@@ -46,21 +46,39 @@ async function main() {
     },
   ]);
 
+  // Set domains
+  await client.setDomains([
+    {
+      domainUri: firstDomain,      
+      enabled: true,
+    },
+    {
+      domainUri: secondDomain,
+      enabled: true,
+    },
+  ]);
+
   // Update a trunk
   await client.setTrunk({
     fqdn: "<first trunk fqdn>",
     sipSignalingPort: 4321,
   });
 
+   // Update a domain
+   await client.setDomain({
+    domainUri: firstDomain,
+    enabled: false,
+  });
+
   // Get trunks
-  const trunks = await client.getTrunks();
-  for (const trunk of trunks) {
+  const trunks = await client.listTrunks();
+  for await(const trunk of trunks) {
     console.log(`Trunk ${trunk.fqdn}:${trunk.sipSignalingPort}`);
   }
 
   // Get routes
-  const routes = await client.getRoutes();
-  for (const route of routes) {
+  const routes = await client.listRoutes();
+  for await(const route of routes) {
     console.log(`Route ${route.name} with pattern ${route.numberPattern}`);
     console.log(`Route's trunks: ${route.trunks?.join()}`);
   }

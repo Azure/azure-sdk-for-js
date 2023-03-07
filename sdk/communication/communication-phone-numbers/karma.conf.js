@@ -65,6 +65,7 @@ module.exports = function (config) {
       "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS",
       "AZURE_TEST_AGENT",
       "AZURE_USERAGENT_OVERRIDE",
+      "AZURE_TEST_DOMAIN",
       "RECORDINGS_RELATIVE_PATH",
       ...getPhoneNumberPoolEnvVars(),
     ],
