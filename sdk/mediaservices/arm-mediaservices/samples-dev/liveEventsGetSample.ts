@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets properties of a live event.
  *
  * @summary Gets properties of a live event.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-08-01/examples/liveevent-list-by-name.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-11-01/examples/liveevent-list-by-name.json
  */
 async function getALiveEventByName() {
   const subscriptionId =

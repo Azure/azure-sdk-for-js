@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Stops a running live event.
  *
  * @summary Stops a running live event.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-08-01/examples/liveevent-stop.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-11-01/examples/liveevent-stop.json
  */
 async function stopALiveEvent() {
   const subscriptionId =
