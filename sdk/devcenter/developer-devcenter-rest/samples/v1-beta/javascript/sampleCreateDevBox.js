@@ -1,6 +1,7 @@
 const { DefaultAzureCredential } = require("@azure/identity");
 const { isUnexpected, getLongRunningPoller, paginate } = require("@azure-rest/developer-devcenter");
 const createClient = require("@azure-rest/developer-devcenter").default;
+require("dotenv").config();
 
 /**
  * @summary Demonstrates creating, accessing, and deleting a Dev Box
