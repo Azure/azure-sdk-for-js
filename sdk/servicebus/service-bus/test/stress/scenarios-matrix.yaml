@@ -1,0 +1,39 @@
+displayNames:
+  # this makes it so these don't show up in the scenario names, 
+  # since they're just clutter.
+  1.5Gi": ""
+  4Gi": ""
+  image: ""
+matrix:
+  images:
+    go18:
+      image: Dockerfile
+      imageBuildDir: "../.."
+  scenarios:
+    batchReceive:
+      testTarget: scenarioBatchReceive
+      memory: "1.5Gi"
+    closeOpen:
+      testTarget: scenarioCloseOpen
+      memory: "1.0Gi"
+    longRunning:
+      testTarget: scenariolongRunning
+      memory: "2.5Gi"
+    peekMessages:
+      testTarget: scenarioPeekMessages
+      memory: "1.5Gi"
+    renewMessageLock:
+      testTarget: scenarioRenewMessageLock
+      memory: "1.5Gi"
+    renewSessionLock:
+      testTarget: scenarioRenewSessionLock
+      memory: "1.5Gi"
+    send:
+      testTarget: scenarioSend
+      memory: "1.5Gi"
+    shortLivedReceiver:
+      testTarget: scenarioShortLivedReceiver
+      memory: "1.5Gi"
+    streamingReceiver:
+      testTarget: scenarioStreamingReceiver
+      memory: "1.5Gi"
