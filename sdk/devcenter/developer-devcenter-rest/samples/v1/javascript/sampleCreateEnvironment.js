@@ -1,6 +1,7 @@
 const { DefaultAzureCredential } = require("@azure/identity");
 const { isUnexpected, getLongRunningPoller } = require("@azure-rest/developer-devcenter");
 const createClient = require("@azure-rest/developer-devcenter").default;
+require("dotenv").config();
 
 /**
  * @summary Demonstrates creating, fetching outputs from, and deleting an Environment
