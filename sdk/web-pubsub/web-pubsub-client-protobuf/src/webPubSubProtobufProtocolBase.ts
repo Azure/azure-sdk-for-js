@@ -178,8 +178,8 @@ export class WebPubSubProtobufProtocolBase {
         }
         return MessageData.create({ binaryData: new Uint8Array(data) } as IMessageData);
       case "protobuf":
-        if (data instanceof google.protobuf.Any) {
-          return MessageData.create({ protobufData: data } as IMessageData);
+        if (WebPubSubProtobufProtocolBase._isIAny(data)) {
+          return MessageData.create({protobufData: google.protobuf.Any.create({type_url: data.type_url!, value: new Uint8Array(data.value!)} as google.protobuf.IAny)} as IMessageData);
         }
         throw new TypeError("Message must be a google.protobuf.Any.");
       case "text":
@@ -199,5 +199,9 @@ export class WebPubSubProtobufProtocolBase {
       return value;
     }
     return value.toNumber();
+  }
+
+  private static _isIAny(obj: any): obj is google.protobuf.IAny {
+    return 'type_url' in obj && 'value' in obj
   }
 }
