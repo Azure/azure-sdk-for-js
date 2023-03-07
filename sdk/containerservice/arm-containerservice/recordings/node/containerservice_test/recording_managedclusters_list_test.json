@@ -1,15 +1,15 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerService/managedClusters?api-version=2022-11-02-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerService/managedClusters?api-version=2023-01-02-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-containerservice/17.4.0-beta.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
-        "x-ms-client-request-id": "7f824f2e-3388-490b-bfe6-39be5a89b5e4"
+        "User-Agent": "azsdk-js-arm-containerservice/17.4.0-beta.2 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "4c211950-2a2b-4ce8-af80-423ed80029b5"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Wed, 18 Jan 2023 08:23:19 GMT",
+        "Date": "Mon, 20 Feb 2023 03:17:00 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "nginx",
@@ -25,10 +25,10 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "1f16263c-05a1-46c6-8188-3c6916294d27",
-        "x-ms-ratelimit-remaining-subscription-reads": "11886",
-        "x-ms-request-id": "14f613ec-edf1-443f-a657-bb34d4617b3b",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230118T082320Z:1f16263c-05a1-46c6-8188-3c6916294d27"
+        "x-ms-correlation-request-id": "06e0ce52-f4e8-4720-8878-05763ee1aef6",
+        "x-ms-ratelimit-remaining-subscription-reads": "11894",
+        "x-ms-request-id": "ebba2d26-51c9-4595-acb7-0232deb7140b",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230220T031700Z:06e0ce52-f4e8-4720-8878-05763ee1aef6"
       },
       "ResponseBody": {
         "value": [
@@ -42,11 +42,11 @@
               "powerState": {
                 "code": "Running"
               },
-              "kubernetesVersion": "1.24.6",
-              "currentKubernetesVersion": "1.24.6",
+              "kubernetesVersion": "1.24.9",
+              "currentKubernetesVersion": "1.24.9",
               "dnsPrefix": "aksjssdk",
-              "fqdn": "aksjssdk-f5e15c9f.hcp.eastus.azmk8s.io",
-              "azurePortalFQDN": "aksjssdk-f5e15c9f.portal.hcp.eastus.azmk8s.io",
+              "fqdn": "aksjssdk-32666853.hcp.eastus.azmk8s.io",
+              "azurePortalFQDN": "aksjssdk-32666853.portal.hcp.eastus.azmk8s.io",
               "agentPoolProfiles": [
                 {
                   "name": "aksagent",
@@ -64,12 +64,12 @@
                   "powerState": {
                     "code": "Running"
                   },
-                  "orchestratorVersion": "1.24.6",
-                  "currentOrchestratorVersion": "1.24.6",
+                  "orchestratorVersion": "1.24.9",
+                  "currentOrchestratorVersion": "1.24.9",
                   "mode": "System",
                   "osType": "Linux",
                   "osSKU": "Ubuntu",
-                  "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.12.19",
+                  "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2023.01.26",
                   "enableFIPS": false
                 }
               ],
@@ -87,7 +87,7 @@
                   },
                   "effectiveOutboundIPs": [
                     {
-                      "id": "/subscriptions/azure_subscription_id/resourceGroups/MC_myjstest_myreourcexyz_eastus/providers/Microsoft.Network/publicIPAddresses/69178596-d780-4baf-a021-de067c75aa63"
+                      "id": "/subscriptions/azure_subscription_id/resourceGroups/MC_myjstest_myreourcexyz_eastus/providers/Microsoft.Network/publicIPAddresses/129cae20-1c69-46ae-b76c-4384079fb61c"
                     }
                   ],
                   "backendPoolType": "nodeIPConfiguration"
@@ -127,7 +127,7 @@
               "workloadAutoScalerProfile": {}
             },
             "sku": {
-              "name": "Basic",
+              "name": "Base",
               "tier": "Free"
             }
           }
