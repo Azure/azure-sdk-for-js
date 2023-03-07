@@ -10948,7 +10948,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservice-1.tgz:
-    resolution: {integrity: sha512-Fk80Xa51vWCmuPlF8JmMPz2DNmwapDplJspqQrPicQEha99NcQCrPyCDiXONF+JQAaZAuO3ooxgRE+LFsKv0Fw==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-9pvYZGlEjkxECFsQR+85oXAp4AId/RmdRbOaKxLLvveT8xg8/PqanUjfziILdNnJbSCdKK1Sk2zqhrLxQaWKXQ==, tarball: file:projects/arm-containerservice-1.tgz}
     name: '@rush-temp/arm-containerservice-1'
     version: 0.0.0
     dependencies:
@@ -10963,7 +10963,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
-      mkdirp: 1.0.4
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1

@@ -2068,6 +2068,48 @@ export const ManagedClusterAutoUpgradeProfile: coreClient.CompositeMapper = {
   }
 };
 
+export const ClusterUpgradeSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterUpgradeSettings",
+    modelProperties: {
+      overrideSettings: {
+        serializedName: "overrideSettings",
+        type: {
+          name: "Composite",
+          className: "UpgradeOverrideSettings"
+        }
+      }
+    }
+  }
+};
+
+export const UpgradeOverrideSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UpgradeOverrideSettings",
+    modelProperties: {
+      controlPlaneOverrides: {
+        serializedName: "controlPlaneOverrides",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      until: {
+        serializedName: "until",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const ManagedClusterPropertiesAutoScalerProfile: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4243,6 +4285,34 @@ export const TrustedAccessRoleBindingListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const FleetListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FleetListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Fleet"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const FleetHubProfile: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4391,62 +4461,6 @@ export const FleetPatch: coreClient.CompositeMapper = {
   }
 };
 
-export const FleetListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "FleetListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Fleet"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const FleetMembersListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "FleetMembersListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "FleetMember"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const FleetCredentialResults: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4486,6 +4500,34 @@ export const FleetCredentialResult: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "ByteArray"
+        }
+      }
+    }
+  }
+};
+
+export const FleetMembersListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FleetMembersListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FleetMember"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -5276,6 +5318,13 @@ export const ManagedCluster: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ManagedClusterAutoUpgradeProfile"
+        }
+      },
+      upgradeSettings: {
+        serializedName: "properties.upgradeSettings",
+        type: {
+          name: "Composite",
+          className: "ClusterUpgradeSettings"
         }
       },
       autoScalerProfile: {
