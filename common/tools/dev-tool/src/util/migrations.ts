@@ -4,6 +4,7 @@
 import { mkdirp, readFile, rm, stat, Stats, writeFile } from "fs-extra";
 import { userInfo } from "os";
 import path from "path";
+import { panic } from "./assert";
 import { findMatchingFiles } from "./findMatchingFiles";
 import { createPrinter } from "./printer";
 import { METADATA_KEY, ProjectInfo } from "./resolveProject";
@@ -287,7 +288,7 @@ export async function isMigrationSuspended(): Promise<boolean> {
     return false;
   }
 
-  if (!stats.isFile()) throw new Error("dev-tool migration statefile corrupted: not a file");
+  if (!stats.isFile()) panic("dev-tool migration statefile corrupted: not a file");
 
   return true;
 }

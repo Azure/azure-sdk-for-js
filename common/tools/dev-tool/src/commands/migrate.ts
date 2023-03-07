@@ -23,6 +23,7 @@ import {
   isApplied,
 } from "../util/migrations";
 import * as git from "../util/git";
+import { unreachable } from "../util/assert";
 
 const log = createPrinter("migrate");
 
@@ -260,6 +261,8 @@ async function runMigrations(pending: Migration[], project: ProjectInfo): Promis
         printMigrationError(migration, status);
         return false;
       }
+      default:
+        unreachable(status);
     }
   }
 
@@ -410,8 +413,7 @@ async function continueMigration(project: ProjectInfo): Promise<boolean> {
       return false;
     }
     default:
-      const __exhaust: never = state;
-      throw new Error(`unreachable: ${__exhaust}`);
+      unreachable(state);
   }
 }
 
