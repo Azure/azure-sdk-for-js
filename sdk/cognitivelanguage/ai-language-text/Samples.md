@@ -2,72 +2,11 @@
 
 For more samples, check out the [`samples-dev` folder](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-text/samples-dev)
 
-### Automatic Language Detection
-
-Automatically detect the language of a piece of text. This is a complementary feature to the existing action. It can be enabled by setting `languageCode` to `auto`, a parameter to `beginAnalyzeBatch` method. 
-
-The sample below enables automatic language detection feature for an abstractive summarization task.
-
-```javascript
-const { TextAnalysisClient, AzureKeyCredential } = require("@azure/ai-language-text");
-
-const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
-
-const documents = [
-  "<long article>"
-];
-
-async function main() {
-  const actions = [
-    {
-      kind: "AbstractiveSummarization",
-      maxSentenceCount: 2,
-    },
-  ];
-  const poller = await client.beginAnalyzeBatch(actions, documents, "auto");
-  const results = await poller.pollUntilDone();
-
-  for await (const actionResult of results) {
-    if (actionResult.kind !== "AbstractiveSummarization") {
-      throw new Error(`Expected abstractive summarization results but got: ${actionResult.kind}`);
-    }
-    if (actionResult.error) {
-      const { code, message } = actionResult.error;
-      throw new Error(`Unexpected error (${code}): ${message}`);
-    }
-    for (const result of actionResult.results) {
-      console.log(`- Document ${result.id}`);
-      if (result.error) {
-        const { code, message } = result.error;
-        throw new Error(`Unexpected error (${code}): ${message}`);
-      }
-      if (result.detectedLanguage) {
-        const { name, iso6391Name, confidenceScore } = result.detectedLanguage;      
-        console.log(
-          "Document identified as",
-          name,
-          "( ISO6391:",
-          iso6391Name,
-          ", Score:",
-          confidenceScore,
-          ")"
-        );
-      }
-      console.log("\t- Summary:");
-      for (const summary of result.summaries) {
-        console.log(summary.text);
-      }
-    }
-  }
-}
-main();
-```
-
 ### Entity Resolutions
 
 Recognize and categorize entities in text as people, places, organizations, dates/times, quantities, currencies, etc. The latest beta release can resolve entities to standard formats. Resolutions provide predictable formats for common quantifiable types and can normalize values to a single, well-known format.
 
-The `language` parameter is optional. If it is not specified, the default English model will be used.
+The `languageCode` parameter is optional. If it is not specified, the default English model will be used.
 
 ```javascript
 const { TextAnalysisClient, AzureKeyCredential } = require("@azure/ai-language-text");
@@ -296,7 +235,7 @@ Determine the language of a piece of text.
 
 The `countryHint` parameter is optional, but can assist the service in providing correct output if the country of origin is known. If provided, it should be set to an ISO-3166 Alpha-2 two-letter country code (such as "us" for the United States or "jp" for Japan) or to the value `"none"`. If the parameter is not provided, then the default `"us"` (United States) model will be used. If you do not know the country of origin of the document, then the parameter `"none"` should be used, and the Language service will apply a model that is tuned for an unknown country of origin.
 
-To enable script detection feature, use `2022-04-20-preview` for `modelVersion`.
+To enable script detection, set the `modelVersion` option to `2022-04-20-preview`.
 
 ```javascript
 const { TextAnalysisClient, AzureKeyCredential } = require("@azure/ai-language-text");
@@ -418,7 +357,7 @@ async function main() {
         const { code, message } = result.error;
         throw new Error(`Unexpected error (${code}): ${message}`);
       }
-      console.log(`\tFHIR Bundle Returned: ${result.fhirBundle}`)
+
       console.log("\tRecognized Entities:");
       for (const entity of result.entities) {
         console.log(`\t- Entity "${entity.text}" of type ${entity.category}`);
@@ -429,6 +368,9 @@ async function main() {
           }
         }
       }
+
+      console.log("\tFHIR Bundle:")
+      console.log(JSON.stringify(result.fhirBundle, undefined, 4));
     }
   }
 }
@@ -492,7 +434,7 @@ async function main() {
   const actions = [
     {
       kind: "AbstractiveSummarization",
-      maxSentenceCount: 2,
+      sentenceCount: 4,
     },
   ];
   const poller = await client.beginAnalyzeBatch(actions, documents, "en");
@@ -760,5 +702,71 @@ async function main() {
   }
 }
 
+main();
+```
+
+### Automatic Language Detection
+
+Automatically detect the language of a piece of text. This is a complementary feature to the existing action. It can be enabled by setting `languageCode` to `auto`, a parameter to `beginAnalyzeBatch` method. 
+
+The sample below enables automatic language detection feature for an abstractive summarization task.
+
+```javascript
+const { TextAnalysisClient, AzureKeyCredential } = require("@azure/ai-language-text");
+
+const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+
+const documents = [
+  "Microsoft was founded by Bill Gates and Paul Allen.",
+  "Mon amie vit à Seattle",
+  "Ich besuchte Deutsch während Weihnachten",
+];
+
+async function main() {
+  const actions: AnalyzeBatchAction[] = [
+    {
+      kind: "EntityRecognition",
+    },
+  ];
+
+  const poller = await client.beginAnalyzeBatch(actions, documents, "auto");
+  const results = await poller.pollUntilDone();
+
+  for await (const actionResult of results) {
+    if (actionResult.kind !== "Entity Recognition") {
+      throw new Error(`Expected entity recognition results but got: ${actionResult.kind}`);
+    }
+    if (actionResult.error) {
+      const { code, message } = actionResult.error;
+      throw new Error(`Unexpected error (${code}): ${message}`);
+    }
+
+    for (const result of actionResult.results) {
+      console.log(`- Document ${result.id}`);
+      if (result.error) {
+        const { code, message } = result.error;
+        throw new Error(`Unexpected error (${code}): ${message}`);
+      }
+
+      if (result.detectedLanguage) {
+        const { name, iso6391Name, confidenceScore } = result.detectedLanguage;
+        console.log(
+          "Document language identified as",
+          name,
+          "( ISO6391:",
+          iso6391Name,
+          ", Score:",
+          confidenceScore,
+          ")"
+        );
+      }
+
+      console.log("\tRecognized Entities:");
+      for (const entity of result.entities) {
+        console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
+      }
+    }
+  }
+}
 main();
 ```
