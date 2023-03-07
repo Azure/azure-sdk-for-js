@@ -8,7 +8,6 @@ matrix:
   images:
     go18:
       image: Dockerfile
-      imageBuildDir: "../.."
   scenarios:
     batchReceive:
       testTarget: scenarioBatchReceive
