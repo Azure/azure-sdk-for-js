@@ -216,6 +216,7 @@ specifiers:
   '@rush-temp/communication-alpha-ids': file:./projects/communication-alpha-ids.tgz
   '@rush-temp/communication-chat': file:./projects/communication-chat.tgz
   '@rush-temp/communication-common': file:./projects/communication-common.tgz
+  '@rush-temp/communication-domain-verification': file:./projects/communication-domain-verification.tgz
   '@rush-temp/communication-email': file:./projects/communication-email.tgz
   '@rush-temp/communication-identity': file:./projects/communication-identity.tgz
   '@rush-temp/communication-job-router': file:./projects/communication-job-router.tgz
@@ -546,6 +547,7 @@ dependencies:
   '@rush-temp/communication-alpha-ids': file:projects/communication-alpha-ids.tgz
   '@rush-temp/communication-chat': file:projects/communication-chat.tgz
   '@rush-temp/communication-common': file:projects/communication-common.tgz
+  '@rush-temp/communication-domain-verification': file:projects/communication-domain-verification.tgz
   '@rush-temp/communication-email': file:projects/communication-email.tgz
   '@rush-temp/communication-identity': file:projects/communication-identity.tgz
   '@rush-temp/communication-job-router': file:projects/communication-job-router.tgz
@@ -3895,7 +3897,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230303
+      typescript: 5.1.0-dev.20230307
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8591,6 +8593,12 @@ packages:
     hasBin: true
     dev: false
 
+  /typescript/4.6.4:
+    resolution: {integrity: sha512-9ia/jWHIEbo49HfjrLGfKbZSuWo9iTMwXO+Ca3pRsSpbsMbc7/IU8NKdCZVRRBafVPGnoJeFL76ZOAA84I9fEg==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: false
+
   /typescript/4.8.4:
     resolution: {integrity: sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==}
     engines: {node: '>=4.2.0'}
@@ -8603,8 +8611,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230303:
-    resolution: {integrity: sha512-aDocbsouqGny1M8Kjxn8svqDUy5xoINdPpuh4t0UDoitl6nsHZ61suF1HLfMj9P/A1Bl6Tpjq6GTaRtrElq4aQ==}
+  /typescript/5.1.0-dev.20230307:
+    resolution: {integrity: sha512-QoA4rJ5koT+JJk69FBwAF4vx446c5xPWlvgMrlz0E0SaGDpveCbK8DTpRmdxrZR4oVQ0VxMag1BGtZPtQtU+Jg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -15449,6 +15457,53 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/communication-domain-verification.tgz:
+    resolution: {integrity: sha512-0p6G7gHDP3Fipmh27OuFkHLh9SUNP2L0ua+lGm5GVD/IqRud3pht+VskZ2QsGX3v3uGpbZEbCFjokve3+HOE/g==, tarball: file:projects/communication-domain-verification.tgz}
+    name: '@rush-temp/communication-domain-verification'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 2.0.0
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.4_@types+node@14.18.36
+      '@types/chai': 4.3.4
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.36
+      '@types/sinon': 9.0.11
+      '@types/uuid': 8.3.4
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      eslint: 8.35.0
+      events: 3.3.0
+      inherits: 2.0.4
+      karma: 6.4.1
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.4.1
+      karma-junit-reporter: 2.0.1_karma@6.4.1
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.1
+      karma-sourcemap-loader: 0.3.8
+      mocha: 7.2.0
+      mocha-junit-reporter: 2.2.0_mocha@7.2.0
+      nyc: 15.1.0
+      prettier: 2.8.4
+      rimraf: 3.0.2
+      sinon: 9.2.4
+      tslib: 2.5.0
+      typescript: 4.6.4
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - encoding
       - supports-color
       - utf-8-validate
     dev: false
