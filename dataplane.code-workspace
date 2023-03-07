@@ -35,9 +35,13 @@
       "name": "communication-sms",
       "path": "sdk/communication/communication-sms"
     },
-	{
+	  {
       "name": "communication-phone-numbers",
       "path": "sdk/communication/communication-phone-numbers"
+    },
+	  {
+      "name": "communication-domain-verification",
+      "path": "sdk/communication/communication-domain-verification"
     },
     {
       "name": "container-registry",
