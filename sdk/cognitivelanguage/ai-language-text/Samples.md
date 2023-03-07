@@ -41,16 +41,18 @@ async function main() {
         const { code, message } = result.error;
         throw new Error(`Unexpected error (${code}): ${message}`);
       }
-      const { name, iso6391Name, confidenceScore } = result.detectedLanguage;      
-      console.log(
-        "Document identified as",
-        name,
-        "( ISO6391:",
-        iso6391Name,
-        ", Score:",
-        confidenceScore,
-        ")"
-      );
+      if (result.detectedLanguage) {
+        const { name, iso6391Name, confidenceScore } = result.detectedLanguage;      
+        console.log(
+          "Document identified as",
+          name,
+          "( ISO6391:",
+          iso6391Name,
+          ", Score:",
+          confidenceScore,
+          ")"
+        );
+      }
       console.log("\t- Summary:");
       for (const summary of result.summaries) {
         console.log(summary.text);
@@ -105,11 +107,14 @@ async function main() {
       console.log("\tRecognized Entities:");
       for (const entity of result.entities) {
         console.log(`\t- Entity "${entity.text}" of type ${entity.category}`);
-        console.log("\tRecognized Resolution:");
-        for (const resolution of result.resolutions) {
-          const { resolutionKind, resolutionInfo } = resolution;
-          console.log(`\t- Resolution of type ${resolutionKind}`);
-          console.log(`\t- Resolution information ${resolutionInfo}`);
+
+        if (entity.resolutions) {
+          console.log("\tRecognized Resolution:");
+          for (const resolution of entity.resolutions) {
+            const { resolutionKind, ...resolutionInfo } = resolution;
+            console.log(`\t- Resolution of type ${resolutionKind}`);
+            console.log(`\t- Resolution information ${resolutionInfo}`);
+          }
         }
       }
     }
@@ -321,10 +326,11 @@ async function main() {
         primaryLanguage.iso6391Name,
         ", Score:",
         primaryLanguage.confidenceScore,
-        ", Script:",
-        primaryLanguage.script,
         ")"
       );
+      if (primaryLanguage.script) {
+        console.log(`Detected script: ${primaryLanguage.script}`); 
+      }
       if 
     } else {
       console.error("Encountered an error:", result.error);
