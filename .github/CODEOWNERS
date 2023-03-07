@@ -14,7 +14,13 @@
 
 /.devcontainer/ @jeremymeng
 /documentation/ @jeremymeng
-/samples/       @jeremymeng
+/samples/       @jeremymeng @witemple-msft
+
+################
+# Architecture
+################
+
+/design/ @bterlson @mpodwysocki @joheredi @jeremymeng @witemple-msft
 
 ################
 # Automation
@@ -83,7 +89,7 @@
 /sdk/communication/communication-network-traversal/ @ajpeacock0 @nathpete-msft
 
 # PRLabel: %Communication - Rooms
-/sdk/communication/communication-rooms/ @anujissarMS
+/sdk/communication/communication-rooms/ @anujissarMS @minnieliu @paolamvhz @alexokun @Mrayyan @shwali-msft @allchiang-msft @mikehang-msft
 
 # PRLabel: %Communication - SMS
 /sdk/communication/communication-sms/ @arifibrahim4
@@ -1463,8 +1469,8 @@
 # Config
 ###########
 /.vscode/ @mikeharder @ckairen @deyaaeldeen
-/common/ @mikeharder @ckairen @witemple-msft @deyaaeldeen
-/common/config/rush/pnpm-lock.yaml @ckairen @witemple-msft @deyaaeldeen @jeremymeng
+/common/ @mikeharder @ckairen @deyaaeldeen
+/common/config/rush/pnpm-lock.yaml @ckairen @deyaaeldeen @jeremymeng
 /common/smoke-test/ @mikeharder @ckairen @witemple-msft @deyaaeldeen @benbp
 
 /rush.json @mikeharder @ckairen

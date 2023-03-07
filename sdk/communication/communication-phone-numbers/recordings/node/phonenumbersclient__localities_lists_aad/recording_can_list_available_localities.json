@@ -86,13 +86,6 @@
             }
           },
           {
-            "localizedName": "Anaheim",
-            "administrativeDivision": {
-              "localizedName": "CA",
-              "abbreviatedName": "CA"
-            }
-          },
-          {
             "localizedName": "Burbank",
             "administrativeDivision": {
               "localizedName": "CA",
@@ -618,6 +611,13 @@
             }
           },
           {
+            "localizedName": "Lynn",
+            "administrativeDivision": {
+              "localizedName": "MA",
+              "abbreviatedName": "MA"
+            }
+          },
+          {
             "localizedName": "Worcester",
             "administrativeDivision": {
               "localizedName": "MA",
@@ -763,13 +763,6 @@
       "ResponseBody": {
         "phoneNumberLocalities": [
           {
-            "localizedName": "Bloomington",
-            "administrativeDivision": {
-              "localizedName": "MN",
-              "abbreviatedName": "MN"
-            }
-          },
-          {
             "localizedName": "Duluth",
             "administrativeDivision": {
               "localizedName": "MN",
@@ -799,13 +792,6 @@
           },
           {
             "localizedName": "Kansas City",
-            "administrativeDivision": {
-              "localizedName": "MO",
-              "abbreviatedName": "MO"
-            }
-          },
-          {
-            "localizedName": "Marshall",
             "administrativeDivision": {
               "localizedName": "MO",
               "abbreviatedName": "MO"
@@ -910,13 +896,6 @@
             }
           },
           {
-            "localizedName": "Manchester",
-            "administrativeDivision": {
-              "localizedName": "NH",
-              "abbreviatedName": "NH"
-            }
-          },
-          {
             "localizedName": "Atlantic City",
             "administrativeDivision": {
               "localizedName": "NJ",
@@ -925,13 +904,6 @@
           },
           {
             "localizedName": "Camden",
-            "administrativeDivision": {
-              "localizedName": "NJ",
-              "abbreviatedName": "NJ"
-            }
-          },
-          {
-            "localizedName": "Edison",
             "administrativeDivision": {
               "localizedName": "NJ",
               "abbreviatedName": "NJ"
@@ -1148,7 +1120,7 @@
             }
           },
           {
-            "localizedName": "Scranton",
+            "localizedName": "Pittsburgh",
             "administrativeDivision": {
               "localizedName": "PA",
               "abbreviatedName": "PA"
