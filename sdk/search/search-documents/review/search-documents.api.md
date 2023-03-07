@@ -71,16 +71,16 @@ export interface AutocompleteItem {
 export type AutocompleteMode = "oneTerm" | "twoTerms" | "oneTermWithContext";
 
 // @public
-export type AutocompleteOptions<Fields> = OperationOptions & AutocompleteRequest<Fields>;
+export type AutocompleteOptions<Model extends object> = OperationOptions & AutocompleteRequest<Model>;
 
 // @public
-export interface AutocompleteRequest<Fields> {
+export interface AutocompleteRequest<Model extends object> {
     autocompleteMode?: AutocompleteMode;
     filter?: string;
     highlightPostTag?: string;
     highlightPreTag?: string;
     minimumCoverage?: number;
-    searchFields?: Fields[];
+    searchFields?: SelectFields<Model>[] | Readonly<SelectFields<Model>[]>;
     top?: number;
     useFuzzyMatching?: boolean;
 }
@@ -530,6 +530,14 @@ export type EntityRecognitionSkillV3 = BaseSearchIndexerSkill & {
     modelVersion?: string;
 };
 
+// @public (undocumented)
+export type ExcludedODataTypes = Date | GeographyPoint;
+
+// @public (undocumented)
+export type ExtractDocumentKey<Model> = {
+    [K in keyof Model as Model[K] extends string | undefined ? K : never]: Model[K];
+};
+
 // @public
 export interface FacetResult {
     [property: string]: any;
@@ -580,8 +588,8 @@ export type GetAliasOptions = OperationOptions;
 export type GetDataSourceConnectionOptions = OperationOptions;
 
 // @public
-export interface GetDocumentOptions<Fields> extends OperationOptions {
-    selectedFields?: Fields[];
+export interface GetDocumentOptions<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> extends OperationOptions {
+    selectedFields?: [string] extends [Fields] ? string[] : Fields[] | Readonly<Fields[]>;
 }
 
 // @public
@@ -645,7 +653,7 @@ export class IndexDocumentsBatch<T> {
 }
 
 // @public
-export interface IndexDocumentsClient<T> {
+export interface IndexDocumentsClient<T extends object> {
     indexDocuments(batch: IndexDocumentsBatch<T>, options: IndexDocumentsOptions): Promise<IndexDocumentsResult>;
 }
 
@@ -1848,6 +1856,9 @@ export type MicrosoftStemmingTokenizerLanguage = "arabic" | "bangla" | "bulgaria
 // @public
 export type MicrosoftTokenizerLanguage = "bangla" | "bulgarian" | "catalan" | "chineseSimplified" | "chineseTraditional" | "croatian" | "czech" | "danish" | "dutch" | "english" | "french" | "german" | "greek" | "gujarati" | "hindi" | "icelandic" | "indonesian" | "italian" | "japanese" | "kannada" | "korean" | "malay" | "malayalam" | "marathi" | "norwegianBokmaal" | "polish" | "portuguese" | "portugueseBrazilian" | "punjabi" | "romanian" | "russian" | "serbianCyrillic" | "serbianLatin" | "slovenian" | "spanish" | "swedish" | "tamil" | "telugu" | "thai" | "ukrainian" | "urdu" | "vietnamese";
 
+// @public (undocumented)
+export type NarrowedModel<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> = SelectFields<Model> extends Fields ? Model : SearchPick<Model, Fields>;
+
 // @public
 export interface NGramTokenFilter {
     maxGram?: number;
@@ -2036,24 +2047,24 @@ export interface SearchAlias {
 }
 
 // @public
-export class SearchClient<T> implements IndexDocumentsClient<T> {
+export class SearchClient<Model extends object> implements IndexDocumentsClient<Model> {
     constructor(endpoint: string, indexName: string, credential: KeyCredential | TokenCredential, options?: SearchClientOptions);
     // @deprecated
     readonly apiVersion: string;
-    autocomplete<Fields extends keyof T>(searchText: string, suggesterName: string, options?: AutocompleteOptions<Fields>): Promise<AutocompleteResult>;
-    deleteDocuments(documents: T[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
-    deleteDocuments(keyName: keyof T, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
+    autocomplete(searchText: string, suggesterName: string, options?: AutocompleteOptions<Model>): Promise<AutocompleteResult>;
+    deleteDocuments(documents: Model[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
+    deleteDocuments(keyName: keyof Model, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly endpoint: string;
-    getDocument<Fields extends Extract<keyof T, string>>(key: string, options?: GetDocumentOptions<Fields>): Promise<T>;
+    getDocument<Fields extends SelectFields<Model>>(key: string, options?: GetDocumentOptions<Model, Fields>): Promise<NarrowedModel<Model, Fields>>;
     getDocumentsCount(options?: CountDocumentsOptions): Promise<number>;
-    indexDocuments(batch: IndexDocumentsBatch<T>, options?: IndexDocumentsOptions): Promise<IndexDocumentsResult>;
+    indexDocuments(batch: IndexDocumentsBatch<Model>, options?: IndexDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly indexName: string;
-    mergeDocuments(documents: T[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
-    mergeOrUploadDocuments(documents: T[], options?: MergeOrUploadDocumentsOptions): Promise<IndexDocumentsResult>;
-    search<Fields extends keyof T>(searchText?: string, options?: SearchOptions<Fields>): Promise<SearchDocumentsResult<Pick<T, Fields>>>;
+    mergeDocuments(documents: Model[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
+    mergeOrUploadDocuments(documents: Model[], options?: MergeOrUploadDocumentsOptions): Promise<IndexDocumentsResult>;
+    search<Fields extends SelectFields<Model>>(searchText?: string, options?: SearchOptions<Model, Fields>): Promise<SearchDocumentsResult<Model, Fields>>;
     readonly serviceVersion: string;
-    suggest<Fields extends keyof T = never>(searchText: string, suggesterName: string, options?: SuggestOptions<Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
-    uploadDocuments(documents: T[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
+    suggest<Fields extends SelectFields<Model> = never>(searchText: string, suggesterName: string, options?: SuggestOptions<Model, Fields>): Promise<SuggestDocumentsResult<Model, Fields>>;
+    uploadDocuments(documents: Model[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
 }
 
 // @public
@@ -2065,14 +2076,14 @@ export interface SearchClientOptions extends ExtendedCommonClientOptions {
 }
 
 // @public
-export interface SearchDocumentsPageResult<T> extends SearchDocumentsResultBase {
+export interface SearchDocumentsPageResult<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> extends SearchDocumentsResultBase {
     continuationToken?: string;
-    readonly results: SearchResult<T>[];
+    readonly results: SearchResult<Model, Fields>[];
 }
 
 // @public
-export interface SearchDocumentsResult<T> extends SearchDocumentsResultBase {
-    readonly results: SearchIterator<T>;
+export interface SearchDocumentsResult<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> extends SearchDocumentsResultBase {
+    readonly results: SearchIterator<Model, Fields>;
 }
 
 // @public
@@ -2132,7 +2143,7 @@ export class SearchIndexClient {
     getAlias(aliasName: string, options?: GetAliasOptions): Promise<SearchIndexAlias>;
     getIndex(indexName: string, options?: GetIndexOptions): Promise<SearchIndex>;
     getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<SearchIndexStatistics>;
-    getSearchClient<T>(indexName: string, options?: SearchClientOptions): SearchClient<T>;
+    getSearchClient<Model extends object>(indexName: string, options?: SearchClientOptions): SearchClient<Model>;
     getServiceStatistics(options?: GetServiceStatisticsOptions): Promise<SearchServiceStatistics>;
     getSynonymMap(synonymMapName: string, options?: GetSynonymMapsOptions): Promise<SynonymMap>;
     listAliases(options?: ListAliasesOptions): AliasIterator;
@@ -2338,28 +2349,28 @@ export interface SearchIndexerWarning {
 }
 
 // @public
-export class SearchIndexingBufferedSender<T> {
-    constructor(client: IndexDocumentsClient<T>, documentKeyRetriever: (document: T) => string, options?: SearchIndexingBufferedSenderOptions);
-    deleteDocuments(documents: T[], options?: SearchIndexingBufferedSenderDeleteDocumentsOptions): Promise<void>;
+export class SearchIndexingBufferedSender<Model extends object> {
+    constructor(client: IndexDocumentsClient<Model>, documentKeyRetriever: (document: Model) => string, options?: SearchIndexingBufferedSenderOptions);
+    deleteDocuments(documents: Model[], options?: SearchIndexingBufferedSenderDeleteDocumentsOptions): Promise<void>;
     dispose(): Promise<void>;
     flush(options?: SearchIndexingBufferedSenderFlushDocumentsOptions): Promise<void>;
-    mergeDocuments(documents: T[], options?: SearchIndexingBufferedSenderMergeDocumentsOptions): Promise<void>;
-    mergeOrUploadDocuments(documents: T[], options?: SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions): Promise<void>;
+    mergeDocuments(documents: Model[], options?: SearchIndexingBufferedSenderMergeDocumentsOptions): Promise<void>;
+    mergeOrUploadDocuments(documents: Model[], options?: SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions): Promise<void>;
     off(event: "batchAdded", listener: (e: {
         action: string;
-        documents: T[];
+        documents: Model[];
     }) => void): void;
-    off(event: "beforeDocumentSent", listener: (e: IndexDocumentsAction<T>) => void): void;
+    off(event: "beforeDocumentSent", listener: (e: IndexDocumentsAction<Model>) => void): void;
     off(event: "batchSucceeded", listener: (e: IndexDocumentsResult) => void): void;
     off(event: "batchFailed", listener: (e: RestError) => void): void;
     on(event: "batchAdded", listener: (e: {
         action: string;
-        documents: T[];
+        documents: Model[];
     }) => void): void;
-    on(event: "beforeDocumentSent", listener: (e: IndexDocumentsAction<T>) => void): void;
+    on(event: "beforeDocumentSent", listener: (e: IndexDocumentsAction<Model>) => void): void;
     on(event: "batchSucceeded", listener: (e: IndexDocumentsResult) => void): void;
     on(event: "batchFailed", listener: (e: RestError) => void): void;
-    uploadDocuments(documents: T[], options?: SearchIndexingBufferedSenderUploadDocumentsOptions): Promise<void>;
+    uploadDocuments(documents: Model[], options?: SearchIndexingBufferedSenderUploadDocumentsOptions): Promise<void>;
 }
 
 // @public
@@ -2394,13 +2405,24 @@ export interface SearchIndexStatistics {
 }
 
 // @public
-export type SearchIterator<Fields> = PagedAsyncIterableIterator<SearchResult<Fields>, SearchDocumentsPageResult<Fields>, ListSearchResultsPageSettings>;
+export type SearchIterator<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> = PagedAsyncIterableIterator<SearchResult<Model, Fields>, SearchDocumentsPageResult<Model, Fields>, ListSearchResultsPageSettings>;
 
 // @public
 export type SearchMode = "any" | "all";
 
 // @public
-export type SearchOptions<Fields> = OperationOptions & SearchRequestOptions<Fields>;
+export type SearchOptions<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> = OperationOptions & SearchRequestOptions<Model, Fields>;
+
+// @public
+export type SearchPick<T extends object, Paths extends SelectFields<T>> = [
+T
+] extends [never] ? object : // We're going to get a union of individual interfaces for each field in T that's selected, so convert that to an intersection.
+UnionToIntersection<Paths extends `${infer FieldName}/${infer RestPaths}` ? FieldName extends keyof T & string ? NonNullable<T[FieldName]> extends Array<infer Elem> ? Elem extends object ? RestPaths extends SelectFields<Elem> ? {
+    [Key in keyof T as Key & FieldName]: Array<SearchPick<Elem, RestPaths>>;
+} : never : never : NonNullable<T[FieldName]> extends object ? {
+    [Key in keyof T as Key & FieldName]: RestPaths extends SelectFields<T[Key] & {}> ? SearchPick<T[Key] & {}, RestPaths> | Extract<T[Key], null> : never;
+} : never : never : // Otherwise, capture the paths that are simple keys of T itself
+Pick<T, Paths> | Extract<T, null>> & {};
 
 // @public
 export interface SearchRequest {
@@ -2432,7 +2454,7 @@ export interface SearchRequest {
 }
 
 // @public
-export interface SearchRequestOptions<Fields> {
+export interface SearchRequestOptions<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> {
     answers?: Answers;
     captions?: Captions;
     facets?: string[];
@@ -2448,9 +2470,9 @@ export interface SearchRequestOptions<Fields> {
     scoringParameters?: string[];
     scoringProfile?: string;
     scoringStatistics?: ScoringStatistics;
-    searchFields?: Fields[];
+    searchFields?: SelectFields<Model>[] | Readonly<SelectFields<Model>[]>;
     searchMode?: SearchMode;
-    select?: Fields[];
+    select?: [string] extends [Fields] ? string[] : Fields[] | Readonly<Fields[]>;
     semanticFields?: string[];
     sessionId?: string;
     skip?: number;
@@ -2469,14 +2491,14 @@ export interface SearchResourceEncryptionKey {
 }
 
 // @public
-export type SearchResult<T> = {
+export type SearchResult<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> = {
     readonly score: number;
     readonly rerankerScore?: number;
     readonly highlights?: {
-        [k in keyof T]?: string[];
+        [k in SelectFields<Model>]?: string[];
     };
     readonly captions?: CaptionResult[];
-    document: T;
+    document: NarrowedModel<Model, Fields>;
 };
 
 // @public
@@ -2491,6 +2513,12 @@ export interface SearchSuggester {
     searchMode: "analyzingInfixMatching";
     sourceFields: string[];
 }
+
+// @public
+export type SelectFields<T extends object> = T extends Array<infer Elem> ? Elem extends object ? SelectFields<Elem> : never : {
+    [Key in keyof T]: Key extends string ? NonNullable<T[Key]> extends object ? NonNullable<T[Key]> extends ExcludedODataTypes ? Key : SelectFields<NonNullable<T[Key]>> extends infer NextPaths ? NextPaths extends string ? // Union this key with all the next paths separated with '/'
+    Key | `${Key}/${NextPaths}` : Key : never : Key : never;
+}[keyof T & string] & string;
 
 // @public
 export interface SemanticConfiguration {
@@ -2656,31 +2684,36 @@ export type StopwordsTokenFilter = BaseTokenFilter & {
 };
 
 // @public
-export interface SuggestDocumentsResult<T> {
+export interface SuggestDocumentsResult<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> {
     readonly coverage?: number;
-    readonly results: SuggestResult<T>[];
+    readonly results: SuggestResult<Model, Fields>[];
 }
 
-// @public
-export type SuggestOptions<Fields> = OperationOptions & SuggestRequest<Fields>;
+// @public (undocumented)
+export type SuggestNarrowedModel<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> = [Model] extends [never] ? object : [
+Fields
+] extends [never] ? keyof ExtractDocumentKey<Model> extends never ? Model : ExtractDocumentKey<Model> : Fields extends SelectFields<Model> ? NarrowedModel<Model, Fields> : never;
 
 // @public
-export interface SuggestRequest<Fields> {
+export type SuggestOptions<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> = OperationOptions & SuggestRequest<Model, Fields>;
+
+// @public
+export interface SuggestRequest<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> {
     filter?: string;
     highlightPostTag?: string;
     highlightPreTag?: string;
     minimumCoverage?: number;
     orderBy?: string[];
-    searchFields?: Fields[];
-    select?: Fields[];
+    searchFields?: SelectFields<Model>[] | Readonly<SelectFields<Model>[]>;
+    select?: [string] extends [Fields] ? string[] : Fields[] | Readonly<Fields[]>;
     top?: number;
     useFuzzyMatching?: boolean;
 }
 
 // @public
-export type SuggestResult<T> = {
+export type SuggestResult<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> = {
     readonly text: string;
-    document: T;
+    document: SuggestNarrowedModel<Model, Fields>;
 };
 
 // @public
@@ -2751,6 +2784,9 @@ export type UaxUrlEmailTokenizer = BaseLexicalTokenizer & {
     odatatype: "#Microsoft.Azure.Search.UaxUrlEmailTokenizer";
     maxTokenLength?: number;
 };
+
+// @public (undocumented)
+export type UnionToIntersection<U> = (U extends unknown ? (_: U) => unknown : never) extends (_: infer I) => unknown ? I : never;
 
 // @public
 export type UniqueTokenFilter = BaseTokenFilter & {

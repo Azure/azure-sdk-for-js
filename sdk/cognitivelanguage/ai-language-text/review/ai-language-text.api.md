@@ -15,7 +15,7 @@ import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AbstractiveSummarizationAction {
-    maxSentenceCount?: number;
+    sentenceCount?: number;
     stringIndexType?: StringIndexType;
 }
 
@@ -212,7 +212,6 @@ export interface BatchActionSuccessResult<T, Kind extends AnalyzeBatchActionName
 
 // @public
 export interface BeginAnalyzeBatchOptions extends TextAnalysisOperationOptions {
-    defaultLanguage?: string;
     displayName?: string;
     updateIntervalInMs?: number;
 }
