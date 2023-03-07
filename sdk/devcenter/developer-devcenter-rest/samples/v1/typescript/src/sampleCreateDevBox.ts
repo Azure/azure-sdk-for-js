@@ -7,6 +7,8 @@ import {
   getLongRunningPoller,
 } from "@azure-rest/developer-devcenter";
 import createClient from "@azure-rest/developer-devcenter";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 /**
  * @summary Demonstrates creating, accessing, and deleting a Dev Box

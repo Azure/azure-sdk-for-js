@@ -103,7 +103,7 @@ function buildRoutePath(
       value = encodeURIComponent(pathParam);
     }
 
-    routePath = routePath.replace(/{([^/]+)}/, value);
+    routePath = routePath.replace(/\{\w+\}/, value);
   }
   return routePath;
 }

@@ -31,6 +31,7 @@
     "sdk/purview/purview-administration-rest/review/*.md",
     "sdk/purview/purview-catalog-rest/review/*.md",
     "sdk/purview/purview-scanning-rest/review/*.md",
+    "sdk/purview/purview-sharing-rest/review/*.md",
     "sdk/quantum/quantum-jobs/review/*.md",
     "sdk/synapse/synapse-access-control/review/*.md",
     "sdk/synapse/synapse-access-control-rest/review/*.md",

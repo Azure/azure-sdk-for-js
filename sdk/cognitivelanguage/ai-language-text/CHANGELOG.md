@@ -1,14 +1,16 @@
 # Release History
 
-## 1.1.0-beta.2 (Unreleased)
+## 1.1.0-beta.2 (2023-03-07)
 
 ### Features Added
 
+- Add support for logging API warnings that are part of warn-text response headers.
+- Add support for `partiallySucceeded` status and parse action error pointers.
+- Change `AbstractiveSummarizationAction` property from `maxSentenceCount` to `sentenceCount`.
+
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
+- Remove `defaultLanguage` from the `BeginAnalyzeBatchOptions` interface.
 
 ## 1.1.0-beta.1 (2022-11-17)
 
