@@ -162,7 +162,7 @@ export interface DownloadManifestOptions extends OperationOptions {
    * Media type of the manifest to download. Refer to {@link KnownManifestMediaType} for known media types.
    * Defaults to {@link KnownManifestMediaType.OciManifest}.
    */
-  mediaType?: string;
+  mediaType?: string | string[];
 }
 
 /**

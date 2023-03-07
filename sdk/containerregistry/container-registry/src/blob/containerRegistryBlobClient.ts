@@ -240,7 +240,7 @@ export class ContainerRegistryBlobClient {
           this.repositoryName,
           tagOrDigest,
           {
-            accept: acceptMediaType,
+            accept: Array.isArray(acceptMediaType) ? acceptMediaType.join(", ") : acceptMediaType,
             ...updatedOptions,
           }
         );
