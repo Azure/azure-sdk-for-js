@@ -3897,7 +3897,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230306
+      typescript: 5.1.0-dev.20230307
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8603,8 +8603,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230306:
-    resolution: {integrity: sha512-CqMT7nhnVNKfaT1giN+UjFUSqN2gBI17K8JoT+I1LgPU/G9oYypuG+91pz8Kjk/GW/BG685khZ0YfFrADj+KPQ==}
+  /typescript/5.1.0-dev.20230307:
+    resolution: {integrity: sha512-QoA4rJ5koT+JJk69FBwAF4vx446c5xPWlvgMrlz0E0SaGDpveCbK8DTpRmdxrZR4oVQ0VxMag1BGtZPtQtU+Jg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -19108,11 +19108,11 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-LvhiwesmyCOpTNU/fojizMBO8QMyzpfM4R1PbklHJkhxVR9ztqMTFaJ0o7EHo3EWyI1q4OoaDMBjsSi8LB2Mvw==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-GJIJcpCd+Qf+e0t+Hpv97M0buOLo8pynBfqNjpMuyhnO6xbPm2nGs2Mz5gHiYP4bdQZB/bToT3AoTDFtZlLDrA==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 1.0.2
+      '@azure-tools/test-recorder': 2.0.0
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.34.4_@types+node@14.18.37
