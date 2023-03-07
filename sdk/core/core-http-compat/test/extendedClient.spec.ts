@@ -12,25 +12,38 @@ import {
   serializationPolicy,
 } from "@azure/core-client";
 import { ExtendedServiceClient, disableKeepAlivePolicyName } from "../src/index";
+import {
+  pipelineContainsDisableKeepAlivePolicy,
+  createDisableKeepAlivePolicy,
+} from "../src/policies/disableKeepAlivePolicy";
 
 describe("Extended Client", () => {
   it("should add the disable keep alive policy", () => {
-    const extendedClient: ExtendedServiceClient = new ExtendedServiceClient({
+    const extendedClient = new ExtendedServiceClient({
       keepAliveOptions: {
         enable: false,
       },
     });
 
-    const pipelinePolicies: PipelinePolicy[] = extendedClient.pipeline.getOrderedPolicies();
-    let disableKeepAlivePolicyFound: boolean = false;
+    const disableKeepAlivePolicyFound = pipelineContainsDisableKeepAlivePolicy(
+      extendedClient.pipeline
+    );
 
-    for (const pipelinePolicy of pipelinePolicies) {
-      if (pipelinePolicy.name === disableKeepAlivePolicyName) {
-        disableKeepAlivePolicyFound = true;
-      }
-    }
+    assert.isTrue(disableKeepAlivePolicyFound);
+  });
 
-    assert.deepStrictEqual(disableKeepAlivePolicyFound, true);
+  it("should not add the disable keep alive policy twice", () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(createDisableKeepAlivePolicy());
+    assert.doesNotThrow(() => {
+      const extendedClient = new ExtendedServiceClient({
+        keepAliveOptions: {
+          enable: false,
+        },
+        pipeline,
+      });
+      extendedClient.pipeline.getOrderedPolicies();
+    });
   });
 
   it("should remove the redirect policy", () => {
@@ -133,7 +146,7 @@ describe("Extended Client", () => {
 
     let counter = 0;
 
-    function onResponse() {
+    function onResponse(): void {
       counter++;
     }
 

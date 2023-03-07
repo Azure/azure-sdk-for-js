@@ -62,9 +62,9 @@ export class WorkloadIdentityCredential implements TokenCredential {
     const workloadIdentityCredentialOptions = options as WorkloadIdentityCredentialOptions;
 
     if (
-      workloadIdentityCredentialOptions.clientId &&
-      workloadIdentityCredentialOptions.tenantId &&
-      workloadIdentityCredentialOptions.federatedTokenFilePath
+      workloadIdentityCredentialOptions?.clientId &&
+      workloadIdentityCredentialOptions?.tenantId &&
+      workloadIdentityCredentialOptions?.federatedTokenFilePath
     ) {
       const tenantId = workloadIdentityCredentialOptions.tenantId;
       if (tenantId) {
