@@ -57,3 +57,5 @@ extends:
         safeName: azuretoolscommunicationtollfreeverification
       - name: azure-tools-communication-verified-recipients
         safeName: azuretoolscommunicationverifiedrecipients
+        skipPublishDocMs: true
+        skipPublishDocGithubIo: true
