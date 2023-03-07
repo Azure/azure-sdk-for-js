@@ -39,15 +39,12 @@ Key links:
 Please see the [Migration Guide](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/MIGRATION_ai_text_analytics.md) for detailed instructions on how to update application code from version 5.x of the AI Text Analytics client library to the new AI Language Text client library.
 
 ## What's New
-
-For a list of what's new, check out this blog post [What's New in Azure Cognitive Service for Language?](https://learn.microsoft.com/azure/cognitive-services/language-service/whats-new?tabs=javascript) and see the short samples below
-
 * [Abstractive Summarization](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#abstractive-summarization)
 * [Dynamic Classification](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#dynamic-classification)
-* [Language Detection with Script Detection](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#language-detection)
+* [Script Detection](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#language-detection)
 * [Automatic Language Detection](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#automatic-language-detection)
-* [Entity Regconition With Resolution](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#entity-recognition-with-resolution)
-* [Healthcare Analysis](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#healthcare-analysis)
+* [Entity Resolutions](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#entity-recognition-with-resolution)
+* [Specifying healthcare document type for better FHIR results](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#healthcare-analysis)
 
 
 ## Getting started
@@ -200,7 +197,7 @@ if (result.error !== undefined) {
 * [Rehydrate Polling](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/rehydratePolling.ts)
 * [Get Statistics](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/stats.ts)
 
-### Prebuilt Task
+### Prebuilt Tasks
 * [Abstractive Summarization](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/abstractiveSummarization.ts)
 * [Dynamic Classification](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/dynamicClassification.ts)
 * [Language Detection](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#language-detection)

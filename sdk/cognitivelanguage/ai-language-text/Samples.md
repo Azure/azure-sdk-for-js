@@ -113,7 +113,7 @@ async function main() {
           for (const resolution of entity.resolutions) {
             const { resolutionKind, ...resolutionInfo } = resolution;
             console.log(`\t- Resolution of type ${resolutionKind}`);
-            console.log(`\t- Resolution information ${resolutionInfo}`);
+            console.log(`\t- Resolution information ${JSON.stringify(resolutionInfo)}`);
           }
         }
       }
