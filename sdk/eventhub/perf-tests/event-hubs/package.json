@@ -9,6 +9,7 @@
   "license": "ISC",
   "dependencies": {
     "@azure/event-hubs": "^5.6.0",
+    "@azure/mock-hub": "^1.0.0",
     "@azure/core-amqp": "^3.0.0",
     "@azure/test-utils-perf": "^1.0.0",
     "dotenv": "^16.0.0",
@@ -29,7 +30,7 @@
   "scripts": {
     "perf-test:node": "npm run build && node dist-esm/index.spec.js",
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build": "npm run clean && tsc -p .",
+    "build": "npm run clean && tsc -p . && node ../../event-hubs/scripts/generateCerts.js",
     "build:samples": "echo skipped",
     "build:test": "echo skipped",
     "check-format": "prettier --list-different --config ../../../../.prettierrc.json --ignore-path ../../../../.prettierignore \"test/**/*.ts\" \"*.{js,json}\"",

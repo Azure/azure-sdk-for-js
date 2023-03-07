@@ -3,7 +3,7 @@
 
 import { getEnvVar, PerfOptionDictionary, BatchPerfTest } from "@azure/test-utils-perf";
 import { EventHubProducerClient, EventData } from "@azure/event-hubs";
-
+import { createMockServer } from "./utils";
 // Expects the .env file at the same level as the "test" folder
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -11,12 +11,11 @@ dotenv.config();
 interface SendTestOptions {
   eventBodySize: number;
   numberOfEvents: number;
+  useMockHub: boolean;
 }
 
-const connectionString = getEnvVar("EVENTHUB_CONNECTION_STRING");
-const eventHubName = getEnvVar("EVENTHUB_NAME");
+let service: ReturnType<typeof createMockServer>;
 
-const producer = new EventHubProducerClient(connectionString, eventHubName);
 export class SendTest extends BatchPerfTest<SendTestOptions> {
   producer: EventHubProducerClient;
   eventBatch: EventData[];
@@ -35,19 +34,43 @@ export class SendTest extends BatchPerfTest<SendTestOptions> {
       longName: "batch-size",
       defaultValue: 10,
     },
+    useMockHub: {
+      required: true,
+      description: "Should the test use mock-hub instead of live service",
+      shortName: "mock",
+      longName: "mock-hub",
+      defaultValue: false,
+    },
   };
 
   constructor() {
     super();
-    this.producer = producer;
+    if (this.parsedOptions.useMockHub.value) {
+      process.env.NODE_EXTRA_CA_CERTS = "./certs/my-private-root-ca.crt.pem";
+      process.env.EVENTHUB_CONNECTION_STRING = `Endpoint=sb://localhost/;SharedAccessKeyName=Foo;SharedAccessKey=Bar`;
+      process.env.EVENTHUB_NAME = "mock-hub";
+    }
+    const connectionString = getEnvVar("EVENTHUB_CONNECTION_STRING");
+    const eventHubName = getEnvVar("EVENTHUB_NAME");
+    this.producer = new EventHubProducerClient(connectionString, eventHubName);
     const event = {
-      body: Buffer.alloc(this.parsedOptions.eventBodySize.value!),
+      body: Buffer.alloc(this.parsedOptions.eventBodySize.value),
     };
-    this.eventBatch = new Array(this.parsedOptions.numberOfEvents.value!).fill(event);
+    this.eventBatch = new Array(this.parsedOptions.numberOfEvents.value).fill(event);
+  }
+
+  public async globalSetup() {
+    if (this.parsedOptions.useMockHub.value) {
+      service = createMockServer();
+      await service.start();
+    }
   }
 
   public async globalCleanup(): Promise<void> {
     await this.producer.close();
+    if (this.parsedOptions.useMockHub.value) {
+      return service.stop();
+    }
   }
 
   async runBatch(): Promise<number> {
