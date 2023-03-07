@@ -207,12 +207,11 @@ export interface CallParticipant {
 export class CallRecording {
     // Warning: (ae-forgotten-export) The symbol "CallRecordingImpl" needs to be exported by the entry point index.d.ts
     constructor(callRecordingImpl: CallRecordingImpl);
-    getRecordingProperties(recordingId: string, options: CallRecordingGetRecordingPropertiesOptions): Promise<RecordingStateResponseDto>;
-    pauseRecording(recordingId: string, options: CallRecordingPauseRecordingOptions): Promise<void>;
-    resumeRecording(recordingId: string, options: CallRecordingResumeRecordingOptionalParams): Promise<void>;
-    // Warning: (ae-forgotten-export) The symbol "RecordingStateResponse" needs to be exported by the entry point index.d.ts
-    startRecording(request: StartCallRecordingRequestDto, options?: CallRecordingStartRecordingOptions): Promise<RecordingStateResponse>;
-    stopRecording(recordingId: string, options: CallRecordingStopRecordingOptions): Promise<void>;
+    getRecordingProperties(recordingId: string, options?: CallRecordingGetRecordingPropertiesOptions): Promise<RecordingStateResult>;
+    pauseRecording(recordingId: string, options?: CallRecordingPauseRecordingOptions): Promise<void>;
+    resumeRecording(recordingId: string, options?: CallRecordingResumeRecordingOptionalParams): Promise<void>;
+    startRecording(options: StartRecordingOptions): Promise<RecordingStateResult>;
+    stopRecording(recordingId: string, options?: CallRecordingStopRecordingOptions): Promise<void>;
 }
 
 // @public
@@ -223,9 +222,6 @@ export type CallRecordingPauseRecordingOptions = OperationOptions;
 
 // @public
 export type CallRecordingResumeRecordingOptionalParams = OperationOptions;
-
-// @public
-export type CallRecordingStartRecordingOptions = RestCallRecordingStartRecordingOptions;
 
 // @public
 export type CallRecordingStopRecordingOptions = OperationOptions;
@@ -402,7 +398,7 @@ export interface RecordingStateChanged extends RestRecordingStateChanged {
 }
 
 // @public (undocumented)
-export interface RecordingStateResponseDto {
+export interface RecordingStateResult {
     // (undocumented)
     recordingId?: string;
     // Warning: (ae-forgotten-export) The symbol "RecordingState" needs to be exported by the entry point index.d.ts
@@ -443,12 +439,6 @@ export interface RestCallDisconnected {
     correlationId?: string;
     operationContext?: string;
     serverCallId?: string;
-}
-
-// @public
-export interface RestCallRecordingStartRecordingOptions extends coreClient.OperationOptions {
-    repeatabilityFirstSent?: string;
-    repeatabilityRequestID?: string;
 }
 
 // @public
@@ -560,7 +550,7 @@ export interface ServerCallLocator {
 }
 
 // @public
-export interface StartCallRecordingRequestDto {
+export interface StartRecordingOptions extends OperationOptions {
     // Warning: (ae-forgotten-export) The symbol "CommunicationIdentifierModel" needs to be exported by the entry point index.d.ts
     audioChannelParticipantOrdering?: CommunicationIdentifierModel[];
     callLocator: ServerCallLocator | GroupCallLocator;

@@ -3,11 +3,19 @@
 
 import { PhoneNumberIdentifier } from "@azure/communication-common";
 import { OperationOptions } from "@azure/core-client";
-import { MediaStreamingConfiguration } from "../models/models";
+import {
+  MediaStreamingConfiguration,
+  ServerCallLocator,
+  GroupCallLocator
+} from "../models/models";
 import { CallRejectReason } from "./models";
-import { CallRecordingStartRecordingOptionalParams as RestCallRecordingStartRecordingOptions } from "../generated/src/models";
-
-export { RestCallRecordingStartRecordingOptions };
+import {
+  CommunicationIdentifierModel,
+  RecordingChannelType,
+  RecordingContentType,
+  RecordingFormatType,
+  RecordingStorageType,
+} from "../generated/src";
 
 /**
  * Options to create a call.
@@ -104,24 +112,47 @@ export type GetParticipantOptions = OperationOptions;
 /**
  * Options to get a start a recording.
  */
-export type CallRecordingStartRecordingOptions = RestCallRecordingStartRecordingOptions;
+export interface StartRecordingOptions extends OperationOptions {
+
+  /** The call locator. */
+  callLocator: ServerCallLocator | GroupCallLocator;
+  /** The uri to send notifications to. */
+  recordingStateCallbackUri?: string;
+  /** The content type of call recording. */
+  recordingContentType?: RecordingContentType;
+  /** The channel type of call recording. */
+  recordingChannelType?: RecordingChannelType;
+  /** The format type of call recording. */
+  recordingFormatType?: RecordingFormatType;
+  /**
+   * The sequential order in which audio channels are assigned to participants in the unmixed recording.
+   * When 'recordingChannelType' is set to 'unmixed' and `audioChannelParticipantOrdering is not specified,
+   * the audio channel to participant mapping will be automatically assigned based on the order in which participant
+   * first audio was detected.  Channel to participant mapping details can be found in the metadata of the recording.
+   */
+  audioChannelParticipantOrdering?: CommunicationIdentifierModel[];
+  /** Recording storage mode. `External` enables bring your own storage. */
+  recordingStorageType?: RecordingStorageType;
+
+}
+
 
 /**
  * Options to get a stop a recording.
  */
-export type CallRecordingStopRecordingOptions = OperationOptions;
+export type StopRecordingOptions = OperationOptions;
 
 /**
  * Options to get a pause a recording.
  */
-export type CallRecordingPauseRecordingOptions = OperationOptions;
+export type PauseRecordingOptions = OperationOptions;
 
 /**
  * Options to get recording properties.
  */
-export type CallRecordingGetRecordingPropertiesOptions = OperationOptions;
+export type GetRecordingPropertiesOptions = OperationOptions;
 
 /**
  * Options to resume recording.
  */
-export type CallRecordingResumeRecordingOptionalParams = OperationOptions;
+export type ResumeRecordingOptions = OperationOptions;
