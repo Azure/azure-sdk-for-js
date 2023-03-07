@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VpnServerConfiguration,
   VpnServerConfigurationsListByResourceGroupOptionalParams,
@@ -67,8 +67,8 @@ export interface VpnServerConfigurations {
     vpnServerConfigurationParameters: VpnServerConfiguration,
     options?: VpnServerConfigurationsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VpnServerConfigurationsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VpnServerConfigurationsCreateOrUpdateResponse>,
       VpnServerConfigurationsCreateOrUpdateResponse
     >
   >;
@@ -110,7 +110,7 @@ export interface VpnServerConfigurations {
     resourceGroupName: string,
     vpnServerConfigurationName: string,
     options?: VpnServerConfigurationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a VpnServerConfiguration.
    * @param resourceGroupName The resource group name of the VpnServerConfiguration.

@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets all route tables applied to a network interface.
  *
  * @summary Gets all route tables applied to a network interface.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkInterfaceEffectiveRouteTableList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkInterfaceEffectiveRouteTableList.json
  */
 async function showNetworkInterfaceEffectiveRouteTables() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkInterfaceName = "nic1";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -30,4 +31,8 @@ async function showNetworkInterfaceEffectiveRouteTables() {
   console.log(result);
 }
 
-showNetworkInterfaceEffectiveRouteTables().catch(console.error);
+async function main() {
+  showNetworkInterfaceEffectiveRouteTables();
+}
+
+main().catch(console.error);

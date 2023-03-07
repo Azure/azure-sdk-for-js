@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the private dns zone group resource by specified private dns zone group name.
  *
  * @summary Gets the private dns zone group resource by specified private dns zone group name.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/PrivateEndpointDnsZoneGroupGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/PrivateEndpointDnsZoneGroupGet.json
  */
 async function getPrivateDnsZoneGroup() {
-  const subscriptionId = "subId";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const privateEndpointName = "testPe";
   const privateDnsZoneGroupName = "testPdnsgroup";
   const credential = new DefaultAzureCredential();
@@ -32,4 +33,8 @@ async function getPrivateDnsZoneGroup() {
   console.log(result);
 }
 
-getPrivateDnsZoneGroup().catch(console.error);
+async function main() {
+  getPrivateDnsZoneGroup();
+}
+
+main().catch(console.error);

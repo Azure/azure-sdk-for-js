@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Checks whether a private IP address is available for use.
  *
  * @summary Checks whether a private IP address is available for use.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VirtualNetworkCheckIPAddressAvailability.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VirtualNetworkCheckIPAddressAvailability.json
  */
 async function checkIPAddressAvailability() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualNetworkName = "test-vnet";
   const ipAddress = "10.0.1.4";
   const credential = new DefaultAzureCredential();
@@ -32,4 +35,8 @@ async function checkIPAddressAvailability() {
   console.log(result);
 }
 
-checkIPAddressAvailability().catch(console.error);
+async function main() {
+  checkIPAddressAvailability();
+}
+
+main().catch(console.error);
