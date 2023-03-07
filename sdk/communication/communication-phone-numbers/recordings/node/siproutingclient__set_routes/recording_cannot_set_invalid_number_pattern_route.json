@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/sip?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/sip?api-version=2023-03-01",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,10 +10,10 @@
         "Connection": "keep-alive",
         "Content-Length": "68",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.2 Node/v18.13.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "N0xdYpQEJv52bJIr9y7\u002Bp9pnmc60UniWgDLbaXfvMDc=",
-        "x-ms-date": "Fri, 06 Jan 2023 17:33:28 GMT"
+        "x-ms-date": "Tue, 07 Mar 2023 10:34:47 GMT"
       },
       "RequestBody": {
         "routes": [
@@ -26,13 +26,13 @@
       "StatusCode": 422,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Fri, 06 Jan 2023 17:33:26 GMT",
-        "MS-CV": "pZL3ZEs5VUCJAlkEQL7A4g.0",
+        "Date": "Tue, 07 Mar 2023 10:34:46 GMT",
+        "MS-CV": "EZthDJSXuEazDUoX49aYEg.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0Zlu4YwAAAADT0teIjQajT41Q/HpFix0LTUVYMzBFREdFMDQyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0RhMHZAAAAABgUV4uWjzwTrAtKzwrY\u002BkrTE9OMjFFREdFMTYyMABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "32ms"
+        "X-Processing-Time": "17ms"
       },
       "ResponseBody": {
         "error": {
@@ -46,34 +46,34 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/sip?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/sip?api-version=2023-03-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.2 Node/v18.13.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Fri, 06 Jan 2023 17:33:28 GMT"
+        "x-ms-date": "Tue, 07 Mar 2023 10:34:47 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
+        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
+        "Content-Length": "116",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 Jan 2023 17:33:26 GMT",
-        "MS-CV": "J83DNlCQpEmuwWdJK0gcgA.0",
+        "Date": "Tue, 07 Mar 2023 10:34:47 GMT",
+        "MS-CV": "8k2D/UGwEUCg6LgS5wQi/w.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0Zlu4YwAAAACLqn0uKA4WTbHZbUgLhAsTTUVYMzBFREdFMDQyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0RhMHZAAAAADYV/gh2R6WQIyUiGAkhxZhTE9OMjFFREdFMTYyMABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "106ms"
+        "X-Processing-Time": "189ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test.cee88f5ac66a4c9c80acaa945cb02e59.com": {
+          "test79fb966b293b4a58add53a822296d233.nostojic13012023.skype.net": {
             "sipSignalingPort": 5678
           }
         },
@@ -82,7 +82,7 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "test.78d5889df9854841ab06d18ac08db88f.com",
-    "fqdn-2": "test.51241d1902b643119b99b1359778f715.com"
+    "fqdn-1": "test74fc0e2ecdbc4bfea0ad4d0a42b2c674.nostojic13012023.skype.net",
+    "fqdn-2": "testd04fbd3939b0454cae9614b998b4429c.nostojic13012023.skype.net"
   }
 }

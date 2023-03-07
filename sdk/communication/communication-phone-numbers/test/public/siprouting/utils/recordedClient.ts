@@ -130,8 +130,8 @@ export async function clearSipConfiguration(): Promise<void> {
 
 let fqdnNumber = 1;
 export function getUniqueFqdn(recorder: Recorder): string {
-  const uniqueDomain = uuid().replace(/-/g, "");
-  return recorder.variable(`fqdn-${fqdnNumber++}`, `test.${uniqueDomain}.com`);
+  const id = uuid().replace(/-/g, "");
+  return recorder.variable(`fqdn-${fqdnNumber++}`, `test${id}.${env.AZURE_TEST_DOMAIN}`);
 }
 export function resetUniqueFqdns(): void {
   fqdnNumber = 1;

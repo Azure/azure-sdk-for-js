@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/sip?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/sip?api-version=2023-03-01",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,10 +10,10 @@
         "Connection": "keep-alive",
         "Content-Length": "248",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.2 Node/v18.13.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "k9MKRhr2sj0JYbqfU1N0qu/\u002BWY6AyZMenqOcweHbCUM=",
-        "x-ms-date": "Fri, 06 Jan 2023 17:33:24 GMT"
+        "x-ms-date": "Tue, 07 Mar 2023 10:34:40 GMT"
       },
       "RequestBody": {
         "routes": [
@@ -33,15 +33,15 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
+        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
+        "Content-Length": "260",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 Jan 2023 17:33:22 GMT",
-        "MS-CV": "gO5s/WJDNEGu0RfFtBCf1A.0",
+        "Date": "Tue, 07 Mar 2023 10:34:40 GMT",
+        "MS-CV": "7TN1cXYevES7PudGlsVw1w.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0Ylu4YwAAAAAPUTUdIGWjTpwgJOU5v92cTUVYMzBFREdFMDQyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0PxMHZAAAAACO5h6IiIJYS61ZfVDe5RPqTE9OMjFFREdFMTYyMABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "89ms"
+        "X-Processing-Time": "345ms"
       },
       "ResponseBody": {
         "trunks": {},
@@ -62,7 +62,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/sip?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/sip?api-version=2023-03-01",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -71,10 +71,10 @@
         "Connection": "keep-alive",
         "Content-Length": "336",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.2 Node/v18.13.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "s7rMKdpTdsap\u002BRQklU20tW0YXQABIdL/evnxsdQn1yc=",
-        "x-ms-date": "Fri, 06 Jan 2023 17:33:24 GMT"
+        "x-ms-date": "Tue, 07 Mar 2023 10:34:41 GMT"
       },
       "RequestBody": {
         "routes": [
@@ -100,15 +100,15 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
+        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
+        "Content-Length": "348",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 Jan 2023 17:33:22 GMT",
-        "MS-CV": "UQDc8zqDaEeDZ4HlxrU0Zw.0",
+        "Date": "Tue, 07 Mar 2023 10:34:40 GMT",
+        "MS-CV": "cOENGZ0dTEWun\u002BVkaEO7rA.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0Ylu4YwAAAAA\u002BsIIXTb2QQ7XpJtXenwezTUVYMzBFREdFMDQyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0QBMHZAAAAADyDq/bR9spTahzElnKxClGTE9OMjFFREdFMTYyMABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "378ms"
+        "X-Processing-Time": "315ms"
       },
       "ResponseBody": {
         "trunks": {},
@@ -135,30 +135,30 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/sip?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/sip?api-version=2023-03-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.2 Node/v18.13.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Fri, 06 Jan 2023 17:33:25 GMT"
+        "x-ms-date": "Tue, 07 Mar 2023 10:34:41 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
+        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
+        "Content-Length": "348",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 Jan 2023 17:33:22 GMT",
-        "MS-CV": "EA68TqIXZEunVhkje1tBkA.0",
+        "Date": "Tue, 07 Mar 2023 10:34:41 GMT",
+        "MS-CV": "6IvLVTyI/EemXpWOVsvt0Q.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0Y1u4YwAAAADaa9WaVq3IS6rNRHGwgguqTUVYMzBFREdFMDQyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0QBMHZAAAAAANDIm939LwSK2x6xHp4L3XTE9OMjFFREdFMTYyMABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "130ms"
+        "X-Processing-Time": "198ms"
       },
       "ResponseBody": {
         "trunks": {},
@@ -186,7 +186,7 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "test.d88e7dda3ebb41959bedec32d68a1097.com",
-    "fqdn-2": "test.f72691100c724973bd577360661454a0.com"
+    "fqdn-1": "test3915cf26396a4bd39357a0792569ca4b.nostojic13012023.skype.net",
+    "fqdn-2": "testaf8603bc7f304034915673d99fb4c55a.nostojic13012023.skype.net"
   }
 }
