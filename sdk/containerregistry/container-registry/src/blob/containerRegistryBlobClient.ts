@@ -184,7 +184,7 @@ export class ContainerRegistryBlobClient {
    * @param manifest - the manifest to upload. If a resettable stream (a factory function that returns a stream) is provided, it may be called multiple times. Each time the function is called, a fresh stream should be returned.
    */
   public async uploadManifest(
-    manifest: NodeJS.ReadableStream | OciManifest,
+    manifest: Buffer | NodeJS.ReadableStream | OciManifest,
     options: UploadManifestOptions = {}
   ): Promise<UploadManifestResult> {
     return tracingClient.withSpan(
@@ -194,6 +194,10 @@ export class ContainerRegistryBlobClient {
         let manifestBody: Buffer | (() => NodeJS.ReadableStream);
         let tagOrDigest: string | undefined = options?.tag;
 
+        if (Buffer.isBuffer(manifest)) {
+          manifestBody = manifest;
+          tagOrDigest ??= await calculateDigest(manifest);
+        }
         if (isReadableStream(manifest)) {
           manifestBody = await readStreamToEnd(manifest);
           tagOrDigest ??= await calculateDigest(manifestBody);
@@ -305,13 +309,15 @@ export class ContainerRegistryBlobClient {
    * @param blobStream - the stream containing the blob data.
    */
   public async uploadBlob(
-    blobStream: NodeJS.ReadableStream,
+    blob: NodeJS.ReadableStream | Buffer,
     options: UploadBlobOptions = {}
   ): Promise<UploadBlobResult> {
     return tracingClient.withSpan(
       "ContainerRegistryBlobClient.uploadBlob",
       options,
       async (updatedOptions) => {
+        const blobStream = Buffer.isBuffer(blob) ? Readable.from(blob) : blob;
+
         const startUploadResult = await this.client.containerRegistryBlob.startUpload(
           this.repositoryName,
           updatedOptions
