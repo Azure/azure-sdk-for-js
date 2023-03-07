@@ -15452,7 +15452,7 @@ packages:
     dev: false
 
   file:projects/communication-email.tgz:
-    resolution: {integrity: sha512-qi4AG9jen42aXSstB4SyrABzCXbOMwmbBERhi5uzfpfo4N47DSOdWEysflAD9I2eiw5CVZCJbW8VbCmMLBUwpA==, tarball: file:projects/communication-email.tgz}
+    resolution: {integrity: sha512-NCJOr4Ud7MFEz67BzKjEOSs5jXtOp3NorfKQOXWY0d69NgpRjwV3DDgHkRwd7oLrdQilblUHJv9Dv5YcDuNjnA==, tarball: file:projects/communication-email.tgz}
     name: '@rush-temp/communication-email'
     version: 0.0.0
     dependencies:
