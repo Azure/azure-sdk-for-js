@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Workloads/monitors?api-version=2023-04-01/subscriptions/azure_subscription_id/providers/Microsoft.Workloads/monitors?api-version=2023-04-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Workloads/monitors?api-version=2023-04-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -9,29 +9,69 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-workloads/1.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "0ed59976-8045-4b3c-805c-4c97795d94d9"
+        "x-ms-client-request-id": "e4f826fc-28aa-4051-8aa6-a3089fa6d738"
       },
       "RequestBody": null,
-      "StatusCode": 404,
+      "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Length": "369",
+        "Content-Encoding": "gzip",
+        "Content-Length": "940",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 06 Mar 2023 09:13:11 GMT",
+        "Date": "Tue, 07 Mar 2023 07:11:31 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "daf97ddd-ab7e-4d47-a63a-4083e493e063",
-        "x-ms-failure-cause": "gateway",
-        "x-ms-request-id": "daf97ddd-ab7e-4d47-a63a-4083e493e063",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230306T091311Z:daf97ddd-ab7e-4d47-a63a-4083e493e063"
+        "x-ms-correlation-request-id": "a59917dc-2776-46a7-af5d-3a6bf4531875",
+        "x-ms-original-request-ids": [
+          "1f8832d7-b4a7-4f8d-b540-c9a58cff5fd1",
+          "5738cb03-ae98-42f5-be12-8ee2ffed428a",
+          "25d4378f-ad7a-4b55-b614-81742bbe2549",
+          "261036a3-32f5-4482-9082-fdb5503e312b",
+          "34d6089e-12ac-404f-91e9-051b9e9dd285",
+          "c7a5600e-a942-48ab-a27a-8d93ec949628",
+          "8868a37c-cc94-4387-b341-bfc864c0e73f",
+          "6bb16de7-cca8-46e2-bdde-3629470a3524",
+          "114e0237-6105-47d4-9a7a-3d9d9ddb95a5",
+          "16a89301-5b9d-451f-9d09-7bc8bd686c77",
+          "a9f8751e-07e4-4c70-a78d-95302f7466ee"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": "11994",
+        "x-ms-request-id": "a59917dc-2776-46a7-af5d-3a6bf4531875",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230307T071132Z:a59917dc-2776-46a7-af5d-3a6bf4531875"
       },
       "ResponseBody": {
-        "error": {
-          "code": "InvalidResourceType",
-          "message": "The resource type \u0027monitors\u0027 could not be found in the namespace \u0027Microsoft.Workloads\u0027 for api version \u00272023-04-01/subscriptions/azure_subscription_id/providers/Microsoft.Workloads/monitors?api-version=2023-04-01\u0027. The supported api-versions are \u00272021-12-01-preview,2022-11-01-preview,2022-10-15-preview,2023-04-01\u0027."
-        }
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Workloads/monitors/myMonitor",
+            "name": "myMonitor",
+            "type": "microsoft.workloads/monitors",
+            "location": "eastus2",
+            "tags": {
+              "key": "value"
+            },
+            "systemData": {
+              "createdBy": "azure_client_id",
+              "createdByType": "Application",
+              "createdAt": "2023-03-07T07:11:19.5644268Z",
+              "lastModifiedBy": "azure_client_id",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2023-03-07T07:11:19.5644268Z"
+            },
+            "properties": {
+              "appLocation": "eastus2",
+              "routingPreference": "RouteAll",
+              "managedResourceGroupConfiguration": {
+                "name": "myManagedRg"
+              },
+              "logAnalyticsWorkspaceArmId": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/microsoft.operationalinsights/workspaces/myWorkspace",
+              "monitorSubnet": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/virtualnetworkabc/subnets/mySubnet",
+              "provisioningState": "Accepted"
+            }
+          }
+        ]
       }
     }
   ],
