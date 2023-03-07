@@ -2,7 +2,10 @@
 // Licensed under the MIT license.
 import {
   ConfidentialLedgerClient,
-  CreateLedgerEntryParameters, isUnexpected, LedgerEntry, paginate
+  CreateLedgerEntryParameters,
+  isUnexpected,
+  LedgerEntry,
+  paginate,
 } from "../../src";
 
 import { createClient, createRecorder } from "./utils/recordedClient";
