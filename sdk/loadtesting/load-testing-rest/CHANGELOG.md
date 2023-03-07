@@ -1,14 +1,8 @@
 # Release History
 
-## 1.0.0-beta.3 (Unreleased)
+## 1.0.0 (2023-03-07)
 
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+First stable release of Azure Load Testing client library for Javascript.
 
 ## 1.0.0-beta.2 (2023-01-26)
 
