@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/sip:createDomainOwnershipChallenge?api-version=2022-09-01-preview/sip:createDomainOwnershipChallenge?api-version=2022-09-01-preview",
+      "RequestUri": "https://endpoint/sip:createDomainOwnershipChallenge?api-version=2022-09-01-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -29,13 +29,13 @@
       "StatusCode": 422,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Tue, 07 Mar 2023 08:00:37 GMT",
-        "MS-CV": "gP6jtznyLk2laPXr423oaw.0",
+        "Date": "Tue, 07 Mar 2023 21:32:02 GMT",
+        "MS-CV": "W8FdWg9/YkGxTqzZ1UxTwQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0Je8GZAAAAABWEA4cBQ5sRYw7Pu54qx7WUFJHMDFFREdFMDkyMABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Azure-Ref": "0Uq0HZAAAAABve5sPCtOQQqV6VeTqeUfFUFJHMDFFREdFMDkwNgBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "16ms"
+        "X-Processing-Time": "46ms"
       },
       "ResponseBody": {
         "error": {

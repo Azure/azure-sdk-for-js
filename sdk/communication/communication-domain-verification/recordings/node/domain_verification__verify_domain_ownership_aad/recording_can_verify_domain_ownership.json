@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/sip:verifyDomainOwnership?api-version=2022-09-01-preview/sip:verifyDomainOwnership?api-version=2022-09-01-preview",
+      "RequestUri": "https://endpoint/sip:verifyDomainOwnership?api-version=2022-09-01-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -22,12 +22,12 @@
       "ResponseHeaders": {
         "Content-Length": "24",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 07 Mar 2023 08:23:27 GMT",
-        "MS-CV": "dN651\u002BP2Cke\u002BLg\u002BmbmAarA.0",
+        "Date": "Tue, 07 Mar 2023 21:09:51 GMT",
+        "MS-CV": "0NdsV7Dzi0O4ThlH/ZDJJg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0gPQGZAAAAACbz2D4qSl0QKAjOgWYHeiMUFJHMDFFREdFMDkxOABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Azure-Ref": "0HqgHZAAAAACCzi7ASW5HS4mlOT7h4gksUFJHMDFFREdFMDkxNgBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "344ms"
+        "X-Processing-Time": "323ms"
       },
       "ResponseBody": {
         "status": "NotVerified"

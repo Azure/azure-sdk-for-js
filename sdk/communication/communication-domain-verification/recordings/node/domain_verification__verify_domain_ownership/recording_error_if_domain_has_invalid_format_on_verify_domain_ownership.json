@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/sip:verifyDomainOwnership?api-version=2022-09-01-preview/sip:verifyDomainOwnership?api-version=2022-09-01-preview",
+      "RequestUri": "https://endpoint/sip:verifyDomainOwnership?api-version=2022-09-01-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -13,7 +13,7 @@
         "User-Agent": "azsdk-js-communication-domain-verification/1.0.0-alpha.20230310.1 core-rest-pipeline/1.10.3 Node/v18.14.2 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
         "x-ms-content-sha256": "FiZfl1gP\u002Bn\u002BwJkoKnHq6uOkpZeAgl2G6LV7P80MLDJo=",
-        "x-ms-date": "Tue, 07 Mar 2023 07:46:05 GMT"
+        "x-ms-date": "Tue, 07 Mar 2023 21:11:37 GMT"
       },
       "RequestBody": {
         "domain": "invaliddomain",
@@ -22,13 +22,13 @@
       "StatusCode": 422,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Tue, 07 Mar 2023 07:44:19 GMT",
-        "MS-CV": "PEMj/n\u002Btj02gMqd5mNldfA.0",
+        "Date": "Tue, 07 Mar 2023 21:09:51 GMT",
+        "MS-CV": "ynIokMByvkqf7JMOkP92SQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0U\u002BsGZAAAAACIs3Q3s0KqTbQnA2KZihHOUFJHMDFFREdFMDkxNgBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Azure-Ref": "0H6gHZAAAAABYOYpRSuA\u002BQ7N2fkDieLvpUFJHMDFFREdFMDkxNgBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "34ms"
+        "X-Processing-Time": "15ms"
       },
       "ResponseBody": {
         "error": {
