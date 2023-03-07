@@ -66,7 +66,7 @@ module.exports = function (config) {
       "AZURE_TEST_AGENT",
       "AZURE_USERAGENT_OVERRIDE",
       "AZURE_TEST_DOMAIN",
-      "RECORDINGS_RELATIVE_PATH",      
+      "RECORDINGS_RELATIVE_PATH",
       "ACS_DOMAIN_OWNERSHIP_CHALLENGE",
       "ACS_VERIFIED_DOMAIN_NAME",
     ],
