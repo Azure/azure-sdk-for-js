@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Uploadsan image to the repository.
+ * @summary Uploads an image to the repository.
  */
 
 import {

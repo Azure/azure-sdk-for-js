@@ -20,7 +20,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [repositoryAndArtifact.js][repositoryandartifact]     | Uses ContainerRepository and RegistryArtifact to work with manifests, tags, and artifacts. |
 | [setImageProperties.js][setimageproperties]           | Updates the properties on the tag so it can't be overwritten or deleted.                   |
 | [downloadImage.js][downloadimage]                     | Downloads an image from the repository.                                                    |
-| [uploadImage.js][uploadimage]                         | Uploadsan image to the repository.                                                         |
+| [uploadImage.js][uploadimage]                         | Uploads an image to the repository.                                                        |
 | [uploadManifest.js][uploadmanifest]                   | Uploads a manifest to a repository.                                                        |
 
 ## Prerequisites

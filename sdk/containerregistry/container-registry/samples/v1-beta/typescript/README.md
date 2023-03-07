@@ -20,7 +20,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [repositoryAndArtifact.ts][repositoryandartifact]     | Uses ContainerRepository and RegistryArtifact to work with manifests, tags, and artifacts. |
 | [setImageProperties.ts][setimageproperties]           | Updates the properties on the tag so it can't be overwritten or deleted.                   |
 | [downloadImage.ts][downloadimage]                     | Downloads an image from the repository.                                                    |
-| [uploadImage.ts][uploadimage]                         | Uploadsan image to the repository.                                                         |
+| [uploadImage.ts][uploadimage]                         | Uploads an image to the repository.                                                        |
 | [uploadManifest.ts][uploadmanifest]                   | Uploads a manifest to a repository.                                                        |
 
 ## Prerequisites
