@@ -6,17 +6,14 @@ import * as dotenv from "dotenv";
 import {
   Recorder,
   RecorderStartOptions,
-  assertEnvironmentVariable,
   env,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { TokenCredential } from "@azure/identity";
 import { parseConnectionString } from "@azure/communication-common";
-import { AdditionalPolicyConfig } from "@azure/core-client";
 import { Context, Test } from "mocha";
 import { isNode } from "@azure/test-utils";
 import { DomainVerificationClient } from "../../../src";
-import { createMSUserAgentPolicy } from "./msUserAgentPolicy";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 if (isNode) {
@@ -79,12 +76,11 @@ export async function createRecordedClient(
   context: Context
 ): Promise<RecordedClient<DomainVerificationClient>> {
   const recorder = await createRecorder(context.currentTest);
-  const policies = getAdditionalPolicies();
 
   return {
     client: new DomainVerificationClient(
-      assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"),
-      recorder.configureClientOptions({ additionalPolicies: policies })
+      env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
+      recorder.configureClientOptions({})
     ),
     recorder,
   };
@@ -95,9 +91,9 @@ export async function createRecordedClientWithToken(
 ): Promise<RecordedClient<DomainVerificationClient>> {
   const recorder = await createRecorder(context.currentTest);
   let credential: TokenCredential;
-
+  
   const endpoint = parseConnectionString(
-    assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING")
+    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? ""
   ).endpoint;
 
   if (isPlaybackMode()) {
@@ -109,19 +105,8 @@ export async function createRecordedClientWithToken(
   const client = new DomainVerificationClient(
     endpoint,
     credential,
-    recorder.configureClientOptions({ additionalPolicies: getAdditionalPolicies() })
+    recorder.configureClientOptions({})
   );
 
   return { client, recorder };
-}
-
-export function getAdditionalPolicies(): AdditionalPolicyConfig[] {
-  const additionalPolicies: AdditionalPolicyConfig[] = [
-    {
-      policy: createMSUserAgentPolicy(false),
-      position: "perRetry",
-    },
-  ];
-
-  return additionalPolicies;
 }

@@ -1,11 +1,15 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config();
 const { relativeRecordingsPath } = require("@azure-tools/test-recorder");
+
 process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
+
+// Get all variables containing the available phone numbers per test agent.
+// E.g. -> AZURE_PHONE_NUMBER_windows_2019_node12
+const getPhoneNumberPoolEnvVars = () => {
+  return Object.keys(process.env).filter((key) => key.startsWith("AZURE_PHONE_NUMBER_"));
+};
 
 module.exports = function (config) {
   config.set({
@@ -14,7 +18,7 @@ module.exports = function (config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ["source-map-support", "mocha"],
+    frameworks: ["mocha"],
 
     plugins: [
       "karma-mocha",
@@ -27,19 +31,10 @@ module.exports = function (config) {
       "karma-coverage",
       "karma-sourcemap-loader",
       "karma-junit-reporter",
-      "karma-source-map-support",
     ],
 
     // list of files / patterns to load in the browser
-    files: [
-      "dist-test/index.browser.js",
-      {
-        pattern: "dist-test/index.browser.js.map",
-        type: "html",
-        included: false,
-        served: true,
-      },
-    ],
+    files: ["dist-test/index.browser.js"],
 
     // list of files / patterns to exclude
     exclude: [],
@@ -50,18 +45,28 @@ module.exports = function (config) {
       "**/*.js": ["sourcemap", "env"],
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
-      // "dist-test/index.js": ["coverage"]
+      //"dist-test/index.browser.js": ["coverage"]
     },
 
+    // inject following environment values into browser testing with window.__env__
+    // environment values MUST be exported or set with same console running "karma start"
+    // https://www.npmjs.com/package/karma-env-preprocessor
     envPreprocessor: [
-      "AZURE_CLIENT_SECRET",
-      "AZURE_CLIENT_ID",
-      "AZURE_TENANT_ID",
-      "COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING",
       "TEST_MODE",
+      "COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING",
+      "COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING",
+      "INCLUDE_PHONENUMBER_LIVE_TESTS",
+      "AZURE_PHONE_NUMBER",
+      "COMMUNICATION_ENDPOINT",
+      "AZURE_CLIENT_ID",
+      "AZURE_CLIENT_SECRET",
+      "AZURE_TENANT_ID",
+      "COMMUNICATION_SKIP_INT_PHONENUMBERS_TESTS",
+      "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS",
+      "AZURE_TEST_AGENT",
       "AZURE_USERAGENT_OVERRIDE",
-      "AZURE_LOG_LEVEL",
-      "RECORDINGS_RELATIVE_PATH",
+      "AZURE_TEST_DOMAIN",
+      "RECORDINGS_RELATIVE_PATH",      
       "ACS_DOMAIN_OWNERSHIP_CHALLENGE",
       "ACS_VERIFIED_DOMAIN_NAME",
     ],
@@ -105,11 +110,13 @@ module.exports = function (config) {
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: false,
 
-    // --no-sandbox allows our tests to run in Linux without having to change the system.
-    // --disable-web-security allows us to authenticate from the browser without having to write tests using interactive auth, which would be far more complex.
-    browsers: ["ChromeHeadlessNoSandbox"],
+    // start these browsers
+    // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
+    // 'ChromeHeadless', 'Chrome', 'Firefox', 'Edge', 'IE'
+    browsers: ["HeadlessChrome"],
+
     customLaunchers: {
-      ChromeHeadlessNoSandbox: {
+      HeadlessChrome: {
         base: "ChromeHeadless",
         flags: ["--no-sandbox", "--disable-web-security"],
       },
@@ -117,13 +124,13 @@ module.exports = function (config) {
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: false,
+    singleRun: true,
 
     // Concurrency level
     // how many browser should be started simultaneous
     concurrency: 1,
 
-    browserNoActivityTimeout: 60000000,
+    browserNoActivityTimeout: 600000,
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
 

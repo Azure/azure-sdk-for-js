@@ -3,24 +3,21 @@
 
 import { DomainVerificationStatus } from "../../../src/models";
 import { API_VERSION, ROOT_DOMAIN } from "../../../src/utils/constants";
-
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import { env } from "@azure-tools/test-recorder";
 
 const DEFAULT_ACS_VERIFIED_DOMAIN = `domain-1-${API_VERSION}.${ROOT_DOMAIN}`;
-const DEFAULT_ACS_DOMAIN_OWNERSHIP_CHALLENGE = "MS300941";
+const DEFAULT_ACS_DOMAIN_OWNERSHIP_CHALLENGE = "MS402217";
 
 export function getVerificationValue(): string {
-  return process.env.ACS_DOMAIN_OWNERSHIP_CHALLENGE || DEFAULT_ACS_DOMAIN_OWNERSHIP_CHALLENGE;
+  return env.ACS_DOMAIN_OWNERSHIP_CHALLENGE || DEFAULT_ACS_DOMAIN_OWNERSHIP_CHALLENGE;
 }
 
 export function getDomain(): string {
-  return process.env.ACS_VERIFIED_DOMAIN_NAME || DEFAULT_ACS_VERIFIED_DOMAIN;
+  return env.ACS_VERIFIED_DOMAIN_NAME || DEFAULT_ACS_VERIFIED_DOMAIN;
 }
 
 export function getEmptyDomain(): any {
-  return undefined;
+  return "";
 }
 
 export function getInvalidDomain(): string {
