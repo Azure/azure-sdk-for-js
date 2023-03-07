@@ -7,7 +7,7 @@
 ```yaml
 package-name: "@azure/communication-phone-numbers"
 description: Azure Communication SIP Configuration Service
-package-version: 1.2.0-alpha.20230307.3
+package-version: 1.2.0-alpha.20230307.4
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
