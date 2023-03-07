@@ -9,12 +9,6 @@ Use the client library for Video Analyzer Edge to:
 - Simplify interactions with the [Microsoft Azure IoT SDKs](https://github.com/azure/azure-iot-sdks)
 - Programmatically construct pipeline topologies and live pipelines
 
-Key links:
-
-- [Product documentation][doc_product]
-- [Direct methods][doc_direct_methods]
-- [Source code][source]
-
 ## Getting started
 
 ### Install the package
@@ -48,7 +42,7 @@ We guarantee that all client instance methods are thread-safe and independent of
 
 ### Pipeline topology vs live pipeline
 
-A _pipeline topology_ is a blueprint or template for instantiating live pipelines. It defines the parameters of the pipeline using placeholders as values for them. A _live pipeline_ references a pipeline topology and specifies the parameters. This way you are able to have multiple live pipelines referencing the same topology but with different values for parameters. For more information please visit [pipeline topologies and live pipelines][doc_pipelines].
+A _pipeline topology_ is a blueprint or template for instantiating live pipelines. It defines the parameters of the pipeline using placeholders as values for them. A _live pipeline_ references a pipeline topology and specifies the parameters. This way you are able to have multiple live pipelines referencing the same topology but with different values for parameters.
 
 ## Examples
 
@@ -176,9 +170,6 @@ additional questions or comments.
 [source]: https://aka.ms/ava/sdk/client/js/source
 [samples]: https://aka.ms/video-analyzer-sample
 [package]: https://aka.ms/ava/sdk/client/js
-[doc_direct_methods]: https://go.microsoft.com/fwlink/?linkid=2162396
-[doc_product]: https://go.microsoft.com/fwlink/?linkid=2162396
-[doc_pipelines]: https://go.microsoft.com/fwlink/?linkid=2162396
 [iot-device-sdk]: https://www.npmjs.com/package/azure-iot-device
 [iot-hub-sdk]: https://github.com/Azure/azure-iot-sdk-node
 [github-page-issues]: https://github.com/Azure/azure-sdk-for-js/issues
