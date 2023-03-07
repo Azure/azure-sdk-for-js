@@ -22,7 +22,7 @@ async function main() {
   const client = new VerifiedRecipientsClient(connectionString);
 
   // id that is used to reference users phone number
-  const verificationId = "4d313ff0-3aeb-477e-8c15-7c9a893e8999";
+  const verificationId = process.env.VERIFICATION_ID;
 
   // delete verification for a resource
   await client.deleteVerification(verificationId);

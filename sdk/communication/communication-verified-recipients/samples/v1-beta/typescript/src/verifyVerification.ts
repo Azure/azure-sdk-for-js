@@ -22,7 +22,7 @@ async function main() {
   const client = new VerifiedRecipientsClient(connectionString);
   
   // id that is used to reference users phone number
-  const verificationId = "7e5dd7e1-5203-41ab-960e-65c1eb804fc6";
+  const verificationId = process.env.VERIFICATION_ID;
 
   // body of the request
   const VerificationRequest = {
