@@ -13,17 +13,21 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerServiceClient } from "../containerServiceClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   FleetMember,
   FleetMembersListByFleetNextOptionalParams,
   FleetMembersListByFleetOptionalParams,
   FleetMembersListByFleetResponse,
-  FleetMembersCreateOrUpdateOptionalParams,
-  FleetMembersCreateOrUpdateResponse,
   FleetMembersGetOptionalParams,
   FleetMembersGetResponse,
+  FleetMembersCreateOrUpdateOptionalParams,
+  FleetMembersCreateOrUpdateResponse,
   FleetMembersDeleteOptionalParams,
   FleetMembersListByFleetNextResponse
 } from "../models";
@@ -122,6 +126,42 @@ export class FleetMembersImpl implements FleetMembers {
   }
 
   /**
+   * Lists the members of a fleet.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param fleetName The name of the Fleet resource.
+   * @param options The options parameters.
+   */
+  private _listByFleet(
+    resourceGroupName: string,
+    fleetName: string,
+    options?: FleetMembersListByFleetOptionalParams
+  ): Promise<FleetMembersListByFleetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, fleetName, options },
+      listByFleetOperationSpec
+    );
+  }
+
+  /**
+   * Gets a Fleet member.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param fleetName The name of the Fleet resource.
+   * @param fleetMemberName The name of the Fleet member resource.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    fleetName: string,
+    fleetMemberName: string,
+    options?: FleetMembersGetOptionalParams
+  ): Promise<FleetMembersGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, fleetName, fleetMemberName, options },
+      getOperationSpec
+    );
+  }
+
+  /**
    * A member contains a reference to an existing Kubernetes cluster. Creating a member makes the
    * referenced cluster join the Fleet.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -137,8 +177,8 @@ export class FleetMembersImpl implements FleetMembers {
     parameters: FleetMember,
     options?: FleetMembersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<FleetMembersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<FleetMembersCreateOrUpdateResponse>,
       FleetMembersCreateOrUpdateResponse
     >
   > {
@@ -148,7 +188,7 @@ export class FleetMembersImpl implements FleetMembers {
     ): Promise<FleetMembersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -181,15 +221,24 @@ export class FleetMembersImpl implements FleetMembers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, fleetName, fleetMemberName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        fleetName,
+        fleetMemberName,
+        parameters,
+        options
+      },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      FleetMembersCreateOrUpdateResponse,
+      OperationState<FleetMembersCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -222,25 +271,6 @@ export class FleetMembersImpl implements FleetMembers {
   }
 
   /**
-   * Gets a Fleet member.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param fleetName The name of the Fleet resource.
-   * @param fleetMemberName The name of the Fleet member resource.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    fleetName: string,
-    fleetMemberName: string,
-    options?: FleetMembersGetOptionalParams
-  ): Promise<FleetMembersGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, fleetName, fleetMemberName, options },
-      getOperationSpec
-    );
-  }
-
-  /**
    * Deleting a Fleet member results in the member cluster leaving fleet. The Member azure resource is
    * deleted upon success. The underlying cluster is not deleted.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -253,14 +283,14 @@ export class FleetMembersImpl implements FleetMembers {
     fleetName: string,
     fleetMemberName: string,
     options?: FleetMembersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -293,15 +323,15 @@ export class FleetMembersImpl implements FleetMembers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, fleetName, fleetMemberName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, fleetName, fleetMemberName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -331,23 +361,6 @@ export class FleetMembersImpl implements FleetMembers {
   }
 
   /**
-   * Lists the members of a fleet.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param fleetName The name of the Fleet resource.
-   * @param options The options parameters.
-   */
-  private _listByFleet(
-    resourceGroupName: string,
-    fleetName: string,
-    options?: FleetMembersListByFleetOptionalParams
-  ): Promise<FleetMembersListByFleetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, fleetName, options },
-      listByFleetOperationSpec
-    );
-  }
-
-  /**
    * ListByFleetNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param fleetName The name of the Fleet resource.
@@ -369,6 +382,51 @@ export class FleetMembersImpl implements FleetMembers {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByFleetOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/members",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FleetMembersListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.fleetName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/members/{fleetMemberName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FleetMember
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.fleetName,
+    Parameters.fleetMemberName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/members/{fleetMemberName}",
@@ -408,29 +466,6 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/members/{fleetMemberName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.FleetMember
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.fleetName,
-    Parameters.fleetMemberName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/members/{fleetMemberName}",
@@ -453,28 +488,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.fleetMemberName
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch],
-  serializer
-};
-const listByFleetOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/members",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.FleetMembersListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.fleetName
-  ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const listByFleetNextOperationSpec: coreClient.OperationSpec = {

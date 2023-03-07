@@ -13,27 +13,31 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerServiceClient } from "../containerServiceClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Fleet,
-  FleetsListByResourceGroupNextOptionalParams,
-  FleetsListByResourceGroupOptionalParams,
-  FleetsListByResourceGroupResponse,
   FleetsListNextOptionalParams,
   FleetsListOptionalParams,
   FleetsListResponse,
+  FleetsListByResourceGroupNextOptionalParams,
+  FleetsListByResourceGroupOptionalParams,
+  FleetsListByResourceGroupResponse,
+  FleetsGetOptionalParams,
+  FleetsGetResponse,
   FleetsCreateOrUpdateOptionalParams,
   FleetsCreateOrUpdateResponse,
   FleetsUpdateOptionalParams,
   FleetsUpdateResponse,
-  FleetsGetOptionalParams,
-  FleetsGetResponse,
   FleetsDeleteOptionalParams,
   FleetsListCredentialsOptionalParams,
   FleetsListCredentialsResponse,
-  FleetsListByResourceGroupNextResponse,
-  FleetsListNextResponse
+  FleetsListNextResponse,
+  FleetsListByResourceGroupNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,6 +51,60 @@ export class FleetsImpl implements Fleets {
    */
   constructor(client: ContainerServiceClient) {
     this.client = client;
+  }
+
+  /**
+   * Lists fleets in the specified subscription.
+   * @param options The options parameters.
+   */
+  public list(
+    options?: FleetsListOptionalParams
+  ): PagedAsyncIterableIterator<Fleet> {
+    const iter = this.listPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
+      }
+    };
+  }
+
+  private async *listPagingPage(
+    options?: FleetsListOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<Fleet[]> {
+    let result: FleetsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listPagingAll(
+    options?: FleetsListOptionalParams
+  ): AsyncIterableIterator<Fleet> {
+    for await (const page of this.listPagingPage(options)) {
+      yield* page;
+    }
   }
 
   /**
@@ -122,54 +180,42 @@ export class FleetsImpl implements Fleets {
    * Lists fleets in the specified subscription.
    * @param options The options parameters.
    */
-  public list(
+  private _list(
     options?: FleetsListOptionalParams
-  ): PagedAsyncIterableIterator<Fleet> {
-    const iter = this.listPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
-      }
-    };
+  ): Promise<FleetsListResponse> {
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
-  private async *listPagingPage(
-    options?: FleetsListOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<Fleet[]> {
-    let result: FleetsListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+  /**
+   * Lists fleets in the specified subscription and resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: FleetsListByResourceGroupOptionalParams
+  ): Promise<FleetsListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec
+    );
   }
 
-  private async *listPagingAll(
-    options?: FleetsListOptionalParams
-  ): AsyncIterableIterator<Fleet> {
-    for await (const page of this.listPagingPage(options)) {
-      yield* page;
-    }
+  /**
+   * Gets a Fleet.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param fleetName The name of the Fleet resource.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    fleetName: string,
+    options?: FleetsGetOptionalParams
+  ): Promise<FleetsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, fleetName, options },
+      getOperationSpec
+    );
   }
 
   /**
@@ -185,8 +231,8 @@ export class FleetsImpl implements Fleets {
     parameters: Fleet,
     options?: FleetsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<FleetsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<FleetsCreateOrUpdateResponse>,
       FleetsCreateOrUpdateResponse
     >
   > {
@@ -196,7 +242,7 @@ export class FleetsImpl implements Fleets {
     ): Promise<FleetsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -229,15 +275,18 @@ export class FleetsImpl implements Fleets {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, fleetName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, fleetName, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      FleetsCreateOrUpdateResponse,
+      OperationState<FleetsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -283,23 +332,6 @@ export class FleetsImpl implements Fleets {
   }
 
   /**
-   * Gets a Fleet.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param fleetName The name of the Fleet resource.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    fleetName: string,
-    options?: FleetsGetOptionalParams
-  ): Promise<FleetsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, fleetName, options },
-      getOperationSpec
-    );
-  }
-
-  /**
    * Deletes a Fleet.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param fleetName The name of the Fleet resource.
@@ -309,14 +341,14 @@ export class FleetsImpl implements Fleets {
     resourceGroupName: string,
     fleetName: string,
     options?: FleetsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -349,15 +381,15 @@ export class FleetsImpl implements Fleets {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, fleetName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, fleetName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -383,31 +415,6 @@ export class FleetsImpl implements Fleets {
   }
 
   /**
-   * Lists fleets in the specified subscription and resource group.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: FleetsListByResourceGroupOptionalParams
-  ): Promise<FleetsListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec
-    );
-  }
-
-  /**
-   * Lists fleets in the specified subscription.
-   * @param options The options parameters.
-   */
-  private _list(
-    options?: FleetsListOptionalParams
-  ): Promise<FleetsListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
-  }
-
-  /**
    * Lists the user credentials of a Fleet.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param fleetName The name of the Fleet resource.
@@ -421,6 +428,21 @@ export class FleetsImpl implements Fleets {
     return this.client.sendOperationRequest(
       { resourceGroupName, fleetName, options },
       listCredentialsOperationSpec
+    );
+  }
+
+  /**
+   * ListNext
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    nextLink: string,
+    options?: FleetsListNextOptionalParams
+  ): Promise<FleetsListNextResponse> {
+    return this.client.sendOperationRequest(
+      { nextLink, options },
+      listNextOperationSpec
     );
   }
 
@@ -440,25 +462,70 @@ export class FleetsImpl implements Fleets {
       listByResourceGroupNextOperationSpec
     );
   }
-
-  /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  private _listNext(
-    nextLink: string,
-    options?: FleetsListNextOptionalParams
-  ): Promise<FleetsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/fleets",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FleetListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FleetListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Fleet
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.fleetName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}",
@@ -525,28 +592,6 @@ const updateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Fleet
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.fleetName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}",
@@ -568,44 +613,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.fleetName
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch],
-  serializer
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.FleetListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/fleets",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.FleetListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const listCredentialsOperationSpec: coreClient.OperationSpec = {
@@ -630,6 +637,25 @@ const listCredentialsOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FleetListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -645,25 +671,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.FleetListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

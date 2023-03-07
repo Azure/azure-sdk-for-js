@@ -169,12 +169,6 @@ export const AnalyzeTextJobsInput: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      defaultLanguage: {
-        serializedName: "defaultLanguage",
-        type: {
-          name: "String"
-        }
-      },
       analysisInput: {
         serializedName: "analysisInput",
         type: {

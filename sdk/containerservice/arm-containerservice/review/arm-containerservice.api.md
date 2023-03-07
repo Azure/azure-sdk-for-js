@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AbsoluteMonthlySchedule {
@@ -103,13 +103,13 @@ export interface AgentPoolNetworkProfile {
 
 // @public
 export interface AgentPools {
-    beginAbortLatestOperation(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsAbortLatestOperationOptionalParams): Promise<PollerLike<PollOperationState<AgentPoolsAbortLatestOperationResponse>, AgentPoolsAbortLatestOperationResponse>>;
+    beginAbortLatestOperation(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsAbortLatestOperationOptionalParams): Promise<SimplePollerLike<OperationState<AgentPoolsAbortLatestOperationResponse>, AgentPoolsAbortLatestOperationResponse>>;
     beginAbortLatestOperationAndWait(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsAbortLatestOperationOptionalParams): Promise<AgentPoolsAbortLatestOperationResponse>;
-    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, agentPoolName: string, parameters: AgentPool, options?: AgentPoolsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<AgentPoolsCreateOrUpdateResponse>, AgentPoolsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, agentPoolName: string, parameters: AgentPool, options?: AgentPoolsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AgentPoolsCreateOrUpdateResponse>, AgentPoolsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, agentPoolName: string, parameters: AgentPool, options?: AgentPoolsCreateOrUpdateOptionalParams): Promise<AgentPoolsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsDeleteOptionalParams): Promise<PollerLike<PollOperationState<AgentPoolsDeleteResponse>, AgentPoolsDeleteResponse>>;
+    beginDelete(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<AgentPoolsDeleteResponse>, AgentPoolsDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsDeleteOptionalParams): Promise<AgentPoolsDeleteResponse>;
-    beginUpgradeNodeImageVersion(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsUpgradeNodeImageVersionOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginUpgradeNodeImageVersion(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsUpgradeNodeImageVersionOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginUpgradeNodeImageVersionAndWait(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsUpgradeNodeImageVersionOptionalParams): Promise<void>;
     get(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsGetOptionalParams): Promise<AgentPoolsGetResponse>;
     getAvailableAgentPoolVersions(resourceGroupName: string, resourceName: string, options?: AgentPoolsGetAvailableAgentPoolVersionsOptionalParams): Promise<AgentPoolsGetAvailableAgentPoolVersionsResponse>;
@@ -262,6 +262,11 @@ export interface CloudErrorBody {
 }
 
 // @public
+export interface ClusterUpgradeSettings {
+    overrideSettings?: UpgradeOverrideSettings;
+}
+
+// @public
 export type Code = string;
 
 // @public
@@ -393,6 +398,9 @@ export type ContainerServiceVMSizeTypes = string;
 export type ControlledValues = string;
 
 // @public
+export type ControlPlaneUpgradeOverride = string;
+
+// @public
 export type Count = 1 | 3 | 5;
 
 // @public
@@ -516,9 +524,9 @@ export type FleetMemberProvisioningState = string;
 
 // @public
 export interface FleetMembers {
-    beginCreateOrUpdate(resourceGroupName: string, fleetName: string, fleetMemberName: string, parameters: FleetMember, options?: FleetMembersCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<FleetMembersCreateOrUpdateResponse>, FleetMembersCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, fleetName: string, fleetMemberName: string, parameters: FleetMember, options?: FleetMembersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FleetMembersCreateOrUpdateResponse>, FleetMembersCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, fleetName: string, fleetMemberName: string, parameters: FleetMember, options?: FleetMembersCreateOrUpdateOptionalParams): Promise<FleetMembersCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, fleetName: string, fleetMemberName: string, options?: FleetMembersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, fleetName: string, fleetMemberName: string, options?: FleetMembersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, fleetName: string, fleetMemberName: string, options?: FleetMembersDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, fleetName: string, fleetMemberName: string, options?: FleetMembersGetOptionalParams): Promise<FleetMembersGetResponse>;
     listByFleet(resourceGroupName: string, fleetName: string, options?: FleetMembersListByFleetOptionalParams): PagedAsyncIterableIterator<FleetMember>;
@@ -587,9 +595,9 @@ export type FleetProvisioningState = string;
 
 // @public
 export interface Fleets {
-    beginCreateOrUpdate(resourceGroupName: string, fleetName: string, parameters: Fleet, options?: FleetsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<FleetsCreateOrUpdateResponse>, FleetsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, fleetName: string, parameters: Fleet, options?: FleetsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FleetsCreateOrUpdateResponse>, FleetsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, fleetName: string, parameters: Fleet, options?: FleetsCreateOrUpdateOptionalParams): Promise<FleetsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, fleetName: string, options?: FleetsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, fleetName: string, options?: FleetsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, fleetName: string, options?: FleetsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, fleetName: string, options?: FleetsGetOptionalParams): Promise<FleetsGetResponse>;
     list(options?: FleetsListOptionalParams): PagedAsyncIterableIterator<Fleet>;
@@ -928,6 +936,11 @@ export enum KnownControlledValues {
 }
 
 // @public
+export enum KnownControlPlaneUpgradeOverride {
+    IgnoreKubernetesDeprecations = "IgnoreKubernetesDeprecations"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -1043,13 +1056,15 @@ export enum KnownManagedClusterPodIdentityProvisioningState {
 
 // @public
 export enum KnownManagedClusterSKUName {
+    Base = "Base",
     Basic = "Basic"
 }
 
 // @public
 export enum KnownManagedClusterSKUTier {
     Free = "Free",
-    Paid = "Paid"
+    Paid = "Paid",
+    Standard = "Standard"
 }
 
 // @public
@@ -1370,6 +1385,7 @@ export interface ManagedCluster extends TrackedResource {
     servicePrincipalProfile?: ManagedClusterServicePrincipalProfile;
     sku?: ManagedClusterSKU;
     storageProfile?: ManagedClusterStorageProfile;
+    upgradeSettings?: ClusterUpgradeSettings;
     windowsProfile?: ManagedClusterWindowsProfile;
     workloadAutoScalerProfile?: ManagedClusterWorkloadAutoScalerProfile;
 }
@@ -1676,27 +1692,27 @@ export interface ManagedClusterPropertiesForSnapshot {
 
 // @public
 export interface ManagedClusters {
-    beginAbortLatestOperation(resourceGroupName: string, resourceName: string, options?: ManagedClustersAbortLatestOperationOptionalParams): Promise<PollerLike<PollOperationState<ManagedClustersAbortLatestOperationResponse>, ManagedClustersAbortLatestOperationResponse>>;
+    beginAbortLatestOperation(resourceGroupName: string, resourceName: string, options?: ManagedClustersAbortLatestOperationOptionalParams): Promise<SimplePollerLike<OperationState<ManagedClustersAbortLatestOperationResponse>, ManagedClustersAbortLatestOperationResponse>>;
     beginAbortLatestOperationAndWait(resourceGroupName: string, resourceName: string, options?: ManagedClustersAbortLatestOperationOptionalParams): Promise<ManagedClustersAbortLatestOperationResponse>;
-    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, parameters: ManagedCluster, options?: ManagedClustersCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ManagedClustersCreateOrUpdateResponse>, ManagedClustersCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, parameters: ManagedCluster, options?: ManagedClustersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ManagedClustersCreateOrUpdateResponse>, ManagedClustersCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, parameters: ManagedCluster, options?: ManagedClustersCreateOrUpdateOptionalParams): Promise<ManagedClustersCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, options?: ManagedClustersDeleteOptionalParams): Promise<PollerLike<PollOperationState<ManagedClustersDeleteResponse>, ManagedClustersDeleteResponse>>;
+    beginDelete(resourceGroupName: string, resourceName: string, options?: ManagedClustersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ManagedClustersDeleteResponse>, ManagedClustersDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, resourceName: string, options?: ManagedClustersDeleteOptionalParams): Promise<ManagedClustersDeleteResponse>;
-    beginResetAADProfile(resourceGroupName: string, resourceName: string, parameters: ManagedClusterAADProfile, options?: ManagedClustersResetAADProfileOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginResetAADProfile(resourceGroupName: string, resourceName: string, parameters: ManagedClusterAADProfile, options?: ManagedClustersResetAADProfileOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginResetAADProfileAndWait(resourceGroupName: string, resourceName: string, parameters: ManagedClusterAADProfile, options?: ManagedClustersResetAADProfileOptionalParams): Promise<void>;
-    beginResetServicePrincipalProfile(resourceGroupName: string, resourceName: string, parameters: ManagedClusterServicePrincipalProfile, options?: ManagedClustersResetServicePrincipalProfileOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginResetServicePrincipalProfile(resourceGroupName: string, resourceName: string, parameters: ManagedClusterServicePrincipalProfile, options?: ManagedClustersResetServicePrincipalProfileOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginResetServicePrincipalProfileAndWait(resourceGroupName: string, resourceName: string, parameters: ManagedClusterServicePrincipalProfile, options?: ManagedClustersResetServicePrincipalProfileOptionalParams): Promise<void>;
-    beginRotateClusterCertificates(resourceGroupName: string, resourceName: string, options?: ManagedClustersRotateClusterCertificatesOptionalParams): Promise<PollerLike<PollOperationState<ManagedClustersRotateClusterCertificatesResponse>, ManagedClustersRotateClusterCertificatesResponse>>;
+    beginRotateClusterCertificates(resourceGroupName: string, resourceName: string, options?: ManagedClustersRotateClusterCertificatesOptionalParams): Promise<SimplePollerLike<OperationState<ManagedClustersRotateClusterCertificatesResponse>, ManagedClustersRotateClusterCertificatesResponse>>;
     beginRotateClusterCertificatesAndWait(resourceGroupName: string, resourceName: string, options?: ManagedClustersRotateClusterCertificatesOptionalParams): Promise<ManagedClustersRotateClusterCertificatesResponse>;
-    beginRotateServiceAccountSigningKeys(resourceGroupName: string, resourceName: string, options?: ManagedClustersRotateServiceAccountSigningKeysOptionalParams): Promise<PollerLike<PollOperationState<ManagedClustersRotateServiceAccountSigningKeysResponse>, ManagedClustersRotateServiceAccountSigningKeysResponse>>;
+    beginRotateServiceAccountSigningKeys(resourceGroupName: string, resourceName: string, options?: ManagedClustersRotateServiceAccountSigningKeysOptionalParams): Promise<SimplePollerLike<OperationState<ManagedClustersRotateServiceAccountSigningKeysResponse>, ManagedClustersRotateServiceAccountSigningKeysResponse>>;
     beginRotateServiceAccountSigningKeysAndWait(resourceGroupName: string, resourceName: string, options?: ManagedClustersRotateServiceAccountSigningKeysOptionalParams): Promise<ManagedClustersRotateServiceAccountSigningKeysResponse>;
-    beginRunCommand(resourceGroupName: string, resourceName: string, requestPayload: RunCommandRequest, options?: ManagedClustersRunCommandOptionalParams): Promise<PollerLike<PollOperationState<ManagedClustersRunCommandResponse>, ManagedClustersRunCommandResponse>>;
+    beginRunCommand(resourceGroupName: string, resourceName: string, requestPayload: RunCommandRequest, options?: ManagedClustersRunCommandOptionalParams): Promise<SimplePollerLike<OperationState<ManagedClustersRunCommandResponse>, ManagedClustersRunCommandResponse>>;
     beginRunCommandAndWait(resourceGroupName: string, resourceName: string, requestPayload: RunCommandRequest, options?: ManagedClustersRunCommandOptionalParams): Promise<ManagedClustersRunCommandResponse>;
-    beginStart(resourceGroupName: string, resourceName: string, options?: ManagedClustersStartOptionalParams): Promise<PollerLike<PollOperationState<ManagedClustersStartResponse>, ManagedClustersStartResponse>>;
+    beginStart(resourceGroupName: string, resourceName: string, options?: ManagedClustersStartOptionalParams): Promise<SimplePollerLike<OperationState<ManagedClustersStartResponse>, ManagedClustersStartResponse>>;
     beginStartAndWait(resourceGroupName: string, resourceName: string, options?: ManagedClustersStartOptionalParams): Promise<ManagedClustersStartResponse>;
-    beginStop(resourceGroupName: string, resourceName: string, options?: ManagedClustersStopOptionalParams): Promise<PollerLike<PollOperationState<ManagedClustersStopResponse>, ManagedClustersStopResponse>>;
+    beginStop(resourceGroupName: string, resourceName: string, options?: ManagedClustersStopOptionalParams): Promise<SimplePollerLike<OperationState<ManagedClustersStopResponse>, ManagedClustersStopResponse>>;
     beginStopAndWait(resourceGroupName: string, resourceName: string, options?: ManagedClustersStopOptionalParams): Promise<ManagedClustersStopResponse>;
-    beginUpdateTags(resourceGroupName: string, resourceName: string, parameters: TagsObject, options?: ManagedClustersUpdateTagsOptionalParams): Promise<PollerLike<PollOperationState<ManagedClustersUpdateTagsResponse>, ManagedClustersUpdateTagsResponse>>;
+    beginUpdateTags(resourceGroupName: string, resourceName: string, parameters: TagsObject, options?: ManagedClustersUpdateTagsOptionalParams): Promise<SimplePollerLike<OperationState<ManagedClustersUpdateTagsResponse>, ManagedClustersUpdateTagsResponse>>;
     beginUpdateTagsAndWait(resourceGroupName: string, resourceName: string, parameters: TagsObject, options?: ManagedClustersUpdateTagsOptionalParams): Promise<ManagedClustersUpdateTagsResponse>;
     get(resourceGroupName: string, resourceName: string, options?: ManagedClustersGetOptionalParams): Promise<ManagedClustersGetResponse>;
     getAccessProfile(resourceGroupName: string, resourceName: string, roleName: string, options?: ManagedClustersGetAccessProfileOptionalParams): Promise<ManagedClustersGetAccessProfileResponse>;
@@ -2291,7 +2307,7 @@ export type PrivateEndpointConnectionProvisioningState = string;
 
 // @public
 export interface PrivateEndpointConnections {
-    beginDelete(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
     list(resourceGroupName: string, resourceName: string, options?: PrivateEndpointConnectionsListOptionalParams): Promise<PrivateEndpointConnectionsListResponse>;
@@ -2702,6 +2718,12 @@ export type UpdateMode = string;
 
 // @public
 export type UpgradeChannel = string;
+
+// @public
+export interface UpgradeOverrideSettings {
+    controlPlaneOverrides?: ControlPlaneUpgradeOverride[];
+    until?: Date;
+}
 
 // @public
 export interface UserAssignedIdentity {

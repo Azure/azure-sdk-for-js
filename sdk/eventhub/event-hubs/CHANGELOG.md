@@ -1,6 +1,6 @@
 # Release History
 
-## 5.9.0 (Unreleased)
+## 5.9.1 (Unreleased)
 
 ### Features Added
 
@@ -8,7 +8,13 @@
 
 ### Bugs Fixed
 
-- Fixing a bug where events were not always received in order [#23993](https://github.com/Azure/azure-sdk-for-js/issues/23993).
+### Other Changes
+
+## 5.9.0 (2023-03-07)
+
+### Bugs Fixed
+
+- Fixing a bug where events were not always received in order [[#23993]](https://github.com/Azure/azure-sdk-for-js/issues/23993).
 
 ### Other Changes
 
