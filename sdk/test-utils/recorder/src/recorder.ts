@@ -118,7 +118,6 @@ export class Recorder {
       request.headers.set("x-recording-upstream-base-uri", upstreamUrl.origin);
       request.url = redirectedUrl.toString();
       request.allowInsecureConnection = true;
-      
     }
   }
 
