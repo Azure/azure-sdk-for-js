@@ -137,7 +137,6 @@ export class EventHubReceiver extends LinkEntity {
     options: EventHubConsumerOptions = {}
   ) {
     super(context, {
-      partitionId: partitionId,
       name: context.config.getReceiverAddress(partitionId, consumerGroup),
     });
     this.address = context.config.getReceiverAddress(partitionId, consumerGroup);

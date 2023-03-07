@@ -20,10 +20,6 @@ export interface LinkEntityOptions {
    */
   name?: string;
   /**
-   * The partitionId associated with the link entity.
-   */
-  partitionId?: string;
-  /**
    * The link entity address in one of the following forms:
    */
   address?: string;
@@ -71,10 +67,6 @@ export class LinkEntity {
    */
   audience: string;
   /**
-   * The partitionId associated with the link entity.
-   */
-  partitionId?: string;
-  /**
    * Indicates whether the link is in the process of connecting
    * (establishing) itself. Default value: `false`.
    */
@@ -104,7 +96,6 @@ export class LinkEntity {
     this.address = options.address || "";
     this.audience = options.audience || "";
     this.name = `${options.name}-${uuid()}`;
-    this.partitionId = options.partitionId;
   }
 
   /**
