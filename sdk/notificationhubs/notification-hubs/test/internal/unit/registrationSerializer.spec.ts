@@ -14,6 +14,8 @@ import {
   GcmTemplateRegistrationDescription,
   MpnsRegistrationDescription,
   MpnsTemplateRegistrationDescription,
+  XiaomiRegistrationDescription,
+  XiaomiTemplateRegistrationDescription,
   WindowsRegistrationDescription,
   WindowsTemplateRegistrationDescription,
   createAdmRegistrationDescription,
@@ -26,6 +28,8 @@ import {
   createBrowserTemplateRegistrationDescription,
   createFcmLegacyRegistrationDescription,
   createFcmLegacyTemplateRegistrationDescription,
+  createXiaomiRegistrationDescription,
+  createXiaomiTemplateRegistrationDescription,
   createWindowsRegistrationDescription,
   createWindowsTemplateRegistrationDescription,
 } from "../../../src/models/registration.js";
@@ -35,7 +39,7 @@ import {
 } from "../../../src/serializers/registrationSerializer.js";
 import { assert } from "@azure/test-utils";
 
-const ADM_REGISTEATION = `<?xml version="1.0" encoding="utf-8"?>
+const ADM_REGISTRATION = `<?xml version="1.0" encoding="utf-8"?>
 <entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
         <AdmRegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
@@ -199,6 +203,29 @@ const MPNS_TEMPLATE_REGISTRATION = `<?xml version="1.0" encoding="utf-8"?>
     </content>
 </entry>`;
 
+const XIAOMI_REGISTRATION = `<?xml version="1.0" encoding="utf-8"?>
+<entry xmlns="http://www.w3.org/2005/Atom">
+    <content type="application/xml">
+        <XiaomiRegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
+            <Tags>myTag,myOtherTag</Tags>
+            <RegistrationId>{Registration Id}</RegistrationId> 
+            <XiaomiRegistrationId>{Xiaomi Registration Id}</XiaomiRegistrationId>
+        </XiaomiRegistrationDescription>
+    </content>
+</entry>`;
+
+const XIAOMI_TEMPLATE_REGISTRATION = `<?xml version="1.0" encoding="utf-8"?>
+<entry xmlns="http://www.w3.org/2005/Atom">
+    <content type="application/xml">
+        <XiaomiemplateRegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
+            <Tags>myTag,myOtherTag</Tags>
+            <XiaomiRegistrationId>{Xiaomi Registration Id}</XiaomiRegistrationId>
+            <RegistrationId>{Registration Id}</RegistrationId> 
+            <BodyTemplate><![CDATA[{Template for the body}]]></BodyTemplate>
+        </XiaomiTemplateRegistrationDescription>
+    </content>
+</entry>`;
+
 const WNS_REGISTRATION = `<?xml version="1.0" encoding="utf-8"?>
 <entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
@@ -235,7 +262,7 @@ const WINDOWS_TEMPLATE_REGISTRATION = `<?xml version="1.0" encoding="utf-8"?>
 describe("parseRegistrationEntry", () => {
   it("should parse an Amazon Device Messaging registration description", async () => {
     const registration = (await registrationDescriptionParser.parseRegistrationEntry(
-      ADM_REGISTEATION
+      ADM_REGISTRATION
     )) as AdmRegistrationDescription;
 
     assert.equal(registration.kind, "Adm");
@@ -379,6 +406,29 @@ describe("parseRegistrationEntry", () => {
     assert.equal(registration.bodyTemplate, "{Template for the body}");
     assert.equal(registration.mpnsHeaders!["X-WindowsPhone-Target"], "toast");
     assert.equal(registration.mpnsHeaders!["X-NotificationClass"], "[batching interval]");
+  });
+
+  it("should parse an Xiaomi registration description", async () => {
+    const registration = (await registrationDescriptionParser.parseRegistrationEntry(
+      XIAOMI_REGISTRATION
+    )) as XiaomiRegistrationDescription;
+
+    assert.equal(registration.kind, "Adm");
+    assert.equal(registration.registrationId, "{Registration Id}");
+    assert.equal(registration.xiaomiRegistrationId, "{Xiaomi Registration Id}");
+    assert.deepEqual(registration.tags, ["myTag", "myOtherTag"]);
+  });
+
+  it("should parse an Xiaomi template registration description", async () => {
+    const registration = (await registrationDescriptionParser.parseRegistrationEntry(
+      XIAOMI_TEMPLATE_REGISTRATION
+    )) as XiaomiTemplateRegistrationDescription;
+
+    assert.equal(registration.kind, "AdmTemplate");
+    assert.equal(registration.registrationId, "{Registration Id}");
+    assert.equal(registration.xiaomiRegistrationId, "{Xiaomi Registration Id}");
+    assert.deepEqual(registration.tags, ["myTag", "myOtherTag"]);
+    assert.equal(registration.bodyTemplate, "{Template for the body}");
   });
 
   it("should parse an Windows registration description", async () => {
@@ -738,6 +788,42 @@ describe("serializeRegistrationDescription", () => {
     assert.isTrue(xml.indexOf("<Value>mpns/tile</Value>") !== -1);
     assert.isTrue(xml.indexOf("</MpnsHeaders>") !== -1);
     assert.isTrue(xml.indexOf("</MpnsTemplateRegistrationDescription>") !== -1);
+  });
+
+  it("should serialize an XiaomiRegistrationDescription", () => {
+    const registration = createXiaomiRegistrationDescription({
+      xiaomiRegistrationId: "{Xiaomi Registration ID}",
+      tags: ["myTag", "myOtherTag"],
+    });
+
+    const xml = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
+
+    assert.isTrue(xml.indexOf("<XiaomiRegistrationDescription") !== -1);
+    assert.isTrue(
+      xml.indexOf("<XiaomiRegistrationId>{Xiaomi Registration ID}</XiaomiRegistrationId>") !== -1
+    );
+    assert.isTrue(xml.indexOf("<Tags>myTag,myOtherTag</Tags>") !== -1);
+    assert.isTrue(xml.indexOf("</XiaomiRegistrationDescription>") !== -1);
+  });
+
+  it("should serialize an XiaomiTemplateRegistrationDescription", () => {
+    const registration = createXiaomiTemplateRegistrationDescription({
+      xiaomiRegistrationId: "{Xiaomi Registration ID}",
+      tags: ["myTag", "myOtherTag"],
+      bodyTemplate: "{Template for the body}",
+    });
+
+    const xml = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
+
+    assert.isTrue(xml.indexOf("<XiaomiTemplateRegistrationDescription") !== -1);
+    assert.isTrue(
+      xml.indexOf("<XiaomiRegistrationId>{Xiaomi Registration ID}</XiaomiRegistrationId>") !== -1
+    );
+    assert.isTrue(xml.indexOf("<Tags>myTag,myOtherTag</Tags>") !== -1);
+    assert.isTrue(
+      xml.indexOf("<BodyTemplate><![CDATA[{Template for the body}]]></BodyTemplate>") !== -1
+    );
+    assert.isTrue(xml.indexOf("</AdmTemplateRegistrationDescription>") !== -1);
   });
 
   it("should serialize an WindowsRegistrationDescription", () => {
