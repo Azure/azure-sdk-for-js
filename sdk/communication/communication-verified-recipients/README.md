@@ -31,7 +31,7 @@ To create a client object to access the Communication Services API, you will nee
 
 You can get a key and/or connection string from your Communication Services resource in the [Azure Portal][azure_portal]. You can also find the endpoint for your Communication Services resource in the [Azure Portal][azure_portal].
 
-Once you have a key, you can authenticate the `VerifiedRecipientClient` with any of the following methods:
+Once you have a key, you can authenticate the `VerifiedRecipientsClient` with any of the following methods:
 
 ### Using a connection string
 

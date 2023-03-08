@@ -1,7 +1,10 @@
 # Release History
 
-## 1.0.0-beta.5 (Unreleased)
+## 1.0.0-beta.5 (2023-03-08)
 
-### Features Added
+The first preview of the Azure Communication Verified Recipients client library has the following features:
 
-### Other Changes
+- Verifying code for a phone number
+- Request a verification code to a phone number(US)
+- Removing a verified/pending phone number
+- Returning the constant values for a resource in relation to verified recipients
