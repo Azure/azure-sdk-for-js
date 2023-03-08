@@ -49,7 +49,7 @@ export interface GetRoleDefinitionOptions extends OperationOptions {
 export interface GetSettingOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export function isBooleanSetting(setting: KeyVaultSetting): setting is BooleanKeyVaultSetting;
 
 // @public
