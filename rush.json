@@ -759,11 +759,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/video-analyzer-edge",
-      "projectFolder": "sdk/videoanalyzer/video-analyzer-edge",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/iot-modelsrepository",
       "projectFolder": "sdk/iot/iot-modelsrepository",
       "versionPolicyName": "client"

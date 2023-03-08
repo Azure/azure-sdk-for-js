@@ -325,7 +325,6 @@ specifiers:
   '@rush-temp/test-recorder': file:./projects/test-recorder.tgz
   '@rush-temp/test-utils': file:./projects/test-utils.tgz
   '@rush-temp/test-utils-perf': file:./projects/test-utils-perf.tgz
-  '@rush-temp/video-analyzer-edge': file:./projects/video-analyzer-edge.tgz
   '@rush-temp/web-pubsub': file:./projects/web-pubsub.tgz
   '@rush-temp/web-pubsub-client': file:./projects/web-pubsub-client.tgz
   '@rush-temp/web-pubsub-express': file:./projects/web-pubsub-express.tgz
@@ -656,7 +655,6 @@ dependencies:
   '@rush-temp/test-recorder': file:projects/test-recorder.tgz
   '@rush-temp/test-utils': file:projects/test-utils.tgz
   '@rush-temp/test-utils-perf': file:projects/test-utils-perf.tgz
-  '@rush-temp/video-analyzer-edge': file:projects/video-analyzer-edge.tgz
   '@rush-temp/web-pubsub': file:projects/web-pubsub.tgz
   '@rush-temp/web-pubsub-client': file:projects/web-pubsub-client.tgz
   '@rush-temp/web-pubsub-express': file:projects/web-pubsub-express.tgz
@@ -1160,22 +1158,6 @@ packages:
       tslib: 2.5.0
     transitivePeerDependencies:
       - supports-color
-    dev: false
-
-  /@azure/ms-rest-js/2.6.4:
-    resolution: {integrity: sha512-2sbOpGhlBfv9itWdF7Qlk0CmoQCARxe5unwjNOprU7OdgEgabQncZ35L5u1A+zgdkVtNYF9Eo6XAhXzTweIhag==}
-    dependencies:
-      '@azure/core-auth': 1.4.0
-      abort-controller: 3.0.0
-      form-data: 2.5.1
-      node-fetch: 2.6.9
-      tough-cookie: 3.0.1
-      tslib: 1.14.1
-      tunnel: 0.0.6
-      uuid: 8.3.2
-      xml2js: 0.4.23
-    transitivePeerDependencies:
-      - encoding
     dev: false
 
   /@azure/msal-browser/2.33.0:
@@ -2669,13 +2651,6 @@ packages:
       eslint-visitor-keys: 3.3.0
     dev: false
 
-  /abort-controller/3.0.0:
-    resolution: {integrity: sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==}
-    engines: {node: '>=6.5'}
-    dependencies:
-      event-target-shim: 5.0.1
-    dev: false
-
   /accepts/1.3.8:
     resolution: {integrity: sha512-PYAthTa2m2VKxuvSD3DPC/Gy+U+sOA1LAuT8mkmRuvw+NACSaeXEQ+NHcVF7rONl6qcaxV3Uuemwawk+7+SJLw==}
     engines: {node: '>= 0.6'}
@@ -2902,14 +2877,6 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
-  /async-limiter/1.0.1:
-    resolution: {integrity: sha512-csOlWGAcRFJaI6m+F2WKdnMKr4HhdhFVBk0H/QbJFMCr+uO2kwohwXQPxw/9OCxp05r5ghVBFSyioixx3gfkNQ==}
-    dev: false
-
-  /async/3.2.4:
-    resolution: {integrity: sha512-iAB+JbDEGXhyIUavoDl9WP/Jj106Kz9DEn1DPgYw5ruDn0e3Wgi3sKFm55sASdGBNOQB8F59d9qQ7deqrHA8wQ==}
-    dev: false
-
   /asynckit/0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
     dev: false
@@ -2945,68 +2912,6 @@ packages:
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
-    dev: false
-
-  /azure-iot-amqp-base/2.5.0:
-    resolution: {integrity: sha512-X6z5R6Mq7R5iDbEREHmnKWigfcX9qUNteTJV0CffO4OM7I1WkQk3WqRzIZppJg6XbRM2/Hk8lQjnJM//pWgJjg==}
-    engines: {node: '>= 14.0.0'}
-    dependencies:
-      async: 3.2.4
-      azure-iot-common: 1.13.0
-      debug: 4.3.4
-      es5-ext: 0.10.53
-      lodash.merge: 4.6.2
-      machina: 4.0.2
-      rhea: 1.0.24
-      uuid: 8.3.2
-      ws: 6.2.2
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  /azure-iot-common/1.13.0:
-    resolution: {integrity: sha512-zV6LtGifXWPI89aC6eG/Tq9IBNAKLV+Bc2i0myb63wSXHF/+2oS4W0ViwAecsYtu13b6s4vPlhTaPbsHPygbtw==}
-    engines: {node: '>= 14.0.0'}
-    dependencies:
-      async: 3.2.4
-      debug: 4.3.4
-      es5-ext: 0.10.53
-      getos: 3.2.1
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  /azure-iot-http-base/1.12.0:
-    resolution: {integrity: sha512-u02GoJV9ZYWFdDudHCALHqqvRQe5eo6XY+7wURsJBzKTinr89xqsyerqeK9+PDUI4ZGPz/bARozdUtVOmMzjSw==}
-    engines: {node: '>= 14.0.0'}
-    dependencies:
-      async: 3.2.4
-      azure-iot-common: 1.13.0
-      debug: 4.3.4
-      es5-ext: 0.10.53
-      uuid: 8.3.2
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  /azure-iothub/1.16.1:
-    resolution: {integrity: sha512-6IBleb2LTV8NFWZDb0ba+RDW8+avwvpACfz6WYsrS3oQuwGuVp9UvQOX4bg0Jv39uUrKGzRKzoDaiZyiVBCGGw==}
-    engines: {node: '>= 14.0.0'}
-    dependencies:
-      '@azure/core-http': 1.2.6
-      '@azure/identity': 2.1.0
-      '@azure/ms-rest-js': 2.6.4
-      async: 3.2.4
-      azure-iot-amqp-base: 2.5.0
-      azure-iot-common: 1.13.0
-      azure-iot-http-base: 1.12.0
-      debug: 4.3.4
-      lodash: 4.17.21
-      machina: 4.0.2
-      rhea: 1.0.24
-    transitivePeerDependencies:
-      - encoding
-      - supports-color
     dev: false
 
   /balanced-match/1.0.2:
@@ -3628,13 +3533,6 @@ packages:
     resolution: {integrity: sha512-GAj5FOq0Hd+RsCGVJxZuKaIDXDf3h6GQoNEjFgbLLI/trgtavwUbSnZ5pVfg27DVCaWjIohryS0JFwIJyT2cMg==}
     dev: false
 
-  /d/1.0.1:
-    resolution: {integrity: sha512-m62ShEObQ39CfralilEQRjH6oAMtNCV1xJyEx5LpRYUVN+EviphDgUc/F3hnYbADmkiNs67Y+3ylmlG7Lnu+FA==}
-    dependencies:
-      es5-ext: 0.10.53
-      type: 1.2.0
-    dev: false
-
   /date-fns/2.29.3:
     resolution: {integrity: sha512-dDCnyH2WnnKusqvZZ6+jA1O51Ibt8ZMRNkDZdyAyK4YfbDwa/cEmuztzG5pk6hqlp9aSBPYcjOlktquahGwGeA==}
     engines: {node: '>=0.11'}
@@ -3897,7 +3795,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230306
+      typescript: 5.1.0-dev.20230307
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -4051,35 +3949,12 @@ packages:
       is-symbol: 1.0.4
     dev: false
 
-  /es5-ext/0.10.53:
-    resolution: {integrity: sha512-Xs2Stw6NiNHWypzRTY1MtaG/uJlwCk8kH81920ma8mvN8Xq1gsfhZvpkImLQArw8AHnv8MT2I45J3c0R8slE+Q==}
-    dependencies:
-      es6-iterator: 2.0.3
-      es6-symbol: 3.1.3
-      next-tick: 1.0.0
-    dev: false
-
   /es6-error/4.1.1:
     resolution: {integrity: sha512-Um/+FxMr9CISWh0bi5Zv0iOD+4cFh5qLeks1qhAopKVAJw3drgKbKySikp7wGhDL0HPeaja0P5ULZrxLkniUVg==}
     dev: false
 
-  /es6-iterator/2.0.3:
-    resolution: {integrity: sha512-zw4SRzoUkd+cl+ZoE15A9o1oQd920Bb0iOJMQkQhl3jNc03YqVjAhG7scf9C5KWRU/R13Orf588uCC6525o02g==}
-    dependencies:
-      d: 1.0.1
-      es5-ext: 0.10.53
-      es6-symbol: 3.1.3
-    dev: false
-
   /es6-promise/4.2.8:
     resolution: {integrity: sha512-HJDGx5daxeIvxdBxvG2cb9g4tEvwIk3i8+nhX0yGrYmZUzbkdg8QbDevheDB8gd0//uPj4c1EQua8Q+MViT0/w==}
-    dev: false
-
-  /es6-symbol/3.1.3:
-    resolution: {integrity: sha512-NJ6Yn3FuDinBaBRWl/q5X/s4koRHBrgKAu+yGI6JCBeiu3qrcbJhwT2GeR/EXVfylRk8dpQVJoLEFhK+Mu31NA==}
-    dependencies:
-      d: 1.0.1
-      ext: 1.7.0
     dev: false
 
   /escalade/3.1.1:
@@ -4431,11 +4306,6 @@ packages:
     engines: {node: '>= 0.6'}
     dev: false
 
-  /event-target-shim/5.0.1:
-    resolution: {integrity: sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==}
-    engines: {node: '>=6'}
-    dev: false
-
   /eventemitter3/4.0.7:
     resolution: {integrity: sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==}
     dev: false
@@ -4515,12 +4385,6 @@ packages:
       type-is: 1.6.18
       utils-merge: 1.0.1
       vary: 1.1.2
-    dev: false
-
-  /ext/1.7.0:
-    resolution: {integrity: sha512-6hxeJYaL110a9b5TEJSj0gojyHQAmA2ch5Os+ySCiA1QGdS697XWY1pzsrSjqA9LDEEgdB/KypIlR59RcLuHYw==}
-    dependencies:
-      type: 2.7.2
     dev: false
 
   /extend/3.0.2:
@@ -4785,15 +4649,6 @@ packages:
       signal-exit: 3.0.7
     dev: false
 
-  /form-data/2.5.1:
-    resolution: {integrity: sha512-m21N3WOmEEURgk6B9GLOE4RuWOFf28Lhh9qGYeNlGq4VDXUlJy2th2slBNU8Gp8EzloYZOibZJ7t5ecIrFSjVA==}
-    engines: {node: '>= 0.12'}
-    dependencies:
-      asynckit: 0.4.0
-      combined-stream: 1.0.8
-      mime-types: 2.1.35
-    dev: false
-
   /form-data/3.0.1:
     resolution: {integrity: sha512-RHkBKtLWUVwd7SqRIvCZMEvAMoGUp0XU+seQiZejj0COz3RI3hWP4sCv3gZWWLjJTd7rGwcsF5eKZGii0r/hbg==}
     engines: {node: '>= 6'}
@@ -4962,12 +4817,6 @@ packages:
     dependencies:
       call-bind: 1.0.2
       get-intrinsic: 1.2.0
-    dev: false
-
-  /getos/3.2.1:
-    resolution: {integrity: sha512-U56CfOK17OKgTVqozZjUKNdkfEv6jk5WISBJ8SHoagjE6L69zOwl3Z+O8myjY9MEW3i2HPWQBt/LTbCgcC973Q==}
-    dependencies:
-      async: 3.2.4
     dev: false
 
   /github-from-package/0.0.0:
@@ -5321,11 +5170,6 @@ packages:
   /interpret/1.4.0:
     resolution: {integrity: sha512-agE4QfB2Lkp9uICn7BAqoscw4SZP9kTE2hxiFI3jBPmXJfdqiahTbUuKGsMoN2GtqL9AxhYioAcVvgsb1HvRbA==}
     engines: {node: '>= 0.10'}
-    dev: false
-
-  /ip-regex/2.1.0:
-    resolution: {integrity: sha512-58yWmlHpp7VYfcdTwMTvwMmqx/Elfxjd9RXTDyMsbL7lLWmhMylLEqiYVLKuLzOZqVgiWXD9MfR62Vv89VRxkw==}
-    engines: {node: '>=4'}
     dev: false
 
   /ipaddr.js/1.9.1:
@@ -6240,13 +6084,6 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
-  /machina/4.0.2:
-    resolution: {integrity: sha512-OOlFrW1rd783S6tF36v5Ie/TM64gfvSl9kYLWL2cPA31J71HHWW3XrgSe1BZSFAPkh8532CMJMLv/s9L2aopiA==}
-    engines: {node: '>=0.4.0'}
-    dependencies:
-      lodash: 4.17.21
-    dev: false
-
   /magic-string/0.27.0:
     resolution: {integrity: sha512-8UnnX2PeRAPZuN12svgR9j7M1uWMovg/CEnIwIG0LFkXSJJe4PdfUGiTGl8V9bsBHFUtfVINcSyYxd7q+kx9fA==}
     engines: {node: '>=12'}
@@ -6592,10 +6429,6 @@ packages:
 
   /nested-error-stacks/2.1.1:
     resolution: {integrity: sha512-9iN1ka/9zmX1ZvLV9ewJYEk9h7RyRRtqdK0woXcqohu8EWIerfPUjYJPg0ULy0UqP7cslmdGc8xKDJcojlKiaw==}
-    dev: false
-
-  /next-tick/1.0.0:
-    resolution: {integrity: sha512-mc/caHeUcdjnC/boPWJefDr4KUIWQNv+tlnFnJd38QMou86QtxQzBJfxgGRzvx8jazYRqrVlaHarfO72uNxPOg==}
     dev: false
 
   /nice-try/1.0.5:
@@ -7577,12 +7410,6 @@ packages:
       tslib: 2.5.0
     dev: false
 
-  /rhea/1.0.24:
-    resolution: {integrity: sha512-PEl62U2EhxCO5wMUZ2/bCBcXAVKN9AdMSNQOrp3+R5b77TEaOSiy16MQ0sIOmzj/iqsgIAgPs1mt3FYfu1vIXA==}
-    dependencies:
-      debug: 3.2.7
-    dev: false
-
   /rhea/2.0.8:
     resolution: {integrity: sha512-IgwlP4D2lzinBSll5f35tAWa30dGCZhG9Ujd1DiaB7MUGegIjAaLzqATCw3ha+h9oq9mXcitqayBbNIXYdvtFg==}
     dependencies:
@@ -8363,15 +8190,6 @@ packages:
     engines: {node: '>=0.6'}
     dev: false
 
-  /tough-cookie/3.0.1:
-    resolution: {integrity: sha512-yQyJ0u4pZsv9D4clxO69OEjLWYw+jbgspjTue4lTQZLfV0c5l1VmK2y1JK8E9ahdpltPOaAThPcp5nKPUgSnsg==}
-    engines: {node: '>=6'}
-    dependencies:
-      ip-regex: 2.1.0
-      psl: 1.9.0
-      punycode: 2.3.0
-    dev: false
-
   /tough-cookie/4.1.2:
     resolution: {integrity: sha512-G9fqXWoYFZgTc2z8Q5zaHy/vJMjm+WV0AkAeHxVCQiEB1b+dGvWzFW6QV07cY5jQ5gRkeid2qIkzkxUnmoQZUQ==}
     engines: {node: '>=6'}
@@ -8563,14 +8381,6 @@ packages:
       mime-types: 2.1.35
     dev: false
 
-  /type/1.2.0:
-    resolution: {integrity: sha512-+5nt5AAniqsCnu2cEQQdpzCAh33kVx8n0VoFidKpB1dVVLAN/F+bgVOqOJqOnEnrhp222clB5p3vUlD+1QAnfg==}
-    dev: false
-
-  /type/2.7.2:
-    resolution: {integrity: sha512-dzlvlNlt6AXU7EBSfpAscydQ7gXB+pPGsPnfJnZpiNJBDj7IaJzQlBZYGdEi4R9HmPdBv2XmWJ6YUtoTa7lmCw==}
-    dev: false
-
   /typed-array-length/1.0.4:
     resolution: {integrity: sha512-KjZypGq+I/H7HI5HlOoGHkWUUGq+Q0TPhQurLbyrVrvnKTBgzLhIJ7j6J/XTQOi0d1RjyZ0wdas8bKs2p0x3Ng==}
     dependencies:
@@ -8603,8 +8413,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230306:
-    resolution: {integrity: sha512-CqMT7nhnVNKfaT1giN+UjFUSqN2gBI17K8JoT+I1LgPU/G9oYypuG+91pz8Kjk/GW/BG685khZ0YfFrADj+KPQ==}
+  /typescript/5.1.0-dev.20230307:
+    resolution: {integrity: sha512-QoA4rJ5koT+JJk69FBwAF4vx446c5xPWlvgMrlz0E0SaGDpveCbK8DTpRmdxrZR4oVQ0VxMag1BGtZPtQtU+Jg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -8900,12 +8710,6 @@ packages:
       is-typedarray: 1.0.0
       signal-exit: 3.0.7
       typedarray-to-buffer: 3.1.5
-    dev: false
-
-  /ws/6.2.2:
-    resolution: {integrity: sha512-zmhltoSR8u1cnDsD43TX59mzoMZsLKqUweyYBAIvTngR3shc0W6aOZylZmq/7hqyVxPdi+5Ud2QInblgyE72fw==}
-    dependencies:
-      async-limiter: 1.0.1
     dev: false
 
   /ws/7.5.9:
@@ -19746,51 +19550,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - supports-color
-      - utf-8-validate
-    dev: false
-
-  file:projects/video-analyzer-edge.tgz:
-    resolution: {integrity: sha512-7utiX8HPLbFJtJF5iS3WCCc0Xsy3QAPDZUKO2zctP9YiKqJ8X5QXEVGItGninnkQ2zrC+Hf/lVexnxy6/P0LoQ==, tarball: file:projects/video-analyzer-edge.tgz}
-    name: '@rush-temp/video-analyzer-edge'
-    version: 0.0.0
-    dependencies:
-      '@microsoft/api-extractor': 7.34.4_@types+node@14.18.37
-      '@types/chai': 4.3.4
-      '@types/chai-as-promised': 7.1.5
-      '@types/mocha': 7.0.2
-      '@types/node': 14.18.37
-      azure-iothub: 1.16.1
-      chai: 4.3.7
-      chai-as-promised: 7.1.1_chai@4.3.7
-      cross-env: 7.0.3
-      dotenv: 16.0.3
-      eslint: 8.35.0
-      events: 3.3.0
-      inherits: 2.0.4
-      karma: 6.4.1
-      karma-chrome-launcher: 3.1.1
-      karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.4.1
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.4.1
-      karma-junit-reporter: 2.0.1_karma@6.4.1
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.4.1
-      karma-sourcemap-loader: 0.3.8
-      mocha: 7.2.0
-      mocha-junit-reporter: 2.2.0_mocha@7.2.0
-      nyc: 15.1.0
-      prettier: 2.8.4
-      rimraf: 3.0.2
-      tslib: 2.5.0
-      typescript: 4.8.4
-      util: 0.12.5
-    transitivePeerDependencies:
-      - bufferutil
-      - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
