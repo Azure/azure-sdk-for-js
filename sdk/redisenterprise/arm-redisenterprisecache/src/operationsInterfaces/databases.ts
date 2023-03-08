@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Database,
   DatabasesListByClusterOptionalParams,
@@ -29,7 +29,9 @@ import {
   ExportClusterParameters,
   DatabasesExportOptionalParams,
   ForceUnlinkParameters,
-  DatabasesForceUnlinkOptionalParams
+  DatabasesForceUnlinkOptionalParams,
+  FlushParameters,
+  DatabasesFlushOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -61,8 +63,8 @@ export interface Databases {
     parameters: Database,
     options?: DatabasesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DatabasesCreateResponse>,
+    SimplePollerLike<
+      OperationState<DatabasesCreateResponse>,
       DatabasesCreateResponse
     >
   >;
@@ -96,8 +98,8 @@ export interface Databases {
     parameters: DatabaseUpdate,
     options?: DatabasesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DatabasesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DatabasesUpdateResponse>,
       DatabasesUpdateResponse
     >
   >;
@@ -141,7 +143,7 @@ export interface Databases {
     clusterName: string,
     databaseName: string,
     options?: DatabasesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a single database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -183,8 +185,8 @@ export interface Databases {
     parameters: RegenerateKeyParameters,
     options?: DatabasesRegenerateKeyOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DatabasesRegenerateKeyResponse>,
+    SimplePollerLike<
+      OperationState<DatabasesRegenerateKeyResponse>,
       DatabasesRegenerateKeyResponse
     >
   >;
@@ -217,7 +219,7 @@ export interface Databases {
     databaseName: string,
     parameters: ImportClusterParameters,
     options?: DatabasesImportOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Imports database files to target database.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -247,7 +249,7 @@ export interface Databases {
     databaseName: string,
     parameters: ExportClusterParameters,
     options?: DatabasesExportOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Exports a database file from target database.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -277,7 +279,7 @@ export interface Databases {
     databaseName: string,
     parameters: ForceUnlinkParameters,
     options?: DatabasesForceUnlinkOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Forcibly removes the link to the specified database resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -292,5 +294,35 @@ export interface Databases {
     databaseName: string,
     parameters: ForceUnlinkParameters,
     options?: DatabasesForceUnlinkOptionalParams
+  ): Promise<void>;
+  /**
+   * Flushes all the keys in this database and also from its linked databases.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the RedisEnterprise cluster.
+   * @param databaseName The name of the database.
+   * @param parameters Information identifying the databases to be flushed
+   * @param options The options parameters.
+   */
+  beginFlush(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    parameters: FlushParameters,
+    options?: DatabasesFlushOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Flushes all the keys in this database and also from its linked databases.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the RedisEnterprise cluster.
+   * @param databaseName The name of the database.
+   * @param parameters Information identifying the databases to be flushed
+   * @param options The options parameters.
+   */
+  beginFlushAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    parameters: FlushParameters,
+    options?: DatabasesFlushOptionalParams
   ): Promise<void>;
 }

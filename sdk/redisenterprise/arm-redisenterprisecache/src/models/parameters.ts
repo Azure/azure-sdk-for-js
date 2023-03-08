@@ -20,6 +20,7 @@ import {
   ImportClusterParameters as ImportClusterParametersMapper,
   ExportClusterParameters as ExportClusterParametersMapper,
   ForceUnlinkParameters as ForceUnlinkParametersMapper,
+  FlushParameters as FlushParametersMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper
 } from "../models/mappers";
 
@@ -50,7 +51,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-01-01",
+    defaultValue: "2023-03-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -200,6 +201,11 @@ export const parameters6: OperationParameter = {
 export const parameters7: OperationParameter = {
   parameterPath: "parameters",
   mapper: ForceUnlinkParametersMapper
+};
+
+export const parameters8: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: FlushParametersMapper
 };
 
 export const privateEndpointConnectionName: OperationURLParameter = {
