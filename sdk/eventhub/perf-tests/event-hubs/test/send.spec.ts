@@ -3,15 +3,14 @@
 
 import { getEnvVar, PerfOptionDictionary, BatchPerfTest } from "@azure/test-utils-perf";
 import { EventHubProducerClient, EventData } from "@azure/event-hubs";
-import { createMockServer } from "./utils";
+import { createMockServer, MockHubOptions, setMockHubEnvVars } from "./utils";
 // Expects the .env file at the same level as the "test" folder
 import * as dotenv from "dotenv";
 dotenv.config();
 
-interface SendTestOptions {
+interface SendTestOptions extends MockHubOptions {
   eventBodySize: number;
   numberOfEvents: number;
-  useMockHub: boolean;
 }
 
 let service: ReturnType<typeof createMockServer>;
@@ -45,11 +44,7 @@ export class SendTest extends BatchPerfTest<SendTestOptions> {
 
   constructor() {
     super();
-    if (this.parsedOptions.useMockHub.value) {
-      process.env.NODE_EXTRA_CA_CERTS = "./certs/my-private-root-ca.crt.pem";
-      process.env.EVENTHUB_CONNECTION_STRING = `Endpoint=sb://localhost/;SharedAccessKeyName=Foo;SharedAccessKey=Bar`;
-      process.env.EVENTHUB_NAME = "mock-hub";
-    }
+    if (this.parsedOptions.useMockHub.value) setMockHubEnvVars();
     const connectionString = getEnvVar("EVENTHUB_CONNECTION_STRING");
     const eventHubName = getEnvVar("EVENTHUB_NAME");
     this.producer = new EventHubProducerClient(connectionString, eventHubName);

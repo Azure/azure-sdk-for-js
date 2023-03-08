@@ -19,3 +19,13 @@ export function createMockServer(options: MockServerOptions = {}): MockEventHub 
     ...options,
   });
 }
+
+export function setMockHubEnvVars() {
+  process.env.NODE_EXTRA_CA_CERTS = "./certs/my-private-root-ca.crt.pem";
+  process.env.EVENTHUB_CONNECTION_STRING = `Endpoint=sb://localhost/;SharedAccessKeyName=Foo;SharedAccessKey=Bar`;
+  process.env.EVENTHUB_NAME = "mock-hub";
+}
+
+export interface MockHubOptions {
+  useMockHub: boolean;
+}

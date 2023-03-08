@@ -10,19 +10,14 @@ import {
   ReceivedEventData,
 } from "@azure/event-hubs";
 import { PerfOptionDictionary, EventPerfTest, getEnvVar } from "@azure/test-utils-perf";
+import { MockHubOptions, setMockHubEnvVars } from "./utils";
 
-interface ReceiverOptions {
+interface ReceiverOptions extends MockHubOptions {
   "number-of-events": number;
   "event-size-in-bytes": number;
   partitions: number;
   "max-batch-size": number;
 }
-
-const connectionString = getEnvVar("EVENTHUB_CONNECTION_STRING");
-const eventHubName = getEnvVar("EVENTHUB_NAME");
-const consumerGroup = process.env.CONSUMER_GROUP_NAME || "$Default";
-
-const consumer = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName);
 
 export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
   receiver: EventHubConsumerClient;
@@ -57,11 +52,20 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
       longName: "max-batch-size",
       defaultValue: 100,
     },
+    useMockHub: {
+      required: true,
+      description: "Should the test use mock-hub instead of live service",
+      shortName: "mock",
+      longName: "mock-hub",
+      defaultValue: false,
+    },
   };
 
   constructor() {
     super();
-    this.receiver = consumer;
+    if (this.parsedOptions.useMockHub.value) setMockHubEnvVars();
+    const consumerGroup = process.env.CONSUMER_GROUP_NAME || "$Default";
+    this.receiver = new EventHubConsumerClient(consumerGroup, getEnvVar("EVENTHUB_CONNECTION_STRING"), getEnvVar("EVENTHUB_NAME"));
   }
 
   /**
@@ -99,10 +103,6 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
     await this.subscriber?.close();
     await this.receiver.close();
   }
-
-  async globalCleanup(): Promise<void> {
-    await consumer.close();
-  }
 }
 
 async function sendBatch(
@@ -111,7 +111,7 @@ async function sendBatch(
   partitions: number
 ): Promise<void> {
   const _payload = Buffer.alloc(eventBodySize);
-  const producer = new EventHubProducerClient(connectionString, eventHubName);
+  const producer = new EventHubProducerClient(getEnvVar("EVENTHUB_CONNECTION_STRING"), getEnvVar("EVENTHUB_NAME"));
   let partitionIds = await producer.getPartitionIds();
   const numberOfPartitions =
     partitionIds.length < partitions || partitions === -1 ? partitionIds.length : partitions;
