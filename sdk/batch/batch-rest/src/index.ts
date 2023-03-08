@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import BatchGeneratedClient from "./batchGeneratedClient";
+import BatchServiceClient from "./batchServiceClient";
 
-export * from "./batchGeneratedClient";
+export * from "./batchServiceClient";
 export * from "./parameters";
 export * from "./responses";
 export * from "./clientDefinitions";
@@ -12,4 +12,4 @@ export * from "./models";
 export * from "./outputModels";
 export * from "./paginateHelper";
 
-export default BatchGeneratedClient;
+export default BatchServiceClient;

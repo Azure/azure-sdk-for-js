@@ -1,5 +1,12 @@
 {
   "extends": "../../../tsconfig.package",
-  "compilerOptions": { "outDir": "./dist-esm", "declarationDir": "./types" },
-  "include": ["src/**/*.ts", "./test/**/*.ts"]
+  "compilerOptions": {
+    "outDir": "./dist-esm",
+    "declarationDir": "./types",
+    "noUnusedLocals": false
+  },
+  "include": [
+    "src/**/*.ts",
+    "./test/**/*.ts"
+  ]
 }
