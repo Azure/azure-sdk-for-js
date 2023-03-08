@@ -73,8 +73,8 @@ export class DigestMismatchError extends Error {
 /**
  * Used to determine whether a manifest downloaded via {@link ContainerRegistryBlobClient.downloadManifest} is an OCI manifest.
  * If it is an OCI manifest, the `manifest` property will contain the manifest data as parsed JSON.
- * @param downloadResult the download result to check.
- * @returns whether the downloaded manifest is an OCI manifest.
+ * @param downloadResult - the download result to check.
+ * @returns - whether the downloaded manifest is an OCI manifest.
  */
 export function isOciManifest(
   downloadResult: DownloadManifestResult
