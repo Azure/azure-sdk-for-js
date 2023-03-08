@@ -48,8 +48,8 @@ async function main() {
         digest: uploadLayerResult.digest,
         size: layer.byteLength,
         mediaType: "application/vnd.oci.image.layer.v1.tar",
-      }
-    ]
+      },
+    ],
   };
 
   await client.uploadManifest(manifest, { tag: "demo" });
