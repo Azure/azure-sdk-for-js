@@ -12,7 +12,7 @@ import { Node } from "estree";
 import { ParserWeakMapESTreeToTSNode } from "@typescript-eslint/typescript-estree/dist/parser-options";
 import { Rule } from "eslint";
 import { TypeChecker } from "typescript";
-import { sync as globSync } from "glob";
+import { globSync } from "glob";
 import { readFileSync } from "fs";
 import { relative } from "path";
 

@@ -45,7 +45,7 @@ export async function main() {
   const actions: AnalyzeBatchAction[] = [
     {
       kind: "AbstractiveSummarization",
-      maxSentenceCount: 2,
+      sentenceCount: 2,
     },
   ];
   const poller = await client.beginAnalyzeBatch(actions, documents, "en");

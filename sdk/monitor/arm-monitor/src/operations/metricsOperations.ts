@@ -6,19 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Metrics } from "../operationsInterfaces";
+import { MetricsOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MonitorClient } from "../monitorClient";
 import { MetricsListOptionalParams, MetricsListResponse } from "../models";
 
-/** Class containing Metrics operations. */
-export class MetricsImpl implements Metrics {
+/** Class containing MetricsOperations operations. */
+export class MetricsOperationsImpl implements MetricsOperations {
   private readonly client: MonitorClient;
 
   /**
-   * Initialize a new instance of the class Metrics class.
+   * Initialize a new instance of the class MetricsOperations class.
    * @param client Reference to the service client
    */
   constructor(client: MonitorClient) {
