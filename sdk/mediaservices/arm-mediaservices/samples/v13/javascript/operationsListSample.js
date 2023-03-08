@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all the Media Services operations.
  *
  * @summary Lists all the Media Services operations.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2021-11-01/examples/operations-list-all.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2023-01-01/examples/operations-list-all.json
  */
 async function listOperations() {
   const subscriptionId =

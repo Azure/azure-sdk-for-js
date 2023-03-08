@@ -13,13 +13,26 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureMediaServices } from "../azureMediaServices";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   LiveEvent,
   LiveEventsListNextOptionalParams,
   LiveEventsListOptionalParams,
   LiveEventsListResponse,
+  LiveEventStatus,
+  LiveEventsListGetStatusOptionalParams,
+  LiveEventsListGetStatusResponse,
+  LiveEventStreamEvent,
+  LiveEventsListGetStreamEventsOptionalParams,
+  LiveEventsListGetStreamEventsResponse,
+  LiveEventTrackEvent,
+  LiveEventsListGetTrackIngestHeartbeatsOptionalParams,
+  LiveEventsListGetTrackIngestHeartbeatsResponse,
   LiveEventsGetOptionalParams,
   LiveEventsGetResponse,
   LiveEventsCreateOptionalParams,
@@ -129,6 +142,231 @@ export class LiveEventsImpl implements LiveEvents {
   }
 
   /**
+   * Gets status telemetry of a live event.
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param liveEventName The name of the live event, maximum length is 32.
+   * @param options The options parameters.
+   */
+  public beginListGetStatusAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    options?: LiveEventsListGetStatusOptionalParams
+  ): PagedAsyncIterableIterator<LiveEventStatus> {
+    const iter = this.listGetStatusPagingAll(
+      resourceGroupName,
+      accountName,
+      liveEventName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listGetStatusPagingPage(
+          resourceGroupName,
+          accountName,
+          liveEventName,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listGetStatusPagingPage(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    options?: LiveEventsListGetStatusOptionalParams,
+    _settings?: PageSettings
+  ): AsyncIterableIterator<LiveEventStatus[]> {
+    let result: LiveEventsListGetStatusResponse;
+    const poller = await this._listGetStatus(
+      resourceGroupName,
+      accountName,
+      liveEventName,
+      options
+    );
+    result = await poller.pollUntilDone();
+    yield result.value || [];
+  }
+
+  private async *listGetStatusPagingAll(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    options?: LiveEventsListGetStatusOptionalParams
+  ): AsyncIterableIterator<LiveEventStatus> {
+    for await (const page of this.listGetStatusPagingPage(
+      resourceGroupName,
+      accountName,
+      liveEventName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Get stream events telemetry of a live event.
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param liveEventName The name of the live event, maximum length is 32.
+   * @param options The options parameters.
+   */
+  public beginListGetStreamEventsAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    options?: LiveEventsListGetStreamEventsOptionalParams
+  ): PagedAsyncIterableIterator<LiveEventStreamEvent> {
+    const iter = this.listGetStreamEventsPagingAll(
+      resourceGroupName,
+      accountName,
+      liveEventName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listGetStreamEventsPagingPage(
+          resourceGroupName,
+          accountName,
+          liveEventName,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listGetStreamEventsPagingPage(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    options?: LiveEventsListGetStreamEventsOptionalParams,
+    _settings?: PageSettings
+  ): AsyncIterableIterator<LiveEventStreamEvent[]> {
+    let result: LiveEventsListGetStreamEventsResponse;
+    const poller = await this._listGetStreamEvents(
+      resourceGroupName,
+      accountName,
+      liveEventName,
+      options
+    );
+    result = await poller.pollUntilDone();
+    yield result.value || [];
+  }
+
+  private async *listGetStreamEventsPagingAll(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    options?: LiveEventsListGetStreamEventsOptionalParams
+  ): AsyncIterableIterator<LiveEventStreamEvent> {
+    for await (const page of this.listGetStreamEventsPagingPage(
+      resourceGroupName,
+      accountName,
+      liveEventName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Get track ingest heartbeat events telemetry of a live event.
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param liveEventName The name of the live event, maximum length is 32.
+   * @param options The options parameters.
+   */
+  public beginListGetTrackIngestHeartbeatsAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    options?: LiveEventsListGetTrackIngestHeartbeatsOptionalParams
+  ): PagedAsyncIterableIterator<LiveEventTrackEvent> {
+    const iter = this.listGetTrackIngestHeartbeatsPagingAll(
+      resourceGroupName,
+      accountName,
+      liveEventName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listGetTrackIngestHeartbeatsPagingPage(
+          resourceGroupName,
+          accountName,
+          liveEventName,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listGetTrackIngestHeartbeatsPagingPage(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    options?: LiveEventsListGetTrackIngestHeartbeatsOptionalParams,
+    _settings?: PageSettings
+  ): AsyncIterableIterator<LiveEventTrackEvent[]> {
+    let result: LiveEventsListGetTrackIngestHeartbeatsResponse;
+    const poller = await this._listGetTrackIngestHeartbeats(
+      resourceGroupName,
+      accountName,
+      liveEventName,
+      options
+    );
+    result = await poller.pollUntilDone();
+    yield result.value || [];
+  }
+
+  private async *listGetTrackIngestHeartbeatsPagingAll(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    options?: LiveEventsListGetTrackIngestHeartbeatsOptionalParams
+  ): AsyncIterableIterator<LiveEventTrackEvent> {
+    for await (const page of this.listGetTrackIngestHeartbeatsPagingPage(
+      resourceGroupName,
+      accountName,
+      liveEventName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
    * Lists all the live events in the account.
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -179,8 +417,8 @@ export class LiveEventsImpl implements LiveEvents {
     parameters: LiveEvent,
     options?: LiveEventsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LiveEventsCreateResponse>,
+    SimplePollerLike<
+      OperationState<LiveEventsCreateResponse>,
       LiveEventsCreateResponse
     >
   > {
@@ -190,7 +428,7 @@ export class LiveEventsImpl implements LiveEvents {
     ): Promise<LiveEventsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -223,13 +461,22 @@ export class LiveEventsImpl implements LiveEvents {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, liveEventName, parameters, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        accountName,
+        liveEventName,
+        parameters,
+        options
+      },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LiveEventsCreateResponse,
+      OperationState<LiveEventsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -276,8 +523,8 @@ export class LiveEventsImpl implements LiveEvents {
     parameters: LiveEvent,
     options?: LiveEventsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LiveEventsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<LiveEventsUpdateResponse>,
       LiveEventsUpdateResponse
     >
   > {
@@ -287,7 +534,7 @@ export class LiveEventsImpl implements LiveEvents {
     ): Promise<LiveEventsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -320,13 +567,22 @@ export class LiveEventsImpl implements LiveEvents {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, liveEventName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        accountName,
+        liveEventName,
+        parameters,
+        options
+      },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LiveEventsUpdateResponse,
+      OperationState<LiveEventsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -370,14 +626,14 @@ export class LiveEventsImpl implements LiveEvents {
     accountName: string,
     liveEventName: string,
     options?: LiveEventsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -410,13 +666,13 @@ export class LiveEventsImpl implements LiveEvents {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, liveEventName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, liveEventName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -457,14 +713,14 @@ export class LiveEventsImpl implements LiveEvents {
     accountName: string,
     liveEventName: string,
     options?: LiveEventsAllocateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -497,13 +753,13 @@ export class LiveEventsImpl implements LiveEvents {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, liveEventName, options },
-      allocateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, liveEventName, options },
+      spec: allocateOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -545,14 +801,14 @@ export class LiveEventsImpl implements LiveEvents {
     accountName: string,
     liveEventName: string,
     options?: LiveEventsStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -585,13 +841,13 @@ export class LiveEventsImpl implements LiveEvents {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, liveEventName, options },
-      startOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, liveEventName, options },
+      spec: startOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -635,14 +891,14 @@ export class LiveEventsImpl implements LiveEvents {
     liveEventName: string,
     parameters: LiveEventActionInput,
     options?: LiveEventsStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -675,13 +931,19 @@ export class LiveEventsImpl implements LiveEvents {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, liveEventName, parameters, options },
-      stopOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        accountName,
+        liveEventName,
+        parameters,
+        options
+      },
+      spec: stopOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -727,14 +989,14 @@ export class LiveEventsImpl implements LiveEvents {
     accountName: string,
     liveEventName: string,
     options?: LiveEventsResetOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -767,13 +1029,13 @@ export class LiveEventsImpl implements LiveEvents {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, liveEventName, options },
-      resetOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, liveEventName, options },
+      spec: resetOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -802,6 +1064,228 @@ export class LiveEventsImpl implements LiveEvents {
       options
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Gets status telemetry of a live event.
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param liveEventName The name of the live event, maximum length is 32.
+   * @param options The options parameters.
+   */
+  private async _listGetStatus(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    options?: LiveEventsListGetStatusOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<LiveEventsListGetStatusResponse>,
+      LiveEventsListGetStatusResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<LiveEventsListGetStatusResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, liveEventName, options },
+      spec: listGetStatusOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LiveEventsListGetStatusResponse,
+      OperationState<LiveEventsListGetStatusResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Get stream events telemetry of a live event.
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param liveEventName The name of the live event, maximum length is 32.
+   * @param options The options parameters.
+   */
+  private async _listGetStreamEvents(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    options?: LiveEventsListGetStreamEventsOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<LiveEventsListGetStreamEventsResponse>,
+      LiveEventsListGetStreamEventsResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<LiveEventsListGetStreamEventsResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, liveEventName, options },
+      spec: listGetStreamEventsOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LiveEventsListGetStreamEventsResponse,
+      OperationState<LiveEventsListGetStreamEventsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Get track ingest heartbeat events telemetry of a live event.
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param liveEventName The name of the live event, maximum length is 32.
+   * @param options The options parameters.
+   */
+  private async _listGetTrackIngestHeartbeats(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    options?: LiveEventsListGetTrackIngestHeartbeatsOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<LiveEventsListGetTrackIngestHeartbeatsResponse>,
+      LiveEventsListGetTrackIngestHeartbeatsResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<LiveEventsListGetTrackIngestHeartbeatsResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, liveEventName, options },
+      spec: listGetTrackIngestHeartbeatsOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LiveEventsListGetTrackIngestHeartbeatsResponse,
+      OperationState<LiveEventsListGetTrackIngestHeartbeatsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -878,7 +1362,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -900,7 +1384,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -933,7 +1417,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters16,
-  queryParameters: [Parameters.apiVersion, Parameters.autoStart],
+  queryParameters: [Parameters.apiVersion3, Parameters.autoStart],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -967,7 +1451,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters16,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -992,7 +1476,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1016,7 +1500,7 @@ const allocateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1040,7 +1524,7 @@ const startOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1065,7 +1549,7 @@ const stopOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters17,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1090,7 +1574,103 @@ const resetOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.liveEventName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listGetStatusOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}/getStatus",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LiveEventGetStatusResult
+    },
+    201: {
+      bodyMapper: Mappers.LiveEventGetStatusResult
+    },
+    202: {
+      bodyMapper: Mappers.LiveEventGetStatusResult
+    },
+    204: {
+      bodyMapper: Mappers.LiveEventGetStatusResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.liveEventName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listGetStreamEventsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}/getStreamEvents",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LiveEventGetStreamEventsResult
+    },
+    201: {
+      bodyMapper: Mappers.LiveEventGetStreamEventsResult
+    },
+    202: {
+      bodyMapper: Mappers.LiveEventGetStreamEventsResult
+    },
+    204: {
+      bodyMapper: Mappers.LiveEventGetStreamEventsResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.liveEventName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listGetTrackIngestHeartbeatsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}/getTrackIngestHeartbeats",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LiveEventGetTrackIngestHeartbeatsResult
+    },
+    201: {
+      bodyMapper: Mappers.LiveEventGetTrackIngestHeartbeatsResult
+    },
+    202: {
+      bodyMapper: Mappers.LiveEventGetTrackIngestHeartbeatsResult
+    },
+    204: {
+      bodyMapper: Mappers.LiveEventGetTrackIngestHeartbeatsResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1113,7 +1693,7 @@ const asyncOperationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1137,7 +1717,7 @@ const operationLocationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

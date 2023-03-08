@@ -14,18 +14,24 @@ import {
   WorkloadsClient
 } from "@azure/arm-workloads";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
- * This sample demonstrates how to Stops the SAP System.
+ * This sample demonstrates how to Stops the SAP Application, that is the Application server instances and Central Services instance.
  *
- * @summary Stops the SAP System.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Stop.json
+ * @summary Stops the SAP Application, that is the Application server instances and Central Services instance.
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Stop.json
  */
 async function sapVirtualInstancesStop() {
-  const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
   const sapVirtualInstanceName = "X00";
-  const body: StopRequest = { hardStop: false };
+  const body: StopRequest = { softStopTimeoutSeconds: 0 };
   const options: SAPVirtualInstancesStopOptionalParams = { body };
   const credential = new DefaultAzureCredential();
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -37,4 +43,8 @@ async function sapVirtualInstancesStop() {
   console.log(result);
 }
 
-sapVirtualInstancesStop().catch(console.error);
+async function main() {
+  sapVirtualInstancesStop();
+}
+
+main().catch(console.error);

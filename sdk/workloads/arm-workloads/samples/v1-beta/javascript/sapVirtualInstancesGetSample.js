@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { WorkloadsClient } = require("@azure/arm-workloads");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
- * This sample demonstrates how to Gets an Virtual Instance for SAP.
+ * This sample demonstrates how to Gets a Virtual Instance for SAP solutions resource
  *
- * @summary Gets an Virtual Instance for SAP.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Get.json
+ * @summary Gets a Virtual Instance for SAP solutions resource
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Get.json
  */
 async function sapVirtualInstancesGet() {
-  const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] || "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const resourceGroupName = process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
   const sapVirtualInstanceName = "X00";
   const credential = new DefaultAzureCredential();
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -27,4 +29,8 @@ async function sapVirtualInstancesGet() {
   console.log(result);
 }
 
-sapVirtualInstancesGet().catch(console.error);
+async function main() {
+  sapVirtualInstancesGet();
+}
+
+main().catch(console.error);

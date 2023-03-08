@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Scales an existing streaming endpoint.
  *
  * @summary Scales an existing streaming endpoint.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-08-01/examples/streamingendpoint-scale.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-11-01/examples/streamingendpoint-scale.json
  */
 async function scaleAStreamingEndpoint() {
   const subscriptionId =
