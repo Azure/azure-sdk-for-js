@@ -33,6 +33,9 @@ function makeSetting(generatedSetting: GeneratedSetting): KeyVaultSetting {
   }
 }
 
+/**
+ * Determines whether a given {@link KeyVaultSetting} is a {@link BooleanKeyVaultSetting}, i.e. has a boolean value.
+ */
 export function isBooleanSetting(setting: KeyVaultSetting): setting is BooleanKeyVaultSetting {
   return setting.kind === "boolean" && typeof setting.value === "boolean";
 }
