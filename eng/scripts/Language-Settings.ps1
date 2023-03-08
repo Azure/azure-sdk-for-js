@@ -242,7 +242,7 @@ function ValidatePackagesForDocs($packages) {
 
   $validationOutput = @()
   foreach ($pkg in $packages) {
-    LogDebug "Validating $($pkg.name)..."
+    Write-Host "Validating $($pkg.name)..."
     $validationOutput += (RexToolValidation -package $pkg.name -output $tempDirectory)
   }
 
