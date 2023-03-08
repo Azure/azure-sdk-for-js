@@ -16,7 +16,7 @@ matrix:
       testTarget: scenarioCloseOpen
       memory: "1.0Gi"
     longRunning:
-      testTarget: scenariolongRunning
+      testTarget: scenarioLongRunning
       memory: "2.5Gi"
     peekMessages:
       testTarget: scenarioPeekMessages
@@ -31,8 +31,8 @@ matrix:
       testTarget: scenarioSend
       memory: "1.5Gi"
     shortLivedReceiver:
-      testTarget: scenarioShortLivedReceiver
+      testTarget: scenarioShortLivedReceivers
       memory: "1.5Gi"
     streamingReceiver:
-      testTarget: scenarioStreamingReceiver
+      testTarget: scenarioStreamingReceive
       memory: "1.5Gi"
