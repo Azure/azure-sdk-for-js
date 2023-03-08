@@ -12,6 +12,7 @@ import {
   GetRecordingPropertiesOptions,
   ResumeRecordingOptions,
 } from "./models/options";
+import { communicationIdentifierModelConverter } from "./utli/converters";
 
 /**
  * CallRecording class represents call recording related APIs.
@@ -32,8 +33,20 @@ export class CallRecording {
     options: StartRecordingOptions
   ): Promise<RecordingStateResult> {
     const startCallRecordingRequest: StartCallRecordingRequest = {
-      ...options,
+      callLocator: options.callLocator
     };
+
+    startCallRecordingRequest.recordingChannelType = options.recordingChannel;
+    startCallRecordingRequest.recordingContentType = options.recordingContent;
+    startCallRecordingRequest.recordingFormatType = options.recordingFormat
+
+    if (options.audioChannelParticipantOrdering) {
+      startCallRecordingRequest.audioChannelParticipantOrdering = [];
+      options.audioChannelParticipantOrdering.forEach(identifier => {
+        startCallRecordingRequest.audioChannelParticipantOrdering?.push(communicationIdentifierModelConverter(identifier));
+      });
+    }
+
 
     if (options.callLocator.kind === "groupCallLocator") {
       startCallRecordingRequest.callLocator.kind = "groupCallLocator";

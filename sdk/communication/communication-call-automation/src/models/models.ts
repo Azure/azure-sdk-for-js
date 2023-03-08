@@ -8,6 +8,10 @@ import {
 } from "@azure/communication-common";
 import {
   CallConnectionStateModel,
+  KnownRecordingChannelType,
+  KnownRecordingContentType,
+  KnownRecordingFormatType,
+  KnownRecordingStorageType,
 } from "../generated/src";
 
 export {
@@ -213,4 +217,29 @@ export class CallInvite {
       }
     }
   }
+}
+
+/** The content type of a call recording. */
+export enum RecordingContent {
+  Audio = KnownRecordingContentType.Audio,
+  Video = KnownRecordingContentType.AudioVideo,
+}
+
+/** The channel type of a call recording. */
+export enum RecordingChannel {
+  Mixed = KnownRecordingChannelType.Mixed,
+  Unmixed = KnownRecordingChannelType.Unmixed,
+}
+
+/** The format type of a call recording. */
+export enum RecordingFormat {
+  Mp3 = KnownRecordingFormatType.Mp3,
+  Mp4 = KnownRecordingFormatType.Mp4,
+  Wav = KnownRecordingFormatType.Wav,
+}
+
+/** The storage type of a call recording. */
+export enum RecordingStorage {
+  Acs = KnownRecordingStorageType.Acs,
+  BlobStorage = KnownRecordingStorageType.BlobStorage,
 }
