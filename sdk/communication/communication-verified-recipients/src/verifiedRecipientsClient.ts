@@ -19,6 +19,7 @@ import { isKeyCredential, parseClientArguments } from "@azure/communication-comm
 import { VerifiedRecipientsClient as VerifiedRecipientsGeneratedClient } from "./generated/src";
 import { logger } from "./utils";
 import { tracingClient } from "./generated/src/tracing";
+
 /**
  * Client options used to configure the VerifiedRecipientsClient API requests.
  */
@@ -29,20 +30,43 @@ const isVerifiedRecipientsClientOptions = (
 ): options is VerifiedRecipientsClientOptions =>
   options && !isKeyCredential(options) && !isTokenCredential(options);
 
+/**
+ * Client class for interacting with Azure Communication Services Verified Recipients.
+ */
 export class VerifiedRecipientsClient {
   /**
    * A reference to the auto-generated VerifiedRecipients HTTP client.
    */
   private readonly client: VerifiedRecipientsGeneratedClient;
 
+  /**
+   * Initializes a new instance of the VerifiedRecipientsClient class using a connection string.
+   *
+   * @param connectionString - Connection string to connect to an Azure Communication Service resource. (eg: endpoint=https://contoso.eastus.communications.azure.net/;accesskey=secret)
+   * @param options - Optional. Options to configure the HTTP pipeline.
+   */
   public constructor(connectionString: string, options?: VerifiedRecipientsClientOptions);
 
+  /**
+   * Initializes a new instance of the VerifiedRecipientsClient class using an Azure KeyCredential.
+   *
+   * @param endpoint - The endpoint of the service (eg: https://contoso.eastus.communications.azure.net)
+   * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
+   * @param options - Optional. Options to configure the HTTP pipeline.
+   */
   public constructor(
     endpoint: string,
     credential: KeyCredential,
     options?: VerifiedRecipientsClientOptions
   );
 
+  /**
+   * Initializes a new instance of the VerifiedRecipientsClient class using an Azure KeyCredential.
+   *
+   * @param endpoint - The endpoint of the service (eg: https://contoso.eastus.communications.azure.net)
+   * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
+   * @param options - Optional. Options to configure the HTTP pipeline.
+   */
   public constructor(
     endpoint: string,
     credential: TokenCredential,
@@ -73,6 +97,11 @@ export class VerifiedRecipientsClient {
     this.client.pipeline.addPolicy(authPolicy);
   }
 
+  /**
+   * Returns list of verified/pending phone numbers.
+   *
+   * @param options - Additional request options.
+   */
   public getVerifications(
     options: AcsVerificationGetVerificationsOptionalParams = {}
   ): Promise<AcsVerification[]> {
@@ -85,6 +114,12 @@ export class VerifiedRecipientsClient {
     );
   }
 
+  /**
+   * Removes a pending/verified number.
+   *
+   * @param verificationId - Id that is used to reference users phone number.
+   * @param options - Additional request options.
+   */
   public deleteVerification(
     verificationId: string,
     options: AcsVerificationDeleteVerificationOptionalParams = {}
@@ -101,6 +136,12 @@ export class VerifiedRecipientsClient {
     );
   }
 
+  /**
+   * Verifies a users phone number.
+   *
+   * @param verificationId - Id that is used to reference users phone number.
+   * @param options - Additional request options.
+   */
   public verifyIdentity(
     verificationId: string,
     options: AcsVerificationVerifyIdentityOptionalParams = {}
@@ -114,6 +155,11 @@ export class VerifiedRecipientsClient {
     );
   }
 
+  /**
+   * Returns information about a resource in relation to verified recipients.
+   *
+   * @param options - Additional request options.
+   */
   public getVerificationConstants(
     options: AcsVerificationGetVerificationConstantsOptionalParams = {}
   ): Promise<VerificationConstantsResponse> {
@@ -126,6 +172,11 @@ export class VerifiedRecipientsClient {
     );
   }
 
+  /**
+   * Sends a code to users phone number that will be used for verification.
+   *
+   * @param options - Additional request options.
+   */
   public requestVerification(
     options: AcsVerificationRequestVerificationOptionalParams = {}
   ): Promise<AcsVerificationRequestVerificationResponse> {

@@ -86,20 +86,15 @@ export interface VerificationResponse {
 // @public (undocumented)
 export const VerificationResponseMapper: coreClient.CompositeMapper;
 
-// @public (undocumented)
+// @public
 export class VerifiedRecipientsClient {
     constructor(connectionString: string, options?: VerifiedRecipientsClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: VerifiedRecipientsClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: VerifiedRecipientsClientOptions);
-    // (undocumented)
     deleteVerification(verificationId: string, options?: AcsVerificationDeleteVerificationOptionalParams): Promise<void>;
-    // (undocumented)
     getVerificationConstants(options?: AcsVerificationGetVerificationConstantsOptionalParams): Promise<VerificationConstantsResponse>;
-    // (undocumented)
     getVerifications(options?: AcsVerificationGetVerificationsOptionalParams): Promise<AcsVerification[]>;
-    // (undocumented)
     requestVerification(options?: AcsVerificationRequestVerificationOptionalParams): Promise<AcsVerificationRequestVerificationResponse>;
-    // (undocumented)
     verifyIdentity(verificationId: string, options?: AcsVerificationVerifyIdentityOptionalParams): Promise<AcsVerificationVerifyIdentityResponse>;
 }
 
