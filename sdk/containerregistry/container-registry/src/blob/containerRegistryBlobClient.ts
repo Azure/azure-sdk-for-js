@@ -37,6 +37,14 @@ const LATEST_API_VERSION = "2021-07-01";
 
 const CHUNK_SIZE = 4 * 1024 * 1024; // 4 MB
 
+const DEFAULT_ACCEPT_MANIFEST_MEDIA_TYPES = [
+  KnownManifestMediaType.OciManifest,
+  KnownManifestMediaType.DockerManifest,
+  "application/vnd.oci.image.index.v1+json",
+  "application/vnd.docker.distribution.manifest.list.v2+json",
+  "application/vnd.docker.container.image.v1+json",
+];
+
 function isReadableStream(body: any): body is NodeJS.ReadableStream {
   return body && typeof body.pipe === "function";
 }
@@ -237,7 +245,7 @@ export class ContainerRegistryBlobClient {
       "ContainerRegistryBlobClient.downloadManifest",
       options,
       async (updatedOptions) => {
-        const acceptMediaType = options.mediaType ?? KnownManifestMediaType.OciManifest;
+        const acceptMediaType = options.mediaType ?? DEFAULT_ACCEPT_MANIFEST_MEDIA_TYPES;
 
         const response = await this.client.containerRegistry.getManifest(
           this.repositoryName,
