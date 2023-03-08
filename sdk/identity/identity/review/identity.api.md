@@ -385,8 +385,6 @@ export class WorkloadIdentityCredential implements TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
 }
 
-// Warning: (ae-incompatible-release-tags) The symbol "WorkloadIdentityCredentialOptions" is marked as @public, but its signature references "WorkloadIdentityDefaultCredentialOptions" which is marked as @internal
-//
 // @public
 export interface WorkloadIdentityCredentialOptions extends WorkloadIdentityDefaultCredentialOptions {
     clientId: string;
@@ -394,9 +392,7 @@ export interface WorkloadIdentityCredentialOptions extends WorkloadIdentityDefau
     tenantId: string;
 }
 
-// Warning: (ae-internal-missing-underscore) The name "WorkloadIdentityDefaultCredentialOptions" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal (undocumented)
+// @public
 export interface WorkloadIdentityDefaultCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
 }
 
