@@ -1359,6 +1359,6 @@ export interface Routes {
   ): ComputeNodeExtensionsList;
 }
 
-export type BatchGeneratedClient = Client & {
+export type BatchServiceClient = Client & {
   path: Routes;
 };

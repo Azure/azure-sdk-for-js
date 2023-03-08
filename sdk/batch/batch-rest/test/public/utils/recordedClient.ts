@@ -2,19 +2,37 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import "./env";
-
-const envSetupForPlayback: Record<string, string> = {
-  ENDPOINT: "https://endpoint",
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id",
-};
+import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder";
+import { ClientOptions } from "@azure-rest/core-client";
+import { createTestCredential } from "@azure-tools/test-credential";
+import BatchServiceClient from "../../../src";
+import { fakeTestPasswordPlaceholder1, fakeAzureBatchAccount, fakeAzureBatchEndpoint } from "./fakeTestSecrets";
 
 const recorderEnvSetup: RecorderStartOptions = {
-  envSetupForPlayback,
+  envSetupForPlayback: {
+    AZURE_BATCH_ENDPOINT: fakeAzureBatchEndpoint,
+    AZURE_CLIENT_ID: "azure_client_id",
+    AZURE_CLIENT_SECRET: "azure_client_secret",
+    AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
+    AZURE_BATCH_ACCOUNT: fakeAzureBatchAccount,
+    AZURE_BATCH_ACCESS_KEY: "api_key"
+  },
+  sanitizerOptions: {
+    bodyKeySanitizers: [
+      {
+        jsonPath: "$.userAccounts[0].password",
+        value: fakeTestPasswordPlaceholder1,
+      },
+      {
+        jsonPath: "$.password",
+        value: fakeTestPasswordPlaceholder1
+      },
+
+    ],
+    generalSanitizers: [{
+      regex: true, target: `https://${fakeAzureBatchAccount}(.*)batch.azure.com`, value: fakeAzureBatchEndpoint
+    }]
+  },
 };
 
 /**
@@ -27,3 +45,30 @@ export async function createRecorder(context: Context): Promise<Recorder> {
   await recorder.start(recorderEnvSetup);
   return recorder;
 }
+
+export type AuthMethod = "AAD" | "DummyAPIKey";
+
+export function createBatchClient(
+  authMethod: AuthMethod,
+  recorder?: Recorder,
+  options: ClientOptions = {},
+) {
+
+  let credential;
+  switch (authMethod) {
+    case "AAD": {
+      credential = createTestCredential();
+      break;
+    }
+    // case "DummyAPIKey": {
+    //   credential = new BatchSharedKeyCredentials("whatever", "whatever");
+    //   break;
+    // }
+    default: {
+      throw Error(`Unsupported authentication method: ${authMethod}`);
+    }
+  }
+
+  return BatchServiceClient(env.AZURE_BATCH_ENDPOINT! || "https://dummy.eastus.batch.azure.com", credential, recorder ? recorder.configureClientOptions({ ...options }) : options)
+    ;
+} 

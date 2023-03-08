@@ -383,11 +383,6 @@ export interface BatchErrorOutput {
     values?: Array<BatchErrorDetailOutput>;
 }
 
-// @public (undocumented)
-export type BatchGeneratedClient = Client & {
-    path: Routes;
-};
-
 // @public
 export interface BatchJob {
     allowTaskPreemption?: boolean;
@@ -607,6 +602,11 @@ export interface BatchPoolResizeParameters {
     targetDedicatedNodes?: number;
     targetLowPriorityNodes?: number;
 }
+
+// @public (undocumented)
+export type BatchServiceClient = Client & {
+    path: Routes;
+};
 
 // @public
 export interface BatchTask {
@@ -1993,7 +1993,7 @@ export interface ContainerRegistryOutput {
 }
 
 // @public
-function createClient(endpoint: string, credentials: TokenCredential, options?: ClientOptions): BatchGeneratedClient;
+function createClient(endpoint: string, credentials: TokenCredential, options?: ClientOptions): BatchServiceClient;
 export default createClient;
 
 // @public
