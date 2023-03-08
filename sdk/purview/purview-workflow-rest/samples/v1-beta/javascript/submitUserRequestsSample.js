@@ -12,18 +12,8 @@ require("dotenv").config();
  * This sample demonstrates how to Submit a user request for requestor, a user  request describes user ask to do operation(s) on Purview. If any workflow's trigger matches with an operation in request, a run of the workflow is created. Before user submit a user request, a workflow should be created.
  *
  * @summary Submit a user request for requestor, a user  request describes user ask to do operation(s) on Purview. If any workflow's trigger matches with an operation in request, a run of the workflow is created.
- * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/SubmitUserRequests.json
  */
-
-async function userRequestsSubmit(client, userRequest) {
-  const result = await client.path("/userrequests").post(userRequest);
-  if (isUnexpected(result)) {
-    throw result.body.error;
-  }
-  console.log(`The submitted user request is ${result.body}`);
-}
-
-async function main() {
+async function userRequestsSubmit() {
   // ================================================== Create client ==================================================
 
   const endpoint = process.env["ENDPOINT"] || "";
@@ -55,7 +45,11 @@ async function main() {
     },
   }; //This payload is an example payload, please replace the payload with real data.
 
-  userRequestsSubmit(client, userRequestPayload);
+  const result = await client.path("/userrequests").post(userRequestPayload);
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+  console.log(`The submitted user request is ${result.body}`);
 }
 
-main().catch(console.error);
+userRequestsSubmit().catch(console.error);
