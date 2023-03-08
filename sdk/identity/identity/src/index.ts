@@ -90,7 +90,10 @@ export { VisualStudioCodeCredential } from "./credentials/visualStudioCodeCreden
 export { VisualStudioCodeCredentialOptions } from "./credentials/visualStudioCodeCredentialOptions";
 export { OnBehalfOfCredential } from "./credentials/onBehalfOfCredential";
 export { WorkloadIdentityCredential } from "./credentials/workloadIdentityCredential";
-export { WorkloadIdentityCredentialOptions } from "./credentials/workloadIdentityCredentialOptions";
+export { 
+  WorkloadIdentityCredentialOptions,
+  WorkloadIdentityDefaultCredentialOptions,
+} from "./credentials/workloadIdentityCredentialOptions";
 
 export { TokenCachePersistenceOptions } from "./msal/nodeFlows/tokenCachePersistenceOptions";
 
