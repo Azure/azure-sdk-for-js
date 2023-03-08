@@ -380,18 +380,24 @@ export interface VisualStudioCodeCredentialOptions extends MultiTenantTokenCrede
 // @public
 export class WorkloadIdentityCredential implements TokenCredential {
     constructor(options: WorkloadIdentityCredentialOptions);
-    // Warning: (ae-forgotten-export) The symbol "WorkloadIdentityDefaultCredentialOptions" needs to be exported by the entry point index.d.ts
-    //
     // @internal
     constructor(options?: WorkloadIdentityDefaultCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
 }
 
+// Warning: (ae-incompatible-release-tags) The symbol "WorkloadIdentityCredentialOptions" is marked as @public, but its signature references "WorkloadIdentityDefaultCredentialOptions" which is marked as @internal
+//
 // @public
 export interface WorkloadIdentityCredentialOptions extends WorkloadIdentityDefaultCredentialOptions {
     clientId: string;
     federatedTokenFilePath: string;
     tenantId: string;
+}
+
+// Warning: (ae-internal-missing-underscore) The name "WorkloadIdentityDefaultCredentialOptions" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface WorkloadIdentityDefaultCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
 }
 
 // (No @packageDocumentation comment for this package)

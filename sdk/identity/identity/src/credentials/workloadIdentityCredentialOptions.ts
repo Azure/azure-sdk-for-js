@@ -3,7 +3,6 @@
 
 import { AuthorityValidationOptions } from "./authorityValidationOptions";
 import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions";
-import { WorkloadIdentityCredential } from "./workloadIdentityCredential";
 
 /**
  * Options for the {@link WorkloadIdentityCredential}

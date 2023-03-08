@@ -90,7 +90,7 @@ export { VisualStudioCodeCredential } from "./credentials/visualStudioCodeCreden
 export { VisualStudioCodeCredentialOptions } from "./credentials/visualStudioCodeCredentialOptions";
 export { OnBehalfOfCredential } from "./credentials/onBehalfOfCredential";
 export { WorkloadIdentityCredential } from "./credentials/workloadIdentityCredential";
-export { 
+export {
   WorkloadIdentityCredentialOptions,
   WorkloadIdentityDefaultCredentialOptions,
 } from "./credentials/workloadIdentityCredentialOptions";
