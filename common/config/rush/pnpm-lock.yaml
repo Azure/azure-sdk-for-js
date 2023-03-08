@@ -3899,7 +3899,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230306
+      typescript: 5.1.0-dev.20230307
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8593,12 +8593,6 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.6.4:
-    resolution: {integrity: sha512-9ia/jWHIEbo49HfjrLGfKbZSuWo9iTMwXO+Ca3pRsSpbsMbc7/IU8NKdCZVRRBafVPGnoJeFL76ZOAA84I9fEg==}
-    engines: {node: '>=4.2.0'}
-    hasBin: true
-    dev: false
-
   /typescript/4.8.4:
     resolution: {integrity: sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==}
     engines: {node: '>=4.2.0'}
@@ -8611,8 +8605,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230306:
-    resolution: {integrity: sha512-CqMT7nhnVNKfaT1giN+UjFUSqN2gBI17K8JoT+I1LgPU/G9oYypuG+91pz8Kjk/GW/BG685khZ0YfFrADj+KPQ==}
+  /typescript/5.1.0-dev.20230307:
+    resolution: {integrity: sha512-QoA4rJ5koT+JJk69FBwAF4vx446c5xPWlvgMrlz0E0SaGDpveCbK8DTpRmdxrZR4oVQ0VxMag1BGtZPtQtU+Jg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -15889,21 +15883,21 @@ packages:
     dev: false
 
   file:projects/communication-verified-recipients.tgz:
-    resolution: {integrity: sha512-Zdqyf4cF6n6z2Xfh95MEDUBgc9Ml2qd3bM4fIu4EWN4jPmj2haL/vmAMzMBwKaUzFRrSyBAj3hhiNyft+ILqPA==, tarball: file:projects/communication-verified-recipients.tgz}
+    resolution: {integrity: sha512-RIbvT8fexaaO9ynOsjLynSHYUGpNPf/hvNM2QGnHhxCjq7DW+HrT3xyrDBgmQ7nzYQ5ym+QfDfrRbk8ciVwYOg==, tarball: file:projects/communication-verified-recipients.tgz}
     name: '@rush-temp/communication-verified-recipients'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 2.0.0
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.4_@types+node@14.18.36
+      '@microsoft/api-extractor': 7.34.4_@types+node@14.18.37
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
-      '@types/node': 14.18.36
+      '@types/node': 14.18.37
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
+      dotenv: 16.0.3
       eslint: 8.35.0
       events: 3.3.0
       inherits: 2.0.4
@@ -15925,12 +15919,11 @@ packages:
       rimraf: 3.0.2
       sinon: 9.2.4
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uuid: 8.3.2
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
