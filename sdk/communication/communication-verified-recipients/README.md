@@ -1,8 +1,6 @@
-Verification README
-
 # Azure Communication Verified Recipients client library for JavaScript
 
-The Verified Recipient library allows users to verify numbers for send messages or calling.
+The Verified Recipient library allows users to verify the phone number of recipients before sending messages or making calls to the phone number.
 
 ## Getting started
 
