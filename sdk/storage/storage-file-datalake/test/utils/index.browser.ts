@@ -46,11 +46,6 @@ export function getGenericDataLakeServiceClient(
 
   accountSAS = accountSAS.startsWith("?") ? accountSAS : `?${accountSAS}`;
 
-  // don't add the test account SAS value.
-  if (accountSAS === "?fakeSasToken") {
-    accountSAS = "";
-  }
-
   const credentials = getGenericCredential();
   const pipeline = newPipeline(credentials);
   const dfsPrimaryURL = `https://${accountName}${accountNameSuffix}.dfs.core.windows.net${accountSAS}`;

@@ -7,7 +7,7 @@ import { Context } from "mocha";
 
 import { DataLakeFileClient, DataLakeFileSystemClient } from "../src";
 import { appendToURLPath } from "../src/utils/utils.common";
-import { getDataLakeServiceClient, getUniqueName, recorderEnvSetup } from "./utils";
+import { getDataLakeServiceClient, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils";
 
 describe("Special Naming Tests", () => {
   let fileSystemName: string;
@@ -18,6 +18,7 @@ describe("Special Naming Tests", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     const serviceClient = getDataLakeServiceClient(recorder);
     fileSystemName = recorder.variable(
       "1container-with-dash",

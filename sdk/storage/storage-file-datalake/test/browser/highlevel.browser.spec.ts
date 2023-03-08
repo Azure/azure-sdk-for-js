@@ -4,7 +4,7 @@
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { DataLakeFileClient, DataLakeFileSystemClient } from "../../src";
-import { getDataLakeServiceClient, getUniqueName, recorderEnvSetup } from "../utils";
+import { getDataLakeServiceClient, getUniqueName, recorderEnvSetup, uriSanitizers } from "../utils";
 import {
   blobToString,
   bodyToString,
@@ -30,6 +30,7 @@ describe("Highlevel browser only", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     const serviceClient = getDataLakeServiceClient(recorder);
     fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
@@ -39,24 +40,15 @@ describe("Highlevel browser only", () => {
   });
 
   afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+    if (fileSystemClient) {
       await fileSystemClient.delete();
-      await recorder.stop();
     }
+    await recorder.stop();
   });
 
   before(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    tempFileLarge = getBrowserFile(
-      recorder.variable("browserfilesmall", getUniqueName("browserfilesmall")),
-      tempFileLargeLength
-    );
-    tempFileSmall = getBrowserFile(
-      recorder.variable("browserfilelarge", getUniqueName("browserfilelarge")),
-      tempFileSmallLength
-    );
-    await recorder.stop();
+    tempFileLarge = getBrowserFile("browserfilesmall", tempFileLargeLength);
+    tempFileSmall = getBrowserFile("browserfilelarge", tempFileSmallLength);
   });
 
   it("upload should succeed with a single upload", async function (this: Context) {

@@ -200,11 +200,6 @@ export function extractConnectionStringParts(connectionString: string): Connecti
       throw new Error("Invalid SharedAccessSignature in the provided SAS Connection String");
     }
 
-    // remove test SAS
-    if (accountSas === "fakeSasToken") {
-      accountSas = "";
-    }
-
     return { kind: "SASConnString", url: blobEndpoint, accountName, accountSas };
   }
 }

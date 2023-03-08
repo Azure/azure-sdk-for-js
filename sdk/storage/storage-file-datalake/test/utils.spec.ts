@@ -8,16 +8,10 @@ import {
   sanitizeURL,
   extractConnectionStringParts,
 } from "../src/utils/utils.common";
-import { Recorder } from "@azure-tools/test-recorder";
-import { recorderEnvSetup } from "./utils";
-import { Context } from "mocha";
 
 describe("Utility Helpers", () => {
-  let recorder: Recorder;
-  const protocol = "https";
-  const endpointSuffix = "core.windows.net";
   const accountName = "myaccount";
-  const blobEndpoint = `${protocol}://${accountName}.blob.${endpointSuffix}`;
+  const blobEndpoint = `https://${accountName}.blob.core.windows.net`;
   const sharedAccessSignature = "sasToken";
 
   function verifySASConnectionString(sasConnectionString: string) {
@@ -38,15 +32,6 @@ describe("Utility Helpers", () => {
       "extractConnectionStringParts().accountName is different than expected."
     );
   }
-
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-  });
-
-  afterEach(async function () {
-    await recorder.stop();
-  });
 
   it("sanitizeURL redacts SAS token", () => {
     const url = "https://some.url.com/container/blob?sig=sasstring";

@@ -15,6 +15,7 @@ import {
   getUniqueName,
   recorderEnvSetup,
   sleep,
+  uriSanitizers,
 } from "./utils";
 import { Context } from "mocha";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
@@ -32,6 +33,7 @@ describe("DataLakePathClient", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     const serviceClient = getDataLakeServiceClient(recorder);
     fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
@@ -1276,6 +1278,7 @@ describe("DataLakePathClient with CPK", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     const serviceClient = getDataLakeServiceClient(recorder);
     fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
@@ -1678,7 +1681,7 @@ describe("DataLakePathClient - Encryption Scope", () => {
 
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
-
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     const serviceClient = getDataLakeServiceClient(recorder);
     fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);

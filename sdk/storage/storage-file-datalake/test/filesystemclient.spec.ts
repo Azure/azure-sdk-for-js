@@ -19,6 +19,7 @@ import {
   getGenericDataLakeServiceClient,
   getUniqueName,
   recorderEnvSetup,
+  uriSanitizers,
 } from "./utils";
 import { Context } from "mocha";
 
@@ -32,6 +33,7 @@ describe("DataLakeFileSystemClient", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     serviceClient = getDataLakeServiceClient(recorder);
     fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
@@ -630,6 +632,7 @@ describe("DataLakeFileSystemClient with soft delete", () => {
 
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
 
     try {
       serviceClient = getGenericDataLakeServiceClient(recorder, "DFS_SOFT_DELETE_");
