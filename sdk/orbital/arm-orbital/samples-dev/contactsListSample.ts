@@ -15,15 +15,18 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Returns list of contacts by spacecraftName
+ * This sample demonstrates how to Returns list of contacts by spacecraftName.
  *
- * @summary Returns list of contacts by spacecraftName
- * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/ContactsBySpacecraftNameList.json
+ * @summary Returns list of contacts by spacecraftName.
+ * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-11-01/examples/ContactsBySpacecraftNameList.json
  */
 async function listOfSpacecraft() {
-  const subscriptionId = process.env["ORBITAL_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["ORBITAL_RESOURCE_GROUP"] || "rg1";
-  const spacecraftName = "AQUA";
+  const subscriptionId =
+    process.env["ORBITAL_SUBSCRIPTION_ID"] ||
+    "c1be1141-a7c9-4aac-9608-3c2e2f1152c3";
+  const resourceGroupName =
+    process.env["ORBITAL_RESOURCE_GROUP"] || "contoso-Rgp";
+  const spacecraftName = "CONTOSO_SAT";
   const credential = new DefaultAzureCredential();
   const client = new AzureOrbital(credential, subscriptionId);
   const resArray = new Array();

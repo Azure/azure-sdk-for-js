@@ -15,22 +15,25 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Return list of available contacts
+ * This sample demonstrates how to Returns list of available contacts. A contact is available if the spacecraft is visible from the ground station for more than the minimum viable contact duration provided in the contact profile.
  *
- * @summary Return list of available contacts
- * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/AvailableContactsList.json
+ * @summary Returns list of available contacts. A contact is available if the spacecraft is visible from the ground station for more than the minimum viable contact duration provided in the contact profile.
+ * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-11-01/examples/AvailableContactsList.json
  */
 async function listOfContact() {
-  const subscriptionId = process.env["ORBITAL_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["ORBITAL_RESOURCE_GROUP"] || "rgName";
-  const spacecraftName = "AQUA";
+  const subscriptionId =
+    process.env["ORBITAL_SUBSCRIPTION_ID"] ||
+    "c1be1141-a7c9-4aac-9608-3c2e2f1152c3";
+  const resourceGroupName =
+    process.env["ORBITAL_RESOURCE_GROUP"] || "contoso-Rgp";
+  const spacecraftName = "CONTOSO_SAT";
   const contactProfile = {
     id:
-      "/subscriptions/subId/resourceGroups/rg/Microsoft.Orbital/contactProfiles/AQUA_DIRECTPLAYBACK_WITH_UPLINK"
+      "/subscriptions/c1be1141-a7c9-4aac-9608-3c2e2f1152c3/resourceGroups/contoso-Rgp/providers/Microsoft.Orbital/contactProfiles/CONTOSO-CP"
   };
-  const groundStationName = "westus_gs1";
-  const startTime = new Date("2020-07-16T05:40:21.00Z");
-  const endTime = new Date("2020-07-17T23:49:40.00Z");
+  const groundStationName = "EASTUS2_0";
+  const startTime = new Date("2022-11-01T11:30:00Z");
+  const endTime = new Date("2022-11-02T11:30:00Z");
   const credential = new DefaultAzureCredential();
   const client = new AzureOrbital(credential, subscriptionId);
   const resArray = new Array();

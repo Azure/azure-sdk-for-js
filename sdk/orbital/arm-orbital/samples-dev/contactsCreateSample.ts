@@ -18,21 +18,24 @@ dotenv.config();
  * This sample demonstrates how to Creates a contact.
  *
  * @summary Creates a contact.
- * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/ContactCreate.json
+ * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-11-01/examples/ContactCreate.json
  */
 async function createAContact() {
-  const subscriptionId = process.env["ORBITAL_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["ORBITAL_RESOURCE_GROUP"] || "rg1";
-  const spacecraftName = "AQUA";
+  const subscriptionId =
+    process.env["ORBITAL_SUBSCRIPTION_ID"] ||
+    "c1be1141-a7c9-4aac-9608-3c2e2f1152c3";
+  const resourceGroupName =
+    process.env["ORBITAL_RESOURCE_GROUP"] || "contoso-Rgp";
+  const spacecraftName = "CONTOSO_SAT";
   const contactName = "contact1";
   const parameters: Contact = {
     contactProfile: {
       id:
-        "/subscriptions/subId/resourceGroups/rg/Microsoft.Orbital/contactProfiles/AQUA_DIRECTPLAYBACK_WITH_UPLINK"
+        "/subscriptions/c1be1141-a7c9-4aac-9608-3c2e2f1152c3/resourceGroups/contoso-Rgp/providers/Microsoft.Orbital/contactProfiles/CONTOSO-CP"
     },
-    groundStationName: "westus_gs1",
-    reservationEndTime: new Date("2020-07-16T20:55:00.00Z"),
-    reservationStartTime: new Date("2020-07-16T20:35:00.00Z")
+    groundStationName: "EASTUS2_0",
+    reservationEndTime: new Date("2023-02-22T11:10:45Z"),
+    reservationStartTime: new Date("2023-02-22T10:58:30Z")
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureOrbital(credential, subscriptionId);

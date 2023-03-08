@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all of the available Orbital Rest API operations.
  *
  * @summary Lists all of the available Orbital Rest API operations.
- * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/OperationsList.json
+ * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-11-01/examples/OperationsList.json
  */
 async function operationsList() {
   const subscriptionId =
