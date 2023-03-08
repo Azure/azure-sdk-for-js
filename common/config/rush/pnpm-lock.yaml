@@ -3897,7 +3897,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230306
+      typescript: 5.1.0-dev.20230307
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -5023,6 +5023,16 @@ packages:
       inherits: 2.0.4
       minimatch: 5.1.6
       once: 1.4.0
+    dev: false
+
+  /glob/9.2.1:
+    resolution: {integrity: sha512-Pxxgq3W0HyA3XUvSXcFhRSs+43Jsx0ddxcFrbjxNGkL2Ak5BAUBxLqI5G6ADDeCHLfzzXFhe0b1yYcctGmytMA==}
+    engines: {node: '>=16 || 14 >=14.17'}
+    dependencies:
+      fs.realpath: 1.0.0
+      minimatch: 7.4.2
+      minipass: 4.2.4
+      path-scurry: 1.6.1
     dev: false
 
   /global/4.4.0:
@@ -6433,8 +6443,20 @@ packages:
       brace-expansion: 2.0.1
     dev: false
 
+  /minimatch/7.4.2:
+    resolution: {integrity: sha512-xy4q7wou3vUoC9k1xGTXc+awNdGaGVHtFUaey8tiX4H1QRc04DZ/rmDFwNm2EBsuYEhAZ6SgMmYf3InGY6OauA==}
+    engines: {node: '>=10'}
+    dependencies:
+      brace-expansion: 2.0.1
+    dev: false
+
   /minimist/1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
+    dev: false
+
+  /minipass/4.2.4:
+    resolution: {integrity: sha512-lwycX3cBMTvcejsHITUgYj6Gy6A7Nh4Q6h9NP4sTHY1ccJlC7yKzDmiShEHsJ16Jf1nKGDEaiHxiltsJEvk0nQ==}
+    engines: {node: '>=8'}
     dev: false
 
   /mitt/3.0.0:
@@ -7093,6 +7115,14 @@ packages:
 
   /path-parse/1.0.7:
     resolution: {integrity: sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==}
+    dev: false
+
+  /path-scurry/1.6.1:
+    resolution: {integrity: sha512-OW+5s+7cw6253Q4E+8qQ/u1fVvcJQCJo/VFD8pje+dbJCF1n5ZRMV2AEHbGp+5Q7jxQIYJxkHopnj6nzdGeZLA==}
+    engines: {node: '>=14'}
+    dependencies:
+      lru-cache: 7.18.3
+      minipass: 4.2.4
     dev: false
 
   /path-to-regexp/0.1.7:
@@ -8603,8 +8633,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230306:
-    resolution: {integrity: sha512-CqMT7nhnVNKfaT1giN+UjFUSqN2gBI17K8JoT+I1LgPU/G9oYypuG+91pz8Kjk/GW/BG685khZ0YfFrADj+KPQ==}
+  /typescript/5.1.0-dev.20230307:
+    resolution: {integrity: sha512-QoA4rJ5koT+JJk69FBwAF4vx446c5xPWlvgMrlz0E0SaGDpveCbK8DTpRmdxrZR4oVQ0VxMag1BGtZPtQtU+Jg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9588,7 +9618,7 @@ packages:
     dev: false
 
   file:projects/api-management-custom-widgets-scaffolder.tgz:
-    resolution: {integrity: sha512-GpKqgj9D9Dg0m0DLQU4BpEz7IZxER0mjsSCZX/bPV3CBQXifYy+P3lDoLgdQoEKYkTV7gIQyFxCCvRhzV4qumA==, tarball: file:projects/api-management-custom-widgets-scaffolder.tgz}
+    resolution: {integrity: sha512-S9BURiSWX24IzOLizYHb9zfD1Kdd/WE3qNVF74haGkdi0RdgN6FrBNNYCFN1haGOcnEw8qtdhno0tn3IOdZVpA==, tarball: file:projects/api-management-custom-widgets-scaffolder.tgz}
     name: '@rush-temp/api-management-custom-widgets-scaffolder'
     version: 0.0.0
     dependencies:
@@ -9608,7 +9638,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.0.3
       eslint: 7.32.0
-      glob: 8.1.0
+      glob: 9.2.1
       inquirer: 8.2.5
       magic-string: 0.27.0
       mocha: 7.2.0
@@ -9629,7 +9659,7 @@ packages:
     dev: false
 
   file:projects/api-management-custom-widgets-tools.tgz:
-    resolution: {integrity: sha512-90LoM1a66ShpRi+aa1amBRvz+wmxRDTxrl4fGG2O1tSn2lmjxTCEyBQlIKk26Qk3H5wmbNjoqqOwDefTWczlmw==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
+    resolution: {integrity: sha512-GUpHHmFcx2QNkyV7LoT0x/qH41KM1C4JkOwPuvHM+pBkj18akPviVrr+w/nMtNiogVl6Sr3IMShfOABK4naWCQ==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
     name: '@rush-temp/api-management-custom-widgets-tools'
     version: 0.0.0
     dependencies:
@@ -9649,7 +9679,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.0.3
       eslint: 7.32.0
-      glob: 8.1.0
+      glob: 9.2.1
       karma: 6.4.1
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
@@ -15154,7 +15184,7 @@ packages:
     dev: false
 
   file:projects/arm-voiceservices.tgz:
-    resolution: {integrity: sha512-UQzVM3QGOoF41oeKg9b+AVss67zUot4pmOyomomv5c8+fdG1UARwvbx2XHwgVrAMj9NtbvXrj/MDVkWcXZxYVQ==, tarball: file:projects/arm-voiceservices.tgz}
+    resolution: {integrity: sha512-DgQPVXmJi5u5/OroRBeaCgyimbuLN3qv2jxV6vLk3nYsPcGR6EYm/UgNrOTogjpMWyA+UOa7ZAi2KjMKld0NYA==, tarball: file:projects/arm-voiceservices.tgz}
     name: '@rush-temp/arm-voiceservices'
     version: 0.0.0
     dependencies:
@@ -15179,7 +15209,6 @@ packages:
       typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - encoding
       - supports-color
     dev: false
 
@@ -16718,7 +16747,7 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk.tgz:
-    resolution: {integrity: sha512-fbCyxI2vCFZTS3aml5Z+8Wr8gUfEp7sVV8GG68pCcchI6veDkfLVBPMbBaso2sIEnTrJLN61xAv5562lSr4fqw==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-n0Xao7NSwuEPvoPxa5ypwUdob/sfLpwNy3L2RyjKnqlc9rt08nwbXyqvGK0b91dmkTn9oP2tPYuwNUfrGTWf6A==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -16741,7 +16770,7 @@ packages:
       eslint-plugin-no-only-tests: 3.1.0
       eslint-plugin-promise: 6.1.1_eslint@8.35.0
       eslint-plugin-tsdoc: 0.2.17
-      glob: 8.1.0
+      glob: 9.2.1
       json-schema: 0.4.0
       mocha: 7.2.0
       mocha-junit-reporter: 2.2.0_mocha@7.2.0
