@@ -6,7 +6,7 @@ displayNames:
   image: ""
 matrix:
   images:
-    go18:
+    node18:
       image: Dockerfile
   scenarios:
     batchReceive:
