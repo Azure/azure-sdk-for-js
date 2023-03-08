@@ -18,7 +18,7 @@ import { HttpClient, Pipeline as CorePipeline } from "@azure/core-rest-pipeline"
 // This function relies on the Pipeline already being initialized by a storage-blob client
 function getCoreClientOptions(pipeline: Pipeline): ExtendedServiceClientOptions {
   const { httpClient: v1Client, ...restOptions } = pipeline.options as StoragePipelineOptions;
-  let httpClient: HttpClient = (pipeline as any)._coreHttpClient;
+  const httpClient: HttpClient = (pipeline as any)._coreHttpClient;
   if (!httpClient) {
     throw new Error("Pipeline not correctly initialized; missing V2 HttpClient");
   }
