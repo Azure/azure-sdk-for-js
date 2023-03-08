@@ -3942,7 +3942,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230306
+      typescript: 5.1.0-dev.20230308
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8659,8 +8659,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230306:
-    resolution: {integrity: sha512-CqMT7nhnVNKfaT1giN+UjFUSqN2gBI17K8JoT+I1LgPU/G9oYypuG+91pz8Kjk/GW/BG685khZ0YfFrADj+KPQ==}
+  /typescript/5.1.0-dev.20230308:
+    resolution: {integrity: sha512-CSITPpBYNdPYujl36d9VhNNCLE+isuwm/ArFbYgPsWsLniLCcfBl+NcaOkVqyjV0XEjP+uN1yywiglCkEzed1w==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -13224,10 +13224,11 @@ packages:
     dev: false
 
   file:projects/arm-netapp.tgz:
-    resolution: {integrity: sha512-0R4EZsqHZ1A3rtmvbre96RpXAa6oZU/qPXXwpy5lmM/am2H39u48/rOsr1htXlwTRzgHjWCvlsyuZ2aA/V7YFQ==, tarball: file:projects/arm-netapp.tgz}
+    resolution: {integrity: sha512-jflfY941s5d7P31kN9C2OhI3YkRnTSohXklW9ER72nDFWRan2sMM+pV5JLb/VuR+dJu82s6+0/aIeQ3QnJ4y1Q==, tarball: file:projects/arm-netapp.tgz}
     name: '@rush-temp/arm-netapp'
     version: 0.0.0
     dependencies:
+      '@azure-tools/test-recorder': 2.0.0
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.34.4_@types+node@14.18.37
       '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
@@ -13238,8 +13239,8 @@ packages:
       '@types/node': 14.18.37
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -13248,6 +13249,7 @@ packages:
       typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
+      - encoding
       - supports-color
     dev: false
 
@@ -15210,7 +15212,7 @@ packages:
     dev: false
 
   file:projects/arm-voiceservices.tgz:
-    resolution: {integrity: sha512-UQzVM3QGOoF41oeKg9b+AVss67zUot4pmOyomomv5c8+fdG1UARwvbx2XHwgVrAMj9NtbvXrj/MDVkWcXZxYVQ==, tarball: file:projects/arm-voiceservices.tgz}
+    resolution: {integrity: sha512-DgQPVXmJi5u5/OroRBeaCgyimbuLN3qv2jxV6vLk3nYsPcGR6EYm/UgNrOTogjpMWyA+UOa7ZAi2KjMKld0NYA==, tarball: file:projects/arm-voiceservices.tgz}
     name: '@rush-temp/arm-voiceservices'
     version: 0.0.0
     dependencies:
@@ -15235,7 +15237,6 @@ packages:
       typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - encoding
       - supports-color
     dev: false
 

@@ -27,7 +27,6 @@ import {
   AccountBackupsImpl,
   BackupPoliciesImpl,
   VolumeQuotaRulesImpl,
-  VaultsImpl,
   VolumeGroupsImpl,
   SubvolumesImpl
 } from "./operations";
@@ -44,7 +43,6 @@ import {
   AccountBackups,
   BackupPolicies,
   VolumeQuotaRules,
-  Vaults,
   VolumeGroups,
   Subvolumes
 } from "./operationsInterfaces";
@@ -58,8 +56,7 @@ export class NetAppManagementClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the NetAppManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId Subscription credentials which uniquely identify Microsoft Azure subscription.
-   *                       The subscription ID forms part of the URI for every service call.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
@@ -83,7 +80,7 @@ export class NetAppManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-netapp/17.0.2`;
+    const packageDetails = `azsdk-js-arm-netapp/18.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -136,7 +133,7 @@ export class NetAppManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-05-01";
+    this.apiVersion = options.apiVersion || "2022-09-01";
     this.operations = new OperationsImpl(this);
     this.netAppResource = new NetAppResourceImpl(this);
     this.netAppResourceQuotaLimits = new NetAppResourceQuotaLimitsImpl(this);
@@ -149,7 +146,6 @@ export class NetAppManagementClient extends coreClient.ServiceClient {
     this.accountBackups = new AccountBackupsImpl(this);
     this.backupPolicies = new BackupPoliciesImpl(this);
     this.volumeQuotaRules = new VolumeQuotaRulesImpl(this);
-    this.vaults = new VaultsImpl(this);
     this.volumeGroups = new VolumeGroupsImpl(this);
     this.subvolumes = new SubvolumesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
@@ -195,7 +191,6 @@ export class NetAppManagementClient extends coreClient.ServiceClient {
   accountBackups: AccountBackups;
   backupPolicies: BackupPolicies;
   volumeQuotaRules: VolumeQuotaRules;
-  vaults: Vaults;
   volumeGroups: VolumeGroups;
   subvolumes: Subvolumes;
 }

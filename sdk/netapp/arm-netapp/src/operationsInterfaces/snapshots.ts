@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Snapshot,
   SnapshotsListOptionalParams,
@@ -27,7 +27,7 @@ import {
 export interface Snapshots {
   /**
    * List all snapshots associated with the volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -42,7 +42,7 @@ export interface Snapshots {
   ): PagedAsyncIterableIterator<Snapshot>;
   /**
    * Get details of the specified snapshot
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -59,7 +59,7 @@ export interface Snapshots {
   ): Promise<SnapshotsGetResponse>;
   /**
    * Create the specified snapshot within the given volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -76,14 +76,14 @@ export interface Snapshots {
     body: Snapshot,
     options?: SnapshotsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SnapshotsCreateResponse>,
+    SimplePollerLike<
+      OperationState<SnapshotsCreateResponse>,
       SnapshotsCreateResponse
     >
   >;
   /**
    * Create the specified snapshot within the given volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -102,7 +102,7 @@ export interface Snapshots {
   ): Promise<SnapshotsCreateResponse>;
   /**
    * Patch a snapshot
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -119,14 +119,14 @@ export interface Snapshots {
     body: Record<string, unknown>,
     options?: SnapshotsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SnapshotsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SnapshotsUpdateResponse>,
       SnapshotsUpdateResponse
     >
   >;
   /**
    * Patch a snapshot
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -145,7 +145,7 @@ export interface Snapshots {
   ): Promise<SnapshotsUpdateResponse>;
   /**
    * Delete snapshot
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -159,10 +159,10 @@ export interface Snapshots {
     volumeName: string,
     snapshotName: string,
     options?: SnapshotsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete snapshot
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -179,7 +179,7 @@ export interface Snapshots {
   ): Promise<void>;
   /**
    * Restore the specified files from the specified snapshot to the active filesystem
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -195,10 +195,10 @@ export interface Snapshots {
     snapshotName: string,
     body: SnapshotRestoreFiles,
     options?: SnapshotsRestoreFilesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Restore the specified files from the specified snapshot to the active filesystem
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
