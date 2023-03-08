@@ -141,7 +141,7 @@ export class ChatClient {
       const currentSetResponse = await this.client.chat.listChatThreads(options);
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value;
+        yield currentSetResponse.value as ChatThreadItem[];
       }
     }
 
@@ -152,7 +152,7 @@ export class ChatClient {
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value;
+        yield currentSetResponse.value as ChatThreadItem[];
       } else {
         break;
       }

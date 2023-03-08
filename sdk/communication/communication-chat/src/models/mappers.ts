@@ -16,6 +16,8 @@ import {
   ChatParticipant,
   ChatThreadProperties,
   CreateChatThreadResult,
+  ChatThreadItem,
+  RetentionPolicy,
 } from "./models";
 
 export const mapToCreateChatThreadOptionsRestModel = (
@@ -26,6 +28,26 @@ export const mapToCreateChatThreadOptionsRestModel = (
     repeatabilityRequestId: idempotencyToken,
     ...rest,
   };
+};
+
+/**
+ * @internal
+ * Mapping chat participant REST model to chat participant SDK model
+ */
+export const mapToChatThreadItemSdkModel = (
+  chatThreadItem: RestModel.ChatThreadItem
+): ChatThreadItem => {
+  const { retentionPolicy, ...rest } = chatThreadItem;
+  let result: ChatThreadItem = { ...rest };
+
+  if (retentionPolicy) {
+    result = {
+      ...result,
+      retentionPolicy: retentionPolicy as RetentionPolicy,
+    };
+  }
+
+  return result;
 };
 
 /**
@@ -134,17 +156,25 @@ export const mapToChatMessagesSdkModelArray = (
 export const mapToChatThreadPropertiesSdkModel = (
   chatThread: RestModel.ChatThreadProperties
 ): ChatThreadProperties => {
-  const { createdByCommunicationIdentifier, ...rest } = chatThread;
+  const { createdByCommunicationIdentifier, retentionPolicy, ...rest } = chatThread;
+  let result: ChatThreadProperties = { ...rest };
   if (createdByCommunicationIdentifier) {
-    return {
-      ...rest,
+    result = {
+      ...result,
       createdBy: deserializeCommunicationIdentifier(
         createdByCommunicationIdentifier as SerializedCommunicationIdentifier
       ),
     };
-  } else {
-    return { ...rest };
   }
+
+  if (retentionPolicy) {
+    result = {
+      ...result,
+      retentionPolicy: retentionPolicy as RetentionPolicy,
+    };
+  }
+
+  return result;
 };
 
 /**

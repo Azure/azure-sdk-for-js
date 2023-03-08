@@ -38,7 +38,7 @@ export interface AddParticipantsRequest {
 }
 
 // @public
-export interface BasedOnThreadCreationDateRetentionPolicy extends RetentionPolicy {
+export interface BasedOnThreadCreationDateRetentionPolicy {
     daysAfterCreation: number;
     policyType: "basedOnThreadCreationDate";
 }
@@ -154,7 +154,7 @@ export class ChatThreadClient {
     sendTypingNotification(options?: SendTypingNotificationOptions): Promise<boolean>;
     readonly threadId: string;
     updateMessage(messageId: string, options?: UpdateMessageOptions): Promise<void>;
-    updateRetentionPolicy(retentionPolicy: RetentionPolicyUnion, options?: UpdateRetentionPolicyOptions): Promise<void>;
+    updateRetentionPolicy(retentionPolicy?: RetentionPolicy, options?: UpdateRetentionPolicyOptions): Promise<void>;
     updateTopic(topic: string, options?: UpdateTopicOptions): Promise<void>;
 }
 
@@ -166,12 +166,12 @@ export { ChatThreadCreatedEvent }
 
 export { ChatThreadDeletedEvent }
 
-// @public
+// @public (undocumented)
 export interface ChatThreadItem {
     deletedOn?: Date;
     id: string;
     readonly lastMessageReceivedOn?: Date;
-    retentionPolicy?: RetentionPolicyUnion;
+    retentionPolicy?: RetentionPolicy;
     topic: string;
 }
 
@@ -181,7 +181,7 @@ export interface ChatThreadProperties {
     createdOn: Date;
     deletedOn?: Date;
     id: string;
-    retentionPolicy?: RetentionPolicyUnion;
+    retentionPolicy?: RetentionPolicy;
     topic: string;
 }
 
@@ -191,7 +191,7 @@ export { ChatThreadPropertiesUpdatedEvent }
 export interface CreateChatThreadOptions extends OperationOptions {
     idempotencyToken?: string;
     participants?: ChatParticipant[];
-    retentionPolicy?: RetentionPolicyUnion;
+    retentionPolicy?: RetentionPolicy;
 }
 
 // @public
@@ -268,12 +268,7 @@ export interface RestListReadReceiptsOptions extends coreClient.OperationOptions
 }
 
 // @public
-export interface RetentionPolicy {
-    policyType: "basedOnThreadCreationDate";
-}
-
-// @public (undocumented)
-export type RetentionPolicyUnion = RetentionPolicy | BasedOnThreadCreationDateRetentionPolicy;
+export type RetentionPolicy = BasedOnThreadCreationDateRetentionPolicy;
 
 // @public
 export interface SendChatMessageResult {

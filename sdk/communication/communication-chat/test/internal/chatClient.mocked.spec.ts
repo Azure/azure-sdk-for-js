@@ -86,16 +86,13 @@ describe("[Mocked] ChatClient", async function () {
     assert.isDefined(createThreadResult.chatThread);
     assert.equal(createThreadResult.chatThread?.id, mockThreadItemWithRetentionPolicy.id);
     assert.equal(createThreadResult.chatThread?.createdBy?.kind, "communicationUser");
-    assert.deepEqual(
-      createThreadResult.chatThread?.retentionPolicy,
-      mockThreadItemWithRetentionPolicy.retentionPolicy
-    );
+    assert.deepEqual(createThreadResult.chatThread?.retentionPolicy, sendOptions.retentionPolicy);
 
     const request = spy.getCall(0).args[0];
 
     assert.equal(request.url, `${baseUri}/chat/threads?api-version=${API_VERSION}`);
     assert.equal(request.method, "POST");
-    assert.deepEqual(JSON.parse(request.body as string), sendRequest);
+    assert.deepEqual(JSON.parse(request.body as string), { ...sendRequest, ...sendOptions });
     assert.isNotEmpty(request.headers.get("repeatability-request-id"));
   });
 

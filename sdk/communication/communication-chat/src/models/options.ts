@@ -8,7 +8,7 @@ import {
   ChatThreadListChatParticipantsOptionalParams as RestListParticipantsOptions,
   ChatThreadListChatReadReceiptsOptionalParams as RestListReadReceiptsOptions,
 } from "../generated/src/models";
-import { ChatParticipant, RetentionPolicyUnion } from "./models";
+import { ChatParticipant, RetentionPolicy } from "./models";
 
 export {
   RestListMessagesOptions,
@@ -78,7 +78,7 @@ export interface CreateChatThreadOptions extends OperationOptions {
   /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Idempotency-Token and get back an appropriate response without the server executing the request multiple times. The value of the Idempotency-Token is an opaque string representing a client-generated, globally unique for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs. */
   idempotencyToken?: string;
   /** Data retention policy for auto deletion. */
-  retentionPolicy?: RetentionPolicyUnion;
+  retentionPolicy?: RetentionPolicy;
 }
 
 /**

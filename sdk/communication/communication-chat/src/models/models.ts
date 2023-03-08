@@ -2,18 +2,25 @@
 // Licensed under the MIT license.
 
 import { CommunicationIdentifier, CommunicationIdentifierKind } from "@azure/communication-common";
-import { ChatError, ChatMessageType, RetentionPolicyUnion } from "../generated/src";
+import { ChatError, ChatMessageType } from "../generated/src";
 
 export {
   AddChatParticipantsResult,
   ChatMessageType,
-  ChatThreadItem,
   ChatError,
   SendChatMessageResult,
-  RetentionPolicy,
-  RetentionPolicyUnion,
-  BasedOnThreadCreationDateRetentionPolicy,
 } from "../generated/src/models";
+
+/** Thread retention policy based on thread creation date. */
+export interface BasedOnThreadCreationDateRetentionPolicy {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  policyType: "basedOnThreadCreationDate";
+  /** Indicates how many days after the thread creation the thread will be deleted. Only 90 is accepted for now. */
+  daysAfterCreation: number;
+}
+
+/** Data retention policy for auto deletion. */
+export declare type RetentionPolicy = BasedOnThreadCreationDateRetentionPolicy;
 
 /** Chat thread. */
 export interface ChatThreadProperties {
@@ -28,7 +35,23 @@ export interface ChatThreadProperties {
   /** The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   deletedOn?: Date;
   /** Data retention policy for auto deletion. */
-  retentionPolicy?: RetentionPolicyUnion;
+  retentionPolicy?: RetentionPolicy;
+}
+
+export interface ChatThreadItem {
+  /** Chat thread id. */
+  id: string;
+  /** Chat thread topic. */
+  topic: string;
+  /** The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
+  deletedOn?: Date;
+  /**
+   * The timestamp when the last message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastMessageReceivedOn?: Date;
+  /** Data retention policy for auto deletion. */
+  retentionPolicy?: RetentionPolicy;
 }
 
 /** Chat message. */
