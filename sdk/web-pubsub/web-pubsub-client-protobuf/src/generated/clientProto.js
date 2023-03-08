@@ -378,7 +378,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
          * @memberof UpstreamMessage
          * @interface ISendToGroupMessage
          * @property {string|null} [group] SendToGroupMessage group
-         * @property {number|null} [ackId] SendToGroupMessage ackId
+         * @property {number|Long|null} [ackId] SendToGroupMessage ackId
          * @property {IMessageData|null} [data] SendToGroupMessage data
          * @property {boolean|null} [noEcho] SendToGroupMessage noEcho
          */
@@ -408,7 +408,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
 
         /**
          * SendToGroupMessage ackId.
-         * @member {number|null|undefined} ackId
+         * @member {number|Long|null|undefined} ackId
          * @memberof UpstreamMessage.SendToGroupMessage
          * @instance
          */
@@ -482,7 +482,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             if (message.group != null && Object.hasOwnProperty.call(message, "group"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.group);
             if (message.ackId != null && Object.hasOwnProperty.call(message, "ackId"))
-                writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.ackId);
+                writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.ackId);
             if (message.data != null && Object.hasOwnProperty.call(message, "data"))
                 $root.MessageData.encode(message.data, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
             if (message.noEcho != null && Object.hasOwnProperty.call(message, "noEcho"))
@@ -526,7 +526,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                         break;
                     }
                 case 2: {
-                        message.ackId = reader.uint32();
+                        message.ackId = reader.uint64();
                         break;
                     }
                 case 3: {
@@ -578,8 +578,8 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                     return "group: string expected";
             if (message.ackId != null && message.hasOwnProperty("ackId")) {
                 properties._ackId = 1;
-                if (!$util.isInteger(message.ackId))
-                    return "ackId: integer expected";
+                if (!$util.isInteger(message.ackId) && !(message.ackId && $util.isInteger(message.ackId.low) && $util.isInteger(message.ackId.high)))
+                    return "ackId: integer|Long expected";
             }
             if (message.data != null && message.hasOwnProperty("data")) {
                 let error = $root.MessageData.verify(message.data);
@@ -609,7 +609,14 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             if (object.group != null)
                 message.group = String(object.group);
             if (object.ackId != null)
-                message.ackId = object.ackId >>> 0;
+                if ($util.Long)
+                    (message.ackId = $util.Long.fromValue(object.ackId)).unsigned = true;
+                else if (typeof object.ackId === "string")
+                    message.ackId = parseInt(object.ackId, 10);
+                else if (typeof object.ackId === "number")
+                    message.ackId = object.ackId;
+                else if (typeof object.ackId === "object")
+                    message.ackId = new $util.LongBits(object.ackId.low >>> 0, object.ackId.high >>> 0).toNumber(true);
             if (object.data != null) {
                 if (typeof object.data !== "object")
                     throw TypeError(".UpstreamMessage.SendToGroupMessage.data: object expected");
@@ -640,7 +647,10 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             if (message.group != null && message.hasOwnProperty("group"))
                 object.group = message.group;
             if (message.ackId != null && message.hasOwnProperty("ackId")) {
-                object.ackId = message.ackId;
+                if (typeof message.ackId === "number")
+                    object.ackId = options.longs === String ? String(message.ackId) : message.ackId;
+                else
+                    object.ackId = options.longs === String ? $util.Long.prototype.toString.call(message.ackId) : options.longs === Number ? new $util.LongBits(message.ackId.low >>> 0, message.ackId.high >>> 0).toNumber(true) : message.ackId;
                 if (options.oneofs)
                     object._ackId = "ackId";
             }
@@ -691,7 +701,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
          * @interface IEventMessage
          * @property {string|null} [event] EventMessage event
          * @property {IMessageData|null} [data] EventMessage data
-         * @property {number|null} [ackId] EventMessage ackId
+         * @property {number|Long|null} [ackId] EventMessage ackId
          */
 
         /**
@@ -727,7 +737,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
 
         /**
          * EventMessage ackId.
-         * @member {number|null|undefined} ackId
+         * @member {number|Long|null|undefined} ackId
          * @memberof UpstreamMessage.EventMessage
          * @instance
          */
@@ -776,7 +786,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             if (message.data != null && Object.hasOwnProperty.call(message, "data"))
                 $root.MessageData.encode(message.data, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
             if (message.ackId != null && Object.hasOwnProperty.call(message, "ackId"))
-                writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.ackId);
+                writer.uint32(/* id 3, wireType 0 =*/24).uint64(message.ackId);
             return writer;
         };
 
@@ -820,7 +830,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                         break;
                     }
                 case 3: {
-                        message.ackId = reader.uint32();
+                        message.ackId = reader.uint64();
                         break;
                     }
                 default:
@@ -869,8 +879,8 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             }
             if (message.ackId != null && message.hasOwnProperty("ackId")) {
                 properties._ackId = 1;
-                if (!$util.isInteger(message.ackId))
-                    return "ackId: integer expected";
+                if (!$util.isInteger(message.ackId) && !(message.ackId && $util.isInteger(message.ackId.low) && $util.isInteger(message.ackId.high)))
+                    return "ackId: integer|Long expected";
             }
             return null;
         };
@@ -895,7 +905,14 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                 message.data = $root.MessageData.fromObject(object.data);
             }
             if (object.ackId != null)
-                message.ackId = object.ackId >>> 0;
+                if ($util.Long)
+                    (message.ackId = $util.Long.fromValue(object.ackId)).unsigned = true;
+                else if (typeof object.ackId === "string")
+                    message.ackId = parseInt(object.ackId, 10);
+                else if (typeof object.ackId === "number")
+                    message.ackId = object.ackId;
+                else if (typeof object.ackId === "object")
+                    message.ackId = new $util.LongBits(object.ackId.low >>> 0, object.ackId.high >>> 0).toNumber(true);
             return message;
         };
 
@@ -921,7 +938,10 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             if (message.data != null && message.hasOwnProperty("data"))
                 object.data = $root.MessageData.toObject(message.data, options);
             if (message.ackId != null && message.hasOwnProperty("ackId")) {
-                object.ackId = message.ackId;
+                if (typeof message.ackId === "number")
+                    object.ackId = options.longs === String ? String(message.ackId) : message.ackId;
+                else
+                    object.ackId = options.longs === String ? $util.Long.prototype.toString.call(message.ackId) : options.longs === Number ? new $util.LongBits(message.ackId.low >>> 0, message.ackId.high >>> 0).toNumber(true) : message.ackId;
                 if (options.oneofs)
                     object._ackId = "ackId";
             }
@@ -964,7 +984,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
          * @memberof UpstreamMessage
          * @interface IJoinGroupMessage
          * @property {string|null} [group] JoinGroupMessage group
-         * @property {number|null} [ackId] JoinGroupMessage ackId
+         * @property {number|Long|null} [ackId] JoinGroupMessage ackId
          */
 
         /**
@@ -992,7 +1012,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
 
         /**
          * JoinGroupMessage ackId.
-         * @member {number|null|undefined} ackId
+         * @member {number|Long|null|undefined} ackId
          * @memberof UpstreamMessage.JoinGroupMessage
          * @instance
          */
@@ -1039,7 +1059,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             if (message.group != null && Object.hasOwnProperty.call(message, "group"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.group);
             if (message.ackId != null && Object.hasOwnProperty.call(message, "ackId"))
-                writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.ackId);
+                writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.ackId);
             return writer;
         };
 
@@ -1079,7 +1099,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                         break;
                     }
                 case 2: {
-                        message.ackId = reader.uint32();
+                        message.ackId = reader.uint64();
                         break;
                     }
                 default:
@@ -1123,8 +1143,8 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                     return "group: string expected";
             if (message.ackId != null && message.hasOwnProperty("ackId")) {
                 properties._ackId = 1;
-                if (!$util.isInteger(message.ackId))
-                    return "ackId: integer expected";
+                if (!$util.isInteger(message.ackId) && !(message.ackId && $util.isInteger(message.ackId.low) && $util.isInteger(message.ackId.high)))
+                    return "ackId: integer|Long expected";
             }
             return null;
         };
@@ -1144,7 +1164,14 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             if (object.group != null)
                 message.group = String(object.group);
             if (object.ackId != null)
-                message.ackId = object.ackId >>> 0;
+                if ($util.Long)
+                    (message.ackId = $util.Long.fromValue(object.ackId)).unsigned = true;
+                else if (typeof object.ackId === "string")
+                    message.ackId = parseInt(object.ackId, 10);
+                else if (typeof object.ackId === "number")
+                    message.ackId = object.ackId;
+                else if (typeof object.ackId === "object")
+                    message.ackId = new $util.LongBits(object.ackId.low >>> 0, object.ackId.high >>> 0).toNumber(true);
             return message;
         };
 
@@ -1166,7 +1193,10 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             if (message.group != null && message.hasOwnProperty("group"))
                 object.group = message.group;
             if (message.ackId != null && message.hasOwnProperty("ackId")) {
-                object.ackId = message.ackId;
+                if (typeof message.ackId === "number")
+                    object.ackId = options.longs === String ? String(message.ackId) : message.ackId;
+                else
+                    object.ackId = options.longs === String ? $util.Long.prototype.toString.call(message.ackId) : options.longs === Number ? new $util.LongBits(message.ackId.low >>> 0, message.ackId.high >>> 0).toNumber(true) : message.ackId;
                 if (options.oneofs)
                     object._ackId = "ackId";
             }
@@ -1209,7 +1239,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
          * @memberof UpstreamMessage
          * @interface ILeaveGroupMessage
          * @property {string|null} [group] LeaveGroupMessage group
-         * @property {number|null} [ackId] LeaveGroupMessage ackId
+         * @property {number|Long|null} [ackId] LeaveGroupMessage ackId
          */
 
         /**
@@ -1237,7 +1267,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
 
         /**
          * LeaveGroupMessage ackId.
-         * @member {number|null|undefined} ackId
+         * @member {number|Long|null|undefined} ackId
          * @memberof UpstreamMessage.LeaveGroupMessage
          * @instance
          */
@@ -1284,7 +1314,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             if (message.group != null && Object.hasOwnProperty.call(message, "group"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.group);
             if (message.ackId != null && Object.hasOwnProperty.call(message, "ackId"))
-                writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.ackId);
+                writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.ackId);
             return writer;
         };
 
@@ -1324,7 +1354,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                         break;
                     }
                 case 2: {
-                        message.ackId = reader.uint32();
+                        message.ackId = reader.uint64();
                         break;
                     }
                 default:
@@ -1368,8 +1398,8 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                     return "group: string expected";
             if (message.ackId != null && message.hasOwnProperty("ackId")) {
                 properties._ackId = 1;
-                if (!$util.isInteger(message.ackId))
-                    return "ackId: integer expected";
+                if (!$util.isInteger(message.ackId) && !(message.ackId && $util.isInteger(message.ackId.low) && $util.isInteger(message.ackId.high)))
+                    return "ackId: integer|Long expected";
             }
             return null;
         };
@@ -1389,7 +1419,14 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             if (object.group != null)
                 message.group = String(object.group);
             if (object.ackId != null)
-                message.ackId = object.ackId >>> 0;
+                if ($util.Long)
+                    (message.ackId = $util.Long.fromValue(object.ackId)).unsigned = true;
+                else if (typeof object.ackId === "string")
+                    message.ackId = parseInt(object.ackId, 10);
+                else if (typeof object.ackId === "number")
+                    message.ackId = object.ackId;
+                else if (typeof object.ackId === "object")
+                    message.ackId = new $util.LongBits(object.ackId.low >>> 0, object.ackId.high >>> 0).toNumber(true);
             return message;
         };
 
@@ -1411,7 +1448,10 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             if (message.group != null && message.hasOwnProperty("group"))
                 object.group = message.group;
             if (message.ackId != null && message.hasOwnProperty("ackId")) {
-                object.ackId = message.ackId;
+                if (typeof message.ackId === "number")
+                    object.ackId = options.longs === String ? String(message.ackId) : message.ackId;
+                else
+                    object.ackId = options.longs === String ? $util.Long.prototype.toString.call(message.ackId) : options.longs === Number ? new $util.LongBits(message.ackId.low >>> 0, message.ackId.high >>> 0).toNumber(true) : message.ackId;
                 if (options.oneofs)
                     object._ackId = "ackId";
             }
@@ -1453,7 +1493,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
          * Properties of a SequenceAckMessage.
          * @memberof UpstreamMessage
          * @interface ISequenceAckMessage
-         * @property {number|null} [sequenceId] SequenceAckMessage sequenceId
+         * @property {number|Long|null} [sequenceId] SequenceAckMessage sequenceId
          */
 
         /**
@@ -1473,11 +1513,11 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
 
         /**
          * SequenceAckMessage sequenceId.
-         * @member {number} sequenceId
+         * @member {number|Long} sequenceId
          * @memberof UpstreamMessage.SequenceAckMessage
          * @instance
          */
-        SequenceAckMessage.prototype.sequenceId = 0;
+        SequenceAckMessage.prototype.sequenceId = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
 
         /**
          * Creates a new SequenceAckMessage instance using the specified properties.
@@ -1504,7 +1544,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             if (!writer)
                 writer = $Writer.create();
             if (message.sequenceId != null && Object.hasOwnProperty.call(message, "sequenceId"))
-                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.sequenceId);
+                writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.sequenceId);
             return writer;
         };
 
@@ -1540,7 +1580,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1: {
-                        message.sequenceId = reader.uint32();
+                        message.sequenceId = reader.uint64();
                         break;
                     }
                 default:
@@ -1579,8 +1619,8 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             if (typeof message !== "object" || message === null)
                 return "object expected";
             if (message.sequenceId != null && message.hasOwnProperty("sequenceId"))
-                if (!$util.isInteger(message.sequenceId))
-                    return "sequenceId: integer expected";
+                if (!$util.isInteger(message.sequenceId) && !(message.sequenceId && $util.isInteger(message.sequenceId.low) && $util.isInteger(message.sequenceId.high)))
+                    return "sequenceId: integer|Long expected";
             return null;
         };
 
@@ -1597,7 +1637,14 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                 return object;
             let message = new $root.UpstreamMessage.SequenceAckMessage();
             if (object.sequenceId != null)
-                message.sequenceId = object.sequenceId >>> 0;
+                if ($util.Long)
+                    (message.sequenceId = $util.Long.fromValue(object.sequenceId)).unsigned = true;
+                else if (typeof object.sequenceId === "string")
+                    message.sequenceId = parseInt(object.sequenceId, 10);
+                else if (typeof object.sequenceId === "number")
+                    message.sequenceId = object.sequenceId;
+                else if (typeof object.sequenceId === "object")
+                    message.sequenceId = new $util.LongBits(object.sequenceId.low >>> 0, object.sequenceId.high >>> 0).toNumber(true);
             return message;
         };
 
@@ -1615,9 +1662,16 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                 options = {};
             let object = {};
             if (options.defaults)
-                object.sequenceId = 0;
+                if ($util.Long) {
+                    let long = new $util.Long(0, 0, true);
+                    object.sequenceId = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.sequenceId = options.longs === String ? "0" : 0;
             if (message.sequenceId != null && message.hasOwnProperty("sequenceId"))
-                object.sequenceId = message.sequenceId;
+                if (typeof message.sequenceId === "number")
+                    object.sequenceId = options.longs === String ? String(message.sequenceId) : message.sequenceId;
+                else
+                    object.sequenceId = options.longs === String ? $util.Long.prototype.toString.call(message.sequenceId) : options.longs === Number ? new $util.LongBits(message.sequenceId.low >>> 0, message.sequenceId.high >>> 0).toNumber(true) : message.sequenceId;
             return object;
         };
 
@@ -1953,7 +2007,7 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
          * Properties of an AckMessage.
          * @memberof DownstreamMessage
          * @interface IAckMessage
-         * @property {number|null} [ackId] AckMessage ackId
+         * @property {number|Long|null} [ackId] AckMessage ackId
          * @property {boolean|null} [success] AckMessage success
          * @property {DownstreamMessage.AckMessage.IErrorMessage|null} [error] AckMessage error
          */
@@ -1975,11 +2029,11 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
 
         /**
          * AckMessage ackId.
-         * @member {number} ackId
+         * @member {number|Long} ackId
          * @memberof DownstreamMessage.AckMessage
          * @instance
          */
-        AckMessage.prototype.ackId = 0;
+        AckMessage.prototype.ackId = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
 
         /**
          * AckMessage success.
@@ -2036,7 +2090,7 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
             if (!writer)
                 writer = $Writer.create();
             if (message.ackId != null && Object.hasOwnProperty.call(message, "ackId"))
-                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.ackId);
+                writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.ackId);
             if (message.success != null && Object.hasOwnProperty.call(message, "success"))
                 writer.uint32(/* id 2, wireType 0 =*/16).bool(message.success);
             if (message.error != null && Object.hasOwnProperty.call(message, "error"))
@@ -2076,7 +2130,7 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1: {
-                        message.ackId = reader.uint32();
+                        message.ackId = reader.uint64();
                         break;
                     }
                 case 2: {
@@ -2124,8 +2178,8 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                 return "object expected";
             let properties = {};
             if (message.ackId != null && message.hasOwnProperty("ackId"))
-                if (!$util.isInteger(message.ackId))
-                    return "ackId: integer expected";
+                if (!$util.isInteger(message.ackId) && !(message.ackId && $util.isInteger(message.ackId.low) && $util.isInteger(message.ackId.high)))
+                    return "ackId: integer|Long expected";
             if (message.success != null && message.hasOwnProperty("success"))
                 if (typeof message.success !== "boolean")
                     return "success: boolean expected";
@@ -2153,7 +2207,14 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                 return object;
             let message = new $root.DownstreamMessage.AckMessage();
             if (object.ackId != null)
-                message.ackId = object.ackId >>> 0;
+                if ($util.Long)
+                    (message.ackId = $util.Long.fromValue(object.ackId)).unsigned = true;
+                else if (typeof object.ackId === "string")
+                    message.ackId = parseInt(object.ackId, 10);
+                else if (typeof object.ackId === "number")
+                    message.ackId = object.ackId;
+                else if (typeof object.ackId === "object")
+                    message.ackId = new $util.LongBits(object.ackId.low >>> 0, object.ackId.high >>> 0).toNumber(true);
             if (object.success != null)
                 message.success = Boolean(object.success);
             if (object.error != null) {
@@ -2178,11 +2239,18 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                 options = {};
             let object = {};
             if (options.defaults) {
-                object.ackId = 0;
+                if ($util.Long) {
+                    let long = new $util.Long(0, 0, true);
+                    object.ackId = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.ackId = options.longs === String ? "0" : 0;
                 object.success = false;
             }
             if (message.ackId != null && message.hasOwnProperty("ackId"))
-                object.ackId = message.ackId;
+                if (typeof message.ackId === "number")
+                    object.ackId = options.longs === String ? String(message.ackId) : message.ackId;
+                else
+                    object.ackId = options.longs === String ? $util.Long.prototype.toString.call(message.ackId) : options.longs === Number ? new $util.LongBits(message.ackId.low >>> 0, message.ackId.high >>> 0).toNumber(true) : message.ackId;
             if (message.success != null && message.hasOwnProperty("success"))
                 object.success = message.success;
             if (message.error != null && message.hasOwnProperty("error")) {
@@ -2458,7 +2526,7 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
          * @property {string|null} [from] DataMessage from
          * @property {string|null} [group] DataMessage group
          * @property {IMessageData|null} [data] DataMessage data
-         * @property {number|null} [sequenceId] DataMessage sequenceId
+         * @property {number|Long|null} [sequenceId] DataMessage sequenceId
          */
 
         /**
@@ -2502,11 +2570,11 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
 
         /**
          * DataMessage sequenceId.
-         * @member {number} sequenceId
+         * @member {number|Long} sequenceId
          * @memberof DownstreamMessage.DataMessage
          * @instance
          */
-        DataMessage.prototype.sequenceId = 0;
+        DataMessage.prototype.sequenceId = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
 
         // OneOf field names bound to virtual getters and setters
         let $oneOfFields;
@@ -2553,7 +2621,7 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
             if (message.data != null && Object.hasOwnProperty.call(message, "data"))
                 $root.MessageData.encode(message.data, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
             if (message.sequenceId != null && Object.hasOwnProperty.call(message, "sequenceId"))
-                writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.sequenceId);
+                writer.uint32(/* id 4, wireType 0 =*/32).uint64(message.sequenceId);
             return writer;
         };
 
@@ -2601,7 +2669,7 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                         break;
                     }
                 case 4: {
-                        message.sequenceId = reader.uint32();
+                        message.sequenceId = reader.uint64();
                         break;
                     }
                 default:
@@ -2654,8 +2722,8 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                     return "data." + error;
             }
             if (message.sequenceId != null && message.hasOwnProperty("sequenceId"))
-                if (!$util.isInteger(message.sequenceId))
-                    return "sequenceId: integer expected";
+                if (!$util.isInteger(message.sequenceId) && !(message.sequenceId && $util.isInteger(message.sequenceId.low) && $util.isInteger(message.sequenceId.high)))
+                    return "sequenceId: integer|Long expected";
             return null;
         };
 
@@ -2681,7 +2749,14 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                 message.data = $root.MessageData.fromObject(object.data);
             }
             if (object.sequenceId != null)
-                message.sequenceId = object.sequenceId >>> 0;
+                if ($util.Long)
+                    (message.sequenceId = $util.Long.fromValue(object.sequenceId)).unsigned = true;
+                else if (typeof object.sequenceId === "string")
+                    message.sequenceId = parseInt(object.sequenceId, 10);
+                else if (typeof object.sequenceId === "number")
+                    message.sequenceId = object.sequenceId;
+                else if (typeof object.sequenceId === "object")
+                    message.sequenceId = new $util.LongBits(object.sequenceId.low >>> 0, object.sequenceId.high >>> 0).toNumber(true);
             return message;
         };
 
@@ -2701,7 +2776,11 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
             if (options.defaults) {
                 object.from = "";
                 object.data = null;
-                object.sequenceId = 0;
+                if ($util.Long) {
+                    let long = new $util.Long(0, 0, true);
+                    object.sequenceId = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.sequenceId = options.longs === String ? "0" : 0;
             }
             if (message.from != null && message.hasOwnProperty("from"))
                 object.from = message.from;
@@ -2713,7 +2792,10 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
             if (message.data != null && message.hasOwnProperty("data"))
                 object.data = $root.MessageData.toObject(message.data, options);
             if (message.sequenceId != null && message.hasOwnProperty("sequenceId"))
-                object.sequenceId = message.sequenceId;
+                if (typeof message.sequenceId === "number")
+                    object.sequenceId = options.longs === String ? String(message.sequenceId) : message.sequenceId;
+                else
+                    object.sequenceId = options.longs === String ? $util.Long.prototype.toString.call(message.sequenceId) : options.longs === Number ? new $util.LongBits(message.sequenceId.low >>> 0, message.sequenceId.high >>> 0).toNumber(true) : message.sequenceId;
             return object;
         };
 

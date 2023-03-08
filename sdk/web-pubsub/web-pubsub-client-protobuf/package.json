@@ -63,7 +63,8 @@
     "tslib": "^2.2.0",
     "@azure/logger": "^1.0.0",
     "@azure/web-pubsub-client": "1.0.0-beta.2",
-    "protobufjs": "~7.1.2"
+    "protobufjs": "~7.1.2",
+    "long": "^5.2.1"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
