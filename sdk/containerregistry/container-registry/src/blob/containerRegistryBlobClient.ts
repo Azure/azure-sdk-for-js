@@ -19,6 +19,7 @@ import {
   DownloadBlobResult,
   DownloadManifestOptions,
   DownloadManifestResult,
+  DownloadOciManifestResult,
   KnownManifestMediaType,
   OciManifest,
   UploadBlobOptions,
@@ -67,6 +68,21 @@ export class DigestMismatchError extends Error {
     super(message);
     this.name = "DigestMismatchError";
   }
+}
+
+/**
+ * Used to determine whether a manifest downloaded via {@link ContainerRegistryBlobClient.downloadManifest} is an OCI manifest.
+ * If it is an OCI manifest, the `manifest` property will contain the manifest data as parsed JSON.
+ * @param downloadResult the download result to check.
+ * @returns whether the downloaded manifest is an OCI manifest.
+ */
+export function isOciManifest(
+  downloadResult: DownloadManifestResult
+): downloadResult is DownloadOciManifestResult {
+  return (
+    downloadResult.mediaType === KnownManifestMediaType.OciManifest &&
+    Object.prototype.hasOwnProperty.call(downloadResult, "manifest")
+  );
 }
 
 /**
@@ -232,7 +248,10 @@ export class ContainerRegistryBlobClient {
   }
 
   /**
-   * Downloads the manifest for an OCI artifact
+   * Downloads the manifest for an OCI artifact.
+   *
+   * If the manifest downloaded was of type {@link KnownManifestMediaType.OciManifest}, the downloaded manifest will be of type {@link DownloadOciManifestResult}.
+   * You can use {@link isOciManifest} to determine whether this is the case. If so, the strongly typed deserialized manifest will be available through the `manifest` property.
    *
    * @param tagOrDigest - a tag or digest that identifies the artifact
    * @returns - the downloaded manifest
@@ -270,20 +289,24 @@ export class ContainerRegistryBlobClient {
           );
         }
 
-        let manifest: OciManifest | undefined = undefined;
-
         if (response.mediaType === KnownManifestMediaType.OciManifest) {
-          manifest = serializer.deserialize(
+          const manifest = serializer.deserialize(
             Mappers.OCIManifest,
             JSON.parse(bodyData.toString()),
             "OCIManifest"
           );
+
+          return {
+            digest: response.dockerContentDigest,
+            mediaType: response.mediaType,
+            manifest,
+            content: Readable.from(bodyData),
+          };
         }
 
         return {
           digest: response.dockerContentDigest,
           mediaType: response.mediaType,
-          manifest,
           content: Readable.from(bodyData),
         };
       }

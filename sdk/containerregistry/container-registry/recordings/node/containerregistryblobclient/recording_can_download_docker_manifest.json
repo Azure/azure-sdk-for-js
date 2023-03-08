@@ -4,11 +4,11 @@
       "RequestUri": "https://myregistry.azurecr.io/v2/library%2Fhello-world/manifests/sha256%3Af54a58bc1aac5ea1a25d796ae155dc228b3f0e11d046ae276b39c4bf2f13d8c4",
       "RequestMethod": "GET",
       "RequestHeaders": {
-        "Accept": "application/vnd.oci.image.manifest.v1\u002Bjson",
+        "Accept": "application/vnd.oci.image.manifest.v1\u002Bjson, application/vnd.docker.distribution.manifest.v2\u002Bjson, application/vnd.oci.image.index.v1\u002Bjson, application/vnd.docker.distribution.manifest.list.v2\u002Bjson, application/vnd.docker.container.image.v1\u002Bjson",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-container-registry/1.1.0-beta.3 core-rest-pipeline/1.10.2 Node/v16.19.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "65eb7682-d952-4b00-87e9-112202c93ecd"
+        "User-Agent": "azsdk-js-container-registry/1.1.0-beta.3 core-rest-pipeline/1.10.3 Node/v16.19.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "f97be5a9-7989-4fb8-9345-1da57d70a85a"
       },
       "RequestBody": null,
       "StatusCode": 401,
@@ -22,7 +22,7 @@
         "Connection": "keep-alive",
         "Content-Length": "213",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 02 Mar 2023 21:30:55 GMT",
+        "Date": "Wed, 08 Mar 2023 01:28:39 GMT",
         "Docker-Distribution-Api-Version": "registry/2.0",
         "Server": "openresty",
         "Strict-Transport-Security": [
@@ -31,7 +31,7 @@
         ],
         "WWW-Authenticate": "Bearer realm=\u0022https://myregistry.azurecr.io/oauth2/token\u0022,service=\u0022myregistry.azurecr.io\u0022,scope=\u0022repository:library/hello-world:pull\u0022",
         "X-Content-Type-Options": "nosniff",
-        "X-Ms-Correlation-Request-Id": "0fd2fb85-fdfa-422a-9f52-6e14d402ca6b"
+        "X-Ms-Correlation-Request-Id": "57f3a7dd-4ef6-4e7d-9497-d772f93d5f8f"
       },
       "ResponseBody": {
         "errors": [
@@ -58,20 +58,20 @@
         "Connection": "keep-alive",
         "Content-Length": "84",
         "Content-Type": "application/x-www-form-urlencoded",
-        "User-Agent": "azsdk-js-container-registry/1.1.0-beta.3 core-rest-pipeline/1.10.2 Node/v16.19.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "1f106a67-1fed-4f58-9dd4-7e5ca395549a"
+        "User-Agent": "azsdk-js-container-registry/1.1.0-beta.3 core-rest-pipeline/1.10.3 Node/v16.19.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "4a7fe464-f84a-41d8-a69a-1d130ce32fe7"
       },
       "RequestBody": "grant_type=access_token\u0026service=myregistry.azurecr.io\u0026access_token=SecretPlaceholder",
       "StatusCode": 200,
       "ResponseHeaders": {
         "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 02 Mar 2023 21:30:56 GMT",
+        "Date": "Wed, 08 Mar 2023 01:28:40 GMT",
         "Server": "openresty",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
-        "X-Ms-Correlation-Request-Id": "7767ceb3-608e-4bad-8c00-f56e27fe3d4a",
-        "x-ms-ratelimit-remaining-calls-per-second": "166.433333"
+        "X-Ms-Correlation-Request-Id": "43b3ec12-66a4-4c27-9368-199eb661a65f",
+        "x-ms-ratelimit-remaining-calls-per-second": "166.65"
       },
       "ResponseBody": {
         "refresh_token": "sanitized.eyJleHAiOjg2NDAwMDAwMDAwMDB9.sanitized"
@@ -86,20 +86,20 @@
         "Connection": "keep-alive",
         "Content-Length": "165",
         "Content-Type": "application/x-www-form-urlencoded",
-        "User-Agent": "azsdk-js-container-registry/1.1.0-beta.3 core-rest-pipeline/1.10.2 Node/v16.19.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "0ca90208-28a5-4942-b77a-8e20c021df96"
+        "User-Agent": "azsdk-js-container-registry/1.1.0-beta.3 core-rest-pipeline/1.10.3 Node/v16.19.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "78a0cbfd-4e2b-4282-9cbe-d2dc1a1e7c38"
       },
       "RequestBody": "service=myregistry.azurecr.io\u0026scope=repository%3Alibrary%2Fhello-world%3Apull\u0026refresh_token=sanitized.eyJleHAiOjg2NDAwMDAwMDAwMDB9.sanitized\u0026grant_type=refresh_token",
       "StatusCode": 200,
       "ResponseHeaders": {
         "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 02 Mar 2023 21:30:56 GMT",
+        "Date": "Wed, 08 Mar 2023 01:28:40 GMT",
         "Server": "openresty",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
-        "X-Ms-Correlation-Request-Id": "3d990e60-8e8f-4c12-8294-e6b270fb4a31",
-        "x-ms-ratelimit-remaining-calls-per-second": "166.416667"
+        "X-Ms-Correlation-Request-Id": "f648dfa7-cd55-4812-aa0f-719ddcc7c5c7",
+        "x-ms-ratelimit-remaining-calls-per-second": "166.633333"
       },
       "ResponseBody": {
         "access_token": "Sanitized"
@@ -109,12 +109,12 @@
       "RequestUri": "https://myregistry.azurecr.io/v2/library%2Fhello-world/manifests/sha256%3Af54a58bc1aac5ea1a25d796ae155dc228b3f0e11d046ae276b39c4bf2f13d8c4",
       "RequestMethod": "GET",
       "RequestHeaders": {
-        "Accept": "application/vnd.oci.image.manifest.v1\u002Bjson",
+        "Accept": "application/vnd.oci.image.manifest.v1\u002Bjson, application/vnd.docker.distribution.manifest.v2\u002Bjson, application/vnd.oci.image.index.v1\u002Bjson, application/vnd.docker.distribution.manifest.list.v2\u002Bjson, application/vnd.docker.container.image.v1\u002Bjson",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-container-registry/1.1.0-beta.3 core-rest-pipeline/1.10.2 Node/v16.19.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "65eb7682-d952-4b00-87e9-112202c93ecd"
+        "User-Agent": "azsdk-js-container-registry/1.1.0-beta.3 core-rest-pipeline/1.10.3 Node/v16.19.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "f97be5a9-7989-4fb8-9345-1da57d70a85a"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -128,7 +128,7 @@
         "Connection": "keep-alive",
         "Content-Length": "525",
         "Content-Type": "application/vnd.docker.distribution.manifest.v2\u002Bjson",
-        "Date": "Thu, 02 Mar 2023 21:30:56 GMT",
+        "Date": "Wed, 08 Mar 2023 01:28:40 GMT",
         "Docker-Content-Digest": "sha256:f54a58bc1aac5ea1a25d796ae155dc228b3f0e11d046ae276b39c4bf2f13d8c4",
         "Docker-Distribution-Api-Version": "registry/2.0",
         "ETag": "\u0022sha256:f54a58bc1aac5ea1a25d796ae155dc228b3f0e11d046ae276b39c4bf2f13d8c4\u0022",
@@ -138,9 +138,9 @@
           "max-age=31536000; includeSubDomains"
         ],
         "X-Content-Type-Options": "nosniff",
-        "X-Ms-Client-Request-Id": "65eb7682-d952-4b00-87e9-112202c93ecd",
-        "X-Ms-Correlation-Request-Id": "01870164-7867-432f-8632-e94b955f7315",
-        "X-Ms-Request-Id": "8cc90589-d32d-4b78-9d3e-49f57ed3ee61"
+        "X-Ms-Client-Request-Id": "f97be5a9-7989-4fb8-9345-1da57d70a85a",
+        "X-Ms-Correlation-Request-Id": "a6888b3e-e2d7-4261-ba13-36667de6c948",
+        "X-Ms-Request-Id": "f2ecd02e-c032-4112-b8a9-19db1e86bd8f"
       },
       "ResponseBody": {
         "schemaVersion": 2,

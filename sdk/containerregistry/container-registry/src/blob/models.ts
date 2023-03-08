@@ -43,14 +43,24 @@ export interface DownloadManifestResult {
   mediaType: string;
 
   /**
-   * The OCI manifest that was downloaded. If the requested media type was not KnownMediaType.OciManifest, this will be left undefined.
-   */
-  manifest?: OciManifest;
-
-  /**
    * The manifest stream that was downloaded.
    */
   content: NodeJS.ReadableStream;
+}
+
+/**
+ * The result from downloading an OCI manifest (a manifest of type {@link KnownManifestMediaType.OciManifest}) from the registry.
+ */
+export interface DownloadOciManifestResult extends DownloadManifestResult {
+  /**
+   * The media type of the downloaded manifest as indicated by the Content-Type response header is an OCI manifest.
+   */
+  mediaType: KnownManifestMediaType.OciManifest;
+
+  /**
+   * The OCI manifest that was downloaded. If the requested media type was not KnownMediaType.OciManifest, this will be left undefined.
+   */
+  manifest: OciManifest;
 }
 
 /**
