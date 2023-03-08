@@ -6,9 +6,9 @@ import { OperationOptions } from "@azure/core-client";
 import {
   MediaStreamingConfiguration,
   ServerCallLocator,
-  GroupCallLocator
-} from "../models/models";
-import { CallRejectReason } from "./models";
+  GroupCallLocator,
+  CallRejectReason
+} from "./models";
 import {
   CommunicationIdentifierModel,
   RecordingChannelType,
