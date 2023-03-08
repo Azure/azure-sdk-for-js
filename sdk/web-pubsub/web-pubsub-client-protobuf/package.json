@@ -16,8 +16,8 @@
     "build:samples": "dev-tool samples publish -f",
     "build:test": "npm run build-protobuf && tsc -p . && npm run copy-files && dev-tool run bundle",
     "build": "npm run clean && npm run build-protobuf && tsc -p . && npm run copy-files && dev-tool run bundle && api-extractor run --local",
-    "copy-files": "copyfiles ./src/clientProto.js ./dist-esm/",
-    "build-protobuf": "pbjs -t static-module -w es6 -o ./src/clientProto.js ./src/protos/client.proto && pbts -o ./src/clientProto.d.ts ./src/clientProto.js",
+    "copy-files": "copyfiles ./src/generated/clientProto.js ./dist-esm/",
+    "build-protobuf": "pbjs -t static-module -w es6 -o ./src/generated/clientProto.js ./src/protos/client.proto && pbts -o ./src/generated/clientProto.d.ts ./src/generated/clientProto.js",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm test-dist temp types *.tgz *.log",
@@ -62,10 +62,8 @@
   "dependencies": {
     "tslib": "^2.2.0",
     "@azure/logger": "^1.0.0",
-    "@azure/web-pubsub-client": "^1.0.0-beta.2",
-    "buffer": "^6.0.0",
-    "protobufjs": "~7.1.2",
-    "long": "^5.2.1"
+    "@azure/web-pubsub-client": "1.0.0-beta.2",
+    "protobufjs": "~7.1.2"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",

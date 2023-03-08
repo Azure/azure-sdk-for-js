@@ -19,9 +19,7 @@ import {
   MessageData,
   UpstreamMessage,
   google,
-} from "./clientProto";
-
-import Long from "long";
+} from "./generated/clientProto";
 
 /**
  * The "protobuf.reliable.webpubsub.azure.v1" protocol
@@ -37,7 +35,7 @@ export class WebPubSubProtobufProtocolBase {
     if (downstream.ackMessage) {
       const ack = {
         kind: "ack",
-        ackId: this._getNumber(downstream.ackMessage.ackId),
+        ackId: downstream.ackMessage.ackId,
         success: downstream.ackMessage.success,
       } as AckMessage;
       if (downstream.ackMessage.error) {
@@ -63,7 +61,7 @@ export class WebPubSubProtobufProtocolBase {
         return null;
       }
     } else if (downstream.dataMessage) {
-      const sequenceId = this._getNumber(downstream.dataMessage.sequenceId);
+      const sequenceId = downstream.dataMessage.sequenceId;
       const messageData = downstream.dataMessage.data!;
       let dataType: WebPubSubDataType;
       let data: string | ArrayBuffer | object;
@@ -199,12 +197,12 @@ export class WebPubSubProtobufProtocolBase {
     }
   }
 
-  private static _getNumber(value: number | Long | null | undefined): number | null | undefined {
-    if (value === null || value === undefined || typeof value === "number") {
-      return value;
-    }
-    return value.toNumber();
-  }
+  // private static _getNumber(value: number | Long | null | undefined): number | null | undefined {
+  //   if (value === null || value === undefined || typeof value === "number") {
+  //     return value;
+  //   }
+  //   return value.toNumber();
+  // }
 
   private static _isIAny(obj: any): obj is google.protobuf.IAny {
     return "type_url" in obj && "value" in obj;

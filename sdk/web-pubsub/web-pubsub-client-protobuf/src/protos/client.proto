@@ -13,7 +13,7 @@ message UpstreamMessage {
 
     message SendToGroupMessage {
         string group = 1;
-        optional uint64 ack_id = 2;
+        optional uint32 ack_id = 2;
         MessageData data = 3;
         optional bool no_echo = 4;
     }
@@ -21,21 +21,21 @@ message UpstreamMessage {
     message EventMessage {
         string event = 1;
         MessageData data = 2;
-        optional uint64 ack_id = 3;
+        optional uint32 ack_id = 3;
     }
     
     message JoinGroupMessage {
         string group = 1;
-        optional uint64 ack_id = 2;
+        optional uint32 ack_id = 2;
     }
 
     message LeaveGroupMessage {
         string group = 1;
-        optional uint64 ack_id = 2;
+        optional uint32 ack_id = 2;
     }
 
     message SequenceAckMessage {
-        uint64 sequence_id = 1;
+        uint32 sequence_id = 1;
     }
 }
 
@@ -47,7 +47,7 @@ message DownstreamMessage {
     }
     
     message AckMessage {
-        uint64 ack_id = 1;
+        uint32 ack_id = 1;
         bool success = 2;
         optional ErrorMessage error = 3;
     
@@ -61,7 +61,7 @@ message DownstreamMessage {
         string from = 1;
         optional string group = 2;
         MessageData data = 3;
-        uint64 sequence_id = 4;
+        uint32 sequence_id = 4;
     }
 
     message SystemMessage {

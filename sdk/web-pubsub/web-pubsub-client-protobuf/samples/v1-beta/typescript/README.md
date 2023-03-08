@@ -13,7 +13,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 
 | **File Name**               | **Description**                  |
 | --------------------------- | -------------------------------- |
-| [helloworld.ts][helloworld] | Basic usage of web-pubsub-client |
+| [basicusage.ts][basicusage] | Basic usage of web-pubsub-client |
 
 ## Prerequisites
 
@@ -52,20 +52,20 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/helloworld.js
+node dist/basicusage.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env WPS_CONNECTION_STRING="<wps connection string>" node dist/helloworld.js
+npx cross-env WPS_CONNECTION_STRING="<wps connection string>" node dist/basicusage.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub-client-protobuf/samples/v1-beta/typescript/src/helloworld.ts
+[basicusage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub-client-protobuf/samples/v1-beta/typescript/src/basicusage.ts
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub-client-protobuf/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

@@ -13,7 +13,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 
 | **File Name**               | **Description**                  |
 | --------------------------- | -------------------------------- |
-| [helloworld.js][helloworld] | Basic usage of web-pubsub-client |
+| [basicusage.js][basicusage] | Basic usage of web-pubsub-client |
 
 ## Prerequisites
 
@@ -40,19 +40,19 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node helloworld.js
+node basicusage.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env WPS_CONNECTION_STRING="<wps connection string>" node helloworld.js
+npx cross-env WPS_CONNECTION_STRING="<wps connection string>" node basicusage.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub-client-protobuf/samples/v1-beta/javascript/helloworld.js
+[basicusage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub-client-protobuf/samples/v1-beta/javascript/basicusage.js
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub-client-protobuf/README.md

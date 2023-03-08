@@ -133,7 +133,7 @@ export namespace UpstreamMessage {
         group?: (string|null);
 
         /** SendToGroupMessage ackId */
-        ackId?: (number|Long|null);
+        ackId?: (number|null);
 
         /** SendToGroupMessage data */
         data?: (IMessageData|null);
@@ -155,7 +155,7 @@ export namespace UpstreamMessage {
         public group: string;
 
         /** SendToGroupMessage ackId. */
-        public ackId?: (number|Long|null);
+        public ackId?: (number|null);
 
         /** SendToGroupMessage data. */
         public data?: (IMessageData|null);
@@ -257,7 +257,7 @@ export namespace UpstreamMessage {
         data?: (IMessageData|null);
 
         /** EventMessage ackId */
-        ackId?: (number|Long|null);
+        ackId?: (number|null);
     }
 
     /** Represents an EventMessage. */
@@ -276,7 +276,7 @@ export namespace UpstreamMessage {
         public data?: (IMessageData|null);
 
         /** EventMessage ackId. */
-        public ackId?: (number|Long|null);
+        public ackId?: (number|null);
 
         /** EventMessage _ackId. */
         public _ackId?: "ackId";
@@ -366,7 +366,7 @@ export namespace UpstreamMessage {
         group?: (string|null);
 
         /** JoinGroupMessage ackId */
-        ackId?: (number|Long|null);
+        ackId?: (number|null);
     }
 
     /** Represents a JoinGroupMessage. */
@@ -382,7 +382,7 @@ export namespace UpstreamMessage {
         public group: string;
 
         /** JoinGroupMessage ackId. */
-        public ackId?: (number|Long|null);
+        public ackId?: (number|null);
 
         /** JoinGroupMessage _ackId. */
         public _ackId?: "ackId";
@@ -472,7 +472,7 @@ export namespace UpstreamMessage {
         group?: (string|null);
 
         /** LeaveGroupMessage ackId */
-        ackId?: (number|Long|null);
+        ackId?: (number|null);
     }
 
     /** Represents a LeaveGroupMessage. */
@@ -488,7 +488,7 @@ export namespace UpstreamMessage {
         public group: string;
 
         /** LeaveGroupMessage ackId. */
-        public ackId?: (number|Long|null);
+        public ackId?: (number|null);
 
         /** LeaveGroupMessage _ackId. */
         public _ackId?: "ackId";
@@ -575,7 +575,7 @@ export namespace UpstreamMessage {
     interface ISequenceAckMessage {
 
         /** SequenceAckMessage sequenceId */
-        sequenceId?: (number|Long|null);
+        sequenceId?: (number|null);
     }
 
     /** Represents a SequenceAckMessage. */
@@ -588,7 +588,7 @@ export namespace UpstreamMessage {
         constructor(properties?: UpstreamMessage.ISequenceAckMessage);
 
         /** SequenceAckMessage sequenceId. */
-        public sequenceId: (number|Long);
+        public sequenceId: number;
 
         /**
          * Creates a new SequenceAckMessage instance using the specified properties.
@@ -787,7 +787,7 @@ export namespace DownstreamMessage {
     interface IAckMessage {
 
         /** AckMessage ackId */
-        ackId?: (number|Long|null);
+        ackId?: (number|null);
 
         /** AckMessage success */
         success?: (boolean|null);
@@ -806,7 +806,7 @@ export namespace DownstreamMessage {
         constructor(properties?: DownstreamMessage.IAckMessage);
 
         /** AckMessage ackId. */
-        public ackId: (number|Long);
+        public ackId: number;
 
         /** AckMessage success. */
         public success: boolean;
@@ -1014,7 +1014,7 @@ export namespace DownstreamMessage {
         data?: (IMessageData|null);
 
         /** DataMessage sequenceId */
-        sequenceId?: (number|Long|null);
+        sequenceId?: (number|null);
     }
 
     /** Represents a DataMessage. */
@@ -1036,7 +1036,7 @@ export namespace DownstreamMessage {
         public data?: (IMessageData|null);
 
         /** DataMessage sequenceId. */
-        public sequenceId: (number|Long);
+        public sequenceId: number;
 
         /** DataMessage _group. */
         public _group?: "group";

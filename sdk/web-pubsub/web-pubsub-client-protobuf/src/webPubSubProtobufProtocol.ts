@@ -3,14 +3,7 @@
 
 import { WebPubSubMessage, WebPubSubClientProtocol } from "@azure/web-pubsub-client";
 
-import { createClientLogger } from "@azure/logger";
-
 import { WebPubSubProtobufProtocolBase } from "./webPubSubProtobufProtocolBase";
-
-/**
- * The \@azure\/logger configuration for this package.
- */
-export const logger = createClientLogger("web-pubsub-client");
 
 /**
  * The "protobuf.reliable.webpubsub.azure.v1" protocol
