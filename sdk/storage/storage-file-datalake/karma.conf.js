@@ -54,7 +54,7 @@ module.exports = function (config) {
       "DFS_SOFT_DELETE_ACCOUNT_NAME",
       "DFS_SOFT_DELETE_ACCOUNT_KEY",
       "DFS_SOFT_DELETE_ACCOUNT_SAS",
-      "RECORDINGS_RELATIVE_PATH"
+      "RECORDINGS_RELATIVE_PATH",
     ],
 
     // test results reporter to use
