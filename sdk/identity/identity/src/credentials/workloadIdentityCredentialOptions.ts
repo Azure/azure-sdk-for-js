@@ -24,8 +24,7 @@ export interface WorkloadIdentityCredentialOptions
 }
 
 /**
- * @internal
- * @hidden
+ * Internal Options for the {@link WorkloadIdentityCredential}, not meant to be used directly.
  */
 export interface WorkloadIdentityDefaultCredentialOptions
   extends MultiTenantTokenCredentialOptions,
