@@ -3942,7 +3942,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230306
+      typescript: 5.1.0-dev.20230307
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -7620,12 +7620,14 @@ packages:
     resolution: {integrity: sha512-V2hovdzFbOi77/WajaSMXk2OLm+xNIeQdMMuB7icj7bk6zi2F8GGAxigcnDFpJHbNyNcgyJDiP+8nOrY5cZGrA==}
     dev: false
 
-  /rhea-promise/2.1.0:
-    resolution: {integrity: sha512-CRMwdJ/o4oO/xKcvAwAsd0AHy5fVvSlqso7AadRmaaLGzAzc9LCoW7FOFnucI8THasVmOeCnv5c/fH/n7FcNaA==}
+  /rhea-promise/3.0.0:
+    resolution: {integrity: sha512-aj0nweqb7avqIo+PANLyOCQV6wlTw3j1Ktk+sPgfiIVUC5U6qt5l1FIXTbXUfNH6pJ3YCDT+bRIYGramJ53pAA==}
     dependencies:
       debug: 3.2.7
-      rhea: 2.0.8
+      rhea: 3.0.2
       tslib: 2.5.0
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /rhea/1.0.24:
@@ -7638,6 +7640,14 @@ packages:
     resolution: {integrity: sha512-IgwlP4D2lzinBSll5f35tAWa30dGCZhG9Ujd1DiaB7MUGegIjAaLzqATCw3ha+h9oq9mXcitqayBbNIXYdvtFg==}
     dependencies:
       debug: 3.2.7
+    dev: false
+
+  /rhea/3.0.2:
+    resolution: {integrity: sha512-0G1ZNM9yWin8VLvTxyISKH6KfR6gl1TW/1+5yMKPf2r1efhkzTLze09iFtT2vpDjuWIVtSmXz8r18lk/dO8qwQ==}
+    dependencies:
+      debug: 4.3.4
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /rimraf/2.7.1:
@@ -8659,8 +8669,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230306:
-    resolution: {integrity: sha512-CqMT7nhnVNKfaT1giN+UjFUSqN2gBI17K8JoT+I1LgPU/G9oYypuG+91pz8Kjk/GW/BG685khZ0YfFrADj+KPQ==}
+  /typescript/5.1.0-dev.20230307:
+    resolution: {integrity: sha512-QoA4rJ5koT+JJk69FBwAF4vx446c5xPWlvgMrlz0E0SaGDpveCbK8DTpRmdxrZR4oVQ0VxMag1BGtZPtQtU+Jg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -16026,7 +16036,7 @@ packages:
     dev: false
 
   file:projects/core-amqp.tgz:
-    resolution: {integrity: sha512-U+joAn92vPb6skMx+maC7M/cXqr0zneShlDTVlohuGJ6rc9e19pBcsMWyFpayh9f+XeK5Is+VRAeNwi1D5QirA==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-iOn0gopYJ+AQiGZsRJQCwP0V2RctsMO3NtUK/NgXMan3l9Nx6t5o2LvdpFcPJHjmu4K8Lg95D2kfvdBsAsm/gw==, tarball: file:projects/core-amqp.tgz}
     name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
@@ -16061,7 +16071,7 @@ packages:
       process: 0.11.10
       puppeteer: 19.7.3_typescript@4.8.4
       rhea: 2.0.8
-      rhea-promise: 2.1.0
+      rhea-promise: 3.0.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-shim: 1.0.0
@@ -16811,7 +16821,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-4BSgAWjRwXChKgox1yOOsmukNVBxzK05/qdkzMSg/pGoFFkgSyc7zq7Mbs5RTUr6I85yCrxVqknRHqu9g3JRrA==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-19yBgs9YYynzl6fcHlrWVHrqz+5BQlzWhXk8R3s70JGbf7ZvQRCznNpM6n7MHUZU/n1OnqPB4Bw0tt+ADqxtQg==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
@@ -16866,7 +16876,7 @@ packages:
       prettier: 2.8.4
       process: 0.11.10
       puppeteer: 19.7.3_typescript@4.8.4
-      rhea-promise: 2.1.0
+      rhea-promise: 3.0.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-shim: 1.0.0
@@ -18980,7 +18990,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-G+fmheF2gGrWzAl08JiLNkmzIr850f7Q1YPPGnaVtkdEIzTOLkwaVqYYJGDyww5FRV6ArHB1FYKl/P2F4BKHAw==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-capTfQmTOxtimRb9xqcMuZE6wAVbDx1EK+GllnqYjLm3+sMfyB71R9JLbhN0ncmTeweJVv5/RnKxTbAsJUNSEw==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
@@ -19035,7 +19045,7 @@ packages:
       process: 0.11.10
       promise: 8.3.0
       puppeteer: 19.7.3_typescript@4.8.4
-      rhea-promise: 2.1.0
+      rhea-promise: 3.0.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-shim: 1.0.0
