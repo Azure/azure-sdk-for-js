@@ -2,14 +2,16 @@
 // Licensed under the MIT license.
 
 import { CommunicationIdentifier, CommunicationIdentifierKind } from "@azure/communication-common";
-import { ChatError, ChatMessageType } from "../generated/src";
+import { ChatError, ChatMessageType, RetentionPolicy } from "../generated/src";
 
 export {
   AddChatParticipantsResult,
   ChatMessageType,
-  ChatThreadItem,
+  //ChatThreadItem,
   ChatError,
   SendChatMessageResult,
+  RetentionPolicy,
+  BasedOnThreadCreationDateRetentionPolicy,
 } from "../generated/src/models";
 
 /** Chat thread. */
@@ -24,6 +26,25 @@ export interface ChatThreadProperties {
   readonly createdBy?: CommunicationIdentifierKind;
   /** The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   deletedOn?: Date;
+  /** Data retention policy for auto deletion. */
+  retentionPolicy?: RetentionPolicy;
+}
+
+/** Summary information of a chat thread. */
+export interface ChatThreadItem {
+  /** Chat thread id. */
+  id: string;
+  /** Chat thread topic. */
+  topic: string;
+  /** The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
+  deletedOn?: Date;
+  /**
+   * The timestamp when the last message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastMessageReceivedOn?: Date;
+  /** Data retention policy for auto deletion. */
+  retentionPolicy?: RetentionPolicy;
 }
 
 /** Chat message. */

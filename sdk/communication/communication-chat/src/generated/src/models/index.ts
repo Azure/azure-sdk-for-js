@@ -8,6 +8,10 @@
 
 import * as coreClient from "@azure/core-client";
 
+export type RetentionPolicyUnion =
+  | RetentionPolicy
+  | BasedOnThreadCreationDateRetentionPolicy;
+
 /** A paged collection of chat message read receipts. */
 export interface ChatMessageReadReceiptsCollection {
   /** Collection of chat message read receipts. */
@@ -215,6 +219,14 @@ export interface CreateChatThreadRequest {
   topic: string;
   /** Participants to be added to the chat thread. */
   participants?: ChatParticipant[];
+  /** Data retention policy for auto deletion. */
+  retentionPolicy?: RetentionPolicyUnion;
+}
+
+/** Data retention policy for auto deletion. */
+export interface RetentionPolicy {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  policyType: "basedOnThreadCreationDate";
 }
 
 /** Result of the create chat thread operation. */
@@ -240,6 +252,8 @@ export interface ChatThreadProperties {
   createdByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   deletedOn?: Date;
+  /** Data retention policy for auto deletion. */
+  retentionPolicy?: RetentionPolicyUnion;
 }
 
 /** Collection of chat threads. */
@@ -266,18 +280,31 @@ export interface ChatThreadItem {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastMessageReceivedOn?: Date;
+  /** Data retention policy for auto deletion. */
+  retentionPolicy?: RetentionPolicyUnion;
 }
 
 /** Request payload for updating a chat thread. */
 export interface UpdateChatThreadRequest {
   /** Chat thread topic. */
   topic?: string;
+  /** Data retention policy for auto deletion. */
+  retentionPolicy?: RetentionPolicyUnion;
 }
 
 /** Request payload for typing notifications. */
 export interface SendTypingNotificationRequest {
   /** The display name of the typing notification sender. This property is used to populate sender name for push notifications. */
   senderDisplayName?: string;
+}
+
+/** Thread retention policy based on thread creation date. */
+export interface BasedOnThreadCreationDateRetentionPolicy
+  extends RetentionPolicy {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  policyType: "basedOnThreadCreationDate";
+  /** Indicates how many days after the thread creation the thread will be deleted. Only 90 is accepted for now. */
+  daysAfterCreation: number;
 }
 
 /** Known values of {@link CommunicationCloudEnvironmentModel} that the service accepts. */
@@ -300,6 +327,21 @@ export enum KnownCommunicationCloudEnvironmentModel {
  * **gcch**
  */
 export type CommunicationCloudEnvironmentModel = string;
+
+/** Known values of {@link PolicyType} that the service accepts. */
+export enum KnownPolicyType {
+  /** Thread retention policy based on thread creation date. */
+  BasedOnThreadCreationDate = "basedOnThreadCreationDate"
+}
+
+/**
+ * Defines values for PolicyType. \
+ * {@link KnownPolicyType} can be used interchangeably with PolicyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **basedOnThreadCreationDate**: Thread retention policy based on thread creation date.
+ */
+export type PolicyType = string;
 /** Defines values for ChatMessageType. */
 export type ChatMessageType =
   | "text"
@@ -401,36 +443,21 @@ export interface ChatThreadSendTypingNotificationOptionalParams
 
 /** Optional parameters. */
 export interface ChatThreadListChatReadReceiptsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of chat message read receipts to be returned per page. */
-  maxPageSize?: number;
-  /** Skips chat message read receipts up to a specified position in response. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listChatReadReceiptsNext operation. */
 export type ChatThreadListChatReadReceiptsNextResponse = ChatMessageReadReceiptsCollection;
 
 /** Optional parameters. */
 export interface ChatThreadListChatMessagesNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of messages to be returned per page. */
-  maxPageSize?: number;
-  /** The earliest point in time to get messages up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
-  startTime?: Date;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listChatMessagesNext operation. */
 export type ChatThreadListChatMessagesNextResponse = ChatMessagesCollection;
 
 /** Optional parameters. */
 export interface ChatThreadListChatParticipantsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of participants to be returned per page. */
-  maxPageSize?: number;
-  /** Skips participants up to a specified position in response. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listChatParticipantsNext operation. */
 export type ChatThreadListChatParticipantsNextResponse = ChatParticipantsCollection;
@@ -463,12 +490,7 @@ export interface ChatDeleteChatThreadOptionalParams
 
 /** Optional parameters. */
 export interface ChatListChatThreadsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of chat threads returned per page. */
-  maxPageSize?: number;
-  /** The earliest point in time to get chat threads up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
-  startTime?: Date;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listChatThreadsNext operation. */
 export type ChatListChatThreadsNextResponse = ChatThreadsItemCollection;

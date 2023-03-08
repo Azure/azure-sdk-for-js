@@ -124,6 +124,7 @@ export class ChatClient {
             participants: options.participants?.map((participant) =>
               mapToChatParticipantRestModel(participant)
             ),
+            retentionPolicy: options.retentionPolicy,
           },
           updatedRestModelOptions
         );

@@ -44,9 +44,10 @@ import {
   SendReadReceiptOptions,
   SendTypingNotificationOptions,
   UpdateMessageOptions,
+  UpdateRetentionPolicyOptions,
   UpdateTopicOptions,
 } from "./models/options";
-import { ChatApiClient } from "./generated/src";
+import { ChatApiClient, RetentionPolicy } from "./generated/src";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
 import { tracingClient } from "./generated/src/tracing";
@@ -122,6 +123,28 @@ export class ChatThreadClient {
         await this.client.chatThread.updateChatThreadProperties(
           this.threadId,
           { topic: topic },
+          updatedOptions
+        );
+      }
+    );
+  }
+
+  /**
+   * Updates a thread's topic.
+   * @param topic - The topic needs to be updated to.
+   * @param options - Operation options.
+   */
+  public updateRetentionPolicy(
+    retentionPolicy: RetentionPolicy,
+    options: UpdateRetentionPolicyOptions = {}
+  ): Promise<void> {
+    return tracingClient.withSpan(
+      "ChatThreadClient-UpdateRetentionPolicy",
+      options,
+      async (updatedOptions) => {
+        await this.client.chatThread.updateChatThreadProperties(
+          this.threadId,
+          { retentionPolicy: retentionPolicy },
           updatedOptions
         );
       }

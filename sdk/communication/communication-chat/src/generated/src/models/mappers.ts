@@ -608,6 +608,34 @@ export const CreateChatThreadRequest: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      retentionPolicy: {
+        serializedName: "retentionPolicy",
+        type: {
+          name: "Composite",
+          className: "RetentionPolicy"
+        }
+      }
+    }
+  }
+};
+
+export const RetentionPolicy: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RetentionPolicy",
+    uberParent: "RetentionPolicy",
+    polymorphicDiscriminator: {
+      serializedName: "policyType",
+      clientName: "policyType"
+    },
+    modelProperties: {
+      policyType: {
+        serializedName: "policyType",
+        required: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -680,6 +708,13 @@ export const ChatThreadProperties: coreClient.CompositeMapper = {
         type: {
           name: "DateTime"
         }
+      },
+      retentionPolicy: {
+        serializedName: "retentionPolicy",
+        type: {
+          name: "Composite",
+          className: "RetentionPolicy"
+        }
       }
     }
   }
@@ -745,6 +780,13 @@ export const ChatThreadItem: coreClient.CompositeMapper = {
         type: {
           name: "DateTime"
         }
+      },
+      retentionPolicy: {
+        serializedName: "retentionPolicy",
+        type: {
+          name: "Composite",
+          className: "RetentionPolicy"
+        }
       }
     }
   }
@@ -759,6 +801,13 @@ export const UpdateChatThreadRequest: coreClient.CompositeMapper = {
         serializedName: "topic",
         type: {
           name: "String"
+        }
+      },
+      retentionPolicy: {
+        serializedName: "retentionPolicy",
+        type: {
+          name: "Composite",
+          className: "RetentionPolicy"
         }
       }
     }
@@ -778,4 +827,29 @@ export const SendTypingNotificationRequest: coreClient.CompositeMapper = {
       }
     }
   }
+};
+
+export const BasedOnThreadCreationDateRetentionPolicy: coreClient.CompositeMapper = {
+  serializedName: "basedOnThreadCreationDate",
+  type: {
+    name: "Composite",
+    className: "BasedOnThreadCreationDateRetentionPolicy",
+    uberParent: "RetentionPolicy",
+    polymorphicDiscriminator: RetentionPolicy.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...RetentionPolicy.type.modelProperties,
+      daysAfterCreation: {
+        serializedName: "daysAfterCreation",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export let discriminators = {
+  RetentionPolicy: RetentionPolicy,
+  "RetentionPolicy.basedOnThreadCreationDate": BasedOnThreadCreationDateRetentionPolicy
 };
