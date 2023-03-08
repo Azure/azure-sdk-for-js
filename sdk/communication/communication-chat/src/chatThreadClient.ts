@@ -47,7 +47,7 @@ import {
   UpdateRetentionPolicyOptions,
   UpdateTopicOptions,
 } from "./models/options";
-import { ChatApiClient, RetentionPolicy } from "./generated/src";
+import { ChatApiClient, RetentionPolicyUnion } from "./generated/src";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
 import { tracingClient } from "./generated/src/tracing";
@@ -135,7 +135,7 @@ export class ChatThreadClient {
    * @param options - Operation options.
    */
   public updateRetentionPolicy(
-    retentionPolicy: RetentionPolicy,
+    retentionPolicy: RetentionPolicyUnion,
     options: UpdateRetentionPolicyOptions = {}
   ): Promise<void> {
     return tracingClient.withSpan(

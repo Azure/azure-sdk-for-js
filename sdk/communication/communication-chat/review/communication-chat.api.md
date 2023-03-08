@@ -154,7 +154,7 @@ export class ChatThreadClient {
     sendTypingNotification(options?: SendTypingNotificationOptions): Promise<boolean>;
     readonly threadId: string;
     updateMessage(messageId: string, options?: UpdateMessageOptions): Promise<void>;
-    updateRetentionPolicy(retentionPolicy: RetentionPolicy, options?: UpdateRetentionPolicyOptions): Promise<void>;
+    updateRetentionPolicy(retentionPolicy: RetentionPolicyUnion, options?: UpdateRetentionPolicyOptions): Promise<void>;
     updateTopic(topic: string, options?: UpdateTopicOptions): Promise<void>;
 }
 
@@ -171,7 +171,7 @@ export interface ChatThreadItem {
     deletedOn?: Date;
     id: string;
     readonly lastMessageReceivedOn?: Date;
-    retentionPolicy?: RetentionPolicy;
+    retentionPolicy?: RetentionPolicyUnion;
     topic: string;
 }
 
@@ -181,7 +181,7 @@ export interface ChatThreadProperties {
     createdOn: Date;
     deletedOn?: Date;
     id: string;
-    retentionPolicy?: RetentionPolicy;
+    retentionPolicy?: RetentionPolicyUnion;
     topic: string;
 }
 
@@ -191,7 +191,7 @@ export { ChatThreadPropertiesUpdatedEvent }
 export interface CreateChatThreadOptions extends OperationOptions {
     idempotencyToken?: string;
     participants?: ChatParticipant[];
-    retentionPolicy?: RetentionPolicy;
+    retentionPolicy?: RetentionPolicyUnion;
 }
 
 // @public
@@ -271,6 +271,9 @@ export interface RestListReadReceiptsOptions extends coreClient.OperationOptions
 export interface RetentionPolicy {
     policyType: "basedOnThreadCreationDate";
 }
+
+// @public (undocumented)
+export type RetentionPolicyUnion = RetentionPolicy | BasedOnThreadCreationDateRetentionPolicy;
 
 // @public
 export interface SendChatMessageResult {
