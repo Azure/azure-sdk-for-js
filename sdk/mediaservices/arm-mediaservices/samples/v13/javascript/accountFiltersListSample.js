@@ -21,7 +21,7 @@ require("dotenv").config();
 async function listAllAccountFilters() {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
   const accountName = "contosomedia";
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);

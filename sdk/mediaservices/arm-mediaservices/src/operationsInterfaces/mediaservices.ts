@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   MediaService,
   MediaservicesListOptionalParams,
@@ -70,8 +70,8 @@ export interface Mediaservices {
     parameters: MediaService,
     options?: MediaservicesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MediaservicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<MediaservicesCreateOrUpdateResponse>,
       MediaservicesCreateOrUpdateResponse
     >
   >;
@@ -112,8 +112,8 @@ export interface Mediaservices {
     parameters: MediaServiceUpdate,
     options?: MediaservicesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MediaservicesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<MediaservicesUpdateResponse>,
       MediaservicesUpdateResponse
     >
   >;

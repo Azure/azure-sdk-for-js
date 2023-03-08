@@ -208,6 +208,7 @@ specifiers:
   '@rush-temp/arm-trafficmanager': file:./projects/arm-trafficmanager.tgz
   '@rush-temp/arm-visualstudio': file:./projects/arm-visualstudio.tgz
   '@rush-temp/arm-vmwarecloudsimple': file:./projects/arm-vmwarecloudsimple.tgz
+  '@rush-temp/arm-voiceservices': file:./projects/arm-voiceservices.tgz
   '@rush-temp/arm-webpubsub': file:./projects/arm-webpubsub.tgz
   '@rush-temp/arm-webservices': file:./projects/arm-webservices.tgz
   '@rush-temp/arm-workloads': file:./projects/arm-workloads.tgz
@@ -538,6 +539,7 @@ dependencies:
   '@rush-temp/arm-trafficmanager': file:projects/arm-trafficmanager.tgz
   '@rush-temp/arm-visualstudio': file:projects/arm-visualstudio.tgz
   '@rush-temp/arm-vmwarecloudsimple': file:projects/arm-vmwarecloudsimple.tgz
+  '@rush-temp/arm-voiceservices': file:projects/arm-voiceservices.tgz
   '@rush-temp/arm-webpubsub': file:projects/arm-webpubsub.tgz
   '@rush-temp/arm-webservices': file:projects/arm-webservices.tgz
   '@rush-temp/arm-workloads': file:projects/arm-workloads.tgz
@@ -10946,7 +10948,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservice-1.tgz:
-    resolution: {integrity: sha512-Fk80Xa51vWCmuPlF8JmMPz2DNmwapDplJspqQrPicQEha99NcQCrPyCDiXONF+JQAaZAuO3ooxgRE+LFsKv0Fw==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-9pvYZGlEjkxECFsQR+85oXAp4AId/RmdRbOaKxLLvveT8xg8/PqanUjfziILdNnJbSCdKK1Sk2zqhrLxQaWKXQ==, tarball: file:projects/arm-containerservice-1.tgz}
     name: '@rush-temp/arm-containerservice-1'
     version: 0.0.0
     dependencies:
@@ -10961,7 +10963,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
-      mkdirp: 1.0.4
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -12913,7 +12915,7 @@ packages:
     dev: false
 
   file:projects/arm-mediaservices.tgz:
-    resolution: {integrity: sha512-7TtTkt9NuhzHaVfEfKYK+hk4UUObUz6xgdBSWtW28sGpTdURaOUv17GsT7QLVFNYitWDX3yBrEPXwJ3gtn8yBw==, tarball: file:projects/arm-mediaservices.tgz}
+    resolution: {integrity: sha512-w96r17tRuxIR4J4RZzfdcB5BjlziaP1MBmIKdTVXU5LgTFS+fNsqgRah/7hGTbdPEGats9Zj1KAh8gBFy+6jdQ==, tarball: file:projects/arm-mediaservices.tgz}
     name: '@rush-temp/arm-mediaservices'
     version: 0.0.0
     dependencies:
@@ -12929,7 +12931,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
-      mkdirp: 1.0.4
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -15148,6 +15150,36 @@ packages:
       typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-voiceservices.tgz:
+    resolution: {integrity: sha512-UQzVM3QGOoF41oeKg9b+AVss67zUot4pmOyomomv5c8+fdG1UARwvbx2XHwgVrAMj9NtbvXrj/MDVkWcXZxYVQ==, tarball: file:projects/arm-voiceservices.tgz}
+    name: '@rush-temp/arm-voiceservices'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 2.0.0
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.4_@types+node@14.18.37
+      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.37
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_uvqxrz6xmh6o32kxhfeqlqrt5q
+      tslib: 2.5.0
+      typescript: 4.8.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - encoding
       - supports-color
     dev: false
 

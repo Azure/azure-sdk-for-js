@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureMediaServices } from "../azureMediaServices";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   MediaService,
   MediaservicesListNextOptionalParams,
@@ -214,8 +218,8 @@ export class MediaservicesImpl implements Mediaservices {
     parameters: MediaService,
     options?: MediaservicesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MediaservicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<MediaservicesCreateOrUpdateResponse>,
       MediaservicesCreateOrUpdateResponse
     >
   > {
@@ -225,7 +229,7 @@ export class MediaservicesImpl implements Mediaservices {
     ): Promise<MediaservicesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -258,13 +262,16 @@ export class MediaservicesImpl implements Mediaservices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MediaservicesCreateOrUpdateResponse,
+      OperationState<MediaservicesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -323,8 +330,8 @@ export class MediaservicesImpl implements Mediaservices {
     parameters: MediaServiceUpdate,
     options?: MediaservicesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MediaservicesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<MediaservicesUpdateResponse>,
       MediaservicesUpdateResponse
     >
   > {
@@ -334,7 +341,7 @@ export class MediaservicesImpl implements Mediaservices {
     ): Promise<MediaservicesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -367,13 +374,16 @@ export class MediaservicesImpl implements Mediaservices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, parameters, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MediaservicesUpdateResponse,
+      OperationState<MediaservicesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
