@@ -13,7 +13,7 @@ import {
   SendMessageOptions,
   SendMessageRequest,
   UpdateMessageOptions,
-  BasedOnThreadCreationDateRetentionPolicy
+  BasedOnThreadCreationDateRetentionPolicy,
 } from "../../src";
 import * as RestModel from "../../src/generated/src/models";
 import { apiVersion } from "../../src/generated/src/models/parameters";
@@ -92,9 +92,11 @@ describe("[Mocked] ChatThreadClient", async function () {
 
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
-    const retentionPolicy = { policyType: "basedOnThreadCreationDate", daysAfterCreation:90 };
+    const retentionPolicy = { policyType: "basedOnThreadCreationDate", daysAfterCreation: 90 };
 
-    await chatThreadClient.updateRetentionPolicy(retentionPolicy as BasedOnThreadCreationDateRetentionPolicy);
+    await chatThreadClient.updateRetentionPolicy(
+      retentionPolicy as BasedOnThreadCreationDateRetentionPolicy
+    );
 
     sinon.assert.calledOnce(spy);
     const request = spy.getCall(0).args[0];

@@ -6,10 +6,9 @@ import {
   ChatListChatThreadsOptionalParams as RestListChatThreadsOptions,
   ChatThreadListChatMessagesOptionalParams as RestListMessagesOptions,
   ChatThreadListChatParticipantsOptionalParams as RestListParticipantsOptions,
-  ChatThreadListChatReadReceiptsOptionalParams as RestListReadReceiptsOptions
+  ChatThreadListChatReadReceiptsOptionalParams as RestListReadReceiptsOptions,
 } from "../generated/src/models";
-import { ChatParticipant,
-  RetentionPolicyUnion } from "./models";
+import { ChatParticipant, RetentionPolicyUnion } from "./models";
 
 export {
   RestListMessagesOptions,

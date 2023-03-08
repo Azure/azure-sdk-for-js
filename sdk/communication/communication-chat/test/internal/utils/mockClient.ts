@@ -55,7 +55,7 @@ export const mockThreadItemWithRetentionPolicy: RestModel.ChatThreadProperties =
   topic: "topic",
   createdByCommunicationIdentifier: mockCommunicationIdentifier,
   createdOn: new Date("2020-06-26T18:06:06Z"),
-  retentionPolicy: { policyType: "basedOnThreadCreationDate", daysAfterCreation:90 }
+  retentionPolicy: { policyType: "basedOnThreadCreationDate", daysAfterCreation: 90 },
 };
 
 export const mockMessage: RestModel.ChatMessage = {

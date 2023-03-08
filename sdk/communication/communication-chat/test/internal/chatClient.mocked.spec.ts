@@ -65,16 +65,20 @@ describe("[Mocked] ChatClient", async function () {
   });
 
   it("makes successful create thread request with retention policy", async function () {
-    const mockHttpClient = generateHttpClient(201, {chatThread: mockThreadItemWithRetentionPolicy});
+    const mockHttpClient = generateHttpClient(201, {
+      chatThread: mockThreadItemWithRetentionPolicy,
+    });
 
     chatClient = createChatClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
     const sendRequest: CreateChatThreadRequest = {
-      topic: mockThread.topic!
+      topic: mockThread.topic!,
     };
 
-    const sendOptions: CreateChatThreadOptions = {retentionPolicy: { policyType: "basedOnThreadCreationDate", daysAfterCreation:90 }};
+    const sendOptions: CreateChatThreadOptions = {
+      retentionPolicy: { policyType: "basedOnThreadCreationDate", daysAfterCreation: 90 },
+    };
 
     const createThreadResult = await chatClient.createChatThread(sendRequest, sendOptions);
 
@@ -82,7 +86,10 @@ describe("[Mocked] ChatClient", async function () {
     assert.isDefined(createThreadResult.chatThread);
     assert.equal(createThreadResult.chatThread?.id, mockThreadItemWithRetentionPolicy.id);
     assert.equal(createThreadResult.chatThread?.createdBy?.kind, "communicationUser");
-    assert.deepEqual(createThreadResult.chatThread?.retentionPolicy, mockThreadItemWithRetentionPolicy.retentionPolicy)
+    assert.deepEqual(
+      createThreadResult.chatThread?.retentionPolicy,
+      mockThreadItemWithRetentionPolicy.retentionPolicy
+    );
 
     const request = spy.getCall(0).args[0];
 
