@@ -1932,6 +1932,11 @@
       "packageName": "@azure/arm-voiceservices",
       "projectFolder": "sdk/voiceservices/arm-voiceservices",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-graphservices",
+      "projectFolder": "sdk/graphservices/arm-graphservices",
+      "versionPolicyName": "management"
     }
   ]
 }
