@@ -162,8 +162,13 @@ export interface DownloadManifestOptions extends OperationOptions {
 export interface DownloadManifestResult {
     content: NodeJS.ReadableStream;
     digest: string;
-    manifest?: OciManifest;
     mediaType: string;
+}
+
+// @public
+export interface DownloadOciManifestResult extends DownloadManifestResult {
+    manifest: OciManifest;
+    mediaType: KnownManifestMediaType.OciManifest;
 }
 
 // @public
@@ -177,6 +182,9 @@ export interface GetRepositoryPropertiesOptions extends OperationOptions {
 // @public
 export interface GetTagPropertiesOptions extends OperationOptions {
 }
+
+// @public
+export function isOciManifest(downloadResult: DownloadManifestResult): downloadResult is DownloadOciManifestResult;
 
 // @public
 export enum KnownArtifactArchitecture {
