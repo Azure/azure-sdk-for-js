@@ -207,24 +207,12 @@ export interface CallParticipant {
 export class CallRecording {
     // Warning: (ae-forgotten-export) The symbol "CallRecordingImpl" needs to be exported by the entry point index.d.ts
     constructor(callRecordingImpl: CallRecordingImpl);
-    getRecordingProperties(recordingId: string, options?: CallRecordingGetRecordingPropertiesOptions): Promise<RecordingStateResult>;
-    pauseRecording(recordingId: string, options?: CallRecordingPauseRecordingOptions): Promise<void>;
-    resumeRecording(recordingId: string, options?: CallRecordingResumeRecordingOptionalParams): Promise<void>;
+    getRecordingState(recordingId: string, options?: GetRecordingPropertiesOptions): Promise<RecordingStateResult>;
+    pauseRecording(recordingId: string, options?: PauseRecordingOptions): Promise<void>;
+    resumeRecording(recordingId: string, options?: ResumeRecordingOptions): Promise<void>;
     startRecording(options: StartRecordingOptions): Promise<RecordingStateResult>;
-    stopRecording(recordingId: string, options?: CallRecordingStopRecordingOptions): Promise<void>;
+    stopRecording(recordingId: string, options?: StopRecordingOptions): Promise<void>;
 }
-
-// @public
-export type CallRecordingGetRecordingPropertiesOptions = OperationOptions;
-
-// @public
-export type CallRecordingPauseRecordingOptions = OperationOptions;
-
-// @public
-export type CallRecordingResumeRecordingOptionalParams = OperationOptions;
-
-// @public
-export type CallRecordingStopRecordingOptions = OperationOptions;
 
 // @public
 export type CallRejectReason = string;
@@ -289,6 +277,9 @@ export type GetCallConnectionPropertiesOptions = OperationOptions;
 // @public
 export type GetParticipantOptions = OperationOptions;
 
+// @public
+export type GetRecordingPropertiesOptions = OperationOptions;
+
 // @public (undocumented)
 export interface GroupCallLocator {
     // (undocumented)
@@ -305,6 +296,22 @@ export enum KnownCallRejectReason {
     Busy = "busy",
     Forbidden = "forbidden",
     None = "none"
+}
+
+// @public
+export enum KnownMediaStreamingAudioChannelType {
+    Mixed = "mixed",
+    Unmixed = "unmixed"
+}
+
+// @public
+export enum KnownMediaStreamingContentType {
+    Audio = "audio"
+}
+
+// @public
+export enum KnownMediaStreamingTransportType {
+    Websocket = "websocket"
 }
 
 // @public
@@ -341,6 +348,9 @@ export interface ParticipantsUpdated {
     participants?: CallParticipant[];
     serverCallId?: string;
 }
+
+// @public
+export type PauseRecordingOptions = OperationOptions;
 
 // @public
 export interface PlayCanceled extends RestPlayCanceled {
@@ -397,7 +407,7 @@ export interface RecordingStateChanged extends RestRecordingStateChanged {
     kind: "RecordingStateChanged";
 }
 
-// @public (undocumented)
+// @public
 export interface RecordingStateResult {
     // (undocumented)
     recordingId?: string;
@@ -538,6 +548,9 @@ export interface ResultInformation {
     subCode?: number;
 }
 
+// @public
+export type ResumeRecordingOptions = OperationOptions;
+
 // @public (undocumented)
 export const SDK_VERSION: string;
 
@@ -564,6 +577,9 @@ export interface StartRecordingOptions extends OperationOptions {
     // Warning: (ae-forgotten-export) The symbol "RecordingStorageType" needs to be exported by the entry point index.d.ts
     recordingStorageType?: RecordingStorageType;
 }
+
+// @public
+export type StopRecordingOptions = OperationOptions;
 
 // @public
 export interface TransferCallResult {

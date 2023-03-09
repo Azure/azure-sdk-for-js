@@ -15,9 +15,12 @@ export {
   KnownCallRejectReason,
   MediaStreamingConfiguration,
   MediaStreamingTransportType,
+  KnownMediaStreamingTransportType,
   MediaStreamingContentType,
+  KnownMediaStreamingContentType,
   MediaStreamingAudioChannelType,
-  CallConnectionStateModel,
+  KnownMediaStreamingAudioChannelType,
+  CallConnectionStateModel
 } from "../generated/src/models/index";
 
 /** Properties of a call connection */
