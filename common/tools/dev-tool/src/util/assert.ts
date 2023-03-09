@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * @fileoverview This module contains control-flow helpers.
+ */
+
 import chalk from "chalk";
 
 /**
@@ -40,7 +44,7 @@ export function unimplemented(message: string): never {
 }
 
 /**
- * Throws an unrecoverable error.
+ * Triggers an unrecoverable error that exits the process.
  *
  * @param message - the error message to print
  */
