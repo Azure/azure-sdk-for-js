@@ -2,10 +2,17 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to make a simple call to the Azure Text Translator
- * service to get a list of supported languages
+ * This sample demonstrates how you can select the language to use for user interface strings.
+ * Some of the fields in the response are names of languages or names of regions.
+ * Use this parameter to define the language in which these names are returned.
+ * The language is specified by providing a well-formed BCP 47 language tag.
+ * For instance, use the value `fr` to request names in French or use the value `zh-Hant`
+ * to request names in Chinese Traditional.
+ * 
+ * Names are provided in the English language when a target language is not specified
+ * or when localization is not available.
  *
- * @summary gets a list of all supported languages
+ * @summary gets a list of all supported languages in given locale
  */
 import TextTranslationFactory, { GetLanguagesParameters, GetLanguagesResultOutput, MtErrorResponseOutput } from "@azure-rest/azure-ai-translation-text";
 
@@ -15,7 +22,7 @@ dotenv.config();
 const endpoint = process.env["ENDPOINT"] || "https://api.cognitive.microsofttranslator.com";
 
 export async function main() {
-  console.log("== List supported languages sample ==");
+  console.log("== List supported localized languages sample ==");
 
   const parameters: GetLanguagesParameters = {
     headers: {

@@ -2,10 +2,22 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to make a simple call to the Azure Text Translator
- * service to get translation for a text which language is know to a target language.
+ * This sample demonstrates how You can get translations from a customized system built with
+ * Custom Translator (https://learn.microsoft.com/en-us/azure/cognitive-services/translator/customization). Add the Category ID from your Custom Translator [project details](https://learn.microsoft.com/en-us/azure/cognitive-services/translator/custom-translator/how-to-create-project#view-project-details)
+ * to this parameter to use your deployed customized system.
+ * 
+ * It is possible to set `allowFalback` paramter. It specifies that the service is allowed to
+ * fall back to a general system when a custom system doesn't exist. Possible values are:
+ * `true` (default) or `false`.
  *
- * @summary simple translate text
+ * `allowFallback=false` specifies that the translation should only use systems trained for
+ * the category specified by the request. If a translation for language X to language Y requires
+ * chaining through a pivot language E, then all the systems in the chain (X → E and E → Y)
+ * will need to be custom and have the same category. If no system is found with the specific
+ * category, the request will return a 400 status code. `allowFallback=true` specifies that
+ * the service is allowed to fall back to a general system when a custom system doesn't exist.
+ *
+ * @summary Translate with Custom system
  */
 import TextTranslationFactory, { MtErrorResponseOutput, TranslatorCredential, InputTextElement, TranslateQueryParamProperties, TranslateParameters, TranslatedTextElementOutput } from "@azure-rest/azure-ai-translation-text";
 
@@ -17,7 +29,7 @@ const apiKey = process.env["TEXT_TRANSLATOR_API_KEY"] || "<api key>";
 const region = process.env["TEXT_TRANSLATOR_REGION"] || "<region>";
 
 export async function main() {
-  console.log("== Simple translate sample ==");
+  console.log("== Custom translator sample ==");
 
   const translateCedential = new TranslatorCredential(apiKey, region);
   const translationClient = TextTranslationFactory(endpoint, translateCedential, undefined);

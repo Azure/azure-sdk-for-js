@@ -2,10 +2,20 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to make a simple call to the Azure Text Translator
- * service to get translation for a text which language is know to a target language.
+ * This sample demonstrates how to change the profanity handling during translate call.
+ * Normally the Translator service will retain profanity that is present in the source
+ * in the translation. The degree of profanity and the context that makes words profane
+ * differ between cultures, and as a result the degree of profanity in the target language
+ * may be amplified or reduced.
+ * 
+ * If you want to avoid getting profanity in the translation, regardless of the presence
+ * of profanity in the source text, you can use the profanity filtering option. The option
+ * allows you to choose whether you want to see profanity deleted, whether you want to mark
+ * profanities with appropriate tags (giving you the option to add your own post-processing),
+ * or you want no action taken. The accepted values of `ProfanityAction` are `Deleted`, `Marked`
+ * and `NoAction` (default).
  *
- * @summary simple translate text
+ * @summary Profanity handling
  */
 import TextTranslationFactory, { MtErrorResponseOutput, TranslatorCredential, InputTextElement, TranslateQueryParamProperties, TranslateParameters, TranslatedTextElementOutput } from "@azure-rest/azure-ai-translation-text";
 
@@ -17,7 +27,7 @@ const apiKey = process.env["TEXT_TRANSLATOR_API_KEY"] || "<api key>";
 const region = process.env["TEXT_TRANSLATOR_REGION"] || "<region>";
 
 export async function main() {
-  console.log("== Simple translate sample ==");
+  console.log("== Profanity handling sample ==");
 
   const translateCedential = new TranslatorCredential(apiKey, region);
   const translationClient = TextTranslationFactory(endpoint, translateCedential, undefined);

@@ -3,9 +3,9 @@
 
 /**
  * This sample demonstrates how to make a simple call to the Azure Text Translator
- * service to get translation for a text which language is know to a target language.
+ * service to get grammatical structure and context examples for the source term and target term pair.
  *
- * @summary simple translate text
+ * @summary Dictionary Examples Sample
  */
 import TextTranslationFactory, { MtErrorResponseOutput, TranslatorCredential, DictionaryExampleTextElement, DictionaryExamplesQueryParamProperties, DictionaryExampleElementOutput } from "@azure-rest/azure-ai-translation-text";
 
@@ -17,7 +17,7 @@ const apiKey = process.env["TEXT_TRANSLATOR_API_KEY"] || "<api key>";
 const region = process.env["TEXT_TRANSLATOR_REGION"] || "<region>";
 
 export async function main() {
-  console.log("== Simple translate sample ==");
+  console.log("== Dictionary Examples sample ==");
 
   const translateCedential = new TranslatorCredential(apiKey, region);
   const translationClient = TextTranslationFactory(endpoint, translateCedential, undefined);

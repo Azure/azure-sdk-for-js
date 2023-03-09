@@ -3,9 +3,9 @@
 
 /**
  * This sample demonstrates how to make a simple call to the Azure Text Translator
- * service to get a list of supported languages
+ * service to get a list of supported languages for a selected scope
  *
- * @summary gets a list of all supported languages
+ * @summary gets a list of all supported languages for selected scope
  */
 import TextTranslationFactory, { GetLanguagesParameters, GetLanguagesResultOutput, MtErrorResponseOutput } from "@azure-rest/azure-ai-translation-text";
 
@@ -15,7 +15,7 @@ dotenv.config();
 const endpoint = process.env["ENDPOINT"] || "https://api.cognitive.microsofttranslator.com";
 
 export async function main() {
-  console.log("== List supported languages sample ==");
+  console.log("== Scoped list supported languages sample ==");
 
   const parameters: GetLanguagesParameters = {
     queryParameters: {

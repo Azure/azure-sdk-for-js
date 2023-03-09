@@ -2,10 +2,12 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to make a simple call to the Azure Text Translator
- * service to get translation for a text which language is know to a target language.
+ * This sample demonstrates how it's sometimes useful to exclude specific content from translation.
+ * You can use the attribute class=notranslate to specify content that should remain
+ * in its original language. In the following example, the content inside the first div
+ * element won't be translated, while the content in the second div element will be translated.
  *
- * @summary simple translate text
+ * @summary mark text with no translate div
  */
 import TextTranslationFactory, { MtErrorResponseOutput, TranslatorCredential, InputTextElement, TranslateQueryParamProperties, TranslateParameters, TranslatedTextElementOutput } from "@azure-rest/azure-ai-translation-text";
 
@@ -17,7 +19,7 @@ const apiKey = process.env["TEXT_TRANSLATOR_API_KEY"] || "<api key>";
 const region = process.env["TEXT_TRANSLATOR_REGION"] || "<region>";
 
 export async function main() {
-  console.log("== Simple translate sample ==");
+  console.log("== Marking text input with notranslate div sample ==");
 
   const translateCedential = new TranslatorCredential(apiKey, region);
   const translationClient = TextTranslationFactory(endpoint, translateCedential, undefined);

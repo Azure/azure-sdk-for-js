@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to make a simple call to the Azure Text Translator
- * service to get translation for a text which language is know to a target language.
+ * This sample demonstrates how you can ask translation service to include alignment
+ * projection from source text to translated text.
  *
- * @summary simple translate text
+ * @summary translation with alignments
  */
 import TextTranslationFactory, { MtErrorResponseOutput, TranslatorCredential, InputTextElement, TranslateQueryParamProperties, TranslateParameters, TranslatedTextElementOutput } from "@azure-rest/azure-ai-translation-text";
 
@@ -17,7 +17,7 @@ const apiKey = process.env["TEXT_TRANSLATOR_API_KEY"] || "<api key>";
 const region = process.env["TEXT_TRANSLATOR_REGION"] || "<region>";
 
 export async function main() {
-  console.log("== Simple translate sample ==");
+  console.log("== Translation with alignments sample ==");
 
   const translateCedential = new TranslatorCredential(apiKey, region);
   const translationClient = TextTranslationFactory(endpoint, translateCedential, undefined);

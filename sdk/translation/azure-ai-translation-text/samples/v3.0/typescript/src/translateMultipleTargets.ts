@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to make a simple call to the Azure Text Translator
- * service to get translation for a input text into multiple target languages.
+ * This sample demonstrates how you can provide multiple target languages which results
+ * to each input element be translated to all target languages.
  *
  * @summary multiple target languages translation
  */
