@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerServiceClient } from "../containerServiceClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ManagedCluster,
   ManagedClustersListNextOptionalParams,
@@ -52,6 +56,8 @@ import {
   ManagedClustersResetServicePrincipalProfileOptionalParams,
   ManagedClusterAADProfile,
   ManagedClustersResetAADProfileOptionalParams,
+  ManagedClustersAbortLatestOperationOptionalParams,
+  ManagedClustersAbortLatestOperationResponse,
   ManagedClustersRotateClusterCertificatesOptionalParams,
   ManagedClustersRotateClusterCertificatesResponse,
   ManagedClustersRotateServiceAccountSigningKeysOptionalParams,
@@ -452,8 +458,8 @@ export class ManagedClustersImpl implements ManagedClusters {
     parameters: ManagedCluster,
     options?: ManagedClustersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagedClustersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ManagedClustersCreateOrUpdateResponse>,
       ManagedClustersCreateOrUpdateResponse
     >
   > {
@@ -463,7 +469,7 @@ export class ManagedClustersImpl implements ManagedClusters {
     ): Promise<ManagedClustersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -496,13 +502,16 @@ export class ManagedClustersImpl implements ManagedClusters {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ManagedClustersCreateOrUpdateResponse,
+      OperationState<ManagedClustersCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -544,8 +553,8 @@ export class ManagedClustersImpl implements ManagedClusters {
     parameters: TagsObject,
     options?: ManagedClustersUpdateTagsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagedClustersUpdateTagsResponse>,
+    SimplePollerLike<
+      OperationState<ManagedClustersUpdateTagsResponse>,
       ManagedClustersUpdateTagsResponse
     >
   > {
@@ -555,7 +564,7 @@ export class ManagedClustersImpl implements ManagedClusters {
     ): Promise<ManagedClustersUpdateTagsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -588,13 +597,16 @@ export class ManagedClustersImpl implements ManagedClusters {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, parameters, options },
-      updateTagsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, parameters, options },
+      spec: updateTagsOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ManagedClustersUpdateTagsResponse,
+      OperationState<ManagedClustersUpdateTagsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -634,8 +646,8 @@ export class ManagedClustersImpl implements ManagedClusters {
     resourceName: string,
     options?: ManagedClustersDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagedClustersDeleteResponse>,
+    SimplePollerLike<
+      OperationState<ManagedClustersDeleteResponse>,
       ManagedClustersDeleteResponse
     >
   > {
@@ -645,7 +657,7 @@ export class ManagedClustersImpl implements ManagedClusters {
     ): Promise<ManagedClustersDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -678,13 +690,16 @@ export class ManagedClustersImpl implements ManagedClusters {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ManagedClustersDeleteResponse,
+      OperationState<ManagedClustersDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -722,14 +737,14 @@ export class ManagedClustersImpl implements ManagedClusters {
     resourceName: string,
     parameters: ManagedClusterServicePrincipalProfile,
     options?: ManagedClustersResetServicePrincipalProfileOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -762,15 +777,15 @@ export class ManagedClustersImpl implements ManagedClusters {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, parameters, options },
-      resetServicePrincipalProfileOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, parameters, options },
+      spec: resetServicePrincipalProfileOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -799,7 +814,8 @@ export class ManagedClustersImpl implements ManagedClusters {
   }
 
   /**
-   * Reset the AAD Profile of a managed cluster.
+   * **WARNING**: This API will be deprecated. Please see [AKS-managed Azure Active Directory
+   * integration](https://aka.ms/aks-managed-aad) to update your cluster with AKS-managed Azure AD.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param parameters The AAD profile to set on the Managed Cluster
@@ -810,14 +826,14 @@ export class ManagedClustersImpl implements ManagedClusters {
     resourceName: string,
     parameters: ManagedClusterAADProfile,
     options?: ManagedClustersResetAADProfileOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -850,22 +866,23 @@ export class ManagedClustersImpl implements ManagedClusters {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, parameters, options },
-      resetAADProfileOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, parameters, options },
+      spec: resetAADProfileOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Reset the AAD Profile of a managed cluster.
+   * **WARNING**: This API will be deprecated. Please see [AKS-managed Azure Active Directory
+   * integration](https://aka.ms/aks-managed-aad) to update your cluster with AKS-managed Azure AD.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param parameters The AAD profile to set on the Managed Cluster
@@ -887,29 +904,30 @@ export class ManagedClustersImpl implements ManagedClusters {
   }
 
   /**
-   * See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more
-   * details about rotating managed cluster certificates.
+   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
+   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
+   * completes before cancellation can take place, an error is returned.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
-  async beginRotateClusterCertificates(
+  async beginAbortLatestOperation(
     resourceGroupName: string,
     resourceName: string,
-    options?: ManagedClustersRotateClusterCertificatesOptionalParams
+    options?: ManagedClustersAbortLatestOperationOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagedClustersRotateClusterCertificatesResponse>,
-      ManagedClustersRotateClusterCertificatesResponse
+    SimplePollerLike<
+      OperationState<ManagedClustersAbortLatestOperationResponse>,
+      ManagedClustersAbortLatestOperationResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ManagedClustersRotateClusterCertificatesResponse> => {
+    ): Promise<ManagedClustersAbortLatestOperationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -942,15 +960,112 @@ export class ManagedClustersImpl implements ManagedClusters {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, options },
-      rotateClusterCertificatesOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, options },
+      spec: abortLatestOperationOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ManagedClustersAbortLatestOperationResponse,
+      OperationState<ManagedClustersAbortLatestOperationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
+   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
+   * completes before cancellation can take place, an error is returned.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  async beginAbortLatestOperationAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersAbortLatestOperationOptionalParams
+  ): Promise<ManagedClustersAbortLatestOperationResponse> {
+    const poller = await this.beginAbortLatestOperation(
+      resourceGroupName,
+      resourceName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more
+   * details about rotating managed cluster certificates.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  async beginRotateClusterCertificates(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersRotateClusterCertificatesOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedClustersRotateClusterCertificatesResponse>,
+      ManagedClustersRotateClusterCertificatesResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ManagedClustersRotateClusterCertificatesResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, options },
+      spec: rotateClusterCertificatesOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ManagedClustersRotateClusterCertificatesResponse,
+      OperationState<ManagedClustersRotateClusterCertificatesResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -987,10 +1102,8 @@ export class ManagedClustersImpl implements ManagedClusters {
     resourceName: string,
     options?: ManagedClustersRotateServiceAccountSigningKeysOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        ManagedClustersRotateServiceAccountSigningKeysResponse
-      >,
+    SimplePollerLike<
+      OperationState<ManagedClustersRotateServiceAccountSigningKeysResponse>,
       ManagedClustersRotateServiceAccountSigningKeysResponse
     >
   > {
@@ -1000,7 +1113,7 @@ export class ManagedClustersImpl implements ManagedClusters {
     ): Promise<ManagedClustersRotateServiceAccountSigningKeysResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1033,15 +1146,18 @@ export class ManagedClustersImpl implements ManagedClusters {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, options },
-      rotateServiceAccountSigningKeysOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, options },
+      spec: rotateServiceAccountSigningKeysOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ManagedClustersRotateServiceAccountSigningKeysResponse,
+      OperationState<ManagedClustersRotateServiceAccountSigningKeysResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -1081,8 +1197,8 @@ export class ManagedClustersImpl implements ManagedClusters {
     resourceName: string,
     options?: ManagedClustersStopOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagedClustersStopResponse>,
+    SimplePollerLike<
+      OperationState<ManagedClustersStopResponse>,
       ManagedClustersStopResponse
     >
   > {
@@ -1092,7 +1208,7 @@ export class ManagedClustersImpl implements ManagedClusters {
     ): Promise<ManagedClustersStopResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1125,15 +1241,18 @@ export class ManagedClustersImpl implements ManagedClusters {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, options },
-      stopOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, options },
+      spec: stopOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ManagedClustersStopResponse,
+      OperationState<ManagedClustersStopResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -1174,8 +1293,8 @@ export class ManagedClustersImpl implements ManagedClusters {
     resourceName: string,
     options?: ManagedClustersStartOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagedClustersStartResponse>,
+    SimplePollerLike<
+      OperationState<ManagedClustersStartResponse>,
       ManagedClustersStartResponse
     >
   > {
@@ -1185,7 +1304,7 @@ export class ManagedClustersImpl implements ManagedClusters {
     ): Promise<ManagedClustersStartResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1218,15 +1337,18 @@ export class ManagedClustersImpl implements ManagedClusters {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, options },
-      startOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, options },
+      spec: startOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ManagedClustersStartResponse,
+      OperationState<ManagedClustersStartResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -1267,8 +1389,8 @@ export class ManagedClustersImpl implements ManagedClusters {
     requestPayload: RunCommandRequest,
     options?: ManagedClustersRunCommandOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagedClustersRunCommandResponse>,
+    SimplePollerLike<
+      OperationState<ManagedClustersRunCommandResponse>,
       ManagedClustersRunCommandResponse
     >
   > {
@@ -1278,7 +1400,7 @@ export class ManagedClustersImpl implements ManagedClusters {
     ): Promise<ManagedClustersRunCommandResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1311,15 +1433,18 @@ export class ManagedClustersImpl implements ManagedClusters {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, requestPayload, options },
-      runCommandOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, requestPayload, options },
+      spec: runCommandOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ManagedClustersRunCommandResponse,
+      OperationState<ManagedClustersRunCommandResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -1726,7 +1851,10 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.ignorePodDisruptionBudget
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1784,6 +1912,37 @@ const resetAADProfileOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const abortLatestOperationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedclusters/{resourceName}/abort",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.ManagedClustersAbortLatestOperationHeaders
+    },
+    201: {
+      headersMapper: Mappers.ManagedClustersAbortLatestOperationHeaders
+    },
+    202: {
+      headersMapper: Mappers.ManagedClustersAbortLatestOperationHeaders
+    },
+    204: {
+      headersMapper: Mappers.ManagedClustersAbortLatestOperationHeaders
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const rotateClusterCertificatesOperationSpec: coreClient.OperationSpec = {

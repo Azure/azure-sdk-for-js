@@ -1,6 +1,6 @@
 # Release History
 
-## 3.2.2 (Unreleased)
+## 3.3.0 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,14 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+- upgrade dependency `rhea-promise` version to `^3.0.0`.
+
+## 3.2.2 (2023-02-02)
+
+### Other Changes
+
+- Remove unused dependency `url` [PR #24380](https://github.com/Azure/azure-sdk-for-js/pull/24380).
 
 ## 3.2.1 (2023-01-05)
 

@@ -1,15 +1,91 @@
 # Release History
+    
+## 13.2.0 (2023-02-23)
+    
+**Features**
 
-## 13.0.1 (Unreleased)
+  - Added operation LiveEvents.beginListGetStatusAndWait
+  - Added operation LiveEvents.beginListGetStreamEventsAndWait
+  - Added operation LiveEvents.beginListGetTrackIngestHeartbeatsAndWait
+  - Added Interface LiveEventGetStatusResult
+  - Added Interface LiveEventGetStreamEventsResult
+  - Added Interface LiveEventGetTrackIngestHeartbeatsResult
+  - Added Interface LiveEventIngestInterruption
+  - Added Interface LiveEventIngestion
+  - Added Interface LiveEventsListGetStatusHeaders
+  - Added Interface LiveEventsListGetStatusOptionalParams
+  - Added Interface LiveEventsListGetStreamEventsHeaders
+  - Added Interface LiveEventsListGetStreamEventsOptionalParams
+  - Added Interface LiveEventsListGetTrackIngestHeartbeatsHeaders
+  - Added Interface LiveEventsListGetTrackIngestHeartbeatsOptionalParams
+  - Added Interface LiveEventStatus
+  - Added Interface LiveEventStreamEvent
+  - Added Interface LiveEventStreamEventData
+  - Added Interface LiveEventTimedMetadataEndpoint
+  - Added Interface LiveEventTrackEvent
+  - Added Interface LiveEventTrackEventData
+  - Added Interface LiveEventTrackStatus
+  - Added Type Alias LiveEventHealthStatus
+  - Added Type Alias LiveEventsListGetStatusResponse
+  - Added Type Alias LiveEventsListGetStreamEventsResponse
+  - Added Type Alias LiveEventsListGetTrackIngestHeartbeatsResponse
+  - Added Type Alias LiveEventState
+  - Added Type Alias LiveEventStreamEventLevel
+  - Added Type Alias LiveEventStreamEventMaxTimeMediaType
+  - Added Type Alias LiveEventStreamEventMediaType
+  - Added Type Alias LiveEventStreamEventMinTimeMediaType
+  - Added Type Alias LiveEventStreamEventType
+  - Added Type Alias LiveEventTrackEventType
+  - Added Type Alias LiveEventTrackType
+  - Added Type Alias MinimumTlsVersion
+  - Interface LiveEventInput has a new optional parameter timedMetadataEndpoints
+  - Interface MediaService has a new optional parameter minimumTlsVersion
+  - Interface MediaServiceUpdate has a new optional parameter minimumTlsVersion
+  - Added Enum KnownLiveEventHealthStatus
+  - Added Enum KnownLiveEventState
+  - Added Enum KnownLiveEventStreamEventLevel
+  - Added Enum KnownLiveEventStreamEventMaxTimeMediaType
+  - Added Enum KnownLiveEventStreamEventMediaType
+  - Added Enum KnownLiveEventStreamEventMinTimeMediaType
+  - Added Enum KnownLiveEventStreamEventType
+  - Added Enum KnownLiveEventTrackEventType
+  - Added Enum KnownLiveEventTrackType
+  - Added Enum KnownMinimumTlsVersion
+    
+    
+## 13.1.0 (2023-01-16)
+    
+**Features**
 
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface DDAudio
+  - Added Interface Fade
+  - Interface Filters has a new optional parameter fadeIn
+  - Interface Filters has a new optional parameter fadeOut
+  - Interface StandardEncoderPreset has a new optional parameter experimentalOptions
+  - Enum KnownEncoderNamedPreset has a new value DDGoodQualityAudio
+  - Enum KnownJobErrorCategory has a new value Account
+  - Enum KnownJobErrorCode has a new value IdentityUnsupported
+  - Added function getContinuationToken
+  - Interface AssetsListNextOptionalParams no longer has parameter filter
+  - Interface AssetsListNextOptionalParams no longer has parameter orderby
+  - Interface AssetsListNextOptionalParams no longer has parameter top
+  - Interface ContentKeyPoliciesListNextOptionalParams no longer has parameter filter
+  - Interface ContentKeyPoliciesListNextOptionalParams no longer has parameter orderby
+  - Interface ContentKeyPoliciesListNextOptionalParams no longer has parameter top
+  - Interface JobsListNextOptionalParams no longer has parameter filter
+  - Interface JobsListNextOptionalParams no longer has parameter orderby
+  - Interface StreamingLocatorsListNextOptionalParams no longer has parameter filter
+  - Interface StreamingLocatorsListNextOptionalParams no longer has parameter orderby
+  - Interface StreamingLocatorsListNextOptionalParams no longer has parameter top
+  - Interface StreamingPoliciesListNextOptionalParams no longer has parameter filter
+  - Interface StreamingPoliciesListNextOptionalParams no longer has parameter orderby
+  - Interface StreamingPoliciesListNextOptionalParams no longer has parameter top
+  - Interface TransformsListNextOptionalParams no longer has parameter filter
+  - Interface TransformsListNextOptionalParams no longer has parameter orderby
+  - Type of parameter odataType of interface Audio_2 is changed from "#Microsoft.Media.Audio" | "#Microsoft.Media.AacAudio" to "#Microsoft.Media.Audio" | "#Microsoft.Media.AacAudio" | "#Microsoft.Media.DDAudio"
+  - Type of parameter odataType of interface Codec is changed from "#Microsoft.Media.Audio" | "#Microsoft.Media.AacAudio" | "#Microsoft.Media.Video" | "#Microsoft.Media.H265Video" | "#Microsoft.Media.CopyVideo" | "#Microsoft.Media.Image" | "#Microsoft.Media.CopyAudio" | "#Microsoft.Media.H264Video" | "#Microsoft.Media.JpgImage" | "#Microsoft.Media.PngImage" to "#Microsoft.Media.Audio" | "#Microsoft.Media.AacAudio" | "#Microsoft.Media.DDAudio" | "#Microsoft.Media.Video" | "#Microsoft.Media.H265Video" | "#Microsoft.Media.CopyVideo" | "#Microsoft.Media.Image" | "#Microsoft.Media.CopyAudio" | "#Microsoft.Media.H264Video" | "#Microsoft.Media.JpgImage" | "#Microsoft.Media.PngImage"
+    
+    
 ## 13.0.0 (2022-09-06)
     
 **Features**

@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { AzureVMwareSolutionAPI } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List hosts by zone in a cluster
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/Clusters_ListZones.json
  */
 async function clustersListZoneData() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "group1";
+  const subscriptionId =
+    process.env["AVS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["AVS_RESOURCE_GROUP"] || "group1";
   const privateCloudName = "cloud1";
   const clusterName = "cluster1";
   const credential = new DefaultAzureCredential();
@@ -31,8 +36,6 @@ async function clustersListZoneData() {
   );
   console.log(result);
 }
-
-clustersListZoneData().catch(console.error);
 
 /**
  * This sample demonstrates how to List hosts by zone in a cluster
@@ -41,8 +44,10 @@ clustersListZoneData().catch(console.error);
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/Clusters_ListZones_Stretched.json
  */
 async function clustersListZoneDataStretched() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "group1";
+  const subscriptionId =
+    process.env["AVS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["AVS_RESOURCE_GROUP"] || "group1";
   const privateCloudName = "cloud1";
   const clusterName = "cluster1";
   const credential = new DefaultAzureCredential();
@@ -55,4 +60,9 @@ async function clustersListZoneDataStretched() {
   console.log(result);
 }
 
-clustersListZoneDataStretched().catch(console.error);
+async function main() {
+  clustersListZoneData();
+  clustersListZoneDataStretched();
+}
+
+main().catch(console.error);

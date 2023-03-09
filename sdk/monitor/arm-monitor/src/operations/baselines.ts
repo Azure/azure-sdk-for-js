@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { Baselines } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -48,17 +48,22 @@ export class BaselinesImpl implements Baselines {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceUri, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceUri, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceUri: string,
-    options?: BaselinesListOptionalParams
+    options?: BaselinesListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<SingleMetricBaseline[]> {
-    let result = await this._list(resourceUri, options);
+    let result: BaselinesListResponse;
+    result = await this._list(resourceUri, options);
     yield result.value || [];
   }
 

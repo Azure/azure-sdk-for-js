@@ -6,21 +6,27 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Mediaservices } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureMediaServices } from "../azureMediaServices";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   MediaService,
   MediaservicesListNextOptionalParams,
   MediaservicesListOptionalParams,
+  MediaservicesListResponse,
   MediaservicesListBySubscriptionNextOptionalParams,
   MediaservicesListBySubscriptionOptionalParams,
-  MediaservicesListResponse,
+  MediaservicesListBySubscriptionResponse,
   MediaservicesGetOptionalParams,
   MediaservicesGetResponse,
   MediaservicesCreateOrUpdateOptionalParams,
@@ -34,7 +40,6 @@ import {
   ListEdgePoliciesInput,
   MediaservicesListEdgePoliciesOptionalParams,
   MediaservicesListEdgePoliciesResponse,
-  MediaservicesListBySubscriptionResponse,
   MediaservicesListNextResponse,
   MediaservicesListBySubscriptionNextResponse
 } from "../models";
@@ -69,19 +74,29 @@ export class MediaservicesImpl implements Mediaservices {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceGroupName, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    options?: MediaservicesListOptionalParams
+    options?: MediaservicesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<MediaService[]> {
-    let result = await this._list(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.odataNextLink;
+    let result: MediaservicesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.odataNextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -89,7 +104,9 @@ export class MediaservicesImpl implements Mediaservices {
         options
       );
       continuationToken = result.odataNextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -117,22 +134,34 @@ export class MediaservicesImpl implements Mediaservices {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: MediaservicesListBySubscriptionOptionalParams
+    options?: MediaservicesListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<MediaService[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.odataNextLink;
+    let result: MediaservicesListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.odataNextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.odataNextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -189,8 +218,8 @@ export class MediaservicesImpl implements Mediaservices {
     parameters: MediaService,
     options?: MediaservicesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MediaservicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<MediaservicesCreateOrUpdateResponse>,
       MediaservicesCreateOrUpdateResponse
     >
   > {
@@ -200,7 +229,7 @@ export class MediaservicesImpl implements Mediaservices {
     ): Promise<MediaservicesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -233,13 +262,16 @@ export class MediaservicesImpl implements Mediaservices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MediaservicesCreateOrUpdateResponse,
+      OperationState<MediaservicesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -298,8 +330,8 @@ export class MediaservicesImpl implements Mediaservices {
     parameters: MediaServiceUpdate,
     options?: MediaservicesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MediaservicesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<MediaservicesUpdateResponse>,
       MediaservicesUpdateResponse
     >
   > {
@@ -309,7 +341,7 @@ export class MediaservicesImpl implements Mediaservices {
     ): Promise<MediaservicesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -342,13 +374,16 @@ export class MediaservicesImpl implements Mediaservices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, parameters, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MediaservicesUpdateResponse,
+      OperationState<MediaservicesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -675,7 +710,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -696,7 +730,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

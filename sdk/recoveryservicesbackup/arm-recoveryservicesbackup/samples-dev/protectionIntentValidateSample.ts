@@ -13,6 +13,9 @@ import {
   RecoveryServicesBackupClient
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to It will validate followings
@@ -24,10 +27,12 @@ import { DefaultAzureCredential } from "@azure/identity";
 1. Vault capacity
 2. VM is already protected
 3. Any VM related configuration passed in properties.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureIaasVm/ProtectionIntent_Validate.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/ProtectionIntent_Validate.json
  */
 async function validateEnableProtectionOnAzureVM() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const azureRegion = "southeastasia";
   const parameters: PreValidateEnableBackupRequest = {
     properties: "",
@@ -46,4 +51,8 @@ async function validateEnableProtectionOnAzureVM() {
   console.log(result);
 }
 
-validateEnableProtectionOnAzureVM().catch(console.error);
+async function main() {
+  validateEnableProtectionOnAzureVM();
+}
+
+main().catch(console.error);

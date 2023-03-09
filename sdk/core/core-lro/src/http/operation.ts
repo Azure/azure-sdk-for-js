@@ -132,7 +132,7 @@ function transformStatus(inputs: { status: unknown; statusCode: number }): Opera
     case "cancelled":
       return "canceled";
     default: {
-      logger.warning(`LRO: unrecognized operation status: ${status}`);
+      logger.verbose(`LRO: unrecognized operation status: ${status}`);
       return status as OperationStatus;
     }
   }
@@ -292,6 +292,10 @@ export function getResourceLocation<TState>(
   return state.config.resourceLocation;
 }
 
+export function isOperationError(e: Error): boolean {
+  return e.name === "RestError";
+}
+
 /** Polls the long-running operation. */
 export async function pollHttpOperation<TState, TResult>(inputs: {
   lro: LongRunningOperation;
@@ -325,6 +329,7 @@ export async function pollHttpOperation<TState, TResult>(inputs: {
     getPollingInterval: parseRetryAfter,
     getOperationLocation,
     getOperationStatus,
+    isOperationError,
     getResourceLocation,
     options,
     /**

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { MonitorClient } = require("@azure/arm-monitor");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or updates a data collection rule.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-09-01-preview/examples/DataCollectionRulesCreate.json
  */
 async function createOrUpdateDataCollectionRule() {
-  const subscriptionId = "703362b3-f278-4e4b-9179-c76eaf41ffc2";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "703362b3-f278-4e4b-9179-c76eaf41ffc2";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "myResourceGroup";
   const dataCollectionRuleName = "myCollectionRule";
   const body = {
     dataFlows: [
@@ -33,17 +35,17 @@ async function createOrUpdateDataCollectionRule() {
         {
           name: "cloudTeamCoreCounters",
           counterSpecifiers: [
-            "Processor(_Total)% Processor Time",
-            "MemoryCommitted Bytes",
-            "LogicalDisk(_Total)Free Megabytes",
-            "PhysicalDisk(_Total)Avg. Disk Queue Length",
+            "\\Processor(_Total)\\% Processor Time",
+            "\\Memory\\Committed Bytes",
+            "\\LogicalDisk(_Total)\\Free Megabytes",
+            "\\PhysicalDisk(_Total)\\Avg. Disk Queue Length",
           ],
           samplingFrequencyInSeconds: 15,
           streams: ["Microsoft-Perf"],
         },
         {
           name: "appTeamExtraCounters",
-          counterSpecifiers: ["Process(_Total)Thread Count"],
+          counterSpecifiers: ["\\Process(_Total)\\Thread Count"],
           samplingFrequencyInSeconds: 30,
           streams: ["Microsoft-Perf"],
         },
@@ -100,4 +102,8 @@ async function createOrUpdateDataCollectionRule() {
   console.log(result);
 }
 
-createOrUpdateDataCollectionRule().catch(console.error);
+async function main() {
+  createOrUpdateDataCollectionRule();
+}
+
+main().catch(console.error);

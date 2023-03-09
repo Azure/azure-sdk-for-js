@@ -19,40 +19,65 @@ export interface AvailableScopeRequestProperties {
   scopes?: string[];
 }
 
+/** The response of available scope api containing scopes and their eligibilities. */
 export interface AvailableScopeProperties {
+  /** The scopes checked by the available scope api. */
   properties?: SubscriptionScopeProperties;
 }
 
+/** The scopes checked by the available scope api. */
 export interface SubscriptionScopeProperties {
   scopes?: ScopeProperties[];
 }
 
+/** The scope and whether it is valid. */
 export interface ScopeProperties {
   scope?: string;
   valid?: boolean;
 }
 
+/** Error information */
 export interface ErrorModel {
+  /** Extended error information including error code and error message */
   error?: ExtendedErrorInfo;
 }
 
+/** Extended error information including error code and error message */
 export interface ExtendedErrorInfo {
+  /** Error code describing the reason that service is not able to process the incoming request */
   code?: ErrorResponseCode;
   message?: string;
 }
 
+/** The list of catalogs and pagination information. */
+export interface CatalogsResult {
+  /**
+   * The list of catalogs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Catalog[];
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /** The total amount of catalog items. */
+  totalItems?: number;
+}
+
+/** Product details of a type of resource. */
 export interface Catalog {
   /**
-   * The type of resource the SKU applies to.
+   * The type of resource the sku applies to.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceType?: string;
   /**
-   * The name of SKU
+   * The name of sku
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
-  /** The billing plan options available for this SKU. */
+  /** The billing plan options available for this sku. */
   billingPlans?: { [propertyName: string]: ReservationBillingPlan[] };
   /**
    * Available reservation terms for this resource
@@ -64,19 +89,19 @@ export interface Catalog {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly skuProperties?: SkuProperty[];
   /**
-   * Pricing information about the SKU
+   * Pricing information about the sku
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly msrp?: CatalogMsrp;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly restrictions?: SkuRestriction[];
   /**
-   * The tier of this SKU
+   * The tier of this sku
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tier?: string;
   /**
-   * The size of this SKU
+   * The size of this sku
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly size?: string;
@@ -84,6 +109,7 @@ export interface Catalog {
   readonly capabilities?: SkuCapability[];
 }
 
+/** Property of a sku. */
 export interface SkuProperty {
   /** An invariant to describe the feature. */
   name?: string;
@@ -91,27 +117,30 @@ export interface SkuProperty {
   value?: string;
 }
 
-/** Pricing information about the SKU */
+/** Pricing information about the sku */
 export interface CatalogMsrp {
   /** Amount in pricing currency. Tax not included. */
   p1Y?: Price;
 }
 
+/** Pricing information containing the amount and the currency code */
 export interface Price {
   /** The ISO 4217 3-letter currency code for the currency used by this purchase record. */
   currencyCode?: string;
   amount?: number;
 }
 
+/** Restriction of a sku. */
 export interface SkuRestriction {
   /** The type of restrictions. */
   type?: string;
-  /** The value of restrictions. If the restriction type is set to location. This would be different locations where the SKU is restricted. */
+  /** The value of restrictions. If the restriction type is set to location. This would be different locations where the sku is restricted. */
   values?: string[];
   /** The reason for restriction. */
   reasonCode?: string;
 }
 
+/** Capability of a sku. */
 export interface SkuCapability {
   /** An invariant to describe the feature. */
   name?: string;
@@ -119,6 +148,7 @@ export interface SkuCapability {
   value?: string;
 }
 
+/** The response for applied reservations api */
 export interface AppliedReservations {
   /**
    * Identifier of the applied reservations
@@ -135,43 +165,66 @@ export interface AppliedReservations {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /** Paginated list of applied reservations */
   reservationOrderIds?: AppliedReservationList;
 }
 
+/** Paginated list of applied reservations */
 export interface AppliedReservationList {
   value?: string[];
   /** Url to get the next page of reservations */
   nextLink?: string;
 }
 
+/** The request for reservation purchase */
 export interface PurchaseRequest {
+  /** The name of sku */
   sku?: SkuName;
-  /** The Azure Region where the reserved resource lives. */
+  /** The Azure region where the reserved resource lives. */
   location?: string;
   /** The type of the resource that is being reserved. */
   reservedResourceType?: ReservedResourceType;
-  /** Subscription that will be charged for purchasing Reservation */
+  /** Subscription that will be charged for purchasing reservation or savings plan */
   billingScopeId?: string;
-  /** Represent the term of Reservation. */
+  /** Represent the term of reservation. */
   term?: ReservationTerm;
   /** Represent the billing plans. */
   billingPlan?: ReservationBillingPlan;
-  /** Quantity of the SKUs that are part of the Reservation. */
+  /** Quantity of the skus that are part of the reservation. */
   quantity?: number;
-  /** Friendly name of the Reservation */
+  /** Friendly name of the reservation */
   displayName?: string;
   /** Type of the Applied Scope. */
   appliedScopeType?: AppliedScopeType;
   /** List of the subscriptions that the benefit will be applied. Do not specify if AppliedScopeType is Shared. */
   appliedScopes?: string[];
+  /** Properties specific to applied scope type. Not required if not applicable. Required and need to provide tenantId and managementGroupId if AppliedScopeType is ManagementGroup */
+  appliedScopeProperties?: AppliedScopeProperties;
   /** Setting this to true will automatically purchase a new reservation on the expiration date time. */
   renew?: boolean;
   /** Properties specific to each reserved resource type. Not required if not applicable. */
   reservedResourceProperties?: PurchaseRequestPropertiesReservedResourceProperties;
+  /** This is the date-time when the Azure hybrid benefit needs to be reviewed. */
+  reviewDateTime?: Date;
 }
 
+/** The name of sku */
 export interface SkuName {
   name?: string;
+}
+
+/** Properties specific to applied scope type. Not required if not applicable. Required and need to provide tenantId and managementGroupId if AppliedScopeType is ManagementGroup */
+export interface AppliedScopeProperties {
+  /** Tenant ID where the savings plan should apply benefit. */
+  tenantId?: string;
+  /** Fully-qualified identifier of the management group where the benefit must be applied. */
+  managementGroupId?: string;
+  /** Fully-qualified identifier of the subscription. */
+  subscriptionId?: string;
+  /** Fully-qualified identifier of the resource group. */
+  resourceGroupId?: string;
+  /** Display name */
+  displayName?: string;
 }
 
 /** Properties specific to each reserved resource type. Not required if not applicable. */
@@ -180,10 +233,13 @@ export interface PurchaseRequestPropertiesReservedResourceProperties {
   instanceFlexibility?: InstanceFlexibility;
 }
 
+/** The response of calculate price for reservation. */
 export interface CalculatePriceResponse {
+  /** Properties for calculate price response */
   properties?: CalculatePriceResponseProperties;
 }
 
+/** Properties for calculate price response */
 export interface CalculatePriceResponseProperties {
   /** Currency and amount that customer will be charged in customer's local currency. Tax is not included. */
   billingCurrencyTotal?: CalculatePriceResponsePropertiesBillingCurrencyTotal;
@@ -199,9 +255,9 @@ export interface CalculatePriceResponseProperties {
   isBillingPartnerManaged?: boolean;
   /** GUID that represents reservation order that can be placed after calculating price. */
   reservationOrderId?: string;
-  /** Title of SKU that is being purchased. */
+  /** Title of sku that is being purchased. */
   skuTitle?: string;
-  /** Description of SKU that is being purchased. */
+  /** Description of sku that is being purchased. */
   skuDescription?: string;
   /** Amount that Microsoft uses for record. Used during refund for calculating refund limit. Tax is not included. */
   pricingCurrencyTotal?: CalculatePriceResponsePropertiesPricingCurrencyTotal;
@@ -246,12 +302,14 @@ export interface ExtendedStatusInfo {
   message?: string;
 }
 
+/** List of `ReservationOrder`s */
 export interface ReservationOrderList {
   value?: ReservationOrderResponse[];
   /** Url to get the next page of reservationOrders. */
   nextLink?: string;
 }
 
+/** Details of a reservation order being returned. */
 export interface ReservationOrderResponse {
   etag?: number;
   /**
@@ -280,13 +338,15 @@ export interface ReservationOrderResponse {
   requestDateTime?: Date;
   /** This is the DateTime when the reservation was created. */
   createdDateTime?: Date;
-  /** This is the date when the Reservation will expire. */
+  /** This is the date when the reservation will expire. */
   expiryDate?: Date;
+  /** This is the date-time when the reservation will expire. */
+  expiryDateTime?: Date;
   /** This is the DateTime when the reservation benefit started. */
   benefitStartTime?: Date;
-  /** Total Quantity of the SKUs purchased in the Reservation. */
+  /** Total Quantity of the skus purchased in the reservation. */
   originalQuantity?: number;
-  /** Represent the term of Reservation. */
+  /** Represent the term of reservation. */
   term?: ReservationTerm;
   /** Current state of the reservation. */
   provisioningState?: ProvisioningState;
@@ -295,6 +355,8 @@ export interface ReservationOrderResponse {
   /** Information describing the type of billing plan for this reservation. */
   planInformation?: ReservationOrderBillingPlanInformation;
   reservations?: ReservationResponse[];
+  /** This is the date-time when the Azure Hybrid Benefit needs to be reviewed. */
+  reviewDateTime?: Date;
 }
 
 /** Information describing the type of billing plan for this reservation. */
@@ -308,44 +370,11 @@ export interface ReservationOrderBillingPlanInformation {
   transactions?: PaymentDetail[];
 }
 
-/** The definition of the reservation. */
-export interface ReservationResponse {
-  /** The Azure Region where the reserved resource lives. */
-  location?: string;
-  etag?: number;
-  /**
-   * Identifier of the reservation
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Name of the reservation
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /** The sku information associated to this reservation */
-  sku?: SkuName;
-  /** The properties associated to this reservation */
-  properties?: ReservationsProperties;
-  /**
-   * Type of resource. "Microsoft.Capacity/reservationOrders/reservations"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Resource Provider type to be reserved. */
-  kind?: "Microsoft.Compute";
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
 /** The properties of the reservations */
 export interface ReservationsProperties {
   /** The type of the resource that is being reserved. */
   reservedResourceType?: ReservedResourceType;
-  /** Allows reservation discount to be applied across skus within the same Autofit group. Not all skus support instance size flexibility. */
+  /** Allows reservation discount to be applied across skus within the same auto fit group. Not all skus support instance size flexibility. */
   instanceFlexibility?: InstanceFlexibility;
   /** Friendly name for user to easily identify the reservation */
   displayName?: string;
@@ -357,26 +386,30 @@ export interface ReservationsProperties {
   archived?: boolean;
   /** Capabilities of the reservation */
   capabilities?: string;
-  /** Quantity of the SKUs that are part of the Reservation. */
+  /** Quantity of the skus that are part of the reservation. */
   quantity?: number;
   /** Current state of the reservation. */
   provisioningState?: ProvisioningState;
-  /** DateTime of the Reservation starting when this version is effective from. */
+  /** DateTime of the reservation starting when this version is effective from. */
   effectiveDateTime?: Date;
   /** This is the DateTime when the reservation benefit started. */
   benefitStartTime?: Date;
   /**
-   * DateTime of the last time the Reservation was updated.
+   * DateTime of the last time the reservation was updated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastUpdatedDateTime?: Date;
-  /** This is the date when the Reservation will expire. */
+  /** This is the date when the reservation will expire. */
   expiryDate?: Date;
-  /** Description of the SKU in english. */
+  /** This is the date-time when the reservation will expire. */
+  expiryDateTime?: Date;
+  /** This is the date-time when the Azure Hybrid Benefit needs to be reviewed. */
+  reviewDateTime?: Date;
+  /** Description of the sku in english. */
   skuDescription?: string;
   /** The message giving detailed information about the status code. */
   extendedStatusInfo?: ExtendedStatusInfo;
-  /** The billing plan options available for this SKU. */
+  /** The billing plan options available for this sku. */
   billingPlan?: ReservationBillingPlan;
   /**
    * The provisioning state of the reservation for display, e.g. Succeeded
@@ -384,15 +417,23 @@ export interface ReservationsProperties {
    */
   readonly displayProvisioningState?: string;
   /**
-   * The provisioning state of the reservation, e.g. Succeeded
+   * The provisioning sub-state of the reservation, e.g. Succeeded
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningSubState?: string;
-  /** This is the date when the Reservation was purchased. */
+  /** This is the date when the reservation was purchased. */
   purchaseDate?: Date;
+  /** This is the date-time when the reservation was purchased. */
+  purchaseDateTime?: Date;
+  /** Properties of reservation split */
   splitProperties?: ReservationSplitProperties;
+  /** Properties of reservation merge */
   mergeProperties?: ReservationMergeProperties;
-  /** Subscription that will be charged for purchasing Reservation */
+  /** Properties of reservation swap */
+  swapProperties?: ReservationSwapProperties;
+  /** Properties specific to applied scope type. Not required if not applicable. Required and need to provide tenantId and managementGroupId if AppliedScopeType is ManagementGroup */
+  appliedScopeProperties?: AppliedScopeProperties;
+  /** Subscription that will be charged for purchasing reservation or savings plan */
   billingScopeId?: string;
   /** Setting this to true will automatically purchase a new reservation on the expiration date time. */
   renew?: boolean;
@@ -400,8 +441,9 @@ export interface ReservationsProperties {
   renewSource?: string;
   /** Reservation Id of the reservation which is purchased because of renew. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}. */
   renewDestination?: string;
+  /** The renew properties for a reservation. */
   renewProperties?: RenewPropertiesResponse;
-  /** Represent the term of Reservation. */
+  /** Represent the term of reservation. */
   term?: ReservationTerm;
   /**
    * The applied scope type of the reservation for display, e.g. Shared
@@ -420,21 +462,33 @@ export interface ReservationsProperties {
   readonly utilization?: ReservationsPropertiesUtilization;
 }
 
+/** Properties of reservation split */
 export interface ReservationSplitProperties {
-  /** List of destination Resource Id that are created due to split. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
+  /** List of destination resource id that are created due to split. Format of the resource id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
   splitDestinations?: string[];
-  /** Resource Id of the Reservation from which this is split. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
+  /** Resource id of the reservation from which this is split. Format of the resource id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
   splitSource?: string;
 }
 
+/** Properties of reservation merge */
 export interface ReservationMergeProperties {
-  /** Reservation Resource Id Created due to the merge. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
+  /** Reservation resource id Created due to the merge. Format of the resource id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
   mergeDestination?: string;
-  /** Resource Ids of the Source Reservation's merged to form this Reservation. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
+  /** Resource ids of the source reservation's merged to form this reservation. Format of the resource id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
   mergeSources?: string[];
 }
 
+/** Properties of reservation swap */
+export interface ReservationSwapProperties {
+  /** Resource id of the source reservation that gets swapped. Format of the resource id is /providers/microsoft.capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
+  swapSource?: string;
+  /** Reservation resource id that the original resource gets swapped to. Format of the resource id is /providers/microsoft.capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
+  swapDestination?: string;
+}
+
+/** The renew properties for a reservation. */
 export interface RenewPropertiesResponse {
+  /** The request for reservation purchase */
   purchaseProperties?: PurchaseRequest;
   /** Amount that Microsoft uses for record. Used during refund for calculating refund limit. Tax is not included. This is locked price 30 days before expiry. */
   pricingCurrencyTotal?: RenewPropertiesResponsePricingCurrencyTotal;
@@ -459,7 +513,7 @@ export interface RenewPropertiesResponseBillingCurrencyTotal {
 /** Reservation utilization */
 export interface ReservationsPropertiesUtilization {
   /**
-   * The number of days trend for a reservation
+   * last 7 day utilization trend for a reservation
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly trend?: string;
@@ -491,6 +545,30 @@ export interface ReservationUtilizationAggregates {
   readonly valueUnit?: string;
 }
 
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
@@ -507,6 +585,7 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
+/** The request for reservation split */
 export interface SplitRequest {
   /** List of the quantities in the new reservations to create. */
   quantities?: number[];
@@ -514,41 +593,51 @@ export interface SplitRequest {
   reservationId?: string;
 }
 
+/** The request for reservation merge */
 export interface MergeRequest {
   /** Format of the resource id should be /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
   sources?: string[];
 }
 
+/** List of `Reservation`s */
 export interface ReservationList {
   value?: ReservationResponse[];
   /** Url to get the next page of reservations. */
   nextLink?: string;
 }
 
+/** The request for reservation patch */
 export interface Patch {
   /** Type of the Applied Scope. */
   appliedScopeType?: AppliedScopeType;
   /** List of the subscriptions that the benefit will be applied. Do not specify if AppliedScopeType is Shared. */
   appliedScopes?: string[];
+  /** Properties specific to applied scope type. Not required if not applicable. Required and need to provide tenantId and managementGroupId if AppliedScopeType is ManagementGroup */
+  appliedScopeProperties?: AppliedScopeProperties;
   /** Turning this on will apply the reservation discount to other VMs in the same VM size group. Only specify for VirtualMachines reserved resource type. */
   instanceFlexibility?: InstanceFlexibility;
-  /** Name of the Reservation */
+  /** Display name of the reservation */
   name?: string;
   /** Setting this to true will automatically purchase a new reservation on the expiration date time. */
   renew?: boolean;
   renewProperties?: PatchPropertiesRenewProperties;
+  /** This is the date-time when the Azure hybrid benefit needs to be reviewed. */
+  reviewDateTime?: Date;
 }
 
 export interface PatchPropertiesRenewProperties {
+  /** The request for reservation purchase */
   purchaseProperties?: PurchaseRequest;
 }
 
+/** Paginated list of operations */
 export interface OperationList {
   value?: OperationResponse[];
   /** Url to get the next page of items. */
   nextLink?: string;
 }
 
+/** The response containing operation information */
 export interface OperationResponse {
   /** Name of the operation */
   name?: string;
@@ -562,6 +651,7 @@ export interface OperationResponse {
   properties?: Record<string, unknown>;
 }
 
+/** Information about an operation */
 export interface OperationDisplay {
   provider?: string;
   resource?: string;
@@ -569,12 +659,15 @@ export interface OperationDisplay {
   description?: string;
 }
 
+/** Request containing information needed for calculating refund. */
 export interface CalculateRefundRequest {
   /** Fully qualified identifier of the reservation order being returned */
   id?: string;
+  /** Properties needed for calculate refund including the scope and the reservation to be returned. */
   properties?: CalculateRefundRequestProperties;
 }
 
+/** Properties needed for calculate refund including the scope and the reservation to be returned. */
 export interface CalculateRefundRequestProperties {
   /** The scope of the refund, e.g. Reservation */
   scope?: string;
@@ -584,24 +677,29 @@ export interface CalculateRefundRequestProperties {
 
 /** Reservation to return */
 export interface ReservationToReturn {
-  /** Fully qualified identifier of the Reservation being returned */
+  /** Fully qualified identifier of the reservation being returned */
   reservationId?: string;
   /** Quantity to be returned. Must be greater than zero. */
   quantity?: number;
 }
 
+/** The response of calculate refund containing refund information of reservation */
 export interface CalculateRefundResponse {
   /** Fully qualified identifier of the reservation being returned */
   id?: string;
+  /** The refund properties of reservation */
   properties?: RefundResponseProperties;
 }
 
+/** The refund properties of reservation */
 export interface RefundResponseProperties {
   /** Refund session identifier */
   sessionId?: string;
   /** Quantity to be returned */
   quantity?: number;
+  /** Pricing information containing the amount and the currency code */
   billingRefundAmount?: Price;
+  /** Pricing information containing the amount and the currency code */
   pricingRefundAmount?: Price;
   /** Refund policy result */
   policyResult?: RefundPolicyResult;
@@ -617,7 +715,9 @@ export interface RefundPolicyResult {
 
 /** Refund policy result property */
 export interface RefundPolicyResultProperty {
+  /** Pricing information containing the amount and the currency code */
   consumedRefundsTotal?: Price;
+  /** Pricing information containing the amount and the currency code */
   maxRefundLimit?: Price;
   /** Refund Policy errors */
   policyErrors?: RefundPolicyError[];
@@ -625,6 +725,7 @@ export interface RefundPolicyResultProperty {
 
 /** error details */
 export interface RefundPolicyError {
+  /** Error code describing the reason that service is not able to process the incoming request */
   code?: ErrorResponseCode;
   message?: string;
 }
@@ -637,15 +738,21 @@ export interface RefundBillingInformation {
   completedTransactions?: number;
   /** The number of total transactions in this reservation's payment */
   totalTransactions?: number;
+  /** Pricing information containing the amount and the currency code */
   billingCurrencyTotalPaidAmount?: Price;
+  /** Pricing information containing the amount and the currency code */
   billingCurrencyProratedAmount?: Price;
+  /** Pricing information containing the amount and the currency code */
   billingCurrencyRemainingCommitmentAmount?: Price;
 }
 
+/** Request containing information needed for returning reservation. */
 export interface RefundRequest {
+  /** Properties needed for refund request including the session id from calculate refund, the scope, the reservation to be returned and the return reason. */
   properties?: RefundRequestProperties;
 }
 
+/** Properties needed for refund request including the session id from calculate refund, the scope, the reservation to be returned and the return reason. */
 export interface RefundRequestProperties {
   /** SessionId that was returned by CalculateRefund API. */
   sessionId?: string;
@@ -657,9 +764,11 @@ export interface RefundRequestProperties {
   returnReason?: string;
 }
 
+/** The response of refund request containing refund information of reservation */
 export interface RefundResponse {
   /** Fully qualified identifier of the reservation being returned */
   id?: string;
+  /** The refund properties of reservation */
   properties?: RefundResponseProperties;
 }
 
@@ -673,8 +782,30 @@ export interface CalculateExchangeRequest {
 export interface CalculateExchangeRequestProperties {
   /** List of reservations that are being purchased in this exchange. */
   reservationsToPurchase?: PurchaseRequest[];
+  /** List of savings plans that are being purchased in this exchange. */
+  savingsPlansToPurchase?: SavingsPlanPurchaseRequest[];
   /** List of reservations that are being returned in this exchange. */
   reservationsToExchange?: ReservationToReturn[];
+}
+
+/** Request body for savings plan purchase */
+export interface SavingsPlanPurchaseRequest {
+  /** The name of sku */
+  sku?: SkuName;
+  /** Friendly name of the savings plan */
+  displayName?: string;
+  /** Subscription that will be charged for purchasing reservation or savings plan */
+  billingScopeId?: string;
+  /** Represent savings plan term in ISO 8601 format. */
+  term?: SavingsPlanTerm;
+  /** Represents the billing plan in ISO 8601 format. Required only for monthly billing plans. */
+  billingPlan?: BillingPlan;
+  /** Type of the Applied Scope. */
+  appliedScopeType?: AppliedScopeType;
+  /** Properties specific to applied scope type. Not required if not applicable. Required and need to provide tenantId and managementGroupId if AppliedScopeType is ManagementGroup */
+  appliedScopeProperties?: AppliedScopeProperties;
+  /** Commitment towards the benefit. */
+  commitment?: Commitment;
 }
 
 /** CalculateExchange operation result */
@@ -695,11 +826,16 @@ export interface CalculateExchangeOperationResultResponse {
 export interface CalculateExchangeResponseProperties {
   /** Exchange session identifier */
   sessionId?: string;
+  /** Pricing information containing the amount and the currency code */
   netPayable?: Price;
+  /** Pricing information containing the amount and the currency code */
   refundsTotal?: Price;
+  /** Pricing information containing the amount and the currency code */
   purchasesTotal?: Price;
   /** Details of the reservations being purchased */
   reservationsToPurchase?: ReservationToPurchaseCalculateExchange[];
+  /** Details of the savings plans being purchased */
+  savingsPlansToPurchase?: SavingsPlanToPurchaseCalculateExchange[];
   /** Details of the reservations being returned */
   reservationsToExchange?: ReservationToExchange[];
   /** Exchange policy errors */
@@ -708,16 +844,27 @@ export interface CalculateExchangeResponseProperties {
 
 /** Reservation purchase details */
 export interface ReservationToPurchaseCalculateExchange {
+  /** The request for reservation purchase */
   properties?: PurchaseRequest;
+  /** Pricing information containing the amount and the currency code */
+  billingCurrencyTotal?: Price;
+}
+
+/** Savings plan purchase details */
+export interface SavingsPlanToPurchaseCalculateExchange {
+  /** Request body for savings plan purchase */
+  properties?: SavingsPlanPurchaseRequest;
+  /** Pricing information containing the amount and the currency code */
   billingCurrencyTotal?: Price;
 }
 
 /** Reservation refund details */
 export interface ReservationToExchange {
-  /** Fully qualified id of the Reservation being returned. */
+  /** Fully qualified id of the reservation being returned. */
   reservationId?: string;
   /** Quantity to be returned */
   quantity?: number;
+  /** Pricing information containing the amount and the currency code */
   billingRefundAmount?: Price;
   /** billing information */
   billingInformation?: BillingInformation;
@@ -725,8 +872,11 @@ export interface ReservationToExchange {
 
 /** billing information */
 export interface BillingInformation {
+  /** Pricing information containing the amount and the currency code */
   billingCurrencyTotalPaidAmount?: Price;
+  /** Pricing information containing the amount and the currency code */
   billingCurrencyProratedAmount?: Price;
+  /** Pricing information containing the amount and the currency code */
   billingCurrencyRemainingCommitmentAmount?: Price;
 }
 
@@ -780,11 +930,16 @@ export interface ExchangeOperationResultResponse {
 export interface ExchangeResponseProperties {
   /** Exchange session identifier */
   sessionId?: string;
+  /** Pricing information containing the amount and the currency code */
   netPayable?: Price;
+  /** Pricing information containing the amount and the currency code */
   refundsTotal?: Price;
+  /** Pricing information containing the amount and the currency code */
   purchasesTotal?: Price;
   /** Details of the reservations being purchased */
   reservationsToPurchase?: ReservationToPurchaseExchange[];
+  /** Details of the savings plans being purchased */
+  savingsPlansToPurchase?: SavingsPlanToPurchaseExchange[];
   /** Details of the reservations being returned */
   reservationsToExchange?: ReservationToReturnForExchange[];
   /** Exchange policy errors */
@@ -793,11 +948,27 @@ export interface ExchangeResponseProperties {
 
 /** Reservation purchase details */
 export interface ReservationToPurchaseExchange {
-  /** Fully qualified id of the ReservationOrder being purchased */
+  /** Fully qualified id of the reservationOrder being purchased */
   reservationOrderId?: string;
-  /** Fully qualified id of the Reservation being purchased. This value is only guaranteed to be non-null if the purchase is successful. */
+  /** Fully qualified id of the reservation being purchased. This value is only guaranteed to be non-null if the purchase is successful. */
   reservationId?: string;
+  /** The request for reservation purchase */
   properties?: PurchaseRequest;
+  /** Pricing information containing the amount and the currency code */
+  billingCurrencyTotal?: Price;
+  /** Status of the individual operation. */
+  status?: OperationStatus;
+}
+
+/** Savings plan purchase details */
+export interface SavingsPlanToPurchaseExchange {
+  /** Fully qualified id of the savings plan order being purchased */
+  savingsPlanOrderId?: string;
+  /** Fully qualified id of the savings plan being purchased. This value is only guaranteed to be non-null if the purchase is successful. */
+  savingsPlanId?: string;
+  /** Request body for savings plan purchase */
+  properties?: SavingsPlanPurchaseRequest;
+  /** Pricing information containing the amount and the currency code */
   billingCurrencyTotal?: Price;
   /** Status of the individual operation. */
   status?: OperationStatus;
@@ -805,10 +976,11 @@ export interface ReservationToPurchaseExchange {
 
 /** Reservation refund details */
 export interface ReservationToReturnForExchange {
-  /** Fully qualified id of the Reservation being returned. */
+  /** Fully qualified id of the reservation being returned. */
   reservationId?: string;
   /** Quantity to be returned */
   quantity?: number;
+  /** Pricing information containing the amount and the currency code */
   billingRefundAmount?: Price;
   /** billing information */
   billingInformation?: BillingInformation;
@@ -869,6 +1041,16 @@ export interface ReservationSummary {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly processingCount?: number;
+  /**
+   * The number of reservation in Warning state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly warningCount?: number;
+  /**
+   * The number of reservation in NoBenefit state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly noBenefitCount?: number;
 }
 
 /** Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message. */
@@ -896,6 +1078,7 @@ export interface ErrorDetails {
   readonly target?: string;
 }
 
+/** Request body for change directory of a reservation. */
 export interface ChangeDirectoryRequest {
   /** Tenant id GUID that reservation order is to be transferred to */
   destinationTenantId?: string;
@@ -1250,6 +1433,62 @@ export interface QuotaRequestSubmitResponse {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+}
+
+/** Commitment towards the benefit. */
+export interface Commitment extends Price {
+  /** Commitment grain. */
+  grain?: CommitmentGrain;
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+/** The definition of the reservation. */
+export interface ReservationResponse extends ProxyResource {
+  /** The Azure region where the reserved resource lives. */
+  location?: string;
+  etag?: number;
+  /** The sku information associated to this reservation */
+  sku?: SkuName;
+  /** The properties associated to this reservation */
+  properties?: ReservationsProperties;
+  /** Resource Provider type to be reserved. */
+  kind?: "Microsoft.Compute";
+}
+
+/** Defines headers for Reservation_split operation. */
+export interface ReservationSplitHeaders {
+  /** URL for determining when an operation has completed. Only use this value only when Azure-AsyncOperation isn't returned. */
+  location?: string;
+  /** Clients should wait for the Retry-After interval before polling again */
+  retryAfter?: number;
+}
+
+/** Defines headers for Reservation_merge operation. */
+export interface ReservationMergeHeaders {
+  /** URL for determining when an operation has completed. Only use this value only when Azure-AsyncOperation isn't returned. */
+  location?: string;
+  /** Clients should wait for the Retry-After interval before polling again */
+  retryAfter?: number;
+}
+
+/** Defines headers for Reservation_update operation. */
+export interface ReservationUpdateHeaders {
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
+  /** URL for determining when an operation has completed. Only use this value only when Azure-AsyncOperation isn't returned. */
+  location?: string;
+  /** Clients should wait for the Retry-After interval before polling again */
+  retryAfter?: number;
+}
+
+/** Defines headers for ReservationOrder_purchase operation. */
+export interface ReservationOrderPurchaseHeaders {
+  /** URL for determining when an operation has completed. Only use this value only when Azure-AsyncOperation isn't returned. */
+  location?: string;
+  /** Clients should wait for the Retry-After interval before polling again */
+  retryAfter?: number;
 }
 
 /** Defines headers for Return_post operation. */
@@ -1615,7 +1854,9 @@ export enum KnownAppliedScopeType {
   /** Single */
   Single = "Single",
   /** Shared */
-  Shared = "Shared"
+  Shared = "Shared",
+  /** ManagementGroup */
+  ManagementGroup = "ManagementGroup"
 }
 
 /**
@@ -1624,7 +1865,8 @@ export enum KnownAppliedScopeType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Single** \
- * **Shared**
+ * **Shared** \
+ * **ManagementGroup**
  */
 export type AppliedScopeType = string;
 
@@ -1786,6 +2028,54 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
+
+/** Known values of {@link SavingsPlanTerm} that the service accepts. */
+export enum KnownSavingsPlanTerm {
+  /** P1Y */
+  P1Y = "P1Y",
+  /** P3Y */
+  P3Y = "P3Y"
+}
+
+/**
+ * Defines values for SavingsPlanTerm. \
+ * {@link KnownSavingsPlanTerm} can be used interchangeably with SavingsPlanTerm,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **P1Y** \
+ * **P3Y**
+ */
+export type SavingsPlanTerm = string;
+
+/** Known values of {@link BillingPlan} that the service accepts. */
+export enum KnownBillingPlan {
+  /** P1M */
+  P1M = "P1M"
+}
+
+/**
+ * Defines values for BillingPlan. \
+ * {@link KnownBillingPlan} can be used interchangeably with BillingPlan,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **P1M**
+ */
+export type BillingPlan = string;
+
+/** Known values of {@link CommitmentGrain} that the service accepts. */
+export enum KnownCommitmentGrain {
+  /** Hourly */
+  Hourly = "Hourly"
+}
+
+/**
+ * Defines values for CommitmentGrain. \
+ * {@link KnownCommitmentGrain} can be used interchangeably with CommitmentGrain,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Hourly**
+ */
+export type CommitmentGrain = string;
 
 /** Known values of {@link CalculateExchangeOperationResultStatus} that the service accepts. */
 export enum KnownCalculateExchangeOperationResultStatus {
@@ -2015,7 +2305,11 @@ export enum KnownDisplayProvisioningState {
   /** Cancelled */
   Cancelled = "Cancelled",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
+  /** Warning */
+  Warning = "Warning",
+  /** NoBenefit */
+  NoBenefit = "NoBenefit"
 }
 
 /**
@@ -2029,7 +2323,9 @@ export enum KnownDisplayProvisioningState {
  * **Pending** \
  * **Processing** \
  * **Cancelled** \
- * **Failed**
+ * **Failed** \
+ * **Warning** \
+ * **NoBenefit**
  */
 export type DisplayProvisioningState = string;
 
@@ -2170,7 +2466,7 @@ export type ReservationListRevisionsResponse = ReservationList;
 /** Optional parameters. */
 export interface ReservationListAllOptionalParams
   extends coreClient.OperationOptions {
-  /** May be used to filter by reservation properties. The filter supports 'eq', 'or', and 'and'. It does not currently support 'ne', 'gt', 'le', 'ge', or 'not'. Reservation properties include sku/name, properties/{appliedScopeType, archived, displayName, displayProvisioningState, effectiveDateTime, expiryDate, provisioningState, quantity, renew, reservedResourceType, term, userFriendlyAppliedScopeType, userFriendlyRenewState} */
+  /** May be used to filter by reservation properties. The filter supports 'eq', 'or', and 'and'. It does not currently support 'ne', 'gt', 'le', 'ge', or 'not'. Reservation properties include sku/name, properties/{appliedScopeType, archived, displayName, displayProvisioningState, effectiveDateTime, expiryDate, expiryDateTime, provisioningState, quantity, renew, reservedResourceType, term, userFriendlyAppliedScopeType, userFriendlyRenewState} */
   filter?: string;
   /** May be used to sort order by reservation properties. */
   orderby?: string;
@@ -2203,29 +2499,18 @@ export type ReservationListRevisionsNextResponse = ReservationList;
 
 /** Optional parameters. */
 export interface ReservationListAllNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to filter by reservation properties. The filter supports 'eq', 'or', and 'and'. It does not currently support 'ne', 'gt', 'le', 'ge', or 'not'. Reservation properties include sku/name, properties/{appliedScopeType, archived, displayName, displayProvisioningState, effectiveDateTime, expiryDate, provisioningState, quantity, renew, reservedResourceType, term, userFriendlyAppliedScopeType, userFriendlyRenewState} */
-  filter?: string;
-  /** May be used to sort order by reservation properties. */
-  orderby?: string;
-  /** To indicate whether to refresh the roll up counts of the reservations group by provisioning states */
-  refreshSummary?: string;
-  /** The number of reservations to skip from the list before returning results */
-  skiptoken?: number;
-  /** The selected provisioning state */
-  selectedState?: string;
-  /** To number of reservations to return */
-  take?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAllNext operation. */
 export type ReservationListAllNextResponse = ReservationsListResult;
 
 /** Optional parameters. */
 export interface GetCatalogOptionalParams extends coreClient.OperationOptions {
+  /** May be used to filter by Catalog properties. The filter supports 'eq', 'or', and 'and'. */
+  filter?: string;
   /** The type of the resource for which the skus should be provided. */
   reservedResourceType?: string;
-  /** Filters the skus based on the location specified in this parameter. This can be an azure region or global */
+  /** Filters the skus based on the location specified in this parameter. This can be an Azure region or global */
   location?: string;
   /** Publisher id used to get the third party products */
   publisherId?: string;
@@ -2233,10 +2518,14 @@ export interface GetCatalogOptionalParams extends coreClient.OperationOptions {
   offerId?: string;
   /** Plan id used to get the third party products */
   planId?: string;
+  /** The number of reservations to skip from the list before returning results */
+  skip?: number;
+  /** To number of reservations to return */
+  take?: number;
 }
 
 /** Contains response data for the getCatalog operation. */
-export type GetCatalogResponse = Catalog[];
+export type GetCatalogResponse = CatalogsResult;
 
 /** Optional parameters. */
 export interface GetAppliedReservationListOptionalParams
@@ -2244,6 +2533,13 @@ export interface GetAppliedReservationListOptionalParams
 
 /** Contains response data for the getAppliedReservationList operation. */
 export type GetAppliedReservationListResponse = AppliedReservations;
+
+/** Optional parameters. */
+export interface GetCatalogNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getCatalogNext operation. */
+export type GetCatalogNextResponse = CatalogsResult;
 
 /** Optional parameters. */
 export interface ReservationOrderCalculateOptionalParams
@@ -2317,7 +2613,12 @@ export interface CalculateRefundPostOptionalParams
 export type CalculateRefundPostResponse = CalculateRefundResponse;
 
 /** Optional parameters. */
-export interface ReturnPostOptionalParams extends coreClient.OperationOptions {}
+export interface ReturnPostOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the post operation. */
 export type ReturnPostResponse = ReturnPostHeaders & RefundResponse;
@@ -2415,18 +2716,7 @@ export type QuotaRequestStatusListResponse = QuotaRequestDetailsList;
 
 /** Optional parameters. */
 export interface QuotaRequestStatusListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /**
-   * | Field | Supported operators |
-   * |---------------------|------------------------|
-   * |requestSubmitTime | ge, le, eq, gt, lt |
-   */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element includes a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  skiptoken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type QuotaRequestStatusListNextResponse = QuotaRequestDetailsList;

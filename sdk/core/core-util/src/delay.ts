@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortError, AbortSignalLike } from "@azure/abort-controller";
-import { isDefined } from "./typeGuards";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { createAbortablePromise } from "./createAbortablePromise";
 
-const StandardAbortMessage = "The operation was aborted.";
+const StandardAbortMessage = "The delay was aborted.";
 
 /**
  * Options for support abort functionality for the delay method
@@ -27,39 +27,16 @@ export interface DelayOptions {
  * @returns Promise that is resolved after timeInMs
  */
 export function delay(timeInMs: number, options?: DelayOptions): Promise<void> {
-  return new Promise((resolve, reject) => {
-    let timer: ReturnType<typeof setTimeout> | undefined = undefined;
-    let onAborted: (() => void) | undefined = undefined;
-
-    const rejectOnAbort = (): void => {
-      return reject(new AbortError(options?.abortErrorMsg ?? StandardAbortMessage));
-    };
-
-    const removeListeners = (): void => {
-      if (options?.abortSignal && onAborted) {
-        options.abortSignal.removeEventListener("abort", onAborted);
-      }
-    };
-
-    onAborted = (): void => {
-      if (isDefined(timer)) {
-        clearTimeout(timer);
-      }
-      removeListeners();
-      return rejectOnAbort();
-    };
-
-    if (options?.abortSignal && options.abortSignal.aborted) {
-      return rejectOnAbort();
+  let token: ReturnType<typeof setTimeout>;
+  const { abortSignal, abortErrorMsg } = options ?? {};
+  return createAbortablePromise(
+    (resolve) => {
+      token = setTimeout(resolve, timeInMs);
+    },
+    {
+      cleanupBeforeAbort: () => clearTimeout(token),
+      abortSignal,
+      abortErrorMsg: abortErrorMsg ?? StandardAbortMessage,
     }
-
-    timer = setTimeout(() => {
-      removeListeners();
-      resolve();
-    }, timeInMs);
-
-    if (options?.abortSignal) {
-      options.abortSignal.addEventListener("abort", onAborted);
-    }
-  });
+  );
 }

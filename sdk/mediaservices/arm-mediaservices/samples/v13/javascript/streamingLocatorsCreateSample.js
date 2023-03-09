@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { AzureMediaServices } = require("@azure/arm-mediaservices");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create a Streaming Locator in the Media Services account
  *
  * @summary Create a Streaming Locator in the Media Services account
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/streaming-locators-create-clear.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/streaming-locators-create-clear.json
  */
 async function createsAStreamingLocatorWithClearStreaming() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contoso";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
   const accountName = "contosomedia";
   const streamingLocatorName = "UserCreatedClearStreamingLocator";
   const parameters = {
@@ -37,24 +39,23 @@ async function createsAStreamingLocatorWithClearStreaming() {
   console.log(result);
 }
 
-createsAStreamingLocatorWithClearStreaming().catch(console.error);
-
 /**
  * This sample demonstrates how to Create a Streaming Locator in the Media Services account
  *
  * @summary Create a Streaming Locator in the Media Services account
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/streaming-locators-create-secure.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/streaming-locators-create-secure.json
  */
 async function createsAStreamingLocatorWithSecureStreaming() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contoso";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
   const accountName = "contosomedia";
   const streamingLocatorName = "UserCreatedSecureStreamingLocator";
   const parameters = {
     assetName: "ClimbingMountRainier",
     endTime: new Date("2028-12-31T23:59:59.9999999Z"),
     startTime: new Date("2018-03-01T00:00:00Z"),
-    streamingPolicyName: "secureStreamingPolicy",
+    streamingPolicyName: "UserCreatedSecureStreamingPolicy",
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);
@@ -67,17 +68,16 @@ async function createsAStreamingLocatorWithSecureStreaming() {
   console.log(result);
 }
 
-createsAStreamingLocatorWithSecureStreaming().catch(console.error);
-
 /**
  * This sample demonstrates how to Create a Streaming Locator in the Media Services account
  *
  * @summary Create a Streaming Locator in the Media Services account
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/streaming-locators-create-secure-userDefinedContentKeys.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/streaming-locators-create-secure-userDefinedContentKeys.json
  */
 async function createsAStreamingLocatorWithUserDefinedContentKeys() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contoso";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
   const accountName = "contosomedia";
   const streamingLocatorName = "UserCreatedSecureStreamingLocatorWithUserDefinedContentKeys";
   const parameters = {
@@ -113,4 +113,10 @@ async function createsAStreamingLocatorWithUserDefinedContentKeys() {
   console.log(result);
 }
 
-createsAStreamingLocatorWithUserDefinedContentKeys().catch(console.error);
+async function main() {
+  createsAStreamingLocatorWithClearStreaming();
+  createsAStreamingLocatorWithSecureStreaming();
+  createsAStreamingLocatorWithUserDefinedContentKeys();
+}
+
+main().catch(console.error);

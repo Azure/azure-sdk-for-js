@@ -2311,7 +2311,7 @@ export const SecretResourceProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SecretResourceProperties",
-    uberParent: "ProvisionedResourceProperties",
+    uberParent: "SecretResourcePropertiesBase",
     polymorphicDiscriminator: {
       serializedName: "kind",
       clientName: "kind"
@@ -2353,7 +2353,7 @@ export const NetworkResourceProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "NetworkResourceProperties",
-    uberParent: "ProvisionedResourceProperties",
+    uberParent: "NetworkResourcePropertiesBase",
     polymorphicDiscriminator: {
       serializedName: "kind",
       clientName: "kind"
@@ -2667,9 +2667,9 @@ export const InlinedValueSecretResourceProperties: coreClient.CompositeMapper = 
   type: {
     name: "Composite",
     className: "InlinedValueSecretResourceProperties",
-    uberParent: "ProvisionedResourceProperties",
+    uberParent: "SecretResourceProperties",
     polymorphicDiscriminator:
-      ProvisionedResourceProperties.type.polymorphicDiscriminator,
+      SecretResourceProperties.type.polymorphicDiscriminator,
     modelProperties: {
       ...SecretResourceProperties.type.modelProperties
     }
@@ -2681,9 +2681,9 @@ export const LocalNetworkResourceProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LocalNetworkResourceProperties",
-    uberParent: "ProvisionedResourceProperties",
+    uberParent: "NetworkResourceProperties",
     polymorphicDiscriminator:
-      ProvisionedResourceProperties.type.polymorphicDiscriminator,
+      NetworkResourceProperties.type.polymorphicDiscriminator,
     modelProperties: {
       ...NetworkResourceProperties.type.modelProperties,
       networkAddressPrefix: {
@@ -2709,8 +2709,8 @@ export let discriminators = {
   "AutoScalingMechanism.AddRemoveReplica": AddRemoveReplicaScalingMechanism,
   "DiagnosticsSinkProperties.AzureInternalMonitoringPipeline": AzureInternalMonitoringPipelineSinkDescription,
   "AutoScalingMetric.Resource": AutoScalingResourceMetric,
-  "ProvisionedResourceProperties.SecretResourceProperties": SecretResourceProperties,
-  "ProvisionedResourceProperties.NetworkResourceProperties": NetworkResourceProperties,
-  "ProvisionedResourceProperties.inlinedValue": InlinedValueSecretResourceProperties,
-  "ProvisionedResourceProperties.Local": LocalNetworkResourceProperties
+  "SecretResourcePropertiesBase.SecretResourceProperties": SecretResourceProperties,
+  "NetworkResourcePropertiesBase.NetworkResourceProperties": NetworkResourceProperties,
+  "SecretResourceProperties.inlinedValue": InlinedValueSecretResourceProperties,
+  "NetworkResourceProperties.Local": LocalNetworkResourceProperties
 };

@@ -13,17 +13,23 @@ import {
   RecoveryServicesBackupClient
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Prepares source vault for Data Move operation
  *
  * @summary Prepares source vault for Data Move operation
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/BackupDataMove/PrepareDataMove_Post.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/BackupDataMove/PrepareDataMove_Post.json
  */
 async function prepareDataMove() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const vaultName = "source-rsv";
-  const resourceGroupName = "sourceRG";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "sourceRG";
   const parameters: PrepareDataMoveRequest = {
     dataMoveLevel: "Vault",
     targetRegion: "USGov Virginia",
@@ -40,4 +46,8 @@ async function prepareDataMove() {
   console.log(result);
 }
 
-prepareDataMove().catch(console.error);
+async function main() {
+  prepareDataMove();
+}
+
+main().catch(console.error);

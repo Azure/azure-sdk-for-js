@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Task,
   TasksListOptionalParams,
@@ -65,7 +65,7 @@ export interface Tasks {
     taskCreateParameters: Task,
     options?: TasksCreateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<TasksCreateResponse>, TasksCreateResponse>
+    SimplePollerLike<OperationState<TasksCreateResponse>, TasksCreateResponse>
   >;
   /**
    * Creates a task for a container registry with the specified parameters.
@@ -94,7 +94,7 @@ export interface Tasks {
     registryName: string,
     taskName: string,
     options?: TasksDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a specified task.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
@@ -123,7 +123,7 @@ export interface Tasks {
     taskUpdateParameters: TaskUpdateParameters,
     options?: TasksUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<TasksUpdateResponse>, TasksUpdateResponse>
+    SimplePollerLike<OperationState<TasksUpdateResponse>, TasksUpdateResponse>
   >;
   /**
    * Updates a task with the specified parameters.

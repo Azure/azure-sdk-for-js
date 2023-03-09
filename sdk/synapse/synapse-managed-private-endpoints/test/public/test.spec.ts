@@ -7,9 +7,9 @@ describe("Synapse Managed Private Endpoints", () => {
   let recorder: Recorder;
   let client: ManagedPrivateEndpointsClient;
 
-  beforeEach(function() {
-    recorder = createRecorder(this);
-    client = createClient();
+  beforeEach(async function() {
+    recorder = await createRecorder(this);
+    client = createClient(recorder.configureClientOptions({}));
   });
 
   afterEach(async () => {

@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { AzureOrbital } from "@azure/arm-orbital";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Returns list of contact profiles by Subscription
@@ -18,7 +21,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/ContactProfilesBySubscriptionList.json
  */
 async function listOfContactProfiles() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["ORBITAL_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new AzureOrbital(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +31,8 @@ async function listOfContactProfiles() {
   console.log(resArray);
 }
 
-listOfContactProfiles().catch(console.error);
+async function main() {
+  listOfContactProfiles();
+}
+
+main().catch(console.error);

@@ -5,6 +5,7 @@ import {
   createDocumentCollectionUri,
   getIdFromLink,
   getPathFromLink,
+  HTTPMethod,
   isResourceValid,
   ResourceType,
 } from "../../common";
@@ -239,5 +240,27 @@ export class Container {
   public readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange> {
     feedOptions = feedOptions || {};
     return this.clientContext.queryPartitionKeyRanges(this.url, undefined, feedOptions);
+  }
+
+  /**
+   * Delete all documents belong to the container for the provided partition key value
+   * @param partitionKey - The partition key value of the items to be deleted
+   */
+  public async deleteAllItemsForPartitionKey(
+    partitionKey: PartitionKey,
+    options?: RequestOptions
+  ): Promise<ContainerResponse> {
+    let path = getPathFromLink(this.url);
+    const id = getIdFromLink(this.url);
+    path = path + "/operations/partitionkeydelete";
+    const response = await this.clientContext.delete<ContainerDefinition>({
+      path,
+      resourceType: ResourceType.container,
+      resourceId: id,
+      options,
+      partitionKey: partitionKey,
+      method: HTTPMethod.post,
+    });
+    return new ContainerResponse(response.result, response.headers, response.code, this);
   }
 }

@@ -6,24 +6,29 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PrivateLinkScopedResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MonitorClient } from "../monitorClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ScopedResource,
   PrivateLinkScopedResourcesListByPrivateLinkScopeNextOptionalParams,
   PrivateLinkScopedResourcesListByPrivateLinkScopeOptionalParams,
+  PrivateLinkScopedResourcesListByPrivateLinkScopeResponse,
   PrivateLinkScopedResourcesGetOptionalParams,
   PrivateLinkScopedResourcesGetResponse,
   PrivateLinkScopedResourcesCreateOrUpdateOptionalParams,
   PrivateLinkScopedResourcesCreateOrUpdateResponse,
   PrivateLinkScopedResourcesDeleteOptionalParams,
-  PrivateLinkScopedResourcesListByPrivateLinkScopeResponse,
   PrivateLinkScopedResourcesListByPrivateLinkScopeNextResponse
 } from "../models";
 
@@ -64,11 +69,15 @@ export class PrivateLinkScopedResourcesImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByPrivateLinkScopePagingPage(
           resourceGroupName,
           scopeName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -77,15 +86,22 @@ export class PrivateLinkScopedResourcesImpl
   private async *listByPrivateLinkScopePagingPage(
     resourceGroupName: string,
     scopeName: string,
-    options?: PrivateLinkScopedResourcesListByPrivateLinkScopeOptionalParams
+    options?: PrivateLinkScopedResourcesListByPrivateLinkScopeOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ScopedResource[]> {
-    let result = await this._listByPrivateLinkScope(
-      resourceGroupName,
-      scopeName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PrivateLinkScopedResourcesListByPrivateLinkScopeResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByPrivateLinkScope(
+        resourceGroupName,
+        scopeName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByPrivateLinkScopeNext(
         resourceGroupName,
@@ -94,7 +110,9 @@ export class PrivateLinkScopedResourcesImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -146,8 +164,8 @@ export class PrivateLinkScopedResourcesImpl
     parameters: ScopedResource,
     options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateLinkScopedResourcesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PrivateLinkScopedResourcesCreateOrUpdateResponse>,
       PrivateLinkScopedResourcesCreateOrUpdateResponse
     >
   > {
@@ -157,7 +175,7 @@ export class PrivateLinkScopedResourcesImpl
     ): Promise<PrivateLinkScopedResourcesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -190,13 +208,16 @@ export class PrivateLinkScopedResourcesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, scopeName, name, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, scopeName, name, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PrivateLinkScopedResourcesCreateOrUpdateResponse,
+      OperationState<PrivateLinkScopedResourcesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -240,14 +261,14 @@ export class PrivateLinkScopedResourcesImpl
     scopeName: string,
     name: string,
     options?: PrivateLinkScopedResourcesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -280,13 +301,13 @@ export class PrivateLinkScopedResourcesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, scopeName, name, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, scopeName, name, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -468,7 +489,6 @@ const listByPrivateLinkScopeNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion11],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

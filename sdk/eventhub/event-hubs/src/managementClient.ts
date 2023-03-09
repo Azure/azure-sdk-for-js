@@ -359,12 +359,12 @@ export class ManagementClient extends LinkEntity {
           this._mgmtReqResLink.sender.name,
           this._mgmtReqResLink.receiver.name
         );
-        await this._ensureTokenRenewal();
+        this._ensureTokenRenewal();
       }
-    } catch (err: any) {
+    } catch (err) {
       const translatedError = translate(err);
       logger.warning(
-        `[${this._context.connectionId}] An error occured while establishing the $management links: ${translatedError?.name}: ${translatedError?.message}`
+        `[${this._context.connectionId}] An error occurred while establishing the $management links: ${translatedError?.name}: ${translatedError?.message}`
       );
       logErrorStackTrace(translatedError);
       throw translatedError;

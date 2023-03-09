@@ -6,18 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ActionGroups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MonitorClient } from "../monitorClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ActionGroupResource,
   ActionGroupsListBySubscriptionIdOptionalParams,
+  ActionGroupsListBySubscriptionIdResponse,
   ActionGroupsListByResourceGroupOptionalParams,
+  ActionGroupsListByResourceGroupResponse,
   ActionGroupsCreateOrUpdateOptionalParams,
   ActionGroupsCreateOrUpdateResponse,
   ActionGroupsGetOptionalParams,
@@ -39,8 +45,6 @@ import {
   ActionGroupsGetTestNotificationsAtResourceGroupLevelResponse,
   ActionGroupsGetTestNotificationsAtActionGroupResourceLevelOptionalParams,
   ActionGroupsGetTestNotificationsAtActionGroupResourceLevelResponse,
-  ActionGroupsListBySubscriptionIdResponse,
-  ActionGroupsListByResourceGroupResponse,
   EnableRequest,
   ActionGroupsEnableReceiverOptionalParams
 } from "../models";
@@ -73,16 +77,21 @@ export class ActionGroupsImpl implements ActionGroups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionIdPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionIdPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionIdPagingPage(
-    options?: ActionGroupsListBySubscriptionIdOptionalParams
+    options?: ActionGroupsListBySubscriptionIdOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ActionGroupResource[]> {
-    let result = await this._listBySubscriptionId(options);
+    let result: ActionGroupsListBySubscriptionIdResponse;
+    result = await this._listBySubscriptionId(options);
     yield result.value || [];
   }
 
@@ -111,17 +120,26 @@ export class ActionGroupsImpl implements ActionGroups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: ActionGroupsListByResourceGroupOptionalParams
+    options?: ActionGroupsListByResourceGroupOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ActionGroupResource[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
+    let result: ActionGroupsListByResourceGroupResponse;
+    result = await this._listByResourceGroup(resourceGroupName, options);
     yield result.value || [];
   }
 
@@ -218,8 +236,8 @@ export class ActionGroupsImpl implements ActionGroups {
     notificationRequest: NotificationRequestBody,
     options?: ActionGroupsPostTestNotificationsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ActionGroupsPostTestNotificationsResponse>,
+    SimplePollerLike<
+      OperationState<ActionGroupsPostTestNotificationsResponse>,
       ActionGroupsPostTestNotificationsResponse
     >
   > {
@@ -229,7 +247,7 @@ export class ActionGroupsImpl implements ActionGroups {
     ): Promise<ActionGroupsPostTestNotificationsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -262,15 +280,18 @@ export class ActionGroupsImpl implements ActionGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { notificationRequest, options },
-      postTestNotificationsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { notificationRequest, options },
+      spec: postTestNotificationsOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ActionGroupsPostTestNotificationsResponse,
+      OperationState<ActionGroupsPostTestNotificationsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -303,8 +324,8 @@ export class ActionGroupsImpl implements ActionGroups {
     notificationRequest: NotificationRequestBody,
     options?: ActionGroupsCreateNotificationsAtResourceGroupLevelOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         ActionGroupsCreateNotificationsAtResourceGroupLevelResponse
       >,
       ActionGroupsCreateNotificationsAtResourceGroupLevelResponse
@@ -316,7 +337,7 @@ export class ActionGroupsImpl implements ActionGroups {
     ): Promise<ActionGroupsCreateNotificationsAtResourceGroupLevelResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -349,15 +370,20 @@ export class ActionGroupsImpl implements ActionGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, notificationRequest, options },
-      createNotificationsAtResourceGroupLevelOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, notificationRequest, options },
+      spec: createNotificationsAtResourceGroupLevelOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ActionGroupsCreateNotificationsAtResourceGroupLevelResponse,
+      OperationState<
+        ActionGroupsCreateNotificationsAtResourceGroupLevelResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -395,8 +421,8 @@ export class ActionGroupsImpl implements ActionGroups {
     notificationRequest: NotificationRequestBody,
     options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse
       >,
       ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse
@@ -408,7 +434,7 @@ export class ActionGroupsImpl implements ActionGroups {
     ): Promise<ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -441,15 +467,25 @@ export class ActionGroupsImpl implements ActionGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, actionGroupName, notificationRequest, options },
-      createNotificationsAtActionGroupResourceLevelOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        actionGroupName,
+        notificationRequest,
+        options
+      },
+      spec: createNotificationsAtActionGroupResourceLevelOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse,
+      OperationState<
+        ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;

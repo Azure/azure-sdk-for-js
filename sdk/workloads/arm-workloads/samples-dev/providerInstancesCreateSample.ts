@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { ProviderInstance, WorkloadsClient } from "@azure/arm-workloads";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
  * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/Db2ProviderInstances_Create.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/Db2ProviderInstances_Create.json
  */
 async function createADb2Provider() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "mySapMonitor";
   const providerInstanceName = "myProviderInstance";
   const providerInstanceParameter: ProviderInstance = {
@@ -31,7 +37,10 @@ async function createADb2Provider() {
       dbUsername: "username",
       hostname: "hostname",
       providerType: "Db2",
-      sapSid: "SID"
+      sapSid: "SID",
+      sslCertificateUri:
+        "https://storageaccount.blob.core.windows.net/containername/filename",
+      sslPreference: "ServerCertificate"
     }
   };
   const credential = new DefaultAzureCredential();
@@ -45,17 +54,56 @@ async function createADb2Provider() {
   console.log(result);
 }
 
-createADb2Provider().catch(console.error);
+/**
+ * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
+ *
+ * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/Db2ProviderInstances_Create_Root_Certificate.json
+ */
+async function createADb2ProviderWithRootCertificate() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "myResourceGroup";
+  const monitorName = "mySapMonitor";
+  const providerInstanceName = "myProviderInstance";
+  const providerInstanceParameter: ProviderInstance = {
+    providerSettings: {
+      dbName: "dbName",
+      dbPassword: "password",
+      dbPasswordUri: "",
+      dbPort: "dbPort",
+      dbUsername: "username",
+      hostname: "hostname",
+      providerType: "Db2",
+      sapSid: "SID",
+      sslPreference: "RootCertificate"
+    }
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new WorkloadsClient(credential, subscriptionId);
+  const result = await client.providerInstances.beginCreateAndWait(
+    resourceGroupName,
+    monitorName,
+    providerInstanceName,
+    providerInstanceParameter
+  );
+  console.log(result);
+}
 
 /**
  * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
  * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/MsSqlServerProviderInstance_Create.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/MsSqlServerProviderInstance_Create.json
  */
 async function createAMSSqlServerProvider() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "mySapMonitor";
   const providerInstanceName = "myProviderInstance";
   const providerInstanceParameter: ProviderInstance = {
@@ -66,7 +114,10 @@ async function createAMSSqlServerProvider() {
       dbUsername: "user",
       hostname: "hostname",
       providerType: "MsSqlServer",
-      sapSid: "sid"
+      sapSid: "sid",
+      sslCertificateUri:
+        "https://storageaccount.blob.core.windows.net/containername/filename",
+      sslPreference: "ServerCertificate"
     }
   };
   const credential = new DefaultAzureCredential();
@@ -80,23 +131,65 @@ async function createAMSSqlServerProvider() {
   console.log(result);
 }
 
-createAMSSqlServerProvider().catch(console.error);
+/**
+ * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
+ *
+ * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/MsSqlServerProviderInstance_Create_Root_Certificate.json
+ */
+async function createAMSSqlServerProviderWithRootCertificate() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "myResourceGroup";
+  const monitorName = "mySapMonitor";
+  const providerInstanceName = "myProviderInstance";
+  const providerInstanceParameter: ProviderInstance = {
+    providerSettings: {
+      dbPassword: "****",
+      dbPasswordUri: "",
+      dbPort: "5912",
+      dbUsername: "user",
+      hostname: "hostname",
+      providerType: "MsSqlServer",
+      sapSid: "sid",
+      sslPreference: "RootCertificate"
+    }
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new WorkloadsClient(credential, subscriptionId);
+  const result = await client.providerInstances.beginCreateAndWait(
+    resourceGroupName,
+    monitorName,
+    providerInstanceName,
+    providerInstanceParameter
+  );
+  console.log(result);
+}
 
 /**
  * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
  * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/PrometheusOSProviderInstances_Create.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/PrometheusOSProviderInstances_Create.json
  */
 async function createAOSProvider() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "mySapMonitor";
   const providerInstanceName = "myProviderInstance";
   const providerInstanceParameter: ProviderInstance = {
     providerSettings: {
       prometheusUrl: "http://192.168.0.0:9090/metrics",
-      providerType: "PrometheusOS"
+      providerType: "PrometheusOS",
+      sapSid: "SID",
+      sslCertificateUri:
+        "https://storageaccount.blob.core.windows.net/containername/filename",
+      sslPreference: "ServerCertificate"
     }
   };
   const credential = new DefaultAzureCredential();
@@ -110,17 +203,51 @@ async function createAOSProvider() {
   console.log(result);
 }
 
-createAOSProvider().catch(console.error);
+/**
+ * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
+ *
+ * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/PrometheusOSProviderInstances_Create_Root_Certificate.json
+ */
+async function createAOSProviderWithRootCertificate() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "myResourceGroup";
+  const monitorName = "mySapMonitor";
+  const providerInstanceName = "myProviderInstance";
+  const providerInstanceParameter: ProviderInstance = {
+    providerSettings: {
+      prometheusUrl: "http://192.168.0.0:9090/metrics",
+      providerType: "PrometheusOS",
+      sapSid: "SID",
+      sslPreference: "RootCertificate"
+    }
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new WorkloadsClient(credential, subscriptionId);
+  const result = await client.providerInstances.beginCreateAndWait(
+    resourceGroupName,
+    monitorName,
+    providerInstanceName,
+    providerInstanceParameter
+  );
+  console.log(result);
+}
 
 /**
  * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
  * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/PrometheusHaClusterProviderInstances_Create.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/PrometheusHaClusterProviderInstances_Create.json
  */
 async function createAPrometheusHaClusterProvider() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "mySapMonitor";
   const providerInstanceName = "myProviderInstance";
   const providerInstanceParameter: ProviderInstance = {
@@ -129,7 +256,10 @@ async function createAPrometheusHaClusterProvider() {
       hostname: "hostname",
       prometheusUrl: "http://192.168.0.0:9090/metrics",
       providerType: "PrometheusHaCluster",
-      sid: "sid"
+      sid: "sid",
+      sslCertificateUri:
+        "https://storageaccount.blob.core.windows.net/containername/filename",
+      sslPreference: "ServerCertificate"
     }
   };
   const credential = new DefaultAzureCredential();
@@ -143,17 +273,53 @@ async function createAPrometheusHaClusterProvider() {
   console.log(result);
 }
 
-createAPrometheusHaClusterProvider().catch(console.error);
+/**
+ * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
+ *
+ * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/PrometheusHaClusterProviderInstances_Create_Root_Certificate.json
+ */
+async function createAPrometheusHaClusterProviderWithRootCertificate() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "myResourceGroup";
+  const monitorName = "mySapMonitor";
+  const providerInstanceName = "myProviderInstance";
+  const providerInstanceParameter: ProviderInstance = {
+    providerSettings: {
+      clusterName: "clusterName",
+      hostname: "hostname",
+      prometheusUrl: "http://192.168.0.0:9090/metrics",
+      providerType: "PrometheusHaCluster",
+      sid: "sid",
+      sslPreference: "RootCertificate"
+    }
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new WorkloadsClient(credential, subscriptionId);
+  const result = await client.providerInstances.beginCreateAndWait(
+    resourceGroupName,
+    monitorName,
+    providerInstanceName,
+    providerInstanceParameter
+  );
+  console.log(result);
+}
 
 /**
  * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
  * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/ProviderInstances_Create.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/ProviderInstances_Create.json
  */
 async function createASapMonitorHanaProvider() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "mySapMonitor";
   const providerInstanceName = "myProviderInstance";
   const providerInstanceParameter: ProviderInstance = {
@@ -161,14 +327,16 @@ async function createASapMonitorHanaProvider() {
       dbName: "db",
       dbPassword: "****",
       dbPasswordUri: "",
-      dbSslCertificateUri:
-        "https://storageaccount.blob.core.windows.net/containername/filename",
       dbUsername: "user",
       hostname: "name",
       instanceNumber: "00",
       providerType: "SapHana",
+      sapSid: "SID",
       sqlPort: "0000",
-      sslHostNameInCertificate: "xyz.domain.com"
+      sslCertificateUri:
+        "https://storageaccount.blob.core.windows.net/containername/filename",
+      sslHostNameInCertificate: "xyz.domain.com",
+      sslPreference: "ServerCertificate"
     }
   };
   const credential = new DefaultAzureCredential();
@@ -182,17 +350,58 @@ async function createASapMonitorHanaProvider() {
   console.log(result);
 }
 
-createASapMonitorHanaProvider().catch(console.error);
+/**
+ * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
+ *
+ * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/ProviderInstances_Create_Root_Certificate.json
+ */
+async function createASapMonitorHanaProviderWithRootCertificate() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "myResourceGroup";
+  const monitorName = "mySapMonitor";
+  const providerInstanceName = "myProviderInstance";
+  const providerInstanceParameter: ProviderInstance = {
+    providerSettings: {
+      dbName: "db",
+      dbPassword: "****",
+      dbPasswordUri: "",
+      dbUsername: "user",
+      hostname: "name",
+      instanceNumber: "00",
+      providerType: "SapHana",
+      sapSid: "SID",
+      sqlPort: "0000",
+      sslHostNameInCertificate: "xyz.domain.com",
+      sslPreference: "RootCertificate"
+    }
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new WorkloadsClient(credential, subscriptionId);
+  const result = await client.providerInstances.beginCreateAndWait(
+    resourceGroupName,
+    monitorName,
+    providerInstanceName,
+    providerInstanceParameter
+  );
+  console.log(result);
+}
 
 /**
  * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
  * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/NetWeaverProviderInstances_Create.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/NetWeaverProviderInstances_Create.json
  */
 async function createASapMonitorNetWeaverProvider() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "mySapMonitor";
   const providerInstanceName = "myProviderInstance";
   const providerInstanceParameter: ProviderInstance = {
@@ -206,9 +415,10 @@ async function createASapMonitorNetWeaverProvider() {
       sapPasswordUri: "",
       sapPortNumber: "1234",
       sapSid: "SID",
-      sapSslCertificateUri:
+      sapUsername: "username",
+      sslCertificateUri:
         "https://storageaccount.blob.core.windows.net/containername/filename",
-      sapUsername: "username"
+      sslPreference: "ServerCertificate"
     }
   };
   const credential = new DefaultAzureCredential();
@@ -222,4 +432,59 @@ async function createASapMonitorNetWeaverProvider() {
   console.log(result);
 }
 
-createASapMonitorNetWeaverProvider().catch(console.error);
+/**
+ * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
+ *
+ * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/NetWeaverProviderInstances_Create_Root_Certificate.json
+ */
+async function createASapMonitorNetWeaverProviderWithRootCertificate() {
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "myResourceGroup";
+  const monitorName = "mySapMonitor";
+  const providerInstanceName = "myProviderInstance";
+  const providerInstanceParameter: ProviderInstance = {
+    providerSettings: {
+      providerType: "SapNetWeaver",
+      sapClientId: "111",
+      sapHostFileEntries: ["127.0.0.1 name fqdn"],
+      sapHostname: "name",
+      sapInstanceNr: "00",
+      sapPassword: "****",
+      sapPasswordUri: "",
+      sapPortNumber: "1234",
+      sapSid: "SID",
+      sapUsername: "username",
+      sslPreference: "RootCertificate"
+    }
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new WorkloadsClient(credential, subscriptionId);
+  const result = await client.providerInstances.beginCreateAndWait(
+    resourceGroupName,
+    monitorName,
+    providerInstanceName,
+    providerInstanceParameter
+  );
+  console.log(result);
+}
+
+async function main() {
+  createADb2Provider();
+  createADb2ProviderWithRootCertificate();
+  createAMSSqlServerProvider();
+  createAMSSqlServerProviderWithRootCertificate();
+  createAOSProvider();
+  createAOSProviderWithRootCertificate();
+  createAPrometheusHaClusterProvider();
+  createAPrometheusHaClusterProviderWithRootCertificate();
+  createASapMonitorHanaProvider();
+  createASapMonitorHanaProviderWithRootCertificate();
+  createASapMonitorNetWeaverProvider();
+  createASapMonitorNetWeaverProviderWithRootCertificate();
+}
+
+main().catch(console.error);

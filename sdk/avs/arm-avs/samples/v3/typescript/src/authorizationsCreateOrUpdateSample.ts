@@ -13,6 +13,9 @@ import {
   AzureVMwareSolutionAPI
 } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update an ExpressRoute Circuit Authorization in a private cloud
@@ -21,8 +24,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/Authorizations_CreateOrUpdate.json
  */
 async function authorizationsCreateOrUpdate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "group1";
+  const subscriptionId =
+    process.env["AVS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["AVS_RESOURCE_GROUP"] || "group1";
   const privateCloudName = "cloud1";
   const authorizationName = "authorization1";
   const authorization: ExpressRouteAuthorization = {};
@@ -37,4 +42,8 @@ async function authorizationsCreateOrUpdate() {
   console.log(result);
 }
 
-authorizationsCreateOrUpdate().catch(console.error);
+async function main() {
+  authorizationsCreateOrUpdate();
+}
+
+main().catch(console.error);

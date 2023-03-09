@@ -2,11 +2,9 @@
 // Licensed under the MIT license.
 
 import { AbortController } from "@azure/abort-controller";
-import { isNode, delay } from "@azure/core-http";
-import { SpanGraph, setTracer } from "@azure/test-utils";
-import { isPlaybackMode, record, Recorder } from "@azure-tools/test-recorder";
-import { setSpan, context } from "@azure/core-tracing";
-import { assert } from "chai";
+import { isNode } from "@azure/core-util";
+import { assert } from "@azure/test-utils";
+import { isPlaybackMode, record, Recorder, delay } from "@azure-tools/test-recorder";
 
 import { DataLakeDirectoryClient, DataLakeFileClient, DataLakeFileSystemClient } from "../src";
 import { toPermissionsString } from "../src/transforms";
@@ -734,49 +732,13 @@ describe("DataLakePathClient", () => {
   });
 
   it("read with default parameters and tracing", async () => {
-    const tracer = setTracer();
-
-    const rootSpan = tracer.startSpan("root");
-
-    const result = await fileClient.read(undefined, undefined, {
-      tracingOptions: {
-        tracingContext: setSpan(context.active(), rootSpan),
+    await assert.supportsTracing(
+      async (options) => {
+        const result = await fileClient.read(undefined, undefined, options);
+        assert.deepStrictEqual(await bodyToString(result, content.length), content);
       },
-    });
-    assert.deepStrictEqual(await bodyToString(result, content.length), content);
-
-    rootSpan.end();
-
-    const rootSpans = tracer.getRootSpans();
-    assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
-    assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
-
-    const expectedGraph: SpanGraph = {
-      roots: [
-        {
-          name: rootSpan.name,
-          children: [
-            {
-              name: "Azure.Storage.DataLake.DataLakeFileClient-read",
-              children: [
-                {
-                  name: "Azure.Storage.Blob.BlobClient-download",
-                  children: [
-                    {
-                      name: "HTTP GET",
-                      children: [],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    };
-
-    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
-    assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
+      ["DataLakeFileClient-read"]
+    );
   });
 
   it("verify fileName and fileSystemName passed to the client", async () => {

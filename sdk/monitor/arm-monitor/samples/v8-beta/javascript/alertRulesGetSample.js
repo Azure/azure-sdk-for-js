@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { MonitorClient } = require("@azure/arm-monitor");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets a classic metric alert rule
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2016-03-01/examples/getAlertRule.json
  */
 async function getAnAlertRule() {
-  const subscriptionId = "b67f7fec-69fc-4974-9099-a26bd6ffeda3";
-  const resourceGroupName = "Rac46PostSwapRG";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "b67f7fec-69fc-4974-9099-a26bd6ffeda3";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "Rac46PostSwapRG";
   const ruleName = "chiricutin";
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
@@ -27,4 +29,8 @@ async function getAnAlertRule() {
   console.log(result);
 }
 
-getAnAlertRule().catch(console.error);
+async function main() {
+  getAnAlertRule();
+}
+
+main().catch(console.error);

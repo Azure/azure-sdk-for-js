@@ -1,6 +1,6 @@
 # Release History
 
-## 4.7.0-beta.1 (Unreleased)
+## 4.7.0 (Unreleased)
 
 ### Features Added
 
@@ -10,7 +10,7 @@
 
 ### Other Changes
 
-- Updated `SecretClient` to support service version 7.4-preview.1 by default.
+- Updated `SecretClient` to support service version 7.4 by default.
 
 ## 4.6.0 (2022-09-20)
 

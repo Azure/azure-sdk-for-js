@@ -1,6 +1,18 @@
 # Release History
 
-## 12.11.1 (Unreleased)
+## 12.20.0 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Migrated dependency on `@azure/core-http` to `@azure/core-rest-pipeline`.
+
+## 12.12.0 (Unreleased)
 
 ### Features Added
 
@@ -11,7 +23,11 @@
 
 ### Bugs Fixed
 
+- Fixes the date properties(`createdOn` and `expiresOn`) in the returned responses of `DataLakeFileSystemClient` by calculating the date more accurately. [#25072](https://github.com/Azure/azure-sdk-for-js/pull/25072)
+
 ### Other Changes
+
+- Update dependency `@azure/core-http` version to `^3.0.0`.
 
 ## 12.11.0 (2022-10-14)
 

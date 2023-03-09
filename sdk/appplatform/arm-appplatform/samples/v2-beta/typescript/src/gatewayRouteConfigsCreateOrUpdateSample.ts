@@ -13,16 +13,22 @@ import {
   AppPlatformManagementClient
 } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create the default Spring Cloud Gateway route configs or update the existing Spring Cloud Gateway route configs.
  *
  * @summary Create the default Spring Cloud Gateway route configs or update the existing Spring Cloud Gateway route configs.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-09-01-preview/examples/GatewayRouteConfigs_CreateOrUpdate.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/GatewayRouteConfigs_CreateOrUpdate.json
  */
 async function gatewayRouteConfigsCreateOrUpdate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const gatewayName = "default";
   const routeConfigName = "myRouteConfig";
@@ -57,4 +63,8 @@ async function gatewayRouteConfigsCreateOrUpdate() {
   console.log(result);
 }
 
-gatewayRouteConfigsCreateOrUpdate().catch(console.error);
+async function main() {
+  gatewayRouteConfigsCreateOrUpdate();
+}
+
+main().catch(console.error);

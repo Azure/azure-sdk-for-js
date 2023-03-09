@@ -18,16 +18,21 @@ import {
   SAPCentralInstancesUpdateOptionalParams,
   SAPCentralInstancesUpdateResponse,
   SAPCentralInstancesDeleteOptionalParams,
-  SAPCentralInstancesDeleteResponse
+  SAPCentralInstancesDeleteResponse,
+  SAPCentralInstancesStartInstanceOptionalParams,
+  SAPCentralInstancesStartInstanceResponse,
+  SAPCentralInstancesStopInstanceOptionalParams,
+  SAPCentralInstancesStopInstanceResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SAPCentralInstances. */
 export interface SAPCentralInstances {
   /**
-   * Lists the SAP Central Instances in an SVI.
+   * Lists the SAP Central Services Instance resource for the given Virtual Instance for SAP solutions
+   * resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
   list(
@@ -36,11 +41,11 @@ export interface SAPCentralInstances {
     options?: SAPCentralInstancesListOptionalParams
   ): PagedAsyncIterableIterator<SAPCentralServerInstance>;
   /**
-   * Gets the SAP Central Instance.
+   * Gets the SAP Central Services Instance resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param centralInstanceName Central Instance name string modeled as parameter for auto generation to
-   *                            work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param centralInstanceName Central Services Instance resource name string modeled as parameter for
+   *                            auto generation to work correctly.
    * @param options The options parameters.
    */
   get(
@@ -50,12 +55,12 @@ export interface SAPCentralInstances {
     options?: SAPCentralInstancesGetOptionalParams
   ): Promise<SAPCentralInstancesGetResponse>;
   /**
-   * Puts the SAP Central Instance. <br><br>This will be used by service only. PUT by end user will
-   * return a Bad Request error.
+   * Creates the SAP Central Services Instance resource. <br><br>This will be used by service only. PUT
+   * operation on this resource by end user will return a Bad Request error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param centralInstanceName Central Instance name string modeled as parameter for auto generation to
-   *                            work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param centralInstanceName Central Services Instance resource name string modeled as parameter for
+   *                            auto generation to work correctly.
    * @param options The options parameters.
    */
   beginCreate(
@@ -70,12 +75,12 @@ export interface SAPCentralInstances {
     >
   >;
   /**
-   * Puts the SAP Central Instance. <br><br>This will be used by service only. PUT by end user will
-   * return a Bad Request error.
+   * Creates the SAP Central Services Instance resource. <br><br>This will be used by service only. PUT
+   * operation on this resource by end user will return a Bad Request error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param centralInstanceName Central Instance name string modeled as parameter for auto generation to
-   *                            work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param centralInstanceName Central Services Instance resource name string modeled as parameter for
+   *                            auto generation to work correctly.
    * @param options The options parameters.
    */
   beginCreateAndWait(
@@ -85,11 +90,12 @@ export interface SAPCentralInstances {
     options?: SAPCentralInstancesCreateOptionalParams
   ): Promise<SAPCentralInstancesCreateResponse>;
   /**
-   * Updates the SAP Central Instance. <br><br>This can be used to update tags.
+   * Updates the SAP Central Services Instance resource. <br><br>This can be used to update tags on the
+   * resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param centralInstanceName Central Instance name string modeled as parameter for auto generation to
-   *                            work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param centralInstanceName Central Services Instance resource name string modeled as parameter for
+   *                            auto generation to work correctly.
    * @param options The options parameters.
    */
   beginUpdate(
@@ -104,11 +110,12 @@ export interface SAPCentralInstances {
     >
   >;
   /**
-   * Updates the SAP Central Instance. <br><br>This can be used to update tags.
+   * Updates the SAP Central Services Instance resource. <br><br>This can be used to update tags on the
+   * resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param centralInstanceName Central Instance name string modeled as parameter for auto generation to
-   *                            work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param centralInstanceName Central Services Instance resource name string modeled as parameter for
+   *                            auto generation to work correctly.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
@@ -118,12 +125,14 @@ export interface SAPCentralInstances {
     options?: SAPCentralInstancesUpdateOptionalParams
   ): Promise<SAPCentralInstancesUpdateResponse>;
   /**
-   * Deletes the SAP Central Instance. <br><br>This will be used by service only. Delete by end user will
-   * return a Bad Request error.
+   * Deletes the SAP Central Services Instance resource. <br><br>This will be used by service only.
+   * Delete operation on this resource by end user will return a Bad Request error. You can delete the
+   * parent resource, which is the Virtual Instance for SAP solutions resource, using the delete
+   * operation on it.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param centralInstanceName Central Instance name string modeled as parameter for auto generation to
-   *                            work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param centralInstanceName Central Services Instance resource name string modeled as parameter for
+   *                            auto generation to work correctly.
    * @param options The options parameters.
    */
   beginDelete(
@@ -138,12 +147,14 @@ export interface SAPCentralInstances {
     >
   >;
   /**
-   * Deletes the SAP Central Instance. <br><br>This will be used by service only. Delete by end user will
-   * return a Bad Request error.
+   * Deletes the SAP Central Services Instance resource. <br><br>This will be used by service only.
+   * Delete operation on this resource by end user will return a Bad Request error. You can delete the
+   * parent resource, which is the Virtual Instance for SAP solutions resource, using the delete
+   * operation on it.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param centralInstanceName Central Instance name string modeled as parameter for auto generation to
-   *                            work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param centralInstanceName Central Services Instance resource name string modeled as parameter for
+   *                            auto generation to work correctly.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
@@ -152,4 +163,70 @@ export interface SAPCentralInstances {
     centralInstanceName: string,
     options?: SAPCentralInstancesDeleteOptionalParams
   ): Promise<SAPCentralInstancesDeleteResponse>;
+  /**
+   * Starts the SAP Central Services Instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param centralInstanceName Central Services Instance resource name string modeled as parameter for
+   *                            auto generation to work correctly.
+   * @param options The options parameters.
+   */
+  beginStartInstance(
+    resourceGroupName: string,
+    sapVirtualInstanceName: string,
+    centralInstanceName: string,
+    options?: SAPCentralInstancesStartInstanceOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<SAPCentralInstancesStartInstanceResponse>,
+      SAPCentralInstancesStartInstanceResponse
+    >
+  >;
+  /**
+   * Starts the SAP Central Services Instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param centralInstanceName Central Services Instance resource name string modeled as parameter for
+   *                            auto generation to work correctly.
+   * @param options The options parameters.
+   */
+  beginStartInstanceAndWait(
+    resourceGroupName: string,
+    sapVirtualInstanceName: string,
+    centralInstanceName: string,
+    options?: SAPCentralInstancesStartInstanceOptionalParams
+  ): Promise<SAPCentralInstancesStartInstanceResponse>;
+  /**
+   * Stops the SAP Central Services Instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param centralInstanceName Central Services Instance resource name string modeled as parameter for
+   *                            auto generation to work correctly.
+   * @param options The options parameters.
+   */
+  beginStopInstance(
+    resourceGroupName: string,
+    sapVirtualInstanceName: string,
+    centralInstanceName: string,
+    options?: SAPCentralInstancesStopInstanceOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<SAPCentralInstancesStopInstanceResponse>,
+      SAPCentralInstancesStopInstanceResponse
+    >
+  >;
+  /**
+   * Stops the SAP Central Services Instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param centralInstanceName Central Services Instance resource name string modeled as parameter for
+   *                            auto generation to work correctly.
+   * @param options The options parameters.
+   */
+  beginStopInstanceAndWait(
+    resourceGroupName: string,
+    sapVirtualInstanceName: string,
+    centralInstanceName: string,
+    options?: SAPCentralInstancesStopInstanceOptionalParams
+  ): Promise<SAPCentralInstancesStopInstanceResponse>;
 }

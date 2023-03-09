@@ -10,21 +10,27 @@
 // Licensed under the MIT License.
 const { MonitorClient } = require("@azure/arm-monitor");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
- * This sample demonstrates how to Deletes a Log Search rule
+ * This sample demonstrates how to Deletes a scheduled query rule.
  *
- * @summary Deletes a Log Search rule
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-04-16/examples/deleteScheduledQueryRules.json
+ * @summary Deletes a scheduled query rule.
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2022-08-01-preview/examples/deleteScheduledQueryRule.json
  */
-async function deleteRule() {
-  const subscriptionId = "b67f7fec-69fc-4974-9099-a26bd6ffeda3";
-  const resourceGroupName = "Rac46PostSwapRG";
-  const ruleName = "logalertfoo";
+async function deleteAScheduledQueryRule() {
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "dd4bfc94-a096-412b-9c43-4bd13e35afbc";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "QueryResourceGroupName";
+  const ruleName = "heartbeat";
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.scheduledQueryRules.delete(resourceGroupName, ruleName);
   console.log(result);
 }
 
-deleteRule().catch(console.error);
+async function main() {
+  deleteAScheduledQueryRule();
+}
+
+main().catch(console.error);

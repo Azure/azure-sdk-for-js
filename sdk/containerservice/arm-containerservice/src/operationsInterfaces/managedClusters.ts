@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ManagedCluster,
   ManagedClustersListOptionalParams,
@@ -39,6 +39,8 @@ import {
   ManagedClustersResetServicePrincipalProfileOptionalParams,
   ManagedClusterAADProfile,
   ManagedClustersResetAADProfileOptionalParams,
+  ManagedClustersAbortLatestOperationOptionalParams,
+  ManagedClustersAbortLatestOperationResponse,
   ManagedClustersRotateClusterCertificatesOptionalParams,
   ManagedClustersRotateClusterCertificatesResponse,
   ManagedClustersRotateServiceAccountSigningKeysOptionalParams,
@@ -179,8 +181,8 @@ export interface ManagedClusters {
     parameters: ManagedCluster,
     options?: ManagedClustersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagedClustersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ManagedClustersCreateOrUpdateResponse>,
       ManagedClustersCreateOrUpdateResponse
     >
   >;
@@ -210,8 +212,8 @@ export interface ManagedClusters {
     parameters: TagsObject,
     options?: ManagedClustersUpdateTagsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagedClustersUpdateTagsResponse>,
+    SimplePollerLike<
+      OperationState<ManagedClustersUpdateTagsResponse>,
       ManagedClustersUpdateTagsResponse
     >
   >;
@@ -239,8 +241,8 @@ export interface ManagedClusters {
     resourceName: string,
     options?: ManagedClustersDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagedClustersDeleteResponse>,
+    SimplePollerLike<
+      OperationState<ManagedClustersDeleteResponse>,
       ManagedClustersDeleteResponse
     >
   >;
@@ -267,7 +269,7 @@ export interface ManagedClusters {
     resourceName: string,
     parameters: ManagedClusterServicePrincipalProfile,
     options?: ManagedClustersResetServicePrincipalProfileOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * This action cannot be performed on a cluster that is not using a service principal
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -282,7 +284,8 @@ export interface ManagedClusters {
     options?: ManagedClustersResetServicePrincipalProfileOptionalParams
   ): Promise<void>;
   /**
-   * Reset the AAD Profile of a managed cluster.
+   * **WARNING**: This API will be deprecated. Please see [AKS-managed Azure Active Directory
+   * integration](https://aka.ms/aks-managed-aad) to update your cluster with AKS-managed Azure AD.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param parameters The AAD profile to set on the Managed Cluster
@@ -293,9 +296,10 @@ export interface ManagedClusters {
     resourceName: string,
     parameters: ManagedClusterAADProfile,
     options?: ManagedClustersResetAADProfileOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Reset the AAD Profile of a managed cluster.
+   * **WARNING**: This API will be deprecated. Please see [AKS-managed Azure Active Directory
+   * integration](https://aka.ms/aks-managed-aad) to update your cluster with AKS-managed Azure AD.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param parameters The AAD profile to set on the Managed Cluster
@@ -308,6 +312,37 @@ export interface ManagedClusters {
     options?: ManagedClustersResetAADProfileOptionalParams
   ): Promise<void>;
   /**
+   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
+   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
+   * completes before cancellation can take place, an error is returned.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  beginAbortLatestOperation(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersAbortLatestOperationOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedClustersAbortLatestOperationResponse>,
+      ManagedClustersAbortLatestOperationResponse
+    >
+  >;
+  /**
+   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
+   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
+   * completes before cancellation can take place, an error is returned.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  beginAbortLatestOperationAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersAbortLatestOperationOptionalParams
+  ): Promise<ManagedClustersAbortLatestOperationResponse>;
+  /**
    * See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more
    * details about rotating managed cluster certificates.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -319,8 +354,8 @@ export interface ManagedClusters {
     resourceName: string,
     options?: ManagedClustersRotateClusterCertificatesOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagedClustersRotateClusterCertificatesResponse>,
+    SimplePollerLike<
+      OperationState<ManagedClustersRotateClusterCertificatesResponse>,
       ManagedClustersRotateClusterCertificatesResponse
     >
   >;
@@ -347,10 +382,8 @@ export interface ManagedClusters {
     resourceName: string,
     options?: ManagedClustersRotateServiceAccountSigningKeysOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        ManagedClustersRotateServiceAccountSigningKeysResponse
-      >,
+    SimplePollerLike<
+      OperationState<ManagedClustersRotateServiceAccountSigningKeysResponse>,
       ManagedClustersRotateServiceAccountSigningKeysResponse
     >
   >;
@@ -380,8 +413,8 @@ export interface ManagedClusters {
     resourceName: string,
     options?: ManagedClustersStopOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagedClustersStopResponse>,
+    SimplePollerLike<
+      OperationState<ManagedClustersStopResponse>,
       ManagedClustersStopResponse
     >
   >;
@@ -412,8 +445,8 @@ export interface ManagedClusters {
     resourceName: string,
     options?: ManagedClustersStartOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagedClustersStartResponse>,
+    SimplePollerLike<
+      OperationState<ManagedClustersStartResponse>,
       ManagedClustersStartResponse
     >
   >;
@@ -444,8 +477,8 @@ export interface ManagedClusters {
     requestPayload: RunCommandRequest,
     options?: ManagedClustersRunCommandOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagedClustersRunCommandResponse>,
+    SimplePollerLike<
+      OperationState<ManagedClustersRunCommandResponse>,
       ManagedClustersRunCommandResponse
     >
   >;

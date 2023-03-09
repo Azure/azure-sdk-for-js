@@ -1,0 +1,38 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DataFactory/factories/examplefactorytest/deleteDataFlowDebugSession?api-version=2018-06-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "52",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-datafactory/11.0.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "b011c926-5325-42f2-b75d-708cd7ad38a6"
+      },
+      "RequestBody": {
+        "sessionId": "2475b175-6f61-4815-b012-c9a39cf60571"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "0",
+        "Date": "Fri, 17 Feb 2023 08:32:05 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "0b1d6fe1-414a-4c34-950d-fc2f76272f8f",
+        "x-ms-ratelimit-remaining-subscription-writes": "1198",
+        "x-ms-request-id": "0b1d6fe1-414a-4c34-950d-fc2f76272f8f",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230217T083206Z:0b1d6fe1-414a-4c34-950d-fc2f76272f8f"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {}
+}

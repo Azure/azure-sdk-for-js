@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { record, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
-import { recorderEnvSetup, getBlobChangeFeedClient, streamToString } from "./utils";
+import { isPlaybackMode, Recorder, env } from "@azure-tools/test-recorder";
+import { recorderEnvSetup, getBlobChangeFeedClient, streamToString, uriSanitizers } from "./utils";
 import { BlobChangeFeedClient, BlobChangeFeedEvent, BlobChangeFeedEventPage } from "../src";
 import { AbortController } from "@azure/abort-controller";
-import { setTracer } from "@azure/test-utils";
-import { Pipeline } from "@azure/storage-blob";
+import { assert } from "@azure/test-utils";
+import { BlobServiceClient, RequestPolicy } from "@azure/storage-blob";
 import { SDK_VERSION } from "../src/utils/constants";
-import { setSpan, context } from "@azure/core-tracing";
 import * as fs from "fs";
 import * as path from "path";
 
 import { Context } from "mocha";
 import { rawEventToBlobChangeFeedEvent } from "../src/utils/utils.common";
+import { createHttpHeaders, RestError } from "@azure/core-rest-pipeline";
+import { toHttpHeadersLike } from "@azure/core-http-compat";
 
 const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
 
@@ -23,14 +23,17 @@ describe("BlobChangeFeedClient", async () => {
   let changeFeedClient: BlobChangeFeedClient;
 
   before(async function (this: Context) {
-    if (process.env.CHANGE_FEED_ENABLED !== "1" && !isPlaybackMode()) {
+    if (env.CHANGE_FEED_ENABLED !== "1" && !isPlaybackMode()) {
       this.skip();
     }
   });
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    changeFeedClient = getBlobChangeFeedClient();
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    // make sure we add the sanitizers on playback for SAS strings
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    changeFeedClient = getBlobChangeFeedClient(recorder);
   });
 
   afterEach(async function () {
@@ -132,48 +135,50 @@ describe("BlobChangeFeedClient", async () => {
     }
   });
 
-  function fetchTelemetryString(pipeline: Pipeline): string {
-    for (const factory of pipeline.factories) {
-      if ((factory as any).telemetryString) {
-        return (factory as any).telemetryString;
-      }
+  async function fetchTelemetryString(client: BlobChangeFeedClient): Promise<string> {
+    try {
+      await client.listChanges().next();
+      return "";
+    } catch (e: any) {
+      assert.equal(e.name, "RestError");
+      return (e as RestError).request?.headers.get("User-Agent") ?? "";
     }
-    return "";
   }
 
   it("user agent set correctly", async () => {
-    const blobServiceClient = (changeFeedClient as any).blobServiceClient;
-    const telemetryString = fetchTelemetryString(blobServiceClient.pipeline);
-    assert.ok(telemetryString.startsWith(`changefeed-js/${SDK_VERSION}`));
+    const MockHttpClient: RequestPolicy = {
+      sendRequest(request) {
+        return Promise.resolve({
+          request,
+          headers: toHttpHeadersLike(createHttpHeaders()),
+          status: 418,
+        });
+      },
+    };
 
+    const client = getBlobChangeFeedClient(recorder, "", "", {
+      httpClient: MockHttpClient,
+    });
+    const telemetryString = await fetchTelemetryString(client);
+    assert.ok(telemetryString.startsWith(`changefeed-js/${SDK_VERSION}`));
+    const blobServiceClient: BlobServiceClient = (changeFeedClient as any).blobServiceClient;
     const userAgentPrefix = "test/1 a b";
-    const changeFeedClient2 = new BlobChangeFeedClient(
-      blobServiceClient.url,
-      blobServiceClient.credential,
-      {
-        userAgentOptions: { userAgentPrefix },
-      }
-    );
-    const blobServiceClient2 = (changeFeedClient2 as any).blobServiceClient;
-    const telemetryString2 = fetchTelemetryString(blobServiceClient2.pipeline);
+    const client2 = new BlobChangeFeedClient(blobServiceClient.url, blobServiceClient.credential, {
+      httpClient: MockHttpClient,
+      userAgentOptions: { userAgentPrefix },
+    });
+    const telemetryString2 = await fetchTelemetryString(client2);
     assert.ok(telemetryString2.startsWith(`${userAgentPrefix} changefeed-js/${SDK_VERSION}`));
   });
 
   it("tracing", async () => {
-    const tracer = setTracer();
-    const rootSpan = tracer.startSpan("root");
-
-    const pageIter = changeFeedClient.listChanges({
-      tracingOptions: {
-        tracingContext: setSpan(context.active(), rootSpan),
+    await assert.supportsTracing(
+      async (options) => {
+        const pageIter = changeFeedClient.listChanges(options);
+        await pageIter.next();
       },
-    });
-    await pageIter.next();
-
-    rootSpan.end();
-    const rootSpans = tracer.getRootSpans();
-    assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
-    assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
+      ["ChangeFeedFactory-create", "ChangeFeed-getChange"]
+    );
   });
 });
 
@@ -182,14 +187,17 @@ describe("BlobChangeFeedClient: Change Feed not configured", async () => {
   let changeFeedClient: BlobChangeFeedClient;
 
   before(async function (this: Context) {
-    if (process.env.CHANGE_FEED_ENABLED === "1" && !isPlaybackMode()) {
+    if (env.CHANGE_FEED_ENABLED === "1" && !isPlaybackMode()) {
       this.skip();
     }
   });
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    changeFeedClient = getBlobChangeFeedClient();
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    // make sure we add the sanitizers on playback for SAS strings
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    changeFeedClient = getBlobChangeFeedClient(recorder);
   });
 
   afterEach(async function () {
@@ -211,13 +219,16 @@ describe("Change feed event schema test", async () => {
   let recorder: Recorder;
 
   before(async function (this: Context) {
-    if (process.env.CHANGE_FEED_ENABLED === "1" && !isPlaybackMode()) {
+    if (env.CHANGE_FEED_ENABLED === "1" && !isPlaybackMode()) {
       this.skip();
     }
   });
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    // make sure we add the sanitizers on playback for SAS strings
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
   });
 
   afterEach(async function () {

@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { DynatraceObservability } from "@azure/arm-dynatrace";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List the operations for Dynatrace.Observability
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2021-09-01/examples/Operations_List_MaximumSet_Gen.json
  */
 async function operationsListMaximumSetGen() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["DYNATRACE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new DynatraceObservability(credential, subscriptionId);
   const resArray = new Array();
@@ -27,8 +32,6 @@ async function operationsListMaximumSetGen() {
   }
   console.log(resArray);
 }
-
-operationsListMaximumSetGen().catch(console.error);
 
 /**
  * This sample demonstrates how to List the operations for Dynatrace.Observability
@@ -37,7 +40,9 @@ operationsListMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2021-09-01/examples/Operations_List_MinimumSet_Gen.json
  */
 async function operationsListMinimumSetGen() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["DYNATRACE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new DynatraceObservability(credential, subscriptionId);
   const resArray = new Array();
@@ -47,4 +52,9 @@ async function operationsListMinimumSetGen() {
   console.log(resArray);
 }
 
-operationsListMinimumSetGen().catch(console.error);
+async function main() {
+  operationsListMaximumSetGen();
+  operationsListMinimumSetGen();
+}
+
+main().catch(console.error);

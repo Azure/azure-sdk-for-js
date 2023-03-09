@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { RelayAPI } = require("@azure/arm-relay");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Authorization rules for a hybrid connection.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/relay/resource-manager/Microsoft.Relay/stable/2017-04-01/examples/HybridConnection/RelayHybridConnectionAutorizationRuleListAll.json
  */
 async function relayHybridConnectionAutorizationRuleListAll() {
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = "resourcegroup";
+  const subscriptionId =
+    process.env["RELAY_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["RELAY_RESOURCE_GROUP"] || "resourcegroup";
   const namespaceName = "example-RelayNamespace-01";
   const hybridConnectionName = "example-Relay-Hybrid-01";
   const credential = new DefaultAzureCredential();
@@ -35,4 +37,8 @@ async function relayHybridConnectionAutorizationRuleListAll() {
   console.log(resArray);
 }
 
-relayHybridConnectionAutorizationRuleListAll().catch(console.error);
+async function main() {
+  relayHybridConnectionAutorizationRuleListAll();
+}
+
+main().catch(console.error);

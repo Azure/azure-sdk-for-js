@@ -9,9 +9,9 @@ import { LUISAuthoringClient } from "../../src/lUISAuthoringClient";
 import { BaseTest } from "../baseTest";
 
 
-describe("Model Entities Tests", () => {
+describe("Model Entities Tests", function () {
 
-  it("should list Entities", async () => {
+  it("should list Entities", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.addEntity(BaseTest.GlobalAppId, "0.1", { name: "Existing Entity Test" })
       const results = await client.model.listEntities(BaseTest.GlobalAppId, "0.1");
@@ -22,7 +22,7 @@ describe("Model Entities Tests", () => {
   });
 
 
-  it("should get entity", async () => {
+  it("should get entity", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.addEntity(BaseTest.GlobalAppId, "0.1", { name: "New Entity Test" })
       const result = await client.model.getEntity(BaseTest.GlobalAppId, "0.1", entityId.body);
@@ -34,7 +34,7 @@ describe("Model Entities Tests", () => {
   });
 
 
-  it("should add entity", async () => {
+  it("should add entity", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.addEntity(BaseTest.GlobalAppId, "0.1", { name: "New Entity Test" })
       const result = await client.model.getEntity(BaseTest.GlobalAppId, "0.1", entityId.body);
@@ -45,7 +45,7 @@ describe("Model Entities Tests", () => {
     })
   });
 
-  it("should delete entity", async () => {
+  it("should delete entity", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.addEntity(BaseTest.GlobalAppId, "0.1", { name: "Delete Entity Test" })
 
@@ -55,7 +55,7 @@ describe("Model Entities Tests", () => {
     });
   });
 
-  it("should get entity suggestions returning empty", async () => {
+  it("should get entity suggestions returning empty", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
 
       const entityId = await client.model.addEntity(BaseTest.GlobalAppId, "0.1", { name: "Suggestions Entity Test" })

@@ -1,6 +1,6 @@
 # Release History
 
-## 11.3.0-beta.9 (Unreleased)
+## 12.0.0-beta.1 (2023-03-07)
 
 ### Features Added
 
@@ -9,10 +9,40 @@
 ### Breaking Changes
 
 - Update `SearchIndexerDataNoneIdentity.odatatype`. [#23495](https://github.com/Azure/azure-sdk-for-js/pull/23495)
+- Fix `SearchClient.getDocument` returning documents that contain fields which were not selected [#23627](https://github.com/Azure/azure-sdk-for-js/pull/23627)
+- Add type narrowing to returned documents [#23627](https://github.com/Azure/azure-sdk-for-js/pull/23627)
+  - Add breaking type parameters to these types:
+    - `AutocompleteOptions`
+    - `AutocompleteRequest`
+    - `GetDocumentOptions`
+    - `SearchIterator`
+    - `SearchOptions`
+    - `SearchRequestOptions`
+    - `SuggestOptions`
+    - `SuggestRequest`
 
 ### Bugs Fixed
 
+- Allow nested field names to be specified in `select` and `searchFields` options [#23627](https://github.com/Azure/azure-sdk-for-js/pull/23627)
+  - Affects these types:
+    - `AutocompleteRequest`
+    - `SearchRequestOptions`
+    - `SuggestRequest`
+- Fix discarded user-defined `onResponse` callback [#24479](https://github.com/Azure/azure-sdk-for-js/pull/24479)
+
 ### Other Changes
+
+- Add `object` type constraint to `IndexDocumentsClient` and its dependencies [#23627](https://github.com/Azure/azure-sdk-for-js/pull/23627)
+  - Affects these types:
+    - `IndexDocumentsClient`
+    - `SearchClient`
+    - `SearchDocumentsPageResult`
+    - `SearchDocumentsResult`
+    - `SearchIndexClient.getSearchClient`
+    - `SearchIndexingBufferedSender`
+    - `SearchResult`
+    - `SuggestDocumentsResult`
+    - `SuggestResult`
 
 ## 11.3.0-beta.8 (2022-09-06)
 

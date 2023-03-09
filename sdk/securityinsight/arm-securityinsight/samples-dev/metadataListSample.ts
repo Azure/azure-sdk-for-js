@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List of all metadata
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/metadata/GetAllMetadataOData.json
  */
 async function getAllMetadataWithODataFilterOrOrderbyOrSkipOrTop() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const credential = new DefaultAzureCredential();
   const client = new SecurityInsights(credential, subscriptionId);
@@ -32,8 +38,6 @@ async function getAllMetadataWithODataFilterOrOrderbyOrSkipOrTop() {
   }
   console.log(resArray);
 }
-
-getAllMetadataWithODataFilterOrOrderbyOrSkipOrTop().catch(console.error);
 
 /**
  * This sample demonstrates how to List of all metadata
@@ -42,8 +46,11 @@ getAllMetadataWithODataFilterOrOrderbyOrSkipOrTop().catch(console.error);
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/metadata/GetAllMetadata.json
  */
 async function getAllMetadata() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const credential = new DefaultAzureCredential();
   const client = new SecurityInsights(credential, subscriptionId);
@@ -57,4 +64,9 @@ async function getAllMetadata() {
   console.log(resArray);
 }
 
-getAllMetadata().catch(console.error);
+async function main() {
+  getAllMetadataWithODataFilterOrOrderbyOrSkipOrTop();
+  getAllMetadata();
+}
+
+main().catch(console.error);

@@ -3,6 +3,10 @@ parameters:
   displayName: OperatingSystems (list of operating systems to run)
   type: string
   default: 'Linux, Windows'
+- name: LanguageVersion
+  displayName: LanguageVersion (14, 16, 18)
+  type: string
+  default: '18'
 - name: PackageVersions
   displayName: PackageVersions (regex of package versions to run)
   type: string
@@ -31,7 +35,7 @@ extends:
   parameters:
     OperatingSystems: ${{ parameters.OperatingSystems }}
     ServiceDirectory: storage/storage-file-share
-    Services: "^storage-file-share$"
+    LanguageVersion: ${{ parameters.LanguageVersion }}
     PackageVersions: ${{ parameters.PackageVersions }}
     Tests: ${{ parameters.Tests }}
     Arguments: ${{ parameters.Arguments }}

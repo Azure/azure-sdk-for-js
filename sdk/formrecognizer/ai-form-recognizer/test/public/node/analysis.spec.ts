@@ -294,8 +294,12 @@ matrix([[true, false]] as const, async (useAad) => {
               amount: 56651.49,
               currencySymbol: "$",
             },
-            date: "2017-06-18T00:00:00.000Z",
+            date: "2017-06-24T00:00:00.000Z",
             productCode: "34278587",
+            tax: {
+              amount: 0,
+              currencySymbol: "",
+            },
           },
         ],
       });
@@ -765,8 +769,12 @@ matrix([[true, false]] as const, async (useAad) => {
               amount: 56651.49,
               currencySymbol: "$",
             },
-            date: "2017-06-18T00:00:00.000Z",
+            date: "2017-06-24T00:00:00.000Z",
             productCode: "34278587",
+            tax: {
+              amount: 0,
+              currencySymbol: "",
+            },
           },
         ],
       });
@@ -1007,8 +1015,8 @@ matrix([[true, false]] as const, async (useAad) => {
             amount: 123.3,
           },
         ],
-        isStatutoryEmployee: "true",
-        isThirdPartySickPay: "true",
+        // isStatutoryEmployee: "true", // Service Regression
+        // isThirdPartySickPay: "true", // Service Regression
         other: "DISINS 170.85",
         stateTaxInfos: [
           {
@@ -1017,7 +1025,7 @@ matrix([[true, false]] as const, async (useAad) => {
           },
           {
             state: "WA",
-            employerStateIdNumber: "112345678",
+            employerStateIdNumber: "12345678",
           },
         ],
         localTaxInfos: [
@@ -1063,11 +1071,6 @@ matrix([[true, false]] as const, async (useAad) => {
           employer: "Microsoft",
           idNumberSuffix: "01",
         },
-        dependents: [
-          {
-            name: "Coinsurance Max",
-          },
-        ],
         idNumber: {
           prefix: "ABC",
           number: "123456789",
@@ -1079,14 +1082,18 @@ matrix([[true, false]] as const, async (useAad) => {
         },
         copays: [
           {
-            benefit: "deductible",
+            benefit: "Deductible",
             amount: "$1,500",
           },
           {
-            benefit: "coinsurancemax",
+            benefit: "Coinsurance Max",
             amount: "$1,000",
           },
         ],
+        plan: {
+          number: "456",
+          name: "HEALTH SAVINGS PLAN",
+        },
       });
 
       it("png file stream", async function (this: Mocha.Context) {

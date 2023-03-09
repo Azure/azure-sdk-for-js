@@ -13,17 +13,23 @@ import {
   RecoveryServicesBackupClient
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Provides a pageable list of jobs.
  *
  * @summary Provides a pageable list of jobs.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/Common/ListJobs.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/Common/ListJobs.json
  */
 async function listAllJobs() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const vaultName = "NetSDKTestRsVault";
-  const resourceGroupName = "SwaggerTestRg";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "SwaggerTestRg";
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
@@ -33,18 +39,19 @@ async function listAllJobs() {
   console.log(resArray);
 }
 
-listAllJobs().catch(console.error);
-
 /**
  * This sample demonstrates how to Provides a pageable list of jobs.
  *
  * @summary Provides a pageable list of jobs.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/Common/ListJobsWithAllSupportedFilters.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/Common/ListJobsWithAllSupportedFilters.json
  */
 async function listJobsWithFilters() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const vaultName = "NetSDKTestRsVault";
-  const resourceGroupName = "SwaggerTestRg";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "SwaggerTestRg";
   const filter =
     "startTime eq '2016-01-01 00:00:00 AM' and endTime eq '2017-11-29 00:00:00 AM' and operation eq 'Backup' and backupManagementType eq 'AzureIaasVM' and status eq 'InProgress'";
   const options: BackupJobsListOptionalParams = { filter };
@@ -61,18 +68,19 @@ async function listJobsWithFilters() {
   console.log(resArray);
 }
 
-listJobsWithFilters().catch(console.error);
-
 /**
  * This sample demonstrates how to Provides a pageable list of jobs.
  *
  * @summary Provides a pageable list of jobs.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/Common/ListJobsWithStartTimeAndEndTimeFilters.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/Common/ListJobsWithStartTimeAndEndTimeFilters.json
  */
 async function listJobsWithTimeFilter() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const vaultName = "NetSDKTestRsVault";
-  const resourceGroupName = "SwaggerTestRg";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "SwaggerTestRg";
   const filter =
     "startTime eq '2016-01-01 00:00:00 AM' and endTime eq '2017-11-29 00:00:00 AM'";
   const options: BackupJobsListOptionalParams = { filter };
@@ -89,4 +97,10 @@ async function listJobsWithTimeFilter() {
   console.log(resArray);
 }
 
-listJobsWithTimeFilter().catch(console.error);
+async function main() {
+  listAllJobs();
+  listJobsWithFilters();
+  listJobsWithTimeFilter();
+}
+
+main().catch(console.error);
