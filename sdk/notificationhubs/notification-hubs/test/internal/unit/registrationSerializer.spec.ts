@@ -823,7 +823,7 @@ describe("serializeRegistrationDescription", () => {
     assert.isTrue(
       xml.indexOf("<BodyTemplate><![CDATA[{Template for the body}]]></BodyTemplate>") !== -1
     );
-    assert.isTrue(xml.indexOf("</AdmTemplateRegistrationDescription>") !== -1);
+    assert.isTrue(xml.indexOf("</XiaomiTemplateRegistrationDescription>") !== -1);
   });
 
   it("should serialize an WindowsRegistrationDescription", () => {
