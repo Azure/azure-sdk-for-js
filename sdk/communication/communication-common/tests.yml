@@ -27,5 +27,3 @@ stages:
             - TestType=^(?!browser).*
             - DependencyVersion=^.+$
       Clouds: Public,PPE,Int
-      TestResourceDirectories:
-        - communication/test-resources/
