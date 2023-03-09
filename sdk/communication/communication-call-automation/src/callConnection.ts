@@ -9,11 +9,7 @@ import {
   TransferToParticipantRequest,
 } from "./generated/src";
 import { CallConnectionImpl, CallMediaImpl } from "./generated/src/operations";
-import {
-  CallConnectionProperties,
-  CallInvite,
-  CallParticipant,
-} from "./models/models";
+import { CallConnectionProperties, CallInvite, CallParticipant } from "./models/models";
 import {
   AddParticipantOptions,
   GetCallConnectionPropertiesOptions,
@@ -67,18 +63,13 @@ export class CallConnection {
   public async getCallConnectionProperties(
     options: GetCallConnectionPropertiesOptions = {}
   ): Promise<CallConnectionProperties> {
-    const result = await this.callConnectionImpl.getCall(
-      this.callConnectionId,
-      options
-    );
+    const result = await this.callConnectionImpl.getCall(this.callConnectionId, options);
     const callConnectionProperties: CallConnectionProperties = {
       ...result,
       sourceIdentity: result.sourceIdentity
         ? communicationIdentifierConverter(result.sourceIdentity)
         : undefined,
-      targets: result.targets?.map((target) =>
-        communicationIdentifierConverter(target)
-      ),
+      targets: result.targets?.map((target) => communicationIdentifierConverter(target)),
       sourceCallerIdNumber: result.sourceCallerIdNumber
         ? phoneNumberIdentifierConverter(result.sourceCallerIdNumber)
         : undefined,
@@ -89,15 +80,9 @@ export class CallConnection {
   /**
    * Hang up the call for itself or terminate the whole call.
    */
-  public async hangUp(
-    isForEveryOne: boolean,
-    options: HangUpOptions = {}
-  ): Promise<void> {
+  public async hangUp(isForEveryOne: boolean, options: HangUpOptions = {}): Promise<void> {
     if (isForEveryOne) {
-      await this.callConnectionImpl.terminateCall(
-        this.callConnectionId,
-        options
-      );
+      await this.callConnectionImpl.terminateCall(this.callConnectionId, options);
     } else {
       await this.callConnectionImpl.hangupCall(this.callConnectionId, options);
     }
@@ -131,10 +116,7 @@ export class CallConnection {
   public async listParticipants(
     options: GetParticipantOptions = {}
   ): Promise<ListParticipantsResult> {
-    const result = await this.callConnectionImpl.getParticipants(
-      this.callConnectionId,
-      options
-    );
+    const result = await this.callConnectionImpl.getParticipants(this.callConnectionId, options);
     const listParticipantResponse: ListParticipantsResult = {
       ...result,
       values: result?.values?.map((acsCallParticipant) =>
@@ -152,12 +134,8 @@ export class CallConnection {
     options: AddParticipantOptions = {}
   ): Promise<AddParticipantResult> {
     const addParticipantRequest: AddParticipantRequest = {
-      participantToAdd: communicationIdentifierModelConverter(
-        participant.target
-      ),
-      sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(
-        participant.sourceCallIdNumber
-      ),
+      participantToAdd: communicationIdentifierModelConverter(participant.target),
+      sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(participant.sourceCallIdNumber),
       sourceDisplayName: participant.sourceDisplayName,
       invitationTimeoutInSeconds: options.invitationTimeoutInSeconds,
       operationContext: options.operationContext,
@@ -193,9 +171,7 @@ export class CallConnection {
   ): Promise<TransferCallResult> {
     const transferToParticipantRequest: TransferToParticipantRequest = {
       targetParticipant: communicationIdentifierModelConverter(target.target),
-      transfereeCallerId: PhoneNumberIdentifierModelConverter(
-        target.sourceCallIdNumber
-      ),
+      transfereeCallerId: PhoneNumberIdentifierModelConverter(target.sourceCallIdNumber),
       operationContext: options.operationContext,
       customContext: {
         sipHeaders: target.sipHeaders,

@@ -1,16 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  PhoneNumberIdentifier,
-  CommunicationIdentifier
-} from "@azure/communication-common";
+import { PhoneNumberIdentifier, CommunicationIdentifier } from "@azure/communication-common";
 import { OperationOptions } from "@azure/core-client";
 import {
   MediaStreamingConfiguration,
   ServerCallLocator,
   GroupCallLocator,
-  CallRejectReason
+  CallRejectReason,
 } from "./models";
 
 /**
@@ -109,7 +106,6 @@ export type GetParticipantOptions = OperationOptions;
  * Options to get a start a recording.
  */
 export interface StartRecordingOptions extends OperationOptions {
-
   /** The call locator. */
   callLocator: ServerCallLocator | GroupCallLocator;
   /** The uri to send notifications to. */
@@ -129,9 +125,7 @@ export interface StartRecordingOptions extends OperationOptions {
   audioChannelParticipantOrdering?: CommunicationIdentifier[];
   /** Recording storage mode. `External` enables bring your own storage. */
   recordingStorageType?: string;
-
 }
-
 
 /**
  * Options to get a stop a recording.

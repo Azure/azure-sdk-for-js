@@ -24,7 +24,7 @@ export {
   KnownMediaStreamingContentType,
   MediaStreamingAudioChannelType,
   KnownMediaStreamingAudioChannelType,
-  CallConnectionStateModel
+  CallConnectionStateModel,
 } from "../generated/src/models/index";
 
 /** Properties of a call connection */
@@ -70,8 +70,6 @@ export interface GroupCallLocator {
   readonly kind?: "groupCallLocator";
 }
 
-
-
 /** The PlaySource model. */
 export interface PlaySource {
   playSourceId?: string;
@@ -85,22 +83,22 @@ export interface FileSource extends PlaySource {
 
 /** Options to configure the recognize operation. */
 export interface CallMediaRecognizeOptions {
-  recognizeInputType: RecognizeInputType,
-  playPrompt: FileSource,
-  interruptCallMediaOperation: boolean,
-  stopCurrentOperations: boolean,
-  operationContext: string,
-  interruptPrompt: boolean,
-  initialSilenceTimeoutInSeconds: number,
-  targetParticipant: CommunicationIdentifier
+  recognizeInputType: RecognizeInputType;
+  playPrompt: FileSource;
+  interruptCallMediaOperation: boolean;
+  stopCurrentOperations: boolean;
+  operationContext: string;
+  interruptPrompt: boolean;
+  initialSilenceTimeoutInSeconds: number;
+  targetParticipant: CommunicationIdentifier;
 }
 
 /** The recognize configuration specific to Dtmf. */
 export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions {
-  interToneTimeoutInSeconds: number,
-  maxTonesToCollect: number,
-  stopDtmfTones: DtmfTone[],
-  readonly kind?: "callMediaRecognizeDtmfOptions"
+  interToneTimeoutInSeconds: number;
+  maxTonesToCollect: number;
+  stopDtmfTones: DtmfTone[];
+  readonly kind?: "callMediaRecognizeDtmfOptions";
 }
 
 /** A Dtmf Tone. */
@@ -136,7 +134,7 @@ export enum DtmfTone {
   /** Pound */
   Pound = "pound",
   /** Asterisk */
-  Asterisk = "asterisk"
+  Asterisk = "asterisk",
 }
 
 /** The type of the recognition that the service accepts. */
@@ -144,12 +142,10 @@ export enum RecognizeInputType {
   /** Dtmf */
   Dtmf = "dtmf",
   /** Choices */
-  Choices = "choices"
+  Choices = "choices",
 }
 
-function instanceOfPhoneNumberIdentity(
-  object: any
-): object is PhoneNumberIdentifier {
+function instanceOfPhoneNumberIdentity(object: any): object is PhoneNumberIdentifier {
   return "phoneNumber" in object;
 }
 
@@ -200,9 +196,7 @@ export class CallInvite {
 
   constructor(
     targetIdentity: PhoneNumberIdentifier | CommunicationUserIdentifier,
-    callerIdNumberOrHeaders?:
-      | PhoneNumberIdentifier
-      | { [propertyName: string]: string },
+    callerIdNumberOrHeaders?: PhoneNumberIdentifier | { [propertyName: string]: string },
     maybeHeaders?: { [propertyName: string]: string }
   ) {
     this.target = targetIdentity;

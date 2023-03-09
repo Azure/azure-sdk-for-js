@@ -39,16 +39,12 @@ function extractKind(
 export function PhoneNumberIdentifierModelConverter(
   phoneNumberIdentifier: PhoneNumberIdentifier | undefined
 ): PhoneNumberIdentifierModel | undefined {
-  if (
-    phoneNumberIdentifier === undefined ||
-    phoneNumberIdentifier.phoneNumber === undefined
-  ) {
+  if (phoneNumberIdentifier === undefined || phoneNumberIdentifier.phoneNumber === undefined) {
     return undefined;
   }
 
-  const phoneNumberIdentifierModel = serializeCommunicationIdentifier(
-    phoneNumberIdentifier
-  ).phoneNumber;
+  const phoneNumberIdentifierModel =
+    serializeCommunicationIdentifier(phoneNumberIdentifier).phoneNumber;
   return phoneNumberIdentifierModel;
 }
 
@@ -73,9 +69,7 @@ export function communicationIdentifierConverter(
 ): CommunicationIdentifier {
   const rawId = identifierModel.rawId;
   const kind =
-    identifierModel.kind !== undefined
-      ? identifierModel.kind
-      : extractKind(identifierModel);
+    identifierModel.kind !== undefined ? identifierModel.kind : extractKind(identifierModel);
 
   if (
     kind === KnownCommunicationIdentifierModelKind.CommunicationUser &&

@@ -199,7 +199,9 @@ export class CallAutomationClient {
         sourceIdentity: result.sourceIdentity
           ? communicationIdentifierConverter(result.sourceIdentity)
           : undefined,
-        targets: result.targets?.map((returnedTarget) => communicationIdentifierConverter(returnedTarget)),
+        targets: result.targets?.map((returnedTarget) =>
+          communicationIdentifierConverter(returnedTarget)
+        ),
         sourceCallerIdNumber: result.sourceCallerIdNumber
           ? phoneNumberIdentifierConverter(result.sourceCallerIdNumber)
           : undefined,

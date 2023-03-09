@@ -2,9 +2,7 @@
 // Licensed under the MIT license.
 import { CallRecordingImpl } from "./generated/src/operations";
 import { StartCallRecordingRequest } from "./generated/src/models/index";
-import {
-  RecordingStateResult,
-} from "./models/responses";
+import { RecordingStateResult } from "./models/responses";
 import {
   StartRecordingOptions,
   StopRecordingOptions,
@@ -29,24 +27,23 @@ export class CallRecording {
    * @param startCallRecordingRequest - options to start the call recording
    * @param options - Operation options.
    */
-  public async startRecording(
-    options: StartRecordingOptions
-  ): Promise<RecordingStateResult> {
+  public async startRecording(options: StartRecordingOptions): Promise<RecordingStateResult> {
     const startCallRecordingRequest: StartCallRecordingRequest = {
-      callLocator: options.callLocator
+      callLocator: options.callLocator,
     };
 
     startCallRecordingRequest.recordingChannelType = options.recordingChannel;
     startCallRecordingRequest.recordingContentType = options.recordingContent;
-    startCallRecordingRequest.recordingFormatType = options.recordingFormat
+    startCallRecordingRequest.recordingFormatType = options.recordingFormat;
 
     if (options.audioChannelParticipantOrdering) {
       startCallRecordingRequest.audioChannelParticipantOrdering = [];
-      options.audioChannelParticipantOrdering.forEach(identifier => {
-        startCallRecordingRequest.audioChannelParticipantOrdering?.push(communicationIdentifierModelConverter(identifier));
+      options.audioChannelParticipantOrdering.forEach((identifier) => {
+        startCallRecordingRequest.audioChannelParticipantOrdering?.push(
+          communicationIdentifierModelConverter(identifier)
+        );
       });
     }
-
 
     if (options.callLocator.kind === "groupCallLocator") {
       startCallRecordingRequest.callLocator.kind = "groupCallLocator";
