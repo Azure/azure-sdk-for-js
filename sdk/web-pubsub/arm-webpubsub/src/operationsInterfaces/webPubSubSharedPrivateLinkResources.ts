@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SharedPrivateLinkResource,
   WebPubSubSharedPrivateLinkResourcesListOptionalParams,
@@ -63,10 +63,8 @@ export interface WebPubSubSharedPrivateLinkResources {
     parameters: SharedPrivateLinkResource,
     options?: WebPubSubSharedPrivateLinkResourcesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        WebPubSubSharedPrivateLinkResourcesCreateOrUpdateResponse
-      >,
+    SimplePollerLike<
+      OperationState<WebPubSubSharedPrivateLinkResourcesCreateOrUpdateResponse>,
       WebPubSubSharedPrivateLinkResourcesCreateOrUpdateResponse
     >
   >;
@@ -99,7 +97,7 @@ export interface WebPubSubSharedPrivateLinkResources {
     resourceGroupName: string,
     resourceName: string,
     options?: WebPubSubSharedPrivateLinkResourcesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the specified shared private link resource
    * @param sharedPrivateLinkResourceName The name of the shared private link resource
