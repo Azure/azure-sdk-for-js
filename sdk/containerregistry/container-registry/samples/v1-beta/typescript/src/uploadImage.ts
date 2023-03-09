@@ -8,7 +8,7 @@
 import {
   ContainerRegistryBlobClient,
   KnownContainerRegistryAudience,
-  OciManifest,
+  OciImageManifest,
 } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -35,7 +35,7 @@ async function main() {
   const layer = Buffer.from("Sample layer");
   const uploadLayerResult = await client.uploadBlob(Readable.from(layer));
 
-  const manifest: OciManifest = {
+  const manifest: OciImageManifest = {
     schemaVersion: 2,
     config: {
       digest: uploadConfigResult.digest,
@@ -47,8 +47,8 @@ async function main() {
         digest: uploadLayerResult.digest,
         size: layer.byteLength,
         mediaType: "application/vnd.oci.image.layer.v1.tar",
-      }
-    ]
+      },
+    ],
   };
 
   await client.uploadManifest(manifest, { tag: "demo" });
