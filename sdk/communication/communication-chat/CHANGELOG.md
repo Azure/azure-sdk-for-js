@@ -1,5 +1,11 @@
 # Release History
 
+## 1.4.0 (Unreleased)
+
+### Features Added
+
+- Added the support for `Retention Policy`.
+
 ## 1.3.1 (2023-02-28)
 
 ### Features Added
