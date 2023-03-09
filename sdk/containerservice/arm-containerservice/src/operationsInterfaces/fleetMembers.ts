@@ -7,14 +7,14 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   FleetMember,
   FleetMembersListByFleetOptionalParams,
-  FleetMembersCreateOrUpdateOptionalParams,
-  FleetMembersCreateOrUpdateResponse,
   FleetMembersGetOptionalParams,
   FleetMembersGetResponse,
+  FleetMembersCreateOrUpdateOptionalParams,
+  FleetMembersCreateOrUpdateResponse,
   FleetMembersDeleteOptionalParams
 } from "../models";
 
@@ -33,6 +33,19 @@ export interface FleetMembers {
     options?: FleetMembersListByFleetOptionalParams
   ): PagedAsyncIterableIterator<FleetMember>;
   /**
+   * Gets a Fleet member.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param fleetName The name of the Fleet resource.
+   * @param fleetMemberName The name of the Fleet member resource.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    fleetName: string,
+    fleetMemberName: string,
+    options?: FleetMembersGetOptionalParams
+  ): Promise<FleetMembersGetResponse>;
+  /**
    * A member contains a reference to an existing Kubernetes cluster. Creating a member makes the
    * referenced cluster join the Fleet.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -48,8 +61,8 @@ export interface FleetMembers {
     parameters: FleetMember,
     options?: FleetMembersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<FleetMembersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<FleetMembersCreateOrUpdateResponse>,
       FleetMembersCreateOrUpdateResponse
     >
   >;
@@ -70,19 +83,6 @@ export interface FleetMembers {
     options?: FleetMembersCreateOrUpdateOptionalParams
   ): Promise<FleetMembersCreateOrUpdateResponse>;
   /**
-   * Gets a Fleet member.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param fleetName The name of the Fleet resource.
-   * @param fleetMemberName The name of the Fleet member resource.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    fleetName: string,
-    fleetMemberName: string,
-    options?: FleetMembersGetOptionalParams
-  ): Promise<FleetMembersGetResponse>;
-  /**
    * Deleting a Fleet member results in the member cluster leaving fleet. The Member azure resource is
    * deleted upon success. The underlying cluster is not deleted.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -95,7 +95,7 @@ export interface FleetMembers {
     fleetName: string,
     fleetMemberName: string,
     options?: FleetMembersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deleting a Fleet member results in the member cluster leaving fleet. The Member azure resource is
    * deleted upon success. The underlying cluster is not deleted.

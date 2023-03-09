@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a Live Output operation status.
  *
  * @summary Get a Live Output operation status.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-08-01/examples/async-operation-result.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-11-01/examples/async-operation-result.json
  */
 async function getTheLiveOutputOperationStatus() {
   const subscriptionId =
