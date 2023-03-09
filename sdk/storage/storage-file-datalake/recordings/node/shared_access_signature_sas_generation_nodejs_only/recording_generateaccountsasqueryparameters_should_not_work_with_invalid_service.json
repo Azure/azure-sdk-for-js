@@ -1,0 +1,36 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://fakestorageaccount.blob.core.windows.net/?comp=list",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/xml",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-azure-storage-blob/12.13.0 core-rest-pipeline/1.10.3 Node/v16.18.0 OS/(x64-Linux-5.4.0-1103-azure)",
+        "x-ms-client-request-id": "07fb9e78-f20b-4142-9d04-a9e24fe1ba79",
+        "x-ms-version": "2021-12-02"
+      },
+      "RequestBody": null,
+      "StatusCode": 403,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "x-ms-request-id,x-ms-client-request-id,x-ms-error-code,Content-Length,Date,Transfer-Encoding",
+        "Content-Length": "273",
+        "Content-Type": "application/xml",
+        "Date": "Tue, 07 Mar 2023 19:33:43 GMT",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "x-ms-client-request-id": "07fb9e78-f20b-4142-9d04-a9e24fe1ba79",
+        "x-ms-error-code": "AuthorizationServiceMismatch",
+        "x-ms-request-id": "345d2376-101e-000d-1d2b-51f515000000"
+      },
+      "ResponseBody": [
+        "\uFEFF\u003C?xml version=\u00221.0\u0022 encoding=\u0022utf-8\u0022?\u003E\u003CError\u003E\u003CCode\u003EAuthorizationServiceMismatch\u003C/Code\u003E\u003CMessage\u003EThis request is not authorized to perform this operation using this service.\n",
+        "RequestId:345d2376-101e-000d-1d2b-51f515000000\n",
+        "Time:2023-03-07T19:33:44.2028047Z\u003C/Message\u003E\u003C/Error\u003E"
+      ]
+    }
+  ],
+  "Variables": {
+    "tmr": "2023-03-07T19:33:44.170Z"
+  }
+}

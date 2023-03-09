@@ -1,0 +1,109 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://fakestorageaccount.blob.core.windows.net/filesystem167821787380605956?restype=container",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/xml",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "User-Agent": "azsdk-js-azure-storage-blob/12.13.0 core-rest-pipeline/1.10.3 Node/v16.18.0 OS/(x64-Linux-5.4.0-1103-azure)",
+        "x-ms-client-request-id": "0999421a-75cb-4ab3-a84b-78ef0d36661c",
+        "x-ms-date": "Tue, 07 Mar 2023 19:37:53 GMT",
+        "x-ms-version": "2021-12-02"
+      },
+      "RequestBody": null,
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Date": "Tue, 07 Mar 2023 19:37:53 GMT",
+        "ETag": "\u00220x8DB1F4371F804F3\u0022",
+        "Last-Modified": "Tue, 07 Mar 2023 19:37:53 GMT",
+        "Server": [
+          "Windows-Azure-Blob/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "x-ms-client-request-id": "0999421a-75cb-4ab3-a84b-78ef0d36661c",
+        "x-ms-request-id": "345f6cb2-101e-000d-5d2c-51f515000000",
+        "x-ms-version": "2021-12-02"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://fakestorageaccount.blob.core.windows.net/filesystem167821787380605956?restype=container\u0026comp=lease",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/xml",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "User-Agent": "azsdk-js-azure-storage-blob/12.13.0 core-rest-pipeline/1.10.3 Node/v16.18.0 OS/(x64-Linux-5.4.0-1103-azure)",
+        "x-ms-client-request-id": "fec74db8-c5e2-4a38-9c93-1d0d4f6cdd26",
+        "x-ms-date": "Tue, 07 Mar 2023 19:37:53 GMT",
+        "x-ms-lease-action": "acquire",
+        "x-ms-lease-duration": "-1",
+        "x-ms-proposed-lease-id": "35132202-1980-4f1d-8edd-8c967408f0c6",
+        "x-ms-version": "2021-12-02"
+      },
+      "RequestBody": null,
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Date": "Tue, 07 Mar 2023 19:37:53 GMT",
+        "ETag": "\u00220x8DB1F4371F804F3\u0022",
+        "Last-Modified": "Tue, 07 Mar 2023 19:37:53 GMT",
+        "Server": [
+          "Windows-Azure-Blob/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "x-ms-client-request-id": "fec74db8-c5e2-4a38-9c93-1d0d4f6cdd26",
+        "x-ms-lease-id": "35132202-1980-4f1d-8edd-8c967408f0c6",
+        "x-ms-request-id": "345f6cdf-101e-000d-032c-51f515000000",
+        "x-ms-version": "2021-12-02"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://fakestorageaccount.blob.core.windows.net/newfilesystem167821787394604615?restype=container\u0026comp=rename",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/xml",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "User-Agent": "azsdk-js-azure-storage-blob/12.13.0 core-rest-pipeline/1.10.3 Node/v16.18.0 OS/(x64-Linux-5.4.0-1103-azure)",
+        "x-ms-client-request-id": "ae0cf41e-1c0f-42cb-9034-9d66065bcf34",
+        "x-ms-date": "Tue, 07 Mar 2023 19:37:53 GMT",
+        "x-ms-source-container-name": "filesystem167821787380605956",
+        "x-ms-source-lease-id": "35132202-1980-4f1d-8edd-8c967408f0c6",
+        "x-ms-version": "2021-12-02"
+      },
+      "RequestBody": null,
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Content-Length": "368",
+        "Content-Type": "application/xml",
+        "Date": "Tue, 07 Mar 2023 19:37:53 GMT",
+        "Server": [
+          "Windows-Azure-Blob/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "x-ms-client-request-id": "ae0cf41e-1c0f-42cb-9034-9d66065bcf34",
+        "x-ms-error-code": "InvalidQueryParameterValue",
+        "x-ms-request-id": "345f6d0b-101e-000d-2c2c-51f515000000",
+        "x-ms-version": "2021-12-02"
+      },
+      "ResponseBody": [
+        "\uFEFF\u003C?xml version=\u00221.0\u0022 encoding=\u0022utf-8\u0022?\u003E\n",
+        "\u003CError\u003E\u003CCode\u003EInvalidQueryParameterValue\u003C/Code\u003E\u003CMessage\u003EValue for one of the query parameters specified in the request URI is invalid.\n",
+        "RequestId:345f6d0b-101e-000d-2c2c-51f515000000\n",
+        "Time:2023-03-07T19:37:53.9775858Z\u003C/Message\u003E\u003CQueryParameterName\u003Ecomp\u003C/QueryParameterName\u003E\u003CQueryParameterValue\u003Erename\u003C/QueryParameterValue\u003E\u003C/Error\u003E"
+      ]
+    }
+  ],
+  "Variables": {
+    "filesystem": "filesystem167821787380605956",
+    "newfilesystem": "newfilesystem167821787394604615"
+  }
+}

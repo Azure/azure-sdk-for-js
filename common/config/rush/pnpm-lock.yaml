@@ -19517,7 +19517,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-LvhiwesmyCOpTNU/fojizMBO8QMyzpfM4R1PbklHJkhxVR9ztqMTFaJ0o7EHo3EWyI1q4OoaDMBjsSi8LB2Mvw==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-rXlawY1okLRuWuyNwwNrcMggj4EQpEP4au4XE3nP+C+DZJrjC/O65tqWKrtzsRCF0i7XHOpn+bXNLGCJdEQoxw==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -19528,6 +19528,7 @@ packages:
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.37
+      '@types/sinon': 9.0.11
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
@@ -19557,6 +19558,7 @@ packages:
       prettier: 2.8.4
       puppeteer: 19.7.3_typescript@4.8.4
       rimraf: 3.0.2
+      sinon: 9.2.4
       source-map-support: 0.5.21
       ts-node: 10.9.1_lejcbhzbmenqadcoitg6ps22xq
       tslib: 2.5.0
