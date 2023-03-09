@@ -15,15 +15,15 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to List the Log Search rules within a subscription group.
+ * This sample demonstrates how to Retrieve a scheduled query rule definitions in a subscription.
  *
- * @summary List the Log Search rules within a subscription group.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-04-16/examples/listScheduledQueryRules.json
+ * @summary Retrieve a scheduled query rule definitions in a subscription.
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2022-08-01-preview/examples/listScheduledQueryRulesBySubscription.json
  */
-async function listRules() {
+async function listScheduledQueryRulesBySubscription() {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] ||
-    "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
+    "dd4bfc94-a096-412b-9c43-4bd13e35afbc";
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
@@ -34,7 +34,7 @@ async function listRules() {
 }
 
 async function main() {
-  listRules();
+  listScheduledQueryRulesBySubscription();
 }
 
 main().catch(console.error);
