@@ -8,8 +8,8 @@
 
 import { MetricsListOptionalParams, MetricsListResponse } from "../models";
 
-/** Interface representing a Metrics. */
-export interface Metrics {
+/** Interface representing a MetricsOperations. */
+export interface MetricsOperations {
   /**
    * **Lists the metric values for a resource**.
    * @param resourceUri The identifier of the resource.
