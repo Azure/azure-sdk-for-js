@@ -4,7 +4,7 @@ import { KeyVaultSettingsClient } from "../../src/settingsClient";
 import { authenticate } from "./utils/authentication";
 import { getServiceVersion, onVersions } from "./utils/common";
 
-onVersions({ minVer: "7.4-preview.1" }).describe("KeyVaultSettingsClient", () => {
+onVersions({ minVer: "7.4" }).describe("KeyVaultSettingsClient", () => {
   let client: KeyVaultSettingsClient;
   let recorder: Recorder;
 
