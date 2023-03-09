@@ -208,7 +208,7 @@ type EventEmitterLike<T extends RheaPromiseReceiver | Session> = Pick<
  */
 export type MinimalReceiver = Pick<
   RheaPromiseReceiver,
-  "name" | "isOpen" | "credit" | "addCredit" | "drain" | "drainCredit"
+  "name" | "isOpen" | "credit" | "addCredit" | "drain" | "drainCredit" | "close"
 > &
   EventEmitterLike<RheaPromiseReceiver> & {
     session: EventEmitterLike<Session>;
@@ -514,6 +514,12 @@ export class BatchingReceiverLite {
     };
 
     abortSignalCleanupFunction = checkAndRegisterWithAbortSignal((err) => {
+      if (receiver.drain) {
+        // If a drain is already in process and we cancel, the link state may be out of sync
+        // with remote. Reset the link so that we will have fresh start.
+        receiver.close();
+        return;
+      }
       reject(err);
     }, args.abortSignal);
 
