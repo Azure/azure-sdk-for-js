@@ -11,6 +11,10 @@ stages:
             - $(sub-config-azure-cloud-test-resources)
             - $(sub-config-communication-services-cloud-test-resources-common)
             - $(sub-config-communication-services-cloud-test-resources-js)
+        PPE:
+          SubscriptionConfigurations:
+            - $(sub-config-communication-ppe-test-resources-common)
+            - $(sub-config-communication-ppe-test-resources-js)
         Int:
           SubscriptionConfigurations:
             - $(sub-config-communication-int-test-resources-common)
@@ -19,10 +23,9 @@ stages:
             - TestType=^(?!(browser|sample)).*
           MatrixReplace:
             - SKIP_UPDATE_CAPABILITIES_LIVE_TESTS=false/true
-      Clouds: Public,Int
+      Clouds: Public,PPE,Int
       MatrixConfigs:
         - Name: PhoneNumbers_js_livetest_matrix
           Path: sdk/communication/communication-phone-numbers/phone-numbers-livetest-matrix.json
           Selection: sparse
           GenerateVMJobs: true
-
