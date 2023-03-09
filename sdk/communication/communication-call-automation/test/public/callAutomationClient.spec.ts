@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { CommunicationIdentifier } from "@azure/communication-common";
-import { fail } from "assert";
 import { assert } from "chai";
 import Sinon, { SinonStubbedInstance } from "sinon";
 import { CallAutomationClient } from "../../src/callAutomationClient";
@@ -42,9 +41,7 @@ describe("Call Automation Client Unit Tests", () => {
       assert.isNotNull(result);
       assert.isTrue(client.createCall.calledWith(targets, CALL_CALLBACK_URL));
       assert.equal(result, createCallResultMock);
-    }).catch((reject) => {
-      fail(reject); // should not reach here
-    });
+    })
   });
 
 })
