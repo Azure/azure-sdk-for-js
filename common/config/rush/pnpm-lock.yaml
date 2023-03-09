@@ -11443,7 +11443,7 @@ packages:
     dev: false
 
   file:projects/arm-dataprotection.tgz:
-    resolution: {integrity: sha512-zoA7xcB7JwUi8SP1WqQWBc+x35WZCz8u0vhqZp2HcmUeDf5pUA0TMWU3Musd8hodfdaxbDCEJUf2EznWtHRqKA==, tarball: file:projects/arm-dataprotection.tgz}
+    resolution: {integrity: sha512-6ASaD3dWrrnkoByh3razzXZZil9jqumStplVfo0c1znW0bHQeG0NfR2Z5NB3FHnLdblAObQRtJpxA56kO0IusA==, tarball: file:projects/arm-dataprotection.tgz}
     name: '@rush-temp/arm-dataprotection'
     version: 0.0.0
     dependencies:
@@ -11457,8 +11457,8 @@ packages:
       '@types/node': 14.18.37
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
