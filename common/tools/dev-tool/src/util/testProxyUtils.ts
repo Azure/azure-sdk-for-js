@@ -141,6 +141,7 @@ interface CommandRun {
 }
 
 function runCommand(executable: string, argv: string[], options: SpawnOptions = {}): CommandRun {
+  // TODO: this crashes the _whole_ program if the executable isn't on the system.
   const command = spawn(executable, argv, options);
 
   // Stop on exit
