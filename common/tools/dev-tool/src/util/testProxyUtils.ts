@@ -3,7 +3,7 @@
 
 import { ChildProcess, spawn, SpawnOptions } from "child_process";
 import { createPrinter } from "./printer";
-import { resolveRoot } from "./resolveProject";
+import { ProjectInfo, resolveRoot } from "./resolveProject";
 import fs from "fs-extra";
 import path from "path";
 import axios from "axios";
@@ -166,7 +166,10 @@ export async function runTestProxyCommand(argv: string[]): Promise<void> {
   return runCommand(await getTestProxyExecutable(), argv, { stdio: "inherit" }).result;
 }
 
-export async function runMigrationScript(initialPush: boolean): Promise<void> {
+export async function runMigrationScript(
+  project: ProjectInfo,
+  initialPush: boolean
+): Promise<void> {
   const migrationScriptLocation = path.join(
     await resolveRoot(),
     "eng/common/testproxy/transition-scripts/generate-assets-json.ps1"
@@ -177,7 +180,7 @@ export async function runMigrationScript(initialPush: boolean): Promise<void> {
     argv.push("-InitialPush");
   }
 
-  await runCommand("pwsh", argv, { stdio: "inherit" }).result;
+  await runCommand("pwsh", argv, { stdio: "inherit", cwd: project.path }).result;
 }
 
 export interface TestProxy {

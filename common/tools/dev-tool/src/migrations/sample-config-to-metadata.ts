@@ -12,8 +12,8 @@ export default createMigration(
   "2023-03-03T23:11:30Z",
   "moves the `//sampleConfiguration` package.json field to the '//metadata' field",
   {
-    validation: validate,
-    execution: execute,
+    validate: validate,
+    execute: execute,
   }
 );
 

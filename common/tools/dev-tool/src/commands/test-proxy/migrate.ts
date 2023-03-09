@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { leafCommand, makeCommandInfo } from "../../framework/command";
+import { resolveProject } from "../../util/resolveProject";
 import { runMigrationScript } from "../../util/testProxyUtils";
 
 export const commandInfo = makeCommandInfo(
@@ -19,6 +20,6 @@ export const commandInfo = makeCommandInfo(
 );
 
 export default leafCommand(commandInfo, async (options) => {
-  await runMigrationScript(options["initial-push"]);
+  await runMigrationScript(await resolveProject(), options["initial-push"]);
   return true;
 });

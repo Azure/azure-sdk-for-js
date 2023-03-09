@@ -14,16 +14,16 @@ import { createMigration } from "../util/migrations";
 export default createMigration(
   "example_migration", // unique ID
   "2023-03-03T00:00:00Z", // ISO timestamp that the migration becomes effective
-  "enables the `dev-tool check` command (for example)" // short description of the migration
+  "enables the `dev-tool check` command (for example)", // short description of the migration
   {
     // Optional URL to more information
-    // url: "https://github.com/azure/azure-sdk-for-js/tree/main/design/example.md"
-
+    // url: "https://github.com/azure/azure-sdk-for-js/tree/main/design/example.md",
+    //
     // Optional validation
-    // validate(project) { /* the validation fails if this function throws an error. */ }
-
+    // validate(project) { /* the validation fails if this function throws an error. */ },
+    //
     // Optional automated execution
-    // execute(project) { /* you can run arbitrary code here to execute the migration. */ }
+    // execute(project) { /* you can run arbitrary code here to execute the migration. */ },
   }
 );
 ```

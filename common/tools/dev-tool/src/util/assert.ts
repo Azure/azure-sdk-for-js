@@ -4,23 +4,39 @@
 import chalk from "chalk";
 
 /**
- * Thrown when an unreachable code path is reached.
+ * Asserts that this expression is unreachable. This function will panic if it is called.
+ *
+ * You can pass values to this function that should be exhausted at runtime. This is useful for exhaustiveness checking
+ * in switch statements, for example.
+ *
+ * @param values - optional values that will be printed in the message
  */
-class UnreachableError extends Error {
+export function unreachable(...values: never[]): never {
+  panic(`Unreachable: ${values.map((v) => JSON.stringify(v)).join(", ")}`);
+}
+
+/**
+ * An error class for an unimplemented feature.
+ */
+export class UnimplementedError extends Error {
   /**
+   * Creates a new UnimplementedError.
    *
-   * @param values - a value that should have been unreachable, or a record of values that should have been unreachable
+   * @param message - a description of the unimplemented feature
    */
-  constructor(values: never[]) {
-    super(`Unreachable: ${values.map((v) => JSON.stringify(v)).join(", ")}`);
+  constructor(message: string) {
+    super(message);
+    this.name = "UnimplementedError";
   }
 }
 
 /**
- * Asserts that this expression is unreachable
+ * Declares that a code path is unimplemented. This function throws an Error.
+ *
+ * @param message - a description of the unimplemented feature
  */
-export function unreachable(...values: never[]): never {
-  throw new UnreachableError(values);
+export function unimplemented(message: string): never {
+  throw new UnimplementedError(message);
 }
 
 /**
@@ -33,13 +49,14 @@ export function panic(message: string): never {
 
   console.trace(
     chalk.red(
-      "This is a bug in the tool. Please file an issue at https://github.com/azure/azure-sdk-for-js/. Include the stack trace below."
+      "This is a bug in the tool. Please file an issue at https://github.com/azure/azure-sdk-for-js/issues.",
+      "Include the stack trace below."
     )
   );
 
   console.error(
     chalk.red(
-      "The package state may be damaged or corrupted. Please reset your working directory to a clean state."
+      "The package state may be damaged or corrupted. Please reset your working directory to a known-good state."
     )
   );
 

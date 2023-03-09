@@ -150,7 +150,9 @@ async function findAzSDKPackageJson(directory: string): Promise<[string, Package
  * @param workingDirectory the directory to resolve the package from
  * @returns the package info for the SDK project that owns the given directory
  */
-export async function resolveProject(workingDirectory: string): Promise<ProjectInfo> {
+export async function resolveProject(
+  workingDirectory: string = process.cwd()
+): Promise<ProjectInfo> {
   if (!fs.existsSync(workingDirectory)) {
     throw new Error(`No such file or directory: ${workingDirectory}`);
   }

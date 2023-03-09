@@ -132,11 +132,11 @@ function printMigrations(migrations: Iterable<Migration>, quiet: boolean): void 
   } else {
     for (const m of migrations) {
       const automation =
-        m.execution && m.validation
+        m.execute && m.validate
           ? "both"
-          : m.execution
+          : m.execute
           ? "execution"
-          : m.validation
+          : m.validate
           ? "validation"
           : "none";
 
@@ -326,7 +326,7 @@ function printMigrationSuspendedWarning(migration: Migration, status: MigrationS
     log.warn(
       "When you are sure that the package has been migrated correctly, run `dev-tool migrate --continue`."
     );
-  } else if (migration.validation) {
+  } else if (migration.validate) {
     // Automated validation failed
     log.warn("The automated validation for this migration failed:", status.reason);
     log.warn(

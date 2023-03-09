@@ -43,7 +43,7 @@ export interface Migration {
    *
    * @param project - the package's ProjectInfo
    */
-  execution?: (project: ProjectInfo) => Promise<void>;
+  execute?: (project: ProjectInfo) => Promise<void>;
   /**
    * An (optional) method that validates this migration. If this function does not throw an error, then the migration is
    * assumed to have been successful.
@@ -52,7 +52,7 @@ export interface Migration {
    *
    * @param project - the package's ProjectInfo
    */
-  validation?: (project: ProjectInfo) => Promise<void>; // TODO: do we need to differentiate "error" vs "failure" return modes?
+  validate?: (project: ProjectInfo) => Promise<void>; // TODO: do we need to differentiate "error" vs "failure" return modes?
 }
 
 let SORTED = true;
@@ -403,10 +403,10 @@ export async function runMigration(
   project: ProjectInfo,
   migration: Migration
 ): Promise<MigrationExitState> {
-  if (migration.execution) {
+  if (migration.execute) {
     // Migration has automation.
     try {
-      await migration.execution(project);
+      await migration.execute(project);
     } catch (e) {
       // Execution failed, need to suspend to allow the user to correct it.
       await suspendMigration(migration, project);
@@ -425,9 +425,9 @@ export async function runMigration(
     };
   }
 
-  if (migration.validation) {
+  if (migration.validate) {
     try {
-      await migration.validation(project);
+      await migration.validate(project);
       // Migration validated
       return {
         kind: "success",
@@ -465,7 +465,7 @@ export async function validateResumedMigration(
   project: ProjectInfo,
   migration: Migration
 ): Promise<MigrationExitState> {
-  if (!migration.validation) {
+  if (!migration.validate) {
     // We assume that if a migration with no `--continue` is resumed, the user has ensured it is done correctly.
     await removeMigrationStateFile();
     return {
@@ -473,7 +473,7 @@ export async function validateResumedMigration(
     };
   } else {
     try {
-      await migration.validation(project);
+      await migration.validate(project);
       await removeMigrationStateFile();
       return {
         kind: "success",
@@ -501,6 +501,14 @@ export async function updateMigrationDate(
   const packageJsonPath = path.join(project.path, "package.json");
 
   const packageJson = JSON.parse((await readFile(packageJsonPath)).toString("utf-8"));
+
+  // Defensively check that the current date in package.json is undefined or older than the new date.
+  if (
+    packageJson[METADATA_KEY]?.migrationDate &&
+    new Date(packageJson[METADATA_KEY].migrationDate) >= migration.date
+  ) {
+    panic(`${project.name} is being migrated to an older version than the current version.`);
+  }
 
   packageJson[METADATA_KEY].migrationDate = migration.date.toISOString();
 

@@ -118,11 +118,19 @@ declare global {
      * The sample configuration for the package.
      *
      * Will be undefined for internal and non-client packages.
+     *
+     * @deprecated use `<package.json>["//metadata"].sampleConfiguration` instead
      */
     [SAMPLE_CONFIGURATION_KEY]?: SampleConfiguration;
   }
 }
 
+/**
+ * Gets the sample configuration for a package.
+ *
+ * @param packageJson - the package.json of the package to get the sample configuration for
+ * @returns the sample configuration for the package
+ */
 export function getSampleConfiguration(packageJson: PackageJson): SampleConfiguration {
   return (
     packageJson[METADATA_KEY].sampleConfiguration ?? packageJson[SAMPLE_CONFIGURATION_KEY] ?? {}
