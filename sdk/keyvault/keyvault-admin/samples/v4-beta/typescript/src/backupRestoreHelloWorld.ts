@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Uses a BackupClient to backup and fully restore an Azure Key Vault using Azure Storage Blob.
+ * @summary Uses a BackupClient to backup and fully restore an Azure Key Vault Managed HSM using Azure Storage Blob.
  */
 
 import { KeyVaultBackupClient } from "@azure/keyvault-admin";
