@@ -71,19 +71,16 @@ export class EventHubSender extends LinkEntity {
   /**
    * The unique lock name per connection that is used to acquire the
    * lock for establishing a sender link by an entity on that connection.
-   * @readonly
    */
   readonly senderLock: string = `sender-${uuid()}`;
   /**
    * The handler function to handle errors that happen on the
    * underlying sender.
-   * @readonly
    */
   private readonly _onAmqpError: OnAmqpEvent;
   /**
    * The handler function to handle "sender_close" event
    * that happens on the underlying sender.
-   * @readonly
    */
   private readonly _onAmqpClose: OnAmqpEvent;
   /**
@@ -123,6 +120,11 @@ export class EventHubSender extends LinkEntity {
    * publishing behavior specific to a partition.
    */
   private _userProvidedPublishingOptions?: PartitionPublishingOptions;
+  /**
+   * Indicates whether the link is in the process of connecting
+   * (establishing) itself. Default value: `false`.
+   */
+  private isConnecting: boolean = false;
 
   /**
    * Creates a new EventHubSender instance.
@@ -133,12 +135,13 @@ export class EventHubSender extends LinkEntity {
     context: ConnectionContext,
     { partitionId, enableIdempotentProducer, partitionPublishingOptions }: EventHubSenderOptions
   ) {
-    super(context, {
-      name: context.config.getSenderAddress(partitionId),
-    });
+    super(
+      context,
+      context.config.getSenderAddress(partitionId),
+      context.config.getSenderAddress(partitionId),
+      context.config.getSenderAudience(partitionId)
+    );
     this.partitionId = partitionId;
-    this.address = context.config.getSenderAddress(partitionId);
-    this.audience = context.config.getSenderAudience(partitionId);
     this._isIdempotentProducer = enableIdempotentProducer;
     this._userProvidedPublishingOptions = partitionPublishingOptions;
 
