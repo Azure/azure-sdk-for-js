@@ -72,7 +72,7 @@ export class WebPubSubProtobufProtocolBase {
         data = messageData.textData;
       } else if (messageData.jsonData) {
         dataType = "json";
-        data = messageData.jsonData;
+        data = JSON.parse(messageData.jsonData);
       } else if (messageData.binaryData) {
         dataType = "binary";
         data = messageData.binaryData.buffer.slice(
@@ -81,7 +81,6 @@ export class WebPubSubProtobufProtocolBase {
         );
       } else if (messageData.protobufData) {
         dataType = "protobuf";
-        // data = google.protobuf.Any.encode(messageData.protobufData).finish();
         data = messageData.protobufData;
       } else {
         return null;
