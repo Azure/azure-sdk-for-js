@@ -118,7 +118,7 @@ function parseAndWrap(
   if (typeof jsonStringOrObject === "string") {
     const o = JSON.parse(jsonStringOrObject);
     if (Array.isArray(o)) {
-      if (o.length == 0) {
+      if (o.length === 0) {
         throw Error("Empty event array.");
       }
       return o[0];
@@ -128,7 +128,7 @@ function parseAndWrap(
   }
 
   if (Array.isArray(jsonStringOrObject)) {
-    if (jsonStringOrObject.length == 0) {
+    if (jsonStringOrObject.length === 0) {
       throw Error("Empty event array.");
     }
     return jsonStringOrObject[0];

@@ -199,7 +199,7 @@ export class CallAutomationClient {
         sourceIdentity: result.sourceIdentity
           ? communicationIdentifierConverter(result.sourceIdentity)
           : undefined,
-        targets: result.targets?.map((target) => communicationIdentifierConverter(target)),
+        targets: result.targets?.map((returnedTarget) => communicationIdentifierConverter(returnedTarget)),
         sourceCallerIdNumber: result.sourceCallerIdNumber
           ? phoneNumberIdentifierConverter(result.sourceCallerIdNumber)
           : undefined,
@@ -280,7 +280,7 @@ export class CallAutomationClient {
       target: communicationIdentifierModelConverter(targetCallInvite.target),
     };
 
-    return await this.callAutomationApiClient.redirectCall(request, options);
+    return this.callAutomationApiClient.redirectCall(request, options);
   }
 
   /**
@@ -298,6 +298,6 @@ export class CallAutomationClient {
       callRejectReason: options.callRejectReason,
     };
 
-    return await this.callAutomationApiClient.rejectCall(request, options);
+    return this.callAutomationApiClient.rejectCall(request, options);
   }
 }

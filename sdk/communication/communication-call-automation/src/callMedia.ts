@@ -73,7 +73,7 @@ export class CallMedia {
 
   /**
    * Play to all participants
-   * 
+   *
    * @param playSource - A PlaySource representing the source to play.
    * @param playOptions - Additional attributes for play.
    */
@@ -112,7 +112,7 @@ export class CallMedia {
 
   /**
    *  Recognize operation.
-   *  @param recognizeOptions Different attributes for recognize.
+   *  @param recognizeOptions - Different attributes for recognize.
    * */
   public async startRecognizing(recognizeOptions: CallMediaRecognizeDtmfOptions): Promise<void> {
     return this.callMediaImpl.recognize(this.callConnectionId, this.createRecognizeRequest(recognizeOptions), {});

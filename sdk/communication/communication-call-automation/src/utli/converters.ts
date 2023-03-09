@@ -24,13 +24,13 @@ import { CallParticipant } from "../models/models";
 function extractKind(
   identifierModel: CommunicationIdentifierModel
 ): CommunicationIdentifierModelKind {
-  if (identifierModel.communicationUser != undefined) {
+  if (identifierModel.communicationUser !== undefined) {
     return KnownCommunicationIdentifierModelKind.CommunicationUser;
   }
-  if (identifierModel.phoneNumber != undefined) {
+  if (identifierModel.phoneNumber !== undefined) {
     return KnownCommunicationIdentifierModelKind.PhoneNumber;
   }
-  if (identifierModel.microsoftTeamsUser != undefined) {
+  if (identifierModel.microsoftTeamsUser !== undefined) {
     return KnownCommunicationIdentifierModelKind.MicrosoftTeamsUser;
   }
   return KnownCommunicationIdentifierModelKind.Unknown;
@@ -40,8 +40,8 @@ export function PhoneNumberIdentifierModelConverter(
   phoneNumberIdentifier: PhoneNumberIdentifier | undefined
 ): PhoneNumberIdentifierModel | undefined {
   if (
-    phoneNumberIdentifier == undefined ||
-    phoneNumberIdentifier.phoneNumber == undefined
+    phoneNumberIdentifier === undefined ||
+    phoneNumberIdentifier.phoneNumber === undefined
   ) {
     return undefined;
   }
@@ -56,8 +56,8 @@ export function phoneNumberIdentifierConverter(
   serializedPhoneNumberIdentifier: SerializedPhoneNumberIdentifier | undefined
 ): PhoneNumberIdentifier | undefined {
   if (
-    serializedPhoneNumberIdentifier == undefined ||
-    serializedPhoneNumberIdentifier?.value == null
+    serializedPhoneNumberIdentifier === undefined ||
+    serializedPhoneNumberIdentifier?.value === null
   ) {
     return undefined;
   }
@@ -73,13 +73,13 @@ export function communicationIdentifierConverter(
 ): CommunicationIdentifier {
   const rawId = identifierModel.rawId;
   const kind =
-    identifierModel.kind != undefined
+    identifierModel.kind !== undefined
       ? identifierModel.kind
       : extractKind(identifierModel);
 
   if (
-    kind == KnownCommunicationIdentifierModelKind.CommunicationUser &&
-    identifierModel.communicationUser != undefined
+    kind === KnownCommunicationIdentifierModelKind.CommunicationUser &&
+    identifierModel.communicationUser !== undefined
   ) {
     const communicationUserIdentifier: CommunicationUserIdentifier = {
       communicationUserId: identifierModel.communicationUser.id,
@@ -88,8 +88,8 @@ export function communicationIdentifierConverter(
   }
 
   if (
-    kind == KnownCommunicationIdentifierModelKind.PhoneNumber &&
-    identifierModel.phoneNumber != undefined
+    kind === KnownCommunicationIdentifierModelKind.PhoneNumber &&
+    identifierModel.phoneNumber !== undefined
   ) {
     const phoneNumberIdentifier: PhoneNumberIdentifier = {
       phoneNumber: identifierModel.phoneNumber.value,
