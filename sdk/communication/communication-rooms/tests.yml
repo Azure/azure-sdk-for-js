@@ -24,4 +24,4 @@ stages:
             - $(communication-livetest-rooms-int)
           MatrixFilters:
             - TestType=^(?!browser).*
-      Clouds: Public,PPE,Int
+      Clouds: Public,Int
