@@ -17,7 +17,7 @@ npm install @azure/communication-call-automation
 
 ### Browser support
 #### JavaScript Bundle
-To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](build_doc).
+To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation][build_doc].
 
 ## Key concepts
 | Name                 | Description                                                                                                                                                                                                                                                                                                                              |
