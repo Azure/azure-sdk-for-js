@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AzureOrbital } from "@azure/arm-orbital";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { AzureOrbital } = require("@azure/arm-orbital");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or updates a spacecraft resource.
@@ -22,10 +20,8 @@ dotenv.config();
  */
 async function createASpacecraft() {
   const subscriptionId =
-    process.env["ORBITAL_SUBSCRIPTION_ID"] ||
-    "c1be1141-a7c9-4aac-9608-3c2e2f1152c3";
-  const resourceGroupName =
-    process.env["ORBITAL_RESOURCE_GROUP"] || "contoso-Rgp";
+    process.env["ORBITAL_SUBSCRIPTION_ID"] || "c1be1141-a7c9-4aac-9608-3c2e2f1152c3";
+  const resourceGroupName = process.env["ORBITAL_RESOURCE_GROUP"] || "contoso-Rgp";
   const spacecraftName = "CONTOSO_SAT";
   const location = "eastus2";
   const titleLine = "CONTOSO_SAT";
@@ -33,19 +29,19 @@ async function createASpacecraft() {
   const tleLine2 = "2 27424  98.2477 108.9546 0000928  92.9194 327.0802 14.57300770 69982";
   const links = [
     {
-      "name": "uplink_lhcp1",
-      "centerFrequencyMHz": 2250.0,
-      "bandwidthMHz": 2.0,
-      "direction": "Uplink",
-      "polarization": "LHCP"
+      name: "uplink_lhcp1",
+      centerFrequencyMHz: 2250.0,
+      bandwidthMHz: 2.0,
+      direction: "Uplink",
+      polarization: "LHCP",
     },
     {
-      "name": "downlink_rhcp1",
-      "centerFrequencyMHz": 8160.0,
-      "bandwidthMHz": 15.0,
-      "direction": "Downlink",
-      "polarization": "RHCP"
-    }
+      name: "downlink_rhcp1",
+      centerFrequencyMHz: 8160.0,
+      bandwidthMHz: 15.0,
+      direction: "Downlink",
+      polarization: "RHCP",
+    },
   ];
   const credential = new DefaultAzureCredential();
   const client = new AzureOrbital(credential, subscriptionId);
