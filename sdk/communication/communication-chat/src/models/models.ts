@@ -108,7 +108,6 @@ export interface ListPageSettings {
   continuationToken?: string;
 }
 
-
 /** An attachment in a chat message. */
 export interface ChatAttachment {
   /** Id of the attachment */
@@ -125,35 +124,10 @@ export interface ChatAttachment {
   previewUrl?: string;
 }
 
-/** Known values of {@link AttachmentType} that the service accepts. */
-export enum KnownAttachmentType {
-  /** TeamsInlineImage */
-  TeamsInlineImage = "teamsInlineImage"
-}
-
 /**
- * Defines values for AttachmentType. \
- * {@link KnownAttachmentType} can be used interchangeably with AttachmentType,
+ * Defines values for AttachmentType.
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **teamsInlineImage**
  */
-export type AttachmentType = string;
-
-/** Known values of {@link ImageSize} that the service accepts. */
-export enum KnownImageSize {
-  /** Original */
-  Original = "original",
-  /** Small */
-  Small = "small"
-}
-
-/**
- * Defines values for ImageSize. \
- * {@link KnownImageSize} can be used interchangeably with ImageSize,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **original** \
- * **small**
- */
-export type ImageSize = string;
+export type AttachmentType = | "TeamsInlineImage";
