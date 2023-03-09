@@ -63,9 +63,7 @@ export class SendTest extends BatchPerfTest<SendTestOptions> {
 
   public async globalCleanup(): Promise<void> {
     await this.producer.close();
-    if (this.parsedOptions.useMockHub.value) {
-      return service.stop();
-    }
+    if (this.parsedOptions.useMockHub.value) return service.stop();
   }
 
   async runBatch(): Promise<number> {

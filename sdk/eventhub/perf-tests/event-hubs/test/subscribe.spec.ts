@@ -124,7 +124,7 @@ async function sendBatch(
     totalEvents += lastEnqueuedSequenceNumber - beginningSequenceNumber;
   }
 
-  if (totalEvents >= numberOfEvents) return;
+  if (totalEvents >= numberOfEvents) return producer.close();
 
   const eventsToAdd = numberOfEvents - totalEvents;
   const batch = await producer.createBatch();
