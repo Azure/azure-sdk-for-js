@@ -20,10 +20,6 @@ npm install @azure/communication-call-automation
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](build_doc).
 
 ## Key concepts
-In order to do Media related actions in the call, such as Play media file, can be done by getting `CallMedia` from `CallConnection`.
-
-In order to do Recording related actions, `CallRecording` can be used. `CallRecording` can be retrieved from `CallAutomationClient`.
-
 | Name                 | Description                                                                                                                                                                                                                                                                                                                              |
 | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | CallAutomationClient | `CallAutomationClient` is the primary interface for developers using this client library. It can be used to initiate calls by `createCall` or `answerCall`.                                                                                                                                                                              |
