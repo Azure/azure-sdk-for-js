@@ -101,6 +101,10 @@ export class EventHubSender extends LinkEntity {
    */
   private _sender?: AwaitableSender;
   /**
+   * The partition ID.
+   */
+  private partitionId?: string;
+  /**
    * Indicates whether the sender is configured for idempotent publishing.
    */
   private _isIdempotentProducer: boolean;
@@ -131,8 +135,8 @@ export class EventHubSender extends LinkEntity {
   ) {
     super(context, {
       name: context.config.getSenderAddress(partitionId),
-      partitionId: partitionId,
     });
+    this.partitionId = partitionId;
     this.address = context.config.getSenderAddress(partitionId);
     this.audience = context.config.getSenderAudience(partitionId);
     this._isIdempotentProducer = enableIdempotentProducer;

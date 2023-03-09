@@ -21,7 +21,7 @@ require("dotenv").config();
 async function createsAStreamingLocatorWithClearStreaming() {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
   const accountName = "contosomedia";
   const streamingLocatorName = "UserCreatedClearStreamingLocator";
   const parameters = {
@@ -48,14 +48,14 @@ async function createsAStreamingLocatorWithClearStreaming() {
 async function createsAStreamingLocatorWithSecureStreaming() {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
   const accountName = "contosomedia";
   const streamingLocatorName = "UserCreatedSecureStreamingLocator";
   const parameters = {
     assetName: "ClimbingMountRainier",
     endTime: new Date("2028-12-31T23:59:59.9999999Z"),
     startTime: new Date("2018-03-01T00:00:00Z"),
-    streamingPolicyName: "secureStreamingPolicy",
+    streamingPolicyName: "UserCreatedSecureStreamingPolicy",
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);
@@ -77,7 +77,7 @@ async function createsAStreamingLocatorWithSecureStreaming() {
 async function createsAStreamingLocatorWithUserDefinedContentKeys() {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
   const accountName = "contosomedia";
   const streamingLocatorName = "UserCreatedSecureStreamingLocatorWithUserDefinedContentKeys";
   const parameters = {

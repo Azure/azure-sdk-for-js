@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { BlobLeaseClient } from "@azure/storage-blob";
-import { SpanStatusCode } from "@azure/core-tracing";
 
 import { Lease, LeaseOperationOptions, LeaseOperationResponse } from "./models";
-import { createSpan } from "./utils/tracing";
+import { tracingClient } from "./utils/tracing";
 
 export class DataLakeLeaseClient {
   public get leaseId(): string {
@@ -22,18 +21,13 @@ export class DataLakeLeaseClient {
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan("DataLakeLeaseClient-acquireLease", options);
-    try {
-      return await this.client.acquireLease(duration, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "DataLakeLeaseClient-acquireLease",
+      options,
+      async (updatedOptions) => {
+        return this.client.acquireLease(duration, updatedOptions);
+      }
+    );
   }
 
   public async changeLease(
@@ -41,50 +35,35 @@ export class DataLakeLeaseClient {
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan("DataLakeLeaseClient-changeLease", options);
-    try {
-      return await this.client.changeLease(proposedLeaseId, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "DataLakeLeaseClient-changeLease",
+      options,
+      async (updatedOptions) => {
+        return this.client.changeLease(proposedLeaseId, updatedOptions);
+      }
+    );
   }
 
   public async releaseLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan("DataLakeLeaseClient-releaseLease", options);
-    try {
-      return await this.client.releaseLease(updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "DataLakeLeaseClient-releaseLease",
+      options,
+      async (updatedOptions) => {
+        return this.client.releaseLease(updatedOptions);
+      }
+    );
   }
 
   public async renewLease(options: LeaseOperationOptions = {}): Promise<Lease> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan("DataLakeLeaseClient-renewLease", options);
-    try {
-      return await this.client.renewLease(updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "DataLakeLeaseClient-renewLease",
+      options,
+      async (updatedOptions) => {
+        return this.client.renewLease(updatedOptions);
+      }
+    );
   }
 
   public async breakLease(
@@ -92,17 +71,12 @@ export class DataLakeLeaseClient {
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan("DataLakeLeaseClient-renewLease", options);
-    try {
-      return await this.client.breakLease(breakPeriod, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "DataLakeLeaseClient-renewLease",
+      options,
+      async (updatedOptions) => {
+        return this.client.breakLease(breakPeriod, updatedOptions);
+      }
+    );
   }
 }
