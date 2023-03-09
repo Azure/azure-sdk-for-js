@@ -217,7 +217,7 @@ const XIAOMI_REGISTRATION = `<?xml version="1.0" encoding="utf-8"?>
 const XIAOMI_TEMPLATE_REGISTRATION = `<?xml version="1.0" encoding="utf-8"?>
 <entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
-        <XiaomiemplateRegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
+        <XiaomiTemplateRegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
             <Tags>myTag,myOtherTag</Tags>
             <XiaomiRegistrationId>{Xiaomi Registration Id}</XiaomiRegistrationId>
             <RegistrationId>{Registration Id}</RegistrationId> 
@@ -413,7 +413,7 @@ describe("parseRegistrationEntry", () => {
       XIAOMI_REGISTRATION
     )) as XiaomiRegistrationDescription;
 
-    assert.equal(registration.kind, "Adm");
+    assert.equal(registration.kind, "Xiaomi");
     assert.equal(registration.registrationId, "{Registration Id}");
     assert.equal(registration.xiaomiRegistrationId, "{Xiaomi Registration Id}");
     assert.deepEqual(registration.tags, ["myTag", "myOtherTag"]);
@@ -424,7 +424,7 @@ describe("parseRegistrationEntry", () => {
       XIAOMI_TEMPLATE_REGISTRATION
     )) as XiaomiTemplateRegistrationDescription;
 
-    assert.equal(registration.kind, "AdmTemplate");
+    assert.equal(registration.kind, "XiaomiTemplate");
     assert.equal(registration.registrationId, "{Registration Id}");
     assert.equal(registration.xiaomiRegistrationId, "{Xiaomi Registration Id}");
     assert.deepEqual(registration.tags, ["myTag", "myOtherTag"]);
