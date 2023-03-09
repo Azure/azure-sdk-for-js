@@ -671,7 +671,6 @@ describe("BatchingReceiver unit tests", () => {
         2,
         "No messages received, nothing drained, should still have enough credits."
       );
-
     });
 
     it("batchingReceiverLite.close() (ie, no error) just shuts down the current operation with no error", async () => {
