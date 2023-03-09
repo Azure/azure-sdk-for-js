@@ -303,6 +303,7 @@ specifiers:
   '@rush-temp/purview-catalog': file:./projects/purview-catalog.tgz
   '@rush-temp/purview-scanning': file:./projects/purview-scanning.tgz
   '@rush-temp/purview-sharing': file:./projects/purview-sharing.tgz
+  '@rush-temp/purview-workflow': file:./projects/purview-workflow.tgz
   '@rush-temp/quantum-jobs': file:./projects/quantum-jobs.tgz
   '@rush-temp/schema-registry': file:./projects/schema-registry.tgz
   '@rush-temp/schema-registry-avro': file:./projects/schema-registry-avro.tgz
@@ -635,6 +636,7 @@ dependencies:
   '@rush-temp/purview-catalog': file:projects/purview-catalog.tgz
   '@rush-temp/purview-scanning': file:projects/purview-scanning.tgz
   '@rush-temp/purview-sharing': file:projects/purview-sharing.tgz
+  '@rush-temp/purview-workflow': file:projects/purview-workflow.tgz
   '@rush-temp/quantum-jobs': file:projects/quantum-jobs.tgz
   '@rush-temp/schema-registry': file:projects/schema-registry.tgz
   '@rush-temp/schema-registry-avro': file:projects/schema-registry-avro.tgz
@@ -19055,7 +19057,7 @@ packages:
     dev: false
 
   file:projects/purview-sharing.tgz:
-    resolution: {integrity: sha512-R7O0pyh0E2f3zNMEHRHtI9+/6Ie9eEJHUENdxPfZrKQHaPiUqeOL3zxfens/Qb5iRukrG/R+Zupeezawa8RxTQ==, tarball: file:projects/purview-sharing.tgz}
+    resolution: {integrity: sha512-IDN5vMJ71ViDEW2jBtz8sGtij7H5bnK3LdlCpiACOQPi8h4/cywdGiQzzJo9NtCUQwNduNh2igwlBrh6wnOqog==, tarball: file:projects/purview-sharing.tgz}
     name: '@rush-temp/purview-sharing'
     version: 0.0.0
     dependencies:
@@ -19092,7 +19094,47 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/purview-workflow.tgz:
+    resolution: {integrity: sha512-ZlwZm9VMnK5sgbLD0++aZa2LrMf0rRsjVzWerThsaFHkaUbJQiFN1rZ2yQ8LCjKN8goPF7WaNL6Zwgy4pF2jCw==, tarball: file:projects/purview-workflow.tgz}
+    name: '@rush-temp/purview-workflow'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.4_@types+node@14.18.37
+      '@types/chai': 4.3.4
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.37
+      autorest: 3.6.3
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.0.3
+      eslint: 8.35.0
+      karma: 6.4.1
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-junit-reporter: 2.0.1_karma@6.4.1
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.1
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 2.1.5
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 15.1.0
+      prettier: 2.8.4
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.5.0
+      typescript: 4.8.4
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
       - supports-color
       - utf-8-validate
     dev: false

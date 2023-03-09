@@ -331,6 +331,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/purview-workflow",
+      "projectFolder": "sdk/purview/purview-workflow-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/ai-document-translator",
       "projectFolder": "sdk/documenttranslator/ai-document-translator-rest",
       "versionPolicyName": "client"
