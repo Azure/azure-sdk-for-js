@@ -403,6 +403,32 @@ export enum RecognizeInputType {
 }
 
 // @public
+export enum RecordingChannel {
+    // (undocumented)
+    Mixed = "mixed",
+    // (undocumented)
+    Unmixed = "unmixed"
+}
+
+// @public
+export enum RecordingContent {
+    // (undocumented)
+    Audio = "audio",
+    // (undocumented)
+    Video = "audioVideo"
+}
+
+// @public
+export enum RecordingFormat {
+    // (undocumented)
+    Mp3 = "mp3",
+    // (undocumented)
+    Mp4 = "mp4",
+    // (undocumented)
+    Wav = "wav"
+}
+
+// @public
 export interface RecordingStateChanged extends RestRecordingStateChanged {
     kind: "RecordingStateChanged";
 }
@@ -415,6 +441,14 @@ export interface RecordingStateResult {
     //
     // (undocumented)
     recordingState?: RecordingState;
+}
+
+// @public
+export enum RecordingStorage {
+    // (undocumented)
+    Acs = "acs",
+    // (undocumented)
+    BlobStorage = "blobStorage"
 }
 
 // @public
@@ -564,18 +598,13 @@ export interface ServerCallLocator {
 
 // @public
 export interface StartRecordingOptions extends OperationOptions {
-    // Warning: (ae-forgotten-export) The symbol "CommunicationIdentifierModel" needs to be exported by the entry point index.d.ts
-    audioChannelParticipantOrdering?: CommunicationIdentifierModel[];
+    audioChannelParticipantOrdering?: CommunicationIdentifier[];
     callLocator: ServerCallLocator | GroupCallLocator;
-    // Warning: (ae-forgotten-export) The symbol "RecordingChannelType" needs to be exported by the entry point index.d.ts
-    recordingChannelType?: RecordingChannelType;
-    // Warning: (ae-forgotten-export) The symbol "RecordingContentType" needs to be exported by the entry point index.d.ts
-    recordingContentType?: RecordingContentType;
-    // Warning: (ae-forgotten-export) The symbol "RecordingFormatType" needs to be exported by the entry point index.d.ts
-    recordingFormatType?: RecordingFormatType;
-    recordingStateCallbackUri?: string;
-    // Warning: (ae-forgotten-export) The symbol "RecordingStorageType" needs to be exported by the entry point index.d.ts
-    recordingStorageType?: RecordingStorageType;
+    recordingChannel?: string;
+    recordingContent?: string;
+    recordingFormat?: string;
+    recordingStateCallbackEndpoint?: string;
+    recordingStorageType?: string;
 }
 
 // @public
