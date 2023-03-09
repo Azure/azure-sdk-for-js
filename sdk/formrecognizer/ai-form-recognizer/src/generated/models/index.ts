@@ -97,7 +97,7 @@ export interface AnalyzeResult {
 /** Content and layout elements extracted from a page from the input. */
 export interface DocumentPage {
   /** Kind of document page. */
-  kind: DocumentPageKind;
+  kind?: DocumentPageKind;
   /** 1-based page number in the input document. */
   pageNumber: number;
   /** The general orientation of the content in clockwise direction, measured in degrees between (-180, 180]. */

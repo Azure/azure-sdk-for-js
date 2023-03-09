@@ -299,7 +299,6 @@ export const DocumentPage: coreClient.CompositeMapper = {
     modelProperties: {
       kind: {
         serializedName: "kind",
-        required: true,
         type: {
           name: "String"
         }

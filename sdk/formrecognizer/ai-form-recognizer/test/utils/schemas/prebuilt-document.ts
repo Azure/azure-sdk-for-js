@@ -4,7 +4,7 @@
 // Model:       prebuilt-document
 // Description: Extract text, layout, entities, and general key-value pairs from documents.
 // API Version: 2023-02-28-preview
-// Created:     Thu Mar 02 2023
+// Created:     Thu Mar 09 2023
 
 import * as fr from "../../../src";
 

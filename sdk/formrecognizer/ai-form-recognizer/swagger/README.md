@@ -77,3 +77,27 @@ directive:
     transform: >
       delete $["x-ms-client-name"];
 ```
+
+### Unset `format: uuid` for Id parameters
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.PathModelId
+    transform: >
+      delete $["format"];
+  - from: swagger-document
+    where: $.parameters.PathOperationId
+    transform: >
+      delete $["format"];
+```
+
+### Mark `kind` optional
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.DocumentPage
+    transform: >
+      $.required = $.required.filter((r) => r !== "kind");
+```

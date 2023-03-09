@@ -216,6 +216,7 @@ export function toDocumentLineFromGenerated(
 export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): DocumentPage {
   return {
     ...generated,
+    kind: generated.kind ?? "document",
     lines: generated.lines?.map((line) => toDocumentLineFromGenerated(line, generated)),
     selectionMarks: generated.selectionMarks?.map((mark) => ({
       ...mark,

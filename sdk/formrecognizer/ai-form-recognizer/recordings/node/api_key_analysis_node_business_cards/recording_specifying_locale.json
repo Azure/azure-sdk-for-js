@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-businessCard:analyze?locale=en-IN\u0026api-version=2022-08-31",
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-businessCard:analyze?locale=en-IN\u0026api-version=2023-02-28-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,111 +10,115 @@
         "Content-Length": "76",
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Linux-5.19.6-200.fc36.x86_64)",
-        "x-ms-client-request-id": "c355d3d7-8d09-40e4-b8f6-6298580ad57a"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.10.3 Node/v18.14.0 OS/(x64-Linux-6.1.12-100.fc36.x86_64)",
+        "x-ms-client-request-id": "7d75d737-9609-4baa-9f0a-8605fdb91c06"
       },
       "RequestBody": {
         "urlSource": "https://storageaccount/testingdata/businessCard.jpg?sastoken"
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "cb193920-3257-45c7-8df0-81bc409dd596",
+        "apim-request-id": "d424a6c3-3d35-4c9d-b026-40d572b4ed1a",
         "Content-Length": "0",
-        "Date": "Thu, 08 Sep 2022 00:30:18 GMT",
-        "Operation-Location": "https://endpoint/formrecognizer/documentModels/prebuilt-businessCard/analyzeResults/cb193920-3257-45c7-8df0-81bc409dd596?api-version=2022-08-31",
+        "Date": "Thu, 09 Mar 2023 20:15:11 GMT",
+        "Operation-Location": "https://endpoint/formrecognizer/documentModels/prebuilt-businessCard/analyzeResults/d424a6c3-3d35-4c9d-b026-40d572b4ed1a?api-version=2023-02-28-preview",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "509"
+        "x-envoy-upstream-service-time": "985",
+        "x-ms-region": "West Europe"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-businessCard/analyzeResults/cb193920-3257-45c7-8df0-81bc409dd596?api-version=2022-08-31",
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-businessCard/analyzeResults/d424a6c3-3d35-4c9d-b026-40d572b4ed1a?api-version=2023-02-28-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Linux-5.19.6-200.fc36.x86_64)",
-        "x-ms-client-request-id": "adbe9eb6-6194-4c21-9dbf-f25adac6ac78"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.10.3 Node/v18.14.0 OS/(x64-Linux-6.1.12-100.fc36.x86_64)",
+        "x-ms-client-request-id": "746a9b25-3a99-49d8-ac9e-bd9951730d18"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "c348b0b5-8baf-4064-bb4d-782bb77003ae",
+        "apim-request-id": "60e43323-4ff5-4ff8-8568-b2b5daa78b0e",
         "Content-Length": "106",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 00:30:18 GMT",
+        "Date": "Thu, 09 Mar 2023 20:15:11 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "14"
+        "x-envoy-upstream-service-time": "24",
+        "x-ms-region": "West Europe"
       },
       "ResponseBody": {
         "status": "running",
-        "createdDateTime": "2022-09-08T00:30:17Z",
-        "lastUpdatedDateTime": "2022-09-08T00:30:17Z"
+        "createdDateTime": "2023-03-09T20:15:11Z",
+        "lastUpdatedDateTime": "2023-03-09T20:15:11Z"
       }
     },
     {
-      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-businessCard/analyzeResults/cb193920-3257-45c7-8df0-81bc409dd596?api-version=2022-08-31",
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-businessCard/analyzeResults/d424a6c3-3d35-4c9d-b026-40d572b4ed1a?api-version=2023-02-28-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Linux-5.19.6-200.fc36.x86_64)",
-        "x-ms-client-request-id": "92c29252-26fd-423d-800e-fe020ce8615b"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.10.3 Node/v18.14.0 OS/(x64-Linux-6.1.12-100.fc36.x86_64)",
+        "x-ms-client-request-id": "de722c38-f406-403d-bdde-a69281842115"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "98643a82-6130-4401-9530-2d20e639105a",
+        "apim-request-id": "f91e5565-37f2-4013-b4f9-96f9626f7ec2",
         "Content-Length": "106",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 00:30:18 GMT",
+        "Date": "Thu, 09 Mar 2023 20:15:11 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "13"
+        "x-envoy-upstream-service-time": "19",
+        "x-ms-region": "West Europe"
       },
       "ResponseBody": {
         "status": "running",
-        "createdDateTime": "2022-09-08T00:30:17Z",
-        "lastUpdatedDateTime": "2022-09-08T00:30:17Z"
+        "createdDateTime": "2023-03-09T20:15:11Z",
+        "lastUpdatedDateTime": "2023-03-09T20:15:11Z"
       }
     },
     {
-      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-businessCard/analyzeResults/cb193920-3257-45c7-8df0-81bc409dd596?api-version=2022-08-31",
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-businessCard/analyzeResults/d424a6c3-3d35-4c9d-b026-40d572b4ed1a?api-version=2023-02-28-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Linux-5.19.6-200.fc36.x86_64)",
-        "x-ms-client-request-id": "413d4de2-4d81-4227-8422-c7bb5e0eb607"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.10.3 Node/v18.14.0 OS/(x64-Linux-6.1.12-100.fc36.x86_64)",
+        "x-ms-client-request-id": "58c2f329-205f-41db-b7eb-a172c05d28c7"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "bb378c72-8f5e-4343-b2d3-468e4c5d73cf",
-        "Content-Length": "10672",
+        "apim-request-id": "c10867f9-76b6-497d-97fe-bfb75c1a16d1",
+        "Content-Length": "9889",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 00:30:23 GMT",
+        "Date": "Thu, 09 Mar 2023 20:15:16 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "28"
+        "x-envoy-upstream-service-time": "32",
+        "x-ms-region": "West Europe"
       },
       "ResponseBody": {
         "status": "succeeded",
-        "createdDateTime": "2022-09-08T00:30:17Z",
-        "lastUpdatedDateTime": "2022-09-08T00:30:21Z",
+        "createdDateTime": "2023-03-09T20:15:11Z",
+        "lastUpdatedDateTime": "2023-03-09T20:15:13Z",
         "analyzeResult": {
-          "apiVersion": "2022-08-31",
+          "apiVersion": "2023-02-28-preview",
           "modelId": "prebuilt-businessCard",
           "stringIndexType": "textElements",
-          "content": "Dr. Avery Smith Senior Researcher Cloud \u0026 Al Department\navery.smith@contoso.com https://www.contoso.com/\nmob: \u002B44 (0) 7911 123456 tel: \u002B44 (0) 20 9876 5432 fax: \u002B44 (0) 20 6789 2345\nContoso 2 Kingdom Street Paddington, London, W2 6BD",
+          "content": "Dr. Avery Smith\nSenior Researcher\nCloud \u0026 Al Department\navery.smith@contoso.com\nhttps://www.contoso.com/\nmob: \u002B44 (0) 7911 123456\ntel: \u002B44 (0) 20 9876 5432\nfax: \u002B44 (0) 20 6789 2345\nContoso\n2 Kingdom Street\nPaddington, London, W2 6BD",
           "pages": [
             {
               "pageNumber": 1,
@@ -992,104 +996,6 @@
               "kind": "document"
             }
           ],
-          "paragraphs": [
-            {
-              "spans": [
-                {
-                  "offset": 0,
-                  "length": 55
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    414,
-                    1156,
-                    1605,
-                    874,
-                    1683,
-                    1202,
-                    492,
-                    1484
-                  ]
-                }
-              ],
-              "content": "Dr. Avery Smith Senior Researcher Cloud \u0026 Al Department"
-            },
-            {
-              "spans": [
-                {
-                  "offset": 56,
-                  "length": 48
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    2096,
-                    932,
-                    2967,
-                    686,
-                    3006,
-                    826,
-                    2135,
-                    1072
-                  ]
-                }
-              ],
-              "content": "avery.smith@contoso.com https://www.contoso.com/"
-            },
-            {
-              "spans": [
-                {
-                  "offset": 105,
-                  "length": 76
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    2240,
-                    1096,
-                    3147,
-                    822,
-                    3218,
-                    1057,
-                    2312,
-                    1331
-                  ]
-                }
-              ],
-              "content": "mob: \u002B44 (0) 7911 123456 tel: \u002B44 (0) 20 9876 5432 fax: \u002B44 (0) 20 6789 2345"
-            },
-            {
-              "spans": [
-                {
-                  "offset": 182,
-                  "length": 51
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    1128,
-                    1904,
-                    2445,
-                    1441,
-                    2602,
-                    1888,
-                    1286,
-                    2351
-                  ]
-                }
-              ],
-              "content": "Contoso 2 Kingdom Street Paddington, London, W2 6BD"
-            }
-          ],
           "styles": [],
           "documents": [
             {
@@ -1115,7 +1021,7 @@
                   "valueArray": [
                     {
                       "type": "address",
-                      "content": "2 Kingdom Street Paddington, London, W2 6BD",
+                      "content": "2 Kingdom Street\nPaddington, London, W2 6BD",
                       "boundingRegions": [
                         {
                           "pageNumber": 1,

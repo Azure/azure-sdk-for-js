@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-businessCard:analyze?api-version=2022-08-31",
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-businessCard:analyze?api-version=2023-02-28-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,111 +10,115 @@
         "Content-Length": "76",
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Linux-5.19.6-200.fc36.x86_64)",
-        "x-ms-client-request-id": "dc87928b-d654-4d54-a891-bfb68f9794aa"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.10.3 Node/v18.14.0 OS/(x64-Linux-6.1.12-100.fc36.x86_64)",
+        "x-ms-client-request-id": "40806646-0c0e-4a7c-8eee-29aa93227234"
       },
       "RequestBody": {
         "urlSource": "https://storageaccount/testingdata/businessCard.png?sastoken"
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "ac7bd7fc-81ca-4e05-aa1d-8e792317c0fb",
+        "apim-request-id": "2ef58dd9-ce35-468a-9988-f0977b0c1aa0",
         "Content-Length": "0",
-        "Date": "Thu, 08 Sep 2022 00:30:11 GMT",
-        "Operation-Location": "https://endpoint/formrecognizer/documentModels/prebuilt-businessCard/analyzeResults/ac7bd7fc-81ca-4e05-aa1d-8e792317c0fb?api-version=2022-08-31",
+        "Date": "Thu, 09 Mar 2023 20:15:05 GMT",
+        "Operation-Location": "https://endpoint/formrecognizer/documentModels/prebuilt-businessCard/analyzeResults/2ef58dd9-ce35-468a-9988-f0977b0c1aa0?api-version=2023-02-28-preview",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "790"
+        "x-envoy-upstream-service-time": "2012",
+        "x-ms-region": "West Europe"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-businessCard/analyzeResults/ac7bd7fc-81ca-4e05-aa1d-8e792317c0fb?api-version=2022-08-31",
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-businessCard/analyzeResults/2ef58dd9-ce35-468a-9988-f0977b0c1aa0?api-version=2023-02-28-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Linux-5.19.6-200.fc36.x86_64)",
-        "x-ms-client-request-id": "6538befc-a405-429b-8a1d-512f18250e75"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.10.3 Node/v18.14.0 OS/(x64-Linux-6.1.12-100.fc36.x86_64)",
+        "x-ms-client-request-id": "f843fd91-5be8-41d5-8c72-3fac52ae60b2"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "dcdc80d1-927f-4277-9f83-e9d36c3e57db",
+        "apim-request-id": "4a83c9c0-4a13-455d-8c79-19f67a45efae",
         "Content-Length": "106",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 00:30:11 GMT",
+        "Date": "Thu, 09 Mar 2023 20:15:05 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "13"
+        "x-envoy-upstream-service-time": "24",
+        "x-ms-region": "West Europe"
       },
       "ResponseBody": {
         "status": "running",
-        "createdDateTime": "2022-09-08T00:30:12Z",
-        "lastUpdatedDateTime": "2022-09-08T00:30:12Z"
+        "createdDateTime": "2023-03-09T20:15:04Z",
+        "lastUpdatedDateTime": "2023-03-09T20:15:04Z"
       }
     },
     {
-      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-businessCard/analyzeResults/ac7bd7fc-81ca-4e05-aa1d-8e792317c0fb?api-version=2022-08-31",
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-businessCard/analyzeResults/2ef58dd9-ce35-468a-9988-f0977b0c1aa0?api-version=2023-02-28-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Linux-5.19.6-200.fc36.x86_64)",
-        "x-ms-client-request-id": "d492ef3f-a1cb-444f-b272-36b14e34f6bf"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.10.3 Node/v18.14.0 OS/(x64-Linux-6.1.12-100.fc36.x86_64)",
+        "x-ms-client-request-id": "94959b08-f734-42d6-9b2f-9bba64841a4b"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "dadea784-17cf-44e1-83fc-4d3ac3f83366",
+        "apim-request-id": "e2e6b06e-e446-461d-81b3-357a4194b248",
         "Content-Length": "106",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 00:30:11 GMT",
+        "Date": "Thu, 09 Mar 2023 20:15:05 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "14"
+        "x-envoy-upstream-service-time": "25",
+        "x-ms-region": "West Europe"
       },
       "ResponseBody": {
         "status": "running",
-        "createdDateTime": "2022-09-08T00:30:12Z",
-        "lastUpdatedDateTime": "2022-09-08T00:30:12Z"
+        "createdDateTime": "2023-03-09T20:15:04Z",
+        "lastUpdatedDateTime": "2023-03-09T20:15:04Z"
       }
     },
     {
-      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-businessCard/analyzeResults/ac7bd7fc-81ca-4e05-aa1d-8e792317c0fb?api-version=2022-08-31",
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-businessCard/analyzeResults/2ef58dd9-ce35-468a-9988-f0977b0c1aa0?api-version=2023-02-28-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Linux-5.19.6-200.fc36.x86_64)",
-        "x-ms-client-request-id": "056745c9-f286-4901-9938-3ffac1a283d6"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.10.3 Node/v18.14.0 OS/(x64-Linux-6.1.12-100.fc36.x86_64)",
+        "x-ms-client-request-id": "984c6a9a-86e7-4c37-a84f-618008fff944"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "4caf9f18-8ef0-4aac-9ee1-c797ae4078a4",
-        "Content-Length": "11162",
+        "apim-request-id": "c81411ca-13df-4554-a416-bb7214e1c7f0",
+        "Content-Length": "10105",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 00:30:16 GMT",
+        "Date": "Thu, 09 Mar 2023 20:15:10 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "30"
+        "x-envoy-upstream-service-time": "36",
+        "x-ms-region": "West Europe"
       },
       "ResponseBody": {
         "status": "succeeded",
-        "createdDateTime": "2022-09-08T00:30:12Z",
-        "lastUpdatedDateTime": "2022-09-08T00:30:15Z",
+        "createdDateTime": "2023-03-09T20:15:04Z",
+        "lastUpdatedDateTime": "2023-03-09T20:15:07Z",
         "analyzeResult": {
-          "apiVersion": "2022-08-31",
+          "apiVersion": "2023-02-28-preview",
           "modelId": "prebuilt-businessCard",
           "stringIndexType": "textElements",
-          "content": "Dr. Avery Smith\nSenior Researcher Cloud \u0026 Al Department\navery.smith@contoso.com https://www.contoso.com/\nmob: \u002B44 (0) 7911 123456 tel: \u002B44 (0) 20 9876 5432 fax: \u002B44 (0) 20 6789 2345\nContoso 2 Kingdom Street Paddington, London, W2 6BD\nC",
+          "content": "Dr. Avery Smith\nSenior Researcher\nCloud \u0026 Al Department\navery.smith@contoso.com\nhttps://www.contoso.com/\nmob: \u002B44 (0) 7911 123456\ntel: \u002B44 (0) 20 9876 5432\nfax: \u002B44 (0) 20 6789 2345\nC\nContoso\n2 Kingdom Street\nPaddington, London, W2 6BD",
           "pages": [
             {
               "pageNumber": 1,
@@ -628,6 +632,24 @@
                   }
                 },
                 {
+                  "content": "C",
+                  "polygon": [
+                    602,
+                    2066,
+                    763,
+                    2024,
+                    865,
+                    2410,
+                    704,
+                    2452
+                  ],
+                  "confidence": 0.634,
+                  "span": {
+                    "offset": 182,
+                    "length": 1
+                  }
+                },
+                {
                   "content": "Contoso",
                   "polygon": [
                     1140,
@@ -641,7 +663,7 @@
                   ],
                   "confidence": 0.996,
                   "span": {
-                    "offset": 182,
+                    "offset": 184,
                     "length": 7
                   }
                 },
@@ -659,7 +681,7 @@
                   ],
                   "confidence": 0.998,
                   "span": {
-                    "offset": 190,
+                    "offset": 192,
                     "length": 1
                   }
                 },
@@ -677,7 +699,7 @@
                   ],
                   "confidence": 0.996,
                   "span": {
-                    "offset": 192,
+                    "offset": 194,
                     "length": 7
                   }
                 },
@@ -695,7 +717,7 @@
                   ],
                   "confidence": 0.997,
                   "span": {
-                    "offset": 200,
+                    "offset": 202,
                     "length": 6
                   }
                 },
@@ -713,7 +735,7 @@
                   ],
                   "confidence": 0.991,
                   "span": {
-                    "offset": 207,
+                    "offset": 209,
                     "length": 11
                   }
                 },
@@ -731,7 +753,7 @@
                   ],
                   "confidence": 0.996,
                   "span": {
-                    "offset": 219,
+                    "offset": 221,
                     "length": 7
                   }
                 },
@@ -749,7 +771,7 @@
                   ],
                   "confidence": 0.998,
                   "span": {
-                    "offset": 227,
+                    "offset": 229,
                     "length": 2
                   }
                 },
@@ -767,26 +789,8 @@
                   ],
                   "confidence": 0.997,
                   "span": {
-                    "offset": 230,
+                    "offset": 232,
                     "length": 3
-                  }
-                },
-                {
-                  "content": "C",
-                  "polygon": [
-                    602,
-                    2066,
-                    763,
-                    2024,
-                    865,
-                    2410,
-                    704,
-                    2452
-                  ],
-                  "confidence": 0.634,
-                  "span": {
-                    "offset": 234,
-                    "length": 1
                   }
                 }
               ],
@@ -944,6 +948,25 @@
                   ]
                 },
                 {
+                  "content": "C",
+                  "polygon": [
+                    590,
+                    2071,
+                    781,
+                    2020,
+                    877,
+                    2407,
+                    685,
+                    2457
+                  ],
+                  "spans": [
+                    {
+                      "offset": 182,
+                      "length": 1
+                    }
+                  ]
+                },
+                {
                   "content": "Contoso",
                   "polygon": [
                     1139,
@@ -957,7 +980,7 @@
                   ],
                   "spans": [
                     {
-                      "offset": 182,
+                      "offset": 184,
                       "length": 7
                     }
                   ]
@@ -976,7 +999,7 @@
                   ],
                   "spans": [
                     {
-                      "offset": 190,
+                      "offset": 192,
                       "length": 16
                     }
                   ]
@@ -995,27 +1018,8 @@
                   ],
                   "spans": [
                     {
-                      "offset": 207,
+                      "offset": 209,
                       "length": 26
-                    }
-                  ]
-                },
-                {
-                  "content": "C",
-                  "polygon": [
-                    590,
-                    2071,
-                    781,
-                    2020,
-                    877,
-                    2407,
-                    685,
-                    2457
-                  ],
-                  "spans": [
-                    {
-                      "offset": 234,
-                      "length": 1
                     }
                   ]
                 }
@@ -1027,152 +1031,6 @@
                 }
               ],
               "kind": "document"
-            }
-          ],
-          "paragraphs": [
-            {
-              "spans": [
-                {
-                  "offset": 0,
-                  "length": 15
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    421,
-                    1155,
-                    1607,
-                    876,
-                    1635,
-                    994,
-                    449,
-                    1273
-                  ]
-                }
-              ],
-              "content": "Dr. Avery Smith"
-            },
-            {
-              "spans": [
-                {
-                  "offset": 16,
-                  "length": 39
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    449,
-                    1312,
-                    1567,
-                    1042,
-                    1608,
-                    1213,
-                    490,
-                    1483
-                  ]
-                }
-              ],
-              "content": "Senior Researcher Cloud \u0026 Al Department"
-            },
-            {
-              "spans": [
-                {
-                  "offset": 56,
-                  "length": 48
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    2102,
-                    932,
-                    2964,
-                    687,
-                    3004,
-                    826,
-                    2141,
-                    1071
-                  ]
-                }
-              ],
-              "content": "avery.smith@contoso.com https://www.contoso.com/"
-            },
-            {
-              "spans": [
-                {
-                  "offset": 105,
-                  "length": 76
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    2240,
-                    1096,
-                    3149,
-                    821,
-                    3220,
-                    1056,
-                    2311,
-                    1331
-                  ]
-                }
-              ],
-              "content": "mob: \u002B44 (0) 7911 123456 tel: \u002B44 (0) 20 9876 5432 fax: \u002B44 (0) 20 6789 2345"
-            },
-            {
-              "spans": [
-                {
-                  "offset": 182,
-                  "length": 51
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    1127,
-                    1904,
-                    2446,
-                    1441,
-                    2603,
-                    1888,
-                    1283,
-                    2351
-                  ]
-                }
-              ],
-              "content": "Contoso 2 Kingdom Street Paddington, London, W2 6BD"
-            },
-            {
-              "spans": [
-                {
-                  "offset": 234,
-                  "length": 1
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    588,
-                    2068,
-                    781,
-                    2020,
-                    878,
-                    2409,
-                    685,
-                    2457
-                  ]
-                }
-              ],
-              "content": "C"
             }
           ],
           "styles": [],
@@ -1200,7 +1058,7 @@
                   "valueArray": [
                     {
                       "type": "address",
-                      "content": "2 Kingdom Street Paddington, London, W2 6BD",
+                      "content": "2 Kingdom Street\nPaddington, London, W2 6BD",
                       "boundingRegions": [
                         {
                           "pageNumber": 1,
@@ -1219,7 +1077,7 @@
                       "confidence": 0.956,
                       "spans": [
                         {
-                          "offset": 190,
+                          "offset": 192,
                           "length": 43
                         }
                       ],
@@ -1259,7 +1117,7 @@
                       "confidence": 0.86,
                       "spans": [
                         {
-                          "offset": 182,
+                          "offset": 184,
                           "length": 7
                         }
                       ]

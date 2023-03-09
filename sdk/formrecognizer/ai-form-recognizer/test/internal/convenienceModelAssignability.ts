@@ -82,7 +82,7 @@ checkAssign<Omit<Document, "boundingRegions">>(generatedDocument);
 checkAssign<
   Omit<
     DocumentPage,
-    "images" | "words" | "selectionMarks" | "lines" | "annotations" | "barcodes" | "formulas"
+    "images" | "words" | "selectionMarks" | "lines" | "annotations" | "barcodes" | "formulas" | "kind"
   >
 >(generatedDocumentPage);
 

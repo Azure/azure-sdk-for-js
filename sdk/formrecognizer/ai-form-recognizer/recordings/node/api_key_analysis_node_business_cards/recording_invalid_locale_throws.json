@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-businessCard:analyze?locale=thisIsNotAValidLocaleString\u0026api-version=2022-08-31",
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-businessCard:analyze?locale=thisIsNotAValidLocaleString\u0026api-version=2023-02-28-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,21 +10,23 @@
         "Content-Length": "76",
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Linux-5.19.6-200.fc36.x86_64)",
-        "x-ms-client-request-id": "6823c0d3-825c-436f-b7b6-7a5cf5ca244f"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.10.3 Node/v18.14.0 OS/(x64-Linux-6.1.12-100.fc36.x86_64)",
+        "x-ms-client-request-id": "858e51d4-eb59-4280-8cfa-bdf40453cbcb"
       },
       "RequestBody": {
         "urlSource": "https://storageaccount/testingdata/businessCard.jpg?sastoken"
       },
       "StatusCode": 400,
       "ResponseHeaders": {
-        "apim-request-id": "6c52676b-8afd-44e3-9666-2d351b6a6c04",
+        "apim-request-id": "0e10b5f2-7932-424d-b4d5-5fe04e24050f",
         "Content-Length": "199",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 00:30:23 GMT",
+        "Date": "Thu, 09 Mar 2023 20:15:18 GMT",
+        "ms-azure-ai-errorcode": "InvalidArgument",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "735"
+        "x-envoy-upstream-service-time": "1034",
+        "x-ms-region": "West Europe"
       },
       "ResponseBody": {
         "error": {

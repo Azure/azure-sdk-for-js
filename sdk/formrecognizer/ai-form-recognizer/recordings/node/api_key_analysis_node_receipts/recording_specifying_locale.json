@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-receipt:analyze?locale=en-IN\u0026api-version=2022-08-31",
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-receipt:analyze?locale=en-IN\u0026api-version=2023-02-28-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,111 +10,115 @@
         "Content-Length": "80",
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Linux-5.19.6-200.fc36.x86_64)",
-        "x-ms-client-request-id": "782f4bd6-236f-4fa9-8342-a35b19edbe39"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.10.3 Node/v18.14.0 OS/(x64-Linux-6.1.12-100.fc36.x86_64)",
+        "x-ms-client-request-id": "aeb0668b-5e2d-41b7-bf74-98ef0ca83381"
       },
       "RequestBody": {
         "urlSource": "https://storageaccount/testingdata/contoso-allinone.jpg?sastoken"
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "a8f0d90d-f579-458d-832d-aec8d14553a8",
+        "apim-request-id": "f51ccc30-1d87-469c-9975-004bc5597d29",
         "Content-Length": "0",
-        "Date": "Thu, 08 Sep 2022 00:29:58 GMT",
-        "Operation-Location": "https://endpoint/formrecognizer/documentModels/prebuilt-receipt/analyzeResults/a8f0d90d-f579-458d-832d-aec8d14553a8?api-version=2022-08-31",
+        "Date": "Thu, 09 Mar 2023 20:14:50 GMT",
+        "Operation-Location": "https://endpoint/formrecognizer/documentModels/prebuilt-receipt/analyzeResults/f51ccc30-1d87-469c-9975-004bc5597d29?api-version=2023-02-28-preview",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "310"
+        "x-envoy-upstream-service-time": "439",
+        "x-ms-region": "West Europe"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-receipt/analyzeResults/a8f0d90d-f579-458d-832d-aec8d14553a8?api-version=2022-08-31",
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-receipt/analyzeResults/f51ccc30-1d87-469c-9975-004bc5597d29?api-version=2023-02-28-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Linux-5.19.6-200.fc36.x86_64)",
-        "x-ms-client-request-id": "589e7d99-309b-4ab0-b534-694d022e2775"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.10.3 Node/v18.14.0 OS/(x64-Linux-6.1.12-100.fc36.x86_64)",
+        "x-ms-client-request-id": "b525f52e-3cfb-4c74-95a1-24c37d3722e7"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "de52809f-d142-4726-8681-e39790be4361",
+        "apim-request-id": "290ae7b7-f949-4fe1-8ad1-0bd54bde17e2",
         "Content-Length": "106",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 00:29:58 GMT",
+        "Date": "Thu, 09 Mar 2023 20:14:50 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "16"
+        "x-envoy-upstream-service-time": "19",
+        "x-ms-region": "West Europe"
       },
       "ResponseBody": {
         "status": "running",
-        "createdDateTime": "2022-09-08T00:29:59Z",
-        "lastUpdatedDateTime": "2022-09-08T00:29:59Z"
+        "createdDateTime": "2023-03-09T20:14:50Z",
+        "lastUpdatedDateTime": "2023-03-09T20:14:50Z"
       }
     },
     {
-      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-receipt/analyzeResults/a8f0d90d-f579-458d-832d-aec8d14553a8?api-version=2022-08-31",
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-receipt/analyzeResults/f51ccc30-1d87-469c-9975-004bc5597d29?api-version=2023-02-28-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Linux-5.19.6-200.fc36.x86_64)",
-        "x-ms-client-request-id": "e281f74e-ff50-4101-9781-2ca1a5494713"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.10.3 Node/v18.14.0 OS/(x64-Linux-6.1.12-100.fc36.x86_64)",
+        "x-ms-client-request-id": "1d901bcc-e12c-4cef-95d8-43909f12cddc"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "2b23c66c-0715-4a51-9a22-90c3dabecca4",
+        "apim-request-id": "b1046c5f-7be3-4c63-b628-3bdcb57fe85c",
         "Content-Length": "106",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 00:29:58 GMT",
+        "Date": "Thu, 09 Mar 2023 20:14:50 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "14"
+        "x-envoy-upstream-service-time": "32",
+        "x-ms-region": "West Europe"
       },
       "ResponseBody": {
         "status": "running",
-        "createdDateTime": "2022-09-08T00:29:59Z",
-        "lastUpdatedDateTime": "2022-09-08T00:29:59Z"
+        "createdDateTime": "2023-03-09T20:14:50Z",
+        "lastUpdatedDateTime": "2023-03-09T20:14:50Z"
       }
     },
     {
-      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-receipt/analyzeResults/a8f0d90d-f579-458d-832d-aec8d14553a8?api-version=2022-08-31",
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-receipt/analyzeResults/f51ccc30-1d87-469c-9975-004bc5597d29?api-version=2023-02-28-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Linux-5.19.6-200.fc36.x86_64)",
-        "x-ms-client-request-id": "d8d1117d-fc2e-48bb-9b69-9fccc017c4c5"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.10.3 Node/v18.14.0 OS/(x64-Linux-6.1.12-100.fc36.x86_64)",
+        "x-ms-client-request-id": "60437a5e-c7c9-45ac-ad05-f8445479e2f6"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "c605810a-df04-4b61-9baf-03ec0f8ad957",
-        "Content-Length": "15521",
+        "apim-request-id": "4b0e91fc-2816-4ce9-bc1f-907206252058",
+        "Content-Length": "12248",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 00:30:03 GMT",
+        "Date": "Thu, 09 Mar 2023 20:14:56 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "29"
+        "x-envoy-upstream-service-time": "39",
+        "x-ms-region": "West Europe"
       },
       "ResponseBody": {
         "status": "succeeded",
-        "createdDateTime": "2022-09-08T00:29:59Z",
-        "lastUpdatedDateTime": "2022-09-08T00:30:02Z",
+        "createdDateTime": "2023-03-09T20:14:50Z",
+        "lastUpdatedDateTime": "2023-03-09T20:14:52Z",
         "analyzeResult": {
-          "apiVersion": "2022-08-31",
+          "apiVersion": "2023-02-28-preview",
           "modelId": "prebuilt-receipt",
           "stringIndexType": "textElements",
-          "content": "Contoso\nContoso 123 Main Street Redmond, WA 98052\n987-654-3210\n6/10/2019 13:59 Sales Associate: Paul\n-\n1 Cappuccino\n1 BACON \u0026 EGGS\n$2.20\nSunny-side-up\n$9.5\n-\n-\n--\nSub-Total\n-\n$ 11.70\nTax\n1.17\nTip\nTotal\n$ 1.63 $14,50\n-",
+          "content": "Contoso\nContoso\n123 Main Street\nRedmond, WA 98052\n987-654-3210\n6/10/2019 13:59\nSales Associate: Paul\n-\n-\n1 Cappuccino\n$2.20\n1 BACON \u0026 EGGS\nSunny-side-up\n$9.5\n--\n-\n-\n-\nSub-Total\n$ 11.70\nTax\n1.17\nTip\n$ 1.63\nTotal\n$14,50",
           "pages": [
             {
               "pageNumber": 1,
@@ -123,24 +127,6 @@
               "height": 3000,
               "unit": "pixel",
               "words": [
-                {
-                  "content": "Contoso",
-                  "polygon": [
-                    634,
-                    513,
-                    1059,
-                    467,
-                    1074,
-                    555,
-                    638,
-                    601
-                  ],
-                  "confidence": 0.996,
-                  "span": {
-                    "offset": 0,
-                    "length": 7
-                  }
-                },
                 {
                   "content": "Contoso",
                   "polygon": [
@@ -154,6 +140,24 @@
                     638
                   ],
                   "confidence": 0.991,
+                  "span": {
+                    "offset": 0,
+                    "length": 7
+                  }
+                },
+                {
+                  "content": "Contoso",
+                  "polygon": [
+                    634,
+                    513,
+                    1059,
+                    467,
+                    1074,
+                    555,
+                    638,
+                    601
+                  ],
+                  "confidence": 0.996,
                   "span": {
                     "offset": 8,
                     "length": 7
@@ -394,6 +398,24 @@
                   }
                 },
                 {
+                  "content": "-",
+                  "polygon": [
+                    1195,
+                    1502,
+                    1202,
+                    1501,
+                    1203,
+                    1512,
+                    1196,
+                    1513
+                  ],
+                  "confidence": 0.64,
+                  "span": {
+                    "offset": 103,
+                    "length": 1
+                  }
+                },
+                {
                   "content": "1",
                   "polygon": [
                     243,
@@ -407,7 +429,7 @@
                   ],
                   "confidence": 0.982,
                   "span": {
-                    "offset": 103,
+                    "offset": 105,
                     "length": 1
                   }
                 },
@@ -425,8 +447,26 @@
                   ],
                   "confidence": 0.946,
                   "span": {
-                    "offset": 105,
+                    "offset": 107,
                     "length": 10
+                  }
+                },
+                {
+                  "content": "$2.20",
+                  "polygon": [
+                    1110,
+                    1581,
+                    1262,
+                    1571,
+                    1267,
+                    1651,
+                    1113,
+                    1661
+                  ],
+                  "confidence": 0.994,
+                  "span": {
+                    "offset": 118,
+                    "length": 5
                   }
                 },
                 {
@@ -443,7 +483,7 @@
                   ],
                   "confidence": 0.995,
                   "span": {
-                    "offset": 116,
+                    "offset": 124,
                     "length": 1
                   }
                 },
@@ -461,7 +501,7 @@
                   ],
                   "confidence": 0.997,
                   "span": {
-                    "offset": 118,
+                    "offset": 126,
                     "length": 5
                   }
                 },
@@ -479,7 +519,7 @@
                   ],
                   "confidence": 0.997,
                   "span": {
-                    "offset": 124,
+                    "offset": 132,
                     "length": 1
                   }
                 },
@@ -497,26 +537,8 @@
                   ],
                   "confidence": 0.99,
                   "span": {
-                    "offset": 126,
+                    "offset": 134,
                     "length": 4
-                  }
-                },
-                {
-                  "content": "$2.20",
-                  "polygon": [
-                    1110,
-                    1581,
-                    1262,
-                    1571,
-                    1267,
-                    1651,
-                    1113,
-                    1661
-                  ],
-                  "confidence": 0.994,
-                  "span": {
-                    "offset": 131,
-                    "length": 5
                   }
                 },
                 {
@@ -533,7 +555,7 @@
                   ],
                   "confidence": 0.992,
                   "span": {
-                    "offset": 137,
+                    "offset": 139,
                     "length": 13
                   }
                 },
@@ -551,8 +573,26 @@
                   ],
                   "confidence": 0.988,
                   "span": {
-                    "offset": 151,
+                    "offset": 153,
                     "length": 4
+                  }
+                },
+                {
+                  "content": "--",
+                  "polygon": [
+                    255,
+                    2144,
+                    299,
+                    2144,
+                    298,
+                    2158,
+                    255,
+                    2159
+                  ],
+                  "confidence": 0.813,
+                  "span": {
+                    "offset": 158,
+                    "length": 2
                   }
                 },
                 {
@@ -569,7 +609,25 @@
                   ],
                   "confidence": 0.656,
                   "span": {
-                    "offset": 156,
+                    "offset": 161,
+                    "length": 1
+                  }
+                },
+                {
+                  "content": "-",
+                  "polygon": [
+                    1267,
+                    2129,
+                    1275,
+                    2129,
+                    1275,
+                    2142,
+                    1267,
+                    2142
+                  ],
+                  "confidence": 0.756,
+                  "span": {
+                    "offset": 163,
                     "length": 1
                   }
                 },
@@ -587,26 +645,8 @@
                   ],
                   "confidence": 0.881,
                   "span": {
-                    "offset": 158,
+                    "offset": 165,
                     "length": 1
-                  }
-                },
-                {
-                  "content": "--",
-                  "polygon": [
-                    255,
-                    2144,
-                    299,
-                    2144,
-                    298,
-                    2158,
-                    255,
-                    2159
-                  ],
-                  "confidence": 0.813,
-                  "span": {
-                    "offset": 160,
-                    "length": 2
                   }
                 },
                 {
@@ -623,26 +663,8 @@
                   ],
                   "confidence": 0.971,
                   "span": {
-                    "offset": 163,
+                    "offset": 167,
                     "length": 9
-                  }
-                },
-                {
-                  "content": "-",
-                  "polygon": [
-                    1267,
-                    2129,
-                    1275,
-                    2129,
-                    1275,
-                    2142,
-                    1267,
-                    2142
-                  ],
-                  "confidence": 0.756,
-                  "span": {
-                    "offset": 173,
-                    "length": 1
                   }
                 },
                 {
@@ -659,7 +681,7 @@
                   ],
                   "confidence": 0.99,
                   "span": {
-                    "offset": 175,
+                    "offset": 177,
                     "length": 1
                   }
                 },
@@ -677,7 +699,7 @@
                   ],
                   "confidence": 0.993,
                   "span": {
-                    "offset": 177,
+                    "offset": 179,
                     "length": 5
                   }
                 },
@@ -695,7 +717,7 @@
                   ],
                   "confidence": 0.993,
                   "span": {
-                    "offset": 183,
+                    "offset": 185,
                     "length": 3
                   }
                 },
@@ -713,7 +735,7 @@
                   ],
                   "confidence": 0.987,
                   "span": {
-                    "offset": 187,
+                    "offset": 189,
                     "length": 4
                   }
                 },
@@ -731,26 +753,8 @@
                   ],
                   "confidence": 0.997,
                   "span": {
-                    "offset": 192,
+                    "offset": 194,
                     "length": 3
-                  }
-                },
-                {
-                  "content": "Total",
-                  "polygon": [
-                    434,
-                    2652,
-                    603,
-                    2642,
-                    609,
-                    2736,
-                    438,
-                    2747
-                  ],
-                  "confidence": 0.966,
-                  "span": {
-                    "offset": 196,
-                    "length": 5
                   }
                 },
                 {
@@ -767,7 +771,7 @@
                   ],
                   "confidence": 0.992,
                   "span": {
-                    "offset": 202,
+                    "offset": 198,
                     "length": 1
                   }
                 },
@@ -785,8 +789,26 @@
                   ],
                   "confidence": 0.7,
                   "span": {
-                    "offset": 204,
+                    "offset": 200,
                     "length": 4
+                  }
+                },
+                {
+                  "content": "Total",
+                  "polygon": [
+                    434,
+                    2652,
+                    603,
+                    2642,
+                    609,
+                    2736,
+                    438,
+                    2747
+                  ],
+                  "confidence": 0.966,
+                  "span": {
+                    "offset": 205,
+                    "length": 5
                   }
                 },
                 {
@@ -803,49 +825,12 @@
                   ],
                   "confidence": 0.744,
                   "span": {
-                    "offset": 209,
+                    "offset": 211,
                     "length": 6
-                  }
-                },
-                {
-                  "content": "-",
-                  "polygon": [
-                    1195,
-                    1502,
-                    1202,
-                    1501,
-                    1203,
-                    1512,
-                    1196,
-                    1513
-                  ],
-                  "confidence": 0.64,
-                  "span": {
-                    "offset": 216,
-                    "length": 1
                   }
                 }
               ],
               "lines": [
-                {
-                  "content": "Contoso",
-                  "polygon": [
-                    633,
-                    513,
-                    1090,
-                    463,
-                    1101,
-                    559,
-                    638,
-                    601
-                  ],
-                  "spans": [
-                    {
-                      "offset": 0,
-                      "length": 7
-                    }
-                  ]
-                },
                 {
                   "content": "Contoso",
                   "polygon": [
@@ -857,6 +842,25 @@
                     687,
                     289,
                     636
+                  ],
+                  "spans": [
+                    {
+                      "offset": 0,
+                      "length": 7
+                    }
+                  ]
+                },
+                {
+                  "content": "Contoso",
+                  "polygon": [
+                    633,
+                    513,
+                    1090,
+                    463,
+                    1101,
+                    559,
+                    638,
+                    601
                   ],
                   "spans": [
                     {
@@ -980,6 +984,25 @@
                   ]
                 },
                 {
+                  "content": "-",
+                  "polygon": [
+                    1192,
+                    1502,
+                    1222,
+                    1500,
+                    1222,
+                    1510,
+                    1193,
+                    1513
+                  ],
+                  "spans": [
+                    {
+                      "offset": 103,
+                      "length": 1
+                    }
+                  ]
+                },
+                {
                   "content": "1 Cappuccino",
                   "polygon": [
                     239,
@@ -993,27 +1016,8 @@
                   ],
                   "spans": [
                     {
-                      "offset": 103,
+                      "offset": 105,
                       "length": 12
-                    }
-                  ]
-                },
-                {
-                  "content": "1 BACON \u0026 EGGS",
-                  "polygon": [
-                    229,
-                    1832,
-                    740,
-                    1832,
-                    740,
-                    1925,
-                    229,
-                    1925
-                  ],
-                  "spans": [
-                    {
-                      "offset": 116,
-                      "length": 14
                     }
                   ]
                 },
@@ -1031,8 +1035,27 @@
                   ],
                   "spans": [
                     {
-                      "offset": 131,
+                      "offset": 118,
                       "length": 5
+                    }
+                  ]
+                },
+                {
+                  "content": "1 BACON \u0026 EGGS",
+                  "polygon": [
+                    229,
+                    1832,
+                    740,
+                    1832,
+                    740,
+                    1925,
+                    229,
+                    1925
+                  ],
+                  "spans": [
+                    {
+                      "offset": 124,
+                      "length": 14
                     }
                   ]
                 },
@@ -1050,7 +1073,7 @@
                   ],
                   "spans": [
                     {
-                      "offset": 137,
+                      "offset": 139,
                       "length": 13
                     }
                   ]
@@ -1069,8 +1092,27 @@
                   ],
                   "spans": [
                     {
-                      "offset": 151,
+                      "offset": 153,
                       "length": 4
+                    }
+                  ]
+                },
+                {
+                  "content": "--",
+                  "polygon": [
+                    254,
+                    2144,
+                    320,
+                    2143,
+                    320,
+                    2157,
+                    254,
+                    2159
+                  ],
+                  "spans": [
+                    {
+                      "offset": 158,
+                      "length": 2
                     }
                   ]
                 },
@@ -1088,7 +1130,26 @@
                   ],
                   "spans": [
                     {
-                      "offset": 156,
+                      "offset": 161,
+                      "length": 1
+                    }
+                  ]
+                },
+                {
+                  "content": "-",
+                  "polygon": [
+                    1258,
+                    2129,
+                    1288,
+                    2129,
+                    1287,
+                    2142,
+                    1258,
+                    2142
+                  ],
+                  "spans": [
+                    {
+                      "offset": 163,
                       "length": 1
                     }
                   ]
@@ -1107,27 +1168,8 @@
                   ],
                   "spans": [
                     {
-                      "offset": 158,
+                      "offset": 165,
                       "length": 1
-                    }
-                  ]
-                },
-                {
-                  "content": "--",
-                  "polygon": [
-                    254,
-                    2144,
-                    320,
-                    2143,
-                    320,
-                    2157,
-                    254,
-                    2159
-                  ],
-                  "spans": [
-                    {
-                      "offset": 160,
-                      "length": 2
                     }
                   ]
                 },
@@ -1145,27 +1187,8 @@
                   ],
                   "spans": [
                     {
-                      "offset": 163,
+                      "offset": 167,
                       "length": 9
-                    }
-                  ]
-                },
-                {
-                  "content": "-",
-                  "polygon": [
-                    1258,
-                    2129,
-                    1288,
-                    2129,
-                    1287,
-                    2142,
-                    1258,
-                    2142
-                  ],
-                  "spans": [
-                    {
-                      "offset": 173,
-                      "length": 1
                     }
                   ]
                 },
@@ -1183,7 +1206,7 @@
                   ],
                   "spans": [
                     {
-                      "offset": 175,
+                      "offset": 177,
                       "length": 7
                     }
                   ]
@@ -1202,7 +1225,7 @@
                   ],
                   "spans": [
                     {
-                      "offset": 183,
+                      "offset": 185,
                       "length": 3
                     }
                   ]
@@ -1221,7 +1244,7 @@
                   ],
                   "spans": [
                     {
-                      "offset": 187,
+                      "offset": 189,
                       "length": 4
                     }
                   ]
@@ -1240,27 +1263,8 @@
                   ],
                   "spans": [
                     {
-                      "offset": 192,
+                      "offset": 194,
                       "length": 3
-                    }
-                  ]
-                },
-                {
-                  "content": "Total",
-                  "polygon": [
-                    434,
-                    2654,
-                    605,
-                    2642,
-                    610,
-                    2736,
-                    438,
-                    2746
-                  ],
-                  "spans": [
-                    {
-                      "offset": 196,
-                      "length": 5
                     }
                   ]
                 },
@@ -1278,8 +1282,27 @@
                   ],
                   "spans": [
                     {
-                      "offset": 202,
+                      "offset": 198,
                       "length": 6
+                    }
+                  ]
+                },
+                {
+                  "content": "Total",
+                  "polygon": [
+                    434,
+                    2654,
+                    605,
+                    2642,
+                    610,
+                    2736,
+                    438,
+                    2746
+                  ],
+                  "spans": [
+                    {
+                      "offset": 205,
+                      "length": 5
                     }
                   ]
                 },
@@ -1297,27 +1320,8 @@
                   ],
                   "spans": [
                     {
-                      "offset": 209,
+                      "offset": 211,
                       "length": 6
-                    }
-                  ]
-                },
-                {
-                  "content": "-",
-                  "polygon": [
-                    1192,
-                    1502,
-                    1222,
-                    1500,
-                    1222,
-                    1510,
-                    1193,
-                    1513
-                  ],
-                  "spans": [
-                    {
-                      "offset": 216,
-                      "length": 1
                     }
                   ]
                 }
@@ -1331,542 +1335,12 @@
               "kind": "document"
             }
           ],
-          "paragraphs": [
-            {
-              "spans": [
-                {
-                  "offset": 0,
-                  "length": 7
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    629,
-                    505,
-                    1092,
-                    463,
-                    1101,
-                    559,
-                    638,
-                    601
-                  ]
-                }
-              ],
-              "content": "Contoso"
-            },
-            {
-              "spans": [
-                {
-                  "offset": 8,
-                  "length": 41
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    296,
-                    570,
-                    846,
-                    627,
-                    816,
-                    919,
-                    266,
-                    862
-                  ]
-                }
-              ],
-              "content": "Contoso 123 Main Street Redmond, WA 98052"
-            },
-            {
-              "spans": [
-                {
-                  "offset": 50,
-                  "length": 12
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    275,
-                    1002,
-                    656,
-                    1051,
-                    646,
-                    1125,
-                    265,
-                    1076
-                  ]
-                }
-              ],
-              "content": "987-654-3210"
-            },
-            {
-              "spans": [
-                {
-                  "offset": 63,
-                  "length": 37
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    256,
-                    1226,
-                    865,
-                    1247,
-                    858,
-                    1448,
-                    249,
-                    1427
-                  ]
-                }
-              ],
-              "content": "6/10/2019 13:59 Sales Associate: Paul"
-            },
-            {
-              "spans": [
-                {
-                  "offset": 101,
-                  "length": 1
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    252,
-                    1499,
-                    279,
-                    1501,
-                    278,
-                    1515,
-                    251,
-                    1513
-                  ]
-                }
-              ],
-              "content": "-"
-            },
-            {
-              "spans": [
-                {
-                  "offset": 103,
-                  "length": 12
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    238,
-                    1582,
-                    660,
-                    1597,
-                    657,
-                    1688,
-                    235,
-                    1673
-                  ]
-                }
-              ],
-              "content": "1 Cappuccino"
-            },
-            {
-              "spans": [
-                {
-                  "offset": 116,
-                  "length": 14
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    229,
-                    1832,
-                    740,
-                    1832,
-                    740,
-                    1925,
-                    229,
-                    1925
-                  ]
-                }
-              ],
-              "content": "1 BACON \u0026 EGGS"
-            },
-            {
-              "spans": [
-                {
-                  "offset": 131,
-                  "length": 5
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    1108,
-                    1581,
-                    1267,
-                    1571,
-                    1272,
-                    1651,
-                    1113,
-                    1661
-                  ]
-                }
-              ],
-              "content": "$2.20"
-            },
-            {
-              "spans": [
-                {
-                  "offset": 137,
-                  "length": 13
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    346,
-                    1972,
-                    750,
-                    1972,
-                    750,
-                    2062,
-                    346,
-                    2062
-                  ]
-                }
-              ],
-              "content": "Sunny-side-up"
-            },
-            {
-              "spans": [
-                {
-                  "offset": 151,
-                  "length": 4
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    1132,
-                    1951,
-                    1265,
-                    1954,
-                    1263,
-                    2046,
-                    1130,
-                    2043
-                  ]
-                }
-              ],
-              "content": "$9.5"
-            },
-            {
-              "spans": [
-                {
-                  "offset": 156,
-                  "length": 1
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    616,
-                    2135,
-                    643,
-                    2134,
-                    643,
-                    2146,
-                    616,
-                    2147
-                  ]
-                }
-              ],
-              "content": "-"
-            },
-            {
-              "spans": [
-                {
-                  "offset": 158,
-                  "length": 1
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    222,
-                    2146,
-                    248,
-                    2146,
-                    248,
-                    2158,
-                    222,
-                    2158
-                  ]
-                }
-              ],
-              "content": "-"
-            },
-            {
-              "spans": [
-                {
-                  "offset": 160,
-                  "length": 2
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    254,
-                    2144,
-                    320,
-                    2143,
-                    320,
-                    2158,
-                    254,
-                    2159
-                  ]
-                }
-              ],
-              "content": "--"
-            },
-            {
-              "spans": [
-                {
-                  "offset": 163,
-                  "length": 9
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    435,
-                    2231,
-                    765,
-                    2218,
-                    769,
-                    2313,
-                    439,
-                    2326
-                  ]
-                }
-              ],
-              "content": "Sub-Total"
-            },
-            {
-              "spans": [
-                {
-                  "offset": 173,
-                  "length": 1
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    1258,
-                    2129,
-                    1288,
-                    2129,
-                    1288,
-                    2142,
-                    1258,
-                    2142
-                  ]
-                }
-              ],
-              "content": "-"
-            },
-            {
-              "spans": [
-                {
-                  "offset": 175,
-                  "length": 7
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    1083,
-                    2222,
-                    1304,
-                    2221,
-                    1304,
-                    2313,
-                    1083,
-                    2314
-                  ]
-                }
-              ],
-              "content": "$ 11.70"
-            },
-            {
-              "spans": [
-                {
-                  "offset": 183,
-                  "length": 3
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    438,
-                    2366,
-                    563,
-                    2365,
-                    564,
-                    2458,
-                    439,
-                    2459
-                  ]
-                }
-              ],
-              "content": "Tax"
-            },
-            {
-              "spans": [
-                {
-                  "offset": 187,
-                  "length": 4
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    1186,
-                    2358,
-                    1303,
-                    2361,
-                    1301,
-                    2456,
-                    1184,
-                    2453
-                  ]
-                }
-              ],
-              "content": "1.17"
-            },
-            {
-              "spans": [
-                {
-                  "offset": 192,
-                  "length": 3
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    443,
-                    2499,
-                    536,
-                    2499,
-                    536,
-                    2609,
-                    443,
-                    2609
-                  ]
-                }
-              ],
-              "content": "Tip"
-            },
-            {
-              "spans": [
-                {
-                  "offset": 196,
-                  "length": 5
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    433,
-                    2652,
-                    605,
-                    2642,
-                    610,
-                    2736,
-                    438,
-                    2746
-                  ]
-                }
-              ],
-              "content": "Total"
-            },
-            {
-              "spans": [
-                {
-                  "offset": 202,
-                  "length": 13
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    1029,
-                    2469,
-                    1397,
-                    2493,
-                    1379,
-                    2763,
-                    1011,
-                    2739
-                  ]
-                }
-              ],
-              "content": "$ 1.63 $14,50"
-            },
-            {
-              "spans": [
-                {
-                  "offset": 216,
-                  "length": 1
-                }
-              ],
-              "boundingRegions": [
-                {
-                  "pageNumber": 1,
-                  "polygon": [
-                    1192,
-                    1502,
-                    1222,
-                    1500,
-                    1223,
-                    1511,
-                    1193,
-                    1513
-                  ]
-                }
-              ],
-              "content": "-"
-            }
-          ],
           "styles": [
             {
               "confidence": 0.9,
               "spans": [
                 {
-                  "offset": 202,
+                  "offset": 198,
                   "length": 6
                 }
               ],
@@ -1876,7 +1350,7 @@
               "confidence": 0.95,
               "spans": [
                 {
-                  "offset": 209,
+                  "offset": 211,
                   "length": 6
                 }
               ],
@@ -1927,10 +1401,10 @@
                               ]
                             }
                           ],
-                          "confidence": 0.969,
+                          "confidence": 0.988,
                           "spans": [
                             {
-                              "offset": 105,
+                              "offset": 107,
                               "length": 10
                             }
                           ]
@@ -1954,10 +1428,10 @@
                               ]
                             }
                           ],
-                          "confidence": 0.951,
+                          "confidence": 0.99,
                           "spans": [
                             {
-                              "offset": 103,
+                              "offset": 105,
                               "length": 1
                             }
                           ]
@@ -1981,10 +1455,10 @@
                               ]
                             }
                           ],
-                          "confidence": 0.968,
+                          "confidence": 0.99,
                           "spans": [
                             {
-                              "offset": 131,
+                              "offset": 118,
                               "length": 5
                             }
                           ]
@@ -2006,15 +1480,11 @@
                           ]
                         }
                       ],
-                      "confidence": 0.729,
+                      "confidence": 0.974,
                       "spans": [
                         {
-                          "offset": 103,
-                          "length": 12
-                        },
-                        {
-                          "offset": 131,
-                          "length": 5
+                          "offset": 105,
+                          "length": 18
                         }
                       ]
                     },
@@ -2040,10 +1510,10 @@
                               ]
                             }
                           ],
-                          "confidence": 0.954,
+                          "confidence": 0.989,
                           "spans": [
                             {
-                              "offset": 118,
+                              "offset": 126,
                               "length": 12
                             }
                           ]
@@ -2067,10 +1537,10 @@
                               ]
                             }
                           ],
-                          "confidence": 0.955,
+                          "confidence": 0.99,
                           "spans": [
                             {
-                              "offset": 116,
+                              "offset": 124,
                               "length": 1
                             }
                           ]
@@ -2094,10 +1564,10 @@
                               ]
                             }
                           ],
-                          "confidence": 0.967,
+                          "confidence": 0.99,
                           "spans": [
                             {
-                              "offset": 151,
+                              "offset": 153,
                               "length": 4
                             }
                           ]
@@ -2119,15 +1589,11 @@
                           ]
                         }
                       ],
-                      "confidence": 0.426,
+                      "confidence": 0.977,
                       "spans": [
                         {
-                          "offset": 116,
-                          "length": 14
-                        },
-                        {
-                          "offset": 137,
-                          "length": 18
+                          "offset": 124,
+                          "length": 33
                         }
                       ]
                     }
@@ -2135,7 +1601,7 @@
                 },
                 "MerchantAddress": {
                   "type": "address",
-                  "content": "123 Main Street Redmond, WA 98052",
+                  "content": "123 Main Street\nRedmond, WA 98052",
                   "boundingRegions": [
                     {
                       "pageNumber": 1,
@@ -2151,7 +1617,7 @@
                       ]
                     }
                   ],
-                  "confidence": 0.982,
+                  "confidence": 0.986,
                   "spans": [
                     {
                       "offset": 16,
@@ -2186,10 +1652,10 @@
                       ]
                     }
                   ],
-                  "confidence": 0.981,
+                  "confidence": 0.977,
                   "spans": [
                     {
-                      "offset": 8,
+                      "offset": 0,
                       "length": 7
                     }
                   ]
@@ -2240,10 +1706,10 @@
                       ]
                     }
                   ],
-                  "confidence": 0.982,
+                  "confidence": 0.99,
                   "spans": [
                     {
-                      "offset": 175,
+                      "offset": 177,
                       "length": 7
                     }
                   ]
@@ -2267,10 +1733,10 @@
                       ]
                     }
                   ],
-                  "confidence": 0.972,
+                  "confidence": 0.88,
                   "spans": [
                     {
-                      "offset": 202,
+                      "offset": 198,
                       "length": 6
                     }
                   ]
@@ -2294,10 +1760,10 @@
                       ]
                     }
                   ],
-                  "confidence": 0.986,
+                  "confidence": 0.939,
                   "spans": [
                     {
-                      "offset": 209,
+                      "offset": 211,
                       "length": 6
                     }
                   ]
@@ -2321,10 +1787,10 @@
                       ]
                     }
                   ],
-                  "confidence": 0.989,
+                  "confidence": 0.995,
                   "spans": [
                     {
-                      "offset": 187,
+                      "offset": 189,
                       "length": 4
                     }
                   ]
@@ -2348,7 +1814,7 @@
                       ]
                     }
                   ],
-                  "confidence": 0.989,
+                  "confidence": 0.99,
                   "spans": [
                     {
                       "offset": 63,
@@ -2375,7 +1841,7 @@
                       ]
                     }
                   ],
-                  "confidence": 0.988,
+                  "confidence": 0.995,
                   "spans": [
                     {
                       "offset": 73,
@@ -2384,7 +1850,7 @@
                   ]
                 }
               },
-              "confidence": 0.953,
+              "confidence": 0.988,
               "spans": [
                 {
                   "offset": 0,

@@ -4,7 +4,7 @@
 // Model:       prebuilt-healthInsuranceCard.us
 // Description: Extract key information from US health insurance cards.
 // API Version: 2023-02-28-preview
-// Created:     Thu Mar 02 2023
+// Created:     Thu Mar 09 2023
 
 import * as fr from "../../../src";
 
@@ -15,8 +15,7 @@ export const PrebuiltHealthInsuranceCardUsModel = fr.createModelFromSchema(
   modelInfo()
 ) as fr.DocumentModel<PrebuiltHealthInsuranceCardUsResult>;
 
-export interface PrebuiltHealthInsuranceCardUsResult
-  extends fr.AnalyzeResultCommon {
+export interface PrebuiltHealthInsuranceCardUsResult extends fr.AnalyzeResultCommon {
   /**
    * Extracted pages.
    */
@@ -105,9 +104,7 @@ export interface HealthInsuranceCardUsFields {
   /**
    * Array holding list of CoPay Benefits
    */
-  copays?: fr.DocumentArrayField<
-    fr.DocumentObjectField<HealthInsuranceCardUsCopaysElement>
-  >;
+  copays?: fr.DocumentArrayField<fr.DocumentObjectField<HealthInsuranceCardUsCopaysElement>>;
   /**
    * `HealthInsuranceCardUs` "Payer" field
    */
@@ -213,7 +210,7 @@ export interface HealthInsuranceCardUsCopaysElement {
   /**
    * Co-Pay required amount
    */
-  amount?: fr.DocumentStringField;
+  amount?: fr.DocumentCurrencyField;
 }
 
 /**
@@ -376,7 +373,7 @@ function modelInfo() {
                   description: "Co-Pay Benefit name",
                 },
                 Amount: {
-                  type: "string",
+                  type: "currency",
                   description: "Co-Pay required amount",
                 },
               },

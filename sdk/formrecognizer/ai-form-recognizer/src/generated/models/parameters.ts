@@ -294,10 +294,16 @@ export const nextLink: OperationURLParameter = {
 export const operationId: OperationURLParameter = {
   parameterPath: "operationId",
   mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+      ),
+      MaxLength: 36
+    },
     serializedName: "operationId",
     required: true,
     type: {
-      name: "Uuid"
+      name: "String"
     }
   }
 };

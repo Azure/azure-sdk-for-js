@@ -1,32 +1,29 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/formrecognizer/info?api-version=2022-08-31",
+      "RequestUri": "https://endpoint/formrecognizer/info?api-version=2023-02-28-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Linux-5.19.6-200.fc36.x86_64)",
-        "x-ms-client-request-id": "63bd168c-3fa0-4bf5-aa06-1a5b727eadbd"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.10.3 Node/v18.14.0 OS/(x64-Linux-6.1.12-100.fc36.x86_64)",
+        "x-ms-client-request-id": "b49b5fd6-332d-4fb3-9387-b917a3de75b2"
       },
       "RequestBody": null,
-      "StatusCode": 200,
+      "StatusCode": 401,
       "ResponseHeaders": {
-        "apim-request-id": "373c6f1f-1211-4c66-9db6-ab1c0cb29779",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 00:31:55 GMT",
+        "apim-request-id": "a8615690-4984-45bc-ad87-a6e510766ec4",
+        "Content-Length": "165",
+        "Content-Type": "application/json",
+        "Date": "Thu, 09 Mar 2023 19:36:31 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "Transfer-Encoding": "chunked",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "11"
+        "X-Content-Type-Options": "nosniff"
       },
       "ResponseBody": {
-        "customDocumentModels": {
-          "count": 85,
-          "limit": 20000
-        }
+        "statusCode": 401,
+        "message": "Unauthorized. Access token is missing, invalid, audience is incorrect (https://ppe.cognitiveservices.azure.com), or have expired."
       }
     }
   ],

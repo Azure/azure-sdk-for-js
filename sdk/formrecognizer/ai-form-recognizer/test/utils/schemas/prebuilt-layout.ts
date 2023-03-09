@@ -4,7 +4,7 @@
 // Model:       prebuilt-layout
 // Description: Extract text and layout information from documents.
 // API Version: 2023-02-28-preview
-// Created:     Thu Mar 02 2023
+// Created:     Thu Mar 09 2023
 
 import * as fr from "../../../src";
 
