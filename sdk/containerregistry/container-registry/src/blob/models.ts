@@ -60,7 +60,7 @@ export interface DownloadOciManifestResult extends DownloadManifestResult {
   /**
    * The OCI manifest that was downloaded. If the requested media type was not KnownMediaType.OciManifest, this will be left undefined.
    */
-  manifest: OciManifest;
+  manifest: OciImageManifest;
 }
 
 /**
@@ -102,8 +102,8 @@ export interface OciBlobDescriptor {
   annotations?: OciAnnotations;
 }
 
-/** Returns the requested OCI Manifest file. */
-export interface OciManifest {
+/** Type representing an OCI image manifest (manifest of media type "application/vnd.oci.image.manifest.v1+json"). */
+export interface OciImageManifest {
   /** Schema version */
   schemaVersion: number;
   /** V2 image config descriptor */

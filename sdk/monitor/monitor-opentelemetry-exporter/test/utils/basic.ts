@@ -15,7 +15,6 @@ import { msToTimeSpan } from "../../src/utils/breezeUtils";
 import { SpanStatusCode } from "@opentelemetry/api";
 import { TelemetryItem as Envelope } from "../../src/generated";
 import { FlushSpanProcessor } from "./flushSpanProcessor";
-import { StandardMetrics } from "../../src/utils/constants/applicationinsights";
 import { Resource } from "@opentelemetry/resources";
 import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
 
@@ -194,7 +193,7 @@ export class MetricBasicScenario implements Scenario {
     let counter = meter.createCounter("testCounter");
     let counter2 = meter.createCounter("testCounter2");
     let histogram = meter.createHistogram("testHistogram");
-    let attributes = { testAttribute: "testValue" };
+    let attributes: any = { testAttribute: "testValue" };
     counter.add(1);
     counter.add(2);
     counter2.add(12, attributes);
@@ -202,19 +201,33 @@ export class MetricBasicScenario implements Scenario {
     histogram.record(2);
     histogram.record(3);
     histogram.record(4);
-    let dependencyDurationMetric = meter.createHistogram(StandardMetrics.HTTP_DEPENDENCY_DURATION);
-    dependencyDurationMetric.record(1234, {
-      "http.status_code": "400",
-      "net.peer.name": "http://www.test.com",
-    });
-    dependencyDurationMetric.record(4567, {
-      "http.status_code": "400",
-      "net.peer.name": "http://www.test.com",
-    });
-    let requestyDurationMetric = meter.createHistogram(StandardMetrics.HTTP_REQUEST_DURATION);
-    requestyDurationMetric.record(4567, {
-      "http.status_code": "200",
-    });
+    let dependencyDurationMetric = meter.createHistogram("TestDependencyDuration");
+
+    attributes = {
+      "Dependency.Success": "False",
+      "Dependency.Type": "http",
+      "_MS.IsAutocollected": "True",
+      "_MS.MetricId": "dependencies/duration",
+      "cloud/roleInstance": "my-instance",
+      "cloud/roleName": "my-namespace.my-helloworld-service",
+      "dependency/resultCode": "400",
+      "dependency/target": "http://www.test.com",
+    };
+
+    dependencyDurationMetric.record(1234, attributes);
+    dependencyDurationMetric.record(4567, attributes);
+
+    attributes = {
+      "Request.Success": "True",
+      "_MS.IsAutocollected": "True",
+      "_MS.MetricId": "requests/duration",
+      "cloud/roleInstance": "my-instance",
+      "cloud/roleName": "my-namespace.my-helloworld-service",
+      "request/resultCode": "200",
+    };
+
+    let requestyDurationMetric = meter.createHistogram("TestRequestDuration");
+    requestyDurationMetric.record(4567, attributes);
     await delay(0);
   }
 
@@ -296,7 +309,7 @@ export class MetricBasicScenario implements Scenario {
           version: 2,
           metrics: [
             {
-              name: "azureMonitor.http.dependencyDuration",
+              name: "TestDependencyDuration",
               value: 5801,
               count: 2,
               max: 4567,
@@ -327,7 +340,7 @@ export class MetricBasicScenario implements Scenario {
           version: 2,
           metrics: [
             {
-              name: "azureMonitor.http.requestDuration",
+              name: "TestRequestDuration",
               value: 4567,
               count: 1,
               max: 4567,

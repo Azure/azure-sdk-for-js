@@ -21,7 +21,7 @@ import {
   DownloadManifestResult,
   DownloadOciManifestResult,
   KnownManifestMediaType,
-  OciManifest,
+  OciImageManifest,
   UploadBlobOptions,
   UploadBlobResult,
   UploadManifestOptions,
@@ -71,12 +71,12 @@ export class DigestMismatchError extends Error {
 }
 
 /**
- * Used to determine whether a manifest downloaded via {@link ContainerRegistryBlobClient.downloadManifest} is an OCI manifest.
- * If it is an OCI manifest, the `manifest` property will contain the manifest data as parsed JSON.
+ * Used to determine whether a manifest downloaded via {@link ContainerRegistryBlobClient.downloadManifest} is an OCI image manifest.
+ * If it is an OCI image manifest, the `manifest` property will contain the manifest data as parsed JSON.
  * @param downloadResult - the download result to check.
- * @returns - whether the downloaded manifest is an OCI manifest.
+ * @returns - whether the downloaded manifest is an OCI image manifest.
  */
-export function isOciManifest(
+export function isOciImageManifest(
   downloadResult: DownloadManifestResult
 ): downloadResult is DownloadOciManifestResult {
   return (
@@ -208,7 +208,7 @@ export class ContainerRegistryBlobClient {
    * @param manifest - the manifest to upload. If a resettable stream (a factory function that returns a stream) is provided, it may be called multiple times. Each time the function is called, a fresh stream should be returned.
    */
   public async uploadManifest(
-    manifest: Buffer | NodeJS.ReadableStream | OciManifest,
+    manifest: Buffer | NodeJS.ReadableStream | OciImageManifest,
     options: UploadManifestOptions = {}
   ): Promise<UploadManifestResult> {
     return tracingClient.withSpan(
@@ -251,7 +251,7 @@ export class ContainerRegistryBlobClient {
    * Downloads the manifest for an OCI artifact.
    *
    * If the manifest downloaded was of type {@link KnownManifestMediaType.OciManifest}, the downloaded manifest will be of type {@link DownloadOciManifestResult}.
-   * You can use {@link isOciManifest} to determine whether this is the case. If so, the strongly typed deserialized manifest will be available through the `manifest` property.
+   * You can use {@link isOciImageManifest} to determine whether this is the case. If so, the strongly typed deserialized manifest will be available through the `manifest` property.
    *
    * @param tagOrDigest - a tag or digest that identifies the artifact
    * @returns - the downloaded manifest

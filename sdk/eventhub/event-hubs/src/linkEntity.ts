@@ -11,29 +11,6 @@ import { logger } from "./log";
 import { v4 as uuid } from "uuid";
 
 /**
- * @internal
- */
-export interface LinkEntityOptions {
-  /**
-   * The unique name for the entity. If not provided then a guid will be
-   * assigned.
-   */
-  name?: string;
-  /**
-   * The partitionId associated with the link entity.
-   */
-  partitionId?: string;
-  /**
-   * The link entity address in one of the following forms:
-   */
-  address?: string;
-  /**
-   * The link entity token audience in one of the following forms:
-   */
-  audience?: string;
-}
-
-/**
  * Describes the base class for entities like EventHub Sender, Receiver and Management link.
  * @internal
  */
@@ -55,7 +32,7 @@ export class LinkEntity {
    * **ManagementClient**
    * -`"$management"`.
    */
-  address: string;
+  readonly address: string;
   /**
    * The link entity token audience in one of the following forms:
    *
@@ -69,21 +46,12 @@ export class LinkEntity {
    * **ManagementClient**
    * - `"sb://<your-namespace>.servicebus.windows.net/<event-hub-name>/$management"`.
    */
-  audience: string;
-  /**
-   * The partitionId associated with the link entity.
-   */
-  partitionId?: string;
-  /**
-   * Indicates whether the link is in the process of connecting
-   * (establishing) itself. Default value: `false`.
-   */
-  isConnecting: boolean = false;
+  readonly audience: string;
   /**
    * Provides relevant information about the amqp connection,
    * cbs and $management sessions, token provider, sender and receivers.
    */
-  protected _context: ConnectionContext;
+  protected readonly _context: ConnectionContext;
   /**
    * The token renewal timer that keeps track of when
    * the Link Entity is due for token renewal.
@@ -92,24 +60,23 @@ export class LinkEntity {
   /**
    * Indicates token timeout in milliseconds
    */
-  protected _tokenTimeoutInMs?: number;
+  private _tokenTimeoutInMs?: number;
   /**
    * Creates a new LinkEntity instance.
    * @param context - The connection context.
-   * @param options - Options that can be provided while creating the LinkEntity.
+   * @param name - The unique name for the entity. If not provided then a guid will be assigned.
+   * @param address - The address
+   * @param audience - The token audience
    */
-  constructor(context: ConnectionContext, options?: LinkEntityOptions) {
-    if (!options) options = {};
+  constructor(context: ConnectionContext, name: string, address: string, audience: string) {
     this._context = context;
-    this.address = options.address || "";
-    this.audience = options.audience || "";
-    this.name = `${options.name}-${uuid()}`;
-    this.partitionId = options.partitionId;
+    this.address = address;
+    this.audience = audience;
+    this.name = `${name}-${uuid()}`;
   }
 
   /**
    * Negotiates cbs claim for the LinkEntity.
-   * @returns Promise<void>
    */
   protected async _negotiateClaim({
     abortSignal,
@@ -253,7 +220,7 @@ export class LinkEntity {
    * removed.
    */
   protected async _closeLink(link?: AwaitableSender | Receiver): Promise<void> {
-    clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
+    clearTimeout(this._tokenRenewalTimer);
     if (link) {
       try {
         // Closing the link and its underlying session if the link is open. This should also
@@ -266,7 +233,7 @@ export class LinkEntity {
           this.name,
           this.address
         );
-      } catch (err: any) {
+      } catch (err) {
         logger.verbose(
           "[%s] An error occurred while closing the %s '%s' with address '%s': %O",
           this._context.connectionId,

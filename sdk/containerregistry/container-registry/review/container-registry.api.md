@@ -67,7 +67,7 @@ export class ContainerRegistryBlobClient {
     readonly endpoint: string;
     readonly repositoryName: string;
     uploadBlob(blob: NodeJS.ReadableStream | Buffer, options?: UploadBlobOptions): Promise<UploadBlobResult>;
-    uploadManifest(manifest: Buffer | NodeJS.ReadableStream | OciManifest, options?: UploadManifestOptions): Promise<UploadManifestResult>;
+    uploadManifest(manifest: Buffer | NodeJS.ReadableStream | OciImageManifest, options?: UploadManifestOptions): Promise<UploadManifestResult>;
 }
 
 // @public
@@ -167,7 +167,7 @@ export interface DownloadManifestResult {
 
 // @public
 export interface DownloadOciManifestResult extends DownloadManifestResult {
-    manifest: OciManifest;
+    manifest: OciImageManifest;
     mediaType: KnownManifestMediaType.OciManifest;
 }
 
@@ -184,7 +184,7 @@ export interface GetTagPropertiesOptions extends OperationOptions {
 }
 
 // @public
-export function isOciManifest(downloadResult: DownloadManifestResult): downloadResult is DownloadOciManifestResult;
+export function isOciImageManifest(downloadResult: DownloadManifestResult): downloadResult is DownloadOciManifestResult;
 
 // @public
 export enum KnownArtifactArchitecture {
@@ -281,7 +281,7 @@ export interface OciBlobDescriptor {
 }
 
 // @public
-export interface OciManifest {
+export interface OciImageManifest {
     annotations?: OciAnnotations;
     config?: OciBlobDescriptor;
     layers?: OciBlobDescriptor[];

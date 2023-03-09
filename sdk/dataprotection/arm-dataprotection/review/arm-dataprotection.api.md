@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AbsoluteDeleteOption extends DeleteOption {
@@ -286,29 +286,29 @@ export interface BackupInstanceResourceList extends DppResourceList {
 
 // @public
 export interface BackupInstances {
-    beginAdhocBackup(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: TriggerBackupRequest, options?: BackupInstancesAdhocBackupOptionalParams): Promise<PollerLike<PollOperationState<BackupInstancesAdhocBackupResponse>, BackupInstancesAdhocBackupResponse>>;
+    beginAdhocBackup(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: TriggerBackupRequest, options?: BackupInstancesAdhocBackupOptionalParams): Promise<SimplePollerLike<OperationState<BackupInstancesAdhocBackupResponse>, BackupInstancesAdhocBackupResponse>>;
     beginAdhocBackupAndWait(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: TriggerBackupRequest, options?: BackupInstancesAdhocBackupOptionalParams): Promise<BackupInstancesAdhocBackupResponse>;
-    beginCreateOrUpdate(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: BackupInstanceResource, options?: BackupInstancesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<BackupInstancesCreateOrUpdateResponse>, BackupInstancesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: BackupInstanceResource, options?: BackupInstancesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BackupInstancesCreateOrUpdateResponse>, BackupInstancesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: BackupInstanceResource, options?: BackupInstancesCreateOrUpdateOptionalParams): Promise<BackupInstancesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesDeleteOptionalParams): Promise<void>;
-    beginResumeBackups(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesResumeBackupsOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginResumeBackups(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesResumeBackupsOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginResumeBackupsAndWait(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesResumeBackupsOptionalParams): Promise<void>;
-    beginResumeProtection(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesResumeProtectionOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginResumeProtection(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesResumeProtectionOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginResumeProtectionAndWait(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesResumeProtectionOptionalParams): Promise<void>;
-    beginStopProtection(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesStopProtectionOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStopProtection(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesStopProtectionOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStopProtectionAndWait(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesStopProtectionOptionalParams): Promise<void>;
-    beginSuspendBackups(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesSuspendBackupsOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginSuspendBackups(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesSuspendBackupsOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginSuspendBackupsAndWait(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesSuspendBackupsOptionalParams): Promise<void>;
-    beginSyncBackupInstance(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: SyncBackupInstanceRequest, options?: BackupInstancesSyncBackupInstanceOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginSyncBackupInstance(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: SyncBackupInstanceRequest, options?: BackupInstancesSyncBackupInstanceOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginSyncBackupInstanceAndWait(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: SyncBackupInstanceRequest, options?: BackupInstancesSyncBackupInstanceOptionalParams): Promise<void>;
-    beginTriggerRehydrate(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: AzureBackupRehydrationRequest, options?: BackupInstancesTriggerRehydrateOptionalParams): Promise<PollerLike<PollOperationState<BackupInstancesTriggerRehydrateResponse>, BackupInstancesTriggerRehydrateResponse>>;
+    beginTriggerRehydrate(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: AzureBackupRehydrationRequest, options?: BackupInstancesTriggerRehydrateOptionalParams): Promise<SimplePollerLike<OperationState<BackupInstancesTriggerRehydrateResponse>, BackupInstancesTriggerRehydrateResponse>>;
     beginTriggerRehydrateAndWait(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: AzureBackupRehydrationRequest, options?: BackupInstancesTriggerRehydrateOptionalParams): Promise<BackupInstancesTriggerRehydrateResponse>;
-    beginTriggerRestore(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: AzureBackupRestoreRequestUnion, options?: BackupInstancesTriggerRestoreOptionalParams): Promise<PollerLike<PollOperationState<BackupInstancesTriggerRestoreResponse>, BackupInstancesTriggerRestoreResponse>>;
+    beginTriggerRestore(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: AzureBackupRestoreRequestUnion, options?: BackupInstancesTriggerRestoreOptionalParams): Promise<SimplePollerLike<OperationState<BackupInstancesTriggerRestoreResponse>, BackupInstancesTriggerRestoreResponse>>;
     beginTriggerRestoreAndWait(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: AzureBackupRestoreRequestUnion, options?: BackupInstancesTriggerRestoreOptionalParams): Promise<BackupInstancesTriggerRestoreResponse>;
-    beginValidateForBackup(resourceGroupName: string, vaultName: string, parameters: ValidateForBackupRequest, options?: BackupInstancesValidateForBackupOptionalParams): Promise<PollerLike<PollOperationState<BackupInstancesValidateForBackupResponse>, BackupInstancesValidateForBackupResponse>>;
+    beginValidateForBackup(resourceGroupName: string, vaultName: string, parameters: ValidateForBackupRequest, options?: BackupInstancesValidateForBackupOptionalParams): Promise<SimplePollerLike<OperationState<BackupInstancesValidateForBackupResponse>, BackupInstancesValidateForBackupResponse>>;
     beginValidateForBackupAndWait(resourceGroupName: string, vaultName: string, parameters: ValidateForBackupRequest, options?: BackupInstancesValidateForBackupOptionalParams): Promise<BackupInstancesValidateForBackupResponse>;
-    beginValidateForRestore(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: ValidateRestoreRequestObject, options?: BackupInstancesValidateForRestoreOptionalParams): Promise<PollerLike<PollOperationState<BackupInstancesValidateForRestoreResponse>, BackupInstancesValidateForRestoreResponse>>;
+    beginValidateForRestore(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: ValidateRestoreRequestObject, options?: BackupInstancesValidateForRestoreOptionalParams): Promise<SimplePollerLike<OperationState<BackupInstancesValidateForRestoreResponse>, BackupInstancesValidateForRestoreResponse>>;
     beginValidateForRestoreAndWait(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: ValidateRestoreRequestObject, options?: BackupInstancesValidateForRestoreOptionalParams): Promise<BackupInstancesValidateForRestoreResponse>;
     get(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesGetOptionalParams): Promise<BackupInstancesGetResponse>;
     getBackupInstanceOperationResult(resourceGroupName: string, vaultName: string, backupInstanceName: string, operationId: string, options?: BackupInstancesGetBackupInstanceOperationResultOptionalParams): Promise<BackupInstancesGetBackupInstanceOperationResultResponse>;
@@ -620,11 +620,11 @@ export interface BackupVaultResourceList extends DppResourceList {
 
 // @public
 export interface BackupVaults {
-    beginCreateOrUpdate(resourceGroupName: string, vaultName: string, parameters: BackupVaultResource, options?: BackupVaultsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<BackupVaultsCreateOrUpdateResponse>, BackupVaultsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, vaultName: string, parameters: BackupVaultResource, options?: BackupVaultsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BackupVaultsCreateOrUpdateResponse>, BackupVaultsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, vaultName: string, parameters: BackupVaultResource, options?: BackupVaultsCreateOrUpdateOptionalParams): Promise<BackupVaultsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, vaultName: string, options?: BackupVaultsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, vaultName: string, options?: BackupVaultsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, vaultName: string, options?: BackupVaultsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, vaultName: string, parameters: PatchResourceRequestInput, options?: BackupVaultsUpdateOptionalParams): Promise<PollerLike<PollOperationState<BackupVaultsUpdateResponse>, BackupVaultsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, vaultName: string, parameters: PatchResourceRequestInput, options?: BackupVaultsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BackupVaultsUpdateResponse>, BackupVaultsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, vaultName: string, parameters: PatchResourceRequestInput, options?: BackupVaultsUpdateOptionalParams): Promise<BackupVaultsUpdateResponse>;
     checkNameAvailability(resourceGroupName: string, location: string, parameters: CheckNameAvailabilityRequest, options?: BackupVaultsCheckNameAvailabilityOptionalParams): Promise<BackupVaultsCheckNameAvailabilityResponse>;
     get(resourceGroupName: string, vaultName: string, options?: BackupVaultsGetOptionalParams): Promise<BackupVaultsGetResponse>;
@@ -974,7 +974,7 @@ export interface DeletedBackupInstanceResourceList extends DppResourceList {
 // @public
 export interface DeletedBackupInstances {
     // (undocumented)
-    beginUndelete(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: DeletedBackupInstancesUndeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginUndelete(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: DeletedBackupInstancesUndeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     // (undocumented)
     beginUndeleteAndWait(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: DeletedBackupInstancesUndeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: DeletedBackupInstancesGetOptionalParams): Promise<DeletedBackupInstancesGetResponse>;
@@ -1132,7 +1132,7 @@ export type ExistingResourcePolicy = string;
 
 // @public
 export interface ExportJobs {
-    beginTrigger(resourceGroupName: string, vaultName: string, options?: ExportJobsTriggerOptionalParams): Promise<PollerLike<PollOperationState<ExportJobsTriggerResponse>, ExportJobsTriggerResponse>>;
+    beginTrigger(resourceGroupName: string, vaultName: string, options?: ExportJobsTriggerOptionalParams): Promise<SimplePollerLike<OperationState<ExportJobsTriggerResponse>, ExportJobsTriggerResponse>>;
     beginTriggerAndWait(resourceGroupName: string, vaultName: string, options?: ExportJobsTriggerOptionalParams): Promise<ExportJobsTriggerResponse>;
 }
 

@@ -11,9 +11,9 @@ import {
   ContainerRegistryBlobClient,
   DownloadManifestResult,
   DownloadOciManifestResult,
-  isOciManifest,
+  isOciImageManifest,
   KnownManifestMediaType,
-  OciManifest,
+  OciImageManifest,
 } from "../../src";
 import { assert, versionsToTest } from "@azure/test-utils";
 import { Context } from "mocha";
@@ -25,7 +25,7 @@ import { readStreamToEnd } from "../../src/utils/helpers";
 function assertIsOciManifest(
   downloadManifestResult: DownloadManifestResult
 ): asserts downloadManifestResult is DownloadOciManifestResult {
-  assert.isTrue(isOciManifest(downloadManifestResult));
+  assert.isTrue(isOciImageManifest(downloadManifestResult));
 }
 
 versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
@@ -62,7 +62,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       await recorder.stop();
     });
 
-    const manifest: OciManifest = {
+    const manifest: OciImageManifest = {
       schemaVersion: 2,
       config: {
         mediaType: "application/vnd.oci.image.config.v1+json",

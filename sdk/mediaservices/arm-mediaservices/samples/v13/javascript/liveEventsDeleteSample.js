@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes a live event.
  *
  * @summary Deletes a live event.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-08-01/examples/liveevent-delete.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-11-01/examples/liveevent-delete.json
  */
 async function deleteALiveEvent() {
   const subscriptionId =

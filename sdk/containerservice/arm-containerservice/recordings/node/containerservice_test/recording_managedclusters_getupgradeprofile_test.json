@@ -1,15 +1,15 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz/upgradeProfiles/default?api-version=2022-11-02-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz/upgradeProfiles/default?api-version=2023-01-02-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-containerservice/17.4.0-beta.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
-        "x-ms-client-request-id": "9b274f38-7187-4307-b82e-0d6330a80a84"
+        "User-Agent": "azsdk-js-arm-containerservice/17.4.0-beta.2 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "6b73b3cf-bab6-4bb6-9123-0317f926e2bb"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Wed, 18 Jan 2023 08:23:18 GMT",
+        "Date": "Mon, 20 Feb 2023 03:16:58 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "nginx",
@@ -25,10 +25,10 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "dc60a477-01af-447b-bf55-ddb1fdaf85d1",
-        "x-ms-ratelimit-remaining-subscription-reads": "11887",
-        "x-ms-request-id": "361926c2-6e6c-4540-b193-e7b769112449",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230118T082318Z:dc60a477-01af-447b-bf55-ddb1fdaf85d1"
+        "x-ms-correlation-request-id": "31594507-5a01-4bad-a868-bb8cf88e6533",
+        "x-ms-ratelimit-remaining-subscription-reads": "11895",
+        "x-ms-request-id": "4917de81-465c-4077-94d4-5b0038e5a7aa",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230220T031658Z:31594507-5a01-4bad-a868-bb8cf88e6533"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz/upgradeprofiles/default",
@@ -36,14 +36,14 @@
         "type": "Microsoft.ContainerService/managedClusters/upgradeprofiles",
         "properties": {
           "controlPlaneProfile": {
-            "kubernetesVersion": "1.24.6",
+            "kubernetesVersion": "1.24.9",
             "osType": "Linux",
             "upgrades": [
               {
-                "kubernetesVersion": "1.25.2"
+                "kubernetesVersion": "1.25.4"
               },
               {
-                "kubernetesVersion": "1.25.4"
+                "kubernetesVersion": "1.25.5"
               }
             ]
           },
