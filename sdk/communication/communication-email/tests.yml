@@ -13,4 +13,12 @@ stages:
             - $(sub-config-azure-cloud-test-resources)
             - $(sub-config-communication-services-cloud-test-resources-common)
             - $(sub-config-communication-services-cloud-test-resources-js)
-      Clouds: Public
+        PPE:
+          SubscriptionConfigurations:
+            - $(sub-config-communication-ppe-test-resources-common)
+            - $(sub-config-communication-ppe-test-resources-js)
+        Int:
+          SubscriptionConfigurations:
+            - $(sub-config-communication-int-test-resources-common)
+            - $(sub-config-communication-int-test-resources-js)
+      Clouds: Public,PPE,Int
