@@ -84,6 +84,11 @@ export function createMigration(
     }))
   );
 
+  // If the date is invalid, we'll throw an error
+  if (isNaN(migration.date.getTime())) {
+    throw new Error(`Invalid date string '${date}' for migration '${id}'.`);
+  }
+
   SORTED = false;
 
   MIGRATIONS_BY_ID.set(id, migration);
