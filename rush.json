@@ -1932,6 +1932,11 @@
       "packageName": "@azure/arm-voiceservices",
       "projectFolder": "sdk/voiceservices/arm-voiceservices",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-PaloAltoNetworks.Cloudngfw",
+      "projectFolder": "sdk/PaloAltoNetworks.Cloudngfw/arm-PaloAltoNetworks.Cloudngfw",
+      "versionPolicyName": "management"
     }
   ]
 }
