@@ -8,7 +8,30 @@ import {
   ServerCallLocator,
   GroupCallLocator,
   CallRejectReason,
+  RecognizeInputType,
+  FileSource,
+  DtmfTone
 } from "./models";
+
+/** Options to configure the recognize operation. */
+export interface CallMediaRecognizeOptions {
+  recognizeInputType: RecognizeInputType;
+  playPrompt: FileSource;
+  interruptCallMediaOperation: boolean;
+  stopCurrentOperations: boolean;
+  operationContext: string;
+  interruptPrompt: boolean;
+  initialSilenceTimeoutInSeconds: number;
+  targetParticipant: CommunicationIdentifier;
+}
+
+/** The recognize configuration specific to Dtmf. */
+export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions {
+  interToneTimeoutInSeconds: number;
+  maxTonesToCollect: number;
+  stopDtmfTones: DtmfTone[];
+  readonly kind?: "callMediaRecognizeDtmfOptions";
+}
 
 /**
  * Options to create a call.

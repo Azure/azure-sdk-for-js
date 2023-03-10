@@ -2,29 +2,24 @@
 // Licensed under the MIT license.
 
 import {
-  CommunicationIdentifier,
-  CommunicationUserIdentifier,
-  PhoneNumberIdentifier,
+    CommunicationIdentifier,
+    CommunicationUserIdentifier,
+    PhoneNumberIdentifier
 } from "@azure/communication-common";
 import {
-  CallConnectionStateModel,
-  KnownRecordingChannelType,
-  KnownRecordingContentType,
-  KnownRecordingFormatType,
-  KnownRecordingStorageType,
+    CallConnectionStateModel,
+    KnownRecordingChannelType,
+    KnownRecordingContentType,
+    KnownRecordingFormatType,
+    KnownRecordingStorageType
 } from "../generated/src";
 
 export {
-  CallRejectReason,
-  KnownCallRejectReason,
-  MediaStreamingConfiguration,
-  MediaStreamingTransportType,
-  KnownMediaStreamingTransportType,
-  MediaStreamingContentType,
-  KnownMediaStreamingContentType,
-  MediaStreamingAudioChannelType,
-  KnownMediaStreamingAudioChannelType,
-  CallConnectionStateModel,
+  CallConnectionStateModel, CallRejectReason,
+  KnownCallRejectReason, KnownMediaStreamingAudioChannelType,
+  KnownMediaStreamingContentType, KnownMediaStreamingTransportType,
+  MediaStreamingAudioChannelType, MediaStreamingConfiguration,
+  MediaStreamingContentType, MediaStreamingTransportType
 } from "../generated/src/models/index";
 
 /** Properties of a call connection */
@@ -60,11 +55,13 @@ export interface CallParticipant {
   isMuted?: boolean;
 }
 
+/** The locator used for joining or taking action on a server call. */
 export interface ServerCallLocator {
   id: string;
   readonly kind?: "serverCallLocator";
 }
 
+/** The locator used for joining or taking action on a group call. */
 export interface GroupCallLocator {
   id: string;
   readonly kind?: "groupCallLocator";
@@ -79,26 +76,6 @@ export interface PlaySource {
 export interface FileSource extends PlaySource {
   uri: string;
   readonly kind?: "fileSource";
-}
-
-/** Options to configure the recognize operation. */
-export interface CallMediaRecognizeOptions {
-  recognizeInputType: RecognizeInputType;
-  playPrompt: FileSource;
-  interruptCallMediaOperation: boolean;
-  stopCurrentOperations: boolean;
-  operationContext: string;
-  interruptPrompt: boolean;
-  initialSilenceTimeoutInSeconds: number;
-  targetParticipant: CommunicationIdentifier;
-}
-
-/** The recognize configuration specific to Dtmf. */
-export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions {
-  interToneTimeoutInSeconds: number;
-  maxTonesToCollect: number;
-  stopDtmfTones: DtmfTone[];
-  readonly kind?: "callMediaRecognizeDtmfOptions";
 }
 
 /** A Dtmf Tone. */
@@ -149,6 +126,7 @@ function instanceOfPhoneNumberIdentity(object: any): object is PhoneNumberIdenti
   return "phoneNumber" in object;
 }
 
+/** Call invitee details. */
 export class CallInvite {
   public readonly target: CommunicationIdentifier;
   public readonly sourceCallIdNumber?: PhoneNumberIdentifier;
@@ -216,7 +194,7 @@ export class CallInvite {
 /** The content type of a call recording. */
 export enum RecordingContent {
   Audio = KnownRecordingContentType.Audio,
-  Video = KnownRecordingContentType.AudioVideo,
+  AudioVideo = KnownRecordingContentType.AudioVideo,
 }
 
 /** The channel type of a call recording. */

@@ -36,6 +36,7 @@ function extractKind(
   return KnownCommunicationIdentifierModelKind.Unknown;
 }
 
+/** Convert PhoneNumberIdentifier to PhoneNumberIdentifierModel(Internal usage class) */
 export function PhoneNumberIdentifierModelConverter(
   phoneNumberIdentifier: PhoneNumberIdentifier | undefined
 ): PhoneNumberIdentifierModel | undefined {
@@ -48,6 +49,7 @@ export function PhoneNumberIdentifierModelConverter(
   return phoneNumberIdentifierModel;
 }
 
+/** Convert SerializedPhoneNumberIdentifier to PhoneNumberIdentifier(Public usage class) */
 export function phoneNumberIdentifierConverter(
   serializedPhoneNumberIdentifier: SerializedPhoneNumberIdentifier | undefined
 ): PhoneNumberIdentifier | undefined {
@@ -64,6 +66,7 @@ export function phoneNumberIdentifierConverter(
   return phoneNumberIdentifier;
 }
 
+/** Convert CommunicationIdentifierModel to CommunicationIdentifier(Public usage class) */
 export function communicationIdentifierConverter(
   identifierModel: CommunicationIdentifierModel
 ): CommunicationIdentifier {
@@ -98,6 +101,7 @@ export function communicationIdentifierConverter(
   return unknownIdentifier;
 }
 
+/** Convert CommunicationIdentifier to CommunicationIdentifierModel(Internal usage class) */
 export function communicationIdentifierModelConverter(
   identifier: CommunicationIdentifier
 ): CommunicationIdentifierModel {
@@ -134,6 +138,7 @@ export function communicationIdentifierModelConverter(
   throw new Error();
 }
 
+/** Convert CallParticipantInternal to CallParticipant */
 export function callParticipantConverter(
   acsCallParticipant: CallParticipantInternal
 ): CallParticipant {
