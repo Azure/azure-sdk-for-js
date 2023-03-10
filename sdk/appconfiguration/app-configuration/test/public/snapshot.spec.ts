@@ -24,8 +24,8 @@ describe("AppConfigurationClient snapshot", () => {
   beforeEach(async function (this: Context) {
     recorder = await startRecorder(this);
     client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
-    key1 = recorder.variable("key1", `randomKey1-${new Date().getTime()}`);
-    key2 = recorder.variable("key2", `randomKey2-${new Date().getTime()}`);
+    key1 = recorder.variable("key1", `key1-${new Date().getTime()}`);
+    key2 = recorder.variable("key2", `key2-${new Date().getTime()}`);
     filter1 = {
       key: key1,
     };
@@ -33,12 +33,12 @@ describe("AppConfigurationClient snapshot", () => {
       key: key2,
     };
     snapshot1 = {
-      name: "testSnapshot1",
+      name: recorder.variable("snapshopt1", `snapshot-${new Date().getTime()}`),
       retentionPeriod: 0,
       filters: [filter1],
     };
     snapshot2 = {
-      name: "testSnapshot2",
+      name: recorder.variable("snapshopt2", `snapshot-${new Date().getTime()}`),
       filters: [filter1, filter2],
     };
 
@@ -72,7 +72,7 @@ describe("AppConfigurationClient snapshot", () => {
         0,
         "Unexpected retentionPeriod in result from createSnapshot()."
       );
-      assert.equal(
+      assert.deepEqual(
         newSnapshot.filters[0],
         filter1,
         "Unexpected filters in result from createSnapshot()."
