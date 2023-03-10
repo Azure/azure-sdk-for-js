@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates Vault encryption config.
  *
  * @summary Updates Vault encryption config.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/BackupResourceEncryptionConfig_Put.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/BackupResourceEncryptionConfig_Put.json
  */
 async function updateVaultEncryptionConfiguration() {
   const subscriptionId =
