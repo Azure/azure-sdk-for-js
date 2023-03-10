@@ -7919,12 +7919,6 @@ packages:
       debug: 3.2.7
     dev: false
 
-  /rhea/2.0.8:
-    resolution: {integrity: sha512-IgwlP4D2lzinBSll5f35tAWa30dGCZhG9Ujd1DiaB7MUGegIjAaLzqATCw3ha+h9oq9mXcitqayBbNIXYdvtFg==}
-    dependencies:
-      debug: 3.2.7
-    dev: false
-
   /rhea/3.0.2:
     resolution: {integrity: sha512-0G1ZNM9yWin8VLvTxyISKH6KfR6gl1TW/1+5yMKPf2r1efhkzTLze09iFtT2vpDjuWIVtSmXz8r18lk/dO8qwQ==}
     dependencies:
@@ -10054,7 +10048,7 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-11s7ELWUeURBhvG90Ip9QP+D7uTS5DHZn7dZutSnzjDw4dBouxuHwLTuxXxEWx/SN30pCbc52inHwNVVb6RufA==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-CLn6BAgagKUJw0cSu2Ku91Zxkk7GoUYJ4z++Nu0D2QPN7hymevKMong9VGUFrCp9WomQF1+qW7qNzxyOXuWrdA==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
@@ -16384,7 +16378,7 @@ packages:
     dev: false
 
   file:projects/core-amqp.tgz:
-    resolution: {integrity: sha512-iOn0gopYJ+AQiGZsRJQCwP0V2RctsMO3NtUK/NgXMan3l9Nx6t5o2LvdpFcPJHjmu4K8Lg95D2kfvdBsAsm/gw==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-2f4DtVR9rQolGJ2U7fxEnqP6qfCc4AArf92EAvL77GhimGq8VUqgeTjOoAscTq7gJxml0YWzU0sVPI4I6BPZig==, tarball: file:projects/core-amqp.tgz}
     name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
@@ -16418,7 +16412,7 @@ packages:
       prettier: 2.8.4
       process: 0.11.10
       puppeteer: 19.7.3_typescript@4.8.4
-      rhea: 2.0.8
+      rhea: 3.0.2
       rhea-promise: 3.0.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -17510,7 +17504,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-PNVGSQgrV74ZaOtZm6TtRIFPjkRsml2P7B7UhyT9EiQ0F1WLTv4nvg5VO0o74HN4qK0ZDLXxjg3CNEgxqd5LTg==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-D6xmkAXr5zwZ2B2DbCiC9wxYe0i7auXwa/E5SMB7/Amy9mnzJDRuO9dNDdHM6Ib0VjRzZ45rf1eGwBs+eOBjqA==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
@@ -17660,7 +17654,7 @@ packages:
     dev: false
 
   file:projects/keyvault-admin.tgz:
-    resolution: {integrity: sha512-1aR1s+cEC5T8rkebkJA2gFgWPwR5RVR7qOAyWvslFGqg4Up4bqVNI6q8YhpL/15gPijjjk5RTcUOT22wqfwnJw==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-s4NxTw0qqENCSJYvtlPyCXPgueoVmiy1iB5nUV6ZZIXDein+SiGbPDe9AqhQaMLIIPYuOIYqNqUZzSkF/UVsow==, tarball: file:projects/keyvault-admin.tgz}
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
@@ -17690,7 +17684,7 @@ packages:
     dev: false
 
   file:projects/keyvault-certificates.tgz:
-    resolution: {integrity: sha512-g8Wgna15TiEQooet1FkrlWzfZDl1cUueV0s3kd3y+g55OuL34cOTY5k0Q7Jc6lpQ8aB629YDfkDw6L7zgFdj7Q==, tarball: file:projects/keyvault-certificates.tgz}
+    resolution: {integrity: sha512-bAOUuJYxu7UjhLiiTrxlGZh1kv+QqyLkBI1f10AdzZxOsd3bWAqdO/wnFr1WT7irLzYkrx3e1M2yNZsSlZG1yQ==, tarball: file:projects/keyvault-certificates.tgz}
     name: '@rush-temp/keyvault-certificates'
     version: 0.0.0
     dependencies:
@@ -18229,7 +18223,7 @@ packages:
     dev: false
 
   file:projects/mock-hub.tgz:
-    resolution: {integrity: sha512-Yp+CfjPyMPxJ1BRZGdSFOJmPw5kGLZS/M2cKJeGW4ZApguLoj5YzPM6Etja7pYuw8IHUxmYpfb6yqG5A84xbjQ==, tarball: file:projects/mock-hub.tgz}
+    resolution: {integrity: sha512-SahHw7ZpReX+eW/nhBbgWhBQRzjv0BWzVy36WV3DqT970srehahg1ennhtDLME4Q6mgPlbf0Eq5NgzZCa4hWiA==, tarball: file:projects/mock-hub.tgz}
     name: '@rush-temp/mock-hub'
     version: 0.0.0
     dependencies:
@@ -18237,7 +18231,7 @@ packages:
       dotenv: 16.0.3
       eslint: 8.35.0
       prettier: 2.8.4
-      rhea: 2.0.8
+      rhea: 3.0.2
       rimraf: 3.0.2
       tslib: 2.5.0
       typescript: 4.8.4
@@ -18714,7 +18708,7 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-certificates.tgz:
-    resolution: {integrity: sha512-VRd1Fnp27eLm8oKYYFQCcXvnz2trIEutUMv6Ii6/DAUdPCzQm5yXJZmEO07bxwXKv1vSdMDZknW62M/nDQ+Dag==, tarball: file:projects/perf-keyvault-certificates.tgz}
+    resolution: {integrity: sha512-y0b7TFibUwxWIft7IQU79eCCYEEjeDQpLM3naIAbL5kd0OoY4FbGeweB1vbG2vqtmqUQLWQxdFkxzUNsOVjEYw==, tarball: file:projects/perf-keyvault-certificates.tgz}
     name: '@rush-temp/perf-keyvault-certificates'
     version: 0.0.0
     dependencies:
@@ -18737,7 +18731,7 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-keys.tgz:
-    resolution: {integrity: sha512-ueAWRbfdi9lmOGge9FsNKesnXqDFeZVEzpEx0oTDYZK2vhIKaEvJjlysfzxUe3eyNPIsUsi30wa2jHrOk9g5qQ==, tarball: file:projects/perf-keyvault-keys.tgz}
+    resolution: {integrity: sha512-hA+SW0QnCcnQtEuOYvyXBVQnbMy373bLX/wVDpzcWqMSipB79qJZqccf4idCdMsdqLyLyNq+rgpYvVrYp5s+hA==, tarball: file:projects/perf-keyvault-keys.tgz}
     name: '@rush-temp/perf-keyvault-keys'
     version: 0.0.0
     dependencies:
@@ -18760,7 +18754,7 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-secrets.tgz:
-    resolution: {integrity: sha512-uNewvxAIj7J9/amvOLrSo6/ofWG8sbxRz55gPJjJxPSpuk4iYjM+jETM7sE9XW+qI6Jr4gGDqDs9rBpLwHtfnA==, tarball: file:projects/perf-keyvault-secrets.tgz}
+    resolution: {integrity: sha512-QEpuPQgCBR4qGDKkWOzbCN+z0jOsboUOvPuel0wImAEprlJcsnpzEHrR2MRb9oPy/ZiJDnuJaobp2ysdnUXzUw==, tarball: file:projects/perf-keyvault-secrets.tgz}
     name: '@rush-temp/perf-keyvault-secrets'
     version: 0.0.0
     dependencies:
