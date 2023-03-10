@@ -21,7 +21,7 @@ require("dotenv").config();
 async function listAssetSasUrLs() {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const assetName = "ClimbingMountSaintHelens";
   const credential = new DefaultAzureCredential();
