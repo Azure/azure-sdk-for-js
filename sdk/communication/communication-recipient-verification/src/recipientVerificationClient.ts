@@ -156,7 +156,7 @@ export class RecipientVerificationClient {
   }
 
   /**
-   * Returns information about a resource in relation to verified recipients.
+   * Returns information about a resource in relation to recipient verification.
    *
    * @param options - Additional request options.
    */

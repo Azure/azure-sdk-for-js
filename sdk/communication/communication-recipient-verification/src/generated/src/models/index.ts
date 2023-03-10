@@ -8,7 +8,7 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** Model verified recipients. */
+/** Model response returned for users. */
 export interface AcsVerification {
   /** Immutable Id of the resource. */
   immutableId?: string;

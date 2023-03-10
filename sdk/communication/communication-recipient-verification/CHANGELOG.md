@@ -7,4 +7,4 @@ The first preview of the Azure Communication Recipient Verification client libra
 - Verifying code for a phone number
 - Request a verification code to a phone number(US)
 - Removing a verified/pending phone number
-- Returning the constant values for a resource in relation to verified recipients
+- Returning the constant values for a resource in relation to recipient verification

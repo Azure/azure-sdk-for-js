@@ -27,7 +27,7 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ## Authentication
 
-To create a client object to access the Communication Services API, you will need a `connection string` or the `endpoint` of your Communication Services resource and a `credential`. The Verified Recipient client can use either Azure Active Directory credentials or an API key credential to authenticate.
+To create a client object to access the Communication Services API, you will need a `connection string` or the `endpoint` of your Communication Services resource and a `credential`. The Recipient Verification client can use either Azure Active Directory credentials or an API key credential to authenticate.
 
 You can get a key and/or connection string from your Communication Services resource in the [Azure Portal][azure_portal]. You can also find the endpoint for your Communication Services resource in the [Azure Portal][azure_portal].
 
@@ -40,7 +40,7 @@ const {
   RecipientVerificationClient,
 } = require("@azure-tools/communication-recipient-verification");
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
-const client = new VerifiedRecipientsClient(connectionString);
+const client = new RecipientVerificationClient(connectionString);
 ```
 
 ### Using an access key with `AzureKeyCredential`
@@ -78,7 +78,7 @@ const client = new RecipientVerificationClient("<endpoint-from-resource>", crede
 
 ## Usage
 
-The following sections provide code snippets that cover some of the common tasks using the Azure Communication Services Verified Recipient Client. The scenarios that are covered here consist of:
+The following sections provide code snippets that cover some of the common tasks using the Azure Communication Services Recipient Verification Client. The scenarios that are covered here consist of:
 
 - [Request phone number verification code](#request-phone-number-verification-code)
 - [Verify phone number](#verify-phone-number)

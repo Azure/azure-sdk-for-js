@@ -219,7 +219,7 @@
     },
   "definitions": {
     "AcsVerification": {
-      "description": "Model verified recipients.",
+      "description": "Model response returned for users.",
       "type": "object",
       "properties": {
         "ImmutableId": {
