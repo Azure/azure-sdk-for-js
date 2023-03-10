@@ -93,7 +93,7 @@ const deserializationContentTypes = {
 /**
  * Provides configuration options for AppConfigurationClient.
  */
-export interface AppConfigurationClientOptions extends CommonClientOptions {}
+export interface AppConfigurationClientOptions extends CommonClientOptions { }
 
 /**
  * Provides internal configuration options for AppConfigurationClient.
@@ -331,24 +331,24 @@ export class AppConfigurationClient {
     options: ListConfigurationSettingsOptions = {}
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
     const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
-      {
-        firstPageLink: undefined,
-        getPage: async (pageLink: string | undefined) => {
-          const response = await this.sendConfigurationSettingsRequest(options, pageLink);
-          const currentResponse = {
-            ...response,
-            items: response.items != null ? response.items?.map(transformKeyValue) : [],
-            continuationToken: response.nextLink
-              ? extractAfterTokenFromNextLink(response.nextLink)
-              : undefined,
-          };
-          return {
-            page: currentResponse,
-            nextPageLink: currentResponse.continuationToken,
-          };
-        },
-        toElements: (page) => page.items,
-      };
+    {
+      firstPageLink: undefined,
+      getPage: async (pageLink: string | undefined) => {
+        const response = await this.sendConfigurationSettingsRequest(options, pageLink);
+        const currentResponse = {
+          ...response,
+          items: response.items != null ? response.items?.map(transformKeyValue) : [],
+          continuationToken: response.nextLink
+            ? extractAfterTokenFromNextLink(response.nextLink)
+            : undefined,
+        };
+        return {
+          page: currentResponse,
+          nextPageLink: currentResponse.continuationToken,
+        };
+      },
+      toElements: (page) => page.items,
+    };
     return getPagedAsyncIterator(pagedResult);
   }
 
@@ -531,7 +531,7 @@ export class AppConfigurationClient {
       options,
       async (updatedOptions) => {
         logger.info("[createSnapshot] Creating snapshot");
-        const originalResponse = await this.client.createSnapshot(
+        const originalResponse = await this.client.beginCreateSnapshotAndWait(
           snapshot.name,
           { ...snapshot },
           {
