@@ -6,7 +6,6 @@ import {
   ConfigurationSetting,
   ConfigurationSettingParam,
   ConfigurationSettingsFilter,
-  CreateSnapshotResponse,
   Snapshot,
 } from "../../src";
 import { Recorder, delay, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
@@ -1254,126 +1253,173 @@ describe("AppConfigurationClient", () => {
       });
     });
   });
-  describe("snapshot methods", () => {
-    let key1: string;
-    let key2: string;
-    let snapshot1: Snapshot;
-    let snapshot2: Snapshot;
+  describe("createSnapshot", () => {
     let filter1: ConfigurationSettingsFilter;
     let filter2: ConfigurationSettingsFilter;
-    let newSnapshot: CreateSnapshotResponse;
 
     before(async () => {
-      key1 = "key1";
-      key2 = "key2";
+      const key1 = recorder.variable(
+        "snapshotTest1",
+        `snapshotTest1${Math.floor(Math.random() * 1000)}`
+      );
+      const key2 = recorder.variable(
+        "snapshotTest2",
+        `snapshotTest2${Math.floor(Math.random() * 1000)}`
+      );
+
       filter1 = {
         key: key1,
-        label: "label1"
+        label: "label1",
       };
       filter2 = {
         key: key2,
         label: "label2",
       };
-      snapshot1 = {
-        name: "testSnapshot1",
-        retentionPeriod: 0,
-        filters: [filter1],
-      };
-      snapshot2 = {
-        name: "testSnapshot2",
-        filters: [filter1, filter2],
-      };
+
+      // creating a new setting for key1
+      await client.addConfigurationSetting({ ...filter1, value: "value1" });
+
+      // creating a new setting for key2
+      await client.addConfigurationSetting({ ...filter2, value: "value2" });
     });
 
     after(async () => {
-      // delete a new setting for key2
-      await client.deleteConfigurationSetting({ key: key1 });
-      // delete a new setting for key2
-      await client.deleteConfigurationSetting({ key: key2 });
+      await client.deleteConfigurationSetting({ ...filter1 });
+      await client.deleteConfigurationSetting({ ...filter2 });
     });
 
-    describe("createSnapshot", () => {
-      it.only("create a snapshot", async () => {
-        // creating a new setting for key1
-        // await client.addConfigurationSetting({ key: key1, value: "value1" });
+    it.only("create a snapshot", async () => {
+      const name = recorder.variable(
+        "snapshotTest1",
+        `snapshotTest1${Math.floor(Math.random() * 1000)}`
+      );
 
-        // // creating a new setting for key2
-        // await client.addConfigurationSetting({ key: key2, value: "value2" });
-        // creating a new snapshot
-        newSnapshot = await client.createSnapshot(snapshot1);
-        console.log(newSnapshot);
-        assert.equal(
-          newSnapshot.name,
-          "testSnapshot1",
-          "Unexpected name in result from createSnapshot()."
-        );
-        assert.equal(
-          newSnapshot.retentionPeriod,
-          0,
-          "Unexpected retentionPeriod in result from createSnapshot()."
-        );
-        assert.equal(
-          newSnapshot.filters[0],
-          filter1,
-          "Unexpected filters in result from createSnapshot()."
-        );
-        assert.equal(
-          newSnapshot.filters.length,
-          1,
-          "Unexpected filters in result from createSnapshot()."
-        );
-      });
+      const snapshot: Snapshot = {
+        name,
+        retentionPeriod: 0,
+        filters: [filter1],
+      };
 
-      it("service will throw error when try to create a snapshot of the same name", async () => {
-        // creating a new snapshot
-        newSnapshot = await client.createSnapshot(snapshot1);
-        assert.equal(
-          newSnapshot.name,
-          "testSnapshot1",
-          "Unexpected name in result from createSnapshot()."
-        );
-      });
+      // creating a new snapshot
+      let newSnapshot = await client.createSnapshot(snapshot);
+      console.log(newSnapshot);
+      assert.equal(
+        newSnapshot.name,
+        name,
+        "Unexpected name in result from createSnapshot()."
+      );
+      assert.equal(
+        newSnapshot.retentionPeriod,
+        0,
+        "Unexpected retentionPeriod in result from createSnapshot()."
+      );
+      
+      assert.deepEqual(
+        newSnapshot.filters[0],
+        filter1,
+        "Unexpected filters in result from createSnapshot()."
+      );
+      assert.equal(
+        newSnapshot.filters.length,
+        1,
+        "Unexpected filters in result from createSnapshot()."
+      );
+
+      while (newSnapshot.status != "ready") {
+        newSnapshot = await client.getSnapshot(newSnapshot.name);
+        await delay(2000);
+      }
+      
+      assert.equal(newSnapshot.itemCount, 1, "Unexpected itemCount in result from createSnapshot().");
+      
+      await client.archiveSnapshot(newSnapshot);
     });
 
-    describe("listConfigurationSettings for Snapshot", () => {
-      it("list a snapshot configuration setting", async () => {
-        // getting the configuration settting of the snapshot
-        const snapshotConfigurationSettings = await client.listConfigurationSettings({
-          snapshotName: newSnapshot.name,
-        });
+    it.only("service throws error when created snaps", async () => {
+            const name = recorder.variable(
+              "snapshotTest1",
+              `snapshotTest1${Math.floor(Math.random() * 1000)}`
+            );
 
-        for await (const setting of snapshotConfigurationSettings) {
-          console.log(`  Found key: ${setting.key}, label: ${setting.label}`);
-        }
-      });
+            const snapshot: Snapshot = {
+              name,
+              retentionPeriod: 0,
+              filters: [filter1],
+            };
+
+            // creating a new snapshot
+            let newSnapshot = await client.createSnapshot(snapshot);
+            console.log(newSnapshot);
+            assert.equal(
+              newSnapshot.name,
+              name,
+              "Unexpected name in result from createSnapshot()."
+            );
+            assert.equal(
+              newSnapshot.retentionPeriod,
+              0,
+              "Unexpected retentionPeriod in result from createSnapshot()."
+            );
+
+            assert.deepEqual(
+              newSnapshot.filters[0],
+              filter1,
+              "Unexpected filters in result from createSnapshot()."
+            );
+            assert.equal(
+              newSnapshot.filters.length,
+              1,
+              "Unexpected filters in result from createSnapshot()."
+            );
+
+            while (newSnapshot.status != "ready") {
+              newSnapshot = await client.getSnapshot(newSnapshot.name);
+              await delay(2000);
+            }
+
+            assert.equal(
+              newSnapshot.itemCount,
+              1,
+              "Unexpected itemCount in result from createSnapshot()."
+            );
+
+            await client.archiveSnapshot(newSnapshot);
     });
 
-    describe("listSnapshots", () => {
-      it("list all snapshots", async () => {
-        // creating a new snapshot
-        const newSnapshot2 = await client.createSnapshot(snapshot2);
-        console.log(`New snapshot object added ${newSnapshot2}`);
+    it("throws an error if the snapshot already exists", async () => {
+      const key = recorder.variable(
+        "addConfigTestTwice",
+        `addConfigTestTwice${Math.floor(Math.random() * 1000)}`
+      );
+      const label = "test";
+      const value = "foo";
+      const result = await client.addConfigurationSetting({ key, label, value });
 
-        // list all the snapshots
-        console.log(`List all the snapshots`);
-        await client.listSnapshots();
-      });
-    });
+      assert.equal(result.key, key, "Unexpected key in result from addConfigurationSetting().");
+      assert.equal(
+        result.label,
+        label,
+        "Unexpected label in result from addConfigurationSetting()."
+      );
+      assert.equal(
+        result.value,
+        value,
+        "Unexpected value in result from addConfigurationSetting()."
+      );
 
-    describe("archiveSnapshot", () => {
-      it("archive all snapshot", async () => {
-        // archive snapshot
-        await client.archiveSnapshot(newSnapshot);
-        console.log(`${newSnapshot.name} has been archived. Status is ${newSnapshot.status}`);
-      });
-    });
+      // attempt to add the same setting
+      try {
+        await client.addConfigurationSetting({ key, label, value });
+        throw new Error("Test failure");
+      } catch (err: any) {
+        assert.equal(
+          (err as { message: string }).message,
+          "Status 412: Setting was already present"
+        );
+        assert.notEqual((err as { message: string }).message, "Test failure");
+      }
 
-    describe("recoverSnapshot", () => {
-      it("recover a snapshot", async () => {
-        // archive snapshot
-        await client.recoverSnapshot(newSnapshot);
-        console.log(`${newSnapshot.name} has been archived. Status is ${newSnapshot.status}`);
-      });
+      await client.deleteConfigurationSetting({ key, label });
     });
   });
 });
