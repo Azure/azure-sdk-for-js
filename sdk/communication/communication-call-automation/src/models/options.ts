@@ -10,7 +10,7 @@ import {
   CallRejectReason,
   RecognizeInputType,
   FileSource,
-  DtmfTone
+  DtmfTone,
 } from "./models";
 
 /** Options to configure the recognize operation. */

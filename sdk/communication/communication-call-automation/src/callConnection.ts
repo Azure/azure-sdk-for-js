@@ -79,7 +79,7 @@ export class CallConnection {
 
   /**
    * Hang up the call for itself or terminate the whole call.
-   * 
+   *
    * @param isForEveryOne - Determine if every one in the call would be hung up or not.
    */
   public async hangUp(isForEveryOne: boolean, options: HangUpOptions = {}): Promise<void> {
@@ -93,7 +93,7 @@ export class CallConnection {
 
   /**
    * Get a participant from the call
-   * 
+   *
    * @param participantMri - The MRI of requested participant.
    */
   public async getParticipant(
@@ -132,7 +132,7 @@ export class CallConnection {
 
   /**
    * Add a participant to the call
-   * 
+   *
    * @param participant - The participant is going to be added.
    */
   public async addParticipant(
@@ -170,7 +170,7 @@ export class CallConnection {
 
   /**
    * Transfer the call to a target participant
-   * 
+   *
    * @param target - The target is going to be transferred to.
    */
   public async transferCallToParticipant(
@@ -198,7 +198,7 @@ export class CallConnection {
 
   /**
    * Remove a participant from the call
-   * 
+   *
    * @param participant - The participant is going to be removed from the call.
    */
   public async removeParticipant(

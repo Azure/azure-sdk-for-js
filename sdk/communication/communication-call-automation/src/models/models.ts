@@ -2,24 +2,29 @@
 // Licensed under the MIT license.
 
 import {
-    CommunicationIdentifier,
-    CommunicationUserIdentifier,
-    PhoneNumberIdentifier
+  CommunicationIdentifier,
+  CommunicationUserIdentifier,
+  PhoneNumberIdentifier,
 } from "@azure/communication-common";
 import {
-    CallConnectionStateModel,
-    KnownRecordingChannelType,
-    KnownRecordingContentType,
-    KnownRecordingFormatType,
-    KnownRecordingStorageType
+  CallConnectionStateModel,
+  KnownRecordingChannelType,
+  KnownRecordingContentType,
+  KnownRecordingFormatType,
+  KnownRecordingStorageType,
 } from "../generated/src";
 
 export {
-  CallConnectionStateModel, CallRejectReason,
-  KnownCallRejectReason, KnownMediaStreamingAudioChannelType,
-  KnownMediaStreamingContentType, KnownMediaStreamingTransportType,
-  MediaStreamingAudioChannelType, MediaStreamingConfiguration,
-  MediaStreamingContentType, MediaStreamingTransportType
+  CallConnectionStateModel,
+  CallRejectReason,
+  KnownCallRejectReason,
+  KnownMediaStreamingAudioChannelType,
+  KnownMediaStreamingContentType,
+  KnownMediaStreamingTransportType,
+  MediaStreamingAudioChannelType,
+  MediaStreamingConfiguration,
+  MediaStreamingContentType,
+  MediaStreamingTransportType,
 } from "../generated/src/models/index";
 
 /** Properties of a call connection */
