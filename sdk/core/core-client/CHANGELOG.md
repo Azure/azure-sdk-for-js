@@ -2,13 +2,9 @@
 
 ## 1.7.3 (2023-03-10)
 
-### Features Added
-
-### Breaking Changes
-
 ### Bugs Fixed
 
-### Other Changes
+- Fix an appended query param issue when the query key is encoded in returned link.
 
 ## 1.7.2 (2023-02-23)
 

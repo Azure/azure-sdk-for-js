@@ -253,4 +253,18 @@ describe("getRequestUrl", function () {
       "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01&api-version=2021-08-01&api-version=2022-08-01"
     );
   });
+
+  it("should NOT append query param when the query key is the same but one is encoded, the other is not", function () {
+    const url: string =
+      "https://management.azure.com/subscriptions/subscription-id/resources?api-version=2021-04-01&%24filter=ResourceType+eq+%27Microsoft.OperationsManagement%2fsolutions%27&%24top=1";
+
+    const queryParams: Map<string, string | string[]> = new Map<string, string | string[]>();
+    queryParams.set("$filter", "ResourceType+eq+%27Microsoft.OperationsManagement%2fsolutions%27");
+
+    const res: string = appendQueryParams(url, queryParams, new Set<string>(), true);
+    assert.strictEqual(
+      res,
+      "https://management.azure.com/subscriptions/subscription-id/resources?api-version=2021-04-01&%24filter=ResourceType+eq+%27Microsoft.OperationsManagement%2fsolutions%27&%24top=1"
+    );
+  });
 });

@@ -271,7 +271,7 @@ export function appendQueryParams(
   const combinedParams = simpleParseQueryParams(parsedUrl.search);
 
   for (const [name, value] of queryParams) {
-    const existingValue = combinedParams.get(name);
+    const existingValue = combinedParams.get(name) ?? combinedParams.get(encodeURIComponent(name));
     if (Array.isArray(existingValue)) {
       if (Array.isArray(value)) {
         existingValue.push(...value);
