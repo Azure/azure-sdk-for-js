@@ -1,14 +1,18 @@
 # Release History
 
-## 4.4.0-beta.2 (Unreleased)
+## 4.4.0 (Unreleased)
 
 ### Features Added
+
+- Added `KeyVaultSettingsClient` to get and update Managed HSM settings.
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+- `KeyVaultAccessControlClient`, `KeyVaultBackupClient`, and `KeyVaultSettingsClient` now support service version 7.4 by default.
 
 ## 4.4.0-beta.1 (2022-11-10)
 

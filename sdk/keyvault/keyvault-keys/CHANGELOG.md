@@ -1,13 +1,12 @@
 # Release History
 
-## 4.7.0-beta.2 (Unreleased)
+## 4.7.0 (Unreleased)
 
 ### Features Added
 
 ### Breaking Changes
 
-- Removed support for OKP key types as introduced in 4.7.0-beta.1.
-  - Removed `KeyClient.createOkpKey`.
+- Removed support for OKP key types as introduced in 4.7.0-beta.1. These changes are only breaking for customers consuming the 4.7.0-beta.1 API, and do not affect those consuming a stable release such as 4.6.0.
   - Removed `OKP` and `OKP-HSM` from `KnownKeyTypes`.
   - Removed `EdDSA` from `KnownSignatureAlgorithms`.
   - Removed `Ed25519` from `KnownKeyCurveNames`.
@@ -15,6 +14,8 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+- `KeyClient` and `CryptographyClient` now support service version 7.4 by default.
 
 ## 4.7.0-beta.1 (2022-11-10)
 

@@ -1,18 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 
 import { DataLakeServiceClient } from "../../src";
-import { recorderEnvSetup, getConnectionStringFromEnvironment } from "../utils";
+import {
+  recorderEnvSetup,
+  getConnectionStringFromEnvironment,
+  configureStorageClient,
+} from "../utils";
 
 describe("DataLakeServiceClient", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
   });
 
   afterEach(async function () {
@@ -28,6 +33,7 @@ describe("DataLakeServiceClient", () => {
         },
       }
     );
+    configureStorageClient(recorder, newClient);
 
     const listIter = newClient.listFileSystems();
     await listIter.next();

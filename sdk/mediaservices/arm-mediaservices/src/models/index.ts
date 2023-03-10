@@ -514,6 +514,8 @@ export interface MediaServiceUpdate {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** The minimum TLS version allowed for this account's requests. This is an optional property. If unspecified, a secure default value will be used. */
+  minimumTlsVersion?: MinimumTlsVersion;
 }
 
 /** The input to the sync storage keys request. */
@@ -1154,6 +1156,8 @@ export interface LiveEventInput {
   accessToken?: string;
   /** The input endpoints for the live event. */
   endpoints?: LiveEventEndpoint[];
+  /** The metadata endpoints for the live event. */
+  timedMetadataEndpoints?: LiveEventTimedMetadataEndpoint[];
 }
 
 /** The IP access control for live event input. */
@@ -1183,6 +1187,12 @@ export interface LiveEventEndpoint {
   /** The endpoint protocol. */
   protocol?: string;
   /** The endpoint URL. */
+  url?: string;
+}
+
+/** The live event metadata insertion endpoint. */
+export interface LiveEventTimedMetadataEndpoint {
+  /** The metadata endpoint URL. */
   url?: string;
 }
 
@@ -1256,6 +1266,202 @@ export interface CrossSiteAccessPolicies {
 export interface LiveEventActionInput {
   /** The flag indicates whether live outputs are automatically deleted when live event is being stopped. Deleting live outputs do not delete the underlying assets. */
   removeOutputsOnStop?: boolean;
+}
+
+/** Get live event status result. */
+export interface LiveEventGetStatusResult {
+  /** The result of the get live event status. */
+  value?: LiveEventStatus[];
+}
+
+/** The live event status. */
+export interface LiveEventStatus {
+  /** Current state of the live event. See https://go.microsoft.com/fwlink/?linkid=2139012 for more information. */
+  state?: LiveEventState;
+  /** Health status of last 20 seconds. */
+  healthStatus?: LiveEventHealthStatus;
+  /** List of strings justifying the health status. */
+  healthDescriptions?: string[];
+  /** Last updated UTC time of this status. */
+  lastUpdatedTime?: Date;
+  /** Live event ingestion entry. */
+  ingestion?: LiveEventIngestion;
+  /** Track entry list. */
+  trackStatus?: LiveEventTrackStatus[];
+}
+
+/** The live event ingestion telemetry data. */
+export interface LiveEventIngestion {
+  /** Ingestion stream name. */
+  streamName?: string;
+  /** Ingestion begin time in UTC. */
+  begin?: Date;
+  /** Ingestion end time in UTC. Empty if it's not stopped yet. */
+  end?: Date;
+  /** Reason why ingestion stops. Empty if it's not stopped yet. E.g) Service Stopped. No Ingestion. */
+  endReason?: string;
+  /** IngestInterruption entry list. */
+  ingestInterruptions?: LiveEventIngestInterruption[];
+}
+
+/** The live event ingest interruption data. */
+export interface LiveEventIngestInterruption {
+  /** UTC time of interruption start, encoder disconnected. */
+  begin?: Date;
+  /** UTC time of interruption end, encoder re-connected. */
+  end?: Date;
+  /** Duration of interruption in ISO 8601 time. For example, use PT1H30M to indicate 1 hour and 30 minutes. */
+  duration?: string;
+  /** Interruption reason. */
+  reason?: string;
+}
+
+/** The live event track status. */
+export interface LiveEventTrackStatus {
+  /** Track Id. */
+  trackId?: string;
+  /** Expected bitrate for this track. */
+  expectedBitrate?: number;
+  /** Average incoming bitrate for last 20 seconds when live event is running. */
+  incomingBitrate?: number;
+  /** Current ingest drift value in seconds for last 1 minute. */
+  ingestDrift?: string;
+  /** Total number of timed metadata request received. */
+  requestReceived?: number;
+  /** Total number of successful timed metadata request received. */
+  requestSucceeded?: number;
+}
+
+/** Get live event stream events result. */
+export interface LiveEventGetStreamEventsResult {
+  /** The result of the get live event stream events. */
+  value?: LiveEventStreamEvent[];
+}
+
+/** The live event stream event. */
+export interface LiveEventStreamEvent {
+  /** The type of the stream event. Format: StreamEvent/{eventType} */
+  eventType?: LiveEventStreamEventType;
+  /** The time event raised. */
+  eventTime?: Date;
+  /** Event level. */
+  eventLevel?: LiveEventStreamEventLevel;
+  /** Event data based on event type. */
+  data?: LiveEventStreamEventData;
+}
+
+/** The live event stream event data. */
+export interface LiveEventStreamEventData {
+  /** Name of the track. */
+  trackName?: string;
+  /** Stream ID in the format "trackName_bitrate" */
+  streamId?: string;
+  /** Track index. */
+  trackId?: number;
+  /** Type of the track. */
+  mediaType?: LiveEventStreamEventMediaType;
+  /** Bitrate of the track. */
+  bitrate?: number;
+  /** Fragment timestamp in timescale. */
+  mediaTimestamp?: string;
+  /** Timescale in which timestamps are expressed. */
+  timescale?: string;
+  /** Previous fragment timestamp in timescale. */
+  previousFragmentTimestamp?: string;
+  /** Previous fragment duration in timescale. */
+  previousFragmentDuration?: string;
+  /** Current fragment timestamp in timescale. */
+  currentFragmentTimestamp?: string;
+  /** Timestamp of first fragment used to make a comparison, in timescale. */
+  fragmentOneTimestamp?: string;
+  /** Duration of first fragment used to make a comparison, in timescale. */
+  fragmentOneDuration?: string;
+  /** Timestamp of second fragment used to make a comparison, in timescale. */
+  fragmentTwoTimestamp?: string;
+  /** Duration of second fragment used to make a comparison, in timescale. */
+  fragmentTwoDuration?: string;
+  /** Reason the fragment was dropped. */
+  fragmentDropReason?: string;
+  /** Length of the discontinuity gap in timescale. */
+  discontinuityGap?: number;
+  /** Identifier of the stream or connection. Encoder or customer is responsible to add this ID in the ingest URL. */
+  streamName?: string;
+  /** Result code. */
+  resultCode?: string;
+  /** Result message. */
+  resultMessage?: string;
+  /** Fragment duration. */
+  duration?: string;
+  /** Width x Height for video, null otherwise. */
+  resolution?: string;
+  /** The smaller timestamp of the two fragments compared. */
+  minTime?: string;
+  /** The media type of the smaller timestamp of two fragments compared. */
+  minTimeMediaType?: LiveEventStreamEventMinTimeMediaType;
+  /** The larger timestamp of the two fragments compared. */
+  maxTime?: string;
+  /** The media type of the larger timestamp of two fragments compared. */
+  maxTimeMediaType?: LiveEventStreamEventMaxTimeMediaType;
+  /** Timescale of the fragment with the smaller timestamp. */
+  timescaleOfMinTime?: string;
+  /** Timescale of the fragment with the larger timestamp. */
+  timescaleOfMaxTime?: string;
+  /** Truncated IP of the encoder. */
+  remoteIp?: string;
+  /** Port of the encoder. */
+  remotePort?: string;
+}
+
+/** Get live event track ingest heart beats result. */
+export interface LiveEventGetTrackIngestHeartbeatsResult {
+  /** The result of the get live event track events. */
+  value?: LiveEventTrackEvent[];
+}
+
+/** The live event track event. */
+export interface LiveEventTrackEvent {
+  /** The type of the track event. */
+  eventType?: LiveEventTrackEventType;
+  /** The time event raised. */
+  eventTime?: Date;
+  /** Event data. */
+  data?: LiveEventTrackEventData;
+}
+
+/** The live event track ingest heart beat event data. */
+export interface LiveEventTrackEventData {
+  /** Name of the track. */
+  trackName?: string;
+  /** Type of the track. */
+  trackType?: LiveEventTrackType;
+  /** Bitrate of the track. */
+  bitrate?: number;
+  /** Calculated bitrate based on data chunks coming from encoder. */
+  incomingBitrate?: number;
+  /** Latest timestamp received for a track in last 20 seconds. */
+  lastTimestamp?: string;
+  /** Timescale in which timestamps are expressed. */
+  timescale?: string;
+  /** Number of data chunks that had overlapped timestamps in last 20 seconds. */
+  overlapCount?: number;
+  /** Number of discontinuities detected in the last 20 seconds. */
+  discontinuityCount?: number;
+  /** Number of data chunks with timestamps in the past that were received in last 20 seconds. */
+  nonincreasingCount?: number;
+  /** If expected and actual bitrates differ by more than allowed limit in last 20 seconds. */
+  unexpectedBitrate?: boolean;
+  /** State of the live event. */
+  state?: string;
+  /** Indicates whether ingest is healthy. */
+  healthy?: boolean;
+  /** The last timestamp in UTC that a fragment arrived at the ingest endpoint. */
+  lastFragmentArrivalTime?: Date;
+  /** Indicates the speed of delay, in seconds-per-minute, of the incoming audio or video data during the last minute. The value is greater than zero if data is arriving to the live event slower than expected in the last minute; zero if data arrived with no delay; and "n/a" if no audio or video data was received. For example, if you have a contribution encoder sending in live content, and it is slowing down due to processing issues, or network latency, it may be only able to deliver a total of 58 seconds of audio or video in a one-minute period. This would be reported as two seconds-per-minute of drift. If the encoder is able to catch up and send all 60 seconds or more of data every minute, you will see this value reported as 0. If there was a disconnection or discontinuity from the encoder, this value may still display as 0, as it does not account for breaks in the data - only data that is delayed in timestamps. */
+  ingestDriftValue?: string;
+  /** This value is "On" for audio track heartbeats if live transcription is turned on, otherwise you will see an empty string. This state is only applicable to track type of "audio" for Live transcription. All other tracks will have an empty value. */
+  transcriptionState?: string;
+  /** The language code (in BCP-47 format) of the transcription language. For example, "de-de" indicates German (Germany). The value is empty for the video track heartbeats, or when live transcription is turned off. */
+  transcriptionLanguage?: string;
 }
 
 /** The status of an async operation. */
@@ -2446,6 +2652,8 @@ export interface MediaService extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** The minimum TLS version allowed for this account's requests. This is an optional property. If unspecified, a secure default value will be used. */
+  minimumTlsVersion?: MinimumTlsVersion;
 }
 
 /** The live event. */
@@ -2827,6 +3035,30 @@ export interface OperationResultsGetHeaders {
   azureAsyncOperation?: string;
 }
 
+/** Defines headers for LiveEvents_listGetStatus operation. */
+export interface LiveEventsListGetStatusHeaders {
+  /** The URI to poll for completion status. */
+  location?: string;
+  /** The URI to poll for completion status. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for LiveEvents_listGetStreamEvents operation. */
+export interface LiveEventsListGetStreamEventsHeaders {
+  /** The URI to poll for completion status. */
+  location?: string;
+  /** The URI to poll for completion status. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for LiveEvents_listGetTrackIngestHeartbeats operation. */
+export interface LiveEventsListGetTrackIngestHeartbeatsHeaders {
+  /** The URI to poll for completion status. */
+  location?: string;
+  /** The URI to poll for completion status. */
+  azureAsyncOperation?: string;
+}
+
 /** Known values of {@link FilterTrackPropertyType} that the service accepts. */
 export enum KnownFilterTrackPropertyType {
   /** The unknown track property type. */
@@ -3112,6 +3344,30 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
  */
 export type PrivateEndpointConnectionProvisioningState = string;
 
+/** Known values of {@link MinimumTlsVersion} that the service accepts. */
+export enum KnownMinimumTlsVersion {
+  /** Minimum TLS version is TLS 1.0. */
+  Tls10 = "Tls10",
+  /** Minimum TLS version is TLS 1.1. */
+  Tls11 = "Tls11",
+  /** Minimum TLS version is TLS 1.2. */
+  Tls12 = "Tls12",
+  /** Minimum TLS version is TLS 1.3. */
+  Tls13 = "Tls13"
+}
+
+/**
+ * Defines values for MinimumTlsVersion. \
+ * {@link KnownMinimumTlsVersion} can be used interchangeably with MinimumTlsVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Tls10**: Minimum TLS version is TLS 1.0. \
+ * **Tls11**: Minimum TLS version is TLS 1.1. \
+ * **Tls12**: Minimum TLS version is TLS 1.2. \
+ * **Tls13**: Minimum TLS version is TLS 1.3.
+ */
+export type MinimumTlsVersion = string;
+
 /** Known values of {@link AssetStorageEncryptionFormat} that the service accepts. */
 export enum KnownAssetStorageEncryptionFormat {
   /** The Asset does not use client-side storage encryption (this is the only allowed value for new Assets). */
@@ -3239,9 +3495,9 @@ export enum KnownJobErrorCode {
   UploadTransientError = "UploadTransientError",
   /** There was a problem with the combination of input files and the configuration settings applied, fix the configuration settings and retry with the same input, or change input to match the configuration. */
   ConfigurationUnsupported = "ConfigurationUnsupported",
-  /** There was a problem with the input content (for example: zero byte files, or corrupt/non-decodable files), check the input files. */
+  /** There was a problem with the input content (for example: zero byte files, or corrupt\/non-decodable files), check the input files. */
   ContentMalformed = "ContentMalformed",
-  /** There was a problem with the format of the input (not valid media file, or an unsupported file/codec), check the validity of the input files. */
+  /** There was a problem with the format of the input (not valid media file, or an unsupported file\/codec), check the validity of the input files. */
   ContentUnsupported = "ContentUnsupported",
   /** There was an error verifying to the account identity. Check and fix the identity configurations and retry. If unsuccessful, please contact support. */
   IdentityUnsupported = "IdentityUnsupported"
@@ -3538,6 +3794,192 @@ export enum KnownStreamOptionsFlag {
  */
 export type StreamOptionsFlag = string;
 
+/** Known values of {@link LiveEventState} that the service accepts. */
+export enum KnownLiveEventState {
+  /** This is the initial state of the live event after creation (unless autostart was set to true.) No billing occurs in this state. In this state, the live event properties can be updated but streaming is not allowed. */
+  Stopped = "Stopped",
+  /** The live event resources have been allocated, ingest and preview URLs have been generated, and it is capable of receiving live streams. At this point, billing is active. You must explicitly call Stop on the live event resource to halt further billing. */
+  Running = "Running"
+}
+
+/**
+ * Defines values for LiveEventState. \
+ * {@link KnownLiveEventState} can be used interchangeably with LiveEventState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Stopped**: This is the initial state of the live event after creation (unless autostart was set to true.) No billing occurs in this state. In this state, the live event properties can be updated but streaming is not allowed. \
+ * **Running**: The live event resources have been allocated, ingest and preview URLs have been generated, and it is capable of receiving live streams. At this point, billing is active. You must explicitly call Stop on the live event resource to halt further billing.
+ */
+export type LiveEventState = string;
+
+/** Known values of {@link LiveEventHealthStatus} that the service accepts. */
+export enum KnownLiveEventHealthStatus {
+  /** Incoming bitrate >= 75% of target bitrate AND no Ingest warning and error AND ABS(IngestDrift) is equal to 0. */
+  Excellent = "Excellent",
+  /** Incoming bitrate >= 20% AND no Ingest Error or warning exception discontinuities which gap < 10 seconds. */
+  Good = "Good",
+  /** Otherwise. */
+  Poor = "Poor"
+}
+
+/**
+ * Defines values for LiveEventHealthStatus. \
+ * {@link KnownLiveEventHealthStatus} can be used interchangeably with LiveEventHealthStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Excellent**: Incoming bitrate >= 75% of target bitrate AND no Ingest warning and error AND ABS(IngestDrift) is equal to 0. \
+ * **Good**: Incoming bitrate >= 20% AND no Ingest Error or warning exception discontinuities which gap < 10 seconds. \
+ * **Poor**: Otherwise.
+ */
+export type LiveEventHealthStatus = string;
+
+/** Known values of {@link LiveEventStreamEventType} that the service accepts. */
+export enum KnownLiveEventStreamEventType {
+  /** Ingest session begins. */
+  StreamEventBeginIngest = "StreamEvent/BeginIngest",
+  /** Ingest session ends. */
+  StreamEventEndIngest = "StreamEvent/EndIngest",
+  /** First fragment received on ingest media track. */
+  StreamEventFirstChunkReceived = "StreamEvent/FirstChunkReceived",
+  /** Fragment dropped. */
+  StreamEventChunkDropped = "StreamEvent/ChunkDropped",
+  /** Unaligned video keyframes detected. */
+  StreamEventUnalignedKeyFrames = "StreamEvent/UnalignedKeyFrames",
+  /** Unaligned presentation detected, meaning two fragments across two quality levels are not time aligned. */
+  StreamEventUnalignedPresentation = "StreamEvent/UnalignedPresentation",
+  /** Timestamp discontinuity detected. */
+  StreamEventDiscontinuity = "StreamEvent/Discontinuity",
+  /** Ingest session denied. */
+  StreamEventInvalidConnection = "StreamEvent/InvalidConnection"
+}
+
+/**
+ * Defines values for LiveEventStreamEventType. \
+ * {@link KnownLiveEventStreamEventType} can be used interchangeably with LiveEventStreamEventType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **StreamEvent\/BeginIngest**: Ingest session begins. \
+ * **StreamEvent\/EndIngest**: Ingest session ends. \
+ * **StreamEvent\/FirstChunkReceived**: First fragment received on ingest media track. \
+ * **StreamEvent\/ChunkDropped**: Fragment dropped. \
+ * **StreamEvent\/UnalignedKeyFrames**: Unaligned video keyframes detected. \
+ * **StreamEvent\/UnalignedPresentation**: Unaligned presentation detected, meaning two fragments across two quality levels are not time aligned. \
+ * **StreamEvent\/Discontinuity**: Timestamp discontinuity detected. \
+ * **StreamEvent\/InvalidConnection**: Ingest session denied.
+ */
+export type LiveEventStreamEventType = string;
+
+/** Known values of {@link LiveEventStreamEventLevel} that the service accepts. */
+export enum KnownLiveEventStreamEventLevel {
+  /** Critical */
+  Critical = "Critical",
+  /** Error */
+  Error = "Error",
+  /** Warning */
+  Warning = "Warning",
+  /** Information */
+  Information = "Information"
+}
+
+/**
+ * Defines values for LiveEventStreamEventLevel. \
+ * {@link KnownLiveEventStreamEventLevel} can be used interchangeably with LiveEventStreamEventLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Critical** \
+ * **Error** \
+ * **Warning** \
+ * **Information**
+ */
+export type LiveEventStreamEventLevel = string;
+
+/** Known values of {@link LiveEventStreamEventMediaType} that the service accepts. */
+export enum KnownLiveEventStreamEventMediaType {
+  /** Audio */
+  Audio = "audio",
+  /** Video */
+  Video = "video"
+}
+
+/**
+ * Defines values for LiveEventStreamEventMediaType. \
+ * {@link KnownLiveEventStreamEventMediaType} can be used interchangeably with LiveEventStreamEventMediaType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **audio** \
+ * **video**
+ */
+export type LiveEventStreamEventMediaType = string;
+
+/** Known values of {@link LiveEventStreamEventMinTimeMediaType} that the service accepts. */
+export enum KnownLiveEventStreamEventMinTimeMediaType {
+  /** Audio */
+  Audio = "Audio",
+  /** Video */
+  Video = "Video"
+}
+
+/**
+ * Defines values for LiveEventStreamEventMinTimeMediaType. \
+ * {@link KnownLiveEventStreamEventMinTimeMediaType} can be used interchangeably with LiveEventStreamEventMinTimeMediaType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Audio** \
+ * **Video**
+ */
+export type LiveEventStreamEventMinTimeMediaType = string;
+
+/** Known values of {@link LiveEventStreamEventMaxTimeMediaType} that the service accepts. */
+export enum KnownLiveEventStreamEventMaxTimeMediaType {
+  /** Audio */
+  Audio = "Audio",
+  /** Video */
+  Video = "Video"
+}
+
+/**
+ * Defines values for LiveEventStreamEventMaxTimeMediaType. \
+ * {@link KnownLiveEventStreamEventMaxTimeMediaType} can be used interchangeably with LiveEventStreamEventMaxTimeMediaType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Audio** \
+ * **Video**
+ */
+export type LiveEventStreamEventMaxTimeMediaType = string;
+
+/** Known values of {@link LiveEventTrackEventType} that the service accepts. */
+export enum KnownLiveEventTrackEventType {
+  /** Track heartbeat received. */
+  TrackEventIngestHeartbeat = "TrackEvent/IngestHeartbeat"
+}
+
+/**
+ * Defines values for LiveEventTrackEventType. \
+ * {@link KnownLiveEventTrackEventType} can be used interchangeably with LiveEventTrackEventType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **TrackEvent\/IngestHeartbeat**: Track heartbeat received.
+ */
+export type LiveEventTrackEventType = string;
+
+/** Known values of {@link LiveEventTrackType} that the service accepts. */
+export enum KnownLiveEventTrackType {
+  /** Audio */
+  Audio = "audio",
+  /** Video */
+  Video = "video"
+}
+
+/**
+ * Defines values for LiveEventTrackType. \
+ * {@link KnownLiveEventTrackType} can be used interchangeably with LiveEventTrackType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **audio** \
+ * **video**
+ */
+export type LiveEventTrackType = string;
+
 /** Known values of {@link AsyncOperationStatus} that the service accepts. */
 export enum KnownAsyncOperationStatus {
   /** Succeeded */
@@ -3794,9 +4236,9 @@ export type AacAudioProfile = string;
 export enum KnownH265VideoProfile {
   /** Tells the encoder to automatically determine the appropriate H.265 profile. */
   Auto = "Auto",
-  /** Main profile (https://x265.readthedocs.io/en/default/cli.html?highlight=profile#profile-level-tier) */
+  /** Main profile (https:\//x265.readthedocs.io\/en\/default\/cli.html?highlight=profile#profile-level-tier) */
   Main = "Main",
-  /** Main 10 profile (https://en.wikipedia.org/wiki/High_Efficiency_Video_Coding#Main_10) */
+  /** Main 10 profile (https:\//en.wikipedia.org\/wiki\/High_Efficiency_Video_Coding#Main_10) */
   Main10 = "Main10"
 }
 
@@ -3817,7 +4259,7 @@ export enum KnownVideoSyncMode {
   Auto = "Auto",
   /** The presentation timestamps on frames are passed through from the input file to the output file writer. Recommended when the input source has variable frame rate, and are attempting to produce multiple layers for adaptive streaming in the output which have aligned GOP boundaries. Note: if two or more frames in the input have duplicate timestamps, then the output will also have the same behavior */
   Passthrough = "Passthrough",
-  /** Input frames will be repeated and/or dropped as needed to achieve exactly the requested constant frame rate. Recommended when the output frame rate is explicitly set at a specified value */
+  /** Input frames will be repeated and\/or dropped as needed to achieve exactly the requested constant frame rate. Recommended when the output frame rate is explicitly set at a specified value */
   Cfr = "Cfr",
   /** Similar to the Passthrough mode, but if the input has frames that have duplicate timestamps, then only one frame is passed through to the output, and others are dropped. Recommended when the number of output frames is expected to be equal to the number of input frames. For example, the output is used to calculate a quality metric like PSNR against the input */
   Vfr = "Vfr"
@@ -4004,7 +4446,7 @@ export type BlurType = string;
 export enum KnownAudioAnalysisMode {
   /** Performs all operations included in the Basic mode, additionally performing language detection and speaker diarization. */
   Standard = "Standard",
-  /** This mode performs speech-to-text transcription and generation of a VTT subtitle/caption file. The output of this mode includes an Insights JSON file including only the keywords, transcription,and timing information. Automatic language detection and speaker diarization are not included in this mode. */
+  /** This mode performs speech-to-text transcription and generation of a VTT subtitle\/caption file. The output of this mode includes an Insights JSON file including only the keywords, transcription,and timing information. Automatic language detection and speaker diarization are not included in this mode. */
   Basic = "Basic"
 }
 
@@ -4977,6 +5419,42 @@ export interface LiveEventsResetOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface LiveEventsListGetStatusOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the listGetStatus operation. */
+export type LiveEventsListGetStatusResponse = LiveEventGetStatusResult;
+
+/** Optional parameters. */
+export interface LiveEventsListGetStreamEventsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the listGetStreamEvents operation. */
+export type LiveEventsListGetStreamEventsResponse = LiveEventGetStreamEventsResult;
+
+/** Optional parameters. */
+export interface LiveEventsListGetTrackIngestHeartbeatsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the listGetTrackIngestHeartbeats operation. */
+export type LiveEventsListGetTrackIngestHeartbeatsResponse = LiveEventGetTrackIngestHeartbeatsResult;
 
 /** Optional parameters. */
 export interface LiveEventsAsyncOperationOptionalParams

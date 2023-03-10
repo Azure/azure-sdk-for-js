@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay, isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
-import { getYieldedValue } from "@azure/test-utils";
+import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { getYieldedValue, isNode } from "@azure/test-utils";
 import { assert } from "chai";
 import { Context } from "mocha";
 
@@ -20,13 +20,19 @@ import {
   getGenericDataLakeServiceClient,
   isBrowser,
   getEncryptionScope,
+  getUniqueName,
+  configureStorageClient,
+  uriSanitizers,
 } from "./utils";
 
 describe("DataLakeServiceClient", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    // make sure we add the sanitizers on playback for SAS strings
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
   });
 
   afterEach(async function () {
@@ -34,7 +40,7 @@ describe("DataLakeServiceClient", () => {
   });
 
   it("SetProperties and GetProperties", async () => {
-    const serviceClient = getDataLakeServiceClient();
+    const serviceClient = getDataLakeServiceClient(recorder);
     const previousProperties = await serviceClient.getProperties();
 
     let serviceProperties: DataLakeServiceProperties;
@@ -130,7 +136,7 @@ describe("DataLakeServiceClient", () => {
   });
 
   it("ListFileSystems with default parameters", async () => {
-    const serviceClient = getDataLakeServiceClient();
+    const serviceClient = getDataLakeServiceClient(recorder);
     const result = (await serviceClient.listFileSystems().byPage().next())
       .value as ServiceListFileSystemsSegmentResponse;
     assert.ok(typeof result.requestId);
@@ -158,9 +164,9 @@ describe("DataLakeServiceClient", () => {
     } catch {
       this.skip();
     }
-    const serviceClient = getDataLakeServiceClient();
+    const serviceClient = getDataLakeServiceClient(recorder);
 
-    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     const cClient = serviceClient.getFileSystemClient(fileSystemName);
     await cClient.create({
       fileSystemEncryptionScope: {
@@ -191,9 +197,9 @@ describe("DataLakeServiceClient", () => {
     } catch {
       this.skip();
     }
-    const serviceClient = getDataLakeServiceClient();
+    const serviceClient = getDataLakeServiceClient(recorder);
 
-    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     const cClient = serviceClient.getFileSystemClient(fileSystemName);
     await cClient.create({
       fileSystemEncryptionScope: {
@@ -216,7 +222,7 @@ describe("DataLakeServiceClient", () => {
   });
 
   it("ListFileSystems with default parameters - null prefix shouldn't throw error", async () => {
-    const serviceClient = getDataLakeServiceClient();
+    const serviceClient = getDataLakeServiceClient(recorder);
     const result = (await serviceClient.listFileSystems({ prefix: "" }).byPage().next()).value;
 
     assert.ok(result.fileSystemItems.length >= 0);
@@ -229,13 +235,15 @@ describe("DataLakeServiceClient", () => {
     }
   });
 
-  it("ListFileSystems with all parameters configured", async () => {
+  it("ListFileSystems with all parameters configured", async function (this: Context) {
     // Skip browser mock test because of account name replacement issue with recorded requests
-    recorder.skip("browser");
+    if (!isNode && !isLiveMode()) {
+      this.skip();
+    }
 
-    const serviceClient = getDataLakeServiceClient();
+    const serviceClient = getDataLakeServiceClient(recorder);
 
-    const fileSystemNamePrefix = recorder.getUniqueName("filesystem1");
+    const fileSystemNamePrefix = recorder.variable("filesystem1", getUniqueName("filesystem1"));
     const fileSystemName1 = `${fileSystemNamePrefix}x1`;
     const fileSystemName2 = `${fileSystemNamePrefix}x2`;
     const fileSystemClient1 = serviceClient.getFileSystemClient(fileSystemName1);
@@ -291,9 +299,9 @@ describe("DataLakeServiceClient", () => {
 
   it("Verify PagedAsyncIterableIterator for ListFileSystems", async () => {
     const fileSystemClients = [];
-    const serviceClient = getDataLakeServiceClient();
+    const serviceClient = getDataLakeServiceClient(recorder);
 
-    const fileSystemNamePrefix = recorder.getUniqueName("filesystem2");
+    const fileSystemNamePrefix = recorder.variable("filesystem2", getUniqueName("filesystem2"));
 
     for (let i = 0; i < 4; i++) {
       const fileSystemName = `${fileSystemNamePrefix}x${i}`;
@@ -322,9 +330,9 @@ describe("DataLakeServiceClient", () => {
   });
 
   it("Verify PagedAsyncIterableIterator(generator .next() syntax) for ListFileSystems", async () => {
-    const serviceClient = getDataLakeServiceClient();
+    const serviceClient = getDataLakeServiceClient(recorder);
 
-    const fileSystemNamePrefix = recorder.getUniqueName("filesystem3");
+    const fileSystemNamePrefix = recorder.variable("filesystem3", getUniqueName("filesystem3"));
     const fileSystemName1 = `${fileSystemNamePrefix}x1`;
     const fileSystemName2 = `${fileSystemNamePrefix}x2`;
     const fileSystemClient1 = serviceClient.getFileSystemClient(fileSystemName1);
@@ -361,14 +369,16 @@ describe("DataLakeServiceClient", () => {
     await fileSystemClient2.deleteIfExists();
   });
 
-  it("Verify PagedAsyncIterableIterator(byPage()) for ListFileSystems", async () => {
+  it("Verify PagedAsyncIterableIterator(byPage()) for ListFileSystems", async function (this: Context) {
     // Skip browser mock test because of account name replacement issue with recorded requests
-    recorder.skip("browser");
+    if (!isNode && !isLiveMode()) {
+      this.skip();
+    }
 
     const fileSystemClients = [];
-    const serviceClient = getDataLakeServiceClient();
+    const serviceClient = getDataLakeServiceClient(recorder);
 
-    const fileSystemNamePrefix = recorder.getUniqueName("filesystem4");
+    const fileSystemNamePrefix = recorder.variable("filesystem4", getUniqueName("filesystem4"));
 
     for (let i = 0; i < 4; i++) {
       const fileSystemName = `${fileSystemNamePrefix}x${i}`;
@@ -400,14 +410,16 @@ describe("DataLakeServiceClient", () => {
     }
   });
 
-  it("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for ListFileSystems", async () => {
+  it("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for ListFileSystems", async function (this: Context) {
     // Skip browser mock test because of account name replacement issue with recorded requests
-    recorder.skip("browser");
+    if (!isNode && !isLiveMode()) {
+      this.skip();
+    }
 
     const fileSystemClients = [];
-    const serviceClient = getDataLakeServiceClient();
+    const serviceClient = getDataLakeServiceClient(recorder);
 
-    const fileSystemNamePrefix = recorder.getUniqueName("filesystem5");
+    const fileSystemNamePrefix = recorder.variable("filesystem5", getUniqueName("filesystem5"));
 
     for (let i = 0; i < 4; i++) {
       const fileSystemName = `${fileSystemNamePrefix}x${i}`;
@@ -461,8 +473,8 @@ describe("DataLakeServiceClient", () => {
   });
 
   // it("createFileSystem and deleteFileSystem", async () => {
-  //   const serviceClient = getDataLakeServiceClient();
-  //   const fileSystemName = recorder.getUniqueName("filesystem6");
+  //   const serviceClient = getDataLakeServiceClient(recorder);
+  //   const fileSystemName = recorder.variable("filesystem6", getUniqueName("filesystem6"));;
   //   const access = "filesystem";
   //   const metadata = { key: "value" };
 
@@ -490,7 +502,7 @@ describe("DataLakeServiceClient", () => {
     // when DFS_ACCOUNT_TOKEN environment variable is set
     let serviceURLWithToken: DataLakeServiceClient | undefined;
     try {
-      serviceURLWithToken = getTokenDataLakeServiceClient();
+      serviceURLWithToken = getTokenDataLakeServiceClient(recorder);
     } catch {
       this.skip();
     }
@@ -501,9 +513,9 @@ describe("DataLakeServiceClient", () => {
       this.skip();
     }
 
-    const now = recorder.newDate("now");
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setHours(now.getHours() + 1);
-    const tmr = recorder.newDate("tmr");
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
     const response = await serviceURLWithToken!.getUserDelegationKey(now, tmr);
     assert.notDeepEqual(response.value, undefined);
@@ -524,6 +536,7 @@ describe("DataLakeServiceClient", () => {
         },
       }
     );
+    configureStorageClient(recorder, newClient);
 
     const listIter = newClient.listFileSystems();
     await listIter.next();
@@ -531,17 +544,15 @@ describe("DataLakeServiceClient", () => {
   });
 
   it("renameFileSystem should work", async function (this: Context) {
-    if (isLiveMode()) {
-      // Turn on this case when the Container Rename feature is ready in the service side.
-      this.skip();
-    }
+    // Turn on this case when the Container Rename feature is ready in the service side.
+    this.skip();
 
-    const serviceClient = getDataLakeServiceClient();
-    const fileSystemName = recorder.getUniqueName("filesystem");
+    const serviceClient = getDataLakeServiceClient(recorder);
+    const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();
 
-    const newFileSystemName = recorder.getUniqueName("newfilesystem");
+    const newFileSystemName = recorder.variable("newfilesystem", getUniqueName("newfilesystem"));
     // const renameRes = await serviceClient.renameFileSystem(fileSystemName, newFileSystemName);
     const renameRes = await serviceClient["renameFileSystem"](fileSystemName, newFileSystemName);
 
@@ -553,20 +564,18 @@ describe("DataLakeServiceClient", () => {
   });
 
   it("renameFileSystem should work with source lease", async function (this: Context) {
-    if (isLiveMode()) {
-      // Turn on this case when the Container Rename feature is ready in the service side.
-      this.skip();
-    }
+    // Turn on this case when the Container Rename feature is ready in the service side.
+    this.skip();
 
-    const serviceClient = getDataLakeServiceClient();
-    const fileSystemName = recorder.getUniqueName("filesystem");
+    const serviceClient = getDataLakeServiceClient(recorder);
+    const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();
 
     const leaseClient = fileSystemClient.getDataLakeLeaseClient();
     await leaseClient.acquireLease(-1);
 
-    const newFileSystemName = recorder.getUniqueName("newfilesystem");
+    const newFileSystemName = recorder.variable("newfilesystem", getUniqueName("newfilesystem"));
     // const renameRes = await serviceClient.renameFileSystem(fileSystemName, newFileSystemName, {
     const renameRes = await serviceClient["renameFileSystem"](fileSystemName, newFileSystemName, {
       sourceCondition: { leaseId: leaseClient.leaseId },
@@ -582,12 +591,12 @@ describe("DataLakeServiceClient", () => {
   it("undelete and list deleted file system should work", async function (this: Context) {
     let serviceClient: DataLakeServiceClient;
     try {
-      serviceClient = getGenericDataLakeServiceClient("DFS_SOFT_DELETE_");
+      serviceClient = getGenericDataLakeServiceClient(recorder, "DFS_SOFT_DELETE_");
     } catch (err: any) {
       this.skip();
     }
 
-    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();
 

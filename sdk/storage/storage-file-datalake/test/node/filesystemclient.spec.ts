@@ -2,13 +2,19 @@
 // Licensed under the MIT license.
 
 import { TokenCredential } from "@azure/core-auth";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 
 import { DataLakeFileSystemClient, FileSystemSASPermissions, newPipeline } from "../../src";
 import { PublicAccessType } from "../../src/models";
-import { getDataLakeServiceClient, recorderEnvSetup } from "../utils";
+import {
+  configureStorageClient,
+  getDataLakeServiceClient,
+  getUniqueName,
+  recorderEnvSetup,
+  uriSanitizers,
+} from "../utils";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 
 describe("DataLakeFileSystemClient Node.js only", () => {
@@ -17,9 +23,12 @@ describe("DataLakeFileSystemClient Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    const serviceClient = getDataLakeServiceClient();
-    fileSystemName = recorder.getUniqueName("filesystem");
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    // make sure we add the sanitizers on playback for SAS strings
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    const serviceClient = getDataLakeServiceClient(recorder);
+    fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.createIfNotExists();
   });
@@ -78,6 +87,7 @@ describe("DataLakeFileSystemClient Node.js only", () => {
   it("can be created with a url and a credential", async () => {
     const credential = fileSystemClient.credential;
     const newClient = new DataLakeFileSystemClient(fileSystemClient.url, credential);
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -99,6 +109,7 @@ describe("DataLakeFileSystemClient Node.js only", () => {
         maxTries: 5,
       },
     });
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -129,6 +140,7 @@ describe("DataLakeFileSystemClient Node.js only", () => {
     const credential = fileSystemClient.credential;
     const pipeline = newPipeline(credential);
     const newClient = new DataLakeFileSystemClient(fileSystemClient.url, pipeline);
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 

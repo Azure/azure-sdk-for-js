@@ -21,7 +21,7 @@ require("dotenv").config();
 async function getStatusOfAsynchronousOperationWhenItIsCompletedWithError() {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
   const accountName = "contosomedia";
   const assetName = "ClimbingMountRainer";
   const trackName = "text1";
@@ -47,7 +47,7 @@ async function getStatusOfAsynchronousOperationWhenItIsCompletedWithError() {
 async function getStatusOfAsynchronousOperationWhenItIsCompleted() {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
   const accountName = "contosomedia";
   const assetName = "ClimbingMountRainer";
   const trackName = "text1";
@@ -73,7 +73,7 @@ async function getStatusOfAsynchronousOperationWhenItIsCompleted() {
 async function getStatusOfAsynchronousOperationWhenItIsOngoing() {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
   const accountName = "contosomedia";
   const assetName = "ClimbingMountRainer";
   const trackName = "text1";

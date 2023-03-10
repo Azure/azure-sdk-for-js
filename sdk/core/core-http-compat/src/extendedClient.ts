@@ -2,7 +2,10 @@
 // Licensed under the MIT license.
 
 import { KeepAliveOptions } from "./policies/keepAliveOptions";
-import { createDisableKeepAlivePolicy } from "./policies/disableKeepAlivePolicy";
+import {
+  createDisableKeepAlivePolicy,
+  pipelineContainsDisableKeepAlivePolicy,
+} from "./policies/disableKeepAlivePolicy";
 import { RedirectOptions } from "./policies/redirectOptions";
 import { redirectPolicyName } from "@azure/core-rest-pipeline";
 import {
@@ -47,7 +50,10 @@ export class ExtendedServiceClient extends ServiceClient {
   constructor(options: ExtendedServiceClientOptions) {
     super(options);
 
-    if (options.keepAliveOptions?.enable === false) {
+    if (
+      options.keepAliveOptions?.enable === false &&
+      !pipelineContainsDisableKeepAlivePolicy(this.pipeline)
+    ) {
       this.pipeline.addPolicy(createDisableKeepAlivePolicy());
     }
 
