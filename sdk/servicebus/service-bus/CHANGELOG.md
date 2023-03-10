@@ -1,6 +1,6 @@
 # Release History
 
-## 7.8.2 (Unreleased)
+## 7.9.0 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,8 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+- upgrade dependency `rhea-promise` version to `^3.0.0`.
 
 ## 7.8.1 (2023-03-07)
 
