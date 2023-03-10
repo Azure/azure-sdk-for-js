@@ -4,7 +4,6 @@
 
 ```ts
 
-import { AzureLogger } from '@azure/logger';
 import { CommonClientOptions } from '@azure/core-client';
 import { CommunicationIdentifier } from '@azure/communication-common';
 import { CommunicationUserIdentifier } from '@azure/communication-common';
@@ -64,12 +63,12 @@ export class CallAutomationClient {
     constructor(connectionString: string, options?: CallAutomationClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: CallAutomationClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: CallAutomationClientOptions);
-    answerCall(incomingCallContext: string, callbackUrl: string, options?: AnswerCallOptions): Promise<AnswerCallResult>;
-    createCall(target: CallInvite | CommunicationIdentifier[], callbackUrl: string, options?: CreateCallOptions): Promise<CreateCallResult>;
+    answerCall(incomingCallContext: string, callbackUri: string, options?: AnswerCallOptions): Promise<AnswerCallResult>;
+    createCall(target: CallInvite | CommunicationIdentifier[], callbackUri: string, options?: CreateCallOptions): Promise<CreateCallResult>;
     getCallConnection(callConnectionId: string): CallConnection;
     getCallRecording(): CallRecording;
     getSourceIdentity(): CommunicationUserIdentifier | undefined;
-    redirectCall(incomingCallContext: string, targetCallInvite: CallInvite, options?: RedirectCallOptions): Promise<void>;
+    redirectCall(incomingCallContext: string, target: CallInvite, options?: RedirectCallOptions): Promise<void>;
     rejectCall(incomingCallContext: string, options?: RejectCallOptions): Promise<void>;
 }
 
@@ -130,7 +129,7 @@ export interface CallDisconnected extends RestCallDisconnected {
     kind: "CallDisconnected";
 }
 
-// @public (undocumented)
+// @public
 export class CallInvite {
     constructor(targetPhoneNumberIdentity: PhoneNumberIdentifier, callerIdNumber: PhoneNumberIdentifier);
     constructor(targetPhoneNumberIdentity: PhoneNumberIdentifier, callerIdNumber: PhoneNumberIdentifier, sipHeader: {
@@ -280,7 +279,7 @@ export type GetParticipantOptions = OperationOptions;
 // @public
 export type GetRecordingPropertiesOptions = OperationOptions;
 
-// @public (undocumented)
+// @public
 export interface GroupCallLocator {
     // (undocumented)
     id: string;
@@ -319,9 +318,6 @@ export interface ListParticipantsResult {
     nextLink?: string;
     values?: CallParticipant[];
 }
-
-// @public
-export const logger: AzureLogger;
 
 // @public
 export type MediaStreamingAudioChannelType = string;
@@ -415,7 +411,7 @@ export enum RecordingContent {
     // (undocumented)
     Audio = "audio",
     // (undocumented)
-    Video = "audioVideo"
+    AudioVideo = "audioVideo"
 }
 
 // @public
@@ -585,10 +581,7 @@ export interface ResultInformation {
 // @public
 export type ResumeRecordingOptions = OperationOptions;
 
-// @public (undocumented)
-export const SDK_VERSION: string;
-
-// @public (undocumented)
+// @public
 export interface ServerCallLocator {
     // (undocumented)
     id: string;
