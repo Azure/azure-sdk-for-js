@@ -121,7 +121,7 @@ export class ContainerRegistryBlobClient {
     endpoint: string,
     repositoryName: string,
     credential: TokenCredential,
-    options: ContainerRegistryBlobClientOptions
+    options: ContainerRegistryBlobClientOptions = {}
   ) {
     if (!endpoint) {
       throw new Error("invalid endpoint");
