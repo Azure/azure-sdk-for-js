@@ -24,18 +24,18 @@
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
-        "Content-Length": "116",
+        "Content-Length": "108",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 07 Mar 2023 11:43:16 GMT",
-        "MS-CV": "SyHLOmOtZkqRYc0QHeXo2g.0",
+        "Date": "Fri, 10 Mar 2023 08:59:58 GMT",
+        "MS-CV": "nq3itrFJ7Em9l73DYxqO1w.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0VCMHZAAAAABuepyYv0hlS69R/MwOZQnvTFRTRURHRTEzMTIAY2M5Mjc1OGQtMDVmNy00YWQ2LWFhNWUtMGZhOTcxOGQ4OTg1",
+        "X-Azure-Ref": "0jfEKZAAAAADQkdBf8zxDSr9tZrUCkmOVUFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "168ms"
+        "X-Processing-Time": "165ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test91f7ac5f25864a19beed0b3963e9986b.nostojic13012023.skype.net": {
+          "testa1384d334b594b4ba2c510d67777bdd4.sanitized.sbc.test": {
             "sipSignalingPort": 4567
           }
         },
@@ -51,7 +51,7 @@
         "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "83",
+        "Content-Length": "75",
         "Content-Type": "application/merge-patch\u002Bjson",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
@@ -66,7 +66,7 @@
       },
       "RequestBody": {
         "trunks": {
-          "test91f7ac5f25864a19beed0b3963e9986b.nostojic13012023.skype.net": null
+          "testa1384d334b594b4ba2c510d67777bdd4.sanitized.sbc.test": null
         }
       },
       "StatusCode": 200,
@@ -74,12 +74,12 @@
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
         "Content-Length": "25",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 07 Mar 2023 11:43:16 GMT",
-        "MS-CV": "ygKObhw1DkSvi6K0H/6q7w.0",
+        "Date": "Fri, 10 Mar 2023 08:59:58 GMT",
+        "MS-CV": "OC66IAXUL0m1i5mTTm3C1w.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0VCMHZAAAAADsaARmpbXBT5ARjYxit8BUTFRTRURHRTEzMTIAY2M5Mjc1OGQtMDVmNy00YWQ2LWFhNWUtMGZhOTcxOGQ4OTg1",
+        "X-Azure-Ref": "0jvEKZAAAAABEkK25GHxaS6YsJvSSWpR2UFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "413ms"
+        "X-Processing-Time": "401ms"
       },
       "ResponseBody": {
         "trunks": {},
@@ -112,12 +112,12 @@
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
         "Content-Length": "25",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 07 Mar 2023 11:43:17 GMT",
-        "MS-CV": "G2gp3PQSKEG\u002BcKuSuRe3XQ.0",
+        "Date": "Fri, 10 Mar 2023 08:59:59 GMT",
+        "MS-CV": "kFMQrmBR0kygYQQYQEVlTA.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0VSMHZAAAAACGT8ZlWd6sR6erMm4EOI76TFRTRURHRTEzMTIAY2M5Mjc1OGQtMDVmNy00YWQ2LWFhNWUtMGZhOTcxOGQ4OTg1",
+        "X-Azure-Ref": "0jvEKZAAAAAD6wxp5ImnQS6f996SiA90DUFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "166ms"
+        "X-Processing-Time": "414ms"
       },
       "ResponseBody": {
         "trunks": {},
@@ -126,9 +126,9 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "test4c523cfb6db94b0e90ae983144a5c9e9.nostojic13012023.skype.net",
-    "fqdn-2": "test6ca48cb496664ee2ac6caf1a656c2acf.nostojic13012023.skype.net",
-    "fqdn-3": "testd749ddaac6db450b82c70f309684803f.nostojic13012023.skype.net",
-    "fqdn-4": "testfd608f63a0f846419b1216dc1633756b.nostojic13012023.skype.net"
+    "fqdn-1": "test136fe9fdac964c9e8d6d494987ecc3f5.sanitized.sbc.test",
+    "fqdn-2": "test86a0499a4129434b9de813e8d3b545ca.sanitized.sbc.test",
+    "fqdn-3": "testec1952c9ea934740b45b4e7f14a3adfb.sanitized.sbc.test",
+    "fqdn-4": "testb4597636c33b49cd8a4a540307d7f210.sanitized.sbc.test"
   }
 }

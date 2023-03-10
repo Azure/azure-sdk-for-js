@@ -26,12 +26,12 @@
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
         "Content-Length": "25",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 07 Mar 2023 11:43:12 GMT",
-        "MS-CV": "Db7VgV8v2EugHMjtFxw0\u002BA.0",
+        "Date": "Fri, 10 Mar 2023 08:59:53 GMT",
+        "MS-CV": "gFVDQMc7JkGSWYhdr1dlEQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0UCMHZAAAAAAhqRRkiSEdQKpMZBZsxu\u002BxTFRTRURHRTEzMTIAY2M5Mjc1OGQtMDVmNy00YWQ2LWFhNWUtMGZhOTcxOGQ4OTg1",
+        "X-Azure-Ref": "0ifEKZAAAAAAxH0DjJAUiTrk5\u002Bkk\u002Bua5fUFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "182ms"
+        "X-Processing-Time": "166ms"
       },
       "ResponseBody": {
         "trunks": {},
@@ -40,9 +40,9 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "test25ccafd259834d5a92d018b308ed6d54.nostojic13012023.skype.net",
-    "fqdn-2": "test3982c0076ba64f89841ee07f1cd19e35.nostojic13012023.skype.net",
-    "fqdn-3": "teste79a9890feff4f838cf9166d4f3bed0e.nostojic13012023.skype.net",
-    "fqdn-4": "test3665836c26004636a60691f0855a7095.nostojic13012023.skype.net"
+    "fqdn-1": "test2f275f690afa4fa0a47f16eeeb97865b.sanitized.sbc.test",
+    "fqdn-2": "testb48c095215854ca8853b42db3bda979e.sanitized.sbc.test",
+    "fqdn-3": "test10eb6740794142e7ad4f40789a420330.sanitized.sbc.test",
+    "fqdn-4": "test64b9b0eaff6a41859c61570df37beb84.sanitized.sbc.test"
   }
 }

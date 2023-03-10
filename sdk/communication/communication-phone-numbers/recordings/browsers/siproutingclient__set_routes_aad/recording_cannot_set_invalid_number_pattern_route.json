@@ -33,11 +33,11 @@
       "StatusCode": 422,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Tue, 07 Mar 2023 11:41:51 GMT",
-        "MS-CV": "LhFTfhICmUGauFKCAe7VOQ.0",
+        "Date": "Fri, 10 Mar 2023 09:01:35 GMT",
+        "MS-CV": "kRkgTV686kqbaI8uYS8uzA.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0/yIHZAAAAADXJR5T1aZKTJxU/58Eh4aPTFRTRURHRTEzMTIAY2M5Mjc1OGQtMDVmNy00YWQ2LWFhNWUtMGZhOTcxOGQ4OTg1",
+        "X-Azure-Ref": "07/EKZAAAAABsbrzLXqP2RILjkLUZj/xWUFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Processing-Time": "13ms"
       },
@@ -76,18 +76,18 @@
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
-        "Content-Length": "116",
+        "Content-Length": "108",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 07 Mar 2023 11:41:52 GMT",
-        "MS-CV": "IzhTOL8fBkSB5GLUL7/8wA.0",
+        "Date": "Fri, 10 Mar 2023 09:01:35 GMT",
+        "MS-CV": "JO/tB6R1NUSQiBE96UQEMg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0/yIHZAAAAAADf0cRQfKWTqZGC4LADI8dTFRTRURHRTEzMTIAY2M5Mjc1OGQtMDVmNy00YWQ2LWFhNWUtMGZhOTcxOGQ4OTg1",
+        "X-Azure-Ref": "07/EKZAAAAAAiZFi\u002B5ZyJTLIsGrU0sO2OUFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "164ms"
+        "X-Processing-Time": "168ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test8d492cdf7bdb4e9c88993015c0484aaa.nostojic13012023.skype.net": {
+          "test079ed0334fe54707a493596062af215b.sanitized.sbc.test": {
             "sipSignalingPort": 5678
           }
         },
@@ -96,7 +96,7 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "testd8e5ed9b51ec4d068c51e3b412c29266.nostojic13012023.skype.net",
-    "fqdn-2": "test83c69616f32345f881283ded2e988d07.nostojic13012023.skype.net"
+    "fqdn-1": "test09c037a0c2fb40f1b27b38bbf9be3fe1.sanitized.sbc.test",
+    "fqdn-2": "testad16ae8c7ead489ebe44793f6447f31f.sanitized.sbc.test"
   }
 }

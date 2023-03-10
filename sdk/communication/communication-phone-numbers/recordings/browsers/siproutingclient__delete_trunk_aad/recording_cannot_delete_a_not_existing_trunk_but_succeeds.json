@@ -26,12 +26,12 @@
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
         "Content-Length": "25",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 07 Mar 2023 11:41:25 GMT",
-        "MS-CV": "I/HoHKK9akC1bHq5kdQuJw.0",
+        "Date": "Fri, 10 Mar 2023 08:59:31 GMT",
+        "MS-CV": "iCa7hCig6kev82ybr0AkFg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "05SIHZAAAAABbMvubeVnXRonAYiekIqLjTFRTRURHRTEzMTIAY2M5Mjc1OGQtMDVmNy00YWQ2LWFhNWUtMGZhOTcxOGQ4OTg1",
+        "X-Azure-Ref": "0cvEKZAAAAADdvd1VOzAvQqoh68670BX6UFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "166ms"
+        "X-Processing-Time": "302ms"
       },
       "ResponseBody": {
         "trunks": {},
@@ -70,12 +70,12 @@
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
         "Content-Length": "25",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 07 Mar 2023 11:41:25 GMT",
-        "MS-CV": "DXA6Lc\u002Bbt062O0ib7VCPMA.0",
+        "Date": "Fri, 10 Mar 2023 08:59:31 GMT",
+        "MS-CV": "ON13QDGdzEqFieNrWNI8Mw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "05SIHZAAAAAA6xzP/rD6PRpJkCB/TGNC\u002BTFRTRURHRTEzMTIAY2M5Mjc1OGQtMDVmNy00YWQ2LWFhNWUtMGZhOTcxOGQ4OTg1",
+        "X-Azure-Ref": "0c/EKZAAAAAAt937oIGyuQ76JN2V7gGZjUFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "306ms"
+        "X-Processing-Time": "366ms"
       },
       "ResponseBody": {
         "trunks": {},
@@ -108,12 +108,12 @@
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
         "Content-Length": "25",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 07 Mar 2023 11:41:26 GMT",
-        "MS-CV": "S8kLHGoSekKZL5JLPELz1w.0",
+        "Date": "Fri, 10 Mar 2023 08:59:32 GMT",
+        "MS-CV": "jkZWim2Dakun8IblfHAbXg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "05iIHZAAAAACxzdwpg30YQIrNyCpMMUAATFRTRURHRTEzMTIAY2M5Mjc1OGQtMDVmNy00YWQ2LWFhNWUtMGZhOTcxOGQ4OTg1",
+        "X-Azure-Ref": "0c/EKZAAAAAC/gPP71tUsSpMXS0Kh46mZUFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "170ms"
+        "X-Processing-Time": "331ms"
       },
       "ResponseBody": {
         "trunks": {},
@@ -122,6 +122,6 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "testfc506cbe665f413eadf2dfa21e30486d.nostojic13012023.skype.net"
+    "fqdn-1": "teste3411ed0f9e44378a10c8c89af59881b.sanitized.sbc.test"
   }
 }

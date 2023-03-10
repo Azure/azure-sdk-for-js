@@ -37,13 +37,13 @@
       "StatusCode": 400,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Tue, 07 Mar 2023 11:41:52 GMT",
-        "MS-CV": "t5CCfcxQpECEEYajEgsv\u002BQ.0",
+        "Date": "Fri, 10 Mar 2023 09:01:37 GMT",
+        "MS-CV": "KkLciP\u002B7YUu3X6bpjFj9gA.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0ACMHZAAAAAAvEbyGhHBVT71PZWiSRpKATFRTRURHRTEzMTIAY2M5Mjc1OGQtMDVmNy00YWQ2LWFhNWUtMGZhOTcxOGQ4OTg1",
+        "X-Azure-Ref": "08fEKZAAAAAD6VDQKOVlTTYY4T7q4IdqRUFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "16ms"
+        "X-Processing-Time": "14ms"
       },
       "ResponseBody": {
         "error": {
@@ -80,18 +80,18 @@
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
-        "Content-Length": "116",
+        "Content-Length": "108",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 07 Mar 2023 11:41:53 GMT",
-        "MS-CV": "yPsAt/pkxEiCgrYFDOmtTQ.0",
+        "Date": "Fri, 10 Mar 2023 09:01:37 GMT",
+        "MS-CV": "kkO6aY/hi0e6UfAnV150Bw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0ACMHZAAAAAC2twbnjIYRTqHpz5Xx6ZjfTFRTRURHRTEzMTIAY2M5Mjc1OGQtMDVmNy00YWQ2LWFhNWUtMGZhOTcxOGQ4OTg1",
+        "X-Azure-Ref": "08fEKZAAAAADWSySfmrV6Ta0ITjsCrKVSUFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "166ms"
+        "X-Processing-Time": "165ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test8d492cdf7bdb4e9c88993015c0484aaa.nostojic13012023.skype.net": {
+          "test079ed0334fe54707a493596062af215b.sanitized.sbc.test": {
             "sipSignalingPort": 5678
           }
         },
@@ -100,7 +100,7 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "testa6c47b386768497db37ebccca9981c10.nostojic13012023.skype.net",
-    "fqdn-2": "test973fe917cb70408bbce5e5ef26f32847.nostojic13012023.skype.net"
+    "fqdn-1": "test7dbfd13dbbf14c978675cd91024fcfee.sanitized.sbc.test",
+    "fqdn-2": "test472acda2d62748bd80514ccee8cfe3fc.sanitized.sbc.test"
   }
 }

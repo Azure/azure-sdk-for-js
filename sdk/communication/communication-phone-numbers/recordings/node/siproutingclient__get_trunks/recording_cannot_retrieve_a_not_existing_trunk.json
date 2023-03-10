@@ -11,7 +11,7 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.2 Node/v18.13.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Tue, 07 Mar 2023 10:34:05 GMT"
+        "x-ms-date": "Fri, 10 Mar 2023 08:32:30 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -19,12 +19,12 @@
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
         "Content-Length": "25",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 07 Mar 2023 10:34:04 GMT",
-        "MS-CV": "AQNpyIVRdkOui2eXmK0\u002BnQ.0",
+        "Date": "Fri, 10 Mar 2023 08:32:28 GMT",
+        "MS-CV": "mh2DC1lykEWDhZXKThz0GQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0HBMHZAAAAACtbEdyDE17SpjZq7wpb6GKTE9OMjFFREdFMTYyMABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Azure-Ref": "0HOsKZAAAAAC3RbaG7tXQQLC7dWYZRFmwUFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "195ms"
+        "X-Processing-Time": "169ms"
       },
       "ResponseBody": {
         "trunks": {},
@@ -33,9 +33,9 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "testda2375069ea94766bc93f01b35d8b75a.nostojic13012023.skype.net",
-    "fqdn-2": "test024dceeec0e549d082da4f060350aafe.nostojic13012023.skype.net",
-    "fqdn-3": "test98d07e9c65d34e6b9b5a717ca3c35e39.nostojic13012023.skype.net",
-    "fqdn-4": "test5ad4e3bc4e8b4561b74cc85572d569e0.nostojic13012023.skype.net"
+    "fqdn-1": "test1d47cc6ea0534405b8450e248b108b3e.sanitized.sbc.test",
+    "fqdn-2": "test30a5c421e30e4a58904f9da1926d1979.sanitized.sbc.test",
+    "fqdn-3": "test0d1250a5314548caac3c15ce18f82c13.sanitized.sbc.test",
+    "fqdn-4": "test23df0c13b5bc4cb0b8a4bcc803e0c59c.sanitized.sbc.test"
   }
 }

@@ -24,13 +24,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
         "Content-Type": "application/json",
-        "Date": "Tue, 07 Mar 2023 10:35:14 GMT",
-        "MS-CV": "MHVe32DbFkO2If/aYHbjWw.0",
+        "Date": "Fri, 10 Mar 2023 08:33:41 GMT",
+        "MS-CV": "\u002BzibSwjTGEKHvw2yw2F\u002Buw.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0YhMHZAAAAACJFYNuBSzaTaPL7IzFT18STE9OMjFFREdFMTYyMABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Azure-Ref": "0ZusKZAAAAABFHoxsw/0zRoZ8qJrgmYpnUFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "16ms"
+        "X-Processing-Time": "15ms"
       },
       "ResponseBody": {
         "error": {
@@ -60,10 +60,10 @@
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
         "Content-Length": "25",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 07 Mar 2023 10:35:14 GMT",
-        "MS-CV": "ZQbmkOn9HkuuiIbQWG6rJA.0",
+        "Date": "Fri, 10 Mar 2023 08:33:42 GMT",
+        "MS-CV": "OoeYpw5PyUiOR0LNGv9S\u002Bg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0YhMHZAAAAADVR8QDo6CKSbbNnbXqWpo1TE9OMjFFREdFMTYyMABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Azure-Ref": "0ZusKZAAAAAAy2c/qBwwDT5TujG4SkDbYUFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Processing-Time": "177ms"
       },
@@ -74,7 +74,7 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "test9ffb7dcb68564f81a952876c70359087.nostojic13012023.skype.net",
-    "fqdn-2": "test10a10d46fc2743a380e5aed1aff555d0.nostojic13012023.skype.net"
+    "fqdn-1": "test29723612ed664385a92c6e7636ad972a.sanitized.sbc.test",
+    "fqdn-2": "test07303b15dd004942aa35f50a5529c86d.sanitized.sbc.test"
   }
 }

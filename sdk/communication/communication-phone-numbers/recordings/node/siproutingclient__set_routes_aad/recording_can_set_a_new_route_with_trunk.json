@@ -8,14 +8,14 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "104",
+        "Content-Length": "96",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.2 Node/v18.13.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized"
       },
       "RequestBody": {
         "trunks": {
-          "test255d65867300463fb3e7642350d41983.nostojic13012023.skype.net": {
+          "testf11fa73deb6645f9a0387a7051286697.sanitized.sbc.test": {
             "sipSignalingPort": 5678
           }
         }
@@ -23,18 +23,18 @@
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
-        "Content-Length": "439",
+        "Content-Length": "431",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 07 Mar 2023 10:34:19 GMT",
-        "MS-CV": "lESLq6fFAE6w2uabFqxF9w.0",
+        "Date": "Fri, 10 Mar 2023 08:32:42 GMT",
+        "MS-CV": "YHkzTtjjmEq4divF0QHMPw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0KRMHZAAAAAA8FjK9WzycRJW37/hz6HMdTE9OMjFFREdFMTYyMABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Azure-Ref": "0KesKZAAAAAC1x8ppZ2GJSpIT1khBZZpSUFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1182ms"
+        "X-Processing-Time": "1164ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test255d65867300463fb3e7642350d41983.nostojic13012023.skype.net": {
+          "testf11fa73deb6645f9a0387a7051286697.sanitized.sbc.test": {
             "sipSignalingPort": 5678
           }
         },
@@ -68,7 +68,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "194",
+        "Content-Length": "186",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.2 Node/v18.13.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized"
@@ -80,7 +80,7 @@
             "name": "myFirstRoute",
             "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
             "trunks": [
-              "test255d65867300463fb3e7642350d41983.nostojic13012023.skype.net"
+              "testf11fa73deb6645f9a0387a7051286697.sanitized.sbc.test"
             ]
           }
         ]
@@ -88,18 +88,18 @@
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
-        "Content-Length": "297",
+        "Content-Length": "281",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 07 Mar 2023 10:34:19 GMT",
-        "MS-CV": "nF9CH4MVx0ma\u002BYhEA05bPw.0",
+        "Date": "Fri, 10 Mar 2023 08:32:43 GMT",
+        "MS-CV": "OgQpIZUAOUutEYgSaLAYnw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0KxMHZAAAAAA//0x8\u002BHT2T6cxZX97cKjITE9OMjFFREdFMTYyMABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Azure-Ref": "0K\u002BsKZAAAAADWm/grmvh4Toa86iqCcsgwUFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Processing-Time": "310ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test255d65867300463fb3e7642350d41983.nostojic13012023.skype.net": {
+          "testf11fa73deb6645f9a0387a7051286697.sanitized.sbc.test": {
             "sipSignalingPort": 5678
           }
         },
@@ -109,7 +109,7 @@
             "name": "myFirstRoute",
             "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
             "trunks": [
-              "test255d65867300463fb3e7642350d41983.nostojic13012023.skype.net"
+              "testf11fa73deb6645f9a0387a7051286697.sanitized.sbc.test"
             ]
           }
         ]
@@ -130,18 +130,18 @@
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
-        "Content-Length": "297",
+        "Content-Length": "281",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 07 Mar 2023 10:34:19 GMT",
-        "MS-CV": "4BNc5jbVdkmSKG/0tqu37Q.0",
+        "Date": "Fri, 10 Mar 2023 08:32:43 GMT",
+        "MS-CV": "WBiaOrdFo0O\u002Bp2QqMI5wIw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0KxMHZAAAAACd1VV2wlOWQI0V0iliVvnATE9OMjFFREdFMTYyMABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Azure-Ref": "0K\u002BsKZAAAAADiXA94TmVMQInP9/ArqHwtUFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "183ms"
+        "X-Processing-Time": "162ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test255d65867300463fb3e7642350d41983.nostojic13012023.skype.net": {
+          "testf11fa73deb6645f9a0387a7051286697.sanitized.sbc.test": {
             "sipSignalingPort": 5678
           }
         },
@@ -151,7 +151,7 @@
             "name": "myFirstRoute",
             "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
             "trunks": [
-              "test255d65867300463fb3e7642350d41983.nostojic13012023.skype.net"
+              "testf11fa73deb6645f9a0387a7051286697.sanitized.sbc.test"
             ]
           }
         ]
@@ -159,7 +159,7 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "test255d65867300463fb3e7642350d41983.nostojic13012023.skype.net",
-    "fqdn-2": "test75acf09b9fed41d189e15f8d18bebe93.nostojic13012023.skype.net"
+    "fqdn-1": "testf11fa73deb6645f9a0387a7051286697.sanitized.sbc.test",
+    "fqdn-2": "test6232447f1c2c446881629cda7aad4eab.sanitized.sbc.test"
   }
 }
