@@ -10,7 +10,7 @@ import {
   ReceivedEventData,
 } from "@azure/event-hubs";
 import { PerfOptionDictionary, EventPerfTest, getEnvVar } from "@azure/test-utils-perf";
-import { MockHubOptions, setMockHubEnvVars } from "./utils";
+import { createMockServer, MockHubOptions, setMockHubEnvVars } from "./utils";
 
 interface ReceiverOptions extends MockHubOptions {
   "number-of-events": number;
@@ -19,6 +19,7 @@ interface ReceiverOptions extends MockHubOptions {
   "max-batch-size": number;
 }
 
+let service: ReturnType<typeof createMockServer>;
 export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
   receiver: EventHubConsumerClient;
   subscriber: { close: () => Promise<void> } | undefined;
@@ -68,19 +69,17 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
     this.receiver = new EventHubConsumerClient(consumerGroup, getEnvVar("EVENTHUB_CONNECTION_STRING"), getEnvVar("EVENTHUB_NAME"));
   }
 
-  /**
-   * Sends the messages to be received later.
-   */
-  async globalSetup(): Promise<void> {
+  async setup() {
     const {
       "number-of-events": { value: numberOfEvents },
       "event-size-in-bytes": { value: eventSize },
     } = this.parsedOptions;
 
+    if (this.parsedOptions.useMockHub.value) {
+      service = createMockServer();
+      await service.start();
+    }
     await sendBatch(numberOfEvents, eventSize, this.parsedOptions["partitions"].value);
-  }
-
-  setup() {
     this.subscriber = this.receiver.subscribe(
       {
         processEvents: async (events: ReceivedEventData[], _context: PartitionContext) => {
@@ -102,6 +101,7 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
   async cleanup() {
     await this.subscriber?.close();
     await this.receiver.close();
+    if (this.parsedOptions.useMockHub.value) service.stop();
   }
 }
 
