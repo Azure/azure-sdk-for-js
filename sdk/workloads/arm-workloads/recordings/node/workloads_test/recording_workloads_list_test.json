@@ -9,38 +9,38 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-workloads/1.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "e4f826fc-28aa-4051-8aa6-a3089fa6d738"
+        "x-ms-client-request-id": "b1762c62-2aab-412a-9409-b89aac813358"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
-        "Content-Length": "940",
+        "Content-Length": "1256",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 07 Mar 2023 07:11:31 GMT",
+        "Date": "Fri, 10 Mar 2023 07:35:37 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "a59917dc-2776-46a7-af5d-3a6bf4531875",
+        "x-ms-correlation-request-id": "fdf0b1fd-3f59-4ad0-bf27-01d4722cb7cb",
         "x-ms-original-request-ids": [
-          "1f8832d7-b4a7-4f8d-b540-c9a58cff5fd1",
-          "5738cb03-ae98-42f5-be12-8ee2ffed428a",
-          "25d4378f-ad7a-4b55-b614-81742bbe2549",
-          "261036a3-32f5-4482-9082-fdb5503e312b",
-          "34d6089e-12ac-404f-91e9-051b9e9dd285",
-          "c7a5600e-a942-48ab-a27a-8d93ec949628",
-          "8868a37c-cc94-4387-b341-bfc864c0e73f",
-          "6bb16de7-cca8-46e2-bdde-3629470a3524",
-          "114e0237-6105-47d4-9a7a-3d9d9ddb95a5",
-          "16a89301-5b9d-451f-9d09-7bc8bd686c77",
-          "a9f8751e-07e4-4c70-a78d-95302f7466ee"
+          "7a5c01ef-442c-460b-9daf-5cab8a8fe6f6",
+          "b78a2e7e-7c14-4075-a9ad-d38b98f23db0",
+          "d11ec7ef-d259-4fb3-83e4-38e11a789d03",
+          "a082bd4e-3ce0-4220-b30f-8e9cd383d4f2",
+          "18ebb33b-5f07-4c0c-8ee2-4febce85e1c1",
+          "2ce1bb70-7cf9-401e-95a6-a6a3e1f2e70a",
+          "6fdcc81d-8cfd-49ae-ac66-ffe2e2356ed7",
+          "9c990aa5-9fdd-41e9-bd85-5e3ae60a4d04",
+          "96c427e3-6343-4137-86b8-b4cbff4e3d72",
+          "441c3219-38b1-46cf-9947-26170afa5271",
+          "1c14e72c-5541-45d0-b61a-3fb22a1947eb"
         ],
-        "x-ms-ratelimit-remaining-subscription-reads": "11994",
-        "x-ms-request-id": "a59917dc-2776-46a7-af5d-3a6bf4531875",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230307T071132Z:a59917dc-2776-46a7-af5d-3a6bf4531875"
+        "x-ms-ratelimit-remaining-subscription-reads": "11916",
+        "x-ms-request-id": "fdf0b1fd-3f59-4ad0-bf27-01d4722cb7cb",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230310T073538Z:fdf0b1fd-3f59-4ad0-bf27-01d4722cb7cb"
       },
       "ResponseBody": {
         "value": [
@@ -55,10 +55,10 @@
             "systemData": {
               "createdBy": "azure_client_id",
               "createdByType": "Application",
-              "createdAt": "2023-03-07T07:11:19.5644268Z",
+              "createdAt": "2023-03-10T07:32:23.4063595Z",
               "lastModifiedBy": "azure_client_id",
               "lastModifiedByType": "Application",
-              "lastModifiedAt": "2023-03-07T07:11:19.5644268Z"
+              "lastModifiedAt": "2023-03-10T07:32:23.4063595Z"
             },
             "properties": {
               "appLocation": "eastus2",
@@ -68,7 +68,9 @@
               },
               "logAnalyticsWorkspaceArmId": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/microsoft.operationalinsights/workspaces/myWorkspace",
               "monitorSubnet": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/virtualnetworkabc/subnets/mySubnet",
-              "provisioningState": "Accepted"
+              "provisioningState": "Succeeded",
+              "msiArmId": "/subscriptions/azure_subscription_id/resourcegroups/myManagedRg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sapmon-msi-41322afde22aaf",
+              "storageAccountArmId": "/subscriptions/azure_subscription_id/resourcegroups/myManagedRg/providers/Microsoft.Storage/storageAccounts/sapsto41322afde22aaf"
             }
           }
         ]
