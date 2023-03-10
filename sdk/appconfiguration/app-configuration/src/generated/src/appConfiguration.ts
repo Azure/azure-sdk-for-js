@@ -8,6 +8,8 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreHttpCompat from "@azure/core-http-compat";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "./lroImpl";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import {
@@ -256,15 +258,79 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    * @param entity The key-value snapshot to create.
    * @param options The options parameters.
    */
-  createSnapshot(
+  async beginCreateSnapshot(
+    name: string,
+    entity: Snapshot,
+    options?: CreateSnapshotOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<CreateSnapshotResponse>,
+      CreateSnapshotResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<CreateSnapshotResponse> => {
+      return this.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { name, entity, options },
+      createSnapshotOperationSpec
+    );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+  }
+
+  /**
+   * Creates a key-value snapshot.
+   * @param name The name of the key-value snapshot to create.
+   * @param entity The key-value snapshot to create.
+   * @param options The options parameters.
+   */
+  async beginCreateSnapshotAndWait(
     name: string,
     entity: Snapshot,
     options?: CreateSnapshotOptionalParams
   ): Promise<CreateSnapshotResponse> {
-    return this.sendOperationRequest(
-      { name, entity, options },
-      createSnapshotOperationSpec
-    );
+    const poller = await this.beginCreateSnapshot(name, entity, options);
+    return poller.pollUntilDone();
   }
 
   /**
@@ -683,7 +749,19 @@ const createSnapshotOperationSpec: coreClient.OperationSpec = {
   path: "/snapshots/{name}",
   httpMethod: "PUT",
   responses: {
+    200: {
+      bodyMapper: Mappers.Snapshot,
+      headersMapper: Mappers.AppConfigurationCreateSnapshotHeaders
+    },
     201: {
+      bodyMapper: Mappers.Snapshot,
+      headersMapper: Mappers.AppConfigurationCreateSnapshotHeaders
+    },
+    202: {
+      bodyMapper: Mappers.Snapshot,
+      headersMapper: Mappers.AppConfigurationCreateSnapshotHeaders
+    },
+    204: {
       bodyMapper: Mappers.Snapshot,
       headersMapper: Mappers.AppConfigurationCreateSnapshotHeaders
     },

@@ -223,13 +223,6 @@ export const Snapshot: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      statusCode: {
-        serializedName: "status_code",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
       filters: {
         constraints: {
           MinItems: 1,
@@ -610,6 +603,12 @@ export const AppConfigurationCreateSnapshotHeaders: coreClient.CompositeMapper =
       },
       link: {
         serializedName: "link",
+        type: {
+          name: "String"
+        }
+      },
+      operationLocation: {
+        serializedName: "operation-location",
         type: {
           name: "String"
         }

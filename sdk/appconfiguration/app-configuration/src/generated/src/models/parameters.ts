@@ -245,7 +245,7 @@ export const select1: OperationQueryParameter = {
 export const status: OperationQueryParameter = {
   parameterPath: ["options", "status"],
   mapper: {
-    serializedName: "status",
+    serializedName: "Status",
     type: {
       name: "Sequence",
       element: {

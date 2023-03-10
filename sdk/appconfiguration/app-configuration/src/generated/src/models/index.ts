@@ -85,11 +85,6 @@ export interface Snapshot {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: SnapshotStatus;
-  /**
-   * Provides additional information about the status of the snapshot. The status code values are modeled after HTTP status codes.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly statusCode?: number;
   /** A list of filters used to filter the key-values included in the snapshot. */
   filters: KeyValueFilter[];
   /** The composition type describes how the key-values within the snapshot are composed. The 'all' composition type includes all key-values. The 'group_by_key' composition type ensures there are no two key-values containing the same key. */
@@ -241,6 +236,8 @@ export interface AppConfigurationCreateSnapshotHeaders {
   eTag?: string;
   /** Includes links to related resources. */
   link?: string;
+  /** The URL to track the status of the long running operation. */
+  operationLocation?: string;
 }
 
 /** Defines headers for AppConfiguration_updateSnapshot operation. */
@@ -380,7 +377,6 @@ export type KeyValueFields = string;
 export enum KnownSnapshotFields {
   Name = "name",
   Status = "status",
-  StatusCode = "status_code",
   Filters = "filters",
   CompositionType = "composition_type",
   Created = "created",
@@ -399,7 +395,6 @@ export enum KnownSnapshotFields {
  * ### Known values supported by the service
  * **name** \
  * **status** \
- * **status_code** \
  * **filters** \
  * **composition_type** \
  * **created** \
@@ -634,7 +629,12 @@ export type GetSnapshotResponse = AppConfigurationGetSnapshotHeaders & Snapshot;
 
 /** Optional parameters. */
 export interface CreateSnapshotOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the createSnapshot operation. */
 export type CreateSnapshotResponse = AppConfigurationCreateSnapshotHeaders &
