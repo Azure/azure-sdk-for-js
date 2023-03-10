@@ -198,3 +198,13 @@ directive:
       }
     };
 ```
+
+# Rename Descriptor.size to sizeInBytes
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.Descriptor
+  transform: >
+    $.properties.size["x-ms-client-name"] = "sizeInBytes";
+```

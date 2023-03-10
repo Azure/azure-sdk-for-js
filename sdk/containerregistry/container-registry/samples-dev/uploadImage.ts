@@ -40,13 +40,13 @@ async function main() {
     schemaVersion: 2,
     config: {
       digest: uploadConfigResult.digest,
-      size: config.byteLength,
+      sizeInBytes: config.byteLength,
       mediaType: "application/vnd.oci.image.config.v1+json",
     },
     layers: [
       {
         digest: uploadLayerResult.digest,
-        size: layer.byteLength,
+        sizeInBytes: layer.byteLength,
         mediaType: "application/vnd.oci.image.layer.v1.tar",
       },
     ],

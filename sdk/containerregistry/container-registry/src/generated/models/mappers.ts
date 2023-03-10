@@ -964,7 +964,7 @@ export const Descriptor: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      size: {
+      sizeInBytes: {
         serializedName: "size",
         type: {
           name: "Number"
