@@ -1,15 +1,15 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/88888888-8888-8888-8888-888888888888/resourceGroups/myjstest/providers/Microsoft.DocumentDB/databaseAccounts/myaccountxxyy1/cassandraKeyspaces/mykeyspacexxx?api-version=2022-11-15",
+      "RequestUri": "https://management.azure.com/subscriptions/88888888-8888-8888-8888-888888888888/resourceGroups/myjstest/providers/Microsoft.DocumentDB/databaseAccounts/myaccountxxyy1/cassandraKeyspaces/mykeyspacexxx?api-version=2022-11-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-cosmosdb/15.3.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "a6508f93-8ee0-4506-8ce3-aecc480f488c"
+        "User-Agent": "azsdk-js-arm-cosmosdb/15.4.0-beta.1 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "617e8b01-cf81-4e77-b17e-94fecd78bc52"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,18 +17,18 @@
         "Cache-Control": "no-store, no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Fri, 10 Feb 2023 07:53:26 GMT",
+        "Date": "Fri, 10 Mar 2023 02:33:32 GMT",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "35169386-fedc-4c54-9068-a62c86d88aae",
+        "x-ms-correlation-request-id": "4731c502-4c1e-4ab9-96ad-90599c3ef90a",
         "x-ms-gatewayversion": "version=2.14.0",
-        "x-ms-ratelimit-remaining-subscription-reads": "11272",
-        "x-ms-request-id": "35169386-fedc-4c54-9068-a62c86d88aae",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230210T075326Z:35169386-fedc-4c54-9068-a62c86d88aae"
+        "x-ms-ratelimit-remaining-subscription-reads": "11916",
+        "x-ms-request-id": "4731c502-4c1e-4ab9-96ad-90599c3ef90a",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230310T023333Z:4731c502-4c1e-4ab9-96ad-90599c3ef90a"
       },
       "ResponseBody": {
         "id": "/subscriptions/88888888-8888-8888-8888-888888888888/resourceGroups/myjstest/providers/Microsoft.DocumentDB/databaseAccounts/myaccountxxyy1/cassandraKeyspaces/mykeyspacexxx",
@@ -37,9 +37,9 @@
         "properties": {
           "resource": {
             "id": "mykeyspacexxx",
-            "_rid": "Ey5DAA==",
-            "_etag": "\u00220000201e-0000-0100-0000-63e5f7e60000\u0022",
-            "_ts": 1676015590
+            "_rid": "mNVkAA==",
+            "_etag": "\u002200004c0f-0000-0100-0000-640a96eb0000\u0022",
+            "_ts": 1678415595
           }
         }
       }
