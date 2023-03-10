@@ -1,68 +1,64 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Web/sites/mysitexxxx?api-version=2022-03-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Web/sites/mysitexxxx?api-version=2022-09-01",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-appservice/13.0.3 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "38ab9473-c929-446f-be69-3b1a6bcca85d"
+        "User-Agent": "azsdk-js-arm-appservice/14.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "2206cb2a-7e8a-487f-92da-cf1660cc0feb"
       },
       "RequestBody": null,
-      "StatusCode": 200,
+      "StatusCode": 204,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Length": "0",
-        "Date": "Wed, 16 Nov 2022 03:16:39 GMT",
-        "ETag": "\u00221D8F969CE9B5BC0\u0022",
+        "Date": "Fri, 10 Mar 2023 07:05:46 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
-        "Server": "Microsoft-IIS/10.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "X-AspNet-Version": "4.0.30319",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "43fb721f-bace-41ce-af33-5045c70127e2",
-        "x-ms-ratelimit-remaining-subscription-deletes": "14995",
-        "x-ms-request-id": "359bb360-7bfe-4ff5-b7d2-de6cf011c005",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221116T031640Z:43fb721f-bace-41ce-af33-5045c70127e2",
-        "X-Powered-By": "ASP.NET"
+        "x-ms-correlation-request-id": "589ab283-23e5-434f-a3ce-f6fdb9084f90",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14999",
+        "x-ms-request-id": "589ab283-23e5-434f-a3ce-f6fdb9084f90",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230310T070547Z:589ab283-23e5-434f-a3ce-f6fdb9084f90"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Web/sites?api-version=2022-03-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Web/sites?api-version=2022-09-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-appservice/13.0.3 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "756f219d-61a7-49c6-8419-4e8ee2a15624"
+        "User-Agent": "azsdk-js-arm-appservice/14.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "3103f3fb-aeee-48e8-94bf-d0906fe962e6"
       },
       "RequestBody": null,
-      "StatusCode": 200,
+      "StatusCode": 404,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Encoding": "gzip",
-        "Content-Length": "12",
+        "Content-Length": "546",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 16 Nov 2022 03:16:39 GMT",
+        "Date": "Fri, 10 Mar 2023 07:05:46 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "b2912656-9613-4291-8621-a2470ecc5924",
-        "x-ms-ratelimit-remaining-subscription-reads": "11983",
-        "x-ms-request-id": "b2912656-9613-4291-8621-a2470ecc5924",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221116T031640Z:b2912656-9613-4291-8621-a2470ecc5924"
+        "x-ms-correlation-request-id": "a9e09708-8369-43f6-9c02-b847859ee8cc",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "a9e09708-8369-43f6-9c02-b847859ee8cc",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230310T070547Z:a9e09708-8369-43f6-9c02-b847859ee8cc"
       },
       "ResponseBody": {
-        "value": []
+        "error": {
+          "code": "InvalidResourceType",
+          "message": "The resource type \u0027sites\u0027 could not be found in the namespace \u0027Microsoft.Web\u0027 for api version \u00272022-09-01\u0027. The supported api-versions are \u00272022-03-01,2021-03-01,2021-02-01,2021-01-15,2021-01-01,2020-12-01,2020-10-01,2020-09-01,2020-06-01,2019-08-01,2018-11-01,2018-02-01,2016-08-01,2015-08-01-preview,2016-03-01,2015-08-01,2015-07-01,2015-06-01,2015-05-01,2015-04-01,2015-02-01,2014-11-01,2014-06-01,2014-04-01,2014-04-01-preview,2015-01-01,2015-11-01,2016-09-01,2017-08-01,2018-12-01-alpha\u0027."
+        }
       }
     }
   ],
