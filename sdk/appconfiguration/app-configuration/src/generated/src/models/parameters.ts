@@ -247,9 +247,15 @@ export const status: OperationQueryParameter = {
   mapper: {
     serializedName: "Status",
     type: {
-      name: "String"
+      name: "Sequence",
+      element: {
+        type: {
+          name: "String"
+        }
+      }
     }
-  }
+  },
+  collectionFormat: "CSV"
 };
 
 export const accept4: OperationParameter = {

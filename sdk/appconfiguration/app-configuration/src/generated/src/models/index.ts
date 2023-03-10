@@ -804,7 +804,7 @@ export interface GetSnapshotsNextOptionalParams
   /** Used to select what fields are present in the returned resource(s). */
   select?: SnapshotFields[];
   /** Used to filter returned snapshots by their status property. */
-  status?: SnapshotStatus;
+  status?: SnapshotStatus[];
 }
 
 /** Contains response data for the getSnapshotsNext operation. */
