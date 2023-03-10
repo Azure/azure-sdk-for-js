@@ -170,7 +170,8 @@ export function bearerTokenAuthenticationPolicy(
      * - Retrieve a token with the challenge information, then re-send the request.
      */
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      if (!request.url.toLowerCase().startsWith("https://")) {
+      const lowerCaseUrl = request.url.toLowerCase();
+      if (!lowerCaseUrl.startsWith("https://") && !lowerCaseUrl.startsWith("http://localhost")) {
         throw new Error(
           "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs."
         );
