@@ -10,7 +10,7 @@ import {
 import {
   ContainerRegistryBlobClient,
   DownloadManifestResult,
-  DownloadOciManifestResult,
+  DownloadOciImageManifestResult,
   isOciImageManifest,
   KnownManifestMediaType,
   OciImageManifest,
@@ -24,7 +24,7 @@ import { readStreamToEnd } from "../../src/utils/helpers";
 
 function assertIsOciManifest(
   downloadManifestResult: DownloadManifestResult
-): asserts downloadManifestResult is DownloadOciManifestResult {
+): asserts downloadManifestResult is DownloadOciImageManifestResult {
   assert.isTrue(isOciImageManifest(downloadManifestResult));
 }
 

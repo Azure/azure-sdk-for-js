@@ -51,7 +51,7 @@ export interface DownloadManifestResult {
 /**
  * The result from downloading an OCI manifest (a manifest of type {@link KnownManifestMediaType.OciManifest}) from the registry.
  */
-export interface DownloadOciManifestResult extends DownloadManifestResult {
+export interface DownloadOciImageManifestResult extends DownloadManifestResult {
   /**
    * The media type of the downloaded manifest as indicated by the Content-Type response header is an OCI manifest.
    */
@@ -107,9 +107,9 @@ export interface OciImageManifest {
   /** Schema version */
   schemaVersion: number;
   /** V2 image config descriptor */
-  config?: OciBlobDescriptor;
+  config: OciBlobDescriptor;
   /** List of V2 image layer information */
-  layers?: OciBlobDescriptor[];
+  layers: OciBlobDescriptor[];
   /** Additional information provided through arbitrary metadata. */
   annotations?: OciAnnotations;
 }

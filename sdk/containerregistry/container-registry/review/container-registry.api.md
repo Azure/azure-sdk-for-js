@@ -166,7 +166,7 @@ export interface DownloadManifestResult {
 }
 
 // @public
-export interface DownloadOciManifestResult extends DownloadManifestResult {
+export interface DownloadOciImageManifestResult extends DownloadManifestResult {
     manifest: OciImageManifest;
     mediaType: KnownManifestMediaType.OciManifest;
 }
@@ -184,7 +184,7 @@ export interface GetTagPropertiesOptions extends OperationOptions {
 }
 
 // @public
-export function isOciImageManifest(downloadResult: DownloadManifestResult): downloadResult is DownloadOciManifestResult;
+export function isOciImageManifest(downloadResult: DownloadManifestResult): downloadResult is DownloadOciImageManifestResult;
 
 // @public
 export enum KnownArtifactArchitecture {
@@ -283,8 +283,8 @@ export interface OciBlobDescriptor {
 // @public
 export interface OciImageManifest {
     annotations?: OciAnnotations;
-    config?: OciBlobDescriptor;
-    layers?: OciBlobDescriptor[];
+    config: OciBlobDescriptor;
+    layers: OciBlobDescriptor[];
     schemaVersion: number;
 }
 

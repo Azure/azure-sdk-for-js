@@ -48,12 +48,12 @@ async function main() {
   const manifestFile = fs.createWriteStream("manifest.json");
   result.content.pipe(manifestFile);
 
-  const configResult = await client.downloadBlob(manifest.config!.digest);
+  const configResult = await client.downloadBlob(manifest.config.digest);
   const configFile = fs.createWriteStream("config.json");
   configResult.content.pipe(configFile);
 
   // Download and write out the layers
-  for (const layer of manifest.layers!) {
+  for (const layer of manifest.layers) {
     const fileName = trimSha(layer.digest);
     const layerStream = fs.createWriteStream(fileName);
     const downloadLayerResult = await client.downloadBlob(layer.digest);

@@ -1235,6 +1235,7 @@ export const OCIManifest: coreClient.CompositeMapper = {
       },
       layers: {
         serializedName: "layers",
+        required: true,
         type: {
           name: "Sequence",
           element: {

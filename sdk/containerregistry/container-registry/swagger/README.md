@@ -139,6 +139,7 @@ directive:
           "type": "integer",
           "description": "Schema version"
         };
+    $["required"] = ["config", "layers"];
 ```
 
 # Rename created to createdOn in OciAnnotations

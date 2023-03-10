@@ -19,7 +19,7 @@ import {
   DownloadBlobResult,
   DownloadManifestOptions,
   DownloadManifestResult,
-  DownloadOciManifestResult,
+  DownloadOciImageManifestResult,
   KnownManifestMediaType,
   OciImageManifest,
   UploadBlobOptions,
@@ -78,7 +78,7 @@ export class DigestMismatchError extends Error {
  */
 export function isOciImageManifest(
   downloadResult: DownloadManifestResult
-): downloadResult is DownloadOciManifestResult {
+): downloadResult is DownloadOciImageManifestResult {
   return (
     downloadResult.mediaType === KnownManifestMediaType.OciManifest &&
     Object.prototype.hasOwnProperty.call(downloadResult, "manifest")
@@ -250,7 +250,7 @@ export class ContainerRegistryBlobClient {
   /**
    * Downloads the manifest for an OCI artifact.
    *
-   * If the manifest downloaded was of type {@link KnownManifestMediaType.OciManifest}, the downloaded manifest will be of type {@link DownloadOciManifestResult}.
+   * If the manifest downloaded was of type {@link KnownManifestMediaType.OciManifest}, the downloaded manifest will be of type {@link DownloadOciImageManifestResult}.
    * You can use {@link isOciImageManifest} to determine whether this is the case. If so, the strongly typed deserialized manifest will be available through the `manifest` property.
    *
    * @param tagOrDigest - a tag or digest that identifies the artifact
