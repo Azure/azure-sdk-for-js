@@ -39,7 +39,7 @@ import {
 } from "./utli/converters";
 
 /**
- * Client options used to configure CallingServer Client API requests.
+ * Client options used to configure CallAutomation Client API requests.
  */
 export interface CallAutomationClientOptions extends CommonClientOptions {
   /**
@@ -57,7 +57,7 @@ const isCallAutomationClientOptions = (options: any): options is CallAutomationC
   !!options && !isTokenCredential(options) && !isKeyCredential(options);
 
 /**
- * A CallingServerClient represents a Client to the Azure Communication CallingServer service.
+ * A CallAutomationClient represents a Client to the Azure Communication CallAutomation service.
  */
 export class CallAutomationClient {
   private readonly callAutomationApiClient: CallAutomationApiClient;
@@ -159,12 +159,12 @@ export class CallAutomationClient {
   /**
    * Create an outgoing call from source to target identities.
    * @param target - Either a single target or a group of target identities.
-   * @param callbackUrl - The callback url.
+   * @param callbackUri - The callback url.
    * @param options - Additional request options contains createCallConnection api options.
    */
   public async createCall(
     target: CallInvite | CommunicationIdentifier[],
-    callbackUrl: string,
+    callbackUri: string,
     options: CreateCallOptions = {}
   ): Promise<CreateCallResult> {
     const request: CreateCallRequest = {
@@ -173,7 +173,7 @@ export class CallAutomationClient {
         target instanceof CallInvite
           ? [communicationIdentifierModelConverter(target.target)]
           : target.map((m) => communicationIdentifierModelConverter(m)),
-      callbackUri: callbackUrl,
+      callbackUri: callbackUri,
       operationContext: options.operationContext,
       azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl,
       mediaStreamingConfiguration: options.mediaStreamingConfiguration,
@@ -223,17 +223,17 @@ export class CallAutomationClient {
   /**
    * Answer the call.
    * @param incomingCallContext - The context associated with the call.
-   * @param callbackUrl - The callback url.
+   * @param callbackUri - The callback url.
    * @param options - Additional request options contains answerCall api options.
    */
   public async answerCall(
     incomingCallContext: string,
-    callbackUrl: string,
+    callbackUri: string,
     options: AnswerCallOptions = {}
   ): Promise<AnswerCallResult> {
     const request: AnswerCallRequest = {
       incomingCallContext: incomingCallContext,
-      callbackUri: callbackUrl,
+      callbackUri: callbackUri,
       mediaStreamingConfiguration: options.mediaStreamingConfiguration,
       azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl,
     };
@@ -269,17 +269,17 @@ export class CallAutomationClient {
    * Redirect the call.
    *
    * @param incomingCallContext - The context associated with the call.
-   * @param targetCallInvite - The targetCallInvite identity to redirect the call to.
+   * @param target - The target identity to redirect the call to.
    * @param options - Additional request options contains redirectCall api options.
    */
   public async redirectCall(
     incomingCallContext: string,
-    targetCallInvite: CallInvite,
+    target: CallInvite,
     options: RedirectCallOptions = {}
   ): Promise<void> {
     const request: RedirectCallRequest = {
       incomingCallContext: incomingCallContext,
-      target: communicationIdentifierModelConverter(targetCallInvite.target),
+      target: communicationIdentifierModelConverter(target.target),
     };
 
     return this.callAutomationApiClient.redirectCall(request, options);

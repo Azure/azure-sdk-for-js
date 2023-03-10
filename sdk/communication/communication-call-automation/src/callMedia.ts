@@ -19,9 +19,9 @@ import {
   serializeCommunicationIdentifier,
 } from "@azure/communication-common";
 
-import { FileSource, CallMediaRecognizeDtmfOptions } from "./models/models";
+import { FileSource } from "./models/models";
 
-import { PlayOptions } from "./models/options";
+import { PlayOptions, CallMediaRecognizeDtmfOptions } from "./models/options";
 
 /**
  * CallMedia class represents call media related APIs.
