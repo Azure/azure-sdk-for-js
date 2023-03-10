@@ -21,6 +21,11 @@ export interface UploadBlobResult {
    * The digest of the uploaded blob.
    */
   digest: string;
+
+  /**
+   * The size of the uploaded blob in bytes.
+   */
+  sizeInBytes: number;
 }
 
 /**

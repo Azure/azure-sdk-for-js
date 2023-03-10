@@ -159,11 +159,12 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       const blob = fs.createReadStream(
         "test/data/oci-artifact/654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed"
       );
-      const { digest } = await client.uploadBlob(blob);
+      const { digest, sizeInBytes } = await client.uploadBlob(blob);
       const downloadResult = await client.downloadBlob(
         "sha256:654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed"
       );
       assert.equal(digest, downloadResult.digest);
+      assert.equal(sizeInBytes, 28);
     });
 
     it("can upload a big blob with size not a multiple of 4MB", async function (this: Mocha.Context) {
@@ -173,8 +174,10 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       }
 
       // 64 MiB plus extra offset to have a smaller chunk at the end
-      const bigBlob = Buffer.alloc(64 * 1024 * 1024 + 321, 0x00);
-      const { digest } = await client.uploadBlob(Readable.from(bigBlob));
+      const bufferSize = 64 * 1024 * 1024 + 321;
+      const bigBlob = Buffer.alloc(bufferSize, 0x00);
+      const { digest, sizeInBytes } = await client.uploadBlob(Readable.from(bigBlob));
+      assert.equal(sizeInBytes, bufferSize);
       await client.deleteBlob(digest);
     });
 
@@ -190,8 +193,11 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       }
 
       // 64 MiB exactly
-      const bigBlob = Buffer.alloc(64 * 1024 * 1024, 0x00);
-      const { digest } = await client.uploadBlob(Readable.from(bigBlob));
+      const bufferSize = 64 * 1024 * 1024;
+
+      const bigBlob = Buffer.alloc(bufferSize, 0x00);
+      const { digest, sizeInBytes } = await client.uploadBlob(Readable.from(bigBlob));
+      assert.equal(sizeInBytes, bufferSize);
       await client.deleteBlob(digest);
     });
   });
