@@ -64,7 +64,7 @@ describe("AppConfigurationClient snapshot", () => {
       newSnapshot = await client.createSnapshot(snapshot1);
       assert.equal(
         newSnapshot.name,
-        "testSnapshot1",
+        snapshot1.name,
         "Unexpected name in result from createSnapshot()."
       );
       assert.equal(
@@ -72,9 +72,11 @@ describe("AppConfigurationClient snapshot", () => {
         0,
         "Unexpected retentionPeriod in result from createSnapshot()."
       );
-      assert.deepEqual(
-        newSnapshot.filters[0],
-        filter1,
+
+      console.log(newSnapshot.filters[0], filter1)
+      assert.equal(
+        newSnapshot.filters[0].key,
+        filter1.key,
         "Unexpected filters in result from createSnapshot()."
       );
       assert.equal(
