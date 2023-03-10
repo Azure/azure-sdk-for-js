@@ -135,9 +135,7 @@ export class PartitionProcessor implements PartitionContext {
    * events are received.
    */
   async initialize(): Promise<void> {
-    if (this._eventHandlers.processInitialize) {
-      await this._eventHandlers.processInitialize(this);
-    }
+    return this._eventHandlers.processInitialize?.(this);
   }
 
   /**

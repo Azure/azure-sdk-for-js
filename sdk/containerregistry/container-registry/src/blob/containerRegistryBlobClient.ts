@@ -19,7 +19,7 @@ import {
   DownloadBlobResult,
   DownloadManifestOptions,
   DownloadManifestResult,
-  OciManifest,
+  OciImageManifest,
   UploadBlobOptions,
   UploadBlobResult,
   UploadManifestOptions,
@@ -187,7 +187,7 @@ export class ContainerRegistryBlobClient {
    * @param manifest - the manifest to upload. If a resettable stream (a factory function that returns a stream) is provided, it may be called multiple times. Each time the function is called, a fresh stream should be returned.
    */
   public async uploadManifest(
-    manifest: (() => NodeJS.ReadableStream) | NodeJS.ReadableStream | OciManifest,
+    manifest: (() => NodeJS.ReadableStream) | NodeJS.ReadableStream | OciImageManifest,
     options?: UploadManifestOptions
   ): Promise<UploadManifestResult> {
     return tracingClient.withSpan(

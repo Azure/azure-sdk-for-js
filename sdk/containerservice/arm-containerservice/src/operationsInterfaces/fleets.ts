@@ -7,17 +7,17 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Fleet,
-  FleetsListByResourceGroupOptionalParams,
   FleetsListOptionalParams,
+  FleetsListByResourceGroupOptionalParams,
+  FleetsGetOptionalParams,
+  FleetsGetResponse,
   FleetsCreateOrUpdateOptionalParams,
   FleetsCreateOrUpdateResponse,
   FleetsUpdateOptionalParams,
   FleetsUpdateResponse,
-  FleetsGetOptionalParams,
-  FleetsGetResponse,
   FleetsDeleteOptionalParams,
   FleetsListCredentialsOptionalParams,
   FleetsListCredentialsResponse
@@ -26,6 +26,11 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Fleets. */
 export interface Fleets {
+  /**
+   * Lists fleets in the specified subscription.
+   * @param options The options parameters.
+   */
+  list(options?: FleetsListOptionalParams): PagedAsyncIterableIterator<Fleet>;
   /**
    * Lists fleets in the specified subscription and resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -36,10 +41,16 @@ export interface Fleets {
     options?: FleetsListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<Fleet>;
   /**
-   * Lists fleets in the specified subscription.
+   * Gets a Fleet.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param fleetName The name of the Fleet resource.
    * @param options The options parameters.
    */
-  list(options?: FleetsListOptionalParams): PagedAsyncIterableIterator<Fleet>;
+  get(
+    resourceGroupName: string,
+    fleetName: string,
+    options?: FleetsGetOptionalParams
+  ): Promise<FleetsGetResponse>;
   /**
    * Creates or updates a Fleet.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -53,8 +64,8 @@ export interface Fleets {
     parameters: Fleet,
     options?: FleetsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<FleetsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<FleetsCreateOrUpdateResponse>,
       FleetsCreateOrUpdateResponse
     >
   >;
@@ -83,17 +94,6 @@ export interface Fleets {
     options?: FleetsUpdateOptionalParams
   ): Promise<FleetsUpdateResponse>;
   /**
-   * Gets a Fleet.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param fleetName The name of the Fleet resource.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    fleetName: string,
-    options?: FleetsGetOptionalParams
-  ): Promise<FleetsGetResponse>;
-  /**
    * Deletes a Fleet.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param fleetName The name of the Fleet resource.
@@ -103,7 +103,7 @@ export interface Fleets {
     resourceGroupName: string,
     fleetName: string,
     options?: FleetsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Fleet.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
