@@ -24,8 +24,8 @@ describe("AppConfigurationClient snapshot", () => {
   beforeEach(async function (this: Context) {
     recorder = await startRecorder(this);
     client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
-    key1 = "key1";
-    key2 = "key2";
+    key1 = recorder.variable("key1", `randomKey1-${new Date().getTime()}`);
+    key2 = recorder.variable("key2", `randomKey2-${new Date().getTime()}`);
     filter1 = {
       key: key1,
     };
