@@ -3,8 +3,8 @@
 
 import {
   PlayRequest,
-  PlaySource as PlaySourceInternal,
-  FileSource as FileSourceInternal,
+  PlaySourceInternal,
+  FileSourceInternal,
   KnownPlaySourceType,
   RecognizeRequest,
   KnownRecognizeInputType,

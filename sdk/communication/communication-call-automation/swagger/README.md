@@ -28,4 +28,25 @@ directive:
 - rename-model:
     from: CallConnectionProperties
     to: CallConnectionPropertiesInternal
+- rename-model:
+    from: CallConnection
+    to: CallConnectionInternal
+- rename-model:
+    from: CallMedia
+    to: CallMediaInternal
+- rename-model:
+    from: CallRecording
+    to: CallRecordingInternal
+- rename-model:
+    from: FileSource
+    to: FileSourceInternal
+- rename-model:
+    from: PlayOptions
+    to: PlayOptionsInternal
+- rename-model:
+    from: PlaySource
+    to: PlaySourceInternal
+- rename-model:
+    from: RecognizeInputType
+    to: RecognizeInputTypeInternal
 ```
