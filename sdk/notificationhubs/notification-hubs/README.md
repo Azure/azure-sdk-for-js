@@ -51,21 +51,7 @@ Once created, the Notification Hub can be configured using the [Azure Portal or 
 
 This SDK for JavaScript offers two ways of interacting with Azure Notification Hubs, either through the class-based approach, or with a modular design approach.  The class-based approach is consistent across all packages to create a client and then interact with the methods on the client.
 
-```typescript
-import { 
-  NotificationHubsClient,
-  createAppleInstallation 
-} from "@azure/notification-hubs";
-
-const client = new NotificationHubsClient("<connection string>", "<hub name>");
-
-const installation = createAppleInstallation({
-  installationId: "<installation-id>",
-  pushChannel: "<push-channel>",
-  tags: ["likes_javascript"],
-});
-
-const result = await client.createOrUpdateInstallation(installation);
+```typescript snippet:ClassicalImportingClient
 ```
 
 The modular approach allows the developer to pick and choose which functions to import as each method is exposed individually.  This approach uses subpath-exports with ES-Modules to expose the methods via direct imports.  With the individual exports, this creates a better tree-shaking experience and smaller bundle sizes that the developer can take advantage of.  
@@ -79,19 +65,7 @@ The following subpaths are exposed:
 
 The above code snippet then becomes the following:
 
-```typescript
-import { createClientContext, createOrUpdateInstallation } from "@azure/notification-hubs/api";
-import { createAppleInstallation } from "@azure/notification-hubs/models";
-
-const context = createClientContext("<connection string>", "<hub name>");
-
-const installation = createAppleInstallation({
-  installationId: "<installation-id>",
-  pushChannel: "<push-channel>",
-  tags: ["likes_javascript"],
-});
-
-const result = await createOrUpdateInstallation(context, installation);
+```typescript snippet:ModularImportingClient
 ```
 
 ### Authenticate the client
@@ -102,18 +76,12 @@ Listen allows for a client to register itself via the Registration and Installat
 
 A new `NotificationHubsClient` client can be created using the constructor with the connection string and Notification Hub name.
 
-```typescript
-import { NotificationHubsClient } from "@azure/notification-hubs";
-
-const client = new NotificationHubsClient("<connection string>", "<hub name>");
+```typescript snippet:ClassicalConstructor
 ```
 
 Using the modular approach, the `createClientContext` can be imported via the `"@azure/notification-hubs/api"` subpath.
 
-```typescript
-import { createClientContext } from "@azure/notification-hubs/api";
-
-const context = createClientContext("<connection string>", "<hub name>");
+```typescript snippet:ModularConstructor
 ```
 
 ## Key concepts
