@@ -57,7 +57,10 @@ matrix([[true, false]], async function (useAad) {
         const searchPoller = await client.beginUpdatePhoneNumberCapabilities(fakeNumber, update);
         await searchPoller.pollUntilDone();
       } catch (error: any) {
-        assert.isTrue(isClientErrorStatusCode(error.statusCode));
+        assert.isTrue(
+          isClientErrorStatusCode(error.statusCode),
+          `Status code ${error.statusCode} does not indicate client error.`
+        );
         return;
       }
 
@@ -70,7 +73,10 @@ matrix([[true, false]], async function (useAad) {
         const searchPoller = await client.beginUpdatePhoneNumberCapabilities(fakeNumber, update);
         await searchPoller.pollUntilDone();
       } catch (error: any) {
-        assert.isTrue(isClientErrorStatusCode(error.statusCode));
+        assert.isTrue(
+          isClientErrorStatusCode(error.statusCode),
+          `Status code ${error.statusCode} does not indicate client error.`
+        );
         return;
       }
 
