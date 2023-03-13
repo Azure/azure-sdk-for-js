@@ -7,7 +7,7 @@ import {
   isPlaybackMode,
   isLiveMode,
 } from "@azure-tools/test-recorder";
-import { ContainerRegistryBlobClient, OciManifest } from "@azure/container-registry";
+import { ContainerRegistryBlobClient, OciImageManifest } from "@azure/container-registry";
 import { assert, versionsToTest } from "@azure/test-utils";
 import { Context } from "mocha";
 import { createBlobClient, recorderStartOptions, serviceVersions } from "../utils/utils";
@@ -48,7 +48,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       await recorder.stop();
     });
 
-    const manifest: OciManifest = {
+    const manifest: OciImageManifest = {
       schemaVersion: 2,
       config: {
         mediaType: "application/vnd.oci.image.config.v1+json",
