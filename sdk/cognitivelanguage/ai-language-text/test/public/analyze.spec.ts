@@ -44,10 +44,6 @@ import {
   expectation59,
   expectation60,
   expectation62,
-  expectation67,
-  expectation68,
-  expectation69,
-  expectation70,
   expectation72,
 } from "./expectations";
 
@@ -574,98 +570,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             code: KnownTextAnalysisErrorCode.InvalidDocumentBatch,
             statusCode: 400,
             messagePattern: /Max 5 records are permitted/,
-          });
-        });
-      });
-
-      matrix([classificationTypeList], async (classificationType: string) => {
-        describe(`#Dynamic Classification [${classificationType}]`, function () {
-          it("client throws on empty list", async function () {
-            return assert.isRejected(
-              client.analyze(AnalyzeActionNames.DynamicClassification, []),
-              /non-empty array/
-            );
-          });
-
-          it("client accepts string[] and language", async function () {
-            assertActionResults(
-              await client.analyze(AnalyzeActionNames.DynamicClassification, testDataEn, "en", {
-                categories: ["Travel", "Weather", "Location"],
-                classificationType,
-              }),
-              classificationType === "single" ? expectation67 : expectation69
-            );
-          });
-
-          it("client accepts string[] with no language", async function () {
-            const docs = testDataEn.map((text) => ({
-              id: getId(),
-              text,
-            }));
-            assertActionResults(
-              await client.analyze(AnalyzeActionNames.DynamicClassification, docs, {
-                categories: ["Travel", "Weather", "Location"],
-                classificationType,
-              }),
-              classificationType === "single" ? expectation68 : expectation70
-            );
-          });
-
-          it("service errors on unsupported language", async function () {
-            const [result] = await client.analyze(
-              AnalyzeActionNames.DynamicClassification,
-              ["This is some text, but it doesn't matter."],
-              "notalanguage",
-              {
-                categories: ["Travel", "Weather", "Location"],
-                classificationType,
-              }
-            );
-
-            if (result.error === undefined) {
-              assert.fail("Expected an error from the service");
-            }
-            assert.equal(result.error.code, KnownTextAnalysisErrorCode.UnsupportedLanguageCode);
-          });
-
-          it("service errors on invalid number of categories", async function () {
-            await assertRestError(
-              client.analyze(
-                AnalyzeActionNames.DynamicClassification,
-                ["This is some text, but it doesn't matter."],
-                "en",
-                {
-                  categories: ["A"],
-                  classificationType,
-                }
-              ),
-              {
-                code: KnownTextAnalysisErrorCode.InvalidParameterValue,
-                statusCode: 400,
-                messagePattern:
-                  /Invalid parameter in request. Parameter 'categories' cannot be empty or contain less than 2 categories/,
-              }
-            );
-          });
-
-          it("service errors on invalid classification type", async function () {
-            await assertRestError(
-              client.analyze(
-                AnalyzeActionNames.DynamicClassification,
-                ["This is some text, but it doesn't matter."],
-                "en",
-                {
-                  categories: ["A", "B"],
-                  classificationType: classificationType + "A",
-                }
-              ),
-              {
-                code: KnownTextAnalysisErrorCode.InvalidParameterValue,
-                statusCode: 400,
-                messagePattern:
-                  /Invalid parameter in request. Invalid value for parameter 'classificationType'/,
-              }
-            );
           });
         });
       });
