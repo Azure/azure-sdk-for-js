@@ -59,7 +59,7 @@ export interface ArtifactTagProperties {
 
 // @public
 export class ContainerRegistryBlobClient {
-    constructor(endpoint: string, repositoryName: string, credential: TokenCredential, options: ContainerRegistryBlobClientOptions);
+    constructor(endpoint: string, repositoryName: string, credential: TokenCredential, options?: ContainerRegistryBlobClientOptions);
     deleteBlob(digest: string, options?: DeleteBlobOptions): Promise<void>;
     deleteManifest(digest: string, options?: DeleteManifestOptions): Promise<void>;
     downloadBlob(digest: string, options?: DownloadBlobOptions): Promise<DownloadBlobResult>;
