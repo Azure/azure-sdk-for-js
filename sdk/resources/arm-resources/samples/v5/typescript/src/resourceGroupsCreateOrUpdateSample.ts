@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ResourceGroup, ResourceManagementClient } from "@azure/arm-resources";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates a resource group.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/CreateResourceGroup.json
  */
 async function createOrUpdateAResourceGroup() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId =
+    process.env["RESOURCES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["RESOURCES_RESOURCE_GROUP"] || "my-resource-group";
   const parameters: ResourceGroup = { location: "eastus" };
   const credential = new DefaultAzureCredential();
   const client = new ResourceManagementClient(credential, subscriptionId);
@@ -30,4 +36,8 @@ async function createOrUpdateAResourceGroup() {
   console.log(result);
 }
 
-createOrUpdateAResourceGroup().catch(console.error);
+async function main() {
+  createOrUpdateAResourceGroup();
+}
+
+main().catch(console.error);

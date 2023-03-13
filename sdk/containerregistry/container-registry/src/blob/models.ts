@@ -35,7 +35,7 @@ export interface DownloadManifestResult {
   /**
    * The OCI manifest that was downloaded.
    */
-  manifest: OciManifest;
+  manifest: OciImageManifest;
 
   /**
    * The manifest stream that was downloaded.
@@ -82,8 +82,8 @@ export interface OciBlobDescriptor {
   annotations?: OciAnnotations;
 }
 
-/** Returns the requested OCI Manifest file. */
-export interface OciManifest {
+/** Type representing an OCI image manifest (manifest of media type "application/vnd.oci.image.manifest.v1+json"). */
+export interface OciImageManifest {
   /** Schema version */
   schemaVersion: number;
   /** V2 image config descriptor */
