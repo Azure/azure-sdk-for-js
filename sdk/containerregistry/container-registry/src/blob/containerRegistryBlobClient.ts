@@ -76,7 +76,7 @@ export class DigestMismatchError extends Error {
  * @param downloadResult - the download result to check.
  * @returns - whether the downloaded manifest is an OCI image manifest.
  */
-export function isOciImageManifest(
+export function isDownloadOciImageManifestResult(
   downloadResult: DownloadManifestResult
 ): downloadResult is DownloadOciImageManifestResult {
   return (
@@ -251,7 +251,7 @@ export class ContainerRegistryBlobClient {
    * Downloads the manifest for an OCI artifact.
    *
    * If the manifest downloaded was of type {@link KnownManifestMediaType.OciManifest}, the downloaded manifest will be of type {@link DownloadOciImageManifestResult}.
-   * You can use {@link isOciImageManifest} to determine whether this is the case. If so, the strongly typed deserialized manifest will be available through the `manifest` property.
+   * You can use {@link isDownloadOciImageManifestResult} to determine whether this is the case. If so, the strongly typed deserialized manifest will be available through the `manifest` property.
    *
    * @param tagOrDigest - a tag or digest that identifies the artifact
    * @returns - the downloaded manifest

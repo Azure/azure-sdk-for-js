@@ -8,7 +8,7 @@
 
 import {
   ContainerRegistryBlobClient,
-  isOciImageManifest,
+  isDownloadOciImageManifestResult,
   KnownContainerRegistryAudience,
 } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -39,7 +39,7 @@ async function main() {
   const result = await client.downloadManifest("demo");
 
   // If an OCI image manifest was downloaded, it is available as a strongly typed object via the `manifest` property.
-  if (!isOciImageManifest(result)) {
+  if (!isDownloadOciImageManifestResult(result)) {
     throw new Error("Expected an OCI image manifest");
   }
 

@@ -184,7 +184,7 @@ export interface GetTagPropertiesOptions extends OperationOptions {
 }
 
 // @public
-export function isOciImageManifest(downloadResult: DownloadManifestResult): downloadResult is DownloadOciImageManifestResult;
+export function isDownloadOciImageManifestResult(downloadResult: DownloadManifestResult): downloadResult is DownloadOciImageManifestResult;
 
 // @public
 export enum KnownArtifactArchitecture {

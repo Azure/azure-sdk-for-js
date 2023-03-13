@@ -11,7 +11,7 @@ import {
   ContainerRegistryBlobClient,
   DownloadManifestResult,
   DownloadOciImageManifestResult,
-  isOciImageManifest,
+  isDownloadOciImageManifestResult,
   KnownManifestMediaType,
   OciImageManifest,
 } from "../../src";
@@ -25,7 +25,7 @@ import { readStreamToEnd } from "../../src/utils/helpers";
 function assertIsOciManifest(
   downloadManifestResult: DownloadManifestResult
 ): asserts downloadManifestResult is DownloadOciImageManifestResult {
-  assert.isTrue(isOciImageManifest(downloadManifestResult));
+  assert.isTrue(isDownloadOciImageManifestResult(downloadManifestResult));
 }
 
 versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
