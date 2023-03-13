@@ -1,0 +1,436 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resources?api-version=2021-04-01\u0026$filter=ResourceType%20eq%20%27Microsoft.OperationsManagement%2Fsolutions%27\u0026$top=1",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-resources/6.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "39bc9c72-668a-44ce-b771-e44bd9a93fbe"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "1087",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 13 Mar 2023 04:04:50 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "216cf9af-bbed-479c-87a8-fdcca7c0fe4d",
+        "x-ms-ratelimit-remaining-subscription-reads": "11986",
+        "x-ms-request-id": "216cf9af-bbed-479c-87a8-fdcca7c0fe4d",
+        "x-ms-routing-request-id": "JAPANEAST:20230313T040451Z:216cf9af-bbed-479c-87a8-fdcca7c0fe4d"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/DefaultResourceGroup-CUS/providers/Microsoft.OperationsManagement/solutions/SecurityCenterFree(DefaultWorkspace-azure_subscription_id-CUS)",
+            "name": "SecurityCenterFree(DefaultWorkspace-azure_subscription_id-CUS)",
+            "type": "Microsoft.OperationsManagement/solutions",
+            "location": "centralus",
+            "plan": {
+              "name": "SecurityCenterFree(defaultworkspace-azure_subscription_id-cus)",
+              "promotionCode": "",
+              "product": "OMSGallery/SecurityCenterFree",
+              "publisher": "Microsoft"
+            },
+            "tags": {}
+          }
+        ],
+        "nextLink": "https://management.azure.com/subscriptions/azure_subscription_id/resources?api-version=2021-04-01\u0026%24filter=ResourceType\u002Beq\u002B%27Microsoft.OperationsManagement%2fsolutions%27\u0026%24top=1\u0026%24skiptoken=eyJuZXh0TWFya2VyIjoiW3tcInRva2VuXCI6XCIrUklEOn5mN045QVB2UEs4WUorYjRZQUFBWUJRPT0jUlQ6MSNUUkM6MSNJU1Y6MiNJRU86NjU1NTEjUUNGOjgjRlBDOkFnajdZZ0FBWUJRQUFJVjlBQUJnRkFBQSsySUFBR0FVQUFBSUFBRTVBQVloQUFBRHcya0FBR0FVQUFBQ0FMT3doWDBBQUdBVUFBQUlBRHVjRElBaEFBTUFcIixcInJhbmdlXCI6e1wibWluXCI6XCIwNUMxRDdCQkI1MkQwQ1wiLFwibWF4XCI6XCIwNUMxRDdGRkZGRkZGQ1wifX1dIn0%3d"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resources?api-version=2021-04-01\u0026%24filter=ResourceType\u002Beq\u002B%27Microsoft.OperationsManagement%2fsolutions%27\u0026%24top=1\u0026%24skiptoken=eyJuZXh0TWFya2VyIjoiW3tcInRva2VuXCI6XCIrUklEOn5mN045QVB2UEs4WUorYjRZQUFBWUJRPT0jUlQ6MSNUUkM6MSNJU1Y6MiNJRU86NjU1NTEjUUNGOjgjRlBDOkFnajdZZ0FBWUJRQUFJVjlBQUJnRkFBQSsySUFBR0FVQUFBSUFBRTVBQVloQUFBRHcya0FBR0FVQUFBQ0FMT3doWDBBQUdBVUFBQUlBRHVjRElBaEFBTUFcIixcInJhbmdlXCI6e1wibWluXCI6XCIwNUMxRDdCQkI1MkQwQ1wiLFwibWF4XCI6XCIwNUMxRDdGRkZGRkZGQ1wifX1dIn0%3d",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-resources/6.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "245267b4-0287-48e2-b837-549c9496071a"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "1047",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 13 Mar 2023 04:04:50 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "e7470fd4-e753-4677-8544-9a12f25090a9",
+        "x-ms-ratelimit-remaining-subscription-reads": "11985",
+        "x-ms-request-id": "e7470fd4-e753-4677-8544-9a12f25090a9",
+        "x-ms-routing-request-id": "JAPANEAST:20230313T040451Z:e7470fd4-e753-4677-8544-9a12f25090a9"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/DefaultResourceGroup-CUS/providers/Microsoft.OperationsManagement/solutions/Security(DefaultWorkspace-azure_subscription_id-CUS)",
+            "name": "Security(DefaultWorkspace-azure_subscription_id-CUS)",
+            "type": "Microsoft.OperationsManagement/solutions",
+            "location": "centralus",
+            "plan": {
+              "name": "Security(defaultworkspace-azure_subscription_id-cus)",
+              "promotionCode": "",
+              "product": "OMSGallery/Security",
+              "publisher": "Microsoft"
+            },
+            "tags": {}
+          }
+        ],
+        "nextLink": "https://management.azure.com/subscriptions/azure_subscription_id/resources?api-version=2021-04-01\u0026%24filter=ResourceType\u002Beq\u002B%27Microsoft.OperationsManagement%2fsolutions%27\u0026%24top=1\u0026%24skiptoken=eyJuZXh0TWFya2VyIjoiW3tcInRva2VuXCI6XCIrUklEOn5mN045QVB2UEs4WUsrYjRZQUFBWUJRPT0jUlQ6MiNUUkM6MiNJU1Y6MiNJRU86NjU1NTEjUUNGOjgjRlBDOkFnajdZZ0FBWUJRQUFJVjlBQUJnRkFBQSsySUFBR0FVQUFBR0FBcTVJUUFBQThOcEFBQmdGQUFBQWdDenNJVjlBQUJnRkFBQUNBQTduQXlBSVFBREFBPT1cIixcInJhbmdlXCI6e1wibWluXCI6XCIwNUMxRDdCQkI1MkQwQ1wiLFwibWF4XCI6XCIwNUMxRDdGRkZGRkZGQ1wifX1dIn0%3d"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resources?api-version=2021-04-01\u0026%24filter=ResourceType\u002Beq\u002B%27Microsoft.OperationsManagement%2fsolutions%27\u0026%24top=1\u0026%24skiptoken=eyJuZXh0TWFya2VyIjoiW3tcInRva2VuXCI6XCIrUklEOn5mN045QVB2UEs4WUsrYjRZQUFBWUJRPT0jUlQ6MiNUUkM6MiNJU1Y6MiNJRU86NjU1NTEjUUNGOjgjRlBDOkFnajdZZ0FBWUJRQUFJVjlBQUJnRkFBQSsySUFBR0FVQUFBR0FBcTVJUUFBQThOcEFBQmdGQUFBQWdDenNJVjlBQUJnRkFBQUNBQTduQXlBSVFBREFBPT1cIixcInJhbmdlXCI6e1wibWluXCI6XCIwNUMxRDdCQkI1MkQwQ1wiLFwibWF4XCI6XCIwNUMxRDdGRkZGRkZGQ1wifX1dIn0%3d",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-resources/6.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "522047fe-8e64-4709-8bd5-2238e03e19ea"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "1121",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 13 Mar 2023 04:04:51 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "e5685251-38d8-4436-b5b4-6526f2ed521f",
+        "x-ms-ratelimit-remaining-subscription-reads": "11984",
+        "x-ms-request-id": "e5685251-38d8-4436-b5b4-6526f2ed521f",
+        "x-ms-routing-request-id": "JAPANEAST:20230313T040451Z:e5685251-38d8-4436-b5b4-6526f2ed521f"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/DefaultResourceGroup-CUS/providers/Microsoft.OperationsManagement/solutions/SQLAdvancedThreatProtection(DefaultWorkspace-azure_subscription_id-CUS)",
+            "name": "SQLAdvancedThreatProtection(DefaultWorkspace-azure_subscription_id-CUS)",
+            "type": "Microsoft.OperationsManagement/solutions",
+            "location": "centralus",
+            "plan": {
+              "name": "SQLAdvancedThreatProtection(defaultworkspace-azure_subscription_id-cus)",
+              "promotionCode": "",
+              "product": "OMSGallery/SQLAdvancedThreatProtection",
+              "publisher": "Microsoft"
+            },
+            "tags": {}
+          }
+        ],
+        "nextLink": "https://management.azure.com/subscriptions/azure_subscription_id/resources?api-version=2021-04-01\u0026%24filter=ResourceType\u002Beq\u002B%27Microsoft.OperationsManagement%2fsolutions%27\u0026%24top=1\u0026%24skiptoken=eyJuZXh0TWFya2VyIjoiW3tcInRva2VuXCI6XCIrUklEOn5mN045QVB2UEs4WTQrYjRZQUFBWUJRPT0jUlQ6MyNUUkM6MyNJU1Y6MiNJRU86NjU1NTEjUUNGOjgjRlBDOkFnajdZZ0FBWUJRQUFJVjlBQUJnRkFBQSsySUFBR0FVQUFBRUFERTVBQVBEYVFBQVlCUUFBQUlBczdDRmZRQUFZQlFBQUFnQU81d01nQ0VBQXdBPVwiLFwicmFuZ2VcIjp7XCJtaW5cIjpcIjA1QzFEN0JCQjUyRDBDXCIsXCJtYXhcIjpcIjA1QzFEN0ZGRkZGRkZDXCJ9fV0ifQ%3d%3d"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resources?api-version=2021-04-01\u0026%24filter=ResourceType\u002Beq\u002B%27Microsoft.OperationsManagement%2fsolutions%27\u0026%24top=1\u0026%24skiptoken=eyJuZXh0TWFya2VyIjoiW3tcInRva2VuXCI6XCIrUklEOn5mN045QVB2UEs4WTQrYjRZQUFBWUJRPT0jUlQ6MyNUUkM6MyNJU1Y6MiNJRU86NjU1NTEjUUNGOjgjRlBDOkFnajdZZ0FBWUJRQUFJVjlBQUJnRkFBQSsySUFBR0FVQUFBRUFERTVBQVBEYVFBQVlCUUFBQUlBczdDRmZRQUFZQlFBQUFnQU81d01nQ0VBQXdBPVwiLFwicmFuZ2VcIjp7XCJtaW5cIjpcIjA1QzFEN0JCQjUyRDBDXCIsXCJtYXhcIjpcIjA1QzFEN0ZGRkZGRkZDXCJ9fV0ifQ%3d%3d",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-resources/6.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "13b37954-029d-42db-8986-ba06d47c56e4"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "1105",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 13 Mar 2023 04:04:51 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "244323a3-457f-4a5c-a651-e8f65467962b",
+        "x-ms-ratelimit-remaining-subscription-reads": "11983",
+        "x-ms-request-id": "244323a3-457f-4a5c-a651-e8f65467962b",
+        "x-ms-routing-request-id": "JAPANEAST:20230313T040451Z:244323a3-457f-4a5c-a651-e8f65467962b"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/DefaultResourceGroup-CUS/providers/Microsoft.OperationsManagement/solutions/SQLVulnerabilityAssessment(DefaultWorkspace-azure_subscription_id-CUS)",
+            "name": "SQLVulnerabilityAssessment(DefaultWorkspace-azure_subscription_id-CUS)",
+            "type": "Microsoft.OperationsManagement/solutions",
+            "location": "centralus",
+            "plan": {
+              "name": "SQLVulnerabilityAssessment(defaultworkspace-azure_subscription_id-cus)",
+              "promotionCode": "",
+              "product": "OMSGallery/SQLVulnerabilityAssessment",
+              "publisher": "Microsoft"
+            },
+            "tags": {}
+          }
+        ],
+        "nextLink": "https://management.azure.com/subscriptions/azure_subscription_id/resources?api-version=2021-04-01\u0026%24filter=ResourceType\u002Beq\u002B%27Microsoft.OperationsManagement%2fsolutions%27\u0026%24top=1\u0026%24skiptoken=eyJuZXh0TWFya2VyIjoiW3tcInRva2VuXCI6XCIrUklEOn5mN045QVB2UEs4WTUrYjRZQUFBWUJRPT0jUlQ6NCNUUkM6NCNJU1Y6MiNJRU86NjU1NTEjUUNGOjgjRlBDOkFnajdZZ0FBWUJRQUFJVjlBQUJnRkFBQSsySUFBR0FVQUFBQ0FEbTV3MmtBQUdBVUFBQUNBTE93aFgwQUFHQVVBQUFJQUR1Y0RJQWhBQU1BXCIsXCJyYW5nZVwiOntcIm1pblwiOlwiMDVDMUQ3QkJCNTJEMENcIixcIm1heFwiOlwiMDVDMUQ3RkZGRkZGRkNcIn19XSJ9"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resources?api-version=2021-04-01\u0026%24filter=ResourceType\u002Beq\u002B%27Microsoft.OperationsManagement%2fsolutions%27\u0026%24top=1\u0026%24skiptoken=eyJuZXh0TWFya2VyIjoiW3tcInRva2VuXCI6XCIrUklEOn5mN045QVB2UEs4WTUrYjRZQUFBWUJRPT0jUlQ6NCNUUkM6NCNJU1Y6MiNJRU86NjU1NTEjUUNGOjgjRlBDOkFnajdZZ0FBWUJRQUFJVjlBQUJnRkFBQSsySUFBR0FVQUFBQ0FEbTV3MmtBQUdBVUFBQUNBTE93aFgwQUFHQVVBQUFJQUR1Y0RJQWhBQU1BXCIsXCJyYW5nZVwiOntcIm1pblwiOlwiMDVDMUQ3QkJCNTJEMENcIixcIm1heFwiOlwiMDVDMUQ3RkZGRkZGRkNcIn19XSJ9",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-resources/6.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "ad2549f5-6b43-43e6-b4e6-2be8572e9728"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "1051",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 13 Mar 2023 04:04:51 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "12823add-b9c0-4e42-9779-e495e86b349b",
+        "x-ms-ratelimit-remaining-subscription-reads": "11982",
+        "x-ms-request-id": "12823add-b9c0-4e42-9779-e495e86b349b",
+        "x-ms-routing-request-id": "JAPANEAST:20230313T040451Z:12823add-b9c0-4e42-9779-e495e86b349b"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/DefaultResourceGroup-CUS/providers/Microsoft.OperationsManagement/solutions/ContainerInsights(DefaultWorkspace-azure_subscription_id-CUS)",
+            "name": "ContainerInsights(DefaultWorkspace-azure_subscription_id-CUS)",
+            "type": "Microsoft.OperationsManagement/solutions",
+            "location": "centralus",
+            "plan": {
+              "name": "ContainerInsights(defaultworkspace-azure_subscription_id-cus)",
+              "promotionCode": "",
+              "product": "OMSGallery/ContainerInsights",
+              "publisher": "Microsoft"
+            },
+            "tags": {}
+          }
+        ],
+        "nextLink": "https://management.azure.com/subscriptions/azure_subscription_id/resources?api-version=2021-04-01\u0026%24filter=ResourceType\u002Beq\u002B%27Microsoft.OperationsManagement%2fsolutions%27\u0026%24top=1\u0026%24skiptoken=eyJuZXh0TWFya2VyIjoiW3tcInRva2VuXCI6XCIrUklEOn5mN045QVB2UEs4YXo4SEFhQUFBWUJRPT0jUlQ6NSNUUkM6NSNJU1Y6MiNJRU86NjU1NTEjUUNGOjgjRlBDOkFnakRhUUFBWUJRQUFJVjlBQUJnRkFBQXcya0FBR0FVQUFBQ0FMT3doWDBBQUdBVUFBQUlBRHVjRElBaEFBTUFcIixcInJhbmdlXCI6e1wibWluXCI6XCIwNUMxRDdCQkI1MkQwQ1wiLFwibWF4XCI6XCIwNUMxRDdGRkZGRkZGQ1wifX1dIn0%3d"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resources?api-version=2021-04-01\u0026%24filter=ResourceType\u002Beq\u002B%27Microsoft.OperationsManagement%2fsolutions%27\u0026%24top=1\u0026%24skiptoken=eyJuZXh0TWFya2VyIjoiW3tcInRva2VuXCI6XCIrUklEOn5mN045QVB2UEs4YXo4SEFhQUFBWUJRPT0jUlQ6NSNUUkM6NSNJU1Y6MiNJRU86NjU1NTEjUUNGOjgjRlBDOkFnakRhUUFBWUJRQUFJVjlBQUJnRkFBQXcya0FBR0FVQUFBQ0FMT3doWDBBQUdBVUFBQUlBRHVjRElBaEFBTUFcIixcInJhbmdlXCI6e1wibWluXCI6XCIwNUMxRDdCQkI1MkQwQ1wiLFwibWF4XCI6XCIwNUMxRDdGRkZGRkZGQ1wifX1dIn0%3d",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-resources/6.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "1d8d7db5-610e-4074-8746-c38aab5c677e"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "1038",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 13 Mar 2023 04:04:51 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "7894a673-e755-4ae0-b0f5-4e890d39d193",
+        "x-ms-ratelimit-remaining-subscription-reads": "11981",
+        "x-ms-request-id": "7894a673-e755-4ae0-b0f5-4e890d39d193",
+        "x-ms-routing-request-id": "JAPANEAST:20230313T040451Z:7894a673-e755-4ae0-b0f5-4e890d39d193"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/DefaultResourceGroup-WEU/providers/Microsoft.OperationsManagement/solutions/SecurityCenterFree(DefaultWorkspace-azure_subscription_id-WEU)",
+            "name": "SecurityCenterFree(DefaultWorkspace-azure_subscription_id-WEU)",
+            "type": "Microsoft.OperationsManagement/solutions",
+            "location": "westeurope",
+            "plan": {
+              "name": "SecurityCenterFree(defaultworkspace-azure_subscription_id-weu)",
+              "promotionCode": "",
+              "product": "OMSGallery/SecurityCenterFree",
+              "publisher": "Microsoft"
+            },
+            "tags": {}
+          }
+        ],
+        "nextLink": "https://management.azure.com/subscriptions/azure_subscription_id/resources?api-version=2021-04-01\u0026%24filter=ResourceType\u002Beq\u002B%27Microsoft.OperationsManagement%2fsolutions%27\u0026%24top=1\u0026%24skiptoken=eyJuZXh0TWFya2VyIjoiW3tcInRva2VuXCI6XCIrUklEOn5mN045QVB2UEs4WTdYR0VmQUFBWUJRPT0jUlQ6NiNUUkM6NiNJU1Y6MiNJRU86NjU1NTEjUUNGOjgjRlBDOkFnaUZmUUFBWUJRQUFJVjlBQUJnRkFBQWhYMEFBR0FVQUFBSUFEdWNESUFoQUFNQVwiLFwicmFuZ2VcIjp7XCJtaW5cIjpcIjA1QzFEN0JCQjUyRDBDXCIsXCJtYXhcIjpcIjA1QzFEN0ZGRkZGRkZDXCJ9fV0ifQ%3d%3d"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resources?api-version=2021-04-01\u0026%24filter=ResourceType\u002Beq\u002B%27Microsoft.OperationsManagement%2fsolutions%27\u0026%24top=1\u0026%24skiptoken=eyJuZXh0TWFya2VyIjoiW3tcInRva2VuXCI6XCIrUklEOn5mN045QVB2UEs4WTdYR0VmQUFBWUJRPT0jUlQ6NiNUUkM6NiNJU1Y6MiNJRU86NjU1NTEjUUNGOjgjRlBDOkFnaUZmUUFBWUJRQUFJVjlBQUJnRkFBQWhYMEFBR0FVQUFBSUFEdWNESUFoQUFNQVwiLFwicmFuZ2VcIjp7XCJtaW5cIjpcIjA1QzFEN0JCQjUyRDBDXCIsXCJtYXhcIjpcIjA1QzFEN0ZGRkZGRkZDXCJ9fV0ifQ%3d%3d",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-resources/6.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "c6dce9fb-ac12-482e-b691-5ba2cdd5db4c"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "998",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 13 Mar 2023 04:04:51 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "a46746ef-7915-4063-8e40-0a9d733d5202",
+        "x-ms-ratelimit-remaining-subscription-reads": "11980",
+        "x-ms-request-id": "a46746ef-7915-4063-8e40-0a9d733d5202",
+        "x-ms-routing-request-id": "JAPANEAST:20230313T040452Z:a46746ef-7915-4063-8e40-0a9d733d5202"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/DefaultResourceGroup-WEU/providers/Microsoft.OperationsManagement/solutions/Security(DefaultWorkspace-azure_subscription_id-WEU)",
+            "name": "Security(DefaultWorkspace-azure_subscription_id-WEU)",
+            "type": "Microsoft.OperationsManagement/solutions",
+            "location": "westeurope",
+            "plan": {
+              "name": "Security(defaultworkspace-azure_subscription_id-weu)",
+              "promotionCode": "",
+              "product": "OMSGallery/Security",
+              "publisher": "Microsoft"
+            },
+            "tags": {}
+          }
+        ],
+        "nextLink": "https://management.azure.com/subscriptions/azure_subscription_id/resources?api-version=2021-04-01\u0026%24filter=ResourceType\u002Beq\u002B%27Microsoft.OperationsManagement%2fsolutions%27\u0026%24top=1\u0026%24skiptoken=eyJuZXh0TWFya2VyIjoiW3tcInRva2VuXCI6XCIrUklEOn5mN045QVB2UEs4Wk1YR0VmQUFBWUJRPT0jUlQ6NyNUUkM6NyNJU1Y6MiNJRU86NjU1NTEjUUNGOjgjRlBDOkFnaUZmUUFBWUJRQUFJVjlBQUJnRkFBQWhYMEFBR0FVQUFBR0FFeWNJUUFEQUE9PVwiLFwicmFuZ2VcIjp7XCJtaW5cIjpcIjA1QzFEN0JCQjUyRDBDXCIsXCJtYXhcIjpcIjA1QzFEN0ZGRkZGRkZDXCJ9fV0ifQ%3d%3d"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resources?api-version=2021-04-01\u0026%24filter=ResourceType\u002Beq\u002B%27Microsoft.OperationsManagement%2fsolutions%27\u0026%24top=1\u0026%24skiptoken=eyJuZXh0TWFya2VyIjoiW3tcInRva2VuXCI6XCIrUklEOn5mN045QVB2UEs4Wk1YR0VmQUFBWUJRPT0jUlQ6NyNUUkM6NyNJU1Y6MiNJRU86NjU1NTEjUUNGOjgjRlBDOkFnaUZmUUFBWUJRQUFJVjlBQUJnRkFBQWhYMEFBR0FVQUFBR0FFeWNJUUFEQUE9PVwiLFwicmFuZ2VcIjp7XCJtaW5cIjpcIjA1QzFEN0JCQjUyRDBDXCIsXCJtYXhcIjpcIjA1QzFEN0ZGRkZGRkZDXCJ9fV0ifQ%3d%3d",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-resources/6.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "04dfb823-af71-485b-8c64-263c213502cc"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "1042",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 13 Mar 2023 04:04:51 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "fd1f5e06-b47c-4771-a45b-a0e0e14db735",
+        "x-ms-ratelimit-remaining-subscription-reads": "11979",
+        "x-ms-request-id": "fd1f5e06-b47c-4771-a45b-a0e0e14db735",
+        "x-ms-routing-request-id": "JAPANEAST:20230313T040452Z:fd1f5e06-b47c-4771-a45b-a0e0e14db735"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/DefaultResourceGroup-WEU/providers/Microsoft.OperationsManagement/solutions/SQLAdvancedThreatProtection(DefaultWorkspace-azure_subscription_id-WEU)",
+            "name": "SQLAdvancedThreatProtection(DefaultWorkspace-azure_subscription_id-WEU)",
+            "type": "Microsoft.OperationsManagement/solutions",
+            "location": "westeurope",
+            "plan": {
+              "name": "SQLAdvancedThreatProtection(defaultworkspace-azure_subscription_id-weu)",
+              "promotionCode": "",
+              "product": "OMSGallery/SQLAdvancedThreatProtection",
+              "publisher": "Microsoft"
+            },
+            "tags": {}
+          }
+        ],
+        "nextLink": "https://management.azure.com/subscriptions/azure_subscription_id/resources?api-version=2021-04-01\u0026%24filter=ResourceType\u002Beq\u002B%27Microsoft.OperationsManagement%2fsolutions%27\u0026%24top=1\u0026%24skiptoken=eyJuZXh0TWFya2VyIjoiW3tcInRva2VuXCI6XCIrUklEOn5mN045QVB2UEs4WndYR0VmQUFBWUJRPT0jUlQ6OCNUUkM6OCNJU1Y6MiNJRU86NjU1NTEjUUNGOjgjRlBDOkFYQmNZUjhBQUJnRmNWeGhId0FBR0FVPVwiLFwicmFuZ2VcIjp7XCJtaW5cIjpcIjA1QzFEN0JCQjUyRDBDXCIsXCJtYXhcIjpcIjA1QzFEN0ZGRkZGRkZDXCJ9fV0ifQ%3d%3d"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resources?api-version=2021-04-01\u0026%24filter=ResourceType\u002Beq\u002B%27Microsoft.OperationsManagement%2fsolutions%27\u0026%24top=1\u0026%24skiptoken=eyJuZXh0TWFya2VyIjoiW3tcInRva2VuXCI6XCIrUklEOn5mN045QVB2UEs4WndYR0VmQUFBWUJRPT0jUlQ6OCNUUkM6OCNJU1Y6MiNJRU86NjU1NTEjUUNGOjgjRlBDOkFYQmNZUjhBQUJnRmNWeGhId0FBR0FVPVwiLFwicmFuZ2VcIjp7XCJtaW5cIjpcIjA1QzFEN0JCQjUyRDBDXCIsXCJtYXhcIjpcIjA1QzFEN0ZGRkZGRkZDXCJ9fV0ifQ%3d%3d",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-resources/6.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "a0317f32-42a6-4ce2-a793-0c576f0bd7b7"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "565",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 13 Mar 2023 04:04:51 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "9f7f3d53-69c5-4540-b37f-bf049a3ed9cf",
+        "x-ms-ratelimit-remaining-subscription-reads": "11978",
+        "x-ms-request-id": "9f7f3d53-69c5-4540-b37f-bf049a3ed9cf",
+        "x-ms-routing-request-id": "JAPANEAST:20230313T040452Z:9f7f3d53-69c5-4540-b37f-bf049a3ed9cf"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/DefaultResourceGroup-WEU/providers/Microsoft.OperationsManagement/solutions/SQLVulnerabilityAssessment(DefaultWorkspace-azure_subscription_id-WEU)",
+            "name": "SQLVulnerabilityAssessment(DefaultWorkspace-azure_subscription_id-WEU)",
+            "type": "Microsoft.OperationsManagement/solutions",
+            "location": "westeurope",
+            "plan": {
+              "name": "SQLVulnerabilityAssessment(defaultworkspace-azure_subscription_id-weu)",
+              "promotionCode": "",
+              "product": "OMSGallery/SQLVulnerabilityAssessment",
+              "publisher": "Microsoft"
+            },
+            "tags": {}
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

@@ -8,26 +8,26 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-resources/5.1.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "e88590b6-208b-40fd-af1a-06b68560554f"
+        "User-Agent": "azsdk-js-arm-resources/6.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "da16124e-bb32-4c7f-90fe-9132e1fc8915"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
-        "Content-Length": "5550",
+        "Content-Length": "6619",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 10 Nov 2022 05:57:49 GMT",
+        "Date": "Mon, 13 Mar 2023 04:03:23 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "63919bf5-09c2-4456-b554-733665e57735",
+        "x-ms-correlation-request-id": "f6ca1e25-5d2d-4d9b-9ca1-a52cdb0d70e1",
         "x-ms-ratelimit-remaining-subscription-reads": "11996",
-        "x-ms-request-id": "63919bf5-09c2-4456-b554-733665e57735",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221110T055750Z:63919bf5-09c2-4456-b554-733665e57735"
+        "x-ms-request-id": "f6ca1e25-5d2d-4d9b-9ca1-a52cdb0d70e1",
+        "x-ms-routing-request-id": "JAPANEAST:20230313T040324Z:f6ca1e25-5d2d-4d9b-9ca1-a52cdb0d70e1"
       },
       "ResponseBody": {
         "value": [
@@ -36,7 +36,7 @@
             "tagName": "tag1",
             "count": {
               "type": "Total",
-              "value": 5
+              "value": 4
             },
             "values": [
               {
@@ -44,7 +44,7 @@
                 "tagValue": "value1",
                 "count": {
                   "type": "Total",
-                  "value": 5
+                  "value": 4
                 }
               }
             ]
@@ -54,7 +54,7 @@
             "tagName": "tag2",
             "count": {
               "type": "Total",
-              "value": 5
+              "value": 4
             },
             "values": [
               {
@@ -62,7 +62,7 @@
                 "tagValue": "value2",
                 "count": {
                   "type": "Total",
-                  "value": 5
+                  "value": 4
                 }
               }
             ]
@@ -126,7 +126,7 @@
             "tagName": "key2",
             "count": {
               "type": "Total",
-              "value": 1
+              "value": 3
             },
             "values": [
               {
@@ -134,7 +134,7 @@
                 "tagValue": "value2",
                 "count": {
                   "type": "Total",
-                  "value": 1
+                  "value": 3
                 }
               }
             ]
@@ -150,86 +150,6 @@
               {
                 "id": "/subscriptions/azure_subscription_id/tagNames/ms-resource-usage/tagValues/azure-cloud-shell",
                 "tagValue": "azure-cloud-shell",
-                "count": {
-                  "type": "Total",
-                  "value": 1
-                }
-              }
-            ]
-          },
-          {
-            "id": "/subscriptions/azure_subscription_id/tagNames/Creator",
-            "tagName": "Creator",
-            "count": {
-              "type": "Total",
-              "value": 18
-            },
-            "values": [
-              {
-                "id": "/subscriptions/azure_subscription_id/tagNames/Creator/tagValues/Automatically added by NRMS Azure Policy",
-                "tagValue": "Automatically added by NRMS Azure Policy",
-                "count": {
-                  "type": "Total",
-                  "value": 18
-                }
-              }
-            ]
-          },
-          {
-            "id": "/subscriptions/azure_subscription_id/tagNames/NRMS-Info",
-            "tagName": "NRMS-Info",
-            "count": {
-              "type": "Total",
-              "value": 18
-            },
-            "values": [
-              {
-                "id": "/subscriptions/azure_subscription_id/tagNames/NRMS-Info/tagValues/http://aka.ms/nrms",
-                "tagValue": "http://aka.ms/nrms",
-                "count": {
-                  "type": "Total",
-                  "value": 18
-                }
-              }
-            ]
-          },
-          {
-            "id": "/subscriptions/azure_subscription_id/tagNames/NRMS-Version",
-            "tagName": "NRMS-Version",
-            "count": {
-              "type": "Total",
-              "value": 18
-            },
-            "values": [
-              {
-                "id": "/subscriptions/azure_subscription_id/tagNames/NRMS-Version/tagValues/2019-03-20",
-                "tagValue": "2019-03-20",
-                "count": {
-                  "type": "Total",
-                  "value": 18
-                }
-              }
-            ]
-          },
-          {
-            "id": "/subscriptions/azure_subscription_id/tagNames/displayName",
-            "tagName": "displayName",
-            "count": {
-              "type": "Total",
-              "value": 2
-            },
-            "values": [
-              {
-                "id": "/subscriptions/azure_subscription_id/tagNames/displayName/tagValues/NSG - Subnet",
-                "tagValue": "NSG - Subnet",
-                "count": {
-                  "type": "Total",
-                  "value": 1
-                }
-              },
-              {
-                "id": "/subscriptions/azure_subscription_id/tagNames/displayName/tagValues/UDR - Subnet",
-                "tagValue": "UDR - Subnet",
                 "count": {
                   "type": "Total",
                   "value": 1
@@ -256,19 +176,153 @@
             ]
           },
           {
-            "id": "/subscriptions/azure_subscription_id/tagNames/additionalProperties",
-            "tagName": "additionalProperties",
+            "id": "/subscriptions/azure_subscription_id/tagNames/defaultExperience",
+            "tagName": "defaultExperience",
             "count": {
               "type": "Total",
-              "value": 1
+              "value": 2
             },
             "values": [
               {
-                "id": "/subscriptions/azure_subscription_id/tagNames/additionalProperties/tagValues/Tag1",
-                "tagValue": "Tag1",
+                "id": "/subscriptions/azure_subscription_id/tagNames/defaultExperience/tagValues/Azure Cosmos DB for MongoDB API",
+                "tagValue": "Azure Cosmos DB for MongoDB API",
                 "count": {
                   "type": "Total",
                   "value": 1
+                }
+              },
+              {
+                "id": "/subscriptions/azure_subscription_id/tagNames/defaultExperience/tagValues/Core (SQL)",
+                "tagValue": "Core (SQL)",
+                "count": {
+                  "type": "Total",
+                  "value": 1
+                }
+              }
+            ]
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/tagNames/azsecpack",
+            "tagName": "azsecpack",
+            "count": {
+              "type": "Total",
+              "value": 2
+            },
+            "values": [
+              {
+                "id": "/subscriptions/azure_subscription_id/tagNames/azsecpack/tagValues/nonprod",
+                "tagValue": "nonprod",
+                "count": {
+                  "type": "Total",
+                  "value": 2
+                }
+              }
+            ]
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/tagNames/platformsettings.host_environment.service.platform_optedin_for_rootcerts",
+            "tagName": "platformsettings.host_environment.service.platform_optedin_for_rootcerts",
+            "count": {
+              "type": "Total",
+              "value": 2
+            },
+            "values": [
+              {
+                "id": "/subscriptions/azure_subscription_id/tagNames/platformsettings.host_environment.service.platform_optedin_for_rootcerts/tagValues/true",
+                "tagValue": "true",
+                "count": {
+                  "type": "Total",
+                  "value": 2
+                }
+              }
+            ]
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/tagNames/Creator",
+            "tagName": "Creator",
+            "count": {
+              "type": "Total",
+              "value": 2
+            },
+            "values": [
+              {
+                "id": "/subscriptions/azure_subscription_id/tagNames/Creator/tagValues/Automatically added by NRMS Azure Policy",
+                "tagValue": "Automatically added by NRMS Azure Policy",
+                "count": {
+                  "type": "Total",
+                  "value": 2
+                }
+              }
+            ]
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/tagNames/NRMS-Info",
+            "tagName": "NRMS-Info",
+            "count": {
+              "type": "Total",
+              "value": 2
+            },
+            "values": [
+              {
+                "id": "/subscriptions/azure_subscription_id/tagNames/NRMS-Info/tagValues/http://aka.ms/nrms",
+                "tagValue": "http://aka.ms/nrms",
+                "count": {
+                  "type": "Total",
+                  "value": 2
+                }
+              }
+            ]
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/tagNames/NRMS-Version",
+            "tagName": "NRMS-Version",
+            "count": {
+              "type": "Total",
+              "value": 2
+            },
+            "values": [
+              {
+                "id": "/subscriptions/azure_subscription_id/tagNames/NRMS-Version/tagValues/2019-03-20",
+                "tagValue": "2019-03-20",
+                "count": {
+                  "type": "Total",
+                  "value": 2
+                }
+              }
+            ]
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/tagNames/application",
+            "tagName": "application",
+            "count": {
+              "type": "Total",
+              "value": 4
+            },
+            "values": [
+              {
+                "id": "/subscriptions/azure_subscription_id/tagNames/application/tagValues/databricks",
+                "tagValue": "databricks",
+                "count": {
+                  "type": "Total",
+                  "value": 4
+                }
+              }
+            ]
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/tagNames/databricks-environment",
+            "tagName": "databricks-environment",
+            "count": {
+              "type": "Total",
+              "value": 4
+            },
+            "values": [
+              {
+                "id": "/subscriptions/azure_subscription_id/tagNames/databricks-environment/tagValues/true",
+                "tagValue": "true",
+                "count": {
+                  "type": "Total",
+                  "value": 4
                 }
               }
             ]
