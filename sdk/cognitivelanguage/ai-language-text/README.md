@@ -12,7 +12,7 @@
 - Entity Linking
 - Healthcare Analysis
 - Extractive Summarization
-- Abstractive Summarization
+- Abstractive Summarization 
 - Custom Entity Recognition
 - Custom Document Classification
 - Support Multiple Actions Per Document
@@ -38,6 +38,9 @@ Key links:
 Please see the [Migration Guide](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/MIGRATION_ai_text_analytics.md) for detailed instructions on how to update application code from version 5.x of the AI Text Analytics client library to the new AI Language Text client library.
 
 ## What's New
+
+**Note**: Abstractive Summarization feature is in gated preview. The link for enrolling in our gated preview is [here](https://aka.ms/applyforgatedsummarizationfeatures).
+
 * [Abstractive Summarization](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#abstractive-summarization)
 * [Script Detection](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#language-detection)
 * [Automatic Language Detection](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#automatic-language-detection)
