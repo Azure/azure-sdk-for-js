@@ -39,8 +39,6 @@ Please see the [Migration Guide](https://github.com/azure/azure-sdk-for-js/blob/
 
 ## What's New
 
-**Note**: Abstractive Summarization feature is in gated preview. The link for enrolling in our gated preview is [here](https://aka.ms/applyforgatedsummarizationfeatures).
-
 * [Abstractive Summarization](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#abstractive-summarization)
 * [Script Detection](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#language-detection)
 * [Automatic Language Detection](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#automatic-language-detection)
