@@ -280,42 +280,6 @@ async function main() {
 main();
 ```
 
-### Dynamic Classification
-
-On the fly classification of the input documents into one or multiple categories. Assigns either one or multiple categories per document. This type of classification doesn't require model training.
-
-```javascript
-const { TextAnalysisClient, AzureKeyCredential } = require("@azure/ai-language-text");
-
-const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
-
-const documents = [
-  "The WHO is issuing a warning about Monkey Pox.",
-  "Mo Salah plays in Liverpool FC in England.",
-];
-
-export async function main() {
-  const results = await client.analyze("DynamicClassification", documents, "en", {
-    categories: ["Health", "Politics", "Music", "Sports"],
-    classificationType: "Multi",
-  });
-
-  for (const result of results) {
-    console.log(`- Document ${result.id}`);
-    if (!result.error) {
-      console.log("\tClassifications:");
-      for (const category of result.classifications) {
-        console.log(`\t- ${category.category}`);
-      }
-    } else {
-      console.error("  Error:", result.error);
-    }
-  }
-}
-
-main();
-```
-
 ### Healthcare Analysis
 
 Healthcare analysis identifies healthcare entities. For example, given input text "Prescribed 100mg ibuprofen, taken twice daily", the service returns "100mg" categorized as Dosage, "ibuprofen" as MedicationName, and "twice daily" as Frequency.
