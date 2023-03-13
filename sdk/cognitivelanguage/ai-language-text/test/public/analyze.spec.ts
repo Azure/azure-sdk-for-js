@@ -59,8 +59,6 @@ const testDataEs = [
   "La carretera estaba atascada. Había mucho tráfico el día de ayer.",
 ];
 
-const classificationTypeList: string[] = ["single", "multi"];
-
 matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
     let recorder: Recorder;
