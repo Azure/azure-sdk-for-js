@@ -325,7 +325,7 @@ export const createIdentifierFromRawId = (rawId: string): CommunicationIdentifie
   }
 
   const segments = rawId.split(":");
-  if (segments.length < 3) {
+  if (segments.length !== 3) {
     if (segments.length === 2 && segments[0] === "28") {
       return buildMicrosoftBotIdentifier(segments[1], "public", true);
     }
@@ -333,7 +333,7 @@ export const createIdentifierFromRawId = (rawId: string): CommunicationIdentifie
   }
 
   const prefix = `${segments[0]}:${segments[1]}:`;
-  const suffix = rawId.substring(prefix.length);
+  const suffix = segments[2];
 
   switch (prefix) {
     case "8:teamsvisitor:":
