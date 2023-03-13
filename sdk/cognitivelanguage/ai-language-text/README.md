@@ -12,7 +12,7 @@
 - Entity Linking
 - Healthcare Analysis
 - Extractive Summarization
-- Abstractive Summarization 
+- Abstractive Summarization
 - Custom Entity Recognition
 - Custom Document Classification
 - Support Multiple Actions Per Document
