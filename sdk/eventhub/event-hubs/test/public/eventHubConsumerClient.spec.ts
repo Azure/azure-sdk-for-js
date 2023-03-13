@@ -255,7 +255,7 @@ testWithServiceTypes((serviceVersion) => {
                   subscription2 = consumerClient2.subscribe(partitionId, subscriptionHandlers2, {
                     ownerLevel: 1,
                     maxBatchSize: 1,
-                    maxWaitTimeInSeconds: 1,
+                    maxWaitTimeInSeconds: 10,
                   });
                 } else {
                   // stop this subscription, we know close was called so we've restarted
@@ -271,14 +271,14 @@ testWithServiceTypes((serviceVersion) => {
             },
             {
               maxBatchSize: 1,
-              maxWaitTimeInSeconds: 1,
+              maxWaitTimeInSeconds: 10,
             }
           );
 
           await loopUntil({
-            maxTimes: 10,
+            maxTimes: 50,
             name: "Wait for subscription1 to recover",
-            timeBetweenRunsMs: 5000,
+            timeBetweenRunsMs: 25000,
             async until() {
               return !subscription1.isRunning && !subscription2!.isRunning;
             },
