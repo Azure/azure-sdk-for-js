@@ -507,9 +507,9 @@ export interface Platform {
 /** Returns the requested OCI Manifest file */
 export interface OCIManifest {
   /** V2 image config descriptor */
-  config?: Descriptor;
+  config: Descriptor;
   /** List of V2 image layer information */
-  layers?: Descriptor[];
+  layers: Descriptor[];
   /** Additional information provided through arbitrary metadata. */
   annotations?: Annotations;
   /** Schema version */
@@ -612,6 +612,8 @@ export interface V1Manifest extends Manifest {
 export interface ContainerRegistryGetManifestHeaders {
   /** Identifies the docker upload uuid for the current request. */
   dockerContentDigest?: string;
+  /** Content type of the uploaded media */
+  mediaType?: string;
 }
 
 /** Defines headers for ContainerRegistry_createManifest operation. */
