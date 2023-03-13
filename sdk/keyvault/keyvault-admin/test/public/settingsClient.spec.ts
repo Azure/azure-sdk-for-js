@@ -4,7 +4,7 @@ import { KeyVaultSettingsClient } from "../../src/settingsClient";
 import { authenticate } from "./utils/authentication";
 import { getServiceVersion, onVersions } from "./utils/common";
 
-onVersions({ minVer: "7.4-preview.1" }).describe("KeyVaultSettingsClient", () => {
+onVersions({ minVer: "7.4" }).describe("KeyVaultSettingsClient", () => {
   let client: KeyVaultSettingsClient;
   let recorder: Recorder;
 
@@ -27,7 +27,8 @@ onVersions({ minVer: "7.4-preview.1" }).describe("KeyVaultSettingsClient", () =>
 
   it("can get and update settings", async () => {
     const setting = await client.getSetting("AllowKeyManagementOperationsThroughARM");
-    const updated = await client.updateSetting(setting.name, true);
+    setting.value = true;
+    const updated = await client.updateSetting(setting);
 
     assert.isTrue(setting.kind === "boolean");
     assert.isTrue(typeof setting.value === "boolean");

@@ -8,7 +8,7 @@
 import {
   ContainerRegistryBlobClient,
   KnownContainerRegistryAudience,
-  OciManifest,
+  OciImageManifest,
 } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -45,7 +45,7 @@ async function main() {
 
   const { digest: configDigest } = await client.uploadBlob(Readable.from(config));
 
-  const manifest: OciManifest = {
+  const manifest: OciImageManifest = {
     schemaVersion: 2,
     config: {
       mediaType: "application/vnd.oci.image.config.v1+json",

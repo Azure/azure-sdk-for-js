@@ -2,7 +2,7 @@
   "name": "@azure/service-bus",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "7.8.2",
+  "version": "7.9.0",
   "license": "MIT",
   "description": "Azure Service Bus SDK for JavaScript",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus/",
@@ -126,7 +126,7 @@
     "long": "^5.2.0",
     "process": "^0.11.10",
     "tslib": "^2.2.0",
-    "rhea-promise": "^2.1.0"
+    "rhea-promise": "^3.0.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
