@@ -5,7 +5,10 @@
  * @summary Downloads an image from the repository.
  */
 
-const { ContainerRegistryBlobClient } = require("@azure/container-registry");
+const {
+  ContainerRegistryBlobClient,
+  isDownloadOciImageManifestResult,
+} = require("@azure/container-registry");
 const { DefaultAzureCredential } = require("@azure/identity");
 const dotenv = require("dotenv");
 const fs = require("fs");
@@ -30,10 +33,15 @@ async function main() {
   // Download the manifest to obtain the list of files in the image based on the tag
   const result = await client.downloadManifest("demo");
 
-  // The manifest is available as a strongly typed object, but can also be saved to a file.
+  // If an OCI image manifest was downloaded, it is available as a strongly typed object via the `manifest` property.
+  if (!isDownloadOciImageManifestResult(result)) {
+    throw new Error("Expected an OCI image manifest");
+  }
+
   const manifest = result.manifest;
+  // Manifests of all media types can be written to a file using the `content` stream.
   const manifestFile = fs.createWriteStream("manifest.json");
-  result.manifestStream.pipe(manifestFile);
+  result.content.pipe(manifestFile);
 
   const configResult = await client.downloadBlob(manifest.config.digest);
   const configFile = fs.createWriteStream("config.json");
