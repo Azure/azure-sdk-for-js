@@ -14,7 +14,7 @@ output-folder: ../
 source-code-folder-path: ./src/generated
 input-file: https://github.com/Azure/azure-rest-api-specs/blob/527f6d35fb0d85c48210ca0f6f6f42814d63bd33/specification/cognitiveservices/data-plane/Language/preview/2022-10-01-preview/analyzetext.json
 add-credentials: false
-package-version: 1.1.0-beta.2
+package-version: 1.1.0-beta.3
 v3: true
 hide-clients: true
 typescript: true

@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataProtectionClient } from "../dataProtectionClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   BackupVaultResource,
   BackupVaultsGetInSubscriptionNextOptionalParams,
@@ -232,8 +236,8 @@ export class BackupVaultsImpl implements BackupVaults {
     parameters: BackupVaultResource,
     options?: BackupVaultsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BackupVaultsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BackupVaultsCreateOrUpdateResponse>,
       BackupVaultsCreateOrUpdateResponse
     >
   > {
@@ -243,7 +247,7 @@ export class BackupVaultsImpl implements BackupVaults {
     ): Promise<BackupVaultsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -276,13 +280,16 @@ export class BackupVaultsImpl implements BackupVaults {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vaultName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vaultName, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BackupVaultsCreateOrUpdateResponse,
+      OperationState<BackupVaultsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -321,14 +328,14 @@ export class BackupVaultsImpl implements BackupVaults {
     resourceGroupName: string,
     vaultName: string,
     options?: BackupVaultsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -361,13 +368,13 @@ export class BackupVaultsImpl implements BackupVaults {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vaultName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vaultName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -407,8 +414,8 @@ export class BackupVaultsImpl implements BackupVaults {
     parameters: PatchResourceRequestInput,
     options?: BackupVaultsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BackupVaultsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BackupVaultsUpdateResponse>,
       BackupVaultsUpdateResponse
     >
   > {
@@ -418,7 +425,7 @@ export class BackupVaultsImpl implements BackupVaults {
     ): Promise<BackupVaultsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -451,13 +458,16 @@ export class BackupVaultsImpl implements BackupVaults {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vaultName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vaultName, parameters, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BackupVaultsUpdateResponse,
+      OperationState<BackupVaultsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

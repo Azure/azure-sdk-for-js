@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BackupInstanceResource,
   BackupInstancesListOptionalParams,
@@ -83,8 +83,8 @@ export interface BackupInstances {
     parameters: BackupInstanceResource,
     options?: BackupInstancesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BackupInstancesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BackupInstancesCreateOrUpdateResponse>,
       BackupInstancesCreateOrUpdateResponse
     >
   >;
@@ -115,7 +115,7 @@ export interface BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     options?: BackupInstancesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a backup instance in a backup vault
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -144,8 +144,8 @@ export interface BackupInstances {
     parameters: TriggerBackupRequest,
     options?: BackupInstancesAdhocBackupOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BackupInstancesAdhocBackupResponse>,
+    SimplePollerLike<
+      OperationState<BackupInstancesAdhocBackupResponse>,
       BackupInstancesAdhocBackupResponse
     >
   >;
@@ -177,8 +177,8 @@ export interface BackupInstances {
     parameters: ValidateForBackupRequest,
     options?: BackupInstancesValidateForBackupOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BackupInstancesValidateForBackupResponse>,
+    SimplePollerLike<
+      OperationState<BackupInstancesValidateForBackupResponse>,
       BackupInstancesValidateForBackupResponse
     >
   >;
@@ -225,8 +225,8 @@ export interface BackupInstances {
     parameters: AzureBackupRehydrationRequest,
     options?: BackupInstancesTriggerRehydrateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BackupInstancesTriggerRehydrateResponse>,
+    SimplePollerLike<
+      OperationState<BackupInstancesTriggerRehydrateResponse>,
       BackupInstancesTriggerRehydrateResponse
     >
   >;
@@ -260,8 +260,8 @@ export interface BackupInstances {
     parameters: AzureBackupRestoreRequestUnion,
     options?: BackupInstancesTriggerRestoreOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BackupInstancesTriggerRestoreResponse>,
+    SimplePollerLike<
+      OperationState<BackupInstancesTriggerRestoreResponse>,
       BackupInstancesTriggerRestoreResponse
     >
   >;
@@ -292,7 +292,7 @@ export interface BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     options?: BackupInstancesResumeBackupsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * This operation will resume backups for backup instance
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -318,7 +318,7 @@ export interface BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     options?: BackupInstancesResumeProtectionOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * This operation will resume protection for a stopped backup instance
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -344,7 +344,7 @@ export interface BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     options?: BackupInstancesStopProtectionOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * This operation will stop protection of a backup instance and data will be held forever
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -371,7 +371,7 @@ export interface BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     options?: BackupInstancesSuspendBackupsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * This operation will stop backup for a backup instance and retains the backup data as per the policy
    * (except latest Recovery point, which will be retained forever)
@@ -401,7 +401,7 @@ export interface BackupInstances {
     backupInstanceName: string,
     parameters: SyncBackupInstanceRequest,
     options?: BackupInstancesSyncBackupInstanceOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Sync backup instance again in case of failure
    * This action will retry last failed operation and will bring backup instance to valid state
@@ -433,8 +433,8 @@ export interface BackupInstances {
     parameters: ValidateRestoreRequestObject,
     options?: BackupInstancesValidateForRestoreOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BackupInstancesValidateForRestoreResponse>,
+    SimplePollerLike<
+      OperationState<BackupInstancesValidateForRestoreResponse>,
       BackupInstancesValidateForRestoreResponse
     >
   >;
