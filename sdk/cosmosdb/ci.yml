@@ -38,3 +38,4 @@ extends:
         skipPublishDocMs: true
         skipPublishDocGithubIo: true
         skipPublishDevFeed: true
+        skipUpdatePackageVersion: true
