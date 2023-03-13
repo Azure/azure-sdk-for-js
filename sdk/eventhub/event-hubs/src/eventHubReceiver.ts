@@ -59,10 +59,6 @@ export interface LastEnqueuedEventProperties {
  */
 export class EventHubReceiver extends LinkEntity {
   /**
-   * The receiver runtime info.
-   */
-  private readonly runtimeInfo: LastEnqueuedEventProperties;
-  /**
    * The Receiver ownerLevel.
    */
   private readonly ownerLevel?: number;
@@ -84,41 +80,28 @@ export class EventHubReceiver extends LinkEntity {
    */
   private _onError?: (error: MessagingError | Error) => void;
   /**
-   * The sequence number of the most recently received AMQP message.
-   */
-  private _checkpoint: number = -1;
-  /**
-   * Denotes if close() was called on this receiver
-   */
-  private _isClosed: boolean = false;
-  /**
    * The queue of received messages that have not yet been returned to the customer.
    */
   private readonly queue: ReceivedEventData[] = [];
   /**
+   * Indicates whether the link is in the process of connecting
+   * (establishing) itself. Default value: `false`.
+   */
+  private isConnecting: boolean = false;
+  /**
    * Returns sequenceNumber of the last event received from the service. This will not match the
    * last event received by `EventHubConsumer` when the `queue` is not empty
-   * @readonly
    */
-  get checkpoint(): number {
-    return this._checkpoint;
-  }
-
+  checkpoint: number = -1;
   /**
    * Indicates if the receiver has been closed.
    */
-  get isClosed(): boolean {
-    return this._isClosed;
-  }
-
+  isClosed: boolean = false;
   /**
    * The last enqueued event information. This property will only
    * be enabled when `trackLastEnqueuedEventProperties` option is set to true
-   * @readonly
    */
-  public get lastEnqueuedEventProperties(): LastEnqueuedEventProperties {
-    return this.runtimeInfo;
-  }
+  readonly lastEnqueuedEventProperties: LastEnqueuedEventProperties;
 
   /**
    * Instantiates a receiver that can be used to receive events over an AMQP receiver link in
@@ -136,15 +119,16 @@ export class EventHubReceiver extends LinkEntity {
     eventPosition: EventPosition,
     options: EventHubConsumerOptions = {}
   ) {
-    super(context, {
-      name: context.config.getReceiverAddress(partitionId, consumerGroup),
-    });
-    this.address = context.config.getReceiverAddress(partitionId, consumerGroup);
-    this.audience = context.config.getReceiverAudience(partitionId, consumerGroup);
+    super(
+      context,
+      context.config.getReceiverAddress(partitionId, consumerGroup),
+      context.config.getReceiverAddress(partitionId, consumerGroup),
+      context.config.getReceiverAudience(partitionId, consumerGroup)
+    );
     this.ownerLevel = options.ownerLevel;
     this.eventPosition = eventPosition;
     this.options = options;
-    this.runtimeInfo = {};
+    this.lastEnqueuedEventProperties = {};
   }
 
   private _onAmqpMessage(context: EventContext): void {
@@ -178,13 +162,13 @@ export class EventHubReceiver extends LinkEntity {
       receivedEventData.messageId = data.messageId;
     }
 
-    this._checkpoint = receivedEventData.sequenceNumber;
+    this.checkpoint = receivedEventData.sequenceNumber;
 
     if (this.options.trackLastEnqueuedEventProperties && data) {
-      this.runtimeInfo.sequenceNumber = data.lastSequenceNumber;
-      this.runtimeInfo.enqueuedOn = data.lastEnqueuedTime;
-      this.runtimeInfo.offset = data.lastEnqueuedOffset;
-      this.runtimeInfo.retrievedOn = data.retrievalTime;
+      this.lastEnqueuedEventProperties.sequenceNumber = data.lastSequenceNumber;
+      this.lastEnqueuedEventProperties.enqueuedOn = data.lastEnqueuedTime;
+      this.lastEnqueuedEventProperties.offset = data.lastEnqueuedOffset;
+      this.lastEnqueuedEventProperties.retrievedOn = data.retrievalTime;
     }
 
     this.queue.push(receivedEventData);
@@ -316,7 +300,7 @@ export class EventHubReceiver extends LinkEntity {
         throw err;
       })
       .finally(() => {
-        this._isClosed = true;
+        this.isClosed = true;
       });
   }
 
@@ -475,7 +459,7 @@ export class EventHubReceiver extends LinkEntity {
         cleanupBeforeAbort();
         return Promise.reject(new AbortError(StandardAbortMessage));
       }
-      return this._isClosed || this._context.wasConnectionCloseCalled
+      return this.isClosed || this._context.wasConnectionCloseCalled
         ? Promise.resolve(this.queue.splice(0))
         : eventsToRetrieveCount === 0
         ? Promise.resolve(this.queue.splice(0, maxMessageCount))
