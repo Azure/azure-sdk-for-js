@@ -4,9 +4,11 @@
 
 ### Features Added
 
+- Added support for a new communication identifier `MicrosoftBotIdentifier`.
+
 ### Breaking Changes
 
-- Added support for a new communication identifier `MicrosoftBotIdentifier`.
+- Introduction of `MicrosoftBotIdentifier` is a breaking change. It will affect code that relied on using `UnknownIdentifier` with a rawID starting with `28:`
 
 ### Bugs Fixed
 
