@@ -26,6 +26,11 @@ export interface UploadBlobResult {
    * The digest of the uploaded blob.
    */
   digest: string;
+
+  /**
+   * The size of the uploaded blob in bytes.
+   */
+  sizeInBytes: number;
 }
 
 /**
@@ -93,7 +98,7 @@ export interface OciDescriptor {
   /** Layer media type */
   mediaType: string;
   /** Layer size */
-  size: number;
+  sizeInBytes: number;
   /** Layer digest */
   digest: string;
   /** Specifies a list of URIs from which this object may be downloaded. */

@@ -44,13 +44,13 @@ async function main() {
     config: {
       mediaType: "application/vnd.oci.image.config.v1+json",
       digest: configDigest,
-      size: config.byteLength,
+      sizeInBytes: config.byteLength,
     },
     layers: [
       {
         mediaType: "application/vnd.oci.image.layer.v1.tar",
         digest: layerDigest,
-        size: layer.byteLength,
+        sizeInBytes: layer.byteLength,
         annotations: {
           title: "artifact.txt",
         },

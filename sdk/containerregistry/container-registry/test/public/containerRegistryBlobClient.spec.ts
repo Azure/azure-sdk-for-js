@@ -67,13 +67,13 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       config: {
         mediaType: "application/vnd.oci.image.config.v1+json",
         digest: "sha256:d25b42d3dbad5361ed2d909624d899e7254a822c9a632b582ebd3a44f9b0dbc8",
-        size: 171,
+        sizeInBytes: 171,
       },
       layers: [
         {
           mediaType: "application/vnd.oci.image.layer.v1.tar",
           digest: "sha256:654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed",
-          size: 28,
+          sizeInBytes: 28,
           annotations: {
             title: "artifact.txt",
           },
@@ -225,11 +225,12 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       const blob = fs.createReadStream(
         "test/data/oci-artifact/654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed"
       );
-      const { digest } = await client.uploadBlob(blob);
+      const { digest, sizeInBytes } = await client.uploadBlob(blob);
       const downloadResult = await client.downloadBlob(
         "sha256:654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed"
       );
       assert.equal(digest, downloadResult.digest);
+      assert.equal(sizeInBytes, 28);
     });
 
     it("can upload blob from a buffer", async () => {
@@ -246,8 +247,10 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       }
 
       // 64 MiB plus extra offset to have a smaller chunk at the end
-      const bigBlob = Buffer.alloc(64 * 1024 * 1024 + 321, 0x00);
-      const { digest } = await client.uploadBlob(Readable.from(bigBlob));
+      const bufferSize = 64 * 1024 * 1024 + 321;
+      const bigBlob = Buffer.alloc(bufferSize, 0x00);
+      const { digest, sizeInBytes } = await client.uploadBlob(Readable.from(bigBlob));
+      assert.equal(sizeInBytes, bufferSize);
       await client.deleteBlob(digest);
     });
 
@@ -263,8 +266,11 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       }
 
       // 64 MiB exactly
-      const bigBlob = Buffer.alloc(64 * 1024 * 1024, 0x00);
-      const { digest } = await client.uploadBlob(Readable.from(bigBlob));
+      const bufferSize = 64 * 1024 * 1024;
+
+      const bigBlob = Buffer.alloc(bufferSize, 0x00);
+      const { digest, sizeInBytes } = await client.uploadBlob(Readable.from(bigBlob));
+      assert.equal(sizeInBytes, bufferSize);
       await client.deleteBlob(digest);
     });
   });

@@ -276,7 +276,7 @@ export interface OciDescriptor {
     annotations?: OciAnnotations;
     digest: string;
     mediaType: string;
-    size: number;
+    sizeInBytes: number;
     urls?: string[];
 }
 
@@ -343,6 +343,7 @@ export interface UploadBlobOptions extends OperationOptions {
 // @public
 export interface UploadBlobResult {
     digest: string;
+    sizeInBytes: number;
 }
 
 // @public
