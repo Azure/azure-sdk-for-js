@@ -34,7 +34,7 @@ export default createMigration(
       const packageJson = JSON.parse((await readFile(packageJsonPath)).toString("utf-8")) as {
         "//sampleConfiguration"?: SampleConfiguration;
         [METADATA_KEY]: AzureSdkMetadata;
-      } satisfies Pick<PackageJson, typeof METADATA_KEY | "//sampleConfiguration">;
+      };
 
       if (packageJson["//sampleConfiguration"]) {
         packageJson[METADATA_KEY].sampleConfiguration = packageJson["//sampleConfiguration"];
