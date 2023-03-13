@@ -359,6 +359,8 @@ export class ContainerRegistryBlobClient {
         const chunks = readChunksFromStream(blobStream, CHUNK_SIZE);
         const hash = crypto.createHash("sha256");
 
+        let bytesUploaded = 0;
+
         for await (const chunk of chunks) {
           hash.write(chunk);
           const result = await this.client.containerRegistryBlob.uploadChunk(
@@ -366,6 +368,9 @@ export class ContainerRegistryBlobClient {
             chunk,
             updatedOptions
           );
+
+          bytesUploaded += chunk.byteLength;
+
           assertHasProperty(result, "location");
           location = result.location.substring(1);
         }
@@ -382,7 +387,7 @@ export class ContainerRegistryBlobClient {
           );
         }
 
-        return { digest };
+        return { digest, sizeInBytes: bytesUploaded };
       }
     );
   }
