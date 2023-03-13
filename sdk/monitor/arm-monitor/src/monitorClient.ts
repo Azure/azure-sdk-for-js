@@ -23,7 +23,7 @@ import {
   EventCategoriesImpl,
   TenantActivityLogsImpl,
   MetricDefinitionsImpl,
-  MetricsImpl,
+  MetricsOperationsImpl,
   BaselinesImpl,
   MetricAlertsImpl,
   MetricAlertsStatusImpl,
@@ -38,7 +38,9 @@ import {
   ActivityLogAlertsImpl,
   DataCollectionEndpointsImpl,
   DataCollectionRuleAssociationsImpl,
-  DataCollectionRulesImpl
+  DataCollectionRulesImpl,
+  AzureMonitorWorkspacesImpl,
+  MonitorOperationsImpl
 } from "./operations";
 import {
   AutoscaleSettings,
@@ -54,7 +56,7 @@ import {
   EventCategories,
   TenantActivityLogs,
   MetricDefinitions,
-  Metrics,
+  MetricsOperations,
   Baselines,
   MetricAlerts,
   MetricAlertsStatus,
@@ -69,7 +71,9 @@ import {
   ActivityLogAlerts,
   DataCollectionEndpoints,
   DataCollectionRuleAssociations,
-  DataCollectionRules
+  DataCollectionRules,
+  AzureMonitorWorkspaces,
+  MonitorOperations
 } from "./operationsInterfaces";
 import { MonitorClientOptionalParams } from "./models";
 
@@ -170,7 +174,7 @@ export class MonitorClient extends coreClient.ServiceClient {
     this.eventCategories = new EventCategoriesImpl(this);
     this.tenantActivityLogs = new TenantActivityLogsImpl(this);
     this.metricDefinitions = new MetricDefinitionsImpl(this);
-    this.metrics = new MetricsImpl(this);
+    this.metricsOperations = new MetricsOperationsImpl(this);
     this.baselines = new BaselinesImpl(this);
     this.metricAlerts = new MetricAlertsImpl(this);
     this.metricAlertsStatus = new MetricAlertsStatusImpl(this);
@@ -190,6 +194,8 @@ export class MonitorClient extends coreClient.ServiceClient {
       this
     );
     this.dataCollectionRules = new DataCollectionRulesImpl(this);
+    this.azureMonitorWorkspaces = new AzureMonitorWorkspacesImpl(this);
+    this.monitorOperations = new MonitorOperationsImpl(this);
   }
 
   autoscaleSettings: AutoscaleSettings;
@@ -205,7 +211,7 @@ export class MonitorClient extends coreClient.ServiceClient {
   eventCategories: EventCategories;
   tenantActivityLogs: TenantActivityLogs;
   metricDefinitions: MetricDefinitions;
-  metrics: Metrics;
+  metricsOperations: MetricsOperations;
   baselines: Baselines;
   metricAlerts: MetricAlerts;
   metricAlertsStatus: MetricAlertsStatus;
@@ -221,4 +227,6 @@ export class MonitorClient extends coreClient.ServiceClient {
   dataCollectionEndpoints: DataCollectionEndpoints;
   dataCollectionRuleAssociations: DataCollectionRuleAssociations;
   dataCollectionRules: DataCollectionRules;
+  azureMonitorWorkspaces: AzureMonitorWorkspaces;
+  monitorOperations: MonitorOperations;
 }

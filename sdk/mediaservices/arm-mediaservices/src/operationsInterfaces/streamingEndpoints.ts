@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   StreamingEndpoint,
   StreamingEndpointsListOptionalParams,
@@ -72,8 +72,8 @@ export interface StreamingEndpoints {
     parameters: StreamingEndpoint,
     options?: StreamingEndpointsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<StreamingEndpointsCreateResponse>,
+    SimplePollerLike<
+      OperationState<StreamingEndpointsCreateResponse>,
       StreamingEndpointsCreateResponse
     >
   >;
@@ -107,8 +107,8 @@ export interface StreamingEndpoints {
     parameters: StreamingEndpoint,
     options?: StreamingEndpointsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<StreamingEndpointsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<StreamingEndpointsUpdateResponse>,
       StreamingEndpointsUpdateResponse
     >
   >;
@@ -139,7 +139,7 @@ export interface StreamingEndpoints {
     accountName: string,
     streamingEndpointName: string,
     options?: StreamingEndpointsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a streaming endpoint.
    * @param resourceGroupName The name of the resource group within the Azure subscription.
@@ -178,7 +178,7 @@ export interface StreamingEndpoints {
     accountName: string,
     streamingEndpointName: string,
     options?: StreamingEndpointsStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Starts an existing streaming endpoint.
    * @param resourceGroupName The name of the resource group within the Azure subscription.
@@ -204,7 +204,7 @@ export interface StreamingEndpoints {
     accountName: string,
     streamingEndpointName: string,
     options?: StreamingEndpointsStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Stops an existing streaming endpoint.
    * @param resourceGroupName The name of the resource group within the Azure subscription.
@@ -232,7 +232,7 @@ export interface StreamingEndpoints {
     streamingEndpointName: string,
     parameters: StreamingEntityScaleUnit,
     options?: StreamingEndpointsScaleOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Scales an existing streaming endpoint.
    * @param resourceGroupName The name of the resource group within the Azure subscription.
