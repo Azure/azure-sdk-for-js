@@ -94,7 +94,7 @@ export interface ContainerRegistryBlobClientOptions extends CommonClientOptions 
    * The authentication scope will be set from this audience.
    * See {@link KnownContainerRegistryAudience} for known audience values.
    */
-  audience: string;
+  audience?: string;
   /**
    * The version of service API to make calls against.
    */
@@ -142,7 +142,7 @@ export class ContainerRegistryBlobClient {
     endpoint: string,
     repositoryName: string,
     credential: TokenCredential,
-    options: ContainerRegistryBlobClientOptions
+    options: ContainerRegistryBlobClientOptions = {}
   ) {
     if (!endpoint) {
       throw new Error("invalid endpoint");
@@ -168,7 +168,7 @@ export class ContainerRegistryBlobClient {
       },
     };
 
-    const defaultScope = `${options.audience}/.default`;
+    const defaultScope = `${options.audience ?? "https://containerregistry.azure.net"}/.default`;
     const serviceVersion = options.serviceVersion ?? LATEST_API_VERSION;
     const authClient = new GeneratedClient(endpoint, serviceVersion, internalPipelineOptions);
     this.client = new GeneratedClient(endpoint, serviceVersion, internalPipelineOptions);

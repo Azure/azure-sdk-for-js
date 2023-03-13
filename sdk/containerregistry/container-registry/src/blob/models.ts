@@ -89,7 +89,7 @@ export interface UploadManifestResult {
 }
 
 /** Docker V2 image layer descriptor including config and layers. */
-export interface OciBlobDescriptor {
+export interface OciDescriptor {
   /** Layer media type */
   mediaType: string;
   /** Layer size */
@@ -107,9 +107,9 @@ export interface OciImageManifest {
   /** Schema version */
   schemaVersion: number;
   /** V2 image config descriptor */
-  config: OciBlobDescriptor;
+  config: OciDescriptor;
   /** List of V2 image layer information */
-  layers: OciBlobDescriptor[];
+  layers: OciDescriptor[];
   /** Additional information provided through arbitrary metadata. */
   annotations?: OciAnnotations;
 }
