@@ -272,7 +272,7 @@ export interface OciAnnotations {
 }
 
 // @public
-export interface OciBlobDescriptor {
+export interface OciDescriptor {
     annotations?: OciAnnotations;
     digest: string;
     mediaType: string;
@@ -283,8 +283,8 @@ export interface OciBlobDescriptor {
 // @public
 export interface OciImageManifest {
     annotations?: OciAnnotations;
-    config: OciBlobDescriptor;
-    layers: OciBlobDescriptor[];
+    config: OciDescriptor;
+    layers: OciDescriptor[];
     schemaVersion: number;
 }
 
