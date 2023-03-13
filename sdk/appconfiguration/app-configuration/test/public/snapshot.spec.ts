@@ -130,6 +130,7 @@ describe("AppConfigurationClient snapshot", () => {
       });
     });
   });
+  
   describe("listConfigurationSettings for Snapshot", () => {
     it("list a snapshot configuration setting", async () => {
       // getting the configuration settting of the snapshot
