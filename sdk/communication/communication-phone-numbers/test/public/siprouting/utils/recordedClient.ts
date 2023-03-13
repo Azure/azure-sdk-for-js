@@ -158,7 +158,6 @@ export async function listAllRoutes(client: SipRoutingClient): Promise<SipTrunkR
   return result;
 }
 
-function getAzureTestDomain()
-{
+function getAzureTestDomain() {
   return env.AZURE_TEST_DOMAIN ?? "sanitized.sbc.test";
 }
