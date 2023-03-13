@@ -19,6 +19,14 @@ function Confirm-NodeInstallation
   }
 }
 
+function Get-javascript-EmitterName() {
+  return "@azure-tools/cadl-typescript"
+}
+
+function Get-javascript-EmitterAdditionalOptions([string]$projectDirectory) {
+  return "--option @azure-tools/cadl-typescript.emitter-output-dir=$projectDirectory/"
+}
+
 function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory) {
   $projectPath = Join-Path $pkgPath "package.json"
   if (Test-Path $projectPath) {
