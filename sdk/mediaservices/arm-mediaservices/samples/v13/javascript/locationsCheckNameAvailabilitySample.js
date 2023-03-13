@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Checks whether the Media Service resource name is available.
  *
  * @summary Checks whether the Media Service resource name is available.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2021-11-01/examples/accounts-check-name-availability.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2023-01-01/examples/accounts-check-name-availability.json
  */
 async function checkNameAvailability() {
   const subscriptionId =
@@ -24,7 +24,7 @@ async function checkNameAvailability() {
   const locationName = "japanwest";
   const parameters = {
     name: "contosotv",
-    type: "videoAnalyzers",
+    type: "Microsoft.Media/mediaservices",
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);

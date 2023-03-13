@@ -132,7 +132,7 @@ function transformStatus(inputs: { status: unknown; statusCode: number }): Opera
     case "cancelled":
       return "canceled";
     default: {
-      logger.warning(`LRO: unrecognized operation status: ${status}`);
+      logger.verbose(`LRO: unrecognized operation status: ${status}`);
       return status as OperationStatus;
     }
   }

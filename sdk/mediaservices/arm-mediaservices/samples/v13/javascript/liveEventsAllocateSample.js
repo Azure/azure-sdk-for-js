@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to A live event is in StandBy state after allocation completes, and is ready to start.
  *
  * @summary A live event is in StandBy state after allocation completes, and is ready to start.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-08-01/examples/liveevent-allocate.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-11-01/examples/liveevent-allocate.json
  */
 async function allocateALiveEvent() {
   const subscriptionId =

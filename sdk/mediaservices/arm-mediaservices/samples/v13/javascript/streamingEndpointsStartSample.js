@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Starts an existing streaming endpoint.
  *
  * @summary Starts an existing streaming endpoint.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-08-01/examples/streamingendpoint-start.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-11-01/examples/streamingendpoint-start.json
  */
 async function startAStreamingEndpoint() {
   const subscriptionId =

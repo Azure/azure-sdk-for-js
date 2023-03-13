@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates a streaming endpoint.
  *
  * @summary Creates a streaming endpoint.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-08-01/examples/streamingendpoint-create.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-11-01/examples/streamingendpoint-create.json
  */
 async function createAStreamingEndpoint() {
   const subscriptionId =
