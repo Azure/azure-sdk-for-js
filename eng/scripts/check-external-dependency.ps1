@@ -39,8 +39,8 @@ function Get-GithubIssue($IssueTitle) {
 # Create new issue if none exists for the package. or update current one if an issue exists
 function Set-GitHubIssue($Package) {
   $pkgName = $Package.Name
-  $issueTitle = "Dependency package $pkgName has a new version available"
-  $issueDesc = "We have identified a dependency on version $($Package.OldVersion) of $pkgName. "  
+    $issueTitle = "Dependency package $pkgName has a new version available"
+  $issueDesc = "We have identified a dependency on version $($Package.OldVersion) of [$pkgName](https://www.npmjs.com/package/lru-cache$pkgName). "  
   $labels = $dependencyUpgradeLabel
   if ($Package.IsDeprecated) {
     $issueDesc += "Version $($Package.OldVersion) of $pkgName has been deprecated.`n"
