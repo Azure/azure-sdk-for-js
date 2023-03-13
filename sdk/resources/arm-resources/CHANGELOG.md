@@ -1,8 +1,8 @@
 # Release History
     
-## 6.0.0 (2023-03-13)
+## 5.2.0 (2023-03-13)
     
-**Breaking Changes**
+**Features**
 
   - Interface DeploymentOperationsListAtManagementGroupScopeNextOptionalParams no longer has parameter top
   - Interface DeploymentOperationsListAtScopeNextOptionalParams no longer has parameter top

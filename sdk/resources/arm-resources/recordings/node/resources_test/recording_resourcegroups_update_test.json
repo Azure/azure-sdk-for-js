@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "42",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-resources/6.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "7f3f763f-edeb-47db-b482-e6c2972c4fd7"
+        "User-Agent": "azsdk-js-arm-resources/5.2.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "2763a097-cf8b-4f76-965a-0b6b49da9de2"
       },
       "RequestBody": {
         "tags": {
@@ -24,17 +24,17 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 13 Mar 2023 04:03:19 GMT",
+        "Date": "Mon, 13 Mar 2023 06:01:08 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "e38597b7-1cee-4a82-a17b-6ffd46012a28",
+        "x-ms-correlation-request-id": "5ee3e7ab-776b-477d-bb86-b0b7002deeec",
         "x-ms-ratelimit-remaining-subscription-writes": "1198",
-        "x-ms-request-id": "e38597b7-1cee-4a82-a17b-6ffd46012a28",
-        "x-ms-routing-request-id": "JAPANEAST:20230313T040319Z:e38597b7-1cee-4a82-a17b-6ffd46012a28"
+        "x-ms-request-id": "5ee3e7ab-776b-477d-bb86-b0b7002deeec",
+        "x-ms-routing-request-id": "JAPANEAST:20230313T060109Z:5ee3e7ab-776b-477d-bb86-b0b7002deeec"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest1",

@@ -63,26 +63,26 @@ npx cross-env RESOURCES_SUBSCRIPTION_ID="<resources subscription id>" node deplo
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[deploymentscalculatetemplatehashsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v6/javascript/deploymentsCalculateTemplateHashSample.js
-[deploymentscreateorupdateatmanagementgroupscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v6/javascript/deploymentsCreateOrUpdateAtManagementGroupScopeSample.js
-[deploymentscreateorupdateatscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v6/javascript/deploymentsCreateOrUpdateAtScopeSample.js
-[deploymentscreateorupdateatsubscriptionscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v6/javascript/deploymentsCreateOrUpdateAtSubscriptionScopeSample.js
-[deploymentscreateorupdateattenantscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v6/javascript/deploymentsCreateOrUpdateAtTenantScopeSample.js
-[deploymentscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v6/javascript/deploymentsCreateOrUpdateSample.js
-[deploymentswhatifatmanagementgroupscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v6/javascript/deploymentsWhatIfAtManagementGroupScopeSample.js
-[deploymentswhatifatsubscriptionscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v6/javascript/deploymentsWhatIfAtSubscriptionScopeSample.js
-[deploymentswhatifattenantscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v6/javascript/deploymentsWhatIfAtTenantScopeSample.js
-[deploymentswhatifsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v6/javascript/deploymentsWhatIfSample.js
-[providerresourcetypeslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v6/javascript/providerResourceTypesListSample.js
-[providersgetattenantscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v6/javascript/providersGetAtTenantScopeSample.js
-[providersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v6/javascript/providersGetSample.js
-[providerslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v6/javascript/providersListSample.js
-[providersproviderpermissionssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v6/javascript/providersProviderPermissionsSample.js
-[resourcegroupscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v6/javascript/resourceGroupsCreateOrUpdateSample.js
-[resourcegroupsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v6/javascript/resourceGroupsDeleteSample.js
-[resourcegroupsexporttemplatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v6/javascript/resourceGroupsExportTemplateSample.js
-[tagscreateorupdateatscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v6/javascript/tagsCreateOrUpdateAtScopeSample.js
-[tagsgetatscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v6/javascript/tagsGetAtScopeSample.js
+[deploymentscalculatetemplatehashsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v5/javascript/deploymentsCalculateTemplateHashSample.js
+[deploymentscreateorupdateatmanagementgroupscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v5/javascript/deploymentsCreateOrUpdateAtManagementGroupScopeSample.js
+[deploymentscreateorupdateatscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v5/javascript/deploymentsCreateOrUpdateAtScopeSample.js
+[deploymentscreateorupdateatsubscriptionscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v5/javascript/deploymentsCreateOrUpdateAtSubscriptionScopeSample.js
+[deploymentscreateorupdateattenantscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v5/javascript/deploymentsCreateOrUpdateAtTenantScopeSample.js
+[deploymentscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v5/javascript/deploymentsCreateOrUpdateSample.js
+[deploymentswhatifatmanagementgroupscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v5/javascript/deploymentsWhatIfAtManagementGroupScopeSample.js
+[deploymentswhatifatsubscriptionscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v5/javascript/deploymentsWhatIfAtSubscriptionScopeSample.js
+[deploymentswhatifattenantscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v5/javascript/deploymentsWhatIfAtTenantScopeSample.js
+[deploymentswhatifsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v5/javascript/deploymentsWhatIfSample.js
+[providerresourcetypeslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v5/javascript/providerResourceTypesListSample.js
+[providersgetattenantscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v5/javascript/providersGetAtTenantScopeSample.js
+[providersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v5/javascript/providersGetSample.js
+[providerslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v5/javascript/providersListSample.js
+[providersproviderpermissionssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v5/javascript/providersProviderPermissionsSample.js
+[resourcegroupscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v5/javascript/resourceGroupsCreateOrUpdateSample.js
+[resourcegroupsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v5/javascript/resourceGroupsDeleteSample.js
+[resourcegroupsexporttemplatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v5/javascript/resourceGroupsExportTemplateSample.js
+[tagscreateorupdateatscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v5/javascript/tagsCreateOrUpdateAtScopeSample.js
+[tagsgetatscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v5/javascript/tagsGetAtScopeSample.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-resources?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resources/arm-resources/README.md
