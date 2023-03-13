@@ -21,9 +21,10 @@ import {
   MigrationSuspendedExitState,
   MigrationErrorExitState,
   isApplied,
+  MigrationExitState,
 } from "../util/migrations";
 import * as git from "../util/git";
-import { unreachable } from "../util/assert";
+import { panic, unreachable } from "../util/assert";
 
 const log = createPrinter("migrate");
 
@@ -261,6 +262,10 @@ async function runMigrations(pending: Migration[], project: ProjectInfo): Promis
         printMigrationError(migration, status);
         return false;
       }
+      case "skipped": {
+        onMigrationSkipped(project, migration);
+        continue;
+      }
       default:
         unreachable(status);
     }
@@ -286,6 +291,18 @@ async function onMigrationSuccess(project: ProjectInfo, migration: Migration) {
   await git.commitAll(`dev-tool: applied migration '${migration.id}'`);
 
   log.success(`Migration '${migration.id}' applied successfully.`);
+}
+
+/**
+ * Updates the repo after a migration was skipped. This includes updating the migration date in the package.json and
+ * making a ceremonial commit (even though only the migration date will have changed).
+ */
+async function onMigrationSkipped(project: ProjectInfo, migration: Migration) {
+  await updateMigrationDate(project, migration);
+
+  await git.commitAll(`dev-tool: skipped migration '${migration.id}'`);
+
+  log.info(`Skipped migration '${migration.id}'. This package is not eligible.`);
 }
 
 /**
@@ -378,15 +395,18 @@ async function continueMigration(project: ProjectInfo): Promise<boolean> {
   const suspendedMigration = await validateSuspendedState(project);
   if (!suspendedMigration) return false;
 
-  // TODO: load migration, and if successful resume migration
   const migration = getMigrationById(suspendedMigration.id);
 
-  if (!migration)
-    throw new Error(`unreachable: suspended migration '${suspendedMigration.id}' is unknown`);
+  if (!migration) panic(`unreachable: suspended migration '${suspendedMigration.id}' is unknown`);
 
   log.info(`Resuming migration from '${migration.id}' (${migration.date.toLocaleDateString()})`);
 
-  const state = await validateResumedMigration(project, migration);
+  let state: MigrationExitState;
+  if (suspendedMigration.phase === "execute") {
+    state = await runMigration(project, migration);
+  } else {
+    state = await validateResumedMigration(project, migration);
+  }
 
   switch (state.kind) {
     case "success": {
@@ -411,6 +431,9 @@ async function continueMigration(project: ProjectInfo): Promise<boolean> {
     case "error": {
       printMigrationError(migration, state);
       return false;
+    }
+    case "skipped": {
+      panic("unreachable: resumed migration should not be skipped");
     }
     default:
       unreachable(state);

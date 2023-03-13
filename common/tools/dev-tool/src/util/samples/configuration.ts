@@ -90,8 +90,8 @@ export interface SampleConfiguration {
    * @example
    *
    * ```javascript
-   * {
-   *   "//sampleConfiguration": {
+   * "//metadata": {
+   *   "sampleConfiguration": {
    *     ...,
    *     "extraFiles": {
    *       "./assets": ["typescript/assets", "javascript/assets"]
@@ -110,8 +110,6 @@ export interface SampleConfiguration {
   overridePublicationLinkFragment?: string;
 }
 
-export const SAMPLE_CONFIGURATION_KEY = "//sampleConfiguration";
-
 declare global {
   interface PackageJson {
     /**
@@ -121,7 +119,7 @@ declare global {
      *
      * @deprecated use `<package.json>["//metadata"].sampleConfiguration` instead
      */
-    [SAMPLE_CONFIGURATION_KEY]?: SampleConfiguration;
+    "//sampleConfiguration"?: SampleConfiguration;
   }
 }
 
@@ -133,7 +131,7 @@ declare global {
  */
 export function getSampleConfiguration(packageJson: PackageJson): SampleConfiguration {
   return (
-    packageJson[METADATA_KEY].sampleConfiguration ?? packageJson[SAMPLE_CONFIGURATION_KEY] ?? {}
+    packageJson[METADATA_KEY].sampleConfiguration ?? packageJson["//sampleConfiguration"] ?? {}
   );
 }
 

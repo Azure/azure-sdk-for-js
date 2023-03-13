@@ -6,10 +6,18 @@ import { userInfo } from "os";
 import path from "path";
 import { panic } from "./assert";
 import { findMatchingFiles } from "./findMatchingFiles";
-import { createPrinter } from "./printer";
+import { createPrinter, Printer } from "./printer";
 import { METADATA_KEY, ProjectInfo } from "./resolveProject";
 
 const { debug } = createPrinter("util/migrations");
+
+/**
+ * The context in which a migration runs.
+ */
+export interface MigrationContext {
+  project: ProjectInfo;
+  logger: Printer;
+}
 
 /**
  * A migration within the Azure SDK for JS migration system.
@@ -19,40 +27,69 @@ export interface Migration {
    * The unique identifier of this migration.
    */
   id: string;
+
   /**
    * The effective date of this migration.
    */
   date: Date;
+
   /**
    * A short description of this migration's purpose.
    */
   description: string;
+
   /**
    * An (optional) URL to a page that explains the migration in more detail, such as an RFC or ADR in the Azure SDK for
    * JS repo.
    */
   url?: string;
+
   /**
    * An (optional) method that fully or partially executes this migration.
    *
    * This function throws an error if it cannot complete successfully. Automatic migrations are assumed to be best-effort
    * and must be manually or automatically validated.
    *
-   * TODO: migrations need a control surface that allows them to create new untracked files that we will then commit to
-   * git after the migration has run.
+   * Note: If the migration adds untracked files to the project, it should also use the "utils/git" module to add those
+   * changes to the git index.
    *
-   * @param project - the package's ProjectInfo
+   * @param ctx - the migration's context
    */
-  execute?: (project: ProjectInfo) => Promise<void>;
+  execute?: (ctx: MigrationContext) => Promise<void>;
+
   /**
    * An (optional) method that validates this migration. If this function does not throw an error, then the migration is
    * assumed to have been successful.
    *
    * If this function is not defined, the user will be asked to validate the migration manually.
    *
-   * @param project - the package's ProjectInfo
+   * @param ctx - the migration's context
    */
-  validate?: (project: ProjectInfo) => Promise<void>; // TODO: do we need to differentiate "error" vs "failure" return modes?
+  validate?: (ctx: MigrationContext) => Promise<void>;
+
+  /**
+   * An (optional) method that determines whether or not a project is eligible for this migration.
+   *
+   * If this function is not defined, the migration will be assumed to be applicable to all projects.
+   *
+   * This function is run before the preconditions are checked, so it MUST NOT assume that the preconditions are valid.
+   *
+   * @param ctx - the migration's context
+   * @returns true if the migration is applicable to the project, false otherwise.
+   */
+  isApplicable?: (ctx: MigrationContext) => Promise<boolean>;
+
+  /**
+   * An (optional) method that determines whether or not a migration's preconditions are satisfied.
+   *
+   * If this function is not defined, the migration will be assumed to be ready to run.
+   *
+   * This function is run after the applicability check, so it may assume that the migration is applicable to the project.
+   *
+   * @param ctx - the migration's context
+   * @returns true if the migration is ready to run, false otherwise.
+   */
+  checkPreconditions?: (ctx: MigrationContext) => Promise<boolean>;
 }
 
 let SORTED = true;
@@ -212,6 +249,7 @@ export function loadMigrations() {
 export interface SuspendedMigrationState {
   id: string;
   path: string;
+  phase: "execute" | "validate";
 }
 
 const STATE_PATH_SUFFIX = ["azsdk-dev-tool", "state", "migration-suspended"];
@@ -313,7 +351,11 @@ export async function removeMigrationStateFile(): Promise<void> {
  * @param migration - the migration to suspend
  * @param project - the project the migration is running in
  */
-export async function suspendMigration(migration: Migration, project: ProjectInfo) {
+export async function suspendMigration(
+  migration: Migration,
+  project: ProjectInfo,
+  phase: SuspendedMigrationState["phase"]
+) {
   const stateFile = getStateFilePath();
 
   if (await isMigrationSuspended()) {
@@ -329,6 +371,7 @@ export async function suspendMigration(migration: Migration, project: ProjectInf
     JSON.stringify({
       id: migration.id,
       path: project.path,
+      phase,
     } as SuspendedMigrationState)
   );
 }
@@ -362,7 +405,8 @@ export async function getSuspendedMigration(): Promise<SuspendedMigrationState |
 export type MigrationExitState =
   | MigrationSuspendedExitState
   | MigrationErrorExitState
-  | MigrationSuccessExitState;
+  | MigrationSuccessExitState
+  | MigrationSkippedExitState;
 
 /**
  * The state of a migration that suspends normally. This can happen because:
@@ -398,6 +442,13 @@ export interface MigrationSuccessExitState {
 }
 
 /**
+ * The state of a migration that was skipped.
+ */
+export interface MigrationSkippedExitState {
+  kind: "skipped";
+}
+
+/**
  * Executes a pending migration.
  *
  * @param project - the working project
@@ -408,13 +459,43 @@ export async function runMigration(
   project: ProjectInfo,
   migration: Migration
 ): Promise<MigrationExitState> {
+  const context: MigrationContext = {
+    project,
+    logger: createPrinter(`migration:${migration.id}`),
+  };
+
+  // First, check if the migration is applicable to the project. If not, we return a skipped status.
+  if (migration.isApplicable && !(await migration.isApplicable(context))) {
+    return {
+      kind: "skipped",
+    };
+  }
+
+  // Next, check the preconditions. If this function returns false, we suspend the migration.
+  try {
+    if (migration.checkPreconditions && !(await migration.checkPreconditions(context))) {
+      await suspendMigration(migration, project, "execute");
+      return {
+        kind: "suspended",
+        phase: "execution",
+        reason: "preconditions not met",
+      };
+    }
+  } catch (e) {
+    await suspendMigration(migration, project, "execute");
+    return {
+      kind: "error",
+      error: e as Error,
+    };
+  }
+
   if (migration.execute) {
     // Migration has automation.
     try {
-      await migration.execute(project);
+      await migration.execute(context);
     } catch (e) {
       // Execution failed, need to suspend to allow the user to correct it.
-      await suspendMigration(migration, project);
+      await suspendMigration(migration, project, "validate");
       return {
         kind: "error",
         error: e as Error,
@@ -422,7 +503,7 @@ export async function runMigration(
     }
   } else {
     // No automated execution, so suspend and return to the user.
-    await suspendMigration(migration, project);
+    await suspendMigration(migration, project, "validate");
     return {
       kind: "suspended",
       phase: "execution",
@@ -432,7 +513,7 @@ export async function runMigration(
 
   if (migration.validate) {
     try {
-      await migration.validate(project);
+      await migration.validate(context);
       // Migration validated
       return {
         kind: "success",
@@ -440,7 +521,7 @@ export async function runMigration(
     } catch (e) {
       // Migration failed. We pass this back up the chain as an error rather than a suspension because if we made it here,
       // then the migration was automated. An automated migration is not expected to fail validation.
-      await suspendMigration(migration, project);
+      await suspendMigration(migration, project, "validate");
       return {
         kind: "suspended",
         phase: "validation",
@@ -450,7 +531,7 @@ export async function runMigration(
   } else {
     // If we made it here, we know the `execution` was automated. Otherwise We would have resumed from `validateResumed`.
     // We need to suspend and allow the user to validate the automated validation.
-    await suspendMigration(migration, project);
+    await suspendMigration(migration, project, "validate");
     return {
       kind: "suspended",
       phase: "validation",
@@ -470,6 +551,11 @@ export async function validateResumedMigration(
   project: ProjectInfo,
   migration: Migration
 ): Promise<MigrationExitState> {
+  const context: MigrationContext = {
+    project,
+    logger: createPrinter(`migration:${migration.id}`),
+  };
+
   if (!migration.validate) {
     // We assume that if a migration with no `--continue` is resumed, the user has ensured it is done correctly.
     await removeMigrationStateFile();
@@ -478,7 +564,7 @@ export async function validateResumedMigration(
     };
   } else {
     try {
-      await migration.validate(project);
+      await migration.validate(context);
       await removeMigrationStateFile();
       return {
         kind: "success",

@@ -29,7 +29,7 @@ This directory holds test files for the sample tool. The `inputs` folder contain
       - src/
       - ...
 
-Instead of providing a `//sampleConfiguration` in a `package.json` file, a `config.json` containing _only_ the entries from the sample configuration should be placed in each input folder, e.g. `inputs/a/config.json`. These values will be passed to the generator. Additionally, a `sample.env` file is required in each input folder (it will be copied to the expectation folder as if it were in the package root).
+Instead of providing a `sampleConfiguration` in a `package.json` file, a `config.json` containing _only_ the entries from the sample configuration should be placed in each input folder, e.g. `inputs/a/config.json`. These values will be passed to the generator. Additionally, a `sample.env` file is required in each input folder (it will be copied to the expectation folder as if it were in the package root).
 
 ### Specifying a version number
 

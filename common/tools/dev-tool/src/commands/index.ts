@@ -10,6 +10,7 @@ const log = createPrinter("dev-tool");
  * All of dev-tool's base commands and the modules that define them
  */
 export const baseCommands = {
+  admin: () => import("./admin"),
   about: () => import("./about"),
   package: () => import("./package"),
   samples: () => import("./samples"),

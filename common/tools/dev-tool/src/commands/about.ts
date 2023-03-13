@@ -8,6 +8,7 @@ import { resolveProject } from "../util/resolveProject";
 import { createPrinter } from "../util/printer";
 import { leafCommand, makeCommandInfo } from "../framework/command";
 import { printCommandUsage } from "../framework/printCommandUsage";
+import * as pwsh from "../util/pwsh";
 
 const log = createPrinter("about");
 
@@ -35,6 +36,15 @@ export default leafCommand(commandInfo, async (options) => {
     log.error("Could not locate dev-tool package.");
     log.error("Unable to display dev-tool version information.");
   }
+
+  const hasPowerShell = await pwsh.hasPowerShell();
+
+  if (hasPowerShell) {
+    console.log(chalk.blueBright("  PowerShell: Found"));
+  } else {
+    console.log(chalk.yellow("  PowerShell: Not found"));
+  }
+  console.log();
 
   if (options.args.length || options["--"]?.length) {
     console.log();

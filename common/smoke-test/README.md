@@ -38,8 +38,10 @@ To opt-out, set the value in the `sdk/<service>/<package>/package.json`.
 To opt-out of all smoke tests:
 
 ```json
-  "//sampleConfiguration": {
-    "skipFolder": true
+  "//metadata": {
+    "sampleConfiguration": {
+      "skipFolder": true
+    }
   }
 ```
 
@@ -47,16 +49,18 @@ To opt-out particular files that will fail unnecessarily in tests (note files
 not skipped will be included in smoke tests):
 
 ```json
-  "//sampleConfiguration": {
-    "skip": [
-      "anonymousCred.js",
-      "azureAdAuth.js",
-      "basic.js",
-      "customPipeline.js",
-      "iterators.js",
-      "sharedKeyCred.js"
-    ]
-  },
+  "//metadata": {
+    "sampleConfiguration": {
+      "skip": [
+        "anonymousCred.js",
+        "azureAdAuth.js",
+        "basic.js",
+        "customPipeline.js",
+        "iterators.js",
+        "sharedKeyCred.js"
+      ]
+    },
+  }
 ```
 
 ## Running Smoke Tests
