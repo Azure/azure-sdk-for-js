@@ -148,7 +148,7 @@ describe("Resources test", () => {
     for await (const resource of resourcesIterable) {
       resources.push(resource);
     };
-    console.log(resources);
+    assert(resources.length > 1);
   });
 
 

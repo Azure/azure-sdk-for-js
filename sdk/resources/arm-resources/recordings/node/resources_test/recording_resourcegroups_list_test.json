@@ -9,25 +9,25 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-resources/5.2.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "4a0a8694-6e39-4ddb-a257-f2422ade0762"
+        "x-ms-client-request-id": "5336f78d-2958-4da4-8474-bb7de5b697ef"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
-        "Content-Length": "6729",
+        "Content-Length": "6941",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 13 Mar 2023 06:01:07 GMT",
+        "Date": "Mon, 13 Mar 2023 07:43:47 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "1f77bcad-180b-4228-be2d-3ba562ccecc4",
+        "x-ms-correlation-request-id": "78e03cc7-a1d8-4234-b9b5-d4fb07cc1032",
         "x-ms-ratelimit-remaining-subscription-reads": "11998",
-        "x-ms-request-id": "1f77bcad-180b-4228-be2d-3ba562ccecc4",
-        "x-ms-routing-request-id": "JAPANEAST:20230313T060107Z:1f77bcad-180b-4228-be2d-3ba562ccecc4"
+        "x-ms-request-id": "78e03cc7-a1d8-4234-b9b5-d4fb07cc1032",
+        "x-ms-routing-request-id": "JAPANEAST:20230313T074347Z:78e03cc7-a1d8-4234-b9b5-d4fb07cc1032"
       },
       "ResponseBody": {
         "value": [
@@ -286,6 +286,15 @@
             "tags": {},
             "properties": {
               "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/go-sdk-test-995",
+            "name": "go-sdk-test-995",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "westus",
+            "properties": {
+              "provisioningState": "Deleting"
             }
           },
           {

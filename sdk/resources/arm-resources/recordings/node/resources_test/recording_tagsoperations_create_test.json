@@ -10,7 +10,7 @@
         "Connection": "keep-alive",
         "Content-Length": "0",
         "User-Agent": "azsdk-js-arm-resources/5.2.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "1064bbaa-a118-429c-ab59-adafd96d02b7"
+        "x-ms-client-request-id": "8c5bf411-b9a1-4151-9de3-c38ebe03b5d5"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -18,17 +18,17 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 13 Mar 2023 06:01:10 GMT",
+        "Date": "Mon, 13 Mar 2023 07:43:52 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "5793a35a-6268-4968-b955-0b011694750b",
+        "x-ms-correlation-request-id": "dc480327-8740-40b7-9a34-70bf634444cd",
         "x-ms-ratelimit-remaining-subscription-writes": "1197",
-        "x-ms-request-id": "5793a35a-6268-4968-b955-0b011694750b",
-        "x-ms-routing-request-id": "JAPANEAST:20230313T060111Z:5793a35a-6268-4968-b955-0b011694750b"
+        "x-ms-request-id": "dc480327-8740-40b7-9a34-70bf634444cd",
+        "x-ms-routing-request-id": "JAPANEAST:20230313T074353Z:dc480327-8740-40b7-9a34-70bf634444cd"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/tagNames/tagyyy",
