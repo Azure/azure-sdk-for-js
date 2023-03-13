@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BackupVaultResource,
   BackupVaultsGetInSubscriptionOptionalParams,
@@ -68,8 +68,8 @@ export interface BackupVaults {
     parameters: BackupVaultResource,
     options?: BackupVaultsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BackupVaultsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BackupVaultsCreateOrUpdateResponse>,
       BackupVaultsCreateOrUpdateResponse
     >
   >;
@@ -96,7 +96,7 @@ export interface BackupVaults {
     resourceGroupName: string,
     vaultName: string,
     options?: BackupVaultsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a BackupVault resource from the resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -122,8 +122,8 @@ export interface BackupVaults {
     parameters: PatchResourceRequestInput,
     options?: BackupVaultsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BackupVaultsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BackupVaultsUpdateResponse>,
       BackupVaultsUpdateResponse
     >
   >;

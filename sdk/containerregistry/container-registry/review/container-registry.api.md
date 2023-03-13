@@ -67,7 +67,7 @@ export class ContainerRegistryBlobClient {
     readonly endpoint: string;
     readonly repositoryName: string;
     uploadBlob(blobStream: NodeJS.ReadableStream, options?: UploadBlobOptions): Promise<UploadBlobResult>;
-    uploadManifest(manifest: (() => NodeJS.ReadableStream) | NodeJS.ReadableStream | OciManifest, options?: UploadManifestOptions): Promise<UploadManifestResult>;
+    uploadManifest(manifest: (() => NodeJS.ReadableStream) | NodeJS.ReadableStream | OciImageManifest, options?: UploadManifestOptions): Promise<UploadManifestResult>;
 }
 
 // @public
@@ -160,7 +160,7 @@ export interface DownloadManifestOptions extends OperationOptions {
 // @public
 export interface DownloadManifestResult {
     digest: string;
-    manifest: OciManifest;
+    manifest: OciImageManifest;
     manifestStream: NodeJS.ReadableStream;
 }
 
@@ -265,7 +265,7 @@ export interface OciBlobDescriptor {
 }
 
 // @public
-export interface OciManifest {
+export interface OciImageManifest {
     annotations?: OciAnnotations;
     config?: OciBlobDescriptor;
     layers?: OciBlobDescriptor[];
