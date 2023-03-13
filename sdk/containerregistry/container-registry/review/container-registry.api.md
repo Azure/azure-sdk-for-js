@@ -66,8 +66,8 @@ export class ContainerRegistryBlobClient {
     downloadManifest(tagOrDigest: string, options?: DownloadManifestOptions): Promise<DownloadManifestResult>;
     readonly endpoint: string;
     readonly repositoryName: string;
-    uploadBlob(blobStream: NodeJS.ReadableStream, options?: UploadBlobOptions): Promise<UploadBlobResult>;
-    uploadManifest(manifest: (() => NodeJS.ReadableStream) | NodeJS.ReadableStream | OciImageManifest, options?: UploadManifestOptions): Promise<UploadManifestResult>;
+    uploadBlob(blob: NodeJS.ReadableStream | Buffer, options?: UploadBlobOptions): Promise<UploadBlobResult>;
+    uploadManifest(manifest: Buffer | NodeJS.ReadableStream | OciImageManifest, options?: UploadManifestOptions): Promise<UploadManifestResult>;
 }
 
 // @public
@@ -155,13 +155,20 @@ export interface DownloadBlobResult {
 
 // @public
 export interface DownloadManifestOptions extends OperationOptions {
+    mediaType?: string | string[];
 }
 
 // @public
 export interface DownloadManifestResult {
+    content: NodeJS.ReadableStream;
     digest: string;
+    mediaType: string;
+}
+
+// @public
+export interface DownloadOciImageManifestResult extends DownloadManifestResult {
     manifest: OciImageManifest;
-    manifestStream: NodeJS.ReadableStream;
+    mediaType: KnownManifestMediaType.OciManifest;
 }
 
 // @public
@@ -175,6 +182,9 @@ export interface GetRepositoryPropertiesOptions extends OperationOptions {
 // @public
 export interface GetTagPropertiesOptions extends OperationOptions {
 }
+
+// @public
+export function isDownloadOciImageManifestResult(downloadResult: DownloadManifestResult): downloadResult is DownloadOciImageManifestResult;
 
 // @public
 export enum KnownArtifactArchitecture {
@@ -217,6 +227,12 @@ export enum KnownContainerRegistryAudience {
     AzureResourceManagerGermany = "https://management.microsoftazure.de",
     AzureResourceManagerGovernment = "https://management.usgovcloudapi.net",
     AzureResourceManagerPublicCloud = "https://management.azure.com"
+}
+
+// @public
+export enum KnownManifestMediaType {
+    DockerManifest = "application/vnd.docker.distribution.manifest.v2+json",
+    OciManifest = "application/vnd.oci.image.manifest.v1+json"
 }
 
 // @public
@@ -267,8 +283,8 @@ export interface OciBlobDescriptor {
 // @public
 export interface OciImageManifest {
     annotations?: OciAnnotations;
-    config?: OciBlobDescriptor;
-    layers?: OciBlobDescriptor[];
+    config: OciBlobDescriptor;
+    layers: OciBlobDescriptor[];
     schemaVersion: number;
 }
 
@@ -331,7 +347,8 @@ export interface UploadBlobResult {
 
 // @public
 export interface UploadManifestOptions extends OperationOptions {
-    tag: string;
+    mediaType?: string;
+    tag?: string;
 }
 
 // @public
