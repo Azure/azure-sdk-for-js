@@ -72,7 +72,7 @@ export class ContainerRegistryBlobClient {
 
 // @public
 export interface ContainerRegistryBlobClientOptions extends CommonClientOptions {
-    audience: string;
+    audience?: string;
     serviceVersion?: "2021-07-01";
 }
 

@@ -5,10 +5,7 @@
  * @summary Downloads an image from the repository.
  */
 
-import {
-  ContainerRegistryBlobClient,
-  KnownContainerRegistryAudience,
-} from "@azure/container-registry";
+import { ContainerRegistryBlobClient } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 import fs from "fs";
@@ -27,10 +24,7 @@ async function main() {
   const client = new ContainerRegistryBlobClient(
     endpoint,
     repository,
-    new DefaultAzureCredential(),
-    {
-      audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
-    }
+    new DefaultAzureCredential()
   );
 
   // Download the manifest to obtain the list of files in the image based on the tag
