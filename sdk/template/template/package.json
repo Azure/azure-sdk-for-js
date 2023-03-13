@@ -20,7 +20,18 @@
         "path": "swagger/README.md",
         "prefix": "package-version"
       }
-    ]
+    ],
+    "sampleConfiguration": {
+      "skipFolder": false,
+      "disableDocsMs": true,
+      "productName": "Azure Template",
+      "productSlugs": [],
+      "apiRefLink": "https://docs.microsoft.com/javascript/api/",
+      "requiredResources": {
+        "Azure App Configuration": "https://docs.microsoft.com/azure/azure-app-configuration/"
+      }
+    },
+    "migrationDate": "2023-03-03T23:11:30.000Z"
   },
   "types": "types/latest/template.d.ts",
   "typesVersions": {
@@ -127,15 +138,5 @@
     "source-map-support": "^0.5.9",
     "typescript": "~4.8.0",
     "util": "^0.12.1"
-  },
-  "//sampleConfiguration": {
-    "skipFolder": false,
-    "disableDocsMs": true,
-    "productName": "Azure Template",
-    "productSlugs": [],
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/",
-    "requiredResources": {
-      "Azure App Configuration": "https://docs.microsoft.com/azure/azure-app-configuration/"
-    }
   }
 }
