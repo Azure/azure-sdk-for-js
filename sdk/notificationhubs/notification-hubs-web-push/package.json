@@ -11,6 +11,14 @@
       "types": "./types/src/index.d.ts",
       "require": "./dist/index.cjs",
       "import": "./dist-esm/src/index.js"
+    },
+    "./client": {
+      "types": "./types/src/client/index.d.ts",
+      "import": "./dist-esm/src/client/index.js"
+    },
+    "./worker": {
+      "types": "./types/src/worker/index.d.ts",
+      "import": "./dist-esm/src/worker/index.js"
     }
   },
   "//metadata": {

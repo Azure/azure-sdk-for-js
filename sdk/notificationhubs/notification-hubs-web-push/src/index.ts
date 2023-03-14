@@ -3,10 +3,6 @@
 
 export * from "./errors.js";
 export * from "./publicTypes.js";
-
-export * from "./api/index.js";
-export * from "./api/getInstallation.js";
-export * from "./api/addTags.js";
-export * from "./api/removeTags.js";
-export * from "./api/addTemplate.js";
-export * from "./api/removeTemplate.js";
+export * from "./client.js";
+export * from "./worker/index.js";
+export * from "./client/index.js";

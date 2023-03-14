@@ -9,7 +9,7 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "rootDir": ".",
-    "lib": ["DOM", "WebWorker"]
+    "lib": ["DOM", "ESNext", "ESNext.AsyncIterable"]
   },
   "ts-node": {
     "esm": true

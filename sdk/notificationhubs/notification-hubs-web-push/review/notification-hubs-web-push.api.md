@@ -21,20 +21,29 @@ export function getInstallation(clientContext: WebPushClientContext, vapidPublic
 
 // @public
 export interface GetInstallationOptions {
-    serviceWorkerRegistration?: ServiceWorkerRegistration;
-    serviceWorkerUrl?: string;
+    readonly serviceWorkerRegistration?: ServiceWorkerRegistration;
+    readonly serviceWorkerUrl?: string;
 }
 
 // @public
+export type NotificationClickHandler = (value: WebPushNotificationClickEvent) => Promise<void>;
+
+// @public
 export interface NotificationHubResponse {
-    correlationId?: string;
-    trackingId?: string;
+    readonly correlationId?: string;
+    readonly trackingId?: string;
 }
+
+// @public
+export function onNotificationClick(clientContext: WebPushClientContext, handler: NotificationClickHandler): WebPushUnsubscribe;
+
+// @public
+export function onPush(clientContext: WebPushClientContext, handler: WebPushNotificationHandler): WebPushUnsubscribe;
 
 // @public
 export function removeTags(clientContext: WebPushClientContext, tags: string[]): Promise<NotificationHubResponse>;
 
-// @public (undocumented)
+// @public
 export function removeTemplate(clientContext: WebPushClientContext, templateName: string): Promise<NotificationHubResponse>;
 
 // @public
@@ -52,9 +61,9 @@ export interface WebPushClientContext {
     createHeaders(operationName: string): Promise<Headers>;
     readonly hubName: string;
     // @internal (undocumented)
-    onBackgroundMessage?: WebPushNotificationHandler;
+    onNotificationClick?: NotificationClickHandler;
     // @internal (undocumented)
-    onForegroundMessage?: WebPushNotificationHandler;
+    onPush?: WebPushNotificationHandler;
     // @internal (undocumented)
     requestUrl(): URL;
     serviceWorkerRegistration?: ServiceWorkerRegistration;
@@ -84,13 +93,15 @@ export interface WebPushInstallation {
 }
 
 // @public (undocumented)
-export interface WebPushNotification extends Notification {
+export interface WebPushNotificationClickEvent {
     // (undocumented)
-    clickAction?: string;
+    readonly action: string;
+    // (undocumented)
+    readonly notification: Notification;
 }
 
 // @public
-export type WebPushNotificationHandler = (value: WebPushNotification) => Promise<void>;
+export type WebPushNotificationHandler = (value: unknown) => Promise<void>;
 
 // @public
 export type WebPushUnsubscribe = () => void;

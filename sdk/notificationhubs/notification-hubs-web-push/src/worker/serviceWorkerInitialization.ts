@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 import type { 
+  NotificationEvent,
+  PushEvent,
   PushSubscriptionChangeEvent, 
   ServiceWorkerGlobalScope 
 } from "./serviceWorkerTypes.js";
@@ -34,12 +36,13 @@ export async function onPush(
     return;
   }
 
-  if (!event.data) {
+  const json = extractJson(event);
+  if (!json) {
     return;
   }
 
   if (clientContext.onPush) {
-    await clientContext.onPush(event.data);
+    await clientContext.onPush(json);
   }
 }
 
@@ -75,7 +78,18 @@ export async function onNotificationClick(
   }
 
   if (clientContext.onNotificationClick) {
-    await clientContext.onNotificationClick(event);
+    await clientContext.onNotificationClick({ action: event.action, notification: event.notification });
+  }
+}
+
+function extractJson({ data }: PushEvent): unknown {
+  if (!data) {
+    return null;
   }
 
+  try {
+    return data.json();
+  } catch (e) {
+    return null;
+  }
 }

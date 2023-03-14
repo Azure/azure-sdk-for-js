@@ -32,21 +32,25 @@ export interface WebPushClientContext {
 
   /**
    * @internal
+   * The Web Push notification handler.
    */
   onPush?: WebPushNotificationHandler;
 
   /**
    * @internal
+   * The Web Push notification click handler.
    */
   onNotificationClick?: NotificationClickHandler;
 
   /**
    * @internal
+   * Creates the HTTP headers for the Web Push operations.
    */
   createHeaders(operationName: string): Promise<Headers>;
 
   /**
    * @internal
+   * Gets the request URL for the Web Push operations.
    */
   requestUrl(): URL;
 }
@@ -54,12 +58,12 @@ export interface WebPushClientContext {
 /**
  * Represents a Notification Hubs Web Push handler.
  */
-export type WebPushNotificationHandler = (value: PushMessageData) => Promise<void>;
+export type WebPushNotificationHandler = (value: unknown) => Promise<void>;
 
 /**
  * Represents a Notification click handler.
  */
-export type NotificationClickHandler = (value: NotificationEvent) => Promise<void>;
+export type NotificationClickHandler = (value: WebPushNotificationClickEvent) => Promise<void>;
 
 /**
  * Represents a Web Push unsubscribe function.
@@ -110,11 +114,11 @@ export interface GetInstallationOptions {
   /**
    * The ServiceWorker URL for the Web Push instance.
    */
-  serviceWorkerUrl?: string;
+  readonly serviceWorkerUrl?: string;
   /**
    * The service worker registration.
    */
-  serviceWorkerRegistration?: ServiceWorkerRegistration;
+  readonly serviceWorkerRegistration?: ServiceWorkerRegistration;
 }
 
 /**
@@ -124,9 +128,23 @@ export interface NotificationHubResponse {
   /**
    * The Notification Hubs tracking ID
    */
-  trackingId?: string;
+  readonly trackingId?: string;
   /**
    * The Notification Hubs correlation ID
    */
-  correlationId?: string;
+  readonly correlationId?: string;
+}
+
+/**
+ * Represents a notification click event.
+ */
+export interface WebPushNotificationClickEvent {
+  /**
+   * The action that was clicked.
+   */
+  readonly action: string;
+  /**
+   * The notification that was clicked.
+   */
+  readonly notification: Notification;
 }
