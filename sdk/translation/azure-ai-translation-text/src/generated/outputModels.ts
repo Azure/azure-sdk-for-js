@@ -81,7 +81,7 @@ export interface TargetDictionaryLanguageOutput {
 }
 
 /** Representation of the Error Response from Translator Service. */
-export interface MtErrorResponseOutput {
+export interface ErrorResponseOutput {
   /** Error details. */
   error: ErrorDetailsOutput;
 }

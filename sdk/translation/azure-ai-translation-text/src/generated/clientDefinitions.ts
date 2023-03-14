@@ -5,9 +5,9 @@ import {
   GetLanguagesParameters,
   TranslateParameters,
   TransliterateParameters,
-  BreakSentenceParameters,
-  DictionaryLookupParameters,
-  DictionaryExamplesParameters,
+  FindSentenceBoundariesParameters,
+  LookupDictionaryEntriesParameters,
+  LookupDictionaryExamplesParameters,
 } from "./parameters";
 import {
   GetLanguages200Response,
@@ -16,12 +16,12 @@ import {
   TranslateDefaultResponse,
   Transliterate200Response,
   TransliterateDefaultResponse,
-  BreakSentence200Response,
-  BreakSentenceDefaultResponse,
-  DictionaryLookup200Response,
-  DictionaryLookupDefaultResponse,
-  DictionaryExamples200Response,
-  DictionaryExamplesDefaultResponse,
+  FindSentenceBoundaries200Response,
+  FindSentenceBoundariesDefaultResponse,
+  LookupDictionaryEntries200Response,
+  LookupDictionaryEntriesDefaultResponse,
+  LookupDictionaryExamples200Response,
+  LookupDictionaryExamplesDefaultResponse,
 } from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
@@ -46,28 +46,31 @@ export interface Transliterate {
   ): StreamableMethod<Transliterate200Response | TransliterateDefaultResponse>;
 }
 
-export interface BreakSentence {
-  /** Break Sentence */
+export interface FindSentenceBoundaries {
+  /** Find Sentence Boundaries */
   post(
-    options: BreakSentenceParameters
-  ): StreamableMethod<BreakSentence200Response | BreakSentenceDefaultResponse>;
-}
-
-export interface DictionaryLookup {
-  /** Dictionary Lookup */
-  post(
-    options: DictionaryLookupParameters
+    options: FindSentenceBoundariesParameters
   ): StreamableMethod<
-    DictionaryLookup200Response | DictionaryLookupDefaultResponse
+    FindSentenceBoundaries200Response | FindSentenceBoundariesDefaultResponse
   >;
 }
 
-export interface DictionaryExamples {
-  /** Dictionary Examples */
+export interface LookupDictionaryEntries {
+  /** Lookup Dictionary Entries */
   post(
-    options: DictionaryExamplesParameters
+    options: LookupDictionaryEntriesParameters
   ): StreamableMethod<
-    DictionaryExamples200Response | DictionaryExamplesDefaultResponse
+    LookupDictionaryEntries200Response | LookupDictionaryEntriesDefaultResponse
+  >;
+}
+
+export interface LookupDictionaryExamples {
+  /** Lookup Dictionary Examples */
+  post(
+    options: LookupDictionaryExamplesParameters
+  ): StreamableMethod<
+    | LookupDictionaryExamples200Response
+    | LookupDictionaryExamplesDefaultResponse
   >;
 }
 
@@ -79,11 +82,11 @@ export interface Routes {
   /** Resource for '/transliterate' has methods for the following verbs: post */
   (path: "/transliterate"): Transliterate;
   /** Resource for '/breaksentence' has methods for the following verbs: post */
-  (path: "/breaksentence"): BreakSentence;
+  (path: "/breaksentence"): FindSentenceBoundaries;
   /** Resource for '/dictionary/lookup' has methods for the following verbs: post */
-  (path: "/dictionary/lookup"): DictionaryLookup;
+  (path: "/dictionary/lookup"): LookupDictionaryEntries;
   /** Resource for '/dictionary/examples' has methods for the following verbs: post */
-  (path: "/dictionary/examples"): DictionaryExamples;
+  (path: "/dictionary/examples"): LookupDictionaryExamples;
 }
 
 export type TextTranslationClient = Client & {

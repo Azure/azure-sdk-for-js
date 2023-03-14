@@ -183,17 +183,17 @@ export type TransliterateParameters = TransliterateQueryParam &
   TransliterateBodyParam &
   RequestParameters;
 
-export interface BreakSentenceHeaders {
+export interface FindSentenceBoundariesHeaders {
   /** A client-generated GUID to uniquely identify the request. */
   "X-ClientTraceId"?: string;
 }
 
-export interface BreakSentenceBodyParam {
+export interface FindSentenceBoundariesBodyParam {
   /** Array of the text for which values the sentence boundaries will be calculated. */
   body: Array<InputTextElement>;
 }
 
-export interface BreakSentenceQueryParamProperties {
+export interface FindSentenceBoundariesQueryParamProperties {
   /**
    * Language tag identifying the language of the input text.
    * If a code isn't specified, automatic language detection will be applied.
@@ -206,30 +206,31 @@ export interface BreakSentenceQueryParamProperties {
   script?: string;
 }
 
-export interface BreakSentenceQueryParam {
-  queryParameters?: BreakSentenceQueryParamProperties;
+export interface FindSentenceBoundariesQueryParam {
+  queryParameters?: FindSentenceBoundariesQueryParamProperties;
 }
 
-export interface BreakSentenceHeaderParam {
-  headers?: RawHttpHeadersInput & BreakSentenceHeaders;
+export interface FindSentenceBoundariesHeaderParam {
+  headers?: RawHttpHeadersInput & FindSentenceBoundariesHeaders;
 }
 
-export type BreakSentenceParameters = BreakSentenceQueryParam &
-  BreakSentenceHeaderParam &
-  BreakSentenceBodyParam &
-  RequestParameters;
+export type FindSentenceBoundariesParameters =
+  FindSentenceBoundariesQueryParam &
+    FindSentenceBoundariesHeaderParam &
+    FindSentenceBoundariesBodyParam &
+    RequestParameters;
 
-export interface DictionaryLookupHeaders {
+export interface LookupDictionaryEntriesHeaders {
   /** A client-generated GUID to uniquely identify the request. */
   "X-ClientTraceId"?: string;
 }
 
-export interface DictionaryLookupBodyParam {
+export interface LookupDictionaryEntriesBodyParam {
   /** Array of the text to be sent to dictionary. */
   body: Array<InputTextElement>;
 }
 
-export interface DictionaryLookupQueryParamProperties {
+export interface LookupDictionaryEntriesQueryParamProperties {
   /**
    * Specifies the language of the input text.
    * The source language must be one of the supported languages included in the dictionary scope.
@@ -242,30 +243,31 @@ export interface DictionaryLookupQueryParamProperties {
   to: string;
 }
 
-export interface DictionaryLookupQueryParam {
-  queryParameters: DictionaryLookupQueryParamProperties;
+export interface LookupDictionaryEntriesQueryParam {
+  queryParameters: LookupDictionaryEntriesQueryParamProperties;
 }
 
-export interface DictionaryLookupHeaderParam {
-  headers?: RawHttpHeadersInput & DictionaryLookupHeaders;
+export interface LookupDictionaryEntriesHeaderParam {
+  headers?: RawHttpHeadersInput & LookupDictionaryEntriesHeaders;
 }
 
-export type DictionaryLookupParameters = DictionaryLookupQueryParam &
-  DictionaryLookupHeaderParam &
-  DictionaryLookupBodyParam &
-  RequestParameters;
+export type LookupDictionaryEntriesParameters =
+  LookupDictionaryEntriesQueryParam &
+    LookupDictionaryEntriesHeaderParam &
+    LookupDictionaryEntriesBodyParam &
+    RequestParameters;
 
-export interface DictionaryExamplesHeaders {
+export interface LookupDictionaryExamplesHeaders {
   /** A client-generated GUID to uniquely identify the request. */
   "X-ClientTraceId"?: string;
 }
 
-export interface DictionaryExamplesBodyParam {
+export interface LookupDictionaryExamplesBodyParam {
   /** Array of the text to be sent to dictionary. */
   body: Array<DictionaryExampleTextElement>;
 }
 
-export interface DictionaryExamplesQueryParamProperties {
+export interface LookupDictionaryExamplesQueryParamProperties {
   /**
    * Specifies the language of the input text.
    * The source language must be one of the supported languages included in the dictionary scope.
@@ -278,15 +280,16 @@ export interface DictionaryExamplesQueryParamProperties {
   to: string;
 }
 
-export interface DictionaryExamplesQueryParam {
-  queryParameters: DictionaryExamplesQueryParamProperties;
+export interface LookupDictionaryExamplesQueryParam {
+  queryParameters: LookupDictionaryExamplesQueryParamProperties;
 }
 
-export interface DictionaryExamplesHeaderParam {
-  headers?: RawHttpHeadersInput & DictionaryExamplesHeaders;
+export interface LookupDictionaryExamplesHeaderParam {
+  headers?: RawHttpHeadersInput & LookupDictionaryExamplesHeaders;
 }
 
-export type DictionaryExamplesParameters = DictionaryExamplesQueryParam &
-  DictionaryExamplesHeaderParam &
-  DictionaryExamplesBodyParam &
-  RequestParameters;
+export type LookupDictionaryExamplesParameters =
+  LookupDictionaryExamplesQueryParam &
+    LookupDictionaryExamplesHeaderParam &
+    LookupDictionaryExamplesBodyParam &
+    RequestParameters;

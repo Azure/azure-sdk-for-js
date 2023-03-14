@@ -27,76 +27,10 @@ export interface BackTranslationOutput {
     numExamples: number;
 }
 
-// @public (undocumented)
-export interface BreakSentence {
-    post(options: BreakSentenceParameters): StreamableMethod<BreakSentence200Response | BreakSentenceDefaultResponse>;
-}
-
-// @public (undocumented)
-export interface BreakSentence200Headers {
-    "x-requestid": string;
-}
-
-// @public
-export interface BreakSentence200Response extends HttpResponse {
-    // (undocumented)
-    body: Array<BreakSentenceElementOutput>;
-    // (undocumented)
-    headers: RawHttpHeaders & BreakSentence200Headers;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface BreakSentenceBodyParam {
-    body: Array<InputTextElement>;
-}
-
-// @public (undocumented)
-export interface BreakSentenceDefaultHeaders {
-    "x-requestid": string;
-}
-
-// @public (undocumented)
-export interface BreakSentenceDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: MtErrorResponseOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & BreakSentenceDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
 // @public
 export interface BreakSentenceElementOutput {
     detectedLanguage?: DetectedLanguageOutput;
     sentLen: number[];
-}
-
-// @public (undocumented)
-export interface BreakSentenceHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & BreakSentenceHeaders;
-}
-
-// @public (undocumented)
-export interface BreakSentenceHeaders {
-    "X-ClientTraceId"?: string;
-}
-
-// @public (undocumented)
-export type BreakSentenceParameters = BreakSentenceQueryParam & BreakSentenceHeaderParam & BreakSentenceBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface BreakSentenceQueryParam {
-    // (undocumented)
-    queryParameters?: BreakSentenceQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface BreakSentenceQueryParamProperties {
-    language?: string;
-    script?: string;
 }
 
 // @public (undocumented)
@@ -129,115 +63,9 @@ export interface DictionaryExampleElementOutput {
     normalizedTarget: string;
 }
 
-// @public (undocumented)
-export interface DictionaryExamples {
-    post(options: DictionaryExamplesParameters): StreamableMethod<DictionaryExamples200Response | DictionaryExamplesDefaultResponse>;
-}
-
-// @public (undocumented)
-export interface DictionaryExamples200Headers {
-    "x-requestid": string;
-}
-
-// @public
-export interface DictionaryExamples200Response extends HttpResponse {
-    // (undocumented)
-    body: Array<DictionaryExampleElementOutput>;
-    // (undocumented)
-    headers: RawHttpHeaders & DictionaryExamples200Headers;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface DictionaryExamplesBodyParam {
-    body: Array<DictionaryExampleTextElement>;
-}
-
-// @public (undocumented)
-export interface DictionaryExamplesDefaultHeaders {
-    "x-requestid": string;
-}
-
-// @public (undocumented)
-export interface DictionaryExamplesDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: MtErrorResponseOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & DictionaryExamplesDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface DictionaryExamplesHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & DictionaryExamplesHeaders;
-}
-
-// @public (undocumented)
-export interface DictionaryExamplesHeaders {
-    "X-ClientTraceId"?: string;
-}
-
-// @public (undocumented)
-export type DictionaryExamplesParameters = DictionaryExamplesQueryParam & DictionaryExamplesHeaderParam & DictionaryExamplesBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface DictionaryExamplesQueryParam {
-    // (undocumented)
-    queryParameters: DictionaryExamplesQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface DictionaryExamplesQueryParamProperties {
-    from: string;
-    to: string;
-}
-
 // @public
 export interface DictionaryExampleTextElement extends InputTextElement {
     translation: string;
-}
-
-// @public (undocumented)
-export interface DictionaryLookup {
-    post(options: DictionaryLookupParameters): StreamableMethod<DictionaryLookup200Response | DictionaryLookupDefaultResponse>;
-}
-
-// @public (undocumented)
-export interface DictionaryLookup200Headers {
-    "x-requestid": string;
-}
-
-// @public
-export interface DictionaryLookup200Response extends HttpResponse {
-    // (undocumented)
-    body: Array<DictionaryLookupElementOutput>;
-    // (undocumented)
-    headers: RawHttpHeaders & DictionaryLookup200Headers;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface DictionaryLookupBodyParam {
-    body: Array<InputTextElement>;
-}
-
-// @public (undocumented)
-export interface DictionaryLookupDefaultHeaders {
-    "x-requestid": string;
-}
-
-// @public (undocumented)
-export interface DictionaryLookupDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: MtErrorResponseOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & DictionaryLookupDefaultHeaders;
-    // (undocumented)
-    status: string;
 }
 
 // @public
@@ -245,32 +73,6 @@ export interface DictionaryLookupElementOutput {
     displaySource: string;
     normalizedSource: string;
     translations: Array<DictionaryTranslationOutput>;
-}
-
-// @public (undocumented)
-export interface DictionaryLookupHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & DictionaryLookupHeaders;
-}
-
-// @public (undocumented)
-export interface DictionaryLookupHeaders {
-    "X-ClientTraceId"?: string;
-}
-
-// @public (undocumented)
-export type DictionaryLookupParameters = DictionaryLookupQueryParam & DictionaryLookupHeaderParam & DictionaryLookupBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface DictionaryLookupQueryParam {
-    // (undocumented)
-    queryParameters: DictionaryLookupQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface DictionaryLookupQueryParamProperties {
-    from: string;
-    to: string;
 }
 
 // @public
@@ -290,6 +92,11 @@ export interface ErrorDetailsOutput {
 }
 
 // @public
+export interface ErrorResponseOutput {
+    error: ErrorDetailsOutput;
+}
+
+// @public
 export interface ExampleOutput {
     sourcePrefix: string;
     sourceSuffix: string;
@@ -297,6 +104,72 @@ export interface ExampleOutput {
     targetPrefix: string;
     targetSuffix: string;
     targetTerm: string;
+}
+
+// @public (undocumented)
+export interface FindSentenceBoundaries {
+    post(options: FindSentenceBoundariesParameters): StreamableMethod<FindSentenceBoundaries200Response | FindSentenceBoundariesDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface FindSentenceBoundaries200Headers {
+    "x-requestid": string;
+}
+
+// @public
+export interface FindSentenceBoundaries200Response extends HttpResponse {
+    // (undocumented)
+    body: Array<BreakSentenceElementOutput>;
+    // (undocumented)
+    headers: RawHttpHeaders & FindSentenceBoundaries200Headers;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface FindSentenceBoundariesBodyParam {
+    body: Array<InputTextElement>;
+}
+
+// @public (undocumented)
+export interface FindSentenceBoundariesDefaultHeaders {
+    "x-requestid": string;
+}
+
+// @public (undocumented)
+export interface FindSentenceBoundariesDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & FindSentenceBoundariesDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface FindSentenceBoundariesHeaderParam {
+    // (undocumented)
+    headers?: RawHttpHeadersInput & FindSentenceBoundariesHeaders;
+}
+
+// @public (undocumented)
+export interface FindSentenceBoundariesHeaders {
+    "X-ClientTraceId"?: string;
+}
+
+// @public (undocumented)
+export type FindSentenceBoundariesParameters = FindSentenceBoundariesQueryParam & FindSentenceBoundariesHeaderParam & FindSentenceBoundariesBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface FindSentenceBoundariesQueryParam {
+    // (undocumented)
+    queryParameters?: FindSentenceBoundariesQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface FindSentenceBoundariesQueryParamProperties {
+    language?: string;
+    script?: string;
 }
 
 // @public (undocumented)
@@ -328,7 +201,7 @@ export interface GetLanguagesDefaultHeaders {
 // @public (undocumented)
 export interface GetLanguagesDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: MtErrorResponseOutput;
+    body: ErrorResponseOutput;
     // (undocumented)
     headers: RawHttpHeaders & GetLanguagesDefaultHeaders;
     // (undocumented)
@@ -384,17 +257,144 @@ export function isUnexpected(response: Translate200Response | TranslateDefaultRe
 export function isUnexpected(response: Transliterate200Response | TransliterateDefaultResponse): response is TransliterateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: BreakSentence200Response | BreakSentenceDefaultResponse): response is BreakSentenceDefaultResponse;
+export function isUnexpected(response: FindSentenceBoundaries200Response | FindSentenceBoundariesDefaultResponse): response is FindSentenceBoundariesDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DictionaryLookup200Response | DictionaryLookupDefaultResponse): response is DictionaryLookupDefaultResponse;
+export function isUnexpected(response: LookupDictionaryEntries200Response | LookupDictionaryEntriesDefaultResponse): response is LookupDictionaryEntriesDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DictionaryExamples200Response | DictionaryExamplesDefaultResponse): response is DictionaryExamplesDefaultResponse;
+export function isUnexpected(response: LookupDictionaryExamples200Response | LookupDictionaryExamplesDefaultResponse): response is LookupDictionaryExamplesDefaultResponse;
+
+// @public (undocumented)
+export interface LookupDictionaryEntries {
+    post(options: LookupDictionaryEntriesParameters): StreamableMethod<LookupDictionaryEntries200Response | LookupDictionaryEntriesDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface LookupDictionaryEntries200Headers {
+    "x-requestid": string;
+}
 
 // @public
-export interface MtErrorResponseOutput {
-    error: ErrorDetailsOutput;
+export interface LookupDictionaryEntries200Response extends HttpResponse {
+    // (undocumented)
+    body: Array<DictionaryLookupElementOutput>;
+    // (undocumented)
+    headers: RawHttpHeaders & LookupDictionaryEntries200Headers;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface LookupDictionaryEntriesBodyParam {
+    body: Array<InputTextElement>;
+}
+
+// @public (undocumented)
+export interface LookupDictionaryEntriesDefaultHeaders {
+    "x-requestid": string;
+}
+
+// @public (undocumented)
+export interface LookupDictionaryEntriesDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & LookupDictionaryEntriesDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface LookupDictionaryEntriesHeaderParam {
+    // (undocumented)
+    headers?: RawHttpHeadersInput & LookupDictionaryEntriesHeaders;
+}
+
+// @public (undocumented)
+export interface LookupDictionaryEntriesHeaders {
+    "X-ClientTraceId"?: string;
+}
+
+// @public (undocumented)
+export type LookupDictionaryEntriesParameters = LookupDictionaryEntriesQueryParam & LookupDictionaryEntriesHeaderParam & LookupDictionaryEntriesBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface LookupDictionaryEntriesQueryParam {
+    // (undocumented)
+    queryParameters: LookupDictionaryEntriesQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface LookupDictionaryEntriesQueryParamProperties {
+    from: string;
+    to: string;
+}
+
+// @public (undocumented)
+export interface LookupDictionaryExamples {
+    post(options: LookupDictionaryExamplesParameters): StreamableMethod<LookupDictionaryExamples200Response | LookupDictionaryExamplesDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface LookupDictionaryExamples200Headers {
+    "x-requestid": string;
+}
+
+// @public
+export interface LookupDictionaryExamples200Response extends HttpResponse {
+    // (undocumented)
+    body: Array<DictionaryExampleElementOutput>;
+    // (undocumented)
+    headers: RawHttpHeaders & LookupDictionaryExamples200Headers;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface LookupDictionaryExamplesBodyParam {
+    body: Array<DictionaryExampleTextElement>;
+}
+
+// @public (undocumented)
+export interface LookupDictionaryExamplesDefaultHeaders {
+    "x-requestid": string;
+}
+
+// @public (undocumented)
+export interface LookupDictionaryExamplesDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & LookupDictionaryExamplesDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface LookupDictionaryExamplesHeaderParam {
+    // (undocumented)
+    headers?: RawHttpHeadersInput & LookupDictionaryExamplesHeaders;
+}
+
+// @public (undocumented)
+export interface LookupDictionaryExamplesHeaders {
+    "X-ClientTraceId"?: string;
+}
+
+// @public (undocumented)
+export type LookupDictionaryExamplesParameters = LookupDictionaryExamplesQueryParam & LookupDictionaryExamplesHeaderParam & LookupDictionaryExamplesBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface LookupDictionaryExamplesQueryParam {
+    // (undocumented)
+    queryParameters: LookupDictionaryExamplesQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface LookupDictionaryExamplesQueryParamProperties {
+    from: string;
+    to: string;
 }
 
 // @public (undocumented)
@@ -402,9 +402,9 @@ export interface Routes {
     (path: "/languages"): GetLanguages;
     (path: "/translate"): Translate;
     (path: "/transliterate"): Transliterate;
-    (path: "/breaksentence"): BreakSentence;
-    (path: "/dictionary/lookup"): DictionaryLookup;
-    (path: "/dictionary/examples"): DictionaryExamples;
+    (path: "/breaksentence"): FindSentenceBoundaries;
+    (path: "/dictionary/lookup"): LookupDictionaryEntries;
+    (path: "/dictionary/examples"): LookupDictionaryExamples;
 }
 
 // @public
@@ -474,7 +474,7 @@ export interface TranslateDefaultHeaders {
 // @public (undocumented)
 export interface TranslateDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: MtErrorResponseOutput;
+    body: ErrorResponseOutput;
     // (undocumented)
     headers: RawHttpHeaders & TranslateDefaultHeaders;
     // (undocumented)
@@ -587,7 +587,7 @@ export interface TransliterateDefaultHeaders {
 // @public (undocumented)
 export interface TransliterateDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: MtErrorResponseOutput;
+    body: ErrorResponseOutput;
     // (undocumented)
     headers: RawHttpHeaders & TransliterateDefaultHeaders;
     // (undocumented)

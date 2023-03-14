@@ -8,12 +8,12 @@ import {
   TranslateDefaultResponse,
   Transliterate200Response,
   TransliterateDefaultResponse,
-  BreakSentence200Response,
-  BreakSentenceDefaultResponse,
-  DictionaryLookup200Response,
-  DictionaryLookupDefaultResponse,
-  DictionaryExamples200Response,
-  DictionaryExamplesDefaultResponse,
+  FindSentenceBoundaries200Response,
+  FindSentenceBoundariesDefaultResponse,
+  LookupDictionaryEntries200Response,
+  LookupDictionaryEntriesDefaultResponse,
+  LookupDictionaryExamples200Response,
+  LookupDictionaryExamplesDefaultResponse,
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
@@ -35,14 +35,20 @@ export function isUnexpected(
   response: Transliterate200Response | TransliterateDefaultResponse
 ): response is TransliterateDefaultResponse;
 export function isUnexpected(
-  response: BreakSentence200Response | BreakSentenceDefaultResponse
-): response is BreakSentenceDefaultResponse;
+  response:
+    | FindSentenceBoundaries200Response
+    | FindSentenceBoundariesDefaultResponse
+): response is FindSentenceBoundariesDefaultResponse;
 export function isUnexpected(
-  response: DictionaryLookup200Response | DictionaryLookupDefaultResponse
-): response is DictionaryLookupDefaultResponse;
+  response:
+    | LookupDictionaryEntries200Response
+    | LookupDictionaryEntriesDefaultResponse
+): response is LookupDictionaryEntriesDefaultResponse;
 export function isUnexpected(
-  response: DictionaryExamples200Response | DictionaryExamplesDefaultResponse
-): response is DictionaryExamplesDefaultResponse;
+  response:
+    | LookupDictionaryExamples200Response
+    | LookupDictionaryExamplesDefaultResponse
+): response is LookupDictionaryExamplesDefaultResponse;
 export function isUnexpected(
   response:
     | GetLanguages200Response
@@ -51,19 +57,19 @@ export function isUnexpected(
     | TranslateDefaultResponse
     | Transliterate200Response
     | TransliterateDefaultResponse
-    | BreakSentence200Response
-    | BreakSentenceDefaultResponse
-    | DictionaryLookup200Response
-    | DictionaryLookupDefaultResponse
-    | DictionaryExamples200Response
-    | DictionaryExamplesDefaultResponse
+    | FindSentenceBoundaries200Response
+    | FindSentenceBoundariesDefaultResponse
+    | LookupDictionaryEntries200Response
+    | LookupDictionaryEntriesDefaultResponse
+    | LookupDictionaryExamples200Response
+    | LookupDictionaryExamplesDefaultResponse
 ): response is
   | GetLanguagesDefaultResponse
   | TranslateDefaultResponse
   | TransliterateDefaultResponse
-  | BreakSentenceDefaultResponse
-  | DictionaryLookupDefaultResponse
-  | DictionaryExamplesDefaultResponse {
+  | FindSentenceBoundariesDefaultResponse
+  | LookupDictionaryEntriesDefaultResponse
+  | LookupDictionaryExamplesDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;
