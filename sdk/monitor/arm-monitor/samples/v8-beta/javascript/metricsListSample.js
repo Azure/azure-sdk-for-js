@@ -41,7 +41,7 @@ async function getMetricForData() {
   };
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
-  const result = await client.metrics.list(resourceUri, options);
+  const result = await client.metricsOperations.list(resourceUri, options);
   console.log(result);
 }
 
@@ -74,7 +74,7 @@ async function getMetricForMetadata() {
   };
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
-  const result = await client.metrics.list(resourceUri, options);
+  const result = await client.metricsOperations.list(resourceUri, options);
   console.log(result);
 }
 
@@ -103,7 +103,7 @@ async function getMetricWithError() {
   };
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
-  const result = await client.metrics.list(resourceUri, options);
+  const result = await client.metricsOperations.list(resourceUri, options);
   console.log(result);
 }
 
