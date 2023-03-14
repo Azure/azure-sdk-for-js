@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/czwTest/providers/Microsoft.DataFactory/factories/examplefactorytest?api-version=2018-06-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/czwTest/providers/Microsoft.DataFactory/factories/examplefactorytest/dataflows/exampleDataFlow?api-version=2018-06-01",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -9,28 +9,28 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-datafactory/11.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "b832fec2-5b85-4044-8926-7de6999d348a"
+        "x-ms-client-request-id": "742a88d3-9d28-4324-a461-7a45e0c3fc95"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
         "Content-Length": "0",
-        "Date": "Tue, 14 Mar 2023 08:58:24 GMT",
+        "Date": "Tue, 14 Mar 2023 08:58:15 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Kestrel",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "ae75cc86-ecad-4153-a47e-f799c3ecbafc",
-        "x-ms-ratelimit-remaining-subscription-deletes": "14994",
-        "x-ms-request-id": "ae75cc86-ecad-4153-a47e-f799c3ecbafc",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230314T085825Z:ae75cc86-ecad-4153-a47e-f799c3ecbafc"
+        "x-ms-correlation-request-id": "4c54e3aa-3124-4cc7-a532-791aa14b5515",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14998",
+        "x-ms-request-id": "4c54e3aa-3124-4cc7-a532-791aa14b5515",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230314T085815Z:4c54e3aa-3124-4cc7-a532-791aa14b5515"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/czwTest/providers/Microsoft.DataFactory/factories?api-version=2018-06-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/czwTest/providers/Microsoft.DataFactory/factories/examplefactorytest/dataflows?api-version=2018-06-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -38,25 +38,26 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-datafactory/11.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "cc213e40-9968-411a-9ae5-55ac60286e81"
+        "x-ms-client-request-id": "dc13a705-fe64-4182-a2cc-23d1a9a29296"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
-        "Content-Length": "12",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 14 Mar 2023 08:58:25 GMT",
+        "Date": "Tue, 14 Mar 2023 08:58:15 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
+        "Server": "Kestrel",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "e82b1fd0-3cc7-41ca-892d-6d393484583e",
-        "x-ms-ratelimit-remaining-subscription-reads": "11909",
-        "x-ms-request-id": "e82b1fd0-3cc7-41ca-892d-6d393484583e",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230314T085826Z:e82b1fd0-3cc7-41ca-892d-6d393484583e"
+        "x-ms-correlation-request-id": "e7b045a7-12ed-4b7c-91e1-8f06ece32007",
+        "x-ms-ratelimit-remaining-subscription-reads": "11911",
+        "x-ms-request-id": "e7b045a7-12ed-4b7c-91e1-8f06ece32007",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230314T085816Z:e7b045a7-12ed-4b7c-91e1-8f06ece32007"
       },
       "ResponseBody": {
         "value": []

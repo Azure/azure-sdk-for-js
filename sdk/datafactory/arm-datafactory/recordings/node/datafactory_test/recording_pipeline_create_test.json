@@ -1,0 +1,121 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/czwTest/providers/Microsoft.DataFactory/factories/examplefactorytest/pipelines/examplePipeline?api-version=2018-06-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "523",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-datafactory/11.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "6face31d-6690-45ce-968f-9648421a80cc"
+      },
+      "RequestBody": {
+        "properties": {
+          "description": "Example description",
+          "activities": [
+            {
+              "name": "ExampleForeachActivity",
+              "type": "ForEach",
+              "typeProperties": {
+                "isSequential": true,
+                "items": {
+                  "type": "Expression",
+                  "value": "@pipeline().parameters.OutputBlobNameList"
+                },
+                "activities": [
+                  {
+                    "name": "ExampleCopyActivity1",
+                    "type": "ExecuteWranglingDataflow",
+                    "typeProperties": {
+                      "dataFlow": {
+                        "type": "DataFlowReference",
+                        "referenceName": "exampleDataFlow"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "parameters": {
+            "outputBlobNameList": {
+              "type": "Array"
+            }
+          },
+          "policy": {
+            "elapsedTimeMetric": {
+              "duration": "0.00:10:00"
+            }
+          }
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 14 Mar 2023 08:57:51 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "2e8d6318-3bdc-4d3a-abe7-6ef41d1612eb",
+        "x-ms-ratelimit-remaining-subscription-writes": "1193",
+        "x-ms-request-id": "2e8d6318-3bdc-4d3a-abe7-6ef41d1612eb",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230314T085751Z:2e8d6318-3bdc-4d3a-abe7-6ef41d1612eb"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/czwTest/providers/Microsoft.DataFactory/factories/examplefactorytest/pipelines/examplePipeline",
+        "name": "examplePipeline",
+        "type": "Microsoft.DataFactory/factories/pipelines",
+        "properties": {
+          "description": "Example description",
+          "activities": [
+            {
+              "name": "ExampleForeachActivity",
+              "type": "ForEach",
+              "typeProperties": {
+                "isSequential": true,
+                "items": {
+                  "type": "Expression",
+                  "value": "@pipeline().parameters.OutputBlobNameList"
+                },
+                "activities": [
+                  {
+                    "name": "ExampleCopyActivity1",
+                    "type": "ExecuteWranglingDataflow",
+                    "typeProperties": {
+                      "dataFlow": {
+                        "type": "DataFlowReference",
+                        "referenceName": "exampleDataFlow"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "parameters": {
+            "outputBlobNameList": {
+              "type": "Array"
+            }
+          },
+          "policy": {
+            "elapsedTimeMetric": {
+              "duration": "0.00:10:00"
+            }
+          }
+        },
+        "etag": "2700bf3f-0000-0100-0000-6410370f0000"
+      }
+    }
+  ],
+  "Variables": {}
+}
