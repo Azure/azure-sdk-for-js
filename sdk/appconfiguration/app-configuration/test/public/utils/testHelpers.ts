@@ -229,3 +229,22 @@ export async function assertThrowsAbortError(
     }
   }
 }
+
+/**
+ * Assert 2 snapshots with name, retentionPeriod and filters are equal
+ * @param snapshot1
+ * @param snapshot2
+ */
+export function assertEqualSnapshot(snapshot1: Snapshot, snapshot2: Snapshot) {
+  assert.equal(snapshot1.name, snapshot2.name, "Unexpected name in result from getSnapshot().");
+  assert.equal(
+    snapshot1.retentionPeriod,
+    snapshot2.retentionPeriod,
+    "Unexpected retentionPeriod in result from getSnapshot()."
+  );
+  assert.deepEqual(
+    snapshot1.filters,
+    snapshot2.filters,
+    "Unexpected filters in result from getSnapshot()."
+  );
+}

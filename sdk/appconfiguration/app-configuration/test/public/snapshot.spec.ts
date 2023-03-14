@@ -1,14 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { AppConfigurationClient } from "../../src/appConfigurationClient";
 import { Snapshot, ConfigurationSettingsFilter, CreateSnapshotResponse } from "../../src/models";
-import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers";
-
+import { assertEqualSnapshot, assertThrowsAbortError, createAppConfigurationClientForTests, startRecorder, toSortedSnapshotArray } from "./utils/testHelpers";
 
 describe("AppConfigurationClient snapshot", () => {
   let client: AppConfigurationClient;
@@ -103,7 +102,35 @@ describe("AppConfigurationClient snapshot", () => {
         "Unexpected name in result from createSnapshot()."
       );
     });
+
+
+    it("accepts operation options", async function () {
+      if (isPlaybackMode()) this.skip();
+      const name = recorder.variable(
+        "snapshotTest1",
+        `snapshotTest1${Math.floor(Math.random() * 1000)}`
+      );
+
+      const snapshot: Snapshot = {
+        name,
+        retentionPeriod: 0,
+        filters: [filter1],
+      };
+
+      await assertThrowsAbortError(async () => {
+        await client.createSnapshot(
+          snapshot,
+
+          {
+            requestOptions: {
+              timeout: 1,
+            },
+          }
+        );
+      });
+    });
   });
+  
   describe("listConfigurationSettings for Snapshot", () => {
     it("list a snapshot configuration setting", async () => {
       // getting the configuration settting of the snapshot
@@ -129,19 +156,240 @@ describe("AppConfigurationClient snapshot", () => {
     });
   });
 
+
   describe("archiveSnapshot", () => {
-    it("archive all snapshot", async () => {
-      // archive snapshot
+    it("archive a snapshot", async () => {
+      const name = recorder.variable(
+        "snapshotTest1",
+        `snapshotTest1${Math.floor(Math.random() * 1000)}`
+      );
+
+      const snapshot: Snapshot = {
+        name,
+        retentionPeriod: 30,
+        filters: [filter1],
+      };
+
+      // creating a new snapshot
+      let newSnapshot = await client.createSnapshot(snapshot);
+      assertEqualSnapshot(newSnapshot, snapshot);
+
+      while (newSnapshot.status != "ready") {
+        newSnapshot = await client.getSnapshot(newSnapshot.name);
+        await delay(2000);
+      }
+
+      assert.equal(
+        newSnapshot.itemCount,
+        1,
+        "Unexpected itemCount in result from createSnapshot()."
+      );
+
+      newSnapshot = await client.archiveSnapshot(newSnapshot);
+      assert.equal(
+        newSnapshot.status,
+        "archived",
+        "Unexpected status in result from archiveSnapshot()."
+      );
+    });
+
+    it("service throws error if snapshot is not ready to archive", async () => {
+      const name = recorder.variable(
+        "snapshotTest1",
+        `snapshotTest1${Math.floor(Math.random() * 1000)}`
+      );
+
+      const snapshot: Snapshot = {
+        name,
+        retentionPeriod: 30,
+        filters: [filter1],
+      };
+
+      // creating a new snapshot
+      let newSnapshot = await client.createSnapshot(snapshot);
+      assertEqualSnapshot(newSnapshot, snapshot);
+
+      const errorExpected = {
+        type: "https://azconfig.io/errors/invalid-state",
+        title: "Target resource state invalid.",
+        status: 409,
+        detail: "The target resource is not in a valid state to perform the requested operation.",
+      };
+
+      // attempt to archive the snapshot when it's not ready
+      try {
+        await client.archiveSnapshot(snapshot);
+        throw new Error("Test failure");
+      } catch (err: any) {
+        assert.equal(err.message, JSON.stringify(errorExpected));
+        assert.notEqual((err as { message: string }).message, "Test failure");
+      }
+
+      while (newSnapshot.status != "ready") {
+        newSnapshot = await client.getSnapshot(newSnapshot.name);
+        await delay(2000);
+      }
+
       await client.archiveSnapshot(newSnapshot);
-      console.log(`${newSnapshot.name} has been archived. Status is ${newSnapshot.status}`);
+    });
+
+    it("accepts operation options", async function () {
+      if (isPlaybackMode()) this.skip();
+      const name = recorder.variable(
+        "snapshotTest1",
+        `snapshotTest1${Math.floor(Math.random() * 1000)}`
+      );
+
+      const snapshot: Snapshot = {
+        name,
+        retentionPeriod: 0,
+        filters: [filter1],
+      };
+
+      let newSnapshot = await client.createSnapshot(snapshot);
+      assertEqualSnapshot(newSnapshot, snapshot);
+
+      await assertThrowsAbortError(async () => {
+        await client.archiveSnapshot(
+          snapshot,
+
+          {
+            requestOptions: {
+              timeout: 1,
+            },
+          }
+        );
+      });
     });
   });
 
-  describe("recoverSnapshot", () => {
-    it("recover a snapshot", async () => {
-      // archive snapshot
-      await client.recoverSnapshot(newSnapshot);
-      console.log(`${newSnapshot.name} has been archived. Status is ${newSnapshot.status}`);
+  describe("getSnapshot", () => {
+    it("get a snapshot", async () => {
+      const name = recorder.variable(
+        "getSnapshot",
+        `getSnapshot${Math.floor(Math.random() * 1000)}`
+      );
+
+      const snapshot: Snapshot = {
+        name,
+        retentionPeriod: 30,
+        filters: [filter1],
+      };
+
+      // creating a new snapshot
+      let newSnapshot = await client.createSnapshot(snapshot);
+      assertEqualSnapshot(newSnapshot, snapshot);
+
+      newSnapshot = await client.getSnapshot(newSnapshot.name);
+      assertEqualSnapshot(newSnapshot, snapshot);
+
+      while (newSnapshot.status != "ready") {
+        newSnapshot = await client.getSnapshot(newSnapshot.name);
+        await delay(2000);
+      }
+
+      assert.equal(
+        newSnapshot.itemCount,
+        1,
+        "Unexpected itemCount in result from createSnapshot()."
+      );
+
+      await client.archiveSnapshot(newSnapshot);
+    });
+
+    it("accepts operation options", async function () {
+      if (isPlaybackMode()) this.skip();
+      const name = recorder.variable(
+        "snapshotTest1",
+        `snapshotTest1${Math.floor(Math.random() * 1000)}`
+      );
+
+      const snapshot: Snapshot = {
+        name,
+        retentionPeriod: 0,
+        filters: [filter1],
+      };
+
+      let newSnapshot = await client.createSnapshot(snapshot);
+      assertEqualSnapshot(newSnapshot, snapshot);
+
+      await assertThrowsAbortError(async () => {
+        await client.getSnapshot(snapshot.name, {
+          requestOptions: {
+            timeout: 1,
+          },
+        });
+      });
+    });
+  });
+
+  describe("listSnapshots", () => {
+    it("list all snapshots with status filter", async () => {
+      const list = await client.listSnapshots({ statusFilter: ["ready", "provisioning"] });
+      const listLength = (await toSortedSnapshotArray(list)).length;
+      const name = recorder.variable(
+        "listSnapshot",
+        `listSnapshot${Math.floor(Math.random() * 1000)}`
+      );
+
+      const name2 = recorder.variable(
+        "listSnapshot2",
+        `listSnapshot2${Math.floor(Math.random() * 1000)}`
+      );
+
+      const name3 = recorder.variable(
+        "listSnapshot3",
+        `listSnapshot3${Math.floor(Math.random() * 1000)}`
+      );
+
+      const snapshot: Snapshot = {
+        name,
+        retentionPeriod: 0,
+        filters: [filter1],
+      };
+
+      const snapshot2: Snapshot = {
+        name: name2,
+        retentionPeriod: 0,
+        filters: [filter2],
+      };
+
+      const snapshot3: Snapshot = {
+        name: name3,
+        retentionPeriod: 0,
+        filters: [filter1, filter2],
+      };
+
+      // creating a new snapshot
+      let newSnapshot = await client.createSnapshot(snapshot);
+      let newSnapshot2 = await client.createSnapshot(snapshot2);
+      let newSnapshot3 = await client.createSnapshot(snapshot3);
+      const snapshots = await client.listSnapshots({ statusFilter: ["ready", "provisioning"] });
+      const snapshotArray = await toSortedSnapshotArray(snapshots);
+      assert.equal(
+        snapshotArray.length,
+        listLength + 3,
+        "Unexpected number of snapshots in result from listSnapshots()."
+      );
+
+      while (newSnapshot.status != "ready") {
+        newSnapshot = await client.getSnapshot(newSnapshot.name);
+        await delay(2000);
+      }
+
+      while (newSnapshot2.status != "ready") {
+        newSnapshot2 = await client.getSnapshot(newSnapshot2.name);
+        await delay(2000);
+      }
+
+      while (newSnapshot3.status != "ready") {
+        newSnapshot3 = await client.getSnapshot(newSnapshot3.name);
+        await delay(2000);
+      }
+
+      await client.archiveSnapshot(newSnapshot);
+      await client.archiveSnapshot(newSnapshot2);
+      await client.archiveSnapshot(newSnapshot3);
     });
   });
 });
