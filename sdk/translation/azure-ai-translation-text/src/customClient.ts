@@ -20,6 +20,7 @@ import {
 } from "@azure/core-auth";
 
 const DEFAULT_SCOPE = "https://cognitiveservices.azure.com/.default";
+const DEFAULT_ENPOINT = "https://api.cognitive.microsofttranslator.com";
 const PLATFORM_HOST = "cognitiveservices";
 const PLATFORM_PATH = "/translator/text/v3.0";
 
@@ -30,12 +31,14 @@ const PLATFORM_PATH = "/translator/text/v3.0";
  * @param options type: ClientOptions, the parameter for all optional parameters
  */
 export default function createClient(
-  endpoint: string,
+  endpoint: undefined | string,
   credential: undefined | TranslatorCredential | AzureKeyCredential | TokenCredential = undefined,
   options: ClientOptions = {}
 ): TextTranslationClient {
   let serviceEndpoint: string;
-  if (endpoint.toLowerCase().indexOf(PLATFORM_HOST) != -1) {
+  if (!endpoint) {
+    serviceEndpoint = DEFAULT_ENPOINT;
+  } else if (endpoint.toLowerCase().indexOf(PLATFORM_HOST) != -1) {
     serviceEndpoint = `${endpoint}${PLATFORM_PATH}`;
   } else {
     serviceEndpoint = endpoint;
