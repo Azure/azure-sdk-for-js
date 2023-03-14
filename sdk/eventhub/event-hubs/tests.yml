@@ -15,6 +15,7 @@ stages:
           Location: 'usgovarizona'
         China:
           SubscriptionConfiguration: $(sub-config-cn-test-resources)
+          Location: 'chinaeast'
       EnvVars:
         AZURE_CLIENT_ID: $(EVENTHUB_CLIENT_ID)
         AZURE_CLIENT_SECRET: $(EVENTHUB_CLIENT_SECRET)
