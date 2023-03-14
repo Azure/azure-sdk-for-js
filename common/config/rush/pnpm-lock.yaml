@@ -96,6 +96,7 @@ specifiers:
   '@rush-temp/arm-features': file:./projects/arm-features.tgz
   '@rush-temp/arm-fluidrelay': file:./projects/arm-fluidrelay.tgz
   '@rush-temp/arm-frontdoor': file:./projects/arm-frontdoor.tgz
+  '@rush-temp/arm-graphservices': file:./projects/arm-graphservices.tgz
   '@rush-temp/arm-hanaonazure': file:./projects/arm-hanaonazure.tgz
   '@rush-temp/arm-hardwaresecuritymodules': file:./projects/arm-hardwaresecuritymodules.tgz
   '@rush-temp/arm-hdinsight': file:./projects/arm-hdinsight.tgz
@@ -429,6 +430,7 @@ dependencies:
   '@rush-temp/arm-features': file:projects/arm-features.tgz
   '@rush-temp/arm-fluidrelay': file:projects/arm-fluidrelay.tgz
   '@rush-temp/arm-frontdoor': file:projects/arm-frontdoor.tgz
+  '@rush-temp/arm-graphservices': file:projects/arm-graphservices.tgz
   '@rush-temp/arm-hanaonazure': file:projects/arm-hanaonazure.tgz
   '@rush-temp/arm-hardwaresecuritymodules': file:projects/arm-hardwaresecuritymodules.tgz
   '@rush-temp/arm-hdinsight': file:projects/arm-hdinsight.tgz
@@ -699,6 +701,19 @@ packages:
       nise: 4.1.0
       nock: 12.0.3
       tslib: 2.5.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /@azure-tools/test-recorder/2.0.0:
+    resolution: {integrity: sha512-OTic1OwOk25B8ecdMQ4wgyDaUNMMw0qzO4/0sy9ScPXWLmUFGMlkS0+BOQ2K9t8WCksM/wU+NjUZo/5T4zaG6A==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/core-auth': 1.4.0
+      '@azure/core-http': 2.3.1
+      '@azure/core-rest-pipeline': 1.10.2
+      '@azure/core-util': 1.2.0
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -12142,6 +12157,36 @@ packages:
       typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-graphservices.tgz:
+    resolution: {integrity: sha512-FGMQq6BOIpb01GiMS1PDpo/y17Bb9bxNSMVtLJRoORxpGlTgbpDWB+1o65n5kZ4P2Sda2DScSr+Oml3uXoC3kg==, tarball: file:projects/arm-graphservices.tgz}
+    name: '@rush-temp/arm-graphservices'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 2.0.0
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.4_@types+node@14.18.37
+      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.37
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_uvqxrz6xmh6o32kxhfeqlqrt5q
+      tslib: 2.5.0
+      typescript: 4.8.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - encoding
       - supports-color
     dev: false
 
