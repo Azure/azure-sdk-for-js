@@ -1,15 +1,15 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/czwTest/providers/Microsoft.DataFactory/factories/examplefactorytest/pipelines?api-version=2018-06-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/marytest/providers/Microsoft.DataFactory/factories/examplefactorytest/pipelines?api-version=2018-06-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-datafactory/11.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "319fdf40-cedd-485e-ad6b-688c0c1ca006"
+        "User-Agent": "azsdk-js-arm-datafactory/11.0.0 core-rest-pipeline/1.10.3 Node/v18.12.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "37f56ac5-b85c-4843-b2b4-9407d101e890"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 14 Mar 2023 08:57:54 GMT",
+        "Date": "Tue, 14 Mar 2023 10:35:52 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Kestrel",
@@ -25,41 +25,28 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "c77f2267-7ce3-4328-aba7-e133a43ffd08",
-        "x-ms-ratelimit-remaining-subscription-reads": "11913",
-        "x-ms-request-id": "c77f2267-7ce3-4328-aba7-e133a43ffd08",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230314T085754Z:c77f2267-7ce3-4328-aba7-e133a43ffd08"
+        "x-ms-correlation-request-id": "31d0589a-a80b-4820-87b8-29ae1b746d60",
+        "x-ms-ratelimit-remaining-subscription-reads": "11921",
+        "x-ms-request-id": "31d0589a-a80b-4820-87b8-29ae1b746d60",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230314T103553Z:31d0589a-a80b-4820-87b8-29ae1b746d60"
       },
       "ResponseBody": {
         "value": [
           {
-            "id": "/subscriptions/azure_subscription_id/resourceGroups/czwTest/providers/Microsoft.DataFactory/factories/examplefactorytest/pipelines/examplePipeline",
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/marytest/providers/Microsoft.DataFactory/factories/examplefactorytest/pipelines/examplePipeline",
             "name": "examplePipeline",
             "type": "Microsoft.DataFactory/factories/pipelines",
             "properties": {
               "description": "Example description",
               "activities": [
                 {
-                  "name": "ExampleForeachActivity",
-                  "type": "ForEach",
+                  "name": "ExampleCopyActivity1",
+                  "type": "ExecuteWranglingDataflow",
                   "typeProperties": {
-                    "isSequential": true,
-                    "items": {
-                      "type": "Expression",
-                      "value": "@pipeline().parameters.OutputBlobNameList"
-                    },
-                    "activities": [
-                      {
-                        "name": "ExampleCopyActivity1",
-                        "type": "ExecuteWranglingDataflow",
-                        "typeProperties": {
-                          "dataFlow": {
-                            "type": "DataFlowReference",
-                            "referenceName": "exampleDataFlow"
-                          }
-                        }
-                      }
-                    ]
+                    "dataFlow": {
+                      "type": "DataFlowReference",
+                      "referenceName": "exampleDataFlow"
+                    }
                   }
                 }
               ],
@@ -73,9 +60,9 @@
                   "duration": "0.00:10:00"
                 }
               },
-              "lastPublishTime": "2023-03-14T08:57:51Z"
+              "lastPublishTime": "2023-03-14T10:35:51Z"
             },
-            "etag": "2700bf3f-0000-0100-0000-6410370f0000"
+            "etag": "00003a53-0000-0100-0000-64104e070000"
           }
         ]
       }
