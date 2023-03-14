@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */ {
+ */{
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -326,6 +326,16 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/purview-sharing",
+      "projectFolder": "sdk/purview/purview-sharing-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/purview-workflow",
+      "projectFolder": "sdk/purview/purview-workflow-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/ai-document-translator",
       "projectFolder": "sdk/documenttranslator/ai-document-translator-rest",
       "versionPolicyName": "client"
@@ -421,8 +431,18 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-tools/communication-recipient-verification",
+      "projectFolder": "sdk/communication/communication-recipient-verification",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-tools/communication-alpha-ids",
       "projectFolder": "sdk/communication/communication-alpha-ids",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-tools/communication-toll-free-verification",
+      "projectFolder": "sdk/communication/communication-toll-free-verification",
       "versionPolicyName": "client"
     },
     {
@@ -751,11 +771,6 @@
     {
       "packageName": "@azure/digital-twins-core",
       "projectFolder": "sdk/digitaltwins/digital-twins-core",
-      "versionPolicyName": "client"
-    },
-    {
-      "packageName": "@azure/video-analyzer-edge",
-      "projectFolder": "sdk/videoanalyzer/video-analyzer-edge",
       "versionPolicyName": "client"
     },
     {
@@ -1922,6 +1937,16 @@
       "packageName": "@azure/arm-storagemover",
       "projectFolder": "sdk/storagemover/arm-storagemover",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-voiceservices",
+      "projectFolder": "sdk/voiceservices/arm-voiceservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/web-pubsub-client-protobuf",
+      "projectFolder": "sdk/web-pubsub/web-pubsub-client-protobuf",
+      "versionPolicyName": "client"
     }
   ]
 }

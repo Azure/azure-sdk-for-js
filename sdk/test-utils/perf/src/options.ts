@@ -3,6 +3,7 @@
 
 import { default as minimist, ParsedArgs as MinimistParsedArgs } from "minimist";
 import { isDefined } from "@azure/core-util";
+import { getFormattedDate } from "./utils/utils";
 
 /**
  * The structure of a Perf option. They represent command line parameters.
@@ -79,6 +80,8 @@ export interface DefaultPerfOptions {
   "list-transitive-dependencies": boolean;
   cpus: number;
   "use-worker-threads": boolean;
+  profile: boolean;
+  "profile-path": string;
 }
 
 /**
@@ -143,7 +146,45 @@ export const defaultPerfOptions: PerfOptionDictionary<DefaultPerfOptions> = {
       "Set to true to use the Node worker_thread API when running tests across multiple CPUs. Set to false to use child_process (default).",
     defaultValue: false,
   },
+  profile: {
+    description:
+      "Set to true to profile the perf test. When set to true, `cpus` will be overriden to 1.",
+    defaultValue: false,
+  },
+  "profile-path": {
+    description: "Used as the artifact path",
+    defaultValue: `./profile/${getFormattedDate()}-perfProgram.cpuprofile`,
+    // If none provided, profiles get generated at the "/sdk/<service>/perf-tests/<package>/profile/"
+  },
 };
+
+/**
+ * Overrides the "cpus" option to 1, when "profile" is set to true by the user.
+ *
+ * Warns the user when profile is true, and cpus is set to something other than 1.
+ */
+function maybeOverrideCPUsOption<TOptions>(
+  minimistResult: MinimistParsedArgs,
+  result: Partial<PerfOptionDictionary<TOptions>>
+) {
+  if (!isDefined(minimistResult["profile"]) || !minimistResult["profile"]) {
+    return;
+  }
+
+  if (isDefined(minimistResult["cpus"]) && minimistResult["cpus"] !== 1) {
+    throw new Error(
+      `Unexpected value for "cpus" provided, you can only set "cpus = 1" when "profile" is set to true. 
+      Please re-run the test command without the "cpus" option.`
+    );
+  }
+
+  result["cpus" as keyof TOptions] = {
+    ...result["cpus" as keyof TOptions],
+    value: 1,
+    // Overriding to 1 core
+    // since there is no point in observing profiling artifacts of all the cores that do the same thing
+  };
+}
 
 /**
  * Parses the given options by extracting their values through `minimist`, or setting the default value defined in each option.
@@ -183,11 +224,24 @@ export function parsePerfOption<TOptions>(
       throw new Error(`Option ${longName} is required`);
     }
 
-    result[optionName as keyof TOptions] = {
-      ...option,
-      longName,
-      value,
-    };
+    if (
+      ["profile", "cpus"].includes(optionName) &&
+      !isDefined(result["profile" as keyof TOptions]) &&
+      !isDefined(result["cpus" as keyof TOptions])
+    ) {
+      result[optionName as keyof TOptions] = {
+        ...option,
+        longName,
+        value,
+      };
+      maybeOverrideCPUsOption(minimistResult, result);
+    } else {
+      result[optionName as keyof TOptions] = {
+        ...option,
+        longName,
+        value,
+      };
+    }
   }
 
   return result as ParsedPerfOptions<TOptions>;
@@ -230,8 +284,9 @@ function getBooleanOptionDetails<TOptions>(options: PerfOptionDictionary<TOption
   for (const key in options) {
     const defaultValue = options[key].defaultValue;
     if (typeof defaultValue === "boolean") {
-      booleanProps.boolean.push(key);
-      booleanProps.default[key] = defaultValue;
+      const optionName = options[key].longName ?? options[key].shortName ?? key;
+      booleanProps.boolean.push(optionName);
+      booleanProps.default[optionName] = defaultValue;
     }
   }
   return booleanProps;

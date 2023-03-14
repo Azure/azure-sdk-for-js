@@ -168,3 +168,8 @@ code-model-*
 # code workspaces
 *.code-workspace
 !/dataplane.code-workspace
+
+# CPU profiles
+*.cpuprofile
+# cadl sparse checkout
+TempCadlFiles/

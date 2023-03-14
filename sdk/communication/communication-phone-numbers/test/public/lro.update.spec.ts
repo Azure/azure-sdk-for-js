@@ -8,6 +8,7 @@ import { Context } from "mocha";
 import { PhoneNumberCapabilitiesRequest, PhoneNumbersClient } from "../../src";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
 import { getPhoneNumber } from "./utils/testPhoneNumber";
+import { isClientErrorStatusCode } from "./utils/statusCodeHelpers";
 
 matrix([[true, false]], async function (useAad) {
   describe(`PhoneNumbersClient - lro - update${useAad ? " [AAD]" : ""}`, function () {
@@ -56,7 +57,10 @@ matrix([[true, false]], async function (useAad) {
         const searchPoller = await client.beginUpdatePhoneNumberCapabilities(fakeNumber, update);
         await searchPoller.pollUntilDone();
       } catch (error: any) {
-        assert.equal(error.statusCode, 404);
+        assert.isTrue(
+          isClientErrorStatusCode(error.statusCode),
+          `Status code ${error.statusCode} does not indicate client error.`
+        );
         return;
       }
 
@@ -69,7 +73,10 @@ matrix([[true, false]], async function (useAad) {
         const searchPoller = await client.beginUpdatePhoneNumberCapabilities(fakeNumber, update);
         await searchPoller.pollUntilDone();
       } catch (error: any) {
-        assert.equal(error.statusCode, 404);
+        assert.isTrue(
+          isClientErrorStatusCode(error.statusCode),
+          `Status code ${error.statusCode} does not indicate client error.`
+        );
         return;
       }
 

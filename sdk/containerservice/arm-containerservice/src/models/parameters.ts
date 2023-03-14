@@ -56,7 +56,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-11-02-preview",
+    defaultValue: "2023-01-02-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -337,11 +337,6 @@ export const trustedAccessRoleBinding: OperationParameter = {
   mapper: TrustedAccessRoleBindingMapper
 };
 
-export const parameters10: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: FleetMapper
-};
-
 export const apiVersion1: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
@@ -370,6 +365,11 @@ export const fleetName: OperationURLParameter = {
   }
 };
 
+export const parameters10: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: FleetMapper
+};
+
 export const ifMatch: OperationParameter = {
   parameterPath: ["options", "ifMatch"],
   mapper: {
@@ -395,11 +395,6 @@ export const parameters11: OperationParameter = {
   mapper: FleetPatchMapper
 };
 
-export const parameters12: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: FleetMemberMapper
-};
-
 export const fleetMemberName: OperationURLParameter = {
   parameterPath: "fleetMemberName",
   mapper: {
@@ -414,4 +409,9 @@ export const fleetMemberName: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const parameters12: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: FleetMemberMapper
 };

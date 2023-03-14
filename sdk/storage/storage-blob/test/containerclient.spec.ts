@@ -37,7 +37,15 @@ describe("ContainerClient", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    await recorder.addSanitizers(
+      {
+        uriSanitizers,
+        removeHeaderSanitizer: {
+          headersForRemoval: ["x-ms-encryption-key"],
+        },
+      },
+      ["playback", "record"]
+    );
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);

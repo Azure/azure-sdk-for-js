@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { Monitor, WorkloadsClient } from "@azure/arm-workloads";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates a SAP monitor for the specified subscription, resource group, and resource name.
  *
  * @summary Creates a SAP monitor for the specified subscription, resource group, and resource name.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/monitors_Create.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/monitors_Create.json
  */
 async function createASapMonitor() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "mySapMonitor";
   const monitorParameter: Monitor = {
     appLocation: "westus",
@@ -42,4 +48,8 @@ async function createASapMonitor() {
   console.log(result);
 }
 
-createASapMonitor().catch(console.error);
+async function main() {
+  createASapMonitor();
+}
+
+main().catch(console.error);

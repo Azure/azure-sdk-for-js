@@ -12,8 +12,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureMediaServices } from "../azureMediaServices";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   AssetTrack,
   TracksListOptionalParams,
@@ -174,8 +178,8 @@ export class TracksImpl implements Tracks {
     parameters: AssetTrack,
     options?: TracksCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TracksCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<TracksCreateOrUpdateResponse>,
       TracksCreateOrUpdateResponse
     >
   > {
@@ -185,7 +189,7 @@ export class TracksImpl implements Tracks {
     ): Promise<TracksCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -218,9 +222,9 @@ export class TracksImpl implements Tracks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         accountName,
         assetName,
@@ -228,10 +232,13 @@ export class TracksImpl implements Tracks {
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      TracksCreateOrUpdateResponse,
+      OperationState<TracksCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -281,7 +288,7 @@ export class TracksImpl implements Tracks {
     trackName: string,
     options?: TracksDeleteOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<TracksDeleteResponse>, TracksDeleteResponse>
+    SimplePollerLike<OperationState<TracksDeleteResponse>, TracksDeleteResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -289,7 +296,7 @@ export class TracksImpl implements Tracks {
     ): Promise<TracksDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -322,13 +329,16 @@ export class TracksImpl implements Tracks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, assetName, trackName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, assetName, trackName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      TracksDeleteResponse,
+      OperationState<TracksDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -377,7 +387,7 @@ export class TracksImpl implements Tracks {
     parameters: AssetTrack,
     options?: TracksUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<TracksUpdateResponse>, TracksUpdateResponse>
+    SimplePollerLike<OperationState<TracksUpdateResponse>, TracksUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -385,7 +395,7 @@ export class TracksImpl implements Tracks {
     ): Promise<TracksUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -418,9 +428,9 @@ export class TracksImpl implements Tracks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         accountName,
         assetName,
@@ -428,10 +438,13 @@ export class TracksImpl implements Tracks {
         parameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      TracksUpdateResponse,
+      OperationState<TracksUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -485,8 +498,8 @@ export class TracksImpl implements Tracks {
     trackName: string,
     options?: TracksUpdateTrackDataOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TracksUpdateTrackDataResponse>,
+    SimplePollerLike<
+      OperationState<TracksUpdateTrackDataResponse>,
       TracksUpdateTrackDataResponse
     >
   > {
@@ -496,7 +509,7 @@ export class TracksImpl implements Tracks {
     ): Promise<TracksUpdateTrackDataResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -529,13 +542,16 @@ export class TracksImpl implements Tracks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, assetName, trackName, options },
-      updateTrackDataOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, assetName, trackName, options },
+      spec: updateTrackDataOperationSpec
+    });
+    const poller = await createHttpPoller<
+      TracksUpdateTrackDataResponse,
+      OperationState<TracksUpdateTrackDataResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

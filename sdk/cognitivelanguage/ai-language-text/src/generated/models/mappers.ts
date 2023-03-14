@@ -169,12 +169,6 @@ export const AnalyzeTextJobsInput: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      defaultLanguage: {
-        serializedName: "defaultLanguage",
-        type: {
-          name: "String"
-        }
-      },
       analysisInput: {
         serializedName: "analysisInput",
         type: {
@@ -1527,7 +1521,7 @@ export const AbstractiveSummarizationTaskParametersBase: coreClient.CompositeMap
     name: "Composite",
     className: "AbstractiveSummarizationTaskParametersBase",
     modelProperties: {
-      maxSentenceCount: {
+      sentenceCount: {
         serializedName: "sentenceCount",
         type: {
           name: "Number"
@@ -1580,6 +1574,7 @@ export const AbstractiveSummary: coreClient.CompositeMapper = {
       },
       contexts: {
         serializedName: "contexts",
+        required: true,
         type: {
           name: "Sequence",
           element: {

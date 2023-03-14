@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { WorkloadsClient } = require("@azure/arm-workloads");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
- * This sample demonstrates how to Puts the SAP Application Server Instance.
+ * This sample demonstrates how to Puts the SAP Application Server Instance resource.
  *
- * @summary Puts the SAP Application Server Instance.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPApplicationServerInstances_Update.json
+ * @summary Puts the SAP Application Server Instance resource.
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPApplicationServerInstances_Update.json
  */
 async function sapApplicationServerInstancesUpdate() {
-  const subscriptionId = "6d875e77-e412-4d7d-9af4-8895278b4443";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] || "6d875e77-e412-4d7d-9af4-8895278b4443";
+  const resourceGroupName = process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
   const sapVirtualInstanceName = "X00";
   const applicationInstanceName = "app01";
   const body = {
@@ -37,4 +39,8 @@ async function sapApplicationServerInstancesUpdate() {
   console.log(result);
 }
 
-sapApplicationServerInstancesUpdate().catch(console.error);
+async function main() {
+  sapApplicationServerInstancesUpdate();
+}
+
+main().catch(console.error);

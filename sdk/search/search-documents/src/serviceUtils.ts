@@ -79,7 +79,7 @@ import {
   TokenFilter,
   isComplexField,
 } from "./serviceModels";
-import { SearchResult, SuggestDocumentsResult, SuggestResult } from "./indexModels";
+import { SearchResult, SelectFields, SuggestDocumentsResult, SuggestResult } from "./indexModels";
 import {
   SearchResult as GeneratedSearchResult,
   SuggestDocumentsResult as GeneratedSuggestDocumentsResult,
@@ -460,30 +460,34 @@ export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex
   };
 }
 
-export function generatedSearchResultToPublicSearchResult<T>(
-  results: GeneratedSearchResult[]
-): SearchResult<T>[] {
-  const returnValues: SearchResult<T>[] = results.map<SearchResult<T>>((result) => {
-    const { _score, _highlights, rerankerScore, captions, ...restProps } = result;
-    const doc: { [key: string]: any } = {
-      ...restProps,
-    };
-    const obj = {
-      score: _score,
-      highlights: _highlights,
-      rerankerScore,
-      captions,
-      document: doc,
-    };
-    return obj as SearchResult<T>;
-  });
+export function generatedSearchResultToPublicSearchResult<
+  Model extends object,
+  Fields extends SelectFields<Model>
+>(results: GeneratedSearchResult[]): SearchResult<Model, Fields>[] {
+  const returnValues: SearchResult<Model, Fields>[] = results.map<SearchResult<Model, Fields>>(
+    (result) => {
+      const { _score, _highlights, rerankerScore, captions, ...restProps } = result;
+      const doc: { [key: string]: any } = {
+        ...restProps,
+      };
+      const obj = {
+        score: _score,
+        highlights: _highlights,
+        rerankerScore,
+        captions,
+        document: doc,
+      };
+      return obj as SearchResult<Model, Fields>;
+    }
+  );
   return returnValues;
 }
 
-export function generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<T>(
-  searchDocumentsResult: GeneratedSuggestDocumentsResult
-): SuggestDocumentsResult<T> {
-  const results = searchDocumentsResult.results.map<SuggestResult<T>>((element) => {
+export function generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<
+  Model extends object,
+  Fields extends SelectFields<Model>
+>(searchDocumentsResult: GeneratedSuggestDocumentsResult): SuggestDocumentsResult<Model, Fields> {
+  const results = searchDocumentsResult.results.map<SuggestResult<Model, Fields>>((element) => {
     const { _text, ...restProps } = element;
 
     const doc: { [key: string]: any } = {
@@ -495,10 +499,10 @@ export function generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<T>
       document: doc,
     };
 
-    return obj as SuggestResult<T>;
+    return obj as SuggestResult<Model, Fields>;
   });
 
-  const result: SuggestDocumentsResult<T> = {
+  const result: SuggestDocumentsResult<Model, Fields> = {
     results: results,
     coverage: searchDocumentsResult.coverage,
   };

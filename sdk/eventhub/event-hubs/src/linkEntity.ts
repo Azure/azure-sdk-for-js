@@ -11,29 +11,6 @@ import { logger } from "./log";
 import { v4 as uuid } from "uuid";
 
 /**
- * @internal
- */
-export interface LinkEntityOptions {
-  /**
-   * The unique name for the entity. If not provided then a guid will be
-   * assigned.
-   */
-  name?: string;
-  /**
-   * The partitionId associated with the link entity.
-   */
-  partitionId?: string;
-  /**
-   * The link entity address in one of the following forms:
-   */
-  address?: string;
-  /**
-   * The link entity token audience in one of the following forms:
-   */
-  audience?: string;
-}
-
-/**
  * Describes the base class for entities like EventHub Sender, Receiver and Management link.
  * @internal
  */
@@ -55,7 +32,7 @@ export class LinkEntity {
    * **ManagementClient**
    * -`"$management"`.
    */
-  address: string;
+  readonly address: string;
   /**
    * The link entity token audience in one of the following forms:
    *
@@ -69,21 +46,12 @@ export class LinkEntity {
    * **ManagementClient**
    * - `"sb://<your-namespace>.servicebus.windows.net/<event-hub-name>/$management"`.
    */
-  audience: string;
-  /**
-   * The partitionId associated with the link entity.
-   */
-  partitionId?: string;
-  /**
-   * Indicates whether the link is in the process of connecting
-   * (establishing) itself. Default value: `false`.
-   */
-  isConnecting: boolean = false;
+  readonly audience: string;
   /**
    * Provides relevant information about the amqp connection,
    * cbs and $management sessions, token provider, sender and receivers.
    */
-  protected _context: ConnectionContext;
+  protected readonly _context: ConnectionContext;
   /**
    * The token renewal timer that keeps track of when
    * the Link Entity is due for token renewal.
@@ -92,32 +60,31 @@ export class LinkEntity {
   /**
    * Indicates token timeout in milliseconds
    */
-  protected _tokenTimeoutInMs?: number;
+  private _tokenTimeoutInMs?: number;
   /**
    * Creates a new LinkEntity instance.
    * @param context - The connection context.
-   * @param options - Options that can be provided while creating the LinkEntity.
+   * @param name - The unique name for the entity. If not provided then a guid will be assigned.
+   * @param address - The address
+   * @param audience - The token audience
    */
-  constructor(context: ConnectionContext, options?: LinkEntityOptions) {
-    if (!options) options = {};
+  constructor(context: ConnectionContext, name: string, address: string, audience: string) {
     this._context = context;
-    this.address = options.address || "";
-    this.audience = options.audience || "";
-    this.name = `${options.name}-${uuid()}`;
-    this.partitionId = options.partitionId;
+    this.address = address;
+    this.audience = audience;
+    this.name = `${name}-${uuid()}`;
   }
 
   /**
    * Negotiates cbs claim for the LinkEntity.
-   * @returns Promise<void>
    */
   protected async _negotiateClaim({
     abortSignal,
     setTokenRenewal,
     timeoutInMs,
   }: {
-    setTokenRenewal: boolean | undefined;
-    abortSignal: AbortSignalLike | undefined;
+    setTokenRenewal?: boolean;
+    abortSignal?: AbortSignalLike;
     timeoutInMs: number;
   }): Promise<void> {
     // Acquire the lock and establish a cbs session if it does not exist on the connection.
@@ -137,12 +104,11 @@ export class LinkEntity {
     if (!this._context.cbsSession.isOpen()) {
       await defaultCancellableLock.acquire(
         this._context.cbsSession.cbsLock,
-        () => {
-          return this._context.cbsSession.init({
+        () =>
+          this._context.cbsSession.init({
             abortSignal,
             timeoutInMs: timeoutInMs - (Date.now() - startTime),
-          });
-        },
+          }),
         {
           abortSignal,
           timeoutInMs,
@@ -155,7 +121,7 @@ export class LinkEntity {
       tokenObject = this._context.tokenCredential.getToken(this.audience);
       tokenType = TokenType.CbsTokenTypeSas;
 
-      // renew sas token in every 45 minutess
+      // renew the token every 45 minutes
       this._tokenTimeoutInMs = (3600 - 900) * 1000;
     } else {
       const aadToken = await this._context.tokenCredential.getToken(Constants.aadEventHubsScope);
@@ -184,14 +150,11 @@ export class LinkEntity {
     );
     await defaultCancellableLock.acquire(
       this._context.negotiateClaimLock,
-      () => {
-        return this._context.cbsSession.negotiateClaim(
-          this.audience,
-          tokenObject.token,
-          tokenType,
-          { abortSignal, timeoutInMs: timeoutInMs - (Date.now() - startTime) }
-        );
-      },
+      () =>
+        this._context.cbsSession.negotiateClaim(this.audience, tokenObject.token, tokenType, {
+          abortSignal,
+          timeoutInMs: timeoutInMs - (Date.now() - startTime),
+        }),
       {
         abortSignal,
         timeoutInMs: timeoutInMs - (Date.now() - startTime),
@@ -205,7 +168,7 @@ export class LinkEntity {
       this.address
     );
     if (setTokenRenewal) {
-      await this._ensureTokenRenewal();
+      this._ensureTokenRenewal();
     }
   }
 
@@ -222,24 +185,23 @@ export class LinkEntity {
     if (this._tokenRenewalTimer) {
       clearTimeout(this._tokenRenewalTimer);
     }
-    this._tokenRenewalTimer = setTimeout(async () => {
-      try {
-        await this._negotiateClaim({
+    this._tokenRenewalTimer = setTimeout(
+      () =>
+        this._negotiateClaim({
           setTokenRenewal: true,
-          abortSignal: undefined,
-          timeoutInMs: getRetryAttemptTimeoutInMs(undefined),
-        });
-      } catch (err: any) {
-        logger.verbose(
-          "[%s] %s '%s' with address %s, an error occurred while renewing the token: %O",
-          this._context.connectionId,
-          this._type,
-          this.name,
-          this.address,
-          err
-        );
-      }
-    }, this._tokenTimeoutInMs);
+          timeoutInMs: getRetryAttemptTimeoutInMs(),
+        }).catch((err) =>
+          logger.verbose(
+            "[%s] %s '%s' with address %s, an error occurred while renewing the token: %O",
+            this._context.connectionId,
+            this._type,
+            this.name,
+            this.address,
+            err
+          )
+        ),
+      this._tokenTimeoutInMs
+    );
     logger.verbose(
       "[%s] %s '%s' with address %s, has next token renewal in %d milliseconds @(%s).",
       this._context.connectionId,
@@ -258,7 +220,7 @@ export class LinkEntity {
    * removed.
    */
   protected async _closeLink(link?: AwaitableSender | Receiver): Promise<void> {
-    clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
+    clearTimeout(this._tokenRenewalTimer);
     if (link) {
       try {
         // Closing the link and its underlying session if the link is open. This should also
@@ -271,7 +233,7 @@ export class LinkEntity {
           this.name,
           this.address
         );
-      } catch (err: any) {
+      } catch (err) {
         logger.verbose(
           "[%s] An error occurred while closing the %s '%s' with address '%s': %O",
           this._context.connectionId,
@@ -289,10 +251,6 @@ export class LinkEntity {
    * @returns The entity type.
    */
   private get _type(): string {
-    let result = "LinkEntity";
-    if ((this as any).constructor && (this as any).constructor.name) {
-      result = (this as any).constructor.name;
-    }
-    return result;
+    return this.constructor.name ?? "LinkEntity";
   }
 }

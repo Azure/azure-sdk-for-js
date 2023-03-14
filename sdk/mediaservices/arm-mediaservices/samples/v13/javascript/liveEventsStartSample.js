@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to A live event in Stopped or StandBy state will be in Running state after the start operation completes.
  *
  * @summary A live event in Stopped or StandBy state will be in Running state after the start operation completes.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-08-01/examples/liveevent-start.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-11-01/examples/liveevent-start.json
  */
 async function startALiveEvent() {
   const subscriptionId =
