@@ -1,5 +1,9 @@
 # Release History
 
+## 1.0.0 (03-15-2023)
+
+- Initial GA Release
+
 ## 1.0.0-beta.9 (Unreleased)
 
 ### Features Added
