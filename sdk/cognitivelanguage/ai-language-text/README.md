@@ -15,7 +15,6 @@
 - Abstractive Summarization
 - Custom Entity Recognition
 - Custom Document Classification
-- Dynamic Classification
 - Support Multiple Actions Per Document
 
 Use the client library to:
@@ -39,8 +38,9 @@ Key links:
 Please see the [Migration Guide](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/MIGRATION_ai_text_analytics.md) for detailed instructions on how to update application code from version 5.x of the AI Text Analytics client library to the new AI Language Text client library.
 
 ## What's New
-* [Abstractive Summarization](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#abstractive-summarization)
-* [Dynamic Classification](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#dynamic-classification)
+
+* [Abstractive Summarization](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#abstractive-summarization):
+To get started, submit a request for access [here](https://aka.ms/applyforgatedsummarizationfeatures).
 * [Script Detection](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#language-detection)
 * [Automatic Language Detection](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#automatic-language-detection)
 * [Entity Resolutions](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#entity-resolutions)
@@ -199,7 +199,6 @@ if (result.error !== undefined) {
 
 ### Prebuilt Tasks
 * [Abstractive Summarization](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/abstractiveSummarization.ts)
-* [Dynamic Classification](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/dynamicClassification.ts)
 * [Language Detection](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#language-detection)
 * [Entity Linking](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/entityLinking.ts)
 * [Entity Regconition](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples-dev/entityRecognition.ts)

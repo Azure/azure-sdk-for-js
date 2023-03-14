@@ -15,7 +15,6 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 
 | **File Name**                                                         | **Description**                                                                     |
 | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| [dynamicClassification.ts][dynamicclassification]                     | assigns either one or multiple categories per document.                             |
 | [entityLinking.ts][entitylinking]                                     | detects entities that have links to more information on the web                     |
 | [entityRecognition.ts][entityrecognition]                             | detects entities in a piece of text                                                 |
 | [entityResolutions.ts][entityresolutions]                             | detects entities in a piece of text                                                 |
@@ -77,20 +76,19 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/dynamicClassification.js
+node dist/entityLinking.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<endpoint>" LANGUAGE_API_KEY="<language api key>" node dist/dynamicClassification.js
+npx cross-env ENDPOINT="<endpoint>" LANGUAGE_API_KEY="<language api key>" node dist/entityLinking.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[dynamicclassification]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/dynamicClassification.ts
 [entitylinking]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/entityLinking.ts
 [entityrecognition]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/entityRecognition.ts
 [entityresolutions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/entityResolutions.ts

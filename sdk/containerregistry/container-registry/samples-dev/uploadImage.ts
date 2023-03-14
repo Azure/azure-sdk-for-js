@@ -6,11 +6,7 @@
  * @azsdk-weight 3
  */
 
-import {
-  ContainerRegistryBlobClient,
-  KnownContainerRegistryAudience,
-  OciImageManifest,
-} from "@azure/container-registry";
+import { ContainerRegistryBlobClient, OciImageManifest } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 import { Readable } from "stream";
@@ -24,10 +20,7 @@ async function main() {
   const client = new ContainerRegistryBlobClient(
     endpoint,
     repository,
-    new DefaultAzureCredential(),
-    {
-      audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
-    }
+    new DefaultAzureCredential()
   );
 
   const config = Buffer.from("Sample config");
@@ -40,13 +33,13 @@ async function main() {
     schemaVersion: 2,
     config: {
       digest: uploadConfigResult.digest,
-      size: config.byteLength,
+      sizeInBytes: config.byteLength,
       mediaType: "application/vnd.oci.image.config.v1+json",
     },
     layers: [
       {
         digest: uploadLayerResult.digest,
-        size: layer.byteLength,
+        sizeInBytes: layer.byteLength,
         mediaType: "application/vnd.oci.image.layer.v1.tar",
       },
     ],
