@@ -8,9 +8,14 @@ import { OperationOptions } from "@azure/core-client";
  */
 export interface UploadManifestOptions extends OperationOptions {
   /**
+   * Media type of the uploaded manifest
+   */
+  mediaType?: string;
+
+  /**
    * Tag to give the uploaded manifest
    */
-  tag: string;
+  tag?: string;
 }
 
 /**
@@ -21,6 +26,11 @@ export interface UploadBlobResult {
    * The digest of the uploaded blob.
    */
   digest: string;
+
+  /**
+   * The size of the uploaded blob in bytes.
+   */
+  sizeInBytes: number;
 }
 
 /**
@@ -33,14 +43,29 @@ export interface DownloadManifestResult {
   digest: string;
 
   /**
-   * The OCI manifest that was downloaded.
+   * Media type of the downloaded manifest as indicated by the Content-Type response header.
    */
-  manifest: OciImageManifest;
+  mediaType: string;
 
   /**
    * The manifest stream that was downloaded.
    */
-  manifestStream: NodeJS.ReadableStream;
+  content: NodeJS.ReadableStream;
+}
+
+/**
+ * The result from downloading an OCI manifest (a manifest of type {@link KnownManifestMediaType.OciManifest}) from the registry.
+ */
+export interface DownloadOciImageManifestResult extends DownloadManifestResult {
+  /**
+   * The media type of the downloaded manifest as indicated by the Content-Type response header is an OCI manifest.
+   */
+  mediaType: KnownManifestMediaType.OciManifest;
+
+  /**
+   * The OCI manifest that was downloaded. If the requested media type was not KnownMediaType.OciManifest, this will be left undefined.
+   */
+  manifest: OciImageManifest;
 }
 
 /**
@@ -69,11 +94,11 @@ export interface UploadManifestResult {
 }
 
 /** Docker V2 image layer descriptor including config and layers. */
-export interface OciBlobDescriptor {
+export interface OciDescriptor {
   /** Layer media type */
   mediaType: string;
   /** Layer size */
-  size: number;
+  sizeInBytes: number;
   /** Layer digest */
   digest: string;
   /** Specifies a list of URIs from which this object may be downloaded. */
@@ -87,9 +112,9 @@ export interface OciImageManifest {
   /** Schema version */
   schemaVersion: number;
   /** V2 image config descriptor */
-  config?: OciBlobDescriptor;
+  config: OciDescriptor;
   /** List of V2 image layer information */
-  layers?: OciBlobDescriptor[];
+  layers: OciDescriptor[];
   /** Additional information provided through arbitrary metadata. */
   annotations?: OciAnnotations;
 }
@@ -147,4 +172,25 @@ export interface DownloadBlobOptions extends OperationOptions {}
 /**
  * Options for confguring the download manifest operation.
  */
-export interface DownloadManifestOptions extends OperationOptions {}
+export interface DownloadManifestOptions extends OperationOptions {
+  /**
+   * Media type of the manifest to download. Refer to {@link KnownManifestMediaType} for known media types.
+   * Defaults to {@link KnownManifestMediaType.OciManifest}.
+   */
+  mediaType?: string | string[];
+}
+
+/**
+ * Known media type values for Docker and OCI manifests.
+ */
+export enum KnownManifestMediaType {
+  /**
+   * The media type for an OCI image manifest. This format is described at https://github.com/opencontainers/image-spec/blob/main/manifest.md.
+   */
+  OciManifest = "application/vnd.oci.image.manifest.v1+json",
+
+  /**
+   * The media type for a Docker Image Manifest, Version 2, Schema 2. This format is described at https://docs.docker.com/registry/spec/manifest-v2-2/.
+   */
+  DockerManifest = "application/vnd.docker.distribution.manifest.v2+json",
+}

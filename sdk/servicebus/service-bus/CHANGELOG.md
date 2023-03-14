@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fix an issue of over-adding credits when receiving messages in a batch [PR #25185](https://github.com/Azure/azure-sdk-for-js/pull/25185)
+
 ### Other Changes
 
 - upgrade dependency `rhea-promise` version to `^3.0.0`.
