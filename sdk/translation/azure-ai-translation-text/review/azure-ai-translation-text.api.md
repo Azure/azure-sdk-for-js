@@ -45,7 +45,7 @@ export interface CommonScriptModelOutput {
 }
 
 // @public
-function createClient(endpoint: string, credential?: undefined | TranslatorCredential | AzureKeyCredential | TokenCredential, options?: ClientOptions): TextTranslationClient;
+function createClient(endpoint: undefined | string, credential?: undefined | TranslatorCredential | AzureKeyCredential | TokenCredential, options?: ClientOptions): TextTranslationClient;
 export default createClient;
 
 // @public
