@@ -14,22 +14,22 @@ import {
 } from "./models";
 
 /** Options to configure the recognize operation. */
-export interface CallMediaRecognizeOptions {
+export interface CallMediaRecognizeOptions extends OperationOptions {
   recognizeInputType: RecognizeInputType;
-  playPrompt: FileSource;
-  interruptCallMediaOperation: boolean;
-  stopCurrentOperations: boolean;
-  operationContext: string;
-  interruptPrompt: boolean;
-  initialSilenceTimeoutInSeconds: number;
+  playPrompt?: FileSource;
+  interruptCallMediaOperation?: boolean;
+  stopCurrentOperations?: boolean;
+  operationContext?: string;
+  interruptPrompt?: boolean;
+  initialSilenceTimeoutInSeconds?: number;
   targetParticipant: CommunicationIdentifier;
 }
 
 /** The recognize configuration specific to Dtmf. */
 export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions {
-  interToneTimeoutInSeconds: number;
+  interToneTimeoutInSeconds?: number;
   maxTonesToCollect: number;
-  stopDtmfTones: DtmfTone[];
+  stopDtmfTones?: DtmfTone[];
   readonly kind?: "callMediaRecognizeDtmfOptions";
 }
 

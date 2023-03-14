@@ -167,31 +167,31 @@ export class CallMedia {
 // @public
 export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions {
     // (undocumented)
-    interToneTimeoutInSeconds: number;
+    interToneTimeoutInSeconds?: number;
     // (undocumented)
     readonly kind?: "callMediaRecognizeDtmfOptions";
     // (undocumented)
     maxTonesToCollect: number;
     // (undocumented)
-    stopDtmfTones: DtmfTone[];
+    stopDtmfTones?: DtmfTone[];
 }
 
 // @public
-export interface CallMediaRecognizeOptions {
+export interface CallMediaRecognizeOptions extends OperationOptions {
     // (undocumented)
-    initialSilenceTimeoutInSeconds: number;
+    initialSilenceTimeoutInSeconds?: number;
     // (undocumented)
-    interruptCallMediaOperation: boolean;
+    interruptCallMediaOperation?: boolean;
     // (undocumented)
-    interruptPrompt: boolean;
+    interruptPrompt?: boolean;
     // (undocumented)
-    operationContext: string;
+    operationContext?: string;
     // (undocumented)
-    playPrompt: FileSource;
+    playPrompt?: FileSource;
     // (undocumented)
     recognizeInputType: RecognizeInputType;
     // (undocumented)
-    stopCurrentOperations: boolean;
+    stopCurrentOperations?: boolean;
     // (undocumented)
     targetParticipant: CommunicationIdentifier;
 }
