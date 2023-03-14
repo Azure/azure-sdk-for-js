@@ -50,7 +50,7 @@ export class CallMedia {
   }
 
   /**
-   * Play
+   * Play audio to a specific participant.
    *
    * @param playSource - A PlaySource representing the source to play.
    * @param playTo - The targets to play to.
@@ -69,7 +69,7 @@ export class CallMedia {
   }
 
   /**
-   * Play to all participants
+   * Play to all participants.
    *
    * @param playSource - A PlaySource representing the source to play.
    * @param playOptions - Additional attributes for play.
@@ -116,7 +116,7 @@ export class CallMedia {
   }
 
   /**
-   *  Recognize operation.
+   *  Recognize participant input.
    *  @param recognizeOptions - Different attributes for recognize.
    * */
   public async startRecognizing(recognizeOptions: CallMediaRecognizeDtmfOptions): Promise<void> {
