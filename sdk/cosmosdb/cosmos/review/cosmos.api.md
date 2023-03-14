@@ -115,12 +115,13 @@ export class ClientContext {
         partitionKey?: PartitionKey;
     }): Promise<Response_2<T & U & Resource>>;
     // (undocumented)
-    delete<T>({ path, resourceType, resourceId, options, partitionKey, }: {
+    delete<T>({ path, resourceType, resourceId, options, partitionKey, method, }: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
         options?: RequestOptions;
         partitionKey?: PartitionKey;
+        method?: HTTPMethod;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
     execute<T>({ sprocLink, params, options, partitionKey, }: {
@@ -460,6 +461,7 @@ export class Container {
     // (undocumented)
     readonly database: Database;
     delete(options?: RequestOptions): Promise<ContainerResponse>;
+    deleteAllItemsForPartitionKey(partitionKey: PartitionKey, options?: RequestOptions): Promise<ContainerResponse>;
     // @deprecated
     getPartitionKeyDefinition(): Promise<ResourceResponse<PartitionKeyDefinition>>;
     // (undocumented)
@@ -1533,6 +1535,8 @@ export enum ResourceType {
     none = "",
     // (undocumented)
     offer = "offers",
+    // (undocumented)
+    partitionkey = "partitionKey",
     // (undocumented)
     permission = "permissions",
     // (undocumented)

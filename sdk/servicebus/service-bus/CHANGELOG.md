@@ -1,6 +1,6 @@
 # Release History
 
-## 7.8.1 (Unreleased)
+## 7.9.0 (Unreleased)
 
 ### Features Added
 
@@ -8,7 +8,17 @@
 
 ### Bugs Fixed
 
+- Fix an issue of over-adding credits when receiving messages in a batch [PR #25185](https://github.com/Azure/azure-sdk-for-js/pull/25185)
+
 ### Other Changes
+
+- upgrade dependency `rhea-promise` version to `^3.0.0`.
+
+## 7.8.1 (2023-03-07)
+
+### Bugs Fixed
+
+- Pass `skipParsingBodyAsJson` and `skipConvertingDate` options to peek operations. (PR #24950)[https://github.com/Azure/azure-sdk-for-js/pull/24950]
 
 ## 7.8.0 (2023-02-07)
 

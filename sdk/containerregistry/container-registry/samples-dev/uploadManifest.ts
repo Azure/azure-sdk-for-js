@@ -6,11 +6,7 @@
  * @azsdk-weight 3
  */
 
-import {
-  ContainerRegistryBlobClient,
-  KnownContainerRegistryAudience,
-  OciManifest,
-} from "@azure/container-registry";
+import { ContainerRegistryBlobClient, OciImageManifest } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 import { Readable } from "stream";
@@ -24,10 +20,7 @@ async function main() {
   const client = new ContainerRegistryBlobClient(
     endpoint,
     repository,
-    new DefaultAzureCredential(),
-    {
-      audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
-    }
+    new DefaultAzureCredential()
   );
 
   const layer = Buffer.from("Hello, world");
@@ -46,18 +39,18 @@ async function main() {
 
   const { digest: configDigest } = await client.uploadBlob(Readable.from(config));
 
-  const manifest: OciManifest = {
+  const manifest: OciImageManifest = {
     schemaVersion: 2,
     config: {
       mediaType: "application/vnd.oci.image.config.v1+json",
       digest: configDigest,
-      size: config.byteLength,
+      sizeInBytes: config.byteLength,
     },
     layers: [
       {
         mediaType: "application/vnd.oci.image.layer.v1.tar",
         digest: layerDigest,
-        size: layer.byteLength,
+        sizeInBytes: layer.byteLength,
         annotations: {
           title: "artifact.txt",
         },

@@ -7,12 +7,12 @@ import * as dotenv from "dotenv";
 import {
   Recorder,
   RecorderStartOptions,
-  env,
-  assertEnvironmentVariable,
-  isPlaybackMode,
   SanitizerOptions,
+  assertEnvironmentVariable,
+  env,
+  isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { SipRoutingClient } from "../../../../src";
+import { SipRoutingClient, SipTrunk, SipTrunkRoute } from "../../../../src";
 import { parseConnectionString } from "@azure/communication-common";
 import { TokenCredential } from "@azure/identity";
 import { isNode } from "@azure/test-utils";
@@ -130,9 +130,34 @@ export async function clearSipConfiguration(): Promise<void> {
 
 let fqdnNumber = 1;
 export function getUniqueFqdn(recorder: Recorder): string {
-  const uniqueDomain = uuid().replace(/-/g, "");
-  return recorder.variable(`fqdn-${fqdnNumber++}`, `test.${uniqueDomain}.com`);
+  const id = uuid().replace(/-/g, "");
+  return recorder.variable(`fqdn-${fqdnNumber++}`, `test${id}.${getAzureTestDomain()}`);
 }
 export function resetUniqueFqdns(): void {
   fqdnNumber = 1;
+}
+
+export async function listAllTrunks(client: SipRoutingClient): Promise<SipTrunk[]> {
+  const result: SipTrunk[] = [];
+
+  for await (const trunk of client.listTrunks()) {
+    if (trunk) {
+      result.push(trunk);
+    }
+  }
+  return result;
+}
+
+export async function listAllRoutes(client: SipRoutingClient): Promise<SipTrunkRoute[]> {
+  const result: SipTrunkRoute[] = [];
+  for await (const route of client.listRoutes()) {
+    if (route) {
+      result.push(route);
+    }
+  }
+  return result;
+}
+
+function getAzureTestDomain() {
+  return env.AZURE_TEST_DOMAIN ?? "sanitized.sbc.test";
 }

@@ -145,7 +145,7 @@ We can get a digital twin using `getDigitalTwin` with the digital twin ID.
 ```javascript
 const digitalTwinId = "myTwin";
 const twin = await serviceClient.getDigitalTwin(digitalTwinId);
-console.log(`DigitalTwin's etag: ${twin.eTag}`);
+console.log(`DigitalTwin's etag: ${twin.etag}`);
 console.log(`DigitalTwin: ${twin}`);
 ```
 

@@ -89,6 +89,11 @@ export { UsernamePasswordCredentialOptions } from "./credentials/usernamePasswor
 export { VisualStudioCodeCredential } from "./credentials/visualStudioCodeCredential";
 export { VisualStudioCodeCredentialOptions } from "./credentials/visualStudioCodeCredentialOptions";
 export { OnBehalfOfCredential } from "./credentials/onBehalfOfCredential";
+export { WorkloadIdentityCredential } from "./credentials/workloadIdentityCredential";
+export {
+  WorkloadIdentityCredentialOptions,
+  WorkloadIdentityDefaultCredentialOptions,
+} from "./credentials/workloadIdentityCredentialOptions";
 
 export { TokenCachePersistenceOptions } from "./msal/nodeFlows/tokenCachePersistenceOptions";
 

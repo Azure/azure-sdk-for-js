@@ -7,6 +7,7 @@ import {
   createBaiduInstallation,
   createBrowserInstallation,
   createFcmLegacyInstallation,
+  createXiaomiInstallation,
   createWindowsInstallation,
 } from "../../../src/models/installation.js";
 import { assert } from "@azure/test-utils";
@@ -82,6 +83,19 @@ describe("createFcmLegacyInstallation", () => {
     assert.equal(installation.installationId, "abc123");
     assert.equal(installation.pushChannel, "zxy321");
     assert.equal(installation.platform, "gcm");
+  });
+});
+
+describe("createXiaomiInstallation", () => {
+  it("should set the default properties", () => {
+    const installation = createXiaomiInstallation({
+      installationId: "abc123",
+      pushChannel: "zxy321",
+    });
+
+    assert.equal(installation.installationId, "abc123");
+    assert.equal(installation.pushChannel, "zxy321");
+    assert.equal(installation.platform, "xiaomi");
   });
 });
 

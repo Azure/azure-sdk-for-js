@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ResourceManagementClient } = require("@azure/arm-resources");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Captures the specified resource group as a template.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/ExportResourceGroup.json
  */
 async function exportAResourceGroup() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId =
+    process.env["RESOURCES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["RESOURCES_RESOURCE_GROUP"] || "my-resource-group";
   const parameters = {
     options: "IncludeParameterDefaultValue,IncludeComments",
     resources: ["*"],
@@ -33,8 +35,6 @@ async function exportAResourceGroup() {
   console.log(result);
 }
 
-exportAResourceGroup().catch(console.error);
-
 /**
  * This sample demonstrates how to Captures the specified resource group as a template.
  *
@@ -42,8 +42,9 @@ exportAResourceGroup().catch(console.error);
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/ExportResourceGroupWithFiltering.json
  */
 async function exportAResourceGroupWithFiltering() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId =
+    process.env["RESOURCES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["RESOURCES_RESOURCE_GROUP"] || "my-resource-group";
   const parameters = {
     options: "SkipResourceNameParameterization",
     resources: [
@@ -59,4 +60,9 @@ async function exportAResourceGroupWithFiltering() {
   console.log(result);
 }
 
-exportAResourceGroupWithFiltering().catch(console.error);
+async function main() {
+  exportAResourceGroup();
+  exportAResourceGroupWithFiltering();
+}
+
+main().catch(console.error);

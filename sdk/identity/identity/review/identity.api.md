@@ -182,6 +182,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
 // @public
 export interface DefaultAzureCredentialClientIdOptions extends DefaultAzureCredentialOptions {
     managedIdentityClientId?: string;
+    workloadIdentityClientId?: string;
 }
 
 // @public
@@ -374,6 +375,25 @@ export class VisualStudioCodeCredential implements TokenCredential {
 // @public
 export interface VisualStudioCodeCredentialOptions extends MultiTenantTokenCredentialOptions {
     tenantId?: string;
+}
+
+// @public
+export class WorkloadIdentityCredential implements TokenCredential {
+    constructor(options: WorkloadIdentityCredentialOptions);
+    // @internal
+    constructor(options?: WorkloadIdentityDefaultCredentialOptions);
+    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+}
+
+// @public
+export interface WorkloadIdentityCredentialOptions extends WorkloadIdentityDefaultCredentialOptions {
+    clientId: string;
+    federatedTokenFilePath: string;
+    tenantId: string;
+}
+
+// @public
+export interface WorkloadIdentityDefaultCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
 }
 
 // (No @packageDocumentation comment for this package)
