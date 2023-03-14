@@ -44,10 +44,8 @@ export interface CommonScriptModelOutput {
     nativeName: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "TranslatorCustomEndpoint" needs to be exported by the entry point index.d.ts
-//
 // @public
-function createClient(endpoint: string | TranslatorCustomEndpoint, credential?: undefined | TranslatorCredential | AzureKeyCredential | TokenCredential, options?: ClientOptions): TextTranslationClient;
+function createClient(endpoint: string, credential?: undefined | TranslatorCredential | AzureKeyCredential | TokenCredential, options?: ClientOptions): TextTranslationClient;
 export default createClient;
 
 // @public

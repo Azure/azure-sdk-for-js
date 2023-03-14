@@ -12,7 +12,6 @@ import { TextTranslationClient } from "./generated/clientDefinitions";
 import {
   TranslatorCredential,
   TranslatorAuthenticationPolicy,
-  TranslatorCustomEndpoint,
   TranslatorAzureKeyAuthenticationPolicy
 } from "./authentication";
 import {
@@ -21,6 +20,8 @@ import {
 } from "@azure/core-auth";
 
 const DEFAULT_SCOPE = "https://cognitiveservices.azure.com/.default";
+const PLATFORM_HOST = "cognitiveservices";
+const PLATFORM_PATH = "/translator/text/v3.0";
 
 /**
  * Initialize a new instance of `TextTranslationClient`
@@ -29,13 +30,13 @@ const DEFAULT_SCOPE = "https://cognitiveservices.azure.com/.default";
  * @param options type: ClientOptions, the parameter for all optional parameters
  */
 export default function createClient(
-  endpoint: string | TranslatorCustomEndpoint,
+  endpoint: string,
   credential: undefined | TranslatorCredential | AzureKeyCredential | TokenCredential = undefined,
   options: ClientOptions = {}
 ): TextTranslationClient {
   let serviceEndpoint: string;
-  if (endpoint instanceof TranslatorCustomEndpoint) {
-    serviceEndpoint = `${endpoint.endpoint}/translator/text/v3.0`;
+  if (endpoint.toLowerCase().indexOf(PLATFORM_HOST) != -1) {
+    serviceEndpoint = `${endpoint}${PLATFORM_PATH}`;
   } else {
     serviceEndpoint = endpoint;
   }

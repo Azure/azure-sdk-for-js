@@ -47,11 +47,3 @@ export class TranslatorAzureKeyAuthenticationPolicy implements PipelinePolicy {
     return next(request);
   }
 }
-
-export class TranslatorCustomEndpoint {
-  endpoint: string;
-
-  constructor(endpoint: string) {
-    this.endpoint = endpoint;
-  }
-}
