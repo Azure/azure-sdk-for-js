@@ -97,7 +97,7 @@ To register for Web Push notifications, the `getInstallation` method is used.  T
 **This must only be called in a user defined gesture such as a button click and is not intended to be called on page load.**
 
 ```typescript
-import { clientContext, getInstallation } from "@azure/notification-hubs-web-push";
+import { createClientContext } from "@azure/notification-hubs-web-push";
 
 const connectionString = "<connection string>";
 const hubName = "<hub-name";
@@ -122,8 +122,8 @@ Tag expressions enable you to target specific sets of devices, or more specifica
 To support tag management, we have two methods, one for adding tags via `addTags` and other to remove them via `removeTags.
 
 ```typescript
-import { clientContext } from "@azure/notification-hubs-web-push";
-import { addTags, removeTags } from "@azure/notification-hubs-web-push/client";
+import { createClientContext } from "@azure/notification-hubs-web-push";
+import { getInstallation, addTags, removeTags } from "@azure/notification-hubs-web-push/client";
 
 const connectionString = "<connection string>";
 const hubName = "<hub-name";
@@ -157,8 +157,8 @@ Templates enable a client application to specify the exact format of the notific
 The Azure Notification Hubs SDK for Web Push supports template management through `addTemplate` and `removeTemplate`.
 
 ```typescript
-import { clientContext } from "@azure/notification-hubs-web-push";
-import { addTemplate, removeTemplate } from "@azure/notification-hubs-web-push/client";
+import { createClientContext } from "@azure/notification-hubs-web-push";
+import { getInstallation, addTemplate, removeTemplate } from "@azure/notification-hubs-web-push/client";
 
 const connectionString = "<connection string>";
 const hubName = "<hub-name";
@@ -189,7 +189,7 @@ When you use the client SDK, you are required to specify a ServiceWorker at a gi
 To get push notifications, you can use the `onPush` method, which when a push notification is received, will be forwarded to the handler.
 
 ```typescript
-import { clientContext } from "@azure/notification-hubs-web-push";
+import { createClientContext } from "@azure/notification-hubs-web-push";
 import { onPush } from "@azure/notification-hubs-web-push/worker";
 
 const connectionString = "<connection string>";
@@ -197,7 +197,7 @@ const hubName = "<hub-name";
 
 const clientContext = createClientContext(connectionString, hubName);
 
-const subscription = onPush((notification) => {
+const subscription = onPush(clientContext, (notification) => {
 
   // Show notification with title and body
   self.registration.showNotification(notification.title, {
@@ -212,7 +212,7 @@ const subscription = onPush((notification) => {
 In addition to handling the push notification, you can also handle the click event on the notification.  This can be used to open a specific page in the application, or to perform some other action.  To handle the click event, you can use the `onNotificationClick` method.
 
 ```typescript
-import { clientContext } from "@azure/notification-hubs-web-push";
+import { createClientContext } from "@azure/notification-hubs-web-push";
 import { onPush } from "@azure/notification-hubs-web-push/worker";
 
 const connectionString = "<connection string>";
@@ -220,9 +220,9 @@ const hubName = "<hub-name";
 
 const clientContext = createClientContext(connectionString, hubName);
 
-const subscription = onNotificationClick((notification) => {
+const subscription = onNotificationClick(clientContext, (event) => {
   // Close the notification
-  console.log("On notification click: ", notification.tag);
+  console.log("On notification click: ", event.notification.tag);
   event.notification.close();
 });
 ```

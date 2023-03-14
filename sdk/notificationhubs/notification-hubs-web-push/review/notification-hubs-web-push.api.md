@@ -57,14 +57,14 @@ export interface WebPushChannel {
 // @public
 export interface WebPushClientContext {
     readonly baseUrl: string;
-    // @internal (undocumented)
+    // @internal
     createHeaders(operationName: string): Promise<Headers>;
     readonly hubName: string;
-    // @internal (undocumented)
+    // @internal
     onNotificationClick?: NotificationClickHandler;
-    // @internal (undocumented)
+    // @internal
     onPush?: WebPushNotificationHandler;
-    // @internal (undocumented)
+    // @internal
     requestUrl(): URL;
     serviceWorkerRegistration?: ServiceWorkerRegistration;
     serviceWorkerUrl?: string;
@@ -92,11 +92,9 @@ export interface WebPushInstallation {
     pushChannel: WebPushChannel;
 }
 
-// @public (undocumented)
+// @public
 export interface WebPushNotificationClickEvent {
-    // (undocumented)
     readonly action: string;
-    // (undocumented)
     readonly notification: Notification;
 }
 
