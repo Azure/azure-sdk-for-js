@@ -17,7 +17,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { DataFactoryManagementClient } from "../src/dataFactoryManagementClient";
-import { Factory } from "../src/models";
+import { Factory, PipelineResource } from "../src/models";
 import { dataFlow } from "../src/models/parameters";
 
 const replaceableVariables: Record<string, string> = {
@@ -58,7 +58,7 @@ describe("Datafactory test", () => {
     const credential = createTestCredential();
     client = new DataFactoryManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
-    resourceGroup = "czwTest";
+    resourceGroup = "marytest";
     factoryName = "examplefactorytest";
     pipelineName = "examplePipeline";
     datasetName = "exampleDataset";
@@ -258,49 +258,11 @@ describe("Datafactory test", () => {
         description: "Example description",
         activities: [
           {
-            name: "ExampleForeachActivity",
-            type: "ForEach",
-            activities: [
-              // {
-              //   name: "ExampleCopyActivity",
-              //   type: "Copy",
-              //   dataIntegrationUnits: 32,
-              //   inputs: [
-              //     {
-              //       type: "DatasetReference",
-              //       parameters: {
-              //         myFileName: "examplecontainer.csv",
-              //         myFolderPath: "examplecontainer"
-              //       },
-              //       referenceName: "exampleDataset"
-              //     }
-              //   ],
-              //   outputs: [
-              //     {
-              //       type: "DatasetReference",
-              //       parameters: {
-              //         myFileName: { type: "Expression", value: "@item()" },
-              //         myFolderPath: "examplecontainer"
-              //       },
-              //       referenceName: "exampleDataset"
-              //     }
-              //   ],
-              //   sink: { type: "BlobSink" },
-              //   source: { type: "BlobSource" }
-              // },
-              {
-                name: "ExampleCopyActivity1",
-                type: "ExecuteWranglingDataflow",
-                dataFlow: {
-                  referenceName: dataFlowName,
-                  type: "DataFlowReference"
-                }
-              },
-            ],
-            isSequential: true,
-            items: {
-              type: "Expression",
-              value: "@pipeline().parameters.OutputBlobNameList"
+            name: "ExampleCopyActivity1",
+            type: "ExecuteWranglingDataflow",
+            dataFlow: {
+              referenceName: dataFlowName,
+              type: "DataFlowReference"
             }
           }
         ],
@@ -325,13 +287,14 @@ describe("Datafactory test", () => {
   });
 
   it("pipeline list test", async function () {
-    const resArray = new Array();
+    const resArray = new Array<PipelineResource>();
     for await (let item of client.pipelines.listByFactory(resourceGroup, factoryName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
-    console.log(resArray[0].activities[0].dataFlow);
-    // console.log(resArray[0].activities[0].activities[0].dataFlow);
+    assert.equal(resArray[0].activities?.length, 1);
+    assert.equal(resArray[0].activities![0].type, "ExecuteWranglingDataflow");
+    assert.equal(resArray[0].activities![0].dataFlow.type, "DataFlowReference");
   });
 
   it("dataFlowDebugSession delete test", async function () {
