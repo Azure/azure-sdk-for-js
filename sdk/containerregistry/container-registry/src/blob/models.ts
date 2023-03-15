@@ -110,7 +110,7 @@ export interface OciDescriptor {
 /** Type representing an OCI image manifest (manifest of media type "application/vnd.oci.image.manifest.v1+json"). */
 export interface OciImageManifest {
   /** Schema version */
-  schemaVersion: number;
+  schemaVersion?: number;
   /** V2 image config descriptor */
   config: OciDescriptor;
   /** List of V2 image layer information */
