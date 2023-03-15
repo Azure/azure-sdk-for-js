@@ -23,22 +23,22 @@ async function main() {
   );
 
   const config = Buffer.from("Sample config");
-  const uploadConfigResult = await client.uploadBlob(config);
+  const { digest: configDigest, sizeInBytes: configSize } = await client.uploadBlob(config);
 
   const layer = Buffer.from("Sample layer");
-  const uploadLayerResult = await client.uploadBlob(layer);
+  const { digets: layerDigest, sizeInBytes: layerSize } = await client.uploadBlob(layer);
 
   const manifest: OciImageManifest = {
     schemaVersion: 2,
     config: {
-      digest: uploadConfigResult.digest,
-      sizeInBytes: config.byteLength,
+      digest: configDigest,
+      sizeInBytes: configSize,
       mediaType: "application/vnd.oci.image.config.v1+json",
     },
     layers: [
       {
-        digest: uploadLayerResult.digest,
-        sizeInBytes: layer.byteLength,
+        digest: layerDigest,
+        sizeInBytes: layerSize,
         mediaType: "application/vnd.oci.image.layer.v1.tar",
       },
     ],
