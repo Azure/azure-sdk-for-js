@@ -93,19 +93,25 @@ export class CallMedia {
       recognizeOptions.kind === undefined
     ) {
       const dtmfOptionsInternal: DtmfOptions = {
-        interToneTimeoutInSeconds: recognizeOptions.interToneTimeoutInSeconds ? recognizeOptions.interToneTimeoutInSeconds : 2,
+        interToneTimeoutInSeconds: recognizeOptions.interToneTimeoutInSeconds
+          ? recognizeOptions.interToneTimeoutInSeconds
+          : 2,
         maxTonesToCollect: recognizeOptions.maxTonesToCollect,
         stopTones: recognizeOptions.stopDtmfTones,
       };
       const recognizeOptionsInternal: RecognizeOptions = {
         interruptPrompt: recognizeOptions.interruptPrompt,
-        initialSilenceTimeoutInSeconds: recognizeOptions.initialSilenceTimeoutInSeconds ? recognizeOptions.initialSilenceTimeoutInSeconds : 5,
+        initialSilenceTimeoutInSeconds: recognizeOptions.initialSilenceTimeoutInSeconds
+          ? recognizeOptions.initialSilenceTimeoutInSeconds
+          : 5,
         targetParticipant: serializeCommunicationIdentifier(recognizeOptions.targetParticipant),
         dtmfOptions: dtmfOptionsInternal,
       };
       return {
         recognizeInputType: KnownRecognizeInputType.Dtmf,
-        playPrompt: recognizeOptions.playPrompt ? this.createPlaySourceInternal(recognizeOptions.playPrompt) : undefined,
+        playPrompt: recognizeOptions.playPrompt
+          ? this.createPlaySourceInternal(recognizeOptions.playPrompt)
+          : undefined,
         interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
         recognizeOptions: recognizeOptionsInternal,
         operationContext: recognizeOptions.operationContext,
