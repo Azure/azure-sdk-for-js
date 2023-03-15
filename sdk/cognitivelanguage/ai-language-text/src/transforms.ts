@@ -166,7 +166,6 @@ function toSentimentAnalysisResult(
   });
 }
 
-
 /**
  * Converts a sentence sentiment object returned by the service to another that
  * is user-friendly.
