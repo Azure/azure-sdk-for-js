@@ -21,6 +21,7 @@ import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import {
   TokenResponseParsedBody,
   parseExpiresOn,
+  getRefreshAt,
 } from "../credentials/managedIdentityCredential/utils";
 
 const noCorrelationId = "noCorrelationId";
@@ -34,7 +35,10 @@ export interface TokenResponse {
    * The AccessToken to be returned from getToken.
    */
   accessToken: AccessToken;
-
+  /**
+   * The refresh token's refresh in milliseconds, UNIX epoch time.
+   */
+  refreshesIn?: number;
   /**
    * The refresh token if the 'offline_access' scope was used.
    */
@@ -119,6 +123,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
           token: parsedBody.access_token,
           expiresOnTimestamp: parseExpiresOn(parsedBody),
         },
+        refreshesIn: getRefreshAt(parsedBody),
         refreshToken: parsedBody.refresh_token,
       };
 

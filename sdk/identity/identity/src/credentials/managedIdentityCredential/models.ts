@@ -16,6 +16,17 @@ export interface MSIConfiguration {
 
 /**
  * @internal
+ * Represents an access token with an expiration time.
+ */
+export declare interface MSIToken extends AccessToken {
+  /**
+   * The refresh token's refresh in milliseconds, UNIX epoch time.
+   */
+  refreshesIn?: number;
+}
+
+/**
+ * @internal
  */
 export interface MSI {
   name: string;
@@ -29,5 +40,5 @@ export interface MSI {
   getToken(
     configuration: MSIConfiguration,
     getTokenOptions?: GetTokenOptions
-  ): Promise<AccessToken | null>;
+  ): Promise<MSIToken | null>;
 }

@@ -7,9 +7,9 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import { GetTokenOptions } from "@azure/core-auth";
 import { credentialLogger } from "../../util/logging";
-import { MSI, MSIConfiguration } from "./models";
+import { MSI, MSIConfiguration, MSIToken } from "./models";
 import { mapScopesToResource } from "./utils";
 import { azureFabricVersion } from "./constants";
 
@@ -96,7 +96,7 @@ export const fabricMsi: MSI = {
   async getToken(
     configuration: MSIConfiguration,
     getTokenOptions: GetTokenOptions = {}
-  ): Promise<AccessToken | null> {
+  ): Promise<MSIToken | null> {
     const { scopes, identityClient, clientId, resourceId } = configuration;
 
     if (resourceId) {
@@ -129,6 +129,9 @@ export const fabricMsi: MSI = {
     });
 
     const tokenResponse = await identityClient.sendTokenRequest(request);
-    return (tokenResponse && tokenResponse.accessToken) || null;
+    return (
+      (tokenResponse && { ...tokenResponse.accessToken, refreshesIn: tokenResponse.refreshesIn }) ||
+      null
+    );
   },
 };
