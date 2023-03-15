@@ -15,8 +15,7 @@ export type AnalyzeActionUnion =
   | AnalyzeTextKeyPhraseExtractionInput
   | AnalyzeTextPiiEntitiesRecognitionInput
   | AnalyzeTextLanguageDetectionInput
-  | AnalyzeTextSentimentAnalysisInput
-  | AnalyzeTextDynamicClassificationInput;
+  | AnalyzeTextSentimentAnalysisInput;
 export type AnalyzeTextTaskResultUnion =
   | AnalyzeTextTaskResult
   | SentimentTaskResult
@@ -24,8 +23,7 @@ export type AnalyzeTextTaskResultUnion =
   | EntityLinkingTaskResult
   | PiiTaskResult
   | KeyPhraseTaskResult
-  | LanguageDetectionTaskResult
-  | DynamicClassificationTaskResult;
+  | LanguageDetectionTaskResult;
 export type BaseResolutionUnion =
   | BaseResolution
   | AgeResolution
@@ -78,8 +76,7 @@ export interface AnalyzeAction {
     | "KeyPhraseExtraction"
     | "PiiEntityRecognition"
     | "LanguageDetection"
-    | "SentimentAnalysis"
-    | "DynamicClassification";
+    | "SentimentAnalysis";
 }
 
 export interface AnalyzeTextTaskResult {
@@ -90,8 +87,7 @@ export interface AnalyzeTextTaskResult {
     | "EntityLinkingResults"
     | "PiiEntityRecognitionResults"
     | "KeyPhraseExtractionResults"
-    | "LanguageDetectionResults"
-    | "DynamicClassificationResults";
+    | "LanguageDetectionResults";
 }
 
 /** Error response. */
@@ -395,11 +391,6 @@ export interface HealthcareRelationEntity {
   role: string;
 }
 
-export interface DocumentDetectedLanguageString {
-  /** If 'language' is set to 'auto' for the document in the request this field will contain a 2 letter ISO 639-1 representation of the language detected for this document. */
-  detectedLanguage?: string;
-}
-
 export interface PreBuiltResult {
   /** Errors by document id. */
   errors: InputError[];
@@ -625,14 +616,6 @@ export interface AnalyzeTextSentimentAnalysisInput extends AnalyzeAction {
   parameters?: SentimentAnalysisAction;
 }
 
-export interface AnalyzeTextDynamicClassificationInput extends AnalyzeAction {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "DynamicClassification";
-  analysisInput?: MultiLanguageAnalysisInput;
-  /** Options for a dynamic classification action. */
-  parameters?: DynamicClassificationAction;
-}
-
 export interface SentimentTaskResult extends AnalyzeTextTaskResult {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "SentimentAnalysisResults";
@@ -667,12 +650,6 @@ export interface LanguageDetectionTaskResult extends AnalyzeTextTaskResult {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "LanguageDetectionResults";
   results: LanguageDetectionResult;
-}
-
-export interface DynamicClassificationTaskResult extends AnalyzeTextTaskResult {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "DynamicClassificationResults";
-  results: DynamicClassificationResult;
 }
 
 export interface AnalyzeBatchAction extends BatchActionState {
@@ -888,10 +865,6 @@ export interface ClassificationDocumentResult extends DocumentResult {
   classifications: ClassificationCategory[];
 }
 
-export interface DynamicClassificationDocumentResult extends DocumentResult {
-  classifications: ClassificationCategory[];
-}
-
 export interface HealthcareEntitiesDocumentResult extends DocumentResult {
   /** Healthcare entities. */
   entities: HealthcareEntity[];
@@ -951,6 +924,10 @@ export interface CustomLabelClassificationResultDocumentsItem
   extends ClassificationDocumentResult,
     DocumentDetectedLanguage {}
 
+export interface HealthcareEntitiesDocumentResultWithDocumentDetectedLanguage
+  extends HealthcareEntitiesDocumentResult,
+    DocumentDetectedLanguage {}
+
 export interface SentimentResponseDocumentsItem
   extends SentimentDocumentResult,
     DocumentDetectedLanguage {}
@@ -979,10 +956,6 @@ export interface KeyPhraseResultDocumentsItem
 export interface AbstractiveSummaryDocumentResultWithDetectedLanguage
   extends AbstractiveSummaryDocumentResult,
     DocumentDetectedLanguage {}
-
-export interface HealthcareEntitiesDocumentResultWithDocumentDetectedLanguage
-  extends HealthcareEntitiesDocumentResult,
-    DocumentDetectedLanguageString {}
 
 export interface HealthcareResult extends PreBuiltResult {
   documents: HealthcareEntitiesDocumentResultWithDocumentDetectedLanguage[];
@@ -1021,11 +994,6 @@ export interface KeyPhraseResult extends PreBuiltResult {
 export interface LanguageDetectionResult extends PreBuiltResult {
   /** Response by document */
   documents: LanguageDetectionDocumentResult[];
-}
-
-export interface DynamicClassificationResult extends PreBuiltResult {
-  /** Response by document */
-  documents: DynamicClassificationResultDocumentsItem[];
 }
 
 /** An object representing the pre-build summarization results of each document. */
@@ -1254,14 +1222,6 @@ export interface SentimentAnalysisAction extends ActionPrebuilt {
   stringIndexType?: StringIndexType;
 }
 
-/** Options for a dynamic classification action. */
-export interface DynamicClassificationAction extends ActionPrebuilt {
-  /** Specifies either one or multiple categories per document. Defaults to multi classification which may return more than one class for each document. */
-  classificationType?: ClassificationType;
-  /** a list of categories to which input is classified to. */
-  categories: string[];
-}
-
 /** Supported parameters for a Healthcare task. */
 export interface HealthcareAction extends ActionPrebuilt {
   /** The FHIR Spec version that the result will use to format the fhirBundle. For additional information see https://www.hl7.org/fhir/overview.html. */
@@ -1306,9 +1266,6 @@ export interface CustomSingleLabelClassificationAction extends ActionCustom {}
 /** Options for a multi-label classification custom action */
 export interface CustomMultiLabelClassificationAction extends ActionCustom {}
 
-export interface DynamicClassificationResultDocumentsItem
-  extends DynamicClassificationDocumentResult {}
-
 /** Defines headers for GeneratedClient_analyzeBatch operation. */
 export interface GeneratedClientAnalyzeBatchHeaders {
   operationLocation?: string;
@@ -1332,9 +1289,7 @@ export enum KnownAnalyzeTextTaskKind {
   /** LanguageDetection */
   LanguageDetection = "LanguageDetection",
   /** EntityLinking */
-  EntityLinking = "EntityLinking",
-  /** DynamicClassification */
-  DynamicClassification = "DynamicClassification"
+  EntityLinking = "EntityLinking"
 }
 
 /**
@@ -1347,8 +1302,7 @@ export enum KnownAnalyzeTextTaskKind {
  * **PiiEntityRecognition** \
  * **KeyPhraseExtraction** \
  * **LanguageDetection** \
- * **EntityLinking** \
- * **DynamicClassification**
+ * **EntityLinking**
  */
 export type AnalyzeTextTaskKind = string;
 
@@ -1365,9 +1319,7 @@ export enum KnownAnalyzeTextTaskResultsKind {
   /** LanguageDetectionResults */
   LanguageDetectionResults = "LanguageDetectionResults",
   /** EntityLinkingResults */
-  EntityLinkingResults = "EntityLinkingResults",
-  /** DynamicClassificationResults */
-  DynamicClassificationResults = "DynamicClassificationResults"
+  EntityLinkingResults = "EntityLinkingResults"
 }
 
 /**
@@ -1380,8 +1332,7 @@ export enum KnownAnalyzeTextTaskResultsKind {
  * **PiiEntityRecognitionResults** \
  * **KeyPhraseExtractionResults** \
  * **LanguageDetectionResults** \
- * **EntityLinkingResults** \
- * **DynamicClassificationResults**
+ * **EntityLinkingResults**
  */
 export type AnalyzeTextTaskResultsKind = string;
 
@@ -2228,24 +2179,6 @@ export enum KnownPiiEntityCategory {
  */
 export type PiiEntityCategory = string;
 
-/** Known values of {@link ClassificationType} that the service accepts. */
-export enum KnownClassificationType {
-  /** Single */
-  Single = "Single",
-  /** Multi */
-  Multi = "Multi"
-}
-
-/**
- * Defines values for ClassificationType. \
- * {@link KnownClassificationType} can be used interchangeably with ClassificationType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Single** \
- * **Multi**
- */
-export type ClassificationType = string;
-
 /** Known values of {@link ResolutionKind} that the service accepts. */
 export enum KnownResolutionKind {
   /** BooleanResolution */
@@ -2398,6 +2331,8 @@ export enum KnownHealthcareEntityCategory {
   Age = "Age",
   /** Gender */
   Gender = "Gender",
+  /** Ethnicity */
+  Ethnicity = "Ethnicity",
   /** ExaminationName */
   ExaminationName = "ExaminationName",
   /** Date */
@@ -2414,10 +2349,16 @@ export enum KnownHealthcareEntityCategory {
   RelationalOperator = "RelationalOperator",
   /** Time */
   Time = "Time",
+  /** Course */
+  Course = "Course",
   /** GeneOrProtein */
   GeneOrProtein = "GeneOrProtein",
   /** Variant */
   Variant = "Variant",
+  /** Expression */
+  Expression = "Expression",
+  /** MutationType */
+  MutationType = "MutationType",
   /** AdministrativeEvent */
   AdministrativeEvent = "AdministrativeEvent",
   /** CareEnvironment */
@@ -2430,6 +2371,8 @@ export enum KnownHealthcareEntityCategory {
   SymptomOrSign = "SymptomOrSign",
   /** ConditionQualifier */
   ConditionQualifier = "ConditionQualifier",
+  /** ConditionScale */
+  ConditionScale = "ConditionScale",
   /** MedicationClass */
   MedicationClass = "MedicationClass",
   /** MedicationName */
@@ -2443,7 +2386,17 @@ export enum KnownHealthcareEntityCategory {
   /** FamilyRelation */
   FamilyRelation = "FamilyRelation",
   /** TreatmentName */
-  TreatmentName = "TreatmentName"
+  TreatmentName = "TreatmentName",
+  /** Allergen */
+  Allergen = "Allergen",
+  /** Employment */
+  Employment = "Employment",
+  /** LivingStatus */
+  LivingStatus = "LivingStatus",
+  /** SubstanceUse */
+  SubstanceUse = "SubstanceUse",
+  /** SubstanceUseAmount */
+  SubstanceUseAmount = "SubstanceUseAmount"
 }
 
 /**
@@ -2454,6 +2407,7 @@ export enum KnownHealthcareEntityCategory {
  * **BodyStructure** \
  * **Age** \
  * **Gender** \
+ * **Ethnicity** \
  * **ExaminationName** \
  * **Date** \
  * **Direction** \
@@ -2462,21 +2416,30 @@ export enum KnownHealthcareEntityCategory {
  * **MeasurementUnit** \
  * **RelationalOperator** \
  * **Time** \
+ * **Course** \
  * **GeneOrProtein** \
  * **Variant** \
+ * **Expression** \
+ * **MutationType** \
  * **AdministrativeEvent** \
  * **CareEnvironment** \
  * **HealthcareProfession** \
  * **Diagnosis** \
  * **SymptomOrSign** \
  * **ConditionQualifier** \
+ * **ConditionScale** \
  * **MedicationClass** \
  * **MedicationName** \
  * **Dosage** \
  * **MedicationForm** \
  * **MedicationRoute** \
  * **FamilyRelation** \
- * **TreatmentName**
+ * **TreatmentName** \
+ * **Allergen** \
+ * **Employment** \
+ * **LivingStatus** \
+ * **SubstanceUse** \
+ * **SubstanceUseAmount**
  */
 export type HealthcareEntityCategory = string;
 
@@ -2484,6 +2447,18 @@ export type HealthcareEntityCategory = string;
 export enum KnownRelationType {
   /** Abbreviation */
   Abbreviation = "Abbreviation",
+  /** BodySiteOfCondition */
+  BodySiteOfCondition = "BodySiteOfCondition",
+  /** BodySiteOfTreatment */
+  BodySiteOfTreatment = "BodySiteOfTreatment",
+  /** CourseOfCondition */
+  CourseOfCondition = "CourseOfCondition",
+  /** CourseOfExamination */
+  CourseOfExamination = "CourseOfExamination",
+  /** CourseOfMedication */
+  CourseOfMedication = "CourseOfMedication",
+  /** CourseOfTreatment */
+  CourseOfTreatment = "CourseOfTreatment",
   /** DirectionOfBodyStructure */
   DirectionOfBodyStructure = "DirectionOfBodyStructure",
   /** DirectionOfCondition */
@@ -2494,18 +2469,32 @@ export enum KnownRelationType {
   DirectionOfTreatment = "DirectionOfTreatment",
   /** DosageOfMedication */
   DosageOfMedication = "DosageOfMedication",
+  /** ExaminationFindsCondition */
+  ExaminationFindsCondition = "ExaminationFindsCondition",
+  /** ExpressionOfGene */
+  ExpressionOfGene = "ExpressionOfGene",
+  /** ExpressionOfVariant */
+  ExpressionOfVariant = "ExpressionOfVariant",
   /** FormOfMedication */
   FormOfMedication = "FormOfMedication",
+  /** FrequencyOfCondition */
+  FrequencyOfCondition = "FrequencyOfCondition",
   /** FrequencyOfMedication */
   FrequencyOfMedication = "FrequencyOfMedication",
   /** FrequencyOfTreatment */
   FrequencyOfTreatment = "FrequencyOfTreatment",
+  /** MutationTypeOfGene */
+  MutationTypeOfGene = "MutationTypeOfGene",
+  /** MutationTypeOfVariant */
+  MutationTypeOfVariant = "MutationTypeOfVariant",
   /** QualifierOfCondition */
   QualifierOfCondition = "QualifierOfCondition",
   /** RelationOfExamination */
   RelationOfExamination = "RelationOfExamination",
   /** RouteOfMedication */
   RouteOfMedication = "RouteOfMedication",
+  /** ScaleOfCondition */
+  ScaleOfCondition = "ScaleOfCondition",
   /** TimeOfCondition */
   TimeOfCondition = "TimeOfCondition",
   /** TimeOfEvent */
@@ -2523,7 +2512,9 @@ export enum KnownRelationType {
   /** ValueOfCondition */
   ValueOfCondition = "ValueOfCondition",
   /** ValueOfExamination */
-  ValueOfExamination = "ValueOfExamination"
+  ValueOfExamination = "ValueOfExamination",
+  /** VariantOfGene */
+  VariantOfGene = "VariantOfGene"
 }
 
 /**
@@ -2532,17 +2523,30 @@ export enum KnownRelationType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Abbreviation** \
+ * **BodySiteOfCondition** \
+ * **BodySiteOfTreatment** \
+ * **CourseOfCondition** \
+ * **CourseOfExamination** \
+ * **CourseOfMedication** \
+ * **CourseOfTreatment** \
  * **DirectionOfBodyStructure** \
  * **DirectionOfCondition** \
  * **DirectionOfExamination** \
  * **DirectionOfTreatment** \
  * **DosageOfMedication** \
+ * **ExaminationFindsCondition** \
+ * **ExpressionOfGene** \
+ * **ExpressionOfVariant** \
  * **FormOfMedication** \
+ * **FrequencyOfCondition** \
  * **FrequencyOfMedication** \
  * **FrequencyOfTreatment** \
+ * **MutationTypeOfGene** \
+ * **MutationTypeOfVariant** \
  * **QualifierOfCondition** \
  * **RelationOfExamination** \
  * **RouteOfMedication** \
+ * **ScaleOfCondition** \
  * **TimeOfCondition** \
  * **TimeOfEvent** \
  * **TimeOfExamination** \
@@ -2551,7 +2555,8 @@ export enum KnownRelationType {
  * **UnitOfCondition** \
  * **UnitOfExamination** \
  * **ValueOfCondition** \
- * **ValueOfExamination**
+ * **ValueOfExamination** \
+ * **VariantOfGene**
  */
 export type RelationType = string;
 

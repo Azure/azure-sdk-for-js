@@ -85,7 +85,6 @@ export const AnalyzeActionNames: {
     readonly PiiEntityRecognition: "PiiEntityRecognition";
     readonly LanguageDetection: "LanguageDetection";
     readonly SentimentAnalysis: "SentimentAnalysis";
-    readonly DynamicClassification: "DynamicClassification";
 };
 
 // @public
@@ -95,7 +94,6 @@ export type AnalyzeActionParameters<ActionName extends AnalyzeActionName> = {
     PiiEntityRecognition: PiiEntityRecognitionAction;
     KeyPhraseExtraction: KeyPhraseExtractionAction;
     SentimentAnalysis: SentimentAnalysisAction;
-    DynamicClassification: DynamicClassificationAction;
     LanguageDetection: LanguageDetectionAction;
 }[ActionName];
 
@@ -154,7 +152,6 @@ export type AnalyzeResult<ActionName extends AnalyzeActionName> = {
     PiiEntityRecognition: PiiEntityRecognitionResult[];
     KeyPhraseExtraction: KeyPhraseExtractionResult[];
     SentimentAnalysis: SentimentAnalysisResult[];
-    DynamicClassification: DynamicClassificationResult[];
     LanguageDetection: LanguageDetectionResult[];
 }[ActionName];
 
@@ -228,9 +225,6 @@ export interface ClassificationCategory {
     category: string;
     confidenceScore: number;
 }
-
-// @public
-export type ClassificationType = string;
 
 // @public
 export interface CurrencyResolution extends BaseResolution, QuantityResolution {
@@ -347,23 +341,6 @@ export type DocumentSentimentLabel = "positive" | "neutral" | "negative" | "mixe
 export interface DocumentWarning {
     code: WarningCode;
     message: string;
-}
-
-// @public
-export interface DynamicClassificationAction extends ActionPrebuilt {
-    categories: string[];
-    classificationType?: ClassificationType;
-}
-
-// @public
-export type DynamicClassificationErrorResult = TextAnalysisErrorResult;
-
-// @public
-export type DynamicClassificationResult = DynamicClassificationSuccessResult | DynamicClassificationErrorResult;
-
-// @public
-export interface DynamicClassificationSuccessResult extends TextAnalysisSuccessResult {
-    readonly classifications: ClassificationCategory[];
 }
 
 // @public
@@ -600,12 +577,6 @@ export enum KnownAreaUnit {
 }
 
 // @public
-export enum KnownClassificationType {
-    Multi = "Multi",
-    Single = "Single"
-}
-
-// @public
 export enum KnownDateTimeSubKind {
     Date = "Date",
     DateTime = "DateTime",
@@ -664,26 +635,36 @@ export enum KnownHealthcareDocumentType {
 export enum KnownHealthcareEntityCategory {
     AdministrativeEvent = "AdministrativeEvent",
     Age = "Age",
+    Allergen = "Allergen",
     BodyStructure = "BodyStructure",
     CareEnvironment = "CareEnvironment",
     ConditionQualifier = "ConditionQualifier",
+    ConditionScale = "ConditionScale",
+    Course = "Course",
     Date = "Date",
     Diagnosis = "Diagnosis",
     Direction = "Direction",
     Dosage = "Dosage",
+    Employment = "Employment",
+    Ethnicity = "Ethnicity",
     ExaminationName = "ExaminationName",
+    Expression = "Expression",
     FamilyRelation = "FamilyRelation",
     Frequency = "Frequency",
     Gender = "Gender",
     GeneOrProtein = "GeneOrProtein",
     HealthcareProfession = "HealthcareProfession",
+    LivingStatus = "LivingStatus",
     MeasurementUnit = "MeasurementUnit",
     MeasurementValue = "MeasurementValue",
     MedicationClass = "MedicationClass",
     MedicationForm = "MedicationForm",
     MedicationName = "MedicationName",
     MedicationRoute = "MedicationRoute",
+    MutationType = "MutationType",
     RelationalOperator = "RelationalOperator",
+    SubstanceUse = "SubstanceUse",
+    SubstanceUseAmount = "SubstanceUseAmount",
     SymptomOrSign = "SymptomOrSign",
     Time = "Time",
     TreatmentName = "TreatmentName",
@@ -956,17 +937,30 @@ export enum KnownRangeKind {
 // @public
 export enum KnownRelationType {
     Abbreviation = "Abbreviation",
+    BodySiteOfCondition = "BodySiteOfCondition",
+    BodySiteOfTreatment = "BodySiteOfTreatment",
+    CourseOfCondition = "CourseOfCondition",
+    CourseOfExamination = "CourseOfExamination",
+    CourseOfMedication = "CourseOfMedication",
+    CourseOfTreatment = "CourseOfTreatment",
     DirectionOfBodyStructure = "DirectionOfBodyStructure",
     DirectionOfCondition = "DirectionOfCondition",
     DirectionOfExamination = "DirectionOfExamination",
     DirectionOfTreatment = "DirectionOfTreatment",
     DosageOfMedication = "DosageOfMedication",
+    ExaminationFindsCondition = "ExaminationFindsCondition",
+    ExpressionOfGene = "ExpressionOfGene",
+    ExpressionOfVariant = "ExpressionOfVariant",
     FormOfMedication = "FormOfMedication",
+    FrequencyOfCondition = "FrequencyOfCondition",
     FrequencyOfMedication = "FrequencyOfMedication",
     FrequencyOfTreatment = "FrequencyOfTreatment",
+    MutationTypeOfGene = "MutationTypeOfGene",
+    MutationTypeOfVariant = "MutationTypeOfVariant",
     QualifierOfCondition = "QualifierOfCondition",
     RelationOfExamination = "RelationOfExamination",
     RouteOfMedication = "RouteOfMedication",
+    ScaleOfCondition = "ScaleOfCondition",
     TimeOfCondition = "TimeOfCondition",
     TimeOfEvent = "TimeOfEvent",
     TimeOfExamination = "TimeOfExamination",
@@ -975,7 +969,8 @@ export enum KnownRelationType {
     UnitOfCondition = "UnitOfCondition",
     UnitOfExamination = "UnitOfExamination",
     ValueOfCondition = "ValueOfCondition",
-    ValueOfExamination = "ValueOfExamination"
+    ValueOfExamination = "ValueOfExamination",
+    VariantOfGene = "VariantOfGene"
 }
 
 // @public
