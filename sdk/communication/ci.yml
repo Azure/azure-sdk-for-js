@@ -55,6 +55,8 @@ extends:
         safeName: azurecommunicationjobrouter
       - name: azure-tools-communication-toll-free-verification
         safeName: azuretoolscommunicationtollfreeverification
+      - name: azure-communication-call-automation
+        safeName: azurecommunicationcallautomation
       - name: azure-tools-communication-recipient-verification
         safeName: azuretoolscommunicationrecipientverification
         skipPublishDocMs: true

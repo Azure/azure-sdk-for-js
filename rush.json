@@ -396,6 +396,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/communication-call-automation",
+      "projectFolder": "sdk/communication/communication-call-automation",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/communication-chat",
       "projectFolder": "sdk/communication/communication-chat",
       "versionPolicyName": "client"
