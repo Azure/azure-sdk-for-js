@@ -7,9 +7,7 @@
 
 const { ContainerRegistryBlobClient } = require("@azure/container-registry");
 const { DefaultAzureCredential } = require("@azure/identity");
-const dotenv = require("dotenv");
-const { Readable } = require("stream");
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   // endpoint should be in the form of "https://myregistryname.azurecr.io"
@@ -23,22 +21,21 @@ async function main() {
   );
 
   const config = Buffer.from("Sample config");
-  const uploadConfigResult = await client.uploadBlob(Readable.from(config));
+  const { digest: configDigest, sizeInBytes: configSize } = await client.uploadBlob(config);
 
   const layer = Buffer.from("Sample layer");
-  const uploadLayerResult = await client.uploadBlob(Readable.from(layer));
+  const { digest: layerDigest, sizeInBytes: layerSize } = await client.uploadBlob(layer);
 
   const manifest = {
-    schemaVersion: 2,
     config: {
-      digest: uploadConfigResult.digest,
-      size: config.byteLength,
+      digest: configDigest,
+      sizeInBytes: configSize,
       mediaType: "application/vnd.oci.image.config.v1+json",
     },
     layers: [
       {
-        digest: uploadLayerResult.digest,
-        size: layer.byteLength,
+        digest: layerDigest,
+        sizeInBytes: layerSize,
         mediaType: "application/vnd.oci.image.layer.v1.tar",
       },
     ],
