@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { ExpressRoutePort, NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates the specified ExpressRoutePort resource.
  *
  * @summary Creates or updates the specified ExpressRoutePort resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/ExpressRoutePortCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/ExpressRoutePortCreate.json
  */
 async function expressRoutePortCreate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const expressRoutePortName = "portName";
   const parameters: ExpressRoutePort = {
     bandwidthInGbps: 100,
@@ -38,17 +41,15 @@ async function expressRoutePortCreate() {
   console.log(result);
 }
 
-expressRoutePortCreate().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates the specified ExpressRoutePort resource.
  *
  * @summary Creates or updates the specified ExpressRoutePort resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/ExpressRoutePortUpdateLink.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/ExpressRoutePortUpdateLink.json
  */
 async function expressRoutePortUpdateLink() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const expressRoutePortName = "portName";
   const parameters: ExpressRoutePort = {
     bandwidthInGbps: 100,
@@ -68,4 +69,9 @@ async function expressRoutePortUpdateLink() {
   console.log(result);
 }
 
-expressRoutePortUpdateLink().catch(console.error);
+async function main() {
+  expressRoutePortCreate();
+  expressRoutePortUpdateLink();
+}
+
+main().catch(console.error);

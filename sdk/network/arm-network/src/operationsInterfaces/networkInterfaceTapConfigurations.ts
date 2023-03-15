@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   NetworkInterfaceTapConfiguration,
   NetworkInterfaceTapConfigurationsListOptionalParams,
@@ -44,7 +44,7 @@ export interface NetworkInterfaceTapConfigurations {
     networkInterfaceName: string,
     tapConfigurationName: string,
     options?: NetworkInterfaceTapConfigurationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified tap configuration from the NetworkInterface.
    * @param resourceGroupName The name of the resource group.
@@ -87,10 +87,8 @@ export interface NetworkInterfaceTapConfigurations {
     tapConfigurationParameters: NetworkInterfaceTapConfiguration,
     options?: NetworkInterfaceTapConfigurationsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        NetworkInterfaceTapConfigurationsCreateOrUpdateResponse
-      >,
+    SimplePollerLike<
+      OperationState<NetworkInterfaceTapConfigurationsCreateOrUpdateResponse>,
       NetworkInterfaceTapConfigurationsCreateOrUpdateResponse
     >
   >;

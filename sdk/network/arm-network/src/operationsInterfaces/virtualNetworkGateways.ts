@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualNetworkGateway,
   VirtualNetworkGatewaysListOptionalParams,
@@ -94,8 +94,8 @@ export interface VirtualNetworkGateways {
     parameters: VirtualNetworkGateway,
     options?: VirtualNetworkGatewaysCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworkGatewaysCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewaysCreateOrUpdateResponse>,
       VirtualNetworkGatewaysCreateOrUpdateResponse
     >
   >;
@@ -133,7 +133,7 @@ export interface VirtualNetworkGateways {
     resourceGroupName: string,
     virtualNetworkGatewayName: string,
     options?: VirtualNetworkGatewaysDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified virtual network gateway.
    * @param resourceGroupName The name of the resource group.
@@ -158,8 +158,8 @@ export interface VirtualNetworkGateways {
     parameters: TagsObject,
     options?: VirtualNetworkGatewaysUpdateTagsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworkGatewaysUpdateTagsResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewaysUpdateTagsResponse>,
       VirtualNetworkGatewaysUpdateTagsResponse
     >
   >;
@@ -187,8 +187,8 @@ export interface VirtualNetworkGateways {
     virtualNetworkGatewayName: string,
     options?: VirtualNetworkGatewaysResetOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworkGatewaysResetResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewaysResetResponse>,
       VirtualNetworkGatewaysResetResponse
     >
   >;
@@ -213,7 +213,7 @@ export interface VirtualNetworkGateways {
     resourceGroupName: string,
     virtualNetworkGatewayName: string,
     options?: VirtualNetworkGatewaysResetVpnClientSharedKeyOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Resets the VPN client shared key of the virtual network gateway in the specified resource group.
    * @param resourceGroupName The name of the resource group.
@@ -240,10 +240,8 @@ export interface VirtualNetworkGateways {
     parameters: VpnClientParameters,
     options?: VirtualNetworkGatewaysGeneratevpnclientpackageOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        VirtualNetworkGatewaysGeneratevpnclientpackageResponse
-      >,
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewaysGeneratevpnclientpackageResponse>,
       VirtualNetworkGatewaysGeneratevpnclientpackageResponse
     >
   >;
@@ -277,8 +275,8 @@ export interface VirtualNetworkGateways {
     parameters: VpnClientParameters,
     options?: VirtualNetworkGatewaysGenerateVpnProfileOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworkGatewaysGenerateVpnProfileResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewaysGenerateVpnProfileResponse>,
       VirtualNetworkGatewaysGenerateVpnProfileResponse
     >
   >;
@@ -309,8 +307,8 @@ export interface VirtualNetworkGateways {
     virtualNetworkGatewayName: string,
     options?: VirtualNetworkGatewaysGetVpnProfilePackageUrlOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworkGatewaysGetVpnProfilePackageUrlResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewaysGetVpnProfilePackageUrlResponse>,
       VirtualNetworkGatewaysGetVpnProfilePackageUrlResponse
     >
   >;
@@ -337,8 +335,8 @@ export interface VirtualNetworkGateways {
     virtualNetworkGatewayName: string,
     options?: VirtualNetworkGatewaysGetBgpPeerStatusOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworkGatewaysGetBgpPeerStatusResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewaysGetBgpPeerStatusResponse>,
       VirtualNetworkGatewaysGetBgpPeerStatusResponse
     >
   >;
@@ -376,8 +374,8 @@ export interface VirtualNetworkGateways {
     virtualNetworkGatewayName: string,
     options?: VirtualNetworkGatewaysGetLearnedRoutesOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworkGatewaysGetLearnedRoutesResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewaysGetLearnedRoutesResponse>,
       VirtualNetworkGatewaysGetLearnedRoutesResponse
     >
   >;
@@ -407,8 +405,8 @@ export interface VirtualNetworkGateways {
     peer: string,
     options?: VirtualNetworkGatewaysGetAdvertisedRoutesOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworkGatewaysGetAdvertisedRoutesResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewaysGetAdvertisedRoutesResponse>,
       VirtualNetworkGatewaysGetAdvertisedRoutesResponse
     >
   >;
@@ -441,10 +439,8 @@ export interface VirtualNetworkGateways {
     vpnclientIpsecParams: VpnClientIPsecParameters,
     options?: VirtualNetworkGatewaysSetVpnclientIpsecParametersOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        VirtualNetworkGatewaysSetVpnclientIpsecParametersResponse
-      >,
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewaysSetVpnclientIpsecParametersResponse>,
       VirtualNetworkGatewaysSetVpnclientIpsecParametersResponse
     >
   >;
@@ -476,10 +472,8 @@ export interface VirtualNetworkGateways {
     virtualNetworkGatewayName: string,
     options?: VirtualNetworkGatewaysGetVpnclientIpsecParametersOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        VirtualNetworkGatewaysGetVpnclientIpsecParametersResponse
-      >,
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewaysGetVpnclientIpsecParametersResponse>,
       VirtualNetworkGatewaysGetVpnclientIpsecParametersResponse
     >
   >;
@@ -521,8 +515,8 @@ export interface VirtualNetworkGateways {
     virtualNetworkGatewayName: string,
     options?: VirtualNetworkGatewaysStartPacketCaptureOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworkGatewaysStartPacketCaptureResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewaysStartPacketCaptureResponse>,
       VirtualNetworkGatewaysStartPacketCaptureResponse
     >
   >;
@@ -551,8 +545,8 @@ export interface VirtualNetworkGateways {
     parameters: VpnPacketCaptureStopParameters,
     options?: VirtualNetworkGatewaysStopPacketCaptureOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworkGatewaysStopPacketCaptureResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewaysStopPacketCaptureResponse>,
       VirtualNetworkGatewaysStopPacketCaptureResponse
     >
   >;
@@ -582,8 +576,8 @@ export interface VirtualNetworkGateways {
     virtualNetworkGatewayName: string,
     options?: VirtualNetworkGatewaysGetVpnclientConnectionHealthOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         VirtualNetworkGatewaysGetVpnclientConnectionHealthResponse
       >,
       VirtualNetworkGatewaysGetVpnclientConnectionHealthResponse
@@ -613,7 +607,7 @@ export interface VirtualNetworkGateways {
     virtualNetworkGatewayName: string,
     request: P2SVpnConnectionRequest,
     options?: VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnectionsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Disconnect vpn connections of virtual network gateway in the specified resource group.
    * @param resourceGroupName The name of the resource group.

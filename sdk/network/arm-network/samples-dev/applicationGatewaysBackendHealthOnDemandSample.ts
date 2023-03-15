@@ -13,16 +13,19 @@ import {
   NetworkManagementClient
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
  *
  * @summary Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/ApplicationGatewayBackendHealthTest.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/ApplicationGatewayBackendHealthTest.json
  */
 async function testBackendHealth() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const applicationGatewayName = "appgw";
   const probeRequest: ApplicationGatewayOnDemandProbe = {
     path: "/",
@@ -48,4 +51,8 @@ async function testBackendHealth() {
   console.log(result);
 }
 
-testBackendHealth().catch(console.error);
+async function main() {
+  testBackendHealth();
+}
+
+main().catch(console.error);
