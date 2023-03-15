@@ -9,7 +9,6 @@
 import { ContainerRegistryBlobClient } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
-import { Readable } from "stream";
 dotenv.config();
 
 async function main() {
@@ -25,7 +24,7 @@ async function main() {
 
   const mediaType = "application/vnd.docker.distribution.manifest.list.v2+json";
 
-  const manifest = Readable.from(
+  const manifest = Buffer.from(
     JSON.stringify({
       schemaVersion: 2,
       mediaType,

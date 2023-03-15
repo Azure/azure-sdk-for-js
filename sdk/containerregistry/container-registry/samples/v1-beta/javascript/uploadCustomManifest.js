@@ -7,9 +7,7 @@
 
 const { ContainerRegistryBlobClient } = require("@azure/container-registry");
 const { DefaultAzureCredential } = require("@azure/identity");
-const dotenv = require("dotenv");
-const { Readable } = require("stream");
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   // endpoint should be in the form of "https://myregistryname.azurecr.io"
@@ -24,7 +22,7 @@ async function main() {
 
   const mediaType = "application/vnd.docker.distribution.manifest.list.v2+json";
 
-  const manifest = Readable.from(
+  const manifest = Buffer.from(
     JSON.stringify({
       schemaVersion: 2,
       mediaType,
