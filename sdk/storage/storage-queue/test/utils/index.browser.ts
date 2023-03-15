@@ -109,12 +109,7 @@ export function getBrowserFile(name: string, size: number): File {
     uint8Arr[j] = Math.floor(Math.random() * 256);
   }
 
-  // IE11 & Edge doesn't support create File using var file = new File([binary], name);
-  // We leverage Blob() to mock a File
-
-  const file = new Blob([uint8Arr]) as any;
-  file.name = name;
-  return file;
+  return new File([uint8Arr], name);
 }
 
 export function getSASConnectionStringFromEnvironment(): string {
