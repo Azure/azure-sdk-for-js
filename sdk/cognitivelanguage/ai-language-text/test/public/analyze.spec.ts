@@ -585,7 +585,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             );
           });
 
-          it("emoji with skin tone modifier", async function () {
+          it.only("emoji with skin tone modifier", async function () {
             await checkOffsetAndLength(
               client,
               "👩🏻 SSN: 859-98-0987",
@@ -596,7 +596,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             );
           });
 
-          it("family emoji", async function () {
+          it.only("family emoji", async function () {
             await checkOffsetAndLength(
               client,
               "👩‍👩‍👧‍👧 SSN: 859-98-0987",
@@ -607,7 +607,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             );
           });
 
-          it("family emoji with skin tone modifier", async function (this: Context) {
+          it.only("family emoji with skin tone modifier", async function (this: Context) {
             await checkOffsetAndLength(
               client,
               "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",

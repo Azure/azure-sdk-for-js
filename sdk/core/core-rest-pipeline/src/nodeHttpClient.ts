@@ -163,6 +163,7 @@ class NodeHttpClient implements HttpClient {
         response.readableStreamBody = responseStream;
       } else {
         response.bodyAsText = await streamToText(responseStream);
+        console.log(JSON.stringify(response.bodyAsText))
       }
 
       return response;
