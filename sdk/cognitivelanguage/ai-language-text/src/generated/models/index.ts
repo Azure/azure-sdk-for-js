@@ -391,6 +391,11 @@ export interface HealthcareRelationEntity {
   role: string;
 }
 
+export interface DocumentDetectedLanguageString {
+  /** If 'language' is set to 'auto' for the document in the request this field will contain a 2 letter ISO 639-1 representation of the language detected for this document. */
+  detectedLanguage?: string;
+}
+
 export interface PreBuiltResult {
   /** Errors by document id. */
   errors: InputError[];
@@ -924,10 +929,6 @@ export interface CustomLabelClassificationResultDocumentsItem
   extends ClassificationDocumentResult,
     DocumentDetectedLanguage {}
 
-export interface HealthcareEntitiesDocumentResultWithDocumentDetectedLanguage
-  extends HealthcareEntitiesDocumentResult,
-    DocumentDetectedLanguage {}
-
 export interface SentimentResponseDocumentsItem
   extends SentimentDocumentResult,
     DocumentDetectedLanguage {}
@@ -956,6 +957,10 @@ export interface KeyPhraseResultDocumentsItem
 export interface AbstractiveSummaryDocumentResultWithDetectedLanguage
   extends AbstractiveSummaryDocumentResult,
     DocumentDetectedLanguage {}
+
+export interface HealthcareEntitiesDocumentResultWithDocumentDetectedLanguage
+  extends HealthcareEntitiesDocumentResult,
+    DocumentDetectedLanguageString {}
 
 export interface HealthcareResult extends PreBuiltResult {
   documents: HealthcareEntitiesDocumentResultWithDocumentDetectedLanguage[];
@@ -2331,8 +2336,6 @@ export enum KnownHealthcareEntityCategory {
   Age = "Age",
   /** Gender */
   Gender = "Gender",
-  /** Ethnicity */
-  Ethnicity = "Ethnicity",
   /** ExaminationName */
   ExaminationName = "ExaminationName",
   /** Date */
@@ -2349,16 +2352,10 @@ export enum KnownHealthcareEntityCategory {
   RelationalOperator = "RelationalOperator",
   /** Time */
   Time = "Time",
-  /** Course */
-  Course = "Course",
   /** GeneOrProtein */
   GeneOrProtein = "GeneOrProtein",
   /** Variant */
   Variant = "Variant",
-  /** Expression */
-  Expression = "Expression",
-  /** MutationType */
-  MutationType = "MutationType",
   /** AdministrativeEvent */
   AdministrativeEvent = "AdministrativeEvent",
   /** CareEnvironment */
@@ -2371,8 +2368,6 @@ export enum KnownHealthcareEntityCategory {
   SymptomOrSign = "SymptomOrSign",
   /** ConditionQualifier */
   ConditionQualifier = "ConditionQualifier",
-  /** ConditionScale */
-  ConditionScale = "ConditionScale",
   /** MedicationClass */
   MedicationClass = "MedicationClass",
   /** MedicationName */
@@ -2386,17 +2381,7 @@ export enum KnownHealthcareEntityCategory {
   /** FamilyRelation */
   FamilyRelation = "FamilyRelation",
   /** TreatmentName */
-  TreatmentName = "TreatmentName",
-  /** Allergen */
-  Allergen = "Allergen",
-  /** Employment */
-  Employment = "Employment",
-  /** LivingStatus */
-  LivingStatus = "LivingStatus",
-  /** SubstanceUse */
-  SubstanceUse = "SubstanceUse",
-  /** SubstanceUseAmount */
-  SubstanceUseAmount = "SubstanceUseAmount"
+  TreatmentName = "TreatmentName"
 }
 
 /**
@@ -2407,7 +2392,6 @@ export enum KnownHealthcareEntityCategory {
  * **BodyStructure** \
  * **Age** \
  * **Gender** \
- * **Ethnicity** \
  * **ExaminationName** \
  * **Date** \
  * **Direction** \
@@ -2416,30 +2400,21 @@ export enum KnownHealthcareEntityCategory {
  * **MeasurementUnit** \
  * **RelationalOperator** \
  * **Time** \
- * **Course** \
  * **GeneOrProtein** \
  * **Variant** \
- * **Expression** \
- * **MutationType** \
  * **AdministrativeEvent** \
  * **CareEnvironment** \
  * **HealthcareProfession** \
  * **Diagnosis** \
  * **SymptomOrSign** \
  * **ConditionQualifier** \
- * **ConditionScale** \
  * **MedicationClass** \
  * **MedicationName** \
  * **Dosage** \
  * **MedicationForm** \
  * **MedicationRoute** \
  * **FamilyRelation** \
- * **TreatmentName** \
- * **Allergen** \
- * **Employment** \
- * **LivingStatus** \
- * **SubstanceUse** \
- * **SubstanceUseAmount**
+ * **TreatmentName**
  */
 export type HealthcareEntityCategory = string;
 
@@ -2447,18 +2422,6 @@ export type HealthcareEntityCategory = string;
 export enum KnownRelationType {
   /** Abbreviation */
   Abbreviation = "Abbreviation",
-  /** BodySiteOfCondition */
-  BodySiteOfCondition = "BodySiteOfCondition",
-  /** BodySiteOfTreatment */
-  BodySiteOfTreatment = "BodySiteOfTreatment",
-  /** CourseOfCondition */
-  CourseOfCondition = "CourseOfCondition",
-  /** CourseOfExamination */
-  CourseOfExamination = "CourseOfExamination",
-  /** CourseOfMedication */
-  CourseOfMedication = "CourseOfMedication",
-  /** CourseOfTreatment */
-  CourseOfTreatment = "CourseOfTreatment",
   /** DirectionOfBodyStructure */
   DirectionOfBodyStructure = "DirectionOfBodyStructure",
   /** DirectionOfCondition */
@@ -2469,32 +2432,18 @@ export enum KnownRelationType {
   DirectionOfTreatment = "DirectionOfTreatment",
   /** DosageOfMedication */
   DosageOfMedication = "DosageOfMedication",
-  /** ExaminationFindsCondition */
-  ExaminationFindsCondition = "ExaminationFindsCondition",
-  /** ExpressionOfGene */
-  ExpressionOfGene = "ExpressionOfGene",
-  /** ExpressionOfVariant */
-  ExpressionOfVariant = "ExpressionOfVariant",
   /** FormOfMedication */
   FormOfMedication = "FormOfMedication",
-  /** FrequencyOfCondition */
-  FrequencyOfCondition = "FrequencyOfCondition",
   /** FrequencyOfMedication */
   FrequencyOfMedication = "FrequencyOfMedication",
   /** FrequencyOfTreatment */
   FrequencyOfTreatment = "FrequencyOfTreatment",
-  /** MutationTypeOfGene */
-  MutationTypeOfGene = "MutationTypeOfGene",
-  /** MutationTypeOfVariant */
-  MutationTypeOfVariant = "MutationTypeOfVariant",
   /** QualifierOfCondition */
   QualifierOfCondition = "QualifierOfCondition",
   /** RelationOfExamination */
   RelationOfExamination = "RelationOfExamination",
   /** RouteOfMedication */
   RouteOfMedication = "RouteOfMedication",
-  /** ScaleOfCondition */
-  ScaleOfCondition = "ScaleOfCondition",
   /** TimeOfCondition */
   TimeOfCondition = "TimeOfCondition",
   /** TimeOfEvent */
@@ -2512,9 +2461,7 @@ export enum KnownRelationType {
   /** ValueOfCondition */
   ValueOfCondition = "ValueOfCondition",
   /** ValueOfExamination */
-  ValueOfExamination = "ValueOfExamination",
-  /** VariantOfGene */
-  VariantOfGene = "VariantOfGene"
+  ValueOfExamination = "ValueOfExamination"
 }
 
 /**
@@ -2523,30 +2470,17 @@ export enum KnownRelationType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Abbreviation** \
- * **BodySiteOfCondition** \
- * **BodySiteOfTreatment** \
- * **CourseOfCondition** \
- * **CourseOfExamination** \
- * **CourseOfMedication** \
- * **CourseOfTreatment** \
  * **DirectionOfBodyStructure** \
  * **DirectionOfCondition** \
  * **DirectionOfExamination** \
  * **DirectionOfTreatment** \
  * **DosageOfMedication** \
- * **ExaminationFindsCondition** \
- * **ExpressionOfGene** \
- * **ExpressionOfVariant** \
  * **FormOfMedication** \
- * **FrequencyOfCondition** \
  * **FrequencyOfMedication** \
  * **FrequencyOfTreatment** \
- * **MutationTypeOfGene** \
- * **MutationTypeOfVariant** \
  * **QualifierOfCondition** \
  * **RelationOfExamination** \
  * **RouteOfMedication** \
- * **ScaleOfCondition** \
  * **TimeOfCondition** \
  * **TimeOfEvent** \
  * **TimeOfExamination** \
@@ -2555,8 +2489,7 @@ export enum KnownRelationType {
  * **UnitOfCondition** \
  * **UnitOfExamination** \
  * **ValueOfCondition** \
- * **ValueOfExamination** \
- * **VariantOfGene**
+ * **ValueOfExamination**
  */
 export type RelationType = string;
 
