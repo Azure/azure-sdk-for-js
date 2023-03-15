@@ -11703,7 +11703,7 @@ packages:
     dev: false
 
   file:projects/arm-digitaltwins.tgz:
-    resolution: {integrity: sha512-O3qOKCqNOHDcV+70YJ1eelU6YOrhNMDxy1mMjuA1SFcy7+93VI1xTcEylobgUC8a4Y7n2n7GZAjemy7coTXK/A==, tarball: file:projects/arm-digitaltwins.tgz}
+    resolution: {integrity: sha512-xybthrN97J209FwHo4rxLLDVQGLO23N/VWas7uSXRr8P0nSw0pSdv7RJYyzYbct2U+zyrQOlm9a9JkQDMn52KQ==, tarball: file:projects/arm-digitaltwins.tgz}
     name: '@rush-temp/arm-digitaltwins'
     version: 0.0.0
     dependencies:
@@ -11717,7 +11717,8 @@ packages:
       '@types/node': 14.18.37
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
