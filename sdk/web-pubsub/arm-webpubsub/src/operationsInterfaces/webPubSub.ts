@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   WebPubSubResource,
   WebPubSubListBySubscriptionOptionalParams,
@@ -89,8 +89,8 @@ export interface WebPubSub {
     parameters: WebPubSubResource,
     options?: WebPubSubCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WebPubSubCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WebPubSubCreateOrUpdateResponse>,
       WebPubSubCreateOrUpdateResponse
     >
   >;
@@ -119,7 +119,7 @@ export interface WebPubSub {
     resourceGroupName: string,
     resourceName: string,
     options?: WebPubSubDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Operation to delete a resource.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -146,8 +146,8 @@ export interface WebPubSub {
     parameters: WebPubSubResource,
     options?: WebPubSubUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WebPubSubUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WebPubSubUpdateResponse>,
       WebPubSubUpdateResponse
     >
   >;
@@ -192,8 +192,8 @@ export interface WebPubSub {
     parameters: RegenerateKeyParameters,
     options?: WebPubSubRegenerateKeyOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WebPubSubRegenerateKeyResponse>,
+    SimplePollerLike<
+      OperationState<WebPubSubRegenerateKeyResponse>,
       WebPubSubRegenerateKeyResponse
     >
   >;
@@ -223,7 +223,7 @@ export interface WebPubSub {
     resourceGroupName: string,
     resourceName: string,
     options?: WebPubSubRestartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Operation to restart a resource.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

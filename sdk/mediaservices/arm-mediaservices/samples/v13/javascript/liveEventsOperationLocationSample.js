@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get a live event operation status.
  *
  * @summary Get a live event operation status.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-11-01/examples/liveevent-operation-location.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-08-01/examples/liveevent-operation-location.json
  */
 async function getTheLiveEventOperationStatus() {
   const subscriptionId =

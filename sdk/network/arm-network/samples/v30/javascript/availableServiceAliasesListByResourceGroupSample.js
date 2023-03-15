@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets all available service aliases for this resource group in this region.
  *
  * @summary Gets all available service aliases for this resource group in this region.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/AvailableServiceAliasesListByResourceGroup.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/AvailableServiceAliasesListByResourceGroup.json
  */
 async function getAvailableServiceAliasesInTheResourceGroup() {
-  const subscriptionId = "subId";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const location = "westcentralus";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -33,4 +34,8 @@ async function getAvailableServiceAliasesInTheResourceGroup() {
   console.log(resArray);
 }
 
-getAvailableServiceAliasesInTheResourceGroup().catch(console.error);
+async function main() {
+  getAvailableServiceAliasesInTheResourceGroup();
+}
+
+main().catch(console.error);

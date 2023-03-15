@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   PrivateEndpoint,
   PrivateEndpointsListNextOptionalParams,
@@ -171,14 +175,14 @@ export class PrivateEndpointsImpl implements PrivateEndpoints {
     resourceGroupName: string,
     privateEndpointName: string,
     options?: PrivateEndpointsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -211,15 +215,15 @@ export class PrivateEndpointsImpl implements PrivateEndpoints {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, privateEndpointName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, privateEndpointName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -274,8 +278,8 @@ export class PrivateEndpointsImpl implements PrivateEndpoints {
     parameters: PrivateEndpoint,
     options?: PrivateEndpointsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateEndpointsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PrivateEndpointsCreateOrUpdateResponse>,
       PrivateEndpointsCreateOrUpdateResponse
     >
   > {
@@ -285,7 +289,7 @@ export class PrivateEndpointsImpl implements PrivateEndpoints {
     ): Promise<PrivateEndpointsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -318,15 +322,18 @@ export class PrivateEndpointsImpl implements PrivateEndpoints {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, privateEndpointName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, privateEndpointName, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PrivateEndpointsCreateOrUpdateResponse,
+      OperationState<PrivateEndpointsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -544,7 +551,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -565,7 +571,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

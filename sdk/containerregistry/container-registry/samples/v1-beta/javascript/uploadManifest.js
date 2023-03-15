@@ -5,10 +5,7 @@
  * @summary Uploads a manifest to a repository.
  */
 
-const {
-  ContainerRegistryBlobClient,
-  KnownContainerRegistryAudience,
-} = require("@azure/container-registry");
+const { ContainerRegistryBlobClient } = require("@azure/container-registry");
 const { DefaultAzureCredential } = require("@azure/identity");
 const dotenv = require("dotenv");
 const { Readable } = require("stream");
@@ -22,10 +19,7 @@ async function main() {
   const client = new ContainerRegistryBlobClient(
     endpoint,
     repository,
-    new DefaultAzureCredential(),
-    {
-      audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
-    }
+    new DefaultAzureCredential()
   );
 
   const layer = Buffer.from("Hello, world");

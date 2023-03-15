@@ -59,7 +59,7 @@ export interface ArtifactTagProperties {
 
 // @public
 export class ContainerRegistryBlobClient {
-    constructor(endpoint: string, repositoryName: string, credential: TokenCredential, options: ContainerRegistryBlobClientOptions);
+    constructor(endpoint: string, repositoryName: string, credential: TokenCredential, options?: ContainerRegistryBlobClientOptions);
     deleteBlob(digest: string, options?: DeleteBlobOptions): Promise<void>;
     deleteManifest(digest: string, options?: DeleteManifestOptions): Promise<void>;
     downloadBlob(digest: string, options?: DownloadBlobOptions): Promise<DownloadBlobResult>;
@@ -72,7 +72,7 @@ export class ContainerRegistryBlobClient {
 
 // @public
 export interface ContainerRegistryBlobClientOptions extends CommonClientOptions {
-    audience: string;
+    audience?: string;
     serviceVersion?: "2021-07-01";
 }
 
@@ -272,19 +272,19 @@ export interface OciAnnotations {
 }
 
 // @public
-export interface OciBlobDescriptor {
+export interface OciDescriptor {
     annotations?: OciAnnotations;
     digest: string;
     mediaType: string;
-    size: number;
+    sizeInBytes: number;
     urls?: string[];
 }
 
 // @public
 export interface OciImageManifest {
     annotations?: OciAnnotations;
-    config: OciBlobDescriptor;
-    layers: OciBlobDescriptor[];
+    config: OciDescriptor;
+    layers: OciDescriptor[];
     schemaVersion: number;
 }
 
@@ -343,6 +343,7 @@ export interface UploadBlobOptions extends OperationOptions {
 // @public
 export interface UploadBlobResult {
     digest: string;
+    sizeInBytes: number;
 }
 
 // @public

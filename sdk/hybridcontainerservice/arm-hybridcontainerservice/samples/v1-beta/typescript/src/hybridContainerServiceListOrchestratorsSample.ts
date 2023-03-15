@@ -10,15 +10,20 @@
 // Licensed under the MIT License.
 import { HybridContainerServiceClient } from "@azure/arm-hybridcontainerservice";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists the available orchestrators in a custom location for HybridAKS
  *
  * @summary Lists the available orchestrators in a custom location for HybridAKS
- * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-05-01-preview/examples/ListOrchestrators.json
+ * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-09-01-preview/examples/ListOrchestrators.json
  */
 async function listOrchestrators() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["HYBRIDCONTAINERSERVICE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const customLocationResourceUri =
     "subscriptions/a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b/resourceGroups/test-arcappliance-resgrp/providers/Microsoft.ExtendedLocation/customLocations/testcustomlocation";
   const credential = new DefaultAzureCredential();
@@ -29,4 +34,8 @@ async function listOrchestrators() {
   console.log(result);
 }
 
-listOrchestrators().catch(console.error);
+async function main() {
+  listOrchestrators();
+}
+
+main().catch(console.error);
