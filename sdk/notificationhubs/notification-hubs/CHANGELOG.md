@@ -4,12 +4,6 @@
 
 ### Features Added
 
-- Initial GA Release
-
-## 1.0.0-beta.9 (Unreleased)
-
-### Features Added
-
 - Added Xiaomi support with the following:
   - `XiaomiRegistrationDescription` and `XiaomiTemplateRegistrationDescription` for registrations with associated factory methods.
   - `XiaomiInstallation` for installation operations and associated factory methods.
