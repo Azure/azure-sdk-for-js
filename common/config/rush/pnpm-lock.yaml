@@ -15763,7 +15763,7 @@ packages:
     dev: false
 
   file:projects/communication-call-automation.tgz:
-    resolution: {integrity: sha512-gedDhtLv79IHbehKLNDmUjw/xJm67tt0IydBiNo5MMfyctXlFhbyaRRnT04mRq3Af/dzaK76iA4BHkSAPUxyBQ==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-/hCKnyWRAeKSG8+w4OoM010JypxyiYCLpKl4lgaN1BeZuqSS+u7FDNPQzbFo39uIzhBSeRXKUhf/zbg/fYhkpQ==, tarball: file:projects/communication-call-automation.tgz}
     name: '@rush-temp/communication-call-automation'
     version: 0.0.0
     dependencies:
@@ -15776,7 +15776,7 @@ packages:
       '@types/uuid': 8.3.4
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
+      dotenv: 16.0.3
       eslint: 8.35.0
       events: 3.3.0
       inherits: 2.0.4
