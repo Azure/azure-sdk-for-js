@@ -276,7 +276,7 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    * @param snapshot The name of the key-value snapshot to retrieve.
    * @param options The options parameters.
    */
-  async getSnapshotCreationOperationDetails(
+  getSnapshotCreationOperationDetails(
     snapshot: string,
     options?: GetSnapshotCreationOperationDetailsOptionalParams
   ): Promise<GetSnapshotCreationOperationDetailsResponse> {
