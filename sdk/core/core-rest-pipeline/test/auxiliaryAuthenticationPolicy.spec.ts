@@ -23,7 +23,7 @@ describe("AuxiliaryAuthenticationPolicy", function () {
     clock.restore();
   });
 
-  it("correctly adds an Authentication header with the access token", async function () {
+  it("correctly adds an Authentication header with one access token", async function () {
     const mockToken = "token";
     const tokenScopes = ["scope1", "scope2"];
     const fakeGetToken = sinon.fake.returns(
