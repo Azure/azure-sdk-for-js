@@ -186,7 +186,7 @@ export type EmailGetSendResultResponse = EmailGetSendResultHeaders &
 
 /** Optional parameters. */
 export interface EmailSendOptionalParams extends coreClient.OperationOptions {
-  /** This is the ID used by the status monitor for this long running operation. */
+  /** This is the ID provided by the customer to identify the long running operation. If an ID is not provided by the customer, the service will generate one. */
   operationId?: string;
   /** Tracking ID sent with the request to help with debugging. */
   clientRequestId?: string;
