@@ -52,13 +52,7 @@ async function defaultAuthorizeRequest(options: AuthorizeRequestOptions): Promis
 }
 
 function buildAccessTokenCycler(credential: TokenCredential) {
-  return credential
-    ? createTokenCycler(credential /* , options */)
-    : () => Promise.resolve(null);
-}
-
-function formatSingleToken(token: string) {
-  return `Bearer ${token}`;
+  return credential ? createTokenCycler(credential /* , options */) : () => Promise.resolve(null);
 }
 
 /**
@@ -82,9 +76,9 @@ export function auxiliaryAuthenticationPolicy(
       }
 
       const tokenList: string[] = [];
-      for (const credential of (credentials ?? [])) {
+      for (const credential of credentials ?? []) {
         if (!tokenCyclerMap.has(credential)) {
-          tokenCyclerMap.set(credential, buildAccessTokenCycler(credential))
+          tokenCyclerMap.set(credential, buildAccessTokenCycler(credential));
         }
         const getAccessToken = tokenCyclerMap.get(credential);
         const singalAccessToken = await defaultAuthorizeRequest({
@@ -98,7 +92,10 @@ export function auxiliaryAuthenticationPolicy(
         }
       }
 
-      request.headers.set(AUTHORIZATION_AUXILIARY_HEADER, tokenList.map(formatSingleToken).join(","));
+      request.headers.set(
+        AUTHORIZATION_AUXILIARY_HEADER,
+        tokenList.map((token) => `Bearer ${token}`).join(",")
+      );
 
       let response: PipelineResponse;
       let error: Error | undefined;

@@ -90,5 +90,5 @@ export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy";
 export {
   auxiliaryAuthenticationPolicy,
   AuxiliaryAuthenticationPolicyNameOptions,
-  auxiliaryAuthenticationPolicyName
-} from "./policies/auxiliaryAuthenticationPolicy"
+  auxiliaryAuthenticationPolicyName,
+} from "./policies/auxiliaryAuthenticationPolicy";

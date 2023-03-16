@@ -56,7 +56,8 @@ describe("AuxiliaryAuthenticationPolicy", function () {
   });
 
   it("correctly adds an Authentication header with two access tokens", async function () {
-    const mockToken1 = "token1", mockToken2 = "token2";
+    const mockToken1 = "token1",
+      mockToken2 = "token2";
     const tokenScopes = ["scope1", "scope2"];
     const fakeGetToken1 = sinon.fake.returns(
       Promise.resolve({ token: mockToken1, expiresOn: new Date() })
@@ -80,7 +81,10 @@ describe("AuxiliaryAuthenticationPolicy", function () {
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.resolves(successResponse);
 
-    const auxiTokenAuthPolicy = createAuxiliaryTokenPolicy(tokenScopes, [mockCredential1, mockCredential2]);
+    const auxiTokenAuthPolicy = createAuxiliaryTokenPolicy(tokenScopes, [
+      mockCredential1,
+      mockCredential2,
+    ]);
     await auxiTokenAuthPolicy.sendRequest(request, next);
 
     assert(
@@ -90,7 +94,10 @@ describe("AuxiliaryAuthenticationPolicy", function () {
       }),
       "fakeGetToken called incorrectly."
     );
-    assert.strictEqual(request.headers.get("x-ms-authorization-auxiliary"), `Bearer ${mockToken1},Bearer ${mockToken2}`);
+    assert.strictEqual(
+      request.headers.get("x-ms-authorization-auxiliary"),
+      `Bearer ${mockToken1},Bearer ${mockToken2}`
+    );
   });
 
   it("only refreshes invalid token during the refresh window", async () => {
@@ -115,7 +122,10 @@ describe("AuxiliaryAuthenticationPolicy", function () {
     await policy.sendRequest(request, next);
     assert.strictEqual(shortCredential.authCount, 1);
     assert.strictEqual(longCredential.authCount, 1);
-    assert.strictEqual(request.headers.get("x-ms-authorization-auxiliary"), `Bearer mock-token,Bearer mock-token`);
+    assert.strictEqual(
+      request.headers.get("x-ms-authorization-auxiliary"),
+      `Bearer mock-token,Bearer mock-token`
+    );
 
     // The token will remain cached until tokenExpiration - testTokenRefreshBufferMs, so in (5000 - 1000) milliseconds.
 
@@ -212,7 +222,7 @@ class MockRefreshAzureCredential implements TokenCredential {
     public expiresOnTimestamp: number,
     public getTokenDelay?: number,
     public clock?: sinon.SinonFakeTimers
-  ) { }
+  ) {}
 
   public async getToken(): Promise<AccessToken> {
     this.authCount++;
