@@ -29,7 +29,7 @@ export class AppConfigurationClient {
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: AppConfigurationClientOptions);
     addConfigurationSetting(configurationSetting: AddConfigurationSettingParam | AddConfigurationSettingParam<FeatureFlagValue> | AddConfigurationSettingParam<SecretReferenceValue>, options?: AddConfigurationSettingOptions): Promise<AddConfigurationSettingResponse>;
     archiveSnapshot(snapshotId: SnapshotId, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
-    beginCreateSnapshot(snapshot: SnapshotInfo, options?: CreateSnapshotOptions): Promise<void>;
+    beginCreateSnapshot(snapshot: SnapshotInfo, options?: CreateSnapshotOptions): Promise<CreateSnapshotResponse>;
     createSnapshot(snapshot: SnapshotInfo, options?: CreateSnapshotOptions): Promise<CreateSnapshotResponse>;
     deleteConfigurationSetting(id: ConfigurationSettingId, options?: DeleteConfigurationSettingOptions): Promise<DeleteConfigurationSettingResponse>;
     getConfigurationSetting(id: ConfigurationSettingId, options?: GetConfigurationSettingOptions): Promise<GetConfigurationSettingResponse>;

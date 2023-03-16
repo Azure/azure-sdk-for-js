@@ -529,7 +529,7 @@ export class AppConfigurationClient {
   async beginCreateSnapshot(
     snapshot: SnapshotInfo,
     options: CreateSnapshotOptions = {}
-  ): Promise<void> {
+  ): Promise<CreateSnapshotResponse> {
     logger.info("[createSnapshot] Creating snapshot");
     const self = this;
     function createLro(): LongRunningOperation<unknown> {
@@ -558,7 +558,7 @@ export class AppConfigurationClient {
             }
           );
         },
-        async sendPollRequest(): Promise<LroResponse<OperationDetails>> {
+        async sendPollRequest(): Promise<LroResponse<OperationDetails | GetSnapshotResponse>> {
           return tracingClient.withSpan(
             `${AppConfigurationClient.name}.getSnapshotCreationOperationDetails`,
             options,
@@ -568,6 +568,18 @@ export class AppConfigurationClient {
               );
               console.log("poll response -- ", originalResponse)
               const res = transformOperationDetails(originalResponse)
+
+              if (originalResponse.status === "Succeeded") {
+                const response = await self.getSnapshot(snapshot.name, updatedOptions);
+                return {
+                  flatResponse: response,
+                  rawResponse: {
+                    statusCode: res._response.status,
+                    headers: res._response.headers.toJson(),
+                    body: res._response.parsedBody,
+                  },
+                }
+              }
               return {
                 flatResponse: res,
                 rawResponse: {
@@ -582,14 +594,16 @@ export class AppConfigurationClient {
       }
     }
     function processResult(result: unknown, state: OperationState<CreateSnapshotResponse>): CreateSnapshotResponse {
-      console.log("processResult", result, state);
-      return {} as CreateSnapshotResponse;
+      if (state.status !== "succeeded" || !result) throw new RestError("something went wrong");
+      console.log("processResult =", (result as LroResponse<GetSnapshotResponse>).flatResponse)
+      return (result as LroResponse<GetSnapshotResponse>).flatResponse;
     }
     const poller = await createHttpPoller<CreateSnapshotResponse, OperationState<CreateSnapshotResponse>>(createLro(), {
       processResult
     });
     const finalResult = await poller.pollUntilDone();
     console.log("final =", finalResult);
+    return finalResult;
   }
 
 

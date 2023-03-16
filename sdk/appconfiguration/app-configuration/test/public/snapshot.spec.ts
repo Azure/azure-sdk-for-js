@@ -60,7 +60,7 @@ describe("AppConfigurationClient snapshot", () => {
   describe("createSnapshot", () => {
     it.only("create a snapshot", async () => {
       // creating a new snapshot
-      await client.beginCreateSnapshot(snapshot1);
+      newSnapshot = await client.beginCreateSnapshot(snapshot1);
       // assert.equal(
       //   newSnapshot.name,
       //   snapshot1.name,
@@ -84,7 +84,7 @@ describe("AppConfigurationClient snapshot", () => {
       //   "Unexpected filters in result from createSnapshot()."
       // );
 
-      newSnapshot = await client.getSnapshot(newSnapshot.name);
+      // newSnapshot = await client.getSnapshot(newSnapshot.name);
       // when the snapshot status is not ready, please get it again until it is ready
       while (newSnapshot.status !== "ready") {
         console.log("Snapshot is not ready yet. Please wait...");
