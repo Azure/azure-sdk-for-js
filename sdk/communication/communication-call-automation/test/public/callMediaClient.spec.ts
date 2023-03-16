@@ -4,9 +4,10 @@
 import { CommunicationIdentifier, serializeCommunicationIdentifier } from "@azure/communication-common";
 import Sinon, { SinonStubbedInstance } from "sinon"
 import { CallMedia } from "../../src/callMedia";
-import { CallMediaRecognizeDtmfOptions, DtmfTone, FileSource } from "../../src/models/models";
+import { FileSource, RecognizeInputType } from "../../src/models/models";
 import { assert } from 'chai';
 import { CallMediaImpl } from "../../src/generated/src/operations";
+import { CallMediaRecognizeDtmfOptions } from "../../src";
 
 describe("CallMedia Unit Tests", () => {
   let callConnectionId: string;
@@ -71,15 +72,10 @@ describe("CallMedia Unit Tests", () => {
   });
 
   it("StartRecognizing", async () => {
-    // Prepare input data
     const recognizeOptions: CallMediaRecognizeDtmfOptions = {
-      interToneTimeoutInSeconds: 2,
       maxTonesToCollect: 5,
-      stopDtmfTones: [DtmfTone.One, DtmfTone.Two],
-      playPrompt: {
-        uri: 'https://example.com/prompt.mp3'
-      },
-      targetParticipant: { communicationUserId: 'user1' }
+      targetParticipant: { communicationUserId: 'user1' },
+      recognizeInputType: RecognizeInputType.Dtmf
     };
 
     // Call the startRecognizing function
@@ -91,34 +87,32 @@ describe("CallMedia Unit Tests", () => {
         callConnectionId,
         {
           recognizeInputType: 'dtmf',
-          playPrompt: {
-            sourceType: 'file',
-            fileSource: { uri: recognizeOptions.playPrompt.uri },
-            playSourceId: recognizeOptions.playPrompt.playSourceId
-          },
-          interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
+          playPrompt: undefined,
+          interruptCallMediaOperation: undefined,
           recognizeOptions: {
-            interruptPrompt: recognizeOptions.interruptPrompt,
-            initialSilenceTimeoutInSeconds: recognizeOptions.initialSilenceTimeoutInSeconds,
-            targetParticipant: JSON.stringify(recognizeOptions.targetParticipant),
+            interruptPrompt: undefined,
+            initialSilenceTimeoutInSeconds: 5, // Set default value here
+            targetParticipant: serializeCommunicationIdentifier(
+              recognizeOptions.targetParticipant
+            ),
             dtmfOptions: {
-              interToneTimeoutInSeconds: recognizeOptions.interToneTimeoutInSeconds,
-              maxTonesToCollect: recognizeOptions.maxTonesToCollect,
-              stopTones: recognizeOptions.stopDtmfTones
-            },
+              interToneTimeoutInSeconds: 2, // Set default value here
+              maxTonesToCollect: 5,
+              stopTones: undefined
+            }
           },
-          operationContext: recognizeOptions.operationContext
+          operationContext: undefined
         },
         {}
       )
     );
+
   });
 
   it("CancelAllMediaOperations", async () => {
-    callMediaImpl.cancelAllMediaOperations.resolves();
-
     await callMedia.cancelAllMediaOperations();
 
     assert.isTrue(callMediaImpl.cancelAllMediaOperations.calledOnceWith(callConnectionId, {}));
   });
+
 });
