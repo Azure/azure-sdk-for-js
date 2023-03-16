@@ -12,13 +12,13 @@ add-credentials: false
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://github.com/Azure/azure-rest-api-specs/blob/main/specification/appconfiguration/data-plane/Microsoft.AppConfiguration/preview/2022-11-01-preview/appconfiguration.json
+# input-file: https://github.com/Azure/azure-rest-api-specs/blob/main/specification/appconfiguration/data-plane/Microsoft.AppConfiguration/preview/2022-11-01-preview/appconfiguration.json
+input-file: ./temp.json
 model-date-time-as-string: false
 optional-response-headers: true
 sample-generation: false
 core-http-compat-mode: true
-use-extension:
-  "@autorest/typescript": "6.0.0-beta.16"
+typescript: true
 disable-async-iterators: true
 api-version-parameter: choice
 v3: true
@@ -101,6 +101,7 @@ directive:
       $["304"]["headers"]["Last-Modified"]["description"] = "A UTC datetime that specifies the last time the resource was modified.";
       $["304"]["headers"]["Last-Modified"]["type"] = "string";
 ```
+
 ### Rename Properties created -> createdOn, expires -> expiresOn, items_count -> itemCount
 
 ```yaml
@@ -122,4 +123,19 @@ directive:
     transform: >
       $.required = $.required || [];
       $.required.push('name');
+```
+
+# Disable LRO
+
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["paths"][*]
+    transform: >
+      for (var op of Object.values($)) {
+          if (op["x-ms-long-running-operation"]) {
+              delete op["x-ms-long-running-operation"];
+          }
+      }
 ```

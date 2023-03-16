@@ -43,7 +43,7 @@
     "build:samples": "echo Obsolete.",
     "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-* types *.tgz *.log",
+    "clean": "rimraf dist dist-* types *.tgz",
     "coverage": "nyc --reporter=lcov --exclude-after-remap=false mocha -t 120000 dist-test/index.js --reporter ../../../common/tools/mocha-multi-reporter.js",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && api-extractor run --local",
@@ -82,7 +82,7 @@
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-client": "^1.5.0",
-    "@azure/core-http-compat": "^1.2.0",
+    "@azure/core-http-compat": "^2.0.0",
     "@azure/core-lro": "^2.5.1",
     "@azure/core-paging": "^1.4.0",
     "@azure/core-rest-pipeline": "^1.6.0",

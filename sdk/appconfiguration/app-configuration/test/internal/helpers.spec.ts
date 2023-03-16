@@ -23,7 +23,7 @@ import {
   transformKeyValueResponseWithStatusCode,
 } from "../../src/internal/helpers";
 import { FeatureFlagValue } from "../../src/featureFlag";
-import { HttpHeadersLike } from "@azure/core-http-compat";
+import { WebResourceLike } from "@azure/core-http-compat"
 import { SecretReferenceValue } from "../../src/secretReference";
 import { assert } from "chai";
 
@@ -179,18 +179,27 @@ describe("helper methods", () => {
         abortSignal: {
           aborted: true,
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          addEventListener: () => {},
+          addEventListener: () => { },
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          removeEventListener: () => {},
+          removeEventListener: () => { },
         },
         method: "GET",
         withCredentials: false,
-        headers: {} as HttpHeadersLike,
+        headers: {} as any,
         timeout: 0,
         requestId: "",
+        clone(): WebResourceLike {
+          throw new Error("Cannot clone a non-proxied WebResourceLike");
+        },
+        prepare(): WebResourceLike {
+          throw new Error("WebResourceLike.prepare() is not supported by @azure/core-http-compat");
+        },
+        validateRequestProperties(): void {
+          /** do nothing */
+        },
       },
       status: 204,
-      headers: {} as HttpHeadersLike,
+      headers: {} as any,
       bodyAsText: "",
       parsedHeaders: {},
     },

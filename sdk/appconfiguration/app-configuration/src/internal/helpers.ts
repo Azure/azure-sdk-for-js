@@ -11,13 +11,16 @@ import {
   ListConfigurationSettingsOptions,
   ListRevisionsOptions,
   ListSnapshotsOptions,
+  OperationDetailsResponse,
   Snapshot,
+  SnapshotResponse,
 } from "../models";
 import { FeatureFlagHelper, FeatureFlagValue, featureFlagContentType } from "../featureFlag";
 import {
   GetKeyValuesOptionalParams,
   GetSnapshotsOptionalParams,
   KeyValue,
+  OperationDetails,
 } from "../generated/src/models";
 import {
   SecretReferenceHelper,
@@ -307,14 +310,26 @@ export function transformKeyValueResponse<T extends KeyValue & { eTag?: string }
 /**
  * @internal
  */
-export function transformSnapshotResponse<T extends Snapshot>(snapshot: T): any {
+export function transformSnapshotResponse<T extends Snapshot>(snapshot: T): SnapshotResponse {
   if (hasUnderscoreResponse(snapshot)) {
     Object.defineProperty(snapshot, "_response", {
       enumerable: false,
       value: snapshot._response,
     });
   }
-  return snapshot;
+  return snapshot as any;
+}
+/**
+ * @internal
+ */
+export function transformOperationDetails<T extends OperationDetails>(res: T): OperationDetailsResponse {
+  if (hasUnderscoreResponse(res)) {
+    Object.defineProperty(res, "_response", {
+      enumerable: false,
+      value: res._response,
+    });
+  }
+  return res as any;
 }
 
 /**

@@ -29,6 +29,7 @@ export class AppConfigurationClient {
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: AppConfigurationClientOptions);
     addConfigurationSetting(configurationSetting: AddConfigurationSettingParam | AddConfigurationSettingParam<FeatureFlagValue> | AddConfigurationSettingParam<SecretReferenceValue>, options?: AddConfigurationSettingOptions): Promise<AddConfigurationSettingResponse>;
     archiveSnapshot(snapshotId: SnapshotId, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
+    beginCreateSnapshot(snapshot: SnapshotInfo, options?: CreateSnapshotOptions): Promise<void>;
     createSnapshot(snapshot: SnapshotInfo, options?: CreateSnapshotOptions): Promise<CreateSnapshotResponse>;
     deleteConfigurationSetting(id: ConfigurationSettingId, options?: DeleteConfigurationSettingOptions): Promise<DeleteConfigurationSettingResponse>;
     getConfigurationSetting(id: ConfigurationSettingId, options?: GetConfigurationSettingOptions): Promise<GetConfigurationSettingResponse>;
@@ -87,7 +88,7 @@ export interface CreateSnapshotOptions extends OperationOptions {
 }
 
 // @public
-export interface CreateSnapshotResponse extends Snapshot, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
+export interface CreateSnapshotResponse extends SnapshotResponse {
 }
 
 // @public
@@ -136,7 +137,7 @@ export interface GetSnapshotOptions extends OperationOptions, HttpOnlyIfChangedF
 }
 
 // @public
-export interface GetSnapshotResponse extends Snapshot, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
+export interface GetSnapshotResponse extends SnapshotResponse {
 }
 
 // @public
@@ -207,6 +208,12 @@ export interface ListSnapshotsOptions extends OperationOptions, ListSnapshots {
 // @public
 export interface ListSnapshotsPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
     items: Snapshot[];
+}
+
+// Warning: (ae-forgotten-export) The symbol "OperationDetails" needs to be exported by the entry point index.d.ts
+//
+// @public
+export interface OperationDetailsResponse extends OperationDetails, HttpResponseField<{}> {
 }
 
 // @public
@@ -299,6 +306,10 @@ export interface SnapshotInfo {
 }
 
 // @public
+export interface SnapshotResponse extends Snapshot, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
+}
+
+// @public
 export type SnapshotStatus = string;
 
 // @public
@@ -311,7 +322,7 @@ export interface UpdateSnapshotOptions extends HttpOnlyIfUnchangedField, Operati
 }
 
 // @public
-export interface UpdateSnapshotResponse extends Snapshot, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
+export interface UpdateSnapshotResponse extends SnapshotResponse {
 }
 
 // (No @packageDocumentation comment for this package)

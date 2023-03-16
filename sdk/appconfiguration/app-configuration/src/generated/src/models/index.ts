@@ -128,6 +128,12 @@ export interface KeyValueFilter {
   label?: string;
 }
 
+export interface OperationDetails {
+  id: string;
+  status: State;
+  error?: string;
+}
+
 /** Parameters used to update a snapshot. */
 export interface SnapshotUpdateParameters {
   /** The desired status of the snapshot. */
@@ -347,13 +353,21 @@ export type ApiVersion20221101Preview = string;
 
 /** Known values of {@link KeyValueFields} that the service accepts. */
 export enum KnownKeyValueFields {
+  /** Key */
   Key = "key",
+  /** Label */
   Label = "label",
+  /** ContentType */
   ContentType = "content_type",
+  /** Value */
   Value = "value",
+  /** LastModified */
   LastModified = "last_modified",
+  /** Tags */
   Tags = "tags",
+  /** Locked */
   Locked = "locked",
+  /** Etag */
   Etag = "etag"
 }
 
@@ -375,16 +389,27 @@ export type KeyValueFields = string;
 
 /** Known values of {@link SnapshotFields} that the service accepts. */
 export enum KnownSnapshotFields {
+  /** Name */
   Name = "name",
+  /** Status */
   Status = "status",
+  /** Filters */
   Filters = "filters",
+  /** CompositionType */
   CompositionType = "composition_type",
+  /** Created */
   Created = "created",
+  /** Expires */
   Expires = "expires",
+  /** RetentionPeriod */
   RetentionPeriod = "retention_period",
+  /** Size */
   Size = "size",
+  /** ItemsCount */
   ItemsCount = "items_count",
+  /** Tags */
   Tags = "tags",
+  /** Etag */
   Etag = "etag"
 }
 
@@ -409,9 +434,13 @@ export type SnapshotFields = string;
 
 /** Known values of {@link SnapshotStatus} that the service accepts. */
 export enum KnownSnapshotStatus {
+  /** Provisioning */
   Provisioning = "provisioning",
+  /** Ready */
   Ready = "ready",
+  /** Archived */
   Archived = "archived",
+  /** Failed */
   Failed = "failed"
 }
 
@@ -429,7 +458,9 @@ export type SnapshotStatus = string;
 
 /** Known values of {@link CompositionType} that the service accepts. */
 export enum KnownCompositionType {
+  /** All */
   All = "all",
+  /** GroupByKey */
   GroupByKey = "group_by_key"
 }
 
@@ -443,8 +474,36 @@ export enum KnownCompositionType {
  */
 export type CompositionType = string;
 
+/** Known values of {@link State} that the service accepts. */
+export enum KnownState {
+  /** NotStarted */
+  NotStarted = "NotStarted",
+  /** Running */
+  Running = "Running",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled"
+}
+
+/**
+ * Defines values for State. \
+ * {@link KnownState} can be used interchangeably with State,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotStarted** \
+ * **Running** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled**
+ */
+export type State = string;
+
 /** Known values of {@link LabelFields} that the service accepts. */
 export enum KnownLabelFields {
+  /** Name */
   Name = "name"
 }
 
@@ -615,6 +674,13 @@ export interface CheckSnapshotsOptionalParams
 export type CheckSnapshotsResponse = AppConfigurationCheckSnapshotsHeaders;
 
 /** Optional parameters. */
+export interface GetSnapshotCreationOperationDetailsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getSnapshotCreationOperationDetails operation. */
+export type GetSnapshotCreationOperationDetailsResponse = OperationDetails;
+
+/** Optional parameters. */
 export interface GetSnapshotOptionalParams extends coreClient.OperationOptions {
   /** Used to perform an operation only if the targeted resource's etag matches the value provided. */
   ifMatch?: string;
@@ -629,12 +695,7 @@ export type GetSnapshotResponse = AppConfigurationGetSnapshotHeaders & Snapshot;
 
 /** Optional parameters. */
 export interface CreateSnapshotOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createSnapshot operation. */
 export type CreateSnapshotResponse = AppConfigurationCreateSnapshotHeaders &
@@ -761,10 +822,6 @@ export type CheckRevisionsResponse = AppConfigurationCheckRevisionsHeaders;
 
 /** Optional parameters. */
 export interface GetKeysNextOptionalParams extends coreClient.OperationOptions {
-  /** A filter for the name of the returned keys. */
-  name?: string;
-  /** Instructs the server to return elements that appear after the element referred to by the specified token. */
-  after?: string;
   /** Requests the server to respond with the state of the resource at the specified time. */
   acceptDatetime?: string;
 }
@@ -776,18 +833,8 @@ export type GetKeysNextResponse = AppConfigurationGetKeysNextHeaders &
 /** Optional parameters. */
 export interface GetKeyValuesNextOptionalParams
   extends coreClient.OperationOptions {
-  /** Instructs the server to return elements that appear after the element referred to by the specified token. */
-  after?: string;
   /** Requests the server to respond with the state of the resource at the specified time. */
   acceptDatetime?: string;
-  /** A filter used to match keys. */
-  key?: string;
-  /** A filter used to match labels */
-  label?: string;
-  /** Used to select what fields are present in the returned resource(s). */
-  select?: KeyValueFields[];
-  /** A filter used get key-values for a snapshot. The value should be the name of the snapshot. Not valid when used with 'key' and 'label' filters. */
-  snapshot?: string;
 }
 
 /** Contains response data for the getKeyValuesNext operation. */
@@ -796,16 +843,7 @@ export type GetKeyValuesNextResponse = AppConfigurationGetKeyValuesNextHeaders &
 
 /** Optional parameters. */
 export interface GetSnapshotsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** A filter for the name of the returned snapshots. */
-  name?: string;
-  /** Instructs the server to return elements that appear after the element referred to by the specified token. */
-  after?: string;
-  /** Used to select what fields are present in the returned resource(s). */
-  select?: SnapshotFields[];
-  /** Used to filter returned snapshots by their status property. */
-  status?: SnapshotStatus[];
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSnapshotsNext operation. */
 export type GetSnapshotsNextResponse = AppConfigurationGetSnapshotsNextHeaders &
@@ -814,14 +852,8 @@ export type GetSnapshotsNextResponse = AppConfigurationGetSnapshotsNextHeaders &
 /** Optional parameters. */
 export interface GetLabelsNextOptionalParams
   extends coreClient.OperationOptions {
-  /** A filter for the name of the returned labels. */
-  name?: string;
-  /** Instructs the server to return elements that appear after the element referred to by the specified token. */
-  after?: string;
   /** Requests the server to respond with the state of the resource at the specified time. */
   acceptDatetime?: string;
-  /** Used to select what fields are present in the returned resource(s). */
-  select?: LabelFields[];
 }
 
 /** Contains response data for the getLabelsNext operation. */
@@ -831,16 +863,8 @@ export type GetLabelsNextResponse = AppConfigurationGetLabelsNextHeaders &
 /** Optional parameters. */
 export interface GetRevisionsNextOptionalParams
   extends coreClient.OperationOptions {
-  /** Instructs the server to return elements that appear after the element referred to by the specified token. */
-  after?: string;
   /** Requests the server to respond with the state of the resource at the specified time. */
   acceptDatetime?: string;
-  /** A filter used to match keys. */
-  key?: string;
-  /** A filter used to match labels */
-  label?: string;
-  /** Used to select what fields are present in the returned resource(s). */
-  select?: KeyValueFields[];
 }
 
 /** Contains response data for the getRevisionsNext operation. */

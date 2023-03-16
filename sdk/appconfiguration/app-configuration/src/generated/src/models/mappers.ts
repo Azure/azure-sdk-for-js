@@ -325,6 +325,35 @@ export const KeyValueFilter: coreClient.CompositeMapper = {
   }
 };
 
+export const OperationDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationDetails",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const SnapshotUpdateParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",

@@ -8,8 +8,11 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreHttpCompat from "@azure/core-http-compat";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "./lroImpl";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest
+} from "@azure/core-rest-pipeline";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import {
@@ -35,6 +38,8 @@ import {
   GetSnapshotsResponse,
   CheckSnapshotsOptionalParams,
   CheckSnapshotsResponse,
+  GetSnapshotCreationOperationDetailsOptionalParams,
+  GetSnapshotCreationOperationDetailsResponse,
   GetSnapshotOptionalParams,
   GetSnapshotResponse,
   Snapshot,
@@ -113,12 +118,41 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint || "{endpoint}"
+      endpoint: options.endpoint ?? options.baseUri ?? "{endpoint}"
     };
     super(optionsWithDefaults);
     // Parameter assignments
     this.endpoint = endpoint;
     this.apiVersion = apiVersion;
+    this.addCustomApiVersionPolicy(apiVersion);
+  }
+
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return "api-version=" + apiVersion;
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      }
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   /**
@@ -238,6 +272,21 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
   }
 
   /**
+   * Gets the state of the snapshot creation operation.
+   * @param snapshot The name of the key-value snapshot to retrieve.
+   * @param options The options parameters.
+   */
+  async getSnapshotCreationOperationDetails(
+    snapshot: string,
+    options?: GetSnapshotCreationOperationDetailsOptionalParams
+  ): Promise<GetSnapshotCreationOperationDetailsResponse> {
+    return this.sendOperationRequest(
+      { snapshot, options },
+      getSnapshotCreationOperationDetailsOperationSpec
+    );
+  }
+
+  /**
    * Gets a single key-value snapshot.
    * @param name The name of the key-value snapshot to retrieve.
    * @param options The options parameters.
@@ -258,79 +307,15 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    * @param entity The key-value snapshot to create.
    * @param options The options parameters.
    */
-  async beginCreateSnapshot(
-    name: string,
-    entity: Snapshot,
-    options?: CreateSnapshotOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<CreateSnapshotResponse>,
-      CreateSnapshotResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<CreateSnapshotResponse> => {
-      return this.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { name, entity, options },
-      createSnapshotOperationSpec
-    );
-    return new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-  }
-
-  /**
-   * Creates a key-value snapshot.
-   * @param name The name of the key-value snapshot to create.
-   * @param entity The key-value snapshot to create.
-   * @param options The options parameters.
-   */
-  async beginCreateSnapshotAndWait(
+  createSnapshot(
     name: string,
     entity: Snapshot,
     options?: CreateSnapshotOptionalParams
   ): Promise<CreateSnapshotResponse> {
-    const poller = await this.beginCreateSnapshot(name, entity, options);
-    return poller.pollUntilDone();
+    return this.sendOperationRequest(
+      { name, entity, options },
+      createSnapshotOperationSpec
+    );
   }
 
   /**
@@ -723,6 +708,22 @@ const checkSnapshotsOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.syncToken],
   serializer
 };
+const getSnapshotCreationOperationDetailsOperationSpec: coreClient.OperationSpec = {
+  path: "/operations/",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperationDetails
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.snapshot1],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept4],
+  serializer
+};
 const getSnapshotOperationSpec: coreClient.OperationSpec = {
   path: "/snapshots/{name}",
   httpMethod: "GET",
@@ -741,7 +742,7 @@ const getSnapshotOperationSpec: coreClient.OperationSpec = {
     Parameters.syncToken,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
-    Parameters.accept4
+    Parameters.accept5
   ],
   serializer
 };
@@ -749,19 +750,7 @@ const createSnapshotOperationSpec: coreClient.OperationSpec = {
   path: "/snapshots/{name}",
   httpMethod: "PUT",
   responses: {
-    200: {
-      bodyMapper: Mappers.Snapshot,
-      headersMapper: Mappers.AppConfigurationCreateSnapshotHeaders
-    },
     201: {
-      bodyMapper: Mappers.Snapshot,
-      headersMapper: Mappers.AppConfigurationCreateSnapshotHeaders
-    },
-    202: {
-      bodyMapper: Mappers.Snapshot,
-      headersMapper: Mappers.AppConfigurationCreateSnapshotHeaders
-    },
-    204: {
       bodyMapper: Mappers.Snapshot,
       headersMapper: Mappers.AppConfigurationCreateSnapshotHeaders
     },
@@ -774,7 +763,7 @@ const createSnapshotOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.endpoint, Parameters.name2],
   headerParameters: [
     Parameters.syncToken,
-    Parameters.accept4,
+    Parameters.accept5,
     Parameters.contentType1
   ],
   mediaType: "json",
@@ -799,7 +788,7 @@ const updateSnapshotOperationSpec: coreClient.OperationSpec = {
     Parameters.syncToken,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
-    Parameters.accept4,
+    Parameters.accept5,
     Parameters.contentType2
   ],
   mediaType: "json",
@@ -845,7 +834,7 @@ const getLabelsOperationSpec: coreClient.OperationSpec = {
   headerParameters: [
     Parameters.syncToken,
     Parameters.acceptDatetime,
-    Parameters.accept5
+    Parameters.accept6
   ],
   serializer
 };
@@ -971,7 +960,6 @@ const getKeysNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [Parameters.name, Parameters.apiVersion, Parameters.after],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [
     Parameters.accept,
@@ -992,14 +980,6 @@ const getKeyValuesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.after,
-    Parameters.key,
-    Parameters.label,
-    Parameters.select,
-    Parameters.snapshot
-  ],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [
     Parameters.syncToken,
@@ -1020,13 +1000,6 @@ const getSnapshotsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [
-    Parameters.name,
-    Parameters.apiVersion,
-    Parameters.after,
-    Parameters.select1,
-    Parameters.status
-  ],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.syncToken, Parameters.accept3],
   serializer
@@ -1043,17 +1016,11 @@ const getLabelsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [
-    Parameters.name,
-    Parameters.apiVersion,
-    Parameters.after,
-    Parameters.select2
-  ],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [
     Parameters.syncToken,
     Parameters.acceptDatetime,
-    Parameters.accept5
+    Parameters.accept6
   ],
   serializer
 };
@@ -1069,13 +1036,6 @@ const getRevisionsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.after,
-    Parameters.key,
-    Parameters.label,
-    Parameters.select
-  ],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [
     Parameters.syncToken,

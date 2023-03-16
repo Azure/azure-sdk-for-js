@@ -261,6 +261,29 @@ export const status: OperationQueryParameter = {
 export const accept4: OperationParameter = {
   parameterPath: "accept",
   mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const snapshot1: OperationQueryParameter = {
+  parameterPath: "snapshot",
+  mapper: {
+    serializedName: "snapshot",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const accept5: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
     defaultValue:
       "application/vnd.microsoft.appconfig.snapshot+json, application/problem+json",
     isConstant: true,
@@ -330,7 +353,7 @@ export const entity2: OperationParameter = {
   mapper: SnapshotUpdateParametersMapper
 };
 
-export const accept5: OperationParameter = {
+export const accept6: OperationParameter = {
   parameterPath: "accept",
   mapper: {
     defaultValue:
