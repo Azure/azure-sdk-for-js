@@ -241,7 +241,8 @@ export class ManagedIdentityCredential implements TokenCredential {
             scopes: Array.isArray(scopes) ? scopes : [scopes],
             claims: options?.claims,
           };
-          // TODO: Add a check - define it only if it's not already defined
+          // Added a check to see if SetAppTokenProvider was already defined.
+          // Don't redefine it if it's already defined, since it should be static method.
           if (!this.confidentialApp.SetAppTokenProvider) {
             this.confidentialApp.SetAppTokenProvider(
               async (appTokenProviderParameters = appTokenParameters) => {

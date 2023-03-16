@@ -36,7 +36,8 @@ export interface TokenResponse {
    */
   accessToken: AccessToken;
   /**
-   * The refresh token's refresh in milliseconds, UNIX epoch time.
+   * The time in which the access token should be refreshed,
+   * specified in milliseconds, UNIX epoch time
    */
   refreshesIn?: number;
   /**
