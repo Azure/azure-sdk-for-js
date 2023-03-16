@@ -341,7 +341,14 @@ export const OperationDetails: coreClient.CompositeMapper = {
         serializedName: "status",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "NotStarted",
+            "Running",
+            "Succeeded",
+            "Failed",
+            "Canceled"
+          ]
         }
       },
       error: {

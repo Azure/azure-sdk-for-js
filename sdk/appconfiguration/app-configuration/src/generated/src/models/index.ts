@@ -478,33 +478,6 @@ export enum KnownCompositionType {
  */
 export type CompositionType = string;
 
-/** Known values of {@link State} that the service accepts. */
-export enum KnownState {
-  /** NotStarted */
-  NotStarted = "NotStarted",
-  /** Running */
-  Running = "Running",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled"
-}
-
-/**
- * Defines values for State. \
- * {@link KnownState} can be used interchangeably with State,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotStarted** \
- * **Running** \
- * **Succeeded** \
- * **Failed** \
- * **Canceled**
- */
-export type State = string;
-
 /** Known values of {@link LabelFields} that the service accepts. */
 export enum KnownLabelFields {
   /** Name */
@@ -519,6 +492,13 @@ export enum KnownLabelFields {
  * **name**
  */
 export type LabelFields = string;
+/** Defines values for State. */
+export type State =
+  | "NotStarted"
+  | "Running"
+  | "Succeeded"
+  | "Failed"
+  | "Canceled";
 
 /** Optional parameters. */
 export interface GetKeysOptionalParams extends coreClient.OperationOptions {
