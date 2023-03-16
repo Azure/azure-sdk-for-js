@@ -4,7 +4,6 @@
 
 ```ts
 
-import { AzureLogger } from '@azure/logger';
 import { CommonClientOptions } from '@azure/core-client';
 import { CommunicationIdentifier } from '@azure/communication-common';
 import { CommunicationUserIdentifier } from '@azure/communication-common';
@@ -64,12 +63,12 @@ export class CallAutomationClient {
     constructor(connectionString: string, options?: CallAutomationClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: CallAutomationClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: CallAutomationClientOptions);
-    answerCall(incomingCallContext: string, callbackUrl: string, options?: AnswerCallOptions): Promise<AnswerCallResult>;
-    createCall(target: CallInvite | CommunicationIdentifier[], callbackUrl: string, options?: CreateCallOptions): Promise<CreateCallResult>;
+    answerCall(incomingCallContext: string, callbackUri: string, options?: AnswerCallOptions): Promise<AnswerCallResult>;
+    createCall(target: CallInvite | CommunicationIdentifier[], callbackUri: string, options?: CreateCallOptions): Promise<CreateCallResult>;
     getCallConnection(callConnectionId: string): CallConnection;
     getCallRecording(): CallRecording;
     getSourceIdentity(): CommunicationUserIdentifier | undefined;
-    redirectCall(incomingCallContext: string, targetCallInvite: CallInvite, options?: RedirectCallOptions): Promise<void>;
+    redirectCall(incomingCallContext: string, target: CallInvite, options?: RedirectCallOptions): Promise<void>;
     rejectCall(incomingCallContext: string, options?: RejectCallOptions): Promise<void>;
 }
 
@@ -130,7 +129,7 @@ export interface CallDisconnected extends RestCallDisconnected {
     kind: "CallDisconnected";
 }
 
-// @public (undocumented)
+// @public
 export class CallInvite {
     constructor(targetPhoneNumberIdentity: PhoneNumberIdentifier, callerIdNumber: PhoneNumberIdentifier);
     constructor(targetPhoneNumberIdentity: PhoneNumberIdentifier, callerIdNumber: PhoneNumberIdentifier, sipHeader: {
@@ -168,31 +167,31 @@ export class CallMedia {
 // @public
 export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions {
     // (undocumented)
-    interToneTimeoutInSeconds: number;
+    interToneTimeoutInSeconds?: number;
     // (undocumented)
     readonly kind?: "callMediaRecognizeDtmfOptions";
     // (undocumented)
     maxTonesToCollect: number;
     // (undocumented)
-    stopDtmfTones: DtmfTone[];
+    stopDtmfTones?: DtmfTone[];
 }
 
 // @public
-export interface CallMediaRecognizeOptions {
+export interface CallMediaRecognizeOptions extends OperationOptions {
     // (undocumented)
-    initialSilenceTimeoutInSeconds: number;
+    initialSilenceTimeoutInSeconds?: number;
     // (undocumented)
-    interruptCallMediaOperation: boolean;
+    interruptCallMediaOperation?: boolean;
     // (undocumented)
-    interruptPrompt: boolean;
+    interruptPrompt?: boolean;
     // (undocumented)
-    operationContext: string;
+    operationContext?: string;
     // (undocumented)
-    playPrompt: FileSource;
+    playPrompt?: FileSource;
     // (undocumented)
     recognizeInputType: RecognizeInputType;
     // (undocumented)
-    stopCurrentOperations: boolean;
+    stopCurrentOperations?: boolean;
     // (undocumented)
     targetParticipant: CommunicationIdentifier;
 }
@@ -207,24 +206,12 @@ export interface CallParticipant {
 export class CallRecording {
     // Warning: (ae-forgotten-export) The symbol "CallRecordingImpl" needs to be exported by the entry point index.d.ts
     constructor(callRecordingImpl: CallRecordingImpl);
-    getRecordingProperties(recordingId: string, options?: CallRecordingGetRecordingPropertiesOptions): Promise<RecordingStateResult>;
-    pauseRecording(recordingId: string, options?: CallRecordingPauseRecordingOptions): Promise<void>;
-    resumeRecording(recordingId: string, options?: CallRecordingResumeRecordingOptionalParams): Promise<void>;
+    getRecordingState(recordingId: string, options?: GetRecordingPropertiesOptions): Promise<RecordingStateResult>;
+    pauseRecording(recordingId: string, options?: PauseRecordingOptions): Promise<void>;
+    resumeRecording(recordingId: string, options?: ResumeRecordingOptions): Promise<void>;
     startRecording(options: StartRecordingOptions): Promise<RecordingStateResult>;
-    stopRecording(recordingId: string, options?: CallRecordingStopRecordingOptions): Promise<void>;
+    stopRecording(recordingId: string, options?: StopRecordingOptions): Promise<void>;
 }
-
-// @public
-export type CallRecordingGetRecordingPropertiesOptions = OperationOptions;
-
-// @public
-export type CallRecordingPauseRecordingOptions = OperationOptions;
-
-// @public
-export type CallRecordingResumeRecordingOptionalParams = OperationOptions;
-
-// @public
-export type CallRecordingStopRecordingOptions = OperationOptions;
 
 // @public
 export type CallRejectReason = string;
@@ -289,7 +276,10 @@ export type GetCallConnectionPropertiesOptions = OperationOptions;
 // @public
 export type GetParticipantOptions = OperationOptions;
 
-// @public (undocumented)
+// @public
+export type GetRecordingPropertiesOptions = OperationOptions;
+
+// @public
 export interface GroupCallLocator {
     // (undocumented)
     id: string;
@@ -308,13 +298,26 @@ export enum KnownCallRejectReason {
 }
 
 // @public
+export enum KnownMediaStreamingAudioChannelType {
+    Mixed = "mixed",
+    Unmixed = "unmixed"
+}
+
+// @public
+export enum KnownMediaStreamingContentType {
+    Audio = "audio"
+}
+
+// @public
+export enum KnownMediaStreamingTransportType {
+    Websocket = "websocket"
+}
+
+// @public
 export interface ListParticipantsResult {
     nextLink?: string;
     values?: CallParticipant[];
 }
-
-// @public
-export const logger: AzureLogger;
 
 // @public
 export type MediaStreamingAudioChannelType = string;
@@ -341,6 +344,9 @@ export interface ParticipantsUpdated {
     participants?: CallParticipant[];
     serverCallId?: string;
 }
+
+// @public
+export type PauseRecordingOptions = OperationOptions;
 
 // @public
 export interface PlayCanceled extends RestPlayCanceled {
@@ -393,11 +399,37 @@ export enum RecognizeInputType {
 }
 
 // @public
+export enum RecordingChannel {
+    // (undocumented)
+    Mixed = "mixed",
+    // (undocumented)
+    Unmixed = "unmixed"
+}
+
+// @public
+export enum RecordingContent {
+    // (undocumented)
+    Audio = "audio",
+    // (undocumented)
+    AudioVideo = "audioVideo"
+}
+
+// @public
+export enum RecordingFormat {
+    // (undocumented)
+    Mp3 = "mp3",
+    // (undocumented)
+    Mp4 = "mp4",
+    // (undocumented)
+    Wav = "wav"
+}
+
+// @public
 export interface RecordingStateChanged extends RestRecordingStateChanged {
     kind: "RecordingStateChanged";
 }
 
-// @public (undocumented)
+// @public
 export interface RecordingStateResult {
     // (undocumented)
     recordingId?: string;
@@ -405,6 +437,14 @@ export interface RecordingStateResult {
     //
     // (undocumented)
     recordingState?: RecordingState;
+}
+
+// @public
+export enum RecordingStorage {
+    // (undocumented)
+    Acs = "acs",
+    // (undocumented)
+    BlobStorage = "blobStorage"
 }
 
 // @public
@@ -538,10 +578,10 @@ export interface ResultInformation {
     subCode?: number;
 }
 
-// @public (undocumented)
-export const SDK_VERSION: string;
+// @public
+export type ResumeRecordingOptions = OperationOptions;
 
-// @public (undocumented)
+// @public
 export interface ServerCallLocator {
     // (undocumented)
     id: string;
@@ -551,19 +591,17 @@ export interface ServerCallLocator {
 
 // @public
 export interface StartRecordingOptions extends OperationOptions {
-    // Warning: (ae-forgotten-export) The symbol "CommunicationIdentifierModel" needs to be exported by the entry point index.d.ts
-    audioChannelParticipantOrdering?: CommunicationIdentifierModel[];
+    audioChannelParticipantOrdering?: CommunicationIdentifier[];
     callLocator: ServerCallLocator | GroupCallLocator;
-    // Warning: (ae-forgotten-export) The symbol "RecordingChannelType" needs to be exported by the entry point index.d.ts
-    recordingChannelType?: RecordingChannelType;
-    // Warning: (ae-forgotten-export) The symbol "RecordingContentType" needs to be exported by the entry point index.d.ts
-    recordingContentType?: RecordingContentType;
-    // Warning: (ae-forgotten-export) The symbol "RecordingFormatType" needs to be exported by the entry point index.d.ts
-    recordingFormatType?: RecordingFormatType;
-    recordingStateCallbackUri?: string;
-    // Warning: (ae-forgotten-export) The symbol "RecordingStorageType" needs to be exported by the entry point index.d.ts
-    recordingStorageType?: RecordingStorageType;
+    recordingChannel?: string;
+    recordingContent?: string;
+    recordingFormat?: string;
+    recordingStateCallbackEndpoint?: string;
+    recordingStorageType?: string;
 }
+
+// @public
+export type StopRecordingOptions = OperationOptions;
 
 // @public
 export interface TransferCallResult {

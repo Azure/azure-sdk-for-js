@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates a ConfigurationPolicyGroup if it doesn't exist else updates the existing one.
  *
  * @summary Creates a ConfigurationPolicyGroup if it doesn't exist else updates the existing one.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/ConfigurationPolicyGroupPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/ConfigurationPolicyGroupPut.json
  */
 async function configurationPolicyGroupPut() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const vpnServerConfigurationName = "vpnServerConfiguration1";
   const configurationPolicyGroupName = "policyGroup1";
   const vpnServerConfigurationPolicyGroupParameters = {
@@ -49,4 +50,8 @@ async function configurationPolicyGroupPut() {
   console.log(result);
 }
 
-configurationPolicyGroupPut().catch(console.error);
+async function main() {
+  configurationPolicyGroupPut();
+}
+
+main().catch(console.error);

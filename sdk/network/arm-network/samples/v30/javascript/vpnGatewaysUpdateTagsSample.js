@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates virtual wan vpn gateway tags.
  *
  * @summary Updates virtual wan vpn gateway tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VpnGatewayUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VpnGatewayUpdateTags.json
  */
 async function vpnGatewayUpdate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const gatewayName = "gateway1";
   const vpnGatewayParameters = {
     tags: { tag1: "value1", tag2: "value2" },
@@ -34,4 +35,8 @@ async function vpnGatewayUpdate() {
   console.log(result);
 }
 
-vpnGatewayUpdate().catch(console.error);
+async function main() {
+  vpnGatewayUpdate();
+}
+
+main().catch(console.error);

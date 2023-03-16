@@ -3,10 +3,7 @@
 
 import { createSerializer } from "@azure/core-client";
 
-import {
-  communicationIdentifierConverter,
-  callParticipantConverter
- } from "./utli/converters";
+import { communicationIdentifierConverter, callParticipantConverter } from "./utli/converters";
 
 import {
   CallAutomationEvent,
@@ -37,9 +34,7 @@ const serializer = createSerializer();
 export class CallAutomationEventParser {
   public async parse(encodedEvents: string): Promise<CallAutomationEvent>;
 
-  public async parse(
-    encodedEvents: Record<string, unknown>
-  ): Promise<CallAutomationEvent>;
+  public async parse(encodedEvents: Record<string, unknown>): Promise<CallAutomationEvent>;
 
   public async parse(
     encodedEvents: string | Record<string, unknown>
@@ -47,11 +42,7 @@ export class CallAutomationEventParser {
     const decodedInput = parseAndWrap(encodedEvents);
 
     // parse cloudevent
-    const deserialized = serializer.deserialize(
-      CloudEventMapper,
-      decodedInput,
-      ""
-    );
+    const deserialized = serializer.deserialize(CloudEventMapper, decodedInput, "");
     const data = deserialized.data;
     const eventType = deserialized.type;
 
@@ -61,11 +52,11 @@ export class CallAutomationEventParser {
     switch (eventType) {
       case "Microsoft.Communication.AddParticipantSucceeded":
         callbackEvent = { kind: "AddParticipantSucceeded" } as AddParticipantSucceeded;
-        data.participant = communicationIdentifierConverter(data.participant)
+        data.participant = communicationIdentifierConverter(data.participant);
         break;
       case "Microsoft.Communication.AddParticipantFailed":
         callbackEvent = { kind: "AddParticipantFailed" } as AddParticipantFailed;
-        data.participant = communicationIdentifierConverter(data.participant)
+        data.participant = communicationIdentifierConverter(data.participant);
         break;
       case "Microsoft.Communication.CallConnected":
         callbackEvent = { kind: "CallConnected" } as CallConnected;
@@ -112,13 +103,11 @@ export class CallAutomationEventParser {
   }
 }
 
-function parseAndWrap(
-  jsonStringOrObject: string | Record<string, unknown>
-): any {
+function parseAndWrap(jsonStringOrObject: string | Record<string, unknown>): any {
   if (typeof jsonStringOrObject === "string") {
     const o = JSON.parse(jsonStringOrObject);
     if (Array.isArray(o)) {
-      if (o.length == 0) {
+      if (o.length === 0) {
         throw Error("Empty event array.");
       }
       return o[0];
@@ -128,7 +117,7 @@ function parseAndWrap(
   }
 
   if (Array.isArray(jsonStringOrObject)) {
-    if (jsonStringOrObject.length == 0) {
+    if (jsonStringOrObject.length === 0) {
       throw Error("Empty event array.");
     }
     return jsonStringOrObject[0];
@@ -141,10 +130,8 @@ function participantsParserForEvent(data: any): any {
   const { participants, ...rest } = data;
   return {
     ...rest,
-    participants: participants?.map(
-      (participant: CallParticipantInternal) =>
+    participants: participants?.map((participant: CallParticipantInternal) =>
       callParticipantConverter(participant)
     ),
   };
 }
-

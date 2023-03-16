@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or updates the specified Network Virtual Appliance Site.
  *
  * @summary Creates or updates the specified Network Virtual Appliance Site.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkVirtualApplianceSitePut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkVirtualApplianceSitePut.json
  */
 async function createNetworkVirtualApplianceSite() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkVirtualApplianceName = "nva";
   const siteName = "site1";
   const parameters = {
@@ -39,4 +40,8 @@ async function createNetworkVirtualApplianceSite() {
   console.log(result);
 }
 
-createNetworkVirtualApplianceSite().catch(console.error);
+async function main() {
+  createNetworkVirtualApplianceSite();
+}
+
+main().catch(console.error);

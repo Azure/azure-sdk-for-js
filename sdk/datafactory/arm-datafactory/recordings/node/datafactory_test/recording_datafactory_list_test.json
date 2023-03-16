@@ -8,8 +8,8 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-datafactory/11.0.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "9f5c9cf7-95b5-474e-b813-5cb0e882fe0a"
+        "User-Agent": "azsdk-js-arm-datafactory/11.1.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "dbda1be7-4723-4280-af86-46b6332638f8"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 17 Feb 2023 08:31:48 GMT",
+        "Date": "Thu, 02 Mar 2023 02:34:45 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Kestrel",
@@ -25,10 +25,10 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "ef8d6591-708e-47e4-99b8-45f098d58593",
-        "x-ms-ratelimit-remaining-subscription-reads": "11923",
-        "x-ms-request-id": "ef8d6591-708e-47e4-99b8-45f098d58593",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230217T083149Z:ef8d6591-708e-47e4-99b8-45f098d58593"
+        "x-ms-correlation-request-id": "30ab6068-1773-4c7f-9b31-3878c5c713d4",
+        "x-ms-ratelimit-remaining-subscription-reads": "11917",
+        "x-ms-request-id": "30ab6068-1773-4c7f-9b31-3878c5c713d4",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230302T023445Z:30ab6068-1773-4c7f-9b31-3878c5c713d4"
       },
       "ResponseBody": {
         "value": [
@@ -38,10 +38,10 @@
             "type": "Microsoft.DataFactory/factories",
             "properties": {
               "provisioningState": "Succeeded",
-              "createTime": "2023-02-17T08:28:30.099783Z",
+              "createTime": "2023-03-02T02:31:05.1194521Z",
               "version": "2018-06-01"
             },
-            "eTag": "\u00223900f18d-0000-0100-0000-63ef3aae0000\u0022",
+            "eTag": "\u002203013c9f-0000-0100-0000-64000a690000\u0022",
             "location": "eastus",
             "tags": {}
           }

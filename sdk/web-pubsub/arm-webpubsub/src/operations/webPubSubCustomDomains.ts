@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { WebPubSubManagementClient } from "../webPubSubManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   CustomDomain,
   WebPubSubCustomDomainsListNextOptionalParams,
@@ -172,8 +176,8 @@ export class WebPubSubCustomDomainsImpl implements WebPubSubCustomDomains {
     parameters: CustomDomain,
     options?: WebPubSubCustomDomainsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WebPubSubCustomDomainsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WebPubSubCustomDomainsCreateOrUpdateResponse>,
       WebPubSubCustomDomainsCreateOrUpdateResponse
     >
   > {
@@ -183,7 +187,7 @@ export class WebPubSubCustomDomainsImpl implements WebPubSubCustomDomains {
     ): Promise<WebPubSubCustomDomainsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -216,13 +220,16 @@ export class WebPubSubCustomDomainsImpl implements WebPubSubCustomDomains {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, name, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, name, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      WebPubSubCustomDomainsCreateOrUpdateResponse,
+      OperationState<WebPubSubCustomDomainsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -268,14 +275,14 @@ export class WebPubSubCustomDomainsImpl implements WebPubSubCustomDomains {
     resourceName: string,
     name: string,
     options?: WebPubSubCustomDomainsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -308,15 +315,15 @@ export class WebPubSubCustomDomainsImpl implements WebPubSubCustomDomains {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, name, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, name, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -482,7 +489,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates a new live event.
  *
  * @summary Creates a new live event.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-11-01/examples/liveevent-create.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-08-01/examples/liveevent-create.json
  */
 async function createALiveEvent() {
   const subscriptionId =

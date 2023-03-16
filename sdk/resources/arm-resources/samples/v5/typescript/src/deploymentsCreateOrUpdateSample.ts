@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { Deployment, ResourceManagementClient } from "@azure/arm-resources";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to You can provide the template and parameters directly in the request or link to JSON files.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/PutDeploymentResourceGroup.json
  */
 async function createADeploymentThatWillDeployATemplateWithAUriAndQueryString() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000001";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId =
+    process.env["RESOURCES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000001";
+  const resourceGroupName =
+    process.env["RESOURCES_RESOURCE_GROUP"] || "my-resource-group";
   const deploymentName = "my-deployment";
   const parameters: Deployment = {
     properties: {
@@ -42,10 +48,6 @@ async function createADeploymentThatWillDeployATemplateWithAUriAndQueryString() 
   console.log(result);
 }
 
-createADeploymentThatWillDeployATemplateWithAUriAndQueryString().catch(
-  console.error
-);
-
 /**
  * This sample demonstrates how to You can provide the template and parameters directly in the request or link to JSON files.
  *
@@ -53,8 +55,11 @@ createADeploymentThatWillDeployATemplateWithAUriAndQueryString().catch(
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/PutDeploymentResourceGroupTemplateSpecsWithId.json
  */
 async function createADeploymentThatWillDeployATemplateSpecWithTheGivenResourceId() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000001";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId =
+    process.env["RESOURCES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000001";
+  const resourceGroupName =
+    process.env["RESOURCES_RESOURCE_GROUP"] || "my-resource-group";
   const deploymentName = "my-deployment";
   const parameters: Deployment = {
     properties: {
@@ -76,10 +81,6 @@ async function createADeploymentThatWillDeployATemplateSpecWithTheGivenResourceI
   console.log(result);
 }
 
-createADeploymentThatWillDeployATemplateSpecWithTheGivenResourceId().catch(
-  console.error
-);
-
 /**
  * This sample demonstrates how to You can provide the template and parameters directly in the request or link to JSON files.
  *
@@ -87,8 +88,11 @@ createADeploymentThatWillDeployATemplateSpecWithTheGivenResourceId().catch(
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/PutDeploymentWithOnErrorDeploymentSpecificDeployment.json
  */
 async function createADeploymentThatWillRedeployAnotherDeploymentOnFailure() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId =
+    process.env["RESOURCES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["RESOURCES_RESOURCE_GROUP"] || "my-resource-group";
   const deploymentName = "my-deployment";
   const parameters: Deployment = {
     properties: {
@@ -111,10 +115,6 @@ async function createADeploymentThatWillRedeployAnotherDeploymentOnFailure() {
   console.log(result);
 }
 
-createADeploymentThatWillRedeployAnotherDeploymentOnFailure().catch(
-  console.error
-);
-
 /**
  * This sample demonstrates how to You can provide the template and parameters directly in the request or link to JSON files.
  *
@@ -122,8 +122,11 @@ createADeploymentThatWillRedeployAnotherDeploymentOnFailure().catch(
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/PutDeploymentWithOnErrorDeploymentLastSuccessful.json
  */
 async function createADeploymentThatWillRedeployTheLastSuccessfulDeploymentOnFailure() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId =
+    process.env["RESOURCES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["RESOURCES_RESOURCE_GROUP"] || "my-resource-group";
   const deploymentName = "my-deployment";
   const parameters: Deployment = {
     properties: {
@@ -143,6 +146,11 @@ async function createADeploymentThatWillRedeployTheLastSuccessfulDeploymentOnFai
   console.log(result);
 }
 
-createADeploymentThatWillRedeployTheLastSuccessfulDeploymentOnFailure().catch(
-  console.error
-);
+async function main() {
+  createADeploymentThatWillDeployATemplateWithAUriAndQueryString();
+  createADeploymentThatWillDeployATemplateSpecWithTheGivenResourceId();
+  createADeploymentThatWillRedeployAnotherDeploymentOnFailure();
+  createADeploymentThatWillRedeployTheLastSuccessfulDeploymentOnFailure();
+}
+
+main().catch(console.error);

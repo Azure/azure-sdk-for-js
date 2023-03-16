@@ -15,7 +15,7 @@ import {
   RecognizeCompleted as RestRecognizeCompleted,
   RecognizeFailed as RestRecognizeFailed,
   RecognizeCanceled as RestRecognizeCanceled,
-  ResultInformation
+  ResultInformation,
 } from "../generated/src/models";
 
 import { CallParticipant } from "./models";
@@ -49,7 +49,7 @@ export {
   RestRecognizeCompleted,
   RestRecognizeFailed,
   RestRecognizeCanceled,
-  ResultInformation
+  ResultInformation,
 };
 
 /** The participant successfully added event. */

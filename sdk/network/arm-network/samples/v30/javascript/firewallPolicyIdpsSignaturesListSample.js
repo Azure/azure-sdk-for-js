@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Retrieves the current status of IDPS signatures for the relevant policy
  *
  * @summary Retrieves the current status of IDPS signatures for the relevant policy
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/FirewallPolicyQuerySignatureOverrides.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/FirewallPolicyQuerySignatureOverrides.json
  */
 async function querySignatureOverrides() {
-  const subscriptionId = "e747cc13-97d4-4a79-b463-42d7f4e558f2";
-  const resourceGroupName = "rg1";
+  const subscriptionId =
+    process.env["NETWORK_SUBSCRIPTION_ID"] || "e747cc13-97d4-4a79-b463-42d7f4e558f2";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const firewallPolicyName = "firewallPolicy";
   const parameters = {
     filters: [{ field: "Mode", values: ["Deny"] }],
@@ -38,4 +40,8 @@ async function querySignatureOverrides() {
   console.log(result);
 }
 
-querySignatureOverrides().catch(console.error);
+async function main() {
+  querySignatureOverrides();
+}
+
+main().catch(console.error);

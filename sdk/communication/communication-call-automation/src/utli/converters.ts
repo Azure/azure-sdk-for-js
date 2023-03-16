@@ -24,40 +24,38 @@ import { CallParticipant } from "../models/models";
 function extractKind(
   identifierModel: CommunicationIdentifierModel
 ): CommunicationIdentifierModelKind {
-  if (identifierModel.communicationUser != undefined) {
+  if (identifierModel.communicationUser !== undefined) {
     return KnownCommunicationIdentifierModelKind.CommunicationUser;
   }
-  if (identifierModel.phoneNumber != undefined) {
+  if (identifierModel.phoneNumber !== undefined) {
     return KnownCommunicationIdentifierModelKind.PhoneNumber;
   }
-  if (identifierModel.microsoftTeamsUser != undefined) {
+  if (identifierModel.microsoftTeamsUser !== undefined) {
     return KnownCommunicationIdentifierModelKind.MicrosoftTeamsUser;
   }
   return KnownCommunicationIdentifierModelKind.Unknown;
 }
 
+/** Convert PhoneNumberIdentifier to PhoneNumberIdentifierModel(Internal usage class) */
 export function PhoneNumberIdentifierModelConverter(
   phoneNumberIdentifier: PhoneNumberIdentifier | undefined
 ): PhoneNumberIdentifierModel | undefined {
-  if (
-    phoneNumberIdentifier == undefined ||
-    phoneNumberIdentifier.phoneNumber == undefined
-  ) {
+  if (phoneNumberIdentifier === undefined || phoneNumberIdentifier.phoneNumber === undefined) {
     return undefined;
   }
 
-  const phoneNumberIdentifierModel = serializeCommunicationIdentifier(
-    phoneNumberIdentifier
-  ).phoneNumber;
+  const phoneNumberIdentifierModel =
+    serializeCommunicationIdentifier(phoneNumberIdentifier).phoneNumber;
   return phoneNumberIdentifierModel;
 }
 
+/** Convert SerializedPhoneNumberIdentifier to PhoneNumberIdentifier(Public usage class) */
 export function phoneNumberIdentifierConverter(
   serializedPhoneNumberIdentifier: SerializedPhoneNumberIdentifier | undefined
 ): PhoneNumberIdentifier | undefined {
   if (
-    serializedPhoneNumberIdentifier == undefined ||
-    serializedPhoneNumberIdentifier?.value == null
+    serializedPhoneNumberIdentifier === undefined ||
+    serializedPhoneNumberIdentifier?.value === null
   ) {
     return undefined;
   }
@@ -68,18 +66,17 @@ export function phoneNumberIdentifierConverter(
   return phoneNumberIdentifier;
 }
 
+/** Convert CommunicationIdentifierModel to CommunicationIdentifier(Public usage class) */
 export function communicationIdentifierConverter(
   identifierModel: CommunicationIdentifierModel
 ): CommunicationIdentifier {
   const rawId = identifierModel.rawId;
   const kind =
-    identifierModel.kind != undefined
-      ? identifierModel.kind
-      : extractKind(identifierModel);
+    identifierModel.kind !== undefined ? identifierModel.kind : extractKind(identifierModel);
 
   if (
-    kind == KnownCommunicationIdentifierModelKind.CommunicationUser &&
-    identifierModel.communicationUser != undefined
+    kind === KnownCommunicationIdentifierModelKind.CommunicationUser &&
+    identifierModel.communicationUser !== undefined
   ) {
     const communicationUserIdentifier: CommunicationUserIdentifier = {
       communicationUserId: identifierModel.communicationUser.id,
@@ -88,8 +85,8 @@ export function communicationIdentifierConverter(
   }
 
   if (
-    kind == KnownCommunicationIdentifierModelKind.PhoneNumber &&
-    identifierModel.phoneNumber != undefined
+    kind === KnownCommunicationIdentifierModelKind.PhoneNumber &&
+    identifierModel.phoneNumber !== undefined
   ) {
     const phoneNumberIdentifier: PhoneNumberIdentifier = {
       phoneNumber: identifierModel.phoneNumber.value,
@@ -104,6 +101,7 @@ export function communicationIdentifierConverter(
   return unknownIdentifier;
 }
 
+/** Convert CommunicationIdentifier to CommunicationIdentifierModel(Internal usage class) */
 export function communicationIdentifierModelConverter(
   identifier: CommunicationIdentifier
 ): CommunicationIdentifierModel {
@@ -140,6 +138,7 @@ export function communicationIdentifierModelConverter(
   throw new Error();
 }
 
+/** Convert CallParticipantInternal to CallParticipant */
 export function callParticipantConverter(
   acsCallParticipant: CallParticipantInternal
 ): CallParticipant {

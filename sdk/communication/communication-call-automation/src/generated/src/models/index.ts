@@ -165,30 +165,30 @@ export interface TransferCallResponse {
 
 export interface PlayRequest {
   /** The source of the audio to be played. */
-  playSourceInfo: PlaySource;
+  playSourceInfo: PlaySourceInternal;
   /**
    * The list of call participants play provided audio to.
    * Plays to everyone in the call when not provided.
    */
   playTo?: CommunicationIdentifierModel[];
   /** Defines options for playing the audio. */
-  playOptions?: PlayOptions;
+  playOptions?: PlayOptionsInternal;
   /** The value to identify context of the operation. */
   operationContext?: string;
 }
 
-export interface PlaySource {
+export interface PlaySourceInternal {
   /** Defines the type of the play source */
   sourceType: PlaySourceType;
   /** Defines the identifier to be used for caching related media */
   playSourceId?: string;
   /** Defines the file source info to be used for play */
-  fileSource?: FileSource;
+  fileSource?: FileSourceInternal;
   /** Defines the text source info to be used for play */
   textSource?: TextSource;
 }
 
-export interface FileSource {
+export interface FileSourceInternal {
   /** Uri for the audio file to be played */
   uri: string;
 }
@@ -210,7 +210,7 @@ export interface TextSource {
   voiceName?: string;
 }
 
-export interface PlayOptions {
+export interface PlayOptionsInternal {
   /** The option to play the provided audio source in loop when set to true */
   loop: boolean;
 }
@@ -219,7 +219,7 @@ export interface RecognizeRequest {
   /** Determines the type of the recognition. */
   recognizeInputType: RecognizeInputType;
   /** The source of the audio to be played for recognition. */
-  playPrompt?: PlaySource;
+  playPrompt?: PlaySourceInternal;
   /** If set recognize can barge into other existing queued-up/currently-processing requests. */
   interruptCallMediaOperation?: boolean;
   /** Defines options for recognition. */
@@ -1047,14 +1047,14 @@ export interface RejectCallOptionalParams extends coreClient.OperationOptions {
 
 /** Optional parameters. */
 export interface CallConnectionGetCallOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the getCall operation. */
 export type CallConnectionGetCallResponse = CallConnectionPropertiesInternal;
 
 /** Optional parameters. */
 export interface CallConnectionHangupCallOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Optional parameters. */
 export interface CallConnectionTerminateCallOptionalParams
@@ -1079,7 +1079,7 @@ export type CallConnectionTransferToParticipantResponse = TransferCallResponse;
 
 /** Optional parameters. */
 export interface CallConnectionGetParticipantsOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the getParticipants operation. */
 export type CallConnectionGetParticipantsResponse = GetParticipantsResponse;
@@ -1134,22 +1134,22 @@ export type CallConnectionUnmuteResponse = UnmuteParticipantsResponse;
 
 /** Optional parameters. */
 export interface CallConnectionGetParticipantOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the getParticipant operation. */
 export type CallConnectionGetParticipantResponse = CallParticipantInternal;
 
 /** Optional parameters. */
 export interface CallMediaPlayOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Optional parameters. */
 export interface CallMediaCancelAllMediaOperationsOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Optional parameters. */
 export interface CallMediaRecognizeOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Optional parameters. */
 export interface CallRecordingStartRecordingOptionalParams
@@ -1165,22 +1165,22 @@ export type CallRecordingStartRecordingResponse = RecordingStateResponse;
 
 /** Optional parameters. */
 export interface CallRecordingGetRecordingPropertiesOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the getRecordingProperties operation. */
 export type CallRecordingGetRecordingPropertiesResponse = RecordingStateResponse;
 
 /** Optional parameters. */
 export interface CallRecordingStopRecordingOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Optional parameters. */
 export interface CallRecordingPauseRecordingOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Optional parameters. */
 export interface CallRecordingResumeRecordingOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Optional parameters. */
 export interface CallAutomationApiClientOptionalParams

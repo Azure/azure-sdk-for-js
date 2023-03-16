@@ -347,13 +347,13 @@ const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new SipRoutingClient(connectionString);
 
 async function main() {
-  const trunks = await client.getTrunks();
-  const routes = await client.getRoutes();
-  for (const trunk of trunks) {
+  const trunks = await client.listTrunks();
+  const routes = await client.listRoutes();
+  for await(const trunk of trunks) {
     console.log(`Trunk ${trunk.fqdn}:${trunk.sipSignalingPort}`);
   }
   
-  for (const route of routes) {
+  for await(const route of routes) {
     console.log(`Route ${route.name} with pattern ${route.numberPattern}`);
     console.log(`Route's trunks: ${route.trunks?.join()}`);
   }
