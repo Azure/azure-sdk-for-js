@@ -38,8 +38,8 @@ import {
   GetSnapshotsResponse,
   CheckSnapshotsOptionalParams,
   CheckSnapshotsResponse,
-  GetSnapshotCreationOperationDetailsOptionalParams,
-  GetSnapshotCreationOperationDetailsResponse,
+  GetOperationDetailsOptionalParams,
+  GetOperationDetailsResponse,
   GetSnapshotOptionalParams,
   GetSnapshotResponse,
   Snapshot,
@@ -276,13 +276,13 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    * @param snapshot The name of the key-value snapshot to retrieve.
    * @param options The options parameters.
    */
-  getSnapshotCreationOperationDetails(
+  getOperationDetails(
     snapshot: string,
-    options?: GetSnapshotCreationOperationDetailsOptionalParams
-  ): Promise<GetSnapshotCreationOperationDetailsResponse> {
+    options?: GetOperationDetailsOptionalParams
+  ): Promise<GetOperationDetailsResponse> {
     return this.sendOperationRequest(
       { snapshot, options },
-      getSnapshotCreationOperationDetailsOperationSpec
+      getOperationDetailsOperationSpec
     );
   }
 
@@ -708,7 +708,7 @@ const checkSnapshotsOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.syncToken],
   serializer
 };
-const getSnapshotCreationOperationDetailsOperationSpec: coreClient.OperationSpec = {
+const getOperationDetailsOperationSpec: coreClient.OperationSpec = {
   path: "/operations/",
   httpMethod: "GET",
   responses: {

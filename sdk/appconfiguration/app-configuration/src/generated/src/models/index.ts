@@ -674,11 +674,11 @@ export interface CheckSnapshotsOptionalParams
 export type CheckSnapshotsResponse = AppConfigurationCheckSnapshotsHeaders;
 
 /** Optional parameters. */
-export interface GetSnapshotCreationOperationDetailsOptionalParams
+export interface GetOperationDetailsOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the getSnapshotCreationOperationDetails operation. */
-export type GetSnapshotCreationOperationDetailsResponse = OperationDetails;
+/** Contains response data for the getOperationDetails operation. */
+export type GetOperationDetailsResponse = OperationDetails;
 
 /** Optional parameters. */
 export interface GetSnapshotOptionalParams extends coreClient.OperationOptions {

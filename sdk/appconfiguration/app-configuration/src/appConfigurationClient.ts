@@ -560,10 +560,10 @@ export class AppConfigurationClient {
         },
         async sendPollRequest(): Promise<LroResponse<OperationDetails | GetSnapshotResponse>> {
           return tracingClient.withSpan(
-            `${AppConfigurationClient.name}.getSnapshotCreationOperationDetails`,
+            `${AppConfigurationClient.name}.getOperationDetails`,
             options,
             async (updatedOptions) => {
-              const originalResponse = await self.client.getSnapshotCreationOperationDetails(
+              const originalResponse = await self.client.getOperationDetails(
                 snapshot.name, updatedOptions
               );
               console.log("poll response -- ", originalResponse)
