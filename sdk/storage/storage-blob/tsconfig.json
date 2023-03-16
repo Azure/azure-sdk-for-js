@@ -13,7 +13,6 @@
     "./src/**/*.ts",
     "./test/**/*.ts",
     "./samples-dev/**/*.ts",
-    "../storage-internal-avro/**/*.ts",
-    "../storage-common/**/*.ts"
+    "../storage-internal-avro/**/*.ts"
   ]
 }

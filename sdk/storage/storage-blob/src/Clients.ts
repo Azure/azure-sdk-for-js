@@ -149,7 +149,7 @@ import {
 import { Range, rangeToString } from "./Range";
 import { CommonOptions, StorageClient } from "./StorageClient";
 import { Batch } from "./utils/Batch";
-import { BufferScheduler } from "../../storage-common/src";
+import { BufferScheduler } from "@azure/storage-common";
 import {
   BlobDoesNotUseCustomerSpecifiedEncryption,
   BlobUsesCustomerSpecifiedEncryptionMsg,
