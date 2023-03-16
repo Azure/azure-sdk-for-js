@@ -347,7 +347,8 @@ export const OperationDetails: coreClient.CompositeMapper = {
       error: {
         serializedName: "error",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "ErrorModel"
         }
       }
     }

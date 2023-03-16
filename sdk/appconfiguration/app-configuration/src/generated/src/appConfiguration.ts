@@ -709,7 +709,7 @@ const checkSnapshotsOperationSpec: coreClient.OperationSpec = {
   serializer
 };
 const getOperationDetailsOperationSpec: coreClient.OperationSpec = {
-  path: "/operations/",
+  path: "/operations",
   httpMethod: "GET",
   responses: {
     200: {

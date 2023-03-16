@@ -58,40 +58,32 @@ describe("AppConfigurationClient snapshot", () => {
 
 
   describe("createSnapshot", () => {
-    it.only("create a snapshot", async () => {
+    it("create a snapshot", async () => {
       // creating a new snapshot
-      newSnapshot = await client.beginCreateSnapshot(snapshot1);
-      // assert.equal(
-      //   newSnapshot.name,
-      //   snapshot1.name,
-      //   "Unexpected name in result from createSnapshot()."
-      // );
-      // assert.equal(
-      //   newSnapshot.retentionPeriod,
-      //   0,
-      //   "Unexpected retentionPeriod in result from createSnapshot()."
-      // );
+      const poller = await client.beginCreateSnapshot(snapshot1);
+      newSnapshot = await poller.pollUntilDone();
+      assert.equal(
+        newSnapshot.name,
+        snapshot1.name,
+        "Unexpected name in result from createSnapshot()."
+      );
+      assert.equal(
+        newSnapshot.retentionPeriod,
+        0,
+        "Unexpected retentionPeriod in result from createSnapshot()."
+      );
 
-      // console.log(newSnapshot.filters[0], filter1)
-      // assert.equal(
-      //   newSnapshot.filters[0].key,
-      //   filter1.key,
-      //   "Unexpected filters in result from createSnapshot()."
-      // );
-      // assert.equal(
-      //   newSnapshot.filters.length,
-      //   1,
-      //   "Unexpected filters in result from createSnapshot()."
-      // );
-
-      // newSnapshot = await client.getSnapshot(newSnapshot.name);
-      // when the snapshot status is not ready, please get it again until it is ready
-      while (newSnapshot.status !== "ready") {
-        console.log("Snapshot is not ready yet. Please wait...");
-        newSnapshot = await client.getSnapshot(newSnapshot.name);
-        await delay(1000);
-      }
-      console.log("Snapshot is ready now.. ", newSnapshot);
+      assert.equal(
+        newSnapshot.filters[0].key,
+        filter1.key,
+        "Unexpected filters in result from createSnapshot()."
+      );
+      assert.equal(
+        newSnapshot.filters.length,
+        1,
+        "Unexpected filters in result from createSnapshot()."
+      );
+      
     });
 
     it("service will throw error when try to create a snapshot of the same name", async () => {

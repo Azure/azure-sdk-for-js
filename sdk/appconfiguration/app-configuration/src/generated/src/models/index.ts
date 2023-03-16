@@ -131,7 +131,11 @@ export interface KeyValueFilter {
 export interface OperationDetails {
   id: string;
   status: State;
-  error?: string;
+  /**
+   * Azure App Configuration error object.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: ErrorModel;
 }
 
 /** Parameters used to update a snapshot. */

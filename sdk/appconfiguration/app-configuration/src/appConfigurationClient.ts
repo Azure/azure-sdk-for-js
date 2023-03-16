@@ -43,7 +43,6 @@ import {
   GetKeyValuesResponse,
   GetRevisionsResponse,
   GetSnapshotsResponse,
-  OperationDetails,
   Snapshot,
 } from "./generated/src/models";
 import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
@@ -77,7 +76,7 @@ import { SecretReferenceValue } from "./secretReference";
 import { appConfigKeyCredentialPolicy } from "./appConfigCredential";
 import { tracingClient } from "./internal/tracing";
 import { logger } from "./logger";
-import { createHttpPoller, LongRunningOperation, LroResponse, OperationState } from "@azure/core-lro";
+import { createHttpPoller, LongRunningOperation, LroResponse, OperationState, SimplePollerLike } from "@azure/core-lro";
 
 const apiVersion = "2022-11-01-preview";
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
@@ -529,9 +528,10 @@ export class AppConfigurationClient {
   async beginCreateSnapshot(
     snapshot: SnapshotInfo,
     options: CreateSnapshotOptions = {}
-  ): Promise<CreateSnapshotResponse> {
+  ): Promise<SimplePollerLike<OperationState<CreateSnapshotResponse>, CreateSnapshotResponse>> {
     logger.info("[createSnapshot] Creating snapshot");
     const self = this;
+    let statusOfThePoller:string;
     function createLro(): LongRunningOperation<unknown> {
       return {
         async sendInitialRequest(): Promise<LroResponse<CreateSnapshotResponse>> {
@@ -558,28 +558,28 @@ export class AppConfigurationClient {
             }
           );
         },
-        async sendPollRequest(): Promise<LroResponse<OperationDetails | GetSnapshotResponse>> {
+        async sendPollRequest(): Promise<LroResponse<unknown>> {
           return tracingClient.withSpan(
             `${AppConfigurationClient.name}.getOperationDetails`,
             options,
             async (updatedOptions) => {
-              const originalResponse = await self.client.getOperationDetails(
-                snapshot.name, updatedOptions
-              );
-              console.log("poll response -- ", originalResponse)
-              const res = transformOperationDetails(originalResponse)
-
-              if (originalResponse.status === "Succeeded") {
+              if (statusOfThePoller === "Succeeded") {
                 const response = await self.getSnapshot(snapshot.name, updatedOptions);
                 return {
                   flatResponse: response,
                   rawResponse: {
-                    statusCode: res._response.status,
-                    headers: res._response.headers.toJson(),
-                    body: res._response.parsedBody,
+                    statusCode: response._response.status,
+                    headers: response._response.headers.toJson(),
+                    body: response._response.parsedBody,
                   },
                 }
               }
+              const originalResponse = await self.client.getOperationDetails(
+                snapshot.name, updatedOptions
+              );
+              const res = transformOperationDetails(originalResponse)
+              statusOfThePoller = originalResponse.status;
+
               return {
                 flatResponse: res,
                 rawResponse: {
@@ -591,19 +591,11 @@ export class AppConfigurationClient {
             }
           );
         },
+        requestMethod: "PUT",
+        requestPath: "/snapshots/{name}",
       }
     }
-    function processResult(result: unknown, state: OperationState<CreateSnapshotResponse>): CreateSnapshotResponse {
-      if (state.status !== "succeeded" || !result) throw new RestError("something went wrong");
-      console.log("processResult =", (result as LroResponse<GetSnapshotResponse>).flatResponse)
-      return (result as LroResponse<GetSnapshotResponse>).flatResponse;
-    }
-    const poller = await createHttpPoller<CreateSnapshotResponse, OperationState<CreateSnapshotResponse>>(createLro(), {
-      processResult
-    });
-    const finalResult = await poller.pollUntilDone();
-    console.log("final =", finalResult);
-    return finalResult;
+    return createHttpPoller<CreateSnapshotResponse, OperationState<CreateSnapshotResponse>>(createLro());
   }
 
 
