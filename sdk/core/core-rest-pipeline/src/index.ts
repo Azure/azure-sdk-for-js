@@ -87,3 +87,8 @@ export {
   AuthorizeRequestOnChallengeOptions,
 } from "./policies/bearerTokenAuthenticationPolicy";
 export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy";
+export {
+  auxiliaryAuthenticationPolicy,
+  AuxiliaryAuthenticationPolicyNameOptions,
+  auxiliaryAuthenticationPolicyName
+} from "./policies/auxiliaryAuthenticationPolicy"

@@ -1,14 +1,10 @@
 # Release History
 
-## 1.10.3 (Unreleased)
+## 1.11.0 (Unreleased)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Added AuxiliaryAuthenticationPolicy
 
 ## 1.10.2 (2023-03-02)
 

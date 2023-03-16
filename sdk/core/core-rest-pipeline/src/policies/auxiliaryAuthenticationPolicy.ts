@@ -77,7 +77,7 @@ export function auxiliaryAuthenticationPolicy(
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       if (!request.url.toLowerCase().startsWith("https://")) {
         throw new Error(
-          "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs."
+          "Auxiliary token authentication is not permitted for non-TLS protected (non-https) URLs."
         );
       }
 
