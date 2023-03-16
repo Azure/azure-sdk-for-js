@@ -34,8 +34,8 @@ import {
   Pipeline,
   newPipeline,
   StoragePipelineOptions,
-} from "@azure/storage-blob";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
+  StorageSharedKeyCredential,
+} from "@azure/storage-common";
 import {
   appendToURLPath,
   extractConnectionStringParts,

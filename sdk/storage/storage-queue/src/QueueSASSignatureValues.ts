@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { QueueSASPermissions } from "./QueueSASPermissions";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
+import { StorageSharedKeyCredential } from "@azure/storage-common";
 import { SasIPRange, ipRangeToString } from "./SasIPRange";
 import { SASProtocol } from "./SASQueryParameters";
 import { SASQueryParameters } from "./SASQueryParameters";

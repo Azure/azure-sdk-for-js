@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { newPipeline } from "@azure/storage-blob";
+import { newPipeline } from "@azure/storage-common";
 import { getQSU, getConnectionStringFromEnvironment } from "../utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { QueueClient } from "../../src/QueueClient";

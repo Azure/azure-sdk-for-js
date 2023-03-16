@@ -11,7 +11,7 @@ export {
   CredentialPolicy,
   Credential,
   Pipeline,
-} from "@azure/storage-blob";
+} from "@azure/storage-common";
 export { Metadata } from "./models";
 export * from "./QueueClient";
 export * from "./QueueSASPermissions";

@@ -31,8 +31,8 @@ import {
   newPipeline,
   StoragePipelineOptions,
   Pipeline,
-} from "@azure/storage-blob";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
+  StorageSharedKeyCredential,
+} from "@azure/storage-common";
 import { createSpan } from "./utils/tracing";
 import { QueueClient, QueueCreateOptions, QueueDeleteOptions } from "./QueueClient";
 import { AccountSASPermissions } from "./AccountSASPermissions";

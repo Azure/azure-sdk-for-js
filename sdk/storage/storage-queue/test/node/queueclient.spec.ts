@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { getQSU, getConnectionStringFromEnvironment } from "../utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { QueueClient, StorageSharedKeyCredential } from "../../src";
-import { newPipeline } from "@azure/storage-blob";
+import { newPipeline } from "@azure/storage-common";
 import { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { recorderEnvSetup } from "../utils/testutils.common";

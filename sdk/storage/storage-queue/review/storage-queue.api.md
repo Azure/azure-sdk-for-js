@@ -5,27 +5,27 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
-import { AnonymousCredential } from '@azure/storage-blob';
-import { AnonymousCredentialPolicy } from '@azure/storage-blob';
+import { AnonymousCredential } from '@azure/storage-common';
+import { AnonymousCredentialPolicy } from '@azure/storage-common';
 import { AzureLogger } from '@azure/logger';
-import { CommonOptions as CommonOptions_2 } from '@azure/storage-blob';
+import { CommonOptions as CommonOptions_2 } from '@azure/storage-common';
 import * as coreClient from '@azure/core-client';
 import * as coreHttpCompat from '@azure/core-http-compat';
-import { Credential as Credential_2 } from '@azure/storage-blob';
-import { CredentialPolicy } from '@azure/storage-blob';
-import { newPipeline } from '@azure/storage-blob';
+import { Credential as Credential_2 } from '@azure/storage-common';
+import { CredentialPolicy } from '@azure/storage-common';
+import { newPipeline } from '@azure/storage-common';
 import { OperationOptions } from '@azure/core-client';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { Pipeline } from '@azure/storage-blob';
+import { Pipeline } from '@azure/storage-common';
 import { RestError } from '@azure/core-rest-pipeline';
-import { StorageBrowserPolicyFactory } from '@azure/storage-blob';
-import { StoragePipelineOptions } from '@azure/storage-blob';
-import { StorageRetryPolicyFactory } from '@azure/storage-blob';
-import { StorageSharedKeyCredential } from '@azure/storage-blob';
-import { StorageSharedKeyCredentialPolicy } from '@azure/storage-blob';
+import { StorageBrowserPolicyFactory } from '@azure/storage-common';
+import { StoragePipelineOptions } from '@azure/storage-common';
+import { StorageRetryPolicyFactory } from '@azure/storage-common';
+import { StorageSharedKeyCredential } from '@azure/storage-common';
+import { StorageSharedKeyCredentialPolicy } from '@azure/storage-common';
 import { TokenCredential } from '@azure/core-auth';
-import { WithResponse } from '@azure/storage-blob';
+import { WithResponse } from '@azure/storage-common';
 
 // @public
 export interface AccessPolicy {

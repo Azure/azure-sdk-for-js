@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AnonymousCredential, newPipeline } from "@azure/storage-blob";
+import { AnonymousCredential, newPipeline } from "@azure/storage-common";
 import { QueueServiceClient } from "../../src/QueueServiceClient";
 export * from "./testutils.common";
 

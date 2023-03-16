@@ -8,7 +8,7 @@ import { QueueClient } from "../../src/QueueClient";
 import { StorageSharedKeyCredential } from "../../src/";
 import { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { newPipeline } from "@azure/storage-blob";
+import { newPipeline } from "@azure/storage-common";
 import { recorderEnvSetup } from "../utils/index.browser";
 import { Context } from "mocha";
 

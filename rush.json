@@ -649,6 +649,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/storage-common",
+      "projectFolder": "sdk/storage/storage-common",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/storage-internal-avro",
       "projectFolder": "sdk/storage/storage-internal-avro",
       "versionPolicyName": "utility"

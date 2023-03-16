@@ -309,6 +309,7 @@ specifiers:
   '@rush-temp/service-bus': file:./projects/service-bus.tgz
   '@rush-temp/storage-blob': file:./projects/storage-blob.tgz
   '@rush-temp/storage-blob-changefeed': file:./projects/storage-blob-changefeed.tgz
+  '@rush-temp/storage-common': file:./projects/storage-common.tgz
   '@rush-temp/storage-file-datalake': file:./projects/storage-file-datalake.tgz
   '@rush-temp/storage-file-share': file:./projects/storage-file-share.tgz
   '@rush-temp/storage-internal-avro': file:./projects/storage-internal-avro.tgz
@@ -639,6 +640,7 @@ dependencies:
   '@rush-temp/service-bus': file:projects/service-bus.tgz
   '@rush-temp/storage-blob': file:projects/storage-blob.tgz
   '@rush-temp/storage-blob-changefeed': file:projects/storage-blob-changefeed.tgz
+  '@rush-temp/storage-common': file:projects/storage-common.tgz
   '@rush-temp/storage-file-datalake': file:projects/storage-file-datalake.tgz
   '@rush-temp/storage-file-share': file:projects/storage-file-share.tgz
   '@rush-temp/storage-internal-avro': file:projects/storage-internal-avro.tgz
@@ -3945,7 +3947,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230303
+      typescript: 5.1.0-dev.20230315
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8720,9 +8722,9 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230303:
-    resolution: {integrity: sha512-aDocbsouqGny1M8Kjxn8svqDUy5xoINdPpuh4t0UDoitl6nsHZ61suF1HLfMj9P/A1Bl6Tpjq6GTaRtrElq4aQ==}
-    engines: {node: '>=4.2.0'}
+  /typescript/5.1.0-dev.20230315:
+    resolution: {integrity: sha512-lHUjpyLQRGRdkxHROCqNyAeoq8ytzxFqAY2nCOTiI/sSygZsAsTyUS521ldoNcjym/DiR+rmaNG6mpt29enm9g==}
+    engines: {node: '>=12.20'}
     hasBin: true
     dev: false
 
@@ -19221,6 +19223,33 @@ packages:
       - '@swc/wasm'
       - bufferutil
       - debug
+      - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/storage-common.tgz:
+    resolution: {integrity: sha512-Djc5GqWO73tffGLm8cAtXGOungJfPzVOez92meWOB16wfWmJADsaYpqcZod8MXBbQfzTuRk9uEr8WTMtBwK3RA==, tarball: file:projects/storage-common.tgz}
+    name: '@rush-temp/storage-common'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.34.3
+      cross-env: 7.0.3
+      eslint: 8.33.0
+      esm: 3.2.25
+      mocha: 7.2.0
+      mocha-junit-reporter: 2.2.0_mocha@7.2.0
+      nyc: 15.1.0
+      prettier: 2.8.3
+      puppeteer: 19.6.3
+      rimraf: 3.0.2
+      sinon: 9.2.4
+      source-map-support: 0.5.21
+      tslib: 2.5.0
+      typescript: 4.8.4
+    transitivePeerDependencies:
+      - '@types/node'
+      - bufferutil
       - encoding
       - supports-color
       - utf-8-validate

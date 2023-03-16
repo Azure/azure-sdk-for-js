@@ -8,7 +8,7 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreHttpCompat from "@azure/core-http-compat";
-import { WithResponse } from "@azure/storage-blob";
+import { WithResponse } from "@azure/storage-common";
 
 /** Storage Service Properties. */
 export interface QueueServiceProperties {

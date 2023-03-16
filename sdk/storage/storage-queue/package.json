@@ -127,7 +127,7 @@
     "@azure/core-util": "^1.2.0",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0",
-    "@azure/storage-blob": "^12.20.0"
+    "@azure/storage-common": "1.0.0-beta.1"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",

@@ -9,9 +9,8 @@ import {
   PathStylePorts,
 } from "./constants";
 import { StorageClient as GeneratedStorageClient } from "../generated/src/storageClient";
-import { Pipeline } from "@azure/storage-blob";
+import { Pipeline, StoragePipelineOptions } from "@azure/storage-common";
 import { ExtendedServiceClientOptions } from "@azure/core-http-compat";
-import { StoragePipelineOptions } from "@azure/storage-blob";
 import { HttpClient, Pipeline as CorePipeline } from "@azure/core-rest-pipeline";
 
 let testOnlyHttpClient: HttpClient | undefined;

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { StorageSharedKeyCredential } from "../../src/";
-import { newPipeline } from "@azure/storage-blob";
+import { newPipeline } from "@azure/storage-common";
 import { QueueServiceClient } from "../../src/QueueServiceClient";
 import {
   generateAccountSASQueryParameters,

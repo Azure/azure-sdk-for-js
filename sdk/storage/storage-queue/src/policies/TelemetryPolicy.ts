@@ -8,7 +8,7 @@ import {
   CompatResponse as HttpOperationResponse,
   toHttpHeadersLike,
 } from "@azure/core-http-compat";
-import { BaseRequestPolicy } from "@azure/storage-blob";
+import { BaseRequestPolicy } from "@azure/storage-common";
 import { isNode } from "@azure/core-util";
 import { HeaderConstants } from "../utils/constants";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
