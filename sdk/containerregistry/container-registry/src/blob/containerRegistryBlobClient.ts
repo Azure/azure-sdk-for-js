@@ -33,6 +33,7 @@ import { readChunksFromStream, readStreamToEnd } from "../utils/helpers";
 import { Readable } from "stream";
 import { tracingClient } from "../tracing";
 import crypto from "crypto";
+import { RetriableReadableStream } from "../utils/retriableReadableStream";
 
 const LATEST_API_VERSION = "2021-07-01";
 
@@ -407,15 +408,33 @@ export class ContainerRegistryBlobClient {
       "ContainerRegistryBlobClient.downloadBlob",
       options,
       async (updatedOptions) => {
-        const { readableStreamBody } = await this.client.containerRegistryBlob.getBlob(
+        const initialResponse = await this.client.containerRegistryBlob.getBlob(
           this.repositoryName,
           digest,
           updatedOptions
         );
 
+        assertHasProperty(initialResponse, "readableStreamBody");
+        assertHasProperty(initialResponse, "contentLength");
+
         return {
           digest,
-          content: readableStreamBody ?? Readable.from([]),
+          content: new RetriableReadableStream(
+            initialResponse.readableStreamBody,
+            async (pos) => {
+              const retryResponse = await this.client.containerRegistryBlob.getChunk(
+                this.repositoryName,
+                digest,
+                `${pos}-`,
+                updatedOptions
+              );
+
+              assertHasProperty(retryResponse, "readableStreamBody");
+              return retryResponse.readableStreamBody;
+            },
+            0,
+            initialResponse.contentLength
+          ),
         };
       }
     );
