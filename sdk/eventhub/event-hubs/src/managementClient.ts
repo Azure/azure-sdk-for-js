@@ -95,7 +95,7 @@ export interface ManagementClientOptions {
 
 /**
  * @internal
- * Descibes the EventHubs Management Client that talks
+ * Describes the EventHubs Management Client that talks
  * to the $management endpoint over AMQP connection.
  */
 export class ManagementClient extends LinkEntity {
@@ -121,12 +121,12 @@ export class ManagementClient extends LinkEntity {
    * `/messages/events/$management`.
    */
   constructor(context: ConnectionContext, options?: ManagementClientOptions) {
-    super(context, {
-      address: options && options.address ? options.address : Constants.management,
-      audience:
-        options && options.audience ? options.audience : context.config.getManagementAudience(),
-    });
-    this._context = context;
+    super(
+      context,
+      options?.address ?? Constants.management,
+      options?.address ?? Constants.management,
+      options?.audience ?? context.config.getManagementAudience()
+    );
     this.entityPath = context.config.entityPath as string;
   }
 
@@ -359,12 +359,12 @@ export class ManagementClient extends LinkEntity {
           this._mgmtReqResLink.sender.name,
           this._mgmtReqResLink.receiver.name
         );
-        await this._ensureTokenRenewal();
+        this._ensureTokenRenewal();
       }
-    } catch (err: any) {
+    } catch (err) {
       const translatedError = translate(err);
       logger.warning(
-        `[${this._context.connectionId}] An error occured while establishing the $management links: ${translatedError?.name}: ${translatedError?.message}`
+        `[${this._context.connectionId}] An error occurred while establishing the $management links: ${translatedError?.name}: ${translatedError?.message}`
       );
       logErrorStackTrace(translatedError);
       throw translatedError;

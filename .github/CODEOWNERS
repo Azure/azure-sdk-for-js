@@ -14,7 +14,13 @@
 
 /.devcontainer/ @jeremymeng
 /documentation/ @jeremymeng
-/samples/       @jeremymeng
+/samples/       @jeremymeng @witemple-msft
+
+################
+# Architecture
+################
+
+/design/ @bterlson @mpodwysocki @joheredi @jeremymeng @witemple-msft
 
 ################
 # Automation
@@ -62,7 +68,7 @@
 /sdk/communication/
 
 # PRLabel: %Communication - Alpha IDs
-/sdk/communication/communication-alpha-ids/ @guilhermeluizsp @danielav7
+/sdk/communication/communication-alpha-ids/ @danielav7
 
 # PRLabel: %Communication - Identity
 /sdk/communication/communication-identity/ @petrsvihlik @AikoBB @maximrytych-ms @ostoliarova-msft @mjafferi-msft
@@ -89,7 +95,7 @@
 /sdk/communication/communication-sms/ @arifibrahim4
 
 # PRLabel: %Communication - Short Codes
-/sdk/communication/communication-short-codes/ @guilhermeluizsp @danielav7
+/sdk/communication/communication-short-codes/ @danielav7
 
 # PRLabel: %Communication - Common
 /sdk/communication/communication-common/ @petrsvihlik @AikoBB @maximrytych-ms @ostoliarova-msft @mjafferi-msft
@@ -138,9 +144,10 @@
 
 # PRLabel: %Purview
 /sdk/purview/ @qiaozha
+/sdk/purview/purview-sharing-rest/ @anniruddh
 
 # PRLabel: %Personalizer
-/sdk/personalizer/ @sharathmalladi
+/sdk/personalizer/ @tyclintw
 
 # PRLabel: %Farmbeats
 /sdk/agrifood/ @joheredi
@@ -185,6 +192,9 @@
 
 # PRLabel: %VideoAnalyzer
 /sdk/videoanalyzer/video-analyzer-edge/ @hivyas @bterlson
+
+# PRLabel: %Maps
+/sdk/maps/ @dubiety @andykao1213
 
 # Smoke Tests
 /common/smoke-test/ @xirzec @jeremymeng
@@ -1463,8 +1473,8 @@
 # Config
 ###########
 /.vscode/ @mikeharder @ckairen @deyaaeldeen
-/common/ @mikeharder @ckairen @witemple-msft @deyaaeldeen
-/common/config/rush/pnpm-lock.yaml @ckairen @witemple-msft @deyaaeldeen @jeremymeng
+/common/ @mikeharder @ckairen @deyaaeldeen
+/common/config/rush/pnpm-lock.yaml @ckairen @deyaaeldeen @jeremymeng
 /common/smoke-test/ @mikeharder @ckairen @witemple-msft @deyaaeldeen @benbp
 
 /rush.json @mikeharder @ckairen

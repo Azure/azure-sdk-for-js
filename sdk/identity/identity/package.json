@@ -1,7 +1,7 @@
 {
   "name": "@azure/identity",
   "sdk-type": "client",
-  "version": "3.2.0-beta.1",
+  "version": "3.2.0-beta.2",
   "description": "Provides credential implementations for Azure SDK libraries that can authenticate with Azure Active Directory",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -122,7 +122,7 @@
     "uuid": "^8.3.0"
   },
   "devDependencies": {
-    "@azure-tools/test-recorder": "^2.0.0",
+    "@azure-tools/test-recorder": "^3.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/keyvault-keys": "^4.2.0",

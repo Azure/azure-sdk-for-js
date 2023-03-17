@@ -55,10 +55,6 @@ Compare with the older test runs to make sure you're running all the tests/files
 
 ## Initializing the recorder
 
-The approach taken to initialize the recorder depends on whether the SDK being tested uses Core v1 ([`core-http`]) or Core v2 ([`core-rest-pipeline`]). If your SDK is on Core v2, read on. If you're still on Core v1, [jump to the section on Core v1 below](#for-core-v1-sdks).
-
-### For Core v2 SDKs
-
 The recorder is implemented as a custom policy which should be attached to your client's pipeline. Firstly, initialize the recorder:
 
 ```ts
@@ -83,33 +79,6 @@ const client = new MyServiceClient(
   recorder.configureClientOptions({ /* any additional options to pass through */ }),
 );
 ```
-
-### For Core v1 SDKs
-
-The recorder library provides a custom `HttpClient` that is then passed to the SDK. This client needs to be initialized as follows:
-
-```ts
-let recorder: Recorder;
-
-/*
- * Note the use of function() instead of the arrow syntax. We need access to `this` so we
- * can pass test information from Mocha to the recorder.
- */
-beforeEach(function (this: Context) {
-  recorder = new Recorder(this.currentTest);
-});
-```
-
-When initialising your client in your test, you should pass in the recorder as follows:
-
-```ts
-const client = new MyServiceClient(
-  /* ... insert options here ... */,
-  recorder.configureClientOptionsCoreV1({ /* any additional options to pass through */ }),
-);
-```
-
-This will allow requests to be intercepted and redirected to the proxy tool.
 
 ## Starting and stopping the recorder
 
@@ -353,5 +322,4 @@ Once you've done this, you can run your tests in a separate terminal. `dev-tool`
 
 [docker]: https://docker.com/
 [`core-rest-pipeline`]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-rest-pipeline
-[`core-http`]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-http
 [test proxy server]: https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy

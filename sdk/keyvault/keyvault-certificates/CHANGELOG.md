@@ -1,16 +1,10 @@
 # Release History
 
-## 4.7.0-beta.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 4.7.0 (2023-03-09)
 
 ### Other Changes
 
-- Updated `CertificateClient` to support service version 7.4-preview.1 by default.
+- Updated `CertificateClient` to support service version 7.4 by default.
 
 ## 4.6.0 (2022-09-20)
 
