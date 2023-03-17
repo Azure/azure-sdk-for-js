@@ -100,7 +100,7 @@ export const timeoutInSeconds: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2021-06-08",
+    defaultValue: "2021-10-04",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {

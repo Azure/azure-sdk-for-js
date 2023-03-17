@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import * as dotenv from "dotenv";
 import Sinon, { createSandbox } from "sinon";
 import { MsalBaseUtilities } from "../src/msal/utils";
-import { isNode } from "@azure/core-util";
-import * as dotenv from "dotenv";
 import { Recorder } from "@azure-tools/test-recorder";
+import { isNode } from "@azure/core-util";
 
 // Browser tests fail if dotenv.config is called in that environment.
 if (isNode) {
@@ -135,6 +135,11 @@ export async function msalNodeTestSetup(
       bodySanitizers: [
         {
           regex: true,
+          target: 'client_secret=[^&"]+',
+          value: "client_secret=azure_client_secret",
+        },
+        {
+          regex: true,
           target: `client_assertion=[a-zA-Z0-9-._]*`,
           value: "client_assertion=client_assertion",
         },
@@ -211,16 +216,6 @@ export async function msalNodeTestSetup(
 
   const stub = sandbox.stub(MsalBaseUtilities.prototype, "generateUuid");
   stub.returns(playbackValues.correlationId);
-
-  recorder.configureClientOptions = (options: any) => ({
-    ...options,
-    additionalPolicies: [
-      {
-        policy: recorder["recorderHttpPolicy"](),
-        position: "perRetry",
-      },
-    ],
-  });
 
   return {
     sandbox,

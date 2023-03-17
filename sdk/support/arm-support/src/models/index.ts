@@ -413,9 +413,13 @@ export interface CommunicationDetails {
 
 /** Known values of {@link SeverityLevel} that the service accepts. */
 export enum KnownSeverityLevel {
+  /** Minimal */
   Minimal = "minimal",
+  /** Moderate */
   Moderate = "moderate",
+  /** Critical */
   Critical = "critical",
+  /** Highestcriticalimpact */
   Highestcriticalimpact = "highestcriticalimpact"
 }
 
@@ -433,7 +437,9 @@ export type SeverityLevel = string;
 
 /** Known values of {@link PreferredContactMethod} that the service accepts. */
 export enum KnownPreferredContactMethod {
+  /** Email */
   Email = "email",
+  /** Phone */
   Phone = "phone"
 }
 
@@ -449,7 +455,9 @@ export type PreferredContactMethod = string;
 
 /** Known values of {@link Status} that the service accepts. */
 export enum KnownStatus {
+  /** Open */
   Open = "open",
+  /** Closed */
   Closed = "closed"
 }
 
@@ -465,7 +473,9 @@ export type Status = string;
 
 /** Known values of {@link CommunicationType} that the service accepts. */
 export enum KnownCommunicationType {
+  /** Web */
   Web = "web",
+  /** Phone */
   Phone = "phone"
 }
 
@@ -481,7 +491,9 @@ export type CommunicationType = string;
 
 /** Known values of {@link CommunicationDirection} that the service accepts. */
 export enum KnownCommunicationDirection {
+  /** Inbound */
   Inbound = "inbound",
+  /** Outbound */
   Outbound = "outbound"
 }
 
@@ -581,12 +593,7 @@ export type SupportTicketsCreateResponse = SupportTicketDetails;
 
 /** Optional parameters. */
 export interface SupportTicketsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of values to return in the collection. Default is 25 and max is 100. */
-  top?: number;
-  /** The filter to apply on the operation. We support 'odata v4.0' filter semantics. [Learn more](https://docs.microsoft.com/odata/concepts/queryoptions-overview). _Status_ filter can only be used with Equals ('eq') operator. For _CreatedDate_ filter, the supported operators are Greater Than ('gt') and Greater Than or Equals ('ge'). When using both filters, combine them using the logical 'AND'. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SupportTicketsListNextResponse = SupportTicketsListResult;
@@ -631,12 +638,7 @@ export type CommunicationsCreateResponse = CommunicationDetails;
 
 /** Optional parameters. */
 export interface CommunicationsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of values to return in the collection. Default is 10 and max is 10. */
-  top?: number;
-  /** The filter to apply on the operation. You can filter by communicationType and createdDate properties. CommunicationType supports Equals ('eq') operator and createdDate supports Greater Than ('gt') and Greater Than or Equals ('ge') operators. You may combine the CommunicationType and CreatedDate filters by Logical And ('and') operator. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type CommunicationsListNextResponse = CommunicationsListResult;

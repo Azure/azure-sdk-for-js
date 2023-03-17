@@ -354,6 +354,26 @@ export const AccountProperties: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      locations: {
+        serializedName: "locations",
+        type: {
+          name: "Composite",
+          className: "MultiRegionSettings"
+        }
+      },
+      commitmentPlanAssociations: {
+        serializedName: "commitmentPlanAssociations",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CommitmentPlanAssociation"
+            }
+          }
+        }
       }
     }
   }
@@ -913,6 +933,81 @@ export const QuotaLimit: coreClient.CompositeMapper = {
   }
 };
 
+export const MultiRegionSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MultiRegionSettings",
+    modelProperties: {
+      routingMethod: {
+        serializedName: "routingMethod",
+        type: {
+          name: "String"
+        }
+      },
+      regions: {
+        serializedName: "regions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RegionSetting"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const RegionSetting: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RegionSetting",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Number"
+        }
+      },
+      customsubdomain: {
+        serializedName: "customsubdomain",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CommitmentPlanAssociation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommitmentPlanAssociation",
+    modelProperties: {
+      commitmentPlanId: {
+        serializedName: "commitmentPlanId",
+        type: {
+          name: "String"
+        }
+      },
+      commitmentPlanLocation: {
+        serializedName: "commitmentPlanLocation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ErrorResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1415,6 +1510,13 @@ export const DeploymentModel: coreClient.CompositeMapper = {
         serializedName: "version",
         type: {
           name: "String"
+        }
+      },
+      callRateLimit: {
+        serializedName: "callRateLimit",
+        type: {
+          name: "Composite",
+          className: "CallRateLimit"
         }
       }
     }
@@ -1991,6 +2093,27 @@ export const DeploymentProperties: coreClient.CompositeMapper = {
           name: "Composite",
           className: "DeploymentScaleSettings"
         }
+      },
+      capabilities: {
+        serializedName: "capabilities",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      raiPolicyName: {
+        serializedName: "raiPolicyName",
+        type: {
+          name: "String"
+        }
+      },
+      callRateLimit: {
+        serializedName: "callRateLimit",
+        type: {
+          name: "Composite",
+          className: "CallRateLimit"
+        }
       }
     }
   }
@@ -2057,6 +2180,19 @@ export const CommitmentPlanProperties: coreClient.CompositeMapper = {
     name: "Composite",
     className: "CommitmentPlanProperties",
     modelProperties: {
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      commitmentPlanGuid: {
+        serializedName: "commitmentPlanGuid",
+        type: {
+          name: "String"
+        }
+      },
       hostingModel: {
         serializedName: "hostingModel",
         type: {
@@ -2142,6 +2278,50 @@ export const CommitmentPeriod: coreClient.CompositeMapper = {
   }
 };
 
+export const PatchResourceTags: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PatchResourceTags",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const CommitmentPlanAccountAssociationListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommitmentPlanAccountAssociationListResult",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CommitmentPlanAccountAssociation"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const AzureEntityResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2212,6 +2392,13 @@ export const AccountModel: coreClient.CompositeMapper = {
           value: { type: { name: "String" } }
         }
       },
+      finetuneCapabilities: {
+        serializedName: "finetuneCapabilities",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
       deprecation: {
         serializedName: "deprecation",
         type: {
@@ -2219,11 +2406,34 @@ export const AccountModel: coreClient.CompositeMapper = {
           className: "ModelDeprecationInfo"
         }
       },
+      lifecycleStatus: {
+        serializedName: "lifecycleStatus",
+        type: {
+          name: "String"
+        }
+      },
       systemData: {
         serializedName: "systemData",
         type: {
           name: "Composite",
           className: "SystemData"
+        }
+      }
+    }
+  }
+};
+
+export const PatchResourceTagsAndSku: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PatchResourceTagsAndSku",
+    modelProperties: {
+      ...PatchResourceTags.type.modelProperties,
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "Sku"
         }
       }
     }
@@ -2368,11 +2578,112 @@ export const CommitmentPlan: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      kind: {
+        serializedName: "kind",
+        type: {
+          name: "String"
+        }
+      },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "Sku"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
           className: "CommitmentPlanProperties"
+        }
+      }
+    }
+  }
+};
+
+export const CommitmentPlanAccountAssociation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommitmentPlanAccountAssociation",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      etag: {
+        serializedName: "etag",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      accountId: {
+        serializedName: "properties.accountId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CommitmentPlansUpdatePlanHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommitmentPlansUpdatePlanHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CommitmentPlansDeletePlanHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommitmentPlansDeletePlanHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CommitmentPlansDeleteAssociationHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommitmentPlansDeleteAssociationHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
         }
       }
     }

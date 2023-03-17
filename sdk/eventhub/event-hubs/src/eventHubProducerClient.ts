@@ -15,7 +15,8 @@ import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDat
 import { EventHubProperties, PartitionProperties } from "./managementClient";
 import { TracingContext, TracingSpanLink } from "@azure/core-tracing";
 import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
-import { isCredential, isDefined } from "./util/typeGuards";
+import { isDefined } from "@azure/core-util";
+import { isCredential } from "./util/typeGuards";
 import { logErrorStackTrace, logger } from "./log";
 import {
   idempotentAlreadyPublished,

@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-client";
-import { FeatureFlagValue } from "./featureFlag";
-import { SecretReferenceValue } from "./secretReference";
 import { CompatResponse } from "@azure/core-http-compat";
+import { FeatureFlagValue } from "./featureFlag";
+import { OperationOptions } from "@azure/core-client";
+import { SecretReferenceValue } from "./secretReference";
 /**
  * Fields that uniquely identify a configuration setting
  */

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Slices } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,6 +19,7 @@ import {
   Slice,
   SlicesListByMobileNetworkNextOptionalParams,
   SlicesListByMobileNetworkOptionalParams,
+  SlicesListByMobileNetworkResponse,
   SlicesDeleteOptionalParams,
   SlicesGetOptionalParams,
   SlicesGetResponse,
@@ -26,7 +28,6 @@ import {
   TagsObject,
   SlicesUpdateTagsOptionalParams,
   SlicesUpdateTagsResponse,
-  SlicesListByMobileNetworkResponse,
   SlicesListByMobileNetworkNextResponse
 } from "../models";
 
@@ -66,11 +67,15 @@ export class SlicesImpl implements Slices {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByMobileNetworkPagingPage(
           resourceGroupName,
           mobileNetworkName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -79,15 +84,22 @@ export class SlicesImpl implements Slices {
   private async *listByMobileNetworkPagingPage(
     resourceGroupName: string,
     mobileNetworkName: string,
-    options?: SlicesListByMobileNetworkOptionalParams
+    options?: SlicesListByMobileNetworkOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Slice[]> {
-    let result = await this._listByMobileNetwork(
-      resourceGroupName,
-      mobileNetworkName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SlicesListByMobileNetworkResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByMobileNetwork(
+        resourceGroupName,
+        mobileNetworkName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByMobileNetworkNext(
         resourceGroupName,
@@ -96,7 +108,9 @@ export class SlicesImpl implements Slices {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -115,10 +129,10 @@ export class SlicesImpl implements Slices {
   }
 
   /**
-   * Deletes the specified mobile network slice.
+   * Deletes the specified network slice.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param sliceName The name of the mobile network slice.
+   * @param sliceName The name of the network slice.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -181,10 +195,10 @@ export class SlicesImpl implements Slices {
   }
 
   /**
-   * Deletes the specified mobile network slice.
+   * Deletes the specified network slice.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param sliceName The name of the mobile network slice.
+   * @param sliceName The name of the network slice.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -203,10 +217,10 @@ export class SlicesImpl implements Slices {
   }
 
   /**
-   * Gets information about the specified mobile network slice.
+   * Gets information about the specified network slice.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param sliceName The name of the mobile network slice.
+   * @param sliceName The name of the network slice.
    * @param options The options parameters.
    */
   get(
@@ -222,11 +236,12 @@ export class SlicesImpl implements Slices {
   }
 
   /**
-   * Creates or updates a mobile network slice.
+   * Creates or updates a network slice. Must be created in the same location as its parent mobile
+   * network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param sliceName The name of the mobile network slice.
-   * @param parameters Parameters supplied to the create or update mobile network slice operation.
+   * @param sliceName The name of the network slice.
+   * @param parameters Parameters supplied to the create or update network slice operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
@@ -295,11 +310,12 @@ export class SlicesImpl implements Slices {
   }
 
   /**
-   * Creates or updates a mobile network slice.
+   * Creates or updates a network slice. Must be created in the same location as its parent mobile
+   * network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param sliceName The name of the mobile network slice.
-   * @param parameters Parameters supplied to the create or update mobile network slice operation.
+   * @param sliceName The name of the network slice.
+   * @param parameters Parameters supplied to the create or update network slice operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
@@ -320,11 +336,11 @@ export class SlicesImpl implements Slices {
   }
 
   /**
-   * Update slice tags.
+   * Updates slice tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param sliceName The name of the mobile network slice.
-   * @param parameters Parameters supplied to update mobile network slice tags.
+   * @param sliceName The name of the network slice.
+   * @param parameters Parameters supplied to update network slice tags.
    * @param options The options parameters.
    */
   updateTags(
@@ -447,7 +463,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters10,
+  requestBody: Parameters.parameters15,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -518,7 +534,6 @@ const listByMobileNetworkNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

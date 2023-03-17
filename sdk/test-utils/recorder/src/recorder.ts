@@ -15,54 +15,51 @@ import {
   isLiveMode,
   isPlaybackMode,
   isRecordMode,
-  once,
   RecorderError,
   RecorderStartOptions,
   RecordingStateManager,
 } from "./utils/utils";
 import { Test } from "mocha";
-import { sessionFilePath } from "./utils/sessionFilePath";
+import { assetsJsonPath, sessionFilePath } from "./utils/sessionFilePath";
 import { SanitizerOptions } from "./utils/utils";
 import { paths } from "./utils/paths";
 import { addSanitizers, transformsInfo } from "./sanitizer";
 import { handleEnvSetup } from "./utils/envSetupForPlayback";
 import { CustomMatcherOptions, Matcher, setMatcher } from "./matcher";
-import {
-  DefaultHttpClient,
-  HttpClient as HttpClientCoreV1,
-  HttpOperationResponse,
-  WebResource,
-  WebResourceLike,
-} from "@azure/core-http";
 import { addTransform, Transform } from "./transform";
 import { createRecordingRequest } from "./utils/createRecordingRequest";
 import { AdditionalPolicyConfig } from "@azure/core-client";
+import { logger } from "./log";
 import { setRecordingOptions } from "./options";
 import { isNode } from "@azure/core-util";
+import { env } from "./utils/env";
+import { decodeBase64 } from "./utils/encoding";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
  * eventually save them in record mode and playing them back in playback mode.
  *
- * For Core V2 SDKs,
  * - Use the `configureClient` method to add recorder policy on your client.
- * For core-v1 SDKs,
- * - Use the `configureClientOptionsCoreV1` method to modify the httpClient on your client options
  *
  * Other than configuring your clients, use `start`, `stop`, `addSanitizers` methods to use the recorder.
  */
 export class Recorder {
-  private static url = "http://localhost:5000";
+  private static url = `http://localhost:${env.TEST_PROXY_HTTP_PORT ?? 5000}`;
   public recordingId?: string;
   private stateManager = new RecordingStateManager();
   private httpClient?: HttpClient;
   private sessionFile?: string;
+  private assetsJson?: string;
   private variables: Record<string, string>;
 
   constructor(private testContext?: Test | undefined) {
+    logger.info(`[Recorder#constructor] Creating a recorder instance in ${getTestMode()} mode`);
     if (isRecordMode() || isPlaybackMode()) {
       if (this.testContext) {
         this.sessionFile = sessionFilePath(this.testContext);
+        this.assetsJson = assetsJsonPath();
+
+        logger.info(`[Recorder#constructor] Using a session file located at ${this.sessionFile}`);
         this.httpClient = createDefaultHttpClient();
       } else {
         throw new Error(
@@ -75,12 +72,9 @@ export class Recorder {
 
   /**
    * redirectRequest updates the request in record and playback modes to hit the proxy-tool with appropriate headers.
-   * Works for both core-v1 and core-v2
-   *
-   * - WebResource -> core-v1
-   * - PipelineRequest -> core-v2 (recorderHttpPolicy calls this method on the request to modify and hit the proxy-tool with appropriate headers.)
+   * recorderHttpPolicy calls this method on the request.
    */
-  private redirectRequest(request: WebResource | PipelineRequest): void {
+  private redirectRequest(request: PipelineRequest): void {
     const upstreamUrl = new URL(request.url);
     const redirectedUrl = new URL(request.url);
     const testProxyUrl = new URL(Recorder.url);
@@ -95,10 +89,24 @@ export class Recorder {
       upstreamUrl.port === testProxyUrl.port &&
       upstreamUrl.protocol === testProxyUrl.protocol;
 
-    if (!isLiveMode() && !requestAlreadyRedirected) {
+    if (requestAlreadyRedirected) {
+      logger.verbose(
+        `[Recorder#redirectRequest] Determined that the request to ${request.url} has already been redirected, not attempting to redirect again.`,
+        request
+      );
+    } else {
       if (this.recordingId === undefined) {
+        logger.error(
+          "[Recorder#redirectRequest] Could not redirect request (recording ID not set)",
+          request
+        );
         throw new RecorderError("Recording ID must be defined to redirect a request");
       }
+
+      logger.info(
+        `[Recorder#redirectRequest] Redirecting request to ${request.url} through the test proxy`,
+        request
+      );
 
       request.headers.set("x-recording-id", this.recordingId);
       request.headers.set("x-recording-mode", getTestMode());
@@ -107,14 +115,31 @@ export class Recorder {
       redirectedUrl.port = testProxyUrl.port;
       redirectedUrl.protocol = testProxyUrl.protocol;
 
-      request.headers.set("x-recording-upstream-base-uri", upstreamUrl.toString());
+      request.headers.set("x-recording-upstream-base-uri", upstreamUrl.origin);
       request.url = redirectedUrl.toString();
-
-      if (!(request instanceof WebResource)) {
-        // for core-v2
-        request.allowInsecureConnection = true;
-      }
+      request.allowInsecureConnection = true;
     }
+  }
+
+  /**
+   * revertRequestChanges reverts the request in record and playback modes back to the existing url.
+   *
+   * Workflow:
+   *   - recorderHttpPolicy calls this method after the request is made
+   *   1. "redirectRequest" method is called to update the request with the proxy-tool url
+   *   2. Request hits the proxy tool, proxy-tool hits the service and returns the response
+   *   3. Using `revertRequestChanges`, we revert the request back to the original url
+   */
+  private revertRequestChanges(request: PipelineRequest, originalUrl: string): void {
+    logger.info(
+      `[Recorder#revertRequestChanges] "undo"s the URL changes made by the recorder to hit the test proxy after the response is received,`,
+      request
+    );
+    const proxyHeaders = ["x-recording-id", "x-recording-mode"];
+    for (const headerName of proxyHeaders) {
+      request.headers.delete(headerName);
+    }
+    request.url = originalUrl;
   }
 
   /**
@@ -189,24 +214,67 @@ export class Recorder {
    */
   async start(options: RecorderStartOptions): Promise<void> {
     if (isLiveMode()) return;
+    logger.info(`[Recorder#start] Starting the recorder in ${getTestMode()} mode`);
     this.stateManager.state = "started";
     if (this.recordingId === undefined) {
       const startUri = `${Recorder.url}${isPlaybackMode() ? paths.playback : paths.record}${
         paths.start
       }`;
-      const req = createRecordingRequest(startUri, this.sessionFile, this.recordingId);
+
+      const req = createRecordingRequest(
+        startUri,
+        this.sessionFile,
+        this.recordingId,
+        "POST",
+        this.assetsJson
+      );
 
       if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient")) {
-        await setRecordingOptions(Recorder.url, this.httpClient, { handleRedirects: isNode });
-        const rsp = await this.httpClient.sendRequest({
+        logger.verbose("[Recorder#start] Setting redirect mode");
+        await setRecordingOptions(Recorder.url, this.httpClient, { handleRedirects: !isNode });
+        logger.verbose("[Recorder#start] Sending the start request to the test proxy");
+        let rsp = await this.httpClient.sendRequest({
           ...req,
           allowInsecureConnection: true,
         });
+
+        // If the error is due to the assets.json not existing, try again without specifying an assets.json. This will
+        // occur with SDKs that have not migrated to asset sync yet.
+        // TODO: remove once everyone has migrated to asset sync
+        if (rsp.status === 400 && rsp.headers.get("x-request-known-exception") === "true") {
+          const errorMessage = decodeBase64(rsp.headers.get("x-request-known-exception-error")!);
+          if (
+            errorMessage.includes("The provided assets") &&
+            errorMessage.includes("does not exist")
+          ) {
+            logger.info(
+              "[Recorder#start] start request failed, trying again without assets.json specified"
+            );
+
+            const retryRequest = createRecordingRequest(
+              startUri,
+              this.sessionFile,
+              this.recordingId,
+              "POST",
+              undefined
+            );
+
+            rsp = await this.httpClient.sendRequest({
+              ...retryRequest,
+              allowInsecureConnection: true,
+            });
+          }
+        }
+
         if (rsp.status !== 200) {
+          logger.error("[Recorder#start] Could not start the recorder", rsp);
           throw new RecorderError("Start request failed.");
         }
         const id = rsp.headers.get("x-recording-id");
         if (!id) {
+          logger.error(
+            "[Recorder#start] Test proxy did not provide a recording ID when starting the recorder"
+          );
           throw new RecorderError("No recording ID returned for a successful start request.");
         }
         this.recordingId = id;
@@ -225,8 +293,11 @@ export class Recorder {
         if (isRecordMode() && options.sanitizerOptions) {
           // Makes a call to the proxy-tool to add the sanitizers for the current recording id
           // Recordings of the current test will be influenced by the sanitizers that are being added here
+          logger.verbose("[Recorder#start] Adding sanitizers specified in the start options");
           await this.addSanitizers(options.sanitizerOptions);
         }
+
+        logger.info("[Recorder#start] Recorder started successfully");
       }
     }
   }
@@ -238,26 +309,39 @@ export class Recorder {
     if (isLiveMode()) return;
     this.stateManager.state = "stopped";
     if (this.recordingId !== undefined) {
+      logger.info("[Recorder#stop] Stopping recording", this.recordingId);
       const stopUri = `${Recorder.url}${isPlaybackMode() ? paths.playback : paths.record}${
         paths.stop
       }`;
+
       const req = createRecordingRequest(stopUri, undefined, this.recordingId);
       req.headers.set("x-recording-save", "true");
 
       if (isRecordMode()) {
+        logger.verbose(
+          "[Recorder#stop] Adding recorder variables to the request body:",
+          this.variables
+        );
         req.headers.set("Content-Type", "application/json");
         req.body = JSON.stringify(this.variables);
       }
+
       if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient")) {
         const rsp = await this.httpClient.sendRequest({
           ...req,
           allowInsecureConnection: true,
         });
         if (rsp.status !== 200) {
+          logger.error("[Recorder#stop] Stop request failed", rsp);
           throw new RecorderError("Stop request failed.");
         }
+
+        logger.verbose("[Recorder#stop] Recorder stop request successful");
       }
     } else {
+      logger.error(
+        "[Recorder#stop] Encountered invalid state: recordingId should have been defined when calling stop"
+      );
       throw new RecorderError("Bad state, recordingId is not defined when called stop.");
     }
   }
@@ -315,31 +399,21 @@ export class Recorder {
     return options;
   }
 
-  /**
-   * For core-v1 - libraries depending on core-http.
-   * This method adds the custom httpClient to the client options.
-   *
-   * Helps in redirecting the requests to the proxy tool instead of directly going to the service.
-   */
-  public configureClientOptionsCoreV1<T>(
-    options: T & {
-      httpClient?: HttpClientCoreV1;
-    }
-  ): T & {
-    httpClient?: HttpClientCoreV1;
-  } {
-    if (isLiveMode()) return options;
-    return { ...options, httpClient: once(() => this.createHttpClientCoreV1())() };
-  }
-
-  private handleTestProxyErrors(response: HttpOperationResponse | PipelineResponse) {
+  private handleTestProxyErrors(response: PipelineResponse) {
     if (response.headers.get("x-request-mismatch") === "true") {
-      const errorMessage = atob(response.headers.get("x-request-mismatch-error") ?? "");
+      const errorMessage = decodeBase64(response.headers.get("x-request-mismatch-error") ?? "");
+      logger.error(
+        "[Recorder#handleTestProxyErrors] Could not match request to recording",
+        errorMessage
+      );
       throw new RecorderError(errorMessage);
     }
 
     if (response.headers.get("x-request-known-exception") === "true") {
-      const errorMessage = atob(response.headers.get("x-request-known-exception-error") ?? "");
+      const errorMessage = decodeBase64(
+        response.headers.get("x-request-known-exception-error") ?? ""
+      );
+      logger.error("[Recorder#handleTestProxyErrors] Test proxy error encountered", errorMessage);
       throw new RecorderError(errorMessage);
     }
   }
@@ -354,27 +428,11 @@ export class Recorder {
         request: PipelineRequest,
         next: SendRequest
       ): Promise<PipelineResponse> => {
+        const originalUrl = request.url;
         this.redirectRequest(request);
         const response = await next(request);
         this.handleTestProxyErrors(response);
-
-        return response;
-      },
-    };
-  }
-
-  /**
-   * Creates a client that supports redirecting the requests to the proxy-tool.
-   * Needed for the core-v1 SDKs(SDKs depending on core-http)
-   */
-  private createHttpClientCoreV1(): HttpClientCoreV1 {
-    const client = new DefaultHttpClient();
-    return {
-      sendRequest: async (request: WebResourceLike): Promise<HttpOperationResponse> => {
-        this.redirectRequest(request);
-        const response = await client.sendRequest(request);
-        this.handleTestProxyErrors(response);
-
+        this.revertRequestChanges(request, originalUrl);
         return response;
       },
     };
@@ -416,6 +474,9 @@ export class Recorder {
       const recordedValue = this.variables[name];
 
       if (recordedValue === undefined) {
+        logger.error(
+          `[Recorder#variable] Test tried to access a variable in playback that was not set in the recording: ${name}`
+        );
         throw new RecorderError(
           `Tried to access a variable in playback that was not set in recording: ${name}`
         );
@@ -426,6 +487,7 @@ export class Recorder {
 
     if (!this.variables[name]) {
       if (value === undefined) {
+        logger.error(`[Recorder#variable] Test tried to access an unitialized variable: ${name}`);
         throw new RecorderError(
           `Tried to access uninitialized variable: ${name}. You must initialize it with a value before using it.`
         );

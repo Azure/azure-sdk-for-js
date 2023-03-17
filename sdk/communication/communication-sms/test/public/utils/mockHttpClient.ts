@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import {
-  createHttpHeaders,
   HttpClient,
   PipelineRequest,
   PipelineResponse,
+  createHttpHeaders,
 } from "@azure/core-rest-pipeline";
 
 export class MockHttpClient implements HttpClient {

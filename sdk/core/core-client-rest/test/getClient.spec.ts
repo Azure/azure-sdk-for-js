@@ -18,25 +18,78 @@ describe("getClient", () => {
     sinon.restore();
   });
 
-  it("should add apiVersion to requests", async () => {
-    const defaultHttpClient = getCachedDefaultHttpsClient();
-    sinon.stub(defaultHttpClient, "sendRequest").callsFake(async (req) => {
-      return { headers: createHttpHeaders(), status: 200, request: req } as PipelineResponse;
+  describe("#apiVersionPolicy", () => {
+    it("should add apiVersion to requests if apiVersion is absent", async () => {
+      const defaultHttpClient = getCachedDefaultHttpsClient();
+      sinon.stub(defaultHttpClient, "sendRequest").callsFake(async (req) => {
+        return { headers: createHttpHeaders(), status: 200, request: req } as PipelineResponse;
+      });
+
+      const apiVersion = "2021-11-18";
+      const client = getClient("https://example.org", { apiVersion });
+      const validationPolicy: PipelinePolicy = {
+        name: "validationPolicy",
+        sendRequest: (req, next) => {
+          assert.include(req.url, `api-version=${apiVersion}`);
+          return next(req);
+        },
+      };
+
+      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+      await client.pathUnchecked("/foo").get();
     });
 
-    const apiVersion = "2021-11-18";
-    const client = getClient("https://example.org?api-version=1233321", { apiVersion });
-    const validationPolicy: PipelinePolicy = {
-      name: "validationPolicy",
-      sendRequest: (req, next) => {
-        assert.include(req.url, `api-version=${apiVersion}`);
-        return next(req);
-      },
-    };
+    it("should use operation-level apiVersion even if we config the client one", async () => {
+      const defaultHttpClient = getCachedDefaultHttpsClient();
+      sinon.stub(defaultHttpClient, "sendRequest").callsFake(async (req) => {
+        return { headers: createHttpHeaders(), status: 200, request: req } as PipelineResponse;
+      });
 
-    client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+      const clientApiVersion = "2021-11-18",
+        operationApiVersion = "2022-01-01";
+      const client = getClient("https://example.org", { apiVersion: clientApiVersion });
+      const validationPolicy: PipelinePolicy = {
+        name: "validationPolicy",
+        sendRequest: (req, next) => {
+          assert.include(req.url, `api-version=${operationApiVersion}`);
+          assert.notInclude(req.url, `api-version=${clientApiVersion}`);
+          return next(req);
+        },
+      };
 
-    await client.pathUnchecked("/foo").get();
+      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+
+      // Define the apiVersion at operation-level
+      await client.pathUnchecked("/foo").get({
+        queryParameters: {
+          "api-version": operationApiVersion,
+        },
+      });
+    });
+
+    it("should use apiVersion in url directly even if we config the client one", async () => {
+      const defaultHttpClient = getCachedDefaultHttpsClient();
+      sinon.stub(defaultHttpClient, "sendRequest").callsFake(async (req) => {
+        return { headers: createHttpHeaders(), status: 200, request: req } as PipelineResponse;
+      });
+
+      const clientApiVersion = "2021-11-18",
+        operationApiVersion = "2022-01-01";
+      const client = getClient("https://example.org", { apiVersion: clientApiVersion });
+      const validationPolicy: PipelinePolicy = {
+        name: "validationPolicy",
+        sendRequest: (req, next) => {
+          assert.include(req.url, `api-version=${operationApiVersion}`);
+          assert.notInclude(req.url, `api-version=${clientApiVersion}`);
+          return next(req);
+        },
+      };
+
+      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+
+      // Define the apiVersion in url
+      await client.pathUnchecked(`/foo?api-version=${operationApiVersion}`).get();
+    });
   });
 
   it("should insert policies in the correct pipeline position", async function () {

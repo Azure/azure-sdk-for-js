@@ -4,8 +4,10 @@
 
 ```ts
 
+import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
 import { AzureKeyCredential } from '@azure/core-auth';
+import { CancelOnProgress } from '@azure/core-lro';
 import { CommonClientOptions } from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -151,6 +153,24 @@ export interface PartialRenderingSessionProperties {
 }
 
 // @public
+export interface PollerLikeWithCancellation<TState extends PollOperationState<TResult>, TResult> {
+    cancelOperation(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<void>;
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<void>;
+    pollUntilDone(): Promise<TResult>;
+    stopPolling(): void;
+    toString(): string;
+}
+
+// @public
 export interface ReadyRenderingSession extends RenderingSessionBase {
     properties: RenderingSessionProperties;
     status: "Ready";
@@ -206,7 +226,7 @@ export interface RenderingSessionOperationState extends PollOperationState<Rende
 }
 
 // @public
-export type RenderingSessionPollerLike = PollerLike<RenderingSessionOperationState, RenderingSession>;
+export type RenderingSessionPollerLike = PollerLikeWithCancellation<RenderingSessionOperationState, RenderingSession>;
 
 // @public
 export interface RenderingSessionPollerOptions {
@@ -269,7 +289,6 @@ export type UpdateSessionOptions = OperationOptions;
 export interface UpdateSessionSettings {
     maxLeaseTimeInMinutes: number;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

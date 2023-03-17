@@ -1,0 +1,53 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Batch/batchAccounts/myaccountxxx/applications/myapplicationxxx?api-version=2022-10-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "37",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-batch/8.0.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "704979b1-57dc-48d8-bbf0-715633a8602d"
+      },
+      "RequestBody": {
+        "properties": {
+          "allowUpdates": false
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 10 Nov 2022 09:07:12 GMT",
+        "ETag": "W/\u00220x8DAC2FAF4D87208\u0022",
+        "Expires": "-1",
+        "Last-Modified": "Thu, 10 Nov 2022 09:07:13 GMT",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "471835f3-2234-44ec-b66a-13a7ee5abb3e",
+        "x-ms-ratelimit-remaining-subscription-writes": "1197",
+        "x-ms-request-id": "9ce80cde-4c6e-4d72-824b-ae827b281929",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221110T090713Z:471835f3-2234-44ec-b66a-13a7ee5abb3e"
+      },
+      "ResponseBody": {
+        "type": "Microsoft.Batch/batchAccounts/applications",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Batch/batchAccounts/myaccountxxx/applications/myapplicationxxx",
+        "name": "myapplicationxxx",
+        "etag": "W/\u00220x8DAC2FAF4D87208\u0022",
+        "properties": {
+          "allowUpdates": false
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

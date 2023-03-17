@@ -6,6 +6,7 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import * as dotenv from "dotenv";
 import { Constants as CoreAmqpConstants } from "@azure/core-amqp";
+import { isObjectWithProperties } from "@azure/core-util";
 import Long from "long";
 import {
   isServiceBusError,
@@ -14,6 +15,7 @@ import {
   ServiceBusError,
   ServiceBusSessionReceiver,
   ServiceBusSender,
+  ServiceBusReceiverOptions,
 } from "../../src";
 import { DispositionType, ServiceBusReceivedMessage } from "../../src/serviceBusMessage";
 import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../../src/util/errors";
@@ -69,34 +71,239 @@ describe("ServiceBusClient live tests", () => {
         ? sbClientWithRelaxedEndPoint.createReceiver(entities.queue)
         : sbClientWithRelaxedEndPoint.createReceiver(entities.topic!, entities.subscription!);
 
-      // Send and receive messages
-      const testMessages = entities.usesSessions
-        ? TestMessage.getSessionSample()
-        : TestMessage.getSample();
-      await sender.sendMessages(testMessages);
-      await testPeekMsgsLength(receiver, 1);
+      try {
+        // Send and receive messages
+        const testMessages = entities.usesSessions
+          ? TestMessage.getSessionSample()
+          : TestMessage.getSample();
+        testMessages.applicationProperties = {
+          ...testMessages.applicationProperties,
+          date1: new Date(),
+        };
+        await sender.sendMessages(testMessages);
+        await testPeekMsgsLength(receiver, 1);
 
-      const msgs = await receiver.receiveMessages(1);
+        const msgs = await receiver.receiveMessages(1);
 
-      should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
-      should.equal(msgs.length, 1, "Unexpected number of messages");
-      should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
-      should.equal(
-        msgs[0].messageId,
-        testMessages.messageId,
-        "MessageId is different than expected"
-      );
-      should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
-      await receiver.completeMessage(msgs[0]);
+        should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+        should.equal(msgs.length, 1, "Unexpected number of messages");
+        should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
+        should.equal(
+          msgs[0].messageId,
+          testMessages.messageId,
+          "MessageId is different than expected"
+        );
+        should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
+        should.equal(
+          typeof msgs[0].applicationProperties!["date1"],
+          "number",
+          "expect date1 to be an epoch value"
+        );
 
-      await testPeekMsgsLength(receiver, 0);
+        await receiver.completeMessage(msgs[0]);
 
-      // Clean up
-      await sbClient.test.after();
-      await sender.close();
-      await receiver.close();
-      await sbClientWithRelaxedEndPoint.close();
+        await testPeekMsgsLength(receiver, 0);
+      } finally {
+        // Clean up
+        await sbClient.test.after();
+        await sender.close();
+        await receiver.close();
+        await sbClientWithRelaxedEndPoint.close();
+      }
     });
+
+    it(
+      noSessionTestClientType + ": preserve Date type if choosing to",
+      async function (): Promise<void> {
+        // Create a test client to get the entity types
+        const sbClient = createServiceBusClientForTests();
+        const entities = await sbClient.test.createTestEntities(noSessionTestClientType);
+        await sbClient.close();
+
+        // Create a sb client, sender, receiver with relaxed endpoint
+        const sbClientWithRelaxedEndPoint = new ServiceBusClient(
+          getEnvVars().SERVICEBUS_CONNECTION_STRING.replace("sb://", "CheeseBurger://")
+        );
+        const sender = sbClientWithRelaxedEndPoint.createSender(entities.queue || entities.topic!);
+        const receiveOptions = { skipConvertingDate: true };
+        const receiver = entities.queue
+          ? sbClientWithRelaxedEndPoint.createReceiver(entities.queue, receiveOptions)
+          : sbClientWithRelaxedEndPoint.createReceiver(
+              entities.topic!,
+              entities.subscription!,
+              receiveOptions
+            );
+
+        try {
+          // Send and receive messages
+          const testMessages = entities.usesSessions
+            ? TestMessage.getSessionSample()
+            : TestMessage.getSample();
+          testMessages.applicationProperties = {
+            date1: new Date(),
+          };
+          await sender.sendMessages(testMessages);
+          await testPeekMsgsLength(receiver, 1);
+
+          const msgs = await receiver.receiveMessages(1);
+
+          should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+          should.equal(msgs.length, 1, "Unexpected number of messages");
+          should.equal(
+            isObjectWithProperties(msgs[0].applicationProperties!["date1"], ["getTime"]),
+            true,
+            "expect date1 to be an instance of Date"
+          );
+          await receiver.completeMessage(msgs[0]);
+
+          await testPeekMsgsLength(receiver, 0);
+        } finally {
+          // Clean up
+          await sbClient.test.after();
+          await sender.close();
+          await receiver.close();
+          await sbClientWithRelaxedEndPoint.close();
+        }
+      }
+    );
+
+    it.skip(
+      noSessionTestClientType + ":can omit message body when peeking",
+      async function (): Promise<void> {
+        // Create a test client to get the entity types
+        const sbClient = createServiceBusClientForTests();
+        const entities = await sbClient.test.createTestEntities(noSessionTestClientType);
+        await sbClient.close();
+
+        // Create a sb client, sender, receiver with relaxed endpoint
+        const sbClientWithRelaxedEndPoint = new ServiceBusClient(
+          getEnvVars().SERVICEBUS_CONNECTION_STRING.replace("sb://", "CheeseBurger://")
+        );
+        const sender = sbClientWithRelaxedEndPoint.createSender(entities.queue || entities.topic!);
+        const receiver = entities.queue
+          ? sbClientWithRelaxedEndPoint.createReceiver(entities.queue)
+          : sbClientWithRelaxedEndPoint.createReceiver(entities.topic!, entities.subscription!);
+        try {
+          // Send and receive messages
+          const testMessages = entities.usesSessions
+            ? TestMessage.getSessionSample()
+            : TestMessage.getSample();
+          await sender.sendMessages(testMessages);
+
+          let peekedMsgs = await receiver.peekMessages(2, {
+            omitMessageBody: true,
+            fromSequenceNumber: Long.ZERO,
+          });
+          should.equal(peekedMsgs.length, 1, "expecting one peeked message 1");
+          should.not.exist(peekedMsgs[0].body);
+          should.exist(
+            peekedMsgs[0]._rawAmqpMessage.deliveryAnnotations,
+            "expecting deliveryAnnotations"
+          );
+          const omittedSize = Number(
+            peekedMsgs[0]._rawAmqpMessage.deliveryAnnotations!["omitted-message-body-size"]
+          );
+          should.equal(omittedSize > 0, true);
+
+          peekedMsgs = await receiver.peekMessages(2, {
+            omitMessageBody: false,
+            fromSequenceNumber: Long.ZERO,
+          });
+          should.equal(peekedMsgs.length, 1, "expecting one peeked message 2");
+          should.exist(peekedMsgs[0].body);
+          should.exist(
+            peekedMsgs[0]._rawAmqpMessage.deliveryAnnotations,
+            "expecting deliveryAnnotations"
+          );
+          should.not.exist(
+            peekedMsgs[0]._rawAmqpMessage.deliveryAnnotations!["omitted-message-body-size"],
+            "Not expecting omitted-message-body-size"
+          );
+
+          peekedMsgs = await receiver.peekMessages(2, { fromSequenceNumber: Long.ZERO });
+          should.equal(peekedMsgs.length, 1, "expecting one peeked message 3");
+          should.exist(peekedMsgs[0].body);
+          should.exist(
+            peekedMsgs[0]._rawAmqpMessage.deliveryAnnotations,
+            "expecting deliveryAnnotations"
+          );
+          should.not.exist(
+            peekedMsgs[0]._rawAmqpMessage.deliveryAnnotations!["omitted-message-body-size"],
+            "Not expecting omitted-message-body-size"
+          );
+
+          await receiver.receiveMessages(2);
+          await testPeekMsgsLength(receiver, 0);
+        } finally {
+          // Clean up
+          await sbClient.test.after();
+          await sender.close();
+          await receiver.close();
+          await sbClientWithRelaxedEndPoint.close();
+        }
+      }
+    );
+
+    it(
+      noSessionTestClientType + ": respect receiver options when peeking",
+      async function (): Promise<void> {
+        // Create a test client to get the entity types
+        const sbClient = createServiceBusClientForTests();
+        const entities = await sbClient.test.createTestEntities(noSessionTestClientType);
+        await sbClient.close();
+
+        // Create a sb client, sender, receiver with relaxed endpoint
+        const sbClientWithRelaxedEndPoint = new ServiceBusClient(
+          getEnvVars().SERVICEBUS_CONNECTION_STRING.replace("sb://", "CheeseBurger://")
+        );
+        const sender = sbClientWithRelaxedEndPoint.createSender(entities.queue || entities.topic!);
+        const receiverOptions: ServiceBusReceiverOptions = {
+          skipParsingBodyAsJson: true,
+          skipConvertingDate: true,
+        };
+        const receiver = entities.queue
+          ? sbClientWithRelaxedEndPoint.createReceiver(entities.queue, receiverOptions)
+          : sbClientWithRelaxedEndPoint.createReceiver(
+              entities.topic!,
+              entities.subscription!,
+              receiverOptions
+            );
+        try {
+          // Send and receive messages
+          const testMessages = [
+            {
+              // body: Long.fromString("12345678901234567890"),
+              body: { id: 123456789 },
+              applicationProperties: { createdOn: new Date() },
+            },
+          ];
+          await sender.sendMessages(testMessages);
+
+          const peekedMsgs = await receiver.peekMessages(2, {
+            fromSequenceNumber: Long.ZERO,
+          });
+          should.equal(peekedMsgs.length, 1, "expecting one peeked message 1");
+          peekedMsgs[0].body.should.not.deep.equal({ id: 123456789 });
+          peekedMsgs[0].body.constructor.name.should.equal("Buffer");
+          if (!peekedMsgs[0].applicationProperties) {
+            throw new Error("Test failed. expect valid applicationProperties on peeked message");
+          }
+          if (!peekedMsgs[0].applicationProperties["createdOn"]) {
+            throw new Error("Test failed. expect valid createdOn property");
+          }
+          peekedMsgs[0].applicationProperties["createdOn"].constructor.name.should.equal("Date");
+
+          await receiver.receiveMessages(2);
+          await testPeekMsgsLength(receiver, 0);
+        } finally {
+          // Clean up
+          await sbClient.test.after();
+          await sender.close();
+          await receiver.close();
+          await sbClientWithRelaxedEndPoint.close();
+        }
+      }
+    );
   });
 
   describe("Errors with non existing Namespace", function (): void {
@@ -143,7 +350,7 @@ describe("ServiceBusClient live tests", () => {
     });
 
     it("throws error when receiving streaming data from a non existing namespace", async function (): Promise<void> {
-      const receiver = sbClient.createReceiver("some-queue");
+      const receiver = sbClient.createReceiver("some-queue", { identifier: "receiverId" });
       reduceRetries(receiver);
 
       try {
@@ -156,12 +363,14 @@ describe("ServiceBusClient live tests", () => {
               errorSource: args.errorSource,
               entityPath: args.entityPath,
               fullyQualifiedNamespace: args.fullyQualifiedNamespace,
+              identifier: args.identifier,
             };
 
             actual.should.deep.equal({
               errorSource: "receive",
               entityPath: receiver.entityPath,
               fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace,
+              identifier: "receiverId",
             } as Omit<ProcessErrorArgs, "error">);
 
             testError(args.error);
@@ -247,7 +456,7 @@ describe("ServiceBusClient live tests", () => {
     });
 
     it("throws error when receiving streaming data from a non existing queue", async function (): Promise<void> {
-      const receiver = sbClient.createReceiver("some-name");
+      const receiver = sbClient.createReceiver("some-name", { identifier: "receiverId" });
       reduceRetries(receiver);
 
       receiver.subscribe({
@@ -259,12 +468,14 @@ describe("ServiceBusClient live tests", () => {
             errorSource: args.errorSource,
             entityPath: args.entityPath,
             fullyQualifiedNamespace: args.fullyQualifiedNamespace,
+            identifier: args.identifier,
           };
 
           actual.should.deep.equal({
             errorSource: "receive",
             entityPath: receiver.entityPath,
             fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace,
+            identifier: "receiverId",
           } as Omit<ProcessErrorArgs, "error">);
 
           testError(args.error, "some-name");
@@ -280,10 +491,9 @@ describe("ServiceBusClient live tests", () => {
     });
 
     it("throws error when receiving streaming data from a non existing topic", async function (): Promise<void> {
-      const receiver = sbClient.createReceiver(
-        "some-topic-name",
-        "some-subscription-name"
-      ) as ServiceBusReceiverImpl;
+      const receiver = sbClient.createReceiver("some-topic-name", "some-subscription-name", {
+        identifier: "receiverId",
+      }) as ServiceBusReceiverImpl;
       reduceRetries(receiver);
 
       receiver.subscribe({
@@ -295,12 +505,14 @@ describe("ServiceBusClient live tests", () => {
             errorSource: args.errorSource,
             entityPath: args.entityPath,
             fullyQualifiedNamespace: args.fullyQualifiedNamespace,
+            identifier: args.identifier,
           };
 
           expected.should.deep.equal({
             errorSource: "receive",
             entityPath: receiver.entityPath,
             fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace,
+            identifier: "receiverId",
           } as Omit<ProcessErrorArgs, "error">);
 
           testError(args.error, "some-topic-name/Subscriptions/some-subscription-name");
@@ -325,10 +537,9 @@ describe("ServiceBusClient live tests", () => {
       if (!entityNames.topic) {
         throw new Error("Expecting valid topic name");
       }
-      const receiver = sbClient.createReceiver(
-        entityNames.topic,
-        "some-subscription-name"
-      ) as ServiceBusReceiverImpl;
+      const receiver = sbClient.createReceiver(entityNames.topic, "some-subscription-name", {
+        identifier: "receiverId",
+      }) as ServiceBusReceiverImpl;
       reduceRetries(receiver);
 
       receiver.subscribe({
@@ -340,12 +551,14 @@ describe("ServiceBusClient live tests", () => {
             errorSource: args.errorSource,
             entityPath: args.entityPath,
             fullyQualifiedNamespace: args.fullyQualifiedNamespace,
+            identifier: args.identifier,
           };
 
           expected.should.deep.equal({
             errorSource: "receive",
             entityPath: receiver.entityPath,
             fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace,
+            identifier: "receiverId",
           } as Omit<ProcessErrorArgs, "error">);
 
           testError(args.error);

@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 const { SecurityInsights } = require("@azure/arm-securityinsight");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists all operations available Azure Security Insights Resource Provider.
  *
  * @summary Lists all operations available Azure Security Insights Resource Provider.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/operations/ListOperations.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/operations/ListOperations.json
  */
 async function getAllOperations() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new SecurityInsights(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +30,8 @@ async function getAllOperations() {
   console.log(resArray);
 }
 
-getAllOperations().catch(console.error);
+async function main() {
+  getAllOperations();
+}
+
+main().catch(console.error);

@@ -24,12 +24,6 @@ export interface AdditionalPolicyConfig {
 }
 
 // @public
-export interface CertificateCredential {
-    cert: string;
-    certKey: string;
-}
-
-// @public
 export interface Client {
     path: Function;
     pathUnchecked: PathUnchecked;
@@ -51,6 +45,20 @@ export type ClientOptions = PipelineOptions & {
 
 // @public
 export function createRestError(message: string, response: PathUncheckedResponse): RestError;
+
+// @public
+export interface ErrorModel {
+    code: string;
+    details: Array<ErrorModel>;
+    innererror?: InnerError;
+    message: string;
+    target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error: ErrorModel;
+}
 
 // @public
 export function getClient(baseUrl: string, options?: ClientOptions): Client;
@@ -77,7 +85,10 @@ export type HttpResponse = {
 };
 
 // @public
-export function isCertificateCredential(credential: unknown): credential is CertificateCredential;
+export interface InnerError {
+    code: string;
+    innererror?: InnerError;
+}
 
 // @public
 export type PathParameters<TRoute extends string> = TRoute extends `${infer _Head}/{${infer _Param}}${infer Tail}` ? [
@@ -103,7 +114,6 @@ export type RequestParameters = {
     contentType?: string;
     allowInsecureConnection?: boolean;
     skipUrlEncoding?: boolean;
-    binaryResponse?: boolean;
     pathParameters?: Record<string, any>;
 };
 

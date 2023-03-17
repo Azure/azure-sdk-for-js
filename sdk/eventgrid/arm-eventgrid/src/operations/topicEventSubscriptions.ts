@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { TopicEventSubscriptions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,7 +17,11 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   EventSubscription,
+  TopicEventSubscriptionsListNextOptionalParams,
   TopicEventSubscriptionsListOptionalParams,
+  TopicEventSubscriptionsListResponse,
+  TopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
+  TopicEventSubscriptionsGetDeliveryAttributesResponse,
   TopicEventSubscriptionsGetOptionalParams,
   TopicEventSubscriptionsGetResponse,
   TopicEventSubscriptionsCreateOrUpdateOptionalParams,
@@ -27,9 +32,7 @@ import {
   TopicEventSubscriptionsUpdateResponse,
   TopicEventSubscriptionsGetFullUrlOptionalParams,
   TopicEventSubscriptionsGetFullUrlResponse,
-  TopicEventSubscriptionsListResponse,
-  TopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
-  TopicEventSubscriptionsGetDeliveryAttributesResponse
+  TopicEventSubscriptionsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -64,8 +67,16 @@ export class TopicEventSubscriptionsImpl implements TopicEventSubscriptions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, topicName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          topicName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -73,10 +84,30 @@ export class TopicEventSubscriptionsImpl implements TopicEventSubscriptions {
   private async *listPagingPage(
     resourceGroupName: string,
     topicName: string,
-    options?: TopicEventSubscriptionsListOptionalParams
+    options?: TopicEventSubscriptionsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<EventSubscription[]> {
-    let result = await this._list(resourceGroupName, topicName, options);
-    yield result.value || [];
+    let result: TopicEventSubscriptionsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, topicName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(
+        resourceGroupName,
+        topicName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
   }
 
   private async *listPagingAll(
@@ -91,6 +122,25 @@ export class TopicEventSubscriptionsImpl implements TopicEventSubscriptions {
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Get all delivery attributes for an event subscription for topic.
+   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param topicName Name of the domain topic.
+   * @param eventSubscriptionName Name of the event subscription.
+   * @param options The options parameters.
+   */
+  getDeliveryAttributes(
+    resourceGroupName: string,
+    topicName: string,
+    eventSubscriptionName: string,
+    options?: TopicEventSubscriptionsGetDeliveryAttributesOptionalParams
+  ): Promise<TopicEventSubscriptionsGetDeliveryAttributesResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, topicName, eventSubscriptionName, options },
+      getDeliveryAttributesOperationSpec
+    );
   }
 
   /**
@@ -449,27 +499,48 @@ export class TopicEventSubscriptionsImpl implements TopicEventSubscriptions {
   }
 
   /**
-   * Get all delivery attributes for an event subscription for topic.
+   * ListNext
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param topicName Name of the domain topic.
-   * @param eventSubscriptionName Name of the event subscription.
+   * @param topicName Name of the topic.
+   * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  getDeliveryAttributes(
+  private _listNext(
     resourceGroupName: string,
     topicName: string,
-    eventSubscriptionName: string,
-    options?: TopicEventSubscriptionsGetDeliveryAttributesOptionalParams
-  ): Promise<TopicEventSubscriptionsGetDeliveryAttributesResponse> {
+    nextLink: string,
+    options?: TopicEventSubscriptionsListNextOptionalParams
+  ): Promise<TopicEventSubscriptionsListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, topicName, eventSubscriptionName, options },
-      getDeliveryAttributesOperationSpec
+      { resourceGroupName, topicName, nextLink, options },
+      listNextOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const getDeliveryAttributesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}/eventSubscriptions/{eventSubscriptionName}/getDeliveryAttributes",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeliveryAttributeListResult
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.topicName,
+    Parameters.eventSubscriptionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}/eventSubscriptions/{eventSubscriptionName}",
@@ -485,8 +556,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.eventSubscriptionName,
-    Parameters.topicName
+    Parameters.topicName,
+    Parameters.eventSubscriptionName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -516,8 +587,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.eventSubscriptionName,
-    Parameters.topicName
+    Parameters.topicName,
+    Parameters.eventSubscriptionName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -533,8 +604,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.eventSubscriptionName,
-    Parameters.topicName
+    Parameters.topicName,
+    Parameters.eventSubscriptionName
   ],
   serializer
 };
@@ -563,8 +634,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.eventSubscriptionName,
-    Parameters.topicName
+    Parameters.topicName,
+    Parameters.eventSubscriptionName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -585,8 +656,8 @@ const getFullUrlOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.eventSubscriptionName,
-    Parameters.topicName
+    Parameters.topicName,
+    Parameters.eventSubscriptionName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -601,7 +672,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -611,22 +682,20 @@ const listOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getDeliveryAttributesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}/eventSubscriptions/{eventSubscriptionName}/getDeliveryAttributes",
-  httpMethod: "POST",
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeliveryAttributeListResult
+      bodyMapper: Mappers.EventSubscriptionsListResult
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.eventSubscriptionName,
+    Parameters.nextLink,
     Parameters.topicName
   ],
   headerParameters: [Parameters.accept],

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { SimPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,6 +19,7 @@ import {
   SimPolicy,
   SimPoliciesListByMobileNetworkNextOptionalParams,
   SimPoliciesListByMobileNetworkOptionalParams,
+  SimPoliciesListByMobileNetworkResponse,
   SimPoliciesDeleteOptionalParams,
   SimPoliciesGetOptionalParams,
   SimPoliciesGetResponse,
@@ -26,7 +28,6 @@ import {
   TagsObject,
   SimPoliciesUpdateTagsOptionalParams,
   SimPoliciesUpdateTagsResponse,
-  SimPoliciesListByMobileNetworkResponse,
   SimPoliciesListByMobileNetworkNextResponse
 } from "../models";
 
@@ -44,7 +45,7 @@ export class SimPoliciesImpl implements SimPolicies {
   }
 
   /**
-   * Gets all the simPolicies in a mobile network.
+   * Gets all the SIM policies in a mobile network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param options The options parameters.
@@ -66,11 +67,15 @@ export class SimPoliciesImpl implements SimPolicies {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByMobileNetworkPagingPage(
           resourceGroupName,
           mobileNetworkName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -79,15 +84,22 @@ export class SimPoliciesImpl implements SimPolicies {
   private async *listByMobileNetworkPagingPage(
     resourceGroupName: string,
     mobileNetworkName: string,
-    options?: SimPoliciesListByMobileNetworkOptionalParams
+    options?: SimPoliciesListByMobileNetworkOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SimPolicy[]> {
-    let result = await this._listByMobileNetwork(
-      resourceGroupName,
-      mobileNetworkName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SimPoliciesListByMobileNetworkResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByMobileNetwork(
+        resourceGroupName,
+        mobileNetworkName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByMobileNetworkNext(
         resourceGroupName,
@@ -96,7 +108,9 @@ export class SimPoliciesImpl implements SimPolicies {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -115,7 +129,7 @@ export class SimPoliciesImpl implements SimPolicies {
   }
 
   /**
-   * Deletes the specified sim policy.
+   * Deletes the specified SIM policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param simPolicyName The name of the SIM policy.
@@ -181,7 +195,7 @@ export class SimPoliciesImpl implements SimPolicies {
   }
 
   /**
-   * Deletes the specified sim policy.
+   * Deletes the specified SIM policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param simPolicyName The name of the SIM policy.
@@ -203,7 +217,7 @@ export class SimPoliciesImpl implements SimPolicies {
   }
 
   /**
-   * Gets information about the specified sim policy.
+   * Gets information about the specified SIM policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param simPolicyName The name of the SIM policy.
@@ -222,11 +236,11 @@ export class SimPoliciesImpl implements SimPolicies {
   }
 
   /**
-   * Creates or updates a SimPolicy.
+   * Creates or updates a SIM policy. Must be created in the same location as its parent mobile network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param simPolicyName The name of the SIM policy.
-   * @param parameters Parameters supplied to the create or update sim policy operation.
+   * @param parameters Parameters supplied to the create or update SIM policy operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
@@ -301,11 +315,11 @@ export class SimPoliciesImpl implements SimPolicies {
   }
 
   /**
-   * Creates or updates a SimPolicy.
+   * Creates or updates a SIM policy. Must be created in the same location as its parent mobile network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param simPolicyName The name of the SIM policy.
-   * @param parameters Parameters supplied to the create or update sim policy operation.
+   * @param parameters Parameters supplied to the create or update SIM policy operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
@@ -326,11 +340,11 @@ export class SimPoliciesImpl implements SimPolicies {
   }
 
   /**
-   * Update sim policy tags.
+   * Updates SIM policy tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param simPolicyName The name of the SIM policy.
-   * @param parameters Parameters supplied to update Sim Policy tags.
+   * @param parameters Parameters supplied to update SIM policy tags.
    * @param options The options parameters.
    */
   updateTags(
@@ -353,7 +367,7 @@ export class SimPoliciesImpl implements SimPolicies {
   }
 
   /**
-   * Gets all the simPolicies in a mobile network.
+   * Gets all the SIM policies in a mobile network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param options The options parameters.
@@ -459,7 +473,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters9,
+  requestBody: Parameters.parameters13,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -530,7 +544,6 @@ const listByMobileNetworkNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

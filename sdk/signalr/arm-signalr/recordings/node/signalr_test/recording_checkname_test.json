@@ -1,0 +1,46 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.SignalRService/locations/eastus/checkNameAvailability?api-version=2023-02-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "70",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-signalr/5.2.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "a4a99be0-a071-402f-bceb-725a585eb6aa"
+      },
+      "RequestBody": {
+        "type": "Microsoft.SignalRService/SignalR",
+        "name": "mySignalRService1"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 08 Mar 2023 09:11:16 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "a4a99be0-a071-402f-bceb-725a585eb6aa",
+        "x-ms-correlation-request-id": "1f0e4d3c-14f0-408d-a4a7-11e066e0d772",
+        "x-ms-ratelimit-remaining-subscription-writes": "1199",
+        "x-ms-request-id": "6a64b2ba-496b-4778-9688-a8e800236d90",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230308T091116Z:1f0e4d3c-14f0-408d-a4a7-11e066e0d772",
+        "x-rp-server-mvid": "26297d37-2454-45c8-9935-f343e6f992c8"
+      },
+      "ResponseBody": {
+        "nameAvailable": true
+      }
+    }
+  ],
+  "Variables": {}
+}

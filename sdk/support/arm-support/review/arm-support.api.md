@@ -73,8 +73,6 @@ export type CommunicationsGetResponse = CommunicationDetails;
 
 // @public
 export interface CommunicationsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -117,46 +115,37 @@ export interface ExceptionResponse {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export enum KnownCommunicationDirection {
-    // (undocumented)
     Inbound = "inbound",
-    // (undocumented)
     Outbound = "outbound"
 }
 
 // @public
 export enum KnownCommunicationType {
-    // (undocumented)
     Phone = "phone",
-    // (undocumented)
     Web = "web"
 }
 
 // @public
 export enum KnownPreferredContactMethod {
-    // (undocumented)
     Email = "email",
-    // (undocumented)
     Phone = "phone"
 }
 
 // @public
 export enum KnownSeverityLevel {
-    // (undocumented)
     Critical = "critical",
-    // (undocumented)
     Highestcriticalimpact = "highestcriticalimpact",
-    // (undocumented)
     Minimal = "minimal",
-    // (undocumented)
     Moderate = "moderate"
 }
 
 // @public
 export enum KnownStatus {
-    // (undocumented)
     Closed = "closed",
-    // (undocumented)
     Open = "open"
 }
 
@@ -397,8 +386,6 @@ export type SupportTicketsGetResponse = SupportTicketDetails;
 
 // @public
 export interface SupportTicketsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public

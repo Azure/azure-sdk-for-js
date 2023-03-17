@@ -6,14 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ConnectedRegistries } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ConnectedRegistry,
   ConnectedRegistriesListNextOptionalParams,
@@ -46,7 +51,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
 
   /**
    * Lists all connected registries for the specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -63,8 +68,16 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, registryName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          registryName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -72,11 +85,18 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
   private async *listPagingPage(
     resourceGroupName: string,
     registryName: string,
-    options?: ConnectedRegistriesListOptionalParams
+    options?: ConnectedRegistriesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ConnectedRegistry[]> {
-    let result = await this._list(resourceGroupName, registryName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ConnectedRegistriesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, registryName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -85,7 +105,9 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -105,7 +127,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
 
   /**
    * Lists all connected registries for the specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -122,7 +144,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
 
   /**
    * Gets the properties of the connected registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param connectedRegistryName The name of the connected registry.
    * @param options The options parameters.
@@ -141,7 +163,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
 
   /**
    * Creates a connected registry for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param connectedRegistryName The name of the connected registry.
    * @param connectedRegistryCreateParameters The parameters for creating a connectedRegistry.
@@ -154,8 +176,8 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
     connectedRegistryCreateParameters: ConnectedRegistry,
     options?: ConnectedRegistriesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ConnectedRegistriesCreateResponse>,
+    SimplePollerLike<
+      OperationState<ConnectedRegistriesCreateResponse>,
       ConnectedRegistriesCreateResponse
     >
   > {
@@ -165,7 +187,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
     ): Promise<ConnectedRegistriesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -198,20 +220,24 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         registryName,
         connectedRegistryName,
         connectedRegistryCreateParameters,
         options
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ConnectedRegistriesCreateResponse,
+      OperationState<ConnectedRegistriesCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -219,7 +245,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
 
   /**
    * Creates a connected registry for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param connectedRegistryName The name of the connected registry.
    * @param connectedRegistryCreateParameters The parameters for creating a connectedRegistry.
@@ -244,7 +270,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
 
   /**
    * Deletes a connected registry from a container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param connectedRegistryName The name of the connected registry.
    * @param options The options parameters.
@@ -254,14 +280,14 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
     registryName: string,
     connectedRegistryName: string,
     options?: ConnectedRegistriesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -294,14 +320,15 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, registryName, connectedRegistryName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, registryName, connectedRegistryName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -309,7 +336,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
 
   /**
    * Deletes a connected registry from a container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param connectedRegistryName The name of the connected registry.
    * @param options The options parameters.
@@ -331,7 +358,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
 
   /**
    * Updates a connected registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param connectedRegistryName The name of the connected registry.
    * @param connectedRegistryUpdateParameters The parameters for updating a connectedRegistry.
@@ -344,8 +371,8 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
     connectedRegistryUpdateParameters: ConnectedRegistryUpdateParameters,
     options?: ConnectedRegistriesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ConnectedRegistriesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ConnectedRegistriesUpdateResponse>,
       ConnectedRegistriesUpdateResponse
     >
   > {
@@ -355,7 +382,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
     ): Promise<ConnectedRegistriesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -388,20 +415,24 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         registryName,
         connectedRegistryName,
         connectedRegistryUpdateParameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ConnectedRegistriesUpdateResponse,
+      OperationState<ConnectedRegistriesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -409,7 +440,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
 
   /**
    * Updates a connected registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param connectedRegistryName The name of the connected registry.
    * @param connectedRegistryUpdateParameters The parameters for updating a connectedRegistry.
@@ -434,7 +465,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
 
   /**
    * Deactivates the connected registry instance.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param connectedRegistryName The name of the connected registry.
    * @param options The options parameters.
@@ -444,14 +475,14 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
     registryName: string,
     connectedRegistryName: string,
     options?: ConnectedRegistriesDeactivateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -484,14 +515,15 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, registryName, connectedRegistryName, options },
-      deactivateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, registryName, connectedRegistryName, options },
+      spec: deactivateOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -499,7 +531,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
 
   /**
    * Deactivates the connected registry instance.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param connectedRegistryName The name of the connected registry.
    * @param options The options parameters.
@@ -521,7 +553,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -713,7 +745,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

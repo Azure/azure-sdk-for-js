@@ -1,18 +1,31 @@
 # Release History
 
-## 2.0.1 (Unreleased)
+## 3.0.0 (2023-03-07)
 
 ### Features Added
 
 - Add support for session-level sanitization using the `Recorder.addSessionSanitizers` static method. [#21533](https://github.com/Azure/azure-sdk-for-js/pull/21533)
+- Added logging to help with debugging tests. [#21641](https://github.com/Azure/azure-sdk-for-js/pull/21641)
+- Allow mapping the test-proxy tool to ports other than just 5000(for HTTP) using the environment variable `TEST_PROXY_HTTP_PORT`(and `TEST_PROXY_HTTPS_PORT` for 5001(for HTTPS)).
+  - If `TEST_PROXY_HTTP_PORT` is undefined, we'll try for 5000 as usual.
+  - For browsers, this variable has to be added as part of the environment variables listed under `envPreprocessor` array in `karma.conf.js` so that the recorder knows the port to hit.
+- Added support for the asset sync tool. If an `assets.json` exists in the package directory, the recorder will fetch recordings from the external repo.
 
 ### Breaking Changes
+
+- Support for `@azure/core-http` has been removed. Using the test recorder now requires depending on `@azure/core-rest-pipeline`.
 
 ### Bugs Fixed
 
 - Fixed redirects not being passed to the test proxy in the browser. [#21713](https://github.com/Azure/azure-sdk-for-js/pull/21713)
+- The value of the `TEST_MODE` environment variable is no longer case-sensitive. [#22118](https://github.com/Azure/azure-sdk-for-js/pull/22118)
+- Fixed "ReferenceError: atob is not defined" in node where the `atob` method isn't available([deprecated](https://stackoverflow.com/questions/23097928/node-js-throws-btoa-is-not-defined-error)) in the environment, which masked the actual error that is supposed to throw from the test proxy tool. [#22266](https://github.com/Azure/azure-sdk-for-js/issues/22266)
 
 ### Other Changes
+
+- Improved formatting of error messages returned by the test proxy. [#21575](https://github.com/Azure/azure-sdk-for-js/pull/21575)
+- An error is now thrown if the RECORDINGS_RELATIVE_PATH is not set in browser mode. [#23057](https://github.com/Azure/azure-sdk-for-js/pull/23057)
+- Reverting the modified request object of the redirected request(to hit the test proxy tool) back to the original after we get the response at the `recorderHttpPolicy`. [#23803](https://github.com/Azure/azure-sdk-for-js/pull/23803)
 
 ## 2.0.0 (2022-04-11)
 

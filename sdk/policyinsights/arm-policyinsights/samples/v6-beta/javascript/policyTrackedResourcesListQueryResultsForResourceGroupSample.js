@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { PolicyInsightsClient } = require("@azure/arm-policyinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Queries policy tracked resources under the resource group.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/preview/2018-07-01-preview/examples/PolicyTrackedResources_QueryResourceGroupScope.json
  */
 async function queryAtResourceGroupScope() {
-  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "fffedd8f-ffff-fffd-fffd-fffed2f84852";
+  const resourceGroupName = process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "myResourceGroup";
   const policyTrackedResourcesResource = "default";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
@@ -33,8 +35,6 @@ async function queryAtResourceGroupScope() {
   console.log(resArray);
 }
 
-queryAtResourceGroupScope().catch(console.error);
-
 /**
  * This sample demonstrates how to Queries policy tracked resources under the resource group.
  *
@@ -42,15 +42,15 @@ queryAtResourceGroupScope().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/preview/2018-07-01-preview/examples/PolicyTrackedResources_QueryResourceGroupScopeWithFilterAndTop.json
  */
 async function queryAtResourceGroupScopeUsingQueryParameters() {
-  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "fffedd8f-ffff-fffd-fffd-fffed2f84852";
+  const resourceGroupName = process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "myResourceGroup";
   const policyTrackedResourcesResource = "default";
   const top = 1;
   const filter =
     "PolicyAssignmentId eq '/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Authorization/policyAssignments/myPolicyAssignment' AND TrackedResourceId eq '/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Example/exampleResourceType/myResource/nestedResourceType/TrackedResource1'";
   const options = {
-    top,
-    filter,
+    queryOptions: { top: top, filter: filter },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
@@ -65,4 +65,9 @@ async function queryAtResourceGroupScopeUsingQueryParameters() {
   console.log(resArray);
 }
 
-queryAtResourceGroupScopeUsingQueryParameters().catch(console.error);
+async function main() {
+  queryAtResourceGroupScope();
+  queryAtResourceGroupScopeUsingQueryParameters();
+}
+
+main().catch(console.error);

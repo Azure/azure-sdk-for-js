@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { DeploymentOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,29 +17,29 @@ import {
   DeploymentOperation,
   DeploymentOperationsListAtScopeNextOptionalParams,
   DeploymentOperationsListAtScopeOptionalParams,
+  DeploymentOperationsListAtScopeResponse,
   DeploymentOperationsListAtTenantScopeNextOptionalParams,
   DeploymentOperationsListAtTenantScopeOptionalParams,
+  DeploymentOperationsListAtTenantScopeResponse,
   DeploymentOperationsListAtManagementGroupScopeNextOptionalParams,
   DeploymentOperationsListAtManagementGroupScopeOptionalParams,
+  DeploymentOperationsListAtManagementGroupScopeResponse,
   DeploymentOperationsListAtSubscriptionScopeNextOptionalParams,
   DeploymentOperationsListAtSubscriptionScopeOptionalParams,
+  DeploymentOperationsListAtSubscriptionScopeResponse,
   DeploymentOperationsListNextOptionalParams,
   DeploymentOperationsListOptionalParams,
+  DeploymentOperationsListResponse,
   DeploymentOperationsGetAtScopeOptionalParams,
   DeploymentOperationsGetAtScopeResponse,
-  DeploymentOperationsListAtScopeResponse,
   DeploymentOperationsGetAtTenantScopeOptionalParams,
   DeploymentOperationsGetAtTenantScopeResponse,
-  DeploymentOperationsListAtTenantScopeResponse,
   DeploymentOperationsGetAtManagementGroupScopeOptionalParams,
   DeploymentOperationsGetAtManagementGroupScopeResponse,
-  DeploymentOperationsListAtManagementGroupScopeResponse,
   DeploymentOperationsGetAtSubscriptionScopeOptionalParams,
   DeploymentOperationsGetAtSubscriptionScopeResponse,
-  DeploymentOperationsListAtSubscriptionScopeResponse,
   DeploymentOperationsGetOptionalParams,
   DeploymentOperationsGetResponse,
-  DeploymentOperationsListResponse,
   DeploymentOperationsListAtScopeNextResponse,
   DeploymentOperationsListAtTenantScopeNextResponse,
   DeploymentOperationsListAtManagementGroupScopeNextResponse,
@@ -78,8 +79,16 @@ export class DeploymentOperationsImpl implements DeploymentOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listAtScopePagingPage(scope, deploymentName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listAtScopePagingPage(
+          scope,
+          deploymentName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -87,11 +96,18 @@ export class DeploymentOperationsImpl implements DeploymentOperations {
   private async *listAtScopePagingPage(
     scope: string,
     deploymentName: string,
-    options?: DeploymentOperationsListAtScopeOptionalParams
+    options?: DeploymentOperationsListAtScopeOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DeploymentOperation[]> {
-    let result = await this._listAtScope(scope, deploymentName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DeploymentOperationsListAtScopeResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAtScope(scope, deploymentName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAtScopeNext(
         scope,
@@ -100,7 +116,9 @@ export class DeploymentOperationsImpl implements DeploymentOperations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -135,19 +153,33 @@ export class DeploymentOperationsImpl implements DeploymentOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listAtTenantScopePagingPage(deploymentName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listAtTenantScopePagingPage(
+          deploymentName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listAtTenantScopePagingPage(
     deploymentName: string,
-    options?: DeploymentOperationsListAtTenantScopeOptionalParams
+    options?: DeploymentOperationsListAtTenantScopeOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DeploymentOperation[]> {
-    let result = await this._listAtTenantScope(deploymentName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DeploymentOperationsListAtTenantScopeResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAtTenantScope(deploymentName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAtTenantScopeNext(
         deploymentName,
@@ -155,7 +187,9 @@ export class DeploymentOperationsImpl implements DeploymentOperations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -194,11 +228,15 @@ export class DeploymentOperationsImpl implements DeploymentOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listAtManagementGroupScopePagingPage(
           groupId,
           deploymentName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -207,15 +245,22 @@ export class DeploymentOperationsImpl implements DeploymentOperations {
   private async *listAtManagementGroupScopePagingPage(
     groupId: string,
     deploymentName: string,
-    options?: DeploymentOperationsListAtManagementGroupScopeOptionalParams
+    options?: DeploymentOperationsListAtManagementGroupScopeOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DeploymentOperation[]> {
-    let result = await this._listAtManagementGroupScope(
-      groupId,
-      deploymentName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DeploymentOperationsListAtManagementGroupScopeResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAtManagementGroupScope(
+        groupId,
+        deploymentName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAtManagementGroupScopeNext(
         groupId,
@@ -224,7 +269,9 @@ export class DeploymentOperationsImpl implements DeploymentOperations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -259,19 +306,33 @@ export class DeploymentOperationsImpl implements DeploymentOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listAtSubscriptionScopePagingPage(deploymentName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listAtSubscriptionScopePagingPage(
+          deploymentName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listAtSubscriptionScopePagingPage(
     deploymentName: string,
-    options?: DeploymentOperationsListAtSubscriptionScopeOptionalParams
+    options?: DeploymentOperationsListAtSubscriptionScopeOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DeploymentOperation[]> {
-    let result = await this._listAtSubscriptionScope(deploymentName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DeploymentOperationsListAtSubscriptionScopeResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAtSubscriptionScope(deploymentName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAtSubscriptionScopeNext(
         deploymentName,
@@ -279,7 +340,9 @@ export class DeploymentOperationsImpl implements DeploymentOperations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -314,8 +377,16 @@ export class DeploymentOperationsImpl implements DeploymentOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, deploymentName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          deploymentName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -323,11 +394,18 @@ export class DeploymentOperationsImpl implements DeploymentOperations {
   private async *listPagingPage(
     resourceGroupName: string,
     deploymentName: string,
-    options?: DeploymentOperationsListOptionalParams
+    options?: DeploymentOperationsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DeploymentOperation[]> {
-    let result = await this._list(resourceGroupName, deploymentName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DeploymentOperationsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, deploymentName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -336,7 +414,9 @@ export class DeploymentOperationsImpl implements DeploymentOperations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -845,7 +925,6 @@ const listAtScopeNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -866,7 +945,6 @@ const listAtTenantScopeNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -886,7 +964,6 @@ const listAtManagementGroupScopeNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -907,7 +984,6 @@ const listAtSubscriptionScopeNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -928,7 +1004,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

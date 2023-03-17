@@ -1,30 +1,44 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  ClientOptions,
-  CertificateCredential,
-  isCertificateCredential,
-} from "@azure-rest/core-client";
-import { TokenCredential } from "@azure/core-auth";
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 
-import { certificatePolicy } from "./certificatePolicy";
-import GeneratedConfidentialLedger, {
-  ConfidentialLedgerRestClient,
-} from "./generated/src/confidentialLedger";
+import { ClientOptions } from "@azure-rest/core-client";
+import { ConfidentialLedgerClient } from "./generated/src/clientDefinitions";
+import GeneratedConfidentialLedger from "./generated/src/confidentialLedger";
 
 export default function ConfidentialLedger(
-  ledgerBaseUrl: string,
-  ledgerTlsCertificate: string,
-  credentials: TokenCredential | CertificateCredential,
+  ledgerEndpoint: string,
+  ledgerIdentityCertificate: string,
   options?: ClientOptions
-): ConfidentialLedgerRestClient {
-  // If certificate credential is passed, we'll handle auth
-  const creds = isCertificateCredential(credentials) ? undefined : credentials;
+): ConfidentialLedgerClient;
+export default function ConfidentialLedger(
+  ledgerEndpoint: string,
+  ledgerIdentityCertificate: string,
+  credentials: TokenCredential,
+  options?: ClientOptions
+): ConfidentialLedgerClient;
+export default function ConfidentialLedger(
+  ledgerEndpoint: string,
+  ledgerIdentityCertificate: string,
+  credentialsOrOptions?: TokenCredential | ClientOptions,
+  opts?: ClientOptions
+): ConfidentialLedgerClient {
+  let credentials: TokenCredential | undefined;
+  let options: ClientOptions;
 
-  const confidentialLedger = GeneratedConfidentialLedger(ledgerBaseUrl, creds, options);
+  if (isTokenCredential(credentialsOrOptions)) {
+    credentials = credentialsOrOptions;
+    options = opts ?? {};
+  } else {
+    options = credentialsOrOptions ?? {};
+  }
 
-  confidentialLedger.pipeline.addPolicy(certificatePolicy(ledgerTlsCertificate, credentials));
-
+  const tlsOptions = options?.tlsOptions ?? {};
+  tlsOptions.ca = ledgerIdentityCertificate;
+  const confidentialLedger = GeneratedConfidentialLedger(ledgerEndpoint, credentials!, {
+    ...options,
+    tlsOptions,
+  });
   return confidentialLedger;
 }

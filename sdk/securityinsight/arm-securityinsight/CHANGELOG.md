@@ -1,4 +1,449 @@
 # Release History
+
+## 1.0.0-beta.7 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.0.0-beta.6 (2023-02-03)
+    
+**Features**
+
+  - Interface BookmarkRelationsListNextOptionalParams no longer has parameter filter
+  - Interface BookmarkRelationsListNextOptionalParams no longer has parameter orderby
+  - Interface BookmarkRelationsListNextOptionalParams no longer has parameter skipToken
+  - Interface BookmarkRelationsListNextOptionalParams no longer has parameter top
+  - Interface EntitiesRelationsListNextOptionalParams no longer has parameter filter
+  - Interface EntitiesRelationsListNextOptionalParams no longer has parameter orderby
+  - Interface EntitiesRelationsListNextOptionalParams no longer has parameter skipToken
+  - Interface EntitiesRelationsListNextOptionalParams no longer has parameter top
+  - Interface EntityQueriesListNextOptionalParams no longer has parameter kind
+  - Interface FileImportsListNextOptionalParams no longer has parameter filter
+  - Interface FileImportsListNextOptionalParams no longer has parameter orderby
+  - Interface FileImportsListNextOptionalParams no longer has parameter skipToken
+  - Interface FileImportsListNextOptionalParams no longer has parameter top
+  - Interface IncidentCommentsListNextOptionalParams no longer has parameter filter
+  - Interface IncidentCommentsListNextOptionalParams no longer has parameter orderby
+  - Interface IncidentCommentsListNextOptionalParams no longer has parameter skipToken
+  - Interface IncidentCommentsListNextOptionalParams no longer has parameter top
+  - Interface IncidentRelationsListNextOptionalParams no longer has parameter filter
+  - Interface IncidentRelationsListNextOptionalParams no longer has parameter orderby
+  - Interface IncidentRelationsListNextOptionalParams no longer has parameter skipToken
+  - Interface IncidentRelationsListNextOptionalParams no longer has parameter top
+  - Interface IncidentsListNextOptionalParams no longer has parameter filter
+  - Interface IncidentsListNextOptionalParams no longer has parameter orderby
+  - Interface IncidentsListNextOptionalParams no longer has parameter skipToken
+  - Interface IncidentsListNextOptionalParams no longer has parameter top
+  - Interface MetadataListNextOptionalParams no longer has parameter filter
+  - Interface MetadataListNextOptionalParams no longer has parameter orderby
+  - Interface MetadataListNextOptionalParams no longer has parameter skip
+  - Interface MetadataListNextOptionalParams no longer has parameter top
+  - Interface ThreatIntelligenceIndicatorsListNextOptionalParams no longer has parameter filter
+  - Interface ThreatIntelligenceIndicatorsListNextOptionalParams no longer has parameter orderby
+  - Interface ThreatIntelligenceIndicatorsListNextOptionalParams no longer has parameter skipToken
+  - Interface ThreatIntelligenceIndicatorsListNextOptionalParams no longer has parameter top
+  - Interface WatchlistItemsListNextOptionalParams no longer has parameter skipToken
+  - Interface WatchlistsListNextOptionalParams no longer has parameter skipToken
+    
+    
+## 1.0.0-beta.5 (2022-09-27)
+    
+**Features**
+
+  - Added operation group FileImports
+  - Added Interface AutomationRuleBooleanCondition
+  - Added Interface AutomationRulePropertyArrayValuesCondition
+  - Added Interface BooleanConditionProperties
+  - Added Interface FileImport
+  - Added Interface FileImportList
+  - Added Interface FileImportsCreateOptionalParams
+  - Added Interface FileImportsDeleteOptionalParams
+  - Added Interface FileImportsGetOptionalParams
+  - Added Interface FileImportsListNextOptionalParams
+  - Added Interface FileImportsListOptionalParams
+  - Added Interface FileMetadata
+  - Added Interface PropertyArrayConditionProperties
+  - Added Interface ValidationError
+  - Added Type Alias AutomationRuleBooleanConditionSupportedOperator
+  - Added Type Alias AutomationRulePropertyArrayConditionSupportedArrayConditionType
+  - Added Type Alias AutomationRulePropertyArrayConditionSupportedArrayType
+  - Added Type Alias DeleteStatus
+  - Added Type Alias FileFormat
+  - Added Type Alias FileImportContentType
+  - Added Type Alias FileImportsCreateResponse
+  - Added Type Alias FileImportsDeleteResponse
+  - Added Type Alias FileImportsGetResponse
+  - Added Type Alias FileImportsListNextResponse
+  - Added Type Alias FileImportsListResponse
+  - Added Type Alias FileImportState
+  - Added Type Alias IngestionMode
+  - Interface NrtAlertRule has a new optional parameter eventGroupingSettings
+  - Interface NrtAlertRuleTemplate has a new optional parameter eventGroupingSettings
+  - Interface QueryBasedAlertRuleTemplateProperties has a new optional parameter eventGroupingSettings
+  - Class SecurityInsights has a new parameter fileImports
+  - Added Enum KnownAutomationRuleBooleanConditionSupportedOperator
+  - Added Enum KnownAutomationRulePropertyArrayConditionSupportedArrayConditionType
+  - Added Enum KnownAutomationRulePropertyArrayConditionSupportedArrayType
+  - Added Enum KnownDeleteStatus
+  - Added Enum KnownFileFormat
+  - Added Enum KnownFileImportContentType
+  - Added Enum KnownFileImportState
+  - Added Enum KnownIngestionMode
+  - Enum KnownAutomationRulePropertyConditionSupportedProperty has a new value IncidentCustomDetailsKey
+  - Enum KnownAutomationRulePropertyConditionSupportedProperty has a new value IncidentCustomDetailsValue
+  - Enum KnownAutomationRulePropertyConditionSupportedProperty has a new value IncidentUpdatedBySource
+  - Enum KnownConditionType has a new value Boolean
+  - Enum KnownConditionType has a new value PropertyArray
+
+**Breaking Changes**
+
+  - Interface AADDataConnector has a new required parameter kind
+  - Interface AatpDataConnector has a new required parameter kind
+  - Interface AccountEntity has a new required parameter kind
+  - Interface ActivityCustomEntityQuery has a new required parameter kind
+  - Interface ActivityEntityQuery has a new required parameter kind
+  - Interface ActivityEntityQueryTemplate has a new required parameter kind
+  - Interface Anomalies has a new required parameter kind
+  - Interface AnomalySecurityMLAnalyticsSettings has a new required parameter kind
+  - Interface ASCDataConnector has a new required parameter kind
+  - Interface AwsCloudTrailDataConnector has a new required parameter kind
+  - Interface AwsS3DataConnector has a new required parameter kind
+  - Interface AzureResourceEntity has a new required parameter kind
+  - Interface CloudApplicationEntity has a new required parameter kind
+  - Interface CodelessApiPollingDataConnector has a new required parameter kind
+  - Interface CodelessUiDataConnector has a new required parameter kind
+  - Interface DnsEntity has a new required parameter kind
+  - Interface Dynamics365DataConnector has a new required parameter kind
+  - Interface EntityAnalytics has a new required parameter kind
+  - Interface ExpansionEntityQuery has a new required parameter kind
+  - Interface EyesOn has a new required parameter kind
+  - Interface FileEntity has a new required parameter kind
+  - Interface FileHashEntity has a new required parameter kind
+  - Interface FusionAlertRule has a new required parameter kind
+  - Interface FusionAlertRuleTemplate has a new required parameter kind
+  - Interface HostEntity has a new required parameter kind
+  - Interface HuntingBookmark has a new required parameter kind
+  - Interface IoTDataConnector has a new required parameter kind
+  - Interface IoTDeviceEntity has a new required parameter kind
+  - Interface IpEntity has a new required parameter kind
+  - Interface MailboxEntity has a new required parameter kind
+  - Interface MailClusterEntity has a new required parameter kind
+  - Interface MailMessageEntity has a new required parameter kind
+  - Interface MalwareEntity has a new required parameter kind
+  - Interface McasDataConnector has a new required parameter kind
+  - Interface MdatpDataConnector has a new required parameter kind
+  - Interface MicrosoftSecurityIncidentCreationAlertRule has a new required parameter kind
+  - Interface MicrosoftSecurityIncidentCreationAlertRuleTemplate has a new required parameter kind
+  - Interface MLBehaviorAnalyticsAlertRule has a new required parameter kind
+  - Interface MLBehaviorAnalyticsAlertRuleTemplate has a new required parameter kind
+  - Interface MstiDataConnector has a new required parameter kind
+  - Interface MTPDataConnector has a new required parameter kind
+  - Interface NicEntity has a new required parameter kind
+  - Interface NrtAlertRule has a new required parameter kind
+  - Interface NrtAlertRuleTemplate has a new required parameter kind
+  - Interface Office365ProjectDataConnector has a new required parameter kind
+  - Interface OfficeATPDataConnector has a new required parameter kind
+  - Interface OfficeDataConnector has a new required parameter kind
+  - Interface OfficeIRMDataConnector has a new required parameter kind
+  - Interface OfficePowerBIDataConnector has a new required parameter kind
+  - Interface ProcessEntity has a new required parameter kind
+  - Interface RegistryKeyEntity has a new required parameter kind
+  - Interface RegistryValueEntity has a new required parameter kind
+  - Interface ScheduledAlertRule has a new required parameter kind
+  - Interface ScheduledAlertRuleTemplate has a new required parameter kind
+  - Interface SecurityAlert has a new required parameter kind
+  - Interface SecurityGroupEntity has a new required parameter kind
+  - Interface SubmissionMailEntity has a new required parameter kind
+  - Interface ThreatIntelligenceAlertRule has a new required parameter kind
+  - Interface ThreatIntelligenceAlertRuleTemplate has a new required parameter kind
+  - Interface ThreatIntelligenceIndicatorModel has a new required parameter kind
+  - Interface TIDataConnector has a new required parameter kind
+  - Interface TiTaxiiDataConnector has a new required parameter kind
+  - Interface Ueba has a new required parameter kind
+  - Interface UrlEntity has a new required parameter kind
+  - Parameter logicAppsResourceId of interface ManualTriggerRequestBody is now required
+    
+    
+## 1.0.0-beta.4 (2022-07-11)
+    
+**Features**
+
+  - Added operation group SecurityMLAnalyticsSettings
+  - Added Interface AADCheckRequirements
+  - Added Interface AADCheckRequirementsProperties
+  - Added Interface AADDataConnector
+  - Added Interface AADDataConnectorProperties
+  - Added Interface AatpCheckRequirements
+  - Added Interface AatpCheckRequirementsProperties
+  - Added Interface AatpDataConnector
+  - Added Interface AatpDataConnectorProperties
+  - Added Interface AccountEntity
+  - Added Interface AccountEntityProperties
+  - Added Interface ActionRequest
+  - Added Interface ActionRequestProperties
+  - Added Interface ActionResponse
+  - Added Interface ActionResponseProperties
+  - Added Interface ActivityCustomEntityQuery
+  - Added Interface ActivityEntityQuery
+  - Added Interface ActivityEntityQueryTemplate
+  - Added Interface ActivityTimelineItem
+  - Added Interface AlertRule
+  - Added Interface AlertRuleTemplate
+  - Added Interface AlertRuleTemplateWithMitreProperties
+  - Added Interface Anomalies
+  - Added Interface AnomalySecurityMLAnalyticsSettings
+  - Added Interface AnomalyTimelineItem
+  - Added Interface ASCCheckRequirements
+  - Added Interface ASCDataConnector
+  - Added Interface ASCDataConnectorProperties
+  - Added Interface AutomationRule
+  - Added Interface AutomationRuleModifyPropertiesAction
+  - Added Interface AutomationRulePropertyArrayChangedValuesCondition
+  - Added Interface AutomationRulePropertyValuesChangedCondition
+  - Added Interface AutomationRuleRunPlaybookAction
+  - Added Interface AwsCloudTrailCheckRequirements
+  - Added Interface AwsCloudTrailDataConnector
+  - Added Interface AwsCloudTrailDataConnectorDataTypesLogs
+  - Added Interface AwsS3CheckRequirements
+  - Added Interface AwsS3DataConnector
+  - Added Interface AwsS3DataConnectorDataTypesLogs
+  - Added Interface AzureResourceEntity
+  - Added Interface AzureResourceEntityProperties
+  - Added Interface Bookmark
+  - Added Interface BookmarkTimelineItem
+  - Added Interface CloudApplicationEntity
+  - Added Interface CloudApplicationEntityProperties
+  - Added Interface CodelessApiPollingDataConnector
+  - Added Interface CodelessUiConnectorConfigPropertiesConnectivityCriteriaItem
+  - Added Interface CodelessUiConnectorConfigPropertiesDataTypesItem
+  - Added Interface CodelessUiConnectorConfigPropertiesGraphQueriesItem
+  - Added Interface CodelessUiConnectorConfigPropertiesInstructionStepsItem
+  - Added Interface CodelessUiConnectorConfigPropertiesSampleQueriesItem
+  - Added Interface CodelessUiDataConnector
+  - Added Interface CustomEntityQuery
+  - Added Interface Customs
+  - Added Interface DataConnector
+  - Added Interface DnsEntity
+  - Added Interface DnsEntityProperties
+  - Added Interface Dynamics365CheckRequirements
+  - Added Interface Dynamics365CheckRequirementsProperties
+  - Added Interface Dynamics365DataConnector
+  - Added Interface Dynamics365DataConnectorDataTypesDynamics365CdsActivities
+  - Added Interface Dynamics365DataConnectorProperties
+  - Added Interface Entity
+  - Added Interface EntityAnalytics
+  - Added Interface EntityQuery
+  - Added Interface EntityQueryTemplate
+  - Added Interface ExpansionEntityQuery
+  - Added Interface EyesOn
+  - Added Interface FileEntity
+  - Added Interface FileEntityProperties
+  - Added Interface FileHashEntity
+  - Added Interface FileHashEntityProperties
+  - Added Interface FusionAlertRule
+  - Added Interface FusionAlertRuleTemplate
+  - Added Interface GetInsightsErrorKind
+  - Added Interface HostEntity
+  - Added Interface HostEntityProperties
+  - Added Interface HuntingBookmark
+  - Added Interface HuntingBookmarkProperties
+  - Added Interface Incident
+  - Added Interface IncidentComment
+  - Added Interface InsightQueryItem
+  - Added Interface InsightQueryItemProperties
+  - Added Interface InstructionStepsInstructionsItem
+  - Added Interface IoTCheckRequirements
+  - Added Interface IoTDataConnector
+  - Added Interface IoTDataConnectorProperties
+  - Added Interface IoTDeviceEntity
+  - Added Interface IoTDeviceEntityProperties
+  - Added Interface IpEntity
+  - Added Interface IpEntityProperties
+  - Added Interface MailboxEntity
+  - Added Interface MailboxEntityProperties
+  - Added Interface MailClusterEntity
+  - Added Interface MailClusterEntityProperties
+  - Added Interface MailMessageEntity
+  - Added Interface MailMessageEntityProperties
+  - Added Interface MalwareEntity
+  - Added Interface MalwareEntityProperties
+  - Added Interface McasCheckRequirements
+  - Added Interface McasCheckRequirementsProperties
+  - Added Interface McasDataConnector
+  - Added Interface McasDataConnectorDataTypes
+  - Added Interface McasDataConnectorProperties
+  - Added Interface MdatpCheckRequirements
+  - Added Interface MdatpCheckRequirementsProperties
+  - Added Interface MdatpDataConnector
+  - Added Interface MdatpDataConnectorProperties
+  - Added Interface MetadataModel
+  - Added Interface MetadataPatch
+  - Added Interface MicrosoftSecurityIncidentCreationAlertRule
+  - Added Interface MicrosoftSecurityIncidentCreationAlertRuleProperties
+  - Added Interface MicrosoftSecurityIncidentCreationAlertRuleTemplate
+  - Added Interface MicrosoftSecurityIncidentCreationAlertRuleTemplateProperties
+  - Added Interface MLBehaviorAnalyticsAlertRule
+  - Added Interface MLBehaviorAnalyticsAlertRuleTemplate
+  - Added Interface MLBehaviorAnalyticsAlertRuleTemplateProperties
+  - Added Interface MstiCheckRequirements
+  - Added Interface MstiCheckRequirementsProperties
+  - Added Interface MstiDataConnector
+  - Added Interface MstiDataConnectorDataTypesBingSafetyPhishingURL
+  - Added Interface MstiDataConnectorDataTypesMicrosoftEmergingThreatFeed
+  - Added Interface MstiDataConnectorProperties
+  - Added Interface MtpCheckRequirements
+  - Added Interface MTPCheckRequirementsProperties
+  - Added Interface MTPDataConnector
+  - Added Interface MTPDataConnectorDataTypesIncidents
+  - Added Interface MTPDataConnectorProperties
+  - Added Interface NicEntity
+  - Added Interface NicEntityProperties
+  - Added Interface NrtAlertRule
+  - Added Interface NrtAlertRuleTemplate
+  - Added Interface NrtAlertRuleTemplateProperties
+  - Added Interface Office365ProjectCheckRequirements
+  - Added Interface Office365ProjectCheckRequirementsProperties
+  - Added Interface Office365ProjectConnectorDataTypesLogs
+  - Added Interface Office365ProjectDataConnector
+  - Added Interface Office365ProjectDataConnectorProperties
+  - Added Interface OfficeATPCheckRequirements
+  - Added Interface OfficeATPCheckRequirementsProperties
+  - Added Interface OfficeATPDataConnector
+  - Added Interface OfficeATPDataConnectorProperties
+  - Added Interface OfficeConsent
+  - Added Interface OfficeDataConnector
+  - Added Interface OfficeDataConnectorDataTypesExchange
+  - Added Interface OfficeDataConnectorDataTypesSharePoint
+  - Added Interface OfficeDataConnectorDataTypesTeams
+  - Added Interface OfficeDataConnectorProperties
+  - Added Interface OfficeIRMCheckRequirements
+  - Added Interface OfficeIRMCheckRequirementsProperties
+  - Added Interface OfficeIRMDataConnector
+  - Added Interface OfficeIRMDataConnectorProperties
+  - Added Interface OfficePowerBICheckRequirements
+  - Added Interface OfficePowerBICheckRequirementsProperties
+  - Added Interface OfficePowerBIConnectorDataTypesLogs
+  - Added Interface OfficePowerBIDataConnector
+  - Added Interface OfficePowerBIDataConnectorProperties
+  - Added Interface PermissionsCustomsItem
+  - Added Interface PermissionsResourceProviderItem
+  - Added Interface ProcessEntity
+  - Added Interface ProcessEntityProperties
+  - Added Interface PropertyArrayChangedConditionProperties
+  - Added Interface PropertyChangedConditionProperties
+  - Added Interface PropertyConditionProperties
+  - Added Interface RegistryKeyEntity
+  - Added Interface RegistryKeyEntityProperties
+  - Added Interface RegistryValueEntity
+  - Added Interface RegistryValueEntityProperties
+  - Added Interface Relation
+  - Added Interface ResourceWithEtag
+  - Added Interface ScheduledAlertRule
+  - Added Interface ScheduledAlertRuleProperties
+  - Added Interface ScheduledAlertRuleTemplate
+  - Added Interface SecurityAlert
+  - Added Interface SecurityAlertProperties
+  - Added Interface SecurityAlertTimelineItem
+  - Added Interface SecurityGroupEntity
+  - Added Interface SecurityGroupEntityProperties
+  - Added Interface SecurityMLAnalyticsSetting
+  - Added Interface SecurityMLAnalyticsSettingsCreateOrUpdateOptionalParams
+  - Added Interface SecurityMLAnalyticsSettingsDataSource
+  - Added Interface SecurityMLAnalyticsSettingsDeleteOptionalParams
+  - Added Interface SecurityMLAnalyticsSettingsGetOptionalParams
+  - Added Interface SecurityMLAnalyticsSettingsList
+  - Added Interface SecurityMLAnalyticsSettingsListNextOptionalParams
+  - Added Interface SecurityMLAnalyticsSettingsListOptionalParams
+  - Added Interface SentinelOnboardingState
+  - Added Interface Settings
+  - Added Interface SourceControl
+  - Added Interface SubmissionMailEntity
+  - Added Interface SubmissionMailEntityProperties
+  - Added Interface ThreatIntelligenceAlertRule
+  - Added Interface ThreatIntelligenceAlertRuleTemplate
+  - Added Interface ThreatIntelligenceAlertRuleTemplateProperties
+  - Added Interface ThreatIntelligenceIndicatorModel
+  - Added Interface ThreatIntelligenceIndicatorProperties
+  - Added Interface ThreatIntelligenceInformation
+  - Added Interface TICheckRequirements
+  - Added Interface TICheckRequirementsProperties
+  - Added Interface TIDataConnector
+  - Added Interface TIDataConnectorDataTypesIndicators
+  - Added Interface TIDataConnectorProperties
+  - Added Interface TiTaxiiCheckRequirements
+  - Added Interface TiTaxiiCheckRequirementsProperties
+  - Added Interface TiTaxiiDataConnector
+  - Added Interface TiTaxiiDataConnectorDataTypesTaxiiClient
+  - Added Interface TiTaxiiDataConnectorProperties
+  - Added Interface Ueba
+  - Added Interface UrlEntity
+  - Added Interface UrlEntityProperties
+  - Added Interface Watchlist
+  - Added Interface WatchlistItem
+  - Added Type Alias AutomationRulePropertyArrayChangedConditionSupportedArrayType
+  - Added Type Alias AutomationRulePropertyArrayChangedConditionSupportedChangeType
+  - Added Type Alias AutomationRulePropertyChangedConditionSupportedChangedType
+  - Added Type Alias AutomationRulePropertyChangedConditionSupportedPropertyType
+  - Added Type Alias DeviceImportance
+  - Added Type Alias EntityProviders
+  - Added Type Alias Enum13
+  - Added Type Alias GetInsightsError
+  - Added Type Alias SecurityMLAnalyticsSettingsCreateOrUpdateResponse
+  - Added Type Alias SecurityMLAnalyticsSettingsGetResponse
+  - Added Type Alias SecurityMLAnalyticsSettingsKind
+  - Added Type Alias SecurityMLAnalyticsSettingsListNextResponse
+  - Added Type Alias SecurityMLAnalyticsSettingsListResponse
+  - Added Type Alias SecurityMLAnalyticsSettingUnion
+  - Added Type Alias SettingsStatus
+  - Interface DataConnectorConnectBody has a new optional parameter dataCollectionEndpoint
+  - Interface DataConnectorConnectBody has a new optional parameter dataCollectionRuleImmutableId
+  - Interface DataConnectorConnectBody has a new optional parameter outputStream
+  - Class SecurityInsights has a new parameter securityMLAnalyticsSettings
+  - Added Enum KnownAutomationRulePropertyArrayChangedConditionSupportedArrayType
+  - Added Enum KnownAutomationRulePropertyArrayChangedConditionSupportedChangeType
+  - Added Enum KnownAutomationRulePropertyChangedConditionSupportedChangedType
+  - Added Enum KnownAutomationRulePropertyChangedConditionSupportedPropertyType
+  - Added Enum KnownDeviceImportance
+  - Added Enum KnownEntityProviders
+  - Added Enum KnownEnum13
+  - Added Enum KnownGetInsightsError
+  - Added Enum KnownSecurityMLAnalyticsSettingsKind
+  - Added Enum KnownSettingsStatus
+  - Enum KnownAutomationRulePropertyConditionSupportedProperty has a new value AlertAnalyticRuleIds
+  - Enum KnownConditionType has a new value PropertyArrayChanged
+  - Enum KnownConditionType has a new value PropertyChanged
+  - Enum KnownEntityKind has a new value Nic
+  - Enum KnownEntityTimelineKind has a new value Anomaly
+  - Enum KnownEntityType has a new value Nic
+  - Enum KnownTriggersOn has a new value Alerts
+  - Enum KnownTriggersWhen has a new value Updated
+
+**Breaking Changes**
+
+  - Removed Enum KnownEnum12
+  - Removed Enum KnownProvisioningState
+  - Removed Enum KnownSkuKind
+    
+    
+## 1.0.0-beta.3 (2022-05-16)
+    
+**Features**
+
+  - Added Type Alias ProvisioningState
+  - Type Alias Watchlist has a new parameter sasUri
+  - Type Alias Watchlist has a new parameter provisioningState
+  - Added Enum KnownProvisioningState
+
+**Breaking Changes**
+
+  - Type Alias WatchlistItem no longer has parameter itemsKeyValue
+  - Type Alias WatchlistItem no longer has parameter entityMapping
+    
     
 ## 1.0.0-beta.2 (2022-03-17)
     

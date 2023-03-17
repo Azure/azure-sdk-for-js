@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "@azure/test-utils";
-import { RestError } from "@azure/core-http";
+import { RestError } from "@azure/core-rest-pipeline";
 import { DeleteSecretPoller } from "../../src/lro/delete/poller";
 import { RecoverDeletedSecretPoller } from "../../src/lro/recover/poller";
 
@@ -15,12 +15,12 @@ describe("The LROs properly throw on unexpected errors", () => {
       const client: any = {
         async deleteSecret(): Promise<any> {
           return {
-            id: "/version/name/version",
+            id: "https://keyvaultname.vault.azure.net/version/name/version",
             recoveryId: "something",
           };
         },
         async getDeletedSecret(): Promise<any> {
-          throw new RestError(`${code}`, undefined, code);
+          throw new RestError(`${code}`, { statusCode: code });
         },
       };
       const poller = new DeleteSecretPoller({
@@ -39,12 +39,12 @@ describe("The LROs properly throw on unexpected errors", () => {
       const client: any = {
         async deleteSecret(): Promise<any> {
           return {
-            id: "/version/name/version",
+            id: "https://keyvaultname.vault.azure.net/version/name/version",
             recoveryId: "something",
           };
         },
         async getDeletedSecret(): Promise<any> {
-          throw new RestError(`${code}`, undefined, code);
+          throw new RestError(`${code}`, { statusCode: code });
         },
       };
       const poller = new DeleteSecretPoller({
@@ -65,12 +65,12 @@ describe("The LROs properly throw on unexpected errors", () => {
         const client: any = {
           async deleteSecret(): Promise<any> {
             return {
-              id: "/version/name/version",
+              id: "https://keyvaultname.vault.azure.net/version/name/version",
               recoveryId: "something",
             };
           },
           async getDeletedSecret(): Promise<any> {
-            throw new RestError(`${code}`, undefined, code);
+            throw new RestError(`${code}`, { statusCode: code });
           },
         };
         const poller = new DeleteSecretPoller({
@@ -97,12 +97,12 @@ describe("The LROs properly throw on unexpected errors", () => {
       const client: any = {
         async recoverDeletedSecret(): Promise<any> {
           return {
-            id: "/version/name/version",
+            id: "https://keyvaultname.vault.azure.net/version/name/version",
             recoveryId: "something",
           };
         },
         async getSecret(): Promise<any> {
-          throw new RestError(`${code}`, undefined, code);
+          throw new RestError(`${code}`, { statusCode: code });
         },
       };
       const poller = new RecoverDeletedSecretPoller({
@@ -121,12 +121,12 @@ describe("The LROs properly throw on unexpected errors", () => {
       const client: any = {
         async recoverDeletedSecret(): Promise<any> {
           return {
-            id: "/version/name/version",
+            id: "https://keyvaultname.vault.azure.net/version/name/version",
             recoveryId: "something",
           };
         },
         async getSecret(): Promise<any> {
-          throw new RestError(`${code}`, undefined, code);
+          throw new RestError(`${code}`, { statusCode: code });
         },
       };
       const poller = new RecoverDeletedSecretPoller({
@@ -147,12 +147,12 @@ describe("The LROs properly throw on unexpected errors", () => {
         const client: any = {
           async recoverDeletedSecret(): Promise<any> {
             return {
-              id: "/version/name/version",
+              id: "https://keyvaultname.vault.azure.net/version/name/version",
               recoveryId: "something",
             };
           },
           async getSecret(): Promise<any> {
-            throw new RestError(`${code}`, undefined, code);
+            throw new RestError(`${code}`, { statusCode: code });
           },
         };
         const poller = new RecoverDeletedSecretPoller({

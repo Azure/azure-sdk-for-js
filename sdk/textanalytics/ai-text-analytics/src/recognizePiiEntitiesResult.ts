@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import {
-  makeTextAnalyticsSuccessResult,
-  TextAnalyticsSuccessResult,
   TextAnalyticsErrorResult,
+  TextAnalyticsSuccessResult,
   makeTextAnalyticsErrorResult,
+  makeTextAnalyticsSuccessResult,
 } from "./textAnalyticsResult";
 import { Entity, PiiDocumentEntities, TextAnalyticsError } from "./generated/models";
 

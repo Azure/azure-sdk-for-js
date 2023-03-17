@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { SecurityInsights } = require("@azure/arm-securityinsight");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or updates the alert rule.
  *
  * @summary Creates or updates the alert rule.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/alertRules/CreateFusionAlertRuleWithFusionScenarioExclusion.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/alertRules/CreateFusionAlertRuleWithFusionScenarioExclusion.json
  */
 async function createsOrUpdatesAFusionAlertRuleWithScenarioExclusionPattern() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const ruleId = "myFirstFusionRule";
   const alertRule = {
@@ -167,17 +169,16 @@ async function createsOrUpdatesAFusionAlertRuleWithScenarioExclusionPattern() {
   console.log(result);
 }
 
-createsOrUpdatesAFusionAlertRuleWithScenarioExclusionPattern().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates the alert rule.
  *
  * @summary Creates or updates the alert rule.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/alertRules/CreateFusionAlertRule.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/alertRules/CreateFusionAlertRule.json
  */
 async function createsOrUpdatesAFusionAlertRule() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const ruleId = "myFirstFusionRule";
   const alertRule = {
@@ -325,17 +326,16 @@ async function createsOrUpdatesAFusionAlertRule() {
   console.log(result);
 }
 
-createsOrUpdatesAFusionAlertRule().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates the alert rule.
  *
  * @summary Creates or updates the alert rule.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/alertRules/CreateMicrosoftSecurityIncidentCreationAlertRule.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/alertRules/CreateMicrosoftSecurityIncidentCreationAlertRule.json
  */
 async function createsOrUpdatesAMicrosoftSecurityIncidentCreationRule() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const ruleId = "microsoftSecurityIncidentCreationRuleExample";
   const alertRule = {
@@ -356,17 +356,16 @@ async function createsOrUpdatesAMicrosoftSecurityIncidentCreationRule() {
   console.log(result);
 }
 
-createsOrUpdatesAMicrosoftSecurityIncidentCreationRule().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates the alert rule.
  *
  * @summary Creates or updates the alert rule.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/alertRules/CreateNrtAlertRule.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/alertRules/CreateNrtAlertRule.json
  */
 async function createsOrUpdatesANrtAlertRule() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const ruleId = "73e01a99-5cd7-4139-a149-9f2736ff2ab5";
   const alertRule = {
@@ -374,6 +373,7 @@ async function createsOrUpdatesANrtAlertRule() {
     displayName: "Rule2",
     enabled: true,
     etag: '"0300bf09-0000-0000-0000-5c37296e0000"',
+    eventGroupingSettings: { aggregationKind: "AlertPerResult" },
     incidentConfiguration: {
       createIncident: true,
       groupingConfiguration: {
@@ -404,17 +404,16 @@ async function createsOrUpdatesANrtAlertRule() {
   console.log(result);
 }
 
-createsOrUpdatesANrtAlertRule().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates the alert rule.
  *
  * @summary Creates or updates the alert rule.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/alertRules/CreateScheduledAlertRule.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/alertRules/CreateScheduledAlertRule.json
  */
 async function createsOrUpdatesAScheduledAlertRule() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const ruleId = "73e01a99-5cd7-4139-a149-9f2736ff2ab5";
   const alertRule = {
@@ -476,4 +475,12 @@ async function createsOrUpdatesAScheduledAlertRule() {
   console.log(result);
 }
 
-createsOrUpdatesAScheduledAlertRule().catch(console.error);
+async function main() {
+  createsOrUpdatesAFusionAlertRuleWithScenarioExclusionPattern();
+  createsOrUpdatesAFusionAlertRule();
+  createsOrUpdatesAMicrosoftSecurityIncidentCreationRule();
+  createsOrUpdatesANrtAlertRule();
+  createsOrUpdatesAScheduledAlertRule();
+}
+
+main().catch(console.error);

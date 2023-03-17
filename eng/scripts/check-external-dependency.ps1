@@ -17,8 +17,8 @@ $deprecatedDependency = "Deprecated-Dependency"
 $dependencyRegex = "^\+\s(?<pkg>[\S]*)\s(?<version>[\S]*)\s\((?<newVersion>[0-9\.a-b]*).*\)\s?(?<deprecated>deprecated)?"
 $RepoRoot = Resolve-Path -Path "${PSScriptRoot}/../.."
 Write-Host "Repo root: $RepoRoot"
-$rushFile = join-Path -Path $RepoRoot "rush.json"
-Write-Host "Path to rush.json: $rushFile"
+$pnpmConfigFile = Join-path -Path $RepoRoot "common" "config" "rush" "pnpm-config.json"
+Write-Host "Path to pnpm-config.json: $pnpmConfigFile"
 $commonConfigFile = Join-path -Path $RepoRoot "common" "config" "rush" "common-versions.json"
 Write-Host "Path to common-versions.json: $commonConfigFile"
 
@@ -40,7 +40,7 @@ function Get-GithubIssue($IssueTitle) {
 function Set-GitHubIssue($Package) {
   $pkgName = $Package.Name
   $issueTitle = "Dependency package $pkgName has a new version available"
-  $issueDesc = "We have identified a dependency on version $($Package.OldVersion) of $pkgName. "  
+  $issueDesc = "We have identified a dependency on version $($Package.OldVersion) of [$pkgName](https://www.npmjs.com/package/$pkgName). "  
   $labels = $dependencyUpgradeLabel
   if ($Package.IsDeprecated) {
     $issueDesc += "Version $($Package.OldVersion) of $pkgName has been deprecated.`n"
@@ -81,17 +81,17 @@ function Set-GitHubIssue($Package) {
 
 
 # Update rush configuration files to alter settings
-if ((Test-Path $rushFile) -and (Test-Path $commonConfigFile)) {
-  $rushJson = Get-Content -Path $rushFile | ConvertFrom-Json
-  $rushJson.pnpmOptions.strictPeerDependencies = $false
-  Set-Content -Path $rushFile -Value (ConvertTo-Json -InputObject $rushJson)
+if ((Test-Path $pnpmConfigFile) -and (Test-Path $commonConfigFile)) {
+  $pnpmConfigJson = Get-Content -Path $pnpmConfigFile | ConvertFrom-Json
+  $pnpmConfigJson.strictPeerDependencies = $false
+  Set-Content -Path $pnpmConfigFile -Value (ConvertTo-Json -InputObject $pnpmConfigJson)
 
   $configJson = Get-Content -Path $commonConfigFile | ConvertFrom-Json
   $configJson.implicitlyPreferredVersions = $true
   Set-Content -Path $commonConfigFile -Value (ConvertTo-Json -InputObject $configJson)
 }
 else {
-  Write-Error "Failed to find $($rushFile) and/or $($commonConfigFile). Verify repo root parameter."
+  Write-Error "Failed to find $($pnpmConfigFile) and/or $($commonConfigFile). Verify repo root parameter."
   exit 1
 }
 

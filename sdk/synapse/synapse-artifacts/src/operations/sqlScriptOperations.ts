@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { createSpan } from "../tracing";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { tracingClient } from "../tracing";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { SqlScriptOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
@@ -59,25 +59,37 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.getSqlScriptsByWorkspacePagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.getSqlScriptsByWorkspacePagingPage(options, settings);
       }
     };
   }
 
   private async *getSqlScriptsByWorkspacePagingPage(
-    options?: SqlScriptGetSqlScriptsByWorkspaceOptionalParams
+    options?: SqlScriptGetSqlScriptsByWorkspaceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SqlScriptResource[]> {
-    let result = await this._getSqlScriptsByWorkspace(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SqlScriptGetSqlScriptsByWorkspaceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._getSqlScriptsByWorkspace(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._getSqlScriptsByWorkspaceNext(
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -96,25 +108,16 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
   private async _getSqlScriptsByWorkspace(
     options?: SqlScriptGetSqlScriptsByWorkspaceOptionalParams
   ): Promise<SqlScriptGetSqlScriptsByWorkspaceResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-_getSqlScriptsByWorkspace",
-      options || {}
+    return tracingClient.withSpan(
+      "ArtifactsClient._getSqlScriptsByWorkspace",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          getSqlScriptsByWorkspaceOperationSpec
+        ) as Promise<SqlScriptGetSqlScriptsByWorkspaceResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { options },
-        getSqlScriptsByWorkspaceOperationSpec
-      );
-      return result as SqlScriptGetSqlScriptsByWorkspaceResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -133,26 +136,19 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
       SqlScriptCreateOrUpdateSqlScriptResponse
     >
   > {
-    const { span } = createSpan(
-      "ArtifactsClient-beginCreateOrUpdateSqlScript",
-      options || {}
-    );
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<SqlScriptCreateOrUpdateSqlScriptResponse> => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as SqlScriptCreateOrUpdateSqlScriptResponse;
-      } catch (error: any) {
-        span.setStatus({
-          code: coreTracing.SpanStatusCode.UNSET,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginCreateOrUpdateSqlScript",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<
+            SqlScriptCreateOrUpdateSqlScriptResponse
+          >;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -228,22 +224,16 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
     sqlScriptName: string,
     options?: SqlScriptGetSqlScriptOptionalParams
   ): Promise<SqlScriptGetSqlScriptResponse> {
-    const { span } = createSpan("ArtifactsClient-getSqlScript", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { sqlScriptName, options },
-        getSqlScriptOperationSpec
-      );
-      return result as SqlScriptGetSqlScriptResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ArtifactsClient.getSqlScript",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { sqlScriptName, options },
+          getSqlScriptOperationSpec
+        ) as Promise<SqlScriptGetSqlScriptResponse>;
+      }
+    );
   }
 
   /**
@@ -255,26 +245,17 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
     sqlScriptName: string,
     options?: SqlScriptDeleteSqlScriptOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan(
-      "ArtifactsClient-beginDeleteSqlScript",
-      options || {}
-    );
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as void;
-      } catch (error: any) {
-        span.setStatus({
-          code: coreTracing.SpanStatusCode.UNSET,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginDeleteSqlScript",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<void>;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -346,26 +327,17 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
     request: ArtifactRenameRequest,
     options?: SqlScriptRenameSqlScriptOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan(
-      "ArtifactsClient-beginRenameSqlScript",
-      options || {}
-    );
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as void;
-      } catch (error: any) {
-        span.setStatus({
-          code: coreTracing.SpanStatusCode.UNSET,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginRenameSqlScript",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<void>;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -442,25 +414,16 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
     nextLink: string,
     options?: SqlScriptGetSqlScriptsByWorkspaceNextOptionalParams
   ): Promise<SqlScriptGetSqlScriptsByWorkspaceNextResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-_getSqlScriptsByWorkspaceNext",
-      options || {}
+    return tracingClient.withSpan(
+      "ArtifactsClient._getSqlScriptsByWorkspaceNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          getSqlScriptsByWorkspaceNextOperationSpec
+        ) as Promise<SqlScriptGetSqlScriptsByWorkspaceNextResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { nextLink, options },
-        getSqlScriptsByWorkspaceNextOperationSpec
-      );
-      return result as SqlScriptGetSqlScriptsByWorkspaceNextResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 }
 // Operation Specifications
@@ -577,7 +540,6 @@ const getSqlScriptsByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

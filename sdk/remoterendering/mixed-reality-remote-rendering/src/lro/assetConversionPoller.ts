@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PollOperationState, Poller, PollOperation } from "@azure/core-lro";
+import { PollOperation, PollOperationState, Poller } from "@azure/core-lro";
 import { KnownAssetConversionStatus } from "../generated/models/index";
 import { RemoteRendering } from "../generated/operationsInterfaces";
 import { getConversionInternal } from "../internal/commonQueries";

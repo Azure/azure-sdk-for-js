@@ -24,9 +24,7 @@ module.exports = function (config) {
       "karma-mocha",
       "karma-mocha-reporter",
       "karma-chrome-launcher",
-      "karma-edge-launcher",
       "karma-firefox-launcher",
-      "karma-ie-launcher",
       "karma-env-preprocessor",
       "karma-coverage",
       "karma-sourcemap-loader",
@@ -62,6 +60,9 @@ module.exports = function (config) {
       "AZURE_CLIENT_SECRET",
       "ENDPOINT",
       "LEDGER_IDENTITY",
+      "PUBLIC_KEY",
+      "PRIVATE_KEY",
+      "IDENTITY_SERVICE_URL",
     ],
 
     // test results reporter to use

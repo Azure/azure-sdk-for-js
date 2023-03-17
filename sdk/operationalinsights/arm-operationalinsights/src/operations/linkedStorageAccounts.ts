@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { LinkedStorageAccounts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,13 +15,13 @@ import { OperationalInsightsManagementClient } from "../operationalInsightsManag
 import {
   LinkedStorageAccountsResource,
   LinkedStorageAccountsListByWorkspaceOptionalParams,
+  LinkedStorageAccountsListByWorkspaceResponse,
   DataSourceType,
   LinkedStorageAccountsCreateOrUpdateOptionalParams,
   LinkedStorageAccountsCreateOrUpdateResponse,
   LinkedStorageAccountsDeleteOptionalParams,
   LinkedStorageAccountsGetOptionalParams,
-  LinkedStorageAccountsGetResponse,
-  LinkedStorageAccountsListByWorkspaceResponse
+  LinkedStorageAccountsGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -61,11 +61,15 @@ export class LinkedStorageAccountsImpl implements LinkedStorageAccounts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByWorkspacePagingPage(
           resourceGroupName,
           workspaceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -74,9 +78,11 @@ export class LinkedStorageAccountsImpl implements LinkedStorageAccounts {
   private async *listByWorkspacePagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: LinkedStorageAccountsListByWorkspaceOptionalParams
+    options?: LinkedStorageAccountsListByWorkspaceOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<LinkedStorageAccountsResource[]> {
-    let result = await this._listByWorkspace(
+    let result: LinkedStorageAccountsListByWorkspaceResponse;
+    result = await this._listByWorkspace(
       resourceGroupName,
       workspaceName,
       options
@@ -191,7 +197,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters3,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -208,7 +214,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedStorageAccounts/{dataSourceType}",
   httpMethod: "DELETE",
   responses: { 200: {} },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -227,7 +233,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.LinkedStorageAccountsResource
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -247,7 +253,7 @@ const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.LinkedStorageAccountsListResult
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -37,23 +37,23 @@ describe("PolicyGetSetTests ", function () {
     await recorder.stop();
   });
 
-  it("#GetPolicy SGX - Aad", async () => {
+  it("#GetPolicy SGX - Aad", async function () {
     await testGetPolicy(KnownAttestationType.SgxEnclave, "AAD");
   });
 
-  it("#GetPolicy SGX - Isolated", async () => {
+  it("#GetPolicy SGX - Isolated", async function () {
     await testGetPolicy(KnownAttestationType.SgxEnclave, "Isolated");
   });
 
-  it("#GetPolicy SGX - Shared", async () => {
+  it("#GetPolicy SGX - Shared", async function () {
     await testGetPolicy(KnownAttestationType.SgxEnclave, "Shared");
   });
 
-  it("Set Policy SGX - AAD Unsecured", async () => {
+  it("Set Policy SGX - AAD Unsecured", async function () {
     await testSetPolicy(KnownAttestationType.SgxEnclave, "AAD");
   });
 
-  it("Set Policy failure conditions", async () => {
+  it("Set Policy failure conditions", async function () {
     const adminClient = createRecordedAdminClient(recorder, "AAD");
 
     const minimalPolicy = "version=1.0; authorizationrules{=> permit();}; issuancerules{};";
@@ -91,7 +91,7 @@ describe("PolicyGetSetTests ", function () {
     await adminClient.resetPolicy(KnownAttestationType.SgxEnclave);
   });
 
-  it("Reset Policy failure conditions", async () => {
+  it("Reset Policy failure conditions", async function () {
     const adminClient = createRecordedAdminClient(recorder, "AAD");
 
     const [rsaKey, rsapubKey] = createRSAKey();
@@ -138,7 +138,7 @@ describe("PolicyGetSetTests ", function () {
     await testSetPolicy(KnownAttestationType.SgxEnclave, "Isolated", getIsolatedSigningKey());
   });
 
-  it("Reset Policy SGX - AAD Unsecured", async () => {
+  it("Reset Policy SGX - AAD Unsecured", async function () {
     await testResetPolicy(KnownAttestationType.SgxEnclave, "AAD");
   });
 

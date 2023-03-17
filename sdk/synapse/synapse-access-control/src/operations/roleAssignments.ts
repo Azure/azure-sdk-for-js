@@ -6,19 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { createSpan } from "../tracing";
+import { tracingClient } from "../tracing";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RoleAssignments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AccessControlClientContext } from "../accessControlClientContext";
+import { AccessControlClient } from "../accessControlClient";
 import {
+  RoleAssignmentDetails,
+  RoleAssignmentsListRoleAssignmentsOptionalParams,
   SubjectInfo,
   RequiredAction,
   RoleAssignmentsCheckPrincipalAccessOptionalParams,
   RoleAssignmentsCheckPrincipalAccessResponse,
-  RoleAssignmentsListRoleAssignmentsOptionalParams,
   RoleAssignmentsListRoleAssignmentsResponse,
   RoleAssignmentsCreateRoleAssignmentOptionalParams,
   RoleAssignmentsCreateRoleAssignmentResponse,
@@ -27,16 +28,53 @@ import {
   RoleAssignmentsDeleteRoleAssignmentByIdOptionalParams
 } from "../models";
 
-/** Class representing a RoleAssignments. */
+/// <reference lib="esnext.asynciterable" />
+/** Class containing RoleAssignments operations. */
 export class RoleAssignmentsImpl implements RoleAssignments {
-  private readonly client: AccessControlClientContext;
+  private readonly client: AccessControlClient;
 
   /**
    * Initialize a new instance of the class RoleAssignments class.
    * @param client Reference to the service client
    */
-  constructor(client: AccessControlClientContext) {
+  constructor(client: AccessControlClient) {
     this.client = client;
+  }
+
+  /**
+   * List role assignments.
+   * @param options The options parameters.
+   */
+  public listRoleAssignments(
+    options?: RoleAssignmentsListRoleAssignmentsOptionalParams
+  ): PagedAsyncIterableIterator<RoleAssignmentDetails> {
+    const iter = this.listRoleAssignmentsPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listRoleAssignmentsPagingPage(options);
+      }
+    };
+  }
+
+  private async *listRoleAssignmentsPagingPage(
+    options?: RoleAssignmentsListRoleAssignmentsOptionalParams
+  ): AsyncIterableIterator<RoleAssignmentDetails[]> {
+    let result = await this._listRoleAssignments(options);
+    yield result.value || [];
+  }
+
+  private async *listRoleAssignmentsPagingAll(
+    options?: RoleAssignmentsListRoleAssignmentsOptionalParams
+  ): AsyncIterableIterator<RoleAssignmentDetails> {
+    for await (const page of this.listRoleAssignmentsPagingPage(options)) {
+      yield* page;
+    }
   }
 
   /**
@@ -52,53 +90,35 @@ export class RoleAssignmentsImpl implements RoleAssignments {
     scope: string,
     options?: RoleAssignmentsCheckPrincipalAccessOptionalParams
   ): Promise<RoleAssignmentsCheckPrincipalAccessResponse> {
-    const { span } = createSpan(
-      "AccessControlClient-checkPrincipalAccess",
-      options || {}
+    return tracingClient.withSpan(
+      "AccessControlClient.checkPrincipalAccess",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { subject, actions, scope, options },
+          checkPrincipalAccessOperationSpec
+        ) as Promise<RoleAssignmentsCheckPrincipalAccessResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { subject, actions, scope, options },
-        checkPrincipalAccessOperationSpec
-      );
-      return result as RoleAssignmentsCheckPrincipalAccessResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
    * List role assignments.
    * @param options The options parameters.
    */
-  async listRoleAssignments(
+  private async _listRoleAssignments(
     options?: RoleAssignmentsListRoleAssignmentsOptionalParams
   ): Promise<RoleAssignmentsListRoleAssignmentsResponse> {
-    const { span } = createSpan(
-      "AccessControlClient-listRoleAssignments",
-      options || {}
+    return tracingClient.withSpan(
+      "AccessControlClient._listRoleAssignments",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          listRoleAssignmentsOperationSpec
+        ) as Promise<RoleAssignmentsListRoleAssignmentsResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { options },
-        listRoleAssignmentsOperationSpec
-      );
-      return result as RoleAssignmentsListRoleAssignmentsResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -116,25 +136,16 @@ export class RoleAssignmentsImpl implements RoleAssignments {
     scope: string,
     options?: RoleAssignmentsCreateRoleAssignmentOptionalParams
   ): Promise<RoleAssignmentsCreateRoleAssignmentResponse> {
-    const { span } = createSpan(
-      "AccessControlClient-createRoleAssignment",
-      options || {}
+    return tracingClient.withSpan(
+      "AccessControlClient.createRoleAssignment",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { roleAssignmentId, roleId, principalId, scope, options },
+          createRoleAssignmentOperationSpec
+        ) as Promise<RoleAssignmentsCreateRoleAssignmentResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { roleAssignmentId, roleId, principalId, scope, options },
-        createRoleAssignmentOperationSpec
-      );
-      return result as RoleAssignmentsCreateRoleAssignmentResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -146,25 +157,16 @@ export class RoleAssignmentsImpl implements RoleAssignments {
     roleAssignmentId: string,
     options?: RoleAssignmentsGetRoleAssignmentByIdOptionalParams
   ): Promise<RoleAssignmentsGetRoleAssignmentByIdResponse> {
-    const { span } = createSpan(
-      "AccessControlClient-getRoleAssignmentById",
-      options || {}
+    return tracingClient.withSpan(
+      "AccessControlClient.getRoleAssignmentById",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { roleAssignmentId, options },
+          getRoleAssignmentByIdOperationSpec
+        ) as Promise<RoleAssignmentsGetRoleAssignmentByIdResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { roleAssignmentId, options },
-        getRoleAssignmentByIdOperationSpec
-      );
-      return result as RoleAssignmentsGetRoleAssignmentByIdResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -176,25 +178,16 @@ export class RoleAssignmentsImpl implements RoleAssignments {
     roleAssignmentId: string,
     options?: RoleAssignmentsDeleteRoleAssignmentByIdOptionalParams
   ): Promise<void> {
-    const { span } = createSpan(
-      "AccessControlClient-deleteRoleAssignmentById",
-      options || {}
+    return tracingClient.withSpan(
+      "AccessControlClient.deleteRoleAssignmentById",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { roleAssignmentId, options },
+          deleteRoleAssignmentByIdOperationSpec
+        ) as Promise<void>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { roleAssignmentId, options },
-        deleteRoleAssignmentByIdOperationSpec
-      );
-      return result as void;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 }
 // Operation Specifications

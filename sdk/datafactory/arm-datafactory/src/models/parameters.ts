@@ -39,7 +39,9 @@ import {
   DataFlowDebugCommandRequest as DataFlowDebugCommandRequestMapper,
   ManagedVirtualNetworkResource as ManagedVirtualNetworkResourceMapper,
   ManagedPrivateEndpointResource as ManagedPrivateEndpointResourceMapper,
-  PrivateLinkConnectionApprovalRequestResource as PrivateLinkConnectionApprovalRequestResourceMapper
+  ManagedIdentityCredentialResource as ManagedIdentityCredentialResourceMapper,
+  PrivateLinkConnectionApprovalRequestResource as PrivateLinkConnectionApprovalRequestResourceMapper,
+  GlobalParameterResource as GlobalParameterResourceMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -347,7 +349,7 @@ export const parameters: OperationParameter = {
     serializedName: "parameters",
     type: {
       name: "Dictionary",
-      value: { type: { name: "Dictionary", value: { type: { name: "any" } } } }
+      value: { type: { name: "any" } }
     }
   }
 };
@@ -531,6 +533,29 @@ export const managedPrivateEndpointName: OperationURLParameter = {
   }
 };
 
+export const credential: OperationParameter = {
+  parameterPath: "credential",
+  mapper: ManagedIdentityCredentialResourceMapper
+};
+
+export const credentialName: OperationURLParameter = {
+  parameterPath: "credentialName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "^([_A-Za-z0-9]|([_A-Za-z0-9][-_A-Za-z0-9]{0,125}[_A-Za-z0-9]))$"
+      ),
+      MaxLength: 127,
+      MinLength: 1
+    },
+    serializedName: "credentialName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const privateEndpointWrapper: OperationParameter = {
   parameterPath: "privateEndpointWrapper",
   mapper: PrivateLinkConnectionApprovalRequestResourceMapper
@@ -545,4 +570,25 @@ export const privateEndpointConnectionName: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const globalParameterName: OperationURLParameter = {
+  parameterPath: "globalParameterName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9_][^<>*#.%&:\\\\+?/]*$"),
+      MaxLength: 260,
+      MinLength: 1
+    },
+    serializedName: "globalParameterName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const defaultParam: OperationParameter = {
+  parameterPath: "defaultParam",
+  mapper: GlobalParameterResourceMapper
 };

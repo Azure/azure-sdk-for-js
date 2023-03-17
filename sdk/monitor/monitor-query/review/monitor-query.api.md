@@ -32,7 +32,7 @@ export interface ListMetricDefinitionsOptions extends OperationOptions {
 }
 
 // @public
-export interface ListMetricNamespacesOptions {
+export interface ListMetricNamespacesOptions extends OperationOptions {
     startTime?: string;
 }
 

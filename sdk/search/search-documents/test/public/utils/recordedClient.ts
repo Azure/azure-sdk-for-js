@@ -3,13 +3,13 @@
 
 import * as dotenv from "dotenv";
 
-import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder";
 
 import {
   AzureKeyCredential,
   SearchClient,
-  SearchIndexerClient,
   SearchIndexClient,
+  SearchIndexerClient,
 } from "../../../src";
 
 const isNode =
@@ -22,7 +22,7 @@ if (isNode) {
   dotenv.config();
 }
 
-export interface Clients<IndexModel> {
+export interface Clients<IndexModel extends object> {
   searchClient: SearchClient<IndexModel>;
   indexClient: SearchIndexClient;
   indexerClient: SearchIndexerClient;
@@ -45,7 +45,7 @@ const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
 };
 
-export async function createClients<IndexModel>(
+export async function createClients<IndexModel extends object>(
   serviceVersion: string,
   recorder: Recorder,
   indexName: string

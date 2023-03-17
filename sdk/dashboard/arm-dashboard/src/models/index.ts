@@ -8,41 +8,41 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** A list of REST API operations supported by Microsoft.Dashboard provider. It contains an URL link to get the next set of results. */
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface OperationListResult {
   /**
-   * List of operations supported by the Microsoft.Dashboard provider.
+   * List of operations supported by the resource provider
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: OperationResult[];
+  readonly value?: Operation[];
   /**
-   * URL to get the next set of operation list results if there are any.
+   * URL to get the next set of operation list results (if there are any).
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
 }
 
-/** A Microsoft.Dashboard REST API operation. */
-export interface OperationResult {
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
   /**
-   * Operation name, i.e., {provider}/{resource}/{operation}.
+   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * Indicates whether the operation applies to data-plane. Set "true" for data-plane operations and "false" for ARM/control-plane operations.
+   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isDataAction?: boolean;
   /** Localized display information for this particular operation. */
   display?: OperationDisplay;
   /**
-   * The intended executor of the operation.
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly origin?: Origin;
   /**
-   * Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly actionType?: ActionType;
@@ -51,22 +51,22 @@ export interface OperationResult {
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /**
-   * The localized friendly form of the resource provider name, i.e., Microsoft.Dashboard.
+   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provider?: string;
   /**
-   * The localized friendly name of the resource type related to this operation, e.g., 'grafana'.
+   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resource?: string;
   /**
-   * Operation type, e.g., read, write, delete, etc.
+   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operation?: string;
   /**
-   * Description of the operation, e.g., 'Read grafana'.
+   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly description?: string;
@@ -148,7 +148,7 @@ export interface ManagedGrafana {
   /** Properties specific to the grafana resource. */
   properties?: ManagedGrafanaProperties;
   /** The managed identity of the grafana resource. */
-  identity?: ManagedIdentity;
+  identity?: ManagedServiceIdentity;
   /**
    * The system meta data relating to this grafana resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -166,8 +166,11 @@ export interface ResourceSku {
 
 /** Properties specific to the grafana resource. */
 export interface ManagedGrafanaProperties {
-  /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  /**
+   * Provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
   /**
    * The Grafana software version.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -178,63 +181,221 @@ export interface ManagedGrafanaProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly endpoint?: string;
+  /** Indicate the state for enable or disable traffic over the public interface. */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** The zone redundancy setting of the Grafana instance. */
   zoneRedundancy?: ZoneRedundancy;
+  /** The api key setting of the Grafana instance. */
+  apiKey?: ApiKey;
+  /** Whether a Grafana instance uses deterministic outbound IPs. */
+  deterministicOutboundIP?: DeterministicOutboundIP;
+  /**
+   * List of outbound IPs if deterministicOutboundIP is enabled.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly outboundIPs?: string[];
+  /**
+   * The private endpoint connections of the Grafana instance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** Scope for dns deterministic name hash calculation. */
   autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
+  /** GrafanaIntegrations is a bundled observability experience (e.g. pre-configured data source, tailored Grafana dashboards, alerting defaults) for common monitoring scenarios. */
+  grafanaIntegrations?: GrafanaIntegrations;
 }
 
-/** The managed identity of a resource. */
-export interface ManagedIdentity {
-  /** The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the resource. */
-  type?: IdentityType;
+/** The Private Endpoint resource. */
+export interface PrivateEndpoint {
   /**
-   * The principal id of the system assigned identity.
+   * The ARM identifier for Private Endpoint
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
+/** A collection of information about the state of the connection between service consumer and provider. */
+export interface PrivateLinkServiceConnectionState {
+  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
+  status?: PrivateEndpointServiceConnectionStatus;
+  /** The reason for approval/rejection of the connection. */
+  description?: string;
+  /** A message indicating if changes on the service provider require any updates on the consumer. */
+  actionsRequired?: string;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** GrafanaIntegrations is a bundled observability experience (e.g. pre-configured data source, tailored Grafana dashboards, alerting defaults) for common monitoring scenarios. */
+export interface GrafanaIntegrations {
+  azureMonitorWorkspaceIntegrations?: AzureMonitorWorkspaceIntegration[];
+}
+
+/** Integrations for Azure Monitor Workspace. */
+export interface AzureMonitorWorkspaceIntegration {
+  /** The resource Id of the connected Azure Monitor Workspace. */
+  azureMonitorWorkspaceResourceId?: string;
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /**
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly principalId?: string;
   /**
-   * The tenant id of the system assigned identity.
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
-  /** Dictionary of user assigned identities. */
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
   userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
 }
 
+/** User assigned identity properties */
 export interface UserAssignedIdentity {
   /**
-   * The principal id of user assigned identity.
+   * The principal ID of the assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly principalId?: string;
   /**
-   * The client id of user assigned identity.
+   * The client ID of the assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly clientId?: string;
 }
 
-export interface SystemData {
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  createdAt?: Date;
-  lastModifiedBy?: string;
-  lastModifiedByType?: LastModifiedByType;
-  lastModifiedAt?: Date;
-}
-
 /** The parameters for a PATCH request to a grafana resource. */
 export interface ManagedGrafanaUpdateParameters {
   /** The managed identity of the grafana resource. */
-  identity?: ManagedIdentity;
+  identity?: ManagedServiceIdentity;
   /** The new tags of the grafana resource. */
   tags?: { [propertyName: string]: string };
+  /** Properties specific to the managed grafana resource. */
+  properties?: ManagedGrafanaPropertiesUpdateParameters;
+}
+
+/** The properties parameters for a PATCH request to a grafana resource. */
+export interface ManagedGrafanaPropertiesUpdateParameters {
+  /** The zone redundancy setting of the Grafana instance. */
+  zoneRedundancy?: ZoneRedundancy;
+  /** The api key setting of the Grafana instance. */
+  apiKey?: ApiKey;
+  /** Whether a Grafana instance uses deterministic outbound IPs. */
+  deterministicOutboundIP?: DeterministicOutboundIP;
+  /** Indicate the state for enable or disable traffic over the public interface. */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** GrafanaIntegrations is a bundled observability experience (e.g. pre-configured data source, tailored Grafana dashboards, alerting defaults) for common monitoring scenarios. */
+  grafanaIntegrations?: GrafanaIntegrations;
+}
+
+/** List of private endpoint connection associated with the specified storage account */
+export interface PrivateEndpointConnectionListResult {
+  /** Array of private endpoint connections */
+  value?: PrivateEndpointConnection[];
+  /**
+   * URL to get the next set of operation list results (if there are any).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** A list of private link resources */
+export interface PrivateLinkResourceListResult {
+  /** Array of private link resources */
+  value?: PrivateLinkResource[];
+  /**
+   * URL to get the next set of operation list results (if there are any).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The Private Endpoint Connection resource. */
+export interface PrivateEndpointConnection extends Resource {
+  /** The resource of private end point. */
+  privateEndpoint?: PrivateEndpoint;
+  /** A collection of information about the state of the connection between service consumer and provider. */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /** The private endpoint connection group ids. */
+  groupIds?: string[];
+  /**
+   * The provisioning state of the private endpoint connection resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+}
+
+/** A private link resource */
+export interface PrivateLinkResource extends Resource {
+  /**
+   * Provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The private link resource group id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requiredMembers?: string[];
+  /** The private link resource Private link DNS zone name. */
+  requiredZoneNames?: string[];
 }
 
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
+  /** User */
   User = "user",
+  /** System */
   System = "system",
+  /** UserSystem */
   UserSystem = "user,system"
 }
 
@@ -251,6 +412,7 @@ export type Origin = string;
 
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
+  /** Internal */
   Internal = "Internal"
 }
 
@@ -265,14 +427,23 @@ export type ActionType = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Accepted */
   Accepted = "Accepted",
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Deleted */
   Deleted = "Deleted",
+  /** NotSpecified */
   NotSpecified = "NotSpecified"
 }
 
@@ -293,9 +464,29 @@ export enum KnownProvisioningState {
  */
 export type ProvisioningState = string;
 
+/** Known values of {@link PublicNetworkAccess} that the service accepts. */
+export enum KnownPublicNetworkAccess {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for PublicNetworkAccess. \
+ * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type PublicNetworkAccess = string;
+
 /** Known values of {@link ZoneRedundancy} that the service accepts. */
 export enum KnownZoneRedundancy {
+  /** Disabled */
   Disabled = "Disabled",
+  /** Enabled */
   Enabled = "Enabled"
 }
 
@@ -309,41 +500,96 @@ export enum KnownZoneRedundancy {
  */
 export type ZoneRedundancy = string;
 
-/** Known values of {@link AutoGeneratedDomainNameLabelScope} that the service accepts. */
-export enum KnownAutoGeneratedDomainNameLabelScope {
-  TenantReuse = "TenantReuse"
+/** Known values of {@link ApiKey} that the service accepts. */
+export enum KnownApiKey {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled"
 }
 
 /**
- * Defines values for AutoGeneratedDomainNameLabelScope. \
- * {@link KnownAutoGeneratedDomainNameLabelScope} can be used interchangeably with AutoGeneratedDomainNameLabelScope,
+ * Defines values for ApiKey. \
+ * {@link KnownApiKey} can be used interchangeably with ApiKey,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **TenantReuse**
+ * **Disabled** \
+ * **Enabled**
  */
-export type AutoGeneratedDomainNameLabelScope = string;
+export type ApiKey = string;
 
-/** Known values of {@link IdentityType} that the service accepts. */
-export enum KnownIdentityType {
-  None = "None",
-  SystemAssigned = "SystemAssigned"
+/** Known values of {@link DeterministicOutboundIP} that the service accepts. */
+export enum KnownDeterministicOutboundIP {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled"
 }
 
 /**
- * Defines values for IdentityType. \
- * {@link KnownIdentityType} can be used interchangeably with IdentityType,
+ * Defines values for DeterministicOutboundIP. \
+ * {@link KnownDeterministicOutboundIP} can be used interchangeably with DeterministicOutboundIP,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None** \
- * **SystemAssigned**
+ * **Disabled** \
+ * **Enabled**
  */
-export type IdentityType = string;
+export type DeterministicOutboundIP = string;
+
+/** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
+export enum KnownPrivateEndpointServiceConnectionStatus {
+  /** Pending */
+  Pending = "Pending",
+  /** Approved */
+  Approved = "Approved",
+  /** Rejected */
+  Rejected = "Rejected"
+}
+
+/**
+ * Defines values for PrivateEndpointServiceConnectionStatus. \
+ * {@link KnownPrivateEndpointServiceConnectionStatus} can be used interchangeably with PrivateEndpointServiceConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending** \
+ * **Approved** \
+ * **Rejected**
+ */
+export type PrivateEndpointServiceConnectionStatus = string;
+
+/** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
+export enum KnownPrivateEndpointConnectionProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Creating */
+  Creating = "Creating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Failed */
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for PrivateEndpointConnectionProvisioningState. \
+ * {@link KnownPrivateEndpointConnectionProvisioningState} can be used interchangeably with PrivateEndpointConnectionProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Creating** \
+ * **Deleting** \
+ * **Failed**
+ */
+export type PrivateEndpointConnectionProvisioningState = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -359,25 +605,44 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
-/** Known values of {@link LastModifiedByType} that the service accepts. */
-export enum KnownLastModifiedByType {
-  User = "User",
-  Application = "Application",
-  ManagedIdentity = "ManagedIdentity",
-  Key = "Key"
+/** Known values of {@link AutoGeneratedDomainNameLabelScope} that the service accepts. */
+export enum KnownAutoGeneratedDomainNameLabelScope {
+  /** TenantReuse */
+  TenantReuse = "TenantReuse"
 }
 
 /**
- * Defines values for LastModifiedByType. \
- * {@link KnownLastModifiedByType} can be used interchangeably with LastModifiedByType,
+ * Defines values for AutoGeneratedDomainNameLabelScope. \
+ * {@link KnownAutoGeneratedDomainNameLabelScope} can be used interchangeably with AutoGeneratedDomainNameLabelScope,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
+ * **TenantReuse**
  */
-export type LastModifiedByType = string;
+export type AutoGeneratedDomainNameLabelScope = string;
+
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+}
+
+/**
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned,UserAssigned**
+ */
+export type ManagedServiceIdentityType = string;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -454,6 +719,71 @@ export interface GrafanaListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type GrafanaListByResourceGroupNextResponse = ManagedGrafanaListResponse;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsApproveOptionalParams
+  extends coreClient.OperationOptions {
+  /** The Private Endpoint Connection resource. */
+  body?: PrivateEndpointConnection;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the approve operation. */
+export type PrivateEndpointConnectionsApproveResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type PrivateEndpointConnectionsListNextResponse = PrivateEndpointConnectionListResult;
+
+/** Optional parameters. */
+export interface PrivateLinkResourcesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type PrivateLinkResourcesListResponse = PrivateLinkResourceListResult;
+
+/** Optional parameters. */
+export interface PrivateLinkResourcesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PrivateLinkResourcesGetResponse = PrivateLinkResource;
+
+/** Optional parameters. */
+export interface PrivateLinkResourcesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type PrivateLinkResourcesListNextResponse = PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface DashboardManagementClientOptionalParams

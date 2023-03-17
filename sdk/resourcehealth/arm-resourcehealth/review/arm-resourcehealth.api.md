@@ -39,8 +39,6 @@ export type AvailabilityStatusesGetByResourceResponse = AvailabilityStatus;
 
 // @public
 export interface AvailabilityStatusesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
 }
 
 // @public
@@ -57,8 +55,6 @@ export type AvailabilityStatusesListByResourceGroupResponse = AvailabilityStatus
 
 // @public
 export interface AvailabilityStatusesListBySubscriptionIdNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
 }
 
 // @public
@@ -75,8 +71,6 @@ export type AvailabilityStatusesListBySubscriptionIdResponse = AvailabilityStatu
 
 // @public
 export interface AvailabilityStatusesListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
 }
 
 // @public
@@ -141,8 +135,6 @@ export type ChildAvailabilityStatusesGetByResourceResponse = AvailabilityStatus;
 
 // @public
 export interface ChildAvailabilityStatusesListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
 }
 
 // @public
@@ -164,8 +156,6 @@ export interface ChildResources {
 
 // @public
 export interface ChildResourcesListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
 }
 
 // @public
@@ -207,11 +197,11 @@ export interface EmergingIssuesGetOptionalParams extends coreClient.OperationOpt
 export type EmergingIssuesGetResponse = EmergingIssuesGetResult;
 
 // @public
-export type EmergingIssuesGetResult = Resource & {
+export interface EmergingIssuesGetResult extends Resource {
     refreshTimestamp?: Date;
-    statusBanners?: StatusBanner[];
     statusActiveEvents?: StatusActiveEvent[];
-};
+    statusBanners?: StatusBanner[];
+}
 
 // @public
 export interface EmergingIssuesListNextOptionalParams extends coreClient.OperationOptions {
@@ -235,6 +225,9 @@ export interface ErrorResponse {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface ImpactedRegion {
     id?: string;
     name?: string;
@@ -242,21 +235,15 @@ export interface ImpactedRegion {
 
 // @public
 export enum KnownSeverityValues {
-    // (undocumented)
     Error = "Error",
-    // (undocumented)
     Information = "Information",
-    // (undocumented)
     Warning = "Warning"
 }
 
 // @public
 export enum KnownStageValues {
-    // (undocumented)
     Active = "Active",
-    // (undocumented)
     Archived = "Archived",
-    // (undocumented)
     Resolve = "Resolve"
 }
 

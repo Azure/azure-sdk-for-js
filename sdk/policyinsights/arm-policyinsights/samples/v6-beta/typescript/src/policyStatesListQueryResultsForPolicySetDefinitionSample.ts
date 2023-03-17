@@ -13,6 +13,9 @@ import {
   PolicyInsightsClient
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Queries policy states for the subscription level policy set definition.
@@ -21,9 +24,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_QuerySubscriptionLevelPolicySetDefinitionScope.json
  */
 async function queryLatestAtSubscriptionLevelPolicySetDefinitionScope() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
-  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const policySetDefinitionName = "3e3807c1-65c9-49e0-a406-82d8ae3e338c";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
@@ -38,8 +42,6 @@ async function queryLatestAtSubscriptionLevelPolicySetDefinitionScope() {
   console.log(resArray);
 }
 
-queryLatestAtSubscriptionLevelPolicySetDefinitionScope().catch(console.error);
-
 /**
  * This sample demonstrates how to Queries policy states for the subscription level policy set definition.
  *
@@ -47,13 +49,14 @@ queryLatestAtSubscriptionLevelPolicySetDefinitionScope().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_QuerySubscriptionLevelPolicySetDefinitionScopeNextLink.json
  */
 async function queryLatestAtSubscriptionLevelPolicySetDefinitionScopeWithNextLink() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
-  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const policySetDefinitionName = "3e3807c1-65c9-49e0-a406-82d8ae3e338c";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options: PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParams = {
-    skipToken
+    queryOptions: { skipToken: skipToken }
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
@@ -69,6 +72,9 @@ async function queryLatestAtSubscriptionLevelPolicySetDefinitionScopeWithNextLin
   console.log(resArray);
 }
 
-queryLatestAtSubscriptionLevelPolicySetDefinitionScopeWithNextLink().catch(
-  console.error
-);
+async function main() {
+  queryLatestAtSubscriptionLevelPolicySetDefinitionScope();
+  queryLatestAtSubscriptionLevelPolicySetDefinitionScopeWithNextLink();
+}
+
+main().catch(console.error);

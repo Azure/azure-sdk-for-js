@@ -8,5 +8,4 @@
 
 export * from "./models";
 export { SmsApiClient } from "./smsApiClient";
-export { SmsApiClientContext } from "./smsApiClientContext";
 export * from "./operationsInterfaces";

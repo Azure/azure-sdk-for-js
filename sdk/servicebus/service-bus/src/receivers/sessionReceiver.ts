@@ -36,9 +36,10 @@ import {
   retry,
   ErrorNameConditionMapper,
 } from "@azure/core-amqp";
-import { OperationOptionsBase, trace } from "../modelsToBeSharedWithEventHubs";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { AmqpError } from "rhea-promise";
-import { createProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
+import { toProcessingSpanOptions } from "../diagnostics/instrumentServiceBusMessage";
+import { tracingClient } from "../diagnostics/tracing";
 import { receiverLogger as logger } from "../log";
 import { translateServiceBusError } from "../serviceBusError";
 
@@ -111,13 +112,12 @@ export interface ServiceBusSessionReceiver extends ServiceBusReceiver {
  */
 export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver {
   public sessionId: string;
+  public identifier: string;
 
   /**
    * Denotes if close() was called on this receiver
    */
   private _isClosed: boolean = false;
-
-  private _createProcessingSpan: typeof createProcessingSpan;
 
   private get logPrefix(): string {
     return `[${this._context.connectionId}|session:${this.entityPath}]`;
@@ -133,11 +133,13 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     private _context: ConnectionContext,
     public entityPath: string,
     public receiveMode: "peekLock" | "receiveAndDelete",
+    private _skipParsingBodyAsJson: boolean,
+    private _skipConvertingDate: boolean,
     private _retryOptions: RetryOptions = {}
   ) {
     throwErrorIfConnectionClosed(_context);
     this.sessionId = _messageSession.sessionId;
-    this._createProcessingSpan = createProcessingSpan;
+    this.identifier = _messageSession.identifier;
   }
 
   private _throwIfReceiverOrConnectionClosed(): void {
@@ -208,25 +210,32 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
    */
   async renewSessionLock(options?: OperationOptionsBase): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
-    const renewSessionLockOperationPromise = async (): Promise<Date> => {
-      this._messageSession!.sessionLockedUntilUtc = await this._context
-        .getManagementClient(this.entityPath)
-        .renewSessionLock(this.sessionId, {
-          ...options,
-          associatedLinkName: this._messageSession.name,
-          requestName: "renewSessionLock",
-          timeoutInMs: this._retryOptions.timeoutInMs,
-        });
-      return this._messageSession!.sessionLockedUntilUtc!;
-    };
-    const config: RetryConfig<Date> = {
-      operation: renewSessionLockOperationPromise,
-      connectionId: this._context.connectionId,
-      operationType: RetryOperationType.management,
-      retryOptions: this._retryOptions,
-      abortSignal: options?.abortSignal,
-    };
-    return retry<Date>(config);
+
+    return tracingClient.withSpan(
+      "ServiceBusSessionReceiver.renewSessionLock",
+      options ?? {},
+      (updatedOptions) => {
+        const renewSessionLockOperationPromise = async (): Promise<Date> => {
+          this._messageSession!.sessionLockedUntilUtc = await this._context
+            .getManagementClient(this.entityPath)
+            .renewSessionLock(this.sessionId, {
+              ...updatedOptions,
+              associatedLinkName: this._messageSession.name,
+              requestName: "renewSessionLock",
+              timeoutInMs: this._retryOptions.timeoutInMs,
+            });
+          return this._messageSession!.sessionLockedUntilUtc!;
+        };
+        const config: RetryConfig<Date> = {
+          operation: renewSessionLockOperationPromise,
+          connectionId: this._context.connectionId,
+          operationType: RetryOperationType.management,
+          retryOptions: this._retryOptions,
+          abortSignal: options?.abortSignal,
+        };
+        return retry<Date>(config);
+      }
+    );
   }
 
   /**
@@ -240,25 +249,31 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
   async setSessionState(state: unknown, options: OperationOptionsBase = {}): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
 
-    const setSessionStateOperationPromise = async (): Promise<void> => {
-      await this._context
-        .getManagementClient(this.entityPath)
-        .setSessionState(this.sessionId!, state, {
-          ...options,
-          associatedLinkName: this._messageSession.name,
-          requestName: "setState",
-          timeoutInMs: this._retryOptions.timeoutInMs,
-        });
-      return;
-    };
-    const config: RetryConfig<void> = {
-      operation: setSessionStateOperationPromise,
-      connectionId: this._context.connectionId,
-      operationType: RetryOperationType.management,
-      retryOptions: this._retryOptions,
-      abortSignal: options?.abortSignal,
-    };
-    return retry<void>(config);
+    return tracingClient.withSpan(
+      "ServiceBusSessionReceiver.setSessionState",
+      options ?? {},
+      (updatedOptions) => {
+        const setSessionStateOperationPromise = async (): Promise<void> => {
+          await this._context
+            .getManagementClient(this.entityPath)
+            .setSessionState(this.sessionId!, state, {
+              ...updatedOptions,
+              associatedLinkName: this._messageSession.name,
+              requestName: "setState",
+              timeoutInMs: this._retryOptions.timeoutInMs,
+            });
+          return;
+        };
+        const config: RetryConfig<void> = {
+          operation: setSessionStateOperationPromise,
+          connectionId: this._context.connectionId,
+          operationType: RetryOperationType.management,
+          retryOptions: this._retryOptions,
+          abortSignal: options?.abortSignal,
+        };
+        return retry<void>(config);
+      }
+    );
   }
 
   /**
@@ -272,22 +287,30 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
   async getSessionState(options: OperationOptionsBase = {}): Promise<any> {
     this._throwIfReceiverOrConnectionClosed();
 
-    const getSessionStateOperationPromise = async (): Promise<any> => {
-      return this._context.getManagementClient(this.entityPath).getSessionState(this.sessionId, {
-        ...options,
-        associatedLinkName: this._messageSession.name,
-        requestName: "getState",
-        timeoutInMs: this._retryOptions.timeoutInMs,
-      });
-    };
-    const config: RetryConfig<any> = {
-      operation: getSessionStateOperationPromise,
-      connectionId: this._context.connectionId,
-      operationType: RetryOperationType.management,
-      retryOptions: this._retryOptions,
-      abortSignal: options?.abortSignal,
-    };
-    return retry<any>(config);
+    return tracingClient.withSpan(
+      "ServiceBusSessionReceiver.getSessionState",
+      options ?? {},
+      (updatedOptions) => {
+        const getSessionStateOperationPromise = async (): Promise<any> => {
+          return this._context
+            .getManagementClient(this.entityPath)
+            .getSessionState(this.sessionId, {
+              ...updatedOptions,
+              associatedLinkName: this._messageSession.name,
+              requestName: "getState",
+              timeoutInMs: this._retryOptions.timeoutInMs,
+            });
+        };
+        const config: RetryConfig<any> = {
+          operation: getSessionStateOperationPromise,
+          connectionId: this._context.connectionId,
+          operationType: RetryOperationType.management,
+          retryOptions: this._retryOptions,
+          abortSignal: options?.abortSignal,
+        };
+        return retry<any>(config);
+      }
+    );
   }
 
   async peekMessages(
@@ -301,21 +324,29 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       associatedLinkName: this._messageSession.name,
       requestName: "peekMessages",
       timeoutInMs: this._retryOptions?.timeoutInMs,
+      skipParsingBodyAsJson: this._skipParsingBodyAsJson,
+      skipConvertingDate: this._skipConvertingDate,
     };
     const peekOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
-      if (options.fromSequenceNumber) {
+      if (options.fromSequenceNumber !== undefined) {
         return this._context
           .getManagementClient(this.entityPath)
           .peekBySequenceNumber(
             options.fromSequenceNumber,
             maxMessageCount,
             this.sessionId,
+            options.omitMessageBody,
             managementRequestOptions
           );
       } else {
         return this._context
           .getManagementClient(this.entityPath)
-          .peekMessagesBySession(this.sessionId, maxMessageCount, managementRequestOptions);
+          .peekMessagesBySession(
+            this.sessionId,
+            maxMessageCount,
+            options.omitMessageBody,
+            managementRequestOptions
+          );
       }
     };
 
@@ -358,6 +389,8 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
           associatedLinkName: this._messageSession.name,
           requestName: "receiveDeferredMessages",
           timeoutInMs: this._retryOptions.timeoutInMs,
+          skipParsingBodyAsJson: this._skipParsingBodyAsJson,
+          skipConvertingDate: this._skipConvertingDate,
         });
       return deferredMessages;
     };
@@ -430,8 +463,12 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
 
     this._registerMessageHandler(
       async (message: ServiceBusMessageImpl) => {
-        const span = this._createProcessingSpan(message, this, this._context.config, options);
-        return trace(() => handlers.processMessage(message), span);
+        return tracingClient.withSpan(
+          "SessionReceiver.process",
+          options ?? {},
+          () => handlers.processMessage(message),
+          toProcessingSpanOptions(message, this, this._context.config)
+        );
       },
       processError,
       options
@@ -490,6 +527,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
         errorSource: "receive",
         entityPath: this.entityPath,
         fullyQualifiedNamespace: this._context.config.host,
+        identifier: this.identifier,
       });
     }
   }

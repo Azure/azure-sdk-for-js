@@ -13,6 +13,7 @@ export {
   HubHasGroupOptions,
   HubHasUserOptions,
   WebPubSubServiceClientOptions,
+  WebPubSubServiceClientLogOptions,
   HubRemoveUserFromAllGroupsOptions,
   HubSendToConnectionOptions,
   HubSendToUserOptions,
@@ -37,3 +38,4 @@ export {
   GroupSendTextToAllOptions,
   GroupSendToAllOptions,
 } from "./groupClient";
+export { odata } from "./utils";

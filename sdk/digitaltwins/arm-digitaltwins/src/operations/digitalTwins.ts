@@ -6,20 +6,27 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { DigitalTwins } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureDigitalTwinsManagementClient } from "../azureDigitalTwinsManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DigitalTwinsDescription,
   DigitalTwinsListNextOptionalParams,
   DigitalTwinsListOptionalParams,
+  DigitalTwinsListResponse,
   DigitalTwinsListByResourceGroupNextOptionalParams,
   DigitalTwinsListByResourceGroupOptionalParams,
+  DigitalTwinsListByResourceGroupResponse,
   DigitalTwinsGetOptionalParams,
   DigitalTwinsGetResponse,
   DigitalTwinsCreateOrUpdateOptionalParams,
@@ -29,8 +36,6 @@ import {
   DigitalTwinsUpdateResponse,
   DigitalTwinsDeleteOptionalParams,
   DigitalTwinsDeleteResponse,
-  DigitalTwinsListResponse,
-  DigitalTwinsListByResourceGroupResponse,
   CheckNameRequest,
   DigitalTwinsCheckNameAvailabilityOptionalParams,
   DigitalTwinsCheckNameAvailabilityResponse,
@@ -66,22 +71,34 @@ export class DigitalTwinsImpl implements DigitalTwins {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: DigitalTwinsListOptionalParams
+    options?: DigitalTwinsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DigitalTwinsDescription[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DigitalTwinsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -110,19 +127,33 @@ export class DigitalTwinsImpl implements DigitalTwins {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: DigitalTwinsListByResourceGroupOptionalParams
+    options?: DigitalTwinsListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DigitalTwinsDescription[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DigitalTwinsListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -130,7 +161,9 @@ export class DigitalTwinsImpl implements DigitalTwins {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -178,8 +211,8 @@ export class DigitalTwinsImpl implements DigitalTwins {
     digitalTwinsCreate: DigitalTwinsDescription,
     options?: DigitalTwinsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DigitalTwinsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DigitalTwinsCreateOrUpdateResponse>,
       DigitalTwinsCreateOrUpdateResponse
     >
   > {
@@ -189,7 +222,7 @@ export class DigitalTwinsImpl implements DigitalTwins {
     ): Promise<DigitalTwinsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -222,15 +255,20 @@ export class DigitalTwinsImpl implements DigitalTwins {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, digitalTwinsCreate, options },
-      createOrUpdateOperationSpec
-    );
-    return new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, digitalTwinsCreate, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DigitalTwinsCreateOrUpdateResponse,
+      OperationState<DigitalTwinsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -270,8 +308,8 @@ export class DigitalTwinsImpl implements DigitalTwins {
     digitalTwinsPatchDescription: DigitalTwinsPatchDescription,
     options?: DigitalTwinsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DigitalTwinsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DigitalTwinsUpdateResponse>,
       DigitalTwinsUpdateResponse
     >
   > {
@@ -281,7 +319,7 @@ export class DigitalTwinsImpl implements DigitalTwins {
     ): Promise<DigitalTwinsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -314,20 +352,25 @@ export class DigitalTwinsImpl implements DigitalTwins {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         resourceName,
         digitalTwinsPatchDescription,
         options
       },
-      updateOperationSpec
-    );
-    return new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DigitalTwinsUpdateResponse,
+      OperationState<DigitalTwinsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -363,8 +406,8 @@ export class DigitalTwinsImpl implements DigitalTwins {
     resourceName: string,
     options?: DigitalTwinsDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DigitalTwinsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<DigitalTwinsDeleteResponse>,
       DigitalTwinsDeleteResponse
     >
   > {
@@ -374,7 +417,7 @@ export class DigitalTwinsImpl implements DigitalTwins {
     ): Promise<DigitalTwinsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -407,15 +450,20 @@ export class DigitalTwinsImpl implements DigitalTwins {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, options },
-      deleteOperationSpec
-    );
-    return new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DigitalTwinsDeleteResponse,
+      OperationState<DigitalTwinsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -706,7 +754,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -726,7 +773,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

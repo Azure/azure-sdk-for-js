@@ -8,19 +8,20 @@ Run `rushx generate:client` to generate code.
 
 ```yaml
 package-name: "@azure/synapse-artifacts"
-package-version: "1.0.0-beta.11"
+package-version: "1.0.0-beta.13"
 add-credentials: true
 license-header: MICROSOFT_MIT_NO_VERSION
-credential-scopes: https://dev.azuresynapse.net/.default
+security-scopes: https://dev.azuresynapse.net/.default
+security: AADToken
 output-folder: ..
 clear-output-folder: false
 tracing-info:
   namespace: "Azure.Synapse.Artifacts"
   packagePrefix: "Microsoft.Synapse"
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/9137cd61964e736bc5e4391d83311084a312907a/specification/synapse/data-plane/readme.md
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/61a8b1a62420c393fe5276c47373ea8dce74a985/specification/synapse/data-plane/readme.md
 use-extension:
   "@autorest/typescript": "latest"
-tag: package-artifacts-composite-v4
+tag: package-artifacts-composite-v6
 
 typescript:
   generate-metadata: false

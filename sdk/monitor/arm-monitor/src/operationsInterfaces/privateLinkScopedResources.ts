@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ScopedResource,
   PrivateLinkScopedResourcesListByPrivateLinkScopeOptionalParams,
@@ -60,8 +60,8 @@ export interface PrivateLinkScopedResources {
     parameters: ScopedResource,
     options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateLinkScopedResourcesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PrivateLinkScopedResourcesCreateOrUpdateResponse>,
       PrivateLinkScopedResourcesCreateOrUpdateResponse
     >
   >;
@@ -92,7 +92,7 @@ export interface PrivateLinkScopedResources {
     scopeName: string,
     name: string,
     options?: PrivateLinkScopedResourcesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a private endpoint connection with a given name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

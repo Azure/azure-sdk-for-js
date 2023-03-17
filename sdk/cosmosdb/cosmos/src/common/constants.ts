@@ -158,6 +158,9 @@ export const Constants = {
     IsBatchAtomic: "x-ms-cosmos-batch-atomic",
     BatchContinueOnError: "x-ms-cosmos-batch-continue-on-error",
 
+    // Dedicated Gateway Headers
+    DedicatedGatewayPerRequestCacheStaleness: "x-ms-dedicatedgateway-max-age",
+
     // Cache Refresh header
     ForceRefresh: "x-ms-force-refresh",
   },
@@ -165,6 +168,7 @@ export const Constants = {
   // GlobalDB related constants
   WritableLocations: "writableLocations",
   ReadableLocations: "readableLocations",
+  LocationUnavailableExpirationTimeInMs: 5 * 60 * 1000, // 5 minutes
 
   // ServiceDocument Resource
   ENABLE_MULTIPLE_WRITABLE_LOCATIONS: "enableMultipleWriteLocations",
@@ -176,10 +180,15 @@ export const Constants = {
   ThrottleRetryCount: "x-ms-throttle-retry-count",
   ThrottleRetryWaitTimeInMs: "x-ms-throttle-retry-wait-time-ms",
 
-  CurrentVersion: "2018-12-31",
-
+  // Platform
+  CurrentVersion: "2020-07-15",
+  AzureNamespace: "Azure.Cosmos",
+  AzurePackageName: "@azure/cosmos",
   SDKName: "azure-cosmos-js",
-  SDKVersion: "3.15.1",
+  SDKVersion: "3.17.3",
+
+  // Bulk Operations
+  DefaultMaxBulkRequestBodySizeInBytes: 220201,
 
   Quota: {
     CollectionSize: "collectionSize",
@@ -248,6 +257,7 @@ export enum ResourceType {
   trigger = "triggers",
   item = "docs",
   pkranges = "pkranges",
+  partitionkey = "partitionKey",
 }
 
 /**

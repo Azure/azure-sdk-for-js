@@ -147,8 +147,8 @@ export interface SearchIndexerDataContainer {
 export interface SearchIndexerDataIdentity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype:
-    | "#Microsoft.Azure.Search.SearchIndexerDataNoneIdentity"
-    | "#Microsoft.Azure.Search.SearchIndexerDataUserAssignedIdentity";
+    | "#Microsoft.Azure.Search.DataNoneIdentity"
+    | "#Microsoft.Azure.Search.DataUserAssignedIdentity";
 }
 
 /** Base type for data change detection policies. */
@@ -1147,13 +1147,13 @@ export interface CustomEntityAlias {
 /** Clears the identity property of a datasource. */
 export type SearchIndexerDataNoneIdentity = SearchIndexerDataIdentity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  odatatype: "#Microsoft.Azure.Search.SearchIndexerDataNoneIdentity";
+  odatatype: "#Microsoft.Azure.Search.DataNoneIdentity";
 };
 
 /** Specifies the identity for a datasource to use. */
 export type SearchIndexerDataUserAssignedIdentity = SearchIndexerDataIdentity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  odatatype: "#Microsoft.Azure.Search.SearchIndexerDataUserAssignedIdentity";
+  odatatype: "#Microsoft.Azure.Search.DataUserAssignedIdentity";
   /** The fully qualified Azure resource Id of a user assigned managed identity typically in the form "/subscriptions/12345678-1234-1234-1234-1234567890ab/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId" that should have been assigned to the search service. */
   userAssignedIdentity: string;
 };
@@ -1974,12 +1974,6 @@ export type SearchIndexerKnowledgeStoreObjectProjectionSelector = SearchIndexerK
 /** Projection definition for what data to store in Azure Files. */
 export type SearchIndexerKnowledgeStoreFileProjectionSelector = SearchIndexerKnowledgeStoreBlobProjectionSelector & {};
 
-/** Parameter group */
-export interface RequestOptions {
-  /** The tracking ID sent with the request to help with debugging. */
-  xMsClientRequestId?: string;
-}
-
 /** Known values of {@link ApiVersion20210430Preview} that the service accepts. */
 export enum KnownApiVersion20210430Preview {
   /** Api Version '2021-04-30-Preview' */
@@ -2727,59 +2721,345 @@ export type KeyPhraseExtractionSkillLanguage = string;
 
 /** Known values of {@link OcrSkillLanguage} that the service accepts. */
 export enum KnownOcrSkillLanguage {
-  /** Chinese-Simplified */
+  /** Afrikaans */
+  Af = "af",
+  /** Albanian */
+  Sq = "sq",
+  /** Angika (Devanagiri) */
+  Anp = "anp",
+  /** Arabic */
+  Ar = "ar",
+  /** Asturian */
+  Ast = "ast",
+  /** Awadhi-Hindi (Devanagiri) */
+  Awa = "awa",
+  /** Azerbaijani (Latin) */
+  Az = "az",
+  /** Bagheli */
+  Bfy = "bfy",
+  /** Basque */
+  Eu = "eu",
+  /** Belarusian (Cyrillic and Latin) */
+  Be = "be",
+  /** Belarusian (Cyrillic) */
+  BeCyrl = "be-cyrl",
+  /** Belarusian (Latin) */
+  BeLatn = "be-latn",
+  /** Bhojpuri-Hindi (Devanagiri) */
+  Bho = "bho",
+  /** Bislama */
+  Bi = "bi",
+  /** Bodo (Devanagiri) */
+  Brx = "brx",
+  /** Bosnian Latin */
+  Bs = "bs",
+  /** Brajbha */
+  Bra = "bra",
+  /** Breton */
+  Br = "br",
+  /** Bulgarian */
+  Bg = "bg",
+  /** Bundeli */
+  Bns = "bns",
+  /** Buryat (Cyrillic) */
+  Bua = "bua",
+  /** Catalan */
+  Ca = "ca",
+  /** Cebuano */
+  Ceb = "ceb",
+  /** Chamling */
+  Rab = "rab",
+  /** Chamorro */
+  Ch = "ch",
+  /** Chhattisgarhi (Devanagiri) */
+  Hne = "hne",
+  /** Chinese Simplified */
   ZhHans = "zh-Hans",
-  /** Chinese-Traditional */
+  /** Chinese Traditional */
   ZhHant = "zh-Hant",
+  /** Cornish */
+  Kw = "kw",
+  /** Corsican */
+  Co = "co",
+  /** Crimean Tatar (Latin) */
+  Crh = "crh",
+  /** Croatian */
+  Hr = "hr",
   /** Czech */
   Cs = "cs",
   /** Danish */
   Da = "da",
+  /** Dari */
+  Prs = "prs",
+  /** Dhimal (Devanagiri) */
+  Dhi = "dhi",
+  /** Dogri (Devanagiri) */
+  Doi = "doi",
   /** Dutch */
   Nl = "nl",
   /** English */
   En = "en",
+  /** Erzya (Cyrillic) */
+  Myv = "myv",
+  /** Estonian */
+  Et = "et",
+  /** Faroese */
+  Fo = "fo",
+  /** Fijian */
+  Fj = "fj",
+  /** Filipino */
+  Fil = "fil",
   /** Finnish */
   Fi = "fi",
   /** French */
   Fr = "fr",
+  /** Frulian */
+  Fur = "fur",
+  /** Gagauz (Latin) */
+  Gag = "gag",
+  /** Galician */
+  Gl = "gl",
   /** German */
   De = "de",
+  /** Gilbertese */
+  Gil = "gil",
+  /** Gondi (Devanagiri) */
+  Gon = "gon",
   /** Greek */
   El = "el",
+  /** Greenlandic */
+  Kl = "kl",
+  /** Gurung (Devanagiri) */
+  Gvr = "gvr",
+  /** Haitian Creole */
+  Ht = "ht",
+  /** Halbi (Devanagiri) */
+  Hlb = "hlb",
+  /** Hani */
+  Hni = "hni",
+  /** Haryanvi */
+  Bgc = "bgc",
+  /** Hawaiian */
+  Haw = "haw",
+  /** Hindi */
+  Hi = "hi",
+  /** Hmong Daw (Latin) */
+  Mww = "mww",
+  /** Ho (Devanagiri) */
+  Hoc = "hoc",
   /** Hungarian */
   Hu = "hu",
+  /** Icelandic */
+  Is = "is",
+  /** Inari Sami */
+  Smn = "smn",
+  /** Indonesian */
+  Id = "id",
+  /** Interlingua */
+  Ia = "ia",
+  /** Inuktitut (Latin) */
+  Iu = "iu",
+  /** Irish */
+  Ga = "ga",
   /** Italian */
   It = "it",
   /** Japanese */
   Ja = "ja",
+  /** Jaunsari (Devanagiri) */
+  Jns = "Jns",
+  /** Javanese */
+  Jv = "jv",
+  /** Kabuverdianu */
+  Kea = "kea",
+  /** Kachin (Latin) */
+  Kac = "kac",
+  /** Kangri (Devanagiri) */
+  Xnr = "xnr",
+  /** Karachay-Balkar */
+  Krc = "krc",
+  /** Kara-Kalpak (Cyrillic) */
+  KaaCyrl = "kaa-cyrl",
+  /** Kara-Kalpak (Latin) */
+  Kaa = "kaa",
+  /** Kashubian */
+  Csb = "csb",
+  /** Kazakh (Cyrillic) */
+  KkCyrl = "kk-cyrl",
+  /** Kazakh (Latin) */
+  KkLatn = "kk-latn",
+  /** Khaling */
+  Klr = "klr",
+  /** Khasi */
+  Kha = "kha",
+  /** K'iche' */
+  Quc = "quc",
   /** Korean */
   Ko = "ko",
-  /** Norwegian (Bokmaal) */
+  /** Korku */
+  Kfq = "kfq",
+  /** Koryak */
+  Kpy = "kpy",
+  /** Kosraean */
+  Kos = "kos",
+  /** Kumyk (Cyrillic) */
+  Kum = "kum",
+  /** Kurdish (Arabic) */
+  KuArab = "ku-arab",
+  /** Kurdish (Latin) */
+  KuLatn = "ku-latn",
+  /** Kurukh (Devanagiri) */
+  Kru = "kru",
+  /** Kyrgyz (Cyrillic) */
+  Ky = "ky",
+  /** Lakota */
+  Lkt = "lkt",
+  /** Latin */
+  La = "la",
+  /** Lithuanian */
+  Lt = "lt",
+  /** Lower Sorbian */
+  Dsb = "dsb",
+  /** Lule Sami */
+  Smj = "smj",
+  /** Luxembourgish */
+  Lb = "lb",
+  /** Mahasu Pahari (Devanagiri) */
+  Bfz = "bfz",
+  /** Malay (Latin) */
+  Ms = "ms",
+  /** Maltese */
+  Mt = "mt",
+  /** Malto (Devanagiri) */
+  Kmj = "kmj",
+  /** Manx */
+  Gv = "gv",
+  /** Maori */
+  Mi = "mi",
+  /** Marathi */
+  Mr = "mr",
+  /** Mongolian (Cyrillic) */
+  Mn = "mn",
+  /** Montenegrin (Cyrillic) */
+  CnrCyrl = "cnr-cyrl",
+  /** Montenegrin (Latin) */
+  CnrLatn = "cnr-latn",
+  /** Neapolitan */
+  Nap = "nap",
+  /** Nepali */
+  Ne = "ne",
+  /** Niuean */
+  Niu = "niu",
+  /** Nogay */
+  Nog = "nog",
+  /** Northern Sami (Latin) */
+  Sme = "sme",
+  /** Norwegian */
   Nb = "nb",
+  /** Norwegian */
+  No = "no",
+  /** Occitan */
+  Oc = "oc",
+  /** Ossetic */
+  Os = "os",
+  /** Pashto */
+  Ps = "ps",
+  /** Persian */
+  Fa = "fa",
   /** Polish */
   Pl = "pl",
   /** Portuguese */
   Pt = "pt",
-  /** Russian */
-  Ru = "ru",
-  /** Spanish */
-  Es = "es",
-  /** Swedish */
-  Sv = "sv",
-  /** Turkish */
-  Tr = "tr",
-  /** Arabic */
-  Ar = "ar",
+  /** Punjabi (Arabic) */
+  Pa = "pa",
+  /** Ripuarian */
+  Ksh = "ksh",
   /** Romanian */
   Ro = "ro",
-  /** Serbian (Cyrillic, Serbia) */
+  /** Romansh */
+  Rm = "rm",
+  /** Russian */
+  Ru = "ru",
+  /** Sadri (Devanagiri) */
+  Sck = "sck",
+  /** Samoan (Latin) */
+  Sm = "sm",
+  /** Sanskrit (Devanagiri) */
+  Sa = "sa",
+  /** Santali (Devanagiri) */
+  Sat = "sat",
+  /** Scots */
+  Sco = "sco",
+  /** Scottish Gaelic */
+  Gd = "gd",
+  /** Serbian (Latin) */
+  Sr = "sr",
+  /** Serbian (Cyrillic) */
   SrCyrl = "sr-Cyrl",
-  /** Serbian (Latin, Serbia) */
+  /** Serbian (Latin) */
   SrLatn = "sr-Latn",
+  /** Sherpa (Devanagiri) */
+  Xsr = "xsr",
+  /** Sirmauri (Devanagiri) */
+  Srx = "srx",
+  /** Skolt Sami */
+  Sms = "sms",
   /** Slovak */
   Sk = "sk",
-  /** Unknown.  If the language is explicitly set to "unk", the language will be auto-detected. */
+  /** Slovenian */
+  Sl = "sl",
+  /** Somali (Arabic) */
+  So = "so",
+  /** Southern Sami */
+  Sma = "sma",
+  /** Spanish */
+  Es = "es",
+  /** Swahili (Latin) */
+  Sw = "sw",
+  /** Swedish */
+  Sv = "sv",
+  /** Tajik (Cyrillic) */
+  Tg = "tg",
+  /** Tatar (Latin) */
+  Tt = "tt",
+  /** Tetum */
+  Tet = "tet",
+  /** Thangmi */
+  Thf = "thf",
+  /** Tongan */
+  To = "to",
+  /** Turkish */
+  Tr = "tr",
+  /** Turkmen (Latin) */
+  Tk = "tk",
+  /** Tuvan */
+  Tyv = "tyv",
+  /** Upper Sorbian */
+  Hsb = "hsb",
+  /** Urdu */
+  Ur = "ur",
+  /** Uyghur (Arabic) */
+  Ug = "ug",
+  /** Uzbek (Arabic) */
+  UzArab = "uz-arab",
+  /** Uzbek (Cyrillic) */
+  UzCyrl = "uz-cyrl",
+  /** Uzbek (Latin) */
+  Uz = "uz",
+  /** Volapük */
+  Vo = "vo",
+  /** Walser */
+  Wae = "wae",
+  /** Welsh */
+  Cy = "cy",
+  /** Western Frisian */
+  Fy = "fy",
+  /** Yucatec Maya */
+  Yua = "yua",
+  /** Zhuang */
+  Za = "za",
+  /** Zulu */
+  Zu = "zu",
+  /** Unknown (All) */
   Unk = "unk"
 }
 
@@ -2788,33 +3068,176 @@ export enum KnownOcrSkillLanguage {
  * {@link KnownOcrSkillLanguage} can be used interchangeably with OcrSkillLanguage,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **zh-Hans**: Chinese-Simplified \
- * **zh-Hant**: Chinese-Traditional \
+ * **af**: Afrikaans \
+ * **sq**: Albanian \
+ * **anp**: Angika (Devanagiri) \
+ * **ar**: Arabic \
+ * **ast**: Asturian \
+ * **awa**: Awadhi-Hindi (Devanagiri) \
+ * **az**: Azerbaijani (Latin) \
+ * **bfy**: Bagheli \
+ * **eu**: Basque \
+ * **be**: Belarusian (Cyrillic and Latin) \
+ * **be-cyrl**: Belarusian (Cyrillic) \
+ * **be-latn**: Belarusian (Latin) \
+ * **bho**: Bhojpuri-Hindi (Devanagiri) \
+ * **bi**: Bislama \
+ * **brx**: Bodo (Devanagiri) \
+ * **bs**: Bosnian Latin \
+ * **bra**: Brajbha \
+ * **br**: Breton \
+ * **bg**: Bulgarian \
+ * **bns**: Bundeli \
+ * **bua**: Buryat (Cyrillic) \
+ * **ca**: Catalan \
+ * **ceb**: Cebuano \
+ * **rab**: Chamling \
+ * **ch**: Chamorro \
+ * **hne**: Chhattisgarhi (Devanagiri) \
+ * **zh-Hans**: Chinese Simplified \
+ * **zh-Hant**: Chinese Traditional \
+ * **kw**: Cornish \
+ * **co**: Corsican \
+ * **crh**: Crimean Tatar (Latin) \
+ * **hr**: Croatian \
  * **cs**: Czech \
  * **da**: Danish \
+ * **prs**: Dari \
+ * **dhi**: Dhimal (Devanagiri) \
+ * **doi**: Dogri (Devanagiri) \
  * **nl**: Dutch \
  * **en**: English \
+ * **myv**: Erzya (Cyrillic) \
+ * **et**: Estonian \
+ * **fo**: Faroese \
+ * **fj**: Fijian \
+ * **fil**: Filipino \
  * **fi**: Finnish \
  * **fr**: French \
+ * **fur**: Frulian \
+ * **gag**: Gagauz (Latin) \
+ * **gl**: Galician \
  * **de**: German \
+ * **gil**: Gilbertese \
+ * **gon**: Gondi (Devanagiri) \
  * **el**: Greek \
+ * **kl**: Greenlandic \
+ * **gvr**: Gurung (Devanagiri) \
+ * **ht**: Haitian Creole \
+ * **hlb**: Halbi (Devanagiri) \
+ * **hni**: Hani \
+ * **bgc**: Haryanvi \
+ * **haw**: Hawaiian \
+ * **hi**: Hindi \
+ * **mww**: Hmong Daw (Latin) \
+ * **hoc**: Ho (Devanagiri) \
  * **hu**: Hungarian \
+ * **is**: Icelandic \
+ * **smn**: Inari Sami \
+ * **id**: Indonesian \
+ * **ia**: Interlingua \
+ * **iu**: Inuktitut (Latin) \
+ * **ga**: Irish \
  * **it**: Italian \
  * **ja**: Japanese \
+ * **Jns**: Jaunsari (Devanagiri) \
+ * **jv**: Javanese \
+ * **kea**: Kabuverdianu \
+ * **kac**: Kachin (Latin) \
+ * **xnr**: Kangri (Devanagiri) \
+ * **krc**: Karachay-Balkar \
+ * **kaa-cyrl**: Kara-Kalpak (Cyrillic) \
+ * **kaa**: Kara-Kalpak (Latin) \
+ * **csb**: Kashubian \
+ * **kk-cyrl**: Kazakh (Cyrillic) \
+ * **kk-latn**: Kazakh (Latin) \
+ * **klr**: Khaling \
+ * **kha**: Khasi \
+ * **quc**: K'iche' \
  * **ko**: Korean \
- * **nb**: Norwegian (Bokmaal) \
+ * **kfq**: Korku \
+ * **kpy**: Koryak \
+ * **kos**: Kosraean \
+ * **kum**: Kumyk (Cyrillic) \
+ * **ku-arab**: Kurdish (Arabic) \
+ * **ku-latn**: Kurdish (Latin) \
+ * **kru**: Kurukh (Devanagiri) \
+ * **ky**: Kyrgyz (Cyrillic) \
+ * **lkt**: Lakota \
+ * **la**: Latin \
+ * **lt**: Lithuanian \
+ * **dsb**: Lower Sorbian \
+ * **smj**: Lule Sami \
+ * **lb**: Luxembourgish \
+ * **bfz**: Mahasu Pahari (Devanagiri) \
+ * **ms**: Malay (Latin) \
+ * **mt**: Maltese \
+ * **kmj**: Malto (Devanagiri) \
+ * **gv**: Manx \
+ * **mi**: Maori \
+ * **mr**: Marathi \
+ * **mn**: Mongolian (Cyrillic) \
+ * **cnr-cyrl**: Montenegrin (Cyrillic) \
+ * **cnr-latn**: Montenegrin (Latin) \
+ * **nap**: Neapolitan \
+ * **ne**: Nepali \
+ * **niu**: Niuean \
+ * **nog**: Nogay \
+ * **sme**: Northern Sami (Latin) \
+ * **nb**: Norwegian \
+ * **no**: Norwegian \
+ * **oc**: Occitan \
+ * **os**: Ossetic \
+ * **ps**: Pashto \
+ * **fa**: Persian \
  * **pl**: Polish \
  * **pt**: Portuguese \
- * **ru**: Russian \
- * **es**: Spanish \
- * **sv**: Swedish \
- * **tr**: Turkish \
- * **ar**: Arabic \
+ * **pa**: Punjabi (Arabic) \
+ * **ksh**: Ripuarian \
  * **ro**: Romanian \
- * **sr-Cyrl**: Serbian (Cyrillic, Serbia) \
- * **sr-Latn**: Serbian (Latin, Serbia) \
+ * **rm**: Romansh \
+ * **ru**: Russian \
+ * **sck**: Sadri (Devanagiri) \
+ * **sm**: Samoan (Latin) \
+ * **sa**: Sanskrit (Devanagiri) \
+ * **sat**: Santali (Devanagiri) \
+ * **sco**: Scots \
+ * **gd**: Scottish Gaelic \
+ * **sr**: Serbian (Latin) \
+ * **sr-Cyrl**: Serbian (Cyrillic) \
+ * **sr-Latn**: Serbian (Latin) \
+ * **xsr**: Sherpa (Devanagiri) \
+ * **srx**: Sirmauri (Devanagiri) \
+ * **sms**: Skolt Sami \
  * **sk**: Slovak \
- * **unk**: Unknown.  If the language is explicitly set to "unk", the language will be auto-detected.
+ * **sl**: Slovenian \
+ * **so**: Somali (Arabic) \
+ * **sma**: Southern Sami \
+ * **es**: Spanish \
+ * **sw**: Swahili (Latin) \
+ * **sv**: Swedish \
+ * **tg**: Tajik (Cyrillic) \
+ * **tt**: Tatar (Latin) \
+ * **tet**: Tetum \
+ * **thf**: Thangmi \
+ * **to**: Tongan \
+ * **tr**: Turkish \
+ * **tk**: Turkmen (Latin) \
+ * **tyv**: Tuvan \
+ * **hsb**: Upper Sorbian \
+ * **ur**: Urdu \
+ * **ug**: Uyghur (Arabic) \
+ * **uz-arab**: Uzbek (Arabic) \
+ * **uz-cyrl**: Uzbek (Cyrillic) \
+ * **uz**: Uzbek (Latin) \
+ * **vo**: Volapük \
+ * **wae**: Walser \
+ * **cy**: Welsh \
+ * **fy**: Western Frisian \
+ * **yua**: Yucatec Maya \
+ * **za**: Zhuang \
+ * **zu**: Zulu \
+ * **unk**: Unknown (All)
  */
 export type OcrSkillLanguage = string;
 
@@ -2844,16 +3267,110 @@ export type LineEnding = string;
 
 /** Known values of {@link ImageAnalysisSkillLanguage} that the service accepts. */
 export enum KnownImageAnalysisSkillLanguage {
+  /** Arabic */
+  Ar = "ar",
+  /** Azerbaijani */
+  Az = "az",
+  /** Bulgarian */
+  Bg = "bg",
+  /** Bosnian Latin */
+  Bs = "bs",
+  /** Catalan */
+  Ca = "ca",
+  /** Czech */
+  Cs = "cs",
+  /** Welsh */
+  Cy = "cy",
+  /** Danish */
+  Da = "da",
+  /** German */
+  De = "de",
+  /** Greek */
+  El = "el",
   /** English */
   En = "en",
   /** Spanish */
   Es = "es",
+  /** Estonian */
+  Et = "et",
+  /** Basque */
+  Eu = "eu",
+  /** Finnish */
+  Fi = "fi",
+  /** French */
+  Fr = "fr",
+  /** Irish */
+  Ga = "ga",
+  /** Galician */
+  Gl = "gl",
+  /** Hebrew */
+  He = "he",
+  /** Hindi */
+  Hi = "hi",
+  /** Croatian */
+  Hr = "hr",
+  /** Hungarian */
+  Hu = "hu",
+  /** Indonesian */
+  Id = "id",
+  /** Italian */
+  It = "it",
   /** Japanese */
   Ja = "ja",
-  /** Portuguese */
+  /** Kazakh */
+  Kk = "kk",
+  /** Korean */
+  Ko = "ko",
+  /** Lithuanian */
+  Lt = "lt",
+  /** Latvian */
+  Lv = "lv",
+  /** Macedonian */
+  Mk = "mk",
+  /** Malay Malaysia */
+  Ms = "ms",
+  /** Norwegian (Bokmal) */
+  Nb = "nb",
+  /** Dutch */
+  Nl = "nl",
+  /** Polish */
+  Pl = "pl",
+  /** Dari */
+  Prs = "prs",
+  /** Portuguese-Brazil */
+  PtBR = "pt-BR",
+  /** Portuguese-Portugal */
   Pt = "pt",
-  /** Chinese */
-  Zh = "zh"
+  /** Portuguese-Portugal */
+  PtPT = "pt-PT",
+  /** Romanian */
+  Ro = "ro",
+  /** Russian */
+  Ru = "ru",
+  /** Slovak */
+  Sk = "sk",
+  /** Slovenian */
+  Sl = "sl",
+  /** Serbian - Cyrillic RS */
+  SrCyrl = "sr-Cyrl",
+  /** Serbian - Latin RS */
+  SrLatn = "sr-Latn",
+  /** Swedish */
+  Sv = "sv",
+  /** Thai */
+  Th = "th",
+  /** Turkish */
+  Tr = "tr",
+  /** Ukrainian */
+  Uk = "uk",
+  /** Vietnamese */
+  Vi = "vi",
+  /** Chinese Simplified */
+  Zh = "zh",
+  /** Chinese Simplified */
+  ZhHans = "zh-Hans",
+  /** Chinese Traditional */
+  ZhHant = "zh-Hant"
 }
 
 /**
@@ -2861,11 +3378,58 @@ export enum KnownImageAnalysisSkillLanguage {
  * {@link KnownImageAnalysisSkillLanguage} can be used interchangeably with ImageAnalysisSkillLanguage,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **ar**: Arabic \
+ * **az**: Azerbaijani \
+ * **bg**: Bulgarian \
+ * **bs**: Bosnian Latin \
+ * **ca**: Catalan \
+ * **cs**: Czech \
+ * **cy**: Welsh \
+ * **da**: Danish \
+ * **de**: German \
+ * **el**: Greek \
  * **en**: English \
  * **es**: Spanish \
+ * **et**: Estonian \
+ * **eu**: Basque \
+ * **fi**: Finnish \
+ * **fr**: French \
+ * **ga**: Irish \
+ * **gl**: Galician \
+ * **he**: Hebrew \
+ * **hi**: Hindi \
+ * **hr**: Croatian \
+ * **hu**: Hungarian \
+ * **id**: Indonesian \
+ * **it**: Italian \
  * **ja**: Japanese \
- * **pt**: Portuguese \
- * **zh**: Chinese
+ * **kk**: Kazakh \
+ * **ko**: Korean \
+ * **lt**: Lithuanian \
+ * **lv**: Latvian \
+ * **mk**: Macedonian \
+ * **ms**: Malay Malaysia \
+ * **nb**: Norwegian (Bokmal) \
+ * **nl**: Dutch \
+ * **pl**: Polish \
+ * **prs**: Dari \
+ * **pt-BR**: Portuguese-Brazil \
+ * **pt**: Portuguese-Portugal \
+ * **pt-PT**: Portuguese-Portugal \
+ * **ro**: Romanian \
+ * **ru**: Russian \
+ * **sk**: Slovak \
+ * **sl**: Slovenian \
+ * **sr-Cyrl**: Serbian - Cyrillic RS \
+ * **sr-Latn**: Serbian - Latin RS \
+ * **sv**: Swedish \
+ * **th**: Thai \
+ * **tr**: Turkish \
+ * **uk**: Ukrainian \
+ * **vi**: Vietnamese \
+ * **zh**: Chinese Simplified \
+ * **zh-Hans**: Chinese Simplified \
+ * **zh-Hant**: Chinese Traditional
  */
 export type ImageAnalysisSkillLanguage = string;
 
@@ -3776,8 +4340,6 @@ export type StopwordsList =
 /** Optional parameters. */
 export interface DataSourcesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -3792,8 +4354,6 @@ export type DataSourcesCreateOrUpdateResponse = SearchIndexerDataSource;
 /** Optional parameters. */
 export interface DataSourcesDeleteOptionalParams
   extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -3802,10 +4362,7 @@ export interface DataSourcesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface DataSourcesGetOptionalParams
-  extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type DataSourcesGetResponse = SearchIndexerDataSource;
@@ -3813,8 +4370,6 @@ export type DataSourcesGetResponse = SearchIndexerDataSource;
 /** Optional parameters. */
 export interface DataSourcesListOptionalParams
   extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
   /** Selects which top-level properties of the data sources to retrieve. Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all properties. */
   select?: string;
 }
@@ -3824,42 +4379,30 @@ export type DataSourcesListResponse = ListDataSourcesResult;
 
 /** Optional parameters. */
 export interface DataSourcesCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type DataSourcesCreateResponse = SearchIndexerDataSource;
 
 /** Optional parameters. */
 export interface IndexersResetOptionalParams
-  extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
-}
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface IndexersResetDocsOptionalParams
   extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
   keysOrIds?: DocumentKeysOrIds;
   /** If false, keys or ids will be appended to existing ones. If true, only the keys or ids in this payload will be queued to be re-ingested. */
   overwrite?: boolean;
 }
 
 /** Optional parameters. */
-export interface IndexersRunOptionalParams extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
-}
+export interface IndexersRunOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface IndexersCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -3876,8 +4419,6 @@ export type IndexersCreateOrUpdateResponse = SearchIndexer;
 /** Optional parameters. */
 export interface IndexersDeleteOptionalParams
   extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -3885,10 +4426,8 @@ export interface IndexersDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface IndexersGetOptionalParams extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
-}
+export interface IndexersGetOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type IndexersGetResponse = SearchIndexer;
@@ -3896,8 +4435,6 @@ export type IndexersGetResponse = SearchIndexer;
 /** Optional parameters. */
 export interface IndexersListOptionalParams
   extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
   /** Selects which top-level properties of the indexers to retrieve. Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all properties. */
   select?: string;
 }
@@ -3907,20 +4444,14 @@ export type IndexersListResponse = ListIndexersResult;
 
 /** Optional parameters. */
 export interface IndexersCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type IndexersCreateResponse = SearchIndexer;
 
 /** Optional parameters. */
 export interface IndexersGetStatusOptionalParams
-  extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getStatus operation. */
 export type IndexersGetStatusResponse = SearchIndexerStatus;
@@ -3928,8 +4459,6 @@ export type IndexersGetStatusResponse = SearchIndexerStatus;
 /** Optional parameters. */
 export interface SkillsetsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -3946,8 +4475,6 @@ export type SkillsetsCreateOrUpdateResponse = SearchIndexerSkillset;
 /** Optional parameters. */
 export interface SkillsetsDeleteOptionalParams
   extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -3956,10 +4483,7 @@ export interface SkillsetsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface SkillsetsGetOptionalParams
-  extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type SkillsetsGetResponse = SearchIndexerSkillset;
@@ -3967,8 +4491,6 @@ export type SkillsetsGetResponse = SearchIndexerSkillset;
 /** Optional parameters. */
 export interface SkillsetsListOptionalParams
   extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
   /** Selects which top-level properties of the skillsets to retrieve. Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all properties. */
   select?: string;
 }
@@ -3978,26 +4500,18 @@ export type SkillsetsListResponse = ListSkillsetsResult;
 
 /** Optional parameters. */
 export interface SkillsetsCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type SkillsetsCreateResponse = SearchIndexerSkillset;
 
 /** Optional parameters. */
 export interface SkillsetsResetSkillsOptionalParams
-  extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
-}
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface SynonymMapsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -4010,8 +4524,6 @@ export type SynonymMapsCreateOrUpdateResponse = SynonymMap;
 /** Optional parameters. */
 export interface SynonymMapsDeleteOptionalParams
   extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -4020,10 +4532,7 @@ export interface SynonymMapsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface SynonymMapsGetOptionalParams
-  extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type SynonymMapsGetResponse = SynonymMap;
@@ -4031,8 +4540,6 @@ export type SynonymMapsGetResponse = SynonymMap;
 /** Optional parameters. */
 export interface SynonymMapsListOptionalParams
   extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
   /** Selects which top-level properties of the synonym maps to retrieve. Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all properties. */
   select?: string;
 }
@@ -4042,28 +4549,20 @@ export type SynonymMapsListResponse = ListSynonymMapsResult;
 
 /** Optional parameters. */
 export interface SynonymMapsCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type SynonymMapsCreateResponse = SynonymMap;
 
 /** Optional parameters. */
 export interface IndexesCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type IndexesCreateResponse = SearchIndex;
 
 /** Optional parameters. */
 export interface IndexesListOptionalParams extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
   /** Selects which top-level properties of the index definitions to retrieve. Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all properties. */
   select?: string;
 }
@@ -4074,8 +4573,6 @@ export type IndexesListResponse = ListIndexesResult;
 /** Optional parameters. */
 export interface IndexesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -4090,8 +4587,6 @@ export type IndexesCreateOrUpdateResponse = SearchIndex;
 /** Optional parameters. */
 export interface IndexesDeleteOptionalParams
   extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -4099,49 +4594,35 @@ export interface IndexesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface IndexesGetOptionalParams extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
-}
+export interface IndexesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type IndexesGetResponse = SearchIndex;
 
 /** Optional parameters. */
 export interface IndexesGetStatisticsOptionalParams
-  extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getStatistics operation. */
 export type IndexesGetStatisticsResponse = GetIndexStatisticsResult;
 
 /** Optional parameters. */
 export interface IndexesAnalyzeOptionalParams
-  extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the analyze operation. */
 export type IndexesAnalyzeResponse = AnalyzeResult;
 
 /** Optional parameters. */
 export interface AliasesCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type AliasesCreateResponse = SearchAlias;
 
 /** Optional parameters. */
-export interface AliasesListOptionalParams extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
-}
+export interface AliasesListOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type AliasesListResponse = ListAliasesResult;
@@ -4149,8 +4630,6 @@ export type AliasesListResponse = ListAliasesResult;
 /** Optional parameters. */
 export interface AliasesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -4163,8 +4642,6 @@ export type AliasesCreateOrUpdateResponse = SearchAlias;
 /** Optional parameters. */
 export interface AliasesDeleteOptionalParams
   extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -4172,20 +4649,14 @@ export interface AliasesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface AliasesGetOptionalParams extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
-}
+export interface AliasesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AliasesGetResponse = SearchAlias;
 
 /** Optional parameters. */
 export interface GetServiceStatisticsOptionalParams
-  extends coreClient.OperationOptions {
-  /** Parameter group */
-  requestOptionsParam?: RequestOptions;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getServiceStatistics operation. */
 export type GetServiceStatisticsResponse = ServiceStatistics;

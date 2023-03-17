@@ -11,6 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   AutoscaleSettingsImpl,
+  PredictiveMetricImpl,
   OperationsImpl,
   AlertRuleIncidentsImpl,
   AlertRulesImpl,
@@ -22,7 +23,7 @@ import {
   EventCategoriesImpl,
   TenantActivityLogsImpl,
   MetricDefinitionsImpl,
-  MetricsImpl,
+  MetricsOperationsImpl,
   BaselinesImpl,
   MetricAlertsImpl,
   MetricAlertsStatusImpl,
@@ -37,10 +38,13 @@ import {
   ActivityLogAlertsImpl,
   DataCollectionEndpointsImpl,
   DataCollectionRuleAssociationsImpl,
-  DataCollectionRulesImpl
+  DataCollectionRulesImpl,
+  AzureMonitorWorkspacesImpl,
+  MonitorOperationsImpl
 } from "./operations";
 import {
   AutoscaleSettings,
+  PredictiveMetric,
   Operations,
   AlertRuleIncidents,
   AlertRules,
@@ -52,7 +56,7 @@ import {
   EventCategories,
   TenantActivityLogs,
   MetricDefinitions,
-  Metrics,
+  MetricsOperations,
   Baselines,
   MetricAlerts,
   MetricAlertsStatus,
@@ -67,7 +71,9 @@ import {
   ActivityLogAlerts,
   DataCollectionEndpoints,
   DataCollectionRuleAssociations,
-  DataCollectionRules
+  DataCollectionRules,
+  AzureMonitorWorkspaces,
+  MonitorOperations
 } from "./operationsInterfaces";
 import { MonitorClientOptionalParams } from "./models";
 
@@ -102,47 +108,53 @@ export class MonitorClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-monitor/7.0.1`;
+    const packageDetails = `azsdk-js-arm-monitor/8.0.0-beta.4`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
-    if (!options.credentialScopes) {
-      options.credentialScopes = ["https://management.azure.com/.default"];
-    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
+      endpoint:
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
 
+    let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
       const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+      bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
           coreRestPipeline.bearerTokenAuthenticationPolicyName
       );
-      if (!bearerTokenAuthenticationPolicyFound) {
-        this.pipeline.removePolicy({
-          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-        });
-        this.pipeline.addPolicy(
-          coreRestPipeline.bearerTokenAuthenticationPolicy({
-            scopes: `${optionsWithDefaults.baseUri}/.default`,
-            challengeCallbacks: {
-              authorizeRequestOnChallenge:
-                coreClient.authorizeRequestOnClaimChallenge
-            }
-          })
-        );
-      }
+    }
+    if (
+      !options ||
+      !options.pipeline ||
+      options.pipeline.getOrderedPolicies().length == 0 ||
+      !bearerTokenAuthenticationPolicyFound
+    ) {
+      this.pipeline.removePolicy({
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+      });
+      this.pipeline.addPolicy(
+        coreRestPipeline.bearerTokenAuthenticationPolicy({
+          credential: credentials,
+          scopes:
+            optionsWithDefaults.credentialScopes ??
+            `${optionsWithDefaults.endpoint}/.default`,
+          challengeCallbacks: {
+            authorizeRequestOnChallenge:
+              coreClient.authorizeRequestOnClaimChallenge
+          }
+        })
+      );
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
@@ -150,6 +162,7 @@ export class MonitorClient extends coreClient.ServiceClient {
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
     this.autoscaleSettings = new AutoscaleSettingsImpl(this);
+    this.predictiveMetric = new PredictiveMetricImpl(this);
     this.operations = new OperationsImpl(this);
     this.alertRuleIncidents = new AlertRuleIncidentsImpl(this);
     this.alertRules = new AlertRulesImpl(this);
@@ -161,7 +174,7 @@ export class MonitorClient extends coreClient.ServiceClient {
     this.eventCategories = new EventCategoriesImpl(this);
     this.tenantActivityLogs = new TenantActivityLogsImpl(this);
     this.metricDefinitions = new MetricDefinitionsImpl(this);
-    this.metrics = new MetricsImpl(this);
+    this.metricsOperations = new MetricsOperationsImpl(this);
     this.baselines = new BaselinesImpl(this);
     this.metricAlerts = new MetricAlertsImpl(this);
     this.metricAlertsStatus = new MetricAlertsStatusImpl(this);
@@ -181,9 +194,12 @@ export class MonitorClient extends coreClient.ServiceClient {
       this
     );
     this.dataCollectionRules = new DataCollectionRulesImpl(this);
+    this.azureMonitorWorkspaces = new AzureMonitorWorkspacesImpl(this);
+    this.monitorOperations = new MonitorOperationsImpl(this);
   }
 
   autoscaleSettings: AutoscaleSettings;
+  predictiveMetric: PredictiveMetric;
   operations: Operations;
   alertRuleIncidents: AlertRuleIncidents;
   alertRules: AlertRules;
@@ -195,7 +211,7 @@ export class MonitorClient extends coreClient.ServiceClient {
   eventCategories: EventCategories;
   tenantActivityLogs: TenantActivityLogs;
   metricDefinitions: MetricDefinitions;
-  metrics: Metrics;
+  metricsOperations: MetricsOperations;
   baselines: Baselines;
   metricAlerts: MetricAlerts;
   metricAlertsStatus: MetricAlertsStatus;
@@ -211,4 +227,6 @@ export class MonitorClient extends coreClient.ServiceClient {
   dataCollectionEndpoints: DataCollectionEndpoints;
   dataCollectionRuleAssociations: DataCollectionRuleAssociations;
   dataCollectionRules: DataCollectionRules;
+  azureMonitorWorkspaces: AzureMonitorWorkspaces;
+  monitorOperations: MonitorOperations;
 }

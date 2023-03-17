@@ -24,7 +24,7 @@ import { supportsTracing } from "./tracing/chaiAzureTrace";
 export function chaiAzure(chai: Chai.ChaiStatic): void {
   // expect(() => {}).to.supportsTracing() syntax
   chai.Assertion.addMethod("supportTracing", function <
-    T
+    T extends { tracingOptions?: OperationTracingOptions }
   >(this: Chai.AssertionStatic, expectedSpanNames: string[], options?: T) {
     return assert.supportsTracing(this._obj, expectedSpanNames, options, this._obj);
   });

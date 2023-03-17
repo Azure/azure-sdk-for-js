@@ -39,9 +39,9 @@ export interface ApiDeploymentParameterMetadataSet {
 export type ApiDeploymentParameterVisibility = string;
 
 // @public
-export type ApiOperation = Resource & {
+export interface ApiOperation extends Resource {
     properties?: ApiOperationPropertiesDefinition;
-};
+}
 
 // @public
 export interface ApiOperationAnnotation {
@@ -75,15 +75,15 @@ export interface ApiOperationPropertiesDefinition {
 }
 
 // @public
-export type ApiReference = ResourceReference & {
-    displayName?: string;
-    description?: string;
-    iconUri?: string;
-    swagger?: Record<string, unknown>;
+export interface ApiReference extends ResourceReference {
     brandColor?: string;
     category?: ApiTier;
+    description?: string;
+    displayName?: string;
+    iconUri?: string;
     integrationServiceEnvironment?: ResourceReference;
-};
+    swagger?: any;
+}
 
 // @public
 export interface ApiResourceBackendService {
@@ -136,7 +136,7 @@ export interface ApiResourceProperties {
     readonly capabilities?: string[];
     readonly category?: ApiTier;
     readonly connectionParameters?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     readonly generalInformation?: ApiResourceGeneralInformation;
     integrationServiceEnvironment?: ResourceReference;
@@ -154,11 +154,11 @@ export type ApiTier = string;
 export type ApiType = string;
 
 // @public
-export type ArtifactContentPropertiesDefinition = ArtifactProperties & {
+export interface ArtifactContentPropertiesDefinition extends ArtifactProperties {
     content?: any;
-    contentType?: string;
     contentLink?: ContentLink;
-};
+    contentType?: string;
+}
 
 // @public
 export interface ArtifactProperties {
@@ -270,26 +270,26 @@ export interface AssemblyCollection {
 }
 
 // @public
-export type AssemblyDefinition = Resource & {
+export interface AssemblyDefinition extends Resource {
     properties: AssemblyProperties;
-};
+}
 
 // @public
-export type AssemblyProperties = ArtifactContentPropertiesDefinition & {
-    assemblyName: string;
-    assemblyVersion?: string;
+export interface AssemblyProperties extends ArtifactContentPropertiesDefinition {
     assemblyCulture?: string;
+    assemblyName: string;
     assemblyPublicKeyToken?: string;
-};
+    assemblyVersion?: string;
+}
 
 // @public
 export type AzureAsyncOperationState = string;
 
 // @public
-export type AzureResourceErrorInfo = ErrorInfo & {
-    message: string;
+export interface AzureResourceErrorInfo extends ErrorInfo {
     details?: AzureResourceErrorInfo[];
-};
+    message: string;
+}
 
 // @public
 export interface B2BPartnerContent {
@@ -297,9 +297,9 @@ export interface B2BPartnerContent {
 }
 
 // @public
-export type BatchConfiguration = Resource & {
+export interface BatchConfiguration extends Resource {
     properties: BatchConfigurationProperties;
-};
+}
 
 // @public
 export interface BatchConfigurationCollection {
@@ -308,10 +308,10 @@ export interface BatchConfigurationCollection {
 }
 
 // @public
-export type BatchConfigurationProperties = ArtifactProperties & {
+export interface BatchConfigurationProperties extends ArtifactProperties {
     batchGroupName: string;
     releaseCriteria: BatchReleaseCriteria;
-};
+}
 
 // @public
 export interface BatchReleaseCriteria {
@@ -342,7 +342,7 @@ export interface ContentLink {
     readonly contentHash?: ContentHash;
     readonly contentSize?: number;
     readonly contentVersion?: string;
-    readonly metadata?: Record<string, unknown>;
+    readonly metadata?: any;
     uri?: string;
 }
 
@@ -590,9 +590,9 @@ export interface Expression {
 }
 
 // @public
-export type ExpressionRoot = Expression & {
+export interface ExpressionRoot extends Expression {
     path?: string;
-};
+}
 
 // @public
 export interface ExpressionTraces {
@@ -604,7 +604,7 @@ export interface ExpressionTraces {
 export interface ExtendedErrorInfo {
     code: ErrorResponseCode;
     details?: ExtendedErrorInfo[];
-    innerError?: Record<string, unknown>;
+    innerError?: any;
     message: string;
 }
 
@@ -646,27 +646,30 @@ export interface GetCallbackUrlParameters {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export type HashingAlgorithm = string;
 
 // @public
-export type IntegrationAccount = Resource & {
-    sku?: IntegrationAccountSku;
+export interface IntegrationAccount extends Resource {
     integrationServiceEnvironment?: ResourceReference;
+    sku?: IntegrationAccountSku;
     state?: WorkflowState;
-};
+}
 
 // @public
-export type IntegrationAccountAgreement = Resource & {
-    readonly createdTime?: Date;
-    readonly changedTime?: Date;
-    metadata?: Record<string, unknown>;
+export interface IntegrationAccountAgreement extends Resource {
     agreementType: AgreementType;
-    hostPartner: string;
+    readonly changedTime?: Date;
+    content: AgreementContent;
+    readonly createdTime?: Date;
+    guestIdentity: BusinessIdentity;
     guestPartner: string;
     hostIdentity: BusinessIdentity;
-    guestIdentity: BusinessIdentity;
-    content: AgreementContent;
-};
+    hostPartner: string;
+    metadata?: any;
+}
 
 // @public
 export interface IntegrationAccountAgreementFilter {
@@ -715,8 +718,6 @@ export type IntegrationAccountAgreementsListContentCallbackUrlResponse = Workflo
 
 // @public
 export interface IntegrationAccountAgreementsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -806,13 +807,13 @@ export interface IntegrationAccountBatchConfigurationsListOptionalParams extends
 export type IntegrationAccountBatchConfigurationsListResponse = BatchConfigurationCollection;
 
 // @public
-export type IntegrationAccountCertificate = Resource & {
-    readonly createdTime?: Date;
+export interface IntegrationAccountCertificate extends Resource {
     readonly changedTime?: Date;
-    metadata?: Record<string, unknown>;
+    readonly createdTime?: Date;
     key?: KeyVaultKeyReference;
+    metadata?: any;
     publicCertificate?: string;
-};
+}
 
 // @public
 export interface IntegrationAccountCertificateListResult {
@@ -848,7 +849,6 @@ export type IntegrationAccountCertificatesGetResponse = IntegrationAccountCertif
 
 // @public
 export interface IntegrationAccountCertificatesListNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -869,16 +869,16 @@ export interface IntegrationAccountListResult {
 }
 
 // @public
-export type IntegrationAccountMap = Resource & {
-    mapType: MapType;
-    parametersSchema?: IntegrationAccountMapPropertiesParametersSchema;
-    readonly createdTime?: Date;
+export interface IntegrationAccountMap extends Resource {
     readonly changedTime?: Date;
     content?: string;
-    contentType?: string;
     readonly contentLink?: ContentLink;
-    metadata?: Record<string, unknown>;
-};
+    contentType?: string;
+    readonly createdTime?: Date;
+    mapType: MapType;
+    metadata?: any;
+    parametersSchema?: IntegrationAccountMapPropertiesParametersSchema;
+}
 
 // @public
 export interface IntegrationAccountMapFilter {
@@ -932,8 +932,6 @@ export type IntegrationAccountMapsListContentCallbackUrlResponse = WorkflowTrigg
 
 // @public
 export interface IntegrationAccountMapsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -949,13 +947,13 @@ export interface IntegrationAccountMapsListOptionalParams extends coreClient.Ope
 export type IntegrationAccountMapsListResponse = IntegrationAccountMapListResult;
 
 // @public
-export type IntegrationAccountPartner = Resource & {
-    partnerType: PartnerType;
-    readonly createdTime?: Date;
+export interface IntegrationAccountPartner extends Resource {
     readonly changedTime?: Date;
-    metadata?: Record<string, unknown>;
     content: PartnerContent;
-};
+    readonly createdTime?: Date;
+    metadata?: any;
+    partnerType: PartnerType;
+}
 
 // @public
 export interface IntegrationAccountPartnerFilter {
@@ -1004,8 +1002,6 @@ export type IntegrationAccountPartnersListContentCallbackUrlResponse = WorkflowT
 
 // @public
 export interface IntegrationAccountPartnersListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -1035,18 +1031,18 @@ export interface IntegrationAccounts {
 }
 
 // @public
-export type IntegrationAccountSchema = Resource & {
-    schemaType: SchemaType;
-    targetNamespace?: string;
+export interface IntegrationAccountSchema extends Resource {
+    readonly changedTime?: Date;
+    content?: string;
+    readonly contentLink?: ContentLink;
+    contentType?: string;
+    readonly createdTime?: Date;
     documentName?: string;
     fileName?: string;
-    readonly createdTime?: Date;
-    readonly changedTime?: Date;
-    metadata?: Record<string, unknown>;
-    content?: string;
-    contentType?: string;
-    readonly contentLink?: ContentLink;
-};
+    metadata?: any;
+    schemaType: SchemaType;
+    targetNamespace?: string;
+}
 
 // @public
 export interface IntegrationAccountSchemaFilter {
@@ -1095,8 +1091,6 @@ export type IntegrationAccountSchemasListContentCallbackUrlResponse = WorkflowTr
 
 // @public
 export interface IntegrationAccountSchemasListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -1123,11 +1117,11 @@ export interface IntegrationAccountsDeleteOptionalParams extends coreClient.Oper
 }
 
 // @public
-export type IntegrationAccountSession = Resource & {
-    readonly createdTime?: Date;
+export interface IntegrationAccountSession extends Resource {
     readonly changedTime?: Date;
-    content?: Record<string, unknown>;
-};
+    content?: any;
+    readonly createdTime?: Date;
+}
 
 // @public
 export interface IntegrationAccountSessionFilter {
@@ -1168,8 +1162,6 @@ export type IntegrationAccountSessionsGetResponse = IntegrationAccountSession;
 
 // @public
 export interface IntegrationAccountSessionsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -1201,7 +1193,6 @@ export type IntegrationAccountSkuName = string;
 
 // @public
 export interface IntegrationAccountsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -1217,7 +1208,6 @@ export type IntegrationAccountsListByResourceGroupResponse = IntegrationAccountL
 
 // @public
 export interface IntegrationAccountsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -1276,11 +1266,11 @@ export interface IntegrationServiceEnvironmenEncryptionKeyReference {
 }
 
 // @public
-export type IntegrationServiceEnvironment = Resource & {
+export interface IntegrationServiceEnvironment extends Resource {
+    identity?: ManagedServiceIdentity;
     properties?: IntegrationServiceEnvironmentProperties;
     sku?: IntegrationServiceEnvironmentSku;
-    identity?: ManagedServiceIdentity;
-};
+}
 
 // @public
 export interface IntegrationServiceEnvironmentAccessEndpoint {
@@ -1298,24 +1288,24 @@ export interface IntegrationServiceEnvironmentListResult {
 }
 
 // @public
-export type IntegrationServiceEnvironmentManagedApi = Resource & {
-    readonly namePropertiesName?: string;
-    readonly connectionParameters?: {
-        [propertyName: string]: Record<string, unknown>;
-    };
-    readonly metadata?: ApiResourceMetadata;
-    readonly runtimeUrls?: string[];
-    readonly generalInformation?: ApiResourceGeneralInformation;
-    readonly capabilities?: string[];
-    readonly backendService?: ApiResourceBackendService;
-    readonly policies?: ApiResourcePolicies;
-    readonly apiDefinitionUrl?: string;
+export interface IntegrationServiceEnvironmentManagedApi extends Resource {
     readonly apiDefinitions?: ApiResourceDefinitions;
-    integrationServiceEnvironment?: ResourceReference;
-    readonly provisioningState?: WorkflowProvisioningState;
+    readonly apiDefinitionUrl?: string;
+    readonly backendService?: ApiResourceBackendService;
+    readonly capabilities?: string[];
     readonly category?: ApiTier;
+    readonly connectionParameters?: {
+        [propertyName: string]: any;
+    };
     deploymentParameters?: IntegrationServiceEnvironmentManagedApiDeploymentParameters;
-};
+    readonly generalInformation?: ApiResourceGeneralInformation;
+    integrationServiceEnvironment?: ResourceReference;
+    readonly metadata?: ApiResourceMetadata;
+    readonly namePropertiesName?: string;
+    readonly policies?: ApiResourcePolicies;
+    readonly provisioningState?: WorkflowProvisioningState;
+    readonly runtimeUrls?: string[];
+}
 
 // @public
 export interface IntegrationServiceEnvironmentManagedApiDeploymentParameters {
@@ -1348,9 +1338,9 @@ export interface IntegrationServiceEnvironmentManagedApiOperationsListOptionalPa
 export type IntegrationServiceEnvironmentManagedApiOperationsListResponse = ApiOperationListResult;
 
 // @public
-export type IntegrationServiceEnvironmentManagedApiProperties = ApiResourceProperties & {
+export interface IntegrationServiceEnvironmentManagedApiProperties extends ApiResourceProperties {
     deploymentParameters?: IntegrationServiceEnvironmentManagedApiDeploymentParameters;
-};
+}
 
 // @public
 export interface IntegrationServiceEnvironmentManagedApis {
@@ -1544,7 +1534,6 @@ export type IntegrationServiceEnvironmentSkusListResponse = IntegrationServiceEn
 
 // @public
 export interface IntegrationServiceEnvironmentsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -1560,7 +1549,6 @@ export type IntegrationServiceEnvironmentsListByResourceGroupResponse = Integrat
 
 // @public
 export interface IntegrationServiceEnvironmentsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -1648,643 +1636,405 @@ export interface KeyVaultKeyReferenceKeyVault {
 }
 
 // @public
-export type KeyVaultReference = ResourceReference & {};
+export interface KeyVaultReference extends ResourceReference {
+}
 
 // @public
 export enum KnownApiDeploymentParameterVisibility {
-    // (undocumented)
     Default = "Default",
-    // (undocumented)
     Internal = "Internal",
-    // (undocumented)
     NotSpecified = "NotSpecified"
 }
 
 // @public
 export enum KnownApiTier {
-    // (undocumented)
     Enterprise = "Enterprise",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Premium = "Premium",
-    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
 export enum KnownApiType {
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Rest = "Rest",
-    // (undocumented)
     Soap = "Soap"
 }
 
 // @public
 export enum KnownAzureAsyncOperationState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownEdifactCharacterSet {
-    // (undocumented)
     Keca = "KECA",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Unoa = "UNOA",
-    // (undocumented)
     Unob = "UNOB",
-    // (undocumented)
     Unoc = "UNOC",
-    // (undocumented)
     Unod = "UNOD",
-    // (undocumented)
     Unoe = "UNOE",
-    // (undocumented)
     Unof = "UNOF",
-    // (undocumented)
     Unog = "UNOG",
-    // (undocumented)
     Unoh = "UNOH",
-    // (undocumented)
     Unoi = "UNOI",
-    // (undocumented)
     Unoj = "UNOJ",
-    // (undocumented)
     Unok = "UNOK",
-    // (undocumented)
     Unox = "UNOX",
-    // (undocumented)
     Unoy = "UNOY"
 }
 
 // @public
 export enum KnownEncryptionAlgorithm {
-    // (undocumented)
     AES128 = "AES128",
-    // (undocumented)
     AES192 = "AES192",
-    // (undocumented)
     AES256 = "AES256",
-    // (undocumented)
     DES3 = "DES3",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     RC2 = "RC2"
 }
 
 // @public
 export enum KnownErrorResponseCode {
-    // (undocumented)
     IntegrationServiceEnvironmentNotFound = "IntegrationServiceEnvironmentNotFound",
-    // (undocumented)
     InternalServerError = "InternalServerError",
-    // (undocumented)
     InvalidOperationId = "InvalidOperationId",
-    // (undocumented)
     NotSpecified = "NotSpecified"
 }
 
 // @public
 export enum KnownHashingAlgorithm {
-    // (undocumented)
     MD5 = "MD5",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     SHA1 = "SHA1",
-    // (undocumented)
     SHA2256 = "SHA2256",
-    // (undocumented)
     SHA2384 = "SHA2384",
-    // (undocumented)
     SHA2512 = "SHA2512"
 }
 
 // @public
 export enum KnownIntegrationAccountSkuName {
-    // (undocumented)
     Basic = "Basic",
-    // (undocumented)
     Free = "Free",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
 export enum KnownIntegrationServiceEnvironmentAccessEndpointType {
-    // (undocumented)
     External = "External",
-    // (undocumented)
     Internal = "Internal",
-    // (undocumented)
     NotSpecified = "NotSpecified"
 }
 
 // @public
 export enum KnownIntegrationServiceEnvironmentNetworkDependencyCategoryType {
-    // (undocumented)
     AccessEndpoints = "AccessEndpoints",
-    // (undocumented)
     AzureActiveDirectory = "AzureActiveDirectory",
-    // (undocumented)
     AzureManagement = "AzureManagement",
-    // (undocumented)
     AzureStorage = "AzureStorage",
-    // (undocumented)
     DiagnosticLogsAndMetrics = "DiagnosticLogsAndMetrics",
-    // (undocumented)
     IntegrationServiceEnvironmentConnectors = "IntegrationServiceEnvironmentConnectors",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     RecoveryService = "RecoveryService",
-    // (undocumented)
     RedisCache = "RedisCache",
-    // (undocumented)
     RegionalService = "RegionalService",
-    // (undocumented)
     SQL = "SQL",
-    // (undocumented)
     SSLCertificateVerification = "SSLCertificateVerification"
 }
 
 // @public
 export enum KnownIntegrationServiceEnvironmentNetworkDependencyHealthState {
-    // (undocumented)
     Healthy = "Healthy",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Unhealthy = "Unhealthy",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownIntegrationServiceEnvironmentNetworkEndPointAccessibilityState {
-    // (undocumented)
     Available = "Available",
-    // (undocumented)
     NotAvailable = "NotAvailable",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownIntegrationServiceEnvironmentSkuName {
-    // (undocumented)
     Developer = "Developer",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Premium = "Premium"
 }
 
 // @public
 export enum KnownIntegrationServiceEnvironmentSkuScaleType {
-    // (undocumented)
     Automatic = "Automatic",
-    // (undocumented)
     Manual = "Manual",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownKeyType {
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Primary = "Primary",
-    // (undocumented)
     Secondary = "Secondary"
 }
 
 // @public
 export enum KnownManagedServiceIdentityType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     SystemAssigned = "SystemAssigned",
-    // (undocumented)
     UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownMapType {
-    // (undocumented)
     Liquid = "Liquid",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Xslt = "Xslt",
-    // (undocumented)
     Xslt20 = "Xslt20",
-    // (undocumented)
     Xslt30 = "Xslt30"
 }
 
 // @public
 export enum KnownMessageFilterType {
-    // (undocumented)
     Exclude = "Exclude",
-    // (undocumented)
     Include = "Include",
-    // (undocumented)
     NotSpecified = "NotSpecified"
 }
 
 // @public
 export enum KnownOpenAuthenticationProviderType {
-    // (undocumented)
     AAD = "AAD"
 }
 
 // @public
 export enum KnownParameterType {
-    // (undocumented)
     Array = "Array",
-    // (undocumented)
     Bool = "Bool",
-    // (undocumented)
     Float = "Float",
-    // (undocumented)
     Int = "Int",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Object = "Object",
-    // (undocumented)
     SecureObject = "SecureObject",
-    // (undocumented)
     SecureString = "SecureString",
-    // (undocumented)
     String = "String"
 }
 
 // @public
 export enum KnownPartnerType {
-    // (undocumented)
     B2B = "B2B",
-    // (undocumented)
     NotSpecified = "NotSpecified"
 }
 
 // @public
 export enum KnownRecurrenceFrequency {
-    // (undocumented)
     Day = "Day",
-    // (undocumented)
     Hour = "Hour",
-    // (undocumented)
     Minute = "Minute",
-    // (undocumented)
     Month = "Month",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Second = "Second",
-    // (undocumented)
     Week = "Week",
-    // (undocumented)
     Year = "Year"
 }
 
 // @public
 export enum KnownSchemaType {
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Xml = "Xml"
 }
 
 // @public
 export enum KnownSigningAlgorithm {
-    // (undocumented)
     Default = "Default",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     SHA1 = "SHA1",
-    // (undocumented)
     SHA2256 = "SHA2256",
-    // (undocumented)
     SHA2384 = "SHA2384",
-    // (undocumented)
     SHA2512 = "SHA2512"
 }
 
 // @public
 export enum KnownSkuName {
-    // (undocumented)
     Basic = "Basic",
-    // (undocumented)
     Free = "Free",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Premium = "Premium",
-    // (undocumented)
     Shared = "Shared",
-    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
 export enum KnownStatusAnnotation {
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Preview = "Preview",
-    // (undocumented)
     Production = "Production"
 }
 
 // @public
 export enum KnownSwaggerSchemaType {
-    // (undocumented)
     Array = "Array",
-    // (undocumented)
     Boolean = "Boolean",
-    // (undocumented)
     File = "File",
-    // (undocumented)
     Integer = "Integer",
-    // (undocumented)
     Null = "Null",
-    // (undocumented)
     Number = "Number",
-    // (undocumented)
     Object = "Object",
-    // (undocumented)
     String = "String"
 }
 
 // @public
 export enum KnownTrackEventsOperationOptions {
-    // (undocumented)
     DisableSourceInfoEnrich = "DisableSourceInfoEnrich",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownTrackingRecordType {
-    // (undocumented)
     AS2MDN = "AS2MDN",
-    // (undocumented)
     AS2Message = "AS2Message",
-    // (undocumented)
     Custom = "Custom",
-    // (undocumented)
     EdifactFunctionalGroup = "EdifactFunctionalGroup",
-    // (undocumented)
     EdifactFunctionalGroupAcknowledgment = "EdifactFunctionalGroupAcknowledgment",
-    // (undocumented)
     EdifactInterchange = "EdifactInterchange",
-    // (undocumented)
     EdifactInterchangeAcknowledgment = "EdifactInterchangeAcknowledgment",
-    // (undocumented)
     EdifactTransactionSet = "EdifactTransactionSet",
-    // (undocumented)
     EdifactTransactionSetAcknowledgment = "EdifactTransactionSetAcknowledgment",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     X12FunctionalGroup = "X12FunctionalGroup",
-    // (undocumented)
     X12FunctionalGroupAcknowledgment = "X12FunctionalGroupAcknowledgment",
-    // (undocumented)
     X12Interchange = "X12Interchange",
-    // (undocumented)
     X12InterchangeAcknowledgment = "X12InterchangeAcknowledgment",
-    // (undocumented)
     X12TransactionSet = "X12TransactionSet",
-    // (undocumented)
     X12TransactionSetAcknowledgment = "X12TransactionSetAcknowledgment"
 }
 
 // @public
 export enum KnownTrailingSeparatorPolicy {
-    // (undocumented)
     Mandatory = "Mandatory",
-    // (undocumented)
     NotAllowed = "NotAllowed",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Optional = "Optional"
 }
 
 // @public
 export enum KnownUsageIndicator {
-    // (undocumented)
     Information = "Information",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Production = "Production",
-    // (undocumented)
     Test = "Test"
 }
 
 // @public
 export enum KnownWorkflowProvisioningState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Completed = "Completed",
-    // (undocumented)
     Created = "Created",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     InProgress = "InProgress",
-    // (undocumented)
     Moving = "Moving",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Ready = "Ready",
-    // (undocumented)
     Registered = "Registered",
-    // (undocumented)
     Registering = "Registering",
-    // (undocumented)
     Renewing = "Renewing",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Unregistered = "Unregistered",
-    // (undocumented)
     Unregistering = "Unregistering",
-    // (undocumented)
     Updating = "Updating",
-    // (undocumented)
     Waiting = "Waiting"
 }
 
 // @public
 export enum KnownWorkflowState {
-    // (undocumented)
     Completed = "Completed",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Suspended = "Suspended"
 }
 
 // @public
 export enum KnownWorkflowStatus {
-    // (undocumented)
     Aborted = "Aborted",
-    // (undocumented)
     Cancelled = "Cancelled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Faulted = "Faulted",
-    // (undocumented)
     Ignored = "Ignored",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Paused = "Paused",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Skipped = "Skipped",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Suspended = "Suspended",
-    // (undocumented)
     TimedOut = "TimedOut",
-    // (undocumented)
     Waiting = "Waiting"
 }
 
 // @public
 export enum KnownWorkflowTriggerProvisioningState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Completed = "Completed",
-    // (undocumented)
     Created = "Created",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Moving = "Moving",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Ready = "Ready",
-    // (undocumented)
     Registered = "Registered",
-    // (undocumented)
     Registering = "Registering",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Unregistered = "Unregistered",
-    // (undocumented)
     Unregistering = "Unregistering",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownWsdlImportMethod {
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     SoapPassThrough = "SoapPassThrough",
-    // (undocumented)
     SoapToRest = "SoapToRest"
 }
 
 // @public
 export enum KnownX12CharacterSet {
-    // (undocumented)
     Basic = "Basic",
-    // (undocumented)
     Extended = "Extended",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     UTF8 = "UTF8"
 }
 
 // @public
 export enum KnownX12DateFormat {
-    // (undocumented)
     Ccyymmdd = "CCYYMMDD",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Yymmdd = "YYMMDD"
 }
 
 // @public
 export enum KnownX12TimeFormat {
-    // (undocumented)
     Hhmm = "HHMM",
-    // (undocumented)
     Hhmmss = "HHMMSS",
-    // (undocumented)
     HhmmsSd = "HHMMSSd",
-    // (undocumented)
     HhmmsSdd = "HHMMSSdd",
-    // (undocumented)
     NotSpecified = "NotSpecified"
 }
 
@@ -2367,9 +2117,9 @@ export interface LogicManagementClientOptionalParams extends coreClient.ServiceC
 }
 
 // @public
-export type ManagedApi = Resource & {
+export interface ManagedApi extends Resource {
     properties?: ApiResourceProperties;
-};
+}
 
 // @public
 export interface ManagedApiListResult {
@@ -2430,7 +2180,7 @@ export interface Operation {
     display?: OperationDisplay;
     name?: string;
     origin?: string;
-    properties?: Record<string, unknown>;
+    properties?: any;
 }
 
 // @public
@@ -2448,16 +2198,17 @@ export interface OperationListResult {
 }
 
 // @public
-export type OperationResult = OperationResultProperties & {
-    readonly trackingId?: string;
-    readonly inputs?: Record<string, unknown>;
+export interface OperationResult extends OperationResultProperties {
+    readonly inputs?: any;
     readonly inputsLink?: ContentLink;
-    readonly outputs?: Record<string, unknown>;
-    readonly outputsLink?: ContentLink;
-    readonly trackedProperties?: Record<string, unknown>;
-    retryHistory?: RetryHistory[];
+    // (undocumented)
     iterationCount?: number;
-};
+    readonly outputs?: any;
+    readonly outputsLink?: ContentLink;
+    retryHistory?: RetryHistory[];
+    readonly trackedProperties?: any;
+    readonly trackingId?: string;
+}
 
 // @public
 export interface OperationResultProperties {
@@ -2530,16 +2281,16 @@ export interface RepetitionIndex {
 
 // @public
 interface Request_2 {
-    headers?: Record<string, unknown>;
+    headers?: any;
     method?: string;
     uri?: string;
 }
 export { Request_2 as Request }
 
 // @public
-export type RequestHistory = Resource & {
+export interface RequestHistory extends Resource {
     properties?: RequestHistoryProperties;
-};
+}
 
 // @public
 export interface RequestHistoryListResult {
@@ -2576,7 +2327,7 @@ export interface ResourceReference {
 // @public
 interface Response_2 {
     bodyLink?: ContentLink;
-    headers?: Record<string, unknown>;
+    headers?: any;
     statusCode?: number;
 }
 export { Response_2 as Response }
@@ -2592,9 +2343,9 @@ export interface RetryHistory {
 }
 
 // @public
-export type RunActionCorrelation = RunCorrelation & {
+export interface RunActionCorrelation extends RunCorrelation {
     actionTrackingId?: string;
-};
+}
 
 // @public
 export interface RunCorrelation {
@@ -2658,7 +2409,7 @@ export interface SwaggerCustomDynamicProperties {
 export interface SwaggerCustomDynamicSchema {
     operationId?: string;
     parameters?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     valuePath?: string;
 }
@@ -2689,7 +2440,7 @@ export interface SwaggerCustomDynamicTreeParameter {
     parameterReference?: string;
     required?: boolean;
     selectedItemValuePath?: string;
-    value?: Record<string, unknown>;
+    value?: any;
 }
 
 // @public
@@ -2702,21 +2453,21 @@ export interface SwaggerCustomDynamicTreeSettings {
 export interface SwaggerExternalDocumentation {
     description?: string;
     extensions?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     uri?: string;
 }
 
 // @public
 export interface SwaggerSchema {
-    additionalProperties?: Record<string, unknown>;
+    additionalProperties?: any;
     allOf?: SwaggerSchema[];
     discriminator?: string;
     dynamicListNew?: SwaggerCustomDynamicList;
     dynamicSchemaNew?: SwaggerCustomDynamicProperties;
     dynamicSchemaOld?: SwaggerCustomDynamicSchema;
     dynamicTree?: SwaggerCustomDynamicTree;
-    example?: Record<string, unknown>;
+    example?: any;
     externalDocs?: SwaggerExternalDocumentation;
     items?: SwaggerSchema;
     maxProperties?: number;
@@ -2740,7 +2491,7 @@ export type SwaggerSchemaType = string;
 export interface SwaggerXml {
     attribute?: boolean;
     extensions?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     name?: string;
     namespace?: string;
@@ -2756,7 +2507,7 @@ export interface TrackingEvent {
     error?: TrackingEventErrorInfo;
     eventLevel: EventLevel;
     eventTime: Date;
-    record?: Record<string, unknown>;
+    record?: any;
     recordType: TrackingRecordType;
 }
 
@@ -2789,24 +2540,24 @@ export interface UserAssignedIdentity {
 }
 
 // @public
-export type Workflow = Resource & {
-    identity?: ManagedServiceIdentity;
-    readonly provisioningState?: WorkflowProvisioningState;
-    readonly createdTime?: Date;
-    readonly changedTime?: Date;
-    state?: WorkflowState;
-    readonly version?: string;
-    readonly accessEndpoint?: string;
-    endpointsConfiguration?: FlowEndpointsConfiguration;
+export interface Workflow extends Resource {
     accessControl?: FlowAccessControlConfiguration;
-    readonly sku?: Sku;
+    readonly accessEndpoint?: string;
+    readonly changedTime?: Date;
+    readonly createdTime?: Date;
+    definition?: any;
+    endpointsConfiguration?: FlowEndpointsConfiguration;
+    identity?: ManagedServiceIdentity;
     integrationAccount?: ResourceReference;
     integrationServiceEnvironment?: ResourceReference;
-    definition?: Record<string, unknown>;
     parameters?: {
         [propertyName: string]: WorkflowParameter;
     };
-};
+    readonly provisioningState?: WorkflowProvisioningState;
+    readonly sku?: Sku;
+    state?: WorkflowState;
+    readonly version?: string;
+}
 
 // @public
 export interface WorkflowFilter {
@@ -2820,60 +2571,61 @@ export interface WorkflowListResult {
 }
 
 // @public
-export type WorkflowOutputParameter = WorkflowParameter & {
-    readonly error?: Record<string, unknown>;
-};
+export interface WorkflowOutputParameter extends WorkflowParameter {
+    readonly error?: any;
+}
 
 // @public
 export interface WorkflowParameter {
     description?: string;
-    metadata?: Record<string, unknown>;
+    metadata?: any;
     type?: ParameterType;
-    value?: Record<string, unknown>;
+    value?: any;
 }
 
 // @public
 export type WorkflowProvisioningState = string;
 
 // @public
-export type WorkflowReference = ResourceReference & {};
+export interface WorkflowReference extends ResourceReference {
+}
 
 // @public
-export type WorkflowRun = SubResource & {
-    readonly name?: string;
-    readonly type?: string;
-    readonly waitEndTime?: Date;
-    readonly startTime?: Date;
-    readonly endTime?: Date;
-    readonly status?: WorkflowStatus;
+export interface WorkflowRun extends SubResource {
     readonly code?: string;
-    readonly error?: Record<string, unknown>;
-    readonly correlationId?: string;
     correlation?: Correlation;
-    readonly workflow?: ResourceReference;
-    readonly trigger?: WorkflowRunTrigger;
+    readonly correlationId?: string;
+    readonly endTime?: Date;
+    readonly error?: any;
+    readonly name?: string;
     readonly outputs?: {
         [propertyName: string]: WorkflowOutputParameter;
     };
     readonly response?: WorkflowRunTrigger;
-};
+    readonly startTime?: Date;
+    readonly status?: WorkflowStatus;
+    readonly trigger?: WorkflowRunTrigger;
+    readonly type?: string;
+    readonly waitEndTime?: Date;
+    readonly workflow?: ResourceReference;
+}
 
 // @public
-export type WorkflowRunAction = SubResource & {
-    readonly name?: string;
-    readonly type?: string;
-    readonly startTime?: Date;
-    readonly endTime?: Date;
-    readonly status?: WorkflowStatus;
+export interface WorkflowRunAction extends SubResource {
     readonly code?: string;
-    readonly error?: Record<string, unknown>;
-    readonly trackingId?: string;
     correlation?: RunActionCorrelation;
+    readonly endTime?: Date;
+    readonly error?: any;
     readonly inputsLink?: ContentLink;
+    readonly name?: string;
     readonly outputsLink?: ContentLink;
-    readonly trackedProperties?: Record<string, unknown>;
     retryHistory?: RetryHistory[];
-};
+    readonly startTime?: Date;
+    readonly status?: WorkflowStatus;
+    readonly trackedProperties?: any;
+    readonly trackingId?: string;
+    readonly type?: string;
+}
 
 // @public
 export interface WorkflowRunActionFilter {
@@ -2887,23 +2639,24 @@ export interface WorkflowRunActionListResult {
 }
 
 // @public
-export type WorkflowRunActionRepetitionDefinition = Resource & {
-    startTime?: Date;
-    endTime?: Date;
-    correlation?: RunActionCorrelation;
-    status?: WorkflowStatus;
+export interface WorkflowRunActionRepetitionDefinition extends Resource {
     code?: string;
+    correlation?: RunActionCorrelation;
+    endTime?: Date;
     error?: any;
-    readonly trackingId?: string;
-    readonly inputs?: Record<string, unknown>;
+    readonly inputs?: any;
     readonly inputsLink?: ContentLink;
-    readonly outputs?: Record<string, unknown>;
-    readonly outputsLink?: ContentLink;
-    readonly trackedProperties?: Record<string, unknown>;
-    retryHistory?: RetryHistory[];
+    // (undocumented)
     iterationCount?: number;
+    readonly outputs?: any;
+    readonly outputsLink?: ContentLink;
     repetitionIndexes?: RepetitionIndex[];
-};
+    retryHistory?: RetryHistory[];
+    startTime?: Date;
+    status?: WorkflowStatus;
+    readonly trackedProperties?: any;
+    readonly trackingId?: string;
+}
 
 // @public
 export interface WorkflowRunActionRepetitionDefinitionCollection {
@@ -2913,9 +2666,9 @@ export interface WorkflowRunActionRepetitionDefinitionCollection {
 }
 
 // @public
-export type WorkflowRunActionRepetitionProperties = OperationResult & {
+export interface WorkflowRunActionRepetitionProperties extends OperationResult {
     repetitionIndexes?: RepetitionIndex[];
-};
+}
 
 // @public
 export interface WorkflowRunActionRepetitions {
@@ -3042,8 +2795,6 @@ export type WorkflowRunActionsListExpressionTracesResponse = ExpressionTraces;
 
 // @public
 export interface WorkflowRunActionsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -3101,8 +2852,6 @@ export type WorkflowRunsGetResponse = WorkflowRun;
 
 // @public
 export interface WorkflowRunsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -3122,16 +2871,16 @@ export interface WorkflowRunTrigger {
     readonly code?: string;
     correlation?: Correlation;
     readonly endTime?: Date;
-    readonly error?: Record<string, unknown>;
-    readonly inputs?: Record<string, unknown>;
+    readonly error?: any;
+    readonly inputs?: any;
     readonly inputsLink?: ContentLink;
     readonly name?: string;
-    readonly outputs?: Record<string, unknown>;
+    readonly outputs?: any;
     readonly outputsLink?: ContentLink;
     readonly scheduledTime?: Date;
     readonly startTime?: Date;
     readonly status?: WorkflowStatus;
-    readonly trackedProperties?: Record<string, unknown>;
+    readonly trackedProperties?: any;
     readonly trackingId?: string;
 }
 
@@ -3179,7 +2928,9 @@ export interface WorkflowsGenerateUpgradedDefinitionOptionalParams extends coreC
 }
 
 // @public
-export type WorkflowsGenerateUpgradedDefinitionResponse = Record<string, unknown>;
+export type WorkflowsGenerateUpgradedDefinitionResponse = {
+    body: any;
+};
 
 // @public
 export interface WorkflowsGetOptionalParams extends coreClient.OperationOptions {
@@ -3190,8 +2941,6 @@ export type WorkflowsGetResponse = Workflow;
 
 // @public
 export interface WorkflowsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -3208,8 +2957,6 @@ export type WorkflowsListByResourceGroupResponse = WorkflowListResult;
 
 // @public
 export interface WorkflowsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -3236,7 +2983,9 @@ export interface WorkflowsListSwaggerOptionalParams extends coreClient.Operation
 }
 
 // @public
-export type WorkflowsListSwaggerResponse = Record<string, unknown>;
+export type WorkflowsListSwaggerResponse = {
+    body: any;
+};
 
 // @public
 export interface WorkflowsMoveOptionalParams extends coreClient.OperationOptions {
@@ -3270,19 +3019,19 @@ export interface WorkflowsValidateByResourceGroupOptionalParams extends coreClie
 }
 
 // @public
-export type WorkflowTrigger = SubResource & {
-    readonly name?: string;
-    readonly type?: string;
-    readonly provisioningState?: WorkflowTriggerProvisioningState;
-    readonly createdTime?: Date;
+export interface WorkflowTrigger extends SubResource {
     readonly changedTime?: Date;
+    readonly createdTime?: Date;
+    readonly lastExecutionTime?: Date;
+    readonly name?: string;
+    readonly nextExecutionTime?: Date;
+    readonly provisioningState?: WorkflowTriggerProvisioningState;
+    readonly recurrence?: WorkflowTriggerRecurrence;
     readonly state?: WorkflowState;
     readonly status?: WorkflowStatus;
-    readonly lastExecutionTime?: Date;
-    readonly nextExecutionTime?: Date;
-    readonly recurrence?: WorkflowTriggerRecurrence;
+    readonly type?: string;
     readonly workflow?: ResourceReference;
-};
+}
 
 // @public
 export interface WorkflowTriggerCallbackUrl {
@@ -3315,8 +3064,6 @@ export type WorkflowTriggerHistoriesGetResponse = WorkflowTriggerHistory;
 
 // @public
 export interface WorkflowTriggerHistoriesListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -3336,22 +3083,22 @@ export interface WorkflowTriggerHistoriesResubmitOptionalParams extends coreClie
 }
 
 // @public
-export type WorkflowTriggerHistory = SubResource & {
-    readonly name?: string;
-    readonly type?: string;
-    readonly startTime?: Date;
-    readonly endTime?: Date;
-    readonly scheduledTime?: Date;
-    readonly status?: WorkflowStatus;
+export interface WorkflowTriggerHistory extends SubResource {
     readonly code?: string;
-    readonly error?: Record<string, unknown>;
-    readonly trackingId?: string;
     correlation?: Correlation;
-    readonly inputsLink?: ContentLink;
-    readonly outputsLink?: ContentLink;
+    readonly endTime?: Date;
+    readonly error?: any;
     readonly fired?: boolean;
+    readonly inputsLink?: ContentLink;
+    readonly name?: string;
+    readonly outputsLink?: ContentLink;
     readonly run?: ResourceReference;
-};
+    readonly scheduledTime?: Date;
+    readonly startTime?: Date;
+    readonly status?: WorkflowStatus;
+    readonly trackingId?: string;
+    readonly type?: string;
+}
 
 // @public
 export interface WorkflowTriggerHistoryFilter {
@@ -3393,10 +3140,10 @@ export interface WorkflowTriggerRecurrence {
 }
 
 // @public
-export type WorkflowTriggerReference = ResourceReference & {
+export interface WorkflowTriggerReference extends ResourceReference {
     flowName?: string;
     triggerName?: string;
-};
+}
 
 // @public
 export interface WorkflowTriggers {
@@ -3432,8 +3179,6 @@ export type WorkflowTriggersListCallbackUrlResponse = WorkflowTriggerCallbackUrl
 
 // @public
 export interface WorkflowTriggersListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -3461,22 +3206,22 @@ export interface WorkflowTriggersSetStateOptionalParams extends coreClient.Opera
 }
 
 // @public
-export type WorkflowVersion = Resource & {
-    readonly provisioningState?: WorkflowProvisioningState;
-    readonly createdTime?: Date;
-    readonly changedTime?: Date;
-    state?: WorkflowState;
-    readonly version?: string;
-    readonly accessEndpoint?: string;
-    endpointsConfiguration?: FlowEndpointsConfiguration;
+export interface WorkflowVersion extends Resource {
     accessControl?: FlowAccessControlConfiguration;
-    readonly sku?: Sku;
+    readonly accessEndpoint?: string;
+    readonly changedTime?: Date;
+    readonly createdTime?: Date;
+    definition?: any;
+    endpointsConfiguration?: FlowEndpointsConfiguration;
     integrationAccount?: ResourceReference;
-    definition?: Record<string, unknown>;
     parameters?: {
         [propertyName: string]: WorkflowParameter;
     };
-};
+    readonly provisioningState?: WorkflowProvisioningState;
+    readonly sku?: Sku;
+    state?: WorkflowState;
+    readonly version?: string;
+}
 
 // @public
 export interface WorkflowVersionListResult {
@@ -3499,7 +3244,6 @@ export type WorkflowVersionsGetResponse = WorkflowVersion;
 
 // @public
 export interface WorkflowVersionsListNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public

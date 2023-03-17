@@ -2,90 +2,88 @@
 // Licensed under the MIT license.
 
 import {
-  LexicalAnalyzerUnion,
-  CognitiveServicesAccountKey,
-  CognitiveServicesAccountUnion,
-  DefaultCognitiveServicesAccount,
-  SearchField as GeneratedSearchField,
-  SearchIndex as GeneratedSearchIndex,
-  RegexFlags,
-  SearchIndexer as GeneratedSearchIndexer,
-  SearchIndexerSkillset as GeneratedSearchIndexerSkillset,
-  SearchIndexerSkillUnion,
-  LexicalTokenizerUnion,
-  SynonymMap as GeneratedSynonymMap,
-  SearchIndexerDataSource as GeneratedSearchIndexerDataSourceConnection,
-  DataChangeDetectionPolicyUnion,
-  HighWaterMarkChangeDetectionPolicy,
-  SqlIntegratedChangeTrackingPolicy,
-  SearchIndexerDataUserAssignedIdentity,
-  SearchIndexerDataNoneIdentity,
-  DataDeletionDetectionPolicyUnion,
-  SoftDeleteColumnDeletionDetectionPolicy,
-  LexicalAnalyzerName,
-  SimilarityUnion,
+  AzureMachineLearningSkill,
   BM25Similarity,
   ClassicSimilarity,
-  TokenFilterUnion,
-  SearchResourceEncryptionKey as GeneratedSearchResourceEncryptionKey,
+  CognitiveServicesAccountKey,
+  CognitiveServicesAccountUnion,
   ConditionalSkill,
-  KeyPhraseExtractionSkill,
-  OcrSkill,
-  ImageAnalysisSkill,
-  LanguageDetectionSkill,
-  ShaperSkill,
-  MergeSkill,
-  EntityRecognitionSkill,
-  SentimentSkill,
-  DocumentExtractionSkill,
-  CustomEntityLookupSkill,
-  SplitSkill,
-  PIIDetectionSkill,
-  EntityRecognitionSkillV3,
-  EntityLinkingSkill,
-  SentimentSkillV3,
-  TextTranslationSkill,
-  WebApiSkill,
-  AzureMachineLearningSkill,
-  LuceneStandardAnalyzer,
-  StopAnalyzer,
-  PatternAnalyzer as GeneratedPatternAnalyzer,
   CustomAnalyzer,
-  PatternTokenizer,
+  CustomEntityLookupSkill,
+  DataChangeDetectionPolicyUnion,
+  DataDeletionDetectionPolicyUnion,
+  DefaultCognitiveServicesAccount,
+  DocumentExtractionSkill,
+  EntityLinkingSkill,
+  EntityRecognitionSkill,
+  EntityRecognitionSkillV3,
+  PatternAnalyzer as GeneratedPatternAnalyzer,
+  SearchField as GeneratedSearchField,
+  SearchIndex as GeneratedSearchIndex,
+  SearchIndexer as GeneratedSearchIndexer,
+  SearchIndexerDataSource as GeneratedSearchIndexerDataSourceConnection,
+  SearchIndexerSkillset as GeneratedSearchIndexerSkillset,
+  SearchResourceEncryptionKey as GeneratedSearchResourceEncryptionKey,
+  SynonymMap as GeneratedSynonymMap,
+  HighWaterMarkChangeDetectionPolicy,
+  ImageAnalysisSkill,
+  KeyPhraseExtractionSkill,
+  LanguageDetectionSkill,
+  LexicalAnalyzerName,
+  LexicalAnalyzerUnion,
   LexicalNormalizerName,
+  LexicalTokenizerUnion,
+  LuceneStandardAnalyzer,
+  MergeSkill,
+  OcrSkill,
+  PIIDetectionSkill,
+  PatternTokenizer,
+  RegexFlags,
   SearchIndexerDataIdentityUnion,
+  SearchIndexerDataNoneIdentity,
+  SearchIndexerDataUserAssignedIdentity,
+  SearchIndexerSkillUnion,
+  SentimentSkill,
+  SentimentSkillV3,
+  ShaperSkill,
+  SimilarityUnion,
+  SoftDeleteColumnDeletionDetectionPolicy,
+  SplitSkill,
+  SqlIntegratedChangeTrackingPolicy,
+  StopAnalyzer,
+  TextTranslationSkill,
+  TokenFilterUnion,
+  WebApiSkill,
 } from "./generated/service/models";
 import {
-  LexicalAnalyzer,
   CharFilter,
   CognitiveServicesAccount,
-  SearchField,
-  SearchIndex,
-  isComplexField,
-  ScoringProfile,
-  SimpleField,
-  SearchIndexerSkill,
-  SearchIndexerSkillset,
-  TokenFilter,
-  LexicalTokenizer,
-  SynonymMap,
-  SearchIndexer,
-  SearchIndexerDataSourceConnection,
   DataChangeDetectionPolicy,
   DataDeletionDetectionPolicy,
-  SimilarityAlgorithm,
-  SearchResourceEncryptionKey,
-  PatternAnalyzer,
+  LexicalAnalyzer,
   LexicalNormalizer,
+  LexicalTokenizer,
+  PatternAnalyzer,
+  ScoringProfile,
+  SearchField,
+  SearchIndex,
+  SearchIndexer,
   SearchIndexerDataIdentity,
+  SearchIndexerDataSourceConnection,
+  SearchIndexerSkill,
+  SearchIndexerSkillset,
+  SearchResourceEncryptionKey,
+  SimilarityAlgorithm,
+  SimpleField,
+  SynonymMap,
+  TokenFilter,
+  isComplexField,
 } from "./serviceModels";
-import { SuggestDocumentsResult, SuggestResult, SearchResult } from "./indexModels";
+import { SearchResult, SelectFields, SuggestDocumentsResult, SuggestResult } from "./indexModels";
 import {
-  SuggestDocumentsResult as GeneratedSuggestDocumentsResult,
   SearchResult as GeneratedSearchResult,
+  SuggestDocumentsResult as GeneratedSuggestDocumentsResult,
 } from "./generated/data/models";
-
-export const DEFAULT_SEARCH_SCOPE = "https://search.azure.com/.default";
 
 export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): SearchIndexerSkill[] {
   if (!skills) {
@@ -462,30 +460,34 @@ export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex
   };
 }
 
-export function generatedSearchResultToPublicSearchResult<T>(
-  results: GeneratedSearchResult[]
-): SearchResult<T>[] {
-  const returnValues: SearchResult<T>[] = results.map<SearchResult<T>>((result) => {
-    const { _score, _highlights, rerankerScore, captions, ...restProps } = result;
-    const doc: { [key: string]: any } = {
-      ...restProps,
-    };
-    const obj = {
-      score: _score,
-      highlights: _highlights,
-      rerankerScore,
-      captions,
-      document: doc,
-    };
-    return obj as SearchResult<T>;
-  });
+export function generatedSearchResultToPublicSearchResult<
+  Model extends object,
+  Fields extends SelectFields<Model>
+>(results: GeneratedSearchResult[]): SearchResult<Model, Fields>[] {
+  const returnValues: SearchResult<Model, Fields>[] = results.map<SearchResult<Model, Fields>>(
+    (result) => {
+      const { _score, _highlights, rerankerScore, captions, ...restProps } = result;
+      const doc: { [key: string]: any } = {
+        ...restProps,
+      };
+      const obj = {
+        score: _score,
+        highlights: _highlights,
+        rerankerScore,
+        captions,
+        document: doc,
+      };
+      return obj as SearchResult<Model, Fields>;
+    }
+  );
   return returnValues;
 }
 
-export function generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<T>(
-  searchDocumentsResult: GeneratedSuggestDocumentsResult
-): SuggestDocumentsResult<T> {
-  const results = searchDocumentsResult.results.map<SuggestResult<T>>((element) => {
+export function generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<
+  Model extends object,
+  Fields extends SelectFields<Model>
+>(searchDocumentsResult: GeneratedSuggestDocumentsResult): SuggestDocumentsResult<Model, Fields> {
+  const results = searchDocumentsResult.results.map<SuggestResult<Model, Fields>>((element) => {
     const { _text, ...restProps } = element;
 
     const doc: { [key: string]: any } = {
@@ -497,10 +499,10 @@ export function generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<T>
       document: doc,
     };
 
-    return obj as SuggestResult<T>;
+    return obj as SuggestResult<Model, Fields>;
   });
 
-  const result: SuggestDocumentsResult<T> = {
+  const result: SuggestDocumentsResult<Model, Fields> = {
     results: results,
     coverage: searchDocumentsResult.coverage,
   };
@@ -654,9 +656,7 @@ export function convertSearchIndexerDataIdentityToPublic(
     return searchIndexerDataIdentity;
   }
 
-  if (
-    searchIndexerDataIdentity.odatatype === "#Microsoft.Azure.Search.SearchIndexerDataNoneIdentity"
-  ) {
+  if (searchIndexerDataIdentity.odatatype === "#Microsoft.Azure.Search.DataNoneIdentity") {
     return searchIndexerDataIdentity as SearchIndexerDataNoneIdentity;
   } else {
     return searchIndexerDataIdentity as SearchIndexerDataUserAssignedIdentity;

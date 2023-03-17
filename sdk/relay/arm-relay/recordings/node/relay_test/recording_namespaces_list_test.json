@@ -1,0 +1,66 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Relay/namespaces?api-version=2017-04-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-relay/3.1.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "5a893b3b-a504-4771-aae4-a70240468f71"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 01 Feb 2023 02:22:00 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": [
+          "Service-Bus-Resource-Provider/CH3",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "Server-SB": "Service-Bus-Resource-Provider/CH3",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "d373678c-2986-48ab-b2ca-73a07b7da92d",
+        "x-ms-inline-count": "",
+        "x-ms-ratelimit-remaining-subscription-reads": "11979",
+        "x-ms-request-id": "c2cdc8c0-0763-4fba-b8ce-0ad6e2a27de7_M11CH3_M11CH3",
+        "x-ms-routing-request-id": "KOREASOUTH:20230201T022201Z:d373678c-2986-48ab-b2ca-73a07b7da92d"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "sku": {
+              "name": "Standard",
+              "tier": "Standard"
+            },
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
+            "name": "mynamespacexxx",
+            "type": "Microsoft.Relay/Namespaces",
+            "location": "East US",
+            "tags": {
+              "tag1": "value1"
+            },
+            "properties": {
+              "provisioningState": "Succeeded",
+              "metricId": "azure_subscription_id:mynamespacexxx",
+              "createdAt": "2023-02-01T02:21:10.093Z",
+              "updatedAt": "2023-02-01T02:21:54.477Z",
+              "serviceBusEndpoint": "https://mynamespacexxx.servicebus.windows.net:443/",
+              "status": "Active"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

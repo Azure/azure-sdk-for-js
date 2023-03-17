@@ -10,15 +10,20 @@
 // Licensed under the MIT License.
 import { ManagedServiceIdentityClient } from "@azure/arm-msi";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists available operations for the Microsoft.ManagedIdentity provider
  *
  * @summary Lists available operations for the Microsoft.ManagedIdentity provider
- * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2021-09-30-preview/examples/MsiOperationsList.json
+ * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/MsiOperationsList.json
  */
 async function msiOperationsList() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["MSI_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ManagedServiceIdentityClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +33,8 @@ async function msiOperationsList() {
   console.log(resArray);
 }
 
-msiOperationsList().catch(console.error);
+async function main() {
+  msiOperationsList();
+}
+
+main().catch(console.error);

@@ -1,6 +1,6 @@
 # Release History
 
-## 12.8.1 (Unreleased)
+## 12.12.0 (Unreleased)
 
 ### Features Added
 
@@ -8,11 +8,37 @@
 
 ### Bugs Fixed
 
+### Other Changes
+
+- Update dependency `@azure/core-http` version to `^3.0.0`.
+
+## 12.11.0 (2022-10-14)
+
+### Features 
+
+- Added support for service version 2021-10-04.
+
+### Bugs Fixed
+
+- Refined URL parsing method to let it be able to correctly parse URLs with account name in path.
+
+## 12.10.0 (2022-07-08)
+
+### Features Added
+
+- Added support for service version 2021-08-06.
+
+## 12.9.0 (2022-05-12)
+
+### Features Added
+
+- Added support for service version 2021-06-08.
+
+### Bugs Fixed
+
 - Add `react-native` mapping to ESM entry point
 - Fixed a bug where customized `ProxyOptions` is overwrited by a default one when initializing `QueueServiceClient` or `QueueClient` with connection string.
 - Refined user-agent value to avoid failure when os information is not available on some platforms.
-
-### Other Changes
 
 ## 12.8.0 (2022-03-11)
 

@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SpanStatusCode } from "@azure/core-tracing";
-
 import { GeneratedClient } from "./generated/generatedClient";
-
 import { logger } from "./logger";
-import { createSpan } from "./tracing";
 
 import {
   AttestationCertificateManagementBody,
@@ -41,6 +37,7 @@ import { _attestationSignerFromGenerated } from "./models/attestationSigner";
 import { verifyAttestationSigningKey } from "./utils/helpers";
 import { createAttestationResponse } from "./models/attestationResponse";
 import { AttestationTokenImpl } from "./models/attestationToken";
+import { tracingClient } from "./generated/tracing";
 
 /**
  * Attestation Client Construction Options.
@@ -160,53 +157,48 @@ export class AttestationAdministrationClient {
     attestationType: AttestationType,
     options: AttestationAdministrationClientPolicyOperationOptions = {}
   ): Promise<AttestationResponse<string>> {
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "AttestationAdministrationClient-getPolicy",
-      options
+      options,
+      async (updatedOptions) => {
+        const getPolicyResult = await this._client.policy.get(attestationType, updatedOptions);
+
+        // The attestation token returned from the service has a PolicyResult
+        // object as the body.
+        const token = new AttestationTokenImpl(getPolicyResult.token);
+
+        // Validate the token returned from the service.
+        const problems = token.getTokenProblems(
+          await this.signingKeys(),
+          options.validationOptions ?? this._validationOptions
+        );
+        if (problems.length) {
+          throw new Error(problems.join(";"));
+        }
+
+        // Deserialize the PolicyResult object to retrieve the underlying policy
+        //  token
+        const policyResult = _policyResultFromGenerated(token.getBody());
+
+        // The policyResult.policy value will be a JSON Web Signature representing
+        // the actual policy object being retrieved. Serialize the token to an
+        // AttestationToken object so we can access the body properties on the token.
+        if (!policyResult.policy) {
+          throw Error("Server returned an invalid getPolicy response!");
+        }
+
+        const policyToken = new AttestationTokenImpl(policyResult.policy);
+
+        const storedPolicy = StoredAttestationPolicy.deserialize(policyToken.getBody());
+
+        // Finally, retrieve the stored attestationPolicy value and return that
+        // as the AttestationResponse to the caller.
+        return createAttestationResponse<string>(
+          token,
+          bytesToString(storedPolicy.attestationPolicy)
+        );
+      }
     );
-    try {
-      const getPolicyResult = await this._client.policy.get(attestationType, updatedOptions);
-
-      // The attestation token returned from the service has a PolicyResult
-      // object as the body.
-      const token = new AttestationTokenImpl(getPolicyResult.token);
-
-      // Validate the token returned from the service.
-      const problems = token.getTokenProblems(
-        await this.signingKeys(),
-        options.validationOptions ?? this._validationOptions
-      );
-      if (problems.length) {
-        throw new Error(problems.join(";"));
-      }
-
-      // Deserialize the PolicyResult object to retrieve the underlying policy
-      //  token
-      const policyResult = _policyResultFromGenerated(token.getBody());
-
-      // The policyResult.policy value will be a JSON Web Signature representing
-      // the actual policy object being retrieved. Serialize the token to an
-      // AttestationToken object so we can access the body properties on the token.
-      if (!policyResult.policy) {
-        throw Error("Server returned an invalid getPolicy response!");
-      }
-
-      const policyToken = new AttestationTokenImpl(policyResult.policy);
-
-      const storedPolicy = StoredAttestationPolicy.deserialize(policyToken.getBody());
-
-      // Finally, retrieve the stored attestationPolicy value and return that
-      // as the AttestationResponse to the caller.
-      return createAttestationResponse<string>(
-        token,
-        bytesToString(storedPolicy.attestationPolicy)
-      );
-    } catch (e: any) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -233,61 +225,56 @@ export class AttestationAdministrationClient {
     newPolicyDocument: string,
     options: AttestationAdministrationClientPolicyOperationOptions = {}
   ): Promise<AttestationResponse<PolicyResult>> {
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "AttestationAdministrationClient-setPolicy",
-      options
-    );
-    try {
-      if (
-        (!options.privateKey && options.certificate) ||
-        (options.privateKey && !options.certificate)
-      ) {
-        throw new Error(
-          "If privateKey is specified, certificate must also be provided. If certificate is provided, privateKey must also be provided."
+      options,
+      async (updatedOptions) => {
+        if (
+          (!options.privateKey && options.certificate) ||
+          (options.privateKey && !options.certificate)
+        ) {
+          throw new Error(
+            "If privateKey is specified, certificate must also be provided. If certificate is provided, privateKey must also be provided."
+          );
+        }
+
+        if (options.privateKey && options.certificate) {
+          verifyAttestationSigningKey(options.privateKey, options.certificate);
+        }
+
+        const storedAttestationPolicy = new StoredAttestationPolicy(newPolicyDocument).serialize();
+        const setPolicyToken = AttestationTokenImpl.create({
+          body: storedAttestationPolicy,
+          ...options,
+        });
+
+        const setPolicyResult = await this._client.policy.set(
+          attestationType,
+          setPolicyToken.serialize(),
+          updatedOptions
         );
+
+        // The attestation token returned from the service has a PolicyResult
+        // object as the body.
+        const token = new AttestationTokenImpl(setPolicyResult.token);
+        const problems = token.getTokenProblems(
+          await this.signingKeys(),
+          options.validationOptions ?? this._validationOptions
+        );
+        if (problems.length) {
+          throw new Error(problems.join(";"));
+        }
+
+        // Deserialize the PolicyResult object to retrieve the underlying policy
+        //  token
+        const policyResult = _policyResultFromGenerated(token.getBody());
+
+        // The policyResult.policy value will be a JSON Web Signature representing
+        // the actual policy object being retrieved. Serialize the token to an
+        // AttestationToken object so we can access the body properties on the token.
+        return createAttestationResponse<PolicyResult>(token, policyResult);
       }
-
-      if (options.privateKey && options.certificate) {
-        verifyAttestationSigningKey(options.privateKey, options.certificate);
-      }
-
-      const storedAttestationPolicy = new StoredAttestationPolicy(newPolicyDocument).serialize();
-      const setPolicyToken = AttestationTokenImpl.create({
-        body: storedAttestationPolicy,
-        ...options,
-      });
-
-      const setPolicyResult = await this._client.policy.set(
-        attestationType,
-        setPolicyToken.serialize(),
-        updatedOptions
-      );
-
-      // The attestation token returned from the service has a PolicyResult
-      // object as the body.
-      const token = new AttestationTokenImpl(setPolicyResult.token);
-      const problems = token.getTokenProblems(
-        await this.signingKeys(),
-        options.validationOptions ?? this._validationOptions
-      );
-      if (problems.length) {
-        throw new Error(problems.join(";"));
-      }
-
-      // Deserialize the PolicyResult object to retrieve the underlying policy
-      //  token
-      const policyResult = _policyResultFromGenerated(token.getBody());
-
-      // The policyResult.policy value will be a JSON Web Signature representing
-      // the actual policy object being retrieved. Serialize the token to an
-      // AttestationToken object so we can access the body properties on the token.
-      return createAttestationResponse<PolicyResult>(token, policyResult);
-    } catch (e: any) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-      throw e;
-    } finally {
-      span.end();
-    }
+    );
   }
 
   /**
@@ -314,60 +301,55 @@ export class AttestationAdministrationClient {
     attestationType: AttestationType,
     options: AttestationAdministrationClientPolicyOperationOptions = {}
   ): Promise<AttestationResponse<PolicyResult>> {
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "AttestationAdministrationClient-setPolicy",
-      options
-    );
-    try {
-      if (
-        (!options.privateKey && options.certificate) ||
-        (options.privateKey && !options.certificate)
-      ) {
-        throw new Error(
-          "If privateKey is specified, certificate must also be provided. If certificate is provided, privateKey must also be provided."
+      options,
+      async (updatedOptions) => {
+        if (
+          (!options.privateKey && options.certificate) ||
+          (options.privateKey && !options.certificate)
+        ) {
+          throw new Error(
+            "If privateKey is specified, certificate must also be provided. If certificate is provided, privateKey must also be provided."
+          );
+        }
+
+        if (options.privateKey && options.certificate) {
+          verifyAttestationSigningKey(options.privateKey, options.certificate);
+        }
+
+        const resetPolicyToken = AttestationTokenImpl.create({
+          privateKey: options.privateKey,
+          certificate: options.certificate,
+        });
+
+        const resetPolicyResult = await this._client.policy.reset(
+          attestationType,
+          resetPolicyToken.serialize(),
+          updatedOptions
         );
+
+        // The attestation token returned from the service has a PolicyResult
+        // object as the body.
+        const token = new AttestationTokenImpl(resetPolicyResult.token);
+        const problems = token.getTokenProblems(
+          await this.signingKeys(),
+          options.validationOptions ?? this._validationOptions
+        );
+        if (problems.length) {
+          throw new Error(problems.join(";"));
+        }
+
+        // Deserialize the PolicyResult object to retrieve the underlying policy
+        //  token
+        const policyResult = _policyResultFromGenerated(token.getBody());
+
+        // The policyResult.policy value will be a JSON Web Signature representing
+        // the actual policy object being retrieved. Serialize the token to an
+        // AttestationToken object so we can access the body properties on the token.
+        return createAttestationResponse<PolicyResult>(token, policyResult);
       }
-
-      if (options.privateKey && options.certificate) {
-        verifyAttestationSigningKey(options.privateKey, options.certificate);
-      }
-
-      const resetPolicyToken = AttestationTokenImpl.create({
-        privateKey: options.privateKey,
-        certificate: options.certificate,
-      });
-
-      const resetPolicyResult = await this._client.policy.reset(
-        attestationType,
-        resetPolicyToken.serialize(),
-        updatedOptions
-      );
-
-      // The attestation token returned from the service has a PolicyResult
-      // object as the body.
-      const token = new AttestationTokenImpl(resetPolicyResult.token);
-      const problems = token.getTokenProblems(
-        await this.signingKeys(),
-        options.validationOptions ?? this._validationOptions
-      );
-      if (problems.length) {
-        throw new Error(problems.join(";"));
-      }
-
-      // Deserialize the PolicyResult object to retrieve the underlying policy
-      //  token
-      const policyResult = _policyResultFromGenerated(token.getBody());
-
-      // The policyResult.policy value will be a JSON Web Signature representing
-      // the actual policy object being retrieved. Serialize the token to an
-      // AttestationToken object so we can access the body properties on the token.
-      return createAttestationResponse<PolicyResult>(token, policyResult);
-    } catch (e: any) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-      throw e;
-    } finally {
-      span.end();
-    }
+    );
   }
 
   /** Returns the set of policy management certificates for this attestation instance.
@@ -381,47 +363,42 @@ export class AttestationAdministrationClient {
   public async getPolicyManagementCertificates(
     options: AttestationAdministrationClientPolicyCertificateOperationOptions = {}
   ): Promise<AttestationResponse<AttestationSigner[]>> {
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "AttestationAdministrationClient-getPolicyManagementCertificates",
-      options
-    );
-    try {
-      const getCertificatesResult = await this._client.policyCertificates.get(updatedOptions);
-      // The attestation token returned from the service has a PolicyResult
-      // object as the body.
-      const token = new AttestationTokenImpl(getCertificatesResult.token);
-      const problems = token.getTokenProblems(
-        await this.signingKeys(),
-        options.validationOptions ?? this._validationOptions
-      );
-      if (problems.length) {
-        throw new Error(problems.join(";"));
+      options,
+      async (updatedOptions) => {
+        const getCertificatesResult = await this._client.policyCertificates.get(updatedOptions);
+        // The attestation token returned from the service has a PolicyResult
+        // object as the body.
+        const token = new AttestationTokenImpl(getCertificatesResult.token);
+        const problems = token.getTokenProblems(
+          await this.signingKeys(),
+          options.validationOptions ?? this._validationOptions
+        );
+        if (problems.length) {
+          throw new Error(problems.join(";"));
+        }
+
+        // Deserialize the PolicyResult object to retrieve the underlying policy
+        //  token
+        const jwks = TypeDeserializer.deserialize(
+          token.getBody(),
+          {
+            PolicyCertificatesResult: Mappers.PolicyCertificatesResult,
+            JsonWebKeySet: Mappers.JsonWebKeySet,
+            JsonWebKey: Mappers.JsonWebKey,
+          },
+          "PolicyCertificatesResult"
+        ) as PolicyCertificatesResult;
+
+        const policyCertificates = new Array<AttestationSigner>();
+        jwks.policyCertificates.keys.forEach((jwk) => {
+          policyCertificates.push(_attestationSignerFromGenerated(jwk));
+        });
+
+        return createAttestationResponse<AttestationSigner[]>(token, policyCertificates);
       }
-
-      // Deserialize the PolicyResult object to retrieve the underlying policy
-      //  token
-      const jwks = TypeDeserializer.deserialize(
-        token.getBody(),
-        {
-          PolicyCertificatesResult: Mappers.PolicyCertificatesResult,
-          JsonWebKeySet: Mappers.JsonWebKeySet,
-          JsonWebKey: Mappers.JsonWebKey,
-        },
-        "PolicyCertificatesResult"
-      ) as PolicyCertificatesResult;
-
-      const policyCertificates = new Array<AttestationSigner>();
-      jwks.policyCertificates.keys.forEach((jwk) => {
-        policyCertificates.push(_attestationSignerFromGenerated(jwk));
-      });
-
-      return createAttestationResponse<AttestationSigner[]>(token, policyCertificates);
-    } catch (e: any) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-      throw e;
-    } finally {
-      span.end();
-    }
+    );
   }
 
   /** Add a new certificate chain to the set of policy management certificates.
@@ -448,80 +425,75 @@ export class AttestationAdministrationClient {
     certificate: string,
     options: AttestationAdministrationClientPolicyCertificateOperationOptions = {}
   ): Promise<AttestationResponse<PolicyCertificatesModificationResult>> {
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "AttestationAdministrationClient-addPolicyManagementCertificate",
-      options
-    );
-    try {
-      if ((!privateKey && certificate) || (privateKey && !certificate)) {
-        throw new Error(
-          "If privateKey is specified, certificate must also be provided. If certificate is provided, privateKey must also be provided."
+      options,
+      async (updatedOptions) => {
+        if ((!privateKey && certificate) || (privateKey && !certificate)) {
+          throw new Error(
+            "If privateKey is specified, certificate must also be provided. If certificate is provided, privateKey must also be provided."
+          );
+        }
+
+        if (privateKey && certificate) {
+          verifyAttestationSigningKey(privateKey, certificate);
+        }
+
+        const cert = new jsrsasign.X509();
+        cert.readCertPEM(pemCertificate);
+        const kty = this.keyTypeFromCertificate(cert);
+
+        const jwk: JsonWebKey = {
+          x5C: [hexToBase64(cert.hex)],
+          kty: kty,
+        };
+
+        const addBody: AttestationCertificateManagementBody = {
+          policyCertificate: jwk,
+        };
+
+        const addCertToken = AttestationTokenImpl.create({
+          body: TypeDeserializer.serialize(
+            addBody,
+            {
+              AttestationCertificateManagementBody: Mappers.AttestationCertificateManagementBody,
+              JsonWebKey: Mappers.JsonWebKey,
+            },
+            Mappers.AttestationCertificateManagementBody
+          ),
+          privateKey: privateKey,
+          certificate: certificate,
+        });
+
+        const addCertificateResult = await this._client.policyCertificates.add(
+          addCertToken.serialize(),
+          updatedOptions
         );
-      }
+        // The attestation token returned from the service has a PolicyResult
+        // object as the body.
+        const token = new AttestationTokenImpl(addCertificateResult.token);
+        const problems = token.getTokenProblems(
+          await this.signingKeys(),
+          options.validationOptions ?? this._validationOptions
+        );
+        if (problems.length) {
+          throw new Error(problems.join(";"));
+        }
 
-      if (privateKey && certificate) {
-        verifyAttestationSigningKey(privateKey, certificate);
-      }
-
-      const cert = new jsrsasign.X509();
-      cert.readCertPEM(pemCertificate);
-      const kty = this.keyTypeFromCertificate(cert);
-
-      const jwk: JsonWebKey = {
-        x5C: [hexToBase64(cert.hex)],
-        kty: kty,
-      };
-
-      const addBody: AttestationCertificateManagementBody = {
-        policyCertificate: jwk,
-      };
-
-      const addCertToken = AttestationTokenImpl.create({
-        body: TypeDeserializer.serialize(
-          addBody,
+        // Deserialize the PolicyCertificatesModificationResult object.
+        const result = TypeDeserializer.deserialize(
+          token.getBody(),
           {
-            AttestationCertificateManagementBody: Mappers.AttestationCertificateManagementBody,
+            PolicyCertificatesModificationResult: Mappers.PolicyCertificatesModificationResult,
+            JsonWebKeySet: Mappers.JsonWebKeySet,
             JsonWebKey: Mappers.JsonWebKey,
           },
-          Mappers.AttestationCertificateManagementBody
-        ),
-        privateKey: privateKey,
-        certificate: certificate,
-      });
+          "PolicyCertificatesModificationResult"
+        ) as PolicyCertificatesModificationResult;
 
-      const addCertificateResult = await this._client.policyCertificates.add(
-        addCertToken.serialize(),
-        updatedOptions
-      );
-      // The attestation token returned from the service has a PolicyResult
-      // object as the body.
-      const token = new AttestationTokenImpl(addCertificateResult.token);
-      const problems = token.getTokenProblems(
-        await this.signingKeys(),
-        options.validationOptions ?? this._validationOptions
-      );
-      if (problems.length) {
-        throw new Error(problems.join(";"));
+        return createAttestationResponse<PolicyCertificatesModificationResult>(token, result);
       }
-
-      // Deserialize the PolicyCertificatesModificationResult object.
-      const result = TypeDeserializer.deserialize(
-        token.getBody(),
-        {
-          PolicyCertificatesModificationResult: Mappers.PolicyCertificatesModificationResult,
-          JsonWebKeySet: Mappers.JsonWebKeySet,
-          JsonWebKey: Mappers.JsonWebKey,
-        },
-        "PolicyCertificatesModificationResult"
-      ) as PolicyCertificatesModificationResult;
-
-      return createAttestationResponse<PolicyCertificatesModificationResult>(token, result);
-    } catch (e: any) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-      throw e;
-    } finally {
-      span.end();
-    }
+    );
   }
 
   private keyTypeFromCertificate(cert: any): string {
@@ -566,80 +538,75 @@ export class AttestationAdministrationClient {
     certificate: string,
     options: AttestationAdministrationClientPolicyCertificateOperationOptions = {}
   ): Promise<AttestationResponse<PolicyCertificatesModificationResult>> {
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "AttestationAdministrationClient-removePolicyManagementCertificate",
-      options
-    );
-    try {
-      if ((!privateKey && certificate) || (privateKey && !certificate)) {
-        throw new Error(
-          "If privateKey is specified, certificate must also be provided. If certificate is provided, privateKey must also be provided."
+      options,
+      async (updatedOptions) => {
+        if ((!privateKey && certificate) || (privateKey && !certificate)) {
+          throw new Error(
+            "If privateKey is specified, certificate must also be provided. If certificate is provided, privateKey must also be provided."
+          );
+        }
+
+        if (privateKey && certificate) {
+          verifyAttestationSigningKey(privateKey, certificate);
+        }
+
+        const cert = new jsrsasign.X509();
+        cert.readCertPEM(pemCertificate);
+        const kty = this.keyTypeFromCertificate(cert);
+
+        const jwk: JsonWebKey = {
+          x5C: [hexToBase64(cert.hex)],
+          kty: kty,
+        };
+
+        const addBody: AttestationCertificateManagementBody = {
+          policyCertificate: jwk,
+        };
+
+        const removeCertToken = AttestationTokenImpl.create({
+          body: TypeDeserializer.serialize(
+            addBody,
+            {
+              AttestationCertificateManagementBody: Mappers.AttestationCertificateManagementBody,
+              JsonWebKey: Mappers.JsonWebKey,
+            },
+            Mappers.AttestationCertificateManagementBody
+          ),
+          privateKey: privateKey,
+          certificate: certificate,
+        });
+
+        const removeCertificateResult = await this._client.policyCertificates.remove(
+          removeCertToken.serialize(),
+          updatedOptions
         );
-      }
+        // The attestation token returned from the service has a PolicyResult
+        // object as the body.
+        const token = new AttestationTokenImpl(removeCertificateResult.token);
+        const problems = token.getTokenProblems(
+          await this.signingKeys(),
+          options.validationOptions ?? this._validationOptions
+        );
+        if (problems.length) {
+          throw new Error(problems.join(";"));
+        }
 
-      if (privateKey && certificate) {
-        verifyAttestationSigningKey(privateKey, certificate);
-      }
-
-      const cert = new jsrsasign.X509();
-      cert.readCertPEM(pemCertificate);
-      const kty = this.keyTypeFromCertificate(cert);
-
-      const jwk: JsonWebKey = {
-        x5C: [hexToBase64(cert.hex)],
-        kty: kty,
-      };
-
-      const addBody: AttestationCertificateManagementBody = {
-        policyCertificate: jwk,
-      };
-
-      const removeCertToken = AttestationTokenImpl.create({
-        body: TypeDeserializer.serialize(
-          addBody,
+        // Deserialize the PolicyCertificatesModificationResult object.
+        const result = TypeDeserializer.deserialize(
+          token.getBody(),
           {
-            AttestationCertificateManagementBody: Mappers.AttestationCertificateManagementBody,
+            PolicyCertificatesModificationResult: Mappers.PolicyCertificatesModificationResult,
+            JsonWebKeySet: Mappers.JsonWebKeySet,
             JsonWebKey: Mappers.JsonWebKey,
           },
-          Mappers.AttestationCertificateManagementBody
-        ),
-        privateKey: privateKey,
-        certificate: certificate,
-      });
+          "PolicyCertificatesModificationResult"
+        ) as PolicyCertificatesModificationResult;
 
-      const removeCertificateResult = await this._client.policyCertificates.remove(
-        removeCertToken.serialize(),
-        updatedOptions
-      );
-      // The attestation token returned from the service has a PolicyResult
-      // object as the body.
-      const token = new AttestationTokenImpl(removeCertificateResult.token);
-      const problems = token.getTokenProblems(
-        await this.signingKeys(),
-        options.validationOptions ?? this._validationOptions
-      );
-      if (problems.length) {
-        throw new Error(problems.join(";"));
+        return createAttestationResponse<PolicyCertificatesModificationResult>(token, result);
       }
-
-      // Deserialize the PolicyCertificatesModificationResult object.
-      const result = TypeDeserializer.deserialize(
-        token.getBody(),
-        {
-          PolicyCertificatesModificationResult: Mappers.PolicyCertificatesModificationResult,
-          JsonWebKeySet: Mappers.JsonWebKeySet,
-          JsonWebKey: Mappers.JsonWebKey,
-        },
-        "PolicyCertificatesModificationResult"
-      ) as PolicyCertificatesModificationResult;
-
-      return createAttestationResponse<PolicyCertificatesModificationResult>(token, result);
-    } catch (e: any) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-      throw e;
-    } finally {
-      span.end();
-    }
+    );
   }
 
   private async signingKeys(): Promise<AttestationSigner[]> {

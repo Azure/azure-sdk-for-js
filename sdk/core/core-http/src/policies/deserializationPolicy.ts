@@ -223,7 +223,7 @@ export function deserializeResponseBody(
         if (responseSpec.headersMapper) {
           parsedResponse.parsedHeaders = operationSpec.serializer.deserialize(
             responseSpec.headersMapper,
-            parsedResponse.headers.rawHeaders(),
+            parsedResponse.headers.toJson(),
             "operationRes.parsedHeaders",
             options
           );
@@ -322,7 +322,7 @@ function handleErrorResponse(
     if (parsedResponse.headers && defaultHeadersMapper) {
       error.response!.parsedHeaders = operationSpec.serializer.deserialize(
         defaultHeadersMapper,
-        parsedResponse.headers.rawHeaders(),
+        parsedResponse.headers.toJson(),
         "operationRes.parsedHeaders"
       );
     }

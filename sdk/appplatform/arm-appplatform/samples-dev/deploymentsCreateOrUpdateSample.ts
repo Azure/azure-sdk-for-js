@@ -13,25 +13,59 @@ import {
   AppPlatformManagementClient
 } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create a new Deployment or update an exiting Deployment.
  *
  * @summary Create a new Deployment or update an exiting Deployment.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-03-01-preview/examples/Deployments_CreateOrUpdate.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/Deployments_CreateOrUpdate.json
  */
 async function deploymentsCreateOrUpdate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const appName = "myapp";
   const deploymentName = "mydeployment";
   const deploymentResource: DeploymentResource = {
     properties: {
       deploymentSettings: {
-        addonConfigs: {},
+        addonConfigs: {
+          applicationConfigurationService: { patterns: { string: ["mypattern"] } }
+        },
         environmentVariables: { env: "test" },
-        resourceRequests: { cpu: "1000m", memory: "3Gi" }
+        livenessProbe: {
+          disableProbe: false,
+          failureThreshold: 3,
+          initialDelaySeconds: 30,
+          periodSeconds: 10,
+          probeAction: {
+            type: "HTTPGetAction",
+            path: "/health",
+            scheme: "HTTP"
+          }
+        },
+        readinessProbe: {
+          disableProbe: false,
+          failureThreshold: 3,
+          initialDelaySeconds: 30,
+          periodSeconds: 10,
+          probeAction: {
+            type: "HTTPGetAction",
+            path: "/health",
+            scheme: "HTTP"
+          }
+        },
+        resourceRequests: { cpu: "1000m", memory: "3Gi" },
+        startupProbe: {
+          disableProbe: false
+        },
+        terminationGracePeriodSeconds: 30
       },
       instances: [],
       source: {
@@ -56,17 +90,18 @@ async function deploymentsCreateOrUpdate() {
   console.log(result);
 }
 
-deploymentsCreateOrUpdate().catch(console.error);
-
 /**
  * This sample demonstrates how to Create a new Deployment or update an exiting Deployment.
  *
  * @summary Create a new Deployment or update an exiting Deployment.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-03-01-preview/examples/Deployments_CreateOrUpdate_CustomContainer.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/Deployments_CreateOrUpdate_CustomContainer.json
  */
 async function deploymentsCreateOrUpdateCustomContainer() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const appName = "myapp";
   const deploymentName = "mydeployment";
@@ -74,7 +109,33 @@ async function deploymentsCreateOrUpdateCustomContainer() {
     properties: {
       deploymentSettings: {
         environmentVariables: { env: "test" },
-        resourceRequests: { cpu: "1000m", memory: "3Gi" }
+        livenessProbe: {
+          disableProbe: false,
+          failureThreshold: 3,
+          initialDelaySeconds: 30,
+          periodSeconds: 10,
+          probeAction: {
+            type: "HTTPGetAction",
+            path: "/health",
+            scheme: "HTTP"
+          }
+        },
+        readinessProbe: {
+          disableProbe: false,
+          failureThreshold: 3,
+          initialDelaySeconds: 30,
+          periodSeconds: 10,
+          probeAction: {
+            type: "HTTPGetAction",
+            path: "/health",
+            scheme: "HTTP"
+          }
+        },
+        resourceRequests: { cpu: "1000m", memory: "3Gi" },
+        startupProbe: {
+          disableProbe: false
+        },
+        terminationGracePeriodSeconds: 30
       },
       instances: [],
       source: {
@@ -105,4 +166,9 @@ async function deploymentsCreateOrUpdateCustomContainer() {
   console.log(result);
 }
 
-deploymentsCreateOrUpdateCustomContainer().catch(console.error);
+async function main() {
+  deploymentsCreateOrUpdate();
+  deploymentsCreateOrUpdateCustomContainer();
+}
+
+main().catch(console.error);

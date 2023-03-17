@@ -926,7 +926,9 @@ export interface VirtualMachinesStopExceptionHeaders {
 
 /** Known values of {@link GuestOsnicCustomizationAllocation} that the service accepts. */
 export enum KnownGuestOsnicCustomizationAllocation {
+  /** Static */
   Static = "static",
+  /** Dynamic */
   Dynamic = "dynamic"
 }
 
@@ -942,10 +944,15 @@ export type GuestOsnicCustomizationAllocation = string;
 
 /** Known values of {@link CustomizationHostNameType} that the service accepts. */
 export enum KnownCustomizationHostNameType {
+  /** UserDefined */
   UserDefined = "USER_DEFINED",
+  /** PrefixBased */
   PrefixBased = "PREFIX_BASED",
+  /** Fixed */
   Fixed = "FIXED",
+  /** VirtualMachineName */
   VirtualMachineName = "VIRTUAL_MACHINE_NAME",
+  /** CustomName */
   CustomName = "CUSTOM_NAME"
 }
 
@@ -964,8 +971,11 @@ export type CustomizationHostNameType = string;
 
 /** Known values of {@link CustomizationIdentityType} that the service accepts. */
 export enum KnownCustomizationIdentityType {
+  /** WindowsText */
   WindowsText = "WINDOWS_TEXT",
+  /** Windows */
   Windows = "WINDOWS",
+  /** Linux */
   Linux = "LINUX"
 }
 
@@ -982,9 +992,13 @@ export type CustomizationIdentityType = string;
 
 /** Known values of {@link CustomizationIPAddressType} that the service accepts. */
 export enum KnownCustomizationIPAddressType {
+  /** Custom */
   Custom = "CUSTOM",
+  /** DhcpIP */
   DhcpIP = "DHCP_IP",
+  /** FixedIP */
   FixedIP = "FIXED_IP",
+  /** UserDefined */
   UserDefined = "USER_DEFINED"
 }
 
@@ -1002,7 +1016,9 @@ export type CustomizationIPAddressType = string;
 
 /** Known values of {@link CustomizationPolicyPropertiesType} that the service accepts. */
 export enum KnownCustomizationPolicyPropertiesType {
+  /** Linux */
   Linux = "LINUX",
+  /** Windows */
   Windows = "WINDOWS"
 }
 
@@ -1143,28 +1159,14 @@ export type DedicatedCloudNodesUpdateResponse = DedicatedCloudNode;
 
 /** Optional parameters. */
 export interface DedicatedCloudNodesListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the list operation */
-  filter?: string;
-  /** The maximum number of record sets to return */
-  top?: number;
-  /** to be used by nextLink implementation */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type DedicatedCloudNodesListBySubscriptionNextResponse = DedicatedCloudNodeListResponse;
 
 /** Optional parameters. */
 export interface DedicatedCloudNodesListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the list operation */
-  filter?: string;
-  /** The maximum number of record sets to return */
-  top?: number;
-  /** to be used by nextLink implementation */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type DedicatedCloudNodesListByResourceGroupNextResponse = DedicatedCloudNodeListResponse;
@@ -1229,28 +1231,14 @@ export type DedicatedCloudServicesUpdateResponse = DedicatedCloudService;
 
 /** Optional parameters. */
 export interface DedicatedCloudServicesListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the list operation */
-  filter?: string;
-  /** The maximum number of record sets to return */
-  top?: number;
-  /** to be used by nextLink implementation */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type DedicatedCloudServicesListBySubscriptionNextResponse = DedicatedCloudServiceListResponse;
 
 /** Optional parameters. */
 export interface DedicatedCloudServicesListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the list operation */
-  filter?: string;
-  /** The maximum number of record sets to return */
-  top?: number;
-  /** to be used by nextLink implementation */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type DedicatedCloudServicesListByResourceGroupNextResponse = DedicatedCloudServiceListResponse;
@@ -1267,10 +1255,7 @@ export type SkusAvailabilityListResponse = SkuAvailabilityListResponse;
 
 /** Optional parameters. */
 export interface SkusAvailabilityListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** sku id, if no sku is passed availability for all skus will be returned */
-  skuId?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SkusAvailabilityListNextResponse = SkuAvailabilityListResponse;
@@ -1315,10 +1300,7 @@ export type CustomizationPoliciesGetResponse = CustomizationPolicy;
 
 /** Optional parameters. */
 export interface CustomizationPoliciesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the list operation. only type is allowed here as a filter e.g. $filter=type eq 'xxxx' */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type CustomizationPoliciesListNextResponse = CustomizationPoliciesListResponse;
@@ -1397,10 +1379,7 @@ export type UsagesListResponse = UsageListResponse;
 
 /** Optional parameters. */
 export interface UsagesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the list operation. only name.value is allowed here as a filter e.g. $filter=name.value eq 'xxxx' */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type UsagesListNextResponse = UsageListResponse;
@@ -1501,28 +1480,14 @@ export interface VirtualMachinesStopOptionalParams
 
 /** Optional parameters. */
 export interface VirtualMachinesListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the list operation */
-  filter?: string;
-  /** The maximum number of record sets to return */
-  top?: number;
-  /** to be used by nextLink implementation */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type VirtualMachinesListBySubscriptionNextResponse = VirtualMachineListResponse;
 
 /** Optional parameters. */
 export interface VirtualMachinesListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the list operation */
-  filter?: string;
-  /** The maximum number of record sets to return */
-  top?: number;
-  /** to be used by nextLink implementation */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type VirtualMachinesListByResourceGroupNextResponse = VirtualMachineListResponse;

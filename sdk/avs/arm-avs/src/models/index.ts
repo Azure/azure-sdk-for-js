@@ -16,7 +16,8 @@ export type AddonPropertiesUnion =
   | AddonProperties
   | AddonSrmProperties
   | AddonVrProperties
-  | AddonHcxProperties;
+  | AddonHcxProperties
+  | AddonArcProperties;
 export type PlacementPolicyPropertiesUnion =
   | PlacementPolicyProperties
   | VmPlacementPolicyProperties
@@ -200,6 +201,12 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
+/** The resource model definition representing SKU */
+export interface Sku {
+  /** The name of the SKU. */
+  name: string;
+}
+
 /** Subscription trial availability */
 export interface Trial {
   /**
@@ -240,12 +247,6 @@ export interface PrivateCloudList {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
-}
-
-/** The resource model definition representing SKU */
-export interface Sku {
-  /** The name of the SKU. */
-  name: string;
 }
 
 /** An ExpressRoute Circuit */
@@ -371,6 +372,11 @@ export interface EncryptionKeyVaultProperties {
   keyName?: string;
   /** The version of the key. */
   keyVersion?: string;
+  /**
+   * The auto-detected version of the key if versionType is auto-detected.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly autoDetectedKeyVersion?: string;
   /** The URL of the vault. */
   keyVaultUrl?: string;
   /**
@@ -458,6 +464,26 @@ export interface ClusterUpdate {
   clusterSize?: number;
   /** The hosts */
   hosts?: string[];
+}
+
+/** List of all zones and associated hosts for a cluster */
+export interface ClusterZoneList {
+  /** Zone and associated hosts info */
+  zones?: ClusterZone[];
+}
+
+/** Zone and associated hosts info */
+export interface ClusterZone {
+  /**
+   * List of hosts belonging to the availability zone in a cluster
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hosts?: string[];
+  /**
+   * Availability zone identifier
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly zone?: string;
 }
 
 /** A paged list of datastores */
@@ -554,6 +580,20 @@ export interface GlobalReachConnectionList {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly value?: GlobalReachConnection[];
+  /**
+   * URL to get the next page if any
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** A list of workload networks */
+export interface WorkloadNetworkList {
+  /**
+   * The items on the page
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: WorkloadNetwork[];
   /**
    * URL to get the next page if any
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -752,7 +792,7 @@ export interface AddonList {
 /** The properties of an addon */
 export interface AddonProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  addonType: "SRM" | "VR" | "HCX";
+  addonType: "SRM" | "VR" | "HCX" | "Arc";
   /**
    * The state of the addon provisioning
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -817,6 +857,10 @@ export interface PlacementPolicyUpdate {
   vmMembers?: string[];
   /** Host members list */
   hostMembers?: string[];
+  /** vm-host placement policy affinity strength (should/must) */
+  affinityStrength?: AffinityStrength;
+  /** placement policy azure hybrid benefit opt-in type */
+  azureHybridBenefitType?: AzureHybridBenefitType;
 }
 
 /** A list of the available script packages */
@@ -896,7 +940,7 @@ export interface ScriptExecutionParameter {
 }
 
 /** The properties of a private cloud resource */
-export type PrivateCloudProperties = PrivateCloudUpdateProperties & {
+export interface PrivateCloudProperties extends PrivateCloudUpdateProperties {
   /**
    * The provisioning state
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -947,24 +991,29 @@ export type PrivateCloudProperties = PrivateCloudUpdateProperties & {
   readonly externalCloudLinks?: string[];
   /** A secondary expressRoute circuit from a separate AZ. Only present in a stretched private cloud */
   secondaryCircuit?: Circuit;
-};
+  /**
+   * Flag to indicate whether the private cloud has the quota for provisioned NSX Public IP count raised from 64 to 1024
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nsxPublicIpQuotaRaised?: NsxPublicIpQuotaRaisedEnum;
+}
 
 /** The properties of a management cluster */
-export type ManagementCluster = CommonClusterProperties & {};
+export interface ManagementCluster extends CommonClusterProperties {}
 
 /** The properties of a cluster */
-export type ClusterProperties = CommonClusterProperties & {};
+export interface ClusterProperties extends CommonClusterProperties {}
 
 /** The resource model definition for a ARM tracked top level resource */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource location */
   location?: string;
   /** Resource tags */
   tags?: { [propertyName: string]: string };
-};
+}
 
 /** A cluster resource */
-export type Cluster = Resource & {
+export interface Cluster extends Resource {
   /** The cluster SKU */
   sku: Sku;
   /** The cluster size */
@@ -981,10 +1030,10 @@ export type Cluster = Resource & {
   readonly clusterId?: number;
   /** The hosts */
   hosts?: string[];
-};
+}
 
 /** A datastore resource */
-export type Datastore = Resource & {
+export interface Datastore extends Resource {
   /**
    * The state of the datastore provisioning
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -999,10 +1048,10 @@ export type Datastore = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: DatastoreStatus;
-};
+}
 
 /** An HCX Enterprise Site resource */
-export type HcxEnterpriseSite = Resource & {
+export interface HcxEnterpriseSite extends Resource {
   /**
    * The activation key
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1013,10 +1062,10 @@ export type HcxEnterpriseSite = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: HcxEnterpriseSiteStatus;
-};
+}
 
 /** ExpressRoute Circuit Authorization */
-export type ExpressRouteAuthorization = Resource & {
+export interface ExpressRouteAuthorization extends Resource {
   /**
    * The state of the  ExpressRoute Circuit Authorization provisioning
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1034,10 +1083,10 @@ export type ExpressRouteAuthorization = Resource & {
   readonly expressRouteAuthorizationKey?: string;
   /** The ID of the ExpressRoute Circuit */
   expressRouteId?: string;
-};
+}
 
 /** A global reach connection resource */
-export type GlobalReachConnection = Resource & {
+export interface GlobalReachConnection extends Resource {
   /**
    * The state of the  ExpressRoute Circuit Authorization provisioning
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1059,13 +1108,13 @@ export type GlobalReachConnection = Resource & {
   peerExpressRouteCircuit?: string;
   /** The ID of the Private Cloud's ExpressRoute Circuit that is participating in the global reach connection */
   expressRouteId?: string;
-};
+}
 
 /** The resource model definition for a ARM proxy resource */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** A cloud link resource */
-export type CloudLink = Resource & {
+export interface CloudLink extends Resource {
   /**
    * The state of the cloud link.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1073,74 +1122,83 @@ export type CloudLink = Resource & {
   readonly status?: CloudLinkStatus;
   /** Identifier of the other private cloud participating in the link. */
   linkedCloud?: string;
-};
+}
 
 /** An addon resource */
-export type Addon = Resource & {
+export interface Addon extends Resource {
   /** The properties of an addon resource */
   properties?: AddonPropertiesUnion;
-};
+}
 
 /** A vSphere Distributed Resource Scheduler (DRS) placement policy */
-export type PlacementPolicy = Resource & {
+export interface PlacementPolicy extends Resource {
   /** placement policy properties */
   properties?: PlacementPolicyPropertiesUnion;
-};
+}
 
 /** NSX DHCP Server */
-export type WorkloadNetworkDhcpServer = WorkloadNetworkDhcpEntity & {
+export interface WorkloadNetworkDhcpServer extends WorkloadNetworkDhcpEntity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dhcpType: "SERVER";
   /** DHCP Server Address. */
   serverAddress?: string;
   /** DHCP Server Lease Time. */
   leaseTime?: number;
-};
+}
 
 /** NSX DHCP Relay */
-export type WorkloadNetworkDhcpRelay = WorkloadNetworkDhcpEntity & {
+export interface WorkloadNetworkDhcpRelay extends WorkloadNetworkDhcpEntity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dhcpType: "RELAY";
   /** DHCP Relay Addresses. Max 3. */
   serverAddresses?: string[];
-};
+}
 
 /** The properties of a Site Recovery Manager (SRM) addon */
-export type AddonSrmProperties = AddonProperties & {
+export interface AddonSrmProperties extends AddonProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   addonType: "SRM";
   /** The Site Recovery Manager (SRM) license */
   licenseKey?: string;
-};
+}
 
 /** The properties of a vSphere Replication (VR) addon */
-export type AddonVrProperties = AddonProperties & {
+export interface AddonVrProperties extends AddonProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   addonType: "VR";
   /** The vSphere Replication Server (VRS) count */
   vrsCount: number;
-};
+}
 
 /** The properties of an HCX addon */
-export type AddonHcxProperties = AddonProperties & {
+export interface AddonHcxProperties extends AddonProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   addonType: "HCX";
   /** The HCX offer, example VMware MaaS Cloud Provider (Enterprise) */
   offer: string;
-};
+}
+
+/** The properties of an Arc addon */
+export interface AddonArcProperties extends AddonProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  addonType: "Arc";
+  /** The VMware vCenter resource ID */
+  vCenter?: string;
+}
 
 /** VM-VM placement policy properties */
-export type VmPlacementPolicyProperties = PlacementPolicyProperties & {
+export interface VmPlacementPolicyProperties extends PlacementPolicyProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "VmVm";
   /** Virtual machine members list */
   vmMembers: string[];
   /** placement policy affinity type */
   affinityType: AffinityType;
-};
+}
 
 /** VM-Host placement policy properties */
-export type VmHostPlacementPolicyProperties = PlacementPolicyProperties & {
+export interface VmHostPlacementPolicyProperties
+  extends PlacementPolicyProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "VmHost";
   /** Virtual machine members list */
@@ -1149,36 +1207,43 @@ export type VmHostPlacementPolicyProperties = PlacementPolicyProperties & {
   hostMembers: string[];
   /** placement policy affinity type */
   affinityType: AffinityType;
-};
+  /** vm-host placement policy affinity strength (should/must) */
+  affinityStrength?: AffinityStrength;
+  /** placement policy azure hybrid benefit opt-in type */
+  azureHybridBenefitType?: AzureHybridBenefitType;
+}
 
 /** a plain text value execution parameter */
-export type ScriptSecureStringExecutionParameter = ScriptExecutionParameter & {
+export interface ScriptSecureStringExecutionParameter
+  extends ScriptExecutionParameter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SecureValue";
   /** A secure value for the passed parameter, not to be stored in logs */
   secureValue?: string;
-};
+}
 
 /** a plain text value execution parameter */
-export type ScriptStringExecutionParameter = ScriptExecutionParameter & {
+export interface ScriptStringExecutionParameter
+  extends ScriptExecutionParameter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Value";
   /** The value for the passed parameter */
   value?: string;
-};
+}
 
 /** a powershell credential object */
-export type PSCredentialExecutionParameter = ScriptExecutionParameter & {
+export interface PSCredentialExecutionParameter
+  extends ScriptExecutionParameter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Credential";
   /** username for login */
   username?: string;
   /** password for login */
   password?: string;
-};
+}
 
 /** A private cloud resource */
-export type PrivateCloud = TrackedResource & {
+export interface PrivateCloud extends TrackedResource {
   /** The private cloud SKU */
   sku: Sku;
   /** The identity of the private cloud, if configured. */
@@ -1243,10 +1308,18 @@ export type PrivateCloud = TrackedResource & {
   readonly externalCloudLinks?: string[];
   /** A secondary expressRoute circuit from a separate AZ. Only present in a stretched private cloud */
   secondaryCircuit?: Circuit;
-};
+  /**
+   * Flag to indicate whether the private cloud has the quota for provisioned NSX Public IP count raised from 64 to 1024
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nsxPublicIpQuotaRaised?: NsxPublicIpQuotaRaisedEnum;
+}
+
+/** Workload Network */
+export interface WorkloadNetwork extends ProxyResource {}
 
 /** NSX Segment */
-export type WorkloadNetworkSegment = ProxyResource & {
+export interface WorkloadNetworkSegment extends ProxyResource {
   /** Display name of the segment. */
   displayName?: string;
   /** Gateway which to connect segment to. */
@@ -1270,16 +1343,16 @@ export type WorkloadNetworkSegment = ProxyResource & {
   readonly provisioningState?: WorkloadNetworkSegmentProvisioningState;
   /** NSX revision number. */
   revision?: number;
-};
+}
 
 /** NSX DHCP */
-export type WorkloadNetworkDhcp = ProxyResource & {
+export interface WorkloadNetworkDhcp extends ProxyResource {
   /** DHCP properties. */
   properties?: WorkloadNetworkDhcpEntityUnion;
-};
+}
 
 /** NSX Gateway. */
-export type WorkloadNetworkGateway = ProxyResource & {
+export interface WorkloadNetworkGateway extends ProxyResource {
   /** Display name of the DHCP entity. */
   displayName?: string;
   /**
@@ -1287,10 +1360,10 @@ export type WorkloadNetworkGateway = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly path?: string;
-};
+}
 
 /** NSX Port Mirroring */
-export type WorkloadNetworkPortMirroring = ProxyResource & {
+export interface WorkloadNetworkPortMirroring extends ProxyResource {
   /** Display name of the port mirroring profile. */
   displayName?: string;
   /** Direction of port mirroring profile. */
@@ -1311,10 +1384,10 @@ export type WorkloadNetworkPortMirroring = ProxyResource & {
   readonly provisioningState?: WorkloadNetworkPortMirroringProvisioningState;
   /** NSX revision number. */
   revision?: number;
-};
+}
 
 /** NSX VM Group */
-export type WorkloadNetworkVMGroup = ProxyResource & {
+export interface WorkloadNetworkVMGroup extends ProxyResource {
   /** Display name of the VM group. */
   displayName?: string;
   /** Virtual machine members of this group. */
@@ -1331,10 +1404,10 @@ export type WorkloadNetworkVMGroup = ProxyResource & {
   readonly provisioningState?: WorkloadNetworkVMGroupProvisioningState;
   /** NSX revision number. */
   revision?: number;
-};
+}
 
 /** NSX Virtual Machine */
-export type WorkloadNetworkVirtualMachine = ProxyResource & {
+export interface WorkloadNetworkVirtualMachine extends ProxyResource {
   /** Display name of the VM. */
   displayName?: string;
   /**
@@ -1342,10 +1415,10 @@ export type WorkloadNetworkVirtualMachine = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly vmType?: VMTypeEnum;
-};
+}
 
 /** NSX DNS Service */
-export type WorkloadNetworkDnsService = ProxyResource & {
+export interface WorkloadNetworkDnsService extends ProxyResource {
   /** Display name of the DNS Service. */
   displayName?: string;
   /** DNS service IP of the DNS Service. */
@@ -1368,10 +1441,10 @@ export type WorkloadNetworkDnsService = ProxyResource & {
   readonly provisioningState?: WorkloadNetworkDnsServiceProvisioningState;
   /** NSX revision number. */
   revision?: number;
-};
+}
 
 /** NSX DNS Zone */
-export type WorkloadNetworkDnsZone = ProxyResource & {
+export interface WorkloadNetworkDnsZone extends ProxyResource {
   /** Display name of the DNS Zone. */
   displayName?: string;
   /** Domain names of the DNS Zone. */
@@ -1389,10 +1462,10 @@ export type WorkloadNetworkDnsZone = ProxyResource & {
   readonly provisioningState?: WorkloadNetworkDnsZoneProvisioningState;
   /** NSX revision number. */
   revision?: number;
-};
+}
 
 /** NSX Public IP Block */
-export type WorkloadNetworkPublicIP = ProxyResource & {
+export interface WorkloadNetworkPublicIP extends ProxyResource {
   /** Display name of the Public IP Block. */
   displayName?: string;
   /** Number of Public IPs requested. */
@@ -1407,10 +1480,10 @@ export type WorkloadNetworkPublicIP = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: WorkloadNetworkPublicIPProvisioningState;
-};
+}
 
 /** Virtual Machine */
-export type VirtualMachine = ProxyResource & {
+export interface VirtualMachine extends ProxyResource {
   /**
    * Display name of the VM.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1431,10 +1504,10 @@ export type VirtualMachine = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly restrictMovement?: VirtualMachineRestrictMovementState;
-};
+}
 
 /** Script Package resources available for execution */
-export type ScriptPackage = ProxyResource & {
+export interface ScriptPackage extends ProxyResource {
   /**
    * User friendly description of the package
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1445,10 +1518,20 @@ export type ScriptPackage = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly version?: string;
-};
+  /**
+   * Company that created and supports the package
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly company?: string;
+  /**
+   * Link to support by the package vendor
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uri?: string;
+}
 
 /** A cmdlet available for script execution */
-export type ScriptCmdlet = ProxyResource & {
+export interface ScriptCmdlet extends ProxyResource {
   /**
    * Description of the scripts functionality
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1464,10 +1547,10 @@ export type ScriptCmdlet = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly parameters?: ScriptParameter[];
-};
+}
 
 /** An instance of a script executed by a user - custom or AVS */
-export type ScriptExecution = ProxyResource & {
+export interface ScriptExecution extends ProxyResource {
   /** A reference to the script cmdlet resource if user is running a AVS script */
   scriptCmdletId?: string;
   /** Parameters the script will accept */
@@ -1519,12 +1602,15 @@ export type ScriptExecution = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly errors?: string[];
-};
+}
 
 /** Known values of {@link TrialStatus} that the service accepts. */
 export enum KnownTrialStatus {
+  /** TrialAvailable */
   TrialAvailable = "TrialAvailable",
+  /** TrialUsed */
   TrialUsed = "TrialUsed",
+  /** TrialDisabled */
   TrialDisabled = "TrialDisabled"
 }
 
@@ -1541,7 +1627,9 @@ export type TrialStatus = string;
 
 /** Known values of {@link QuotaEnabled} that the service accepts. */
 export enum KnownQuotaEnabled {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -1557,13 +1645,22 @@ export type QuotaEnabled = string;
 
 /** Known values of {@link PrivateCloudProvisioningState} that the service accepts. */
 export enum KnownPrivateCloudProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Cancelled */
   Cancelled = "Cancelled",
+  /** Pending */
   Pending = "Pending",
+  /** Building */
   Building = "Building",
+  /** Deleting */
   Deleting = "Deleting",
-  Updating = "Updating"
+  /** Updating */
+  Updating = "Updating",
+  /** Canceled */
+  Canceled = "Canceled"
 }
 
 /**
@@ -1577,17 +1674,43 @@ export enum KnownPrivateCloudProvisioningState {
  * **Pending** \
  * **Building** \
  * **Deleting** \
- * **Updating**
+ * **Updating** \
+ * **Canceled**
  */
 export type PrivateCloudProvisioningState = string;
 
+/** Known values of {@link NsxPublicIpQuotaRaisedEnum} that the service accepts. */
+export enum KnownNsxPublicIpQuotaRaisedEnum {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for NsxPublicIpQuotaRaisedEnum. \
+ * {@link KnownNsxPublicIpQuotaRaisedEnum} can be used interchangeably with NsxPublicIpQuotaRaisedEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type NsxPublicIpQuotaRaisedEnum = string;
+
 /** Known values of {@link ClusterProvisioningState} that the service accepts. */
 export enum KnownClusterProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Cancelled */
   Cancelled = "Cancelled",
+  /** Deleting */
   Deleting = "Deleting",
-  Updating = "Updating"
+  /** Updating */
+  Updating = "Updating",
+  /** Canceled */
+  Canceled = "Canceled"
 }
 
 /**
@@ -1599,13 +1722,16 @@ export enum KnownClusterProvisioningState {
  * **Failed** \
  * **Cancelled** \
  * **Deleting** \
- * **Updating**
+ * **Updating** \
+ * **Canceled**
  */
 export type ClusterProvisioningState = string;
 
 /** Known values of {@link InternetEnum} that the service accepts. */
 export enum KnownInternetEnum {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -1621,7 +1747,9 @@ export type InternetEnum = string;
 
 /** Known values of {@link SslEnum} that the service accepts. */
 export enum KnownSslEnum {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -1637,7 +1765,9 @@ export type SslEnum = string;
 
 /** Known values of {@link AvailabilityStrategy} that the service accepts. */
 export enum KnownAvailabilityStrategy {
+  /** SingleZone */
   SingleZone = "SingleZone",
+  /** DualZone */
   DualZone = "DualZone"
 }
 
@@ -1653,7 +1783,9 @@ export type AvailabilityStrategy = string;
 
 /** Known values of {@link EncryptionState} that the service accepts. */
 export enum KnownEncryptionState {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -1669,7 +1801,9 @@ export type EncryptionState = string;
 
 /** Known values of {@link EncryptionKeyStatus} that the service accepts. */
 export enum KnownEncryptionKeyStatus {
+  /** Connected */
   Connected = "Connected",
+  /** AccessDenied */
   AccessDenied = "AccessDenied"
 }
 
@@ -1685,7 +1819,9 @@ export type EncryptionKeyStatus = string;
 
 /** Known values of {@link EncryptionVersionType} that the service accepts. */
 export enum KnownEncryptionVersionType {
+  /** Fixed */
   Fixed = "Fixed",
+  /** AutoDetected */
   AutoDetected = "AutoDetected"
 }
 
@@ -1701,7 +1837,9 @@ export type EncryptionVersionType = string;
 
 /** Known values of {@link ResourceIdentityType} that the service accepts. */
 export enum KnownResourceIdentityType {
+  /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
+  /** None */
   None = "None"
 }
 
@@ -1717,13 +1855,22 @@ export type ResourceIdentityType = string;
 
 /** Known values of {@link DatastoreProvisioningState} that the service accepts. */
 export enum KnownDatastoreProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Cancelled */
   Cancelled = "Cancelled",
+  /** Pending */
   Pending = "Pending",
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
-  Deleting = "Deleting"
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Canceled */
+  Canceled = "Canceled"
 }
 
 /**
@@ -1737,13 +1884,16 @@ export enum KnownDatastoreProvisioningState {
  * **Pending** \
  * **Creating** \
  * **Updating** \
- * **Deleting**
+ * **Deleting** \
+ * **Canceled**
  */
 export type DatastoreProvisioningState = string;
 
 /** Known values of {@link MountOptionEnum} that the service accepts. */
 export enum KnownMountOptionEnum {
+  /** Mount */
   Mount = "MOUNT",
+  /** Attach */
   Attach = "ATTACH"
 }
 
@@ -1759,12 +1909,19 @@ export type MountOptionEnum = string;
 
 /** Known values of {@link DatastoreStatus} that the service accepts. */
 export enum KnownDatastoreStatus {
+  /** Unknown */
   Unknown = "Unknown",
+  /** Accessible */
   Accessible = "Accessible",
+  /** Inaccessible */
   Inaccessible = "Inaccessible",
+  /** Attached */
   Attached = "Attached",
+  /** Detached */
   Detached = "Detached",
+  /** LostCommunication */
   LostCommunication = "LostCommunication",
+  /** DeadOrError */
   DeadOrError = "DeadOrError"
 }
 
@@ -1785,9 +1942,13 @@ export type DatastoreStatus = string;
 
 /** Known values of {@link HcxEnterpriseSiteStatus} that the service accepts. */
 export enum KnownHcxEnterpriseSiteStatus {
+  /** Available */
   Available = "Available",
+  /** Consumed */
   Consumed = "Consumed",
+  /** Deactivated */
   Deactivated = "Deactivated",
+  /** Deleted */
   Deleted = "Deleted"
 }
 
@@ -1805,9 +1966,14 @@ export type HcxEnterpriseSiteStatus = string;
 
 /** Known values of {@link ExpressRouteAuthorizationProvisioningState} that the service accepts. */
 export enum KnownExpressRouteAuthorizationProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
-  Updating = "Updating"
+  /** Updating */
+  Updating = "Updating",
+  /** Canceled */
+  Canceled = "Canceled"
 }
 
 /**
@@ -1817,15 +1983,21 @@ export enum KnownExpressRouteAuthorizationProvisioningState {
  * ### Known values supported by the service
  * **Succeeded** \
  * **Failed** \
- * **Updating**
+ * **Updating** \
+ * **Canceled**
  */
 export type ExpressRouteAuthorizationProvisioningState = string;
 
 /** Known values of {@link GlobalReachConnectionProvisioningState} that the service accepts. */
 export enum KnownGlobalReachConnectionProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
-  Updating = "Updating"
+  /** Updating */
+  Updating = "Updating",
+  /** Canceled */
+  Canceled = "Canceled"
 }
 
 /**
@@ -1835,14 +2007,18 @@ export enum KnownGlobalReachConnectionProvisioningState {
  * ### Known values supported by the service
  * **Succeeded** \
  * **Failed** \
- * **Updating**
+ * **Updating** \
+ * **Canceled**
  */
 export type GlobalReachConnectionProvisioningState = string;
 
 /** Known values of {@link GlobalReachConnectionStatus} that the service accepts. */
 export enum KnownGlobalReachConnectionStatus {
+  /** Connected */
   Connected = "Connected",
+  /** Connecting */
   Connecting = "Connecting",
+  /** Disconnected */
   Disconnected = "Disconnected"
 }
 
@@ -1857,9 +2033,26 @@ export enum KnownGlobalReachConnectionStatus {
  */
 export type GlobalReachConnectionStatus = string;
 
+/** Known values of {@link WorkloadNetworkName} that the service accepts. */
+export enum KnownWorkloadNetworkName {
+  /** Default */
+  Default = "default"
+}
+
+/**
+ * Defines values for WorkloadNetworkName. \
+ * {@link KnownWorkloadNetworkName} can be used interchangeably with WorkloadNetworkName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **default**
+ */
+export type WorkloadNetworkName = string;
+
 /** Known values of {@link SegmentStatusEnum} that the service accepts. */
 export enum KnownSegmentStatusEnum {
+  /** Success */
   Success = "SUCCESS",
+  /** Failure */
   Failure = "FAILURE"
 }
 
@@ -1875,11 +2068,18 @@ export type SegmentStatusEnum = string;
 
 /** Known values of {@link WorkloadNetworkSegmentProvisioningState} that the service accepts. */
 export enum KnownWorkloadNetworkSegmentProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Building */
   Building = "Building",
+  /** Deleting */
   Deleting = "Deleting",
-  Updating = "Updating"
+  /** Updating */
+  Updating = "Updating",
+  /** Canceled */
+  Canceled = "Canceled"
 }
 
 /**
@@ -1891,13 +2091,16 @@ export enum KnownWorkloadNetworkSegmentProvisioningState {
  * **Failed** \
  * **Building** \
  * **Deleting** \
- * **Updating**
+ * **Updating** \
+ * **Canceled**
  */
 export type WorkloadNetworkSegmentProvisioningState = string;
 
 /** Known values of {@link DhcpTypeEnum} that the service accepts. */
 export enum KnownDhcpTypeEnum {
+  /** Server */
   Server = "SERVER",
+  /** Relay */
   Relay = "RELAY"
 }
 
@@ -1913,11 +2116,18 @@ export type DhcpTypeEnum = string;
 
 /** Known values of {@link WorkloadNetworkDhcpProvisioningState} that the service accepts. */
 export enum KnownWorkloadNetworkDhcpProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Building */
   Building = "Building",
+  /** Deleting */
   Deleting = "Deleting",
-  Updating = "Updating"
+  /** Updating */
+  Updating = "Updating",
+  /** Canceled */
+  Canceled = "Canceled"
 }
 
 /**
@@ -1929,14 +2139,18 @@ export enum KnownWorkloadNetworkDhcpProvisioningState {
  * **Failed** \
  * **Building** \
  * **Deleting** \
- * **Updating**
+ * **Updating** \
+ * **Canceled**
  */
 export type WorkloadNetworkDhcpProvisioningState = string;
 
 /** Known values of {@link PortMirroringDirectionEnum} that the service accepts. */
 export enum KnownPortMirroringDirectionEnum {
+  /** Ingress */
   Ingress = "INGRESS",
+  /** Egress */
   Egress = "EGRESS",
+  /** Bidirectional */
   Bidirectional = "BIDIRECTIONAL"
 }
 
@@ -1953,7 +2167,9 @@ export type PortMirroringDirectionEnum = string;
 
 /** Known values of {@link PortMirroringStatusEnum} that the service accepts. */
 export enum KnownPortMirroringStatusEnum {
+  /** Success */
   Success = "SUCCESS",
+  /** Failure */
   Failure = "FAILURE"
 }
 
@@ -1969,11 +2185,18 @@ export type PortMirroringStatusEnum = string;
 
 /** Known values of {@link WorkloadNetworkPortMirroringProvisioningState} that the service accepts. */
 export enum KnownWorkloadNetworkPortMirroringProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Building */
   Building = "Building",
+  /** Deleting */
   Deleting = "Deleting",
-  Updating = "Updating"
+  /** Updating */
+  Updating = "Updating",
+  /** Canceled */
+  Canceled = "Canceled"
 }
 
 /**
@@ -1985,13 +2208,16 @@ export enum KnownWorkloadNetworkPortMirroringProvisioningState {
  * **Failed** \
  * **Building** \
  * **Deleting** \
- * **Updating**
+ * **Updating** \
+ * **Canceled**
  */
 export type WorkloadNetworkPortMirroringProvisioningState = string;
 
 /** Known values of {@link VMGroupStatusEnum} that the service accepts. */
 export enum KnownVMGroupStatusEnum {
+  /** Success */
   Success = "SUCCESS",
+  /** Failure */
   Failure = "FAILURE"
 }
 
@@ -2007,11 +2233,18 @@ export type VMGroupStatusEnum = string;
 
 /** Known values of {@link WorkloadNetworkVMGroupProvisioningState} that the service accepts. */
 export enum KnownWorkloadNetworkVMGroupProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Building */
   Building = "Building",
+  /** Deleting */
   Deleting = "Deleting",
-  Updating = "Updating"
+  /** Updating */
+  Updating = "Updating",
+  /** Canceled */
+  Canceled = "Canceled"
 }
 
 /**
@@ -2023,14 +2256,18 @@ export enum KnownWorkloadNetworkVMGroupProvisioningState {
  * **Failed** \
  * **Building** \
  * **Deleting** \
- * **Updating**
+ * **Updating** \
+ * **Canceled**
  */
 export type WorkloadNetworkVMGroupProvisioningState = string;
 
 /** Known values of {@link VMTypeEnum} that the service accepts. */
 export enum KnownVMTypeEnum {
+  /** Regular */
   Regular = "REGULAR",
+  /** Edge */
   Edge = "EDGE",
+  /** Service */
   Service = "SERVICE"
 }
 
@@ -2047,10 +2284,15 @@ export type VMTypeEnum = string;
 
 /** Known values of {@link DnsServiceLogLevelEnum} that the service accepts. */
 export enum KnownDnsServiceLogLevelEnum {
+  /** Debug */
   Debug = "DEBUG",
+  /** Info */
   Info = "INFO",
+  /** Warning */
   Warning = "WARNING",
+  /** Error */
   Error = "ERROR",
+  /** Fatal */
   Fatal = "FATAL"
 }
 
@@ -2069,7 +2311,9 @@ export type DnsServiceLogLevelEnum = string;
 
 /** Known values of {@link DnsServiceStatusEnum} that the service accepts. */
 export enum KnownDnsServiceStatusEnum {
+  /** Success */
   Success = "SUCCESS",
+  /** Failure */
   Failure = "FAILURE"
 }
 
@@ -2085,11 +2329,18 @@ export type DnsServiceStatusEnum = string;
 
 /** Known values of {@link WorkloadNetworkDnsServiceProvisioningState} that the service accepts. */
 export enum KnownWorkloadNetworkDnsServiceProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Building */
   Building = "Building",
+  /** Deleting */
   Deleting = "Deleting",
-  Updating = "Updating"
+  /** Updating */
+  Updating = "Updating",
+  /** Canceled */
+  Canceled = "Canceled"
 }
 
 /**
@@ -2101,17 +2352,25 @@ export enum KnownWorkloadNetworkDnsServiceProvisioningState {
  * **Failed** \
  * **Building** \
  * **Deleting** \
- * **Updating**
+ * **Updating** \
+ * **Canceled**
  */
 export type WorkloadNetworkDnsServiceProvisioningState = string;
 
 /** Known values of {@link WorkloadNetworkDnsZoneProvisioningState} that the service accepts. */
 export enum KnownWorkloadNetworkDnsZoneProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Building */
   Building = "Building",
+  /** Deleting */
   Deleting = "Deleting",
-  Updating = "Updating"
+  /** Updating */
+  Updating = "Updating",
+  /** Canceled */
+  Canceled = "Canceled"
 }
 
 /**
@@ -2123,17 +2382,25 @@ export enum KnownWorkloadNetworkDnsZoneProvisioningState {
  * **Failed** \
  * **Building** \
  * **Deleting** \
- * **Updating**
+ * **Updating** \
+ * **Canceled**
  */
 export type WorkloadNetworkDnsZoneProvisioningState = string;
 
 /** Known values of {@link WorkloadNetworkPublicIPProvisioningState} that the service accepts. */
 export enum KnownWorkloadNetworkPublicIPProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Building */
   Building = "Building",
+  /** Deleting */
   Deleting = "Deleting",
-  Updating = "Updating"
+  /** Updating */
+  Updating = "Updating",
+  /** Canceled */
+  Canceled = "Canceled"
 }
 
 /**
@@ -2145,16 +2412,22 @@ export enum KnownWorkloadNetworkPublicIPProvisioningState {
  * **Failed** \
  * **Building** \
  * **Deleting** \
- * **Updating**
+ * **Updating** \
+ * **Canceled**
  */
 export type WorkloadNetworkPublicIPProvisioningState = string;
 
 /** Known values of {@link CloudLinkStatus} that the service accepts. */
 export enum KnownCloudLinkStatus {
+  /** Active */
   Active = "Active",
+  /** Building */
   Building = "Building",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Failed */
   Failed = "Failed",
+  /** Disconnected */
   Disconnected = "Disconnected"
 }
 
@@ -2173,9 +2446,14 @@ export type CloudLinkStatus = string;
 
 /** Known values of {@link AddonType} that the service accepts. */
 export enum KnownAddonType {
+  /** SRM */
   SRM = "SRM",
+  /** VR */
   VR = "VR",
-  HCX = "HCX"
+  /** HCX */
+  HCX = "HCX",
+  /** Arc */
+  Arc = "Arc"
 }
 
 /**
@@ -2185,18 +2463,27 @@ export enum KnownAddonType {
  * ### Known values supported by the service
  * **SRM** \
  * **VR** \
- * **HCX**
+ * **HCX** \
+ * **Arc**
  */
 export type AddonType = string;
 
 /** Known values of {@link AddonProvisioningState} that the service accepts. */
 export enum KnownAddonProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Cancelled */
   Cancelled = "Cancelled",
+  /** Building */
   Building = "Building",
+  /** Deleting */
   Deleting = "Deleting",
-  Updating = "Updating"
+  /** Updating */
+  Updating = "Updating",
+  /** Canceled */
+  Canceled = "Canceled"
 }
 
 /**
@@ -2209,13 +2496,16 @@ export enum KnownAddonProvisioningState {
  * **Cancelled** \
  * **Building** \
  * **Deleting** \
- * **Updating**
+ * **Updating** \
+ * **Canceled**
  */
 export type AddonProvisioningState = string;
 
 /** Known values of {@link VirtualMachineRestrictMovementState} that the service accepts. */
 export enum KnownVirtualMachineRestrictMovementState {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -2231,7 +2521,9 @@ export type VirtualMachineRestrictMovementState = string;
 
 /** Known values of {@link PlacementPolicyType} that the service accepts. */
 export enum KnownPlacementPolicyType {
+  /** VmVm */
   VmVm = "VmVm",
+  /** VmHost */
   VmHost = "VmHost"
 }
 
@@ -2247,7 +2539,9 @@ export type PlacementPolicyType = string;
 
 /** Known values of {@link PlacementPolicyState} that the service accepts. */
 export enum KnownPlacementPolicyState {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -2263,11 +2557,18 @@ export type PlacementPolicyState = string;
 
 /** Known values of {@link PlacementPolicyProvisioningState} that the service accepts. */
 export enum KnownPlacementPolicyProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Building */
   Building = "Building",
+  /** Deleting */
   Deleting = "Deleting",
-  Updating = "Updating"
+  /** Updating */
+  Updating = "Updating",
+  /** Canceled */
+  Canceled = "Canceled"
 }
 
 /**
@@ -2279,17 +2580,60 @@ export enum KnownPlacementPolicyProvisioningState {
  * **Failed** \
  * **Building** \
  * **Deleting** \
- * **Updating**
+ * **Updating** \
+ * **Canceled**
  */
 export type PlacementPolicyProvisioningState = string;
 
+/** Known values of {@link AffinityStrength} that the service accepts. */
+export enum KnownAffinityStrength {
+  /** Should */
+  Should = "Should",
+  /** Must */
+  Must = "Must"
+}
+
+/**
+ * Defines values for AffinityStrength. \
+ * {@link KnownAffinityStrength} can be used interchangeably with AffinityStrength,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Should** \
+ * **Must**
+ */
+export type AffinityStrength = string;
+
+/** Known values of {@link AzureHybridBenefitType} that the service accepts. */
+export enum KnownAzureHybridBenefitType {
+  /** SqlHost */
+  SqlHost = "SqlHost",
+  /** None */
+  None = "None"
+}
+
+/**
+ * Defines values for AzureHybridBenefitType. \
+ * {@link KnownAzureHybridBenefitType} can be used interchangeably with AzureHybridBenefitType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SqlHost** \
+ * **None**
+ */
+export type AzureHybridBenefitType = string;
+
 /** Known values of {@link ScriptParameterTypes} that the service accepts. */
 export enum KnownScriptParameterTypes {
+  /** String */
   String = "String",
+  /** SecureString */
   SecureString = "SecureString",
+  /** Credential */
   Credential = "Credential",
+  /** Int */
   Int = "Int",
+  /** Bool */
   Bool = "Bool",
+  /** Float */
   Float = "Float"
 }
 
@@ -2309,7 +2653,9 @@ export type ScriptParameterTypes = string;
 
 /** Known values of {@link VisibilityParameterEnum} that the service accepts. */
 export enum KnownVisibilityParameterEnum {
+  /** Visible */
   Visible = "Visible",
+  /** Hidden */
   Hidden = "Hidden"
 }
 
@@ -2325,7 +2671,9 @@ export type VisibilityParameterEnum = string;
 
 /** Known values of {@link OptionalParamEnum} that the service accepts. */
 export enum KnownOptionalParamEnum {
+  /** Optional */
   Optional = "Optional",
+  /** Required */
   Required = "Required"
 }
 
@@ -2341,8 +2689,11 @@ export type OptionalParamEnum = string;
 
 /** Known values of {@link ScriptExecutionParameterType} that the service accepts. */
 export enum KnownScriptExecutionParameterType {
+  /** Value */
   Value = "Value",
+  /** SecureValue */
   SecureValue = "SecureValue",
+  /** Credential */
   Credential = "Credential"
 }
 
@@ -2359,13 +2710,22 @@ export type ScriptExecutionParameterType = string;
 
 /** Known values of {@link ScriptExecutionProvisioningState} that the service accepts. */
 export enum KnownScriptExecutionProvisioningState {
+  /** Pending */
   Pending = "Pending",
+  /** Running */
   Running = "Running",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Cancelling */
   Cancelling = "Cancelling",
+  /** Cancelled */
   Cancelled = "Cancelled",
-  Deleting = "Deleting"
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Canceled */
+  Canceled = "Canceled"
 }
 
 /**
@@ -2379,15 +2739,20 @@ export enum KnownScriptExecutionProvisioningState {
  * **Failed** \
  * **Cancelling** \
  * **Cancelled** \
- * **Deleting**
+ * **Deleting** \
+ * **Canceled**
  */
 export type ScriptExecutionProvisioningState = string;
 
 /** Known values of {@link ScriptOutputStreamType} that the service accepts. */
 export enum KnownScriptOutputStreamType {
+  /** Information */
   Information = "Information",
+  /** Warning */
   Warning = "Warning",
+  /** Output */
   Output = "Output",
+  /** Error */
   Error = "Error"
 }
 
@@ -2405,7 +2770,9 @@ export type ScriptOutputStreamType = string;
 
 /** Known values of {@link AffinityType} that the service accepts. */
 export enum KnownAffinityType {
+  /** Affinity */
   Affinity = "Affinity",
+  /** AntiAffinity */
   AntiAffinity = "AntiAffinity"
 }
 
@@ -2435,7 +2802,10 @@ export type OperationsListNextResponse = OperationList;
 
 /** Optional parameters. */
 export interface LocationsCheckTrialAvailabilityOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** The sku to check for trial availability */
+  sku?: Sku;
+}
 
 /** Contains response data for the checkTrialAvailability operation. */
 export type LocationsCheckTrialAvailabilityResponse = Trial;
@@ -2586,6 +2956,13 @@ export interface ClustersDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface ClustersListZonesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listZones operation. */
+export type ClustersListZonesResponse = ClusterZoneList;
 
 /** Optional parameters. */
 export interface ClustersListNextOptionalParams
@@ -2751,6 +3128,20 @@ export interface GlobalReachConnectionsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type GlobalReachConnectionsListNextResponse = GlobalReachConnectionList;
+
+/** Optional parameters. */
+export interface WorkloadNetworksGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WorkloadNetworksGetResponse = WorkloadNetwork;
+
+/** Optional parameters. */
+export interface WorkloadNetworksListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type WorkloadNetworksListResponse = WorkloadNetworkList;
 
 /** Optional parameters. */
 export interface WorkloadNetworksListSegmentsOptionalParams
@@ -3096,6 +3487,13 @@ export interface WorkloadNetworksDeletePublicIPOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface WorkloadNetworksListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type WorkloadNetworksListNextResponse = WorkloadNetworkList;
 
 /** Optional parameters. */
 export interface WorkloadNetworksListSegmentsNextOptionalParams

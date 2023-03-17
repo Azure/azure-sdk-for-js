@@ -18,9 +18,10 @@ import { throwErrorIfConnectionClosed } from "../util/errors";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { checkAndRegisterWithAbortSignal } from "../util/utils";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
-import { createAndEndProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
+import { toProcessingSpanOptions } from "../diagnostics/instrumentServiceBusMessage";
 import { ReceiveMode } from "../models";
 import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
+import { tracingClient } from "../diagnostics/tracing";
 
 /**
  * Describes the batching receiver where the user can receive a specified number of messages for
@@ -31,11 +32,17 @@ export class BatchingReceiver extends MessageReceiver {
   /**
    * Instantiate a new BatchingReceiver.
    *
+   * @param identifier - name to identify this receiver.
    * @param connectionContext - The client entity context.
    * @param options - Options for how you'd like to connect.
    */
-  constructor(connectionContext: ConnectionContext, entityPath: string, options: ReceiveOptions) {
-    super(connectionContext, entityPath, "batching", options);
+  constructor(
+    identifier: string,
+    connectionContext: ConnectionContext,
+    entityPath: string,
+    options: ReceiveOptions
+  ) {
+    super(identifier, connectionContext, entityPath, "batching", options);
 
     this._batchingReceiverLite = new BatchingReceiverLite(
       connectionContext,
@@ -70,7 +77,8 @@ export class BatchingReceiver extends MessageReceiver {
         return this.link;
       },
       this.receiveMode,
-      options.skipParsingBodyAsJson ?? false
+      options.skipParsingBodyAsJson ?? false,
+      options.skipConvertingDate ?? false
     );
   }
 
@@ -114,12 +122,6 @@ export class BatchingReceiver extends MessageReceiver {
   ): Promise<ServiceBusMessageImpl[]> {
     throwErrorIfConnectionClosed(this._context);
     try {
-      logger.verbose(
-        "[%s] Receiver '%s', setting max concurrent calls to 0.",
-        this.logPrefix,
-        this.name
-      );
-
       const messages = await this._batchingReceiverLite.receiveMessages({
         maxMessageCount,
         maxWaitTimeInMs,
@@ -144,12 +146,13 @@ export class BatchingReceiver extends MessageReceiver {
   }
 
   static create(
+    clientId: string,
     context: ConnectionContext,
     entityPath: string,
     options: ReceiveOptions
   ): BatchingReceiver {
     throwErrorIfConnectionClosed(context);
-    const bReceiver = new BatchingReceiver(context, entityPath, options);
+    const bReceiver = new BatchingReceiver(clientId, context, entityPath, options);
     context.messageReceivers[bReceiver.name] = bReceiver;
     return bReceiver;
   }
@@ -205,7 +208,7 @@ type EventEmitterLike<T extends RheaPromiseReceiver | Session> = Pick<
  */
 export type MinimalReceiver = Pick<
   RheaPromiseReceiver,
-  "name" | "isOpen" | "credit" | "addCredit" | "drain" | "drainCredit"
+  "name" | "isOpen" | "credit" | "addCredit" | "drain" | "drainCredit" | "close"
 > &
   EventEmitterLike<RheaPromiseReceiver> & {
     session: EventEmitterLike<Session>;
@@ -238,11 +241,6 @@ interface ReceiveMessageArgs extends OperationOptionsBase {
  * @internal
  */
 export class BatchingReceiverLite {
-  /**
-   * NOTE: exists only to make unit testing possible.
-   */
-  private _createAndEndProcessingSpan: typeof createAndEndProcessingSpan;
-
   constructor(
     private _connectionContext: ConnectionContext,
     public entityPath: string,
@@ -250,17 +248,17 @@ export class BatchingReceiverLite {
       abortSignal?: AbortSignalLike
     ) => Promise<MinimalReceiver | undefined>,
     private _receiveMode: ReceiveMode,
-    _skipParsingBodyAsJson: boolean
+    _skipParsingBodyAsJson: boolean,
+    _skipConvertingDate: boolean
   ) {
-    this._createAndEndProcessingSpan = createAndEndProcessingSpan;
-
     this._createServiceBusMessage = (context: MessageAndDelivery) => {
       return new ServiceBusMessageImpl(
         context.message!,
         context.delivery!,
         true,
         this._receiveMode,
-        _skipParsingBodyAsJson
+        _skipParsingBodyAsJson,
+        _skipConvertingDate
       );
     };
 
@@ -301,8 +299,12 @@ export class BatchingReceiverLite {
       const messages = await new Promise<ServiceBusMessageImpl[]>((resolve, reject) =>
         this._receiveMessagesImpl(receiver, args, resolve, reject)
       );
-      this._createAndEndProcessingSpan(messages, this, this._connectionContext.config, args);
-      return messages;
+      return tracingClient.withSpan(
+        "BatchingReceiverLite.process",
+        args,
+        () => messages,
+        toProcessingSpanOptions(messages, this, this._connectionContext.config)
+      );
     } finally {
       this._closeHandler = undefined;
       this.isReceivingMessages = false;
@@ -454,9 +456,7 @@ export class BatchingReceiverLite {
         // silently dropped on the floor.
         if (brokeredMessages.length > args.maxMessageCount) {
           logger.warning(
-            `More messages arrived than were expected: ${args.maxMessageCount} vs ${
-              brokeredMessages.length + 1
-            }`
+            `More messages arrived than expected: ${args.maxMessageCount} vs ${brokeredMessages.length}`
           );
         }
       } catch (err: any) {
@@ -467,7 +467,7 @@ export class BatchingReceiverLite {
         );
         reject(errObj);
       }
-      if (brokeredMessages.length === args.maxMessageCount) {
+      if (brokeredMessages.length >= args.maxMessageCount) {
         this._finalAction!();
       }
     };
@@ -514,18 +514,26 @@ export class BatchingReceiverLite {
     };
 
     abortSignalCleanupFunction = checkAndRegisterWithAbortSignal((err) => {
+      if (receiver.drain) {
+        // If a drain is already in process and we cancel, the link state may be out of sync
+        // with remote. Reset the link so that we will have fresh start.
+        receiver.close();
+      }
       reject(err);
     }, args.abortSignal);
-
-    logger.verbose(
-      `${loggingPrefix} Adding credit for receiving ${args.maxMessageCount} messages.`
-    );
 
     // By adding credit here, we let the service know that at max we can handle `maxMessageCount`
     // number of messages concurrently. We will return the user an array of messages that can
     // be of size upto maxMessageCount. Then the user needs to accordingly dispose
     // (complete/abandon/defer/deadletter) the messages from the array.
-    receiver.addCredit(args.maxMessageCount);
+    const creditToAdd = args.maxMessageCount - receiver.credit;
+    logger.verbose(
+      `${loggingPrefix} Ensure enough credit for receiving ${args.maxMessageCount} messages. Current: ${receiver.credit}.  To add: ${creditToAdd}.`
+    );
+
+    if (creditToAdd > 0) {
+      receiver.addCredit(creditToAdd);
+    }
 
     logger.verbose(
       `${loggingPrefix} Setting the wait timer for ${args.maxWaitTimeInMs} milliseconds.`

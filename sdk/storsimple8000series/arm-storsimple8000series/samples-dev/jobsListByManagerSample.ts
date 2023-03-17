@@ -24,7 +24,7 @@ async function jobsListByManager() {
   const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
   const resourceGroupName = "ResourceGroupForSDKTest";
   const managerName = "ManagerForSDKTest1";
-  const filter = "jobType eq 'FailoverVolumeContainers'";
+  const filter = "jobType%20eq%20'FailoverVolumeContainers'";
   const options: JobsListByManagerOptionalParams = { filter };
   const credential = new DefaultAzureCredential();
   const client = new StorSimple8000SeriesManagementClient(

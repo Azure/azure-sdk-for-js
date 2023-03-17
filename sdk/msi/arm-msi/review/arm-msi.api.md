@@ -9,23 +9,6 @@ import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
 // @public
-export interface AssociatedResourcesListResult {
-    readonly nextLink?: string;
-    readonly totalCount?: number;
-    readonly value?: AzureResource[];
-}
-
-// @public
-export interface AzureResource {
-    readonly id?: string;
-    readonly name?: string;
-    readonly resourceGroup?: string;
-    readonly subscriptionDisplayName?: string;
-    readonly subscriptionId?: string;
-    readonly type?: string;
-}
-
-// @public
 export interface CloudError {
     error?: CloudErrorBody;
 }
@@ -39,22 +22,91 @@ export interface CloudErrorBody {
 }
 
 // @public
-export type Identity = TrackedResource & {
-    readonly tenantId?: string;
-    readonly principalId?: string;
-    readonly clientId?: string;
-};
+export type CreatedByType = string;
 
 // @public
-export type IdentityUpdate = Resource & {
+export interface FederatedIdentityCredential extends ProxyResource {
+    audiences?: string[];
+    issuer?: string;
+    subject?: string;
+}
+
+// @public
+export interface FederatedIdentityCredentials {
+    createOrUpdate(resourceGroupName: string, resourceName: string, federatedIdentityCredentialResourceName: string, parameters: FederatedIdentityCredential, options?: FederatedIdentityCredentialsCreateOrUpdateOptionalParams): Promise<FederatedIdentityCredentialsCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, resourceName: string, federatedIdentityCredentialResourceName: string, options?: FederatedIdentityCredentialsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, resourceName: string, federatedIdentityCredentialResourceName: string, options?: FederatedIdentityCredentialsGetOptionalParams): Promise<FederatedIdentityCredentialsGetResponse>;
+    list(resourceGroupName: string, resourceName: string, options?: FederatedIdentityCredentialsListOptionalParams): PagedAsyncIterableIterator<FederatedIdentityCredential>;
+}
+
+// @public
+export interface FederatedIdentityCredentialsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FederatedIdentityCredentialsCreateOrUpdateResponse = FederatedIdentityCredential;
+
+// @public
+export interface FederatedIdentityCredentialsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface FederatedIdentityCredentialsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FederatedIdentityCredentialsGetResponse = FederatedIdentityCredential;
+
+// @public
+export interface FederatedIdentityCredentialsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FederatedIdentityCredentialsListNextResponse = FederatedIdentityCredentialsListResult;
+
+// @public
+export interface FederatedIdentityCredentialsListOptionalParams extends coreClient.OperationOptions {
+    skiptoken?: string;
+    top?: number;
+}
+
+// @public
+export type FederatedIdentityCredentialsListResponse = FederatedIdentityCredentialsListResult;
+
+// @public
+export interface FederatedIdentityCredentialsListResult {
+    nextLink?: string;
+    value?: FederatedIdentityCredential[];
+}
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export interface Identity extends TrackedResource {
+    readonly clientId?: string;
+    readonly principalId?: string;
+    readonly tenantId?: string;
+}
+
+// @public
+export interface IdentityUpdate extends Resource {
+    readonly clientId?: string;
     location?: string;
+    readonly principalId?: string;
     tags?: {
         [propertyName: string]: string;
     };
     readonly tenantId?: string;
-    readonly principalId?: string;
-    readonly clientId?: string;
-};
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
 
 // @public (undocumented)
 export class ManagedServiceIdentityClient extends coreClient.ServiceClient {
@@ -63,6 +115,8 @@ export class ManagedServiceIdentityClient extends coreClient.ServiceClient {
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ManagedServiceIdentityClientOptionalParams);
     // (undocumented)
     apiVersion: string;
+    // (undocumented)
+    federatedIdentityCredentials: FederatedIdentityCredentials;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -120,12 +174,14 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -142,31 +198,40 @@ export interface SystemAssignedIdentitiesGetByScopeOptionalParams extends coreCl
 export type SystemAssignedIdentitiesGetByScopeResponse = SystemAssignedIdentity;
 
 // @public
-export type SystemAssignedIdentity = ProxyResource & {
+export interface SystemAssignedIdentity extends ProxyResource {
+    readonly clientId?: string;
+    readonly clientSecretUrl?: string;
     location: string;
+    readonly principalId?: string;
     tags?: {
         [propertyName: string]: string;
     };
     readonly tenantId?: string;
-    readonly principalId?: string;
-    readonly clientId?: string;
-    readonly clientSecretUrl?: string;
-};
+}
 
 // @public
-export type TrackedResource = Resource & {
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public
 export interface UserAssignedIdentities {
     createOrUpdate(resourceGroupName: string, resourceName: string, parameters: Identity, options?: UserAssignedIdentitiesCreateOrUpdateOptionalParams): Promise<UserAssignedIdentitiesCreateOrUpdateResponse>;
     delete(resourceGroupName: string, resourceName: string, options?: UserAssignedIdentitiesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, resourceName: string, options?: UserAssignedIdentitiesGetOptionalParams): Promise<UserAssignedIdentitiesGetResponse>;
-    listAssociatedResources(resourceGroupName: string, resourceName: string, options?: UserAssignedIdentitiesListAssociatedResourcesOptionalParams): PagedAsyncIterableIterator<AzureResource>;
     listByResourceGroup(resourceGroupName: string, options?: UserAssignedIdentitiesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Identity>;
     listBySubscription(options?: UserAssignedIdentitiesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Identity>;
     update(resourceGroupName: string, resourceName: string, parameters: IdentityUpdate, options?: UserAssignedIdentitiesUpdateOptionalParams): Promise<UserAssignedIdentitiesUpdateResponse>;
@@ -189,30 +254,6 @@ export interface UserAssignedIdentitiesGetOptionalParams extends coreClient.Oper
 
 // @public
 export type UserAssignedIdentitiesGetResponse = Identity;
-
-// @public
-export interface UserAssignedIdentitiesListAssociatedResourcesNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    skip?: number;
-    skiptoken?: string;
-    top?: number;
-}
-
-// @public
-export type UserAssignedIdentitiesListAssociatedResourcesNextResponse = AssociatedResourcesListResult;
-
-// @public
-export interface UserAssignedIdentitiesListAssociatedResourcesOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    skip?: number;
-    skiptoken?: string;
-    top?: number;
-}
-
-// @public
-export type UserAssignedIdentitiesListAssociatedResourcesResponse = AssociatedResourcesListResult;
 
 // @public
 export interface UserAssignedIdentitiesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {

@@ -1,5 +1,52 @@
 # Release History
 
+## 1.1.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.1.1 (2023-03-02)
+
+### Bug Fixed
+
+- Fix issue where multiple parameters within same path segment are not replaced correctly [24997](https://github.com/Azure/azure-sdk-for-js/pull/24997)
+
+## 1.1.0 (2023-02-02)
+
+### Features Added
+
+- Add basic types from cadl azure core.
+
+## 1.0.1 (2023-01-05)
+
+### Fixes
+
+- Fix the `api-version` precedence issue in apiVersionPolicy. [23990](https://github.com/Azure/azure-sdk-for-js/pull/23990)
+
+## 1.0.0 (2022-08-04)
+
+- Releasing the first stable version of @azure-rest/client
+
+### Fixes
+
+- Fix the duplicate `api-version` issue in apiVersionPolicy
+
+## 1.0.0-beta.10 (2022-06-07)
+
+### Fixes
+
+- Fix to avoid skip `JSON.stringify` when the body is already a string. [20753](https://github.com/Azure/azure-sdk-for-js/pull/20753)
+
+### Other Changes
+
+- Create new pipeline using @azure/core-rest-pipeline's `createPipelineFromOptions`, instead of a custom pipeline. [#21949](https://github.com/Azure/azure-sdk-for-js/pull/21949)
+- Fix URL encoding for query parameters. [#20972](https://github.com/Azure/azure-sdk-for-js/pull/20972)
+
 ## 1.0.0-beta.9 (2022-04-07)
 
 ### Features Added

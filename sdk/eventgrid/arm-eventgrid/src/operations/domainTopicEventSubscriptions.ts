@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { DomainTopicEventSubscriptions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,7 +17,9 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   EventSubscription,
+  DomainTopicEventSubscriptionsListNextOptionalParams,
   DomainTopicEventSubscriptionsListOptionalParams,
+  DomainTopicEventSubscriptionsListResponse,
   DomainTopicEventSubscriptionsGetOptionalParams,
   DomainTopicEventSubscriptionsGetResponse,
   DomainTopicEventSubscriptionsCreateOrUpdateOptionalParams,
@@ -27,9 +30,9 @@ import {
   DomainTopicEventSubscriptionsUpdateResponse,
   DomainTopicEventSubscriptionsGetFullUrlOptionalParams,
   DomainTopicEventSubscriptionsGetFullUrlResponse,
-  DomainTopicEventSubscriptionsListResponse,
   DomainTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
-  DomainTopicEventSubscriptionsGetDeliveryAttributesResponse
+  DomainTopicEventSubscriptionsGetDeliveryAttributesResponse,
+  DomainTopicEventSubscriptionsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -72,12 +75,16 @@ export class DomainTopicEventSubscriptionsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           domainName,
           topicName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -87,15 +94,36 @@ export class DomainTopicEventSubscriptionsImpl
     resourceGroupName: string,
     domainName: string,
     topicName: string,
-    options?: DomainTopicEventSubscriptionsListOptionalParams
+    options?: DomainTopicEventSubscriptionsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<EventSubscription[]> {
-    let result = await this._list(
-      resourceGroupName,
-      domainName,
-      topicName,
-      options
-    );
-    yield result.value || [];
+    let result: DomainTopicEventSubscriptionsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        domainName,
+        topicName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(
+        resourceGroupName,
+        domainName,
+        topicName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
   }
 
   private async *listPagingAll(
@@ -535,6 +563,27 @@ export class DomainTopicEventSubscriptionsImpl
       getDeliveryAttributesOperationSpec
     );
   }
+
+  /**
+   * ListNext
+   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param domainName Name of the top level domain.
+   * @param topicName Name of the domain topic.
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    resourceGroupName: string,
+    domainName: string,
+    topicName: string,
+    nextLink: string,
+    options?: DomainTopicEventSubscriptionsListNextOptionalParams
+  ): Promise<DomainTopicEventSubscriptionsListNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, domainName, topicName, nextLink, options },
+      listNextOperationSpec
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -555,8 +604,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.domainName,
-    Parameters.eventSubscriptionName,
-    Parameters.topicName
+    Parameters.topicName,
+    Parameters.eventSubscriptionName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -587,8 +636,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.domainName,
-    Parameters.eventSubscriptionName,
-    Parameters.topicName
+    Parameters.topicName,
+    Parameters.eventSubscriptionName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -605,8 +654,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.domainName,
-    Parameters.eventSubscriptionName,
-    Parameters.topicName
+    Parameters.topicName,
+    Parameters.eventSubscriptionName
   ],
   serializer
 };
@@ -636,8 +685,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.domainName,
-    Parameters.eventSubscriptionName,
-    Parameters.topicName
+    Parameters.topicName,
+    Parameters.eventSubscriptionName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -659,8 +708,8 @@ const getFullUrlOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.domainName,
-    Parameters.eventSubscriptionName,
-    Parameters.topicName
+    Parameters.topicName,
+    Parameters.eventSubscriptionName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -675,7 +724,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -702,7 +751,27 @@ const getDeliveryAttributesOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.domainName,
-    Parameters.eventSubscriptionName,
+    Parameters.topicName,
+    Parameters.eventSubscriptionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.EventSubscriptionsListResult
+    },
+    default: {}
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.nextLink,
+    Parameters.domainName,
     Parameters.topicName
   ],
   headerParameters: [Parameters.accept],

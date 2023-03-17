@@ -1,5 +1,5 @@
 {
-  "name": "dependency-testing",
+  "name": "@azure-tools/dependency-testing",
   "version": "1.0.0",
   "description": "Utilities for min/max dependency testing",
   "scripts": {
@@ -21,6 +21,6 @@
     "prettier": "^2.5.1",
     "semver": "^7.3.2",
     "yargs": "^14.2.0",
-    "eng-package-utils": "file:../eng-package-utils"
+    "@azure-tools/eng-package-utils": "file:../eng-package-utils"
   }
 }

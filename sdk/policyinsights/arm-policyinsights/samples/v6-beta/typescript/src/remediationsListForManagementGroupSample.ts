@@ -13,6 +13,9 @@ import {
   PolicyInsightsClient
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets all remediations for the management group.
@@ -21,7 +24,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2021-10-01/examples/Remediations_ListManagementGroupScope.json
  */
 async function listRemediationsAtManagementGroupScope() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const managementGroupId = "financeMg";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
@@ -34,8 +39,6 @@ async function listRemediationsAtManagementGroupScope() {
   console.log(resArray);
 }
 
-listRemediationsAtManagementGroupScope().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets all remediations for the management group.
  *
@@ -43,14 +46,15 @@ listRemediationsAtManagementGroupScope().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2021-10-01/examples/Remediations_ListManagementGroupScope_WithQuery.json
  */
 async function listRemediationsAtManagementGroupScopeWithQueryParameters() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const managementGroupId = "financeMg";
   const top = 1;
   const filter =
     "PolicyAssignmentId eq '/providers/microsoft.management/managementGroups/financeMg/providers/microsoft.authorization/policyassignments/b101830944f246d8a14088c5'";
   const options: RemediationsListForManagementGroupOptionalParams = {
-    top,
-    filter
+    queryOptions: { top: top, filter: filter }
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
@@ -64,6 +68,9 @@ async function listRemediationsAtManagementGroupScopeWithQueryParameters() {
   console.log(resArray);
 }
 
-listRemediationsAtManagementGroupScopeWithQueryParameters().catch(
-  console.error
-);
+async function main() {
+  listRemediationsAtManagementGroupScope();
+  listRemediationsAtManagementGroupScopeWithQueryParameters();
+}
+
+main().catch(console.error);

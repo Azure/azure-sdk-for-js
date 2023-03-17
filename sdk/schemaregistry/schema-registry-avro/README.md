@@ -14,7 +14,7 @@ Key links:
 
 ## Getting started
 
-- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 
 ### Prerequisites
 
@@ -64,7 +64,7 @@ adapters for their message types.
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-import { createEventDataAdapter } from "@azure/event-hubs";
+const { createEventDataAdapter } = require("@azure/event-hubs");
 const { SchemaRegistryClient } = require("@azure/schema-registry");
 const { AvroSerializer } = require("@azure/schema-registry-avro");
 

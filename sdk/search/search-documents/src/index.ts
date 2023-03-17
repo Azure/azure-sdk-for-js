@@ -12,6 +12,8 @@ export {
   AutocompleteOptions,
   CountDocumentsOptions,
   DeleteDocumentsOptions,
+  ExcludedODataTypes,
+  ExtractDocumentKey,
   GetDocumentOptions,
   IndexDocumentsAction,
   ListSearchResultsPageSettings,
@@ -30,6 +32,7 @@ export {
   SuggestOptions,
   MergeDocumentsOptions,
   MergeOrUploadDocumentsOptions,
+  NarrowedModel,
   UploadDocumentsOptions,
   SearchIndexingBufferedSenderOptions,
   SearchIndexingBufferedSenderDeleteDocumentsOptions,
@@ -37,6 +40,10 @@ export {
   SearchIndexingBufferedSenderMergeDocumentsOptions,
   SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions,
   SearchIndexingBufferedSenderUploadDocumentsOptions,
+  SearchPick,
+  SelectFields,
+  SuggestNarrowedModel,
+  UnionToIntersection,
 } from "./indexModels";
 export { SearchIndexingBufferedSender, IndexDocumentsClient } from "./searchIndexingBufferedSender";
 export { SearchIndexClient, SearchIndexClientOptions } from "./searchIndexClient";
@@ -342,3 +349,4 @@ export {
 } from "./generated/service/models";
 export { AzureKeyCredential } from "@azure/core-auth";
 export { createSynonymMapFromFile } from "./synonymMapHelper";
+export { KnownSearchAudience } from "./searchAudience";

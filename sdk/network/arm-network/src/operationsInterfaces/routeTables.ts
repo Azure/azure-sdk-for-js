@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   RouteTable,
   RouteTablesListOptionalParams,
@@ -51,7 +51,7 @@ export interface RouteTables {
     resourceGroupName: string,
     routeTableName: string,
     options?: RouteTablesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified route table.
    * @param resourceGroupName The name of the resource group.
@@ -87,8 +87,8 @@ export interface RouteTables {
     parameters: RouteTable,
     options?: RouteTablesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<RouteTablesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<RouteTablesCreateOrUpdateResponse>,
       RouteTablesCreateOrUpdateResponse
     >
   >;

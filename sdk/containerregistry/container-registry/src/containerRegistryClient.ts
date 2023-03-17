@@ -10,13 +10,12 @@ import {
 } from "@azure/core-rest-pipeline";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 
-import { SpanStatusCode } from "@azure/core-tracing";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
 import { logger } from "./logger";
 import { GeneratedClient } from "./generated";
-import { createSpan } from "./tracing";
+import { tracingClient } from "./tracing";
 import { RepositoryPageResponse } from "./models";
 import { extractNextLink } from "./utils/helpers";
 import { ChallengeHandler } from "./containerRegistryChallengeHandler";
@@ -133,14 +132,8 @@ export class ContainerRegistryClient {
         additionalAllowedQueryParameters: ["last", "n", "orderby", "digest"],
       },
     };
-    // Require audience now until we have a default ACR audience from the service.
-    if (!options.audience) {
-      throw new Error(
-        "ContainerRegistryClientOptions.audience must be set to initialize ContainerRegistryClient."
-      );
-    }
 
-    const defaultScope = `${options.audience}/.default`;
+    const defaultScope = `${options.audience ?? "https://containerregistry.azure.net"}/.default`;
     const serviceVersion = options.serviceVersion ?? LATEST_API_VERSION;
     const authClient = new GeneratedClient(endpoint, serviceVersion, internalPipelineOptions);
     this.client = new GeneratedClient(endpoint, serviceVersion, internalPipelineOptions);
@@ -169,19 +162,13 @@ export class ContainerRegistryClient {
       throw new Error("invalid repositoryName");
     }
 
-    const { span, updatedOptions } = createSpan(
-      "ContainerRegistryClient-deleteRepository",
-      options
+    return tracingClient.withSpan(
+      "ContainerRegistryClient.deleteRepository",
+      options,
+      async (updatedOptions) => {
+        await this.client.containerRegistry.deleteRepository(repositoryName, updatedOptions);
+      }
     );
-
-    try {
-      await this.client.containerRegistry.deleteRepository(repositoryName, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**

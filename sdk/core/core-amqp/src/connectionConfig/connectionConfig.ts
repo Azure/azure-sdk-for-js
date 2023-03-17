@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { WebSocketImpl } from "rhea-promise";
-import { isDefined } from "../util/typeGuards";
+import { isDefined } from "@azure/core-util";
 import { parseConnectionString } from "../util/utils";
 
 /**

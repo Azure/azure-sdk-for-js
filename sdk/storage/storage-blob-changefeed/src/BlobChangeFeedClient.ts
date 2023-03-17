@@ -14,7 +14,7 @@ import { ChangeFeedFactory } from "./ChangeFeedFactory";
 import { ChangeFeed } from "./ChangeFeed";
 import { CHANGE_FEED_MAX_PAGE_SIZE, SDK_VERSION } from "./utils/constants";
 import { BlobChangeFeedListChangesOptions } from "./models/models";
-import { TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
 
 /**
  * Contains paged response data for the {@link BlobChangeFeedClient.listChanges} operation.
@@ -68,6 +68,16 @@ function appendUserAgentPrefix(options?: StoragePipelineOptions): StoragePipelin
 }
 
 /**
+ * Blob Change Feed client options.
+ */
+export interface BlobChangeFeedClientOptions {
+  /**
+   * The maximum length of an transfer in bytes.
+   */
+  maximumTransferSize?: number;
+}
+
+/**
  * BlobChangeFeedClient.
  * @see https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-change-feed?tabs=azure-portal
  */
@@ -77,6 +87,7 @@ export class BlobChangeFeedClient {
    */
   private blobServiceClient: BlobServiceClient;
   private changeFeedFactory: ChangeFeedFactory;
+  private changeFeedClientOptions: BlobChangeFeedClientOptions;
 
   /**
    *
@@ -94,13 +105,17 @@ export class BlobChangeFeedClient {
     connectionString: string,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions
+    options?: StoragePipelineOptions,
+    // Static method to construct an object, the option is for the object not for the method.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
+    changeFeedClientOptions?: BlobChangeFeedClientOptions
   ): BlobChangeFeedClient {
     const blobServiceClient = BlobServiceClient.fromConnectionString(connectionString, options);
     return new BlobChangeFeedClient(
       blobServiceClient.url,
       blobServiceClient.credential,
-      appendUserAgentPrefix(options)
+      appendUserAgentPrefix(options),
+      changeFeedClientOptions
     );
   }
 
@@ -143,7 +158,8 @@ export class BlobChangeFeedClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions
+    options?: StoragePipelineOptions,
+    changeFeedClientOptions?: BlobChangeFeedClientOptions
   );
 
   /**
@@ -165,9 +181,13 @@ export class BlobChangeFeedClient {
       | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions
+    options?: StoragePipelineOptions,
+    changeFeedClientOptions?: BlobChangeFeedClientOptions
   ) {
-    this.changeFeedFactory = new ChangeFeedFactory();
+    this.changeFeedClientOptions = changeFeedClientOptions || {};
+    this.changeFeedFactory = new ChangeFeedFactory(
+      this.changeFeedClientOptions.maximumTransferSize
+    );
 
     if (credentialOrPipeline instanceof Pipeline) {
       this.blobServiceClient = new BlobServiceClient(urlOrClient, credentialOrPipeline);

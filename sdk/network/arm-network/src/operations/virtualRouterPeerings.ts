@@ -6,24 +6,29 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { VirtualRouterPeerings } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   VirtualRouterPeering,
   VirtualRouterPeeringsListNextOptionalParams,
   VirtualRouterPeeringsListOptionalParams,
+  VirtualRouterPeeringsListResponse,
   VirtualRouterPeeringsDeleteOptionalParams,
   VirtualRouterPeeringsGetOptionalParams,
   VirtualRouterPeeringsGetResponse,
   VirtualRouterPeeringsCreateOrUpdateOptionalParams,
   VirtualRouterPeeringsCreateOrUpdateResponse,
-  VirtualRouterPeeringsListResponse,
   VirtualRouterPeeringsListNextResponse
 } from "../models";
 
@@ -63,11 +68,15 @@ export class VirtualRouterPeeringsImpl implements VirtualRouterPeerings {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           virtualRouterName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -76,15 +85,18 @@ export class VirtualRouterPeeringsImpl implements VirtualRouterPeerings {
   private async *listPagingPage(
     resourceGroupName: string,
     virtualRouterName: string,
-    options?: VirtualRouterPeeringsListOptionalParams
+    options?: VirtualRouterPeeringsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<VirtualRouterPeering[]> {
-    let result = await this._list(
-      resourceGroupName,
-      virtualRouterName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VirtualRouterPeeringsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, virtualRouterName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -93,7 +105,9 @@ export class VirtualRouterPeeringsImpl implements VirtualRouterPeerings {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -123,14 +137,14 @@ export class VirtualRouterPeeringsImpl implements VirtualRouterPeerings {
     virtualRouterName: string,
     peeringName: string,
     options?: VirtualRouterPeeringsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -163,15 +177,15 @@ export class VirtualRouterPeeringsImpl implements VirtualRouterPeerings {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, virtualRouterName, peeringName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, virtualRouterName, peeringName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -233,8 +247,8 @@ export class VirtualRouterPeeringsImpl implements VirtualRouterPeerings {
     parameters: VirtualRouterPeering,
     options?: VirtualRouterPeeringsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualRouterPeeringsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualRouterPeeringsCreateOrUpdateResponse>,
       VirtualRouterPeeringsCreateOrUpdateResponse
     >
   > {
@@ -244,7 +258,7 @@ export class VirtualRouterPeeringsImpl implements VirtualRouterPeerings {
     ): Promise<VirtualRouterPeeringsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -277,21 +291,24 @@ export class VirtualRouterPeeringsImpl implements VirtualRouterPeerings {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         virtualRouterName,
         peeringName,
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VirtualRouterPeeringsCreateOrUpdateResponse,
+      OperationState<VirtualRouterPeeringsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -429,7 +446,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  requestBody: Parameters.parameters69,
+  requestBody: Parameters.parameters80,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -475,7 +492,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

@@ -1,0 +1,35 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Cache/redis/myrediscachexxx111/patchSchedules/default?api-version=2022-06-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-rediscache/7.1.2 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "e635f422-8204-439a-bc4a-a5e06025535f"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "0",
+        "Date": "Mon, 06 Feb 2023 06:48:36 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "5a5fc9b1-fa43-4896-a368-5a71229c6ae5",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14999",
+        "x-ms-request-id": "4b800b1d-ab0c-4b80-9f0a-64a3e53f232a",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230206T064837Z:5a5fc9b1-fa43-4896-a368-5a71229c6ae5",
+        "x-rp-server-mvid": "b9a917b0-7b08-4f97-9f88-dbe71340e8fc"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {}
+}

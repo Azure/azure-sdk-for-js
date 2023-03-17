@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { AlertRules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,7 +15,9 @@ import { MonitorClient } from "../monitorClient";
 import {
   AlertRuleResource,
   AlertRulesListByResourceGroupOptionalParams,
+  AlertRulesListByResourceGroupResponse,
   AlertRulesListBySubscriptionOptionalParams,
+  AlertRulesListBySubscriptionResponse,
   AlertRulesCreateOrUpdateOptionalParams,
   AlertRulesCreateOrUpdateResponse,
   AlertRulesDeleteOptionalParams,
@@ -23,9 +25,7 @@ import {
   AlertRulesGetResponse,
   AlertRuleResourcePatch,
   AlertRulesUpdateOptionalParams,
-  AlertRulesUpdateResponse,
-  AlertRulesListByResourceGroupResponse,
-  AlertRulesListBySubscriptionResponse
+  AlertRulesUpdateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -58,17 +58,26 @@ export class AlertRulesImpl implements AlertRules {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: AlertRulesListByResourceGroupOptionalParams
+    options?: AlertRulesListByResourceGroupOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<AlertRuleResource[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
+    let result: AlertRulesListByResourceGroupResponse;
+    result = await this._listByResourceGroup(resourceGroupName, options);
     yield result.value || [];
   }
 
@@ -99,16 +108,21 @@ export class AlertRulesImpl implements AlertRules {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: AlertRulesListBySubscriptionOptionalParams
+    options?: AlertRulesListBySubscriptionOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<AlertRuleResource[]> {
-    let result = await this._listBySubscription(options);
+    let result: AlertRulesListBySubscriptionResponse;
+    result = await this._listBySubscription(options);
     yield result.value || [];
   }
 
@@ -240,7 +254,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters1,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -262,7 +276,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -284,7 +298,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -310,7 +324,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.alertRulesResource,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -333,7 +347,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -354,7 +368,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer

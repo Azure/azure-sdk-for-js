@@ -22,11 +22,9 @@ import {
   translate,
 } from "@azure/core-amqp";
 import {
-  commitIdempotentSequenceNumbers,
   EventData,
   EventDataInternal,
   populateIdempotentMessageAnnotations,
-  rollbackIdempotentSequenceNumbers,
   toRheaMessage,
 } from "./eventData";
 import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch";
@@ -42,7 +40,7 @@ import {
   idempotentProducerAmqpPropertyNames,
   PENDING_PUBLISH_SEQ_NUM_SYMBOL,
 } from "./util/constants";
-import { isDefined } from "./util/typeGuards";
+import { isDefined } from "@azure/core-util";
 import { translateError } from "./util/error";
 import { v4 as uuid } from "uuid";
 
@@ -73,19 +71,16 @@ export class EventHubSender extends LinkEntity {
   /**
    * The unique lock name per connection that is used to acquire the
    * lock for establishing a sender link by an entity on that connection.
-   * @readonly
    */
   readonly senderLock: string = `sender-${uuid()}`;
   /**
    * The handler function to handle errors that happen on the
    * underlying sender.
-   * @readonly
    */
   private readonly _onAmqpError: OnAmqpEvent;
   /**
    * The handler function to handle "sender_close" event
    * that happens on the underlying sender.
-   * @readonly
    */
   private readonly _onAmqpClose: OnAmqpEvent;
   /**
@@ -102,6 +97,10 @@ export class EventHubSender extends LinkEntity {
    * The AMQP sender link.
    */
   private _sender?: AwaitableSender;
+  /**
+   * The partition ID.
+   */
+  private partitionId?: string;
   /**
    * Indicates whether the sender is configured for idempotent publishing.
    */
@@ -121,6 +120,11 @@ export class EventHubSender extends LinkEntity {
    * publishing behavior specific to a partition.
    */
   private _userProvidedPublishingOptions?: PartitionPublishingOptions;
+  /**
+   * Indicates whether the link is in the process of connecting
+   * (establishing) itself. Default value: `false`.
+   */
+  private isConnecting: boolean = false;
 
   /**
    * Creates a new EventHubSender instance.
@@ -131,12 +135,13 @@ export class EventHubSender extends LinkEntity {
     context: ConnectionContext,
     { partitionId, enableIdempotentProducer, partitionPublishingOptions }: EventHubSenderOptions
   ) {
-    super(context, {
-      name: context.config.getSenderAddress(partitionId),
-      partitionId: partitionId,
-    });
-    this.address = context.config.getSenderAddress(partitionId);
-    this.audience = context.config.getSenderAudience(partitionId);
+    super(
+      context,
+      context.config.getSenderAddress(partitionId),
+      context.config.getSenderAddress(partitionId),
+      context.config.getSenderAudience(partitionId)
+    );
+    this.partitionId = partitionId;
     this._isIdempotentProducer = enableIdempotentProducer;
     this._userProvidedPublishingOptions = partitionPublishingOptions;
 
@@ -840,5 +845,40 @@ export function transformEventsForSend(
 
     // Finally encode the envelope (batch message).
     return message.encode(batchMessage);
+  }
+}
+
+/**
+ * Commits the pending publish sequence number events.
+ * EventDataBatch exposes this as `startingPublishSequenceNumber`,
+ * EventData not in a batch exposes this as `publishedSequenceNumber`.
+ */
+function commitIdempotentSequenceNumbers(
+  events: Omit<EventDataInternal, "getRawAmqpMessage">[] | EventDataBatch
+): void {
+  if (isEventDataBatch(events)) {
+    (events as EventDataBatchImpl)._commitPublish();
+  } else {
+    // For each event, set the `publishedSequenceNumber` equal to the sequence number
+    // we set when we attempted to send the events to the service.
+    for (const event of events) {
+      event._publishedSequenceNumber = event[PENDING_PUBLISH_SEQ_NUM_SYMBOL];
+      delete event[PENDING_PUBLISH_SEQ_NUM_SYMBOL];
+    }
+  }
+}
+
+/**
+ * Rolls back any pending publish sequence number in the events.
+ */
+function rollbackIdempotentSequenceNumbers(
+  events: Omit<EventDataInternal, "getRawAmqpMessage">[] | EventDataBatch
+): void {
+  if (isEventDataBatch(events)) {
+    /* No action required. */
+  } else {
+    for (const event of events) {
+      delete event[PENDING_PUBLISH_SEQ_NUM_SYMBOL];
+    }
   }
 }

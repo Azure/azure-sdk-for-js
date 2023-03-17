@@ -9,16 +9,16 @@
   "dependencies": {
     "@azure/container-registry": "^1.1.0-beta.1",
     "@azure/test-utils-perf": "^1.0.0",
-    "dotenv": "^8.2.0"
+    "dotenv": "^16.0.0"
   },
   "devDependencies": {
-    "@types/node": "^12.0.0",
-    "eslint": "^7.15.0",
+    "@types/node": "^14.0.0",
+    "eslint": "^8.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "tslib": "^2.2.0",
     "ts-node": "^9.0.0",
-    "typescript": "~4.2.0"
+    "typescript": "~4.8.0"
   },
   "private": true,
   "scripts": {

@@ -1,0 +1,65 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DigitalTwins/digitalTwinsInstances?api-version=2023-01-31",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-digitaltwins/3.3.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "7d04a7e0-24d0-49ec-8724-d8905fc20f69"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 01 Mar 2023 03:13:08 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "traceresponse": "00-c8ea0e345b3b3058292b4fa87ec359a7-ee2f90a3b50030a1-01",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "fe8987d5-cb1a-48f6-8766-800def3cdb44",
+        "x-ms-ratelimit-remaining-subscription-reads": "11983",
+        "x-ms-request-id": "fe8987d5-cb1a-48f6-8766-800def3cdb44",
+        "x-ms-routing-request-id": "JAPANEAST:20230301T031309Z:fe8987d5-cb1a-48f6-8766-800def3cdb44"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DigitalTwins/digitalTwinsInstances/myDigitalTwinsService",
+            "name": "myDigitalTwinsService",
+            "type": "Microsoft.DigitalTwins/digitalTwinsInstances",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "createdTime": "2023-03-01T03:12:37.07094Z",
+              "lastUpdatedTime": "2023-03-01T03:13:04.8338689Z",
+              "hostName": "myDigitalTwinsService.api.eus.digitaltwins.azure.net",
+              "privateEndpointConnections": [],
+              "publicNetworkAccess": "Enabled"
+            },
+            "location": "eastus",
+            "identity": null,
+            "tags": null,
+            "systemData": {
+              "createdBy": "azure_client_id",
+              "createdByType": "Application",
+              "createdAt": "2023-03-01T03:12:36.9600051Z",
+              "lastModifiedBy": "azure_client_id",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2023-03-01T03:12:36.9600051Z"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

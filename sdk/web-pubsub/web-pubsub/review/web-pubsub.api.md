@@ -22,6 +22,7 @@ export interface ClientTokenResponse {
 // @public
 export interface GenerateClientTokenOptions extends OperationOptions {
     expirationTimeInMinutes?: number;
+    groups?: string[];
     roles?: string[];
     userId?: string;
 }
@@ -56,15 +57,14 @@ export interface GroupRemoveUserOptions extends OperationOptions {
 }
 
 // @public
-export interface GroupSendTextToAllOptions extends OperationOptions {
-    // (undocumented)
+export interface GroupSendTextToAllOptions extends GroupSendToAllOptions {
     contentType: "text/plain";
-    excludedConnections?: string[];
 }
 
 // @public
 export interface GroupSendToAllOptions extends OperationOptions {
     excludedConnections?: string[];
+    filter?: string;
 }
 
 // @public
@@ -115,7 +115,6 @@ export interface HubRevokePermissionOptions extends OperationOptions {
 
 // @public
 export interface HubSendTextToAllOptions extends HubSendToAllOptions {
-    // (undocumented)
     contentType: "text/plain";
 }
 
@@ -127,13 +126,13 @@ export interface HubSendTextToConnectionOptions extends HubSendToConnectionOptio
 
 // @public
 export interface HubSendTextToUserOptions extends HubSendToUserOptions {
-    // (undocumented)
     contentType: "text/plain";
 }
 
 // @public
 export interface HubSendToAllOptions extends OperationOptions {
     excludedConnections?: string[];
+    filter?: string;
 }
 
 // @public
@@ -142,10 +141,14 @@ export interface HubSendToConnectionOptions extends OperationOptions {
 
 // @public
 export interface HubSendToUserOptions extends OperationOptions {
+    filter?: string;
 }
 
 // @public
 export type JSONTypes = string | number | boolean | object;
+
+// @public
+export function odata(strings: TemplateStringsArray, ...values: unknown[]): string;
 
 // @public (undocumented)
 export type Permission = "joinLeaveGroup" | "sendToGroup";
@@ -182,6 +185,7 @@ export class WebPubSubServiceClient {
     groupExists(groupName: string, options?: HubHasGroupOptions): Promise<boolean>;
     hasPermission(connectionId: string, permission: Permission, options?: HubHasPermissionOptions): Promise<boolean>;
     readonly hubName: string;
+    removeConnectionFromAllGroups(connectionId: string, options?: HubCloseConnectionOptions): Promise<void>;
     removeUserFromAllGroups(userId: string, options?: HubCloseConnectionOptions): Promise<void>;
     revokePermission(connectionId: string, permission: Permission, options?: HubRevokePermissionOptions): Promise<void>;
     sendToAll(message: string, options: HubSendTextToAllOptions): Promise<void>;
@@ -197,7 +201,14 @@ export class WebPubSubServiceClient {
 }
 
 // @public
+export interface WebPubSubServiceClientLogOptions {
+    additionalAllowedHeaderNames?: string[];
+    additionalAllowedQueryParameters?: string[];
+}
+
+// @public
 export interface WebPubSubServiceClientOptions extends CommonClientOptions {
+    loggingOptions?: WebPubSubServiceClientLogOptions;
     reverseProxyEndpoint?: string;
 }
 

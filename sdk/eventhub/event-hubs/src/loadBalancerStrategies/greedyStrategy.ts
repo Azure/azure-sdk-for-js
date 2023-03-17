@@ -23,7 +23,7 @@ export class GreedyLoadBalancingStrategy implements LoadBalancingStrategy {
    * @param partitionIds - Partitions to assign owners to.
    * @returns Partition ids to claim.
    */
-  public getPartitionsToCliam(
+  public getPartitionsToClaim(
     ourOwnerId: string,
     claimedPartitionOwnershipMap: Map<string, PartitionOwnership>,
     partitionIds: string[]

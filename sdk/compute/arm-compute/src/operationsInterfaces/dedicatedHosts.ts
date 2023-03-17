@@ -19,7 +19,7 @@ import {
   DedicatedHostsDeleteOptionalParams,
   DedicatedHostsGetOptionalParams,
   DedicatedHostsGetResponse,
-  DedicatedHostsRestartOptionalParams,
+  DedicatedHostsRestartOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -87,7 +87,10 @@ export interface DedicatedHosts {
     parameters: DedicatedHostUpdate,
     options?: DedicatedHostsUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<DedicatedHostsUpdateResponse>, DedicatedHostsUpdateResponse>
+    PollerLike<
+      PollOperationState<DedicatedHostsUpdateResponse>,
+      DedicatedHostsUpdateResponse
+    >
   >;
   /**
    * Update an dedicated host .

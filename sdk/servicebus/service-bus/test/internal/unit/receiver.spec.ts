@@ -22,17 +22,39 @@ import { ServiceBusSessionReceiverImpl } from "../../../src/receivers/sessionRec
 import { MessageSession } from "../../../src/session/messageSession";
 import sinon from "sinon";
 import { assertThrows } from "../../public/utils/testUtils";
+import { Constants } from "@azure/core-amqp";
 
 describe("Receiver unit tests", () => {
+  it("Receiver should set target in created receiver options", () => {
+    const batchingReceiver = new BatchingReceiver(
+      "serviceBusClientId",
+      createConnectionContextForTests(),
+      "fakeEntityPath",
+      {
+        lockRenewer: undefined,
+        receiveMode: "peekLock",
+        skipParsingBodyAsJson: false,
+        skipConvertingDate: false,
+      }
+    );
+    const options = batchingReceiver["_createReceiverOptions"](false, {});
+    assert.equal(options.target, "serviceBusClientId");
+    assert.deepStrictEqual(options.properties, {
+      [Constants.receiverIdentifierName]: "serviceBusClientId",
+    });
+  });
+
   describe("init() and close() interactions", () => {
     it("close() called just after init() but before the next step", async () => {
       const batchingReceiver = new BatchingReceiver(
+        "serviceBusClientId",
         createConnectionContextForTests(),
         "fakeEntityPath",
         {
           lockRenewer: undefined,
           receiveMode: "peekLock",
           skipParsingBodyAsJson: false,
+          skipConvertingDate: false,
         }
       );
 
@@ -55,12 +77,14 @@ describe("Receiver unit tests", () => {
 
     it("message receiver init() bails out early if object is closed()", async () => {
       const messageReceiver2 = new StreamingReceiver(
+        "serviceBusClientId",
         createConnectionContextForTests(),
         "fakeEntityPath",
         {
           lockRenewer: undefined,
           receiveMode: "peekLock",
           skipParsingBodyAsJson: false,
+          skipConvertingDate: false,
         }
       );
 
@@ -239,12 +263,14 @@ describe("Receiver unit tests", () => {
     it("abortSignal is passed through (session receiver)", async () => {
       const connectionContext = createConnectionContextForTestsWithSessionId();
       const messageSession = await MessageSession.create(
+        "serviceBusClientId",
         connectionContext,
         "entity path",
         undefined,
         {
           retryOptions: undefined,
           skipParsingBodyAsJson: false,
+          skipConvertingDate: false,
         }
       );
 
@@ -253,6 +279,8 @@ describe("Receiver unit tests", () => {
         connectionContext,
         "entity path",
         "peekLock",
+        false,
+        false,
         undefined
       );
 
@@ -322,7 +350,7 @@ describe("Receiver unit tests", () => {
 
 async function subscribeAndWaitForInitialize(
   receiver: ServiceBusReceiverImpl
-): Promise<ReturnType<typeof receiver["subscribe"]>> {
+): Promise<ReturnType<(typeof receiver)["subscribe"]>> {
   const sub = await new Promise<{
     close(): Promise<void>;
   }>((resolve, reject) => {

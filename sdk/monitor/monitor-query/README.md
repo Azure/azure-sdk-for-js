@@ -18,7 +18,7 @@ The Azure Monitor Query client library is used to execute read-only queries agai
 
 ### Supported environments
 
-- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - Latest versions of Safari, Chrome, Edge, and Firefox
 
 For more details, see our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md).
@@ -26,6 +26,7 @@ For more details, see our [support policy](https://github.com/Azure/azure-sdk-fo
 ### Prerequisites
 
 - An [Azure subscription][azure_subscription]
+- A [TokenCredential](https://docs.microsoft.com/javascript/api/@azure/core-auth/tokencredential?view=azure-node-latest) implementation, such as an [Azure Identity library credential type](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest#credential-classes).
 - To query Logs, you need an [Azure Log Analytics workspace][azure_monitor_create_using_portal].
 - To query Metrics, you need an Azure resource of any kind (Storage Account, Key Vault, Cosmos DB, etc.).
 
@@ -60,8 +61,7 @@ For examples of Logs and Metrics queries, see the [Examples](#examples) section.
 
 ### Logs query rate limits and throttling
 
-The Log Analytics service applies throttling when the request rate is too high. Limits, such as the maximum number of rows returned, are also applied on the Kusto queries. For more information, see [Query API](https://docs.microsoft.com/azure/azure-monitor/service-limits#la-query-api).
-
+The Log Analytics service applies throttling when the request rate is too high. Limits, such as the maximum number of rows returned, are also applied on the Kusto queries. For more information, see [Query API](https://learn.microsoft.com/azure/azure-monitor/service-limits#la-query-api).
 ### Metrics data structure
 
 Each set of metric values is a time series with the following characteristics:
@@ -369,19 +369,17 @@ async function processTables(tablesFromResult: LogsTable[]) {
 
 A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQueryBatch.ts).
 
-For information on request throttling at the Log Analytics service level, see [Rate limits](https://dev.loganalytics.io/documentation/Using-the-API/Limits).
-
 ### Advanced logs query scenarios
 
 #### Set logs query timeout
 
-Some logs queries take longer than 3 minutes to execute. The default server timeout is 3 minutes. You can increase the server timeout to a maximum of 10 minutes. In the following example, the `LogsQueryOptions` object's `serverTimeoutInSeconds` property is used to decrease the server timeout to 1 minute:
+Some logs queries take longer than 3 minutes to execute. The default server timeout is 3 minutes. You can increase the server timeout to a maximum of 10 minutes. In the following example, the `LogsQueryOptions` object's `serverTimeoutInSeconds` property is used to increase the server timeout to 10 minutes:
 
 ```ts
 // setting optional parameters
 const queryLogsOptions: LogsQueryOptions = {
   // explicitly control the amount of time the server can spend processing the query.
-  serverTimeoutInSeconds: 60
+  serverTimeoutInSeconds: 600 // 600 seconds = 10 minutes
 };
 
 const result = await logsQueryClient.queryWorkspace(
@@ -435,6 +433,104 @@ AppEvents | filter TenantId == "<workspace2>"
 ```
 
 A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQueryMultipleWorkspaces.ts).
+
+#### Include statistics
+
+To get logs query execution statistics, such as CPU and memory consumption:
+
+1. Set the `LogsQueryOptions.includeQueryStatistics` property to `true`.
+1. Access the `statistics` field inside the `LogsQueryResult` object.
+
+The following example prints the query execution time:
+
+```ts
+const workspaceId = "<workspace_id>";
+const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
+const kustoQuery = "AzureActivity | top 10 by TimeGenerated";
+
+const result = await logsQueryClient.queryWorkspace(
+    monitorWorkspaceId,
+    kustoQuery,
+    { duration: Durations.oneDay },
+    {
+      includeQueryStatistics: true
+    }
+  );
+
+const executionTime =
+    result.statistics && result.statistics.query && result.statistics.query.executionTime;
+
+console.log(
+    `Results for query '${kustoQuery}', execution time: ${
+      executionTime == null ? "unknown" : executionTime
+    }`
+  );
+```
+
+Because the structure of the `statistics` payload varies by query, a `Record<string, unknown>` return type is used. It contains the raw JSON response. The statistics are found within the `query` property of the JSON. For example:
+
+```json
+{
+  "query": {
+    "executionTime": 0.0156478,
+    "resourceUsage": {...},
+    "inputDatasetStatistics": {...},
+    "datasetStatistics": [{...}]
+  }
+}
+```
+
+#### Include visualization
+
+To get visualization data for logs queries using the [render operator](https://docs.microsoft.com/azure/data-explorer/kusto/query/renderoperator?pivots=azuremonitor):
+
+1. Set the `LogsQueryOptions.includeVisualization` property to `true`.
+1. Access the `visualization` field inside the `LogsQueryResult` object.
+
+For example:
+
+```ts
+const workspaceId = "<workspace_id>";
+const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
+
+const result = await logsQueryClient.queryWorkspace(
+    monitorWorkspaceId,
+    @"StormEvents
+        | summarize event_count = count() by State
+        | where event_count > 10
+        | project State, event_count
+        | render columnchart",
+    { duration: Durations.oneDay },
+    {
+      includeVisualization: true
+    }
+  );
+console.log("visualization result:", result.visualization);
+```
+
+Because the structure of the `visualization` payload varies by query, a `Record<string, unknown>` return type is used. It contains the raw JSON response. For example:
+
+```json
+{
+  "visualization": "columnchart",
+  "title": "the chart title",
+  "accumulate": false,
+  "isQuerySorted": false,
+  "kind": null,
+  "legend": null,
+  "series": null,
+  "yMin": "NaN",
+  "yMax": "NaN",
+  "xAxis": null,
+  "xColumn": null,
+  "xTitle": "x axis title",
+  "yAxis": null,
+  "yColumns": null,
+  "ySplit": null,
+  "yTitle": null,
+  "anomalyColumns": null
+}
+```
 
 ### Metrics query
 

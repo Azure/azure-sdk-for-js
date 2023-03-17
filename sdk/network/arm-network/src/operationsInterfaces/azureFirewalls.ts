@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AzureFirewall,
   AzureFirewallsListOptionalParams,
@@ -19,7 +19,9 @@ import {
   AzureFirewallsCreateOrUpdateResponse,
   TagsObject,
   AzureFirewallsUpdateTagsOptionalParams,
-  AzureFirewallsUpdateTagsResponse
+  AzureFirewallsUpdateTagsResponse,
+  AzureFirewallsListLearnedPrefixesOptionalParams,
+  AzureFirewallsListLearnedPrefixesResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,7 +53,7 @@ export interface AzureFirewalls {
     resourceGroupName: string,
     azureFirewallName: string,
     options?: AzureFirewallsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified Azure Firewall.
    * @param resourceGroupName The name of the resource group.
@@ -87,8 +89,8 @@ export interface AzureFirewalls {
     parameters: AzureFirewall,
     options?: AzureFirewallsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AzureFirewallsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AzureFirewallsCreateOrUpdateResponse>,
       AzureFirewallsCreateOrUpdateResponse
     >
   >;
@@ -118,8 +120,8 @@ export interface AzureFirewalls {
     parameters: TagsObject,
     options?: AzureFirewallsUpdateTagsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AzureFirewallsUpdateTagsResponse>,
+    SimplePollerLike<
+      OperationState<AzureFirewallsUpdateTagsResponse>,
       AzureFirewallsUpdateTagsResponse
     >
   >;
@@ -136,4 +138,31 @@ export interface AzureFirewalls {
     parameters: TagsObject,
     options?: AzureFirewallsUpdateTagsOptionalParams
   ): Promise<AzureFirewallsUpdateTagsResponse>;
+  /**
+   * Retrieves a list of all IP prefixes that azure firewall has learned to not SNAT.
+   * @param resourceGroupName The name of the resource group.
+   * @param azureFirewallName The name of the azure firewall.
+   * @param options The options parameters.
+   */
+  beginListLearnedPrefixes(
+    resourceGroupName: string,
+    azureFirewallName: string,
+    options?: AzureFirewallsListLearnedPrefixesOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AzureFirewallsListLearnedPrefixesResponse>,
+      AzureFirewallsListLearnedPrefixesResponse
+    >
+  >;
+  /**
+   * Retrieves a list of all IP prefixes that azure firewall has learned to not SNAT.
+   * @param resourceGroupName The name of the resource group.
+   * @param azureFirewallName The name of the azure firewall.
+   * @param options The options parameters.
+   */
+  beginListLearnedPrefixesAndWait(
+    resourceGroupName: string,
+    azureFirewallName: string,
+    options?: AzureFirewallsListLearnedPrefixesOptionalParams
+  ): Promise<AzureFirewallsListLearnedPrefixesResponse>;
 }

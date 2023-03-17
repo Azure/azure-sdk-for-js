@@ -12,7 +12,7 @@ Key links:
 
 ### Currently supported environments
 
-- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - Latest versions of Safari, Chrome, Edge, and Firefox.
 
 See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
@@ -70,8 +70,8 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 Use the below code snippet to create a `CheckpointStore`. You will need to provide the connection string to your storage account.
 
 ```javascript
-import { ContainerClient } from "@azure/storage-blob",
-import { BlobCheckpointStore } from "@azure/eventhubs-checkpointstore-blob"
+const { ContainerClient } = require("@azure/storage-blob");
+const { BlobCheckpointStore } = require("@azure/eventhubs-checkpointstore-blob");
 
 const containerClient = new ContainerClient("storage-connection-string", "container-name");
 

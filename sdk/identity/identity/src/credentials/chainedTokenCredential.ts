@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-auth";
-
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { AggregateAuthenticationError, CredentialUnavailableError } from "../errors";
+import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import { tracingClient } from "../util/tracing";
-import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 
 /**
  * @internal
@@ -17,12 +16,6 @@ export const logger = credentialLogger("ChainedTokenCredential");
  * until one of the getToken methods returns an access token.
  */
 export class ChainedTokenCredential implements TokenCredential {
-  /**
-   * The message to use when the chained token fails to get a token
-   */
-  protected UnavailableMessage =
-    "ChainedTokenCredential => failed to retrieve a token from the included credentials";
-
   private _sources: TokenCredential[] = [];
 
   /**

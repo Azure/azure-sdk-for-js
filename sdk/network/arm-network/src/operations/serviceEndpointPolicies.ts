@@ -6,20 +6,27 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ServiceEndpointPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ServiceEndpointPolicy,
   ServiceEndpointPoliciesListNextOptionalParams,
   ServiceEndpointPoliciesListOptionalParams,
+  ServiceEndpointPoliciesListResponse,
   ServiceEndpointPoliciesListByResourceGroupNextOptionalParams,
   ServiceEndpointPoliciesListByResourceGroupOptionalParams,
+  ServiceEndpointPoliciesListByResourceGroupResponse,
   ServiceEndpointPoliciesDeleteOptionalParams,
   ServiceEndpointPoliciesGetOptionalParams,
   ServiceEndpointPoliciesGetResponse,
@@ -28,8 +35,6 @@ import {
   TagsObject,
   ServiceEndpointPoliciesUpdateTagsOptionalParams,
   ServiceEndpointPoliciesUpdateTagsResponse,
-  ServiceEndpointPoliciesListResponse,
-  ServiceEndpointPoliciesListByResourceGroupResponse,
   ServiceEndpointPoliciesListNextResponse,
   ServiceEndpointPoliciesListByResourceGroupNextResponse
 } from "../models";
@@ -62,22 +67,34 @@ export class ServiceEndpointPoliciesImpl implements ServiceEndpointPolicies {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: ServiceEndpointPoliciesListOptionalParams
+    options?: ServiceEndpointPoliciesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ServiceEndpointPolicy[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ServiceEndpointPoliciesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -106,19 +123,33 @@ export class ServiceEndpointPoliciesImpl implements ServiceEndpointPolicies {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: ServiceEndpointPoliciesListByResourceGroupOptionalParams
+    options?: ServiceEndpointPoliciesListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ServiceEndpointPolicy[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ServiceEndpointPoliciesListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -126,7 +157,9 @@ export class ServiceEndpointPoliciesImpl implements ServiceEndpointPolicies {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -152,14 +185,14 @@ export class ServiceEndpointPoliciesImpl implements ServiceEndpointPolicies {
     resourceGroupName: string,
     serviceEndpointPolicyName: string,
     options?: ServiceEndpointPoliciesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -192,15 +225,15 @@ export class ServiceEndpointPoliciesImpl implements ServiceEndpointPolicies {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serviceEndpointPolicyName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, serviceEndpointPolicyName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -255,8 +288,8 @@ export class ServiceEndpointPoliciesImpl implements ServiceEndpointPolicies {
     parameters: ServiceEndpointPolicy,
     options?: ServiceEndpointPoliciesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ServiceEndpointPoliciesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ServiceEndpointPoliciesCreateOrUpdateResponse>,
       ServiceEndpointPoliciesCreateOrUpdateResponse
     >
   > {
@@ -266,7 +299,7 @@ export class ServiceEndpointPoliciesImpl implements ServiceEndpointPolicies {
     ): Promise<ServiceEndpointPoliciesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -299,15 +332,23 @@ export class ServiceEndpointPoliciesImpl implements ServiceEndpointPolicies {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serviceEndpointPolicyName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        serviceEndpointPolicyName,
+        parameters,
+        options
+      },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ServiceEndpointPoliciesCreateOrUpdateResponse,
+      OperationState<ServiceEndpointPoliciesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -480,7 +521,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters56,
+  requestBody: Parameters.parameters67,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -565,7 +606,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -585,7 +625,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

@@ -6,22 +6,27 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { VpnLinkConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   VpnSiteLinkConnection,
   VpnLinkConnectionsListByVpnConnectionNextOptionalParams,
   VpnLinkConnectionsListByVpnConnectionOptionalParams,
+  VpnLinkConnectionsListByVpnConnectionResponse,
   VpnLinkConnectionsResetConnectionOptionalParams,
   VpnLinkConnectionsGetIkeSasOptionalParams,
   VpnLinkConnectionsGetIkeSasResponse,
-  VpnLinkConnectionsListByVpnConnectionResponse,
   VpnLinkConnectionsListByVpnConnectionNextResponse
 } from "../models";
 
@@ -64,12 +69,16 @@ export class VpnLinkConnectionsImpl implements VpnLinkConnections {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByVpnConnectionPagingPage(
           resourceGroupName,
           gatewayName,
           connectionName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -79,16 +88,23 @@ export class VpnLinkConnectionsImpl implements VpnLinkConnections {
     resourceGroupName: string,
     gatewayName: string,
     connectionName: string,
-    options?: VpnLinkConnectionsListByVpnConnectionOptionalParams
+    options?: VpnLinkConnectionsListByVpnConnectionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<VpnSiteLinkConnection[]> {
-    let result = await this._listByVpnConnection(
-      resourceGroupName,
-      gatewayName,
-      connectionName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VpnLinkConnectionsListByVpnConnectionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByVpnConnection(
+        resourceGroupName,
+        gatewayName,
+        connectionName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByVpnConnectionNext(
         resourceGroupName,
@@ -98,7 +114,9 @@ export class VpnLinkConnectionsImpl implements VpnLinkConnections {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -132,14 +150,14 @@ export class VpnLinkConnectionsImpl implements VpnLinkConnections {
     connectionName: string,
     linkConnectionName: string,
     options?: VpnLinkConnectionsResetConnectionOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -172,21 +190,21 @@ export class VpnLinkConnectionsImpl implements VpnLinkConnections {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         gatewayName,
         connectionName,
         linkConnectionName,
         options
       },
-      resetConnectionOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: resetConnectionOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -232,8 +250,8 @@ export class VpnLinkConnectionsImpl implements VpnLinkConnections {
     linkConnectionName: string,
     options?: VpnLinkConnectionsGetIkeSasOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VpnLinkConnectionsGetIkeSasResponse>,
+    SimplePollerLike<
+      OperationState<VpnLinkConnectionsGetIkeSasResponse>,
       VpnLinkConnectionsGetIkeSasResponse
     >
   > {
@@ -243,7 +261,7 @@ export class VpnLinkConnectionsImpl implements VpnLinkConnections {
     ): Promise<VpnLinkConnectionsGetIkeSasResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -276,21 +294,24 @@ export class VpnLinkConnectionsImpl implements VpnLinkConnections {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         gatewayName,
         connectionName,
         linkConnectionName,
         options
       },
-      getIkeSasOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: getIkeSasOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VpnLinkConnectionsGetIkeSasResponse,
+      OperationState<VpnLinkConnectionsGetIkeSasResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -456,7 +477,6 @@ const listByVpnConnectionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

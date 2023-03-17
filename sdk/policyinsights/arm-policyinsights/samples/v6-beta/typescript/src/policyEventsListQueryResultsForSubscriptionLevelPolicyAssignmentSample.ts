@@ -13,6 +13,9 @@ import {
   PolicyInsightsClient
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Queries policy events for the subscription level policy assignment.
@@ -21,9 +24,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_QuerySubscriptionLevelPolicyAssignmentScope.json
  */
 async function queryAtSubscriptionLevelPolicyAssignmentScope() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
-  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const policyAssignmentName = "ec8f9645-8ecb-4abb-9c0b-5292f19d4003";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
@@ -38,8 +42,6 @@ async function queryAtSubscriptionLevelPolicyAssignmentScope() {
   console.log(resArray);
 }
 
-queryAtSubscriptionLevelPolicyAssignmentScope().catch(console.error);
-
 /**
  * This sample demonstrates how to Queries policy events for the subscription level policy assignment.
  *
@@ -47,13 +49,14 @@ queryAtSubscriptionLevelPolicyAssignmentScope().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_QuerySubscriptionLevelPolicyAssignmentScopeNextLink.json
  */
 async function queryAtSubscriptionLevelPolicyAssignmentScopeWithNextLink() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
-  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const policyAssignmentName = "ec8f9645-8ecb-4abb-9c0b-5292f19d4003";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options: PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams = {
-    skipToken
+    queryOptions: { skipToken: skipToken }
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
@@ -69,6 +72,9 @@ async function queryAtSubscriptionLevelPolicyAssignmentScopeWithNextLink() {
   console.log(resArray);
 }
 
-queryAtSubscriptionLevelPolicyAssignmentScopeWithNextLink().catch(
-  console.error
-);
+async function main() {
+  queryAtSubscriptionLevelPolicyAssignmentScope();
+  queryAtSubscriptionLevelPolicyAssignmentScopeWithNextLink();
+}
+
+main().catch(console.error);

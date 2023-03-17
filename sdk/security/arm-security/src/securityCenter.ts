@@ -7,6 +7,7 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   MdeOnboardingsImpl,
@@ -57,7 +58,21 @@ import {
   SettingsImpl,
   IngestionSettingsImpl,
   SoftwareInventoriesImpl,
-  SecurityConnectorsImpl
+  SecurityConnectorsImpl,
+  GovernanceRuleOperationsImpl,
+  GovernanceRulesImpl,
+  SecurityConnectorGovernanceRuleImpl,
+  SecurityConnectorGovernanceRulesImpl,
+  SubscriptionGovernanceRulesExecuteStatusImpl,
+  SecurityConnectorGovernanceRulesExecuteStatusImpl,
+  GovernanceAssignmentsImpl,
+  ApplicationsImpl,
+  ApplicationOperationsImpl,
+  SecurityConnectorApplicationsImpl,
+  SecurityConnectorApplicationImpl,
+  APICollectionImpl,
+  APICollectionOnboardingImpl,
+  APICollectionOffboardingImpl
 } from "./operations";
 import {
   MdeOnboardings,
@@ -108,7 +123,21 @@ import {
   Settings,
   IngestionSettings,
   SoftwareInventories,
-  SecurityConnectors
+  SecurityConnectors,
+  GovernanceRuleOperations,
+  GovernanceRules,
+  SecurityConnectorGovernanceRule,
+  SecurityConnectorGovernanceRules,
+  SubscriptionGovernanceRulesExecuteStatus,
+  SecurityConnectorGovernanceRulesExecuteStatus,
+  GovernanceAssignments,
+  Applications,
+  ApplicationOperations,
+  SecurityConnectorApplications,
+  SecurityConnectorApplication,
+  APICollection,
+  APICollectionOnboarding,
+  APICollectionOffboarding
 } from "./operationsInterfaces";
 import { SecurityCenterOptionalParams } from "./models";
 
@@ -143,25 +172,54 @@ export class SecurityCenter extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-security/5.0.1`;
+    const packageDetails = `azsdk-js-arm-security/6.0.0-beta.3`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
-    if (!options.credentialScopes) {
-      options.credentialScopes = ["https://management.azure.com/.default"];
-    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
+      endpoint:
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
+
+    let bearerTokenAuthenticationPolicyFound: boolean = false;
+    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+        (pipelinePolicy) =>
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName
+      );
+    }
+    if (
+      !options ||
+      !options.pipeline ||
+      options.pipeline.getOrderedPolicies().length == 0 ||
+      !bearerTokenAuthenticationPolicyFound
+    ) {
+      this.pipeline.removePolicy({
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+      });
+      this.pipeline.addPolicy(
+        coreRestPipeline.bearerTokenAuthenticationPolicy({
+          credential: credentials,
+          scopes:
+            optionsWithDefaults.credentialScopes ??
+            `${optionsWithDefaults.endpoint}/.default`,
+          challengeCallbacks: {
+            authorizeRequestOnChallenge:
+              coreClient.authorizeRequestOnClaimChallenge
+          }
+        })
+      );
+    }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
@@ -250,6 +308,32 @@ export class SecurityCenter extends coreClient.ServiceClient {
     this.ingestionSettings = new IngestionSettingsImpl(this);
     this.softwareInventories = new SoftwareInventoriesImpl(this);
     this.securityConnectors = new SecurityConnectorsImpl(this);
+    this.governanceRuleOperations = new GovernanceRuleOperationsImpl(this);
+    this.governanceRules = new GovernanceRulesImpl(this);
+    this.securityConnectorGovernanceRule = new SecurityConnectorGovernanceRuleImpl(
+      this
+    );
+    this.securityConnectorGovernanceRules = new SecurityConnectorGovernanceRulesImpl(
+      this
+    );
+    this.subscriptionGovernanceRulesExecuteStatus = new SubscriptionGovernanceRulesExecuteStatusImpl(
+      this
+    );
+    this.securityConnectorGovernanceRulesExecuteStatus = new SecurityConnectorGovernanceRulesExecuteStatusImpl(
+      this
+    );
+    this.governanceAssignments = new GovernanceAssignmentsImpl(this);
+    this.applications = new ApplicationsImpl(this);
+    this.applicationOperations = new ApplicationOperationsImpl(this);
+    this.securityConnectorApplications = new SecurityConnectorApplicationsImpl(
+      this
+    );
+    this.securityConnectorApplication = new SecurityConnectorApplicationImpl(
+      this
+    );
+    this.aPICollection = new APICollectionImpl(this);
+    this.aPICollectionOnboarding = new APICollectionOnboardingImpl(this);
+    this.aPICollectionOffboarding = new APICollectionOffboardingImpl(this);
   }
 
   mdeOnboardings: MdeOnboardings;
@@ -301,4 +385,18 @@ export class SecurityCenter extends coreClient.ServiceClient {
   ingestionSettings: IngestionSettings;
   softwareInventories: SoftwareInventories;
   securityConnectors: SecurityConnectors;
+  governanceRuleOperations: GovernanceRuleOperations;
+  governanceRules: GovernanceRules;
+  securityConnectorGovernanceRule: SecurityConnectorGovernanceRule;
+  securityConnectorGovernanceRules: SecurityConnectorGovernanceRules;
+  subscriptionGovernanceRulesExecuteStatus: SubscriptionGovernanceRulesExecuteStatus;
+  securityConnectorGovernanceRulesExecuteStatus: SecurityConnectorGovernanceRulesExecuteStatus;
+  governanceAssignments: GovernanceAssignments;
+  applications: Applications;
+  applicationOperations: ApplicationOperations;
+  securityConnectorApplications: SecurityConnectorApplications;
+  securityConnectorApplication: SecurityConnectorApplication;
+  aPICollection: APICollection;
+  aPICollectionOnboarding: APICollectionOnboarding;
+  aPICollectionOffboarding: APICollectionOffboarding;
 }

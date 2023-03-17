@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.2 (Unreleased)
+## 3.1.2 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,28 @@
 
 ### Other Changes
 
+## 3.1.1 (2023-02-01)
+
+**Features**
+
+  - Exposes `getContinuationToken` helper function to extract continuation token
+
+**Bugs Fixed**
+
+  - A series of small bug fixs relevant to authentication and apiVersion policy
+
+## 3.1.0 (2022-07-08)
+    
+**Features**
+
+  - Added Interface AuthorizationRule
+  - Added Interface HybridConnection
+  - Added Interface RelayNamespace
+  - Added Interface RelayUpdateParameters
+  - Added Interface ResourceNamespacePatch
+  - Added Interface TrackedResource
+  - Added Interface WcfRelay
+    
 ## 3.0.1 (2022-04-29)
 
 **Features**

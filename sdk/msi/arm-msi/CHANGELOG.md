@@ -1,6 +1,6 @@
 # Release History
 
-## 2.1.0-beta.2 (Unreleased)
+## 2.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,17 +10,32 @@
 
 ### Other Changes
 
-## 2.1.0-beta.1 (2022-03-23)
+## 2.1.0 (2023-02-03)
     
 **Features**
 
-  - Added operation UserAssignedIdentities.listAssociatedResources
-  - Added Interface AssociatedResourcesListResult
-  - Added Interface AzureResource
-  - Added Interface UserAssignedIdentitiesListAssociatedResourcesNextOptionalParams
-  - Added Interface UserAssignedIdentitiesListAssociatedResourcesOptionalParams
-  - Added Type Alias UserAssignedIdentitiesListAssociatedResourcesNextResponse
-  - Added Type Alias UserAssignedIdentitiesListAssociatedResourcesResponse
+  - Added operation group FederatedIdentityCredentials
+  - Added Interface FederatedIdentityCredential
+  - Added Interface FederatedIdentityCredentialsCreateOrUpdateOptionalParams
+  - Added Interface FederatedIdentityCredentialsDeleteOptionalParams
+  - Added Interface FederatedIdentityCredentialsGetOptionalParams
+  - Added Interface FederatedIdentityCredentialsListNextOptionalParams
+  - Added Interface FederatedIdentityCredentialsListOptionalParams
+  - Added Interface FederatedIdentityCredentialsListResult
+  - Added Interface Identity
+  - Added Interface IdentityUpdate
+  - Added Interface ProxyResource
+  - Added Interface SystemAssignedIdentity
+  - Added Interface SystemData
+  - Added Interface TrackedResource
+  - Added Type Alias CreatedByType
+  - Added Type Alias FederatedIdentityCredentialsCreateOrUpdateResponse
+  - Added Type Alias FederatedIdentityCredentialsGetResponse
+  - Added Type Alias FederatedIdentityCredentialsListNextResponse
+  - Added Type Alias FederatedIdentityCredentialsListResponse
+  - Interface Resource has a new optional parameter systemData
+  - Added Enum KnownCreatedByType
+  - Added function getContinuationToken
     
     
 ## 2.0.0 (2021-12-17)

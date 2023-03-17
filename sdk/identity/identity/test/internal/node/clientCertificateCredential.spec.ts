@@ -3,16 +3,16 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
+import * as path from "path";
+import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
+import { Recorder, delay, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { AbortController } from "@azure/abort-controller";
+import { ClientCertificateCredential } from "../../../src";
+import { ConfidentialClientApplication } from "@azure/msal-node";
+import { Context } from "mocha";
+import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
 import Sinon from "sinon";
 import { assert } from "chai";
-import * as path from "path";
-import { AbortController } from "@azure/abort-controller";
-import { env, isPlaybackMode, delay, Recorder } from "@azure-tools/test-recorder";
-import { ConfidentialClientApplication } from "@azure/msal-node";
-import { ClientCertificateCredential } from "../../../src";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
-import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
-import { Context } from "mocha";
 
 const ASSET_PATH = "assets";
 

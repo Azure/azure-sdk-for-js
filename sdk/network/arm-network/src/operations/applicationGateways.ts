@@ -6,23 +6,31 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ApplicationGateways } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ApplicationGateway,
   ApplicationGatewaysListNextOptionalParams,
   ApplicationGatewaysListOptionalParams,
+  ApplicationGatewaysListResponse,
   ApplicationGatewaysListAllNextOptionalParams,
   ApplicationGatewaysListAllOptionalParams,
+  ApplicationGatewaysListAllResponse,
   ApplicationGatewaySslPredefinedPolicy,
   ApplicationGatewaysListAvailableSslPredefinedPoliciesNextOptionalParams,
   ApplicationGatewaysListAvailableSslPredefinedPoliciesOptionalParams,
+  ApplicationGatewaysListAvailableSslPredefinedPoliciesResponse,
   ApplicationGatewaysDeleteOptionalParams,
   ApplicationGatewaysGetOptionalParams,
   ApplicationGatewaysGetResponse,
@@ -31,8 +39,6 @@ import {
   TagsObject,
   ApplicationGatewaysUpdateTagsOptionalParams,
   ApplicationGatewaysUpdateTagsResponse,
-  ApplicationGatewaysListResponse,
-  ApplicationGatewaysListAllResponse,
   ApplicationGatewaysStartOptionalParams,
   ApplicationGatewaysStopOptionalParams,
   ApplicationGatewaysBackendHealthOptionalParams,
@@ -50,7 +56,6 @@ import {
   ApplicationGatewaysListAvailableWafRuleSetsResponse,
   ApplicationGatewaysListAvailableSslOptionsOptionalParams,
   ApplicationGatewaysListAvailableSslOptionsResponse,
-  ApplicationGatewaysListAvailableSslPredefinedPoliciesResponse,
   ApplicationGatewaysGetSslPredefinedPolicyOptionalParams,
   ApplicationGatewaysGetSslPredefinedPolicyResponse,
   ApplicationGatewaysListNextResponse,
@@ -88,19 +93,29 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceGroupName, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    options?: ApplicationGatewaysListOptionalParams
+    options?: ApplicationGatewaysListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ApplicationGateway[]> {
-    let result = await this._list(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ApplicationGatewaysListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -108,7 +123,9 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -136,22 +153,34 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listAllPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listAllPagingPage(options, settings);
       }
     };
   }
 
   private async *listAllPagingPage(
-    options?: ApplicationGatewaysListAllOptionalParams
+    options?: ApplicationGatewaysListAllOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ApplicationGateway[]> {
-    let result = await this._listAll(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ApplicationGatewaysListAllResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAll(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAllNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -178,25 +207,40 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listAvailableSslPredefinedPoliciesPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listAvailableSslPredefinedPoliciesPagingPage(
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listAvailableSslPredefinedPoliciesPagingPage(
-    options?: ApplicationGatewaysListAvailableSslPredefinedPoliciesOptionalParams
+    options?: ApplicationGatewaysListAvailableSslPredefinedPoliciesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ApplicationGatewaySslPredefinedPolicy[]> {
-    let result = await this._listAvailableSslPredefinedPolicies(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ApplicationGatewaysListAvailableSslPredefinedPoliciesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAvailableSslPredefinedPolicies(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAvailableSslPredefinedPoliciesNext(
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -220,14 +264,14 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
     resourceGroupName: string,
     applicationGatewayName: string,
     options?: ApplicationGatewaysDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -260,15 +304,15 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, applicationGatewayName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, applicationGatewayName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -323,8 +367,8 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
     parameters: ApplicationGateway,
     options?: ApplicationGatewaysCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ApplicationGatewaysCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ApplicationGatewaysCreateOrUpdateResponse>,
       ApplicationGatewaysCreateOrUpdateResponse
     >
   > {
@@ -334,7 +378,7 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
     ): Promise<ApplicationGatewaysCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -367,15 +411,18 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, applicationGatewayName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, applicationGatewayName, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ApplicationGatewaysCreateOrUpdateResponse,
+      OperationState<ApplicationGatewaysCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -457,14 +504,14 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
     resourceGroupName: string,
     applicationGatewayName: string,
     options?: ApplicationGatewaysStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -497,15 +544,15 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, applicationGatewayName, options },
-      startOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, applicationGatewayName, options },
+      spec: startOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -540,14 +587,14 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
     resourceGroupName: string,
     applicationGatewayName: string,
     options?: ApplicationGatewaysStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -580,15 +627,15 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, applicationGatewayName, options },
-      stopOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, applicationGatewayName, options },
+      spec: stopOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -624,8 +671,8 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
     applicationGatewayName: string,
     options?: ApplicationGatewaysBackendHealthOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ApplicationGatewaysBackendHealthResponse>,
+    SimplePollerLike<
+      OperationState<ApplicationGatewaysBackendHealthResponse>,
       ApplicationGatewaysBackendHealthResponse
     >
   > {
@@ -635,7 +682,7 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
     ): Promise<ApplicationGatewaysBackendHealthResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -668,15 +715,18 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, applicationGatewayName, options },
-      backendHealthOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, applicationGatewayName, options },
+      spec: backendHealthOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ApplicationGatewaysBackendHealthResponse,
+      OperationState<ApplicationGatewaysBackendHealthResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -715,8 +765,8 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
     probeRequest: ApplicationGatewayOnDemandProbe,
     options?: ApplicationGatewaysBackendHealthOnDemandOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ApplicationGatewaysBackendHealthOnDemandResponse>,
+    SimplePollerLike<
+      OperationState<ApplicationGatewaysBackendHealthOnDemandResponse>,
       ApplicationGatewaysBackendHealthOnDemandResponse
     >
   > {
@@ -726,7 +776,7 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
     ): Promise<ApplicationGatewaysBackendHealthOnDemandResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -759,15 +809,23 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, applicationGatewayName, probeRequest, options },
-      backendHealthOnDemandOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        applicationGatewayName,
+        probeRequest,
+        options
+      },
+      spec: backendHealthOnDemandOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ApplicationGatewaysBackendHealthOnDemandResponse,
+      OperationState<ApplicationGatewaysBackendHealthOnDemandResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -1332,7 +1390,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1353,7 +1410,6 @@ const listAllNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1373,7 +1429,6 @@ const listAvailableSslPredefinedPoliciesNextOperationSpec: coreClient.OperationS
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

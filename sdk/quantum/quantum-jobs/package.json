@@ -9,7 +9,7 @@
   "module": "dist-esm/src/index.js",
   "types": "./types/latest/quantum-jobs.d.ts",
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -30,8 +30,8 @@
     "integration-test:browser": "echo skipped",
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace \"dist-esm/test/{,!(browser)/**/}*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json api-extractor.json src test --ext .ts -f html -o search-lintReport.html || exit 0",
+    "lint:fix": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js -f html -o search-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
     "test:node": "npm run clean && npm run build:test:node && npm run unit-test:node",
     "test:browser": "npm run clean && npm run build:test:browser && npm run unit-test:browser",
@@ -62,9 +62,12 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "dependencies": {
+    "@azure/core-auth": "^1.4.0",
     "@azure/core-paging": "^1.1.1",
-    "@azure/core-http": "^2.0.0",
+    "@azure/core-client": "^1.6.1",
+    "@azure/core-rest-pipeline": "^1.10.0",
     "@azure/core-tracing": "^1.0.0",
+    "@azure/core-util": "^1.1.1",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
@@ -73,24 +76,22 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^2.0.1",
     "@azure-tools/test-recorder": "^1.0.0",
-    "@microsoft/api-extractor": "7.18.11",
+    "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^12.0.0",
+    "@types/node": "^14.0.0",
     "@types/sinon": "^9.0.4",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
-    "dotenv": "^8.2.0",
-    "eslint": "^7.15.0",
+    "dotenv": "^16.0.0",
+    "eslint": "^8.0.0",
     "events": "^3.0.0",
     "inherits": "^2.0.3",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
-    "karma-edge-launcher": "^0.4.2",
     "karma-env-preprocessor": "^0.1.1",
     "karma-firefox-launcher": "^1.1.0",
-    "karma-ie-launcher": "^1.0.0",
     "karma-json-preprocessor": "^0.3.3",
     "karma-json-to-file-reporter": "^1.0.1",
     "karma-junit-reporter": "^2.0.1",
@@ -103,7 +104,7 @@
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "sinon": "^9.0.2",
-    "typescript": "~4.6.0",
+    "typescript": "~4.8.0",
     "util": "^0.12.1"
   },
   "sideEffects": false

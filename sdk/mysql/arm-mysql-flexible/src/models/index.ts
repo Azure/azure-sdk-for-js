@@ -463,18 +463,18 @@ export interface OperationDisplay {
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** Represents a server. */
-export type Server = TrackedResource & {
+export interface Server extends TrackedResource {
   /** The SKU (pricing tier) of the server. */
   sku?: Sku;
   /**
@@ -526,10 +526,10 @@ export type Server = TrackedResource & {
   network?: Network;
   /** Maintenance window of a server. */
   maintenanceWindow?: MaintenanceWindow;
-};
+}
 
 /** Server backup properties */
-export type ServerBackup = ProxyResource & {
+export interface ServerBackup extends ProxyResource {
   /**
    * The system metadata relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -541,10 +541,10 @@ export type ServerBackup = ProxyResource & {
   completedTime?: Date;
   /** Backup source */
   source?: string;
-};
+}
 
 /** Represents a server firewall rule. */
-export type FirewallRule = ProxyResource & {
+export interface FirewallRule extends ProxyResource {
   /**
    * The system metadata relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -554,10 +554,10 @@ export type FirewallRule = ProxyResource & {
   startIpAddress: string;
   /** The end IP address of the server firewall rule. Must be IPv4 format. */
   endIpAddress: string;
-};
+}
 
 /** Represents a Database. */
-export type Database = ProxyResource & {
+export interface Database extends ProxyResource {
   /**
    * The system metadata relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -567,10 +567,10 @@ export type Database = ProxyResource & {
   charset?: string;
   /** The collation of the database. */
   collation?: string;
-};
+}
 
 /** Represents a Configuration. */
-export type Configuration = ProxyResource & {
+export interface Configuration extends ProxyResource {
   /**
    * The system metadata relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -615,12 +615,15 @@ export type Configuration = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isDynamicConfig?: IsDynamicConfig;
-};
+}
 
 /** Known values of {@link SkuTier} that the service accepts. */
 export enum KnownSkuTier {
+  /** Burstable */
   Burstable = "Burstable",
+  /** GeneralPurpose */
   GeneralPurpose = "GeneralPurpose",
+  /** MemoryOptimized */
   MemoryOptimized = "MemoryOptimized"
 }
 
@@ -637,7 +640,9 @@ export type SkuTier = string;
 
 /** Known values of {@link ServerVersion} that the service accepts. */
 export enum KnownServerVersion {
+  /** Five7 */
   Five7 = "5.7",
+  /** Eight021 */
   Eight021 = "8.0.21"
 }
 
@@ -653,9 +658,13 @@ export type ServerVersion = string;
 
 /** Known values of {@link CreateMode} that the service accepts. */
 export enum KnownCreateMode {
+  /** Default */
   Default = "Default",
+  /** PointInTimeRestore */
   PointInTimeRestore = "PointInTimeRestore",
+  /** Replica */
   Replica = "Replica",
+  /** GeoRestore */
   GeoRestore = "GeoRestore"
 }
 
@@ -673,8 +682,11 @@ export type CreateMode = string;
 
 /** Known values of {@link ReplicationRole} that the service accepts. */
 export enum KnownReplicationRole {
+  /** None */
   None = "None",
+  /** Source */
   Source = "Source",
+  /** Replica */
   Replica = "Replica"
 }
 
@@ -691,12 +703,19 @@ export type ReplicationRole = string;
 
 /** Known values of {@link ServerState} that the service accepts. */
 export enum KnownServerState {
+  /** Ready */
   Ready = "Ready",
+  /** Dropping */
   Dropping = "Dropping",
+  /** Disabled */
   Disabled = "Disabled",
+  /** Starting */
   Starting = "Starting",
+  /** Stopping */
   Stopping = "Stopping",
+  /** Stopped */
   Stopped = "Stopped",
+  /** Updating */
   Updating = "Updating"
 }
 
@@ -717,7 +736,9 @@ export type ServerState = string;
 
 /** Known values of {@link EnableStatusEnum} that the service accepts. */
 export enum KnownEnableStatusEnum {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -733,8 +754,11 @@ export type EnableStatusEnum = string;
 
 /** Known values of {@link HighAvailabilityMode} that the service accepts. */
 export enum KnownHighAvailabilityMode {
+  /** Disabled */
   Disabled = "Disabled",
+  /** ZoneRedundant */
   ZoneRedundant = "ZoneRedundant",
+  /** SameZone */
   SameZone = "SameZone"
 }
 
@@ -751,10 +775,15 @@ export type HighAvailabilityMode = string;
 
 /** Known values of {@link HighAvailabilityState} that the service accepts. */
 export enum KnownHighAvailabilityState {
+  /** NotEnabled */
   NotEnabled = "NotEnabled",
+  /** CreatingStandby */
   CreatingStandby = "CreatingStandby",
+  /** Healthy */
   Healthy = "Healthy",
+  /** FailingOver */
   FailingOver = "FailingOver",
+  /** RemovingStandby */
   RemovingStandby = "RemovingStandby"
 }
 
@@ -773,9 +802,13 @@ export type HighAvailabilityState = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -793,7 +826,9 @@ export type CreatedByType = string;
 
 /** Known values of {@link ConfigurationSource} that the service accepts. */
 export enum KnownConfigurationSource {
+  /** SystemDefault */
   SystemDefault = "system-default",
+  /** UserOverride */
   UserOverride = "user-override"
 }
 
@@ -809,7 +844,9 @@ export type ConfigurationSource = string;
 
 /** Known values of {@link IsReadOnly} that the service accepts. */
 export enum KnownIsReadOnly {
+  /** True */
   True = "True",
+  /** False */
   False = "False"
 }
 
@@ -825,7 +862,9 @@ export type IsReadOnly = string;
 
 /** Known values of {@link IsConfigPendingRestart} that the service accepts. */
 export enum KnownIsConfigPendingRestart {
+  /** True */
   True = "True",
+  /** False */
   False = "False"
 }
 
@@ -841,7 +880,9 @@ export type IsConfigPendingRestart = string;
 
 /** Known values of {@link IsDynamicConfig} that the service accepts. */
 export enum KnownIsDynamicConfig {
+  /** True */
   True = "True",
+  /** False */
   False = "False"
 }
 

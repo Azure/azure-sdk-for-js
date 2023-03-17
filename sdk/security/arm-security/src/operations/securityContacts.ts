@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { SecurityContacts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -22,8 +23,6 @@ import {
   SecurityContactsCreateOptionalParams,
   SecurityContactsCreateResponse,
   SecurityContactsDeleteOptionalParams,
-  SecurityContactsUpdateOptionalParams,
-  SecurityContactsUpdateResponse,
   SecurityContactsListNextResponse
 } from "../models";
 
@@ -41,7 +40,7 @@ export class SecurityContactsImpl implements SecurityContacts {
   }
 
   /**
-   * Security contact configurations for the subscription
+   * List all security contact configurations for the subscription
    * @param options The options parameters.
    */
   public list(
@@ -55,22 +54,34 @@ export class SecurityContactsImpl implements SecurityContacts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: SecurityContactsListOptionalParams
+    options?: SecurityContactsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SecurityContact[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SecurityContactsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -83,7 +94,7 @@ export class SecurityContactsImpl implements SecurityContacts {
   }
 
   /**
-   * Security contact configurations for the subscription
+   * List all security contact configurations for the subscription
    * @param options The options parameters.
    */
   private _list(
@@ -93,7 +104,7 @@ export class SecurityContactsImpl implements SecurityContacts {
   }
 
   /**
-   * Security contact configurations for the subscription
+   * Get Default Security contact configurations for the subscription
    * @param securityContactName Name of the security contact object
    * @param options The options parameters.
    */
@@ -108,7 +119,7 @@ export class SecurityContactsImpl implements SecurityContacts {
   }
 
   /**
-   * Security contact configurations for the subscription
+   * Create security contact configurations for the subscription
    * @param securityContactName Name of the security contact object
    * @param securityContact Security contact object
    * @param options The options parameters.
@@ -125,7 +136,7 @@ export class SecurityContactsImpl implements SecurityContacts {
   }
 
   /**
-   * Security contact configurations for the subscription
+   * Delete security contact configurations for the subscription
    * @param securityContactName Name of the security contact object
    * @param options The options parameters.
    */
@@ -136,23 +147,6 @@ export class SecurityContactsImpl implements SecurityContacts {
     return this.client.sendOperationRequest(
       { securityContactName, options },
       deleteOperationSpec
-    );
-  }
-
-  /**
-   * Security contact configurations for the subscription
-   * @param securityContactName Name of the security contact object
-   * @param securityContact Security contact object
-   * @param options The options parameters.
-   */
-  update(
-    securityContactName: string,
-    securityContact: SecurityContact,
-    options?: SecurityContactsUpdateOptionalParams
-  ): Promise<SecurityContactsUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { securityContactName, securityContact, options },
-      updateOperationSpec
     );
   }
 
@@ -186,7 +180,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion7],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -203,7 +197,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion7],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -220,12 +214,15 @@ const createOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.SecurityContact
     },
+    201: {
+      bodyMapper: Mappers.SecurityContact
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
   requestBody: Parameters.securityContact,
-  queryParameters: [Parameters.apiVersion7],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -240,41 +237,19 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/providers/Microsoft.Security/securityContacts/{securityContactName}",
   httpMethod: "DELETE",
   responses: {
+    200: {},
     204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion7],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.securityContactName
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/securityContacts/{securityContactName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SecurityContact
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.securityContact,
-  queryParameters: [Parameters.apiVersion7],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.securityContactName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -288,7 +263,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion7],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

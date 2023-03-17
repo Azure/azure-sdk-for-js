@@ -1,10 +1,10 @@
 {
-  "name": "azure-keyvault-keys-samples-js",
+  "name": "@azure-samples/keyvault-keys-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Key Vault Keys client library samples for JavaScript",
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
   "repository": {
     "type": "git",
@@ -29,7 +29,7 @@
   "dependencies": {
     "@azure/keyvault-keys": "latest",
     "dotenv": "latest",
-    "@azure/identity": "^2.0.1",
+    "@azure/identity": "^2.1.0-beta.2",
     "dayjs": "^1.10.7"
   }
 }

@@ -6,7 +6,7 @@ This package contains an isomorphic SDK for Azure Digital Twins API to provide a
 
 ### Currently supported environments
 
-- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - Latest versions of Safari, Chrome, Edge, and Firefox.
 
 See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
@@ -83,9 +83,9 @@ const myComponent = {
     {
       "@type": "Property",
       name: "ComponentProp1",
-      schema: "string"
-    }
-  ]
+      schema: "string",
+    },
+  ],
 };
 
 const models = await serviceClient.createModels([myComponent]);
@@ -145,8 +145,8 @@ We can get a digital twin using `getDigitalTwin` with the digital twin ID.
 ```javascript
 const digitalTwinId = "myTwin";
 const twin = await serviceClient.getDigitalTwin(digitalTwinId);
-console.log(`DigitalTwin's etag: ${twin.eTag}`);
-console.log(`DigitalTwin: ${twin.body}`);
+console.log(`DigitalTwin's etag: ${twin.etag}`);
+console.log(`DigitalTwin: ${twin}`);
 ```
 
 #### Query digital twins
@@ -196,10 +196,10 @@ const componentPath = "Component1";
 const patch = {
   op: "replace",
   path: "/ComponentProp1",
-  value: "value2"
+  value: "value2",
 };
 const updateComponentResponse = await serviceClient.updateComponent(digitalTwinId, componentPath, [
-  patch
+  patch,
 ]);
 ```
 
@@ -216,7 +216,7 @@ const relationship = {
   $sourceId: "BuildingTwin",
   $relationshipName: "has",
   $targetId: "FloorTwin",
-  isAccessRestricted: false
+  isAccessRestricted: false,
 };
 
 await serviceClient.upsertRelationship(
@@ -332,7 +332,7 @@ Additional examples can be found in the
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
 ```javascript
-import { setLogLevel } from "@azure/logger";
+const { setlogLevel } = require("@azure/logger");
 
 setLogLevel("info");
 ```

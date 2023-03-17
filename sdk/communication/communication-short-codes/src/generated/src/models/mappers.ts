@@ -352,8 +352,8 @@ export const ProgramDetails: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      signUpTypes: {
-        serializedName: "signUpTypes",
+      callToActionTypes: {
+        serializedName: "callToActionTypes",
         type: {
           name: "Sequence",
           element: {
@@ -369,8 +369,14 @@ export const ProgramDetails: coreClient.CompositeMapper = {
           }
         }
       },
-      signUpUrl: {
-        serializedName: "signUpUrl",
+      callToActionUrl: {
+        serializedName: "callToActionUrl",
+        type: {
+          name: "String"
+        }
+      },
+      callToAction: {
+        serializedName: "callToAction",
         type: {
           name: "String"
         }
@@ -491,16 +497,10 @@ export const MessageDetails: coreClient.CompositeMapper = {
     name: "Composite",
     className: "MessageDetails",
     modelProperties: {
-      supportedProtocols: {
-        serializedName: "supportedProtocols",
+      supportedProtocol: {
+        serializedName: "supportedProtocol",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Enum",
-              allowedValues: ["sms", "mms"]
-            }
-          }
+          name: "String"
         }
       },
       recurrence: {
@@ -509,32 +509,32 @@ export const MessageDetails: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      helpMessage: {
-        serializedName: "helpMessage",
+      helpAnswerToUser: {
+        serializedName: "helpAnswerToUser",
         type: {
           name: "String"
         }
       },
-      optOutMessage: {
-        serializedName: "optOutMessage",
+      optOutAnswerToUser: {
+        serializedName: "optOutAnswerToUser",
         type: {
           name: "String"
         }
       },
-      optInMessage: {
-        serializedName: "optInMessage",
+      optInMessageToUser: {
+        serializedName: "optInMessageToUser",
         type: {
           name: "String"
         }
       },
-      optInReply: {
-        serializedName: "optInReply",
+      optInAnswerFromUser: {
+        serializedName: "optInAnswerFromUser",
         type: {
           name: "String"
         }
       },
-      confirmationMessage: {
-        serializedName: "confirmationMessage",
+      optInConfirmationMessageToUser: {
+        serializedName: "optInConfirmationMessageToUser",
         type: {
           name: "String"
         }
@@ -566,8 +566,14 @@ export const UseCase: coreClient.CompositeMapper = {
     name: "Composite",
     className: "UseCase",
     modelProperties: {
-      contentCategory: {
-        serializedName: "contentCategory",
+      contentType: {
+        serializedName: "contentType",
+        type: {
+          name: "String"
+        }
+      },
+      customContentType: {
+        serializedName: "customContentType",
         type: {
           name: "String"
         }
@@ -708,8 +714,8 @@ export const ProgramBriefAttachmentSummary: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      friendlyName: {
-        serializedName: "friendlyName",
+      fileName: {
+        serializedName: "fileName",
         type: {
           name: "String"
         }
@@ -759,30 +765,34 @@ export const ProgramBriefAttachment: coreClient.CompositeMapper = {
       },
       type: {
         serializedName: "type",
+        required: true,
         type: {
           name: "String"
         }
       },
-      friendlyName: {
-        serializedName: "friendlyName",
+      fileName: {
+        serializedName: "fileName",
+        required: true,
         type: {
           name: "String"
         }
       },
-      fileSize: {
-        serializedName: "fileSize",
+      fileSizeInBytes: {
+        serializedName: "fileSizeInBytes",
         type: {
           name: "Number"
         }
       },
       fileType: {
         serializedName: "fileType",
+        required: true,
         type: {
           name: "String"
         }
       },
-      fileContent: {
-        serializedName: "fileContent",
+      fileContentBase64: {
+        serializedName: "fileContentBase64",
+        required: true,
         type: {
           name: "String"
         }

@@ -1,0 +1,38 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Automation/automationAccounts/myAutomationxxx/runbooks/myRunbookxx/draft/content?api-version=2018-06-30",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "text/powershell",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-automation/11.0.0-beta.4 core-rest-pipeline/1.10.1 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "db2bc8b2-39fd-4ba1-8b37-8542a52f4e02"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "text/powershell",
+        "Date": "Tue, 27 Dec 2022 02:46:08 GMT",
+        "ETag": "\u0022638077059664530000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "7d4dc376-778d-4fe9-ad34-651a9e0b543a",
+        "x-ms-ratelimit-remaining-subscription-reads": "11999",
+        "x-ms-request-id": "db2bc8b2-39fd-4ba1-8b37-8542a52f4e02",
+        "x-ms-routing-request-id": "KOREASOUTH:20221227T024609Z:7d4dc376-778d-4fe9-ad34-651a9e0b543a"
+      },
+      "ResponseBody": "workflow myRunbookxx { }"
+    }
+  ],
+  "Variables": {}
+}

@@ -1,6 +1,4 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
+//@@TS-MAGIC-NEWLINE@@
 /**
  * Gets the text slices that a set of spans refer to from a document's content.
  *

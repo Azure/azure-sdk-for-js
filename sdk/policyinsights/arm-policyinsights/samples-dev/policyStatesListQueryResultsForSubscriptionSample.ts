@@ -13,6 +13,9 @@ import {
   PolicyInsightsClient
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Queries policy states for the resources under the subscription.
@@ -21,9 +24,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_FilterAndAggregateOnly.json
  */
 async function filterAndAggregateOnly() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const fromParam = new Date("2019-10-05T18:00:00Z");
   const filter = "PolicyDefinitionAction eq 'deny'";
   const apply = "aggregate($count as NumDenyStates)";
@@ -35,15 +39,13 @@ async function filterAndAggregateOnly() {
   const resArray = new Array();
   for await (let item of client.policyStates.listQueryResultsForSubscription(
     policyStatesResource,
-    subscriptionId2,
+    subscriptionId,
     options
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
-
-filterAndAggregateOnly().catch(console.error);
 
 /**
  * This sample demonstrates how to Queries policy states for the resources under the subscription.
@@ -52,9 +54,10 @@ filterAndAggregateOnly().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_FilterAndGroupByWithAggregate.json
  */
 async function filterAndGroupWithAggregate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 2;
   const orderBy = "NumAuditDenyNonComplianceRecords desc";
   const fromParam = new Date("2019-10-05T18:00:00Z");
@@ -78,8 +81,6 @@ async function filterAndGroupWithAggregate() {
   console.log(resArray);
 }
 
-filterAndGroupWithAggregate().catch(console.error);
-
 /**
  * This sample demonstrates how to Queries policy states for the resources under the subscription.
  *
@@ -87,9 +88,10 @@ filterAndGroupWithAggregate().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_FilterAndGroupByWithoutAggregate.json
  */
 async function filterAndGroupWithoutAggregate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 2;
   const fromParam = new Date("2019-10-05T18:00:00Z");
   const filter =
@@ -104,15 +106,13 @@ async function filterAndGroupWithoutAggregate() {
   const resArray = new Array();
   for await (let item of client.policyStates.listQueryResultsForSubscription(
     policyStatesResource,
-    subscriptionId2,
+    subscriptionId,
     options
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
-
-filterAndGroupWithoutAggregate().catch(console.error);
 
 /**
  * This sample demonstrates how to Queries policy states for the resources under the subscription.
@@ -121,9 +121,10 @@ filterAndGroupWithoutAggregate().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_FilterAndMultipleGroups.json
  */
 async function filterAndMultipleGroups() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 10;
   const orderBy = "NumNonCompliantResources desc";
   const filter = "IsCompliant eq false";
@@ -137,15 +138,13 @@ async function filterAndMultipleGroups() {
   const resArray = new Array();
   for await (let item of client.policyStates.listQueryResultsForSubscription(
     policyStatesResource,
-    subscriptionId2,
+    subscriptionId,
     options
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
-
-filterAndMultipleGroups().catch(console.error);
 
 /**
  * This sample demonstrates how to Queries policy states for the resources under the subscription.
@@ -154,22 +153,21 @@ filterAndMultipleGroups().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_QuerySubscriptionScope.json
  */
 async function queryLatestAtSubscriptionScope() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.policyStates.listQueryResultsForSubscription(
     policyStatesResource,
-    subscriptionId2
+    subscriptionId
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
-
-queryLatestAtSubscriptionScope().catch(console.error);
 
 /**
  * This sample demonstrates how to Queries policy states for the resources under the subscription.
@@ -178,9 +176,10 @@ queryLatestAtSubscriptionScope().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_QuerySubscriptionScopeNextLink.json
  */
 async function queryLatestAtSubscriptionScopeWithNextLink() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options: PolicyStatesListQueryResultsForSubscriptionOptionalParams = {
     queryOptions: { skipToken: skipToken }
@@ -198,8 +197,6 @@ async function queryLatestAtSubscriptionScopeWithNextLink() {
   console.log(resArray);
 }
 
-queryLatestAtSubscriptionScopeWithNextLink().catch(console.error);
-
 /**
  * This sample demonstrates how to Queries policy states for the resources under the subscription.
  *
@@ -207,9 +204,10 @@ queryLatestAtSubscriptionScopeWithNextLink().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_TimeRangeSortSelectTop.json
  */
 async function timeRangeSortSelectAndLimit() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 2;
   const orderBy =
     "Timestamp desc, PolicyAssignmentId asc, SubscriptionId asc, ResourceGroup asc, ResourceId";
@@ -233,4 +231,14 @@ async function timeRangeSortSelectAndLimit() {
   console.log(resArray);
 }
 
-timeRangeSortSelectAndLimit().catch(console.error);
+async function main() {
+  filterAndAggregateOnly();
+  filterAndGroupWithAggregate();
+  filterAndGroupWithoutAggregate();
+  filterAndMultipleGroups();
+  queryLatestAtSubscriptionScope();
+  queryLatestAtSubscriptionScopeWithNextLink();
+  timeRangeSortSelectAndLimit();
+}
+
+main().catch(console.error);

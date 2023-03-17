@@ -13,22 +13,28 @@ import {
   AppPlatformManagementClient
 } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Operation to update an exiting Binding.
  *
  * @summary Operation to update an exiting Binding.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-03-01-preview/examples/Bindings_Update.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/Bindings_Update.json
  */
 async function bindingsUpdate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const appName = "myapp";
   const bindingName = "mybinding";
   const bindingResource: BindingResource = {
     properties: {
-      bindingParameters: {},
+      bindingParameters: { apiType: { string: "SQL" }, databaseName: { string: "db1" } },
       createdAt: undefined,
       generatedProperties: undefined,
       key: "xxxx",
@@ -47,4 +53,8 @@ async function bindingsUpdate() {
   console.log(result);
 }
 
-bindingsUpdate().catch(console.error);
+async function main() {
+  bindingsUpdate();
+}
+
+main().catch(console.error);

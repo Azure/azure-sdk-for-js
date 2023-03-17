@@ -2,26 +2,17 @@
 // Licensed under the MIT license.
 
 import {
+  PipelineRequestOptions,
   createHttpHeaders,
   createPipelineRequest,
-  PipelineRequestOptions,
 } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { TokenResponseParsedBody } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
 import { MSI, MSIConfiguration } from "./models";
 import { mapScopesToResource } from "./utils";
 
 const msiName = "ManagedIdentityCredential - AppServiceMSI 2017";
 const logger = credentialLogger(msiName);
-
-/**
- * Formats the expiration date of the received token into the number of milliseconds between that date and midnight, January 1, 1970.
- */
-function expiresOnParser(requestBody: TokenResponseParsedBody): number {
-  // App Service always returns string expires_on values.
-  return Date.parse(requestBody.expires_on! as string);
-}
 
 /**
  * Generates the options used on the request for an access token.
@@ -68,6 +59,7 @@ function prepareRequestOptions(
  * Defines how to determine whether the Azure App Service MSI is available, and also how to retrieve a token from the Azure App Service MSI.
  */
 export const appServiceMsi2017: MSI = {
+  name: "appServiceMsi2017",
   async isAvailable({ scopes }): Promise<boolean> {
     const resource = mapScopesToResource(scopes);
     if (!resource) {
@@ -105,7 +97,7 @@ export const appServiceMsi2017: MSI = {
       // Generally, MSI endpoints use the HTTP protocol, without transport layer security (TLS).
       allowInsecureConnection: true,
     });
-    const tokenResponse = await identityClient.sendTokenRequest(request, expiresOnParser);
+    const tokenResponse = await identityClient.sendTokenRequest(request);
     return (tokenResponse && tokenResponse.accessToken) || null;
   },
 };

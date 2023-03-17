@@ -1,2 +1,3 @@
 src/**/*.js
 !assets/fake-cert.pem
+!assets/fake-cert-password.pem

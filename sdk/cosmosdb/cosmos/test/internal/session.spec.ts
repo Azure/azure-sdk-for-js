@@ -70,6 +70,99 @@ describe("New session token", function () {
   });
 });
 
+describe("Integrated Cache Staleness", async function (this: Suite) {
+  beforeEach(async function () {
+    await removeAllDatabases();
+  });
+  const dbId = addEntropy("maxIntegratedCacheTestDB");
+  const containerId = addEntropy("maxIntegratedCacheTestContainer");
+  const dedicatedGatewayMaxAge = 20;
+  const client = new CosmosClient({
+    endpoint,
+    key: masterKey,
+    consistencyLevel: ConsistencyLevel.Eventual,
+    plugins: [
+      {
+        on: "request",
+        plugin: async (context, next) => {
+          if (
+            context.resourceType === ResourceType.item &&
+            context.operationType !== OperationType.Create
+          ) {
+            assert.ok(typeof context.headers["x-ms-consistency-level"] === "undefined");
+            assert.ok(typeof context.headers["x-ms-dedicatedgateway-max-age"] !== "undefined");
+            assert.ok(typeof context.headers["x-ms-consistency-level"] === "string");
+            assert.ok(
+              context.headers["x-ms-consistency-level"] === "Eventual" ||
+                context.headers["x-ms-consistency-level"] === "Session",
+              `${context.headers["x-ms-dedicatedgateway-max-age"]} = EVENTUAL or SESSION`
+            );
+            if (
+              context.headers["x-ms-dedicatedgateway-max-age"] === "null" ||
+              context.headers["x-ms-dedicatedgateway-max-age"] === undefined ||
+              typeof context.headers["x-ms-dedicatedgateway-max-age"] === "undefined"
+            ) {
+              assert.ok(
+                context.headers["x-ms-dedicatedgateway-max-age"] === "null",
+                "x-ms-dedicatedgateway-max-age will be ignored."
+              );
+            }
+            assert.ok(
+              typeof context.headers["x-ms-dedicatedgateway-max-age"] === "string",
+              `${context.headers["x-ms-dedicatedgateway-max-age"]} = string`
+            );
+            assert.ok(
+              context.headers["x-ms-dedicatedgateway-max-age"] === "0",
+              "x-ms-dedicatedgateway-max-age will be ignored."
+            );
+
+            assert.ok(
+              context.headers["x-ms-dedicatedgateway-max-age"] === `"${dedicatedGatewayMaxAge}"`,
+              `${context.headers["x-ms-dedicatedgateway-max-age"]} = "${dedicatedGatewayMaxAge}"`
+            );
+          }
+          const response = await next(context);
+          return response;
+        },
+      },
+    ],
+  });
+
+  const itemRequestFeedOptions = {
+    maxIntegratedCacheStalenessInMs: dedicatedGatewayMaxAge,
+  };
+  const { database } = await client.databases.createIfNotExists({
+    id: dbId,
+  });
+  const { container } = await database.containers.createIfNotExists({
+    id: containerId,
+  });
+
+  it("Should pass with maxIntegratedCacheStalenessInMs and consistency level set.", async function () {
+    assert.ok(container.items.create({ id: "1" }));
+    container.item("1").read(itemRequestFeedOptions);
+    container.items
+      .readAll({
+        maxIntegratedCacheStalenessInMs: 0,
+      })
+      .fetchAll();
+    const querySpec = {
+      query: "SELECT * FROM root r WHERE r.id=@id",
+      parameters: [
+        {
+          name: "@id",
+          value: "1",
+        },
+      ],
+    };
+    container.items.query(querySpec, itemRequestFeedOptions).fetchAll();
+
+    // Should fail: maxIntegratedCacheStalenessInMs cannot be 0
+    this.dedicatedGatewayMaxAge = 0;
+    await container.read(this.dedicatedGatewayMaxAge);
+  });
+});
+
 // For some reason this test does not pass against the emulator. Skipping it for now
 describe.skip("Session Token", function (this: Suite) {
   beforeEach(async function () {

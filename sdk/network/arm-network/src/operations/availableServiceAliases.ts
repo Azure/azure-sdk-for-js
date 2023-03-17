@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { AvailableServiceAliases } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,9 +17,9 @@ import {
   AvailableServiceAlias,
   AvailableServiceAliasesListNextOptionalParams,
   AvailableServiceAliasesListOptionalParams,
+  AvailableServiceAliasesListResponse,
   AvailableServiceAliasesListByResourceGroupNextOptionalParams,
   AvailableServiceAliasesListByResourceGroupOptionalParams,
-  AvailableServiceAliasesListResponse,
   AvailableServiceAliasesListByResourceGroupResponse,
   AvailableServiceAliasesListNextResponse,
   AvailableServiceAliasesListByResourceGroupNextResponse
@@ -54,23 +55,35 @@ export class AvailableServiceAliasesImpl implements AvailableServiceAliases {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(location, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(location, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     location: string,
-    options?: AvailableServiceAliasesListOptionalParams
+    options?: AvailableServiceAliasesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AvailableServiceAlias[]> {
-    let result = await this._list(location, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AvailableServiceAliasesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(location, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(location, continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -106,11 +119,15 @@ export class AvailableServiceAliasesImpl implements AvailableServiceAliases {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           location,
-          options
+          options,
+          settings
         );
       }
     };
@@ -119,15 +136,22 @@ export class AvailableServiceAliasesImpl implements AvailableServiceAliases {
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     location: string,
-    options?: AvailableServiceAliasesListByResourceGroupOptionalParams
+    options?: AvailableServiceAliasesListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AvailableServiceAlias[]> {
-    let result = await this._listByResourceGroup(
-      resourceGroupName,
-      location,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AvailableServiceAliasesListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(
+        resourceGroupName,
+        location,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -136,7 +160,9 @@ export class AvailableServiceAliasesImpl implements AvailableServiceAliases {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -279,7 +305,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -300,7 +325,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

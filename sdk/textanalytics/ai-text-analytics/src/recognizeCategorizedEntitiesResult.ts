@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import {
-  makeTextAnalyticsSuccessResult,
-  TextAnalyticsSuccessResult,
   TextAnalyticsErrorResult,
+  TextAnalyticsSuccessResult,
   makeTextAnalyticsErrorResult,
+  makeTextAnalyticsSuccessResult,
 } from "./textAnalyticsResult";
-import { Entity, TextAnalyticsError, DocumentEntities } from "./generated/models";
+import { DocumentEntities, Entity, TextAnalyticsError } from "./generated/models";
 
 /**
  * An entity from text analysis with information about its categorical

@@ -1,0 +1,7 @@
+const {deployNodeJS} = require("@azure/api-management-custom-widgets-tools")
+
+const serviceInformation = {{&configDeploy}}
+const name = "{{name}}"
+const fallbackConfigPath = "./static/config.msapim.json"
+
+deployNodeJS(serviceInformation, name, fallbackConfigPath)

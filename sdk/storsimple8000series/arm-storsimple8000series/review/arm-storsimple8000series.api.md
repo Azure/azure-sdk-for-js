@@ -11,10 +11,10 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
-export type AccessControlRecord = BaseModel & {
+export interface AccessControlRecord extends BaseModel {
     initiatorName: string;
     readonly volumeCount?: number;
-};
+}
 
 // @public
 export interface AccessControlRecordList {
@@ -68,24 +68,24 @@ export interface AcsConfiguration {
 }
 
 // @public
-export type Alert = BaseModel & {
-    title: string;
-    scope: AlertScope;
+export interface Alert extends BaseModel {
     alertType: string;
-    appearedAtTime: Date;
     appearedAtSourceTime: Date;
-    clearedAtTime?: Date;
+    appearedAtTime: Date;
     clearedAtSourceTime?: Date;
-    source: AlertSource;
-    recommendation?: string;
-    resolutionReason?: string;
-    severity: AlertSeverity;
-    status: AlertStatus;
-    errorDetails?: AlertErrorDetails;
+    clearedAtTime?: Date;
     detailedInformation?: {
         [propertyName: string]: string;
     };
-};
+    errorDetails?: AlertErrorDetails;
+    recommendation?: string;
+    resolutionReason?: string;
+    scope: AlertScope;
+    severity: AlertSeverity;
+    source: AlertSource;
+    status: AlertStatus;
+    title: string;
+}
 
 // @public
 export type AlertEmailNotificationStatus = "Enabled" | "Disabled";
@@ -127,19 +127,18 @@ export interface AlertsClearOptionalParams extends coreClient.OperationOptions {
 export type AlertScope = "Resource" | "Device";
 
 // @public
-export type AlertSettings = BaseModel & {
-    emailNotification: AlertEmailNotificationStatus;
-    alertNotificationCulture?: string;
-    notificationToServiceOwners?: AlertEmailNotificationStatus;
+export interface AlertSettings extends BaseModel {
     additionalRecipientEmailList?: string[];
-};
+    alertNotificationCulture?: string;
+    emailNotification: AlertEmailNotificationStatus;
+    notificationToServiceOwners?: AlertEmailNotificationStatus;
+}
 
 // @public
 export type AlertSeverity = "Informational" | "Warning" | "Critical";
 
 // @public
 export interface AlertsListByManagerNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -209,15 +208,15 @@ export interface AvailableProviderOperationList {
 }
 
 // @public
-export type Backup = BaseModel & {
-    createdOn: Date;
-    sizeInBytes: number;
-    backupType?: BackupType;
+export interface Backup extends BaseModel {
     backupJobCreationType?: BackupJobCreationType;
     backupPolicyId?: string;
-    ssmHostName?: string;
+    backupType?: BackupType;
+    createdOn: Date;
     elements: BackupElement[];
-};
+    sizeInBytes: number;
+    ssmHostName?: string;
+}
 
 // @public
 export interface BackupElement {
@@ -294,15 +293,15 @@ export interface BackupPoliciesListByDeviceOptionalParams extends coreClient.Ope
 export type BackupPoliciesListByDeviceResponse = BackupPolicyList;
 
 // @public
-export type BackupPolicy = BaseModel & {
-    volumeIds: string[];
-    readonly nextBackupTime?: Date;
-    readonly lastBackupTime?: Date;
-    readonly schedulesCount?: number;
-    readonly scheduledBackupStatus?: ScheduledBackupStatus;
+export interface BackupPolicy extends BaseModel {
     readonly backupPolicyCreationType?: BackupPolicyCreationType;
+    readonly lastBackupTime?: Date;
+    readonly nextBackupTime?: Date;
+    readonly scheduledBackupStatus?: ScheduledBackupStatus;
+    readonly schedulesCount?: number;
     readonly ssmHostName?: string;
-};
+    volumeIds: string[];
+}
 
 // @public
 export type BackupPolicyCreationType = "BySaaS" | "BySSM";
@@ -324,14 +323,14 @@ export interface Backups {
 }
 
 // @public
-export type BackupSchedule = BaseModel & {
-    scheduleRecurrence: ScheduleRecurrence;
+export interface BackupSchedule extends BaseModel {
     backupType: BackupType;
-    retentionCount: number;
-    startTime: Date;
-    scheduleStatus: ScheduleStatus;
     readonly lastSuccessfulRun?: Date;
-};
+    retentionCount: number;
+    scheduleRecurrence: ScheduleRecurrence;
+    scheduleStatus: ScheduleStatus;
+    startTime: Date;
+}
 
 // @public
 export interface BackupScheduleList {
@@ -391,7 +390,6 @@ export interface BackupsDeleteOptionalParams extends coreClient.OperationOptions
 
 // @public
 export interface BackupsListByDeviceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -426,10 +424,10 @@ export interface BandwidthSchedule {
 }
 
 // @public
-export type BandwidthSetting = BaseModel & {
+export interface BandwidthSetting extends BaseModel {
     schedules: BandwidthSchedule[];
     readonly volumeCount?: number;
-};
+}
 
 // @public
 export interface BandwidthSettingList {
@@ -521,15 +519,15 @@ export interface CloudAppliance {
 }
 
 // @public
-export type CloudApplianceConfiguration = BaseModel & {
-    modelNumber: string;
-    cloudPlatform: string;
+export interface CloudApplianceConfiguration extends BaseModel {
     acsConfiguration: AcsConfiguration;
-    supportedStorageAccountTypes: string[];
+    cloudPlatform: string;
+    modelNumber: string;
     supportedRegions: string[];
-    supportedVmTypes: string[];
+    supportedStorageAccountTypes: string[];
     supportedVmImages: VmImage[];
-};
+    supportedVmTypes: string[];
+}
 
 // @public
 export interface CloudApplianceConfigurationList {
@@ -563,13 +561,13 @@ export interface CloudAppliancesProvisionOptionalParams extends coreClient.Opera
 }
 
 // @public
-export type ConfigureDeviceRequest = BaseModel & {
-    friendlyName: string;
+export interface ConfigureDeviceRequest extends BaseModel {
     currentDeviceName: string;
-    timeZone: string;
     dnsSettings?: SecondaryDNSSettings;
+    friendlyName: string;
     networkInterfaceData0Settings?: NetworkInterfaceData0Settings;
-};
+    timeZone: string;
+}
 
 // @public
 export type ControllerId = "Unknown" | "None" | "Controller0" | "Controller1";
@@ -578,12 +576,12 @@ export type ControllerId = "Unknown" | "None" | "Controller0" | "Controller1";
 export type ControllerPowerStateAction = "Start" | "Restart" | "Shutdown";
 
 // @public
-export type ControllerPowerStateChangeRequest = BaseModel & {
+export interface ControllerPowerStateChangeRequest extends BaseModel {
     action: ControllerPowerStateAction;
     activeController: ControllerId;
     controller0State: ControllerStatus;
     controller1State: ControllerStatus;
-};
+}
 
 // @public
 export type ControllerStatus = "NotPresent" | "PoweredOff" | "Ok" | "Recovering" | "Warning" | "Failure";
@@ -600,35 +598,35 @@ export interface DataStatistics {
 export type DayOfWeek = "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
 
 // @public
-export type Device = BaseModel & {
-    friendlyName: string;
+export interface Device extends BaseModel {
     activationTime: Date;
-    culture: string;
-    deviceDescription: string;
-    deviceSoftwareVersion: string;
-    friendlySoftwareName?: string;
-    deviceConfigurationStatus: DeviceConfigurationStatus;
-    targetIqn: string;
-    modelDescription: string;
-    status: DeviceStatus;
-    serialNumber: string;
-    deviceType: DeviceType;
     activeController: ControllerId;
-    friendlySoftwareVersion: string;
+    agentGroupVersion?: number;
     availableLocalStorageInBytes?: number;
     availableTieredStorageInBytes?: number;
-    provisionedTieredStorageInBytes?: number;
-    provisionedLocalStorageInBytes?: number;
-    provisionedVolumeSizeInBytes?: number;
-    usingStorageInBytes?: number;
-    totalTieredStorageInBytes?: number;
-    agentGroupVersion?: number;
-    networkInterfaceCardCount?: number;
-    deviceLocation?: string;
-    readonly virtualMachineApiType?: VirtualMachineApiType;
+    culture: string;
     details?: DeviceDetails;
+    deviceConfigurationStatus: DeviceConfigurationStatus;
+    deviceDescription: string;
+    deviceLocation?: string;
+    deviceSoftwareVersion: string;
+    deviceType: DeviceType;
+    friendlyName: string;
+    friendlySoftwareName?: string;
+    friendlySoftwareVersion: string;
+    modelDescription: string;
+    networkInterfaceCardCount?: number;
+    provisionedLocalStorageInBytes?: number;
+    provisionedTieredStorageInBytes?: number;
+    provisionedVolumeSizeInBytes?: number;
     rolloverDetails?: DeviceRolloverDetails;
-};
+    serialNumber: string;
+    status: DeviceStatus;
+    targetIqn: string;
+    totalTieredStorageInBytes?: number;
+    usingStorageInBytes?: number;
+    readonly virtualMachineApiType?: VirtualMachineApiType;
+}
 
 // @public
 export type DeviceConfigurationStatus = "Complete" | "Pending";
@@ -891,10 +889,10 @@ export interface DNSSettings {
 export type EncryptionAlgorithm = "None" | "AES256" | "RSAES_PKCS1_v_1_5";
 
 // @public
-export type EncryptionSettings = BaseModel & {
+export interface EncryptionSettings extends BaseModel {
     encryptionStatus: EncryptionStatus;
     keyRolloverStatus: KeyRolloverStatus;
-};
+}
 
 // @public
 export type EncryptionStatus = "Enabled" | "Disabled";
@@ -962,6 +960,9 @@ export interface FeatureList {
 export type FeatureSupportStatus = "NotAvailable" | "UnsupportedDeviceVersion" | "Supported";
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface HardwareComponent {
     componentId: string;
     displayName: string;
@@ -970,11 +971,11 @@ export interface HardwareComponent {
 }
 
 // @public
-export type HardwareComponentGroup = BaseModel & {
+export interface HardwareComponentGroup extends BaseModel {
+    components: HardwareComponent[];
     displayName: string;
     lastUpdatedTime: Date;
-    components: HardwareComponent[];
-};
+}
 
 // @public
 export interface HardwareComponentGroupList {
@@ -1011,23 +1012,23 @@ export type InEligibilityCategory = "DeviceNotOnline" | "NotSupportedAppliance" 
 export type IscsiAndCloudStatus = "Disabled" | "IscsiEnabled" | "CloudEnabled" | "IscsiAndCloudEnabled";
 
 // @public
-export type Job = BaseModel & {
-    status: JobStatus;
-    startTime?: Date;
-    endTime?: Date;
-    percentComplete: number;
-    error?: JobErrorDetails;
-    jobType?: JobType;
+export interface Job extends BaseModel {
+    backupPointInTime?: Date;
+    backupType?: BackupType;
     dataStats?: DataStatistics;
+    deviceId?: string;
+    endTime?: Date;
     entityLabel?: string;
     entityType?: string;
-    jobStages?: JobStage[];
-    deviceId?: string;
+    error?: JobErrorDetails;
     isCancellable?: boolean;
-    backupType?: BackupType;
+    jobStages?: JobStage[];
+    jobType?: JobType;
+    percentComplete: number;
     sourceDeviceId?: string;
-    backupPointInTime?: Date;
-};
+    startTime?: Date;
+    status: JobStatus;
+}
 
 // @public
 export interface JobErrorDetails {
@@ -1080,7 +1081,6 @@ export type JobsGetResponse = Job;
 
 // @public
 export interface JobsListByDeviceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -1096,7 +1096,6 @@ export type JobsListByDeviceResponse = JobList;
 
 // @public
 export interface JobsListByManagerNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -1138,23 +1137,23 @@ export interface ListFailoverTargetsRequest {
 }
 
 // @public
-export type Manager = Resource & {
-    etag?: string;
+export interface Manager extends Resource {
     cisIntrinsicSettings?: ManagerIntrinsicSettings;
-    sku?: ManagerSku;
+    etag?: string;
     provisioningState?: string;
-};
+    sku?: ManagerSku;
+}
 
 // @public
-export type ManagerExtendedInfo = BaseModel & {
-    etag?: string;
-    version?: string;
-    integrityKey?: string;
+export interface ManagerExtendedInfo extends BaseModel {
+    algorithm?: string;
     encryptionKey?: string;
     encryptionKeyThumbprint?: string;
+    etag?: string;
+    integrityKey?: string;
     portalCertificateThumbprint?: string;
-    algorithm?: string;
-};
+    version?: string;
+}
 
 // @public
 export interface ManagerIntrinsicSettings {
@@ -1445,11 +1444,11 @@ export interface NetworkInterfaceData0Settings {
 export type NetworkMode = "Invalid" | "IPV4" | "IPV6" | "BOTH";
 
 // @public
-export type NetworkSettings = BaseModel & {
+export interface NetworkSettings extends BaseModel {
     dnsSettings: DNSSettings;
     networkAdapters: NetworkAdapterList;
     webproxySettings: WebproxySettings;
-};
+}
 
 // @public
 export interface NetworkSettingsPatch {
@@ -1552,10 +1551,10 @@ export interface SecondaryDNSSettings {
 }
 
 // @public
-export type SecuritySettings = BaseModel & {
-    remoteManagementSettings: RemoteManagementSettings;
+export interface SecuritySettings extends BaseModel {
     chapSettings: ChapSettings;
-};
+    remoteManagementSettings: RemoteManagementSettings;
+}
 
 // @public
 export interface SecuritySettingsPatch {
@@ -1575,12 +1574,12 @@ export interface SendTestAlertEmailRequest {
 export type SslStatus = "Enabled" | "Disabled";
 
 // @public
-export type StorageAccountCredential = BaseModel & {
+export interface StorageAccountCredential extends BaseModel {
+    accessKey?: AsymmetricEncryptedSecret;
     endPoint: string;
     sslStatus: SslStatus;
-    accessKey?: AsymmetricEncryptedSecret;
     readonly volumesCount?: number;
-};
+}
 
 // @public
 export interface StorageAccountCredentialList {
@@ -1710,19 +1709,19 @@ export interface Time {
 }
 
 // @public
-export type TimeSettings = BaseModel & {
-    timeZone: string;
+export interface TimeSettings extends BaseModel {
     primaryTimeServer?: string;
     secondaryTimeServer?: string[];
-};
+    timeZone: string;
+}
 
 // @public
-export type Updates = BaseModel & {
-    regularUpdatesAvailable?: boolean;
-    maintenanceModeUpdatesAvailable?: boolean;
+export interface Updates extends BaseModel {
     isUpdateInProgress?: boolean;
     lastUpdatedTime?: Date;
-};
+    maintenanceModeUpdatesAvailable?: boolean;
+    regularUpdatesAvailable?: boolean;
+}
 
 // @public
 export type VirtualMachineApiType = "Classic" | "Arm";
@@ -1737,29 +1736,29 @@ export interface VmImage {
 }
 
 // @public
-export type Volume = BaseModel & {
-    sizeInBytes: number;
-    volumeType: VolumeType;
-    readonly volumeContainerId?: string;
+export interface Volume extends BaseModel {
     accessControlRecordIds: string[];
-    volumeStatus: VolumeStatus;
-    readonly operationStatus?: OperationStatus;
+    readonly backupPolicyIds?: string[];
     readonly backupStatus?: BackupStatus;
     monitoringStatus: MonitoringStatus;
-    readonly backupPolicyIds?: string[];
-};
+    readonly operationStatus?: OperationStatus;
+    sizeInBytes: number;
+    readonly volumeContainerId?: string;
+    volumeStatus: VolumeStatus;
+    volumeType: VolumeType;
+}
 
 // @public
-export type VolumeContainer = BaseModel & {
-    encryptionKey?: AsymmetricEncryptedSecret;
-    readonly encryptionStatus?: EncryptionStatus;
-    readonly volumeCount?: number;
-    storageAccountCredentialId: string;
-    readonly ownerShipStatus?: OwnerShipStatus;
+export interface VolumeContainer extends BaseModel {
     bandWidthRateInMbps?: number;
     bandwidthSettingId?: string;
+    encryptionKey?: AsymmetricEncryptedSecret;
+    readonly encryptionStatus?: EncryptionStatus;
+    readonly ownerShipStatus?: OwnerShipStatus;
+    storageAccountCredentialId: string;
     readonly totalCloudStorageUsageInBytes?: number;
-};
+    readonly volumeCount?: number;
+}
 
 // @public
 export interface VolumeContainerFailoverMetadata {

@@ -3,7 +3,7 @@
 
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
-import { Recorder, env, isRecordMode } from "@azure-tools/test-recorder";
+import { Recorder, env, isRecordMode, isLiveMode } from "@azure-tools/test-recorder";
 
 import { SecretClient } from "../../src";
 import { assertThrowsAbortError, getServiceVersion } from "./utils/common";
@@ -78,7 +78,10 @@ describe("Secret client - list secrets in various ways", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can get secret properties with requestOptions timeout", async function (this: Context) {
-    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    if (!isLiveMode()) {
+      this.skip();
+    }
+
     const iter = client.listPropertiesOfSecrets({
       requestOptions: { timeout: 1 },
     });
@@ -112,7 +115,9 @@ describe("Secret client - list secrets in various ways", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can get the deleted secrets with requestOptions timeout", async function () {
-    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    if (!isLiveMode()) {
+      this.skip();
+    }
 
     const iter = client.listDeletedSecrets({
       requestOptions: { timeout: 1 },
@@ -123,7 +128,10 @@ describe("Secret client - list secrets in various ways", () => {
   });
 
   it("can retrieve all versions of a secret", async function (this: Context) {
-    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    if (!isLiveMode()) {
+      this.skip();
+    }
+
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -155,7 +163,10 @@ describe("Secret client - list secrets in various ways", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can get versions of a secret with requestOptions timeout", async function () {
-    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    if (!isLiveMode()) {
+      this.skip();
+    }
+
     const iter = client.listPropertiesOfSecretVersions("doesntmatter", {
       requestOptions: { timeout: 1 },
     });
@@ -189,7 +200,7 @@ describe("Secret client - list secrets in various ways", () => {
       await client.setSecret(name, "RSA");
     }
     let found = 0;
-    for await (const page of client.listPropertiesOfSecrets().byPage()) {
+    for await (const page of client.listPropertiesOfSecrets().byPage({ maxPageSize: 1 })) {
       for (const secretProperties of page) {
         // The vault might contain more secrets than the ones we inserted.
         if (!secretNames.includes(secretProperties.name)) continue;
@@ -213,7 +224,7 @@ describe("Secret client - list secrets in various ways", () => {
     }
 
     let found = 0;
-    for await (const page of client.listDeletedSecrets().byPage()) {
+    for await (const page of client.listDeletedSecrets().byPage({ maxPageSize: 1 })) {
       for (const secret of page) {
         // The vault might contain more secrets than the ones we inserted.
         if (!secretNames.includes(secret.name)) continue;
@@ -239,7 +250,9 @@ describe("Secret client - list secrets in various ways", () => {
     }
 
     const results: VersionValuePair[] = [];
-    for await (const page of client.listPropertiesOfSecretVersions(secretName).byPage()) {
+    for await (const page of client
+      .listPropertiesOfSecretVersions(secretName)
+      .byPage({ maxPageSize: 1 })) {
       for (const secretProperties of page) {
         const version = secretProperties.version!;
         const secret = await client.getSecret(secretName, { version });
@@ -260,7 +273,9 @@ describe("Secret client - list secrets in various ways", () => {
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
     let totalVersions = 0;
-    for await (const page of client.listPropertiesOfSecretVersions(secretName).byPage()) {
+    for await (const page of client
+      .listPropertiesOfSecretVersions(secretName)
+      .byPage({ maxPageSize: 1 })) {
       for (const secretProperties of page) {
         assert.equal(
           secretProperties.name,

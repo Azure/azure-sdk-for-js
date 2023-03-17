@@ -3,7 +3,7 @@
 
 import { AzureLogger, createClientLogger } from "@azure/logger";
 import { AmqpError } from "rhea-promise";
-import { isObjectWithProperties } from "./util/typeGuards";
+import { isObjectWithProperties } from "@azure/core-util";
 
 /**
  * The `@azure/logger` configuration for this package.
@@ -23,6 +23,12 @@ export const receiverLogger = createServiceBusLogger("service-bus:receiver");
  * @internal
  */
 export const senderLogger = createServiceBusLogger("service-bus:sender");
+
+/**
+ * Logging for ServiceBusRuleManagers
+ * @internal
+ */
+export const ruleManagerLogger = createServiceBusLogger("service-bus:rulemanager");
 
 /**
  * Logging for connection management

@@ -425,48 +425,51 @@ export interface EventSourceMutableProperties {
 }
 
 /** Parameters supplied to the CreateOrUpdate Environment operation. */
-export type EnvironmentCreateOrUpdateParameters = CreateOrUpdateTrackedResourceProperties & {
+export interface EnvironmentCreateOrUpdateParameters
+  extends CreateOrUpdateTrackedResourceProperties {
   /** The kind of the environment. */
   kind: EnvironmentKind;
   /** The sku determines the type of environment, either Gen1 (S1 or S2) or Gen2 (L1). For Gen1 environments the sku determines the capacity of the environment, the ingress rate, and the billing rate. */
   sku: Sku;
-};
+}
 
 /** Parameters supplied to the Create or Update Event Source operation. */
-export type EventSourceCreateOrUpdateParameters = CreateOrUpdateTrackedResourceProperties & {
+export interface EventSourceCreateOrUpdateParameters
+  extends CreateOrUpdateTrackedResourceProperties {
   /** The kind of the event source. */
   kind: EventSourceKind;
   /** An object that represents the local timestamp property. It contains the format of local timestamp that needs to be used and the corresponding timezone offset information. If a value isn't specified for localTimestamp, or if null, then the local timestamp will not be ingressed with the events. */
   localTimestamp?: LocalTimestamp;
-};
+}
 
-export type ReferenceDataSetCreateOrUpdateParameters = CreateOrUpdateTrackedResourceProperties & {
+export interface ReferenceDataSetCreateOrUpdateParameters
+  extends CreateOrUpdateTrackedResourceProperties {
   /** The list of key properties for the reference data set. */
   keyProperties: ReferenceDataSetKeyProperty[];
   /** The reference data set key comparison behavior can be set using this property. By default, the value is 'Ordinal' - which means case sensitive key comparison will be performed while joining reference data with events or while adding new reference data. When 'OrdinalIgnoreCase' is set, case insensitive comparison will be used. */
   dataStringComparisonBehavior?: DataStringComparisonBehavior;
-};
+}
 
 /** Time Series Insights resource that is tracked by Azure Resource Manager. */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource location */
   location: string;
   /** Resource tags */
   tags?: { [propertyName: string]: string };
-};
+}
 
 /** An access policy is used to grant users and applications access to the environment. Roles are assigned to service principals in Azure Active Directory. These roles define the actions the principal can perform through the Time Series Insights data plane APIs. */
-export type AccessPolicyResource = Resource & {
+export interface AccessPolicyResource extends Resource {
   /** The objectId of the principal in Azure Active Directory. */
   principalObjectId?: string;
   /** An description of the access policy. */
   description?: string;
   /** The list of roles the principal is assigned on the environment. */
   roles?: AccessPolicyRole[];
-};
+}
 
 /** The Private Endpoint Connection resource. */
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
   /**
    * Provisioning state of the private endpoint connection.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -478,10 +481,10 @@ export type PrivateEndpointConnection = Resource & {
   groupIds?: string[];
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-};
+}
 
 /** A private link resource */
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
   /**
    * The private link resource group id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -494,10 +497,11 @@ export type PrivateLinkResource = Resource & {
   readonly requiredMembers?: string[];
   /** The private link resource Private link DNS zone name. */
   requiredZoneNames?: string[];
-};
+}
 
 /** Parameters supplied to the Update Environment operation to update a Gen1 environment. */
-export type Gen1EnvironmentUpdateParameters = EnvironmentUpdateParameters & {
+export interface Gen1EnvironmentUpdateParameters
+  extends EnvironmentUpdateParameters {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "Gen1";
   /** The sku of the environment. */
@@ -506,44 +510,48 @@ export type Gen1EnvironmentUpdateParameters = EnvironmentUpdateParameters & {
   dataRetentionTime?: string;
   /** The behavior the Time Series Insights service should take when the environment's capacity has been exceeded. If "PauseIngress" is specified, new events will not be read from the event source. If "PurgeOldData" is specified, new events will continue to be read and old events will be deleted from the environment. The default behavior is PurgeOldData. */
   storageLimitExceededBehavior?: StorageLimitExceededBehavior;
-};
+}
 
 /** Parameters supplied to the Update Environment operation to update a Gen2 environment. */
-export type Gen2EnvironmentUpdateParameters = EnvironmentUpdateParameters & {
+export interface Gen2EnvironmentUpdateParameters
+  extends EnvironmentUpdateParameters {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "Gen2";
   /** The storage configuration provides the connection details that allows the Time Series Insights service to connect to the customer storage account that is used to store the environment's data. */
   storageConfiguration?: Gen2StorageConfigurationMutableProperties;
   /** The warm store configuration provides the details to create a warm store cache that will retain a copy of the environment's data available for faster query. */
   warmStoreConfiguration?: WarmStoreConfigurationProperties;
-};
+}
 
 /** Parameters supplied to the Update Event Source operation to update an EventHub event source. */
-export type EventHubEventSourceUpdateParameters = EventSourceUpdateParameters & {
+export interface EventHubEventSourceUpdateParameters
+  extends EventSourceUpdateParameters {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "Microsoft.EventHub";
   /** The event property that will be used as the event source's timestamp. If a value isn't specified for timestampPropertyName, or if null or empty-string is specified, the event creation time will be used. */
   timestampPropertyName?: string;
   /** The value of the shared access key that grants the Time Series Insights service read access to the event hub. This property is not shown in event source responses. */
   sharedAccessKey?: string;
-};
+}
 
 /** Parameters supplied to the Update Event Source operation to update an IoTHub event source. */
-export type IoTHubEventSourceUpdateParameters = EventSourceUpdateParameters & {
+export interface IoTHubEventSourceUpdateParameters
+  extends EventSourceUpdateParameters {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "Microsoft.IoTHub";
   /** The event property that will be used as the event source's timestamp. If a value isn't specified for timestampPropertyName, or if null or empty-string is specified, the event creation time will be used. */
   timestampPropertyName?: string;
   /** The value of the shared access key that grants the Time Series Insights service read access to the iot hub. This property is not shown in event source responses. */
   sharedAccessKey?: string;
-};
+}
 
 /** Properties of the reference data set. */
-export type ReferenceDataSetResourceProperties = ReferenceDataSetCreationProperties &
-  ResourceProperties & {};
+export interface ReferenceDataSetResourceProperties
+  extends ReferenceDataSetCreationProperties,
+    ResourceProperties {}
 
 /** Properties of the environment. */
-export type EnvironmentResourceProperties = ResourceProperties & {
+export interface EnvironmentResourceProperties extends ResourceProperties {
   /**
    * An id used to access the environment data, e.g. to query the environment's events or upload reference data for the environment.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -559,10 +567,10 @@ export type EnvironmentResourceProperties = ResourceProperties & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: EnvironmentStatus;
-};
+}
 
 /** Properties of the event source. */
-export type EventSourceCommonProperties = ResourceProperties & {
+export interface EventSourceCommonProperties extends ResourceProperties {
   /** The event property that will be used as the event source's timestamp. If a value isn't specified for timestampPropertyName, or if null or empty-string is specified, the event creation time will be used. */
   timestampPropertyName?: string;
   /** An object that represents the local timestamp property. It contains the format of local timestamp that needs to be used and the corresponding timezone offset information. If a value isn't specified for localTimestamp, or if null, then the local timestamp will not be ingressed with the events. */
@@ -571,36 +579,45 @@ export type EventSourceCommonProperties = ResourceProperties & {
   type?: IngressStartAtType;
   /** ISO8601 UTC datetime with seconds precision (milliseconds are optional), specifying the date and time that will be the starting point for Events to be consumed. */
   time?: string;
-};
+}
 
 /** Properties of the Gen1 environment. */
-export type Gen1EnvironmentResourceProperties = Gen1EnvironmentCreationProperties &
-  EnvironmentResourceProperties & {};
+export interface Gen1EnvironmentResourceProperties
+  extends Gen1EnvironmentCreationProperties,
+    EnvironmentResourceProperties {}
 
 /** An object that represents a set of mutable EventHub event source resource properties. */
-export type EventHubEventSourceMutableProperties = EventSourceMutableProperties & {
+export interface EventHubEventSourceMutableProperties
+  extends EventSourceMutableProperties {
   /** The value of the shared access key that grants the Time Series Insights service read access to the event hub. This property is not shown in event source responses. */
   sharedAccessKey?: string;
-};
+}
 
 /** An object that represents a set of mutable IoTHub event source resource properties. */
-export type IoTHubEventSourceMutableProperties = EventSourceMutableProperties & {
+export interface IoTHubEventSourceMutableProperties
+  extends EventSourceMutableProperties {
   /** The value of the shared access key that grants the Time Series Insights service read access to the iot hub. This property is not shown in event source responses. */
   sharedAccessKey?: string;
-};
+}
 
 /** Parameters supplied to the Create or Update Environment operation for a Gen1 environment. */
-export type Gen1EnvironmentCreateOrUpdateParameters = EnvironmentCreateOrUpdateParameters & {
+export interface Gen1EnvironmentCreateOrUpdateParameters
+  extends EnvironmentCreateOrUpdateParameters {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "Gen1";
   /** ISO8601 timespan specifying the minimum number of days the environment's events will be available for query. */
   dataRetentionTime: string;
   /** The behavior the Time Series Insights service should take when the environment's capacity has been exceeded. If "PauseIngress" is specified, new events will not be read from the event source. If "PurgeOldData" is specified, new events will continue to be read and old events will be deleted from the environment. The default behavior is PurgeOldData. */
   storageLimitExceededBehavior?: StorageLimitExceededBehavior;
   /** The list of event properties which will be used to partition data in the environment. Currently, only a single partition key property is supported. */
   partitionKeyProperties?: TimeSeriesIdProperty[];
-};
+}
 
 /** Parameters supplied to the Create or Update Environment operation for a Gen2 environment. */
-export type Gen2EnvironmentCreateOrUpdateParameters = EnvironmentCreateOrUpdateParameters & {
+export interface Gen2EnvironmentCreateOrUpdateParameters
+  extends EnvironmentCreateOrUpdateParameters {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "Gen2";
   /** The list of event properties which will be used to define the environment's time series id. */
   timeSeriesIdProperties: TimeSeriesIdProperty[];
   /** The storage configuration provides the connection details that allows the Time Series Insights service to connect to the customer storage account that is used to store the environment's data. */
@@ -614,10 +631,13 @@ export type Gen2EnvironmentCreateOrUpdateParameters = EnvironmentCreateOrUpdateP
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
-};
+}
 
 /** Parameters supplied to the Create or Update Event Source operation for an EventHub event source. */
-export type EventHubEventSourceCreateOrUpdateParameters = EventSourceCreateOrUpdateParameters & {
+export interface EventHubEventSourceCreateOrUpdateParameters
+  extends EventSourceCreateOrUpdateParameters {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "Microsoft.EventHub";
   /**
    * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -648,10 +668,13 @@ export type EventHubEventSourceCreateOrUpdateParameters = EventSourceCreateOrUpd
   keyName: string;
   /** The value of the shared access key that grants the Time Series Insights service read access to the event hub. This property is not shown in event source responses. */
   sharedAccessKey: string;
-};
+}
 
 /** Parameters supplied to the Create or Update Event Source operation for an IoTHub event source. */
-export type IoTHubEventSourceCreateOrUpdateParameters = EventSourceCreateOrUpdateParameters & {
+export interface IoTHubEventSourceCreateOrUpdateParameters
+  extends EventSourceCreateOrUpdateParameters {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "Microsoft.IoTHub";
   /**
    * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -680,24 +703,24 @@ export type IoTHubEventSourceCreateOrUpdateParameters = EventSourceCreateOrUpdat
   keyName: string;
   /** The value of the Shared Access Policy key that grants the Time Series Insights service read access to the iot hub. This property is not shown in event source responses. */
   sharedAccessKey: string;
-};
+}
 
 /** An environment is a set of time-series data available for query, and is the top level Azure Time Series Insights resource. */
-export type EnvironmentResource = TrackedResource & {
+export interface EnvironmentResource extends TrackedResource {
   /** The sku determines the type of environment, either Gen1 (S1 or S2) or Gen2 (L1). For Gen1 environments the sku determines the capacity of the environment, the ingress rate, and the billing rate. */
   sku: Sku;
   /** The kind of the environment. */
   kind: EnvironmentResourceKind;
-};
+}
 
 /** An environment receives data from one or more event sources. Each event source has associated connection info that allows the Time Series Insights ingress pipeline to connect to and pull data from the event source */
-export type EventSourceResource = TrackedResource & {
+export interface EventSourceResource extends TrackedResource {
   /** The kind of the event source. */
   kind: EventSourceResourceKind;
-};
+}
 
 /** A reference data set provides metadata about the events in an environment. Metadata in the reference data set will be joined with events as they are read from event sources. The metadata that makes up the reference data set is uploaded or modified through the Time Series Insights data plane APIs. */
-export type ReferenceDataSetResource = TrackedResource & {
+export interface ReferenceDataSetResource extends TrackedResource {
   /** The list of key properties for the reference data set. */
   keyProperties?: ReferenceDataSetKeyProperty[];
   /** The reference data set key comparison behavior can be set using this property. By default, the value is 'Ordinal' - which means case sensitive key comparison will be performed while joining reference data with events or while adding new reference data. When 'OrdinalIgnoreCase' is set, case insensitive comparison will be used. */
@@ -712,10 +735,11 @@ export type ReferenceDataSetResource = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly creationTime?: Date;
-};
+}
 
 /** Properties of the Gen2 environment. */
-export type Gen2EnvironmentResourceProperties = EnvironmentResourceProperties & {
+export interface Gen2EnvironmentResourceProperties
+  extends EnvironmentResourceProperties {
   /** The list of event properties which will be used to define the environment's time series id. */
   timeSeriesIdProperties: TimeSeriesIdProperty[];
   /** The storage configuration provides the connection details that allows the Time Series Insights service to connect to the customer storage account that is used to store the environment's data. */
@@ -729,16 +753,19 @@ export type Gen2EnvironmentResourceProperties = EnvironmentResourceProperties & 
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
-};
+}
 
 /** Properties of an event source that reads events from an event broker in Azure. */
-export type AzureEventSourceProperties = EventSourceCommonProperties & {
+export interface AzureEventSourceProperties
+  extends EventSourceCommonProperties {
   /** The resource id of the event source in Azure Resource Manager. */
   eventSourceResourceId: string;
-};
+}
 
 /** An environment is a set of time-series data available for query, and is the top level Azure Time Series Insights resource. Gen1 environments have data retention limits. */
-export type Gen1EnvironmentResource = EnvironmentResource & {
+export interface Gen1EnvironmentResource extends EnvironmentResource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "Gen1";
   /** ISO8601 timespan specifying the minimum number of days the environment's events will be available for query. */
   dataRetentionTime: string;
   /** The behavior the Time Series Insights service should take when the environment's capacity has been exceeded. If "PauseIngress" is specified, new events will not be read from the event source. If "PurgeOldData" is specified, new events will continue to be read and old events will be deleted from the environment. The default behavior is PurgeOldData. */
@@ -770,10 +797,12 @@ export type Gen1EnvironmentResource = EnvironmentResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: EnvironmentStatus;
-};
+}
 
 /** An environment is a set of time-series data available for query, and is the top level Azure Time Series Insights resource. Gen2 environments do not have set data retention limits. */
-export type Gen2EnvironmentResource = EnvironmentResource & {
+export interface Gen2EnvironmentResource extends EnvironmentResource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "Gen2";
   /**
    * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -812,10 +841,12 @@ export type Gen2EnvironmentResource = EnvironmentResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
-};
+}
 
 /** An event source that receives its data from an Azure EventHub. */
-export type EventHubEventSourceResource = EventSourceResource & {
+export interface EventHubEventSourceResource extends EventSourceResource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "Microsoft.EventHub";
   /**
    * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -844,10 +875,12 @@ export type EventHubEventSourceResource = EventSourceResource & {
   consumerGroupName: string;
   /** The name of the SAS key that grants the Time Series Insights service access to the event hub. The shared access policies for this key must grant 'Listen' permissions to the event hub. */
   keyName: string;
-};
+}
 
 /** An event source that receives its data from an Azure IoTHub. */
-export type IoTHubEventSourceResource = EventSourceResource & {
+export interface IoTHubEventSourceResource extends EventSourceResource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "Microsoft.IoTHub";
   /**
    * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -874,10 +907,11 @@ export type IoTHubEventSourceResource = EventSourceResource & {
   consumerGroupName: string;
   /** The name of the Shared Access Policy key that grants the Time Series Insights service access to the iot hub. This shared access policy key must grant 'service connect' permissions to the iot hub. */
   keyName: string;
-};
+}
 
 /** Properties of the EventHub event source. */
-export type EventHubEventSourceCommonProperties = AzureEventSourceProperties & {
+export interface EventHubEventSourceCommonProperties
+  extends AzureEventSourceProperties {
   /** The name of the service bus that contains the event hub. */
   serviceBusNamespace: string;
   /** The name of the event hub. */
@@ -886,39 +920,46 @@ export type EventHubEventSourceCommonProperties = AzureEventSourceProperties & {
   consumerGroupName: string;
   /** The name of the SAS key that grants the Time Series Insights service access to the event hub. The shared access policies for this key must grant 'Listen' permissions to the event hub. */
   keyName: string;
-};
+}
 
 /** Properties of the IoTHub event source. */
-export type IoTHubEventSourceCommonProperties = AzureEventSourceProperties & {
+export interface IoTHubEventSourceCommonProperties
+  extends AzureEventSourceProperties {
   /** The name of the iot hub. */
   iotHubName: string;
   /** The name of the iot hub's consumer group that holds the partitions from which events will be read. */
   consumerGroupName: string;
   /** The name of the Shared Access Policy key that grants the Time Series Insights service access to the iot hub. This shared access policy key must grant 'service connect' permissions to the iot hub. */
   keyName: string;
-};
+}
 
 /** Properties of the EventHub event source that are required on create or update requests. */
-export type EventHubEventSourceCreationProperties = EventHubEventSourceCommonProperties & {
+export interface EventHubEventSourceCreationProperties
+  extends EventHubEventSourceCommonProperties {
   /** The value of the shared access key that grants the Time Series Insights service read access to the event hub. This property is not shown in event source responses. */
   sharedAccessKey: string;
-};
+}
 
 /** Properties of the EventHub event source resource. */
-export type EventHubEventSourceResourceProperties = EventHubEventSourceCommonProperties & {};
+export interface EventHubEventSourceResourceProperties
+  extends EventHubEventSourceCommonProperties {}
 
 /** Properties of the IoTHub event source that are required on create or update requests. */
-export type IoTHubEventSourceCreationProperties = IoTHubEventSourceCommonProperties & {
+export interface IoTHubEventSourceCreationProperties
+  extends IoTHubEventSourceCommonProperties {
   /** The value of the Shared Access Policy key that grants the Time Series Insights service read access to the iot hub. This property is not shown in event source responses. */
   sharedAccessKey: string;
-};
+}
 
 /** Properties of the IoTHub event source resource. */
-export type IoTHubEventSourceResourceProperties = IoTHubEventSourceCommonProperties & {};
+export interface IoTHubEventSourceResourceProperties
+  extends IoTHubEventSourceCommonProperties {}
 
 /** Known values of {@link EnvironmentKind} that the service accepts. */
 export enum KnownEnvironmentKind {
+  /** Gen1 */
   Gen1 = "Gen1",
+  /** Gen2 */
   Gen2 = "Gen2"
 }
 
@@ -934,9 +975,13 @@ export type EnvironmentKind = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
+  /** S1 */
   S1 = "S1",
+  /** S2 */
   S2 = "S2",
+  /** P1 */
   P1 = "P1",
+  /** L1 */
   L1 = "L1"
 }
 
@@ -954,7 +999,9 @@ export type SkuName = string;
 
 /** Known values of {@link EnvironmentResourceKind} that the service accepts. */
 export enum KnownEnvironmentResourceKind {
+  /** Gen1 */
   Gen1 = "Gen1",
+  /** Gen2 */
   Gen2 = "Gen2"
 }
 
@@ -970,7 +1017,9 @@ export type EnvironmentResourceKind = string;
 
 /** Known values of {@link EventSourceKind} that the service accepts. */
 export enum KnownEventSourceKind {
+  /** MicrosoftEventHub */
   MicrosoftEventHub = "Microsoft.EventHub",
+  /** MicrosoftIoTHub */
   MicrosoftIoTHub = "Microsoft.IoTHub"
 }
 
@@ -986,6 +1035,7 @@ export type EventSourceKind = string;
 
 /** Known values of {@link LocalTimestampFormat} that the service accepts. */
 export enum KnownLocalTimestampFormat {
+  /** Embedded */
   Embedded = "Embedded"
 }
 
@@ -1000,7 +1050,9 @@ export type LocalTimestampFormat = string;
 
 /** Known values of {@link EventSourceResourceKind} that the service accepts. */
 export enum KnownEventSourceResourceKind {
+  /** MicrosoftEventHub */
   MicrosoftEventHub = "Microsoft.EventHub",
+  /** MicrosoftIoTHub */
   MicrosoftIoTHub = "Microsoft.IoTHub"
 }
 
@@ -1016,9 +1068,13 @@ export type EventSourceResourceKind = string;
 
 /** Known values of {@link ReferenceDataKeyPropertyType} that the service accepts. */
 export enum KnownReferenceDataKeyPropertyType {
+  /** String */
   String = "String",
+  /** Double */
   Double = "Double",
+  /** Bool */
   Bool = "Bool",
+  /** DateTime */
   DateTime = "DateTime"
 }
 
@@ -1036,7 +1092,9 @@ export type ReferenceDataKeyPropertyType = string;
 
 /** Known values of {@link DataStringComparisonBehavior} that the service accepts. */
 export enum KnownDataStringComparisonBehavior {
+  /** Ordinal */
   Ordinal = "Ordinal",
+  /** OrdinalIgnoreCase */
   OrdinalIgnoreCase = "OrdinalIgnoreCase"
 }
 
@@ -1052,11 +1110,17 @@ export type DataStringComparisonBehavior = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Accepted */
   Accepted = "Accepted",
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Deleting */
   Deleting = "Deleting"
 }
 
@@ -1076,7 +1140,9 @@ export type ProvisioningState = string;
 
 /** Known values of {@link AccessPolicyRole} that the service accepts. */
 export enum KnownAccessPolicyRole {
+  /** Reader */
   Reader = "Reader",
+  /** Contributor */
   Contributor = "Contributor"
 }
 
@@ -1092,9 +1158,13 @@ export type AccessPolicyRole = string;
 
 /** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
 export enum KnownPrivateEndpointConnectionProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Creating */
   Creating = "Creating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -1112,8 +1182,11 @@ export type PrivateEndpointConnectionProvisioningState = string;
 
 /** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
 export enum KnownPrivateEndpointServiceConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected"
 }
 
@@ -1130,7 +1203,9 @@ export type PrivateEndpointServiceConnectionStatus = string;
 
 /** Known values of {@link StorageLimitExceededBehavior} that the service accepts. */
 export enum KnownStorageLimitExceededBehavior {
+  /** PurgeOldData */
   PurgeOldData = "PurgeOldData",
+  /** PauseIngress */
   PauseIngress = "PauseIngress"
 }
 
@@ -1146,6 +1221,7 @@ export type StorageLimitExceededBehavior = string;
 
 /** Known values of {@link PropertyType} that the service accepts. */
 export enum KnownPropertyType {
+  /** String */
   String = "String"
 }
 
@@ -1160,7 +1236,9 @@ export type PropertyType = string;
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
+  /** Enabled */
   Enabled = "enabled",
+  /** Disabled */
   Disabled = "disabled"
 }
 
@@ -1176,10 +1254,15 @@ export type PublicNetworkAccess = string;
 
 /** Known values of {@link IngressState} that the service accepts. */
 export enum KnownIngressState {
+  /** Disabled */
   Disabled = "Disabled",
+  /** Ready */
   Ready = "Ready",
+  /** Running */
   Running = "Running",
+  /** Paused */
   Paused = "Paused",
+  /** Unknown */
   Unknown = "Unknown"
 }
 
@@ -1198,8 +1281,11 @@ export type IngressState = string;
 
 /** Known values of {@link WarmStoragePropertiesState} that the service accepts. */
 export enum KnownWarmStoragePropertiesState {
+  /** Ok */
   Ok = "Ok",
+  /** Error */
   Error = "Error",
+  /** Unknown */
   Unknown = "Unknown"
 }
 
@@ -1216,8 +1302,11 @@ export type WarmStoragePropertiesState = string;
 
 /** Known values of {@link IngressStartAtType} that the service accepts. */
 export enum KnownIngressStartAtType {
+  /** EarliestAvailable */
   EarliestAvailable = "EarliestAvailable",
+  /** EventSourceCreationTime */
   EventSourceCreationTime = "EventSourceCreationTime",
+  /** CustomEnqueuedTime */
   CustomEnqueuedTime = "CustomEnqueuedTime"
 }
 

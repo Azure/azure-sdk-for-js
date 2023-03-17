@@ -25,6 +25,9 @@ class SerializerImpl implements Serializer {
     public readonly isXML: boolean = false
   ) {}
 
+  /**
+   * @deprecated Removing the constraints validation on client side.
+   */
   validateConstraints(mapper: Mapper, value: any, objectName: string): void {
     const failValidation = (
       constraintName: keyof MapperConstraints,
@@ -154,8 +157,6 @@ class SerializerImpl implements Serializer {
     if (object === undefined || object === null) {
       payload = object;
     } else {
-      // Validate Constraints if any
-      this.validateConstraints(mapper, object, objectName);
       if (mapperType.match(/^any$/i) !== null) {
         payload = object;
       } else if (mapperType.match(/^(Number|String|Boolean|Object|Stream|Uuid)$/i) !== null) {
@@ -228,6 +229,7 @@ class SerializerImpl implements Serializer {
         includeRoot: options.xml.includeRoot ?? false,
         xmlCharKey: options.xml.xmlCharKey ?? XML_CHARKEY,
       },
+      ignoreUnknownProperties: options.ignoreUnknownProperties ?? false,
     };
     if (responseBody === undefined || responseBody === null) {
       if (this.isXML && mapper.type.name === "Sequence" && !mapper.xmlIsWrapped) {
@@ -432,10 +434,11 @@ function serializeBasicTypes(typeName: string, objectName: string, value: any): 
         !(value instanceof ArrayBuffer) &&
         !ArrayBuffer.isView(value) &&
         // File objects count as a type of Blob, so we want to use instanceof explicitly
-        !((typeof Blob === "function" || typeof Blob === "object") && value instanceof Blob)
+        !((typeof Blob === "function" || typeof Blob === "object") && value instanceof Blob) &&
+        objectType !== "function"
       ) {
         throw new Error(
-          `${objectName} must be a string, Blob, ArrayBuffer, ArrayBufferView, or NodeJS.ReadableStream.`
+          `${objectName} must be a string, Blob, ArrayBuffer, ArrayBufferView, NodeJS.ReadableStream, or () => NodeJS.ReadableStream.`
         );
       }
     }
@@ -858,6 +861,7 @@ function deserializeCompositeType(
   objectName: string,
   options: RequiredSerializerOptions
 ): any {
+  const xmlCharKey = options.xml.xmlCharKey ?? XML_CHARKEY;
   if (getPolymorphicDiscriminatorRecursively(serializer, mapper)) {
     mapper = getPolymorphicMapper(serializer, mapper, responseBody, "serializedName");
   }
@@ -900,6 +904,14 @@ function deserializeCompositeType(
           propertyObjectName,
           options
         );
+      } else if (propertyMapper.xmlIsMsText) {
+        if (responseBody[xmlCharKey] !== undefined) {
+          instance[key] = responseBody[xmlCharKey];
+        } else if (typeof responseBody === "string") {
+          // The special case where xml parser parses "<Name>content</Name>" into JSON of
+          //   `{ name: "content"}` instead of `{ name: { "_": "content" }}`
+          instance[key] = responseBody;
+        }
       } else {
         const propertyName = xmlElementName || xmlName || serializedName;
         if (propertyMapper.xmlIsWrapped) {
@@ -925,6 +937,7 @@ function deserializeCompositeType(
             propertyObjectName,
             options
           );
+          handledPropertyNames.push(xmlName!);
         } else {
           const property = responseBody[propertyName!];
           instance[key] = serializer.deserialize(
@@ -933,6 +946,7 @@ function deserializeCompositeType(
             propertyObjectName,
             options
           );
+          handledPropertyNames.push(propertyName!);
         }
       }
     } else {
@@ -940,9 +954,15 @@ function deserializeCompositeType(
       let propertyInstance;
       let res = responseBody;
       // traversing the object step by step.
+      let steps = 0;
       for (const item of paths) {
         if (!res) break;
+        steps++;
         res = res[item];
+      }
+      // only accept null when reaching the last position of object otherwise it would be undefined
+      if (res === null && steps < paths.length) {
+        res = undefined;
       }
       propertyInstance = res;
       const polymorphicDiscriminator = mapper.type.polymorphicDiscriminator;
@@ -1015,7 +1035,7 @@ function deserializeCompositeType(
         );
       }
     }
-  } else if (responseBody) {
+  } else if (responseBody && !options.ignoreUnknownProperties) {
     for (const key of Object.keys(responseBody)) {
       if (
         instance[key] === undefined &&
@@ -1096,6 +1116,36 @@ function deserializeSequenceType(
   return responseBody;
 }
 
+function getIndexDiscriminator(
+  discriminators: Record<string, CompositeMapper>,
+  discriminatorValue: string,
+  typeName: string
+): CompositeMapper | undefined {
+  const typeNamesToCheck = [typeName];
+  while (typeNamesToCheck.length) {
+    const currentName = typeNamesToCheck.shift();
+    const indexDiscriminator =
+      discriminatorValue === currentName
+        ? discriminatorValue
+        : currentName + "." + discriminatorValue;
+    if (Object.prototype.hasOwnProperty.call(discriminators, indexDiscriminator)) {
+      return discriminators[indexDiscriminator];
+    } else {
+      for (const [name, mapper] of Object.entries(discriminators)) {
+        if (
+          name.startsWith(currentName + ".") &&
+          mapper.type.uberParent === currentName &&
+          mapper.type.className
+        ) {
+          typeNamesToCheck.push(mapper.type.className);
+        }
+      }
+    }
+  }
+
+  return undefined;
+}
+
 function getPolymorphicMapper(
   serializer: Serializer,
   mapper: CompositeMapper,
@@ -1103,6 +1153,7 @@ function getPolymorphicMapper(
   polymorphicPropertyName: "clientName" | "serializedName"
 ): CompositeMapper {
   const polymorphicDiscriminator = getPolymorphicDiscriminatorRecursively(serializer, mapper);
+
   if (polymorphicDiscriminator) {
     let discriminatorName = polymorphicDiscriminator[polymorphicPropertyName];
     if (discriminatorName) {
@@ -1111,13 +1162,14 @@ function getPolymorphicMapper(
         discriminatorName = discriminatorName.replace(/\\/gi, "");
       }
       const discriminatorValue = object[discriminatorName];
-      if (discriminatorValue !== undefined && discriminatorValue !== null) {
-        const typeName = mapper.type.uberParent || mapper.type.className;
-        const indexDiscriminator =
-          discriminatorValue === typeName
-            ? discriminatorValue
-            : typeName + "." + discriminatorValue;
-        const polymorphicMapper = serializer.modelMappers.discriminators[indexDiscriminator];
+      const typeName = mapper.type.uberParent ?? mapper.type.className;
+
+      if (typeof discriminatorValue === "string" && typeName) {
+        const polymorphicMapper = getIndexDiscriminator(
+          serializer.modelMappers.discriminators,
+          discriminatorValue,
+          typeName
+        );
         if (polymorphicMapper) {
           mapper = polymorphicMapper;
         }

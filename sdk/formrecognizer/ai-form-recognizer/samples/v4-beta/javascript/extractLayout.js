@@ -19,7 +19,8 @@ async function main() {
 
   const client = new DocumentAnalysisClient(endpoint, credential);
 
-  const poller = await client.beginExtractLayout(
+  const poller = await client.beginAnalyzeDocumentFromUrl(
+    "prebuilt-layout",
     // The form recognizer service will access the following URL to a receipt image and extract data from it
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/forms/Invoice_1.pdf"
   );
@@ -28,16 +29,18 @@ async function main() {
   // appearance (styles) of textual elements.
   const { pages, tables } = await poller.pollUntilDone();
 
-  if (pages.length <= 0) {
+  if (!pages || pages.length <= 0) {
     console.log("No pages were extracted from the document.");
   } else {
     console.log("Pages:");
     for (const page of pages) {
       console.log("- Page", page.pageNumber, `(unit: ${page.unit})`);
       console.log(`  ${page.width}x${page.height}, angle: ${page.angle}`);
-      console.log(`  ${page.lines.length} lines, ${page.words.length} words`);
+      console.log(
+        `  ${page.lines && page.lines.length} lines, ${page.words && page.words.length} words`
+      );
 
-      if (page.lines.length > 0) {
+      if (page.lines && page.lines.length > 0) {
         console.log("  Lines:");
 
         for (const line of page.lines) {
@@ -53,7 +56,7 @@ async function main() {
     }
   }
 
-  if (tables.length <= 0) {
+  if (!tables || tables.length <= 0) {
     console.log("No tables were extracted from the document.");
   } else {
     console.log("Tables:");

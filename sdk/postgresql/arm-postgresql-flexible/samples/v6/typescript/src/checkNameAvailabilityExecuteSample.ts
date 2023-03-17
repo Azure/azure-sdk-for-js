@@ -13,6 +13,9 @@ import {
   PostgreSQLManagementFlexibleServerClient
 } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Check the availability of name for resource
@@ -21,7 +24,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2021-06-01/examples/CheckNameAvailability.json
  */
 async function nameAvailability() {
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const subscriptionId =
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
+    "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const nameAvailabilityRequest: NameAvailabilityRequest = {
     name: "name1",
     type: "Microsoft.DBforPostgreSQL/flexibleServers"
@@ -37,4 +42,8 @@ async function nameAvailability() {
   console.log(result);
 }
 
-nameAvailability().catch(console.error);
+async function main() {
+  nameAvailability();
+}
+
+main().catch(console.error);

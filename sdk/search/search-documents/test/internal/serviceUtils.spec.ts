@@ -7,8 +7,8 @@ import { SearchField as GeneratedSearchField } from "../../src/generated/service
 import { KnownLexicalAnalyzerName } from "../../src/index";
 import { ComplexField, SearchField } from "../../src/serviceModels";
 
-describe("serviceUtils", () => {
-  it("convert generated fields to public fields", () => {
+describe("serviceUtils", function () {
+  it("convert generated fields to public fields", function () {
     const publicFields: SearchField[] = convertFieldsToPublic([
       {
         name: "id",
@@ -44,7 +44,7 @@ describe("serviceUtils", () => {
     });
   });
 
-  it("convert generated fields (complex) to public fields", () => {
+  it("convert generated fields (complex) to public fields", function () {
     const publicFields: SearchField[] = convertFieldsToPublic([
       {
         name: "ComplexObj",
@@ -91,7 +91,7 @@ describe("serviceUtils", () => {
     });
   });
 
-  it("convert public fields to generated fields", () => {
+  it("convert public fields to generated fields", function () {
     const generatedFields: GeneratedSearchField[] = convertFieldsToGenerated([
       {
         name: "id",
@@ -127,7 +127,7 @@ describe("serviceUtils", () => {
     });
   });
 
-  it("convert public fields (complex) to generated fields", () => {
+  it("convert public fields (complex) to generated fields", function () {
     const generatedFields: GeneratedSearchField[] = convertFieldsToGenerated([
       {
         name: "ComplexObj",

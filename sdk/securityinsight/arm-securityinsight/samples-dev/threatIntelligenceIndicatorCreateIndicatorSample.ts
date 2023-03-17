@@ -13,16 +13,22 @@ import {
   SecurityInsights
 } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create a new threat intelligence indicator.
  *
  * @summary Create a new threat intelligence indicator.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/threatintelligence/CreateThreatIntelligence.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/threatintelligence/CreateThreatIntelligence.json
  */
 async function createANewThreatIntelligence() {
-  const subscriptionId = "bd794837-4d29-4647-9105-6339bfdb4e6a";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "bd794837-4d29-4647-9105-6339bfdb4e6a";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const threatIntelligenceProperties: ThreatIntelligenceIndicatorModel = {
     description: "debugging indicators",
@@ -54,4 +60,8 @@ async function createANewThreatIntelligence() {
   console.log(result);
 }
 
-createANewThreatIntelligence().catch(console.error);
+async function main() {
+  createANewThreatIntelligence();
+}
+
+main().catch(console.error);

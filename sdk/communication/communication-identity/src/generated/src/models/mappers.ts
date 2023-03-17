@@ -23,6 +23,17 @@ export const CommunicationIdentityCreateRequest: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      expiresInMinutes: {
+        defaultValue: 1440,
+        constraints: {
+          InclusiveMaximum: 1440,
+          InclusiveMinimum: 60
+        },
+        serializedName: "expiresInMinutes",
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -156,13 +167,27 @@ export const CommunicationError: coreClient.CompositeMapper = {
   }
 };
 
-export const TeamsUserAccessTokenRequest: coreClient.CompositeMapper = {
+export const TeamsUserExchangeTokenRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "TeamsUserAccessTokenRequest",
+    className: "TeamsUserExchangeTokenRequest",
     modelProperties: {
       token: {
         serializedName: "token",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      appId: {
+        serializedName: "appId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      userId: {
+        serializedName: "userId",
         required: true,
         type: {
           name: "String"
@@ -187,6 +212,17 @@ export const CommunicationIdentityAccessTokenRequest: coreClient.CompositeMapper
               name: "String"
             }
           }
+        }
+      },
+      expiresInMinutes: {
+        defaultValue: 1440,
+        constraints: {
+          InclusiveMaximum: 1440,
+          InclusiveMinimum: 60
+        },
+        serializedName: "expiresInMinutes",
+        type: {
+          name: "Number"
         }
       }
     }

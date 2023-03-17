@@ -13,17 +13,23 @@ import {
   SignalRManagementClient
 } from "@azure/arm-signalr";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update a shared private link resource
  *
  * @summary Create or update a shared private link resource
- * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/stable/2022-02-01/examples/SignalRSharedPrivateLinkResources_CreateOrUpdate.json
+ * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/stable/2023-02-01/examples/SignalRSharedPrivateLinkResources_CreateOrUpdate.json
  */
 async function signalRSharedPrivateLinkResourcesCreateOrUpdate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["SIGNALR_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const sharedPrivateLinkResourceName = "upstream";
-  const resourceGroupName = "myResourceGroup";
+  const resourceGroupName =
+    process.env["SIGNALR_RESOURCE_GROUP"] || "myResourceGroup";
   const resourceName = "mySignalRService";
   const parameters: SharedPrivateLinkResource = {
     groupId: "sites",
@@ -42,4 +48,8 @@ async function signalRSharedPrivateLinkResourcesCreateOrUpdate() {
   console.log(result);
 }
 
-signalRSharedPrivateLinkResourcesCreateOrUpdate().catch(console.error);
+async function main() {
+  signalRSharedPrivateLinkResourcesCreateOrUpdate();
+}
+
+main().catch(console.error);

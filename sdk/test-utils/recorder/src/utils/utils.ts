@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
 import { env } from "./env";
 /**
  * A custom error type for failed pipeline requests.
@@ -201,7 +200,7 @@ export interface SanitizerOptions {
    * Specifically, this means regex applying to the raw JSON.
    * If you are attempting to simply replace a specific key, the BodyKeySanitizer is probably the way to go.
    *
-   * Regardless, there are examples present in `recorder-new/test/testProxyTests.spec.ts`.
+   * Regardless, there are examples present in `recorder/test/testProxyTests.spec.ts`.
    */
   bodySanitizers?: FindReplaceSanitizer[];
   /**
@@ -317,7 +316,7 @@ export function getTestMode(): TestMode {
   if (isPlaybackMode()) {
     return "playback";
   }
-  return env.TEST_MODE as "record" | "live";
+  return env.TEST_MODE?.toLowerCase() as "record" | "live";
 }
 
 /** Make a lazy value that can be deferred and only computed once. */
@@ -327,11 +326,11 @@ export const once = <T>(make: () => T): (() => T) => {
 };
 
 export function isRecordMode() {
-  return env.TEST_MODE === "record";
+  return env.TEST_MODE?.toLowerCase() === "record";
 }
 
 export function isLiveMode() {
-  return env.TEST_MODE === "live";
+  return env.TEST_MODE?.toLowerCase() === "live";
 }
 
 export function isPlaybackMode() {

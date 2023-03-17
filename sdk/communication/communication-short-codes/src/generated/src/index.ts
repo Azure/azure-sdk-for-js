@@ -9,5 +9,4 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { ShortCodesClient } from "./shortCodesClient";
-export { ShortCodesClientContext } from "./shortCodesClientContext";
 export * from "./operationsInterfaces";

@@ -20,9 +20,8 @@ pr:
   paths:
     include:
       - sdk/test-utils/
+      - eng/common/testproxy/
 
-variables:
-   Skip.PublishDocs: true
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

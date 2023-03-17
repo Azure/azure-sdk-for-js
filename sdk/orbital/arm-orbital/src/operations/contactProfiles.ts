@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ContactProfiles } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,8 +17,12 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   ContactProfile,
+  ContactProfilesListBySubscriptionNextOptionalParams,
   ContactProfilesListBySubscriptionOptionalParams,
+  ContactProfilesListBySubscriptionResponse,
+  ContactProfilesListNextOptionalParams,
   ContactProfilesListOptionalParams,
+  ContactProfilesListResponse,
   ContactProfilesGetOptionalParams,
   ContactProfilesGetResponse,
   ContactProfilesCreateOrUpdateOptionalParams,
@@ -26,8 +31,8 @@ import {
   TagsObject,
   ContactProfilesUpdateTagsOptionalParams,
   ContactProfilesUpdateTagsResponse,
-  ContactProfilesListBySubscriptionResponse,
-  ContactProfilesListResponse
+  ContactProfilesListBySubscriptionNextResponse,
+  ContactProfilesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,7 +49,7 @@ export class ContactProfilesImpl implements ContactProfiles {
   }
 
   /**
-   * Returns list of contact profiles
+   * Returns list of contact profiles by Subscription
    * @param options The options parameters.
    */
   public listBySubscription(
@@ -58,17 +63,35 @@ export class ContactProfilesImpl implements ContactProfiles {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: ContactProfilesListBySubscriptionOptionalParams
+    options?: ContactProfilesListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ContactProfile[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
+    let result: ContactProfilesListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listBySubscriptionNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
   }
 
   private async *listBySubscriptionPagingAll(
@@ -80,7 +103,7 @@ export class ContactProfilesImpl implements ContactProfiles {
   }
 
   /**
-   * Returns list of contact profiles
+   * Returns list of contact profiles by Resource Group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -96,18 +119,40 @@ export class ContactProfilesImpl implements ContactProfiles {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceGroupName, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    options?: ContactProfilesListOptionalParams
+    options?: ContactProfilesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ContactProfile[]> {
-    let result = await this._list(resourceGroupName, options);
-    yield result.value || [];
+    let result: ContactProfilesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(
+        resourceGroupName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
   }
 
   private async *listPagingAll(
@@ -319,20 +364,94 @@ export class ContactProfilesImpl implements ContactProfiles {
    * @param parameters Parameters supplied to update contact profile tags.
    * @param options The options parameters.
    */
-  updateTags(
+  async beginUpdateTags(
+    resourceGroupName: string,
+    contactProfileName: string,
+    parameters: TagsObject,
+    options?: ContactProfilesUpdateTagsOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<ContactProfilesUpdateTagsResponse>,
+      ContactProfilesUpdateTagsResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ContactProfilesUpdateTagsResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, contactProfileName, parameters, options },
+      updateTagsOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Updates the specified contact profile tags.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param contactProfileName Contact Profile Name
+   * @param parameters Parameters supplied to update contact profile tags.
+   * @param options The options parameters.
+   */
+  async beginUpdateTagsAndWait(
     resourceGroupName: string,
     contactProfileName: string,
     parameters: TagsObject,
     options?: ContactProfilesUpdateTagsOptionalParams
   ): Promise<ContactProfilesUpdateTagsResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, contactProfileName, parameters, options },
-      updateTagsOperationSpec
+    const poller = await this.beginUpdateTags(
+      resourceGroupName,
+      contactProfileName,
+      parameters,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
-   * Returns list of contact profiles
+   * Returns list of contact profiles by Subscription
    * @param options The options parameters.
    */
   private _listBySubscription(
@@ -345,7 +464,7 @@ export class ContactProfilesImpl implements ContactProfiles {
   }
 
   /**
-   * Returns list of contact profiles
+   * Returns list of contact profiles by Resource Group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -356,6 +475,38 @@ export class ContactProfilesImpl implements ContactProfiles {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listOperationSpec
+    );
+  }
+
+  /**
+   * ListBySubscriptionNext
+   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
+   * @param options The options parameters.
+   */
+  private _listBySubscriptionNext(
+    nextLink: string,
+    options?: ContactProfilesListBySubscriptionNextOptionalParams
+  ): Promise<ContactProfilesListBySubscriptionNextResponse> {
+    return this.client.sendOperationRequest(
+      { nextLink, options },
+      listBySubscriptionNextOperationSpec
+    );
+  }
+
+  /**
+   * ListNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    resourceGroupName: string,
+    nextLink: string,
+    options?: ContactProfilesListNextOptionalParams
+  ): Promise<ContactProfilesListNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, nextLink, options },
+      listNextOperationSpec
     );
   }
 }
@@ -409,10 +560,12 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     parameterPath: {
       tags: ["options", "tags"],
       location: ["location"],
+      provisioningState: ["options", "provisioningState"],
       minimumViableContactDuration: ["options", "minimumViableContactDuration"],
       minimumElevationDegrees: ["options", "minimumElevationDegrees"],
       autoTrackingConfiguration: ["options", "autoTrackingConfiguration"],
       eventHubUri: ["options", "eventHubUri"],
+      networkConfiguration: ["options", "networkConfiguration"],
       links: ["options", "links"]
     },
     mapper: { ...Mappers.ContactProfile, required: true }
@@ -459,6 +612,15 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.ContactProfile
     },
+    201: {
+      bodyMapper: Mappers.ContactProfile
+    },
+    202: {
+      bodyMapper: Mappers.ContactProfile
+    },
+    204: {
+      bodyMapper: Mappers.ContactProfile
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -487,7 +649,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -504,11 +666,50 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ContactProfileListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ContactProfileListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Subscription } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -67,8 +68,16 @@ export class SubscriptionImpl implements Subscription {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, serviceName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          serviceName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -76,11 +85,18 @@ export class SubscriptionImpl implements Subscription {
   private async *listPagingPage(
     resourceGroupName: string,
     serviceName: string,
-    options?: SubscriptionListOptionalParams
+    options?: SubscriptionListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SubscriptionContract[]> {
-    let result = await this._list(resourceGroupName, serviceName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SubscriptionListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, serviceName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -89,7 +105,9 @@ export class SubscriptionImpl implements Subscription {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -407,7 +425,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters53,
+  requestBody: Parameters.parameters56,
   queryParameters: [
     Parameters.apiVersion,
     Parameters.notify,
@@ -441,7 +459,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters54,
+  requestBody: Parameters.parameters57,
   queryParameters: [
     Parameters.apiVersion,
     Parameters.notify,
@@ -561,12 +579,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

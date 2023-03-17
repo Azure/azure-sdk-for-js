@@ -1,14 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import {
+  checkTenantId,
+  processMultiTenantRequest,
+  resolveAddionallyAllowedTenantIds,
+} from "../util/tenantIdUtils";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
+import { credentialLogger, formatSuccess } from "../util/logging";
 import { IdentityClient } from "../client/identityClient";
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
-import { credentialLogger, formatSuccess, formatError } from "../util/logging";
+import { UsernamePasswordCredentialOptions } from "./usernamePasswordCredentialOptions";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { tracingClient } from "../util/tracing";
-import { checkTenantId } from "../util/checkTenantId";
 
 const logger = credentialLogger("UsernamePasswordCredential");
 
@@ -21,6 +25,7 @@ const logger = credentialLogger("UsernamePasswordCredential");
 export class UsernamePasswordCredential implements TokenCredential {
   private identityClient: IdentityClient;
   private tenantId: string;
+  private additionallyAllowedTenantIds: string[];
   private clientId: string;
   private username: string;
   private password: string;
@@ -41,12 +46,15 @@ export class UsernamePasswordCredential implements TokenCredential {
     clientId: string,
     username: string,
     password: string,
-    options?: TokenCredentialOptions
+    options?: UsernamePasswordCredentialOptions
   ) {
     checkTenantId(logger, tenantIdOrName);
 
     this.identityClient = new IdentityClient(options);
     this.tenantId = tenantIdOrName;
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+      options?.additionallyAllowedTenants
+    );
     this.clientId = clientId;
     this.username = username;
     this.password = password;
@@ -64,46 +72,44 @@ export class UsernamePasswordCredential implements TokenCredential {
    */
   public async getToken(
     scopes: string | string[],
-    options?: GetTokenOptions
+    options: GetTokenOptions = {}
   ): Promise<AccessToken | null> {
-    const { span, updatedOptions: newOptions } = tracingClient.startSpan(
+    return tracingClient.withSpan(
       "UsernamePasswordCredential.getToken",
-      options
-    );
-    try {
-      const urlSuffix = getIdentityTokenEndpointSuffix(this.tenantId);
-      const params = new URLSearchParams({
-        response_type: "token",
-        grant_type: "password",
-        client_id: this.clientId,
-        username: this.username,
-        password: this.password,
-        scope: typeof scopes === "string" ? scopes : scopes.join(" "),
-      });
-      const webResource = createPipelineRequest({
-        url: `${this.identityClient.authorityHost}/${this.tenantId}/${urlSuffix}`,
-        method: "POST",
-        body: params.toString(),
-        headers: createHttpHeaders({
-          Accept: "application/json",
-          "Content-Type": "application/x-www-form-urlencoded",
-        }),
-        abortSignal: options && options.abortSignal,
-        tracingOptions: newOptions.tracingOptions,
-      });
+      options,
+      async (newOptions) => {
+        const tenantId = processMultiTenantRequest(
+          this.tenantId,
+          newOptions,
+          this.additionallyAllowedTenantIds
+        );
+        newOptions.tenantId = tenantId;
 
-      const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
-      logger.getToken.info(formatSuccess(scopes));
-      return (tokenResponse && tokenResponse.accessToken) || null;
-    } catch (err: any) {
-      span.setStatus({
-        status: "error",
-        error: err,
-      });
-      logger.getToken.info(formatError(scopes, err));
-      throw err;
-    } finally {
-      span.end();
-    }
+        const urlSuffix = getIdentityTokenEndpointSuffix(this.tenantId);
+        const params = new URLSearchParams({
+          response_type: "token",
+          grant_type: "password",
+          client_id: this.clientId,
+          username: this.username,
+          password: this.password,
+          scope: typeof scopes === "string" ? scopes : scopes.join(" "),
+        });
+        const webResource = createPipelineRequest({
+          url: `${this.identityClient.authorityHost}/${this.tenantId}/${urlSuffix}`,
+          method: "POST",
+          body: params.toString(),
+          headers: createHttpHeaders({
+            Accept: "application/json",
+            "Content-Type": "application/x-www-form-urlencoded",
+          }),
+          abortSignal: options && options.abortSignal,
+          tracingOptions: newOptions.tracingOptions,
+        });
+
+        const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
+        logger.getToken.info(formatSuccess(scopes));
+        return (tokenResponse && tokenResponse.accessToken) || null;
+      }
+    );
   }
 }

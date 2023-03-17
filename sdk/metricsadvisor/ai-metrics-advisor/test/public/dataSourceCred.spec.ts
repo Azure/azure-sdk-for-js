@@ -6,13 +6,13 @@ import { Context } from "mocha";
 import {
   DataSourceDataLakeGen2SharedKey,
   DataSourceDataLakeGen2SharedKeyPatch,
-  MetricsAdvisorAdministrationClient,
   DataSourceServicePrincipal,
-  DataSourceServicePrincipalPatch,
   DataSourceServicePrincipalInKeyVault,
   DataSourceServicePrincipalInKeyVaultPatch,
+  DataSourceServicePrincipalPatch,
   DataSourceSqlConnectionString,
   DataSourceSqlServerConnectionStringPatch,
+  MetricsAdvisorAdministrationClient,
 } from "../../src";
 import { createRecordedAdminClient, makeCredential } from "./util/recordedClients";
 import { Recorder } from "@azure-tools/test-recorder";

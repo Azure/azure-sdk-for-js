@@ -5,7 +5,7 @@ import {
   createDocumentUri,
   getIdFromLink,
   getPathFromLink,
-  isResourceValid,
+  isItemResourceValid,
   ResourceType,
   StatusCodes,
 } from "../../common";
@@ -79,6 +79,7 @@ export class Item {
         await this.container.readPartitionKeyDefinition();
       this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
     }
+
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
     let response: Response<T & Resource>;
@@ -144,7 +145,7 @@ export class Item {
     }
 
     const err = {};
-    if (!isResourceValid(body, err)) {
+    if (!isItemResourceValid(body, err)) {
       throw err;
     }
 

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Users } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -48,8 +49,8 @@ export class UsersImpl implements Users {
   /**
    * Returns a list of all users for a lab.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param options The options parameters.
    */
   public listByLab(
@@ -65,8 +66,16 @@ export class UsersImpl implements Users {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByLabPagingPage(resourceGroupName, labName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByLabPagingPage(
+          resourceGroupName,
+          labName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -74,11 +83,18 @@ export class UsersImpl implements Users {
   private async *listByLabPagingPage(
     resourceGroupName: string,
     labName: string,
-    options?: UsersListByLabOptionalParams
+    options?: UsersListByLabOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<User[]> {
-    let result = await this._listByLab(resourceGroupName, labName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: UsersListByLabResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByLab(resourceGroupName, labName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByLabNext(
         resourceGroupName,
@@ -87,7 +103,9 @@ export class UsersImpl implements Users {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -108,8 +126,8 @@ export class UsersImpl implements Users {
   /**
    * Returns a list of all users for a lab.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param options The options parameters.
    */
   private _listByLab(
@@ -126,8 +144,8 @@ export class UsersImpl implements Users {
   /**
    * Returns the properties of a lab user.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param userName The name of the user that uniquely identifies it within containing lab. Used in
    *                 resource URIs.
    * @param options The options parameters.
@@ -147,8 +165,8 @@ export class UsersImpl implements Users {
   /**
    * Operation to create or update a lab user.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param userName The name of the user that uniquely identifies it within containing lab. Used in
    *                 resource URIs.
    * @param body The request body.
@@ -222,8 +240,8 @@ export class UsersImpl implements Users {
   /**
    * Operation to create or update a lab user.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param userName The name of the user that uniquely identifies it within containing lab. Used in
    *                 resource URIs.
    * @param body The request body.
@@ -249,8 +267,8 @@ export class UsersImpl implements Users {
   /**
    * Operation to update a lab user.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param userName The name of the user that uniquely identifies it within containing lab. Used in
    *                 resource URIs.
    * @param body The request body.
@@ -321,8 +339,8 @@ export class UsersImpl implements Users {
   /**
    * Operation to update a lab user.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param userName The name of the user that uniquely identifies it within containing lab. Used in
    *                 resource URIs.
    * @param body The request body.
@@ -348,8 +366,8 @@ export class UsersImpl implements Users {
   /**
    * Operation to delete a user resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param userName The name of the user that uniquely identifies it within containing lab. Used in
    *                 resource URIs.
    * @param options The options parameters.
@@ -416,8 +434,8 @@ export class UsersImpl implements Users {
   /**
    * Operation to delete a user resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param userName The name of the user that uniquely identifies it within containing lab. Used in
    *                 resource URIs.
    * @param options The options parameters.
@@ -440,8 +458,8 @@ export class UsersImpl implements Users {
   /**
    * Operation to invite a user to a lab.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param userName The name of the user that uniquely identifies it within containing lab. Used in
    *                 resource URIs.
    * @param body The request body.
@@ -510,8 +528,8 @@ export class UsersImpl implements Users {
   /**
    * Operation to invite a user to a lab.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param userName The name of the user that uniquely identifies it within containing lab. Used in
    *                 resource URIs.
    * @param body The request body.
@@ -537,8 +555,8 @@ export class UsersImpl implements Users {
   /**
    * ListByLabNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param nextLink The nextLink from the previous successful call to the ListByLab method.
    * @param options The options parameters.
    */
@@ -731,7 +749,6 @@ const listByLabNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -11,6 +11,8 @@ import * as coreClient from "@azure/core-client";
 export interface CommunicationIdentityCreateRequest {
   /** Also create access token for the created identity. */
   createTokenWithScopes?: CommunicationIdentityTokenScope[];
+  /** Optional custom validity period of the token within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used. */
+  expiresInMinutes?: number;
 }
 
 /** A communication identity with access token. */
@@ -64,19 +66,27 @@ export interface CommunicationError {
   readonly innerError?: CommunicationError;
 }
 
-export interface TeamsUserAccessTokenRequest {
-  /** AAD access token of a Teams User to acquire a new Communication Identity access token. */
+export interface TeamsUserExchangeTokenRequest {
+  /** Azure AD access token of a Teams User to acquire a new Communication Identity access token. */
   token: string;
+  /** Client ID of an Azure AD application to be verified against the appid claim in the Azure AD access token. */
+  appId: string;
+  /** Object ID of an Azure AD user (Teams User) to be verified against the oid claim in the Azure AD access token. */
+  userId: string;
 }
 
 export interface CommunicationIdentityAccessTokenRequest {
   /** List of scopes attached to the token. */
   scopes: CommunicationIdentityTokenScope[];
+  /** Optional custom validity period of the token within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used. */
+  expiresInMinutes?: number;
 }
 
 /** Known values of {@link CommunicationIdentityTokenScope} that the service accepts. */
 export enum KnownCommunicationIdentityTokenScope {
+  /** Chat */
   Chat = "chat",
+  /** Voip */
   Voip = "voip"
 }
 
@@ -95,6 +105,8 @@ export interface CommunicationIdentityCreateOptionalParams
   extends coreClient.OperationOptions {
   /** Also create access token for the created identity. */
   createTokenWithScopes?: CommunicationIdentityTokenScope[];
+  /** Optional custom validity period of the token within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used. */
+  expiresInMinutes?: number;
 }
 
 /** Contains response data for the create operation. */
@@ -117,7 +129,10 @@ export type CommunicationIdentityExchangeTeamsUserAccessTokenResponse = Communic
 
 /** Optional parameters. */
 export interface CommunicationIdentityIssueAccessTokenOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Optional custom validity period of the token within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used. */
+  expiresInMinutes?: number;
+}
 
 /** Contains response data for the issueAccessToken operation. */
 export type CommunicationIdentityIssueAccessTokenResponse = CommunicationIdentityAccessToken;

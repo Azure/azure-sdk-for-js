@@ -1599,6 +1599,18 @@ export const MhsmPrivateEndpointConnectionItem: coreClient.CompositeMapper = {
     name: "Composite",
     className: "MhsmPrivateEndpointConnectionItem",
     modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      etag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
       privateEndpoint: {
         serializedName: "properties.privateEndpoint",
         type: {
@@ -2749,6 +2761,21 @@ export const PrivateEndpointConnectionsDeleteHeaders: coreClient.CompositeMapper
           name: "Number"
         }
       },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedHsmsUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedHsmsUpdateHeaders",
+    modelProperties: {
       location: {
         serializedName: "location",
         type: {

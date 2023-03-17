@@ -1,0 +1,1526 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1?api-version=2021-09-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "699e659d-c50e-4ec3-ac3d-6fb856d2d6b4"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Azure-AsyncOperation": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+        "Cache-Control": "no-cache",
+        "Content-Length": "4",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:40:23 GMT",
+        "ETag": "\u00223a00ae95-0000-0100-0000-63bbe1080000\u0022",
+        "Expires": "-1",
+        "Location": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+        "mise-correlation-id": "d6957875-a738-460a-b62c-508ff9075e43",
+        "Pragma": "no-cache",
+        "Request-Context": "appId=cid-v1:fab059ea-d726-424a-9451-6beb3dc74944",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "699e659d-c50e-4ec3-ac3d-6fb856d2d6b4",
+        "x-ms-correlation-request-id": "6d4afd46-003b-4ea0-a19e-c3b234aceef3",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14999",
+        "x-ms-request-id": "9e4d9a45-4f14-40db-85eb-397e384fb537",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094024Z:6d4afd46-003b-4ea0-a19e-c3b234aceef3"
+      },
+      "ResponseBody": "null"
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "8963dcd2-7aef-4315-8f84-54906a478f75"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "489",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:40:24 GMT",
+        "ETag": "\u00221401f698-0000-0100-0000-63bbe1080000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "ff0dd12a-5675-4769-b89b-bc47cf7435ee",
+        "x-ms-ratelimit-remaining-tenant-reads": "11999",
+        "x-ms-request-id": "037969cf-ef02-486e-89ac-797f7d434a2d",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094025Z:ff0dd12a-5675-4769-b89b-bc47cf7435ee"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "d85931fe-57d8-4d54-b218-a6b1d7f7a8d1"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "489",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:40:24 GMT",
+        "ETag": "\u00221401f698-0000-0100-0000-63bbe1080000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "277118df-f391-42d1-9587-e4d0886131e7",
+        "x-ms-ratelimit-remaining-tenant-reads": "11998",
+        "x-ms-request-id": "31f5b4e4-8e9c-441c-81bc-f6b0ee21e973",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094025Z:277118df-f391-42d1-9587-e4d0886131e7"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "752537bf-b0d2-4983-a5f1-c12a6e6f34c5"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "489",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:40:26 GMT",
+        "ETag": "\u00221401f698-0000-0100-0000-63bbe1080000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "f2e63c1e-8061-469a-9738-49b8bd3bd030",
+        "x-ms-ratelimit-remaining-tenant-reads": "11997",
+        "x-ms-request-id": "05d802a4-abed-4396-947d-6e6b66565a4f",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094027Z:f2e63c1e-8061-469a-9738-49b8bd3bd030"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "5d8bee32-4f52-47fb-9a3f-d9abb0748081"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:40:29 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "c7311d65-2a88-4d07-8707-85f56da4e6aa",
+        "x-ms-ratelimit-remaining-tenant-reads": "11996",
+        "x-ms-request-id": "145a05cb-3625-487a-81dd-815e221285f8",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094030Z:c7311d65-2a88-4d07-8707-85f56da4e6aa"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "52650a3b-686b-4eb9-a664-5ab57e116a7b"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:40:31 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "dd4f0451-6cc0-49ae-bc54-6a38f7ea59b2",
+        "x-ms-ratelimit-remaining-tenant-reads": "11995",
+        "x-ms-request-id": "420285ff-2248-4096-bbec-9ed4959cad3b",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094032Z:dd4f0451-6cc0-49ae-bc54-6a38f7ea59b2"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "3e87b89a-8251-464c-bf0d-ba958189d34d"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:40:34 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "238588a3-3f9f-4290-9e00-16bb8af091df",
+        "x-ms-ratelimit-remaining-tenant-reads": "11994",
+        "x-ms-request-id": "2cf1bf56-7a86-459c-8f04-51c79e5fc708",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094035Z:238588a3-3f9f-4290-9e00-16bb8af091df"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "7debc0c8-0875-4851-9fcf-5e7df3df0819"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:40:38 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "899cb0d2-395b-4ae0-8bc8-16bbc4ab6e1c",
+        "x-ms-ratelimit-remaining-tenant-reads": "11993",
+        "x-ms-request-id": "0619e79d-2cba-4a70-a52d-0c0d2ffa1ee4",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094038Z:899cb0d2-395b-4ae0-8bc8-16bbc4ab6e1c"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "b8ee9139-33a7-45bc-b1ae-1a8c5442adac"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:40:41 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "1e59c587-e4d0-4e70-9cdb-7e9d0ae6f8a6",
+        "x-ms-ratelimit-remaining-tenant-reads": "11992",
+        "x-ms-request-id": "284787b3-6b92-423e-a033-5c017c4a8662",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094041Z:1e59c587-e4d0-4e70-9cdb-7e9d0ae6f8a6"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "4315f8d6-d95a-4c07-be34-97afabfe72e6"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:40:43 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "0796b2ac-0594-4cb6-93b4-f874c5f9190f",
+        "x-ms-ratelimit-remaining-tenant-reads": "11991",
+        "x-ms-request-id": "62df5671-61f4-40c6-859e-788abbc433f3",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094043Z:0796b2ac-0594-4cb6-93b4-f874c5f9190f"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "5c0784cd-acab-4874-ac68-1856d39dcf59"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:40:45 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "814eabb7-53c6-4b72-8fa5-6fda276e3e73",
+        "x-ms-ratelimit-remaining-tenant-reads": "11990",
+        "x-ms-request-id": "3bbebf35-12dd-4c2c-a1b0-d0b0fa946ba8",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094046Z:814eabb7-53c6-4b72-8fa5-6fda276e3e73"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "67d9a474-dfde-4e6c-8f55-8fa55a067af8"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:40:48 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "e3fe6a88-2bb7-4fa4-8cf1-e4391b538376",
+        "x-ms-ratelimit-remaining-tenant-reads": "11989",
+        "x-ms-request-id": "e822c654-76ef-4c3b-b3ab-bc6c7ed12736",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094048Z:e3fe6a88-2bb7-4fa4-8cf1-e4391b538376"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "6c2b62eb-7cb1-42d5-9b84-17fc88420a9b"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:40:50 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "47ebb89d-d920-42d6-a536-e04d6a22fb6c",
+        "x-ms-ratelimit-remaining-tenant-reads": "11988",
+        "x-ms-request-id": "b9600a95-f4e8-44ed-9ec9-3df4a207fe94",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094050Z:47ebb89d-d920-42d6-a536-e04d6a22fb6c"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "a5b65ed7-c147-4c32-bbb8-a675a99f6f49"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:40:52 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "9072d344-4f02-4764-a890-0555f507b942",
+        "x-ms-ratelimit-remaining-tenant-reads": "11987",
+        "x-ms-request-id": "eb78174b-2bfd-4ec9-808a-f70e99e966c0",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094053Z:9072d344-4f02-4764-a890-0555f507b942"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "18bad26a-3661-445e-8847-581864250c2b"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:40:55 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "c33100df-3a68-4343-84d2-db7afff11010",
+        "x-ms-ratelimit-remaining-tenant-reads": "11986",
+        "x-ms-request-id": "1f1ebb56-110a-4699-872f-023e115853b3",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094055Z:c33100df-3a68-4343-84d2-db7afff11010"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "ff9e1d08-1a32-4381-a63a-a0d24e584117"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:40:57 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "dc9101b6-e149-46a3-b7d5-3322efbad52d",
+        "x-ms-ratelimit-remaining-tenant-reads": "11985",
+        "x-ms-request-id": "52b7abdb-bb2e-4e70-8a28-0949ae5ae61a",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094057Z:dc9101b6-e149-46a3-b7d5-3322efbad52d"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "1355f824-f295-454e-bc2c-bff8c6d2f4dc"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:40:59 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "636e9562-e47f-4b18-8955-903f5182e507",
+        "x-ms-ratelimit-remaining-tenant-reads": "11984",
+        "x-ms-request-id": "b4900444-2536-419f-9a68-92b3d499b55d",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094100Z:636e9562-e47f-4b18-8955-903f5182e507"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "54054b3b-ec49-4db9-aa11-206d5fb962d7"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:41:02 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "957124cb-ef4e-4900-ab67-601b8f6f762e",
+        "x-ms-ratelimit-remaining-tenant-reads": "11983",
+        "x-ms-request-id": "d1477eb7-c010-4713-bf15-a5e5b60b2c5a",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094102Z:957124cb-ef4e-4900-ab67-601b8f6f762e"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "f9bb894a-d155-4e96-ad5e-a96ae8fc8413"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:41:05 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "7f6ffaaa-eab0-4eb8-8b0c-69f1c44e285f",
+        "x-ms-ratelimit-remaining-tenant-reads": "11982",
+        "x-ms-request-id": "0ad300b3-e0ca-44b3-900f-67c7b73986a9",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094105Z:7f6ffaaa-eab0-4eb8-8b0c-69f1c44e285f"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "af21af91-b21f-4ea5-92a6-7f0155a0a164"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:41:07 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "76c04f97-d2d7-480f-b273-d2b57d828657",
+        "x-ms-ratelimit-remaining-tenant-reads": "11981",
+        "x-ms-request-id": "81a1f8d5-dd35-475b-a65b-19e7192cf0f7",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094107Z:76c04f97-d2d7-480f-b273-d2b57d828657"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "10735623-42c4-43d7-b776-a9edf8659c77"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:41:09 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "458f5c75-6534-44e0-83f1-8ed518a9c5fb",
+        "x-ms-ratelimit-remaining-tenant-reads": "11980",
+        "x-ms-request-id": "40cc2a89-2d25-4bef-84de-6c99cadabeca",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094110Z:458f5c75-6534-44e0-83f1-8ed518a9c5fb"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "1c702175-a4fe-4d39-9abf-16311d87dedf"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:41:12 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "1b45504d-a176-4781-83df-14d125ba03ab",
+        "x-ms-ratelimit-remaining-tenant-reads": "11979",
+        "x-ms-request-id": "c93e730d-6d16-4178-9b2e-97d672deba63",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094112Z:1b45504d-a176-4781-83df-14d125ba03ab"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "0dc2a23d-bac9-4e99-977a-4c8e17a77b2e"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:41:14 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "760d822f-adc3-4795-99ec-9ceebf1ed158",
+        "x-ms-ratelimit-remaining-tenant-reads": "11978",
+        "x-ms-request-id": "8011028a-7a76-4bad-b916-cc043a74e5ab",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094114Z:760d822f-adc3-4795-99ec-9ceebf1ed158"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "33655311-7b19-4cc6-a3f5-2e75a57311b6"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:41:17 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "a8a5ad7a-6569-49df-80ec-2ab977085f32",
+        "x-ms-ratelimit-remaining-tenant-reads": "11977",
+        "x-ms-request-id": "fda6c9c9-b1e8-498a-a20d-171d63001d1e",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094117Z:a8a5ad7a-6569-49df-80ec-2ab977085f32"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "1cc7fbcb-babb-444a-940c-02eb467427a2"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:41:19 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "27391267-7ee5-4d6d-a68e-c0b08129fe9a",
+        "x-ms-ratelimit-remaining-tenant-reads": "11976",
+        "x-ms-request-id": "b84fbd34-23da-41df-b27a-631c9d56882c",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094120Z:27391267-7ee5-4d6d-a68e-c0b08129fe9a"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "3ca74dfd-3286-42fd-bfce-d39b6fc5cd41"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:41:22 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "614fefa1-4062-47be-a156-f4944607ec4d",
+        "x-ms-ratelimit-remaining-tenant-reads": "11975",
+        "x-ms-request-id": "bafdc2b4-e3c8-48ac-aa73-acd41cec4929",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094122Z:614fefa1-4062-47be-a156-f4944607ec4d"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "175e31da-0095-496b-8122-d7989f887704"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:41:24 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "ffb330eb-5bde-4833-9d23-a5d666088f42",
+        "x-ms-ratelimit-remaining-tenant-reads": "11974",
+        "x-ms-request-id": "5494146a-437a-4d8e-ae76-c57ffc5e19a2",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094125Z:ffb330eb-5bde-4833-9d23-a5d666088f42"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "ddd6086f-fd2b-4fe6-aaa6-97d9982854d2"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:41:26 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "a196420a-9101-4249-aa0a-2e14c213a091",
+        "x-ms-ratelimit-remaining-tenant-reads": "11973",
+        "x-ms-request-id": "5c38a65f-894b-48f7-9d78-a79967efb868",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094127Z:a196420a-9101-4249-aa0a-2e14c213a091"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "e746e263-3220-4771-b551-e96d9cb031b9"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:41:29 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "20ff486c-5dcc-4810-a379-d3c90cc7faa9",
+        "x-ms-ratelimit-remaining-tenant-reads": "11972",
+        "x-ms-request-id": "ae47f58f-7cbc-40e2-8d44-34f5336add52",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094129Z:20ff486c-5dcc-4810-a379-d3c90cc7faa9"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "cde77581-dec6-4377-ae04-58347afd062b"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:41:31 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "09fd024d-4fd4-4cc1-b3fc-32139116ef01",
+        "x-ms-ratelimit-remaining-tenant-reads": "11971",
+        "x-ms-request-id": "62502edc-da1b-4517-942c-1e3b49f37782",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094132Z:09fd024d-4fd4-4cc1-b3fc-32139116ef01"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "6bfdac1d-a9bc-4c98-a9c4-ec01a15a160f"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:41:33 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "a7c4f142-7377-44a8-84e2-4c0200ae0928",
+        "x-ms-ratelimit-remaining-tenant-reads": "11970",
+        "x-ms-request-id": "59466473-95dc-4b1e-a9da-b6e4062b5d1f",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094134Z:a7c4f142-7377-44a8-84e2-4c0200ae0928"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "1f095afd-ccef-40b9-a14c-6432721366be"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:41:36 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "bcd398b1-6462-47c2-b654-81eeccc35c93",
+        "x-ms-ratelimit-remaining-tenant-reads": "11969",
+        "x-ms-request-id": "41c759de-e1fb-4bc7-8dfd-efa6ddde6785",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094136Z:bcd398b1-6462-47c2-b654-81eeccc35c93"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "1e6da564-9175-43a7-a560-52378e187b6b"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:41:38 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "cf3a21de-0faa-4350-9b66-1c81929350b1",
+        "x-ms-ratelimit-remaining-tenant-reads": "11968",
+        "x-ms-request-id": "ac259fd2-6ebc-4b2f-a318-25f90dca1f48",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094139Z:cf3a21de-0faa-4350-9b66-1c81929350b1"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "0933dba8-b8ec-4c8d-9244-9410d5967d83"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:41:40 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "1a1311fd-1690-4b2c-80a4-d113a596be56",
+        "x-ms-ratelimit-remaining-tenant-reads": "11967",
+        "x-ms-request-id": "502b1f01-9f26-45dd-aaca-54ed7bab214d",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094141Z:1a1311fd-1690-4b2c-80a4-d113a596be56"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "48bdbf72-3fc1-4a87-8769-ea42d0265509"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:41:43 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "68a5c519-9c35-4562-b031-8ff0e7e5d025",
+        "x-ms-ratelimit-remaining-tenant-reads": "11966",
+        "x-ms-request-id": "3a4cdb47-285e-49b5-8a7f-67844eeb1c08",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094143Z:68a5c519-9c35-4562-b031-8ff0e7e5d025"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "274b5a78-a660-43d6-861b-66d27a576bc3"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:41:45 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "d8b9898e-cb95-4e3f-8a31-555a476dc028",
+        "x-ms-ratelimit-remaining-tenant-reads": "11965",
+        "x-ms-request-id": "3b3e7d74-d1e3-465d-9c4b-df3e36fb9e32",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094146Z:d8b9898e-cb95-4e3f-8a31-555a476dc028"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "2610dcca-0b7b-4b31-97f7-bfacee614db0"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:41:47 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "1ca55629-fbda-48cc-8bde-7729d523e692",
+        "x-ms-ratelimit-remaining-tenant-reads": "11964",
+        "x-ms-request-id": "9be6b729-5432-46c6-a223-fac5244297dd",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094148Z:1ca55629-fbda-48cc-8bde-7729d523e692"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "db75de9a-6235-4482-9f05-b9b32d9aa760"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:41:50 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "c4c9c237-1f11-46aa-8c4c-2aa3d94a7683",
+        "x-ms-ratelimit-remaining-tenant-reads": "11963",
+        "x-ms-request-id": "d967f6be-d486-40ad-904d-cee2ccce8a80",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094150Z:c4c9c237-1f11-46aa-8c4c-2aa3d94a7683"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "d761fe36-0f89-4961-a725-df99bec7b1c6"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "500",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:41:52 GMT",
+        "ETag": "\u002214010c99-0000-0100-0000-63bbe10d0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "9068a8ad-08d6-4b4a-aced-b19bc870cb7a",
+        "x-ms-ratelimit-remaining-tenant-reads": "11962",
+        "x-ms-request-id": "ecf77c5a-a476-41cd-bbcc-de6622e9ae05",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094153Z:9068a8ad-08d6-4b4a-aced-b19bc870cb7a"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Deleting",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "error": {}
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "a67f3a32-6332-4d01-a153-6bc25ca086bf"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:41:54 GMT",
+        "ETag": "\u002214011c9a-0000-0100-0000-63bbe1620000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "4806c4cb-6c34-4c79-b9b6-669f64a9644b",
+        "x-ms-ratelimit-remaining-tenant-reads": "11961",
+        "x-ms-request-id": "f2ef474f-6e18-496d-829d-81e4ffd12d11",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094155Z:4806c4cb-6c34-4c79-b9b6-669f64a9644b"
+      },
+      "ResponseBody": {
+        "id": "/providers/Dynatrace.Observability/locations/EASTUS/operationStatuses/9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "name": "9e4d9a45-4f14-40db-85eb-397e384fb537*1CB60EB7996C4444F16F0EA11A87726E78BAF35624C9EB2F00B9D152B1D50853",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+        "status": "Succeeded",
+        "startTime": "2023-01-09T09:40:24.2946713Z",
+        "endTime": "2023-01-09T09:41:54.5935239Z",
+        "error": {},
+        "properties": null
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors?api-version=2021-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dynatrace/1.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "ead7ce1a-b2a4-4087-82bf-767df8ad906f"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "12",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 09:41:56 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "60feda34-eaac-40f6-8601-d2e713eed65d",
+        "x-ms-original-request-ids": [
+          "27253ec4-a527-49ad-b60a-c53f0b976ecd",
+          "4e789fad-5143-407c-8978-b4b45db08399",
+          "275f3e7d-c01b-470b-aae7-31ea770a0d7b",
+          "e2224a61-754b-4b63-80de-a27edb0adcaa",
+          "ab50376b-d693-4b92-85c8-1d926c91068f",
+          "a6bb8fea-a4be-40c0-a20c-47341a422966"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": "11997",
+        "x-ms-request-id": "60feda34-eaac-40f6-8601-d2e713eed65d",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230109T094157Z:60feda34-eaac-40f6-8601-d2e713eed65d"
+      },
+      "ResponseBody": {
+        "value": []
+      }
+    }
+  ],
+  "Variables": {}
+}

@@ -1,5 +1,76 @@
 # Release History
 
+## 3.17.3 (2023-02-13)
+
+### Features Added
+
+- Changes in bulk api to honour size restictions (i.e 2Mb) while creating individual batches.[#23923](https://github.com/Azure/azure-sdk-for-js/issues/23923)
+- Enriched Timeout error response. We had defined Timeout error as custom error in our sdk but we were not sending up any message along with it, now we are throwing the specific Error. [#23025](https://github.com/Azure/azure-sdk-for-js/issues/23025)
+- Added functionality to delete entire data for a partition id. [#22091](https://github.com/Azure/azure-sdk-for-js/issues/22091)
+- SDK now defines all possible error types, namely Export RestError, AbortError, TimeoutError, and ErrorResponse. [22789](https://github.com/Azure/azure-sdk-for-js/issues/22789)
+### Bugs Fixed
+
+- Removed excessive log warnings during bulk operations on a container with no partitionkey set.
+- Fix issue with GlobalEndpointManager never making endpoints available after they fall-back [#22726](https://github.com/Azure/azure-sdk-for-js/issues/22726)
+- Fix issue that caused parallel queries to break when returning a result of 0 or false. [#24493](https://github.com/Azure/azure-sdk-for-js/issues/24493)
+
+### Other Changes
+- Error handling guidelines are added in README.md
+## 3.17.2 (2022-11-15)
+
+### Bugs Fixed
+
+- Fix issue with patch api not working with aadCredentials [#20689](https://github.com/Azure/azure-sdk-for-js/issues/20689)
+- Improve the contract of Item.batch operation from type any to OperationResponse [#23652](https://github.com/Azure/azure-sdk-for-js/issues/20689)
+- Add section for the current limitations with the SDK [#21650](https://github.com/Azure/azure-sdk-for-js/issues/21650)
+- Fix issue aad refresh token automatically getting refreshed [#22620](https://github.com/Azure/azure-sdk-for-js/issues/22620)
+
+## 3.17.1 (2022-09-12)
+
+### Bugs Fixed
+
+- Fix issue with unwanted runtime dependency on `@azure/identity` [#22968](https://github.com/Azure/azure-sdk-for-js/issues/22968)
+
+## 3.17.0 (2022-08-19)
+
+### Features Added
+
+#### GA: Azure Cosmos DB Integrated Cache
+
+- Support DedicatedGatewayRequestOptions and MaxIntegratedCacheStaleness [#21240](https://github.com/Azure/azure-sdk-for-js/pull/21240)
+- Upgrade cosmos with azure core tracing [#22284](https://github.com/Azure/azure-sdk-for-js/pull/22284)
+- Removed old logging and implement Azure core logging coverage [#18723](https://github.com/Azure/azure-sdk-for-js/pull/18723?)
+
+### Bugs Fixed
+
+- ParallelQueryExecutionContextBase breaks use of abortSignal [#18544](https://github.com/Azure/azure-sdk-for-js/pull/18544)
+- Fixes id encoding issues when using special characters fo RoutingGateway
+
+## 3.16.3 (2022-07-13)
+
+### Bugs Fixed
+
+- Fixes issues with "id" encoding when using special characters that should be allowed in the "id" property of a document. [#22548](https://github.com/Azure/azure-sdk-for-js/pull/22548)
+
+## 3.16.2 (2022-06-24)
+
+### Bugs Fixed
+
+- Adds support to run queries with group by over a column with null values. [#22345](https://github.com/Azure/azure-sdk-for-js/pull/22345)
+
+## 3.16.1 (2022-05-31)
+
+### Bugs Fixed
+
+- Fix [#22003](https://github.com/Azure/azure-sdk-for-js/issues/22003) missing interface error. [#22015](https://github.com/Azure/azure-sdk-for-js/pull/22015)
+
+## 3.16.0 (2022-05-23)
+
+### Features Added
+
+- Allow users like cosmos-explorer to specify hierarchical partition keys. https://github.com/Azure/azure-sdk-for-js/pull/21934
+- Support Dedicated Gateway RequestOptions and Max Integrated Cache Staleness. https://github.com/Azure/azure-sdk-for-js/pull/21240
+
 ## 3.15.1 (2022-01-24)
 
 ### Bugs Fixed
@@ -86,8 +157,8 @@ const client = new CosmosClient({
   connectionPolicy: {
     ...defaultConnectionPolicy,
     endpointRefreshRateInMs: 700,
-    enableBackgroundEndpointRefreshing: true
-  }
+    enableBackgroundEndpointRefreshing: true,
+  },
 });
 ```
 
@@ -232,17 +303,17 @@ database.container.create(containerDefinition)
 const operations: OperationInput[] = [
   {
     operationType: "Create",
-    resourceBody: { id: "doc1", name: "sample", key: "A" }
+    resourceBody: { id: "doc1", name: "sample", key: "A" },
   },
   {
     operationType: "Upsert",
-    resourceBody: { id: "doc2", name: "other", key: "A" }
+    resourceBody: { id: "doc2", name: "other", key: "A" },
   },
   {
     operationType: "Read",
     id: "readItemId",
-    partitionKey: "key"
-  }
+    partitionKey: "key",
+  },
 ];
 
 await database.container.items.bulk(operations);
@@ -459,14 +530,14 @@ Constructor options have been simplified:
 const client = new CosmosClient({
   endpoint: "https://your-database.cosmos.azure.com",
   auth: {
-    masterKey: "your-primary-key"
-  }
+    masterKey: "your-primary-key",
+  },
 });
 
 // v3
 const client = new CosmosClient({
   endpoint: "https://your-database.cosmos.azure.com",
-  key: "your-primary-key"
+  key: "your-primary-key",
 });
 ```
 

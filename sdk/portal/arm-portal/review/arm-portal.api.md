@@ -9,9 +9,9 @@ import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
 // @public
-export type Configuration = ProxyResource & {
+export interface Configuration extends ProxyResource {
     enforcePrivateMarkdownStorage?: boolean;
-};
+}
 
 // @public
 export interface ConfigurationList {
@@ -154,8 +154,10 @@ export interface ErrorResponse {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export enum KnownConfigurationName {
-    // (undocumented)
     Default = "default"
 }
 
@@ -179,11 +181,11 @@ export interface ListTenantConfigurationViolationsListOptionalParams extends cor
 export type ListTenantConfigurationViolationsListResponse = ViolationsList;
 
 // @public
-export type MarkdownPartMetadata = DashboardPartMetadata & {
-    type: "Extension/HubsExtension/PartType/MarkdownPart";
+export interface MarkdownPartMetadata extends DashboardPartMetadata {
     inputs?: Record<string, unknown>[];
     settings?: MarkdownPartMetadataSettings;
-};
+    type: "Extension/HubsExtension/PartType/MarkdownPart";
+}
 
 // @public
 export interface MarkdownPartMetadataSettings {
@@ -261,7 +263,8 @@ export interface PortalOptionalParams extends coreClient.ServiceClientOptions {
 }
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface Resource {

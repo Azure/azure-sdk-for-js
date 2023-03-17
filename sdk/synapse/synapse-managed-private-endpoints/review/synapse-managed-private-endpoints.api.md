@@ -50,19 +50,14 @@ export interface ManagedPrivateEndpoints {
 }
 
 // @public (undocumented)
-export class ManagedPrivateEndpointsClient extends ManagedPrivateEndpointsClientContext {
-    constructor(credentials: coreAuth.TokenCredential, endpoint: string, options?: ManagedPrivateEndpointsClientOptionalParams);
-    // (undocumented)
-    managedPrivateEndpoints: ManagedPrivateEndpoints;
-}
-
-// @public (undocumented)
-export class ManagedPrivateEndpointsClientContext extends coreClient.ServiceClient {
+export class ManagedPrivateEndpointsClient extends coreClient.ServiceClient {
     constructor(credentials: coreAuth.TokenCredential, endpoint: string, options?: ManagedPrivateEndpointsClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
     endpoint: string;
+    // (undocumented)
+    managedPrivateEndpoints: ManagedPrivateEndpoints;
 }
 
 // @public
@@ -102,7 +97,6 @@ export interface ManagedPrivateEndpointsListOptionalParams extends coreClient.Op
 
 // @public
 export type ManagedPrivateEndpointsListResponse = ManagedPrivateEndpointListResponse;
-
 
 // (No @packageDocumentation comment for this package)
 

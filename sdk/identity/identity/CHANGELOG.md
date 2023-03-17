@@ -1,6 +1,6 @@
 # Release History
 
-## 2.1.0-beta.3 (Unknown)
+## 3.2.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -8,14 +8,120 @@
 
 ### Bugs Fixed
 
+- Fixed a bug in `WorkloadIdentity Credential`, to incorporate the case where the options can be `undefined` in a conditional check. Related issue [#25089](https://github.com/Azure/azure-sdk-for-js/issues/25089) with the fix [#25119](https://github.com/Azure/azure-sdk-for-js/pull/25119).
+- Exported `WorkloadIdentityDefaultCredentialOptions` which was previously not publicly exported in `index.ts`.
+
+### Other Changes
+
+## 3.2.0-beta.1 (2023-02-28)
+
+### Features Added
+
+- Added support to disable instance discovery on AAD credentials.
+- Added `AzureDeveloperCliCredential` [#24180](https://github.com/Azure/azure-sdk-for-js/pull/24180) and added it to the `DefaultAzureCredential` [#24826](https://github.com/Azure/azure-sdk-for-js/pull/24826) auth flow
+- Added support for `WokloadIdentityCredential`[#24830](https://github.com/Azure/azure-sdk-for-js/pull/24830), added it to `DefaultAzureCredential` auth flow and replaced the in-house implementation of `Token Exchange MSI` in `ManagedIdentity` with `WorkloadIdentityCredential`.
+
+## 3.1.3 (2023-01-12)
+
+### Other Changes
+
+- Upgraded versions of @azure/msal-node, @azure/msal-common and @azure/msal-browser to remove any dependency versions that were depending on old version of jsonwebtoken which had a [security issue](https://nvd.nist.gov/vuln/detail/CVE-2022-23529)
+
+## 3.1.2 (2022-12-05)
+
+### Bugs Fixed
+
+- Fixed bug in `ManagedIdentity Credential` where "expiresInSeconds" was taking the absolute timestamp instead of relative expiration time period in seconds.
+### Other Changes
+
+- Enable msal logging based on log level specified by user for Azure SDK.
+- Upgraded version dependencies on msal libraries, since they have additional logging added.
+
+## 3.1.1 (2022-11-18)
+
+### Bugs Fixed
+
+- Fixed bug to update "expiresOnTimestamp" field in Managed Identity to be in seconds and not milliseconds.
+
+## 3.1.0 (2022-11-08)
+
+### Other Changes
+
+- Docs improvements for cross-language alignment
+
+## 3.0.1 (2022-11-07)
+
+### Bugs Fixed
+
+- Fixed bug to enable `additionallyAllowedTenants` to pass through to MSAL Flow.
+
+## 3.1.0-beta.1 (2022-10-13)
+
+### Features Added
+
+- Added Token Caching support to Managed Identity Credential
+
+## 3.0.0 (2022-09-19)
+
+### Features Added
+
+- Added `additionallyAllowedTenants` to the following credential options to force explicit opt-in behavior for multi-tenant authentication via the options property bag to the following:
+  - `AuthorizationCodeCredentialOptions`
+  - `AzureApplicationCredentialOptions`
+  - `AzureCliCredentialOptions`
+  - `AzurePowerShellCredentialOptions`
+  - `ClientAssertionCredentialOptions`
+  - `ClientCertificateCredentialOptions`
+  - `ClientSecretCredentialOptions`
+  - `DefaultAzureCredentialOptions`
+  - `DeviceCodeCredentialOptions`
+  - `EnvironmentCredentialOptions`
+  - `InteractiveCredentialOptions`
+  - `OnBehalfOfCredentialOptions`
+  - `UsernamePasswordCredentialOptions`
+  - `VisualStudioCodeCredentialOptions`
+
+### Breaking Changes
+
+- Credential types supporting multi-tenant authentication will now throw an error if the requested tenant ID doesn't match the credential's tenant ID, and is not included in the `additionallyAllowedTenants` option. Applications must now explicitly add additional tenants to the `additionallyAllowedTenants` list, or add `"*"` to list, to enable acquiring tokens from tenants other than the originally specified tenant ID.  See [BREAKING_CHANGES.md](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/BREAKING_CHANGES.md).
+
+### Bugs Fixed
+
+- Changed the way token expiration for managed identity tokens is calculated to handle different server formats. See [PR #23232](https://github.com/Azure/azure-sdk-for-js/pull/23232)
+## 3.0.0-beta.1 (2022-08-24)
+
+### Features Added
+
+- Added support in `EnvironmentCredential` to read a certificate password from an environment variable `AZURE_CLIENT_CERTIFICATE_PASSWORD`
+- Added samples for supporting AAD authentication in Azure Redis Cache
+
+### Breaking Changes
+
+- Removed `VisualStudioCodeCredential` from `DefaultAzureCredential` token chain. [Issue 20500](https://github.com/Azure/azure-sdk-for-js/issues/20500) tracks this.
+
+## 2.1.0 (2022-07-08)
+
+### Features Added
+
+- Added support for new credential `ClientAssertionCredential`, which accepts a callback function for the signed JWT assertion for a client certificate. See [MSAL Client Assertion for more information](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-node/docs/initialize-confidential-client-application.md).
+
+### Bugs Fixed
+
 - Fixed a bug that would break the AzureCliCredential if the Azure CLI reported a warning. See: [21075](https://github.com/Azure/azure-sdk-for-js/issues/21075).
 - Fixed a bug in `AuthorizationCodeCredential` where the tenant id was not being used. The `common` tenant was the only tenant being used by this credential.
 - Fixed a bug in `AuthorizationCodeCredential` where the public client was not being used. Due to this bug, without passing in the client secret, this credential would fail.
+- Fixed a bug in `DefaultAzureCredential` and `AzureCLICredential` where the errors thrown by the latter credential were not of type `CredentialUnavailableError`. This caused only the error of `AzureCLICredential` being thrown and the other chained errors of `DefaultAzureCredential` were not thrown. See: [22066](https://github.com/Azure/azure-sdk-for-js/issues/22066)
 
 ### Other Changes
 
 - Upgraded to `@azure/core-tracing` version `^1.0.0`.
 - Improved the errors displayed on the `AzureCliCredential`.
+
+## 2.0.5 (2022-06-22)
+
+### Bugs Fixed
+
+- Fixed a bug in `InteractiveBrowserCredential` for Mac OS where the [app was not getting closed](https://github.com/Azure/azure-sdk-for-js/issues/21726) after the authorization succeeded.
 
 ## 2.1.0-beta.2 (2022-03-22)
 
@@ -88,7 +194,7 @@
 
 After multiple beta releases over the past year, we're proud to announce the general availability of version 2 of the `@azure/identity` package. This version includes the best parts of v1, plus several improvements.
 
-This changelog entry showcases the changes that have been made from version 1 of this package. See the [v1-to-v2 migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/migration-v1-v2.md) for details on how to upgrade your application to use the version 2 of `@azure/identity`. For information on troubleshooting the Identity package, see the [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/TROUBLESHOOTING.md).
+This changelog entry showcases the changes that have been made from version 1 of this package. See the [v1-to-v2 migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/migration-v1-v2.md) for details on how to upgrade your application to use the version 2 of `@azure/identity`. For information on troubleshooting the Identity package, see the [troubleshooting guide](https://aka.ms/azsdk/js/identity/troubleshoot).
 
 ### Features Added
 
@@ -169,7 +275,7 @@ Azure Service Fabric support hasn't been added on the initial version 2 of Ident
 - `InteractiveBrowserCredential` has a new `loginHint` constructor option, which allows a username to be pre-selected for interactive logins.
 - In `AzureCliCredential`, we allow specifying a `tenantId` in the parameters through the `AzureCliCredentialOptions`.
 - A new error, named `AuthenticationRequiredError`, has been added. This error shows up when a credential fails to authenticate silently.
-- Errors and logged exceptions may point to the new [troubleshooting guidelines](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/TROUBLESHOOTING.md).
+- Errors and logged exceptions may point to the new [troubleshooting guidelines](https://aka.ms/azsdk/js/identity/troubleshoot).
 - On all of the credentials we're providing, the initial authentication attempt in the lifetime of your app will include an additional request to first discover relevant endpoint metadata information from Azure.
 
 ### Breaking changes

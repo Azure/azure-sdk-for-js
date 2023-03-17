@@ -6,24 +6,29 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Routes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Route,
   RoutesListNextOptionalParams,
   RoutesListOptionalParams,
+  RoutesListResponse,
   RoutesDeleteOptionalParams,
   RoutesGetOptionalParams,
   RoutesGetResponse,
   RoutesCreateOrUpdateOptionalParams,
   RoutesCreateOrUpdateResponse,
-  RoutesListResponse,
   RoutesListNextResponse
 } from "../models";
 
@@ -59,8 +64,16 @@ export class RoutesImpl implements Routes {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, routeTableName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          routeTableName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -68,11 +81,18 @@ export class RoutesImpl implements Routes {
   private async *listPagingPage(
     resourceGroupName: string,
     routeTableName: string,
-    options?: RoutesListOptionalParams
+    options?: RoutesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Route[]> {
-    let result = await this._list(resourceGroupName, routeTableName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RoutesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, routeTableName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -81,7 +101,9 @@ export class RoutesImpl implements Routes {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -111,14 +133,14 @@ export class RoutesImpl implements Routes {
     routeTableName: string,
     routeName: string,
     options?: RoutesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -151,15 +173,15 @@ export class RoutesImpl implements Routes {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, routeTableName, routeName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, routeTableName, routeName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -221,8 +243,8 @@ export class RoutesImpl implements Routes {
     routeParameters: Route,
     options?: RoutesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<RoutesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<RoutesCreateOrUpdateResponse>,
       RoutesCreateOrUpdateResponse
     >
   > {
@@ -232,7 +254,7 @@ export class RoutesImpl implements Routes {
     ): Promise<RoutesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -265,21 +287,24 @@ export class RoutesImpl implements Routes {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         routeTableName,
         routeName,
         routeParameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      RoutesCreateOrUpdateResponse,
+      OperationState<RoutesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -463,7 +488,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

@@ -6,13 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { RestorableTableResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
 import {
+  RestorableTableResourcesGetResult,
   RestorableTableResourcesListOptionalParams,
   RestorableTableResourcesListResponse
 } from "../models";
@@ -42,7 +43,7 @@ export class RestorableTableResourcesImpl implements RestorableTableResources {
     location: string,
     instanceId: string,
     options?: RestorableTableResourcesListOptionalParams
-  ): PagedAsyncIterableIterator<string> {
+  ): PagedAsyncIterableIterator<RestorableTableResourcesGetResult> {
     const iter = this.listPagingAll(location, instanceId, options);
     return {
       next() {
@@ -51,8 +52,11 @@ export class RestorableTableResourcesImpl implements RestorableTableResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(location, instanceId, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(location, instanceId, options, settings);
       }
     };
   }
@@ -60,9 +64,11 @@ export class RestorableTableResourcesImpl implements RestorableTableResources {
   private async *listPagingPage(
     location: string,
     instanceId: string,
-    options?: RestorableTableResourcesListOptionalParams
-  ): AsyncIterableIterator<string[]> {
-    let result = await this._list(location, instanceId, options);
+    options?: RestorableTableResourcesListOptionalParams,
+    _settings?: PageSettings
+  ): AsyncIterableIterator<RestorableTableResourcesGetResult[]> {
+    let result: RestorableTableResourcesListResponse;
+    result = await this._list(location, instanceId, options);
     yield result.value || [];
   }
 
@@ -70,7 +76,7 @@ export class RestorableTableResourcesImpl implements RestorableTableResources {
     location: string,
     instanceId: string,
     options?: RestorableTableResourcesListOptionalParams
-  ): AsyncIterableIterator<string> {
+  ): AsyncIterableIterator<RestorableTableResourcesGetResult> {
     for await (const page of this.listPagingPage(
       location,
       instanceId,

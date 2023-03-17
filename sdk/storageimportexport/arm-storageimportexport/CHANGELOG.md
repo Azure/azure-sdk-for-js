@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.2 (Unreleased)
+## 2.1.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,21 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 2.1.0 (2023-02-02)
+    
+**Features**
+
+  - Interface JobsListByResourceGroupNextOptionalParams no longer has parameter filter
+  - Interface JobsListByResourceGroupNextOptionalParams no longer has parameter top
+  - Interface JobsListBySubscriptionNextOptionalParams no longer has parameter filter
+  - Interface JobsListBySubscriptionNextOptionalParams no longer has parameter top
+    
+## 2.0.2 (2022-07-05)
+
+**Features**
+
+  - Bug fix
 
 ## 2.0.1 (2022-05-01)
 

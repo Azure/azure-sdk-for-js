@@ -6,20 +6,27 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { LoadBalancers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   LoadBalancer,
   LoadBalancersListAllNextOptionalParams,
   LoadBalancersListAllOptionalParams,
+  LoadBalancersListAllResponse,
   LoadBalancersListNextOptionalParams,
   LoadBalancersListOptionalParams,
+  LoadBalancersListResponse,
   LoadBalancersDeleteOptionalParams,
   LoadBalancersGetOptionalParams,
   LoadBalancersGetResponse,
@@ -28,8 +35,6 @@ import {
   TagsObject,
   LoadBalancersUpdateTagsOptionalParams,
   LoadBalancersUpdateTagsResponse,
-  LoadBalancersListAllResponse,
-  LoadBalancersListResponse,
   LoadBalancerVipSwapRequest,
   LoadBalancersSwapPublicIpAddressesOptionalParams,
   QueryInboundNatRulePortMappingRequest,
@@ -67,22 +72,34 @@ export class LoadBalancersImpl implements LoadBalancers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listAllPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listAllPagingPage(options, settings);
       }
     };
   }
 
   private async *listAllPagingPage(
-    options?: LoadBalancersListAllOptionalParams
+    options?: LoadBalancersListAllOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<LoadBalancer[]> {
-    let result = await this._listAll(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: LoadBalancersListAllResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAll(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAllNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -111,19 +128,29 @@ export class LoadBalancersImpl implements LoadBalancers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceGroupName, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    options?: LoadBalancersListOptionalParams
+    options?: LoadBalancersListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<LoadBalancer[]> {
-    let result = await this._list(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: LoadBalancersListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -131,7 +158,9 @@ export class LoadBalancersImpl implements LoadBalancers {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -154,14 +183,14 @@ export class LoadBalancersImpl implements LoadBalancers {
     resourceGroupName: string,
     loadBalancerName: string,
     options?: LoadBalancersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -194,15 +223,15 @@ export class LoadBalancersImpl implements LoadBalancers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, loadBalancerName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, loadBalancerName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -257,8 +286,8 @@ export class LoadBalancersImpl implements LoadBalancers {
     parameters: LoadBalancer,
     options?: LoadBalancersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LoadBalancersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<LoadBalancersCreateOrUpdateResponse>,
       LoadBalancersCreateOrUpdateResponse
     >
   > {
@@ -268,7 +297,7 @@ export class LoadBalancersImpl implements LoadBalancers {
     ): Promise<LoadBalancersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -301,15 +330,18 @@ export class LoadBalancersImpl implements LoadBalancers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, loadBalancerName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, loadBalancerName, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LoadBalancersCreateOrUpdateResponse,
+      OperationState<LoadBalancersCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -391,14 +423,14 @@ export class LoadBalancersImpl implements LoadBalancers {
     location: string,
     parameters: LoadBalancerVipSwapRequest,
     options?: LoadBalancersSwapPublicIpAddressesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -431,15 +463,15 @@ export class LoadBalancersImpl implements LoadBalancers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { location, parameters, options },
-      swapPublicIpAddressesOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { location, parameters, options },
+      spec: swapPublicIpAddressesOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -479,8 +511,8 @@ export class LoadBalancersImpl implements LoadBalancers {
     parameters: QueryInboundNatRulePortMappingRequest,
     options?: LoadBalancersListInboundNatRulePortMappingsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LoadBalancersListInboundNatRulePortMappingsResponse>,
+    SimplePollerLike<
+      OperationState<LoadBalancersListInboundNatRulePortMappingsResponse>,
       LoadBalancersListInboundNatRulePortMappingsResponse
     >
   > {
@@ -490,7 +522,7 @@ export class LoadBalancersImpl implements LoadBalancers {
     ): Promise<LoadBalancersListInboundNatRulePortMappingsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -523,15 +555,24 @@ export class LoadBalancersImpl implements LoadBalancers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { groupName, loadBalancerName, backendPoolName, parameters, options },
-      listInboundNatRulePortMappingsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        groupName,
+        loadBalancerName,
+        backendPoolName,
+        parameters,
+        options
+      },
+      spec: listInboundNatRulePortMappingsOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LoadBalancersListInboundNatRulePortMappingsResponse,
+      OperationState<LoadBalancersListInboundNatRulePortMappingsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -663,7 +704,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters22,
+  requestBody: Parameters.parameters25,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -750,7 +791,7 @@ const swapPublicIpAddressesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters23,
+  requestBody: Parameters.parameters26,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -782,13 +823,13 @@ const listInboundNatRulePortMappingsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters24,
+  requestBody: Parameters.parameters27,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.loadBalancerName,
     Parameters.groupName,
+    Parameters.loadBalancerName,
     Parameters.backendPoolName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -806,7 +847,6 @@ const listAllNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -826,7 +866,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

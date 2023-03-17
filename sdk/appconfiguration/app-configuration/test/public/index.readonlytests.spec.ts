@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   assertThrowsAbortError,
   assertThrowsRestError,
@@ -9,9 +10,8 @@ import {
   startRecorder,
 } from "./utils/testHelpers";
 import { AppConfigurationClient } from "../../src";
-import { assert } from "chai";
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
+import { assert } from "chai";
 
 describe("AppConfigurationClient (set|clear)ReadOnly", () => {
   let client: AppConfigurationClient;
@@ -23,9 +23,12 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
   };
 
   beforeEach(async function (this: Context) {
-    recorder = startRecorder(this);
-    testConfigSetting.key = recorder.getUniqueName("readOnlyTests");
-    client = createAppConfigurationClientForTests() || this.skip();
+    recorder = await startRecorder(this);
+    testConfigSetting.key = recorder.variable(
+      "readOnlyTests",
+      `readOnlyTests${Math.floor(Math.random() * 1000)}`
+    );
+    client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
     // before it's set to read only we can set it all we want
     await client.setConfigurationSetting(testConfigSetting);
   });

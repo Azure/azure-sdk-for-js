@@ -19,9 +19,7 @@ import {
   MobileNetworksCreateOrUpdateResponse,
   TagsObject,
   MobileNetworksUpdateTagsOptionalParams,
-  MobileNetworksUpdateTagsResponse,
-  MobileNetworksListSimIdsOptionalParams,
-  MobileNetworksListSimIdsResponse
+  MobileNetworksUpdateTagsResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -108,7 +106,7 @@ export interface MobileNetworks {
     options?: MobileNetworksCreateOrUpdateOptionalParams
   ): Promise<MobileNetworksCreateOrUpdateResponse>;
   /**
-   * Updates a mobile network update tags.
+   * Updates mobile network tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param parameters Parameters supplied to update mobile network tags.
@@ -120,31 +118,4 @@ export interface MobileNetworks {
     parameters: TagsObject,
     options?: MobileNetworksUpdateTagsOptionalParams
   ): Promise<MobileNetworksUpdateTagsResponse>;
-  /**
-   * List sim ids under a mobile network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param mobileNetworkName The name of the mobile network.
-   * @param options The options parameters.
-   */
-  beginListSimIds(
-    resourceGroupName: string,
-    mobileNetworkName: string,
-    options?: MobileNetworksListSimIdsOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<MobileNetworksListSimIdsResponse>,
-      MobileNetworksListSimIdsResponse
-    >
-  >;
-  /**
-   * List sim ids under a mobile network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param mobileNetworkName The name of the mobile network.
-   * @param options The options parameters.
-   */
-  beginListSimIdsAndWait(
-    resourceGroupName: string,
-    mobileNetworkName: string,
-    options?: MobileNetworksListSimIdsOptionalParams
-  ): Promise<MobileNetworksListSimIdsResponse>;
 }

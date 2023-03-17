@@ -13,6 +13,9 @@ import {
   PolicyInsightsClient
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Queries policy tracked resources under the management group.
@@ -21,7 +24,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/preview/2018-07-01-preview/examples/PolicyTrackedResources_QueryManagementGroupScope.json
  */
 async function queryAtManagementGroupScope() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const managementGroupName = "myManagementGroup";
   const policyTrackedResourcesResource = "default";
   const credential = new DefaultAzureCredential();
@@ -36,8 +41,6 @@ async function queryAtManagementGroupScope() {
   console.log(resArray);
 }
 
-queryAtManagementGroupScope().catch(console.error);
-
 /**
  * This sample demonstrates how to Queries policy tracked resources under the management group.
  *
@@ -45,15 +48,16 @@ queryAtManagementGroupScope().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/preview/2018-07-01-preview/examples/PolicyTrackedResources_QueryManagementGroupScopeWithFilterAndTop.json
  */
 async function queryAtManagementGroupScopeUsingQueryParameters() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const managementGroupName = "myManagementGroup";
   const policyTrackedResourcesResource = "default";
   const top = 1;
   const filter =
     "PolicyAssignmentId eq '/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Authorization/policyAssignments/myPolicyAssignment' AND TrackedResourceId eq '/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Example/exampleResourceType/exampleTrackedResourceName'";
   const options: PolicyTrackedResourcesListQueryResultsForManagementGroupOptionalParams = {
-    top,
-    filter
+    queryOptions: { top: top, filter: filter }
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
@@ -68,4 +72,9 @@ async function queryAtManagementGroupScopeUsingQueryParameters() {
   console.log(resArray);
 }
 
-queryAtManagementGroupScopeUsingQueryParameters().catch(console.error);
+async function main() {
+  queryAtManagementGroupScope();
+  queryAtManagementGroupScopeUsingQueryParameters();
+}
+
+main().catch(console.error);

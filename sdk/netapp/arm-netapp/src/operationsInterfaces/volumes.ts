@@ -11,6 +11,8 @@ import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   Volume,
   VolumesListOptionalParams,
+  Replication,
+  VolumesListReplicationsOptionalParams,
   VolumesGetOptionalParams,
   VolumesGetResponse,
   VolumesCreateOrUpdateOptionalParams,
@@ -21,7 +23,10 @@ import {
   VolumesDeleteOptionalParams,
   VolumeRevert,
   VolumesRevertOptionalParams,
+  VolumesResetCifsPasswordOptionalParams,
   VolumesBreakReplicationOptionalParams,
+  ReestablishReplicationRequest,
+  VolumesReestablishReplicationOptionalParams,
   VolumesReplicationStatusOptionalParams,
   VolumesReplicationStatusResponse,
   VolumesResyncReplicationOptionalParams,
@@ -30,7 +35,10 @@ import {
   VolumesAuthorizeReplicationOptionalParams,
   VolumesReInitializeReplicationOptionalParams,
   PoolChangeRequest,
-  VolumesPoolChangeOptionalParams
+  VolumesPoolChangeOptionalParams,
+  VolumesRelocateOptionalParams,
+  VolumesFinalizeRelocationOptionalParams,
+  VolumesRevertRelocationOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -49,6 +57,21 @@ export interface Volumes {
     poolName: string,
     options?: VolumesListOptionalParams
   ): PagedAsyncIterableIterator<Volume>;
+  /**
+   * List all replications for a specified volume
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  listReplications(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesListReplicationsOptionalParams
+  ): PagedAsyncIterableIterator<Replication>;
   /**
    * Get the details of the specified volume
    * @param resourceGroupName The name of the resource group.
@@ -204,6 +227,36 @@ export interface Volumes {
     options?: VolumesRevertOptionalParams
   ): Promise<void>;
   /**
+   * Reset cifs password from volume
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  beginResetCifsPassword(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesResetCifsPasswordOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Reset cifs password from volume
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  beginResetCifsPasswordAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesResetCifsPasswordOptionalParams
+  ): Promise<void>;
+  /**
    * Break the replication connection on the destination volume
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
@@ -232,6 +285,42 @@ export interface Volumes {
     poolName: string,
     volumeName: string,
     options?: VolumesBreakReplicationOptionalParams
+  ): Promise<void>;
+  /**
+   * Re-establish a previously deleted replication between 2 volumes that have a common ad-hoc or
+   * policy-based snapshots
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param body body for the id of the source volume.
+   * @param options The options parameters.
+   */
+  beginReestablishReplication(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    body: ReestablishReplicationRequest,
+    options?: VolumesReestablishReplicationOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Re-establish a previously deleted replication between 2 volumes that have a common ad-hoc or
+   * policy-based snapshots
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param body body for the id of the source volume.
+   * @param options The options parameters.
+   */
+  beginReestablishReplicationAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    body: ReestablishReplicationRequest,
+    options?: VolumesReestablishReplicationOptionalParams
   ): Promise<void>;
   /**
    * Get the status of the replication
@@ -409,5 +498,97 @@ export interface Volumes {
     volumeName: string,
     body: PoolChangeRequest,
     options?: VolumesPoolChangeOptionalParams
+  ): Promise<void>;
+  /**
+   * Relocates volume to a new stamp
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  beginRelocate(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesRelocateOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Relocates volume to a new stamp
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  beginRelocateAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesRelocateOptionalParams
+  ): Promise<void>;
+  /**
+   * Finalizes the relocation of the volume and cleans up the old volume.
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  beginFinalizeRelocation(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesFinalizeRelocationOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Finalizes the relocation of the volume and cleans up the old volume.
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  beginFinalizeRelocationAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesFinalizeRelocationOptionalParams
+  ): Promise<void>;
+  /**
+   * Reverts the volume relocation process, cleans up the new volume and starts using the former-existing
+   * volume.
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  beginRevertRelocation(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesRevertRelocationOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Reverts the volume relocation process, cleans up the new volume and starts using the former-existing
+   * volume.
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  beginRevertRelocationAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesRevertRelocationOptionalParams
   ): Promise<void>;
 }

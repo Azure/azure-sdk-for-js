@@ -1,0 +1,98 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerInstance/containerGroups?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-containerinstance/9.1.0-beta.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "b76f605f-2177-44fc-aff4-ad3ec75a0339"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 13 Jan 2023 06:23:20 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": [
+          "Accept-Encoding",
+          "Accept-Encoding"
+        ],
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "cfc9f204-5913-4c76-99db-a5cd24ca957c",
+        "x-ms-ratelimit-remaining-subscription-reads": "11981",
+        "x-ms-request-id": "eastus2:346b366b-0d91-4834-947e-1565a68a553a",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230113T062321Z:cfc9f204-5913-4c76-99db-a5cd24ca957c"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "properties": {
+              "sku": "Standard",
+              "provisioningState": "Succeeded",
+              "containers": [
+                {
+                  "name": "my-containerinstancexx",
+                  "properties": {
+                    "image": "nginx",
+                    "command": [],
+                    "ports": [
+                      {
+                        "port": 80
+                      }
+                    ],
+                    "environmentVariables": [],
+                    "resources": {
+                      "requests": {
+                        "memoryInGB": 1.5,
+                        "cpu": 1.0
+                      }
+                    },
+                    "volumeMounts": [
+                      {
+                        "name": "empty-volume",
+                        "mountPath": "mnt/mydir"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "initContainers": [],
+              "restartPolicy": "OnFailure",
+              "osType": "Linux",
+              "volumes": [
+                {
+                  "name": "empty-volume",
+                  "emptyDir": {}
+                }
+              ],
+              "diagnostics": {
+                "logAnalytics": {
+                  "workspaceId": "workspaceid"
+                }
+              }
+            },
+            "identity": {
+              "principalId": "23a7b989-8ec7-46f1-b163-06192fd0797a",
+              "tenantId": "88888888-8888-8888-8888-888888888888",
+              "type": "SystemAssigned"
+            },
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerInstance/containerGroups/mycontainerGroupxxx",
+            "name": "mycontainerGroupxxx",
+            "type": "Microsoft.ContainerInstance/containerGroups",
+            "location": "eastus2"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

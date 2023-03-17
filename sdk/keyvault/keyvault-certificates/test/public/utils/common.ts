@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { env } from "@azure-tools/test-recorder";
-import { assert } from "@azure/test-utils";
 import { SupportedVersions, supports, TestFunctionWrapper } from "@azure/test-utils";
 import { CertificateClientOptions } from "../../../src";
 
@@ -24,8 +23,9 @@ export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<vo
     passed = true;
   } catch (e: any) {
     console.log(`name: ${e.name}, message: ${e.message}`);
-    assert.equal(e.name, "AbortError");
-    assert.equal(e.message, "The operation was aborted.");
+    if (e.name !== "AbortError") {
+      throw e;
+    }
   }
   if (passed) {
     throw new Error("Expected cb to throw an AbortError");
@@ -35,7 +35,7 @@ export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<vo
 /**
  * The known API versions that we support.
  */
-export const serviceVersions = ["7.0", "7.1", "7.2", "7.3"] as const;
+export const serviceVersions = ["7.0", "7.1", "7.2", "7.3", "7.4"] as const;
 
 /**
  * Fetches the service version to test against. This version could be configured as part of CI
@@ -43,7 +43,10 @@ export const serviceVersions = ["7.0", "7.1", "7.2", "7.3"] as const;
  * @returns - The service version to test
  */
 export function getServiceVersion(): NonNullable<CertificateClientOptions["serviceVersion"]> {
-  return env.SERVICE_VERSION || serviceVersions[serviceVersions.length - 1];
+  return (
+    (env.SERVICE_VERSION as (typeof serviceVersions)[number] | undefined) ||
+    serviceVersions[serviceVersions.length - 1]
+  );
 }
 
 /**

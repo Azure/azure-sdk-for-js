@@ -7,6 +7,7 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { PhoneNumbersClient, SearchAvailablePhoneNumbersRequest } from "../../src";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
+import { isClientErrorStatusCode } from "./utils/statusCodeHelpers";
 
 matrix([[true, false]], async function (useAad) {
   describe(`PhoneNumbersClient - lro - search${useAad ? " [AAD]" : ""}`, function () {
@@ -29,10 +30,10 @@ matrix([[true, false]], async function (useAad) {
       }
     });
 
-    beforeEach(function (this: Context) {
+    beforeEach(async function (this: Context) {
       ({ client, recorder } = useAad
-        ? createRecordedClientWithToken(this)!
-        : createRecordedClient(this));
+        ? await createRecordedClientWithToken(this)!
+        : await createRecordedClient(this));
     });
 
     afterEach(async function (this: Context) {
@@ -65,8 +66,10 @@ matrix([[true, false]], async function (useAad) {
         const searchPoller = await client.beginSearchAvailablePhoneNumbers(invalidSearchRequest);
         await searchPoller.pollUntilDone();
       } catch (error: any) {
-        // TODO: Re-enable when service is fixed to return proper error code
-        assert.equal(error.statusCode, 400);
+        assert.isTrue(
+          isClientErrorStatusCode(error.statusCode),
+          `Status code ${error.statusCode} does not indicate client error.`
+        );
         return;
       }
 

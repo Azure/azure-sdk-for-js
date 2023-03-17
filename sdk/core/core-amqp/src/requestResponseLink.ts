@@ -12,13 +12,14 @@ import {
   ReqResLink,
   Message as RheaMessage,
   Sender,
+  SenderEvents,
   SenderOptions,
   Session,
   generate_uuid,
 } from "rhea-promise";
 import { Constants, StandardAbortMessage } from "./util/constants";
 import { logErrorStackTrace, logger } from "./log";
-import { isDefined } from "./util/typeGuards";
+import { isDefined } from "@azure/core-util";
 
 /**
  * Describes the options that can be specified while sending a request.
@@ -66,6 +67,9 @@ export class RequestResponseLink implements ReqResLink {
     this.receiver = receiver;
     this.receiver.on(ReceiverEvents.message, (context) => {
       onMessageReceived(context, this.connection.id, this._responsesMap);
+    });
+    this.sender.on(SenderEvents.senderError, (context) => {
+      onSenderError(context, this.connection.id, this._responsesMap);
     });
   }
 
@@ -155,7 +159,7 @@ export class RequestResponseLink implements ReqResLink {
         if (aborter) {
           aborter.removeEventListener("abort", onAbort);
         }
-        const address = this.receiver.address || "address";
+        const address = this.receiver?.address || "address";
         const desc: string =
           `The request with message_id "${request.message_id}" to "${address}" ` +
           `endpoint timed out. Please try again later.`;
@@ -332,4 +336,21 @@ export function onMessageReceived(
   }
   logErrorStackTrace(error);
   return promise.reject(error);
+}
+
+function onSenderError(
+  context: Pick<EventContext, "sender">,
+  connectionId: string,
+  responsesMap: Map<string, DeferredPromiseWithCallback>
+): void {
+  if (context.sender) {
+    for (const [key, promise] of responsesMap.entries()) {
+      logger.verbose(
+        `[${connectionId}] Sender closed due to error when sending request with message_id "${key}"`
+      );
+      promise.cleanupBeforeResolveOrReject();
+      promise.reject(context.sender.error);
+    }
+    responsesMap.clear();
+  }
 }

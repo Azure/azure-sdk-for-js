@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions, TokenCredential, isNode } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
+import { isNode } from "@azure/core-util";
+import { TokenCredential } from "@azure/core-auth";
 import { Context } from "mocha";
 import { assert } from "@azure/test-utils";
 import sinon from "sinon";

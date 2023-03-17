@@ -1,0 +1,45 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.CognitiveServices/accounts/myaccountxxxx/regenerateKey?api-version=2022-12-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "18",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-cognitiveservices/7.4.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "bf4b0231-24f0-43fc-a4c5-293edfce524b"
+      },
+      "RequestBody": {
+        "keyName": "Key2"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 06 Feb 2023 09:35:35 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "156",
+        "x-ms-correlation-request-id": "08470348-3be1-48a5-8829-5c0e67f9b8c2",
+        "x-ms-ratelimit-remaining-subscription-writes": "1199",
+        "x-ms-request-id": "90b1ad57-6977-482b-878a-2cc516249648",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230206T093535Z:08470348-3be1-48a5-8829-5c0e67f9b8c2"
+      },
+      "ResponseBody": {
+        "key1": "3add7a52c6ab44a09a51f08b69e0b4c4",
+        "key2": "065b857640a24b26a720c01c2035c6a9"
+      }
+    }
+  ],
+  "Variables": {}
+}

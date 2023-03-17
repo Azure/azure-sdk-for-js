@@ -1,84 +1,52 @@
 # Release History
-    
-## 1.0.0-beta.2 (2022-03-23)
+
+## 2.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 2.0.0 (2023-01-06)
     
 **Features**
 
-  - Added Interface SystemData
-  - Added Type Alias SimState
-  - Interface InterfaceProperties has a new optional parameter ipv4Address
-  - Interface InterfaceProperties has a new optional parameter ipv4Gateway
-  - Interface InterfaceProperties has a new optional parameter ipv4Subnet
-  - Interface Resource has a new optional parameter systemData
-  - Type Alias Sim has a new parameter simState
-  - Added Enum KnownSimState
+  - Added operation PacketCoreControlPlanes.beginCollectDiagnosticsPackage
+  - Added operation PacketCoreControlPlanes.beginCollectDiagnosticsPackageAndWait
+  - Added operation PacketCoreControlPlanes.beginReinstall
+  - Added operation PacketCoreControlPlanes.beginReinstallAndWait
+  - Added operation PacketCoreControlPlanes.beginRollback
+  - Added operation PacketCoreControlPlanes.beginRollbackAndWait
+  - Added operation Sims.beginBulkDelete
+  - Added operation Sims.beginBulkDeleteAndWait
+  - Added operation Sims.beginBulkUpload
+  - Added operation Sims.beginBulkUploadAndWait
+  - Added operation Sims.beginBulkUploadEncrypted
+  - Added operation Sims.beginBulkUploadEncryptedAndWait
+  - Added Interface PacketCoreControlPlanesCollectDiagnosticsPackageOptionalParams
+  - Added Interface PacketCoreControlPlanesReinstallOptionalParams
+  - Added Interface PacketCoreControlPlanesRollbackOptionalParams
+  - Added Interface SimsBulkDeleteOptionalParams
+  - Added Interface SimsBulkUploadEncryptedOptionalParams
+  - Added Interface SimsBulkUploadOptionalParams
+  - Added Type Alias PacketCoreControlPlanesCollectDiagnosticsPackageResponse
+  - Added Type Alias PacketCoreControlPlanesReinstallResponse
+  - Added Type Alias PacketCoreControlPlanesRollbackResponse
+  - Added Type Alias SimsBulkDeleteResponse
+  - Added Type Alias SimsBulkUploadEncryptedResponse
+  - Added Type Alias SimsBulkUploadResponse
 
 **Breaking Changes**
 
-  - Type Alias AttachedDataNetwork no longer has parameter createdBy
-  - Type Alias AttachedDataNetwork no longer has parameter createdByType
-  - Type Alias AttachedDataNetwork no longer has parameter createdAt
-  - Type Alias AttachedDataNetwork no longer has parameter lastModifiedBy
-  - Type Alias AttachedDataNetwork no longer has parameter lastModifiedByType
-  - Type Alias AttachedDataNetwork no longer has parameter lastModifiedAt
-  - Type Alias DataNetwork no longer has parameter createdBy
-  - Type Alias DataNetwork no longer has parameter createdByType
-  - Type Alias DataNetwork no longer has parameter createdAt
-  - Type Alias DataNetwork no longer has parameter lastModifiedBy
-  - Type Alias DataNetwork no longer has parameter lastModifiedByType
-  - Type Alias DataNetwork no longer has parameter lastModifiedAt
-  - Type Alias MobileNetwork no longer has parameter createdBy
-  - Type Alias MobileNetwork no longer has parameter createdByType
-  - Type Alias MobileNetwork no longer has parameter createdAt
-  - Type Alias MobileNetwork no longer has parameter lastModifiedBy
-  - Type Alias MobileNetwork no longer has parameter lastModifiedByType
-  - Type Alias MobileNetwork no longer has parameter lastModifiedAt
-  - Type Alias PacketCoreControlPlane no longer has parameter createdBy
-  - Type Alias PacketCoreControlPlane no longer has parameter createdByType
-  - Type Alias PacketCoreControlPlane no longer has parameter createdAt
-  - Type Alias PacketCoreControlPlane no longer has parameter lastModifiedBy
-  - Type Alias PacketCoreControlPlane no longer has parameter lastModifiedByType
-  - Type Alias PacketCoreControlPlane no longer has parameter lastModifiedAt
-  - Type Alias PacketCoreDataPlane no longer has parameter createdBy
-  - Type Alias PacketCoreDataPlane no longer has parameter createdByType
-  - Type Alias PacketCoreDataPlane no longer has parameter createdAt
-  - Type Alias PacketCoreDataPlane no longer has parameter lastModifiedBy
-  - Type Alias PacketCoreDataPlane no longer has parameter lastModifiedByType
-  - Type Alias PacketCoreDataPlane no longer has parameter lastModifiedAt
-  - Type Alias Service no longer has parameter createdBy
-  - Type Alias Service no longer has parameter createdByType
-  - Type Alias Service no longer has parameter createdAt
-  - Type Alias Service no longer has parameter lastModifiedBy
-  - Type Alias Service no longer has parameter lastModifiedByType
-  - Type Alias Service no longer has parameter lastModifiedAt
-  - Type Alias Sim no longer has parameter createdBy
-  - Type Alias Sim no longer has parameter createdByType
-  - Type Alias Sim no longer has parameter createdAt
-  - Type Alias Sim no longer has parameter lastModifiedBy
-  - Type Alias Sim no longer has parameter lastModifiedByType
-  - Type Alias Sim no longer has parameter lastModifiedAt
-  - Type Alias Sim no longer has parameter configurationState
-  - Type Alias SimPolicy no longer has parameter createdBy
-  - Type Alias SimPolicy no longer has parameter createdByType
-  - Type Alias SimPolicy no longer has parameter createdAt
-  - Type Alias SimPolicy no longer has parameter lastModifiedBy
-  - Type Alias SimPolicy no longer has parameter lastModifiedByType
-  - Type Alias SimPolicy no longer has parameter lastModifiedAt
-  - Type Alias Site no longer has parameter createdBy
-  - Type Alias Site no longer has parameter createdByType
-  - Type Alias Site no longer has parameter createdAt
-  - Type Alias Site no longer has parameter lastModifiedBy
-  - Type Alias Site no longer has parameter lastModifiedByType
-  - Type Alias Site no longer has parameter lastModifiedAt
-  - Type Alias Slice no longer has parameter createdBy
-  - Type Alias Slice no longer has parameter createdByType
-  - Type Alias Slice no longer has parameter createdAt
-  - Type Alias Slice no longer has parameter lastModifiedBy
-  - Type Alias Slice no longer has parameter lastModifiedByType
-  - Type Alias Slice no longer has parameter lastModifiedAt
-  - Removed Enum KnownConfigurationState
+  - Removed operation group PacketCoreControlPlaneOperations
+  - Removed operation group SimOperations
+  - Class MobileNetworkManagementClient no longer has parameter packetCoreControlPlaneOperations
+  - Class MobileNetworkManagementClient no longer has parameter simOperations
     
     
-## 1.0.0-beta.1 (2022-02-21)
+## 1.0.0 (2022-12-15)
 
 The package of @azure/arm-mobilenetwork is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).

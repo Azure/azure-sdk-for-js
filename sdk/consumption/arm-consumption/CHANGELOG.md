@@ -1,6 +1,6 @@
 # Release History
 
-## 9.0.2 (Unreleased)
+## 9.2.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,69 @@
 
 ### Other Changes
 
+## 9.2.0 (2023-01-03)
+    
+**Features**
+
+  - Interface EventsListByBillingAccountNextOptionalParams no longer has parameter filter
+  - Interface LotsListByBillingAccountNextOptionalParams no longer has parameter filter
+  - Interface MarketplacesListNextOptionalParams no longer has parameter filter
+  - Interface MarketplacesListNextOptionalParams no longer has parameter skiptoken
+  - Interface MarketplacesListNextOptionalParams no longer has parameter top
+  - Interface ReservationRecommendationsListNextOptionalParams no longer has parameter filter
+  - Interface ReservationsDetailsListNextOptionalParams no longer has parameter endDate
+  - Interface ReservationsDetailsListNextOptionalParams no longer has parameter filter
+  - Interface ReservationsDetailsListNextOptionalParams no longer has parameter reservationId
+  - Interface ReservationsDetailsListNextOptionalParams no longer has parameter reservationOrderId
+  - Interface ReservationsDetailsListNextOptionalParams no longer has parameter startDate
+  - Interface ReservationsSummariesListByReservationOrderAndReservationNextOptionalParams no longer has parameter filter
+  - Interface ReservationsSummariesListByReservationOrderNextOptionalParams no longer has parameter filter
+  - Interface ReservationsSummariesListNextOptionalParams no longer has parameter endDate
+  - Interface ReservationsSummariesListNextOptionalParams no longer has parameter filter
+  - Interface ReservationsSummariesListNextOptionalParams no longer has parameter reservationId
+  - Interface ReservationsSummariesListNextOptionalParams no longer has parameter reservationOrderId
+  - Interface ReservationsSummariesListNextOptionalParams no longer has parameter startDate
+  - Interface ReservationTransactionsListByBillingProfileNextOptionalParams no longer has parameter filter
+  - Interface ReservationTransactionsListNextOptionalParams no longer has parameter filter
+  - Interface UsageDetailsListNextOptionalParams no longer has parameter expand
+  - Interface UsageDetailsListNextOptionalParams no longer has parameter filter
+  - Interface UsageDetailsListNextOptionalParams no longer has parameter metric
+  - Interface UsageDetailsListNextOptionalParams no longer has parameter skiptoken
+  - Interface UsageDetailsListNextOptionalParams no longer has parameter top
+    
+    
+## 9.1.0 (2022-09-05)
+    
+**Features**
+
+  - Added Interface AmountWithExchangeRate
+  - Added Interface Balance
+  - Added Interface Budget
+  - Added Interface ChargeSummary
+  - Added Interface CreditSummary
+  - Added Interface EventSummary
+  - Added Interface LegacyChargeSummary
+  - Added Interface LegacyReservationRecommendation
+  - Added Interface LegacyReservationTransaction
+  - Added Interface LegacySharedScopeReservationRecommendationProperties
+  - Added Interface LegacySingleScopeReservationRecommendationProperties
+  - Added Interface LegacyUsageDetail
+  - Added Interface LotSummary
+  - Added Interface ManagementGroupAggregatedCostResult
+  - Added Interface Marketplace
+  - Added Interface ModernChargeSummary
+  - Added Interface ModernReservationRecommendation
+  - Added Interface ModernReservationTransaction
+  - Added Interface ModernUsageDetail
+  - Added Interface PriceSheetResult
+  - Added Interface ReservationDetail
+  - Added Interface ReservationRecommendation
+  - Added Interface ReservationRecommendationDetailsModel
+  - Added Interface ReservationSummary
+  - Added Interface ReservationTransaction
+  - Added Interface TagsResult
+  - Added Interface UsageDetail
+    
 ## 9.0.1 (2022-04-11)
 
 **features**

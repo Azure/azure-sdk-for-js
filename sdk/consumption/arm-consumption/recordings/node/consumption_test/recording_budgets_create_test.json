@@ -1,0 +1,143 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Consumption/budgets/mybudgetxxxy?api-version=2021-10-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "662",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-consumption/9.2.0 core-rest-pipeline/1.10.1 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "cc6b546f-2bb9-4a69-8710-fbd299a4b64b"
+      },
+      "RequestBody": {
+        "properties": {
+          "category": "Cost",
+          "amount": 100,
+          "timeGrain": "Monthly",
+          "timePeriod": {
+            "startDate": "2023-09-01T00:00:00.000Z",
+            "endDate": "2023-10-01T00:00:00.000Z"
+          },
+          "filter": {
+            "and": [
+              {
+                "dimensions": {
+                  "name": "ResourceId",
+                  "operator": "In",
+                  "values": [
+                    "subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/virtualMachines/myvmxxx"
+                  ]
+                }
+              },
+              {
+                "tags": {
+                  "name": "category",
+                  "operator": "In",
+                  "values": [
+                    "Dev",
+                    "Prod"
+                  ]
+                }
+              }
+            ]
+          },
+          "notifications": {
+            "Actual_GreaterThan_80_Percent": {
+              "enabled": true,
+              "operator": "GreaterThan",
+              "threshold": 80,
+              "contactEmails": [
+                "johndoe@contoso.com",
+                "janesmith@contoso.com"
+              ],
+              "contactRoles": [
+                "Contributor",
+                "Reader"
+              ],
+              "thresholdType": "Actual"
+            }
+          }
+        }
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "903",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 03 Jan 2023 02:20:41 GMT",
+        "Expires": "-1",
+        "Location": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Consumption/budgets/mybudgetxxxy?api-version=2021-10-01",
+        "Pragma": "no-cache",
+        "session-id": "95c43079-bec2-44e5-8793-861005e2ea66",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "cc6b546f-2bb9-4a69-8710-fbd299a4b64b",
+        "x-ms-correlation-request-id": "6e5897e8-bfd6-4d88-b4ee-71f1896cd211",
+        "x-ms-ratelimit-remaining-subscription-writes": "1199",
+        "x-ms-request-id": "e109fd5c-2967-4c9d-a8f3-5cad0fb6f09a",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230103T022041Z:6e5897e8-bfd6-4d88-b4ee-71f1896cd211",
+        "X-Powered-By": "ASP.NET"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Consumption/budgets/mybudgetxxxy",
+        "name": "mybudgetxxxy",
+        "type": "Microsoft.Consumption/budgets",
+        "eTag": "\u00221d91f19f9f08acb\u0022",
+        "properties": {
+          "timePeriod": {
+            "startDate": "2023-09-01T00:00:00Z",
+            "endDate": "2023-10-01T00:00:00Z"
+          },
+          "timeGrain": "Monthly",
+          "amount": 100.0,
+          "category": "Cost",
+          "notifications": {
+            "actual_GreaterThan_80_Percent": {
+              "enabled": true,
+              "operator": "GreaterThan",
+              "threshold": 80.0,
+              "contactEmails": [
+                "johndoe@contoso.com",
+                "janesmith@contoso.com"
+              ],
+              "contactRoles": [
+                "Contributor",
+                "Reader"
+              ],
+              "contactGroups": [],
+              "thresholdType": "Actual"
+            }
+          },
+          "filter": {
+            "and": [
+              {
+                "dimensions": {
+                  "name": "ResourceId",
+                  "operator": "In",
+                  "values": [
+                    "subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/virtualMachines/myvmxxx"
+                  ]
+                }
+              },
+              {
+                "tags": {
+                  "name": "category",
+                  "operator": "In",
+                  "values": [
+                    "Dev",
+                    "Prod"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

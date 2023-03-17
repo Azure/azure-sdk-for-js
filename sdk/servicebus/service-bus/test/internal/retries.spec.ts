@@ -347,12 +347,14 @@ describe("Retries - Receive methods", () => {
     } else {
       // Mocking batchingReceiver.receive to throw the error and fail
       const batchingReceiver = BatchingReceiver.create(
+        "serviceBusClientId",
         (receiver as any)._context,
         "dummyEntityPath",
         {
           lockRenewer: undefined,
           receiveMode: "peekLock",
           skipParsingBodyAsJson: false,
+          skipConvertingDate: false,
         }
       );
       batchingReceiver.isOpen = () => true;

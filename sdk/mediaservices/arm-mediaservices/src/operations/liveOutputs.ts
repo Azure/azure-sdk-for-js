@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { LiveOutputs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -24,6 +25,10 @@ import {
   LiveOutputsCreateOptionalParams,
   LiveOutputsCreateResponse,
   LiveOutputsDeleteOptionalParams,
+  LiveOutputsAsyncOperationOptionalParams,
+  LiveOutputsAsyncOperationResponse,
+  LiveOutputsOperationLocationOptionalParams,
+  LiveOutputsOperationLocationResponse,
   LiveOutputsListNextResponse
 } from "../models";
 
@@ -66,12 +71,16 @@ export class LiveOutputsImpl implements LiveOutputs {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           accountName,
           liveEventName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -81,16 +90,23 @@ export class LiveOutputsImpl implements LiveOutputs {
     resourceGroupName: string,
     accountName: string,
     liveEventName: string,
-    options?: LiveOutputsListOptionalParams
+    options?: LiveOutputsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<LiveOutput[]> {
-    let result = await this._list(
-      resourceGroupName,
-      accountName,
-      liveEventName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.odataNextLink;
+    let result: LiveOutputsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        accountName,
+        liveEventName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.odataNextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -100,7 +116,9 @@ export class LiveOutputsImpl implements LiveOutputs {
         options
       );
       continuationToken = result.odataNextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -376,6 +394,55 @@ export class LiveOutputsImpl implements LiveOutputs {
   }
 
   /**
+   * Get a Live Output operation status.
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param operationId The ID of an ongoing async operation.
+   * @param options The options parameters.
+   */
+  asyncOperation(
+    resourceGroupName: string,
+    accountName: string,
+    operationId: string,
+    options?: LiveOutputsAsyncOperationOptionalParams
+  ): Promise<LiveOutputsAsyncOperationResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, operationId, options },
+      asyncOperationOperationSpec
+    );
+  }
+
+  /**
+   * Get a Live Output operation status.
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param liveEventName The name of the live event, maximum length is 32.
+   * @param liveOutputName The name of the live output.
+   * @param operationId The ID of an ongoing async operation.
+   * @param options The options parameters.
+   */
+  operationLocation(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    liveOutputName: string,
+    operationId: string,
+    options?: LiveOutputsOperationLocationOptionalParams
+  ): Promise<LiveOutputsOperationLocationResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        liveEventName,
+        liveOutputName,
+        operationId,
+        options
+      },
+      operationLocationOperationSpec
+    );
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -506,6 +573,55 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const asyncOperationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveOutputOperations/{operationId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AsyncOperationResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.operationId1
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const operationLocationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}/liveOutputs/{liveOutputName}/operationLocations/{operationId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LiveOutput
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.liveEventName,
+    Parameters.operationId1,
+    Parameters.liveOutputName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -517,7 +633,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

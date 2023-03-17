@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { SecurityInsights } = require("@azure/arm-securityinsight");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets all watchlists, without watchlist items.
  *
  * @summary Gets all watchlists, without watchlist items.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/watchlists/GetWatchlists.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/watchlists/GetWatchlists.json
  */
 async function getAllWatchlists() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const credential = new DefaultAzureCredential();
   const client = new SecurityInsights(credential, subscriptionId);
@@ -30,4 +32,8 @@ async function getAllWatchlists() {
   console.log(resArray);
 }
 
-getAllWatchlists().catch(console.error);
+async function main() {
+  getAllWatchlists();
+}
+
+main().catch(console.error);

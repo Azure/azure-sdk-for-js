@@ -9,16 +9,24 @@ import {
   createConnectionContextForCredential,
 } from "./constructorHelpers";
 import { ConnectionContext } from "./connectionContext";
-import { ServiceBusReceiverOptions, ServiceBusSessionReceiverOptions, ReceiveMode } from "./models";
+import {
+  ServiceBusReceiverOptions,
+  ServiceBusSessionReceiverOptions,
+  ReceiveMode,
+  ServiceBusSenderOptions,
+} from "./models";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "./receivers/receiver";
 import {
   ServiceBusSessionReceiver,
   ServiceBusSessionReceiverImpl,
 } from "./receivers/sessionReceiver";
+import { ServiceBusRuleManager, ServiceBusRuleManagerImpl } from "./serviceBusRuleManager";
 import { ServiceBusSender, ServiceBusSenderImpl } from "./sender";
 import { entityPathMisMatchError } from "./util/errors";
 import { MessageSession } from "./session/messageSession";
-import { isCredential, isDefined } from "./util/typeGuards";
+import { isDefined } from "@azure/core-util";
+import { isCredential } from "./util/typeGuards";
+import { ensureValidIdentifier } from "./util/utils";
 
 /**
  * A client that can create Sender instances for sending messages to queues and
@@ -32,6 +40,11 @@ export class ServiceBusClient {
    * This is likely to be similar to <yournamespace>.servicebus.windows.net.
    */
   public fullyQualifiedNamespace: string;
+  /**
+   * The name used to identify this ServiceBusClient.
+   * If not specified or empty, a random unique one will be generated.
+   */
+  public identifier: string;
   /**
    * Creates an instance of the ServiceBusClient class which can be used to create senders and receivers to
    * the Azure Service Bus namespace provided in the connection string. No connection is made to the service
@@ -95,6 +108,10 @@ export class ServiceBusClient {
       );
     }
     this.fullyQualifiedNamespace = this._connectionContext.config.host;
+    this.identifier = ensureValidIdentifier(
+      this.fullyQualifiedNamespace,
+      this._clientOptions.identifier
+    );
     this._clientOptions.retryOptions = this._clientOptions.retryOptions || {};
 
     const timeoutInMs = this._clientOptions.retryOptions.timeoutInMs;
@@ -212,6 +229,27 @@ export class ServiceBusClient {
       receiveMode,
       maxLockAutoRenewDurationInMs,
       options?.skipParsingBodyAsJson ?? false,
+      options?.skipConvertingDate ?? false,
+      this._clientOptions.retryOptions,
+      options?.identifier
+    );
+  }
+
+  /**
+   * Creates an instance of {@link ServiceBusRuleManager} that is used to manage
+   * the rules for a subscription.
+   *
+   * @param topicName - the topic to create {@link ServiceBusRuleManager}
+   * @param subscriptionName - the subscription specific to the specified topic to create a {@link ServiceBusRuleManager} for.
+   * @returns a {@link ServiceBusRuleManager} scoped to the specified subscription and topic.
+   */
+  createRuleManager(topicName: string, subscriptionName: string): ServiceBusRuleManager {
+    validateEntityPath(this._connectionContext.config, topicName);
+
+    const { entityPath } = extractReceiverArguments(topicName, subscriptionName);
+    return new ServiceBusRuleManagerImpl(
+      this._connectionContext,
+      entityPath,
       this._clientOptions.retryOptions
     );
   }
@@ -315,6 +353,7 @@ export class ServiceBusClient {
     }
 
     const messageSession = await MessageSession.create(
+      ensureValidIdentifier(entityPath, options?.identifier),
       this._connectionContext,
       entityPath,
       sessionId,
@@ -324,6 +363,7 @@ export class ServiceBusClient {
         abortSignal: options?.abortSignal,
         retryOptions: this._clientOptions.retryOptions,
         skipParsingBodyAsJson: options?.skipParsingBodyAsJson ?? false,
+        skipConvertingDate: options?.skipConvertingDate ?? false,
       }
     );
 
@@ -332,6 +372,8 @@ export class ServiceBusClient {
       this._connectionContext,
       entityPath,
       receiveMode,
+      options?.skipParsingBodyAsJson ?? false,
+      options?.skipConvertingDate ?? false,
       this._clientOptions.retryOptions
     );
 
@@ -401,6 +443,7 @@ export class ServiceBusClient {
     );
 
     const messageSession = await MessageSession.create(
+      ensureValidIdentifier(entityPath, options?.identifier),
       this._connectionContext,
       entityPath,
       undefined,
@@ -410,6 +453,7 @@ export class ServiceBusClient {
         abortSignal: options?.abortSignal,
         retryOptions: this._clientOptions.retryOptions,
         skipParsingBodyAsJson: options?.skipParsingBodyAsJson ?? false,
+        skipConvertingDate: options?.skipConvertingDate ?? false,
       }
     );
 
@@ -418,6 +462,8 @@ export class ServiceBusClient {
       this._connectionContext,
       entityPath,
       receiveMode,
+      options?.skipParsingBodyAsJson ?? false,
+      options?.skipConvertingDate ?? false,
       this._clientOptions.retryOptions
     );
 
@@ -430,13 +476,14 @@ export class ServiceBusClient {
    * to the service until one of the methods on the sender is called.
    * @param queueOrTopicName - The name of a queue or topic to send messages to.
    */
-  createSender(queueOrTopicName: string): ServiceBusSender {
+  createSender(queueOrTopicName: string, options: ServiceBusSenderOptions = {}): ServiceBusSender {
     validateEntityPath(this._connectionContext.config, queueOrTopicName);
 
     return new ServiceBusSenderImpl(
       this._connectionContext,
       queueOrTopicName,
-      this._clientOptions.retryOptions
+      this._clientOptions.retryOptions,
+      options.identifier
     );
   }
 

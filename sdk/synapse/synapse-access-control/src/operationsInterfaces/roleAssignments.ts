@@ -6,13 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
+  RoleAssignmentDetails,
+  RoleAssignmentsListRoleAssignmentsOptionalParams,
   SubjectInfo,
   RequiredAction,
   RoleAssignmentsCheckPrincipalAccessOptionalParams,
   RoleAssignmentsCheckPrincipalAccessResponse,
-  RoleAssignmentsListRoleAssignmentsOptionalParams,
-  RoleAssignmentsListRoleAssignmentsResponse,
   RoleAssignmentsCreateRoleAssignmentOptionalParams,
   RoleAssignmentsCreateRoleAssignmentResponse,
   RoleAssignmentsGetRoleAssignmentByIdOptionalParams,
@@ -20,8 +21,16 @@ import {
   RoleAssignmentsDeleteRoleAssignmentByIdOptionalParams
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a RoleAssignments. */
 export interface RoleAssignments {
+  /**
+   * List role assignments.
+   * @param options The options parameters.
+   */
+  listRoleAssignments(
+    options?: RoleAssignmentsListRoleAssignmentsOptionalParams
+  ): PagedAsyncIterableIterator<RoleAssignmentDetails>;
   /**
    * Check if the given principalId has access to perform list of actions at a given scope.
    * @param subject Subject details
@@ -35,13 +44,6 @@ export interface RoleAssignments {
     scope: string,
     options?: RoleAssignmentsCheckPrincipalAccessOptionalParams
   ): Promise<RoleAssignmentsCheckPrincipalAccessResponse>;
-  /**
-   * List role assignments.
-   * @param options The options parameters.
-   */
-  listRoleAssignments(
-    options?: RoleAssignmentsListRoleAssignmentsOptionalParams
-  ): Promise<RoleAssignmentsListRoleAssignmentsResponse>;
   /**
    * Create role assignment.
    * @param roleAssignmentId The ID of the role assignment.

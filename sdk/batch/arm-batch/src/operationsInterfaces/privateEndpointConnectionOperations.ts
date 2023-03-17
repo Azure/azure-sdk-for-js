@@ -14,7 +14,9 @@ import {
   PrivateEndpointConnectionGetOptionalParams,
   PrivateEndpointConnectionGetResponse,
   PrivateEndpointConnectionUpdateOptionalParams,
-  PrivateEndpointConnectionUpdateResponse
+  PrivateEndpointConnectionUpdateResponse,
+  PrivateEndpointConnectionDeleteOptionalParams,
+  PrivateEndpointConnectionDeleteResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -84,4 +86,37 @@ export interface PrivateEndpointConnectionOperations {
     parameters: PrivateEndpointConnection,
     options?: PrivateEndpointConnectionUpdateOptionalParams
   ): Promise<PrivateEndpointConnectionUpdateResponse>;
+  /**
+   * Deletes the specified private endpoint connection.
+   * @param resourceGroupName The name of the resource group that contains the Batch account.
+   * @param accountName The name of the Batch account.
+   * @param privateEndpointConnectionName The private endpoint connection name. This must be unique
+   *                                      within the account.
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    accountName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionDeleteOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<PrivateEndpointConnectionDeleteResponse>,
+      PrivateEndpointConnectionDeleteResponse
+    >
+  >;
+  /**
+   * Deletes the specified private endpoint connection.
+   * @param resourceGroupName The name of the resource group that contains the Batch account.
+   * @param accountName The name of the Batch account.
+   * @param privateEndpointConnectionName The private endpoint connection name. This must be unique
+   *                                      within the account.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionDeleteOptionalParams
+  ): Promise<PrivateEndpointConnectionDeleteResponse>;
 }

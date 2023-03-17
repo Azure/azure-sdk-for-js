@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { LogProfiles } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,6 +15,7 @@ import { MonitorClient } from "../monitorClient";
 import {
   LogProfileResource,
   LogProfilesListOptionalParams,
+  LogProfilesListResponse,
   LogProfilesDeleteOptionalParams,
   LogProfilesGetOptionalParams,
   LogProfilesGetResponse,
@@ -22,8 +23,7 @@ import {
   LogProfilesCreateOrUpdateResponse,
   LogProfileResourcePatch,
   LogProfilesUpdateOptionalParams,
-  LogProfilesUpdateResponse,
-  LogProfilesListResponse
+  LogProfilesUpdateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,16 +54,21 @@ export class LogProfilesImpl implements LogProfiles {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: LogProfilesListOptionalParams
+    options?: LogProfilesListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<LogProfileResource[]> {
-    let result = await this._list(options);
+    let result: LogProfilesListResponse;
+    result = await this._list(options);
     yield result.value || [];
   }
 
@@ -157,7 +162,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/providers/Microsoft.Insights/logprofiles/{logProfileName}",
   httpMethod: "DELETE",
   responses: { 200: {} },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -177,7 +182,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -196,7 +201,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters2,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -219,7 +224,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.logProfilesResource,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -238,7 +243,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.LogProfileCollection
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer

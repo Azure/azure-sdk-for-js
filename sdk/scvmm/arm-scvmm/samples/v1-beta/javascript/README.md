@@ -54,7 +54,7 @@ These sample programs show how to use the JavaScript client libraries for in som
 
 ## Prerequisites
 
-The sample programs are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
+The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
 
 You need [an Azure subscription][freesub] to run these sample programs.
 
@@ -83,7 +83,7 @@ node availabilitySetsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node availabilitySetsCreateOrUpdateSample.js
+npx cross-env SCVMM_SUBSCRIPTION_ID="<scvmm subscription id>" SCVMM_RESOURCE_GROUP="<scvmm resource group>" node availabilitySetsCreateOrUpdateSample.js
 ```
 
 ## Next Steps

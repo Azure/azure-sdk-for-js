@@ -13,16 +13,22 @@ import {
   CognitiveServicesManagementClient
 } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates a Cognitive Services account
  *
  * @summary Updates a Cognitive Services account
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-03-01/examples/UpdateAccount.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-12-01/examples/UpdateAccount.json
  */
 async function updateAccount() {
-  const subscriptionId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
-  const resourceGroupName = "bvttest";
+  const subscriptionId =
+    process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
+    "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
+  const resourceGroupName =
+    process.env["COGNITIVESERVICES_RESOURCE_GROUP"] || "bvttest";
   const accountName = "bingSearch";
   const account: Account = { location: "global", sku: { name: "S2" } };
   const credential = new DefaultAzureCredential();
@@ -38,4 +44,8 @@ async function updateAccount() {
   console.log(result);
 }
 
-updateAccount().catch(console.error);
+async function main() {
+  updateAccount();
+}
+
+main().catch(console.error);

@@ -18,6 +18,8 @@ import {
   Patch as PatchMapper,
   PurchaseRequest as PurchaseRequestMapper,
   ChangeDirectoryRequest as ChangeDirectoryRequestMapper,
+  CalculateRefundRequest as CalculateRefundRequestMapper,
+  RefundRequest as RefundRequestMapper,
   CalculateExchangeRequest as CalculateExchangeRequestMapper,
   ExchangeRequest as ExchangeRequestMapper,
   CurrentQuotaLimitBase as CurrentQuotaLimitBaseMapper
@@ -89,7 +91,7 @@ export const reservationId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-03-01",
+    defaultValue: "2022-11-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -111,7 +113,7 @@ export const body2: OperationParameter = {
 export const expand: OperationQueryParameter = {
   parameterPath: ["options", "expand"],
   mapper: {
-    serializedName: "expand",
+    serializedName: "$expand",
     type: {
       name: "String"
     }
@@ -256,19 +258,29 @@ export const planId: OperationQueryParameter = {
   }
 };
 
+export const skip: OperationQueryParameter = {
+  parameterPath: ["options", "skip"],
+  mapper: {
+    serializedName: "$skip",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const take1: OperationQueryParameter = {
+  parameterPath: ["options", "take"],
+  mapper: {
+    serializedName: "$take",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
 export const body3: OperationParameter = {
   parameterPath: "body",
   mapper: PurchaseRequestMapper
-};
-
-export const expand1: OperationQueryParameter = {
-  parameterPath: ["options", "expand"],
-  mapper: {
-    serializedName: "$expand",
-    type: {
-      name: "String"
-    }
-  }
 };
 
 export const body4: OperationParameter = {
@@ -278,10 +290,20 @@ export const body4: OperationParameter = {
 
 export const body5: OperationParameter = {
   parameterPath: "body",
-  mapper: CalculateExchangeRequestMapper
+  mapper: CalculateRefundRequestMapper
 };
 
 export const body6: OperationParameter = {
+  parameterPath: "body",
+  mapper: RefundRequestMapper
+};
+
+export const body7: OperationParameter = {
+  parameterPath: "body",
+  mapper: CalculateExchangeRequestMapper
+};
+
+export const body8: OperationParameter = {
   parameterPath: "body",
   mapper: ExchangeRequestMapper
 };

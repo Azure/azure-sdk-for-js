@@ -11,11 +11,12 @@ generate-metadata: false
 add-credentials: false
 license-header: MICROSOFT_MIT_NO_VERSION
 input-file:
-  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/e2ef44b87405b412403ccb005bfb3975411adf60/specification/keyvault/data-plane/Microsoft.KeyVault/stable/7.3/rbac.json
-  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/e2ef44b87405b412403ccb005bfb3975411adf60/specification/keyvault/data-plane/Microsoft.KeyVault/stable/7.3/backuprestore.json
+  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/551275acb80e1f8b39036b79dfc35a8f63b601a7/specification/keyvault/data-plane/Microsoft.KeyVault/stable/7.4/rbac.json
+  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/551275acb80e1f8b39036b79dfc35a8f63b601a7/specification/keyvault/data-plane/Microsoft.KeyVault/stable/7.4/backuprestore.json
+  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/551275acb80e1f8b39036b79dfc35a8f63b601a7/specification/keyvault/data-plane/Microsoft.KeyVault/stable/7.4/settings.json
 output-folder: ../
 source-code-folder-path: ./src/generated
-package-version: 4.3.0-beta.1
+package-version: 4.4.0
 use-extension:
   "@autorest/typescript": "6.0.0-beta.15"
 ```
@@ -68,4 +69,13 @@ directive:
   - where-operation: RoleDefinitions_Delete
     transform: >
       delete $.responses["200"].schema;
+```
+
+### Operation renames for Settings API
+
+```yaml
+directive:
+  - rename-operation:
+      from: GetSettingValue
+      to: GetSetting
 ```

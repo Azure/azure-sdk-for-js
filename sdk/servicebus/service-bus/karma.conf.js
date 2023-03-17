@@ -15,9 +15,7 @@ module.exports = function (config) {
       "karma-mocha",
       "karma-mocha-reporter",
       "karma-chrome-launcher",
-      "karma-edge-launcher",
       "karma-firefox-launcher",
-      "karma-ie-launcher",
       "karma-env-preprocessor",
       "karma-coverage",
       "karma-sourcemap-loader",
@@ -46,6 +44,7 @@ module.exports = function (config) {
     // environment values MUST be exported or set with same console running "karma start"
     // https://www.npmjs.com/package/karma-env-preprocessor
     envPreprocessor: [
+      "SERVICEBUS_CONNECTION_STRING_PREMIUM",
       "SERVICEBUS_CONNECTION_STRING",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",

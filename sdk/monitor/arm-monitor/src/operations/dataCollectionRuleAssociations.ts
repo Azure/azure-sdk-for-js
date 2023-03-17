@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { DataCollectionRuleAssociations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,17 +17,21 @@ import {
   DataCollectionRuleAssociationProxyOnlyResource,
   DataCollectionRuleAssociationsListByResourceNextOptionalParams,
   DataCollectionRuleAssociationsListByResourceOptionalParams,
+  DataCollectionRuleAssociationsListByResourceResponse,
   DataCollectionRuleAssociationsListByRuleNextOptionalParams,
   DataCollectionRuleAssociationsListByRuleOptionalParams,
-  DataCollectionRuleAssociationsListByResourceResponse,
   DataCollectionRuleAssociationsListByRuleResponse,
+  DataCollectionRuleAssociationsListByDataCollectionEndpointNextOptionalParams,
+  DataCollectionRuleAssociationsListByDataCollectionEndpointOptionalParams,
+  DataCollectionRuleAssociationsListByDataCollectionEndpointResponse,
   DataCollectionRuleAssociationsGetOptionalParams,
   DataCollectionRuleAssociationsGetResponse,
   DataCollectionRuleAssociationsCreateOptionalParams,
   DataCollectionRuleAssociationsCreateResponse,
   DataCollectionRuleAssociationsDeleteOptionalParams,
   DataCollectionRuleAssociationsListByResourceNextResponse,
-  DataCollectionRuleAssociationsListByRuleNextResponse
+  DataCollectionRuleAssociationsListByRuleNextResponse,
+  DataCollectionRuleAssociationsListByDataCollectionEndpointNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -62,19 +67,29 @@ export class DataCollectionRuleAssociationsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourcePagingPage(resourceUri, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourcePagingPage(resourceUri, options, settings);
       }
     };
   }
 
   private async *listByResourcePagingPage(
     resourceUri: string,
-    options?: DataCollectionRuleAssociationsListByResourceOptionalParams
+    options?: DataCollectionRuleAssociationsListByResourceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource[]> {
-    let result = await this._listByResource(resourceUri, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DataCollectionRuleAssociationsListByResourceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResource(resourceUri, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceNext(
         resourceUri,
@@ -82,7 +97,9 @@ export class DataCollectionRuleAssociationsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -123,11 +140,15 @@ export class DataCollectionRuleAssociationsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByRulePagingPage(
           resourceGroupName,
           dataCollectionRuleName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -136,15 +157,22 @@ export class DataCollectionRuleAssociationsImpl
   private async *listByRulePagingPage(
     resourceGroupName: string,
     dataCollectionRuleName: string,
-    options?: DataCollectionRuleAssociationsListByRuleOptionalParams
+    options?: DataCollectionRuleAssociationsListByRuleOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource[]> {
-    let result = await this._listByRule(
-      resourceGroupName,
-      dataCollectionRuleName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DataCollectionRuleAssociationsListByRuleResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByRule(
+        resourceGroupName,
+        dataCollectionRuleName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByRuleNext(
         resourceGroupName,
@@ -153,7 +181,9 @@ export class DataCollectionRuleAssociationsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -165,6 +195,93 @@ export class DataCollectionRuleAssociationsImpl
     for await (const page of this.listByRulePagingPage(
       resourceGroupName,
       dataCollectionRuleName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists associations for the specified data collection endpoint.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dataCollectionEndpointName The name of the data collection endpoint. The name is case
+   *                                   insensitive.
+   * @param options The options parameters.
+   */
+  public listByDataCollectionEndpoint(
+    resourceGroupName: string,
+    dataCollectionEndpointName: string,
+    options?: DataCollectionRuleAssociationsListByDataCollectionEndpointOptionalParams
+  ): PagedAsyncIterableIterator<
+    DataCollectionRuleAssociationProxyOnlyResource
+  > {
+    const iter = this.listByDataCollectionEndpointPagingAll(
+      resourceGroupName,
+      dataCollectionEndpointName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByDataCollectionEndpointPagingPage(
+          resourceGroupName,
+          dataCollectionEndpointName,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listByDataCollectionEndpointPagingPage(
+    resourceGroupName: string,
+    dataCollectionEndpointName: string,
+    options?: DataCollectionRuleAssociationsListByDataCollectionEndpointOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource[]> {
+    let result: DataCollectionRuleAssociationsListByDataCollectionEndpointResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByDataCollectionEndpoint(
+        resourceGroupName,
+        dataCollectionEndpointName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByDataCollectionEndpointNext(
+        resourceGroupName,
+        dataCollectionEndpointName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByDataCollectionEndpointPagingAll(
+    resourceGroupName: string,
+    dataCollectionEndpointName: string,
+    options?: DataCollectionRuleAssociationsListByDataCollectionEndpointOptionalParams
+  ): AsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource> {
+    for await (const page of this.listByDataCollectionEndpointPagingPage(
+      resourceGroupName,
+      dataCollectionEndpointName,
       options
     )) {
       yield* page;
@@ -200,6 +317,26 @@ export class DataCollectionRuleAssociationsImpl
     return this.client.sendOperationRequest(
       { resourceGroupName, dataCollectionRuleName, options },
       listByRuleOperationSpec
+    );
+  }
+
+  /**
+   * Lists associations for the specified data collection endpoint.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dataCollectionEndpointName The name of the data collection endpoint. The name is case
+   *                                   insensitive.
+   * @param options The options parameters.
+   */
+  private _listByDataCollectionEndpoint(
+    resourceGroupName: string,
+    dataCollectionEndpointName: string,
+    options?: DataCollectionRuleAssociationsListByDataCollectionEndpointOptionalParams
+  ): Promise<
+    DataCollectionRuleAssociationsListByDataCollectionEndpointResponse
+  > {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, dataCollectionEndpointName, options },
+      listByDataCollectionEndpointOperationSpec
     );
   }
 
@@ -289,6 +426,29 @@ export class DataCollectionRuleAssociationsImpl
       listByRuleNextOperationSpec
     );
   }
+
+  /**
+   * ListByDataCollectionEndpointNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dataCollectionEndpointName The name of the data collection endpoint. The name is case
+   *                                   insensitive.
+   * @param nextLink The nextLink from the previous successful call to the ListByDataCollectionEndpoint
+   *                 method.
+   * @param options The options parameters.
+   */
+  private _listByDataCollectionEndpointNext(
+    resourceGroupName: string,
+    dataCollectionEndpointName: string,
+    nextLink: string,
+    options?: DataCollectionRuleAssociationsListByDataCollectionEndpointNextOptionalParams
+  ): Promise<
+    DataCollectionRuleAssociationsListByDataCollectionEndpointNextResponse
+  > {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, dataCollectionEndpointName, nextLink, options },
+      listByDataCollectionEndpointNextOperationSpec
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -306,7 +466,7 @@ const listByResourceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseCommonV2
     }
   },
-  queryParameters: [Parameters.apiVersion12],
+  queryParameters: [Parameters.apiVersion13],
   urlParameters: [Parameters.$host, Parameters.resourceUri1],
   headerParameters: [Parameters.accept],
   serializer
@@ -324,12 +484,35 @@ const listByRuleOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseCommonV2
     }
   },
-  queryParameters: [Parameters.apiVersion12],
+  queryParameters: [Parameters.apiVersion13],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.dataCollectionRuleName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByDataCollectionEndpointOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints/{dataCollectionEndpointName}/associations",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper:
+        Mappers.DataCollectionRuleAssociationProxyOnlyResourceListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponseCommonV2
+    }
+  },
+  queryParameters: [Parameters.apiVersion13],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.dataCollectionEndpointName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -346,7 +529,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseCommonV2
     }
   },
-  queryParameters: [Parameters.apiVersion12],
+  queryParameters: [Parameters.apiVersion13],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri1,
@@ -371,7 +554,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.body2,
-  queryParameters: [Parameters.apiVersion12],
+  queryParameters: [Parameters.apiVersion13],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri1,
@@ -392,7 +575,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseCommonV2
     }
   },
-  queryParameters: [Parameters.apiVersion12],
+  queryParameters: [Parameters.apiVersion13],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri1,
@@ -413,7 +596,6 @@ const listByResourceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseCommonV2
     }
   },
-  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -434,13 +616,34 @@ const listByRuleNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseCommonV2
     }
   },
-  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.dataCollectionRuleName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByDataCollectionEndpointNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper:
+        Mappers.DataCollectionRuleAssociationProxyOnlyResourceListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponseCommonV2
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.dataCollectionEndpointName
   ],
   headerParameters: [Parameters.accept],
   serializer

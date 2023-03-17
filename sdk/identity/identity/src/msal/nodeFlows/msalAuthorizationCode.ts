@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
 import { AccessToken } from "@azure/core-auth";
-import { credentialLogger } from "../../util/logging";
 import { CredentialFlowGetTokenOptions } from "../credentials";
-import { MsalNodeOptions, MsalNode } from "./msalNodeCommon";
+import { credentialLogger } from "../../util/logging";
 
 /**
  * Options that can be passed to configure MSAL to handle authentication through opening a browser window.
  * @internal
  */
-export interface MSALAuthorizationCodeOptions extends MsalNodeOptions {
+export interface MsalAuthorizationCodeOptions extends MsalNodeOptions {
   redirectUri: string;
   authorizationCode: string;
   clientSecret?: string;
@@ -25,7 +25,7 @@ export class MsalAuthorizationCode extends MsalNode {
   private redirectUri: string;
   private authorizationCode: string;
 
-  constructor(options: MSALAuthorizationCodeOptions) {
+  constructor(options: MsalAuthorizationCodeOptions) {
     super(options);
     this.logger = credentialLogger("Node.js MSAL Authorization Code");
     this.redirectUri = options.redirectUri;

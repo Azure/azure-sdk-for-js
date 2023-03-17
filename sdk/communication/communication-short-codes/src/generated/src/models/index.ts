@@ -131,9 +131,11 @@ export interface ProgramDetails {
   /** URL for the program or company. */
   url?: string;
   /** Indicates how the consumer can sign up to the program e.g. 'website', 'pointOfSale' and/or 'sms'. */
-  signUpTypes?: ProgramSignUpType[];
+  callToActionTypes?: CallToActionType[];
   /** URL for "call to action" image for the program. */
-  signUpUrl?: string;
+  callToActionUrl?: string;
+  /** Call to action text. To be provided when InteractiveVoiceResponse is specified as call to action type */
+  callToAction?: string;
   /** URL for program terms of service. */
   termsOfServiceUrl?: string;
   /** URL for privacy policy. */
@@ -178,24 +180,24 @@ export interface CustomerCareInformation {
 }
 
 export interface MessageDetails {
-  /** Applicable message protocols used in the program e.g. SMS, MMS. */
-  supportedProtocols?: MessageProtocol[];
+  /** Applicable message protocol used in the program e.g. SMS or MMS. */
+  supportedProtocol?: MessageProtocol;
   /** Indicates the nature of the messaging associated with the program e.g. 'subscription', 'transaction'. */
   recurrence?: Recurrence;
   /**
    * Message text for mobile terminated message associated with HELP keyword
    * e.g 'This is the HELP message test.'.
    */
-  helpMessage?: string;
+  helpAnswerToUser?: string;
   /**
    * "Message text for mobile terminated message associated with STOP keyword
    * e.g. 'This is the STOP message test.'.
    */
-  optOutMessage?: string;
-  optInMessage?: string;
+  optOutAnswerToUser?: string;
+  optInMessageToUser?: string;
   /** Keyword used to confirm double Opt-In method e.g. 'JOIN'. */
-  optInReply?: string;
-  confirmationMessage?: string;
+  optInAnswerFromUser?: string;
+  optInConfirmationMessageToUser?: string;
   /** Describes directionality e.g. oneWay or twoWay */
   directionality?: MessageDirectionality;
   /** Provides message exchange examples from and to end user for each supported message content type. */
@@ -204,8 +206,10 @@ export interface MessageDetails {
 
 /** Describes a messaging use case for a given content type by providing example messages. */
 export interface UseCase {
-  /** Indicates the messaging content category used in the program e.g. 'ringTones', 'smsChat', 'video', 'loyaltyProgramPointsPrizes', 'gifting', 'inApplicationBilling', 'textToScreen'. */
-  contentCategory?: MessageContentCategory;
+  /** Indicates the messaging content type used in the program e.g. 'accountNotificationInformationalAlerts', 'chatConversationalMessaging', 'mmsVideo', 'socialMedia'. */
+  contentType?: MessageContentType;
+  /** Indicates the messaging content type used in the program whenever it is not any of the pre-defined content types */
+  customContentType?: string;
   /** Example messages to be sent to and from the end user for the indicated content type. */
   examples?: MessageExampleSequence[];
 }
@@ -252,10 +256,10 @@ export interface ProgramBriefAttachmentSummary {
    */
   type?: AttachmentType;
   /**
-   * A friendly name to refer to the attachment
+   * The name of the attached file
    * e.g. 'myFile01'
    */
-  friendlyName?: string;
+  fileName?: string;
 }
 
 /** A wrapper for a list of USProgramBrief entities. */
@@ -274,21 +278,21 @@ export interface ProgramBriefAttachment {
    * Attachment type describing the purpose of the attachment
    * e.g. 'callToAction', 'termsOfService'
    */
-  type?: AttachmentType;
+  type: AttachmentType;
   /**
-   * A friendly name to refer to the attachment
+   * The name of the file being attached
    * e.g. 'myFile01'
    */
-  friendlyName?: string;
+  fileName: string;
   /** File size in bytes. */
-  fileSize?: number;
+  fileSizeInBytes?: number;
   /**
    * The type of file being attached
    * e.g. 'pdf', 'jpg', 'png'
    */
-  fileType?: FileType;
+  fileType: FileType;
   /** File content as base 64 encoded string */
-  fileContent?: string;
+  fileContentBase64: string;
 }
 
 /** A wrapper for a list of ProgramBriefAttachment entities. */
@@ -311,8 +315,8 @@ export type ProgramBriefStatus =
   | "denied";
 /** Defines values for BillingFrequency. */
 export type BillingFrequency = "monthly" | "once";
-/** Defines values for ProgramSignUpType. */
-export type ProgramSignUpType =
+/** Defines values for CallToActionType. */
+export type CallToActionType =
   | "website"
   | "pointOfSale"
   | "sms"
@@ -323,48 +327,27 @@ export type MessageProtocol = "sms" | "mms";
 export type Recurrence = "subscription" | "transaction";
 /** Defines values for MessageDirectionality. */
 export type MessageDirectionality = "oneWay" | "twoWay";
-/** Defines values for MessageContentCategory. */
-export type MessageContentCategory =
-  | "ringTones"
-  | "smsChat"
-  | "video"
-  | "loyaltyProgramPointsPrizes"
-  | "gifting"
-  | "inApplicationBilling"
-  | "textToScreen"
-  | "games"
-  | "audioChat"
-  | "mmsPictures"
-  | "sweepstakesContestAuction"
-  | "financialBanking"
-  | "premiumWap"
-  | "queryService"
-  | "wallpaperScreensaver"
-  | "voting"
-  | "application"
-  | "mobileGivingDonations"
-  | "coupons"
-  | "loyaltyProgram"
-  | "noPointsPrizes"
-  | "informationalAlerts"
-  | "microBilling"
-  | "trivia"
-  | "entertainmentAlerts"
-  | "accountNotification"
+/** Defines values for MessageContentType. */
+export type MessageContentType =
+  | "accountNotificationInformationalAlerts"
   | "ageGatedContent"
-  | "conversationalMessaging"
+  | "chatConversationalMessaging"
   | "deliveryNotification"
+  | "donationsPledge"
   | "education"
-  | "emergencyAlerts"
   | "fraudAlerts"
   | "loanArrangement"
-  | "onBehalfOfCarrier"
+  | "loyaltyProgram"
+  | "marketingAndPromotion"
+  | "mmsPicture"
+  | "mmsVideo"
+  | "oneTimePasswordOrMultiFactorAuthentication"
   | "political"
-  | "promotionalMarketing"
   | "publicServiceAnnouncements"
   | "securityAlerts"
   | "socialMedia"
-  | "twoFactorAuthentication"
+  | "sweepstakesOrContest"
+  | "votingOrPolling"
   | "other";
 /** Defines values for MessageDirection. */
 export type MessageDirection = "toUser" | "fromUser";
@@ -432,25 +415,8 @@ export type ShortCodesGetUSProgramBriefsResponse = USProgramBriefs;
 /** Optional parameters. */
 export interface ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams
   extends coreClient.OperationOptions {
-  /**
-   * Attachment type describing the purpose of the attachment
-   * e.g. 'callToAction', 'termsOfService'
-   */
-  typeParam?: AttachmentType;
-  /**
-   * A friendly name to refer to the attachment
-   * e.g. 'myFile01'
-   */
-  friendlyName?: string;
   /** File size in bytes. */
-  fileSize?: number;
-  /**
-   * The type of file being attached
-   * e.g. 'pdf', 'jpg', 'png'
-   */
-  fileType?: FileType;
-  /** File content as base 64 encoded string */
-  fileContent?: string;
+  fileSizeInBytes?: number;
 }
 
 /** Contains response data for the createOrReplaceUSProgramBriefAttachment operation. */

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { VirtualMachines } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -46,8 +47,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * Returns a list of all virtual machines for a lab.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param options The options parameters.
    */
   public listByLab(
@@ -63,8 +64,16 @@ export class VirtualMachinesImpl implements VirtualMachines {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByLabPagingPage(resourceGroupName, labName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByLabPagingPage(
+          resourceGroupName,
+          labName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -72,11 +81,18 @@ export class VirtualMachinesImpl implements VirtualMachines {
   private async *listByLabPagingPage(
     resourceGroupName: string,
     labName: string,
-    options?: VirtualMachinesListByLabOptionalParams
+    options?: VirtualMachinesListByLabOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<VirtualMachine[]> {
-    let result = await this._listByLab(resourceGroupName, labName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VirtualMachinesListByLabResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByLab(resourceGroupName, labName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByLabNext(
         resourceGroupName,
@@ -85,7 +101,9 @@ export class VirtualMachinesImpl implements VirtualMachines {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -106,8 +124,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * Returns a list of all virtual machines for a lab.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param options The options parameters.
    */
   private _listByLab(
@@ -124,8 +142,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * Returns the properties for a lab virtual machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param options The options parameters.
@@ -145,8 +163,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * Action to start a lab virtual machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param options The options parameters.
@@ -213,8 +231,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * Action to start a lab virtual machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param options The options parameters.
@@ -237,8 +255,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * Action to stop a lab virtual machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param options The options parameters.
@@ -305,8 +323,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * Action to stop a lab virtual machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param options The options parameters.
@@ -330,8 +348,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
    * Re-image a lab virtual machine. The virtual machine will be deleted and recreated using the latest
    * published snapshot of the reference environment of the lab.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param options The options parameters.
@@ -399,8 +417,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
    * Re-image a lab virtual machine. The virtual machine will be deleted and recreated using the latest
    * published snapshot of the reference environment of the lab.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param options The options parameters.
@@ -424,8 +442,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
    * Action to redeploy a lab virtual machine to a different compute node. For troubleshooting
    * connectivity.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param options The options parameters.
@@ -493,8 +511,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
    * Action to redeploy a lab virtual machine to a different compute node. For troubleshooting
    * connectivity.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param options The options parameters.
@@ -517,8 +535,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * Resets a lab virtual machine password.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param body The request body.
@@ -587,8 +605,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * Resets a lab virtual machine password.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
    *                           containing lab. Used in resource URIs.
    * @param body The request body.
@@ -614,8 +632,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * ListByLabNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param nextLink The nextLink from the previous successful call to the ListByLab method.
    * @param options The options parameters.
    */
@@ -812,7 +830,6 @@ const listByLabNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

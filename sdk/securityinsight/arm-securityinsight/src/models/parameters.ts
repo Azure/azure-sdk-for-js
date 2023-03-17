@@ -25,10 +25,12 @@ import {
   EntityGetInsightsParameters as EntityGetInsightsParametersMapper,
   EntityTimelineParameters as EntityTimelineParametersMapper,
   CustomEntityQuery as CustomEntityQueryMapper,
+  FileImport as FileImportMapper,
   IncidentComment as IncidentCommentMapper,
   MetadataModel as MetadataModelMapper,
   MetadataPatch as MetadataPatchMapper,
   SentinelOnboardingState as SentinelOnboardingStateMapper,
+  SecurityMLAnalyticsSetting as SecurityMLAnalyticsSettingMapper,
   Settings as SettingsMapper,
   SourceControl as SourceControlMapper,
   ThreatIntelligenceIndicatorModel as ThreatIntelligenceIndicatorModelMapper,
@@ -68,7 +70,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-01-01-preview",
+    defaultValue: "2022-09-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -426,6 +428,22 @@ export const entityQueryTemplateId: OperationURLParameter = {
   }
 };
 
+export const fileImportId: OperationURLParameter = {
+  parameterPath: "fileImportId",
+  mapper: {
+    serializedName: "fileImportId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const fileImport: OperationParameter = {
+  parameterPath: "fileImport",
+  mapper: FileImportMapper
+};
+
 export const incidentCommentId: OperationURLParameter = {
   parameterPath: "incidentCommentId",
   mapper: {
@@ -498,6 +516,22 @@ export const sentinelOnboardingStateName: OperationURLParameter = {
 export const sentinelOnboardingStateParameter: OperationParameter = {
   parameterPath: ["options", "sentinelOnboardingStateParameter"],
   mapper: SentinelOnboardingStateMapper
+};
+
+export const settingsResourceName: OperationURLParameter = {
+  parameterPath: "settingsResourceName",
+  mapper: {
+    serializedName: "settingsResourceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const securityMLAnalyticsSetting: OperationParameter = {
+  parameterPath: "securityMLAnalyticsSetting",
+  mapper: SecurityMLAnalyticsSettingMapper
 };
 
 export const settingsName: OperationURLParameter = {

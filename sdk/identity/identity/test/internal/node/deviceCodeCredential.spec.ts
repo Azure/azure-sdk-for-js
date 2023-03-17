@@ -3,15 +3,15 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
+import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
+import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
+import { Context } from "mocha";
+import { DeviceCodeCredential } from "../../../src";
+import { GetTokenOptions } from "@azure/core-auth";
+import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
+import { PublicClientApplication } from "@azure/msal-node";
 import Sinon from "sinon";
 import { assert } from "chai";
-import { GetTokenOptions } from "@azure/core-auth";
-import { PublicClientApplication } from "@azure/msal-node";
-import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { DeviceCodeCredential } from "../../../src";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
-import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
-import { Context } from "mocha";
 
 describe("DeviceCodeCredential (internal)", function () {
   let cleanup: MsalTestCleanup;

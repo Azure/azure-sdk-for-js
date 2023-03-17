@@ -2,13 +2,9 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-import {
-  PipelineOptions,
-  TokenCredential,
-  createPipelineFromOptions,
-  isTokenCredential,
-  signingPolicy,
-} from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
+
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 
 import { logger } from "./log";
 
@@ -23,8 +19,7 @@ import {
   SecretBundle,
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
-import { SDK_VERSION } from "./constants";
-import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
+import { createKeyVaultChallengeCallbacks } from "../../keyvault-common/src";
 
 import { DeleteSecretPoller } from "./lro/delete/poller";
 import { RecoverDeletedSecretPoller } from "./lro/recover/poller";
@@ -59,7 +54,6 @@ export {
   DeletionRecoveryLevel,
   KnownDeletionRecoveryLevel,
   GetSecretOptions,
-  PipelineOptions,
   GetDeletedSecretOptions,
   PurgeDeletedSecretOptions,
   BackupSecretOptions,
@@ -114,7 +108,7 @@ export class SecretClient {
    *
    * let client = new SecretClient(vaultUrl, credentials);
    * ```
-   * @param vaultUrl - The base URL to the vault.
+   * @param vaultUrl - The base URL to the vault. You should validate that this URL references a valid Key Vault resource. See https://aka.ms/azsdk/blog/vault-uri for details.
    * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
    * @param pipelineOptions - Pipeline options used to configure Key Vault API requests.
    *                          Omit this parameter to use the default pipeline configuration.
@@ -126,20 +120,11 @@ export class SecretClient {
   ) {
     this.vaultUrl = vaultUrl;
 
-    const libInfo = `azsdk-js-keyvault-secrets/${SDK_VERSION}`;
-
-    const userAgentOptions = pipelineOptions.userAgentOptions;
-
-    pipelineOptions.userAgentOptions = {
-      userAgentPrefix:
-        userAgentOptions && userAgentOptions.userAgentPrefix
-          ? `${userAgentOptions.userAgentPrefix} ${libInfo}`
-          : libInfo,
-    };
-
-    const authPolicy = isTokenCredential(credential)
-      ? challengeBasedAuthenticationPolicy(credential)
-      : signingPolicy(credential);
+    const authPolicy = bearerTokenAuthenticationPolicy({
+      credential,
+      scopes: [],
+      challengeCallbacks: createKeyVaultChallengeCallbacks(pipelineOptions),
+    });
 
     const internalPipelineOptions = {
       ...pipelineOptions,
@@ -155,8 +140,9 @@ export class SecretClient {
 
     this.client = new KeyVaultClient(
       pipelineOptions.serviceVersion || LATEST_API_VERSION,
-      createPipelineFromOptions(internalPipelineOptions, authPolicy)
+      internalPipelineOptions
     );
+    this.client.pipeline.addPolicy(authPolicy);
   }
 
   /**
@@ -523,9 +509,10 @@ export class SecretClient {
         "SecretClient.listPropertiesOfSecretVersionsPage",
         options,
         (updatedOptions) =>
-          this.client.getSecretVersions(
-            continuationState.continuationToken!,
+          this.client.getSecretVersionsNext(
+            this.vaultUrl,
             secretName,
+            continuationState.continuationToken!,
             updatedOptions
           )
       );
@@ -624,7 +611,11 @@ export class SecretClient {
         "SecretClient.listPropertiesOfSecretsPage",
         options,
         (updatedOptions) =>
-          this.client.getSecrets(continuationState.continuationToken!, updatedOptions)
+          this.client.getSecretsNext(
+            this.vaultUrl,
+            continuationState.continuationToken!,
+            updatedOptions
+          )
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -716,7 +707,11 @@ export class SecretClient {
         "SecretClient.lisDeletedSecretsPage",
         options,
         (updatedOptions) =>
-          this.client.getDeletedSecrets(continuationState.continuationToken!, updatedOptions)
+          this.client.getDeletedSecretsNext(
+            this.vaultUrl,
+            continuationState.continuationToken!,
+            updatedOptions
+          )
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {

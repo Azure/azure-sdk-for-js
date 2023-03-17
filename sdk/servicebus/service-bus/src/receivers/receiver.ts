@@ -38,6 +38,10 @@ import { Constants, RetryConfig, RetryOperationType, RetryOptions, retry } from 
 import { LockRenewer } from "../core/autoLockRenewer";
 import { receiverLogger as logger } from "../log";
 import { translateServiceBusError } from "../serviceBusError";
+import { ensureValidIdentifier } from "../util/utils";
+import { toSpanOptions, tracingClient } from "../diagnostics/tracing";
+import { extractSpanContextFromServiceBusMessage } from "../diagnostics/instrumentServiceBusMessage";
+import { TracingSpanLink } from "@azure/core-tracing";
 
 /**
  * The default time to wait for messages _after_ the first message
@@ -53,6 +57,12 @@ export const defaultMaxTimeAfterFirstMessageForBatchingMs = 1000;
  * A receiver that does not handle sessions.
  */
 export interface ServiceBusReceiver {
+  /**
+   * A name used to identify the receiver. This can be used to correlate logs and exceptions.
+   * If not specified or empty, a random unique one will be generated.
+   */
+  identifier: string;
+
   /**
    * Streams messages to message handlers.
    * @param handlers - A handler that gets called for messages and errors.
@@ -266,6 +276,7 @@ export interface ServiceBusReceiver {
  * @internal
  */
 export class ServiceBusReceiverImpl implements ServiceBusReceiver {
+  public identifier: string;
   private _retryOptions: RetryOptions;
   /**
    * Denotes if close() was called on this receiver
@@ -296,7 +307,9 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     public receiveMode: "peekLock" | "receiveAndDelete",
     maxAutoRenewLockDurationInMs: number,
     private skipParsingBodyAsJson: boolean,
-    retryOptions: RetryOptions = {}
+    private skipConvertingDate: boolean = false,
+    retryOptions: RetryOptions = {},
+    identifier?: string
   ) {
     throwErrorIfConnectionClosed(_context);
     this._retryOptions = retryOptions;
@@ -305,6 +318,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       maxAutoRenewLockDurationInMs,
       receiveMode
     );
+    this.identifier = ensureValidIdentifier(this.entityPath, identifier);
   }
 
   private _throwIfAlreadyReceiving(): void {
@@ -359,6 +373,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
           receiveMode: this.receiveMode,
           lockRenewer: this._lockRenewer,
           skipParsingBodyAsJson: this.skipParsingBodyAsJson,
+          skipConvertingDate: this.skipConvertingDate,
         };
         this._batchingReceiver = this._createBatchingReceiver(
           this._context,
@@ -424,6 +439,8 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
           associatedLinkName: this._getAssociatedReceiverName(),
           requestName: "receiveDeferredMessages",
           timeoutInMs: this._retryOptions.timeoutInMs,
+          skipParsingBodyAsJson: this.skipParsingBodyAsJson,
+          skipConvertingDate: this.skipConvertingDate,
         });
       return deferredMessages;
     };
@@ -450,21 +467,24 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       associatedLinkName: this._getAssociatedReceiverName(),
       requestName: "peekMessages",
       timeoutInMs: this._retryOptions?.timeoutInMs,
+      skipParsingBodyAsJson: this.skipParsingBodyAsJson,
+      skipConvertingDate: this.skipConvertingDate,
     };
     const peekOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
-      if (options.fromSequenceNumber) {
+      if (options.fromSequenceNumber !== undefined) {
         return this._context
           .getManagementClient(this.entityPath)
           .peekBySequenceNumber(
             options.fromSequenceNumber,
             maxMessageCount,
             undefined,
+            options.omitMessageBody,
             managementRequestOptions
           );
       } else {
         return this._context
           .getManagementClient(this.entityPath)
-          .peek(maxMessageCount, managementRequestOptions);
+          .peek(maxMessageCount, options.omitMessageBody, managementRequestOptions);
       }
     };
 
@@ -506,12 +526,13 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
 
     this._streamingReceiver =
       this._streamingReceiver ??
-      new StreamingReceiver(this._context, this.entityPath, {
+      new StreamingReceiver(this.identifier, this._context, this.entityPath, {
         ...options,
         receiveMode: this.receiveMode,
         retryOptions: this._retryOptions,
         lockRenewer: this._lockRenewer,
         skipParsingBodyAsJson: this.skipParsingBodyAsJson,
+        skipConvertingDate: this.skipConvertingDate,
       });
 
     // this ensures that if the outer service bus client is closed that  this receiver is cleaned up.
@@ -586,20 +607,36 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
 
-    const msgImpl = message as ServiceBusMessageImpl;
+    const tracingContext = extractSpanContextFromServiceBusMessage(message);
+    const spanLinks: TracingSpanLink[] = tracingContext ? [{ tracingContext }] : [];
 
-    let associatedLinkName: string | undefined;
-    if (msgImpl.delivery.link) {
-      const associatedReceiver = this._context.getReceiverFromCache(msgImpl.delivery.link.name);
-      associatedLinkName = associatedReceiver?.name;
-    }
-    return this._context
-      .getManagementClient(this.entityPath)
-      .renewLock(message.lockToken!, { associatedLinkName })
-      .then((lockedUntil) => {
-        message.lockedUntilUtc = lockedUntil;
-        return lockedUntil;
-      });
+    return tracingClient.withSpan(
+      "ServiceBusReceiver.renewMessageLock",
+      {},
+      () => {
+        const msgImpl = message as ServiceBusMessageImpl;
+
+        let associatedLinkName: string | undefined;
+        if (msgImpl.delivery.link) {
+          const associatedReceiver = this._context.getReceiverFromCache(msgImpl.delivery.link.name);
+          associatedLinkName = associatedReceiver?.name;
+        }
+        return this._context
+          .getManagementClient(this.entityPath)
+          .renewLock(message.lockToken!, { associatedLinkName })
+          .then((lockedUntil) => {
+            message.lockedUntilUtc = lockedUntil;
+            return lockedUntil;
+          });
+      },
+      {
+        spanLinks,
+        ...toSpanOptions(
+          { entityPath: this.entityPath, host: this._context.config.host },
+          "client"
+        ),
+      }
+    );
   }
 
   async close(): Promise<void> {
@@ -649,7 +686,12 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     entityPath: string,
     options: ReceiveOptions
   ): BatchingReceiver {
-    return BatchingReceiver.create(context, entityPath, options);
+    const receiver = BatchingReceiver.create(this.identifier, context, entityPath, options);
+    logger.verbose(
+      `[${this.logPrefix}] receiver '${receiver.name}' created, with maxConcurrentCalls set to ${options.maxConcurrentCalls}.`
+    );
+
+    return receiver;
   }
 
   /**

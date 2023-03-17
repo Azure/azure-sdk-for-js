@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { SignalRResource, SignalRManagementClient } from "@azure/arm-signalr";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update a resource.
  *
  * @summary Create or update a resource.
- * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/stable/2022-02-01/examples/SignalR_CreateOrUpdate.json
+ * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/stable/2023-02-01/examples/SignalR_CreateOrUpdate.json
  */
 async function signalRCreateOrUpdate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["SIGNALR_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["SIGNALR_RESOURCE_GROUP"] || "myResourceGroup";
   const resourceName = "mySignalRService";
   const parameters: SignalRResource = {
     cors: { allowedOrigins: ["https://foo.com", "https://bar.com"] },
@@ -49,7 +55,8 @@ async function signalRCreateOrUpdate() {
       publicNetwork: { allow: ["ClientConnection"] }
     },
     publicNetworkAccess: "Enabled",
-    sku: { name: "Standard_S1", capacity: 1, tier: "Standard" },
+    serverless: { connectionTimeoutInSeconds: 5 },
+    sku: { name: "Premium_P1", capacity: 1, tier: "Premium" },
     tags: { key1: "value1" },
     tls: { clientCertEnabled: false },
     upstream: {
@@ -77,4 +84,8 @@ async function signalRCreateOrUpdate() {
   console.log(result);
 }
 
-signalRCreateOrUpdate().catch(console.error);
+async function main() {
+  signalRCreateOrUpdate();
+}
+
+main().catch(console.error);

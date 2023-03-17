@@ -42,6 +42,7 @@ export interface BaseMapper {
     type: MapperType;
     xmlElementName?: string;
     xmlIsAttribute?: boolean;
+    xmlIsMsText?: boolean;
     xmlIsWrapped?: boolean;
     xmlName?: string;
     xmlNamespace?: string;
@@ -312,11 +313,13 @@ export interface Serializer {
         [key: string]: any;
     };
     serialize(mapper: Mapper, object: any, objectName?: string, options?: SerializerOptions): any;
+    // @deprecated
     validateConstraints(mapper: Mapper, value: any, objectName: string): void;
 }
 
 // @public
 export interface SerializerOptions {
+    ignoreUnknownProperties?: boolean;
     xml: XmlOptions;
 }
 

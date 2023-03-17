@@ -3,17 +3,17 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import Sinon from "sinon";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { GetTokenOptions } from "@azure/core-auth";
-import { env, isPlaybackMode, isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { PublicClientApplication } from "@azure/msal-node";
 import { AzureLogger, setLogLevel } from "@azure/logger";
-import { UsernamePasswordCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
-import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
+import { Recorder, env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Context } from "mocha";
 import { DeveloperSignOnClientId } from "../../../src/constants";
+import { GetTokenOptions } from "@azure/core-auth";
+import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
+import { PublicClientApplication } from "@azure/msal-node";
+import Sinon from "sinon";
+import { UsernamePasswordCredential } from "../../../src";
+import { assert } from "chai";
 
 describe("UsernamePasswordCredential (internal)", function () {
   let cleanup: MsalTestCleanup;

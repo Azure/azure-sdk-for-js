@@ -25,7 +25,7 @@ import {
 /** Interface representing a PacketCoreDataPlanes. */
 export interface PacketCoreDataPlanes {
   /**
-   * Lists all the packetCoreDataPlanes associated with a packetCoreControlPlane.
+   * Lists all the packet core data planes associated with a packet core control plane.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
    * @param options The options parameters.
@@ -75,7 +75,8 @@ export interface PacketCoreDataPlanes {
     options?: PacketCoreDataPlanesGetOptionalParams
   ): Promise<PacketCoreDataPlanesGetResponse>;
   /**
-   * Creates or updates a PacketCoreDataPlane.
+   * Creates or updates a packet core data plane. Must be created in the same location as its parent
+   * packet core control plane.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
    * @param packetCoreDataPlaneName The name of the packet core data plane.
@@ -95,7 +96,8 @@ export interface PacketCoreDataPlanes {
     >
   >;
   /**
-   * Creates or updates a PacketCoreDataPlane.
+   * Creates or updates a packet core data plane. Must be created in the same location as its parent
+   * packet core control plane.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
    * @param packetCoreDataPlaneName The name of the packet core data plane.
@@ -110,11 +112,11 @@ export interface PacketCoreDataPlanes {
     options?: PacketCoreDataPlanesCreateOrUpdateOptionalParams
   ): Promise<PacketCoreDataPlanesCreateOrUpdateResponse>;
   /**
-   * Updates a PacketCoreDataPlane update tags.
+   * Updates packet core data planes tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
    * @param packetCoreDataPlaneName The name of the packet core data plane.
-   * @param parameters Parameters supplied to update PacketCoreDataPlane tags.
+   * @param parameters Parameters supplied to update packet core data plane tags.
    * @param options The options parameters.
    */
   updateTags(

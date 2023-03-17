@@ -21,8 +21,7 @@ import { ChunkFactory } from "./ChunkFactory";
 import { AvroReaderFactory } from "./AvroReaderFactory";
 import { Segment } from "./Segment";
 import { BlobChangeFeedListChangesOptions } from "./models/models";
-import { createSpan } from "./utils/tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { tracingClient } from "./utils/tracing";
 import { LazyLoadingBlobStreamFactory } from "./LazyLoadingBlobStreamFactory";
 
 interface MetaSegments {
@@ -32,16 +31,30 @@ interface MetaSegments {
 
 export class ChangeFeedFactory {
   private readonly segmentFactory: SegmentFactory;
+  private readonly maxTransferSize?: number;
 
-  constructor();
+  constructor(maxTransferSize?: number);
   constructor(segmentFactory: SegmentFactory);
-  constructor(segmentFactory?: SegmentFactory) {
+  constructor(segmentFactoryOrMaxTransferSize?: SegmentFactory | number) {
+    let segmentFactory: SegmentFactory | undefined;
+    if (segmentFactoryOrMaxTransferSize) {
+      if (Number.isFinite(segmentFactoryOrMaxTransferSize)) {
+        this.maxTransferSize = segmentFactoryOrMaxTransferSize as number;
+      } else if (segmentFactoryOrMaxTransferSize instanceof SegmentFactory) {
+        segmentFactory = segmentFactoryOrMaxTransferSize as SegmentFactory;
+      }
+    }
+
     if (segmentFactory) {
       this.segmentFactory = segmentFactory;
     } else {
       this.segmentFactory = new SegmentFactory(
         new ShardFactory(
-          new ChunkFactory(new AvroReaderFactory(), new LazyLoadingBlobStreamFactory())
+          new ChunkFactory(
+            new AvroReaderFactory(),
+            new LazyLoadingBlobStreamFactory(),
+            this.maxTransferSize
+          )
         )
       );
     }
@@ -61,9 +74,7 @@ export class ChangeFeedFactory {
     continuationToken?: string,
     options: BlobChangeFeedListChangesOptions = {}
   ): Promise<ChangeFeed> {
-    const { span, updatedOptions } = createSpan("ChangeFeedFactory-create", options);
-
-    try {
+    return tracingClient.withSpan("ChangeFeedFactory-create", options, async (updatedOptions) => {
       const containerClient = blobServiceClient.getContainerClient(CHANGE_FEED_CONTAINER_NAME);
       let cursor: ChangeFeedCursor | undefined = undefined;
       // Create cursor.
@@ -96,10 +107,19 @@ export class ChangeFeedFactory {
 
       // Get last consumable.
       const blobClient = containerClient.getBlobClient(CHANGE_FEED_META_SEGMENT_PATH);
-      const blobDownloadRes = await blobClient.download(undefined, undefined, {
-        abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions,
-      });
+      let blobDownloadRes;
+      try {
+        blobDownloadRes = await blobClient.download(undefined, undefined, {
+          abortSignal: options.abortSignal,
+          tracingOptions: updatedOptions.tracingOptions,
+        });
+      } catch (err: any) {
+        if (err.statusCode === 404) {
+          return new ChangeFeed();
+        } else {
+          throw err;
+        }
+      }
       const lastConsumable = new Date(
         (JSON.parse(await bodyToString(blobDownloadRes)) as MetaSegments).lastConsumable
       );
@@ -157,14 +177,6 @@ export class ChangeFeedFactory {
         options.start,
         options.end
       );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 }

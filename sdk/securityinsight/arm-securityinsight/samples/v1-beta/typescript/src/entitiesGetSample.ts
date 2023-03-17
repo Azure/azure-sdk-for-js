@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/entities/GetCloudApplicationEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetCloudApplicationEntityById.json
  */
 async function getACloudApplicationEntity() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const entityId = "e1d3d618-e11f-478b-98e3-bb381539a8e1";
   const credential = new DefaultAzureCredential();
@@ -32,17 +38,18 @@ async function getACloudApplicationEntity() {
   console.log(result);
 }
 
-getACloudApplicationEntity().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/entities/GetDnsEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetDnsEntityById.json
  */
 async function getADnsEntity() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const entityId = "f4e74920-f2c0-4412-a45f-66d94fdf01f8";
   const credential = new DefaultAzureCredential();
@@ -55,17 +62,18 @@ async function getADnsEntity() {
   console.log(result);
 }
 
-getADnsEntity().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/entities/GetFileEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetFileEntityById.json
  */
 async function getAFileEntity() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const entityId = "af378b21-b4aa-4fe7-bc70-13f8621a322f";
   const credential = new DefaultAzureCredential();
@@ -78,17 +86,18 @@ async function getAFileEntity() {
   console.log(result);
 }
 
-getAFileEntity().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/entities/GetFileHashEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetFileHashEntityById.json
  */
 async function getAFileHashEntity() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const entityId = "ea359fa6-c1e5-f878-e105-6344f3e399a1";
   const credential = new DefaultAzureCredential();
@@ -101,17 +110,18 @@ async function getAFileHashEntity() {
   console.log(result);
 }
 
-getAFileHashEntity().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/entities/GetHostEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetHostEntityById.json
  */
 async function getAHostEntity() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const entityId = "e1d3d618-e11f-478b-98e3-bb381539a8e1";
   const credential = new DefaultAzureCredential();
@@ -124,17 +134,18 @@ async function getAHostEntity() {
   console.log(result);
 }
 
-getAHostEntity().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/entities/GetMailClusterEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetMailClusterEntityById.json
  */
 async function getAMailClusterEntity() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const entityId = "e1d3d618-e11f-478b-98e3-bb381539a8e1";
   const credential = new DefaultAzureCredential();
@@ -147,17 +158,18 @@ async function getAMailClusterEntity() {
   console.log(result);
 }
 
-getAMailClusterEntity().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/entities/GetMailMessageEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetMailMessageEntityById.json
  */
 async function getAMailMessageEntity() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const entityId = "e1d3d618-e11f-478b-98e3-bb381539a8e1";
   const credential = new DefaultAzureCredential();
@@ -170,17 +182,18 @@ async function getAMailMessageEntity() {
   console.log(result);
 }
 
-getAMailMessageEntity().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/entities/GetMailboxEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetMailboxEntityById.json
  */
 async function getAMailboxEntity() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const entityId = "e1d3d618-e11f-478b-98e3-bb381539a8e1";
   const credential = new DefaultAzureCredential();
@@ -193,17 +206,18 @@ async function getAMailboxEntity() {
   console.log(result);
 }
 
-getAMailboxEntity().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/entities/GetMalwareEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetMalwareEntityById.json
  */
 async function getAMalwareEntity() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const entityId = "af378b21-b4aa-4fe7-bc70-13f8621a322f";
   const credential = new DefaultAzureCredential();
@@ -216,17 +230,18 @@ async function getAMalwareEntity() {
   console.log(result);
 }
 
-getAMalwareEntity().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/entities/GetProcessEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetProcessEntityById.json
  */
 async function getAProcessEntity() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const entityId = "7264685c-038c-42c6-948c-38e14ef1fb98";
   const credential = new DefaultAzureCredential();
@@ -239,17 +254,18 @@ async function getAProcessEntity() {
   console.log(result);
 }
 
-getAProcessEntity().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/entities/GetRegistryKeyEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetRegistryKeyEntityById.json
  */
 async function getARegistryKeyEntity() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const entityId = "e1d3d618-e11f-478b-98e3-bb381539a8e1";
   const credential = new DefaultAzureCredential();
@@ -262,17 +278,18 @@ async function getARegistryKeyEntity() {
   console.log(result);
 }
 
-getARegistryKeyEntity().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/entities/GetRegistryValueEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetRegistryValueEntityById.json
  */
 async function getARegistryValueEntity() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const entityId = "dc44bd11-b348-4d76-ad29-37bf7aa41356";
   const credential = new DefaultAzureCredential();
@@ -285,17 +302,18 @@ async function getARegistryValueEntity() {
   console.log(result);
 }
 
-getARegistryValueEntity().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/entities/GetSecurityAlertEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetSecurityAlertEntityById.json
  */
 async function getASecurityAlertEntity() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const entityId = "4aa486e0-6f85-41af-99ea-7acdce7be6c8";
   const credential = new DefaultAzureCredential();
@@ -308,17 +326,18 @@ async function getASecurityAlertEntity() {
   console.log(result);
 }
 
-getASecurityAlertEntity().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/entities/GetSecurityGroupEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetSecurityGroupEntityById.json
  */
 async function getASecurityGroupEntity() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const entityId = "e1d3d618-e11f-478b-98e3-bb381539a8e1";
   const credential = new DefaultAzureCredential();
@@ -331,17 +350,18 @@ async function getASecurityGroupEntity() {
   console.log(result);
 }
 
-getASecurityGroupEntity().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/entities/GetSubmissionMailEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetSubmissionMailEntityById.json
  */
 async function getASubmissionMailEntity() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const entityId = "e1d3d618-e11f-478b-98e3-bb381539a8e1";
   const credential = new DefaultAzureCredential();
@@ -354,17 +374,18 @@ async function getASubmissionMailEntity() {
   console.log(result);
 }
 
-getASubmissionMailEntity().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/entities/GetUrlEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetUrlEntityById.json
  */
 async function getAUrlEntity() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const entityId = "e1d3d618-e11f-478b-98e3-bb381539a8e1";
   const credential = new DefaultAzureCredential();
@@ -377,17 +398,18 @@ async function getAUrlEntity() {
   console.log(result);
 }
 
-getAUrlEntity().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/entities/GetIoTDeviceEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetIoTDeviceEntityById.json
  */
 async function getAnIoTDeviceEntity() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const entityId = "e1d3d618-e11f-478b-98e3-bb381539a8e1";
   const credential = new DefaultAzureCredential();
@@ -400,17 +422,18 @@ async function getAnIoTDeviceEntity() {
   console.log(result);
 }
 
-getAnIoTDeviceEntity().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/entities/GetAccountEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetAccountEntityById.json
  */
 async function getAnAccountEntity() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const entityId = "e1d3d618-e11f-478b-98e3-bb381539a8e1";
   const credential = new DefaultAzureCredential();
@@ -423,17 +446,18 @@ async function getAnAccountEntity() {
   console.log(result);
 }
 
-getAnAccountEntity().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/entities/GetAzureResourceEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetAzureResourceEntityById.json
  */
 async function getAnAzureResourceEntity() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const entityId = "e1d3d618-e11f-478b-98e3-bb381539a8e1";
   const credential = new DefaultAzureCredential();
@@ -445,18 +469,19 @@ async function getAnAzureResourceEntity() {
   );
   console.log(result);
 }
-
-getAnAzureResourceEntity().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/entities/GetIpEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetIpEntityById.json
  */
 async function getAnIPEntity() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const entityId = "e1d3d618-e11f-478b-98e3-bb381539a8e1";
   const credential = new DefaultAzureCredential();
@@ -469,4 +494,27 @@ async function getAnIPEntity() {
   console.log(result);
 }
 
-getAnIPEntity().catch(console.error);
+async function main() {
+  getACloudApplicationEntity();
+  getADnsEntity();
+  getAFileEntity();
+  getAFileHashEntity();
+  getAHostEntity();
+  getAMailClusterEntity();
+  getAMailMessageEntity();
+  getAMailboxEntity();
+  getAMalwareEntity();
+  getAProcessEntity();
+  getARegistryKeyEntity();
+  getARegistryValueEntity();
+  getASecurityAlertEntity();
+  getASecurityGroupEntity();
+  getASubmissionMailEntity();
+  getAUrlEntity();
+  getAnIoTDeviceEntity();
+  getAnAccountEntity();
+  getAnAzureResourceEntity();
+  getAnIPEntity();
+}
+
+main().catch(console.error);

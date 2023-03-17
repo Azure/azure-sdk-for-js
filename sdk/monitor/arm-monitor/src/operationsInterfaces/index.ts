@@ -7,6 +7,7 @@
  */
 
 export * from "./autoscaleSettings";
+export * from "./predictiveMetric";
 export * from "./operations";
 export * from "./alertRuleIncidents";
 export * from "./alertRules";
@@ -18,7 +19,7 @@ export * from "./activityLogs";
 export * from "./eventCategories";
 export * from "./tenantActivityLogs";
 export * from "./metricDefinitions";
-export * from "./metrics";
+export * from "./metricsOperations";
 export * from "./baselines";
 export * from "./metricAlerts";
 export * from "./metricAlertsStatus";
@@ -34,3 +35,5 @@ export * from "./activityLogAlerts";
 export * from "./dataCollectionEndpoints";
 export * from "./dataCollectionRuleAssociations";
 export * from "./dataCollectionRules";
+export * from "./azureMonitorWorkspaces";
+export * from "./monitorOperations";

@@ -25,18 +25,20 @@ import {
   EnableRequest as EnableRequestMapper,
   MetricAlertResource as MetricAlertResourceMapper,
   MetricAlertResourcePatch as MetricAlertResourcePatchMapper,
-  LogSearchRuleResource as LogSearchRuleResourceMapper,
-  LogSearchRuleResourcePatch as LogSearchRuleResourcePatchMapper,
+  ScheduledQueryRuleResource as ScheduledQueryRuleResourceMapper,
+  ScheduledQueryRuleResourcePatch as ScheduledQueryRuleResourcePatchMapper,
   AzureMonitorPrivateLinkScope as AzureMonitorPrivateLinkScopeMapper,
   TagsResource as TagsResourceMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   ScopedResource as ScopedResourceMapper,
   ActivityLogAlertResource as ActivityLogAlertResourceMapper,
-  ActivityLogAlertPatchBody as ActivityLogAlertPatchBodyMapper,
+  AlertRulePatchObject as AlertRulePatchObjectMapper,
   DataCollectionEndpointResource as DataCollectionEndpointResourceMapper,
   ResourceForUpdate as ResourceForUpdateMapper,
   DataCollectionRuleAssociationProxyOnlyResource as DataCollectionRuleAssociationProxyOnlyResourceMapper,
-  DataCollectionRuleResource as DataCollectionRuleResourceMapper
+  DataCollectionRuleResource as DataCollectionRuleResourceMapper,
+  AzureMonitorWorkspaceResource as AzureMonitorWorkspaceResourceMapper,
+  AzureMonitorWorkspaceResourceForUpdate as AzureMonitorWorkspaceResourceForUpdateMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -81,7 +83,7 @@ export const resourceGroupName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2015-04-01",
+    defaultValue: "2022-10-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -149,6 +151,73 @@ export const nextLink: OperationURLParameter = {
   skipEncoding: true
 };
 
+export const timespan: OperationQueryParameter = {
+  parameterPath: "timespan",
+  mapper: {
+    serializedName: "timespan",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const interval: OperationQueryParameter = {
+  parameterPath: "interval",
+  mapper: {
+    serializedName: "interval",
+    required: true,
+    type: {
+      name: "TimeSpan"
+    }
+  }
+};
+
+export const metricNamespace: OperationQueryParameter = {
+  parameterPath: "metricNamespace",
+  mapper: {
+    serializedName: "metricNamespace",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const metricName: OperationQueryParameter = {
+  parameterPath: "metricName",
+  mapper: {
+    serializedName: "metricName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const aggregation: OperationQueryParameter = {
+  parameterPath: "aggregation",
+  mapper: {
+    serializedName: "aggregation",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const apiVersion1: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2015-04-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const ruleName: OperationURLParameter = {
   parameterPath: "ruleName",
   mapper: {
@@ -171,7 +240,7 @@ export const incidentName: OperationURLParameter = {
   }
 };
 
-export const apiVersion1: OperationQueryParameter = {
+export const apiVersion2: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2016-03-01",
@@ -226,10 +295,10 @@ export const resourceUri: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const apiVersion2: OperationQueryParameter = {
+export const apiVersion3: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2017-05-01-preview",
+    defaultValue: "2021-05-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -270,10 +339,10 @@ export const actionGroupName: OperationURLParameter = {
   }
 };
 
-export const apiVersion3: OperationQueryParameter = {
+export const apiVersion4: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-09-01",
+    defaultValue: "2022-06-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -339,7 +408,7 @@ export const filter1: OperationQueryParameter = {
   }
 };
 
-export const apiVersion4: OperationQueryParameter = {
+export const apiVersion5: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2018-01-01",
@@ -361,7 +430,7 @@ export const metricnamespace: OperationQueryParameter = {
   }
 };
 
-export const timespan: OperationQueryParameter = {
+export const timespan1: OperationQueryParameter = {
   parameterPath: ["options", "timespan"],
   mapper: {
     serializedName: "timespan",
@@ -371,7 +440,7 @@ export const timespan: OperationQueryParameter = {
   }
 };
 
-export const interval: OperationQueryParameter = {
+export const interval1: OperationQueryParameter = {
   parameterPath: ["options", "interval"],
   mapper: {
     serializedName: "interval",
@@ -391,7 +460,7 @@ export const metricnames: OperationQueryParameter = {
   }
 };
 
-export const aggregation: OperationQueryParameter = {
+export const aggregation1: OperationQueryParameter = {
   parameterPath: ["options", "aggregation"],
   mapper: {
     serializedName: "aggregation",
@@ -442,7 +511,7 @@ export const sensitivities: OperationQueryParameter = {
   }
 };
 
-export const apiVersion5: OperationQueryParameter = {
+export const apiVersion6: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2019-03-01",
@@ -454,7 +523,7 @@ export const apiVersion5: OperationQueryParameter = {
   }
 };
 
-export const apiVersion6: OperationQueryParameter = {
+export const apiVersion7: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2018-03-01",
@@ -487,15 +556,10 @@ export const statusName: OperationURLParameter = {
   }
 };
 
-export const parameters6: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: LogSearchRuleResourceMapper
-};
-
-export const apiVersion7: OperationQueryParameter = {
+export const apiVersion8: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2018-04-16",
+    defaultValue: "2022-08-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -504,12 +568,17 @@ export const apiVersion7: OperationQueryParameter = {
   }
 };
 
-export const parameters7: OperationParameter = {
+export const parameters6: OperationParameter = {
   parameterPath: "parameters",
-  mapper: LogSearchRuleResourcePatchMapper
+  mapper: ScheduledQueryRuleResourceMapper
 };
 
-export const apiVersion8: OperationQueryParameter = {
+export const parameters7: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ScheduledQueryRuleResourcePatchMapper
+};
+
+export const apiVersion9: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2017-12-01-preview",
@@ -531,7 +600,7 @@ export const startTime: OperationQueryParameter = {
   }
 };
 
-export const apiVersion9: OperationQueryParameter = {
+export const apiVersion10: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2018-11-27-preview",
@@ -543,10 +612,10 @@ export const apiVersion9: OperationQueryParameter = {
   }
 };
 
-export const apiVersion10: OperationQueryParameter = {
+export const apiVersion11: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2019-10-17-preview",
+    defaultValue: "2021-07-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -619,8 +688,8 @@ export const parameters9: OperationParameter = {
   mapper: ScopedResourceMapper
 };
 
-export const activityLogAlert: OperationParameter = {
-  parameterPath: "activityLogAlert",
+export const activityLogAlertRule: OperationParameter = {
+  parameterPath: "activityLogAlertRule",
   mapper: ActivityLogAlertResourceMapper
 };
 
@@ -635,10 +704,10 @@ export const activityLogAlertName: OperationURLParameter = {
   }
 };
 
-export const apiVersion11: OperationQueryParameter = {
+export const apiVersion12: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2017-04-01",
+    defaultValue: "2020-10-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -647,15 +716,15 @@ export const apiVersion11: OperationQueryParameter = {
   }
 };
 
-export const activityLogAlertPatch: OperationParameter = {
-  parameterPath: "activityLogAlertPatch",
-  mapper: ActivityLogAlertPatchBodyMapper
+export const activityLogAlertRulePatch: OperationParameter = {
+  parameterPath: "activityLogAlertRulePatch",
+  mapper: AlertRulePatchObjectMapper
 };
 
-export const apiVersion12: OperationQueryParameter = {
+export const apiVersion13: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-04-01",
+    defaultValue: "2021-09-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -730,4 +799,40 @@ export const body2: OperationParameter = {
 export const body3: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: DataCollectionRuleResourceMapper
+};
+
+export const apiVersion14: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2021-06-03-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const azureMonitorWorkspaceName: OperationURLParameter = {
+  parameterPath: "azureMonitorWorkspaceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^(?!-)[a-zA-Z0-9-]+[^-]$")
+    },
+    serializedName: "azureMonitorWorkspaceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const azureMonitorWorkspaceProperties: OperationParameter = {
+  parameterPath: "azureMonitorWorkspaceProperties",
+  mapper: AzureMonitorWorkspaceResourceMapper
+};
+
+export const azureMonitorWorkspaceProperties1: OperationParameter = {
+  parameterPath: ["options", "azureMonitorWorkspaceProperties"],
+  mapper: AzureMonitorWorkspaceResourceForUpdateMapper
 };

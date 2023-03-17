@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.0-beta.2 (Unreleased)
+## 1.1.0-beta.3 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,22 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.1.0-beta.2 (2023-02-08)
+
+### Features Added
+
+- `ContainerRegistryBlobClient.uploadBlob` now uploads a blob using multiple requests if the size of the blob is greater than 4MB.
+
+### Breaking Changes
+
+- Removed resettable stream overload for `ContainerRegistryBlobClient.uploadBlob`.
+
+### Other Changes
+
+- Updated our `@azure/core-tracing` dependency to the latest version (1.0.0).
+  - Notable changes include Removal of `@opentelemetry/api` as a transitive dependency and ensuring that the active context is properly propagated.
+  - Customers who would like to continue using OpenTelemetry driven tracing should visit our [OpenTelemetry Instrumentation](https://www.npmjs.com/package/@azure/opentelemetry-instrumentation-azure-sdk) package for instructions.
 
 ## 1.1.0-beta.1 (2022-04-05)
 

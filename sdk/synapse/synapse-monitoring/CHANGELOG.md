@@ -1,5 +1,9 @@
 # Release History
 
+## 1.0.0-beta.4 (Unreleased)
+
+- Updated `@azure/core-tracing` to `1.0.0` GA.
+
 ## 1.0.0-beta.3 (Unreleased)
 
 

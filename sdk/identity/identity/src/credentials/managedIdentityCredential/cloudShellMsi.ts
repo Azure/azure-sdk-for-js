@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import {
+  PipelineRequestOptions,
   createHttpHeaders,
   createPipelineRequest,
-  PipelineRequestOptions,
 } from "@azure/core-rest-pipeline";
 import { credentialLogger } from "../../util/logging";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
@@ -60,6 +60,7 @@ function prepareRequestOptions(
  * Since Azure Managed Identities aren't available in the Azure Cloud Shell, we log a warning for users that try to access cloud shell using user assigned identity.
  */
 export const cloudShellMsi: MSI = {
+  name: "cloudShellMsi",
   async isAvailable({ scopes }): Promise<boolean> {
     const resource = mapScopesToResource(scopes);
     if (!resource) {

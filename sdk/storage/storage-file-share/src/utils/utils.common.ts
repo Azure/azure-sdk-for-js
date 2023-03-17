@@ -4,7 +4,7 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
 import { HttpAuthorization } from "../models";
-import { HeaderConstants, URLConstants } from "./constants";
+import { HeaderConstants, PathStylePorts, URLConstants } from "./constants";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -442,8 +442,11 @@ export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
   // Case 2: localhost(:port), use broad regex to match port part.
   // Case 3: Ipv4, use broad regex which just check if host contains Ipv4.
   // For valid host please refer to https://man7.org/linux/man-pages/man7/hostname.7.html.
-  return /^.*:.*:.*$|^localhost(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
-    host
+  return (
+    /^.*:.*:.*$|^localhost(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
+      host
+    ) ||
+    (parsedUrl.getPort() !== undefined && PathStylePorts.includes(parsedUrl.getPort()!))
   );
 }
 
@@ -538,4 +541,15 @@ export function setURLQueries(url: string, queryString: string): string {
   const urlParsed = URLBuilder.parse(url);
   urlParsed.setQuery(queryString);
   return urlParsed.toString();
+}
+
+/**
+ * Escape the file or directory name but keep path separator ('/').
+ */
+export function EscapePath(pathName: string): string {
+  const split = pathName.split("/");
+  for (let i = 0; i < split.length; i++) {
+    split[i] = encodeURIComponent(split[i]);
+  }
+  return split.join("/");
 }

@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { TokenCredential } from "@azure/core-http";
-import { DEFAULT_EXPORTER_CONFIG } from "../../src/config";
+import { TokenCredential } from "@azure/core-auth";
 import { HttpSender } from "../../src/platform/nodejs/httpSender";
 import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants";
 import {
@@ -43,7 +42,7 @@ describe("HttpSender", () => {
 
   describe("#constructor", () => {
     it("should create a valid instance", () => {
-      const sender = new HttpSender(DEFAULT_EXPORTER_CONFIG);
+      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT);
       assert.ok(sender);
     });
   });
@@ -54,7 +53,7 @@ describe("HttpSender", () => {
       time: new Date(),
     };
     it("should send a valid envelope", async () => {
-      const sender = new HttpSender(DEFAULT_EXPORTER_CONFIG);
+      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT);
       scope.reply(200, JSON.stringify(successfulBreezeResponse(1)));
       const { result, statusCode } = await sender.send([envelope]);
       assert.strictEqual(statusCode, 200);
@@ -62,7 +61,7 @@ describe("HttpSender", () => {
     });
 
     it("should send an invalid non-retriable envelope", async () => {
-      const sender = new HttpSender(DEFAULT_EXPORTER_CONFIG);
+      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT);
       scope.reply(403, JSON.stringify(failedBreezeResponse(2, 403)));
 
       try {
@@ -74,7 +73,7 @@ describe("HttpSender", () => {
     });
 
     it("should send a partially retriable envelope", async () => {
-      const sender = new HttpSender(DEFAULT_EXPORTER_CONFIG);
+      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT);
       scope.reply(206, JSON.stringify(partialBreezeResponse([200, 408, 408])));
       const { result, statusCode } = await sender.send([envelope, envelope]);
       assert.strictEqual(statusCode, 206);
@@ -84,14 +83,32 @@ describe("HttpSender", () => {
 
   describe("#authentication", () => {
     it("should add bearerTokenAuthenticationPolicy", () => {
-      let config = DEFAULT_EXPORTER_CONFIG;
-      config.aadTokenCredential = new TestTokenCredential();
-      const sender = new HttpSender(DEFAULT_EXPORTER_CONFIG);
+      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, {
+        aadTokenCredential: new TestTokenCredential(),
+      });
       assert.ok(
         sender["_appInsightsClient"].pipeline
           .getOrderedPolicies()
           .find((policy: PipelinePolicy) => {
             return policy.name == "bearerTokenAuthenticationPolicy";
+          })
+      );
+    });
+  });
+
+  describe("#advanced configuration", () => {
+    it("proxy configuration", () => {
+      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, {
+        proxyOptions: {
+          host: "testproxy",
+          port: 123,
+        },
+      });
+      assert.ok(
+        sender["_appInsightsClient"].pipeline
+          .getOrderedPolicies()
+          .find((policy: PipelinePolicy) => {
+            return policy.name == "proxyPolicy";
           })
       );
     });

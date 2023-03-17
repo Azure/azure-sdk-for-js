@@ -11,17 +11,24 @@ import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-a
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { createSpan, logger } from "./utils";
 import { PhoneNumbersClient as PhoneNumbersGeneratedClient } from "./generated/src";
 import {
+  PhoneNumberAreaCode,
   PhoneNumberCapabilitiesRequest,
+  PhoneNumberCountry,
+  PhoneNumberLocality,
+  PhoneNumberOffering,
   PhoneNumberSearchResult,
   PurchasedPhoneNumber,
 } from "./generated/src/models/";
 import {
   GetPurchasedPhoneNumberOptions,
+  ListAvailableCountriesOptions,
+  ListGeographicAreaCodesOptions,
+  ListLocalitiesOptions,
+  ListOfferingsOptions,
   ListPurchasedPhoneNumbersOptions,
+  ListTollFreeAreaCodesOptions,
   PurchasePhoneNumbersResult,
   ReleasePhoneNumberResult,
   SearchAvailablePhoneNumbersRequest,
@@ -34,11 +41,18 @@ import {
 } from "./lroModels";
 import { createPhoneNumbersPagingPolicy } from "./utils/customPipelinePolicies";
 import { CommonClientOptions } from "@azure/core-client";
+import { logger } from "./utils";
+import { tracingClient } from "./generated/src/tracing";
 
 /**
  * Client options used to configure the PhoneNumbersClient API requests.
  */
-export interface PhoneNumbersClientOptions extends CommonClientOptions {}
+export interface PhoneNumbersClientOptions extends CommonClientOptions {
+  /**
+   * The accept language parameter to be used in the request header's "accept-language" property.
+   */
+  acceptLanguage?: string;
+}
 
 const isPhoneNumbersClientOptions = (options: any): options is PhoneNumbersClientOptions =>
   options && !isKeyCredential(options) && !isTokenCredential(options);
@@ -51,6 +65,11 @@ export class PhoneNumbersClient {
    * A reference to the auto-generated PhoneNumber HTTP client.
    */
   private readonly client: PhoneNumbersGeneratedClient;
+
+  /**
+   * The accept language parameter to be used in the request header's "accept-language" property.
+   */
+  private acceptLanguage: string | undefined;
 
   /**
    * Initializes a new instance of the PhoneNumberAdministrationClient class using a connection string.
@@ -106,6 +125,7 @@ export class PhoneNumbersClient {
     // This policy is temporary workarounds to address compatibility issues with Azure Core V2.
     const phoneNumbersPagingPolicy = createPhoneNumbersPagingPolicy(url);
     this.client.pipeline.addPolicy(phoneNumbersPagingPolicy);
+    this.acceptLanguage = maybeOptions.acceptLanguage;
   }
 
   /**
@@ -114,25 +134,19 @@ export class PhoneNumbersClient {
    * @param phoneNumber - The E.164 formatted phone number being fetched. The leading plus can be either + or encoded as %2B.
    * @param options - Additional request options.
    */
-  public async getPurchasedPhoneNumber(
+  public getPurchasedPhoneNumber(
     phoneNumber: string,
     options: GetPurchasedPhoneNumberOptions = {}
   ): Promise<PurchasedPhoneNumber> {
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "PhoneNumbersClient-getPurchasedPhoneNumber",
-      options
+      options,
+      (updatedOptions) => {
+        return this.client.phoneNumbers.getByNumber(phoneNumber, {
+          ...updatedOptions,
+        });
+      }
     );
-    try {
-      return await this.client.phoneNumbers.getByNumber(phoneNumber, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -151,13 +165,25 @@ export class PhoneNumbersClient {
   public listPurchasedPhoneNumbers(
     options: ListPurchasedPhoneNumbersOptions = {}
   ): PagedAsyncIterableIterator<PurchasedPhoneNumber> {
-    const { span, updatedOptions } = createSpan(
+    const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-listPurchasedPhoneNumbers",
       options
     );
-    const iter = this.client.phoneNumbers.listPhoneNumbers(updatedOptions);
-    span.end();
-    return iter;
+
+    try {
+      return this.client.phoneNumbers.listPhoneNumbers({
+        ...updatedOptions,
+      });
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e,
+      });
+
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -180,26 +206,17 @@ export class PhoneNumbersClient {
    * @param phoneNumber - The E.164 formatted phone number being released. The leading plus can be either + or encoded as %2B.
    * @param options - Additional request options.
    */
-  public async beginReleasePhoneNumber(
+  public beginReleasePhoneNumber(
     phoneNumber: string,
     options: BeginReleasePhoneNumberOptions = {}
   ): Promise<PollerLike<PollOperationState<ReleasePhoneNumberResult>, ReleasePhoneNumberResult>> {
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "PhoneNumbersClient-beginReleasePhoneNumber",
-      options
+      options,
+      (updatedOptions) => {
+        return this.client.phoneNumbers.beginReleasePhoneNumber(phoneNumber, updatedOptions);
+      }
     );
-
-    try {
-      return await this.client.phoneNumbers.beginReleasePhoneNumber(phoneNumber, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -224,36 +241,27 @@ export class PhoneNumbersClient {
    * @param search - Request properties to constraint the search scope.
    * @param options - Additional request options.
    */
-  public async beginSearchAvailablePhoneNumbers(
+  public beginSearchAvailablePhoneNumbers(
     search: SearchAvailablePhoneNumbersRequest,
     options: BeginSearchAvailablePhoneNumbersOptions = {}
   ): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>> {
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "PhoneNumbersClient-beginSearchAvailablePhoneNumbers",
-      options
+      options,
+      (updatedOptions) => {
+        const { countryCode, phoneNumberType, assignmentType, capabilities, ...rest } = search;
+        return this.client.phoneNumbers.beginSearchAvailablePhoneNumbers(
+          countryCode,
+          phoneNumberType,
+          assignmentType,
+          capabilities,
+          {
+            ...updatedOptions,
+            ...rest,
+          }
+        );
+      }
     );
-
-    try {
-      const { countryCode, phoneNumberType, assignmentType, capabilities, ...rest } = search;
-      return this.client.phoneNumbers.beginSearchAvailablePhoneNumbers(
-        countryCode,
-        phoneNumberType,
-        assignmentType,
-        capabilities,
-        {
-          ...updatedOptions,
-          ...rest,
-        }
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -277,28 +285,19 @@ export class PhoneNumbersClient {
    * @param searchId - The id of the search to purchase. Returned from `beginSearchAvailablePhoneNumbers`
    * @param options - Additional request options.
    */
-  public async beginPurchasePhoneNumbers(
+  public beginPurchasePhoneNumbers(
     searchId: string,
     options: BeginPurchasePhoneNumbersOptions = {}
   ): Promise<
     PollerLike<PollOperationState<PurchasePhoneNumbersResult>, PurchasePhoneNumbersResult>
   > {
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "PhoneNumbersClient-beginPurchasePhoneNumbers",
-      options
+      options,
+      (updatedOptions) => {
+        return this.client.phoneNumbers.beginPurchasePhoneNumbers({ ...updatedOptions, searchId });
+      }
     );
-
-    try {
-      return this.client.phoneNumbers.beginPurchasePhoneNumbers({ ...updatedOptions, searchId });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -323,26 +322,217 @@ export class PhoneNumbersClient {
    * @param request - The updated properties which will be applied to the phone number.
    * @param options - Additional request options.
    */
-  public async beginUpdatePhoneNumberCapabilities(
+  public beginUpdatePhoneNumberCapabilities(
     phoneNumber: string,
     request: PhoneNumberCapabilitiesRequest,
     options: BeginUpdatePhoneNumberCapabilitiesOptions = {}
   ): Promise<PollerLike<PollOperationState<PurchasedPhoneNumber>, PurchasedPhoneNumber>> {
-    const { span, updatedOptions } = createSpan(
+    if (!phoneNumber) {
+      throw Error("phone number can't be empty");
+    }
+    return tracingClient.withSpan(
       "PhoneNumbersClient-beginUpdatePhoneNumberCapabilities",
+      options,
+      (updatedOptions) => {
+        return this.client.phoneNumbers.beginUpdateCapabilities(phoneNumber, {
+          ...updatedOptions,
+          ...request,
+        });
+      }
+    );
+  }
+
+  /**
+   * Iterates the available countries.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new PhoneNumbersClient(credentials);
+   * for await (const country of client.listAvailableCountries()) {
+   *   console.log("country: ", country.localizedName);
+   * }
+   * ```
+   * List all available countries.
+   * @param options - The optional parameters.
+   */
+  public listAvailableCountries(
+    options: ListAvailableCountriesOptions = {}
+  ): PagedAsyncIterableIterator<PhoneNumberCountry> {
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "PhoneNumbersClient-listAvailableCountries",
       options
     );
 
     try {
-      return this.client.phoneNumbers.beginUpdateCapabilities(phoneNumber, {
+      return this.client.phoneNumbers.listAvailableCountries({
         ...updatedOptions,
-        ...request,
+        acceptLanguage: this.acceptLanguage,
       });
     } catch (e: any) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        status: "error",
+        error: e,
       });
+
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Iterates the available Toll-Free area codes.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new PhoneNumbersClient(credentials);
+   * for await (const areaCodeItem of client.listTollFreeAreaCodes()) {
+   *   console.log("area code: ", areaCodeItem.areaCode);
+   * }
+   * ```
+   * List all available Toll-Free area codes.
+   * @param countryCode - The ISO 3166-2 country code.
+   * @param options - The optional parameters.
+   */
+  public listAvailableTollFreeAreaCodes(
+    countryCode: string,
+    options: ListTollFreeAreaCodesOptions = {}
+  ): PagedAsyncIterableIterator<PhoneNumberAreaCode> {
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "PhoneNumbersClient-listAvailableTollFreeAreaCodes",
+      options
+    );
+
+    try {
+      return this.client.phoneNumbers.listAreaCodes(countryCode, "tollFree", {
+        ...updatedOptions,
+        assignmentType: "application",
+      });
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e,
+      });
+
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Iterates the available Geographic area codes.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new PhoneNumbersClient(credentials);
+   * for await (const areaCodeItem of client.listGeographicAreaCodes()) {
+   *   console.log("area code: ", areaCodeItem.areaCode);
+   * }
+   * ```
+   * List all available Geographic area codes.
+   * @param countryCode - The ISO 3166-2 country code.
+   * @param options - The optional parameters.
+   */
+  public listAvailableGeographicAreaCodes(
+    countryCode: string,
+    options: ListGeographicAreaCodesOptions = {}
+  ): PagedAsyncIterableIterator<PhoneNumberAreaCode> {
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "PhoneNumbersClient-listAvailableGeographicFreeAreaCodes",
+      options
+    );
+
+    try {
+      return this.client.phoneNumbers.listAreaCodes(countryCode, "geographic", {
+        ...updatedOptions,
+      });
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e,
+      });
+
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Iterates the available localities.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new PhoneNumbersClient(credentials);
+   * for await (const locality of client.listAvailableLocalities()) {
+   *   console.log("locality: ", locality.localizedName);
+   * }
+   * ```
+   * List all available localities.
+   * @param countryCode - The ISO 3166-2 country code.
+   * @param options - The optional parameters.
+   */
+  public listAvailableLocalities(
+    countryCode: string,
+    options: ListLocalitiesOptions = {}
+  ): PagedAsyncIterableIterator<PhoneNumberLocality> {
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "PhoneNumbersClient-listAvailableLocalities",
+      options
+    );
+
+    try {
+      return this.client.phoneNumbers.listAvailableLocalities(countryCode, {
+        ...updatedOptions,
+        acceptLanguage: this.acceptLanguage,
+      });
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e,
+      });
+
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Iterates the available offerings.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new PhoneNumbersClient(credentials);
+   * for await (const offering of client.listAvailableOfferings()) {
+   *   console.log("phone number type: ", offering.phoneNumberType);
+   *   console.log("cost: ", offering.cost.amount);
+   * }
+   * ```
+   * List all available offerings.
+   * @param countryCode - The ISO 3166-2 country code.
+   * @param options - The optional parameters.
+   */
+  public listAvailableOfferings(
+    countryCode: string,
+    options: ListOfferingsOptions = {}
+  ): PagedAsyncIterableIterator<PhoneNumberOffering> {
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "PhoneNumbersClient-listOfferings",
+      options
+    );
+
+    try {
+      return this.client.phoneNumbers.listOfferings(countryCode, {
+        ...updatedOptions,
+      });
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e,
+      });
+
       throw e;
     } finally {
       span.end();

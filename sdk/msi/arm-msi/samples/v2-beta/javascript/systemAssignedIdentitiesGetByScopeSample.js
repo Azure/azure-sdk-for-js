@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 const { ManagedServiceIdentityClient } = require("@azure/arm-msi");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the systemAssignedIdentity available under the specified RP scope.
  *
  * @summary Gets the systemAssignedIdentity available under the specified RP scope.
- * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2021-09-30-preview/examples/SystemAssignedIdentityGet.json
+ * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/SystemAssignedIdentityGet.json
  */
 async function msiOperationsList() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["MSI_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "scope";
   const credential = new DefaultAzureCredential();
   const client = new ManagedServiceIdentityClient(credential, subscriptionId);
@@ -26,4 +28,8 @@ async function msiOperationsList() {
   console.log(result);
 }
 
-msiOperationsList().catch(console.error);
+async function main() {
+  msiOperationsList();
+}
+
+main().catch(console.error);

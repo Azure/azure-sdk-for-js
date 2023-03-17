@@ -6,14 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { IntegrationRuntimes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataFactoryManagementClient } from "../dataFactoryManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   IntegrationRuntimeResource,
   IntegrationRuntimesListByFactoryNextOptionalParams,
@@ -89,11 +94,15 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByFactoryPagingPage(
           resourceGroupName,
           factoryName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -102,15 +111,22 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
   private async *listByFactoryPagingPage(
     resourceGroupName: string,
     factoryName: string,
-    options?: IntegrationRuntimesListByFactoryOptionalParams
+    options?: IntegrationRuntimesListByFactoryOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<IntegrationRuntimeResource[]> {
-    let result = await this._listByFactory(
-      resourceGroupName,
-      factoryName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: IntegrationRuntimesListByFactoryResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByFactory(
+        resourceGroupName,
+        factoryName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByFactoryNext(
         resourceGroupName,
@@ -119,7 +135,9 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -366,8 +384,8 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     integrationRuntimeName: string,
     options?: IntegrationRuntimesStartOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IntegrationRuntimesStartResponse>,
+    SimplePollerLike<
+      OperationState<IntegrationRuntimesStartResponse>,
       IntegrationRuntimesStartResponse
     >
   > {
@@ -377,7 +395,7 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     ): Promise<IntegrationRuntimesStartResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -410,13 +428,16 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, factoryName, integrationRuntimeName, options },
-      startOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, factoryName, integrationRuntimeName, options },
+      spec: startOperationSpec
+    });
+    const poller = await createHttpPoller<
+      IntegrationRuntimesStartResponse,
+      OperationState<IntegrationRuntimesStartResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -457,14 +478,14 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     factoryName: string,
     integrationRuntimeName: string,
     options?: IntegrationRuntimesStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -497,13 +518,13 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, factoryName, integrationRuntimeName, options },
-      stopOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, factoryName, integrationRuntimeName, options },
+      spec: stopOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1090,7 +1111,6 @@ const listByFactoryNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

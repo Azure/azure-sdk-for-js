@@ -1,6 +1,6 @@
 # Release History
 
-## 12.9.0-beta.2 (Unreleased)
+## 12.20.0 (Unreleased)
 
 ### Features Added
 
@@ -8,9 +8,73 @@
 
 ### Bugs Fixed
 
-- Refined user-agent value to avoid failure when os information is not available on some platforms.
+### Other Changes
+
+- Migrated dependency on `@azure/core-http` to `@azure/core-rest-pipeline`.
+
+## 12.12.0 (Unreleased)
+
+### Features Added
+
+- Added support for service version 2021-12-02.
+- Add support for acquiring, renewing and releasing lease in methods DataLakeFileClient.append() and flush().
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixes the date properties(`createdOn` and `expiresOn`) in the returned responses of `DataLakeFileSystemClient` by calculating the date more accurately. [#25072](https://github.com/Azure/azure-sdk-for-js/pull/25072)
 
 ### Other Changes
+
+- Update dependency `@azure/core-http` version to `^3.0.0`.
+
+## 12.11.0 (2022-10-14)
+
+### Features Added
+
+- Includes all features released in 12.11.0-beta.1.
+
+### Bugs Fixed
+
+- Fixed an issue of escaping slashes in file or directory path unnecessarily.
+
+## 12.11.0-beta.1 (2022-08-26)
+
+### Features Added
+
+- Added support for service version 2021-10-04.
+- Added support for flush parameter to DataLakeFileClient.append().
+- Added support for encryption scopes.
+- Added support for encryption scope SAS.
+
+### Bugs Fixed
+
+- Correted permission string parsing in DataLakePathClient.setPermissions() and DataLakePathClient.getAccessControl().
+- Refined URL parsing method to let it be able to correctly parse URLs with account name in path.
+
+## 12.10.0 (2022-07-08)
+
+### Features Added
+
+- Includes all features released in 12.10.0-beta.1.
+
+## 12.10.0-beta.1 (2022-06-17)
+
+### Features Added
+
+- Added support for service version 2021-08-06.
+- Added ability to set permission, umask, owner, group, ACL, lease, and expiry time on DataLakeFileClient.create() and .createIfNotExists(), DataLakeDirectoryClient.create() and .createIfNotExists(), and DataLakePathClient.create() and .createIfNotExists().
+
+## 12.9.0 (2022-05-12)
+
+### Features Added
+
+- Includes all features released in 12.9.0-beta.1.
+
+### Bugs Fixed
+
+- Refined user-agent value to avoid failure when os information is not available on some platforms.
 
 ## 12.9.0-beta.1 (2022-04-19)
 

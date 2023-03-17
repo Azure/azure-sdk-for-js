@@ -6,10 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { createSpan } from "../tracing";
+import { tracingClient } from "../tracing";
 import { IntegrationRuntimes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
@@ -39,22 +38,16 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
   async list(
     options?: IntegrationRuntimesListOptionalParams
   ): Promise<IntegrationRuntimesListResponse> {
-    const { span } = createSpan("ArtifactsClient-list", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { options },
-        listOperationSpec
-      );
-      return result as IntegrationRuntimesListResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ArtifactsClient.list",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          listOperationSpec
+        ) as Promise<IntegrationRuntimesListResponse>;
+      }
+    );
   }
 
   /**
@@ -66,22 +59,16 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     integrationRuntimeName: string,
     options?: IntegrationRuntimesGetOptionalParams
   ): Promise<IntegrationRuntimesGetResponse> {
-    const { span } = createSpan("ArtifactsClient-get", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { integrationRuntimeName, options },
-        getOperationSpec
-      );
-      return result as IntegrationRuntimesGetResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ArtifactsClient.get",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { integrationRuntimeName, options },
+          getOperationSpec
+        ) as Promise<IntegrationRuntimesGetResponse>;
+      }
+    );
   }
 }
 // Operation Specifications

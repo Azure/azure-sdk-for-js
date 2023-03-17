@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { AppPlatformManagementClient } = require("@azure/arm-appplatform");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create a new Service or update an exiting Service.
  *
  * @summary Create a new Service or update an exiting Service.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-03-01-preview/examples/Services_CreateOrUpdate.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/Services_CreateOrUpdate.json
  */
 async function servicesCreateOrUpdate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const resource = {
     location: "eastus",
@@ -37,17 +39,49 @@ async function servicesCreateOrUpdate() {
   console.log(result);
 }
 
-servicesCreateOrUpdate().catch(console.error);
+/**
+ * This sample demonstrates how to Create a new Service or update an exiting Service.
+ *
+ * @summary Create a new Service or update an exiting Service.
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/Services_CreateOrUpdate_Enterprise.json
+ */
+async function servicesCreateOrUpdateEnterprise() {
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
+  const serviceName = "myservice";
+  const resource = {
+    location: "eastus",
+    properties: {
+      marketplaceResource: {
+        plan: "tanzu-asc-ent-mtr",
+        product: "azure-spring-cloud-vmware-tanzu-2",
+        publisher: "vmware-inc",
+      },
+    },
+    sku: { name: "E0", tier: "Enterprise" },
+    tags: { key1: "value1" },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new AppPlatformManagementClient(credential, subscriptionId);
+  const result = await client.services.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    serviceName,
+    resource
+  );
+  console.log(result);
+}
 
 /**
  * This sample demonstrates how to Create a new Service or update an exiting Service.
  *
  * @summary Create a new Service or update an exiting Service.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-03-01-preview/examples/Services_CreateOrUpdate_VNetInjection.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/Services_CreateOrUpdate_VNetInjection.json
  */
 async function servicesCreateOrUpdateVNetInjection() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const resource = {
     location: "eastus",
@@ -56,11 +90,13 @@ async function servicesCreateOrUpdateVNetInjection() {
         appNetworkResourceGroup: "my-app-network-rg",
         appSubnetId:
           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/myVirtualNetwork/subnets/apps",
+        ingressConfig: { readTimeoutInSeconds: 300 },
         serviceCidr: "10.8.0.0/16,10.244.0.0/16,10.245.0.1/16",
         serviceRuntimeNetworkResourceGroup: "my-service-runtime-network-rg",
         serviceRuntimeSubnetId:
           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/myVirtualNetwork/subnets/serviceRuntime",
       },
+      vnetAddons: { logStreamPublicEndpoint: true },
     },
     sku: { name: "S0", tier: "Standard" },
     tags: { key1: "value1" },
@@ -75,4 +111,10 @@ async function servicesCreateOrUpdateVNetInjection() {
   console.log(result);
 }
 
-servicesCreateOrUpdateVNetInjection().catch(console.error);
+async function main() {
+  servicesCreateOrUpdate();
+  servicesCreateOrUpdateEnterprise();
+  servicesCreateOrUpdateVNetInjection();
+}
+
+main().catch(console.error);

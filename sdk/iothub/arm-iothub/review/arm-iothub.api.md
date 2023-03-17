@@ -156,6 +156,12 @@ export type CreatedByType = string;
 export type DefaultAction = string;
 
 // @public
+export interface EncryptionPropertiesDescription {
+    keySource?: string;
+    keyVaultProperties?: KeyVaultKeyProperties[];
+}
+
+// @public
 export interface EndpointHealthData {
     endpointId?: string;
     healthStatus?: EndpointHealthStatus;
@@ -258,6 +264,9 @@ export interface FeedbackProperties {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface GroupIdInformation {
     readonly id?: string;
     readonly name?: string;
@@ -331,13 +340,13 @@ export interface IotHubClientOptionalParams extends coreClient.ServiceClientOpti
 }
 
 // @public
-export type IotHubDescription = Resource & {
+export interface IotHubDescription extends Resource {
     etag?: string;
+    identity?: ArmIdentity;
     properties?: IotHubProperties;
     sku: IotHubSkuInfo;
-    identity?: ArmIdentity;
     readonly systemData?: SystemData;
-};
+}
 
 // @public
 export interface IotHubDescriptionListResult {
@@ -373,11 +382,13 @@ export interface IotHubProperties {
     authorizationPolicies?: SharedAccessSignatureAuthorizationRule[];
     cloudToDevice?: CloudToDeviceProperties;
     comments?: string;
+    deviceStreams?: IotHubPropertiesDeviceStreams;
     disableDeviceSAS?: boolean;
     disableLocalAuth?: boolean;
     disableModuleSAS?: boolean;
     enableDataResidency?: boolean;
     enableFileUploadNotifications?: boolean;
+    encryption?: EncryptionPropertiesDescription;
     eventHubEndpoints?: {
         [propertyName: string]: EventHubProperties;
     };
@@ -394,11 +405,17 @@ export interface IotHubProperties {
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
     restrictOutboundNetworkAccess?: boolean;
+    rootCertificate?: RootCertificateProperties;
     routing?: RoutingProperties;
     readonly state?: string;
     storageEndpoints?: {
         [propertyName: string]: StorageEndpointProperties;
     };
+}
+
+// @public
+export interface IotHubPropertiesDeviceStreams {
+    streamingEndpoints?: string[];
 }
 
 // @public
@@ -462,6 +479,11 @@ export interface IotHubResourceCreateEventHubConsumerGroupOptionalParams extends
 export type IotHubResourceCreateEventHubConsumerGroupResponse = EventHubConsumerGroupInfo;
 
 // @public
+export interface IotHubResourceCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+}
+
+// @public
 export interface IotHubResourceCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
     resumeFrom?: string;
@@ -473,6 +495,11 @@ export type IotHubResourceCreateOrUpdateResponse = IotHubDescription;
 
 // @public
 export interface IotHubResourceDeleteEventHubConsumerGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface IotHubResourceDeleteHeaders {
+    azureAsyncOperation?: string;
 }
 
 // @public
@@ -660,13 +687,18 @@ export interface IotHubResourceTestRouteOptionalParams extends coreClient.Operat
 export type IotHubResourceTestRouteResponse = TestRouteResult;
 
 // @public
+export interface IotHubResourceUpdateHeaders {
+    azureAsyncOperation?: string;
+}
+
+// @public
 export interface IotHubResourceUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type IotHubResourceUpdateResponse = IotHubDescription;
+export type IotHubResourceUpdateResponse = IotHubResourceUpdateHeaders & IotHubDescription;
 
 // @public
 export type IotHubScaleType = "Automatic" | "Manual" | "None";
@@ -732,172 +764,125 @@ export type JobStatus = "unknown" | "enqueued" | "running" | "completed" | "fail
 export type JobType = string;
 
 // @public
+export interface KeyVaultKeyProperties {
+    identity?: ManagedIdentity;
+    keyIdentifier?: string;
+}
+
+// @public
 export enum KnownAuthenticationType {
-    // (undocumented)
     IdentityBased = "identityBased",
-    // (undocumented)
     KeyBased = "keyBased"
 }
 
 // @public
 export enum KnownCapabilities {
-    // (undocumented)
     DeviceManagement = "DeviceManagement",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownDefaultAction {
-    // (undocumented)
     Allow = "Allow",
-    // (undocumented)
     Deny = "Deny"
 }
 
 // @public
 export enum KnownEndpointHealthStatus {
-    // (undocumented)
     Dead = "dead",
-    // (undocumented)
     Degraded = "degraded",
-    // (undocumented)
     Healthy = "healthy",
-    // (undocumented)
     Unhealthy = "unhealthy",
-    // (undocumented)
     Unknown = "unknown"
 }
 
 // @public
 export enum KnownIotHubReplicaRoleType {
-    // (undocumented)
     Primary = "primary",
-    // (undocumented)
     Secondary = "secondary"
 }
 
 // @public
 export enum KnownIotHubSku {
-    // (undocumented)
     B1 = "B1",
-    // (undocumented)
     B2 = "B2",
-    // (undocumented)
     B3 = "B3",
-    // (undocumented)
     F1 = "F1",
-    // (undocumented)
     S1 = "S1",
-    // (undocumented)
     S2 = "S2",
-    // (undocumented)
     S3 = "S3"
 }
 
 // @public
 export enum KnownJobType {
-    // (undocumented)
     Backup = "backup",
-    // (undocumented)
     Export = "export",
-    // (undocumented)
     FactoryResetDevice = "factoryResetDevice",
-    // (undocumented)
     FirmwareUpdate = "firmwareUpdate",
-    // (undocumented)
     Import = "import",
-    // (undocumented)
     ReadDeviceProperties = "readDeviceProperties",
-    // (undocumented)
     RebootDevice = "rebootDevice",
-    // (undocumented)
     Unknown = "unknown",
-    // (undocumented)
     UpdateDeviceConfiguration = "updateDeviceConfiguration",
-    // (undocumented)
     WriteDeviceProperties = "writeDeviceProperties"
 }
 
 // @public
 export enum KnownNetworkRuleIPAction {
-    // (undocumented)
     Allow = "Allow"
 }
 
 // @public
 export enum KnownPrivateLinkServiceConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownPublicNetworkAccess {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownRouteErrorSeverity {
-    // (undocumented)
     Error = "error",
-    // (undocumented)
     Warning = "warning"
 }
 
 // @public
 export enum KnownRoutingSource {
-    // (undocumented)
     DeviceConnectionStateEvents = "DeviceConnectionStateEvents",
-    // (undocumented)
     DeviceJobLifecycleEvents = "DeviceJobLifecycleEvents",
-    // (undocumented)
     DeviceLifecycleEvents = "DeviceLifecycleEvents",
-    // (undocumented)
     DeviceMessages = "DeviceMessages",
-    // (undocumented)
+    DigitalTwinChangeEvents = "DigitalTwinChangeEvents",
     Invalid = "Invalid",
-    // (undocumented)
+    MqttBrokerMessages = "MqttBrokerMessages",
     TwinChangeEvents = "TwinChangeEvents"
 }
 
 // @public
 export enum KnownRoutingStorageContainerPropertiesEncoding {
-    // (undocumented)
     Avro = "Avro",
-    // (undocumented)
     AvroDeflate = "AvroDeflate",
-    // (undocumented)
     Json = "JSON"
 }
 
 // @public
 export enum KnownTestResultStatus {
-    // (undocumented)
     False = "false",
-    // (undocumented)
     True = "true",
-    // (undocumented)
     Undefined = "undefined"
 }
 
@@ -1015,6 +1000,11 @@ export interface PrivateEndpointConnections {
 }
 
 // @public
+export interface PrivateEndpointConnectionsDeleteHeaders {
+    azureAsyncOperation?: string;
+}
+
+// @public
 export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1036,6 +1026,11 @@ export interface PrivateEndpointConnectionsListOptionalParams extends coreClient
 
 // @public
 export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnection[];
+
+// @public
+export interface PrivateEndpointConnectionsUpdateHeaders {
+    azureAsyncOperation?: string;
+}
 
 // @public
 export interface PrivateEndpointConnectionsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -1118,6 +1113,12 @@ export interface ResourceProviderCommonGetSubscriptionQuotaOptionalParams extend
 export type ResourceProviderCommonGetSubscriptionQuotaResponse = UserSubscriptionQuotaListResult;
 
 // @public
+export interface RootCertificateProperties {
+    enableRootCertificateV2?: boolean;
+    readonly lastUpdatedTimeUtc?: Date;
+}
+
+// @public
 export interface RouteCompilationError {
     location?: RouteErrorRange;
     message?: string;
@@ -1149,7 +1150,25 @@ export interface RouteProperties {
 }
 
 // @public
+export interface RoutingCosmosDBSqlApiProperties {
+    authenticationType?: AuthenticationType;
+    collectionName: string;
+    databaseName: string;
+    endpointUri: string;
+    id?: string;
+    identity?: ManagedIdentity;
+    name: string;
+    partitionKeyName?: string;
+    partitionKeyTemplate?: string;
+    primaryKey?: string;
+    resourceGroup?: string;
+    secondaryKey?: string;
+    subscriptionId?: string;
+}
+
+// @public
 export interface RoutingEndpoints {
+    cosmosDBSqlCollections?: RoutingCosmosDBSqlApiProperties[];
     eventHubs?: RoutingEventHubProperties[];
     serviceBusQueues?: RoutingServiceBusQueueEndpointProperties[];
     serviceBusTopics?: RoutingServiceBusTopicEndpointProperties[];

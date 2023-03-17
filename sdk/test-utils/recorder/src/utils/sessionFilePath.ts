@@ -2,15 +2,13 @@
 // Licensed under the MIT license.
 
 import { isNode } from "@azure/core-util";
-import { env } from "./env";
 import { generateTestRecordingFilePath } from "./filePathGenerator";
 import { relativeRecordingsPath } from "./relativePathCalculator";
 import { RecorderError } from "./utils";
 
 export function sessionFilePath(testContext: Mocha.Test): string {
-  const recordingsFolder = !isNode ? env.RECORDINGS_RELATIVE_PATH : relativeRecordingsPath(); // sdk/service/project/recordings
-  return `${recordingsFolder}/${recordingFilePath(testContext)}`;
   // sdk/service/project/recordings/{node|browsers}/<describe-block-title>/recording_<test-title>.json
+  return `${relativeRecordingsPath()}/${recordingFilePath(testContext)}`;
 }
 
 /**
@@ -30,4 +28,13 @@ export function recordingFilePath(testContext: Mocha.Test): string {
     testContext.parent.fullTitle(),
     testContext.title
   );
+}
+
+export function assetsJsonPath(): string {
+  // Hacky solution using substring works around the fact that:
+  // 1) the relativeRecordingsPath may not exist on disk (so relativeRecordingsPath()/../assets.json might not exist either, can't use ..)
+  // 2) `path` (and therefore `path.dirname`) is not available in the browser.
+  const recordingsPath = relativeRecordingsPath();
+  const sdkDir = recordingsPath.substring(0, recordingsPath.lastIndexOf("/"));
+  return `${sdkDir}/assets.json`;
 }

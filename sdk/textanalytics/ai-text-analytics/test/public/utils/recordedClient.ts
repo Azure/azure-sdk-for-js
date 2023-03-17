@@ -4,27 +4,20 @@
 import { Test } from "mocha";
 
 import {
-  assertEnvironmentVariable,
-  env,
   Recorder,
   RecorderStartOptions,
+  assertEnvironmentVariable,
+  env,
 } from "@azure-tools/test-recorder";
-import { TokenCredential } from "@azure/identity";
-import { createTestCredential } from "@azure-tools/test-credential";
 
 import { AzureKeyCredential, TextAnalyticsClient, TextAnalyticsClientOptions } from "../../../src/";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 const envSetupForPlayback: { [k: string]: string } = {
-  TEXT_ANALYTICS_API_KEY: "api_key",
+  LANGUAGE_API_KEY: "api_key",
   // Second API key
-  TEXT_ANALYTICS_API_KEY_ALT: "api_key_alt",
+  LANGUAGE_API_KEY_ALT: "api_key_alt",
   ENDPOINT: "https://endpoint",
-  TEXT_ANALYTICS_RECOGNIZE_CUSTOM_ENTITIES_PROJECT_NAME: "sanitized",
-  TEXT_ANALYTICS_RECOGNIZE_CUSTOM_ENTITIES_DEPLOYMENT_NAME: "sanitized",
-  TEXT_ANALYTICS_SINGLE_CATEGORY_CLASSIFY_PROJECT_NAME: "sanitized",
-  TEXT_ANALYTICS_SINGLE_CATEGORY_CLASSIFY_DEPLOYMENT_NAME: "sanitized",
-  TEXT_ANALYTICS_MULTI_CATEGORY_CLASSIFY_PROJECT_NAME: "sanitized",
-  TEXT_ANALYTICS_MULTI_CATEGORY_CLASSIFY_DEPLOYMENT_NAME: "sanitized",
 };
 
 const recorderStartOptions: RecorderStartOptions = {
@@ -39,35 +32,27 @@ export function createClient(options: {
   clientOptions?: TextAnalyticsClientOptions;
 }): TextAnalyticsClient {
   const { authMethod, recorder, clientOptions = {} } = options;
+  const endpoint = env.ENDPOINT || "https://dummy.cognitiveservices.azure.com/";
+  const updatedOptions = recorder ? recorder.configureClientOptions(clientOptions) : clientOptions;
 
-  let credential: AzureKeyCredential | TokenCredential;
   switch (authMethod) {
     case "APIKey": {
-      credential = new AzureKeyCredential(assertEnvironmentVariable("TEXT_ANALYTICS_API_KEY"));
-      break;
+      return new TextAnalyticsClient(
+        endpoint,
+        new AzureKeyCredential(assertEnvironmentVariable("LANGUAGE_API_KEY")),
+        updatedOptions
+      );
     }
     case "AAD": {
-      credential = createTestCredential();
-      break;
+      return new TextAnalyticsClient(endpoint, createTestCredential(), updatedOptions);
     }
     case "DummyAPIKey": {
-      credential = new AzureKeyCredential("whatever");
-      break;
+      return new TextAnalyticsClient(endpoint, new AzureKeyCredential("whatever"), updatedOptions);
     }
     default: {
       throw Error(`Unsupported authentication method: ${authMethod}`);
     }
   }
-  return new TextAnalyticsClient(
-    env.ENDPOINT || "https://dummy.cognitiveservices.azure.com/",
-    credential,
-    {
-      ...(recorder ? recorder.configureClientOptions(clientOptions) : clientOptions),
-      retryOptions: {
-        maxRetries: 10,
-      },
-    }
-  );
 }
 
 /**

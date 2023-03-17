@@ -99,12 +99,30 @@ To refresh the user token, issue another token with the same user.
 let { token } = await client.getToken(user, ["chat"]);
 ```
 
+### Creating a user token with custom expiration
+
+It's also possible to create a Communication Identity access token by customizing the expiration time. Validity period of the token must be within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used.
+
+```typescript
+const tokenOptions: GetTokenOptions = { tokenExpiresInMinutes: 60 };
+let { token } = await client.getToken(user, ["chat"], tokenOptions);
+```
+
 ### Creating a user and a token in a single request
 
 For convenience, use `createUserAndToken` to create a new user and issue a token with one function call. This translates into a single web request as opposed to creating a user first and then issuing a token.
 
 ```typescript
 let { user, token } = await client.createUserAndToken(["chat"]);
+```
+
+### Creating a user and a token with custom expiration in a single request
+
+It's also possible to create a Communication Identity access token by customizing the expiration time. Validity period of the token must be within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used.
+
+```typescript
+const userAndTokenOptions: CreateUserAndTokenOptions = { tokenExpiresInMinutes: 60 };
+let { user, token } = await client.createUserAndToken(["chat"], userAndTokenOptions);
 ```
 
 ### Revoking tokens for a user
@@ -123,12 +141,16 @@ Use the `deleteUser` method to delete a user.
 await client.deleteUser(user);
 ```
 
-### Exchanging AAD access token of a Teams User for a Communication access token
+### Exchanging Azure AD access token of a Teams User for a Communication access token
 
-Use `getTokenForTeamsUser` method to exchange an AAD access token of a Teams user for a new `CommunicationAccessToken` with a matching expiration time.
+Use `getTokenForTeamsUser` method to exchange an Azure AD access token of a Teams user for a new `CommunicationAccessToken` with a matching expiration time.
 
 ```typescript
-await client.getTokenForTeamsUser('<aad-access-token-of-a-teams-user>');
+await client.getTokenForTeamsUser({
+  teamsUserAadToken: "<aad-access-token-of-a-teams-user>",
+  clientId: "<cliend-id-of-an-aad-application>",
+  userObjectId: "<aad-object-id-of-a-teams-user>",
+});
 ```
 
 ## Troubleshooting

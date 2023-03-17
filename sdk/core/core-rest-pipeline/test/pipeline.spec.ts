@@ -305,8 +305,6 @@ describe("HttpsPipeline", function () {
 
     const pipeline2 = pipeline.clone();
 
-    pipeline.removePolicy({ name: testPolicy.name });
-
     const testPolicy2: PipelinePolicy = {
       sendRequest: (request, next) => next(request),
       name: "test2",
@@ -319,6 +317,8 @@ describe("HttpsPipeline", function () {
     };
 
     pipeline2.addPolicy(testPolicy3);
+
+    pipeline.removePolicy({ name: testPolicy.name });
 
     const policies = pipeline.getOrderedPolicies();
     assert.strictEqual(policies.length, 1);
@@ -422,5 +422,21 @@ describe("HttpsPipeline", function () {
     pipeline.addPolicy(testPolicy, { afterPhase: "Retry" });
     const policies = pipeline.getOrderedPolicies();
     assert.deepStrictEqual(policies, [testPolicy]);
+  });
+
+  it("afterPhase respects phase ordering", function () {
+    const pipeline = createEmptyPipeline();
+    const testPolicy: PipelinePolicy = {
+      sendRequest: (request, next) => next(request),
+      name: "test",
+    };
+    const testPolicy2: PipelinePolicy = {
+      sendRequest: (request, next) => next(request),
+      name: "test2",
+    };
+    pipeline.addPolicy(testPolicy, { afterPhase: "Retry" });
+    pipeline.addPolicy(testPolicy2, { phase: "Sign" });
+    const policies = pipeline.getOrderedPolicies();
+    assert.deepStrictEqual(policies, [testPolicy, testPolicy2]);
   });
 });

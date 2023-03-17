@@ -22,9 +22,9 @@ import { assertError } from "./utils/assertError";
 import { createEventHubsClient } from "./clients/eventHubs";
 import { createMockedMessagingClient } from "./clients/mocked";
 import { createTestSerializer } from "./utils/mockedSerializer";
-import { env } from "./utils/env";
 import { matrix } from "@azure/test-utils";
 import { testGroup } from "./utils/dummies";
+import { Recorder, env } from "@azure-tools/test-recorder";
 
 /**
  * An interface to group different bits needed by the tests for each messaging service
@@ -42,7 +42,7 @@ interface ScenariosTestInfo<T> {
 }
 
 describe("With messaging clients", function () {
-  const eventHubsConnectionString = env.EVENTHUB_CONNECTION_STRING || "";
+  const eventHubsConnectionString = env.EVENTHUB_AVRO_CONNECTION_STRING || "";
   const eventHubName = env.EVENTHUB_NAME || "";
   const alreadyEnqueued = env.CROSS_LANGUAGE !== undefined;
 
@@ -95,6 +95,7 @@ describe("With messaging clients", function () {
       createScenario4Client,
     } = testInfo;
     describe(messagingServiceName, async function () {
+      let recorder: Recorder;
       let serializer: AvroSerializer<any>;
 
       async function roundtrip(settings: {
@@ -156,13 +157,15 @@ describe("With messaging clients", function () {
         }
       }
 
-      before(async function () {
+      beforeEach(async function () {
+        recorder = new Recorder(this.currentTest);
         serializer = await createTestSerializer({
           serializerOptions: {
             autoRegisterSchemas: true,
             groupName: testGroup,
             messageAdapter,
           },
+          recorder,
         });
       });
 

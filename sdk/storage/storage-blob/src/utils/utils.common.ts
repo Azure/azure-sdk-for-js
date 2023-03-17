@@ -2,7 +2,9 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { HttpHeaders, isNode, URLBuilder, TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
+import { HttpHeaders, createHttpHeaders } from "@azure/core-rest-pipeline";
+import { isNode } from "@azure/core-util";
 
 import {
   BlobQueryArrowConfiguration,
@@ -16,23 +18,15 @@ import {
   BlobName,
   ListBlobsFlatSegmentResponse,
   ListBlobsHierarchySegmentResponse,
-  BlobItemInternal,
-  BlobPrefix,
-  BlobType,
-  LeaseStatusType,
-  LeaseStateType,
-  LeaseDurationType,
-  CopyStatusType,
-  AccessTier,
-  ArchiveStatus,
-  RehydratePriority,
-  BlobImmutabilityPolicyMode,
-  BlobTag,
   PageRange,
   ClearRange,
-  BlobPropertiesInternal,
 } from "../generated/src/models";
-import { DevelopmentConnectionString, HeaderConstants, URLConstants } from "./constants";
+import {
+  DevelopmentConnectionString,
+  HeaderConstants,
+  PathStylePorts,
+  URLConstants,
+} from "./constants";
 import {
   Tags,
   ObjectReplicationPolicy,
@@ -48,6 +42,7 @@ import {
   PageBlobGetPageRangesDiffResponseModel,
   PageRangeInfo,
 } from "../generatedModels";
+import { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -102,13 +97,13 @@ import {
  * @param url -
  */
 export function escapeURLPath(url: string): string {
-  const urlParsed = URLBuilder.parse(url);
+  const urlParsed = new URL(url);
 
-  let path = urlParsed.getPath();
+  let path = urlParsed.pathname;
   path = path || "/";
 
   path = escape(path);
-  urlParsed.setPath(path);
+  urlParsed.pathname = path;
 
   return urlParsed.toString();
 }
@@ -228,12 +223,17 @@ export function extractConnectionStringParts(connectionString: string): Connecti
   } else {
     // SAS connection string
 
-    const accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
+    let accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
     const accountName = getAccountNameFromUrl(blobEndpoint);
     if (!blobEndpoint) {
       throw new Error("Invalid BlobEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {
       throw new Error("Invalid SharedAccessSignature in the provided SAS Connection String");
+    }
+
+    // client constructors assume accountSas does *not* start with ?
+    if (accountSas.startsWith("?")) {
+      accountSas = accountSas.substring(1);
     }
 
     return { kind: "SASConnString", url: blobEndpoint, accountName, accountSas };
@@ -262,11 +262,11 @@ function escape(text: string): string {
  * @returns An updated URL string
  */
 export function appendToURLPath(url: string, name: string): string {
-  const urlParsed = URLBuilder.parse(url);
+  const urlParsed = new URL(url);
 
-  let path = urlParsed.getPath();
+  let path = urlParsed.pathname;
   path = path ? (path.endsWith("/") ? `${path}${name}` : `${path}/${name}`) : name;
-  urlParsed.setPath(path);
+  urlParsed.pathname = path;
 
   return urlParsed.toString();
 }
@@ -281,8 +281,28 @@ export function appendToURLPath(url: string, name: string): string {
  * @returns An updated URL string
  */
 export function setURLParameter(url: string, name: string, value?: string): string {
-  const urlParsed = URLBuilder.parse(url);
-  urlParsed.setQueryParameter(name, value);
+  const urlParsed = new URL(url);
+  const encodedName = encodeURIComponent(name);
+  const encodedValue = value ? encodeURIComponent(value) : undefined;
+  // mutating searchParams will change the encoding, so we have to do this ourselves
+  const searchString = urlParsed.search === "" ? "?" : urlParsed.search;
+
+  const searchPieces: string[] = [];
+
+  for (const pair of searchString.slice(1).split("&")) {
+    if (pair) {
+      const [key] = pair.split("=", 2);
+      if (key !== encodedName) {
+        searchPieces.push(pair);
+      }
+    }
+  }
+  if (encodedValue) {
+    searchPieces.push(`${encodedName}=${encodedValue}`);
+  }
+
+  urlParsed.search = searchPieces.length ? `?${searchPieces.join("&")}` : "";
+
   return urlParsed.toString();
 }
 
@@ -293,8 +313,8 @@ export function setURLParameter(url: string, name: string, value?: string): stri
  * @param name -
  */
 export function getURLParameter(url: string, name: string): string | string[] | undefined {
-  const urlParsed = URLBuilder.parse(url);
-  return urlParsed.getQueryParameterValue(name);
+  const urlParsed = new URL(url);
+  return urlParsed.searchParams.get(name) ?? undefined;
 }
 
 /**
@@ -305,8 +325,8 @@ export function getURLParameter(url: string, name: string): string | string[] | 
  * @returns An updated URL string
  */
 export function setURLHost(url: string, host: string): string {
-  const urlParsed = URLBuilder.parse(url);
-  urlParsed.setHost(host);
+  const urlParsed = new URL(url);
+  urlParsed.hostname = host;
   return urlParsed.toString();
 }
 
@@ -316,8 +336,12 @@ export function setURLHost(url: string, host: string): string {
  * @param url - Source URL string
  */
 export function getURLPath(url: string): string | undefined {
-  const urlParsed = URLBuilder.parse(url);
-  return urlParsed.getPath();
+  try {
+    const urlParsed = new URL(url);
+    return urlParsed.pathname;
+  } catch (e) {
+    return undefined;
+  }
 }
 
 /**
@@ -326,8 +350,12 @@ export function getURLPath(url: string): string | undefined {
  * @param url - Source URL string
  */
 export function getURLScheme(url: string): string | undefined {
-  const urlParsed = URLBuilder.parse(url);
-  return urlParsed.getScheme();
+  try {
+    const urlParsed = new URL(url);
+    return urlParsed.protocol.endsWith(":") ? urlParsed.protocol.slice(0, -1) : urlParsed.protocol;
+  } catch (e) {
+    return undefined;
+  }
 }
 
 /**
@@ -336,13 +364,13 @@ export function getURLScheme(url: string): string | undefined {
  * @param url - Source URL string
  */
 export function getURLPathAndQuery(url: string): string | undefined {
-  const urlParsed = URLBuilder.parse(url);
-  const pathString = urlParsed.getPath();
+  const urlParsed = new URL(url);
+  const pathString = urlParsed.pathname;
   if (!pathString) {
     throw new RangeError("Invalid url without valid path.");
   }
 
-  let queryString = urlParsed.getQuery() || "";
+  let queryString = urlParsed.search || "";
   queryString = queryString.trim();
   if (queryString !== "") {
     queryString = queryString.startsWith("?") ? queryString : `?${queryString}`; // Ensure query string start with '?'
@@ -357,13 +385,13 @@ export function getURLPathAndQuery(url: string): string | undefined {
  * @param url -
  */
 export function getURLQueries(url: string): { [key: string]: string } {
-  let queryString = URLBuilder.parse(url).getQuery();
+  let queryString = new URL(url).search;
   if (!queryString) {
     return {};
   }
 
   queryString = queryString.trim();
-  queryString = queryString.startsWith("?") ? queryString.substr(1) : queryString;
+  queryString = queryString.startsWith("?") ? queryString.substring(1) : queryString;
 
   let querySubStrings: string[] = queryString.split("&");
   querySubStrings = querySubStrings.filter((value: string) => {
@@ -393,16 +421,16 @@ export function getURLQueries(url: string): { [key: string]: string } {
  * @returns An updated URL string.
  */
 export function appendToURLQuery(url: string, queryParts: string): string {
-  const urlParsed = URLBuilder.parse(url);
+  const urlParsed = new URL(url);
 
-  let query = urlParsed.getQuery();
+  let query = urlParsed.search;
   if (query) {
     query += "&" + queryParts;
   } else {
     query = queryParts;
   }
 
-  urlParsed.setQuery(query);
+  urlParsed.search = query;
   return urlParsed.toString();
 }
 
@@ -541,14 +569,14 @@ export function sanitizeURL(url: string): string {
 }
 
 export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
-  const headers: HttpHeaders = new HttpHeaders();
-  for (const header of originalHeader.headersArray()) {
-    if (header.name.toLowerCase() === HeaderConstants.AUTHORIZATION.toLowerCase()) {
-      headers.set(header.name, "*****");
-    } else if (header.name.toLowerCase() === HeaderConstants.X_MS_COPY_SOURCE) {
-      headers.set(header.name, sanitizeURL(header.value));
+  const headers: HttpHeaders = createHttpHeaders();
+  for (const [name, value] of originalHeader) {
+    if (name.toLowerCase() === HeaderConstants.AUTHORIZATION.toLowerCase()) {
+      headers.set(name, "*****");
+    } else if (name.toLowerCase() === HeaderConstants.X_MS_COPY_SOURCE) {
+      headers.set(name, sanitizeURL(value));
     } else {
-      headers.set(header.name, header.value);
+      headers.set(name, value);
     }
   }
 
@@ -570,17 +598,17 @@ export function iEqual(str1: string, str2: string): boolean {
  * @returns with the account name
  */
 export function getAccountNameFromUrl(url: string): string {
-  const parsedUrl: URLBuilder = URLBuilder.parse(url);
+  const parsedUrl = new URL(url);
   let accountName;
   try {
-    if (parsedUrl.getHost()!.split(".")[1] === "blob") {
+    if (parsedUrl.hostname.split(".")[1] === "blob") {
       // `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`;
-      accountName = parsedUrl.getHost()!.split(".")[0];
+      accountName = parsedUrl.hostname.split(".")[0];
     } else if (isIpEndpointStyle(parsedUrl)) {
       // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/
       // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/
       // .getPath() -> /devstoreaccount1/
-      accountName = parsedUrl.getPath()!.split("/")[1];
+      accountName = parsedUrl.pathname.split("/")[1];
     } else {
       // Custom domain case: "https://customdomain.com/containername/blob".
       accountName = "";
@@ -591,20 +619,18 @@ export function getAccountNameFromUrl(url: string): string {
   }
 }
 
-export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
-  if (parsedUrl.getHost() === undefined) {
-    return false;
-  }
-
-  const host =
-    parsedUrl.getHost()! + (parsedUrl.getPort() === undefined ? "" : ":" + parsedUrl.getPort());
+export function isIpEndpointStyle(parsedUrl: URL): boolean {
+  const host = parsedUrl.host;
 
   // Case 1: Ipv6, use a broad regex to find out candidates whose host contains two ':'.
   // Case 2: localhost(:port), use broad regex to match port part.
   // Case 3: Ipv4, use broad regex which just check if host contains Ipv4.
   // For valid host please refer to https://man7.org/linux/man-pages/man7/hostname.7.html.
-  return /^.*:.*:.*$|^localhost(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
-    host
+  return (
+    /^.*:.*:.*$|^localhost(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
+      host
+    ) ||
+    (Boolean(parsedUrl.port) && PathStylePorts.includes(parsedUrl.port))
   );
 }
 
@@ -834,368 +860,6 @@ export function ConvertInternalResponseOfListBlobHierarchy(
   };
 }
 
-function decodeBase64String(value: string): Uint8Array {
-  if (isNode) {
-    return Buffer.from(value, "base64");
-  } else {
-    const byteString = atob(value);
-    const arr = new Uint8Array(byteString.length);
-    for (let i = 0; i < byteString.length; i++) {
-      arr[i] = byteString.charCodeAt(i);
-    }
-    return arr;
-  }
-}
-
-function ParseBoolean(content: any) {
-  if (content === undefined) return undefined;
-  if (content === "true") return true;
-  if (content === "false") return false;
-  return undefined;
-}
-
-function ParseBlobName(blobNameInXML: any): BlobName {
-  if (blobNameInXML["$"] !== undefined && blobNameInXML["#"] !== undefined) {
-    return {
-      encoded: ParseBoolean(blobNameInXML["$"]["Encoded"]),
-      content: blobNameInXML["#"] as string,
-    };
-  } else {
-    return {
-      encoded: false,
-      content: blobNameInXML as string,
-    };
-  }
-}
-
-function ParseBlobProperties(blobPropertiesInXML: any): BlobPropertiesInternal {
-  const blobProperties = blobPropertiesInXML;
-  if (blobPropertiesInXML["Creation-Time"]) {
-    blobProperties.createdOn = new Date(blobPropertiesInXML["Creation-Time"] as string);
-    delete blobProperties["Creation-Time"];
-  }
-
-  if (blobPropertiesInXML["Last-Modified"]) {
-    blobProperties.lastModified = new Date(blobPropertiesInXML["Last-Modified"] as string);
-    delete blobProperties["Last-Modified"];
-  }
-
-  if (blobPropertiesInXML["Etag"]) {
-    blobProperties.etag = blobPropertiesInXML["Etag"] as string;
-    delete blobProperties["Etag"];
-  }
-
-  if (blobPropertiesInXML["Content-Length"]) {
-    blobProperties.contentLength = parseFloat(blobPropertiesInXML["Content-Length"] as string);
-    delete blobProperties["Content-Length"];
-  }
-
-  if (blobPropertiesInXML["Content-Type"]) {
-    blobProperties.contentType = blobPropertiesInXML["Content-Type"] as string;
-    delete blobProperties["Content-Type"];
-  }
-
-  if (blobPropertiesInXML["Content-Encoding"]) {
-    blobProperties.contentEncoding = blobPropertiesInXML["Content-Encoding"] as string;
-    delete blobProperties["Content-Encoding"];
-  }
-
-  if (blobPropertiesInXML["Content-Language"]) {
-    blobProperties.contentLanguage = blobPropertiesInXML["Content-Language"] as string;
-    delete blobProperties["Content-Language"];
-  }
-
-  if (blobPropertiesInXML["Content-MD5"]) {
-    blobProperties.contentMD5 = decodeBase64String(blobPropertiesInXML["Content-MD5"] as string);
-    delete blobProperties["Content-MD5"];
-  }
-
-  if (blobPropertiesInXML["Content-Disposition"]) {
-    blobProperties.contentDisposition = blobPropertiesInXML["Content-Disposition"] as string;
-    delete blobProperties["Content-Disposition"];
-  }
-
-  if (blobPropertiesInXML["Cache-Control"]) {
-    blobProperties.cacheControl = blobPropertiesInXML["Cache-Control"] as string;
-    delete blobProperties["Cache-Control"];
-  }
-
-  if (blobPropertiesInXML["x-ms-blob-sequence-number"]) {
-    blobProperties.blobSequenceNumber = parseFloat(
-      blobPropertiesInXML["x-ms-blob-sequence-number"] as string
-    );
-    delete blobProperties["x-ms-blob-sequence-number"];
-  }
-
-  if (blobPropertiesInXML["BlobType"]) {
-    blobProperties.blobType = blobPropertiesInXML["BlobType"] as BlobType;
-    delete blobProperties["BlobType"];
-  }
-
-  if (blobPropertiesInXML["LeaseStatus"]) {
-    blobProperties.leaseStatus = blobPropertiesInXML["LeaseStatus"] as LeaseStatusType;
-    delete blobProperties["LeaseStatus"];
-  }
-
-  if (blobPropertiesInXML["LeaseState"]) {
-    blobProperties.leaseState = blobPropertiesInXML["LeaseState"] as LeaseStateType;
-    delete blobProperties["LeaseState"];
-  }
-
-  if (blobPropertiesInXML["LeaseDuration"]) {
-    blobProperties.leaseDuration = blobPropertiesInXML["LeaseDuration"] as LeaseDurationType;
-    delete blobProperties["LeaseDuration"];
-  }
-
-  if (blobPropertiesInXML["CopyId"]) {
-    blobProperties.copyId = blobPropertiesInXML["CopyId"] as string;
-    delete blobProperties["CopyId"];
-  }
-
-  if (blobPropertiesInXML["CopyStatus"]) {
-    blobProperties.copyStatus = blobPropertiesInXML["CopyStatus"] as CopyStatusType;
-    delete blobProperties["CopyStatus"];
-  }
-
-  if (blobPropertiesInXML["CopySource"]) {
-    blobProperties.copySource = blobPropertiesInXML["CopySource"] as string;
-    delete blobProperties["CopySource"];
-  }
-
-  if (blobPropertiesInXML["CopyProgress"]) {
-    blobProperties.copyProgress = blobPropertiesInXML["CopyProgress"] as string;
-    delete blobProperties["CopyProgress"];
-  }
-
-  if (blobPropertiesInXML["CopyCompletionTime"]) {
-    blobProperties.copyCompletedOn = new Date(blobPropertiesInXML["CopyCompletionTime"] as string);
-    delete blobProperties["CopyCompletionTime"];
-  }
-
-  if (blobPropertiesInXML["CopyStatusDescription"]) {
-    blobProperties.copyStatusDescription = blobPropertiesInXML["CopyStatusDescription"] as string;
-    delete blobProperties["CopyStatusDescription"];
-  }
-
-  if (blobPropertiesInXML["ServerEncrypted"]) {
-    blobProperties.serverEncrypted = ParseBoolean(blobPropertiesInXML["ServerEncrypted"]);
-    delete blobProperties["ServerEncrypted"];
-  }
-
-  if (blobPropertiesInXML["IncrementalCopy"]) {
-    blobProperties.incrementalCopy = ParseBoolean(blobPropertiesInXML["IncrementalCopy"]);
-    delete blobProperties["IncrementalCopy"];
-  }
-
-  if (blobPropertiesInXML["DestinationSnapshot"]) {
-    blobProperties.destinationSnapshot = blobPropertiesInXML["DestinationSnapshot"] as string;
-    delete blobProperties["DestinationSnapshot"];
-  }
-
-  if (blobPropertiesInXML["DeletedTime"]) {
-    blobProperties.deletedOn = new Date(blobPropertiesInXML["DeletedTime"] as string);
-    delete blobProperties["DeletedTime"];
-  }
-
-  if (blobPropertiesInXML["RemainingRetentionDays"]) {
-    blobProperties.remainingRetentionDays = parseFloat(
-      blobPropertiesInXML["RemainingRetentionDays"] as string
-    );
-    delete blobProperties["RemainingRetentionDays"];
-  }
-
-  if (blobPropertiesInXML["AccessTier"]) {
-    blobProperties.accessTier = blobPropertiesInXML["AccessTier"] as AccessTier;
-    delete blobProperties["AccessTier"];
-  }
-
-  if (blobPropertiesInXML["AccessTierInferred"]) {
-    blobProperties.accessTierInferred = ParseBoolean(blobPropertiesInXML["AccessTierInferred"]);
-    delete blobProperties["AccessTierInferred"];
-  }
-
-  if (blobPropertiesInXML["ArchiveStatus"]) {
-    blobProperties.archiveStatus = blobPropertiesInXML["ArchiveStatus"] as ArchiveStatus;
-    delete blobProperties["ArchiveStatus"];
-  }
-
-  if (blobPropertiesInXML["CustomerProvidedKeySha256"]) {
-    blobProperties.customerProvidedKeySha256 = blobPropertiesInXML[
-      "CustomerProvidedKeySha256"
-    ] as string;
-    delete blobProperties["CustomerProvidedKeySha256"];
-  }
-
-  if (blobPropertiesInXML["EncryptionScope"]) {
-    blobProperties.encryptionScope = blobPropertiesInXML["EncryptionScope"] as string;
-    delete blobProperties["EncryptionScope"];
-  }
-
-  if (blobPropertiesInXML["AccessTierChangeTime"]) {
-    blobProperties.accessTierChangedOn = new Date(
-      blobPropertiesInXML["AccessTierChangeTime"] as string
-    );
-    delete blobProperties["AccessTierChangeTime"];
-  }
-
-  if (blobPropertiesInXML["TagCount"]) {
-    blobProperties.tagCount = parseFloat(blobPropertiesInXML["TagCount"] as string);
-    delete blobProperties["TagCount"];
-  }
-
-  if (blobPropertiesInXML["Expiry-Time"]) {
-    blobProperties.expiresOn = new Date(blobPropertiesInXML["Expiry-Time"] as string);
-    delete blobProperties["Expiry-Time"];
-  }
-
-  if (blobPropertiesInXML["Sealed"]) {
-    blobProperties.isSealed = ParseBoolean(blobPropertiesInXML["Sealed"]);
-    delete blobProperties["Sealed"];
-  }
-
-  if (blobPropertiesInXML["RehydratePriority"]) {
-    blobProperties.rehydratePriority = blobPropertiesInXML[
-      "RehydratePriority"
-    ] as RehydratePriority;
-    delete blobProperties["RehydratePriority"];
-  }
-
-  if (blobPropertiesInXML["LastAccessTime"]) {
-    blobProperties.lastAccessedOn = new Date(blobPropertiesInXML["LastAccessTime"] as string);
-    delete blobProperties["LastAccessTime"];
-  }
-
-  if (blobPropertiesInXML["ImmutabilityPolicyUntilDate"]) {
-    blobProperties.immutabilityPolicyExpiresOn = new Date(
-      blobPropertiesInXML["ImmutabilityPolicyUntilDate"] as string
-    );
-    delete blobProperties["ImmutabilityPolicyUntilDate"];
-  }
-
-  if (blobPropertiesInXML["ImmutabilityPolicyMode"]) {
-    blobProperties.immutabilityPolicyMode = blobPropertiesInXML[
-      "ImmutabilityPolicyMode"
-    ] as BlobImmutabilityPolicyMode;
-    delete blobProperties["ImmutabilityPolicyMode"];
-  }
-
-  if (blobPropertiesInXML["LegalHold"]) {
-    blobProperties.legalHold = ParseBoolean(blobPropertiesInXML["LegalHold"]);
-    delete blobProperties["LegalHold"];
-  }
-
-  return blobProperties;
-}
-
-function ParseBlobItem(blobInXML: any): BlobItemInternal {
-  const blobItem = blobInXML;
-  blobItem.properties = ParseBlobProperties(blobInXML["Properties"]);
-  delete blobItem["Properties"];
-
-  blobItem.name = ParseBlobName(blobInXML["Name"]);
-  delete blobItem["Name"];
-  blobItem.deleted = ParseBoolean(blobInXML["Deleted"])!;
-  delete blobItem["Deleted"];
-
-  if (blobInXML["Snapshot"]) {
-    blobItem.snapshot = blobInXML["Snapshot"] as string;
-    delete blobItem["Snapshot"];
-  }
-
-  if (blobInXML["VersionId"]) {
-    blobItem.versionId = blobInXML["VersionId"] as string;
-    delete blobItem["VersionId"];
-  }
-
-  if (blobInXML["IsCurrentVersion"]) {
-    blobItem.isCurrentVersion = ParseBoolean(blobInXML["IsCurrentVersion"]);
-    delete blobItem["IsCurrentVersion"];
-  }
-
-  if (blobInXML["Metadata"]) {
-    blobItem.metadata = blobInXML["Metadata"];
-    delete blobItem["Metadata"];
-  }
-
-  if (blobInXML["Tags"]) {
-    blobItem.blobTags = ParseBlobTags(blobInXML["Tags"]);
-    delete blobItem["Tags"];
-  }
-
-  if (blobInXML["OrMetadata"]) {
-    blobItem.objectReplicationMetadata = blobInXML["OrMetadata"];
-    delete blobItem["OrMetadata"];
-  }
-
-  if (blobInXML["HasVersionsOnly"]) {
-    blobItem.hasVersionsOnly = ParseBoolean(blobInXML["HasVersionsOnly"]);
-    delete blobItem["HasVersionsOnly"];
-  }
-  return blobItem;
-}
-
-function ParseBlobPrefix(blobPrefixInXML: any): BlobPrefix {
-  return {
-    name: ParseBlobName(blobPrefixInXML["Name"]),
-  };
-}
-
-function ParseBlobTag(blobTagInXML: any): BlobTag {
-  return {
-    key: blobTagInXML["Key"],
-    value: blobTagInXML["Value"],
-  };
-}
-
-function ParseBlobTags(blobTagsInXML: any): BlobTags | undefined {
-  if (
-    blobTagsInXML === undefined ||
-    blobTagsInXML["TagSet"] === undefined ||
-    blobTagsInXML["TagSet"]["Tag"] === undefined
-  ) {
-    return undefined;
-  }
-
-  const blobTagSet = [];
-  if (blobTagsInXML["TagSet"]["Tag"] instanceof Array) {
-    blobTagsInXML["TagSet"]["Tag"].forEach((blobTagInXML: any) => {
-      blobTagSet.push(ParseBlobTag(blobTagInXML));
-    });
-  } else {
-    blobTagSet.push(ParseBlobTag(blobTagsInXML["TagSet"]["Tag"]));
-  }
-
-  return { blobTagSet: blobTagSet };
-}
-
-export function ProcessBlobItems(blobArrayInXML: any[]): BlobItemInternal[] {
-  const blobItems = [];
-
-  if (blobArrayInXML instanceof Array) {
-    blobArrayInXML.forEach((blobInXML: any) => {
-      blobItems.push(ParseBlobItem(blobInXML));
-    });
-  } else {
-    blobItems.push(ParseBlobItem(blobArrayInXML));
-  }
-
-  return blobItems;
-}
-
-export function ProcessBlobPrefixes(blobPrefixesInXML: any[]): BlobPrefix[] {
-  const blobPrefixes = [];
-
-  if (blobPrefixesInXML instanceof Array) {
-    blobPrefixesInXML.forEach((blobPrefixInXML: any) => {
-      blobPrefixes.push(ParseBlobPrefix(blobPrefixInXML));
-    });
-  } else {
-    blobPrefixes.push(ParseBlobPrefix(blobPrefixesInXML));
-  }
-
-  return blobPrefixes;
-}
-
 export function* ExtractPageRangeInfoItems(
   getPageRangesSegment: PageBlobGetPageRangesDiffResponseModel
 ): IterableIterator<PageRangeInfo> {
@@ -1241,4 +905,111 @@ export function* ExtractPageRangeInfoItems(
       isClear: true,
     };
   }
+}
+
+/**
+ * Escape the blobName but keep path separator ('/').
+ */
+export function EscapePath(blobName: string): string {
+  const split = blobName.split("/");
+  for (let i = 0; i < split.length; i++) {
+    split[i] = encodeURIComponent(split[i]);
+  }
+  return split.join("/");
+}
+
+/**
+ * A representation of an HTTP response that
+ * includes a reference to the request that
+ * originated it.
+ */
+export interface HttpResponse {
+  /**
+   * The headers from the response.
+   */
+  headers: HttpHeadersLike;
+  /**
+   * The original request that resulted in this response.
+   */
+  request: WebResourceLike;
+  /**
+   * The HTTP status code returned from the service.
+   */
+  status: number;
+}
+
+/**
+ * An object with a _response property that has
+ * headers already parsed into a typed object.
+ */
+export interface ResponseWithHeaders<Headers> {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: Headers;
+  };
+}
+
+/**
+ * An object with a _response property that has body
+ * and headers already parsed into known types.
+ */
+export interface ResponseWithBody<Headers, Body> {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: Headers;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Body;
+  };
+}
+
+/**
+ * An object with a simple _response property.
+ */
+export interface ResponseLike {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse;
+}
+
+/**
+ * A type that represents an operation result with a known _response property.
+ */
+export type WithResponse<T, Headers = undefined, Body = undefined> = T &
+  (Body extends object
+    ? ResponseWithBody<Headers, Body>
+    : Headers extends object
+    ? ResponseWithHeaders<Headers>
+    : ResponseLike);
+
+/**
+ * A typesafe helper for ensuring that a given response object has
+ * the original _response attached.
+ * @param response - A response object from calling a client operation
+ * @returns The same object, but with known _response property
+ */
+export function assertResponse<T extends object, Headers = undefined, Body = undefined>(
+  response: T
+): WithResponse<T, Headers, Body> {
+  if (`_response` in response) {
+    return response as WithResponse<T, Headers, Body>;
+  }
+
+  throw new TypeError(`Unexpected response object ${response}`);
 }

@@ -3,13 +3,13 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import sinon from "sinon";
-import { assert } from "@azure/test-utils";
-import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { EnvironmentCredential, UsernamePasswordCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
+import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
+import { assert } from "@azure/test-utils";
 import { getError } from "../../authTestUtils";
+import sinon from "sinon";
 
 describe("EnvironmentCredential", function () {
   let cleanup: MsalTestCleanup;
@@ -19,6 +19,7 @@ describe("EnvironmentCredential", function () {
     "AZURE_CLIENT_ID",
     "AZURE_CLIENT_SECRET",
     "AZURE_CLIENT_CERTIFICATE_PATH",
+    "AZURE_CLIENT_CERTIFICATE_PASSWORD",
     "AZURE_USERNAME",
     "AZURE_PASSWORD",
   ];
@@ -67,6 +68,26 @@ describe("EnvironmentCredential", function () {
     process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
     process.env.AZURE_CLIENT_CERTIFICATE_PATH =
       cachedValues.AZURE_CLIENT_CERTIFICATE_PATH || "assets/fake-cert.pem";
+
+    const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
+
+    const token = await credential.getToken(scope);
+    assert.ok(token?.token);
+    assert.ok(token?.expiresOnTimestamp! > Date.now());
+  });
+
+  it("authenticates with a client certificate and password on the environment variables", async function (this: Context) {
+    if (isLiveMode()) {
+      // Live test run not supported on CI at the moment. Locally should work though.
+      this.skip();
+    }
+    // The following environment variables must be set for this to work.
+    // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
+    process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
+    process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
+    process.env.AZURE_CLIENT_CERTIFICATE_PATH =
+      cachedValues.AZURE_CLIENT_CERTIFICATE_PATH || "assets/fake-cert-password.pem";
+    process.env.AZURE_CLIENT_CERTIFICATE_PASSWORD = "password";
 
     const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
 

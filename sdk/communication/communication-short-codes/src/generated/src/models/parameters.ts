@@ -65,7 +65,7 @@ export const top: OperationQueryParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-10-25-preview",
+    defaultValue: "2022-09-06",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -119,28 +119,28 @@ export const id: OperationParameter = {
   mapper: ProgramBriefAttachmentMapper
 };
 
-export const typeParam: OperationParameter = {
-  parameterPath: ["options", "typeParam"],
+export const type: OperationParameter = {
+  parameterPath: "type",
   mapper: ProgramBriefAttachmentMapper
 };
 
-export const friendlyName: OperationParameter = {
-  parameterPath: ["options", "friendlyName"],
+export const fileName: OperationParameter = {
+  parameterPath: "fileName",
   mapper: ProgramBriefAttachmentMapper
 };
 
-export const fileSize: OperationParameter = {
-  parameterPath: ["options", "fileSize"],
+export const fileSizeInBytes: OperationParameter = {
+  parameterPath: ["options", "fileSizeInBytes"],
   mapper: ProgramBriefAttachmentMapper
 };
 
 export const fileType: OperationParameter = {
-  parameterPath: ["options", "fileType"],
+  parameterPath: "fileType",
   mapper: ProgramBriefAttachmentMapper
 };
 
-export const fileContent: OperationParameter = {
-  parameterPath: ["options", "fileContent"],
+export const fileContentBase64: OperationParameter = {
+  parameterPath: "fileContentBase64",
   mapper: ProgramBriefAttachmentMapper
 };
 

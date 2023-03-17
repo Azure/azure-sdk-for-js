@@ -76,6 +76,7 @@ import {
   httpAuthorizationToString,
   setURLPath,
   setURLQueries,
+  EscapePath,
 } from "./utils/utils.common";
 import { Credential } from "./credentials/Credential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
@@ -730,7 +731,7 @@ export class ShareClient extends StorageClient {
   /* eslint-disable-next-line @azure/azure-sdk/ts-naming-subclients */
   public getDirectoryClient(directoryName: string): ShareDirectoryClient {
     return new ShareDirectoryClient(
-      appendToURLPath(this.url, encodeURIComponent(directoryName)),
+      appendToURLPath(this.url, EscapePath(directoryName)),
       this.pipeline
     );
   }
@@ -1885,7 +1886,7 @@ export class ShareDirectoryClient extends StorageClient {
    */
   public getDirectoryClient(subDirectoryName: string): ShareDirectoryClient {
     return new ShareDirectoryClient(
-      appendToURLPath(this.url, encodeURIComponent(subDirectoryName)),
+      appendToURLPath(this.url, EscapePath(subDirectoryName)),
       this.pipeline
     );
   }
@@ -2045,10 +2046,7 @@ export class ShareDirectoryClient extends StorageClient {
   // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
   /* eslint-disable-next-line @azure/azure-sdk/ts-naming-subclients */
   public getFileClient(fileName: string): ShareFileClient {
-    return new ShareFileClient(
-      appendToURLPath(this.url, encodeURIComponent(fileName)),
-      this.pipeline
-    );
+    return new ShareFileClient(appendToURLPath(this.url, EscapePath(fileName)), this.pipeline);
   }
 
   /**
@@ -2799,12 +2797,12 @@ export class ShareDirectoryClient extends StorageClient {
     const split: string[] = destinationPath.split("?");
     let destinationUrl: string;
     if (split.length === 2) {
-      const pathOnly = encodeURIComponent(split[0]);
+      const pathOnly = EscapePath(split[0]);
       const renameDestination = `/${this.shareName}/${pathOnly}`;
       destinationUrl = setURLPath(this.url, renameDestination);
       destinationUrl = setURLQueries(destinationUrl, split[1]);
     } else if (split.length === 1) {
-      const pathOnly = encodeURIComponent(destinationPath);
+      const pathOnly = EscapePath(destinationPath);
       const renameDestination = `/${this.shareName}/${pathOnly}`;
       destinationUrl = setURLPath(this.url, renameDestination);
     } else {
@@ -5386,12 +5384,12 @@ export class ShareFileClient extends StorageClient {
     const split: string[] = destinationPath.split("?");
     let destinationUrl: string;
     if (split.length === 2) {
-      const pathOnly = encodeURIComponent(split[0]);
+      const pathOnly = EscapePath(split[0]);
       const renameDestination = `/${this.shareName}/${pathOnly}`;
       destinationUrl = setURLPath(this.url, renameDestination);
       destinationUrl = setURLQueries(destinationUrl, split[1]);
     } else if (split.length === 1) {
-      const pathOnly = encodeURIComponent(destinationPath);
+      const pathOnly = EscapePath(destinationPath);
       const renameDestination = `/${this.shareName}/${pathOnly}`;
       destinationUrl = setURLPath(this.url, renameDestination);
     } else {

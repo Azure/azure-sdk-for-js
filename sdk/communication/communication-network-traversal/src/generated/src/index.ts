@@ -8,5 +8,4 @@
 
 export * from "./models";
 export { NetworkRelayRestClient } from "./networkRelayRestClient";
-export { NetworkRelayRestClientContext } from "./networkRelayRestClientContext";
 export * from "./operationsInterfaces";

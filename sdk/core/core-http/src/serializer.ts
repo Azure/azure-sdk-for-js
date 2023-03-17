@@ -30,6 +30,7 @@ export class Serializer {
    * @param mapper - The definition of data models.
    * @param value - The value.
    * @param objectName - Name of the object. Used in the error messages.
+   * @deprecated Removing the constraints validation on client side.
    */
   validateConstraints(mapper: Mapper, value: unknown, objectName: string): void {
     const failValidation = (
@@ -156,8 +157,6 @@ export class Serializer {
     if (object == undefined) {
       payload = object;
     } else {
-      // Validate Constraints if any
-      this.validateConstraints(mapper, object, objectName);
       if (mapperType.match(/^any$/i) !== null) {
         payload = object;
       } else if (mapperType.match(/^(Number|String|Boolean|Object|Stream|Uuid)$/i) !== null) {
@@ -844,6 +843,7 @@ function deserializeCompositeType(
   objectName: string,
   options: Required<SerializerOptions>
 ): any {
+  const xmlCharKey = options.xmlCharKey ?? XML_CHARKEY;
   if (getPolymorphicDiscriminatorRecursively(serializer, mapper)) {
     mapper = getPolymorphicMapper(serializer, mapper, responseBody, "serializedName");
   }
@@ -886,6 +886,14 @@ function deserializeCompositeType(
           propertyObjectName,
           options
         );
+      } else if (propertyMapper.xmlIsMsText) {
+        if (responseBody[xmlCharKey] !== undefined) {
+          instance[key] = responseBody[xmlCharKey];
+        } else if (typeof responseBody === "string") {
+          // The special case where xml parser parses "<Name>content</Name>" into JSON of
+          //   `{ name: "content"}` instead of `{ name: { "_": "content" }}`
+          instance[key] = responseBody;
+        }
       } else {
         const propertyName = xmlElementName || xmlName || serializedName;
         if (propertyMapper.xmlIsWrapped) {
@@ -911,6 +919,7 @@ function deserializeCompositeType(
             propertyObjectName,
             options
           );
+          handledPropertyNames.push(xmlName!);
         } else {
           const property = responseBody[propertyName!];
           instance[key] = serializer.deserialize(
@@ -919,6 +928,7 @@ function deserializeCompositeType(
             propertyObjectName,
             options
           );
+          handledPropertyNames.push(propertyName!);
         }
       }
     } else {
@@ -1303,6 +1313,10 @@ export interface BaseMapper {
    * Determines if the current property should be serialized as an attribute of the parent xml element
    */
   xmlIsAttribute?: boolean;
+  /**
+   * Determines if the current property should be serialized as the inner content of the xml element
+   */
+  xmlIsMsText?: boolean;
   /**
    * Name for the xml elements when serializing an array
    */

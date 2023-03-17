@@ -4,12 +4,6 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config();
-const {
-  jsonRecordingFilterFunction,
-  isPlaybackMode,
-  isSoftRecordMode,
-  isRecordMode,
-} = require("@azure-tools/test-recorder");
 
 module.exports = function (config) {
   config.set({
@@ -24,9 +18,7 @@ module.exports = function (config) {
       "karma-mocha",
       "karma-mocha-reporter",
       "karma-chrome-launcher",
-      "karma-edge-launcher",
       "karma-firefox-launcher",
-      "karma-ie-launcher",
       "karma-env-preprocessor",
       "karma-coverage",
       "karma-junit-reporter",
@@ -38,7 +30,7 @@ module.exports = function (config) {
     files: [
       "dist-test/index.browser.js",
       { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true },
-    ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
+    ],
 
     // list of files / patterns to exclude
     exclude: [],
@@ -76,11 +68,6 @@ module.exports = function (config) {
       properties: {}, // key value pair of properties to add to the <properties> section of the report
     },
 
-    jsonToFileReporter: {
-      filter: jsonRecordingFilterFunction,
-      outputPath: ".",
-    },
-
     // web server port
     port: 9876,
 
@@ -115,9 +102,6 @@ module.exports = function (config) {
     browserNoActivityTimeout: 600000,
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
-    browserConsoleLogOptions: {
-      terminal: !isRecordMode(),
-    },
 
     client: {
       mocha: {

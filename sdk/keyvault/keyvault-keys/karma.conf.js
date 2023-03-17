@@ -1,12 +1,10 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config();
-const {
-  jsonRecordingFilterFunction,
-  isPlaybackMode,
-  isSoftRecordMode,
-  isRecordMode,
-} = require("@azure-tools/test-recorder");
+
+const { relativeRecordingsPath } = require("@azure-tools/test-recorder");
+
+process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
 
 module.exports = function (config) {
   config.set({
@@ -17,28 +15,23 @@ module.exports = function (config) {
       "karma-mocha",
       "karma-mocha-reporter",
       "karma-chrome-launcher",
-      "karma-edge-launcher",
       "karma-firefox-launcher",
-      "karma-ie-launcher",
       "karma-env-preprocessor",
       "karma-coverage",
       "karma-sourcemap-loader",
       "karma-junit-reporter",
-      "karma-json-to-file-reporter",
-      "karma-json-preprocessor",
     ],
 
     files: [
       "dist-test/index.browser.js",
       { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true },
-    ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
+    ],
 
     exclude: [],
 
     preprocessors: {
       "**/*.js": ["sourcemap", "env"],
       //"dist-test/index.browser.js": ["coverage"],
-      "recordings/browsers/**/*.json": ["json"],
     },
 
     envPreprocessor: [
@@ -51,9 +44,10 @@ module.exports = function (config) {
       "AZURE_KEYVAULT_ATTESTATION_URI",
       "TEST_MODE",
       "AZURE_AUTHORITY_HOST",
+      "RECORDINGS_RELATIVE_PATH",
     ],
 
-    reporters: ["mocha", "coverage", "junit", "json-to-file"],
+    reporters: ["mocha", "coverage", "junit"],
 
     coverageReporter: {
       // specify a common output directory
@@ -74,12 +68,6 @@ module.exports = function (config) {
       nameFormatter: undefined,
       classNameFormatter: undefined,
       properties: {},
-    },
-
-    jsonToFileReporter: {
-      // required - to save the recordings of browser tests
-      filter: jsonRecordingFilterFunction,
-      outputPath: ".",
     },
 
     port: 9329,
@@ -103,10 +91,6 @@ module.exports = function (config) {
     browserNoActivityTimeout: 180000,
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
-    browserConsoleLogOptions: {
-      // IMPORTANT: COMMENT the following line if you want to print debug logs in your browsers in record mode!!
-      terminal: !isRecordMode(),
-    },
 
     client: {
       mocha: {

@@ -6,18 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ActionGroups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MonitorClient } from "../monitorClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ActionGroupResource,
   ActionGroupsListBySubscriptionIdOptionalParams,
+  ActionGroupsListBySubscriptionIdResponse,
   ActionGroupsListByResourceGroupOptionalParams,
+  ActionGroupsListByResourceGroupResponse,
   ActionGroupsCreateOrUpdateOptionalParams,
   ActionGroupsCreateOrUpdateResponse,
   ActionGroupsGetOptionalParams,
@@ -29,10 +35,16 @@ import {
   NotificationRequestBody,
   ActionGroupsPostTestNotificationsOptionalParams,
   ActionGroupsPostTestNotificationsResponse,
+  ActionGroupsCreateNotificationsAtResourceGroupLevelOptionalParams,
+  ActionGroupsCreateNotificationsAtResourceGroupLevelResponse,
+  ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams,
+  ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse,
   ActionGroupsGetTestNotificationsOptionalParams,
   ActionGroupsGetTestNotificationsResponse,
-  ActionGroupsListBySubscriptionIdResponse,
-  ActionGroupsListByResourceGroupResponse,
+  ActionGroupsGetTestNotificationsAtResourceGroupLevelOptionalParams,
+  ActionGroupsGetTestNotificationsAtResourceGroupLevelResponse,
+  ActionGroupsGetTestNotificationsAtActionGroupResourceLevelOptionalParams,
+  ActionGroupsGetTestNotificationsAtActionGroupResourceLevelResponse,
   EnableRequest,
   ActionGroupsEnableReceiverOptionalParams
 } from "../models";
@@ -65,16 +77,21 @@ export class ActionGroupsImpl implements ActionGroups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionIdPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionIdPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionIdPagingPage(
-    options?: ActionGroupsListBySubscriptionIdOptionalParams
+    options?: ActionGroupsListBySubscriptionIdOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ActionGroupResource[]> {
-    let result = await this._listBySubscriptionId(options);
+    let result: ActionGroupsListBySubscriptionIdResponse;
+    result = await this._listBySubscriptionId(options);
     yield result.value || [];
   }
 
@@ -103,17 +120,26 @@ export class ActionGroupsImpl implements ActionGroups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: ActionGroupsListByResourceGroupOptionalParams
+    options?: ActionGroupsListByResourceGroupOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ActionGroupResource[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
+    let result: ActionGroupsListByResourceGroupResponse;
+    result = await this._listByResourceGroup(resourceGroupName, options);
     yield result.value || [];
   }
 
@@ -210,8 +236,8 @@ export class ActionGroupsImpl implements ActionGroups {
     notificationRequest: NotificationRequestBody,
     options?: ActionGroupsPostTestNotificationsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ActionGroupsPostTestNotificationsResponse>,
+    SimplePollerLike<
+      OperationState<ActionGroupsPostTestNotificationsResponse>,
       ActionGroupsPostTestNotificationsResponse
     >
   > {
@@ -221,7 +247,7 @@ export class ActionGroupsImpl implements ActionGroups {
     ): Promise<ActionGroupsPostTestNotificationsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -254,15 +280,18 @@ export class ActionGroupsImpl implements ActionGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { notificationRequest, options },
-      postTestNotificationsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { notificationRequest, options },
+      spec: postTestNotificationsOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ActionGroupsPostTestNotificationsResponse,
+      OperationState<ActionGroupsPostTestNotificationsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -285,6 +314,208 @@ export class ActionGroupsImpl implements ActionGroups {
   }
 
   /**
+   * Send test notifications to a set of provided receivers
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param notificationRequest The notification request body which includes the contact details
+   * @param options The options parameters.
+   */
+  async beginCreateNotificationsAtResourceGroupLevel(
+    resourceGroupName: string,
+    notificationRequest: NotificationRequestBody,
+    options?: ActionGroupsCreateNotificationsAtResourceGroupLevelOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<
+        ActionGroupsCreateNotificationsAtResourceGroupLevelResponse
+      >,
+      ActionGroupsCreateNotificationsAtResourceGroupLevelResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ActionGroupsCreateNotificationsAtResourceGroupLevelResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, notificationRequest, options },
+      spec: createNotificationsAtResourceGroupLevelOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ActionGroupsCreateNotificationsAtResourceGroupLevelResponse,
+      OperationState<
+        ActionGroupsCreateNotificationsAtResourceGroupLevelResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Send test notifications to a set of provided receivers
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param notificationRequest The notification request body which includes the contact details
+   * @param options The options parameters.
+   */
+  async beginCreateNotificationsAtResourceGroupLevelAndWait(
+    resourceGroupName: string,
+    notificationRequest: NotificationRequestBody,
+    options?: ActionGroupsCreateNotificationsAtResourceGroupLevelOptionalParams
+  ): Promise<ActionGroupsCreateNotificationsAtResourceGroupLevelResponse> {
+    const poller = await this.beginCreateNotificationsAtResourceGroupLevel(
+      resourceGroupName,
+      notificationRequest,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Send test notifications to a set of provided receivers
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param actionGroupName The name of the action group.
+   * @param notificationRequest The notification request body which includes the contact details
+   * @param options The options parameters.
+   */
+  async beginCreateNotificationsAtActionGroupResourceLevel(
+    resourceGroupName: string,
+    actionGroupName: string,
+    notificationRequest: NotificationRequestBody,
+    options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<
+        ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse
+      >,
+      ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        actionGroupName,
+        notificationRequest,
+        options
+      },
+      spec: createNotificationsAtActionGroupResourceLevelOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse,
+      OperationState<
+        ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Send test notifications to a set of provided receivers
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param actionGroupName The name of the action group.
+   * @param notificationRequest The notification request body which includes the contact details
+   * @param options The options parameters.
+   */
+  async beginCreateNotificationsAtActionGroupResourceLevelAndWait(
+    resourceGroupName: string,
+    actionGroupName: string,
+    notificationRequest: NotificationRequestBody,
+    options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams
+  ): Promise<
+    ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse
+  > {
+    const poller = await this.beginCreateNotificationsAtActionGroupResourceLevel(
+      resourceGroupName,
+      actionGroupName,
+      notificationRequest,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Get the test notifications by the notification id
    * @param notificationId The notification id
    * @param options The options parameters.
@@ -296,6 +527,44 @@ export class ActionGroupsImpl implements ActionGroups {
     return this.client.sendOperationRequest(
       { notificationId, options },
       getTestNotificationsOperationSpec
+    );
+  }
+
+  /**
+   * Get the test notifications by the notification id
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param notificationId The notification id
+   * @param options The options parameters.
+   */
+  getTestNotificationsAtResourceGroupLevel(
+    resourceGroupName: string,
+    notificationId: string,
+    options?: ActionGroupsGetTestNotificationsAtResourceGroupLevelOptionalParams
+  ): Promise<ActionGroupsGetTestNotificationsAtResourceGroupLevelResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, notificationId, options },
+      getTestNotificationsAtResourceGroupLevelOperationSpec
+    );
+  }
+
+  /**
+   * Get the test notifications by the notification id
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param actionGroupName The name of the action group.
+   * @param notificationId The notification id
+   * @param options The options parameters.
+   */
+  getTestNotificationsAtActionGroupResourceLevel(
+    resourceGroupName: string,
+    actionGroupName: string,
+    notificationId: string,
+    options?: ActionGroupsGetTestNotificationsAtActionGroupResourceLevelOptionalParams
+  ): Promise<
+    ActionGroupsGetTestNotificationsAtActionGroupResourceLevelResponse
+  > {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, actionGroupName, notificationId, options },
+      getTestNotificationsAtActionGroupResourceLevelOperationSpec
     );
   }
 
@@ -366,7 +635,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.actionGroup,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -389,7 +658,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -410,7 +679,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -433,7 +702,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.actionGroupPatch,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -450,24 +719,89 @@ const postTestNotificationsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.TestNotificationResponse
+      bodyMapper: Mappers.TestNotificationDetailsResponse
     },
     201: {
-      bodyMapper: Mappers.TestNotificationResponse
+      bodyMapper: Mappers.TestNotificationDetailsResponse
     },
     202: {
-      bodyMapper: Mappers.TestNotificationResponse
+      bodyMapper: Mappers.TestNotificationDetailsResponse
     },
     204: {
-      bodyMapper: Mappers.TestNotificationResponse
+      bodyMapper: Mappers.TestNotificationDetailsResponse
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.notificationRequest,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const createNotificationsAtResourceGroupLevelOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/createNotifications",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TestNotificationDetailsResponse
+    },
+    201: {
+      bodyMapper: Mappers.TestNotificationDetailsResponse
+    },
+    202: {
+      bodyMapper: Mappers.TestNotificationDetailsResponse
+    },
+    204: {
+      bodyMapper: Mappers.TestNotificationDetailsResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.notificationRequest,
+  queryParameters: [Parameters.apiVersion4],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const createNotificationsAtActionGroupResourceLevelOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/actionGroups/{actionGroupName}/createNotifications",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TestNotificationDetailsResponse
+    },
+    201: {
+      bodyMapper: Mappers.TestNotificationDetailsResponse
+    },
+    202: {
+      bodyMapper: Mappers.TestNotificationDetailsResponse
+    },
+    204: {
+      bodyMapper: Mappers.TestNotificationDetailsResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.notificationRequest,
+  queryParameters: [Parameters.apiVersion4],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.actionGroupName
+  ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
@@ -484,10 +818,55 @@ const getTestNotificationsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.notificationId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getTestNotificationsAtResourceGroupLevelOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/notificationStatus/{notificationId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TestNotificationDetailsResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion4],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.notificationId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getTestNotificationsAtActionGroupResourceLevelOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/actionGroups/{actionGroupName}/notificationStatus/{notificationId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TestNotificationDetailsResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion4],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.actionGroupName,
     Parameters.notificationId
   ],
   headerParameters: [Parameters.accept],
@@ -505,7 +884,7 @@ const listBySubscriptionIdOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -522,7 +901,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -545,7 +924,7 @@ const enableReceiverOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.enableRequest,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

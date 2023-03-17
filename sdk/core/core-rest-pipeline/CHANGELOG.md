@@ -1,6 +1,6 @@
 # Release History
 
-## 1.8.2 (Unreleased)
+## 1.10.3 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,51 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.10.2 (2023-03-02)
+
+### Bugs Fixed
+
+- Remove oscpu from OS sniffing [PR #24809](https://github.com/Azure/azure-sdk-for-js/pull/24809)
+
+## 1.10.1 (2023-01-05)
+
+### Features Added
+
+- In browsers, fire an upload progress event when Blobs are used instead of streams. [PR #24356](https://github.com/Azure/azure-sdk-for-js/pull/24356)
+
+### Bugs Fixed
+
+- Fix an issue in `FormDataPolicy` where we are not waiting for `prepareFormData()` to complete [PR #23858](https://github.com/Azure/azure-sdk-for-js/pull/23858)
+- Fix an issue on Node where `HEAD` requests would close their socket, ignoring keep-alive. [PR #24356](https://github.com/Azure/azure-sdk-for-js/pull/24356)
+
+## 1.10.0 (2022-11-03)
+
+### Bugs Fixed
+
+- Fixed an issue where policies added to a cloned Pipeline would also be added to the original (and vice versa) until policies were removed from either. [#23316](https://github.com/Azure/azure-sdk-for-js/pull/23316)
+
+### Other Changes
+
+- Update `engines` to `"node": ">=14.0.0"`
+
+## 1.9.2 (2022-09-01)
+
+### Other Changes
+
+- Move `defaultLogPolicy` to after `Sign` phase in `createPipelineFromOptions`. [#22930](https://github.com/Azure/azure-sdk-for-js/pull/22930)
+
+## 1.9.1 (2022-08-04)
+
+### Bugs Fixed
+
+- Fixed a bug in claim challenge we failed to refresh our token. [#22324](https://github.com/Azure/azure-sdk-for-js/pull/22324)
+
+## 1.9.0 (2022-06-03)
+
+### Features Added
+
+- Add TLS policy in `createPipelineFromOptions`. [#21949](https://github.com/Azure/azure-sdk-for-js/pull/21949)
 
 ## 1.8.1 (2022-05-05)
 

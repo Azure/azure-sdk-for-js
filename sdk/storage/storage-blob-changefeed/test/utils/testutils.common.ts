@@ -1,19 +1,45 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { isPlaybackMode, env, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
+import { isPlaybackMode, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import { Readable } from "stream";
+import { FindReplaceSanitizer } from "@azure-tools/test-recorder/types/src/utils/utils";
+import { Pipeline } from "@azure/core-rest-pipeline";
+import { BlobChangeFeedClient } from "../../src/BlobChangeFeedClient";
 
 export const testPollerProperties = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
+export function configureBlobStorageClient(recorder: Recorder, client: BlobChangeFeedClient): void {
+  const options = recorder.configureClientOptions({});
+
+  const pipeline: Pipeline = (client as any).blobServiceClient.storageClientContext.pipeline;
+  for (const { policy } of options.additionalPolicies ?? []) {
+    pipeline.addPolicy(policy, { afterPhase: "Sign", afterPolicies: ["injectorPolicy"] });
+  }
+}
+
+function getUriSanitizerForQueryParam(paramName: string) {
+  return {
+    regex: true,
+    target: `http.+?[^&]*&?(?<param>${paramName}=[^&]+&?)`,
+    groupForReplace: "param",
+    value: "",
+  };
+}
+
 const mockAccountName = "fakestorageaccount";
 const mockMDAccountName = "md-fakestorageaccount";
 const mockAccountKey = "aaaaa";
-export const recorderEnvSetup: RecorderEnvironmentSetup = {
-  replaceableVariables: {
+const sasParams = ["se", "sig", "sip", "sp", "spr", "srt", "ss", "sr", "st", "sv"];
+if (isBrowser()) {
+  sasParams.push("_");
+}
+export const uriSanitizers: FindReplaceSanitizer[] = sasParams.map(getUriSanitizerForQueryParam);
+export const recorderEnvSetup: RecorderStartOptions = {
+  envSetupForPlayback: {
     // Used in record and playback modes
     // 1. The key-value pairs will be used as the environment variables in playback mode
     // 2. If the env variables are present in the recordings as plain strings, they will be replaced with the provided values in record mode
@@ -29,28 +55,10 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     MD_ACCOUNT_SAS: `${mockAccountKey}`,
     MD_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockMDAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
   },
-  customizationsOnRecordings: [
-    // Used in record mode
-    // Array of callback functions can be provided to customize the generated recordings in record mode
-    // `sig` param of SAS Token is being filtered here
-    (recording: string): string =>
-      recording.replace(
-        new RegExp(env.ACCOUNT_SAS.match("(.*)&sig=(.*)")[2], "g"),
-        `${mockAccountKey}`
-      ),
-  ],
   // SAS token may contain sensitive information
-  queryParametersToSkip: [
-    // Used in record and playback modes
-    "se",
-    "sig",
-    "sp",
-    "spr",
-    "srt",
-    "ss",
-    "st",
-    "sv",
-  ],
+  sanitizerOptions: {
+    uriSanitizers,
+  },
 };
 
 /**

@@ -6,11 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { tracingClient } from "../tracing";
 import { CommunicationIdentityOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { IdentityRestClientContext } from "../identityRestClientContext";
+import { IdentityRestClient } from "../identityRestClient";
 import {
   CommunicationIdentityCreateOptionalParams,
   CommunicationIdentityCreateResponse,
@@ -26,13 +27,13 @@ import {
 /** Class containing CommunicationIdentityOperations operations. */
 export class CommunicationIdentityOperationsImpl
   implements CommunicationIdentityOperations {
-  private readonly client: IdentityRestClientContext;
+  private readonly client: IdentityRestClient;
 
   /**
    * Initialize a new instance of the class CommunicationIdentityOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: IdentityRestClientContext) {
+  constructor(client: IdentityRestClient) {
     this.client = client;
   }
 
@@ -40,10 +41,19 @@ export class CommunicationIdentityOperationsImpl
    * Create a new identity, and optionally, an access token.
    * @param options The options parameters.
    */
-  create(
+  async create(
     options?: CommunicationIdentityCreateOptionalParams
   ): Promise<CommunicationIdentityCreateResponse> {
-    return this.client.sendOperationRequest({ options }, createOperationSpec);
+    return tracingClient.withSpan(
+      "IdentityRestClient.create",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          createOperationSpec
+        ) as Promise<CommunicationIdentityCreateResponse>;
+      }
+    );
   }
 
   /**
@@ -51,13 +61,19 @@ export class CommunicationIdentityOperationsImpl
    * @param id Identifier of the identity to be deleted.
    * @param options The options parameters.
    */
-  delete(
+  async delete(
     id: string,
     options?: CommunicationIdentityDeleteOptionalParams
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { id, options },
-      deleteOperationSpec
+    return tracingClient.withSpan(
+      "IdentityRestClient.delete",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { id, options },
+          deleteOperationSpec
+        ) as Promise<void>;
+      }
     );
   }
 
@@ -66,29 +82,48 @@ export class CommunicationIdentityOperationsImpl
    * @param id Identifier of the identity.
    * @param options The options parameters.
    */
-  revokeAccessTokens(
+  async revokeAccessTokens(
     id: string,
     options?: CommunicationIdentityRevokeAccessTokensOptionalParams
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { id, options },
-      revokeAccessTokensOperationSpec
+    return tracingClient.withSpan(
+      "IdentityRestClient.revokeAccessTokens",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { id, options },
+          revokeAccessTokensOperationSpec
+        ) as Promise<void>;
+      }
     );
   }
 
   /**
-   * Exchange an AAD access token of a Teams user for a new Communication Identity access token with a
-   * matching expiration time.
-   * @param token AAD access token of a Teams User to acquire a new Communication Identity access token.
+   * Exchange an Azure Active Directory (Azure AD) access token of a Teams user for a new Communication
+   * Identity access token with a matching expiration time.
+   * @param token Azure AD access token of a Teams User to acquire a new Communication Identity access
+   *              token.
+   * @param appId Client ID of an Azure AD application to be verified against the appid claim in the
+   *              Azure AD access token.
+   * @param userId Object ID of an Azure AD user (Teams User) to be verified against the oid claim in the
+   *               Azure AD access token.
    * @param options The options parameters.
    */
-  exchangeTeamsUserAccessToken(
+  async exchangeTeamsUserAccessToken(
     token: string,
+    appId: string,
+    userId: string,
     options?: CommunicationIdentityExchangeTeamsUserAccessTokenOptionalParams
   ): Promise<CommunicationIdentityExchangeTeamsUserAccessTokenResponse> {
-    return this.client.sendOperationRequest(
-      { token, options },
-      exchangeTeamsUserAccessTokenOperationSpec
+    return tracingClient.withSpan(
+      "IdentityRestClient.exchangeTeamsUserAccessToken",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { token, appId, userId, options },
+          exchangeTeamsUserAccessTokenOperationSpec
+        ) as Promise<CommunicationIdentityExchangeTeamsUserAccessTokenResponse>;
+      }
     );
   }
 
@@ -98,14 +133,20 @@ export class CommunicationIdentityOperationsImpl
    * @param scopes List of scopes attached to the token.
    * @param options The options parameters.
    */
-  issueAccessToken(
+  async issueAccessToken(
     id: string,
     scopes: CommunicationIdentityTokenScope[],
     options?: CommunicationIdentityIssueAccessTokenOptionalParams
   ): Promise<CommunicationIdentityIssueAccessTokenResponse> {
-    return this.client.sendOperationRequest(
-      { id, scopes, options },
-      issueAccessTokenOperationSpec
+    return tracingClient.withSpan(
+      "IdentityRestClient.issueAccessToken",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { id, scopes, options },
+          issueAccessTokenOperationSpec
+        ) as Promise<CommunicationIdentityIssueAccessTokenResponse>;
+      }
     );
   }
 }
@@ -125,7 +166,8 @@ const createOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: {
     parameterPath: {
-      createTokenWithScopes: ["options", "createTokenWithScopes"]
+      createTokenWithScopes: ["options", "createTokenWithScopes"],
+      expiresInMinutes: ["options", "expiresInMinutes"]
     },
     mapper: Mappers.CommunicationIdentityCreateRequest
   },
@@ -175,8 +217,8 @@ const exchangeTeamsUserAccessTokenOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: {
-    parameterPath: { token: ["token"] },
-    mapper: { ...Mappers.TeamsUserAccessTokenRequest, required: true }
+    parameterPath: { token: ["token"], appId: ["appId"], userId: ["userId"] },
+    mapper: { ...Mappers.TeamsUserExchangeTokenRequest, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
@@ -196,7 +238,10 @@ const issueAccessTokenOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: {
-    parameterPath: { scopes: ["scopes"] },
+    parameterPath: {
+      scopes: ["scopes"],
+      expiresInMinutes: ["options", "expiresInMinutes"]
+    },
     mapper: {
       ...Mappers.CommunicationIdentityAccessTokenRequest,
       required: true

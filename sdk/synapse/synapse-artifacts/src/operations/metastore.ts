@@ -6,10 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { createSpan } from "../tracing";
+import { tracingClient } from "../tracing";
 import { Metastore } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
@@ -49,22 +48,16 @@ export class MetastoreImpl implements Metastore {
     registerBody: MetastoreRegisterObject,
     options?: MetastoreRegisterOptionalParams
   ): Promise<MetastoreRegisterResponse> {
-    const { span } = createSpan("ArtifactsClient-register", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { id, registerBody, options },
-        registerOperationSpec
-      );
-      return result as MetastoreRegisterResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ArtifactsClient.register",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { id, registerBody, options },
+          registerOperationSpec
+        ) as Promise<MetastoreRegisterResponse>;
+      }
+    );
   }
 
   /**
@@ -76,25 +69,16 @@ export class MetastoreImpl implements Metastore {
     id: string,
     options?: MetastoreGetDatabaseOperationsOptionalParams
   ): Promise<MetastoreGetDatabaseOperationsResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-getDatabaseOperations",
-      options || {}
+    return tracingClient.withSpan(
+      "ArtifactsClient.getDatabaseOperations",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { id, options },
+          getDatabaseOperationsOperationSpec
+        ) as Promise<MetastoreGetDatabaseOperationsResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { id, options },
-        getDatabaseOperationsOperationSpec
-      );
-      return result as MetastoreGetDatabaseOperationsResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -108,22 +92,16 @@ export class MetastoreImpl implements Metastore {
     updateBody: MetastoreUpdateObject,
     options?: MetastoreUpdateOptionalParams
   ): Promise<MetastoreUpdateResponse> {
-    const { span } = createSpan("ArtifactsClient-update", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { id, updateBody, options },
-        updateOperationSpec
-      );
-      return result as MetastoreUpdateResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ArtifactsClient.update",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { id, updateBody, options },
+          updateOperationSpec
+        ) as Promise<MetastoreUpdateResponse>;
+      }
+    );
   }
 
   /**
@@ -135,22 +113,16 @@ export class MetastoreImpl implements Metastore {
     id: string,
     options?: MetastoreDeleteOptionalParams
   ): Promise<void> {
-    const { span } = createSpan("ArtifactsClient-delete", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { id, options },
-        deleteOperationSpec
-      );
-      return result as void;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ArtifactsClient.delete",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { id, options },
+          deleteOperationSpec
+        ) as Promise<void>;
+      }
+    );
   }
 }
 // Operation Specifications

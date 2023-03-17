@@ -9,7 +9,7 @@ import { Buffer } from "buffer";
 import * as Constants from "../util/constants";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { PipelineResponse } from "@azure/core-rest-pipeline";
-import { isDefined } from "./typeGuards";
+import { isDefined } from "@azure/core-util";
 import { HttpResponse, toHttpResponse } from "./compat";
 import { StandardAbortMessage } from "@azure/core-amqp";
 
@@ -36,6 +36,18 @@ declare const navigator: Navigator;
  */
 export function getUniqueName(name: string): string {
   return `${name}-${generate_uuid()}`;
+}
+
+/**
+ * @internal
+ * Returns the passed identifier if it is not undefined or empty;
+ * otherwise generate and returns a unique one in the following format;
+ *   `{prefix}-{uuid}`.
+ * @param prefix - The prefix used to generate identifier
+ * @param identifier - an identifier name
+ */
+export function ensureValidIdentifier(prefix: string, identifier?: string): string {
+  return identifier ? identifier : getUniqueName(prefix);
 }
 
 /**

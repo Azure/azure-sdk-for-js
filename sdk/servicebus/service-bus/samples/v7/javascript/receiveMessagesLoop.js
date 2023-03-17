@@ -5,7 +5,7 @@
  * This sample demonstrates how the receiveMessages() function can be used to receive Service Bus
  * messages in a loop.
  *
- * Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
+ * Setup: Please run "sendMessages" sample before running this to populate the queue/topic
  *
  * @summary Demonstrates how to receive Service Bus messages in a loop
  */
@@ -13,8 +13,7 @@
 const { ServiceBusClient } = require("@azure/service-bus");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
@@ -67,3 +66,5 @@ main().catch((err) => {
   console.log("ReceiveMessageLoop Sample - Error occurred: ", err);
   process.exit(1);
 });
+
+module.exports = { main };

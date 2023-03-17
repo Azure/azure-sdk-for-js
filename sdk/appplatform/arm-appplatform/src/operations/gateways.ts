@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Gateways } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,12 +19,14 @@ import {
   GatewayResource,
   GatewaysListNextOptionalParams,
   GatewaysListOptionalParams,
+  GatewaysListResponse,
   GatewaysGetOptionalParams,
   GatewaysGetResponse,
   GatewaysCreateOrUpdateOptionalParams,
   GatewaysCreateOrUpdateResponse,
   GatewaysDeleteOptionalParams,
-  GatewaysListResponse,
+  GatewaysListEnvSecretsOptionalParams,
+  GatewaysListEnvSecretsResponse,
   CustomDomainValidatePayload,
   GatewaysValidateDomainOptionalParams,
   GatewaysValidateDomainResponse,
@@ -63,8 +66,16 @@ export class GatewaysImpl implements Gateways {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, serviceName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          serviceName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -72,11 +83,18 @@ export class GatewaysImpl implements Gateways {
   private async *listPagingPage(
     resourceGroupName: string,
     serviceName: string,
-    options?: GatewaysListOptionalParams
+    options?: GatewaysListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<GatewayResource[]> {
-    let result = await this._list(resourceGroupName, serviceName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: GatewaysListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, serviceName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -85,7 +103,9 @@ export class GatewaysImpl implements Gateways {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -190,8 +210,7 @@ export class GatewaysImpl implements Gateways {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -283,8 +302,7 @@ export class GatewaysImpl implements Gateways {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -311,6 +329,26 @@ export class GatewaysImpl implements Gateways {
       options
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * List sensitive environment variables of Spring Cloud Gateway.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param gatewayName The name of Spring Cloud Gateway.
+   * @param options The options parameters.
+   */
+  listEnvSecrets(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayName: string,
+    options?: GatewaysListEnvSecretsOptionalParams
+  ): Promise<GatewaysListEnvSecretsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, gatewayName, options },
+      listEnvSecretsOperationSpec
+    );
   }
 
   /**
@@ -457,6 +495,31 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const listEnvSecretsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}/listEnvSecrets",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "String" } } }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.gatewayName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways",
@@ -515,7 +578,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

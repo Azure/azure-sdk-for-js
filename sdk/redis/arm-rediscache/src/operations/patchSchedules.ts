@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PatchSchedules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -62,11 +63,15 @@ export class PatchSchedulesImpl implements PatchSchedules {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByRedisResourcePagingPage(
           resourceGroupName,
           cacheName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -75,15 +80,22 @@ export class PatchSchedulesImpl implements PatchSchedules {
   private async *listByRedisResourcePagingPage(
     resourceGroupName: string,
     cacheName: string,
-    options?: PatchSchedulesListByRedisResourceOptionalParams
+    options?: PatchSchedulesListByRedisResourceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<RedisPatchSchedule[]> {
-    let result = await this._listByRedisResource(
-      resourceGroupName,
-      cacheName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PatchSchedulesListByRedisResourceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByRedisResource(
+        resourceGroupName,
+        cacheName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByRedisResourceNext(
         resourceGroupName,
@@ -92,7 +104,9 @@ export class PatchSchedulesImpl implements PatchSchedules {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -131,19 +145,19 @@ export class PatchSchedulesImpl implements PatchSchedules {
    * Create or replace the patching schedule for Redis cache.
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the Redis cache.
-   * @param parameters Parameters to set the patching schedule for Redis cache.
    * @param defaultParam Default string modeled as parameter for auto generation to work correctly.
+   * @param parameters Parameters to set the patching schedule for Redis cache.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     name: string,
-    parameters: RedisPatchSchedule,
     defaultParam: DefaultName,
+    parameters: RedisPatchSchedule,
     options?: PatchSchedulesCreateOrUpdateOptionalParams
   ): Promise<PatchSchedulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, name, parameters, defaultParam, options },
+      { resourceGroupName, name, defaultParam, parameters, options },
       createOrUpdateOperationSpec
     );
   }
@@ -314,7 +328,6 @@ const listByRedisResourceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

@@ -5,6 +5,7 @@ import * as chai from "chai";
 const should = chai.should();
 import { CbsClient, ConnectionConfig, ConnectionContextBase } from "../src";
 import { Connection } from "rhea-promise";
+import { ConnectionOptions as TlsConnectionOptions } from "tls";
 
 describe("ConnectionContextBase", function () {
   it("should be created with required parameters", function (done) {
@@ -53,7 +54,8 @@ describe("ConnectionContextBase", function () {
     should.exist(context.connectionLock);
     should.exist(context.negotiateClaimLock);
     context.connection.options.hostname!.should.equal("hostname.servicebus.windows.net");
-    context.connection.options.host!.should.equal("hostname.servicebus.windows.net");
+    const tlsConnectionOptions = context.connection.options as TlsConnectionOptions;
+    tlsConnectionOptions.host!.should.equal("hostname.servicebus.windows.net");
     context.wasConnectionCloseCalled.should.equal(false);
     context.connection.should.instanceOf(Connection);
     context.connection.options.properties!.product.should.equal("MSJSClient");
@@ -82,7 +84,8 @@ describe("ConnectionContextBase", function () {
     should.exist(context.connectionLock);
     should.exist(context.negotiateClaimLock);
     context.connection.options.hostname!.should.equal("127.0.0.1");
-    context.connection.options.host!.should.equal("hostname.servicebus.windows.net");
+    const tlsConnectionOptions = context.connection.options as TlsConnectionOptions;
+    tlsConnectionOptions.host!.should.equal("hostname.servicebus.windows.net");
     context.wasConnectionCloseCalled.should.equal(false);
     context.connection.should.instanceOf(Connection);
     context.connection.options.properties!.product.should.equal("MSJSClient");
@@ -110,7 +113,8 @@ describe("ConnectionContextBase", function () {
     should.exist(context.connectionId);
     should.exist(context.connectionLock);
     should.exist(context.negotiateClaimLock);
-    context.connection.options.port!.should.equal(1111);
+    const tlsConnectionOptions = context.connection.options as TlsConnectionOptions;
+    tlsConnectionOptions.port!.should.equal(1111);
     context.wasConnectionCloseCalled.should.equal(false);
     context.connection.should.instanceOf(Connection);
     context.connection.options.properties!.product.should.equal("MSJSClient");
@@ -137,7 +141,8 @@ describe("ConnectionContextBase", function () {
     should.exist(context.connectionId);
     should.exist(context.connectionLock);
     should.exist(context.negotiateClaimLock);
-    context.connection.options.port!.should.equal(5671);
+    const tlsConnectionOptions = context.connection.options as TlsConnectionOptions;
+    tlsConnectionOptions.port!.should.equal(5671);
     context.wasConnectionCloseCalled.should.equal(false);
     context.connection.should.instanceOf(Connection);
     context.connection.options.properties!.product.should.equal("MSJSClient");
@@ -170,7 +175,8 @@ describe("ConnectionContextBase", function () {
     should.exist(context.connectionId);
     should.exist(context.connectionLock);
     should.exist(context.negotiateClaimLock);
-    context.connection.options.host!.should.equal("127.0.0.1");
+    const tlsConnectionOptions = context.connection.options as TlsConnectionOptions;
+    tlsConnectionOptions.host!.should.equal("127.0.0.1");
     context.connection.options.hostname!.should.equal("hostname.servicebus.windows.net");
     context.wasConnectionCloseCalled.should.equal(false);
     context.connection.should.instanceOf(Connection);
@@ -237,7 +243,8 @@ describe("ConnectionContextBase", function () {
     should.exist(context.connectionId);
     should.exist(context.connectionLock);
     should.exist(context.negotiateClaimLock);
-    context.connection.options.port!.should.equal(1111);
+    const tlsConnectionOptions = context.connection.options as TlsConnectionOptions;
+    tlsConnectionOptions.port!.should.equal(1111);
     context.wasConnectionCloseCalled.should.equal(false);
     context.connection.should.instanceOf(Connection);
     context.connection.options.properties!.product.should.equal("MSJSClient");

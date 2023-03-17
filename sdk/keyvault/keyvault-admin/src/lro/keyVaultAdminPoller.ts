@@ -99,7 +99,11 @@ export interface KeyVaultAdminPollOperationOptions {
 /**
  * Common properties and methods of the Key Vault Admin Poller operations.
  */
-export class KeyVaultAdminPollOperation<TState, TResult> implements PollOperation<TState, TResult> {
+export class KeyVaultAdminPollOperation<
+  TState extends KeyVaultAdminPollOperationState<unknown>,
+  TResult
+> implements PollOperation<TState, TResult>
+{
   private cancelMessage: string;
 
   constructor(public state: TState, options: KeyVaultAdminPollOperationOptions) {

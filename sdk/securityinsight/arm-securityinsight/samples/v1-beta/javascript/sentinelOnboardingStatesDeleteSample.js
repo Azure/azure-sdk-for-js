@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { SecurityInsights } = require("@azure/arm-securityinsight");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Delete Sentinel onboarding state
  *
  * @summary Delete Sentinel onboarding state
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview/examples/onboardingStates/DeleteSentinelOnboardingState.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/onboardingStates/DeleteSentinelOnboardingState.json
  */
 async function deleteSentinelOnboardingState() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const sentinelOnboardingStateName = "default";
   const credential = new DefaultAzureCredential();
@@ -32,4 +34,8 @@ async function deleteSentinelOnboardingState() {
   console.log(result);
 }
 
-deleteSentinelOnboardingState().catch(console.error);
+async function main() {
+  deleteSentinelOnboardingState();
+}
+
+main().catch(console.error);

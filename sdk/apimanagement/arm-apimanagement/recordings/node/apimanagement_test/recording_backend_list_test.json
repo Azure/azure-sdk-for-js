@@ -1,0 +1,100 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy1/backends?$top=1\u0026api-version=2021-08-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-apimanagement/9.0.0 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "c78a75a9-2b4d-4bc2-91fa-bea760399552"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 30 Jan 2023 03:31:24 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "90ef8266-db62-4455-a7df-a3e9dfbea7ef",
+        "x-ms-ratelimit-remaining-subscription-reads": "11956",
+        "x-ms-request-id": "90ef8266-db62-4455-a7df-a3e9dfbea7ef",
+        "x-ms-routing-request-id": "KOREASOUTH:20230130T033124Z:90ef8266-db62-4455-a7df-a3e9dfbea7ef"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy1/backends/sfbackend1",
+            "type": "Microsoft.ApiManagement/service/backends",
+            "name": "sfbackend1",
+            "properties": {
+              "title": null,
+              "description": "Service Fabric Test App 1",
+              "url": "https://backendname26441",
+              "protocol": "http"
+            }
+          }
+        ],
+        "count": 2,
+        "nextLink": "https://management.azure.com:443/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy1/backends?%24top=1\u0026api-version=2021-08-01\u0026%24skip=1"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy1/backends?%24top=1\u0026api-version=2021-08-01\u0026%24skip=1",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-apimanagement/9.0.0 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "2de9955d-1e08-45e7-8c55-2d57f2b2559a"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 30 Jan 2023 03:31:24 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "d96cccda-a94d-4951-aeef-3e6200284840",
+        "x-ms-ratelimit-remaining-subscription-reads": "11955",
+        "x-ms-request-id": "d96cccda-a94d-4951-aeef-3e6200284840",
+        "x-ms-routing-request-id": "KOREASOUTH:20230130T033125Z:d96cccda-a94d-4951-aeef-3e6200284840"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy1/backends/sfbackend2",
+            "type": "Microsoft.ApiManagement/service/backends",
+            "name": "sfbackend2",
+            "properties": {
+              "title": null,
+              "description": "Service Fabric Test App 1",
+              "url": "https://backendname26442",
+              "protocol": "http"
+            }
+          }
+        ],
+        "count": 2
+      }
+    }
+  ],
+  "Variables": {}
+}

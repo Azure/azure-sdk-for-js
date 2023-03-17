@@ -344,13 +344,19 @@ describe("LinkEntity unit tests", () => {
 
   describe("cache cleanup", () => {
     it("batchingreceiver", () => {
-      const batchingReceiver = new BatchingReceiver(connectionContext, "entityPath", {
-        abortSignal: undefined,
-        lockRenewer: undefined,
-        receiveMode: "receiveAndDelete",
-        skipParsingBodyAsJson: false,
-        tracingOptions: {},
-      });
+      const batchingReceiver = new BatchingReceiver(
+        "serviceBusClientId",
+        connectionContext,
+        "entityPath",
+        {
+          abortSignal: undefined,
+          lockRenewer: undefined,
+          receiveMode: "receiveAndDelete",
+          skipParsingBodyAsJson: false,
+          skipConvertingDate: false,
+          tracingOptions: {},
+        }
+      );
 
       initCachedLinks(batchingReceiver.name);
 
@@ -368,13 +374,19 @@ describe("LinkEntity unit tests", () => {
     });
 
     it("streamingreceiver", () => {
-      const streamingReceiver = new StreamingReceiver(connectionContext, "entityPath", {
-        abortSignal: undefined,
-        lockRenewer: undefined,
-        receiveMode: "receiveAndDelete",
-        skipParsingBodyAsJson: false,
-        tracingOptions: {},
-      });
+      const streamingReceiver = new StreamingReceiver(
+        "serviceBusClientId",
+        connectionContext,
+        "entityPath",
+        {
+          abortSignal: undefined,
+          lockRenewer: undefined,
+          receiveMode: "receiveAndDelete",
+          skipParsingBodyAsJson: false,
+          skipConvertingDate: false,
+          tracingOptions: {},
+        }
+      );
 
       initCachedLinks(streamingReceiver.name);
 
@@ -392,7 +404,7 @@ describe("LinkEntity unit tests", () => {
     });
 
     it("sender", () => {
-      const sender = new MessageSender(connectionContext, "entityPath", {});
+      const sender = new MessageSender("serviceBusClientId", connectionContext, "entityPath", {});
 
       initCachedLinks(sender.name);
 
@@ -410,11 +422,18 @@ describe("LinkEntity unit tests", () => {
     });
 
     it("session", () => {
-      const messageSession = new MessageSession(connectionContext, "entityPath", "session-id", {
-        abortSignal: undefined,
-        retryOptions: {},
-        skipParsingBodyAsJson: false,
-      });
+      const messageSession = new MessageSession(
+        "identifier",
+        connectionContext,
+        "entityPath",
+        "session-id",
+        {
+          abortSignal: undefined,
+          retryOptions: {},
+          skipParsingBodyAsJson: false,
+          skipConvertingDate: false,
+        }
+      );
 
       initCachedLinks(messageSession.name);
 

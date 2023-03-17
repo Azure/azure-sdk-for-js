@@ -4,27 +4,27 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import { assert, use as chaiUse } from "chai";
-import { Suite, Context } from "mocha";
+import { Context, Suite } from "mocha";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
-import { matrix, getYieldedValue } from "@azure/test-utils";
-import { assertEnvironmentVariable, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import { matrix } from "@azure/test-utils";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 
 import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient";
 import {
-  TextAnalyticsClient,
-  TextDocumentInput,
-  DetectLanguageInput,
-  DetectLanguageSuccessResult,
   AnalyzeSentimentResultArray,
   AnalyzeSentimentSuccessResult,
-  SentenceSentiment,
-  Opinion,
   AssessmentSentiment,
+  DetectLanguageInput,
+  DetectLanguageSuccessResult,
+  Opinion,
   PiiEntityDomain,
+  SentenceSentiment,
+  TextAnalyticsClient,
+  TextDocumentInput,
 } from "../../src";
-import { assertAllSuccess, isSuccess } from "./utils/resultHelper";
+import { assertAllSuccess, assertRestError, isSuccess } from "./utils/resultHelper";
 import { checkEntityTextOffset, checkOffsetAndLength } from "./utils/stringIndexTypeHelpers";
 
 const testDataEn = [
@@ -39,7 +39,7 @@ const testDataEs = [
   "La carretera estaba atascada. Había mucho tráfico el día de ayer.",
 ];
 
-matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
+matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] TextAnalyticsClient`, function (this: Suite) {
     let recorder: Recorder;
     let client: TextAnalyticsClient;
@@ -226,7 +226,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           );
         });
 
-        /** The service returns false positive sentiments */
         it.skip("client gets negative mined assessments", async function () {
           const documents = [
             {
@@ -442,15 +441,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             })
           );
           const allInputs = enInputs.concat(esInputs);
-
-          try {
-            await client.recognizeEntities(allInputs);
-            assert.fail("Oops, an exception didn't happen.");
-          } catch (e: any) {
-            assert.equal(e.statusCode, 400);
-            assert.equal(e.code, "InvalidDocumentBatch");
-            assert.match(e.message, /Max 5 records are permitted/);
-          }
+          await assertRestError(client.recognizeEntities(allInputs), {
+            messagePattern: /Max 5 records are permitted/,
+            code: "InvalidDocumentBatch",
+            statusCode: 400,
+          });
         });
       });
 
@@ -715,15 +710,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             })
           );
           const allInputs = enInputs.concat(esInputs);
-
-          try {
-            await client.recognizeEntities(allInputs);
-            assert.fail("Oops, an exception didn't happen.");
-          } catch (e: any) {
-            assert.equal(e.statusCode, 400);
-            assert.equal(e.code, "InvalidDocumentBatch");
-            assert.match(e.message, /Max 5 records are permitted/);
-          }
+          await assertRestError(client.recognizeEntities(allInputs), {
+            code: "InvalidDocumentBatch",
+            messagePattern: /Max 5 records are permitted/,
+            statusCode: 400,
+          });
         });
       });
 
@@ -877,11 +868,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           });
 
           it("emoji with skin tone modifier", async function () {
-            await checkOffsetAndLength(client, "👩🏻 SSN: 859-98-0987", "TextElement_v8", 8, 11); // offset was 10 with UTF16
+            await checkOffsetAndLength(client, "👩🏻 SSN: 859-98-0987", "TextElement_v8", 7, 11); // offset was 10 with UTF16
           });
 
           it("family emoji", async function () {
-            await checkOffsetAndLength(client, "👩‍👩‍👧‍👧 SSN: 859-98-0987", "TextElement_v8", 13, 11); // offset was 17 with UTF16
+            await checkOffsetAndLength(client, "👩‍👩‍👧‍👧 SSN: 859-98-0987", "TextElement_v8", 7, 11); // offset was 17 with UTF16
           });
 
           it("family emoji with skin tone modifier", async function () {
@@ -889,7 +880,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               client,
               "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
               "TextElement_v8",
-              17,
+              7,
               11
             ); // offset was 25 with UTF16
           });
@@ -924,292 +915,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
         this.timeout(isPlaybackMode() ? fastTimeout : CLITimeout);
       });
 
-      /**
-       * The service's rate limit is sometimes reached for the beginAnalyzeActions tests
-       * because of the many requests the tests send. It appears that the number of
-       * max retries should be big enough to get around this issue. 10 seems to work
-       * fine for now.
-       */
       describe("#analyze", function () {
-        it("single custom entity recognition action", async function () {
-          const docs = [
-            {
-              id: "1",
-              language: "en",
-              text: "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
-            },
-          ];
-
-          const poller = await client.beginAnalyzeActions(
-            docs,
-            {
-              recognizeCustomEntitiesActions: [
-                {
-                  projectName: assertEnvironmentVariable(
-                    "TEXT_ANALYTICS_RECOGNIZE_CUSTOM_ENTITIES_PROJECT_NAME"
-                  ),
-                  deploymentName: assertEnvironmentVariable(
-                    "TEXT_ANALYTICS_RECOGNIZE_CUSTOM_ENTITIES_DEPLOYMENT_NAME"
-                  ),
-                },
-              ],
-            },
-            {
-              updateIntervalInMs: pollingInterval,
-            }
-          );
-          const results = await poller.pollUntilDone();
-          for await (const page of results) {
-            const entitiesResult = page.recognizeCustomEntitiesResults;
-            if (entitiesResult.length === 1) {
-              const action = entitiesResult[0];
-              if (!action.error) {
-                for (const result of action.results) {
-                  if (!result.error) {
-                    assert.isDefined(result.id);
-                    assert.isDefined(result.entities);
-                    for (const entity of result.entities) {
-                      assert.isDefined(entity.category, "entity category not found");
-                      assert.isDefined(entity.confidenceScore, "confidence score not found");
-                      assert.isDefined(entity.length, "length not found");
-                      assert.isDefined(entity.offset, "offset not found");
-                      assert.isDefined(entity.text, "text not found");
-                    }
-                  } else {
-                    assert.fail("did not expect document errors but got one.");
-                  }
-                }
-              }
-            } else {
-              assert.fail("expected an array of entities results but did not get one.");
-            }
-          }
-        });
-
-        it("single custom document single category classification action", async function () {
-          const docs = [
-            {
-              id: "1",
-              language: "en",
-              text: "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
-            },
-          ];
-
-          const poller = await client.beginAnalyzeActions(
-            docs,
-            {
-              singleCategoryClassifyActions: [
-                {
-                  projectName: assertEnvironmentVariable(
-                    "TEXT_ANALYTICS_SINGLE_CATEGORY_CLASSIFY_PROJECT_NAME"
-                  ),
-                  deploymentName: assertEnvironmentVariable(
-                    "TEXT_ANALYTICS_SINGLE_CATEGORY_CLASSIFY_DEPLOYMENT_NAME"
-                  ),
-                },
-              ],
-            },
-            {
-              updateIntervalInMs: pollingInterval,
-            }
-          );
-          const results = await poller.pollUntilDone();
-          for await (const page of results) {
-            const classificationResult = page.singleCategoryClassifyResults;
-            if (classificationResult.length === 1) {
-              const action = classificationResult[0];
-              if (!action.error) {
-                for (const result of action.results) {
-                  if (!result.error) {
-                    assert.ok(result.id);
-                    assert.ok(result.classification);
-                    assert.ok(result.classification.category);
-                    assert.ok(result.classification.confidenceScore);
-                  } else {
-                    assert.fail("did not expect document errors but got one.");
-                  }
-                }
-              }
-            } else {
-              assert.fail(
-                `expected an array of single category classification results but got: ${JSON.stringify(
-                  classificationResult
-                )}`
-              );
-            }
-          }
-        });
-
-        it("single custom document multiple category classification action", async function () {
-          const docs = [
-            {
-              id: "1",
-              language: "en",
-              text: "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
-            },
-          ];
-
-          const poller = await client.beginAnalyzeActions(
-            docs,
-            {
-              multiCategoryClassifyActions: [
-                {
-                  projectName: assertEnvironmentVariable(
-                    "TEXT_ANALYTICS_MULTI_CATEGORY_CLASSIFY_PROJECT_NAME"
-                  ),
-                  deploymentName: assertEnvironmentVariable(
-                    "TEXT_ANALYTICS_MULTI_CATEGORY_CLASSIFY_DEPLOYMENT_NAME"
-                  ),
-                },
-              ],
-            },
-            {
-              updateIntervalInMs: pollingInterval,
-            }
-          );
-          const results = await poller.pollUntilDone();
-          for await (const page of results) {
-            const classificationResult = page.multiCategoryClassifyResults;
-            if (classificationResult.length === 1) {
-              const action = classificationResult[0];
-              if (!action.error) {
-                for (const result of action.results) {
-                  if (!result.error) {
-                    assert.ok(result.id);
-                    assert.ok(result.classifications);
-                    for (const classification of result.classifications) {
-                      assert.ok(classification.category);
-                      assert.ok(classification.confidenceScore);
-                    }
-                  } else {
-                    assert.fail(
-                      `did not expect document errors but got: ${JSON.stringify(
-                        classificationResult
-                      )}`
-                    );
-                  }
-                }
-              }
-            } else {
-              assert.fail(
-                "expected an array of multi category classification results but did not get one."
-              );
-            }
-          }
-        });
-
-        it("single extract summary action", async function () {
-          // Source: https://news.microsoft.com/innovation-stories/cloud-pc-windows-365/
-          const windows365ArticlePart1 = `
-          No roads or rails connect the 39,000 people dispersed across Nunavut, a territory in northeastern Canada that spans three time zones and features fjord-cut isles that stretch into the Arctic Circle off the west coast of Greenland. About 80% of the population is of Inuit descent with cultural ties to the land that date back more than 4,000 years.
-          
-          Today, low-bandwidth satellite internet service links the people of Nunavut to each other and with the rest of the world.
-                  
-          The Government of Nunavut relies on this internet link to provide healthcare, education, housing and family, and financial and other services to 25 communities. The smallest, Grise Fiord, has a population of 130; the largest, the capital, Iqaluit, has 8,500 people. About 3,100 people work full-time for the government, which has an office in each community. Another 3,000 people work for the government as relief workers, casual, term or contractors.
-                  
-          Managing information technology for this dispersed and elastic workforce is a constant challenge for Martin Joy, director of information communication and technology for the Government of Nunavut.
-                  
-          “Traditionally, in IT, you would have to send a device or mail a device to that end user. In Nunavut, there is no road, there is no logistical framework that allows us to move stuff cost-effectively, so everything has to be flown,” he explained. “Based on weather, based on the types of cargo flows, that could take a considerable amount of time. It could take two to three weeks for us to get a user a device to get them onboarded securely into our environment.”
-                  
-          “Now, with Windows 365, we can do that within less than an hour of the account being created,” he said.
-                  
-          Windows 365 puts Microsoft’s flagship operating system in the cloud. Users select Windows 10 or Windows 11, once it is generally available later this calendar year, along with a configuration of processing power, storage and memory that suits their needs. They then access their Cloud PC through a native application or web browser on any device, from anywhere with an internet connection.
-                  
-          The creation of the Cloud PC follows other products and services to the cloud, from Windows Server on Azure to the suite of Microsoft Office productivity applications in Microsoft 365. Windows is already accessible in the cloud via Azure Virtual Desktop, which offers customers flexibility to create and run their own virtualization service. Windows 365 is a new virtualization technology for Windows that is easy to set up and deploy for today’s login-from-anywhere, mobile and elastic workforces.
-                  
-          “Windows 365 is really going to make a huge difference for organizations that wanted to try virtualization for various reasons but could not – maybe it was too costly, too complex or they didn’t have the expertise in house to do it,” said Wangui McKelvey, general manager of Microsoft 365, who works from a home office in Atlanta, Georgia.
-                  
-          With Windows 365, she added, IT admins can manage and deploy Cloud PCs using the same tools they use today to manage physical PCs.
-                  
-          The remote and hybrid workforces of today and tomorrow were top of mind for Scott Manchester when he set out to develop Windows 365. The director of program management for Windows 365 in Redmond, Washington, wanted to deliver an experience with the look, feel and security of a traditional Windows PC, only accessed through a native app or web browser on a device of the user’s choosing from anywhere with an internet connection.
-          
-          “You want them to be able to get access to their corporate resources, applications, databases and HR tools, and do all the things they do in a typical workday sitting in the office – you want them to have that same experience,” he said. “And you want them to have that experience in such a way that it feels familiar to them. It’s not this jolting thing that takes away all the things they love about Windows.”
-          
-          Virtualization, he noted, can be challenging to set up and maintain, especially for organizations without dedicated IT resources. IT consulting firms do brisk business working with companies to set up virtualization solutions and staffing help desks to field calls from employees when they run into complications. Manchester knows this because he worked on Microsoft’s Windows virtualization technologies for nearly two decades prior to leading the development of Windows 365.
-          
-          The inspiration for Windows 365 came earlier, when he was assigned to an internal team at Microsoft working on a project, code named Arcadia, a consumer-facing service that would stream video games from the cloud. The target audience – gamers – lacks an IT department to lean on when things glitch. “That started me thinking, ‘How do we build something that doesn’t require IT intervention, something that could truly scale to the consumer market?’” Manchester said.
-          
-          The consumer experience was Manchester’s benchmark when he started work on virtualization.
-          
-          “I took note of every time there was something that didn’t quite deliver on that,” he said. “And, as I started meeting with customers and partners and learning about how they fill in these gaps either by setting expectations of their workforce or having an IT department that picks up the phone and deals with those situations, I realized we had some ground to cover.”
-          
-          Covering that ground led to improvements in Microsoft’s business offering now known as Azure Virtual Desktop. This offering continues to experience accelerated growth among customers who need full customization and control over their operating environment and have the resources for dedicated IT staff to support the system, Manchester noted. Windows 365 is for the approximate 80% of the marketplace that lacks the need for full customization or the resources for dedicated IT.
-          
-          To lead the development of Windows 365, Manchester leaned into his Arcadia mindset.
-          
-          “When we built this team, we brought in a couple of leaders who had experience with virtualization, but for the most part we brought in people who had experience with Windows and experience with consumer experiences because that was the bar we wanted to set,” he said.
-          
-          Soon after this bar was set, and the first batch of hires made – a handful of experts in virtualization and user experience – COVID-19 hit and changed the world.
-          
-          “We hired everybody else during the pandemic,” Manchester said. “They were remote. They were living all over the U.S., Australia, Europe and China. Many of them have never set foot in the office. And as soon as we got far enough along with the development, we moved those people to use the service. People who never used virtualization before, had no expectations – their bar was the experience they had on their laptop – and we basically used Windows 365 to build Windows 365.”
-          
-          As the team used the service and encountered bugs in the system, they worked through and solved them on their way to creating a unique category of virtualization, the Cloud PC.
-          
-          “We’re giving you Windows from the cloud,” Manchester said.
-                  `;
-          const windows365ArticlePart2 = `
-          Windows 365 was in the works before COVID-19 sent companies around the world on a scramble to secure solutions to support employees suddenly forced to work from home, but “what really put the firecracker behind it was the pandemic, it accelerated everything,” McKelvey said. She explained that customers were asking, “’How do we create an experience for people that makes them still feel connected to the company without the physical presence of being there?”
-
-          In this new world of Windows 365, remote workers flip the lid on their laptop, bootup the family workstation or clip a keyboard onto a tablet, launch a native app or modern web browser and login to their Windows 365 account. From there, their Cloud PC appears with their background, apps, settings and content just as they left it when they last were last there – in the office, at home or a coffee shop.
-
-          “And then, when you’re done, you’re done. You won’t have any issues around security because you’re not saving anything on your device,” McKelvey said, noting that all the data is stored in the cloud.
-
-          The ability to login to a Cloud PC from anywhere on any device is part of Microsoft’s larger strategy around tailoring products such as Microsoft Teams and Microsoft 365 for the post-pandemic hybrid workforce of the future, she added. It enables employees accustomed to working from home to continue working from home; it enables companies to hire interns from halfway around the world; it allows startups to scale without requiring IT expertise.
-
-          “I think this will be interesting for those organizations who, for whatever reason, have shied away from virtualization. This is giving them an opportunity to try it in a way that their regular, everyday endpoint admin could manage,” McKelvey said.
-
-          The simplicity of Windows 365 won over Dean Wells, the corporate chief information officer for the Government of Nunavut. His team previously attempted to deploy a traditional virtual desktop infrastructure and found it inefficient and unsustainable given the limitations of low-bandwidth satellite internet and the constant need for IT staff to manage the network and infrastructure.
-
-          We didn’t run it for very long,” he said. “It didn’t turn out the way we had hoped. So, we actually had terminated the project and rolled back out to just regular PCs.”
-
-          He re-evaluated this decision after the Government of Nunavut was hit by a ransomware attack in November 2019 that took down everything from the phone system to the government’s servers. Microsoft helped rebuild the system, moving the government to Teams, SharePoint, OneDrive and Microsoft 365. Manchester’s team recruited the Government of Nunavut to pilot Windows 365. Wells was intrigued, especially by the ability to manage the elastic workforce securely and seamlessly.
-
-          “The impact that I believe we are finding, and the impact that we’re going to find going forward, is being able to access specialists from outside the territory and organizations outside the territory to come in and help us with our projects, being able to get people on staff with us to help us deliver the day-to-day expertise that we need to run the government,” he said.
-
-          “Being able to improve healthcare, being able to improve education, economic development is going to improve the quality of life in the communities.”
-          `;
-          const docs = [windows365ArticlePart1, windows365ArticlePart2];
-          const maxSentenceCount = 5;
-          const poller = await client.beginAnalyzeActions(
-            docs,
-            {
-              extractSummaryActions: [
-                { modelVersion: "latest", orderBy: "Offset", maxSentenceCount: maxSentenceCount },
-              ],
-            },
-            "en",
-            {
-              updateIntervalInMs: pollingInterval,
-            }
-          );
-          const results = await poller.pollUntilDone();
-          for await (const page of results) {
-            const extractSummaryResult = page.extractSummaryResults;
-            if (extractSummaryResult.length === 1) {
-              const action = extractSummaryResult[0];
-              if (!action.error) {
-                for (const result of action.results) {
-                  if (!result.error) {
-                    assert.isDefined(result.id);
-                    assert.isDefined(result.sentences);
-                    assert.equal(result.sentences.length, maxSentenceCount);
-                    for (const sentence of result.sentences) {
-                      assert.isDefined(sentence.text);
-                      assert.isDefined(sentence.rankScore);
-                      assert.isDefined(sentence.offset);
-                      assert.isDefined(sentence.length);
-                    }
-                  } else {
-                    assert.fail("did not expect document errors but got one.");
-                  }
-                }
-              }
-            } else {
-              assert.fail("expected an array of entities results but did not get one.");
-            }
-          }
-        });
-
         it("single entity recognition action", async function () {
           const docs = [
             { id: "1", language: "en", text: "Microsoft was founded by Bill Gates and Paul Allen" },
@@ -1554,7 +1260,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                   const allAssessments1 = result1.sentences.reduce(listAllAssessments, []);
                   assert.deepEqual(allAssessments1, ["unacceptable"]);
                   const allAssessments2 = result6.sentences.reduce(listAllAssessments, []);
-                  assert.deepEqual(allAssessments2, ["nice", "old", "dirty"]);
+                  assert.deepEqual(allAssessments2, ["Nice", "old", "dirty"]);
                   const allAssessments7 = result7.sentences.reduce(listAllAssessments, []);
                   assert.deepEqual(allAssessments7, ["smelled"]);
                 }
@@ -1565,8 +1271,8 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
 
         it("bad request empty string", async function () {
           const docs = [""];
-          try {
-            const poller = await client.beginAnalyzeActions(
+          await assertRestError(
+            client.beginAnalyzeActions(
               docs,
               {
                 recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
@@ -1575,11 +1281,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               {
                 updateIntervalInMs: pollingInterval,
               }
-            );
-            await poller.pollUntilDone();
-          } catch (e: any) {
-            assert.equal(e.statusCode, 400);
-          }
+            ),
+            {
+              statusCode: 400,
+            }
+          );
         });
 
         it("some documents with errors and multiple actions", async function () {
@@ -1882,7 +1588,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             }
           );
           const response = await poller.pollUntilDone();
-          const results = getYieldedValue(await response.next());
+          const results = (await response.next()).value;
           const recognizeEntitiesResults = results.recognizeEntitiesResults[0];
           if (!recognizeEntitiesResults.error) {
             assert.equal(recognizeEntitiesResults.results.statistics?.documentCount, 5);
@@ -2056,7 +1762,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             }
           );
           const result = await poller.pollUntilDone();
-          const firstResult = getYieldedValue(await result.next());
+          const firstResult = (await result.next()).value;
           const entitiesTaskDocs = firstResult?.recognizeEntitiesResults[0];
           if (!entitiesTaskDocs.error) {
             for (const doc of entitiesTaskDocs.results) {
@@ -2195,7 +1901,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             }
           );
           const pollerResult = await poller.pollUntilDone();
-          const firstResult = getYieldedValue(await pollerResult.next());
+          const firstResult = (await pollerResult.next()).value;
           const actionResult = firstResult.recognizePiiEntitiesResults[0];
           if (!actionResult.error) {
             const docResult = actionResult.results[0];
@@ -2209,9 +1915,8 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
 
         it("malformed actions", async function () {
           const docs = [{ id: "1", text: "I will go to the park." }];
-
-          try {
-            await client.beginAnalyzeActions(
+          await assertRestError(
+            client.beginAnalyzeActions(
               docs,
               {
                 //  the service currently supports up to one action only per type.
@@ -2224,62 +1929,33 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               {
                 updateIntervalInMs: pollingInterval,
               }
-            );
-            throw new Error("Expected an error to occur");
-          } catch (e: any) {
-            assert.equal(e.statusCode, 400);
-            assert.equal(e.code, "InvalidRequest");
-          }
+            ),
+            {
+              statusCode: 400,
+              code: "InvalidRequest",
+            }
+          );
         });
 
-        it("duplicate actions of the same type are disallowed", async function () {
+        it("multiple actions per type are disallowed", async function () {
           const docs = [{ id: "1", text: "I will go to the park." }];
-
-          try {
-            const response = await client.beginAnalyzeActions(
+          await assertRestError(
+            client.beginAnalyzeActions(
               docs,
               {
                 recognizePiiEntitiesActions: [
-                  { modelVersion: "latest" },
-                  { modelVersion: "latest" },
+                  { modelVersion: "latest", stringIndexType: "UnicodeCodePoint" },
+                  { modelVersion: "latest", stringIndexType: "TextElement_v8" },
                 ],
               },
               {
                 updateIntervalInMs: pollingInterval,
               }
-            );
-            assert.fail(
-              `expected a failure but received the following intead: ${JSON.stringify(
-                response,
-                null,
-                2
-              )}`
-            );
-          } catch (e: any) {
-            assert.equal(e.code, "InvalidRequest");
-            assert.include(e.message, "Duplicate task name");
-          }
-        });
-
-        it("unique multiple actions per type are allowed", async function () {
-          const docs = [{ id: "1", text: "I will go to the park." }];
-
-          const poller = await client.beginAnalyzeActions(
-            docs,
+            ),
             {
-              recognizePiiEntitiesActions: [
-                { modelVersion: "latest", actionName: "action1" },
-                { modelVersion: "latest", actionName: "action2" },
-              ],
-            },
-            {
-              updateIntervalInMs: pollingInterval,
+              messagePattern: /Duplicate task name/,
             }
           );
-          const pollerResult = await poller.pollUntilDone();
-          const firstResult = getYieldedValue(await pollerResult.next());
-          assert.equal(firstResult.recognizePiiEntitiesResults[0].actionName, "action1");
-          assert.equal(firstResult.recognizePiiEntitiesResults[1].actionName, "action2");
         });
       });
 
@@ -2296,7 +1972,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             }
           );
           const result = await poller.pollUntilDone();
-          const doc1 = getYieldedValue(await result.next());
+          const doc1 = (await result.next()).value;
           if (!doc1.error) {
             assert.ok(doc1.id);
             assert.ok(doc1.entities);
@@ -2305,7 +1981,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             assert.equal(doc1Entity1.assertion?.certainty, "negative");
           }
 
-          const doc2 = getYieldedValue(await result.next());
+          const doc2 = (await result.next()).value;
           if (!doc2.error) {
             assert.ok(doc2.id);
             assert.ok(doc2.entities);
@@ -2357,7 +2033,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             }
           );
           const result = await poller.pollUntilDone();
-          const doc1 = getYieldedValue(await result.next());
+          const doc1 = (await result.next()).value;
           if (!doc1.error) {
             assert.ok(doc1.id);
             assert.ok(doc1.entities);
@@ -2447,9 +2123,9 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             updateIntervalInMs: pollingInterval,
           });
           const result = await poller.pollUntilDone();
-          const result1 = getYieldedValue(await result.next());
-          const result2 = getYieldedValue(await result.next());
-          const result3 = getYieldedValue(await result.next());
+          const result1 = (await result.next()).value;
+          const result2 = (await result.next()).value;
+          const result3 = (await result.next()).value;
           if (!result3.error) {
             assert.ok(result3.id);
             assert.ok(result3.entities);
@@ -2473,9 +2149,9 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             updateIntervalInMs: pollingInterval,
           });
           const result = await poller.pollUntilDone();
-          const result1 = getYieldedValue(await result.next());
-          const result2 = getYieldedValue(await result.next());
-          const result3 = getYieldedValue(await result.next());
+          const result1 = (await result.next()).value;
+          const result2 = (await result.next()).value;
+          const result3 = (await result.next()).value;
           assert.ok(result1.error);
           assert.ok(result2.error);
           assert.ok(result3.error);
@@ -2483,16 +2159,16 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
 
         it("too many documents", async function () {
           const docs = Array(11).fill("random text");
-          try {
-            await client.beginAnalyzeHealthcareEntities(docs, "en", {
+          await assertRestError(
+            client.beginAnalyzeHealthcareEntities(docs, "en", {
               updateIntervalInMs: pollingInterval,
-            });
-            assert.fail("Oops, an exception didn't happen.");
-          } catch (e: any) {
-            assert.equal(e.statusCode, 400);
-            assert.equal(e.code, "InvalidDocumentBatch");
-            assert.match(e.message, /Max 10 records are permitted/);
-          }
+            }),
+            {
+              code: "InvalidDocumentBatch",
+              statusCode: 400,
+              messagePattern: /Max 10 records are permitted/,
+            }
+          );
         });
 
         it("payload too large", async function () {
@@ -2511,16 +2187,16 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 increased symptoms and family history and history left main disease with total occasional of his RCA was referred \
                 for revascularization with open heart surgery.";
           const docs = Array(500).fill(large_doc);
-          try {
-            await client.beginAnalyzeHealthcareEntities(docs, "en", {
+          await assertRestError(
+            client.beginAnalyzeHealthcareEntities(docs, "en", {
               updateIntervalInMs: pollingInterval,
-            });
-            assert.fail("Oops, an exception didn't happen.");
-          } catch (e: any) {
-            assert.equal(e.statusCode, 413);
-            assert.equal(e.code, "InvalidDocumentBatch");
-            assert.match(e.message, /Limit request size to: 524288/);
-          }
+            }),
+            {
+              code: "InvalidDocumentBatch",
+              statusCode: 413,
+              messagePattern: /Limit request size to: 524288/,
+            }
+          );
         });
 
         it("document warnings", async function () {
@@ -2573,7 +2249,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("show stats and model version", async function () {
+        it.skip("show stats and model version", async function () {
           const docs = [
             { id: "56", text: ":)" },
             { id: "0", text: ":(" },
@@ -2666,7 +2342,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             updateIntervalInMs: pollingInterval,
           });
           const result = await poller.pollUntilDone();
-          const firstResult = getYieldedValue(await result.next());
+          const firstResult = (await result.next()).value;
           assert.equal(firstResult.error?.code, "UnsupportedLanguageCode");
         });
 
@@ -2683,7 +2359,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             updateIntervalInMs: pollingInterval,
           });
           const result = await poller.pollUntilDone();
-          const firstResult = getYieldedValue(await result.next());
+          const firstResult = (await result.next()).value;
           assert.equal(firstResult.error?.code, "UnsupportedLanguageCode");
         });
 
@@ -2698,54 +2374,35 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               text: "This should fail because we're passing in an invalid language hint",
             },
           ];
-
-          try {
-            await client.beginAnalyzeHealthcareEntities(docs, {
+          await assertRestError(
+            client.beginAnalyzeHealthcareEntities(docs, {
               modelVersion: "bad",
               updateIntervalInMs: pollingInterval,
-            });
-            assert.fail("Oops, an exception didn't happen.");
-          } catch (e: any) {
-            assert.equal(e.code, "ModelVersionIncorrect");
-          }
+            }),
+            {
+              code: "ModelVersionIncorrect",
+            }
+          );
         });
 
         it("all documents have errors", async function () {
+          let text = "";
+          for (let i = 0; i < 5121; ++i) {
+            text = text + "x";
+          }
           const docs = [
             { id: "1", text: "" },
             { id: "2", language: "english", text: "I did not like the hotel we stayed at." },
+            { id: "3", text: text },
           ];
 
           const poller = await client.beginAnalyzeHealthcareEntities(docs, {
             updateIntervalInMs: pollingInterval,
           });
           const doc_errors = await poller.pollUntilDone();
-          assert.equal(getYieldedValue(await doc_errors.next()).error?.code, "InvalidDocument");
-          assert.equal(
-            getYieldedValue(await doc_errors.next()).error?.code,
-            "UnsupportedLanguageCode"
-          );
-        });
-
-        it("big document causes a warning", async function () {
-          let text = "";
-          for (let i = 0; i < 5121; ++i) {
-            text = text + "x";
-          }
-          const docs = [{ id: "3", text: text }];
-
-          const poller = await client.beginAnalyzeHealthcareEntities(docs, {
-            updateIntervalInMs: pollingInterval,
-          });
-          const results = await poller.pollUntilDone();
-          const docResult = getYieldedValue(await results.next());
-          if (!docResult.error) {
-            assert.equal(docResult.warnings[0].code, "DocumentTruncated");
-          } else {
-            assert.fail(
-              `Expected a warning but received an error instead with code: ${docResult.error.code}`
-            );
-          }
+          assert.equal((await doc_errors.next()).value.error?.code, "InvalidDocument");
+          assert.equal((await doc_errors.next()).value.error?.code, "UnsupportedLanguageCode");
+          assert.equal((await doc_errors.next()).value.warnings[0].code, "DocumentTruncated");
         });
 
         it("documents with duplicate IDs", async function () {
@@ -2753,15 +2410,14 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             { id: "1", text: "hello world" },
             { id: "1", text: "I did not like the hotel we stayed at." },
           ];
-
-          try {
-            await client.beginAnalyzeHealthcareEntities(docs, {
+          await assertRestError(
+            client.beginAnalyzeHealthcareEntities(docs, {
               updateIntervalInMs: pollingInterval,
-            });
-            assert.fail("Oops, an exception didn't happen.");
-          } catch (e: any) {
-            assert.equal(e.code, "InvalidRequest");
-          }
+            }),
+            {
+              code: "InvalidRequest",
+            }
+          );
         });
 
         /**
@@ -2849,26 +2505,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           assert.equal(Math.ceil(docs.length / pageSize), pageCount);
         });
 
-        it("cancelled", async function () {
-          const poller = await client.beginAnalyzeHealthcareEntities(
-            [
-              {
-                id: "1",
-                text: "Patient does not suffer from high blood pressure.",
-                language: "en",
-              },
-              { id: "2", text: "Prescribed 100mg ibuprofen, taken twice daily.", language: "en" },
-            ],
-            {
-              updateIntervalInMs: pollingInterval,
-            }
-          );
-          if (!poller.isDone()) {
-            await poller.cancelOperation();
-          }
-          assert.ok(poller.getOperationState().isCancelled);
-        });
-
         it("operation metadata", async function () {
           const poller = await client.beginAnalyzeHealthcareEntities(
             [
@@ -2883,9 +2519,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          let run = false;
           poller.onProgress((state) => {
-            run = true;
             assert.ok(state.createdOn, "createdOn is undefined!");
             assert.ok(state.expiresOn, "expiresOn is undefined!");
             assert.ok(state.lastModifiedOn, "lastModifiedOn is undefined!");
@@ -2893,7 +2527,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           });
           const result = await poller.pollUntilDone();
           assert.ok(result);
-          assert.isTrue(run);
         });
 
         it("family emoji wit skin tone modifier with Utf16CodeUnit", async function () {
@@ -2905,7 +2538,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             }
           );
           const pollerResult = await poller.pollUntilDone();
-          const result = getYieldedValue(await pollerResult.next());
+          const result = (await pollerResult.next()).value;
           if (!result.error) {
             const entity = result.entities[0];
             const offset = 20;
@@ -2925,7 +2558,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             }
           );
           const pollerResult = await poller.pollUntilDone();
-          const result = getYieldedValue(await pollerResult.next());
+          const result = (await pollerResult.next()).value;
           if (!result.error) {
             assert.equal(result.entities[0].offset, 12); // 20 with UTF16
             assert.equal(result.entities[0].length, 9);

@@ -1,0 +1,110 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/webPubSub?api-version=2023-02-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-webpubsub/1.1.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "5afcd302-f0c6-49cf-b4df-b676096a0a0f"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 09 Mar 2023 02:18:50 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "5afcd302-f0c6-49cf-b4df-b676096a0a0f",
+        "x-ms-correlation-request-id": "f6675c0e-24bb-4459-a668-8f0ce0b8176d",
+        "x-ms-ratelimit-remaining-subscription-reads": "11981",
+        "x-ms-request-id": "cdee94fa-e4cf-4dd1-9d24-bcd0c4f143c3",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230309T021850Z:f6675c0e-24bb-4459-a668-8f0ce0b8176d",
+        "x-rp-server-mvid": "26297d37-2454-45c8-9935-f343e6f992c8"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "sku": {
+              "name": "Free_F1",
+              "tier": "Free",
+              "size": "F1",
+              "capacity": 1
+            },
+            "properties": {
+              "provisioningState": "Succeeded",
+              "externalIP": "20.88.154.176",
+              "hostName": "mywebpubsubservice1.webpubsub.azure.com",
+              "publicPort": 443,
+              "serverPort": 443,
+              "version": "1.0",
+              "privateEndpointConnections": [],
+              "sharedPrivateLinkResources": [],
+              "tls": {
+                "clientCertEnabled": false
+              },
+              "hostNamePrefix": "mywebpubsubservice1",
+              "liveTraceConfiguration": {
+                "enabled": "false",
+                "categories": [
+                  {
+                    "name": "ConnectivityLogs",
+                    "enabled": "true"
+                  }
+                ]
+              },
+              "resourceLogConfiguration": null,
+              "networkACLs": {
+                "defaultAction": "Deny",
+                "publicNetwork": {
+                  "allow": [
+                    "ServerConnection",
+                    "ClientConnection",
+                    "RESTAPI",
+                    "Trace"
+                  ],
+                  "deny": null
+                },
+                "privateEndpoints": []
+              },
+              "publicNetworkAccess": "Enabled",
+              "disableLocalAuth": false,
+              "disableAadAuth": false
+            },
+            "identity": {
+              "type": "SystemAssigned",
+              "principalId": "850ab440-9c3a-47ec-95a8-9937ecaf9237",
+              "tenantId": "88888888-8888-8888-8888-888888888888"
+            },
+            "systemData": {
+              "createdBy": "azure_client_id",
+              "createdByType": "Application",
+              "createdAt": "2023-03-09T02:18:03.5557822Z",
+              "lastModifiedBy": "azure_client_id",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2023-03-09T02:18:03.5557822Z"
+            },
+            "location": "eastus",
+            "tags": {
+              "key1": "value1"
+            },
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/WebPubSub/myWebPubSubService1",
+            "name": "myWebPubSubService1",
+            "type": "Microsoft.SignalRService/WebPubSub"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

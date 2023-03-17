@@ -55,7 +55,7 @@ export function sourcemapsExtra() {
         },
       });
 
-      return load.call(shim, id);
+      return load instanceof Function ? load.call(shim, id) : load.handler.call(shim, id);
     },
   });
 }
@@ -68,25 +68,36 @@ export function sourcemapsExtra() {
  */
 export type WarningInhibitor = (warning: RollupWarning) => boolean;
 
+function matchesPathSegments(str: string | undefined, segments: string[]): boolean {
+  return !str ? false : str.includes(segments.join("/")) || str.includes(segments.join("\\"));
+}
+
 function ignoreNiseSinonEval(warning: RollupWarning): boolean {
   return (
     warning.code === "EVAL" &&
-    (warning.id?.includes(["node_modules", "nise"].join(path.sep)) ||
-      warning.id?.includes(["node_modules", "sinon"].join(path.sep))) === true
+    (matchesPathSegments(warning.id, ["node_modules", "nise"]) ||
+      matchesPathSegments(warning.id, ["node_modules", "sinon"]))
   );
 }
 
 function ignoreChaiCircularDependency(warning: RollupWarning): boolean {
   return (
     warning.code === "CIRCULAR_DEPENDENCY" &&
-    warning.importer?.includes(["node_modules", "chai"].join(path.sep)) === true
+    matchesPathSegments(warning.importer, ["node_modules", "chai"])
+  );
+}
+
+function ignoreRheaPromiseCircularDependency(warning: RollupWarning): boolean {
+  return (
+    warning.code === "CIRCULAR_DEPENDENCY" &&
+    matchesPathSegments(warning.importer, ["node_modules", "rhea-promise"])
   );
 }
 
 function ignoreOpenTelemetryThisIsUndefined(warning: RollupWarning): boolean {
   return (
     warning.code === "THIS_IS_UNDEFINED" &&
-    warning.id?.includes(["node_modules", "@opentelemetry", "api"].join(path.sep)) === true
+    matchesPathSegments(warning.id, ["node_modules", "@opentelemetry", "api"])
   );
 }
 
@@ -104,6 +115,7 @@ function ignoreMissingExportsFromEmpty(warning: RollupWarning): boolean {
 
 const warningInhibitors: Array<(warning: RollupWarning) => boolean> = [
   ignoreChaiCircularDependency,
+  ignoreRheaPromiseCircularDependency,
   ignoreNiseSinonEval,
   ignoreOpenTelemetryThisIsUndefined,
   ignoreMissingExportsFromEmpty,

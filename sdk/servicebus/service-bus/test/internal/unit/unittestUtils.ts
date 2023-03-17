@@ -288,10 +288,16 @@ export function addTestStreamingReceiver(): (
         receiveMode: <ReceiveMode>"peekLock",
         maxConcurrentCalls: 101,
         skipParsingBodyAsJson: false,
+        skipConvertingDate: false,
       };
     }
 
-    const streamingReceiver = new StreamingReceiver(connectionContext, entityPath, options);
+    const streamingReceiver = new StreamingReceiver(
+      "serviceBusClientId",
+      connectionContext,
+      entityPath,
+      options
+    );
     closeables.push(streamingReceiver);
     return streamingReceiver;
   }

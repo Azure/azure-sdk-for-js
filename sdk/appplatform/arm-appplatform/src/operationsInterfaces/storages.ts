@@ -22,7 +22,7 @@ import {
 /** Interface representing a Storages. */
 export interface Storages {
   /**
-   * List all the storages of one Azure Spring Cloud instance.
+   * List all the storages of one Azure Spring Apps resource.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.

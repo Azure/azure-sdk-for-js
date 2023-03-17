@@ -3,19 +3,18 @@
 /// <reference lib="esnext.asynciterable" />
 
 import {
-  parseClientArguments,
-  isKeyCredential,
   createCommunicationAuthPolicy,
+  isKeyCredential,
+  parseClientArguments,
 } from "@azure/communication-common";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { SmsApiClient } from "./generated/src/smsApiClient";
-import { createSpan } from "./tracing";
-import { logger } from "./logger";
 import { extractOperationOptions } from "./extractOperationOptions";
 import { generateSendMessageRequest } from "./utils/smsUtils";
+import { logger } from "./logger";
+import { tracingClient } from "./generated/src/tracing";
 
 /**
  * Client options used to configure SMS Client API requests.
@@ -152,22 +151,12 @@ export class SmsClient {
     options: SmsSendOptions = { enableDeliveryReport: false }
   ): Promise<SmsSendResult[]> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
-    const { span, updatedOptions } = createSpan("SmsClient-Send", operationOptions);
-
-    try {
+    return tracingClient.withSpan("SmsClient-Send", operationOptions, async (updatedOptions) => {
       const response = await this.api.sms.send(
         generateSendMessageRequest(sendRequest, restOptions),
         updatedOptions
       );
       return response.value;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 }

@@ -31,17 +31,16 @@ async function main() {
 
   const client = new DocumentAnalysisClient(endpoint, credential);
 
-  const poller = await client.beginAnalyzeDocument(
+  const poller = await client.beginAnalyzeDocumentFromUrl(
     "prebuilt-receipt",
     // The form recognizer service will access the following URL to a receipt image and extract data from it
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/receipt/contoso-receipt.png"
   );
   poller.onProgress((state) => console.log("Operation:", state.modelId, state.status));
 
-  const {
-    documents: [result],
-  } = await poller.pollUntilDone();
+  const { documents } = await poller.pollUntilDone();
 
+  const result = documents && documents[0];
   if (result) {
     const receipt = result.fields;
     console.log("=== Receipt Information ===");

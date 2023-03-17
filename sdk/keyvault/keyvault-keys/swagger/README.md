@@ -7,16 +7,17 @@ package-name: "@azure/keyvault-keys"
 azure-arm: false
 generate-metadata: false
 add-credentials: false
-use-core-v2: false
+core-http-compat-mode: true
+use-core-v2: true
 license-header: MICROSOFT_MIT_NO_VERSION
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/e2ef44b87405b412403ccb005bfb3975411adf60/specification/keyvault/data-plane/Microsoft.KeyVault/stable/7.3/keys.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/551275acb80e1f8b39036b79dfc35a8f63b601a7/specification/keyvault/data-plane/Microsoft.KeyVault/stable/7.4/keys.json
 output-folder: ../
 source-code-folder-path: ./src/generated
 disable-async-iterators: true
 api-version-parameter: choice
-package-version: 4.5.0-beta.1
+package-version: 4.7.0
 use-extension:
-  "@autorest/typescript": "6.0.0-beta.15"
+  "@autorest/typescript": "6.0.0-beta.19"
 ```
 
 ## Customizations for Track 2 Generator
@@ -57,4 +58,16 @@ directive:
     where: $.definitions.KeyReleasePolicy.properties.data
     transform: >
       $["x-ms-client-name"] = "encodedPolicy";
+```
+
+## Rename certain models back to what they were before 7.4
+
+```yaml
+directive:
+  - from: certificates.json
+    where: $.definitions.Action
+    transform: $.properties.action_type["x-ms-enum"].name = "ActionType";
+  - from: keys.json
+    where: $.definitions.LifetimeActionsType
+    transform: $.properties.type["x-ms-enum"].name = "ActionType";
 ```

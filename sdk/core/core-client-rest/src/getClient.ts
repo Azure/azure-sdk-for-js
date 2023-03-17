@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { isCertificateCredential } from "./certificateCredential";
 import { HttpClient, HttpMethods, Pipeline, PipelineOptions } from "@azure/core-rest-pipeline";
 import { createDefaultPipeline } from "./clientHelpers";
 import {
@@ -197,11 +196,7 @@ function buildOperation(
 function isCredential(
   param: (TokenCredential | KeyCredential) | PipelineOptions
 ): param is TokenCredential | KeyCredential {
-  if (
-    (param as KeyCredential).key !== undefined ||
-    isTokenCredential(param) ||
-    isCertificateCredential(param)
-  ) {
+  if ((param as KeyCredential).key !== undefined || isTokenCredential(param)) {
     return true;
   }
 

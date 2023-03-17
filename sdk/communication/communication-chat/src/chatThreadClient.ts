@@ -8,8 +8,6 @@ import {
   serializeCommunicationIdentifier,
 } from "@azure/communication-common";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { createSpan } from "./tracing";
 import {
   AddParticipantsRequest,
   SendMessageRequest,
@@ -49,8 +47,10 @@ import {
   UpdateTopicOptions,
 } from "./models/options";
 import { ChatApiClient } from "./generated/src";
-import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
+import { tracingClient } from "./generated/src/tracing";
+
 const minimumTypingIntervalInMilliSeconds: number = 8000;
 
 /**
@@ -99,24 +99,14 @@ export class ChatThreadClient {
    * Returns the chat thread.
    * @param options -  Operation options.
    */
-  public async getProperties(options: GetPropertiesOptions = {}): Promise<ChatThreadProperties> {
-    const { span, updatedOptions } = createSpan("ChatClient-GetProperties", options);
-
-    try {
+  public getProperties(options: GetPropertiesOptions = {}): Promise<ChatThreadProperties> {
+    return tracingClient.withSpan("ChatClient-GetProperties", options, async (updatedOptions) => {
       const result = await this.client.chatThread.getChatThreadProperties(
         this.threadId,
         updatedOptions
       );
       return mapToChatThreadPropertiesSdkModel(result);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -124,24 +114,18 @@ export class ChatThreadClient {
    * @param topic - The topic needs to be updated to.
    * @param options - Operation options.
    */
-  public async updateTopic(topic: string, options: UpdateTopicOptions = {}): Promise<void> {
-    const { span, updatedOptions } = createSpan("ChatThreadClient-UpdateTopic", options);
-
-    try {
-      await this.client.chatThread.updateChatThreadProperties(
-        this.threadId,
-        { topic: topic },
-        updatedOptions
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+  public updateTopic(topic: string, options: UpdateTopicOptions = {}): Promise<void> {
+    return tracingClient.withSpan(
+      "ChatThreadClient-UpdateTopic",
+      options,
+      async (updatedOptions) => {
+        await this.client.chatThread.updateChatThreadProperties(
+          this.threadId,
+          { topic: topic },
+          updatedOptions
+        );
+      }
+    );
   }
 
   /**
@@ -150,31 +134,25 @@ export class ChatThreadClient {
    * @param request - Request for sending a message.
    * @param options - Operation options.
    */
-  public async sendMessage(
+  public sendMessage(
     request: SendMessageRequest,
     options: SendMessageOptions = {}
   ): Promise<SendChatMessageResult> {
-    const { span, updatedOptions } = createSpan("ChatThreadClient-SendMessage", options);
+    return tracingClient.withSpan(
+      "ChatThreadClient-SendMessage",
+      options,
+      async (updatedOptions) => {
+        // reset typing notification clock
+        this.timeOfLastTypingRequest = undefined;
 
-    try {
-      // reset typing notification clock
-      this.timeOfLastTypingRequest = undefined;
-
-      const result = await this.client.chatThread.sendChatMessage(
-        this.threadId,
-        { ...request, ...options },
-        updatedOptions
-      );
-      return result;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        const result = await this.client.chatThread.sendChatMessage(
+          this.threadId,
+          { ...request, ...options },
+          updatedOptions
+        );
+        return result;
+      }
+    );
   }
 
   /**
@@ -183,28 +161,19 @@ export class ChatThreadClient {
    * @param messageId - The message id of the message.
    * @param options - Operation options.
    */
-  public async getMessage(
-    messageId: string,
-    options: GetMessageOptions = {}
-  ): Promise<ChatMessage> {
-    const { span, updatedOptions } = createSpan("ChatThreadClient-GetMessage", options);
-
-    try {
-      const result = await this.client.chatThread.getChatMessage(
-        this.threadId,
-        messageId,
-        updatedOptions
-      );
-      return mapToChatMessageSdkModel(result);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+  public getMessage(messageId: string, options: GetMessageOptions = {}): Promise<ChatMessage> {
+    return tracingClient.withSpan(
+      "ChatThreadClient-GetMessage",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.chatThread.getChatMessage(
+          this.threadId,
+          messageId,
+          updatedOptions
+        );
+        return mapToChatMessageSdkModel(result);
+      }
+    );
   }
 
   private async *listMessagesPage(
@@ -249,7 +218,10 @@ export class ChatThreadClient {
    * @param options - Get messages options.
    */
   public listMessages(options: ListMessagesOptions = {}): PagedAsyncIterableIterator<ChatMessage> {
-    const { span, updatedOptions } = createSpan("ChatThreadClient-ListMessages", options);
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "ChatThreadClient-ListMessages",
+      options
+    );
 
     try {
       const iter = this.listMessagesAll(updatedOptions);
@@ -266,8 +238,8 @@ export class ChatThreadClient {
       };
     } catch (e: any) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        status: "error",
+        error: e,
       });
       throw e;
     } finally {
@@ -280,20 +252,14 @@ export class ChatThreadClient {
    * @param messageId - The message id of the message.
    * @param options - Operation options.
    */
-  public async deleteMessage(messageId: string, options: DeleteMessageOptions = {}): Promise<void> {
-    const { span, updatedOptions } = createSpan("ChatThreadClient-DeleteMessage", options);
-
-    try {
-      await this.client.chatThread.deleteChatMessage(this.threadId, messageId, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+  public deleteMessage(messageId: string, options: DeleteMessageOptions = {}): Promise<void> {
+    return tracingClient.withSpan(
+      "ChatThreadClient-DeleteMessage",
+      options,
+      async (updatedOptions) => {
+        await this.client.chatThread.deleteChatMessage(this.threadId, messageId, updatedOptions);
+      }
+    );
   }
 
   /**
@@ -302,24 +268,18 @@ export class ChatThreadClient {
    * @param options - Operation options.
    */
   public async updateMessage(messageId: string, options: UpdateMessageOptions = {}): Promise<void> {
-    const { span, updatedOptions } = createSpan("ChatThreadClient-UpdateMessage", options);
-
-    try {
-      await this.client.chatThread.updateChatMessage(
-        this.threadId,
-        messageId,
-        options,
-        updatedOptions
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ChatThreadClient-UpdateMessage",
+      options,
+      async (updatedOptions) => {
+        await this.client.chatThread.updateChatMessage(
+          this.threadId,
+          messageId,
+          options,
+          updatedOptions
+        );
+      }
+    );
   }
 
   /**
@@ -331,24 +291,18 @@ export class ChatThreadClient {
     request: AddParticipantsRequest,
     options: AddParticipantsOptions = {}
   ): Promise<AddChatParticipantsResult> {
-    const { span, updatedOptions } = createSpan("ChatThreadClient-AddParticipants", options);
-
-    try {
-      const result = await this.client.chatThread.addChatParticipants(
-        this.threadId,
-        mapToAddChatParticipantsRequestRestModel(request),
-        updatedOptions
-      );
-      return result;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ChatThreadClient-AddParticipants",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.chatThread.addChatParticipants(
+          this.threadId,
+          mapToAddChatParticipantsRequestRestModel(request),
+          updatedOptions
+        );
+        return result;
+      }
+    );
   }
 
   private async *listParticipantsPage(
@@ -397,7 +351,10 @@ export class ChatThreadClient {
   public listParticipants(
     options: ListParticipantsOptions = {}
   ): PagedAsyncIterableIterator<ChatParticipant> {
-    const { span, updatedOptions } = createSpan("ChatThreadClient-ListParticipants", options);
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "ChatThreadClient-ListParticipants",
+      options
+    );
 
     try {
       const iter = this.listParticipantsAll(updatedOptions);
@@ -414,8 +371,8 @@ export class ChatThreadClient {
       };
     } catch (e: any) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        status: "error",
+        error: e,
       });
       throw e;
     } finally {
@@ -432,23 +389,17 @@ export class ChatThreadClient {
     participant: CommunicationIdentifier,
     options: RemoveParticipantOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("ChatThreadClient-RemoveParticipant", options);
-
-    try {
-      await this.client.chatThread.removeChatParticipant(
-        this.threadId,
-        serializeCommunicationIdentifier(participant),
-        updatedOptions
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ChatThreadClient-RemoveParticipant",
+      options,
+      async (updatedOptions) => {
+        await this.client.chatThread.removeChatParticipant(
+          this.threadId,
+          serializeCommunicationIdentifier(participant),
+          updatedOptions
+        );
+      }
+    );
   }
 
   /**
@@ -460,38 +411,31 @@ export class ChatThreadClient {
   public async sendTypingNotification(
     options: SendTypingNotificationOptions = {}
   ): Promise<boolean> {
-    const { span, updatedOptions } = createSpan("ChatThreadClient-SendTypingNotification", options);
+    return tracingClient.withSpan(
+      "ChatThreadClient-SendTypingNotification",
+      options,
+      async (updatedOptions) => {
+        const dateNow = new Date();
+        const { senderDisplayName, ...restOptions } = updatedOptions;
 
-    try {
-      const dateNow = new Date();
-      const { senderDisplayName, ...restOptions } = updatedOptions;
+        if (this.canPostTypingNotification(dateNow)) {
+          this.timeOfLastTypingRequest = dateNow;
 
-      if (this.canPostTypingNotification(dateNow)) {
-        this.timeOfLastTypingRequest = dateNow;
+          await this.client.chatThread.sendTypingNotification(this.threadId, {
+            sendTypingNotificationRequest: { senderDisplayName: senderDisplayName },
+            ...restOptions,
+          });
+          return true;
+        }
 
-        await this.client.chatThread.sendTypingNotification(this.threadId, {
-          sendTypingNotificationRequest: { senderDisplayName: senderDisplayName },
-          ...restOptions,
-        });
-        return true;
+        logger.info(`Typing Notification NOT Send. [thread_id=${this.threadId}]`);
+        return false;
       }
-
-      logger.info(`Typing Notification NOT Send. [thread_id=${this.threadId}]`);
-      return false;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    );
   }
 
   /**
    * Sends a read receipt to the thread identified by threadId.
-   * @param messageId - The message id of the message that user latest read.
    * @param request - Request for sending a read receipt
    * @param options - Operation options.
    */
@@ -499,19 +443,13 @@ export class ChatThreadClient {
     request: SendReadReceiptRequest,
     options: SendReadReceiptOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("ChatThreadClient-SendReadReceipt", options);
-
-    try {
-      await this.client.chatThread.sendChatReadReceipt(this.threadId, request, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ChatThreadClient-SendReadReceipt",
+      options,
+      async (updatedOptions) => {
+        await this.client.chatThread.sendChatReadReceipt(this.threadId, request, updatedOptions);
+      }
+    );
   }
 
   private async *listReadReceiptsPage(
@@ -560,7 +498,10 @@ export class ChatThreadClient {
   public listReadReceipts(
     options: ListReadReceiptsOptions = {}
   ): PagedAsyncIterableIterator<ChatMessageReadReceipt> {
-    const { span, updatedOptions } = createSpan("ChatThreadClient-ListChatReadReceipts", options);
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "ChatThreadClient-ListChatReadReceipts",
+      options
+    );
 
     try {
       const iter = this.listReadReceiptsAll(updatedOptions);
@@ -577,8 +518,8 @@ export class ChatThreadClient {
       };
     } catch (e: any) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        status: "error",
+        error: e,
       });
       throw e;
     } finally {

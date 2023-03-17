@@ -1,9 +1,9 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "ShortCodesNumbersClient",
+    "title": "ShortCodesClient",
     "description": "The short codes client uses Azure Communication Services to purchase and manage short codes.",
-    "version": "2021-10-25-preview"
+    "version": "2022-09-06"
   },
   "paths": {
     "/shortCodes": {
@@ -98,7 +98,7 @@
         ],
         "responses": {
           "201": {
-            "description": "Success",
+            "description": "Created",
             "schema": {
               "$ref": "#/definitions/USProgramBrief"
             }
@@ -143,7 +143,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Success"
+            "description": "No Content"
           },
           "default": {
             "description": "Failure",
@@ -348,7 +348,7 @@
         ],
         "responses": {
           "201": {
-            "description": "Success",
+            "description": "Created",
             "schema": {
               "$ref": "#/definitions/ProgramBriefAttachment"
             }
@@ -451,7 +451,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Success"
+            "description": "No Content"
           },
           "default": {
             "description": "Failure",
@@ -680,7 +680,7 @@
           "description": "URL for the program or company.",
           "type": "string"
         },
-        "signUpTypes": {
+        "callToActionTypes": {
           "description": "Indicates how the consumer can sign up to the program e.g. 'website', 'pointOfSale' and/or 'sms'.",
           "type": "array",
           "items": {
@@ -693,14 +693,18 @@
             ],
             "type": "string",
             "x-ms-enum": {
-              "name": "ProgramSignUpType",
+              "name": "CallToActionType",
               "modelAsString": true
             }
           }
         },
-        "signUpUrl": {
+        "callToActionUrl": {
           "format": "uri",
           "description": "URL for \"call to action\" image for the program.",
+          "type": "string"
+        },
+        "callToAction": {
+          "description": "Call to action text. To be provided when InteractiveVoiceResponse is specified as call to action type",
           "type": "string"
         },
         "termsOfServiceUrl": {
@@ -817,56 +821,39 @@
       "description": "Describes a messaging use case for a given content type by providing example messages.",
       "type": "object",
       "properties": {
-        "contentCategory": {
-          "description": "Indicates the messaging content category used in the program e.g. 'ringTones', 'smsChat', 'video', 'loyaltyProgramPointsPrizes', 'gifting', 'inApplicationBilling', 'textToScreen'.",
+        "contentType": {
+          "description": "Indicates the messaging content type used in the program e.g. 'accountNotificationInformationalAlerts', 'chatConversationalMessaging', 'mmsVideo', 'socialMedia'.",
           "enum": [
-            "ringTones",
-            "smsChat",
-            "video",
-            "loyaltyProgramPointsPrizes",
-            "gifting",
-            "inApplicationBilling",
-            "textToScreen",
-            "games",
-            "audioChat",
-            "mmsPictures",
-            "sweepstakesContestAuction",
-            "financialBanking",
-            "premiumWap",
-            "queryService",
-            "wallpaperScreensaver",
-            "voting",
-            "application",
-            "mobileGivingDonations",
-            "coupons",
-            "loyaltyProgram",
-            "noPointsPrizes",
-            "informationalAlerts",
-            "microBilling",
-            "trivia",
-            "entertainmentAlerts",
-            "accountNotification",
+            "accountNotificationInformationalAlerts",
             "ageGatedContent",
-            "conversationalMessaging",
+            "chatConversationalMessaging",
             "deliveryNotification",
+            "donationsPledge",
             "education",
-            "emergencyAlerts",
             "fraudAlerts",
             "loanArrangement",
-            "onBehalfOfCarrier",
+            "loyaltyProgram",
+            "marketingAndPromotion",
+            "mmsPicture",
+            "mmsVideo",
+            "oneTimePasswordOrMultiFactorAuthentication",
             "political",
-            "promotionalMarketing",
             "publicServiceAnnouncements",
             "securityAlerts",
             "socialMedia",
-            "twoFactorAuthentication",
+            "sweepstakesOrContest",
+            "votingOrPolling",
             "other"
           ],
           "type": "string",
           "x-ms-enum": {
-            "name": "MessageContentCategory",
+            "name": "MessageContentType",
             "modelAsString": true
           }
+        },
+        "customContentType": {
+          "description": "Indicates the messaging content type used in the program whenever it is not any of the pre-defined content types",
+          "type": "string"
         },
         "examples": {
           "description": "Example messages to be sent to and from the end user for the indicated content type.",
@@ -880,20 +867,16 @@
     "MessageDetails": {
       "type": "object",
       "properties": {
-        "supportedProtocols": {
-          "description": "Applicable message protocols used in the program e.g. SMS, MMS.",
-          "type": "array",
-          "items": {
-            "description": "Applicable message protocols to be used in a program.",
-            "enum": [
-              "sms",
-              "mms"
-            ],
-            "type": "string",
-            "x-ms-enum": {
-              "name": "MessageProtocol",
-              "modelAsString": true
-            }
+        "supportedProtocol": {
+          "description": "Applicable message protocol used in the program e.g. SMS or MMS.",
+          "enum": [
+            "sms",
+            "mms"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "MessageProtocol",
+            "modelAsString": true
           }
         },
         "recurrence": {
@@ -908,22 +891,22 @@
             "modelAsString": true
           }
         },
-        "helpMessage": {
+        "helpAnswerToUser": {
           "description": "Message text for mobile terminated message associated with HELP keyword\r\ne.g 'This is the HELP message test.'.",
           "type": "string"
         },
-        "optOutMessage": {
+        "optOutAnswerToUser": {
           "description": "\"Message text for mobile terminated message associated with STOP keyword\r\ne.g. 'This is the STOP message test.'.",
           "type": "string"
         },
-        "optInMessage": {
+        "optInMessageToUser": {
           "type": "string"
         },
-        "optInReply": {
+        "optInAnswerFromUser": {
           "description": "Keyword used to confirm double Opt-In method e.g. 'JOIN'.",
           "type": "string"
         },
-        "confirmationMessage": {
+        "optInConfirmationMessageToUser": {
           "type": "string"
         },
         "directionality": {
@@ -1011,8 +994,8 @@
             "modelAsString": true
           }
         },
-        "friendlyName": {
-          "description": "A friendly name to refer to the attachment\r\ne.g. 'myFile01'",
+        "fileName": {
+          "description": "The name of the attached file\r\ne.g. 'myFile01'",
           "type": "string"
         }
       }
@@ -1114,7 +1097,11 @@
     "ProgramBriefAttachment": {
       "description": "A File Attachment for a Program Brief",
       "required": [
-        "id"
+        "fileContentBase64",
+        "fileName",
+        "fileType",
+        "id",
+        "type"
       ],
       "type": "object",
       "properties": {
@@ -1137,11 +1124,11 @@
             "modelAsString": true
           }
         },
-        "friendlyName": {
-          "description": "A friendly name to refer to the attachment\r\ne.g. 'myFile01'",
+        "fileName": {
+          "description": "The name of the file being attached\r\ne.g. 'myFile01'",
           "type": "string"
         },
-        "fileSize": {
+        "fileSizeInBytes": {
           "format": "int32",
           "description": "File size in bytes.",
           "type": "integer"
@@ -1160,7 +1147,7 @@
             "modelAsString": true
           }
         },
-        "fileContent": {
+        "fileContentBase64": {
           "description": "File content as base 64 encoded string",
           "type": "string"
         }

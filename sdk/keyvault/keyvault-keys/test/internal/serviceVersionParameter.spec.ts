@@ -5,42 +5,42 @@ import { assert } from "@azure/test-utils";
 import { SinonSandbox, SinonSpy, createSandbox } from "sinon";
 import { KeyClient } from "../../src";
 import { LATEST_API_VERSION } from "../../src/keysModels";
-import { HttpClient, HttpHeaders, HttpOperationResponse, WebResourceLike } from "@azure/core-http";
+import {
+  HttpClient,
+  PipelineRequest,
+  PipelineResponse,
+  createHttpHeaders,
+} from "@azure/core-rest-pipeline";
 import { ClientSecretCredential } from "@azure/identity";
-import { env } from "@azure-tools/test-recorder";
 import { versionsToTest } from "@azure/test-utils";
 import { serviceVersions } from "../public/utils/common";
 
 describe("The Keys client should set the serviceVersion", () => {
-  const keyVaultUrl = `https://keyVaultName.vault.azure.net`;
+  const keyVaultUrl = `https://keyvaultname.vault.azure.net`;
 
   const mockHttpClient: HttpClient = {
-    async sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
+    async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
       return {
         status: 200,
-        headers: new HttpHeaders(),
-        request: httpRequest,
-        parsedBody: {
+        headers: createHttpHeaders(),
+        request: request,
+        bodyAsText: JSON.stringify({
           key: {
             kid: `${keyVaultUrl}/keys/keyName/id`,
           },
-        },
+        }),
       };
     },
   };
 
   let sandbox: SinonSandbox;
-  let spy: SinonSpy<[WebResourceLike], Promise<HttpOperationResponse>>;
+  let spy: SinonSpy<[PipelineRequest], Promise<PipelineResponse>>;
   let credential: ClientSecretCredential;
   beforeEach(async () => {
     sandbox = createSandbox();
     spy = sandbox.spy(mockHttpClient, "sendRequest");
 
-    credential = await new ClientSecretCredential(
-      env.AZURE_TENANT_ID!,
-      env.AZURE_CLIENT_ID!,
-      env.AZURE_CLIENT_SECRET!
-    );
+    credential = new ClientSecretCredential("tenant", "client", "secret");
   });
 
   afterEach(() => {
@@ -56,7 +56,7 @@ describe("The Keys client should set the serviceVersion", () => {
     const calls = spy.getCalls();
     assert.equal(
       calls[0].args[0].url,
-      `https://keyVaultName.vault.azure.net/keys/keyName/create?api-version=${LATEST_API_VERSION}`
+      `https://keyvaultname.vault.azure.net/keys/keyName/create?api-version=${LATEST_API_VERSION}`
     );
   });
 
@@ -72,7 +72,7 @@ describe("The Keys client should set the serviceVersion", () => {
       const lastCall = calls[calls.length - 1];
       assert.equal(
         lastCall.args[0].url,
-        `https://keyVaultName.vault.azure.net/keys/keyName/create?api-version=${serviceVersion}`
+        `https://keyvaultname.vault.azure.net/keys/keyName/create?api-version=${serviceVersion}`
       );
     });
   });

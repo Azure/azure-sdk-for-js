@@ -4,7 +4,7 @@
 /**
  * Gets the schema definition from the response
  * @param response - The service response for a get schema by ID request.
- * @returns a string representing an Avro schema definition
+ * @returns a string representing a schema definition
  */
 export async function getSchemaDefinition<
   T extends {

@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
-export const CertificateListResult: coreHttp.CompositeMapper = {
+export const CertificateListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CertificateListResult",
@@ -37,7 +37,7 @@ export const CertificateListResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const CertificateItem: coreHttp.CompositeMapper = {
+export const CertificateItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CertificateItem",
@@ -72,7 +72,7 @@ export const CertificateItem: coreHttp.CompositeMapper = {
   }
 };
 
-export const Attributes: coreHttp.CompositeMapper = {
+export const Attributes: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Attributes",
@@ -113,7 +113,7 @@ export const Attributes: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyVaultError: coreHttp.CompositeMapper = {
+export const KeyVaultError: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyVaultError",
@@ -129,7 +129,7 @@ export const KeyVaultError: coreHttp.CompositeMapper = {
   }
 };
 
-export const ErrorModel: coreHttp.CompositeMapper = {
+export const ErrorModel: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ErrorModel",
@@ -159,7 +159,7 @@ export const ErrorModel: coreHttp.CompositeMapper = {
   }
 };
 
-export const CertificateBundle: coreHttp.CompositeMapper = {
+export const CertificateBundle: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CertificateBundle",
@@ -229,7 +229,7 @@ export const CertificateBundle: coreHttp.CompositeMapper = {
   }
 };
 
-export const CertificatePolicy: coreHttp.CompositeMapper = {
+export const CertificatePolicy: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CertificatePolicy",
@@ -292,7 +292,7 @@ export const CertificatePolicy: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyProperties: coreHttp.CompositeMapper = {
+export const KeyProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyProperties",
@@ -331,7 +331,7 @@ export const KeyProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const SecretProperties: coreHttp.CompositeMapper = {
+export const SecretProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SecretProperties",
@@ -346,7 +346,7 @@ export const SecretProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const X509CertificateProperties: coreHttp.CompositeMapper = {
+export const X509CertificateProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "X509CertificateProperties",
@@ -399,7 +399,7 @@ export const X509CertificateProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const SubjectAlternativeNames: coreHttp.CompositeMapper = {
+export const SubjectAlternativeNames: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SubjectAlternativeNames",
@@ -441,7 +441,7 @@ export const SubjectAlternativeNames: coreHttp.CompositeMapper = {
   }
 };
 
-export const LifetimeAction: coreHttp.CompositeMapper = {
+export const LifetimeAction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LifetimeAction",
@@ -464,7 +464,7 @@ export const LifetimeAction: coreHttp.CompositeMapper = {
   }
 };
 
-export const Trigger: coreHttp.CompositeMapper = {
+export const Trigger: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Trigger",
@@ -489,7 +489,7 @@ export const Trigger: coreHttp.CompositeMapper = {
   }
 };
 
-export const Action: coreHttp.CompositeMapper = {
+export const Action: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Action",
@@ -505,7 +505,7 @@ export const Action: coreHttp.CompositeMapper = {
   }
 };
 
-export const IssuerParameters: coreHttp.CompositeMapper = {
+export const IssuerParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IssuerParameters",
@@ -532,7 +532,7 @@ export const IssuerParameters: coreHttp.CompositeMapper = {
   }
 };
 
-export const Contacts: coreHttp.CompositeMapper = {
+export const Contacts: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Contacts",
@@ -560,7 +560,7 @@ export const Contacts: coreHttp.CompositeMapper = {
   }
 };
 
-export const Contact: coreHttp.CompositeMapper = {
+export const Contact: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Contact",
@@ -587,7 +587,7 @@ export const Contact: coreHttp.CompositeMapper = {
   }
 };
 
-export const CertificateIssuerListResult: coreHttp.CompositeMapper = {
+export const CertificateIssuerListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CertificateIssuerListResult",
@@ -616,7 +616,7 @@ export const CertificateIssuerListResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const CertificateIssuerItem: coreHttp.CompositeMapper = {
+export const CertificateIssuerItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CertificateIssuerItem",
@@ -637,7 +637,7 @@ export const CertificateIssuerItem: coreHttp.CompositeMapper = {
   }
 };
 
-export const CertificateIssuerSetParameters: coreHttp.CompositeMapper = {
+export const CertificateIssuerSetParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CertificateIssuerSetParameters",
@@ -674,7 +674,7 @@ export const CertificateIssuerSetParameters: coreHttp.CompositeMapper = {
   }
 };
 
-export const IssuerCredentials: coreHttp.CompositeMapper = {
+export const IssuerCredentials: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IssuerCredentials",
@@ -695,7 +695,7 @@ export const IssuerCredentials: coreHttp.CompositeMapper = {
   }
 };
 
-export const OrganizationDetails: coreHttp.CompositeMapper = {
+export const OrganizationDetails: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "OrganizationDetails",
@@ -722,7 +722,7 @@ export const OrganizationDetails: coreHttp.CompositeMapper = {
   }
 };
 
-export const AdministratorDetails: coreHttp.CompositeMapper = {
+export const AdministratorDetails: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AdministratorDetails",
@@ -755,7 +755,7 @@ export const AdministratorDetails: coreHttp.CompositeMapper = {
   }
 };
 
-export const IssuerAttributes: coreHttp.CompositeMapper = {
+export const IssuerAttributes: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IssuerAttributes",
@@ -784,7 +784,7 @@ export const IssuerAttributes: coreHttp.CompositeMapper = {
   }
 };
 
-export const IssuerBundle: coreHttp.CompositeMapper = {
+export const IssuerBundle: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IssuerBundle",
@@ -827,7 +827,7 @@ export const IssuerBundle: coreHttp.CompositeMapper = {
   }
 };
 
-export const CertificateIssuerUpdateParameters: coreHttp.CompositeMapper = {
+export const CertificateIssuerUpdateParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CertificateIssuerUpdateParameters",
@@ -863,7 +863,7 @@ export const CertificateIssuerUpdateParameters: coreHttp.CompositeMapper = {
   }
 };
 
-export const CertificateCreateParameters: coreHttp.CompositeMapper = {
+export const CertificateCreateParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CertificateCreateParameters",
@@ -893,7 +893,7 @@ export const CertificateCreateParameters: coreHttp.CompositeMapper = {
   }
 };
 
-export const CertificateOperation: coreHttp.CompositeMapper = {
+export const CertificateOperation: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CertificateOperation",
@@ -959,7 +959,7 @@ export const CertificateOperation: coreHttp.CompositeMapper = {
   }
 };
 
-export const CertificateImportParameters: coreHttp.CompositeMapper = {
+export const CertificateImportParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CertificateImportParameters",
@@ -1002,7 +1002,7 @@ export const CertificateImportParameters: coreHttp.CompositeMapper = {
   }
 };
 
-export const CertificateUpdateParameters: coreHttp.CompositeMapper = {
+export const CertificateUpdateParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CertificateUpdateParameters",
@@ -1032,7 +1032,7 @@ export const CertificateUpdateParameters: coreHttp.CompositeMapper = {
   }
 };
 
-export const CertificateOperationUpdateParameter: coreHttp.CompositeMapper = {
+export const CertificateOperationUpdateParameter: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CertificateOperationUpdateParameter",
@@ -1048,7 +1048,7 @@ export const CertificateOperationUpdateParameter: coreHttp.CompositeMapper = {
   }
 };
 
-export const CertificateMergeParameters: coreHttp.CompositeMapper = {
+export const CertificateMergeParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CertificateMergeParameters",
@@ -1083,7 +1083,7 @@ export const CertificateMergeParameters: coreHttp.CompositeMapper = {
   }
 };
 
-export const BackupCertificateResult: coreHttp.CompositeMapper = {
+export const BackupCertificateResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "BackupCertificateResult",
@@ -1099,7 +1099,7 @@ export const BackupCertificateResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const CertificateRestoreParameters: coreHttp.CompositeMapper = {
+export const CertificateRestoreParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CertificateRestoreParameters",
@@ -1115,7 +1115,7 @@ export const CertificateRestoreParameters: coreHttp.CompositeMapper = {
   }
 };
 
-export const DeletedCertificateListResult: coreHttp.CompositeMapper = {
+export const DeletedCertificateListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DeletedCertificateListResult",
@@ -1144,7 +1144,7 @@ export const DeletedCertificateListResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const PendingCertificateSigningRequestResult: coreHttp.CompositeMapper = {
+export const PendingCertificateSigningRequestResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PendingCertificateSigningRequestResult",
@@ -1160,7 +1160,7 @@ export const PendingCertificateSigningRequestResult: coreHttp.CompositeMapper = 
   }
 };
 
-export const DeletedCertificateItem: coreHttp.CompositeMapper = {
+export const DeletedCertificateItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DeletedCertificateItem",
@@ -1190,7 +1190,7 @@ export const DeletedCertificateItem: coreHttp.CompositeMapper = {
   }
 };
 
-export const CertificateAttributes: coreHttp.CompositeMapper = {
+export const CertificateAttributes: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CertificateAttributes",
@@ -1214,7 +1214,7 @@ export const CertificateAttributes: coreHttp.CompositeMapper = {
   }
 };
 
-export const DeletedCertificateBundle: coreHttp.CompositeMapper = {
+export const DeletedCertificateBundle: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DeletedCertificateBundle",

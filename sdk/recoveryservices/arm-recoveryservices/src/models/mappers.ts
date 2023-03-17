@@ -523,6 +523,79 @@ export const CheckNameAvailabilityResult: coreClient.CompositeMapper = {
   }
 };
 
+export const CapabilitiesProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CapabilitiesProperties",
+    modelProperties: {
+      dnsZones: {
+        serializedName: "dnsZones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DNSZone"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DNSZone: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DNSZone",
+    modelProperties: {
+      subResource: {
+        serializedName: "subResource",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceCapabilitiesBase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceCapabilitiesBase",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CapabilitiesResponseProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CapabilitiesResponseProperties",
+    modelProperties: {
+      dnsZones: {
+        serializedName: "dnsZones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DNSZoneResponse"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const VaultList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -677,6 +750,40 @@ export const VaultProperties: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      backupStorageVersion: {
+        serializedName: "backupStorageVersion",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      publicNetworkAccess: {
+        serializedName: "publicNetworkAccess",
+        type: {
+          name: "String"
+        }
+      },
+      monitoringSettings: {
+        serializedName: "monitoringSettings",
+        type: {
+          name: "Composite",
+          className: "MonitoringSettings"
+        }
+      },
+      redundancySettings: {
+        serializedName: "redundancySettings",
+        type: {
+          name: "Composite",
+          className: "VaultPropertiesRedundancySettings"
+        }
+      },
+      securitySettings: {
+        serializedName: "securitySettings",
+        type: {
+          name: "Composite",
+          className: "SecuritySettings"
+        }
       }
     }
   }
@@ -822,6 +929,17 @@ export const PrivateEndpointConnection: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "PrivateLinkServiceConnectionState"
+        }
+      },
+      groupIds: {
+        serializedName: "groupIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -975,6 +1093,113 @@ export const VaultPropertiesMoveDetails: coreClient.CompositeMapper = {
       targetResourceId: {
         serializedName: "targetResourceId",
         readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MonitoringSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MonitoringSettings",
+    modelProperties: {
+      azureMonitorAlertSettings: {
+        serializedName: "azureMonitorAlertSettings",
+        type: {
+          name: "Composite",
+          className: "AzureMonitorAlertSettings"
+        }
+      },
+      classicAlertSettings: {
+        serializedName: "classicAlertSettings",
+        type: {
+          name: "Composite",
+          className: "ClassicAlertSettings"
+        }
+      }
+    }
+  }
+};
+
+export const AzureMonitorAlertSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureMonitorAlertSettings",
+    modelProperties: {
+      alertsForAllJobFailures: {
+        serializedName: "alertsForAllJobFailures",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ClassicAlertSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClassicAlertSettings",
+    modelProperties: {
+      alertsForCriticalOperations: {
+        serializedName: "alertsForCriticalOperations",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VaultPropertiesRedundancySettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VaultPropertiesRedundancySettings",
+    modelProperties: {
+      standardTierStorageRedundancy: {
+        serializedName: "standardTierStorageRedundancy",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      crossRegionRestore: {
+        serializedName: "crossRegionRestore",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SecuritySettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SecuritySettings",
+    modelProperties: {
+      immutabilitySettings: {
+        serializedName: "immutabilitySettings",
+        type: {
+          name: "Composite",
+          className: "ImmutabilitySettings"
+        }
+      }
+    }
+  }
+};
+
+export const ImmutabilitySettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ImmutabilitySettings",
+    modelProperties: {
+      state: {
+        serializedName: "state",
         type: {
           name: "String"
         }
@@ -1447,6 +1672,12 @@ export const ResourceCertificateAndAadDetails: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      aadAudience: {
+        serializedName: "aadAudience",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1481,6 +1712,61 @@ export const ResourceCertificateAndAcsDetails: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DNSZoneResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DNSZoneResponse",
+    modelProperties: {
+      ...DNSZone.type.modelProperties,
+      requiredZoneNames: {
+        serializedName: "requiredZoneNames",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ResourceCapabilities: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceCapabilities",
+    modelProperties: {
+      ...ResourceCapabilitiesBase.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "CapabilitiesProperties"
+        }
+      }
+    }
+  }
+};
+
+export const CapabilitiesResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CapabilitiesResponse",
+    modelProperties: {
+      ...ResourceCapabilitiesBase.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "CapabilitiesResponseProperties"
         }
       }
     }

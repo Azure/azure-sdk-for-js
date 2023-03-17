@@ -6,10 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { createSpan } from "../tracing";
+import { tracingClient } from "../tracing";
 import { PipelineRunOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
@@ -45,25 +44,16 @@ export class PipelineRunOperationsImpl implements PipelineRunOperations {
     filterParameters: RunFilterParameters,
     options?: PipelineRunQueryPipelineRunsByWorkspaceOptionalParams
   ): Promise<PipelineRunQueryPipelineRunsByWorkspaceResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-queryPipelineRunsByWorkspace",
-      options || {}
+    return tracingClient.withSpan(
+      "ArtifactsClient.queryPipelineRunsByWorkspace",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { filterParameters, options },
+          queryPipelineRunsByWorkspaceOperationSpec
+        ) as Promise<PipelineRunQueryPipelineRunsByWorkspaceResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { filterParameters, options },
-        queryPipelineRunsByWorkspaceOperationSpec
-      );
-      return result as PipelineRunQueryPipelineRunsByWorkspaceResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -75,25 +65,16 @@ export class PipelineRunOperationsImpl implements PipelineRunOperations {
     runId: string,
     options?: PipelineRunGetPipelineRunOptionalParams
   ): Promise<PipelineRunGetPipelineRunResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-getPipelineRun",
-      options || {}
+    return tracingClient.withSpan(
+      "ArtifactsClient.getPipelineRun",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { runId, options },
+          getPipelineRunOperationSpec
+        ) as Promise<PipelineRunGetPipelineRunResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { runId, options },
-        getPipelineRunOperationSpec
-      );
-      return result as PipelineRunGetPipelineRunResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -109,25 +90,16 @@ export class PipelineRunOperationsImpl implements PipelineRunOperations {
     filterParameters: RunFilterParameters,
     options?: PipelineRunQueryActivityRunsOptionalParams
   ): Promise<PipelineRunQueryActivityRunsResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-queryActivityRuns",
-      options || {}
+    return tracingClient.withSpan(
+      "ArtifactsClient.queryActivityRuns",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { pipelineName, runId, filterParameters, options },
+          queryActivityRunsOperationSpec
+        ) as Promise<PipelineRunQueryActivityRunsResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { pipelineName, runId, filterParameters, options },
-        queryActivityRunsOperationSpec
-      );
-      return result as PipelineRunQueryActivityRunsResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -139,25 +111,16 @@ export class PipelineRunOperationsImpl implements PipelineRunOperations {
     runId: string,
     options?: PipelineRunCancelPipelineRunOptionalParams
   ): Promise<void> {
-    const { span } = createSpan(
-      "ArtifactsClient-cancelPipelineRun",
-      options || {}
+    return tracingClient.withSpan(
+      "ArtifactsClient.cancelPipelineRun",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { runId, options },
+          cancelPipelineRunOperationSpec
+        ) as Promise<void>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { runId, options },
-        cancelPipelineRunOperationSpec
-      );
-      return result as void;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 }
 // Operation Specifications

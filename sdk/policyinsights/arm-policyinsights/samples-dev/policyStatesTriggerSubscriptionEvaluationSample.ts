@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { PolicyInsightsClient } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Triggers a policy evaluation scan for all the resources under the subscription
@@ -18,14 +21,19 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_TriggerSubscriptionEvaluation.json
  */
 async function triggerEvaluationsForAllResourcesInASubscription() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const result = await client.policyStates.beginTriggerSubscriptionEvaluationAndWait(
-    subscriptionId2
+    subscriptionId
   );
   console.log(result);
 }
 
-triggerEvaluationsForAllResourcesInASubscription().catch(console.error);
+async function main() {
+  triggerEvaluationsForAllResourcesInASubscription();
+}
+
+main().catch(console.error);

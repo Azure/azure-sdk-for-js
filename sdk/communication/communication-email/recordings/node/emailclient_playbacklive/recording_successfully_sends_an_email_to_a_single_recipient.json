@@ -1,0 +1,149 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://someEndpoint/emails:send?api-version=2023-01-15-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "240",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-communication-email/1.0.0-beta.2 core-rest-pipeline/1.10.1 Node/v16.14.2 OS/(x64-Windows_NT-10.0.25300)",
+        "x-ms-client-request-id": "89942b92-92d5-4818-94ef-92e3b34e030b",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Wed, 22 Feb 2023 17:24:03 GMT"
+      },
+      "RequestBody": {
+        "senderAddress": "someSender@contoso.com",
+        "content": {
+          "subject": "someSubject",
+          "plainText": "somePlainTextBody",
+          "html": "\u003Chtml\u003E\u003Ch1\u003EsomeHtmlBody\u003C/html\u003E"
+        },
+        "recipients": {
+          "to": [
+            {
+              "address": "someRecipient@domain.com",
+              "displayName": "someRecipient"
+            }
+          ]
+        }
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-01-preview, 2023-01-15-preview",
+        "Content-Length": "47",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 22 Feb 2023 17:24:04 GMT",
+        "mise-correlation-id": "d71a6bfa-7cb3-4f78-b5b4-119d32bddd9f",
+        "Operation-Location": "https://someEndpoint/emails/operations/someId?api-version=2023-01-15-preview",
+        "Retry-After": "30",
+        "X-Azure-Ref": "0tE/2YwAAAACg5KBh\u002BhUARom6ZgWrxpKfV1NURURHRTAxMDkAY2M5Mjc1OGQtMDVmNy00YWQ2LWFhNWUtMGZhOTcxOGQ4OTg1",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "someId",
+        "status": "Running",
+        "error": null
+      }
+    },
+    {
+      "RequestUri": "https://someEndpoint/emails/operations/someId?api-version=2023-01-15-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-communication-email/1.0.0-beta.2 core-rest-pipeline/1.10.1 Node/v16.14.2 OS/(x64-Windows_NT-10.0.25300)",
+        "x-ms-client-request-id": "c0cdb8ce-ec1c-402c-9802-0ddd1f60beff",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Wed, 22 Feb 2023 17:24:04 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-01-preview, 2023-01-15-preview",
+        "Content-Length": "47",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 22 Feb 2023 17:24:04 GMT",
+        "mise-correlation-id": "513ca824-57b6-4d84-82fc-37bd413dbcdf",
+        "Retry-After": "30",
+        "X-Azure-Ref": "0tE/2YwAAAABbIP0Z3axUSbEtfvGAI88oV1NURURHRTAxMDkAY2M5Mjc1OGQtMDVmNy00YWQ2LWFhNWUtMGZhOTcxOGQ4OTg1",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "someId",
+        "status": "Running",
+        "error": null
+      }
+    },
+    {
+      "RequestUri": "https://someEndpoint/emails/operations/someId?api-version=2023-01-15-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-communication-email/1.0.0-beta.2 core-rest-pipeline/1.10.1 Node/v16.14.2 OS/(x64-Windows_NT-10.0.25300)",
+        "x-ms-client-request-id": "599184d2-62f6-4baf-b5d5-db0e4e3dc09b",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Wed, 22 Feb 2023 17:24:05 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-01-preview, 2023-01-15-preview",
+        "Content-Length": "47",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 22 Feb 2023 17:24:05 GMT",
+        "mise-correlation-id": "d6c017f1-847a-4e96-86c3-72ac9f817db2",
+        "Retry-After": "30",
+        "X-Azure-Ref": "0tU/2YwAAAAD7VLi01qP2Sq\u002BfMyBxDvm0V1NURURHRTAxMDkAY2M5Mjc1OGQtMDVmNy00YWQ2LWFhNWUtMGZhOTcxOGQ4OTg1",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "someId",
+        "status": "Running",
+        "error": null
+      }
+    },
+    {
+      "RequestUri": "https://someEndpoint/emails/operations/someId?api-version=2023-01-15-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-communication-email/1.0.0-beta.2 core-rest-pipeline/1.10.1 Node/v16.14.2 OS/(x64-Windows_NT-10.0.25300)",
+        "x-ms-client-request-id": "3ae67475-98c2-4119-8075-8ce8a6556c37",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Wed, 22 Feb 2023 17:24:35 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-01-preview, 2023-01-15-preview",
+        "Content-Length": "49",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 22 Feb 2023 17:24:35 GMT",
+        "mise-correlation-id": "82eabc11-5aca-49ac-a2cd-618fbfc452a6",
+        "X-Azure-Ref": "000/2YwAAAAD4QuBbNqVTR5gIXKWVXNTeV1NURURHRTAxMDkAY2M5Mjc1OGQtMDVmNy00YWQ2LWFhNWUtMGZhOTcxOGQ4OTg1",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "someId",
+        "status": "Succeeded",
+        "error": null
+      }
+    }
+  ],
+  "Variables": {}
+}

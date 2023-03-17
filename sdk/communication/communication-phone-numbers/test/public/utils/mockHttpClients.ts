@@ -68,5 +68,5 @@ export const mockListPhoneNumbersHttpClient = createMockHttpClient<PurchasedPhon
       },
     },
   ],
-  nextLink: "/phoneNumbers?api-version=2022-01-11-preview2&skip=1&top=1",
+  nextLink: "/phoneNumbers?api-version=2022-06-01-preview&skip=1&top=1",
 });

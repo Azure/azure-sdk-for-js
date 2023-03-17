@@ -19,6 +19,8 @@ import {
   ConfigServerSettings as ConfigServerSettingsMapper,
   ConfigurationServiceResource as ConfigurationServiceResourceMapper,
   ConfigurationServiceSettings as ConfigurationServiceSettingsMapper,
+  ApplicationLiveViewResource as ApplicationLiveViewResourceMapper,
+  DevToolPortalResource as DevToolPortalResourceMapper,
   Build as BuildMapper,
   BuildpackBindingResource as BuildpackBindingResourceMapper,
   BuilderResource as BuilderResourceMapper,
@@ -32,12 +34,16 @@ import {
   CertificateResource as CertificateResourceMapper,
   CustomDomainResource as CustomDomainResourceMapper,
   DeploymentResource as DeploymentResourceMapper,
+  RemoteDebuggingPayload as RemoteDebuggingPayloadMapper,
   DiagnosticParameters as DiagnosticParametersMapper,
   GatewayResource as GatewayResourceMapper,
   GatewayRouteConfigResource as GatewayRouteConfigResourceMapper,
   GatewayCustomDomainResource as GatewayCustomDomainResourceMapper,
   ApiPortalResource as ApiPortalResourceMapper,
-  ApiPortalCustomDomainResource as ApiPortalCustomDomainResourceMapper
+  ApiPortalCustomDomainResource as ApiPortalCustomDomainResourceMapper,
+  ApplicationAcceleratorResource as ApplicationAcceleratorResourceMapper,
+  CustomizedAcceleratorResource as CustomizedAcceleratorResourceMapper,
+  CustomizedAcceleratorProperties as CustomizedAcceleratorPropertiesMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -67,7 +73,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-03-01-preview",
+    defaultValue: "2022-11-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -199,6 +205,38 @@ export const serviceRegistryName: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const applicationLiveViewName: OperationURLParameter = {
+  parameterPath: "applicationLiveViewName",
+  mapper: {
+    serializedName: "applicationLiveViewName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const applicationLiveViewResource: OperationParameter = {
+  parameterPath: "applicationLiveViewResource",
+  mapper: ApplicationLiveViewResourceMapper
+};
+
+export const devToolPortalName: OperationURLParameter = {
+  parameterPath: "devToolPortalName",
+  mapper: {
+    serializedName: "devToolPortalName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const devToolPortalResource: OperationParameter = {
+  parameterPath: "devToolPortalResource",
+  mapper: DevToolPortalResourceMapper
 };
 
 export const buildServiceName: OperationURLParameter = {
@@ -446,6 +484,11 @@ export const version: OperationQueryParameter = {
   collectionFormat: "Multi"
 };
 
+export const remoteDebuggingPayload: OperationParameter = {
+  parameterPath: ["options", "remoteDebuggingPayload"],
+  mapper: RemoteDebuggingPayloadMapper
+};
+
 export const diagnosticParameters: OperationParameter = {
   parameterPath: "diagnosticParameters",
   mapper: DiagnosticParametersMapper
@@ -507,4 +550,52 @@ export const apiPortalResource: OperationParameter = {
 export const apiPortalCustomDomainResource: OperationParameter = {
   parameterPath: "apiPortalCustomDomainResource",
   mapper: ApiPortalCustomDomainResourceMapper
+};
+
+export const applicationAcceleratorName: OperationURLParameter = {
+  parameterPath: "applicationAcceleratorName",
+  mapper: {
+    serializedName: "applicationAcceleratorName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const applicationAcceleratorResource: OperationParameter = {
+  parameterPath: "applicationAcceleratorResource",
+  mapper: ApplicationAcceleratorResourceMapper
+};
+
+export const customizedAcceleratorName: OperationURLParameter = {
+  parameterPath: "customizedAcceleratorName",
+  mapper: {
+    serializedName: "customizedAcceleratorName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const customizedAcceleratorResource: OperationParameter = {
+  parameterPath: "customizedAcceleratorResource",
+  mapper: CustomizedAcceleratorResourceMapper
+};
+
+export const properties: OperationParameter = {
+  parameterPath: "properties",
+  mapper: CustomizedAcceleratorPropertiesMapper
+};
+
+export const predefinedAcceleratorName: OperationURLParameter = {
+  parameterPath: "predefinedAcceleratorName",
+  mapper: {
+    serializedName: "predefinedAcceleratorName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };

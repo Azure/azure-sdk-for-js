@@ -6,11 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { tracingClient } from "../tracing";
 import { Sms } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { SmsApiClientContext } from "../smsApiClientContext";
+import { SmsApiClient } from "../smsApiClient";
 import {
   SendMessageRequest,
   SmsSendOptionalParams,
@@ -19,13 +20,13 @@ import {
 
 /** Class containing Sms operations. */
 export class SmsImpl implements Sms {
-  private readonly client: SmsApiClientContext;
+  private readonly client: SmsApiClient;
 
   /**
    * Initialize a new instance of the class Sms class.
    * @param client Reference to the service client
    */
-  constructor(client: SmsApiClientContext) {
+  constructor(client: SmsApiClient) {
     this.client = client;
   }
 
@@ -34,13 +35,19 @@ export class SmsImpl implements Sms {
    * @param sendMessageRequest Represents the body of the send message request.
    * @param options The options parameters.
    */
-  send(
+  async send(
     sendMessageRequest: SendMessageRequest,
     options?: SmsSendOptionalParams
   ): Promise<SmsSendOperationResponse> {
-    return this.client.sendOperationRequest(
-      { sendMessageRequest, options },
-      sendOperationSpec
+    return tracingClient.withSpan(
+      "SmsApiClient.send",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { sendMessageRequest, options },
+          sendOperationSpec
+        ) as Promise<SmsSendOperationResponse>;
+      }
     );
   }
 }

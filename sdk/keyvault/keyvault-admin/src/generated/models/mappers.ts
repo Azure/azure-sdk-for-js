@@ -617,6 +617,73 @@ export const SelectiveKeyRestoreOperation: coreClient.CompositeMapper = {
   }
 };
 
+export const UpdateSettingRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UpdateSettingRequest",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Setting: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Setting",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SettingsListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SettingsListResult",
+    modelProperties: {
+      settings: {
+        serializedName: "settings",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Setting"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const RoleAssignmentFilter: coreClient.CompositeMapper = {
   type: {
     name: "Composite",

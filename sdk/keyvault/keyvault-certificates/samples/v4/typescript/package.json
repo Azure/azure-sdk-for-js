@@ -1,10 +1,10 @@
 {
-  "name": "azure-keyvault-certificates-samples-ts",
+  "name": "@azure-samples/keyvault-certificates-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Key Vault Certificates client library samples for TypeScript",
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
   "scripts": {
     "build": "tsc",
@@ -33,11 +33,11 @@
   "dependencies": {
     "@azure/keyvault-certificates": "latest",
     "dotenv": "latest",
-    "@azure/identity": "^2.0.1"
+    "@azure/identity": "^2.1.0-beta.2"
   },
   "devDependencies": {
-    "@types/node": "^12.0.0",
-    "typescript": "~4.4.0",
+    "@types/node": "^14.0.0",
+    "typescript": "~4.8.0",
     "rimraf": "latest"
   }
 }

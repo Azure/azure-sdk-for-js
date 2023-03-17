@@ -13,6 +13,9 @@ import {
   PolicyInsightsClient
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Queries policy events for the resources under the subscription.
@@ -21,16 +24,15 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_FilterAndAggregateOnly.json
  */
 async function filterAndAggregateOnly() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
-  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const fromParam = new Date("2018-02-05T18:00:00Z");
   const filter = "PolicyDefinitionAction eq 'deny'";
   const apply = "aggregate($count as NumDenyEvents)";
   const options: PolicyEventsListQueryResultsForSubscriptionOptionalParams = {
-    fromParam,
-    filter,
-    apply
+    queryOptions: { from: fromParam, filter: filter, apply: apply }
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
@@ -44,8 +46,6 @@ async function filterAndAggregateOnly() {
   }
   console.log(resArray);
 }
-
-filterAndAggregateOnly().catch(console.error);
 
 /**
  * This sample demonstrates how to Queries policy events for the resources under the subscription.
@@ -54,9 +54,10 @@ filterAndAggregateOnly().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_FilterAndGroupByWithAggregate.json
  */
 async function filterAndGroupWithAggregate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
-  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 2;
   const fromParam = new Date("2018-02-05T18:00:00Z");
   const filter =
@@ -64,10 +65,7 @@ async function filterAndGroupWithAggregate() {
   const apply =
     "groupby((PolicyAssignmentId, PolicyDefinitionId, PolicyDefinitionAction, ResourceId), aggregate($count as NumEvents))";
   const options: PolicyEventsListQueryResultsForSubscriptionOptionalParams = {
-    top,
-    fromParam,
-    filter,
-    apply
+    queryOptions: { top: top, from: fromParam, filter: filter, apply: apply }
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
@@ -81,8 +79,6 @@ async function filterAndGroupWithAggregate() {
   }
   console.log(resArray);
 }
-
-filterAndGroupWithAggregate().catch(console.error);
 
 /**
  * This sample demonstrates how to Queries policy events for the resources under the subscription.
@@ -91,9 +87,10 @@ filterAndGroupWithAggregate().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_FilterAndGroupByWithoutAggregate.json
  */
 async function filterAndGroupWithoutAggregate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
-  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 2;
   const fromParam = new Date("2018-01-05T18:00:00Z");
   const filter =
@@ -101,10 +98,7 @@ async function filterAndGroupWithoutAggregate() {
   const apply =
     "groupby((PolicyAssignmentId, PolicyDefinitionId, PolicyDefinitionAction, ResourceId))";
   const options: PolicyEventsListQueryResultsForSubscriptionOptionalParams = {
-    top,
-    fromParam,
-    filter,
-    apply
+    queryOptions: { top: top, from: fromParam, filter: filter, apply: apply }
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
@@ -118,8 +112,6 @@ async function filterAndGroupWithoutAggregate() {
   }
   console.log(resArray);
 }
-
-filterAndGroupWithoutAggregate().catch(console.error);
 
 /**
  * This sample demonstrates how to Queries policy events for the resources under the subscription.
@@ -128,9 +120,10 @@ filterAndGroupWithoutAggregate().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_FilterAndMultipleGroups.json
  */
 async function filterAndMultipleGroups() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
-  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 10;
   const orderBy = "NumDeniedResources desc";
   const fromParam = new Date("2018-01-01T00:00:00Z");
@@ -138,11 +131,7 @@ async function filterAndMultipleGroups() {
   const apply =
     "groupby((PolicyAssignmentId, PolicyDefinitionId, ResourceId))/groupby((PolicyAssignmentId, PolicyDefinitionId), aggregate($count as NumDeniedResources))";
   const options: PolicyEventsListQueryResultsForSubscriptionOptionalParams = {
-    top,
-    orderBy,
-    fromParam,
-    filter,
-    apply
+    queryOptions: { top: top, orderBy: orderBy, from: fromParam, filter: filter, apply: apply }
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
@@ -157,8 +146,6 @@ async function filterAndMultipleGroups() {
   console.log(resArray);
 }
 
-filterAndMultipleGroups().catch(console.error);
-
 /**
  * This sample demonstrates how to Queries policy events for the resources under the subscription.
  *
@@ -166,9 +153,10 @@ filterAndMultipleGroups().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_QuerySubscriptionScope.json
  */
 async function queryAtSubscriptionScope() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
-  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
@@ -181,8 +169,6 @@ async function queryAtSubscriptionScope() {
   console.log(resArray);
 }
 
-queryAtSubscriptionScope().catch(console.error);
-
 /**
  * This sample demonstrates how to Queries policy events for the resources under the subscription.
  *
@@ -190,12 +176,13 @@ queryAtSubscriptionScope().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_QuerySubscriptionScopeNextLink.json
  */
 async function queryAtSubscriptionScopeWithNextLink() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
-  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options: PolicyEventsListQueryResultsForSubscriptionOptionalParams = {
-    skipToken
+    queryOptions: { skipToken: skipToken }
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
@@ -209,8 +196,6 @@ async function queryAtSubscriptionScopeWithNextLink() {
   }
   console.log(resArray);
 }
-
-queryAtSubscriptionScopeWithNextLink().catch(console.error);
 
 /**
  * This sample demonstrates how to Queries policy events for the resources under the subscription.
@@ -219,9 +204,10 @@ queryAtSubscriptionScopeWithNextLink().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_TimeRangeSortSelectTop.json
  */
 async function timeRangeSortSelectAndLimit() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
-  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 2;
   const orderBy =
     "Timestamp desc, PolicyAssignmentId asc, SubscriptionId asc, ResourceGroup asc, ResourceId";
@@ -230,11 +216,7 @@ async function timeRangeSortSelectAndLimit() {
   const fromParam = new Date("2018-02-05T18:00:00Z");
   const to = new Date("2018-02-06T18:00:00Z");
   const options: PolicyEventsListQueryResultsForSubscriptionOptionalParams = {
-    top,
-    orderBy,
-    select,
-    fromParam,
-    to
+    queryOptions: { top: top, from: fromParam, to: to, select: select }
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
@@ -249,4 +231,14 @@ async function timeRangeSortSelectAndLimit() {
   console.log(resArray);
 }
 
-timeRangeSortSelectAndLimit().catch(console.error);
+async function main() {
+  filterAndAggregateOnly();
+  filterAndGroupWithAggregate();
+  filterAndGroupWithoutAggregate();
+  filterAndMultipleGroups();
+  queryAtSubscriptionScope();
+  queryAtSubscriptionScopeWithNextLink();
+  timeRangeSortSelectAndLimit();
+}
+
+main().catch(console.error);

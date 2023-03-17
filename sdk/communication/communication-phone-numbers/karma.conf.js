@@ -1,12 +1,9 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config();
-const {
-  jsonRecordingFilterFunction,
-  isPlaybackMode,
-  isSoftRecordMode,
-  isRecordMode,
-} = require("@azure-tools/test-recorder");
+const { relativeRecordingsPath } = require("@azure-tools/test-recorder");
+
+process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
 
 // Get all variables containing the available phone numbers per test agent.
 // E.g. -> AZURE_PHONE_NUMBER_windows_2019_node12
@@ -27,21 +24,15 @@ module.exports = function (config) {
       "karma-mocha",
       "karma-mocha-reporter",
       "karma-chrome-launcher",
-      "karma-edge-launcher",
       "karma-firefox-launcher",
-      "karma-ie-launcher",
       "karma-env-preprocessor",
       "karma-coverage",
       "karma-sourcemap-loader",
       "karma-junit-reporter",
-      "karma-json-to-file-reporter",
-      "karma-json-preprocessor",
     ],
 
     // list of files / patterns to load in the browser
-    files: ["dist-test/index.browser.js"].concat(
-      isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []
-    ),
+    files: ["dist-test/index.browser.js"],
 
     // list of files / patterns to exclude
     exclude: [],
@@ -50,7 +41,6 @@ module.exports = function (config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       "**/*.js": ["sourcemap", "env"],
-      "recordings/browsers/**/*.json": ["json"],
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
       //"dist-test/index.browser.js": ["coverage"]
@@ -62,6 +52,7 @@ module.exports = function (config) {
     envPreprocessor: [
       "TEST_MODE",
       "COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING",
+      "COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING",
       "INCLUDE_PHONENUMBER_LIVE_TESTS",
       "AZURE_PHONE_NUMBER",
       "COMMUNICATION_ENDPOINT",
@@ -72,13 +63,15 @@ module.exports = function (config) {
       "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS",
       "AZURE_TEST_AGENT",
       "AZURE_USERAGENT_OVERRIDE",
+      "RECORDINGS_RELATIVE_PATH",
+      "AZURE_TEST_DOMAIN",
       ...getPhoneNumberPoolEnvVars(),
     ],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["mocha", "coverage", "junit", "json-to-file"],
+    reporters: ["mocha", "coverage", "junit"],
 
     coverageReporter: {
       // specify a common output directory
@@ -99,11 +92,6 @@ module.exports = function (config) {
       nameFormatter: undefined, // function (browser, result) to customize the name attribute in xml testcase element
       classNameFormatter: undefined, // function (browser, result) to customize the classname attribute in xml testcase element
       properties: {}, // key value pair of properties to add to the <properties> section of the report
-    },
-
-    jsonToFileReporter: {
-      filter: jsonRecordingFilterFunction,
-      outputPath: ".",
     },
 
     // web server port
@@ -142,9 +130,6 @@ module.exports = function (config) {
     browserNoActivityTimeout: 600000,
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
-    browserConsoleLogOptions: {
-      terminal: !isRecordMode(),
-    },
 
     client: {
       mocha: {

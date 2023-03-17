@@ -20,9 +20,7 @@ module.exports = function (config) {
       "karma-mocha",
       "karma-mocha-reporter",
       "karma-chrome-launcher",
-      "karma-edge-launcher",
       "karma-firefox-launcher",
-      "karma-ie-launcher",
       "karma-env-preprocessor",
       "karma-coverage",
       "karma-sourcemap-loader",
@@ -49,7 +47,9 @@ module.exports = function (config) {
 
     envPreprocessor: [
       "TEST_MODE",
-      "SCHEMA_REGISTRY_ENDPOINT",
+      "SCHEMAREGISTRY_AVRO_FULLY_QUALIFIED_NAMESPACE",
+      "SCHEMAREGISTRY_JSON_FULLY_QUALIFIED_NAMESPACE",
+      "SCHEMAREGISTRY_CUSTOM_FULLY_QUALIFIED_NAMESPACE",
       "SCHEMA_REGISTRY_GROUP",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",

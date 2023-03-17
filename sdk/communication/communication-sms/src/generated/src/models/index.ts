@@ -61,7 +61,9 @@ export interface SmsSendResponseItem {
 
 /** Known values of {@link SmsSendResponseItemRepeatabilityResult} that the service accepts. */
 export enum KnownSmsSendResponseItemRepeatabilityResult {
+  /** Accepted */
   Accepted = "accepted",
+  /** Rejected */
   Rejected = "rejected"
 }
 

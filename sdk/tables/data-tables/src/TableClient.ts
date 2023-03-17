@@ -91,7 +91,6 @@ export class TableClient {
   private table: Table;
   private generatedClient: ServiceClient;
   private credential?: NamedKeyCredential | SASCredential | TokenCredential;
-  private transactionClient?: InternalTableTransaction;
   private clientOptions: TableClientOptions;
   private readonly allowInsecureConnection: boolean;
 
@@ -862,40 +861,36 @@ export class TableClient {
     const transactionId = Uuid.generateUuid();
     const changesetId = Uuid.generateUuid();
 
-    if (!this.transactionClient) {
-      // Add pipeline
-      this.transactionClient = new InternalTableTransaction(
-        this.url,
-        partitionKey,
-        transactionId,
-        changesetId,
-        this.generatedClient,
-        new TableClient(this.url, this.tableName),
-        this.credential,
-        this.allowInsecureConnection
-      );
-    } else {
-      this.transactionClient.reset(transactionId, changesetId, partitionKey);
-    }
+    // Add pipeline
+    const transactionClient = new InternalTableTransaction(
+      this.url,
+      partitionKey,
+      transactionId,
+      changesetId,
+      this.generatedClient,
+      new TableClient(this.url, this.tableName),
+      this.credential,
+      this.allowInsecureConnection
+    );
 
     for (const item of actions) {
-      const [action, entity, updateMode = "Merge"] = item;
+      const [action, entity, updateMode = "Merge", updateOptions] = item;
       switch (action) {
         case "create":
-          this.transactionClient.createEntity(entity);
+          transactionClient.createEntity(entity);
           break;
         case "delete":
-          this.transactionClient.deleteEntity(entity.partitionKey, entity.rowKey);
+          transactionClient.deleteEntity(entity.partitionKey, entity.rowKey);
           break;
         case "update":
-          this.transactionClient.updateEntity(entity, updateMode);
+          transactionClient.updateEntity(entity, updateMode, updateOptions);
           break;
         case "upsert":
-          this.transactionClient.upsertEntity(entity, updateMode);
+          transactionClient.upsertEntity(entity, updateMode);
       }
     }
 
-    return this.transactionClient.submitTransaction();
+    return transactionClient.submitTransaction();
   }
 
   /**

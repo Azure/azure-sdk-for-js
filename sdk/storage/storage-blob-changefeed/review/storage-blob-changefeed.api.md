@@ -4,24 +4,29 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/core-http';
+import { AbortSignalLike } from '@azure/abort-controller';
 import { AnonymousCredential } from '@azure/storage-blob';
 import { CommonOptions } from '@azure/storage-blob';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { Pipeline } from '@azure/storage-blob';
 import { StoragePipelineOptions } from '@azure/storage-blob';
 import { StorageSharedKeyCredential } from '@azure/storage-blob';
-import { TokenCredential } from '@azure/core-http';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AccessTier = "P4" | "P6" | "P10" | "P15" | "P20" | "P30" | "P40" | "P50" | "P60" | "P70" | "P80" | "Hot" | "Cool" | "Archive";
 
 // @public
 export class BlobChangeFeedClient {
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions, changeFeedClientOptions?: BlobChangeFeedClientOptions);
     constructor(url: string, pipeline: Pipeline);
-    static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): BlobChangeFeedClient;
+    static fromConnectionString(connectionString: string, options?: StoragePipelineOptions, changeFeedClientOptions?: BlobChangeFeedClientOptions): BlobChangeFeedClient;
     listChanges(options?: BlobChangeFeedListChangesOptions): PagedAsyncIterableIterator<BlobChangeFeedEvent, BlobChangeFeedEventPage>;
+}
+
+// @public
+export interface BlobChangeFeedClientOptions {
+    maximumTransferSize?: number;
 }
 
 // @public

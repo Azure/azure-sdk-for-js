@@ -38,8 +38,8 @@ async function msixPackageCreate() {
         appUserModelID: "AppUserModelId",
         friendlyName: "friendlyname",
         iconImageName: "Apptile",
-        rawIcon: VGhpcyBpcyBhIHN0cmluZyB0byBoYXNo,
-        rawPng: VGhpcyBpcyBhIHN0cmluZyB0byBoYXNo
+        rawIcon: Buffer.from("VGhpcyBpcyBhIHN0cmluZyB0byBoYXNo"),
+        rawPng: Buffer.from("VGhpcyBpcyBhIHN0cmluZyB0byBoYXNo")
       }
     ],
     packageDependencies: [

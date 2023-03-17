@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Storages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,12 +19,12 @@ import {
   StorageResource,
   StoragesListNextOptionalParams,
   StoragesListOptionalParams,
+  StoragesListResponse,
   StoragesGetOptionalParams,
   StoragesGetResponse,
   StoragesCreateOrUpdateOptionalParams,
   StoragesCreateOrUpdateResponse,
   StoragesDeleteOptionalParams,
-  StoragesListResponse,
   StoragesListNextResponse
 } from "../models";
 
@@ -41,7 +42,7 @@ export class StoragesImpl implements Storages {
   }
 
   /**
-   * List all the storages of one Azure Spring Cloud instance.
+   * List all the storages of one Azure Spring Apps resource.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
@@ -60,8 +61,16 @@ export class StoragesImpl implements Storages {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, serviceName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          serviceName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -69,11 +78,18 @@ export class StoragesImpl implements Storages {
   private async *listPagingPage(
     resourceGroupName: string,
     serviceName: string,
-    options?: StoragesListOptionalParams
+    options?: StoragesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<StorageResource[]> {
-    let result = await this._list(resourceGroupName, serviceName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: StoragesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, serviceName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -82,7 +98,9 @@ export class StoragesImpl implements Storages {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -187,8 +205,7 @@ export class StoragesImpl implements Storages {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -280,8 +297,7 @@ export class StoragesImpl implements Storages {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -311,7 +327,7 @@ export class StoragesImpl implements Storages {
   }
 
   /**
-   * List all the storages of one Azure Spring Cloud instance.
+   * List all the storages of one Azure Spring Apps resource.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
@@ -465,7 +481,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

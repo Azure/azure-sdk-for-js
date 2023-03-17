@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PrivateEndpointConnectionOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -23,6 +24,8 @@ import {
   PrivateEndpointConnectionGetResponse,
   PrivateEndpointConnectionUpdateOptionalParams,
   PrivateEndpointConnectionUpdateResponse,
+  PrivateEndpointConnectionDeleteOptionalParams,
+  PrivateEndpointConnectionDeleteResponse,
   PrivateEndpointConnectionListByBatchAccountNextResponse
 } from "../models";
 
@@ -63,11 +66,15 @@ export class PrivateEndpointConnectionOperationsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByBatchAccountPagingPage(
           resourceGroupName,
           accountName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -76,15 +83,22 @@ export class PrivateEndpointConnectionOperationsImpl
   private async *listByBatchAccountPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: PrivateEndpointConnectionListByBatchAccountOptionalParams
+    options?: PrivateEndpointConnectionListByBatchAccountOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PrivateEndpointConnection[]> {
-    let result = await this._listByBatchAccount(
-      resourceGroupName,
-      accountName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PrivateEndpointConnectionListByBatchAccountResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByBatchAccount(
+        resourceGroupName,
+        accountName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByBatchAccountNext(
         resourceGroupName,
@@ -93,7 +107,9 @@ export class PrivateEndpointConnectionOperationsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -262,6 +278,106 @@ export class PrivateEndpointConnectionOperationsImpl
   }
 
   /**
+   * Deletes the specified private endpoint connection.
+   * @param resourceGroupName The name of the resource group that contains the Batch account.
+   * @param accountName The name of the Batch account.
+   * @param privateEndpointConnectionName The private endpoint connection name. This must be unique
+   *                                      within the account.
+   * @param options The options parameters.
+   */
+  async beginDelete(
+    resourceGroupName: string,
+    accountName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionDeleteOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<PrivateEndpointConnectionDeleteResponse>,
+      PrivateEndpointConnectionDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<PrivateEndpointConnectionDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        accountName,
+        privateEndpointConnectionName,
+        options
+      },
+      deleteOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes the specified private endpoint connection.
+   * @param resourceGroupName The name of the resource group that contains the Batch account.
+   * @param accountName The name of the Batch account.
+   * @param privateEndpointConnectionName The private endpoint connection name. This must be unique
+   *                                      within the account.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionDeleteOptionalParams
+  ): Promise<PrivateEndpointConnectionDeleteResponse> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      accountName,
+      privateEndpointConnectionName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListByBatchAccountNext
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
@@ -364,6 +480,38 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.ifMatch
   ],
   mediaType: "json",
+  serializer
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.PrivateEndpointConnectionDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.PrivateEndpointConnectionDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.PrivateEndpointConnectionDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.PrivateEndpointConnectionDeleteHeaders
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.accountName1,
+    Parameters.privateEndpointConnectionName
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listByBatchAccountNextOperationSpec: coreClient.OperationSpec = {

@@ -5,14 +5,26 @@ $PackageRepository = "NPM"
 $packagePattern = "*.tgz"
 $MetadataUri = "https://raw.githubusercontent.com/Azure/azure-sdk/main/_data/releases/latest/js-packages.csv"
 $BlobStorageUrl = "https://azuresdkdocs.blob.core.windows.net/%24web?restype=container&comp=list&prefix=javascript%2F&delimiter=%2F"
+$GithubUri = "https://github.com/Azure/azure-sdk-for-js"
+$PackageRepositoryUri = "https://www.npmjs.com/package"
 
 . "$PSScriptRoot/docs/Docs-ToC.ps1"
 
-function Confirm-NodeInstallation {
-  if (!(Get-Command npm -ErrorAction SilentlyContinue)) {
+function Confirm-NodeInstallation
+{
+  if (!(Get-Command npm -ErrorAction SilentlyContinue))
+  {
     LogError "Could not locate npm. Install NodeJS (includes npm and npx) https://nodejs.org/en/download"
     exit 1
   }
+}
+
+function Get-javascript-EmitterName() {
+  return "@azure-tools/cadl-typescript"
+}
+
+function Get-javascript-EmitterAdditionalOptions([string]$projectDirectory) {
+  return "--option @azure-tools/cadl-typescript.emitter-output-dir=$projectDirectory/"
 }
 
 function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory) {

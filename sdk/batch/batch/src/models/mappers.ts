@@ -2888,6 +2888,17 @@ export const PoolSpecification: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      targetNodeCommunicationMode: {
+        serializedName: "targetNodeCommunicationMode",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "default",
+            "classic",
+            "simplified"
+          ]
+        }
       }
     }
   }
@@ -4808,6 +4819,29 @@ export const CloudPool: msRest.CompositeMapper = {
           name: "Composite",
           className: "BatchPoolIdentity"
         }
+      },
+      targetNodeCommunicationMode: {
+        serializedName: "targetNodeCommunicationMode",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "default",
+            "classic",
+            "simplified"
+          ]
+        }
+      },
+      currentNodeCommunicationMode: {
+        readOnly: true,
+        serializedName: "currentNodeCommunicationMode",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "default",
+            "classic",
+            "simplified"
+          ]
+        }
       }
     }
   }
@@ -4991,6 +5025,17 @@ export const PoolAddParameter: msRest.CompositeMapper = {
               className: "MountConfiguration"
             }
           }
+        }
+      },
+      targetNodeCommunicationMode: {
+        serializedName: "targetNodeCommunicationMode",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "default",
+            "classic",
+            "simplified"
+          ]
         }
       }
     }
@@ -6892,6 +6937,17 @@ export const PoolUpdatePropertiesParameter: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      targetNodeCommunicationMode: {
+        serializedName: "targetNodeCommunicationMode",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "default",
+            "classic",
+            "simplified"
+          ]
+        }
       }
     }
   }
@@ -6944,6 +7000,17 @@ export const PoolPatchParameter: msRest.CompositeMapper = {
               className: "MetadataItem"
             }
           }
+        }
+      },
+      targetNodeCommunicationMode: {
+        serializedName: "targetNodeCommunicationMode",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "default",
+            "classic",
+            "simplified"
+          ]
         }
       }
     }

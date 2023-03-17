@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { UserDelegationKey } from "@azure/storage-blob";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, delay } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 
@@ -23,24 +23,31 @@ import {
   PathPermissions,
   StorageSharedKeyCredential,
   SASQueryParameters,
+  FileSystemListPathsResponse,
 } from "../../src";
 import { DataLakeFileClient } from "../../src/";
 import { DirectorySASPermissions } from "../../src/sas/DirectorySASPermissions";
 import { SASProtocol } from "../../src/sas/SASQueryParameters";
-import { delay } from "../../src/utils/utils.common";
 import {
   getDataLakeServiceClient,
   getDataLakeServiceClientWithDefaultCredential,
+  getEncryptionScope,
+  getUniqueName,
   recorderEnvSetup,
+  configureStorageClient,
+  uriSanitizers,
 } from "../utils";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let recorder: Recorder;
   let serviceClient: DataLakeServiceClient;
 
-  beforeEach(function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    serviceClient = getDataLakeServiceClient();
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    // make sure we add the sanitizers on playback for SAS strings
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    serviceClient = getDataLakeServiceClient(recorder);
   });
 
   afterEach(async function () {
@@ -48,15 +55,13 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSASQueryParameters should work", async () => {
-    const now = recorder.newDate("now");
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 10); // Skip clock skew with server
 
-    const tmr = recorder.newDate("tmr");
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 10);
 
-    // By default, credential is always the last element of pipeline factories
-    const factories = (serviceClient as any).pipeline.factories;
-    const sharedKeyCredential = factories[factories.length - 1];
+    const sharedKeyCredential = serviceClient.credential;
 
     const sas = generateAccountSASQueryParameters(
       {
@@ -74,17 +79,57 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sasClient = `${serviceClient.url}?${sas}`;
     const serviceClientWithSAS = new DataLakeServiceClient(sasClient, newPipeline());
+    configureStorageClient(recorder, serviceClientWithSAS);
 
     await serviceClientWithSAS.listFileSystems().next();
   });
 
-  it("generateAccountSASQueryParameters should not work with invalid permission", async () => {
-    const tmr = recorder.newDate("tmr");
+  it("generateAccountSASQueryParameters with encryptionscope should work", async function (this: Context) {
+    let encryptionScopeName;
+    try {
+      encryptionScopeName = getEncryptionScope();
+    } catch {
+      this.skip();
+    }
+
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 10);
 
-    // By default, credential is always the last element of pipeline factories
-    const factories = (serviceClient as any).pipeline.factories;
-    const sharedKeyCredential = factories[factories.length - 1];
+    const sharedKeyCredential = serviceClient.credential;
+
+    const sas = generateAccountSASQueryParameters(
+      {
+        expiresOn: tmr,
+        permissions: AccountSASPermissions.parse("rwdlacup"),
+        resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
+        services: AccountSASServices.parse("btqf").toString(),
+        version: "2020-12-06",
+        encryptionScope: encryptionScopeName,
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    ).toString();
+
+    const sasClient = `${serviceClient.url}?${sas}`;
+    const serviceClientWithSAS = new DataLakeServiceClient(sasClient, newPipeline());
+    configureStorageClient(recorder, serviceClientWithSAS);
+
+    const filesystemClient = await serviceClientWithSAS.getFileSystemClient(
+      recorder.variable("filesystem", getUniqueName("filesystem"))
+    );
+    await filesystemClient.create({
+      fileSystemEncryptionScope: {
+        defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
+      },
+    });
+    await filesystemClient.delete();
+  });
+
+  it("generateAccountSASQueryParameters should not work with invalid permission", async () => {
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 10);
+
+    const sharedKeyCredential = serviceClient.credential;
 
     const sas = generateAccountSASQueryParameters(
       {
@@ -101,6 +146,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasClient,
       newPipeline(new AnonymousCredential())
     );
+    configureStorageClient(recorder, serviceClientWithSAS);
 
     let error;
     try {
@@ -113,12 +159,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSASQueryParameters should not work with invalid service", async () => {
-    const tmr = recorder.newDate("tmr");
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 10);
 
-    // By default, credential is always the last element of pipeline factories
-    const factories = (serviceClient as any).pipeline.factories;
-    const sharedKeyCredential = factories[factories.length - 1];
+    const sharedKeyCredential = serviceClient.credential;
 
     const sas = generateAccountSASQueryParameters(
       {
@@ -135,6 +179,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasClient,
       newPipeline(new AnonymousCredential())
     );
+    configureStorageClient(recorder, serviceClientWithSAS);
 
     let error;
     try {
@@ -147,12 +192,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSASQueryParameters should not work with invalid resource type", async () => {
-    const tmr = recorder.newDate("tmr");
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 10);
 
-    // By default, credential is always the last element of pipeline factories
-    const factories = (serviceClient as any).pipeline.factories;
-    const sharedKeyCredential = factories[factories.length - 1];
+    const sharedKeyCredential = serviceClient.credential;
 
     const sas = generateAccountSASQueryParameters(
       {
@@ -172,6 +215,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasClient,
       newPipeline(new AnonymousCredential())
     );
+    configureStorageClient(recorder, serviceClientWithSAS);
 
     let error;
     try {
@@ -184,17 +228,15 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateDataLakeSASQueryParameters should work for filesystem", async () => {
-    const now = recorder.newDate("now");
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 10); // Skip clock skew with server
 
-    const tmr = recorder.newDate("tmr");
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 10);
 
-    // By default, credential is always the last element of pipeline factories
-    const factories = (serviceClient as any).pipeline.factories;
-    const sharedKeyCredential = factories[factories.length - 1];
+    const sharedKeyCredential = serviceClient.credential;
 
-    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();
 
@@ -216,6 +258,49 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasClient,
       newPipeline(new AnonymousCredential())
     );
+    configureStorageClient(recorder, fileSystemClientwithSAS);
+
+    const result = (await fileSystemClientwithSAS.listPaths().byPage().next()).value;
+    assert.deepStrictEqual(result.pathItems.length, 0);
+    await fileSystemClient.deleteIfExists();
+  });
+
+  it("generateDataLakeSASQueryParameters with encryptionscope should work for filesystem", async function (this: Context) {
+    let encryptionScopeName;
+    try {
+      encryptionScopeName = getEncryptionScope();
+    } catch {
+      this.skip();
+    }
+
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 10);
+
+    const sharedKeyCredential = serviceClient.credential;
+
+    const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
+    const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.create({
+      fileSystemEncryptionScope: {
+        defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
+      },
+    });
+
+    const containerSAS = generateDataLakeSASQueryParameters(
+      {
+        fileSystemName: fileSystemClient.name,
+        expiresOn: tmr,
+        permissions: FileSystemSASPermissions.parse("racwdl"),
+        version: "2020-12-06",
+        encryptionScope: encryptionScopeName,
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    );
+
+    const sasClient = `${fileSystemClient.url}?${containerSAS}`;
+    const fileSystemClientwithSAS = new DataLakeFileSystemClient(sasClient, newPipeline());
+    configureStorageClient(recorder, fileSystemClientwithSAS);
 
     const result = (await fileSystemClientwithSAS.listPaths().byPage().next()).value;
     assert.deepStrictEqual(result.pathItems.length, 0);
@@ -223,20 +308,18 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateDataLakeSASQueryParameters should work for file with previous API version", async () => {
-    const now = recorder.newDate("now");
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 10); // Skip clock skew with server
 
-    const tmr = recorder.newDate("tmr");
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 10);
 
-    // By default, credential is always the last element of pipeline factories
-    const factories = (serviceClient as any).pipeline.factories;
-    const sharedKeyCredential = factories[factories.length - 1];
+    const sharedKeyCredential = serviceClient.credential;
 
-    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();
-    const fileName = recorder.getUniqueName("file");
+    const fileName = recorder.variable("file", getUniqueName("file"));
     const fileClient = fileSystemClient.getFileClient(fileName);
     await fileClient.create({
       pathHttpHeaders: {
@@ -268,6 +351,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasClient,
       newPipeline(new AnonymousCredential())
     );
+    configureStorageClient(recorder, fileClientWithSAS);
 
     const properties = await fileClientWithSAS.getProperties();
     assert.equal(properties.cacheControl, "cache-control-override");
@@ -280,21 +364,19 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateDataLakeSASQueryParameters should work for file", async () => {
-    const now = recorder.newDate("now");
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 10); // Skip clock skew with server
 
-    const tmr = recorder.newDate("tmr");
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 10);
 
-    // By default, credential is always the last element of pipeline factories
-    const factories = (serviceClient as any).pipeline.factories;
-    const sharedKeyCredential = factories[factories.length - 1];
+    const sharedKeyCredential = serviceClient.credential;
 
-    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();
 
-    const fileName = recorder.getUniqueName("file");
+    const fileName = recorder.variable("file", getUniqueName("file"));
     const fileClient = fileSystemClient.getFileClient(fileName);
     await fileClient.create({
       pathHttpHeaders: {
@@ -325,6 +407,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasURL,
       newPipeline(new AnonymousCredential())
     );
+    configureStorageClient(recorder, fileClientWithSAS);
 
     const properties = await fileClientWithSAS.getProperties();
     assert.equal(properties.cacheControl, "cache-control-override");
@@ -336,24 +419,73 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await fileSystemClient.deleteIfExists();
   });
 
-  it("generateDataLakeSASQueryParameters should work for file with special namings", async () => {
-    const now = recorder.newDate("now");
-    now.setMinutes(now.getMinutes() - 10); // Skip clock skew with server
+  it("generateDataLakeSASQueryParameters with encryptionscope should work for file", async function (this: Context) {
+    let encryptionScopeName;
+    try {
+      encryptionScopeName = getEncryptionScope();
+    } catch {
+      this.skip();
+    }
 
-    const tmr = recorder.newDate("tmr");
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 10);
 
-    // By default, credential is always the last element of pipeline factories
-    const factories = (serviceClient as any).pipeline.factories;
-    const sharedKeyCredential = factories[factories.length - 1];
+    const sharedKeyCredential = serviceClient.credential;
 
-    const fileSystemName = recorder.getUniqueName("filesystem-with-dash");
+    const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
+    const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.create({
+      fileSystemEncryptionScope: {
+        defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
+      },
+    });
+
+    const fileName = recorder.variable("file", getUniqueName("file"));
+    const fileClient = fileSystemClient.getFileClient(fileName);
+
+    const fileSAS = generateDataLakeSASQueryParameters(
+      {
+        pathName: fileClient.name,
+        fileSystemName: fileClient.fileSystemName,
+        expiresOn: tmr,
+        permissions: DataLakeSASPermissions.parse("racwd"),
+        encryptionScope: encryptionScopeName,
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    );
+
+    const sasURL = `${fileClient.url}?${fileSAS}`;
+    const fileClientWithSAS = new DataLakeFileClient(sasURL, newPipeline());
+    configureStorageClient(recorder, fileClientWithSAS);
+
+    await fileClientWithSAS.create();
+
+    await fileSystemClient.deleteIfExists();
+  });
+
+  it("generateDataLakeSASQueryParameters should work for file with special namings", async () => {
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
+    now.setMinutes(now.getMinutes() - 10); // Skip clock skew with server
+
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 10);
+
+    const sharedKeyCredential = serviceClient.credential;
+
+    const fileSystemName = recorder.variable(
+      "filesystem-with-dash",
+      getUniqueName("filesystem-with-dash")
+    );
     const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();
 
     // NOTICE: Azure Storage Server will replace "\" with "/" in the file names
-    const fileName = recorder.getUniqueName(
-      "Upper file empty another 汉字 ру́сский язы́к ру́сский язы́к عرعربى にっぽんごにほんご . special ~!@#$%^&*()_+`1234567890-={}|[]:\";'<>?,'"
+    const fileName = recorder.variable(
+      "uniqueName",
+      getUniqueName(
+        "Upper file empty another 汉字 ру́сский язы́к ру́сский язы́к عرعربى にっぽんごにほんご . special ~!@#$%^&*()_+`1234567890-={}|[]:\";'<>?,'"
+      )
     );
     const fileClient = fileSystemClient.getFileClient(fileName);
     await fileClient.create({
@@ -385,6 +517,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasClient,
       newPipeline(new AnonymousCredential())
     );
+    configureStorageClient(recorder, fileClientWithSAS);
 
     const properties = await fileClientWithSAS.getProperties();
     assert.equal(properties.cacheControl, "cache-control-override");
@@ -397,21 +530,19 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateDataLakeSASQueryParameters should work for fileSystem with access policy", async () => {
-    const now = recorder.newDate("now");
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 10); // Skip clock skew with server
 
-    const tmr = recorder.newDate("tmr");
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 10);
 
-    // By default, credential is always the last element of pipeline factories
-    const factories = (serviceClient as any).pipeline.factories;
-    const sharedKeyCredential = factories[factories.length - 1];
+    const sharedKeyCredential = serviceClient.credential;
 
-    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();
 
-    const fileName = recorder.getUniqueName("file");
+    const fileName = recorder.variable("file", getUniqueName("file"));
     const fileClient = fileSystemClient.getFileClient(fileName);
     await fileClient.create();
 
@@ -449,27 +580,26 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasClient,
       newPipeline(new AnonymousCredential())
     );
+    configureStorageClient(recorder, fileClientWithSAS);
 
     await fileClientWithSAS.getProperties();
     await fileSystemClient.deleteIfExists();
   });
 
   it("generateDataLakeSASQueryParameters should work for file with access policy", async () => {
-    const now = recorder.newDate("now");
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 10); // Skip clock skew with server
 
-    const tmr = recorder.newDate("tmr");
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 10);
 
-    // By default, credential is always the last element of pipeline factories
-    const factories = (serviceClient as any).pipeline.factories;
-    const sharedKeyCredential = factories[factories.length - 1];
+    const sharedKeyCredential = serviceClient.credential;
 
-    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();
 
-    const fileName = recorder.getUniqueName("file");
+    const fileName = recorder.variable("file", getUniqueName("file"));
     const fileClient = fileSystemClient.getFileClient(fileName);
     await fileClient.create();
 
@@ -508,6 +638,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasClient,
       newPipeline(new AnonymousCredential())
     );
+    configureStorageClient(recorder, fileClientWithSAS);
 
     await fileClientWithSAS.getProperties();
     await fileSystemClient.deleteIfExists();
@@ -518,7 +649,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variable is set
     let serviceClientWithToken: DataLakeServiceClient | undefined;
     try {
-      serviceClientWithToken = getDataLakeServiceClientWithDefaultCredential();
+      serviceClientWithToken = getDataLakeServiceClientWithDefaultCredential(recorder);
     } catch {
       this.skip();
     }
@@ -529,18 +660,16 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       this.skip();
     }
 
-    const now = recorder.newDate("now");
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setHours(now.getHours() - 1);
-    const tmr = recorder.newDate("tmr");
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 5);
     const userDelegationKey = await serviceClientWithToken!.getUserDelegationKey(now, tmr);
 
-    // By default, credential is always the last element of pipeline factories
-    const factories = (serviceClient as any).pipeline.factories;
-    const sharedKeyCredential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const sharedKeyCredential = serviceClient.credential as StorageSharedKeyCredential;
     const accountName = sharedKeyCredential.accountName;
 
-    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();
 
@@ -563,6 +692,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasClient,
       newPipeline(new AnonymousCredential())
     );
+    configureStorageClient(recorder, fileSystemClientwithSAS);
 
     const result = (await fileSystemClientwithSAS.listPaths().byPage().next()).value;
     assert.deepStrictEqual(result.pathItems.length, 0);
@@ -574,7 +704,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variable is set
     let serviceClientWithToken: DataLakeServiceClient | undefined;
     try {
-      serviceClientWithToken = getDataLakeServiceClientWithDefaultCredential();
+      serviceClientWithToken = getDataLakeServiceClientWithDefaultCredential(recorder);
     } catch {
       this.skip();
     }
@@ -585,18 +715,16 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       this.skip();
     }
 
-    const now = recorder.newDate("now");
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setHours(now.getHours() - 1);
-    const tmr = recorder.newDate("tmr");
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 5);
     const userDelegationKey = await serviceClientWithToken!.getUserDelegationKey(now, tmr);
 
-    // By default, credential is always the last element of pipeline factories
-    const factories = (serviceClient as any).pipeline.factories;
-    const sharedKeyCredential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const sharedKeyCredential = serviceClient.credential as StorageSharedKeyCredential;
     const accountName = sharedKeyCredential.accountName;
 
-    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();
 
@@ -615,6 +743,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasClient,
       newPipeline(new AnonymousCredential())
     );
+    configureStorageClient(recorder, fileSystemClientwithSAS);
 
     const result = (await fileSystemClientwithSAS.listPaths().byPage().next()).value;
     assert.deepStrictEqual(result.pathItems.length, 0);
@@ -626,7 +755,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variable is set
     let serviceClientWithToken: DataLakeServiceClient | undefined;
     try {
-      serviceClientWithToken = getDataLakeServiceClientWithDefaultCredential();
+      serviceClientWithToken = getDataLakeServiceClientWithDefaultCredential(recorder);
     } catch {
       this.skip();
     }
@@ -637,22 +766,20 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       this.skip();
     }
 
-    const now = recorder.newDate("now");
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setHours(now.getHours() - 1);
-    const tmr = recorder.newDate("tmr");
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 5);
     const userDelegationKey = await serviceClientWithToken!.getUserDelegationKey(now, tmr);
 
-    // By default, credential is always the last element of pipeline factories
-    const factories = (serviceClient as any).pipeline.factories;
-    const sharedKeyCredential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const sharedKeyCredential = serviceClient.credential as StorageSharedKeyCredential;
     const accountName = sharedKeyCredential.accountName;
 
-    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();
 
-    const fileName = recorder.getUniqueName("file");
+    const fileName = recorder.variable("file", getUniqueName("file"));
     const fileClient = fileSystemClient.getFileClient(fileName);
     await fileClient.create({
       pathHttpHeaders: {
@@ -684,6 +811,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasClient,
       newPipeline(new AnonymousCredential())
     );
+    configureStorageClient(recorder, fileClientWithSAS);
 
     const properties = await fileClientWithSAS.getProperties();
     assert.equal(properties.cacheControl, "cache-control-override");
@@ -700,7 +828,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variable is set
     let serviceClientWithToken: DataLakeServiceClient | undefined;
     try {
-      serviceClientWithToken = getDataLakeServiceClientWithDefaultCredential();
+      serviceClientWithToken = getDataLakeServiceClientWithDefaultCredential(recorder);
     } catch {
       this.skip();
     }
@@ -711,22 +839,20 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       this.skip();
     }
 
-    const now = recorder.newDate("now");
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setHours(now.getHours() - 1);
-    const tmr = recorder.newDate("tmr");
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 5);
     const userDelegationKey = await serviceClientWithToken!.getUserDelegationKey(now, tmr);
 
-    // By default, credential is always the last element of pipeline factories
-    const factories = (serviceClient as any).pipeline.factories;
-    const sharedKeyCredential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const sharedKeyCredential = serviceClient.credential as StorageSharedKeyCredential;
     const accountName = sharedKeyCredential.accountName;
 
-    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();
 
-    const fileName = recorder.getUniqueName("file");
+    const fileName = recorder.variable("file", getUniqueName("file"));
     const fileClient = fileSystemClient.getFileClient(fileName);
     await fileClient.create({
       pathHttpHeaders: {
@@ -759,6 +885,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasClient,
       newPipeline(new AnonymousCredential())
     );
+    configureStorageClient(recorder, fileClientWithSAS);
 
     const properties = await fileClientWithSAS.getProperties();
     assert.equal(properties.cacheControl, "cache-control-override");
@@ -816,10 +943,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("DataLakeServiceClient.generateAccountSasUrl() should work with all parameters set", async () => {
-    const now = recorder.newDate("now");
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 10); // Skip clock skew with server
 
-    const tmr = recorder.newDate("tmr");
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 10);
 
     const sasURL = serviceClient.generateAccountSasUrl(
@@ -834,6 +961,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       }
     );
     const serviceClientWithSAS = new DataLakeServiceClient(sasURL);
+    configureStorageClient(recorder, serviceClientWithSAS);
     await serviceClientWithSAS.listFileSystems().next();
 
     // Should throw with client constructed with an Anonymous credential.
@@ -848,26 +976,61 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("DataLakeServiceClient.generateAccountSasUrl() should work with default parameters", async () => {
-    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();
 
     const sasURL = serviceClient.generateAccountSasUrl();
     const serviceClientWithSAS = new DataLakeServiceClient(sasURL);
+    configureStorageClient(recorder, serviceClientWithSAS);
     await serviceClientWithSAS.getFileSystemClient(fileSystemName).getProperties();
 
     await fileSystemClient.delete();
   });
 
+  it("DataLakeServiceClient.generateAccountSasUrl() with encryptionscope should work", async function (this: Context) {
+    let encryptionScopeName;
+    try {
+      encryptionScopeName = getEncryptionScope();
+    } catch {
+      this.skip();
+    }
+
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 10);
+
+    const sasURL = serviceClient.generateAccountSasUrl(
+      tmr,
+      AccountSASPermissions.parse("racwdl"),
+      "sco",
+      {
+        encryptionScope: encryptionScopeName,
+      }
+    );
+    const serviceClientWithSAS = new DataLakeServiceClient(sasURL);
+    configureStorageClient(recorder, serviceClientWithSAS);
+
+    const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
+    const fileSystemClient = serviceClientWithSAS.getFileSystemClient(fileSystemName);
+    await fileSystemClient.create({
+      fileSystemEncryptionScope: {
+        defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
+      },
+    });
+
+    await fileSystemClient.delete();
+  });
+
   it("DataLakeFileSystemClient.generateSasUrl() should work", async () => {
-    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.createIfNotExists();
 
-    const now = recorder.newDate("now");
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 10); // Skip clock skew with server
 
-    const tmr = recorder.newDate("tmr");
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 10);
 
     const sasURL = await fileSystemClient.generateSasUrl({
@@ -885,6 +1048,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     });
 
     const fileSystemClientWithSAS = new DataLakeFileSystemClient(sasURL);
+    configureStorageClient(recorder, fileSystemClientWithSAS);
     await fileSystemClientWithSAS.listPaths().next();
 
     // Should throw with client constructed with an Anonymous credential.
@@ -898,6 +1062,133 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     assert.ok(exceptionCaught);
 
     await fileSystemClient.deleteIfExists();
+  });
+
+  it("DataLakeFileSystemClient.generateSasUrl() with encryptionscope should work", async function (this: Context) {
+    let encryptionScopeName;
+    try {
+      encryptionScopeName = getEncryptionScope();
+    } catch {
+      this.skip();
+    }
+
+    const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
+    const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.createIfNotExists({
+      fileSystemEncryptionScope: {
+        defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
+      },
+    });
+    const result = await fileSystemClient.getProperties();
+    assert.equal(result.defaultEncryptionScope, encryptionScopeName);
+
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
+    now.setMinutes(now.getMinutes() - 10); // Skip clock skew with server
+
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 10);
+
+    const sasURL = await fileSystemClient.generateSasUrl({
+      version: "2020-12-06",
+      startsOn: now,
+      expiresOn: tmr,
+      permissions: FileSystemSASPermissions.parse("racwdl"),
+      encryptionScope: encryptionScopeName,
+    });
+
+    const fileSystemClientWithSAS = new DataLakeFileSystemClient(sasURL);
+    configureStorageClient(recorder, fileSystemClientWithSAS);
+    const fileClient = fileSystemClientWithSAS.getFileClient(
+      recorder.variable(`file`, getUniqueName(`file`))
+    );
+    await fileClient.create();
+
+    const dirClient = fileSystemClientWithSAS.getFileClient(
+      recorder.variable(`dir`, getUniqueName(`dir`))
+    );
+    await dirClient.create();
+
+    const listResult = (await fileSystemClientWithSAS.listPaths().byPage().next())
+      .value as FileSystemListPathsResponse;
+
+    assert.equal(listResult.pathItems!.length, 2);
+    assert.equal(listResult.pathItems![0].encryptionScope, encryptionScopeName);
+    assert.equal(listResult.pathItems![1].encryptionScope, encryptionScopeName);
+
+    await fileClient.delete();
+    await dirClient.delete();
+
+    await fileSystemClient.deleteIfExists();
+  });
+
+  it("DataLakeDirectoryClient.generateSasUrl() with encryptionscope should work", async function (this: Context) {
+    let encryptionScopeName;
+    try {
+      encryptionScopeName = getEncryptionScope();
+    } catch {
+      this.skip();
+    }
+
+    const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
+    const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.createIfNotExists({
+      fileSystemEncryptionScope: {
+        defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
+      },
+    });
+
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 10);
+
+    const directoryClient = fileSystemClient.getDirectoryClient(
+      recorder.variable("directory", getUniqueName("directory"))
+    );
+    const sasURL = await directoryClient.generateSasUrl({
+      expiresOn: tmr,
+      permissions: DirectorySASPermissions.parse("racwdlmeop"),
+      encryptionScope: encryptionScopeName,
+    });
+
+    const directoryClientWithSAS = new DataLakeDirectoryClient(sasURL);
+    configureStorageClient(recorder, directoryClientWithSAS);
+    await directoryClientWithSAS.create();
+    assert.ok(await directoryClientWithSAS.exists());
+  });
+
+  it("DataLakeFileClient.generateSasUrl() with encryptionscope should work", async function (this: Context) {
+    let encryptionScopeName;
+    try {
+      encryptionScopeName = getEncryptionScope();
+    } catch {
+      this.skip();
+    }
+    const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
+    const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.createIfNotExists({
+      fileSystemEncryptionScope: {
+        defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
+      },
+    });
+
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 10);
+
+    const fileClient = fileSystemClient.getFileClient(
+      recorder.variable("file", getUniqueName("file"))
+    );
+    const sasURL = await fileClient.generateSasUrl({
+      expiresOn: tmr,
+      permissions: DataLakeSASPermissions.parse("racwdmeop"),
+      encryptionScope: encryptionScopeName,
+    });
+
+    const fileClientWithSAS = new DataLakeFileClient(sasURL);
+    configureStorageClient(recorder, fileClientWithSAS);
+    await fileClientWithSAS.create();
+    assert.ok(await fileClientWithSAS.exists());
   });
 });
 
@@ -932,24 +1223,27 @@ describe("SAS generation Node.js only for directory SAS", () => {
   };
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    serviceClient = getDataLakeServiceClient();
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    // make sure we add the sanitizers on playback for SAS strings
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    serviceClient = getDataLakeServiceClient(recorder);
 
-    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.createIfNotExists();
 
-    const directoryName = recorder.getUniqueName("directory");
+    const directoryName = recorder.variable("directory", getUniqueName("directory"));
     directoryClient = fileSystemClient.getDirectoryClient(directoryName);
     await directoryClient.create();
 
-    const fileName = recorder.getUniqueName("file");
+    const fileName = recorder.variable("file", getUniqueName("file"));
     fileClient = directoryClient.getFileClient(fileName);
     await fileClient.create();
 
-    now = recorder.newDate("now");
+    now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 10); // Skip clock skew with server
-    tmr = recorder.newDate("tmr");
+    tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 10);
 
     sharedKeyCredential = serviceClient.credential as StorageSharedKeyCredential;
@@ -981,6 +1275,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
       sasURL,
       newPipeline(new AnonymousCredential())
     );
+    configureStorageClient(recorder, directoryClientwithSAS);
 
     // e
     await directoryClientwithSAS.getAccessControl();
@@ -1007,6 +1302,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
     );
     const sasURL = `${rootDirectoryClient.url}?${directorySAS}`;
     const directoryClientwithSAS = new DataLakeDirectoryClient(sasURL);
+    configureStorageClient(recorder, directoryClientwithSAS);
 
     await directoryClientwithSAS.getAccessControl();
   });
@@ -1033,6 +1329,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
     const directoryClientwithSAS = new DataLakeDirectoryClient(
       `${directoryClient.url}?${directorySAS}`
     );
+    configureStorageClient(recorder, directoryClientwithSAS);
     await directoryClientwithSAS.setPermissions(permissions);
 
     // root directory, depth = 0
@@ -1041,6 +1338,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
     const directoryClientwithSAS2 = new DataLakeDirectoryClient(
       `${directoryClient.url}?${directorySAS2}`
     );
+    configureStorageClient(recorder, directoryClientwithSAS2);
     await directoryClientwithSAS2.setPermissions(permissions);
 
     // "/d1/d2/", "d1/d2", "/d1/d2" depth = 2
@@ -1073,6 +1371,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
       sasURL,
       newPipeline(new AnonymousCredential())
     );
+    configureStorageClient(recorder, fileClientWithSAS);
 
     // o
     const guid = "b77d5205-ddb5-42e1-80ee-26c74a5e9333";
@@ -1103,6 +1402,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
       sasURL,
       newPipeline(new AnonymousCredential())
     );
+    configureStorageClient(recorder, directoryClientwithSAS);
 
     // e
     await directoryClientwithSAS.getAccessControl();
@@ -1130,6 +1430,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
     assert.deepStrictEqual(sasURL, directoryClient.url + "?" + sas);
 
     const directoryClientWithSAS = new DataLakeDirectoryClient(sasURL);
+    configureStorageClient(recorder, directoryClientWithSAS);
     await directoryClientWithSAS.getAccessControl();
 
     // Should throw with client constructed with an Anonymous credential.
@@ -1161,6 +1462,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
     assert.deepStrictEqual(sasURL, fileClient.url + "?" + sas);
 
     const fileClientWithSAS = new DataLakeFileClient(sasURL);
+    configureStorageClient(recorder, fileClientWithSAS);
     await fileClientWithSAS.getAccessControl();
 
     // Should throw with client constructed with an Anonymous credential.
@@ -1208,6 +1510,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
 
     const sasClient = `${fileClient.url}?${directorySAS}`;
     const fileClientWithSAS = new DataLakeFileClient(sasClient);
+    configureStorageClient(recorder, fileClientWithSAS);
 
     await fileClientWithSAS.getProperties();
   });
@@ -1246,30 +1549,33 @@ describe("SAS generation Node.js only for delegation SAS", () => {
   };
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    // make sure we add the sanitizers on playback for SAS strings
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     accountName = process.env["DFS_ACCOUNT_NAME"] || "";
     try {
-      oauthServiceClient = getDataLakeServiceClientWithDefaultCredential();
+      oauthServiceClient = getDataLakeServiceClientWithDefaultCredential(recorder);
     } catch (err: any) {
       console.log(err);
       this.skip();
     }
 
-    now = recorder.newDate("now");
+    now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setHours(now.getHours() - 1);
-    tmr = recorder.newDate("tmr");
+    tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 5);
     userDelegationKey = await oauthServiceClient.getUserDelegationKey(now, tmr);
 
-    fileSystemName = recorder.getUniqueName("filesystem");
+    fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     fileSystemClient = oauthServiceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.createIfNotExists();
 
-    const directoryName = recorder.getUniqueName("directory");
+    const directoryName = recorder.variable("directory", getUniqueName("directory"));
     directoryClient = fileSystemClient.getDirectoryClient(directoryName);
     await directoryClient.create();
 
-    const fileName = recorder.getUniqueName("file");
+    const fileName = recorder.variable("file", getUniqueName("file"));
     fileClient = directoryClient.getFileClient(fileName);
     await fileClient.create();
   });
@@ -1296,6 +1602,7 @@ describe("SAS generation Node.js only for delegation SAS", () => {
 
     const sasURL = `${directoryClient.url}?${fileSystemSAS}`;
     const directoryClientwithSAS = new DataLakeDirectoryClient(sasURL);
+    configureStorageClient(recorder, directoryClientwithSAS);
     // e
     await directoryClientwithSAS.getAccessControl();
 
@@ -1319,7 +1626,6 @@ describe("SAS generation Node.js only for delegation SAS", () => {
       },
     ];
     await rootDirectoryClient.setAccessControl(acl);
-
     const fileSystemSAS = generateDataLakeSASQueryParameters(
       {
         fileSystemName: fileSystemClient.name,
@@ -1331,9 +1637,10 @@ describe("SAS generation Node.js only for delegation SAS", () => {
       accountName
     );
 
-    const newFileName = recorder.getUniqueName("newFile");
+    const newFileName = recorder.variable("newFile", getUniqueName("newFile"));
     const newFileClient = fileSystemClient.getFileClient(newFileName);
     const newFileClientWithSAS = new DataLakeFileClient(`${newFileClient.url}?${fileSystemSAS}`);
+    configureStorageClient(recorder, newFileClientWithSAS);
     await newFileClientWithSAS.createIfNotExists();
 
     const unauthoriziedGuid = "7d53815c-1b73-49ab-b44d-002bfb890633";
@@ -1351,8 +1658,10 @@ describe("SAS generation Node.js only for delegation SAS", () => {
     );
 
     const newFileClientWithSAS2 = new DataLakeFileClient(`${newFileClient.url}?${fileSystemSAS2}`);
+    configureStorageClient(recorder, newFileClientWithSAS2);
     try {
       await newFileClientWithSAS2.createIfNotExists();
+      assert.fail("Expected createdIfNotExists to fail");
     } catch (err: any) {
       assert.deepStrictEqual(err.details.errorCode, "AuthorizationPermissionMismatch");
     }
@@ -1369,6 +1678,7 @@ describe("SAS generation Node.js only for delegation SAS", () => {
       accountName
     );
     const newFileClientWithSAS3 = new DataLakeFileClient(`${newFileClient.url}?${fileSystemSAS3}`);
+    configureStorageClient(recorder, newFileClientWithSAS3);
     await newFileClientWithSAS3.createIfNotExists();
   });
 
@@ -1388,6 +1698,7 @@ describe("SAS generation Node.js only for delegation SAS", () => {
     const fileSystemClientWithSAS = new DataLakeFileSystemClient(
       `${fileSystemClient.url}?${fileSystemSAS}`
     );
+    configureStorageClient(recorder, fileSystemClientWithSAS);
 
     await fileSystemClientWithSAS.listPaths().byPage().next();
   });

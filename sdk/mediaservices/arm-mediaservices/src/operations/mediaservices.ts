@@ -6,19 +6,23 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Mediaservices } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureMediaServices } from "../azureMediaServices";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   MediaService,
   MediaservicesListNextOptionalParams,
   MediaservicesListOptionalParams,
+  MediaservicesListResponse,
   MediaservicesListBySubscriptionNextOptionalParams,
   MediaservicesListBySubscriptionOptionalParams,
-  MediaservicesListResponse,
+  MediaservicesListBySubscriptionResponse,
   MediaservicesGetOptionalParams,
   MediaservicesGetResponse,
   MediaservicesCreateOrUpdateOptionalParams,
@@ -32,7 +36,6 @@ import {
   ListEdgePoliciesInput,
   MediaservicesListEdgePoliciesOptionalParams,
   MediaservicesListEdgePoliciesResponse,
-  MediaservicesListBySubscriptionResponse,
   MediaservicesListNextResponse,
   MediaservicesListBySubscriptionNextResponse
 } from "../models";
@@ -67,19 +70,29 @@ export class MediaservicesImpl implements Mediaservices {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceGroupName, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    options?: MediaservicesListOptionalParams
+    options?: MediaservicesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<MediaService[]> {
-    let result = await this._list(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.odataNextLink;
+    let result: MediaservicesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.odataNextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -87,7 +100,9 @@ export class MediaservicesImpl implements Mediaservices {
         options
       );
       continuationToken = result.odataNextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -115,22 +130,34 @@ export class MediaservicesImpl implements Mediaservices {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: MediaservicesListBySubscriptionOptionalParams
+    options?: MediaservicesListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<MediaService[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.odataNextLink;
+    let result: MediaservicesListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.odataNextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.odataNextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -181,16 +208,89 @@ export class MediaservicesImpl implements Mediaservices {
    * @param parameters The request parameters
    * @param options The options parameters.
    */
-  createOrUpdate(
+  async beginCreateOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    parameters: MediaService,
+    options?: MediaservicesCreateOrUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<MediaservicesCreateOrUpdateResponse>,
+      MediaservicesCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<MediaservicesCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, accountName, parameters, options },
+      createOrUpdateOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Creates or updates a Media Services account
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param parameters The request parameters
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     accountName: string,
     parameters: MediaService,
     options?: MediaservicesCreateOrUpdateOptionalParams
   ): Promise<MediaservicesCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, parameters, options },
-      createOrUpdateOperationSpec
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      accountName,
+      parameters,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -217,16 +317,89 @@ export class MediaservicesImpl implements Mediaservices {
    * @param parameters The request parameters
    * @param options The options parameters.
    */
-  update(
+  async beginUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    parameters: MediaServiceUpdate,
+    options?: MediaservicesUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<MediaservicesUpdateResponse>,
+      MediaservicesUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<MediaservicesUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, accountName, parameters, options },
+      updateOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Updates an existing Media Services account
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param parameters The request parameters
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
     resourceGroupName: string,
     accountName: string,
     parameters: MediaServiceUpdate,
     options?: MediaservicesUpdateOptionalParams
   ): Promise<MediaservicesUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, parameters, options },
-      updateOperationSpec
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      accountName,
+      parameters,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -249,7 +422,7 @@ export class MediaservicesImpl implements Mediaservices {
   }
 
   /**
-   * List the media edge policies associated with the Media Services account.
+   * List all the media edge policies associated with the Media Services account.
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param parameters The request parameters
@@ -364,10 +537,20 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.MediaService
+      bodyMapper: Mappers.MediaService,
+      headersMapper: Mappers.MediaservicesCreateOrUpdateHeaders
     },
     201: {
-      bodyMapper: Mappers.MediaService
+      bodyMapper: Mappers.MediaService,
+      headersMapper: Mappers.MediaservicesCreateOrUpdateHeaders
+    },
+    202: {
+      bodyMapper: Mappers.MediaService,
+      headersMapper: Mappers.MediaservicesCreateOrUpdateHeaders
+    },
+    204: {
+      bodyMapper: Mappers.MediaService,
+      headersMapper: Mappers.MediaservicesCreateOrUpdateHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -412,7 +595,20 @@ const updateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.MediaService
+      bodyMapper: Mappers.MediaService,
+      headersMapper: Mappers.MediaservicesUpdateHeaders
+    },
+    201: {
+      bodyMapper: Mappers.MediaService,
+      headersMapper: Mappers.MediaservicesUpdateHeaders
+    },
+    202: {
+      bodyMapper: Mappers.MediaService,
+      headersMapper: Mappers.MediaservicesUpdateHeaders
+    },
+    204: {
+      bodyMapper: Mappers.MediaService,
+      headersMapper: Mappers.MediaservicesUpdateHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -504,7 +700,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -525,7 +720,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

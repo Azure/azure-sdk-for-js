@@ -1,5 +1,42 @@
 # Release History
 
+## 1.2.0-beta.5 (Unreleased)
+
+### Features Added
+- Added support for SIP routing API version `2023-03-01`, releasing SIP routing functionality from public preview to GA.
+- Added environment variable `AZURE_TEST_DOMAIN` for SIP routing tests to support domain verification.
+
+### Breaking Changes
+- Changed public methods `getTrunks` to `listTrunks` and `getRoutes` to `listRoutes`.
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.2.0-beta.4 (2023-01-10)
+- Adds support for Azure Communication Services Phone Numbers Browse API Methods.
+- Adds support for Direct routing configuration management.
+
+### Features Added
+- Added support for API version `2022-12-01`, giving users the ability to: 
+  - Get all supported countries
+  - Get all supported localities given a country code.
+  - Get all Toll-Free area codes from a given country code.
+  - Get all Geographic area codes from a given country code / locality.
+  - Get all offerings from a given country code.
+- Added new SIP routing client for handling Direct routing numbers.
+
+### Other Changes
+
+- Updated to `@azure/core-tracing` 1.0.
+- Updated to `@azure/communication-common` 2.2.0.
+- Updated to `@azure-tools/test-recorder` 2.0.0.
+
+## 1.2.0-alpha.20220517.1 (2022-05-17)
+
+- Added support for the API version `2022-06-01-preview`
+- Added `operatorId`, `operatorName` and `phoneNumberSource` properties to the `PurchasedPhoneNumber` model.
+
 ## 1.2.0-beta.3 (2022-04-06)
 
 ### Features Added

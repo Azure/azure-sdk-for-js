@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Contacts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,13 +17,15 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   Contact,
+  ContactsListNextOptionalParams,
   ContactsListOptionalParams,
   ContactsListResponse,
   ContactsGetOptionalParams,
   ContactsGetResponse,
   ContactsCreateOptionalParams,
   ContactsCreateResponse,
-  ContactsDeleteOptionalParams
+  ContactsDeleteOptionalParams,
+  ContactsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,8 +60,16 @@ export class ContactsImpl implements Contacts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, spacecraftName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          spacecraftName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -66,10 +77,30 @@ export class ContactsImpl implements Contacts {
   private async *listPagingPage(
     resourceGroupName: string,
     spacecraftName: string,
-    options?: ContactsListOptionalParams
+    options?: ContactsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Contact[]> {
-    let result = await this._list(resourceGroupName, spacecraftName, options);
-    yield result.value || [];
+    let result: ContactsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, spacecraftName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(
+        resourceGroupName,
+        spacecraftName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
   }
 
   private async *listPagingAll(
@@ -307,6 +338,25 @@ export class ContactsImpl implements Contacts {
     );
     return poller.pollUntilDone();
   }
+
+  /**
+   * ListNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param spacecraftName Spacecraft ID
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    resourceGroupName: string,
+    spacecraftName: string,
+    nextLink: string,
+    options?: ContactsListNextOptionalParams
+  ): Promise<ContactsListNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, spacecraftName, nextLink, options },
+      listNextOperationSpec
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -323,7 +373,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -410,6 +460,27 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.spacecraftName,
     Parameters.contactName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ContactListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.spacecraftName,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { createSpan } from "../tracing";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { tracingClient } from "../tracing";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { DataFlowDebugSession } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
@@ -20,10 +20,10 @@ import {
   DataFlowDebugSessionInfo,
   DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextOptionalParams,
   DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceOptionalParams,
+  DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceResponse,
   CreateDataFlowDebugSessionRequest,
   DataFlowDebugSessionCreateDataFlowDebugSessionOptionalParams,
   DataFlowDebugSessionCreateDataFlowDebugSessionResponse,
-  DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceResponse,
   DataFlowDebugPackage,
   DataFlowDebugSessionAddDataFlowOptionalParams,
   DataFlowDebugSessionAddDataFlowResponse,
@@ -63,25 +63,40 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.queryDataFlowDebugSessionsByWorkspacePagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.queryDataFlowDebugSessionsByWorkspacePagingPage(
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *queryDataFlowDebugSessionsByWorkspacePagingPage(
-    options?: DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceOptionalParams
+    options?: DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DataFlowDebugSessionInfo[]> {
-    let result = await this._queryDataFlowDebugSessionsByWorkspace(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._queryDataFlowDebugSessionsByWorkspace(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._queryDataFlowDebugSessionsByWorkspaceNext(
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -111,26 +126,19 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
       DataFlowDebugSessionCreateDataFlowDebugSessionResponse
     >
   > {
-    const { span } = createSpan(
-      "ArtifactsClient-beginCreateDataFlowDebugSession",
-      options || {}
-    );
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<DataFlowDebugSessionCreateDataFlowDebugSessionResponse> => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as DataFlowDebugSessionCreateDataFlowDebugSessionResponse;
-      } catch (error: any) {
-        span.setStatus({
-          code: coreTracing.SpanStatusCode.UNSET,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginCreateDataFlowDebugSession",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<
+            DataFlowDebugSessionCreateDataFlowDebugSessionResponse
+          >;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -200,25 +208,18 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
   ): Promise<
     DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceResponse
   > {
-    const { span } = createSpan(
-      "ArtifactsClient-_queryDataFlowDebugSessionsByWorkspace",
-      options || {}
+    return tracingClient.withSpan(
+      "ArtifactsClient._queryDataFlowDebugSessionsByWorkspace",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          queryDataFlowDebugSessionsByWorkspaceOperationSpec
+        ) as Promise<
+          DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceResponse
+        >;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { options },
-        queryDataFlowDebugSessionsByWorkspaceOperationSpec
-      );
-      return result as DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -230,22 +231,16 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
     request: DataFlowDebugPackage,
     options?: DataFlowDebugSessionAddDataFlowOptionalParams
   ): Promise<DataFlowDebugSessionAddDataFlowResponse> {
-    const { span } = createSpan("ArtifactsClient-addDataFlow", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { request, options },
-        addDataFlowOperationSpec
-      );
-      return result as DataFlowDebugSessionAddDataFlowResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ArtifactsClient.addDataFlow",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { request, options },
+          addDataFlowOperationSpec
+        ) as Promise<DataFlowDebugSessionAddDataFlowResponse>;
+      }
+    );
   }
 
   /**
@@ -257,25 +252,16 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
     request: DeleteDataFlowDebugSessionRequest,
     options?: DataFlowDebugSessionDeleteDataFlowDebugSessionOptionalParams
   ): Promise<void> {
-    const { span } = createSpan(
-      "ArtifactsClient-deleteDataFlowDebugSession",
-      options || {}
+    return tracingClient.withSpan(
+      "ArtifactsClient.deleteDataFlowDebugSession",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { request, options },
+          deleteDataFlowDebugSessionOperationSpec
+        ) as Promise<void>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { request, options },
-        deleteDataFlowDebugSessionOperationSpec
-      );
-      return result as void;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -292,26 +278,19 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
       DataFlowDebugSessionExecuteCommandResponse
     >
   > {
-    const { span } = createSpan(
-      "ArtifactsClient-beginExecuteCommand",
-      options || {}
-    );
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<DataFlowDebugSessionExecuteCommandResponse> => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as DataFlowDebugSessionExecuteCommandResponse;
-      } catch (error: any) {
-        span.setStatus({
-          code: coreTracing.SpanStatusCode.UNSET,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginExecuteCommand",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<
+            DataFlowDebugSessionExecuteCommandResponse
+          >;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -384,25 +363,18 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
   ): Promise<
     DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextResponse
   > {
-    const { span } = createSpan(
-      "ArtifactsClient-_queryDataFlowDebugSessionsByWorkspaceNext",
-      options || {}
+    return tracingClient.withSpan(
+      "ArtifactsClient._queryDataFlowDebugSessionsByWorkspaceNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          queryDataFlowDebugSessionsByWorkspaceNextOperationSpec
+        ) as Promise<
+          DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextResponse
+        >;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { nextLink, options },
-        queryDataFlowDebugSessionsByWorkspaceNextOperationSpec
-      );
-      return result as DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 }
 // Operation Specifications
@@ -523,7 +495,6 @@ const queryDataFlowDebugSessionsByWorkspaceNextOperationSpec: coreClient.Operati
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

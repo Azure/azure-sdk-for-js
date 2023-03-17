@@ -95,6 +95,9 @@ export interface GetBitLockerKeysResponse {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface IdentityDetails {
     readonly principalId?: string;
     readonly tenantId?: string;
@@ -169,8 +172,6 @@ export type JobsGetResponse = JobResponse;
 
 // @public
 export interface JobsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -187,8 +188,6 @@ export type JobsListByResourceGroupResponse = ListJobsResponse;
 
 // @public
 export interface JobsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -212,49 +211,33 @@ export type JobsUpdateResponse = JobResponse;
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownDriveState {
-    // (undocumented)
     Completed = "Completed",
-    // (undocumented)
     CompletedMoreInfo = "CompletedMoreInfo",
-    // (undocumented)
     NeverReceived = "NeverReceived",
-    // (undocumented)
     Received = "Received",
-    // (undocumented)
     ShippedBack = "ShippedBack",
-    // (undocumented)
     Specified = "Specified",
-    // (undocumented)
     Transferring = "Transferring"
 }
 
 // @public
 export enum KnownEncryptionKekType {
-    // (undocumented)
     CustomerManaged = "CustomerManaged",
-    // (undocumented)
     MicrosoftManaged = "MicrosoftManaged"
 }
 
 // @public
 export enum KnownIdentityType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     SystemAssigned = "SystemAssigned",
-    // (undocumented)
     UserAssigned = "UserAssigned"
 }
 

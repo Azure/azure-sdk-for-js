@@ -1,0 +1,230 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/Spring?api-version=2022-11-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-appplatform/2.1.0-beta.5 core-rest-pipeline/1.10.2 Node/v18.12.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "eca5f1d6-ab4d-4948-a1fb-23b58d5cfbdc"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 18 Jan 2023 07:31:17 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Request-Context": "appId=cid-v1:797d7e4e-8180-497e-a254-780fbd39ba4d",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "eca5f1d6-ab4d-4948-a1fb-23b58d5cfbdc",
+        "x-ms-correlation-request-id": "a635f77c-6756-450c-a686-5f289e5391f2",
+        "x-ms-ratelimit-remaining-subscription-resource-requests": "11998",
+        "x-ms-request-id": "a635f77c-6756-450c-a686-5f289e5391f2",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230118T073118Z:a635f77c-6756-450c-a686-5f289e5391f2",
+        "x-rp-server-mvid": "602e8535-9334-4b2f-9945-fcf7db9ba99e"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "properties": {
+              "provisioningState": "Succeeded",
+              "zoneRedundant": false,
+              "version": 3,
+              "serviceId": "fa1703aa3e8744268cb0d661c1cbb29b",
+              "networkProfile": {
+                "outboundIPs": {
+                  "publicIPs": [
+                    "20.62.147.255"
+                  ]
+                },
+                "outboundType": "loadBalancer"
+              },
+              "powerState": "Running",
+              "fqdn": "myjstest-mary.azuremicroservices.io"
+            },
+            "type": "Microsoft.AppPlatform/Spring",
+            "sku": {
+              "name": "B0",
+              "tier": "Basic"
+            },
+            "location": "eastus",
+            "tags": {},
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/Spring/myjstest-mary",
+            "name": "myjstest-mary",
+            "systemData": {
+              "createdBy": "marygao@microsoft.com",
+              "createdByType": "User",
+              "createdAt": "2023-01-18T06:18:46.6023877Z",
+              "lastModifiedBy": "marygao@microsoft.com",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2023-01-18T06:26:06.3385622Z"
+            }
+          },
+          {
+            "properties": {
+              "provisioningState": "Creating",
+              "zoneRedundant": false,
+              "version": 3,
+              "serviceId": "41541667e49d415f819d60f240140d84",
+              "powerState": "Running",
+              "fqdn": "myservicexxx11.azuremicroservices.io"
+            },
+            "type": "Microsoft.AppPlatform/Spring",
+            "sku": {
+              "name": "B0",
+              "tier": "Basic"
+            },
+            "location": "east us",
+            "tags": {
+              "key1": "value1"
+            },
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/Spring/myservicexxx11",
+            "name": "myservicexxx11",
+            "systemData": {
+              "createdBy": "azure_client_id",
+              "createdByType": "Application",
+              "createdAt": "2023-01-13T09:13:40.6542355Z",
+              "lastModifiedBy": "azure_client_id",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2023-01-13T09:13:40.6542355Z"
+            }
+          },
+          {
+            "properties": {
+              "provisioningState": "Succeeded",
+              "zoneRedundant": false,
+              "version": 3,
+              "serviceId": "f227894de1e6496da688ebf50007d70c",
+              "networkProfile": {
+                "outboundIPs": {
+                  "publicIPs": [
+                    "20.241.228.218"
+                  ]
+                },
+                "outboundType": "loadBalancer"
+              },
+              "powerState": "Running",
+              "fqdn": "myservicexxx12.azuremicroservices.io"
+            },
+            "type": "Microsoft.AppPlatform/Spring",
+            "sku": {
+              "name": "B0",
+              "tier": "Basic"
+            },
+            "location": "east us",
+            "tags": {
+              "key1": "value1"
+            },
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/Spring/myservicexxx12",
+            "name": "myservicexxx12",
+            "systemData": {
+              "createdBy": "azure_client_id",
+              "createdByType": "Application",
+              "createdAt": "2023-01-18T06:50:41.9453338Z",
+              "lastModifiedBy": "azure_client_id",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2023-01-18T06:50:41.9453338Z"
+            }
+          },
+          {
+            "properties": {
+              "provisioningState": "Creating",
+              "zoneRedundant": false,
+              "version": 3,
+              "serviceId": "2e1a581e8e8642eb85e9f814ea44a3a7",
+              "powerState": "Running",
+              "fqdn": "myservicexxx1.azuremicroservices.io"
+            },
+            "type": "Microsoft.AppPlatform/Spring",
+            "sku": {
+              "name": "S0",
+              "tier": "Standard"
+            },
+            "location": "east us",
+            "tags": {
+              "key1": "value1"
+            },
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/Spring/myservicexxx1",
+            "name": "myservicexxx1",
+            "systemData": {
+              "createdBy": "azure_client_id",
+              "createdByType": "Application",
+              "createdAt": "2023-01-13T09:02:17.4328235Z",
+              "lastModifiedBy": "azure_client_id",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2023-01-13T09:02:17.4328235Z"
+            }
+          },
+          {
+            "properties": {
+              "provisioningState": "Creating",
+              "zoneRedundant": false,
+              "version": 3,
+              "serviceId": "58aad7cb84e949a1874b0975983db0f4",
+              "powerState": "Running",
+              "fqdn": "myservicexxx.azuremicroservices.io"
+            },
+            "type": "Microsoft.AppPlatform/Spring",
+            "sku": {
+              "name": "B0",
+              "tier": "Basic"
+            },
+            "location": "east us",
+            "tags": {
+              "key1": "value1"
+            },
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/Spring/myservicexxx",
+            "name": "myservicexxx",
+            "systemData": {
+              "createdBy": "azure_client_id",
+              "createdByType": "Application",
+              "createdAt": "2023-01-13T08:03:09.1654042Z",
+              "lastModifiedBy": "azure_client_id",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2023-01-13T08:03:09.1654042Z"
+            }
+          },
+          {
+            "properties": {
+              "provisioningState": "Creating",
+              "zoneRedundant": false,
+              "version": 3,
+              "serviceId": "0c61abd265984ccf861752d1ce7bb736",
+              "powerState": "Running",
+              "fqdn": "myservicexx.azuremicroservices.io"
+            },
+            "type": "Microsoft.AppPlatform/Spring",
+            "sku": {
+              "name": "B0",
+              "tier": "Basic"
+            },
+            "location": "east us",
+            "tags": {
+              "key1": "value1"
+            },
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/Spring/myservicexx",
+            "name": "myservicexx",
+            "systemData": {
+              "createdBy": "azure_client_id",
+              "createdByType": "Application",
+              "createdAt": "2023-01-13T08:17:02.0239255Z",
+              "lastModifiedBy": "azure_client_id",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2023-01-13T08:17:02.0239255Z"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}
