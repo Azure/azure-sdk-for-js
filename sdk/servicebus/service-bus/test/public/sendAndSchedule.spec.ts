@@ -420,7 +420,7 @@ describe("Sender Tests", () => {
     );
   }
 
-  it.only(anyRandomTestClientType + ": scheduleMessages in parallel should not throw error", async function() {
+  it(anyRandomTestClientType + ": scheduleMessages in parallel should not throw error", async function () {
     await beforeEachTest(anyRandomTestClientType);
     const ids = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }];
     const msgs = await Promise.all(
@@ -429,6 +429,7 @@ describe("Sender Tests", () => {
           body: {
             userId: user.id,
           },
+          sessionId: TestMessage.sessionId,
         }))
         .map((message) =>
           sender
@@ -442,9 +443,9 @@ describe("Sender Tests", () => {
             })
         )
     );
-    should.equal(msgs.length, "Expect total of 5 messages scheduled");
+    should.equal(msgs.length, 5, "Expect total of 5 messages scheduled");
     const received = await receiver.receiveMessages(5);
-    should.equal(received.length, "Expect total of 5 messages received");
+    should.equal(received.length, 5, "Expect total of 5 messages received");
     for (let i = 0; i < 5; i++){
       await receiver.completeMessage(received[i]);
     }
