@@ -1,50 +1,70 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CommunicationIdentifier } from "@azure/communication-common";
-import { fail } from "assert";
+import { Recorder } from "@azure-tools/test-recorder";
+import { CommunicationUserIdentifier } from "@azure/communication-common";
 import { assert } from "chai";
-import Sinon, { SinonStubbedInstance } from "sinon";
-import { CallAutomationClient } from "../../src/callAutomationClient";
-import { CallConnection } from "../../src/callConnection";
-import { CallConnectionProperties } from "../../src/models/models";
-import { CreateCallResult } from "../../src/models/responses";
-import { CALL_CALLBACK_URL, CALL_TARGET_ID } from "./utils/connectionUtils";
+import { Context } from "mocha";
+import { CallAutomationClient, CallInvite, CallConnection } from "../../src";
+import { createRecorder, createTestUser, dispatcherCallback, serviceBusWithNewCall, createCallAutomationClient, waitForIncomingCallContext, waitForEvent } from "./utils/recordedClient";
+import { events, serviceBusReceivers, incomingCallContexts } from "./utils/recordedClient";
 
-describe("Call Automation Client Unit Tests", () => {
-  var targets: CommunicationIdentifier[];
-  var client: SinonStubbedInstance<CallAutomationClient> & CallAutomationClient;
+let recorder: Recorder;
+let callAutomationClient: CallAutomationClient;
+let callConnection: CallConnection;
+let testUser: CommunicationUserIdentifier;
+let testUser2: CommunicationUserIdentifier;
 
-  beforeEach(() => {
-    // set up
-    targets = [{
-      communicationUserId: CALL_TARGET_ID
-    }];
-    // stub CallAutomationClient
-    client = Sinon.createStubInstance(CallAutomationClient) as SinonStubbedInstance<CallAutomationClient> & CallAutomationClient;
-  });
+describe("CallAutomation Live Test", function () {
 
-  it("CreateCall", async () => {
+	describe("Main Client Test Cases", function () {
 
-    // mocks
-    const createCallResultMock: CreateCallResult = {
-      callConnectionProperties: {} as CallConnectionProperties,
-      callConnection: {} as CallConnection
-    };
-    client.createCall.returns(new Promise((resolve) => {
-      resolve(createCallResultMock);
-    }));
+		beforeEach(async function (this: Context) {
+			recorder = await createRecorder(this.currentTest);
+			testUser = await createTestUser(recorder);
+			testUser2 = await createTestUser(recorder);
+			callAutomationClient = createCallAutomationClient(recorder, testUser);
+		})
 
-    var promiseResult = client.createCall(targets, CALL_CALLBACK_URL);
+		afterEach(async function (this: Context) {
+			if (callConnection) {
+				await callConnection.hangUp(true);
+				console.log("Call terminated");
+			}
+			serviceBusReceivers.forEach((receiver) => {
+				receiver.close();
+				console.log("Service bus receiver closed");
+			});
+			events.forEach((callConnectionEvents) => {
+				callConnectionEvents.clear();
+			});
+			events.clear();
+			serviceBusReceivers.clear();
+			incomingCallContexts.clear();
+		})
 
-    // asserts
-    promiseResult.then((result: CreateCallResult) => {
-      assert.isNotNull(result);
-      assert.isTrue(client.createCall.calledWith(targets, CALL_CALLBACK_URL));
-      assert.equal(result, createCallResultMock);
-    }).catch((reject) => {
-      fail(reject); // should not reach here
-    });
-  });
+		it("successfully creates a call", async function () {
+			let callInvite = new CallInvite(testUser2);
+			let uniqueId = await serviceBusWithNewCall(testUser, testUser2);
+			console.log("uniqueId: " + uniqueId);
+			let callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
 
-})
+			let result = await callAutomationClient.createCall(callInvite, callBackUrl);
+			const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
+			assert.isDefined(incomingCallContext);
+
+			if (incomingCallContext) {
+				await callAutomationClient.answerCall(incomingCallContext, callBackUrl);
+			}
+
+			if (result.callConnectionProperties.callConnectionId) {
+				await waitForEvent("CallConnected", result.callConnectionProperties.callConnectionId, 8000);
+			}
+
+			callConnection = result.callConnection;
+			const properties = await callConnection.getCallConnectionProperties();
+			assert.isDefined(properties);
+			assert.equal(properties.callConnectionState, "connected");
+		}).timeout(60000);
+	})
+});
