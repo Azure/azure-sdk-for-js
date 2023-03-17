@@ -35,7 +35,7 @@ describe("AppConfigurationClient", () => {
         await deleteEverySetting();
       } catch (error) {
         if ((error as { statusCode: number }).statusCode === 404) {
-          // If for some reason, service fails with 404 while deleting, we don't care about it so that we don't count it as a test failure 
+          // If for some reason, service fails with 404 while deleting, we don't care about it so that we don't count it as a test failure
           console.log(error);
         } else {
           throw error;
@@ -874,8 +874,14 @@ describe("AppConfigurationClient", () => {
     let key1: string;
     let key2: string;
     beforeEach(async () => {
-      key1 = recorder.variable("backslash-zero-label-1", `backslash-zero-label-1-${Math.floor(Math.random() * 900 + 100)}`);
-      key2 = recorder.variable("backslash-zero-label-2", `backslash-zero-label-2-${Math.floor(Math.random() * 900 + 100)}`);
+      key1 = recorder.variable(
+        "backslash-zero-label-1",
+        `backslash-zero-label-1-${Math.floor(Math.random() * 900 + 100)}`
+      );
+      key2 = recorder.variable(
+        "backslash-zero-label-2",
+        `backslash-zero-label-2-${Math.floor(Math.random() * 900 + 100)}`
+      );
       await client.addConfigurationSetting({
         key: key1,
         value: "[A] production value",
@@ -890,14 +896,14 @@ describe("AppConfigurationClient", () => {
         value: "[B] value",
         label: "with label",
       });
-    })
+    });
 
     afterEach(async () => {
       (
         await toSortedArray(
           client.listConfigurationSettings({
             keyFilter: "backslash-zero-label-*",
-          }),
+          })
         )
       ).forEach(async (setting) => {
         try {
@@ -906,7 +912,7 @@ describe("AppConfigurationClient", () => {
           /** empty code block */
         }
       });
-    })
+    });
 
     it("matches any key without label - `\0`", async () => {
       const byLabelIterator = client.listConfigurationSettings({
