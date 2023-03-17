@@ -45,6 +45,7 @@ import { storageBrowserPolicy } from "./policies/StorageBrowserPolicyV2";
 import { parseXML, stringifyXML } from "@azure/core-xml";
 import { StorageBrowserPolicyFactory } from "./StorageBrowserPolicyFactory";
 import { StorageRetryPolicyFactory } from "./StorageRetryPolicyFactory";
+import { isNode } from "@azure/core-util";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -253,7 +254,26 @@ function isStorageSharedKeyCredential(
   return factory.constructor.name === "StorageSharedKeyCredential";
 }
 
-export function convertV2Pipeline(pipeline: PipelineLike) {
+export function convertV2Pipeline(
+  credentialOrPipeline?:
+    | StorageSharedKeyCredential
+    | AnonymousCredential
+    | TokenCredential
+    | PipelineLike
+) {
+  let pipeline: PipelineLike;
+  if (isPipelineLike(credentialOrPipeline)) {
+    pipeline = credentialOrPipeline;
+  } else if (
+    (isNode && credentialOrPipeline instanceof StorageSharedKeyCredential) ||
+    credentialOrPipeline instanceof AnonymousCredential ||
+    isTokenCredential(credentialOrPipeline)
+  ) {
+    pipeline = newPipeline(credentialOrPipeline);
+  } else {
+    // The second parameter is undefined. Use anonymous credential
+    pipeline = newPipeline(new AnonymousCredential());
+  }
   getCoreClientOptions(pipeline);
 }
 
