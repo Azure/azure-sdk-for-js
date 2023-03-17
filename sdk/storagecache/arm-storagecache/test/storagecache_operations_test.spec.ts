@@ -49,7 +49,7 @@ describe("StorageCache test", () => {
     const credential = createTestCredential();
     client = new StorageCacheManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
-    resourceGroup = "myjstest";
+    resourceGroup = "czwjstest";
     resourcename = "resourcetest";
   });
 
@@ -62,27 +62,17 @@ describe("StorageCache test", () => {
       resourceGroup,
       resourcename,
       {
-        cacheSizeGB: 3072,
-        directoryServicesSettings: {
-          activeDirectory: {
-            cacheNetBiosName: "contosoSmb",
-            credentials: { password: "<password>", username: "consotoAdmin" },
-            domainName: "contosoAd.contoso.local",
-            domainNetBiosName: "contosoAd",
-            primaryDnsIpAddress: "10.0.2.1",
-            secondaryDnsIpAddress: "10.0.2.2"
-          },
-          usernameDownload: {
-            credentials: {
-              bindDn: "cn=ldapadmin,dc=contosoad,dc=contoso,dc=local",
-              bindPassword: "<bindPassword>"
-            },
-            extendedGroups: true,
-            ldapBaseDN: "dc=contosoad,dc=contoso,dc=local",
-            ldapServer: "10.0.2.3",
-            usernameSource: "LDAP"
-          }
+        networkSettings: {
+          mtu: 1500,
+          utilityAddresses: [
+            "10.0.0.10",
+            "10.0.0.11",
+            "10.0.0.12"
+          ],
+          ntpServer: "time.windows.com"
         },
+        cacheSizeGB: 3072,
+        directoryServicesSettings: {},
         location,
         scalingFactor: 1,
         securitySettings: {
@@ -105,7 +95,12 @@ describe("StorageCache test", () => {
         subnet:
           "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1",
         tags: { dept: "Contoso" },
-        zones: ["1"]
+        zones: ["1"],
+        mountAddresses: [
+          "10.0.0.7",
+          "10.0.0.8",
+          "10.0.0.9"
+        ],
       },
       testPollingOptions);
   });

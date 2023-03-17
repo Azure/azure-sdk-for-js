@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.StorageCache/caches/resourcetest?api-version=2023-03-01-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourcegroups/czwjstest/providers/Microsoft.StorageCache/caches/resourcetest?api-version=2023-03-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -9,7 +9,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-storagecache/7.0.0-beta.1 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "b659a809-6829-459a-a8e0-7e70c203dd25"
+        "x-ms-client-request-id": "9a2a0129-9a68-4e5c-b8f1-1f24cd850f09"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 16 Mar 2023 02:50:27 GMT",
+        "Date": "Fri, 17 Mar 2023 08:28:54 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": [
@@ -28,16 +28,16 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "9b93036a-d35a-41b1-8286-58bd02a43a1b",
-        "x-ms-ratelimit-remaining-resource": "Microsoft.Compute/GetCache1Min;118",
-        "x-ms-ratelimit-remaining-subscription-reads": "11706",
-        "x-ms-request-id": "6fd45e22-b434-4364-aa2b-50638c7a4a2a",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230316T025027Z:9b93036a-d35a-41b1-8286-58bd02a43a1b",
+        "x-ms-correlation-request-id": "1dadc8a3-d702-473b-b918-6b4861c27ad8",
+        "x-ms-ratelimit-remaining-resource": "Microsoft.Compute/GetCache1Min;117",
+        "x-ms-ratelimit-remaining-subscription-reads": "11711",
+        "x-ms-request-id": "83b2720d-34a6-452e-88e0-0d8d5a78014b",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230317T082855Z:1dadc8a3-d702-473b-b918-6b4861c27ad8",
         "x-ms-served-by": "869029e6-ed20-44b2-af4c-53579e7e4749_133213199408246598,869029e6-ed20-44b2-af4c-53579e7e4749_133213199408246598"
       },
       "ResponseBody": {
         "name": "resourcetest",
-        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.StorageCache/caches/resourcetest",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/czwjstest/providers/Microsoft.StorageCache/caches/resourcetest",
         "type": "Microsoft.StorageCache/caches",
         "location": "eastus",
         "tags": {
@@ -72,33 +72,15 @@
               }
             ]
           },
-          "directoryServicesSettings": {
-            "activeDirectory": {
-              "primaryDnsIpAddress": "10.0.2.1",
-              "secondaryDnsIpAddress": "10.0.2.2",
-              "domainName": "contosoAd.contoso.local",
-              "domainNetBiosName": "contosoAd",
-              "cacheNetBiosName": "contosoSmb",
-              "domainJoined": "No"
-            },
-            "usernameDownload": {
-              "extendedGroups": true,
-              "usernameSource": "LDAP",
-              "groupFileURI": "",
-              "userFileURI": "",
-              "ldapServer": "10.0.2.3",
-              "ldapBaseDN": "dc=contosoad,dc=contoso,dc=local",
-              "encryptLdapConnection": false,
-              "requireValidCertificate": false,
-              "autoDownloadCertificate": false,
-              "caCertificateURI": ""
-            }
-          },
+          "directoryServicesSettings": {},
+          "zones": [
+            "1"
+          ],
           "scalingFactor": 1.0,
           "cacheSizeGB": 3072,
           "health": {
-            "state": "Transitioning",
-            "statusDescription": "Waiting for cache creation to complete",
+            "state": "Healthy",
+            "statusDescription": "The cache is in Running state",
             "conditions": []
           },
           "mountAddresses": [
@@ -106,13 +88,13 @@
             "10.0.1.8",
             "10.0.1.9"
           ],
-          "provisioningState": "Failed",
-          "subnet": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1",
+          "provisioningState": "Succeeded",
+          "subnet": "/subscriptions/azure_subscription_id/resourceGroups/czwjstest/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1",
           "upgradeStatus": {
             "currentFirmwareVersion": "2022.12.1",
             "firmwareUpdateStatus": "unavailable",
             "firmwareUpdateDeadline": "0001-01-01T00:00:00Z",
-            "lastFirmwareUpdate": "2023-03-16T02:38:55.9194224Z",
+            "lastFirmwareUpdate": "2023-03-17T08:17:30.7489959Z",
             "pendingFirmwareVersion": ""
           },
           "upgradeSettings": {
@@ -123,10 +105,10 @@
         "systemData": {
           "createdBy": "azure_client_id",
           "createdByType": "Application",
-          "createdAt": "2023-03-16T02:38:54.5589515Z",
+          "createdAt": "2023-03-17T08:17:29.3774384Z",
           "lastModifiedBy": "azure_client_id",
           "lastModifiedByType": "Application",
-          "lastModifiedAt": "2023-03-16T02:38:54.5589515Z"
+          "lastModifiedAt": "2023-03-17T08:17:29.3774384Z"
         }
       }
     }
