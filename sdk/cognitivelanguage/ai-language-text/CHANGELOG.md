@@ -6,7 +6,7 @@
 
 ### Breaking Changes
 
-- Remove `dynamicClassification` feature.
+- Remove the Dynamic Classification feature from the `analyze` method.
 
 ### Bugs Fixed
 
