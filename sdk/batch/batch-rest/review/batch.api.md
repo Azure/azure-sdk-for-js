@@ -6,7 +6,9 @@
 
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
+import { ErrorResponse } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
+import { Paged } from '@azure/core-paging';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
@@ -37,9 +39,16 @@ export interface AccountListPoolNodeCounts200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface AccountListPoolNodeCountsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface AccountListPoolNodeCountsDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & AccountListPoolNodeCountsDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -97,9 +106,16 @@ export interface AccountListSupportedImages200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface AccountListSupportedImagesDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface AccountListSupportedImagesDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & AccountListSupportedImagesDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -188,9 +204,16 @@ export interface ApplicationsGet200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface ApplicationsGetDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface ApplicationsGetDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ApplicationsGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -222,9 +245,16 @@ export interface ApplicationsList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface ApplicationsListDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface ApplicationsListDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ApplicationsListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -752,9 +782,16 @@ export interface CertificatesAddBodyParam {
 }
 
 // @public (undocumented)
+export interface CertificatesAddDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface CertificatesAddDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & CertificatesAddDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -809,9 +846,16 @@ export interface CertificatesCancelDeletion204Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface CertificatesCancelDeletionDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface CertificatesCancelDeletionDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & CertificatesCancelDeletionDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -866,9 +910,16 @@ export interface CertificatesDelete202Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface CertificatesDeleteDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface CertificatesDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & CertificatesDeleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -919,9 +970,16 @@ export interface CertificatesGet200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface CertificatesGetDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface CertificatesGetDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & CertificatesGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -973,9 +1031,16 @@ export interface CertificatesList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface CertificatesListDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface CertificatesListDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & CertificatesListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -1076,9 +1141,16 @@ export interface ComputeNodeExtensionsGet200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface ComputeNodeExtensionsGetDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface ComputeNodeExtensionsGetDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ComputeNodeExtensionsGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -1135,9 +1207,16 @@ export interface ComputeNodeExtensionsList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface ComputeNodeExtensionsListDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface ComputeNodeExtensionsListDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ComputeNodeExtensionsListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -1268,9 +1347,16 @@ export interface ComputeNodesAddUserBodyParam {
 }
 
 // @public (undocumented)
+export interface ComputeNodesAddUserDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface ComputeNodesAddUserDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ComputeNodesAddUserDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -1323,9 +1409,16 @@ export interface ComputeNodesDeleteUser200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface ComputeNodesDeleteUserDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface ComputeNodesDeleteUserDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ComputeNodesDeleteUserDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -1385,9 +1478,16 @@ export interface ComputeNodesDisableSchedulingBodyParam {
 }
 
 // @public (undocumented)
+export interface ComputeNodesDisableSchedulingDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface ComputeNodesDisableSchedulingDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ComputeNodesDisableSchedulingDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -1442,9 +1542,16 @@ export interface ComputeNodesEnableScheduling200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface ComputeNodesEnableSchedulingDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface ComputeNodesEnableSchedulingDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ComputeNodesEnableSchedulingDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -1500,9 +1607,16 @@ export interface ComputeNodesGet200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface ComputeNodesGetDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface ComputeNodesGetDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ComputeNodesGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -1558,9 +1672,16 @@ export interface ComputeNodesGetRemoteDesktop200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface ComputeNodesGetRemoteDesktopDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface ComputeNodesGetRemoteDesktopDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ComputeNodesGetRemoteDesktopDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -1616,9 +1737,16 @@ export interface ComputeNodesGetRemoteLoginSettings200Response extends HttpRespo
 }
 
 // @public (undocumented)
+export interface ComputeNodesGetRemoteLoginSettingsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface ComputeNodesGetRemoteLoginSettingsDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ComputeNodesGetRemoteLoginSettingsDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -1674,9 +1802,16 @@ export interface ComputeNodesList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface ComputeNodesListDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface ComputeNodesListDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ComputeNodesListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -1739,9 +1874,16 @@ export interface ComputeNodesRebootBodyParam {
 }
 
 // @public (undocumented)
+export interface ComputeNodesRebootDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface ComputeNodesRebootDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ComputeNodesRebootDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -1801,9 +1943,16 @@ export interface ComputeNodesReimageBodyParam {
 }
 
 // @public (undocumented)
+export interface ComputeNodesReimageDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface ComputeNodesReimageDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ComputeNodesReimageDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -1858,9 +2007,16 @@ export interface ComputeNodesUpdateUserBodyParam {
 }
 
 // @public (undocumented)
+export interface ComputeNodesUpdateUserDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface ComputeNodesUpdateUserDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ComputeNodesUpdateUserDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -1919,9 +2075,16 @@ export interface ComputeNodesUploadBatchServiceLogsBodyParam {
 }
 
 // @public (undocumented)
+export interface ComputeNodesUploadBatchServiceLogsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface ComputeNodesUploadBatchServiceLogsDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ComputeNodesUploadBatchServiceLogsDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -2065,20 +2228,6 @@ export interface ErrorMessageOutput {
 }
 
 // @public
-export interface ErrorModelOutput {
-    code: string;
-    details: Array<ErrorModelOutput>;
-    innererror?: InnerErrorOutput;
-    message: string;
-    target?: string;
-}
-
-// @public
-export interface ErrorResponseOutput {
-    error: ErrorModelOutput;
-}
-
-// @public
 export interface ExitCodeMapping {
     code: number;
     exitOptions: ExitOptions;
@@ -2156,9 +2305,16 @@ export interface FileDeleteFromComputeNode200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface FileDeleteFromComputeNodeDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface FileDeleteFromComputeNodeDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & FileDeleteFromComputeNodeDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -2213,9 +2369,16 @@ export interface FileDeleteFromTask200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface FileDeleteFromTaskDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface FileDeleteFromTaskDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & FileDeleteFromTaskDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -2271,9 +2434,16 @@ export interface FileGetFromComputeNode200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface FileGetFromComputeNodeDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface FileGetFromComputeNodeDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & FileGetFromComputeNodeDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -2331,9 +2501,16 @@ export interface FileGetFromTask200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface FileGetFromTaskDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface FileGetFromTaskDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & FileGetFromTaskDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -2390,9 +2567,16 @@ export interface FileGetPropertiesFromComputeNode200Response extends HttpRespons
 }
 
 // @public (undocumented)
+export interface FileGetPropertiesFromComputeNodeDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface FileGetPropertiesFromComputeNodeDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & FileGetPropertiesFromComputeNodeDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -2448,9 +2632,16 @@ export interface FileGetPropertiesFromTask200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface FileGetPropertiesFromTaskDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface FileGetPropertiesFromTaskDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & FileGetPropertiesFromTaskDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -2508,9 +2699,16 @@ export interface FileListFromComputeNode200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface FileListFromComputeNodeDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface FileListFromComputeNodeDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & FileListFromComputeNodeDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -2569,9 +2767,16 @@ export interface FileListFromTask200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface FileListFromTaskDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface FileListFromTaskDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & FileListFromTaskDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -2693,12 +2898,6 @@ export interface InboundNATPoolOutput {
     name: string;
     networkSecurityGroupRules?: Array<NetworkSecurityGroupRuleOutput>;
     protocol: string;
-}
-
-// @public
-export interface InnerErrorOutput {
-    code: string;
-    innererror?: InnerErrorOutput;
 }
 
 // @public
@@ -2973,9 +3172,16 @@ export interface JobAddBodyParam {
 }
 
 // @public (undocumented)
+export interface JobAddDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface JobAddDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & JobAddDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -3042,9 +3248,16 @@ export interface JobDelete202Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface JobDeleteDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface JobDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & JobDeleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -3108,9 +3321,16 @@ export interface JobDisableBodyParam {
 }
 
 // @public (undocumented)
+export interface JobDisableDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface JobDisableDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & JobDisableDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -3169,9 +3389,16 @@ export interface JobEnable202Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface JobEnableDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface JobEnableDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & JobEnableDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -3267,9 +3494,16 @@ export interface JobGetAllLifetimeStatistics200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface JobGetAllLifetimeStatisticsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface JobGetAllLifetimeStatisticsDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & JobGetAllLifetimeStatisticsDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -3302,9 +3536,16 @@ export interface JobGetAllLifetimeStatisticsQueryParamProperties {
 }
 
 // @public (undocumented)
+export interface JobGetDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface JobGetDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & JobGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -3364,9 +3605,16 @@ export interface JobGetTaskCounts200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface JobGetTaskCountsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface JobGetTaskCountsDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & JobGetTaskCountsDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -3417,9 +3665,16 @@ export interface JobList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface JobListDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface JobListDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & JobListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -3448,9 +3703,16 @@ export interface JobListFromJobSchedule200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface JobListFromJobScheduleDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface JobListFromJobScheduleDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & JobListFromJobScheduleDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -3526,9 +3788,16 @@ export interface JobListPreparationAndReleaseTaskStatus200Response extends HttpR
 }
 
 // @public (undocumented)
+export interface JobListPreparationAndReleaseTaskStatusDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface JobListPreparationAndReleaseTaskStatusDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & JobListPreparationAndReleaseTaskStatusDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -3649,9 +3918,16 @@ export interface JobPatchBodyParam {
 }
 
 // @public (undocumented)
+export interface JobPatchDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface JobPatchDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & JobPatchDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -3803,9 +4079,16 @@ export interface JobScheduleAddBodyParam {
 }
 
 // @public (undocumented)
+export interface JobScheduleAddDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface JobScheduleAddDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & JobScheduleAddDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -3852,9 +4135,16 @@ export interface JobScheduleDelete202Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface JobScheduleDeleteDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface JobScheduleDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & JobScheduleDeleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -3913,9 +4203,16 @@ export interface JobScheduleDisable204Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface JobScheduleDisableDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface JobScheduleDisableDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & JobScheduleDisableDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -3974,9 +4271,16 @@ export interface JobScheduleEnable204Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface JobScheduleEnableDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface JobScheduleEnableDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & JobScheduleEnableDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -4058,9 +4362,16 @@ export interface JobScheduleExists404Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface JobScheduleExistsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface JobScheduleExistsDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & JobScheduleExistsDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -4115,9 +4426,16 @@ export interface JobScheduleGet200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface JobScheduleGetDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface JobScheduleGetDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & JobScheduleGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -4174,9 +4492,16 @@ export interface JobScheduleList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface JobScheduleListDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface JobScheduleListDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & JobScheduleListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -4235,9 +4560,16 @@ export interface JobSchedulePatchBodyParam {
 }
 
 // @public (undocumented)
+export interface JobSchedulePatchDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface JobSchedulePatchDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & JobSchedulePatchDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -4332,9 +4664,16 @@ export interface JobScheduleTerminate202Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface JobScheduleTerminateDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface JobScheduleTerminateDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & JobScheduleTerminateDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -4393,9 +4732,16 @@ export interface JobScheduleUpdateBodyParam {
 }
 
 // @public (undocumented)
+export interface JobScheduleUpdateDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface JobScheduleUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & JobScheduleUpdateDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -4548,9 +4894,16 @@ export interface JobTerminateBodyParam {
 }
 
 // @public (undocumented)
+export interface JobTerminateDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface JobTerminateDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & JobTerminateDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -4609,9 +4962,16 @@ export interface JobUpdateBodyParam {
 }
 
 // @public (undocumented)
+export interface JobUpdateDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface JobUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & JobUpdateDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -4964,9 +5324,16 @@ export interface PoolAddBodyParam {
 }
 
 // @public (undocumented)
+export interface PoolAddDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface PoolAddDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & PoolAddDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5021,9 +5388,16 @@ export interface PoolDelete202Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface PoolDeleteDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface PoolDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & PoolDeleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5082,9 +5456,16 @@ export interface PoolDisableAutoScale200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface PoolDisableAutoScaleDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface PoolDisableAutoScaleDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & PoolDisableAutoScaleDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5144,9 +5525,16 @@ export interface PoolEnableAutoScaleBodyParam {
 }
 
 // @public (undocumented)
+export interface PoolEnableAutoScaleDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface PoolEnableAutoScaleDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & PoolEnableAutoScaleDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5222,9 +5610,16 @@ export interface PoolEvaluateAutoScaleBodyParam {
 }
 
 // @public (undocumented)
+export interface PoolEvaluateAutoScaleDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface PoolEvaluateAutoScaleDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & PoolEvaluateAutoScaleDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5279,9 +5674,16 @@ export interface PoolExists404Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface PoolExistsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface PoolExistsDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & PoolExistsDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5359,9 +5761,16 @@ export interface PoolGetAllLifetimeStatistics200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface PoolGetAllLifetimeStatisticsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface PoolGetAllLifetimeStatisticsDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & PoolGetAllLifetimeStatisticsDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5394,9 +5803,16 @@ export interface PoolGetAllLifetimeStatisticsQueryParamProperties {
 }
 
 // @public (undocumented)
+export interface PoolGetDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface PoolGetDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & PoolGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5465,9 +5881,16 @@ export interface PoolList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface PoolListDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface PoolListDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & PoolListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5517,9 +5940,16 @@ export interface PoolListUsageMetrics200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface PoolListUsageMetricsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface PoolListUsageMetricsDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & PoolListUsageMetricsDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5563,9 +5993,16 @@ export interface PoolPatchBodyParam {
 }
 
 // @public (undocumented)
+export interface PoolPatchDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface PoolPatchDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & PoolPatchDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5629,9 +6066,16 @@ export interface PoolRemoveNodesBodyParam {
 }
 
 // @public (undocumented)
+export interface PoolRemoveNodesDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface PoolRemoveNodesDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & PoolRemoveNodesDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5695,9 +6139,16 @@ export interface PoolResizeBodyParam {
 }
 
 // @public (undocumented)
+export interface PoolResizeDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface PoolResizeDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & PoolResizeDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5825,9 +6276,16 @@ export interface PoolStopResize202Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface PoolStopResizeDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface PoolStopResizeDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & PoolStopResizeDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5891,9 +6349,16 @@ export interface PoolUpdatePropertiesBodyParam {
 }
 
 // @public (undocumented)
+export interface PoolUpdatePropertiesDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface PoolUpdatePropertiesDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & PoolUpdatePropertiesDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -5926,10 +6391,7 @@ export interface PoolUpdatePropertiesQueryParamProperties {
 }
 
 // @public
-export interface PoolUsageMetricsListOutput {
-    nextLink?: string;
-    value: Array<PoolUsageMetricsOutput>;
-}
+export type PoolUsageMetricsListOutput = Paged<PoolUsageMetricsOutput>;
 
 // @public
 export interface PoolUsageMetricsOutput {
@@ -6215,9 +6677,16 @@ export interface TaskAddCollectionBodyParam {
 }
 
 // @public (undocumented)
+export interface TaskAddCollectionDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface TaskAddCollectionDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TaskAddCollectionDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -6255,9 +6724,16 @@ export interface TaskAddCollectionResultOutput {
 }
 
 // @public (undocumented)
+export interface TaskAddDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface TaskAddDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TaskAddDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -6380,9 +6856,16 @@ export interface TaskDelete200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface TaskDeleteDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface TaskDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TaskDeleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -6494,9 +6977,16 @@ export interface TaskGet200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface TaskGetDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface TaskGetDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TaskGetDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -6575,9 +7065,16 @@ export interface TaskList200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface TaskListDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface TaskListDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TaskListDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -6637,9 +7134,16 @@ export interface TaskListSubtasks200Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface TaskListSubtasksDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface TaskListSubtasksDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TaskListSubtasksDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -6695,9 +7199,16 @@ export interface TaskReactivate204Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface TaskReactivateDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface TaskReactivateDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TaskReactivateDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -6805,9 +7316,16 @@ export interface TaskTerminate204Response extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface TaskTerminateDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface TaskTerminateDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TaskTerminateDefaultHeaders;
     // (undocumented)
     status: string;
 }
@@ -6866,9 +7384,16 @@ export interface TaskUpdateBodyParam {
 }
 
 // @public (undocumented)
+export interface TaskUpdateDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
 export interface TaskUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponseOutput;
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TaskUpdateDefaultHeaders;
     // (undocumented)
     status: string;
 }

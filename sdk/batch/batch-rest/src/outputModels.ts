@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { Paged } from "@azure/core-paging";
+
 /** The result of listing the applications available in an Account. */
 export interface ApplicationListResultOutput {
   /** The list of applications available in the Account. */
@@ -17,34 +19,6 @@ export interface ApplicationOutput {
   displayName: string;
   /** The list of available versions of the application. */
   versions: string[];
-}
-
-/** A response containing error details. */
-export interface ErrorResponseOutput {
-  /** The error object. */
-  error: ErrorModelOutput;
-}
-
-/** The error object. */
-export interface ErrorModelOutput {
-  /** One of a server-defined set of error codes. */
-  code: string;
-  /** A human-readable representation of the error. */
-  message: string;
-  /** The target of the error. */
-  target?: string;
-  /** An array of details about specific errors that led to this reported error. */
-  details: Array<ErrorModelOutput>;
-  /** An object containing more specific information than the current object about the error. */
-  innererror?: InnerErrorOutput;
-}
-
-/** An object containing more specific information about the error. As per Microsoft One API guidelines - https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses. */
-export interface InnerErrorOutput {
-  /** One of a server-defined set of error codes. */
-  code: string;
-  /** Inner error. */
-  innererror?: InnerErrorOutput;
 }
 
 /** The parameters for a widget status request */
@@ -107,14 +81,6 @@ export interface PoolUsageMetricsOutput {
   vmSize: string;
   /** The total core hours used in the Pool during this aggregation interval. */
   totalCoreHours: number;
-}
-
-/** Paged collection of PoolUsageMetrics items */
-export interface PoolUsageMetricsListOutput {
-  /** The PoolUsageMetrics items on this page */
-  value: Array<PoolUsageMetricsOutput>;
-  /** The link to the next page of items */
-  nextLink?: string;
 }
 
 /** Contains utilization and resource usage statistics for the lifetime of a Pool. */
@@ -3916,3 +3882,6 @@ export interface NodeVMExtensionListOutput {
   /** The URL to get the next set of results. */
   "odata.nextLink"?: string;
 }
+
+/** Paged collection of PoolUsageMetrics items */
+export type PoolUsageMetricsListOutput = Paged<PoolUsageMetricsOutput>;

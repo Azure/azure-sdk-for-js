@@ -8,5 +8,5 @@ export function getResourceName(type: string) {
   return `${RESOURCE_PREFIX}-${type}-${_SUFFIX}`;
 }
 
-export const POLLING_INTERVAL = 7500;
+export const POLLING_INTERVAL = 10000;
 export const LONG_TEST_TIMEOUT = 1000000;
