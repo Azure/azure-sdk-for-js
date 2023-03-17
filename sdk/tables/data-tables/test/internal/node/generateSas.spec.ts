@@ -11,6 +11,8 @@ import {
   expectedSas5,
   expectedSas6,
   expectedSas7,
+  expectedSas8,
+  expectedSas9,
 } from "../fakeTestSecrets";
 import { assert } from "chai";
 
@@ -35,6 +37,28 @@ describe("SAS generation", function () {
       );
 
       assert.equal(tableSas, expectedSas1);
+    });
+
+    it("should generate a SAS token with start partition and row keys", async () => {
+      // Create the table SAS token
+      const tableSas = generateTableSas(
+        "testTable",
+        new AzureNamedKeyCredential("keyName", "keySecret"),
+        { startPartitionKey: "P1", startRowKey: "1" }
+      );
+
+      assert.equal(tableSas, expectedSas8);
+    });
+
+    it("should generate a SAS token with end partition and row keys", async () => {
+      // Create the table SAS token
+      const tableSas = generateTableSas(
+        "testTable",
+        new AzureNamedKeyCredential("keyName", "keySecret"),
+        { endPartitionKey: "P1", endRowKey: "1" }
+      );
+
+      assert.equal(tableSas, expectedSas9);
     });
 
     it("should generate a SAS token with explicit permissions", async () => {

@@ -132,6 +132,30 @@ export class SasQueryParameters {
   public readonly correlationId?: string;
 
   /**
+   * Optional, but startPrimaryKey must accompany startRowKey. The minimum partition and row keys that are accessible with this shared access signature.
+   * Key values are inclusive. If they're omitted, there's no lower bound on the table entities that can be accessed.
+   */
+  public readonly startPartitionKey?: string;
+
+  /**
+   * Optional, but startPrimaryKey must accompany startRowKey. The minimum partition and row keys that are accessible with this shared access signature.
+   * Key values are inclusive. If they're omitted, there's no lower bound on the table entities that can be accessed.
+   */
+  public readonly startRowKey?: string;
+
+  /**
+   * Optional, but endPrimaryKey must accompany endRowKey. The maximum partition and row keys that are accessible with this shared access signature.
+   * Key values are inclusive. If they're omitted, there's no upper bound on the table entities that can be accessed.
+   */
+  public readonly endPartitionKey?: string;
+
+  /**
+   * Optional, but endPrimaryKey must accompany endRowKey. The maximum partition and row keys that are accessible with this shared access signature.
+   * Key values are inclusive. If they're omitted, there's no upper bound on the table entities that can be accessed.
+   */
+  public readonly endRowKey?: string;
+
+  /**
    * Optional. IP range allowed for this SAS.
    *
    * @readonly
@@ -166,6 +190,10 @@ export class SasQueryParameters {
     this.ipRangeInner = options.ipRange;
     this.identifier = options.identifier;
     this.tableName = options.tableName;
+    this.endPartitionKey = options.endPartitionKey;
+    this.endRowKey = options.endRowKey;
+    this.startPartitionKey = options.startPartitionKey;
+    this.startRowKey = options.startRowKey;
 
     if (options.userDelegationKey) {
       this.signedOid = options.userDelegationKey.signedObjectId;
@@ -210,7 +238,11 @@ export class SasQueryParameters {
       "rsct",
       "saoid",
       "scid",
-      "tn", // TableName
+      "tn", // TableName,
+      "srk",
+      "spk",
+      "epk",
+      "erk",
     ];
     const queries: string[] = [];
 
@@ -292,6 +324,18 @@ export class SasQueryParameters {
           break;
         case "tn":
           this.tryAppendQueryParameter(queries, param, this.tableName);
+          break;
+        case "spk":
+          this.tryAppendQueryParameter(queries, param, this.startPartitionKey);
+          break;
+        case "srk":
+          this.tryAppendQueryParameter(queries, param, this.startRowKey);
+          break;
+        case "epk":
+          this.tryAppendQueryParameter(queries, param, this.endPartitionKey);
+          break;
+        case "erk":
+          this.tryAppendQueryParameter(queries, param, this.endRowKey);
           break;
       }
     }
@@ -386,4 +430,28 @@ export interface SasQueryParametersOptions {
    * This is only used for User Delegation SAS.
    */
   correlationId?: string;
+
+  /**
+   * Optional, but startPrimaryKey must accompany startRowKey. The minimum partition and row keys that are accessible with this shared access signature.
+   * Key values are inclusive. If they're omitted, there's no lower bound on the table entities that can be accessed.
+   */
+  startPartitionKey?: string;
+
+  /**
+   * Optional, but startPrimaryKey must accompany startRowKey. The minimum partition and row keys that are accessible with this shared access signature.
+   * Key values are inclusive. If they're omitted, there's no lower bound on the table entities that can be accessed.
+   */
+  startRowKey?: string;
+
+  /**
+   * Optional, but endPrimaryKey must accompany endRowKey. The maximum partition and row keys that are accessible with this shared access signature.
+   * Key values are inclusive. If they're omitted, there's no upper bound on the table entities that can be accessed.
+   */
+  endPartitionKey?: string;
+
+  /**
+   * Optional, but endPrimaryKey must accompany endRowKey. The maximum partition and row keys that are accessible with this shared access signature.
+   * Key values are inclusive. If they're omitted, there's no upper bound on the table entities that can be accessed.
+   */
+  endRowKey?: string;
 }
