@@ -49,11 +49,11 @@ import {
 import { max32BitNumber } from "../util/constants";
 import { Buffer } from "buffer";
 import { OperationOptionsBase } from "./../modelsToBeSharedWithEventHubs";
-import { AbortSignalLike } from "@azure/abort-controller";
+import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { ReceiveMode } from "../models";
 import { translateServiceBusError } from "../serviceBusError";
 import { defaultDataTransformer, tryToJsonDecode } from "../dataTransformer";
-import { isDefined, isObjectWithProperties } from "@azure/core-util";
+import { delay, isDefined, isObjectWithProperties } from "@azure/core-util";
 import {
   RuleProperties,
   SqlRuleAction,
@@ -252,6 +252,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     options: SendManagementRequestOptions = {}
   ): Promise<SendManagementRequestOptions> {
     const retryTimeoutInMs = options.timeoutInMs ?? Constants.defaultOperationTimeoutInMs;
+    const initOperationStartTime = Date.now();
     return defaultCancellableLock.acquire(
       this._initLock,
       async () => {
@@ -264,32 +265,25 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
             `{this._logPrefix} new replyTo address: ${this.replyTo} generated`
           );
         }
-        const initOperationStartTime = Date.now();
-        const actionAfterTimeout = (reject: (reason?: any) => void): void => {
-          const desc: string = `The management request with timed out. Please try again later.`;
-          const e: Error = {
-            name: "OperationTimeoutError",
-            message: desc,
-          };
+        const { abortSignal } = options ?? {};
+        const aborter = new AbortController();
+        const { signal } = new AbortController([
+          aborter.signal,
+          ...(abortSignal ? [abortSignal] : []),
+        ]);
 
-          reject(e);
-        };
-
-        let waitTimer: ReturnType<typeof setTimeout>;
-        // eslint-disable-next-line promise/param-names
-        const operationTimeout = new Promise<void>((_, reject) => {
-          waitTimer = setTimeout(() => actionAfterTimeout(reject), retryTimeoutInMs);
-        });
-        managementClientLogger.verbose(
-          `${this.logPrefix} Acquiring lock to get the management req res link.`
-        );
-
-        try {
-          if (!this.isOpen()) {
-            await Promise.race([this._init(options.abortSignal), operationTimeout]);
-          }
-        } finally {
-          clearTimeout(waitTimer!);
+        if (!this.isOpen()) {
+          await Promise.race([
+            this._init(signal),
+            delay(retryTimeoutInMs, { abortSignal })
+              .then(() => {
+                throw {
+                  name: "OperationTimeoutError",
+                  message: "The management request timed out. Please try again later.",
+                };
+              })
+              .finally(() => aborter.abort()),
+          ]);
         }
 
         // time taken by the init operation

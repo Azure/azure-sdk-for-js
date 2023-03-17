@@ -18,21 +18,18 @@ describe("ManagementClient unit tests", () => {
     );
     try {
       mgmtClient["_init"] = async () => {
-        // To make sure _init is in progress by the time actionAfterTimeout is invoked
-        await delay(1);
+        // To make sure _init is in progress
+        await delay(50);
       };
 
-      // Error thrown from the actionAfterTimeout triggered by the setTimeout (0 seconds)
+      // Error thrown after timeout
       await mgmtClient["initWithUniqueReplyTo"]({
-        timeoutInMs: 0,
+        timeoutInMs: 5,
       });
 
       chai.assert.fail("_makeManagementRequest should have failed");
     } catch (error: any) {
-      chai.assert.equal(
-        error.message,
-        "The management request with timed out. Please try again later."
-      );
+      chai.assert.equal(error.message, "The management request timed out. Please try again later.");
     }
     await mgmtClient.close();
   });
