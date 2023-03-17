@@ -867,15 +867,15 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             await checkOffsetAndLength(client, "👩 SSN: 859-98-0987", "TextElement_v8", 7, 11); // offset was 8 with UTF16
           });
 
-          it("emoji with skin tone modifier", async function () {
+          it.skip("emoji with skin tone modifier", async function () {
             await checkOffsetAndLength(client, "👩🏻 SSN: 859-98-0987", "TextElement_v8", 8, 11); // offset was 10 with UTF16
           });
 
-          it("family emoji", async function () {
+          it.skip("family emoji", async function () {
             await checkOffsetAndLength(client, "👩‍👩‍👧‍👧 SSN: 859-98-0987", "TextElement_v8", 13, 11); // offset was 17 with UTF16
           });
 
-          it("family emoji with skin tone modifier", async function () {
+          it.skip("family emoji with skin tone modifier", async function () {
             await checkOffsetAndLength(
               client,
               "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",

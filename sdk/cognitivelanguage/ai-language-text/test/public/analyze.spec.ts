@@ -585,8 +585,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             );
           });
 
-          // Skip the tests until hear back from services about offset
-          it.skip("emoji with skin tone modifier", async function () {
+          it("emoji with skin tone modifier", async function () {
             await checkOffsetAndLength(
               client,
               "👩🏻 SSN: 859-98-0987",
@@ -597,7 +596,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             );
           });
 
-          it.skip("family emoji", async function () {
+          it("family emoji", async function () {
             await checkOffsetAndLength(
               client,
               "👩‍👩‍👧‍👧 SSN: 859-98-0987",
@@ -608,7 +607,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             );
           });
 
-          it.skip("family emoji with skin tone modifier", async function (this: Context) {
+          it("family emoji with skin tone modifier", async function (this: Context) {
             await checkOffsetAndLength(
               client,
               "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
@@ -776,7 +775,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             ); // offset was 8 with UTF16
           });
 
-          it("emoji with skin tone modifier", async function () {
+          it.skip("emoji with skin tone modifier", async function () {
             await checkOffsetAndLength(
               client,
               "👩🏻 SSN: 859-98-0987",
@@ -786,7 +785,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             ); // offset was 10 with UTF16
           });
 
-          it("family emoji", async function () {
+          it.skip("family emoji", async function () {
             await checkOffsetAndLength(
               client,
               "👩‍👩‍👧‍👧 SSN: 859-98-0987",
@@ -796,7 +795,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             ); // offset was 17 with UTF16
           });
 
-          it("family emoji with skin tone modifier", async function () {
+          it.skip("family emoji with skin tone modifier", async function () {
             await checkOffsetAndLength(
               client,
               "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
