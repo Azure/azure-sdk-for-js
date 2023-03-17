@@ -589,7 +589,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               client,
               "👩🏻 SSN: 859-98-0987",
               KnownStringIndexType.Utf16CodeUnit,
-              7,
+              10,
               11,
               checkEntityTextOffset
             );
@@ -600,7 +600,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               client,
               "👩‍👩‍👧‍👧 SSN: 859-98-0987",
               KnownStringIndexType.Utf16CodeUnit,
-              7,
+              17,
               11,
               checkEntityTextOffset
             );
@@ -611,7 +611,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               client,
               "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
               KnownStringIndexType.Utf16CodeUnit,
-              7,
+              25,
               11,
               checkEntityTextOffset
             );
@@ -779,7 +779,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               client,
               "👩🏻 SSN: 859-98-0987",
               KnownStringIndexType.TextElementsV8,
-              8,
+              7,
               11
             ); // offset was 10 with UTF16
           });
@@ -789,7 +789,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               client,
               "👩‍👩‍👧‍👧 SSN: 859-98-0987",
               KnownStringIndexType.TextElementsV8,
-              13,
+              7,
               11
             ); // offset was 17 with UTF16
           });
@@ -799,7 +799,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               client,
               "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
               KnownStringIndexType.TextElementsV8,
-              17,
+              7,
               11
             ); // offset was 25 with UTF16
           });
