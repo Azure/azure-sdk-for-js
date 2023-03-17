@@ -2,6 +2,8 @@
 
 ## 1.0.0 (2023-03-31)
 
+### Features Added
+
 The public release of the Azure Communication Services SDK for Email has the following features:
 
 - send emails with a variety of options (multiple recipients, attachments, etc.)
