@@ -248,52 +248,63 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * @param options -
    * @returns updated options bag that has adjusted `timeoutInMs` to account for init time
    */
-  private async initWithUniqueReplyTo(options: SendManagementRequestOptions = {}): Promise<SendManagementRequestOptions> {
+  private async initWithUniqueReplyTo(
+    options: SendManagementRequestOptions = {}
+  ): Promise<SendManagementRequestOptions> {
     const retryTimeoutInMs = options.timeoutInMs ?? Constants.defaultOperationTimeoutInMs;
-    return await defaultCancellableLock.acquire(this._initLock, async () => {
-      managementClientLogger.verbose(`{this._logPrefix} lock acquired for initializing replyTo address and link`);
-      if (!this.isOpen()) {
-        this.replyTo = generate_uuid();
-        managementClientLogger.verbose(`{this._logPrefix} new replyTo address: ${this.replyTo} generated`);
+    return await defaultCancellableLock.acquire(
+      this._initLock,
+      async () => {
+        managementClientLogger.verbose(
+          `{this._logPrefix} lock acquired for initializing replyTo address and link`
+        );
+        if (!this.isOpen()) {
+          this.replyTo = generate_uuid();
+          managementClientLogger.verbose(
+            `{this._logPrefix} new replyTo address: ${this.replyTo} generated`
+          );
+        }
+        const initOperationStartTime = Date.now();
+        const actionAfterTimeout = (reject: (reason?: any) => void): void => {
+          const desc: string = `The management request with timed out. Please try again later.`;
+          const e: Error = {
+            name: "OperationTimeoutError",
+            message: desc,
+          };
+
+          reject(e);
+        };
+
+        let waitTimer: ReturnType<typeof setTimeout>;
+        // eslint-disable-next-line promise/param-names
+        const operationTimeout = new Promise<void>((_, reject) => {
+          waitTimer = setTimeout(() => actionAfterTimeout(reject), retryTimeoutInMs);
+        });
+        managementClientLogger.verbose(
+          `${this.logPrefix} Acquiring lock to get the management req res link.`
+        );
+
+        try {
+          if (!this.isOpen()) {
+            await Promise.race([this._init(options.abortSignal), operationTimeout]);
+          }
+        } finally {
+          clearTimeout(waitTimer!);
+        }
+
+        // time taken by the init operation
+        const timeTakenByInit = Date.now() - initOperationStartTime;
+        return {
+          ...options,
+          // Left over time
+          timeoutInMs: retryTimeoutInMs - timeTakenByInit,
+        };
+      },
+      {
+        abortSignal: options.abortSignal,
+        timeoutInMs: retryTimeoutInMs,
       }
-    const initOperationStartTime = Date.now();
-    const actionAfterTimeout = (reject: (reason?: any) => void): void => {
-      const desc: string = `The management request with timed out. Please try again later.`;
-      const e: Error = {
-        name: "OperationTimeoutError",
-        message: desc,
-      };
-
-      reject(e);
-    };
-
-    let waitTimer: ReturnType<typeof setTimeout>;
-    // eslint-disable-next-line promise/param-names
-    const operationTimeout = new Promise<void>((_, reject) => {
-      waitTimer = setTimeout(() => actionAfterTimeout(reject), retryTimeoutInMs);
-    });
-    managementClientLogger.verbose(`${this.logPrefix} Acquiring lock to get the management req res link.`);
-
-    try {
-      if (!this.isOpen()) {
-        await Promise.race([this._init(options.abortSignal), operationTimeout]);
-      }
-    } finally {
-      clearTimeout(waitTimer!);
-    }
-
-    // time taken by the init operation
-    const timeTakenByInit = Date.now() - initOperationStartTime;
-      return {
-        ...options,
-    // Left over time
-        timeoutInMs: retryTimeoutInMs - timeTakenByInit,
-      }
-
-    }, {
-      abortSignal: options.abortSignal,
-      timeoutInMs: retryTimeoutInMs,
-    });
+    );
   }
 
   private async _init(abortSignal?: AbortSignalLike): Promise<void> {
@@ -554,7 +565,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         },
       };
       if (updatedOptions?.associatedLinkName) {
-        request.application_properties![Constants.associatedLinkName] = updatedOptions?.associatedLinkName;
+        request.application_properties![Constants.associatedLinkName] =
+          updatedOptions?.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
 
@@ -631,7 +643,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
       if (updatedOptions.associatedLinkName) {
-        request.application_properties![Constants.associatedLinkName] = updatedOptions.associatedLinkName;
+        request.application_properties![Constants.associatedLinkName] =
+          updatedOptions.associatedLinkName;
       }
       receiverLogger.verbose(
         "[%s] Renew message Lock request: %O.",
@@ -723,7 +736,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         },
       };
       if (updatedOptions?.associatedLinkName) {
-        request.application_properties![Constants.associatedLinkName] = updatedOptions?.associatedLinkName;
+        request.application_properties![Constants.associatedLinkName] =
+          updatedOptions?.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
       senderLogger.verbose("%s Schedule messages request body: %O.", this.logPrefix, request.body);
@@ -792,7 +806,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       };
 
       if (updatedOptions?.associatedLinkName) {
-        request.application_properties![Constants.associatedLinkName] = updatedOptions?.associatedLinkName;
+        request.application_properties![Constants.associatedLinkName] =
+          updatedOptions?.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
       senderLogger.verbose(
@@ -870,7 +885,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         },
       };
       if (updatedOptions?.associatedLinkName) {
-        request.application_properties![Constants.associatedLinkName] = updatedOptions?.associatedLinkName;
+        request.application_properties![Constants.associatedLinkName] =
+          updatedOptions?.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
       receiverLogger.verbose(
@@ -957,7 +973,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         },
       };
       if (updatedOptions.associatedLinkName) {
-        request.application_properties![Constants.associatedLinkName] = updatedOptions.associatedLinkName;
+        request.application_properties![Constants.associatedLinkName] =
+          updatedOptions.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
       receiverLogger.verbose(
@@ -1001,7 +1018,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
       if (updatedOptions?.associatedLinkName) {
-        request.application_properties![Constants.associatedLinkName] = updatedOptions?.associatedLinkName;
+        request.application_properties![Constants.associatedLinkName] =
+          updatedOptions?.associatedLinkName;
       }
       receiverLogger.verbose(
         "%s Renew Session Lock request body: %O.",
@@ -1053,7 +1071,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         },
       };
       if (updatedOptions?.associatedLinkName) {
-        request.application_properties![Constants.associatedLinkName] = updatedOptions?.associatedLinkName;
+        request.application_properties![Constants.associatedLinkName] =
+          updatedOptions?.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
       receiverLogger.verbose(
@@ -1095,7 +1114,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         },
       };
       if (updatedOptions?.associatedLinkName) {
-        request.application_properties![Constants.associatedLinkName] = updatedOptions?.associatedLinkName;
+        request.application_properties![Constants.associatedLinkName] =
+          updatedOptions?.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
       receiverLogger.verbose(
@@ -1163,7 +1183,11 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         this.logPrefix,
         request.body
       );
-      const response = await this._makeManagementRequest(request, managementClientLogger, updatedOptions);
+      const response = await this._makeManagementRequest(
+        request,
+        managementClientLogger,
+        updatedOptions
+      );
 
       return (response && response.body && response.body["sessions-ids"]) || [];
     } catch (err: any) {
@@ -1185,7 +1209,9 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   ): Promise<RuleProperties[]> {
     throwErrorIfConnectionClosed(this._context);
     try {
-      const updatedOptions = await this.initWithUniqueReplyTo(options) as ListRequestOptions & OperationOptionsBase & SendManagementRequestOptions;
+      const updatedOptions = (await this.initWithUniqueReplyTo(options)) as ListRequestOptions &
+        OperationOptionsBase &
+        SendManagementRequestOptions;
       const request: RheaMessage = {
         body: {
           top: updatedOptions?.maxCount
@@ -1205,7 +1231,11 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         this.logPrefix,
         request.body
       );
-      const response = await this._makeManagementRequest(request, managementClientLogger, updatedOptions);
+      const response = await this._makeManagementRequest(
+        request,
+        managementClientLogger,
+        updatedOptions
+      );
       if (
         response.application_properties!.statusCode === 204 ||
         !response.body ||
