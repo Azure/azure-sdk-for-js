@@ -584,36 +584,34 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               checkEntityTextOffset
             );
           });
-
-          // Skip the tests until hear back from services about offset
-          it.skip("emoji with skin tone modifier", async function () {
+          it("emoji with skin tone modifier", async function () {
             await checkOffsetAndLength(
               client,
               "👩🏻 SSN: 859-98-0987",
               KnownStringIndexType.Utf16CodeUnit,
-              10,
+              7,
               11,
               checkEntityTextOffset
             );
           });
 
-          it.skip("family emoji", async function () {
+          it("family emoji", async function () {
             await checkOffsetAndLength(
               client,
               "👩‍👩‍👧‍👧 SSN: 859-98-0987",
               KnownStringIndexType.Utf16CodeUnit,
-              17,
+              7,
               11,
               checkEntityTextOffset
             );
           });
 
-          it.skip("family emoji with skin tone modifier", async function (this: Context) {
+          it("family emoji with skin tone modifier", async function (this: Context) {
             await checkOffsetAndLength(
               client,
               "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
               KnownStringIndexType.Utf16CodeUnit,
-              25,
+              7,
               11,
               checkEntityTextOffset
             );
