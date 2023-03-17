@@ -38,3 +38,13 @@ directive:
     transform: >
       $["required"] = []
 ```
+
+### Rename the "userEngagementTrackingDisabled" property to "disableUserEngagementTracking"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.EmailMessage.properties
+    transform: >
+      $["userEngagementTrackingDisabled"]["x-ms-client-name"] = "disableUserEngagementTracking"
+```

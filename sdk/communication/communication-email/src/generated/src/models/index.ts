@@ -82,7 +82,7 @@ export interface EmailMessage {
   /** Email addresses where recipients' replies will be sent to. */
   replyTo?: EmailAddress[];
   /** Indicates whether user engagement tracking should be disabled for this request if the resource-level user engagement tracking setting was already enabled in the control plane. */
-  userEngagementTrackingDisabled?: boolean;
+  disableUserEngagementTracking?: boolean;
 }
 
 /** Content of the email. */
