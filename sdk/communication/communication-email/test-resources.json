@@ -59,9 +59,7 @@
           "[resourceId('Microsoft.Communication/EmailServices/Domains', variables('emailServiceName'), 'AzureManagedDomain')]"
         ]
       },
-      "dependsOn": [
-        "AzureManagedDomain"
-      ]
+      "dependsOn": ["AzureManagedDomain"]
     },
     {
       "type": "Microsoft.Authorization/roleAssignments",
@@ -87,9 +85,7 @@
           "apiVersion": "2021-10-01-preview",
           "name": "AzureManagedDomain",
           "location": "global",
-          "dependsOn": [
-            "[variables('emailServiceName')]"
-          ],
+          "dependsOn": ["[variables('emailServiceName')]"],
           "properties": {
             "domainManagement": "AzureManaged"
           }
