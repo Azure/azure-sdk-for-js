@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/catalog/api/atlas/v2/entity/guid/4f0ae4e5-4d3d-4922-9b5c-eb3fd972f762?api-version=2022-03-01-preview",
+      "RequestUri": "https://endpoint/catalog/api/atlas/v2/entity/guid/56594c06-fc23-4c20-a2a8-d4ced42975c1?api-version=2022-03-01-preview",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -9,7 +9,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-purview-catalog-rest/1.0.0-beta.5 core-rest-pipeline/1.10.3 Node/v18.14.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "3ded5855-1f16-46b9-b378-74ba2ffe2d5f"
+        "x-ms-client-request-id": "33af6284-ce27-4bbd-9504-cf3f2f4c21d6"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -21,7 +21,7 @@
         "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
         "Content-Security-Policy": "default-src \u0027self\u0027; script-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 blob: data:; connect-src \u0027self\u0027; img-src \u0027self\u0027 blob: data:; style-src \u0027self\u0027 \u0027unsafe-inline\u0027;font-src \u0027self\u0027 data:",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 14 Mar 2023 08:03:38 GMT",
+        "Date": "Fri, 17 Mar 2023 01:59:31 GMT",
         "Expires": "0",
         "Pragma": "no-cache",
         "Server": "MicrosoftPurview",
@@ -29,8 +29,8 @@
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "DENY",
-        "x-ms-correlation-request-id": "6c5f8c6a-fae4-4375-b422-3294dab77c03",
-        "x-ms-request-id": "3ded5855-1f16-46b9-b378-74ba2ffe2d5f",
+        "x-ms-correlation-request-id": "8d77c26c-058f-495f-80b3-baab07aa3dca",
+        "x-ms-request-id": "33af6284-ce27-4bbd-9504-cf3f2f4c21d6",
         "X-XSS-Protection": "1; mode=block"
       },
       "ResponseBody": {
@@ -43,7 +43,7 @@
                 "name": "jsLROTesting-2"
               },
               "lastModifiedTS": "2",
-              "guid": "4f0ae4e5-4d3d-4922-9b5c-eb3fd972f762",
+              "guid": "56594c06-fc23-4c20-a2a8-d4ced42975c1",
               "status": "ACTIVE",
               "displayText": "jsLROTesting-2",
               "classificationNames": [],

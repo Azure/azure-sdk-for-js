@@ -11,7 +11,7 @@
         "Content-Length": "160",
         "Content-Type": "application/json; charset=UTF-8",
         "User-Agent": "azsdk-js-purview-catalog-rest/1.0.0-beta.5 core-rest-pipeline/1.10.3 Node/v18.14.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "88fe27dc-8043-43f7-8ee7-79936534b720"
+        "x-ms-client-request-id": "ae02f69a-a6fa-48c5-9a99-ad79d968df09"
       },
       "RequestBody": {
         "name": "jsLROTesting-2",
@@ -29,7 +29,7 @@
         "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
         "Content-Security-Policy": "default-src \u0027self\u0027; script-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 blob: data:; connect-src \u0027self\u0027; img-src \u0027self\u0027 blob: data:; style-src \u0027self\u0027 \u0027unsafe-inline\u0027;font-src \u0027self\u0027 data:",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 14 Mar 2023 08:03:31 GMT",
+        "Date": "Fri, 17 Mar 2023 01:59:27 GMT",
         "Expires": "0",
         "Pragma": "no-cache",
         "Server": "MicrosoftPurview",
@@ -37,12 +37,12 @@
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "DENY",
-        "x-ms-correlation-request-id": "fc29aa69-7b54-413c-9369-0c5b7c4820e9",
-        "x-ms-request-id": "88fe27dc-8043-43f7-8ee7-79936534b720",
+        "x-ms-correlation-request-id": "0f09228e-3900-48d2-b33e-32eb9f07fc9a",
+        "x-ms-request-id": "ae02f69a-a6fa-48c5-9a99-ad79d968df09",
         "X-XSS-Protection": "1; mode=block"
       },
       "ResponseBody": {
-        "guid": "4f0ae4e5-4d3d-4922-9b5c-eb3fd972f762",
+        "guid": "56594c06-fc23-4c20-a2a8-d4ced42975c1",
         "qualifiedName": "jsLROTesting-2",
         "name": "jsLROTesting-2",
         "shortDescription": "Example Short Description",
@@ -50,8 +50,8 @@
         "lastModifiedTS": "1",
         "createdBy": "d167e17c-37c3-4002-be10-666abb3b49f8",
         "updatedBy": "d167e17c-37c3-4002-be10-666abb3b49f8",
-        "createTime": 1678781011521,
-        "updateTime": 1678781011521,
+        "createTime": 1679018367682,
+        "updateTime": 1679018367682,
         "language": "en",
         "usage": "Example Glossary"
       }

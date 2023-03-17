@@ -11,9 +11,9 @@
         "Content-Length": "173",
         "contentType": "multipart/form-data",
         "User-Agent": "azsdk-js-purview-catalog-rest/1.0.0-beta.5 core-rest-pipeline/1.10.3 Node/v18.14.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "e01a8dc9-4e8c-46a3-b8de-44af690609ac"
+        "x-ms-client-request-id": "e3c76b4a-0e1e-4fea-8b88-0d65120eacba"
       },
-      "RequestBody": "LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLTA5MTEzNzk0NDQ4MDU2Mjg5OTc3MTcyMA0KQ29udGVudC1EaXNwb3NpdGlvbjogZm9ybS1kYXRhOyBuYW1lPSJmaWxlIg0KDQpyYW5kb20gY29udGVudA0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLTA5MTEzNzk0NDQ4MDU2Mjg5OTc3MTcyMC0tDQo=",
+      "RequestBody": "LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLTk3MTE0OTQwNDA1ODAyNTg3MzQ3NzgxNQ0KQ29udGVudC1EaXNwb3NpdGlvbjogZm9ybS1kYXRhOyBuYW1lPSJmaWxlIg0KDQpyYW5kb20gY29udGVudA0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLTk3MTE0OTQwNDA1ODAyNTg3MzQ3NzgxNS0tDQo=",
       "StatusCode": 202,
       "ResponseHeaders": {
         "Access-Control-Allow-Headers": "authorization,content-type,x-xsrf-header,x-ms-client-request-id,lastmodifiedts,x-ms-user-token,x-ms-client-tenant-id",
@@ -22,24 +22,24 @@
         "Access-Control-Expose-Headers": "x-ms-request-id,lastmodifiedts",
         "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
         "Content-Security-Policy": "default-src \u0027self\u0027; script-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 blob: data:; connect-src \u0027self\u0027; img-src \u0027self\u0027 blob: data:; style-src \u0027self\u0027 \u0027unsafe-inline\u0027;font-src \u0027self\u0027 data:",
-        "Date": "Tue, 14 Mar 2023 08:03:32 GMT",
+        "Date": "Fri, 17 Mar 2023 01:59:29 GMT",
         "Expires": "0",
-        "Location": "https://endpoint/catalog/api/glossary/terms/import/e01a8dc9-4e8c-46a3-b8de-44af690609ac%3Fapi-version=2022-03-01-preview",
-        "operation-location": "https://endpoint/catalog/api/glossary/terms/import/e01a8dc9-4e8c-46a3-b8de-44af690609ac%3Fapi-version=2022-03-01-preview",
+        "Location": "https://endpoint/catalog/api/glossary/terms/import/e3c76b4a-0e1e-4fea-8b88-0d65120eacba?api-version=2022-03-01-preview",
+        "operation-location": "https://endpoint/catalog/api/glossary/terms/import/e3c76b4a-0e1e-4fea-8b88-0d65120eacba?api-version=2022-03-01-preview",
         "Pragma": "no-cache",
         "Retry-After": "5",
         "Server": "MicrosoftPurview",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "DENY",
-        "x-ms-correlation-request-id": "921c088f-aa3c-42de-b1f2-fb7377a57394",
-        "x-ms-request-id": "e01a8dc9-4e8c-46a3-b8de-44af690609ac",
+        "x-ms-correlation-request-id": "93b71b1d-83ab-496d-a4a8-5d76b3b508aa",
+        "x-ms-request-id": "e3c76b4a-0e1e-4fea-8b88-0d65120eacba",
         "X-XSS-Protection": "1; mode=block"
       },
-      "ResponseBody": "eyJpZCI6ImUwMWE4ZGM5LTRlOGMtNDZhMy1iOGRlLTQ0YWY2OTA2MDlhYyIsInN0YXR1cyI6IlJ1bm5pbmciLCJjcmVhdGVUaW1lIjoiMjAyMy0wMy0xNFQwODowMzozMi43NzQrMDAwMCIsInRhc2tQaWNrVXBUaW1lIjpudWxsLCJsYXN0VXBkYXRlVGltZSI6IjIwMjMtMDMtMTRUMDg6MDM6MzIuNzc0KzAwMDAiLCJwcm9wZXJ0aWVzIjp7ImltcG9ydGVkVGVybXMiOiIwIiwidG90YWxUZXJtc0RldGVjdGVkIjoiLTEifSwiZXJyb3IiOnsiZXJyb3JDb2RlIjowLCJlcnJvck1lc3NhZ2UiOiIifSwicHJvZ3Jlc3MiOnsic3RhdHVzIjpudWxsLCJzdGF0aXN0aWNzIjpudWxsfX0="
+      "ResponseBody": "eyJpZCI6ImUzYzc2YjRhLTBlMWUtNGZlYS04Yjg4LTBkNjUxMjBlYWNiYSIsInN0YXR1cyI6IlJ1bm5pbmciLCJjcmVhdGVUaW1lIjoiMjAyMy0wMy0xN1QwMTo1OToyOS44MzMrMDAwMCIsInRhc2tQaWNrVXBUaW1lIjpudWxsLCJsYXN0VXBkYXRlVGltZSI6IjIwMjMtMDMtMTdUMDE6NTk6MjkuODMzKzAwMDAiLCJwcm9wZXJ0aWVzIjp7ImltcG9ydGVkVGVybXMiOiIwIiwidG90YWxUZXJtc0RldGVjdGVkIjoiLTEifSwiZXJyb3IiOnsiZXJyb3JDb2RlIjowLCJlcnJvck1lc3NhZ2UiOiIifSwicHJvZ3Jlc3MiOnsic3RhdHVzIjpudWxsLCJzdGF0aXN0aWNzIjpudWxsfX0="
     },
     {
-      "RequestUri": "https://endpoint/catalog/api/glossary/terms/import/e01a8dc9-4e8c-46a3-b8de-44af690609ac%3Fapi-version=2022-03-01-preview?api-version=2022-03-01-preview",
+      "RequestUri": "https://endpoint/catalog/api/glossary/terms/import/e3c76b4a-0e1e-4fea-8b88-0d65120eacba?api-version=2022-03-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -47,10 +47,10 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-purview-catalog-rest/1.0.0-beta.5 core-rest-pipeline/1.10.3 Node/v18.14.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "5845e1bd-8abd-4dcd-8dd6-b1fe415c4e0d"
+        "x-ms-client-request-id": "10633f93-caa0-4b6b-954f-0eefe931ffe6"
       },
       "RequestBody": null,
-      "StatusCode": 500,
+      "StatusCode": 200,
       "ResponseHeaders": {
         "Access-Control-Allow-Headers": "authorization,content-type,x-xsrf-header,x-ms-client-request-id,lastmodifiedts,x-ms-user-token,x-ms-client-tenant-id",
         "Access-Control-Allow-Methods": "GET,OPTIONS,HEAD,PUT,POST,DELETE,PATCH",
@@ -58,21 +58,23 @@
         "Access-Control-Expose-Headers": "x-ms-request-id,lastmodifiedts",
         "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
         "Content-Security-Policy": "default-src \u0027self\u0027; script-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 blob: data:; connect-src \u0027self\u0027; img-src \u0027self\u0027 blob: data:; style-src \u0027self\u0027 \u0027unsafe-inline\u0027;font-src \u0027self\u0027 data:",
-        "Date": "Tue, 14 Mar 2023 08:03:33 GMT",
+        "Date": "Fri, 17 Mar 2023 01:59:30 GMT",
         "Expires": "0",
+        "operation-location": "https://endpoint/catalog/api/glossary/terms/import/e3c76b4a-0e1e-4fea-8b88-0d65120eacba?api-version=2022-03-01-preview",
         "Pragma": "no-cache",
+        "Retry-After": "5",
         "Server": "MicrosoftPurview",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "DENY",
-        "x-ms-correlation-request-id": "e7d2d29e-e792-43a5-a6d1-b2e3691cf08e",
-        "x-ms-request-id": "5845e1bd-8abd-4dcd-8dd6-b1fe415c4e0d",
+        "x-ms-correlation-request-id": "4058069a-d61c-4f31-ad8a-1303138e9ccd",
+        "x-ms-request-id": "10633f93-caa0-4b6b-954f-0eefe931ffe6",
         "X-XSS-Protection": "1; mode=block"
       },
-      "ResponseBody": "eyJyZXF1ZXN0SWQiOiI1ODQ1ZTFiZC04YWJkLTRkY2QtOGRkNi1iMWZlNDE1YzRlMGQiLCJlcnJvckNvZGUiOiJJbnRlcm5hbFNlcnZlckVycm9yIiwiZXJyb3JNZXNzYWdlIjoiVGhlcmUgd2FzIGFuIGVycm9yIHByb2Nlc3NpbmcgeW91ciByZXF1ZXN0LiBUaGlzIGNvdWxkIGJlIGEgdHJhbnNpZW50IGlzc3VlIGFuZCB5b3UgbWF5IHJlLXJ1biB0aGUgb3BlcmF0aW9uLiBJZiBpdCBmYWlscyBhZ2FpbiBjb250aW51b3VzbHksIGNvbnRhY3QgY3VzdG9tZXIgc3VwcG9ydCB3aXRoIElEIDU4NDVlMWJkLThhYmQtNGRjZC04ZGQ2LWIxZmU0MTVjNGUwZCJ9"
+      "ResponseBody": "eyJpZCI6ImUzYzc2YjRhLTBlMWUtNGZlYS04Yjg4LTBkNjUxMjBlYWNiYSIsInN0YXR1cyI6IlN1Y2NlZWRlZCIsImNyZWF0ZVRpbWUiOiIyMDIzLTAzLTE3VDAxOjU5OjI5LjgzMyswMDAwIiwidGFza1BpY2tVcFRpbWUiOm51bGwsImxhc3RVcGRhdGVUaW1lIjoiMjAyMy0wMy0xN1QwMTo1OTozMC4xNDgrMDAwMCIsInByb3BlcnRpZXMiOnsiaW1wb3J0ZWRUZXJtcyI6IjAiLCJ0b3RhbFRlcm1zRGV0ZWN0ZWQiOiIwIn0sImVycm9yIjp7ImVycm9yQ29kZSI6MCwiZXJyb3JNZXNzYWdlIjoiIn0sInByb2dyZXNzIjp7InN0YXR1cyI6bnVsbCwic3RhdGlzdGljcyI6bnVsbH19"
     },
     {
-      "RequestUri": "https://endpoint/catalog/api/glossary/terms/import/e01a8dc9-4e8c-46a3-b8de-44af690609ac%3Fapi-version=2022-03-01-preview?api-version=2022-03-01-preview",
+      "RequestUri": "https://endpoint/catalog/api/glossary/terms/import/e3c76b4a-0e1e-4fea-8b88-0d65120eacba?api-version=2022-03-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -80,10 +82,10 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-purview-catalog-rest/1.0.0-beta.5 core-rest-pipeline/1.10.3 Node/v18.14.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "5845e1bd-8abd-4dcd-8dd6-b1fe415c4e0d"
+        "x-ms-client-request-id": "d9987353-7b13-4203-a92b-1417217b683e"
       },
       "RequestBody": null,
-      "StatusCode": 500,
+      "StatusCode": 200,
       "ResponseHeaders": {
         "Access-Control-Allow-Headers": "authorization,content-type,x-xsrf-header,x-ms-client-request-id,lastmodifiedts,x-ms-user-token,x-ms-client-tenant-id",
         "Access-Control-Allow-Methods": "GET,OPTIONS,HEAD,PUT,POST,DELETE,PATCH",
@@ -91,84 +93,20 @@
         "Access-Control-Expose-Headers": "x-ms-request-id,lastmodifiedts",
         "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
         "Content-Security-Policy": "default-src \u0027self\u0027; script-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 blob: data:; connect-src \u0027self\u0027; img-src \u0027self\u0027 blob: data:; style-src \u0027self\u0027 \u0027unsafe-inline\u0027;font-src \u0027self\u0027 data:",
-        "Date": "Tue, 14 Mar 2023 08:03:34 GMT",
+        "Date": "Fri, 17 Mar 2023 01:59:30 GMT",
         "Expires": "0",
+        "operation-location": "https://endpoint/catalog/api/glossary/terms/import/e3c76b4a-0e1e-4fea-8b88-0d65120eacba?api-version=2022-03-01-preview",
         "Pragma": "no-cache",
+        "Retry-After": "5",
         "Server": "MicrosoftPurview",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "DENY",
-        "x-ms-correlation-request-id": "ec7868ca-7b2b-4a54-ab89-ada293017990",
-        "x-ms-request-id": "5845e1bd-8abd-4dcd-8dd6-b1fe415c4e0d",
+        "x-ms-correlation-request-id": "81dd29d9-9592-4a64-80fa-25e616afe633",
+        "x-ms-request-id": "d9987353-7b13-4203-a92b-1417217b683e",
         "X-XSS-Protection": "1; mode=block"
       },
-      "ResponseBody": "eyJyZXF1ZXN0SWQiOiI1ODQ1ZTFiZC04YWJkLTRkY2QtOGRkNi1iMWZlNDE1YzRlMGQiLCJlcnJvckNvZGUiOiJJbnRlcm5hbFNlcnZlckVycm9yIiwiZXJyb3JNZXNzYWdlIjoiVGhlcmUgd2FzIGFuIGVycm9yIHByb2Nlc3NpbmcgeW91ciByZXF1ZXN0LiBUaGlzIGNvdWxkIGJlIGEgdHJhbnNpZW50IGlzc3VlIGFuZCB5b3UgbWF5IHJlLXJ1biB0aGUgb3BlcmF0aW9uLiBJZiBpdCBmYWlscyBhZ2FpbiBjb250aW51b3VzbHksIGNvbnRhY3QgY3VzdG9tZXIgc3VwcG9ydCB3aXRoIElEIDU4NDVlMWJkLThhYmQtNGRjZC04ZGQ2LWIxZmU0MTVjNGUwZCJ9"
-    },
-    {
-      "RequestUri": "https://endpoint/catalog/api/glossary/terms/import/e01a8dc9-4e8c-46a3-b8de-44af690609ac%3Fapi-version=2022-03-01-preview?api-version=2022-03-01-preview",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-purview-catalog-rest/1.0.0-beta.5 core-rest-pipeline/1.10.3 Node/v18.14.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "5845e1bd-8abd-4dcd-8dd6-b1fe415c4e0d"
-      },
-      "RequestBody": null,
-      "StatusCode": 500,
-      "ResponseHeaders": {
-        "Access-Control-Allow-Headers": "authorization,content-type,x-xsrf-header,x-ms-client-request-id,lastmodifiedts,x-ms-user-token,x-ms-client-tenant-id",
-        "Access-Control-Allow-Methods": "GET,OPTIONS,HEAD,PUT,POST,DELETE,PATCH",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Expose-Headers": "x-ms-request-id,lastmodifiedts",
-        "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
-        "Content-Security-Policy": "default-src \u0027self\u0027; script-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 blob: data:; connect-src \u0027self\u0027; img-src \u0027self\u0027 blob: data:; style-src \u0027self\u0027 \u0027unsafe-inline\u0027;font-src \u0027self\u0027 data:",
-        "Date": "Tue, 14 Mar 2023 08:03:35 GMT",
-        "Expires": "0",
-        "Pragma": "no-cache",
-        "Server": "MicrosoftPurview",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "X-Content-Type-Options": "nosniff",
-        "X-Frame-Options": "DENY",
-        "x-ms-correlation-request-id": "7ab2a46d-a3a6-4862-be54-43713c6b7b40",
-        "x-ms-request-id": "5845e1bd-8abd-4dcd-8dd6-b1fe415c4e0d",
-        "X-XSS-Protection": "1; mode=block"
-      },
-      "ResponseBody": "eyJyZXF1ZXN0SWQiOiI1ODQ1ZTFiZC04YWJkLTRkY2QtOGRkNi1iMWZlNDE1YzRlMGQiLCJlcnJvckNvZGUiOiJJbnRlcm5hbFNlcnZlckVycm9yIiwiZXJyb3JNZXNzYWdlIjoiVGhlcmUgd2FzIGFuIGVycm9yIHByb2Nlc3NpbmcgeW91ciByZXF1ZXN0LiBUaGlzIGNvdWxkIGJlIGEgdHJhbnNpZW50IGlzc3VlIGFuZCB5b3UgbWF5IHJlLXJ1biB0aGUgb3BlcmF0aW9uLiBJZiBpdCBmYWlscyBhZ2FpbiBjb250aW51b3VzbHksIGNvbnRhY3QgY3VzdG9tZXIgc3VwcG9ydCB3aXRoIElEIDU4NDVlMWJkLThhYmQtNGRjZC04ZGQ2LWIxZmU0MTVjNGUwZCJ9"
-    },
-    {
-      "RequestUri": "https://endpoint/catalog/api/glossary/terms/import/e01a8dc9-4e8c-46a3-b8de-44af690609ac%3Fapi-version=2022-03-01-preview?api-version=2022-03-01-preview",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-purview-catalog-rest/1.0.0-beta.5 core-rest-pipeline/1.10.3 Node/v18.14.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "5845e1bd-8abd-4dcd-8dd6-b1fe415c4e0d"
-      },
-      "RequestBody": null,
-      "StatusCode": 500,
-      "ResponseHeaders": {
-        "Access-Control-Allow-Headers": "authorization,content-type,x-xsrf-header,x-ms-client-request-id,lastmodifiedts,x-ms-user-token,x-ms-client-tenant-id",
-        "Access-Control-Allow-Methods": "GET,OPTIONS,HEAD,PUT,POST,DELETE,PATCH",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Expose-Headers": "x-ms-request-id,lastmodifiedts",
-        "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
-        "Content-Security-Policy": "default-src \u0027self\u0027; script-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 blob: data:; connect-src \u0027self\u0027; img-src \u0027self\u0027 blob: data:; style-src \u0027self\u0027 \u0027unsafe-inline\u0027;font-src \u0027self\u0027 data:",
-        "Date": "Tue, 14 Mar 2023 08:03:37 GMT",
-        "Expires": "0",
-        "Pragma": "no-cache",
-        "Server": "MicrosoftPurview",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "X-Content-Type-Options": "nosniff",
-        "X-Frame-Options": "DENY",
-        "x-ms-correlation-request-id": "b44b196d-e8cf-4d2f-b665-ba27a8ccf93c",
-        "x-ms-request-id": "5845e1bd-8abd-4dcd-8dd6-b1fe415c4e0d",
-        "X-XSS-Protection": "1; mode=block"
-      },
-      "ResponseBody": "eyJyZXF1ZXN0SWQiOiI1ODQ1ZTFiZC04YWJkLTRkY2QtOGRkNi1iMWZlNDE1YzRlMGQiLCJlcnJvckNvZGUiOiJJbnRlcm5hbFNlcnZlckVycm9yIiwiZXJyb3JNZXNzYWdlIjoiVGhlcmUgd2FzIGFuIGVycm9yIHByb2Nlc3NpbmcgeW91ciByZXF1ZXN0LiBUaGlzIGNvdWxkIGJlIGEgdHJhbnNpZW50IGlzc3VlIGFuZCB5b3UgbWF5IHJlLXJ1biB0aGUgb3BlcmF0aW9uLiBJZiBpdCBmYWlscyBhZ2FpbiBjb250aW51b3VzbHksIGNvbnRhY3QgY3VzdG9tZXIgc3VwcG9ydCB3aXRoIElEIDU4NDVlMWJkLThhYmQtNGRjZC04ZGQ2LWIxZmU0MTVjNGUwZCJ9"
+      "ResponseBody": "eyJpZCI6ImUzYzc2YjRhLTBlMWUtNGZlYS04Yjg4LTBkNjUxMjBlYWNiYSIsInN0YXR1cyI6IlN1Y2NlZWRlZCIsImNyZWF0ZVRpbWUiOiIyMDIzLTAzLTE3VDAxOjU5OjI5LjgzMyswMDAwIiwidGFza1BpY2tVcFRpbWUiOm51bGwsImxhc3RVcGRhdGVUaW1lIjoiMjAyMy0wMy0xN1QwMTo1OTozMC4xNDgrMDAwMCIsInByb3BlcnRpZXMiOnsiaW1wb3J0ZWRUZXJtcyI6IjAiLCJ0b3RhbFRlcm1zRGV0ZWN0ZWQiOiIwIn0sImVycm9yIjp7ImVycm9yQ29kZSI6MCwiZXJyb3JNZXNzYWdlIjoiIn0sInByb2dyZXNzIjp7InN0YXR1cyI6bnVsbCwic3RhdGlzdGljcyI6bnVsbH19"
     }
   ],
   "Variables": {}
