@@ -584,9 +584,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               checkEntityTextOffset
             );
           });
-
-          // Skip the tests until hear back from services about offset
-          it.skip("emoji with skin tone modifier", async function () {
+          it("emoji with skin tone modifier", async function () {
             await checkOffsetAndLength(
               client,
               "👩🏻 SSN: 859-98-0987",
@@ -597,7 +595,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             );
           });
 
-          it.skip("family emoji", async function () {
+          it("family emoji", async function () {
             await checkOffsetAndLength(
               client,
               "👩‍👩‍👧‍👧 SSN: 859-98-0987",
@@ -608,7 +606,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             );
           });
 
-          it.skip("family emoji with skin tone modifier", async function (this: Context) {
+          it("family emoji with skin tone modifier", async function (this: Context) {
             await checkOffsetAndLength(
               client,
               "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
@@ -781,7 +779,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               client,
               "👩🏻 SSN: 859-98-0987",
               KnownStringIndexType.TextElementsV8,
-              8,
+              7,
               11
             ); // offset was 10 with UTF16
           });
@@ -791,7 +789,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               client,
               "👩‍👩‍👧‍👧 SSN: 859-98-0987",
               KnownStringIndexType.TextElementsV8,
-              13,
+              7,
               11
             ); // offset was 17 with UTF16
           });
@@ -801,7 +799,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               client,
               "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
               KnownStringIndexType.TextElementsV8,
-              17,
+              7,
               11
             ); // offset was 25 with UTF16
           });
