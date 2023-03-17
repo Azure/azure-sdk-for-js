@@ -36,7 +36,10 @@ describe("AppConfigurationClient", () => {
       } catch (error) {
         if ((error as { statusCode: number }).statusCode === 404) {
           // If for some reason, service fails with 404 while deleting, we don't care about it so that we don't count it as a test failure
-          console.log(error);
+          console.log(
+            "delete settings if any(in the after section..) results in an error(404)",
+            error
+          );
         } else {
           throw error;
         }
@@ -914,12 +917,14 @@ describe("AppConfigurationClient", () => {
       });
     });
 
-    it("matches any key without label - `\0`", async () => {
+    it("matches any key without label - `backslash0`", async () => {
       const byLabelIterator = client.listConfigurationSettings({
         keyFilter: "backslash-zero-label-*",
         labelFilter: "\0",
       });
-      const byLabelSettings = await toSortedArray(byLabelIterator);
+      const byLabelSettings = (await toSortedArray(byLabelIterator)).filter((setting) =>
+        [key1, key2].includes(setting.key)
+      );
       assert.equal(byLabelSettings.length, 2, "got unexpected number of settings");
       assertEqualSettings(
         [

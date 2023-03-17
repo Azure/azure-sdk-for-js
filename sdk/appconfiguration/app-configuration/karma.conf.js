@@ -54,6 +54,7 @@ module.exports = function (config) {
       "TEST_MODE",
       "RECORDINGS_RELATIVE_PATH",
       "TEST_PROXY_HTTP_PORT",
+      "AZURE_LOG_LEVEL",
     ],
 
     // test results reporter to use
@@ -98,7 +99,7 @@ module.exports = function (config) {
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     // 'ChromeHeadless', 'Chrome', 'Firefox', 'Edge', 'IE'
-    browsers: ["ChromeHeadlessNoSandbox"],
+    browsers: ["ChromeHeadless"],
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
         base: "ChromeHeadless",
