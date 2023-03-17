@@ -275,15 +275,14 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         if (!this.isOpen()) {
           await Promise.race([
             this._init(signal),
-            delay(retryTimeoutInMs, { abortSignal })
+            delay(retryTimeoutInMs)
               .then(() => {
                 throw {
                   name: "OperationTimeoutError",
                   message: "The management request timed out. Please try again later.",
                 };
               })
-              .finally(() => aborter.abort()),
-          ]);
+          ]).finally(() => aborter.abort());
         }
 
         // time taken by the init operation
