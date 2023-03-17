@@ -252,7 +252,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     options: SendManagementRequestOptions = {}
   ): Promise<SendManagementRequestOptions> {
     const retryTimeoutInMs = options.timeoutInMs ?? Constants.defaultOperationTimeoutInMs;
-    return await defaultCancellableLock.acquire(
+    return defaultCancellableLock.acquire(
       this._initLock,
       async () => {
         managementClientLogger.verbose(
