@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/88888888-8888-8888-8888-888888888888/resourceGroups/czwTest/providers/Microsoft.DocumentDB/databaseAccounts?api-version=2022-11-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/88888888-8888-8888-8888-888888888888/resourceGroups/myjstest/providers/Microsoft.DocumentDB/databaseAccounts?api-version=2022-11-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -9,7 +9,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-cosmosdb/15.4.0-beta.1 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "106c91cd-769d-44cb-af24-00de78f40f1d"
+        "x-ms-client-request-id": "bd499a18-0a7b-4875-822b-48971419db95"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,35 +17,35 @@
         "Cache-Control": "no-store, no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Thu, 16 Mar 2023 07:49:50 GMT",
+        "Date": "Fri, 17 Mar 2023 01:50:23 GMT",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "dea92348-d99a-42f8-916a-8a931284dc7e",
+        "x-ms-correlation-request-id": "0dc418fb-c6ab-4f69-be8f-0f518d29a8e8",
         "x-ms-gatewayversion": "version=2.14.0",
-        "x-ms-ratelimit-remaining-subscription-reads": "11999",
-        "x-ms-request-id": "dea92348-d99a-42f8-916a-8a931284dc7e",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230316T074951Z:dea92348-d99a-42f8-916a-8a931284dc7e"
+        "x-ms-ratelimit-remaining-subscription-reads": "11876",
+        "x-ms-request-id": "0dc418fb-c6ab-4f69-be8f-0f518d29a8e8",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230317T015024Z:0dc418fb-c6ab-4f69-be8f-0f518d29a8e8"
       },
       "ResponseBody": {
         "value": [
           {
-            "id": "/subscriptions/88888888-8888-8888-8888-888888888888/resourceGroups/czwTest/providers/Microsoft.DocumentDB/databaseAccounts/myaccountxxyytest",
-            "name": "myaccountxxyytest",
+            "id": "/subscriptions/88888888-8888-8888-8888-888888888888/resourceGroups/myjstest/providers/Microsoft.DocumentDB/databaseAccounts/myaccountxxyy2",
+            "name": "myaccountxxyy2",
             "location": "East US",
             "type": "Microsoft.DocumentDB/databaseAccounts",
             "kind": "GlobalDocumentDB",
             "tags": {},
             "systemData": {
-              "createdAt": "2023-03-16T07:48:26.6713524Z"
+              "createdAt": "2023-03-17T01:46:38.1968829Z"
             },
             "properties": {
               "provisioningState": "Succeeded",
-              "documentEndpoint": "https://myaccountxxyytest.documents.azure.com:443/",
-              "sqlEndpoint": "https://myaccountxxyytest.documents.azure.com:443/",
+              "documentEndpoint": "https://myaccountxxyy2.documents.azure.com:443/",
+              "sqlEndpoint": "https://myaccountxxyy2.documents.azure.com:443/",
               "publicNetworkAccess": "Enabled",
               "enableAutomaticFailover": false,
               "enableMultipleWriteLocations": false,
@@ -59,7 +59,7 @@
               "analyticalStorageConfiguration": {
                 "schemaType": "WellDefined"
               },
-              "instanceId": "6f11849e-0c9b-4987-a040-2682ee0ca0f0",
+              "instanceId": "5254a489-3c78-43f5-82e1-328611cf6b0b",
               "databaseAccountOfferType": "Standard",
               "enableMaterializedViews": false,
               "defaultIdentity": "FirstPartyIdentity",
@@ -76,9 +76,9 @@
               "configurationOverrides": {},
               "writeLocations": [
                 {
-                  "id": "myaccountxxyytest-eastus",
-                  "locationName": "East US",
-                  "documentEndpoint": "https://myaccountxxyytest-eastus.documents.azure.com:443/",
+                  "id": "myaccountxxyy2-westus",
+                  "locationName": "West US",
+                  "documentEndpoint": "https://myaccountxxyy2-westus.documents.azure.com:443/",
                   "provisioningState": "Succeeded",
                   "failoverPriority": 0,
                   "isZoneRedundant": false
@@ -86,29 +86,71 @@
               ],
               "readLocations": [
                 {
-                  "id": "myaccountxxyytest-eastus",
-                  "locationName": "East US",
-                  "documentEndpoint": "https://myaccountxxyytest-eastus.documents.azure.com:443/",
+                  "id": "myaccountxxyy2-westus",
+                  "locationName": "West US",
+                  "documentEndpoint": "https://myaccountxxyy2-westus.documents.azure.com:443/",
                   "provisioningState": "Succeeded",
                   "failoverPriority": 0,
+                  "isZoneRedundant": false
+                },
+                {
+                  "id": "myaccountxxyy2-southcentralus",
+                  "locationName": "South Central US",
+                  "documentEndpoint": "https://myaccountxxyy2-southcentralus.documents.azure.com:443/",
+                  "provisioningState": "Succeeded",
+                  "failoverPriority": 2,
+                  "isZoneRedundant": false
+                },
+                {
+                  "id": "myaccountxxyy2-eastus",
+                  "locationName": "East US",
+                  "documentEndpoint": "https://myaccountxxyy2-eastus.documents.azure.com:443/",
+                  "provisioningState": "Succeeded",
+                  "failoverPriority": 1,
                   "isZoneRedundant": false
                 }
               ],
               "locations": [
                 {
-                  "id": "myaccountxxyytest-eastus",
-                  "locationName": "East US",
-                  "documentEndpoint": "https://myaccountxxyytest-eastus.documents.azure.com:443/",
+                  "id": "myaccountxxyy2-westus",
+                  "locationName": "West US",
+                  "documentEndpoint": "https://myaccountxxyy2-westus.documents.azure.com:443/",
                   "provisioningState": "Succeeded",
                   "failoverPriority": 0,
+                  "isZoneRedundant": false
+                },
+                {
+                  "id": "myaccountxxyy2-southcentralus",
+                  "locationName": "South Central US",
+                  "documentEndpoint": "https://myaccountxxyy2-southcentralus.documents.azure.com:443/",
+                  "provisioningState": "Succeeded",
+                  "failoverPriority": 2,
+                  "isZoneRedundant": false
+                },
+                {
+                  "id": "myaccountxxyy2-eastus",
+                  "locationName": "East US",
+                  "documentEndpoint": "https://myaccountxxyy2-eastus.documents.azure.com:443/",
+                  "provisioningState": "Succeeded",
+                  "failoverPriority": 1,
                   "isZoneRedundant": false
                 }
               ],
               "failoverPolicies": [
                 {
-                  "id": "myaccountxxyytest-eastus",
-                  "locationName": "East US",
+                  "id": "myaccountxxyy2-westus",
+                  "locationName": "West US",
                   "failoverPriority": 0
+                },
+                {
+                  "id": "myaccountxxyy2-southcentralus",
+                  "locationName": "South Central US",
+                  "failoverPriority": 2
+                },
+                {
+                  "id": "myaccountxxyy2-eastus",
+                  "locationName": "East US",
+                  "failoverPriority": 1
                 }
               ],
               "cors": [],
@@ -128,16 +170,16 @@
               },
               "keysMetadata": {
                 "primaryMasterKey": {
-                  "generationTime": "2023-03-16T07:48:26.6713524Z"
+                  "generationTime": "2023-03-17T01:46:38.1968829Z"
                 },
                 "secondaryMasterKey": {
-                  "generationTime": "2023-03-16T07:48:26.6713524Z"
+                  "generationTime": "2023-03-17T01:46:38.1968829Z"
                 },
                 "primaryReadonlyMasterKey": {
-                  "generationTime": "2023-03-16T07:48:26.6713524Z"
+                  "generationTime": "2023-03-17T01:46:38.1968829Z"
                 },
                 "secondaryReadonlyMasterKey": {
-                  "generationTime": "2023-03-16T07:48:26.6713524Z"
+                  "generationTime": "2023-03-17T01:46:38.1968829Z"
                 }
               }
             },

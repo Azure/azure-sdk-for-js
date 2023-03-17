@@ -36,14 +36,13 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe.only("Cosmosdb test", () => {
+describe("Cosmosdb test", () => {
   let recorder: Recorder;
   let client: CosmosDBManagementClient;
   let subscriptionId: string;
   let location: string;
   let resourceGroupName: string;
   let accountName: string;
-  let graphName: string;
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
@@ -53,24 +52,31 @@ describe.only("Cosmosdb test", () => {
     const credential = createTestCredential();
     client = new CosmosDBManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
-    resourceGroupName = "czwTest";
-    accountName = "myaccountxxyytest";
-    graphName = "graphName";
+    resourceGroupName = "czwjstest";
+    accountName = "myaccountxxyy2";
   });
 
   afterEach(async function () {
     await recorder.stop();
   });
 
-  it.skip("databaseAccounts create test", async function () {
+  it("databaseAccounts create test", async function () {
     const res = await client.databaseAccounts.beginCreateOrUpdateAndWait(resourceGroupName, accountName, {
       databaseAccountOfferType: "Standard",
       locations: [
         {
-          failoverPriority: 0,
-          locationName: "eastus",
+          failoverPriority: 2,
+          locationName: "southcentralus",
           isZoneRedundant: false
         },
+        {
+          locationName: "eastus",
+          failoverPriority: 1
+        },
+        {
+          locationName: "westus",
+          failoverPriority: 0
+        }
       ],
       location: location,
       createMode: "Default"
@@ -78,39 +84,9 @@ describe.only("Cosmosdb test", () => {
     assert.equal(res.name, accountName);
   });
 
-  it("GraphAPICompute create test", async function () {
-
-    const result = await client.service.beginCreateAndWait(
-      resourceGroupName,
-      accountName,
-      "GraphAPICompute",
-      {
-        instanceCount: 1,
-        instanceSize: "Cosmos.D4s",
-        serviceType: "GraphAPICompute"
-      }
-    )
-    assert.equal(result.name, "GraphAPICompute");
-  });
-
-  it("graphResources create test", async function () {
-    const res = await client.graphResources.beginCreateUpdateGraphAndWait(resourceGroupName, accountName, graphName, {
-      location,
-      options: {},
-      resource: { id: "GraphAPICompute" },
-      tags: {}
-    }, testPollingOptions);
-    assert.equal(res.name, graphName);
-  });
-
   it("databaseAccounts get test", async function () {
     const res = await client.databaseAccounts.get(resourceGroupName, accountName);
     assert.equal(res.name, accountName);
-  });
-
-  it("graphResources get test", async function () {
-    const res = await client.graphResources.getGraph(resourceGroupName, accountName, graphName);
-    assert.equal(res.name, graphName);
   });
 
   it("databaseAccounts list test", async function () {
@@ -121,37 +97,7 @@ describe.only("Cosmosdb test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("graphResources list test", async function () {
-    const resArray = new Array();
-    for await (let item of client.graphResources.listGraphs(resourceGroupName, accountName)) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length, 1);
-  });
-
-  it("graphResources delete test", async function () {
-    await client.graphResources.beginDeleteGraphResourceAndWait(resourceGroupName, accountName, graphName, testPollingOptions);
-    const resArray = new Array();
-    for await (let item of client.graphResources.listGraphs(resourceGroupName, accountName)) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length, 0);
-  }).timeout(3600000);
-
-  it("GraphAPICompute delete test", async function () {
-    const result = await client.service.beginDeleteAndWait(
-      resourceGroupName,
-      accountName,
-      "GraphAPICompute"
-    );
-    const resArray = new Array();
-    for await (let item of client.service.list(resourceGroupName, accountName)) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length, 0);
-  }).timeout(3600000);
-
-  it.skip("databaseAccounts delete test", async function () {
+  it("databaseAccounts delete test", async function () {
     await client.databaseAccounts.beginDeleteAndWait(resourceGroupName, accountName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.databaseAccounts.listByResourceGroup(resourceGroupName)) {
