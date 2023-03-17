@@ -6,6 +6,8 @@
 
 ### Breaking Changes
 
+- Remove `dynamicClassification` feature.
+
 ### Bugs Fixed
 
 ### Other Changes
