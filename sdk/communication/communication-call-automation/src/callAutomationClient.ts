@@ -181,14 +181,14 @@ export class CallAutomationClient {
         target instanceof CallInvite
           ? PhoneNumberIdentifierModelConverter(target.sourceCallIdNumber)
           : options.sourceCallIdNumber
-            ? PhoneNumberIdentifierModelConverter(options.sourceCallIdNumber)
-            : undefined,
+          ? PhoneNumberIdentifierModelConverter(options.sourceCallIdNumber)
+          : undefined,
       sourceDisplayName:
         target instanceof CallInvite
           ? target.sourceDisplayName
           : options.sourceDisplayName
-            ? options.sourceDisplayName
-            : undefined,
+          ? options.sourceDisplayName
+          : undefined,
     };
 
     const result = await this.callAutomationApiClient.createCall(request, options);
