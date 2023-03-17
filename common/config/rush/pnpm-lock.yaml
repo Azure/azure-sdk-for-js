@@ -213,7 +213,7 @@ specifiers:
   '@rush-temp/arm-workloads': file:./projects/arm-workloads.tgz
   '@rush-temp/arm-workspaces': file:./projects/arm-workspaces.tgz
   '@rush-temp/attestation': file:./projects/attestation.tgz
-  '@rush-temp/azure-ai-translation-text': file:./projects/azure-ai-translation-text.tgz
+  '@rush-temp/ai-translation-text': file:./projects/ai-translation-text.tgz
   '@rush-temp/communication-alpha-ids': file:./projects/communication-alpha-ids.tgz
   '@rush-temp/communication-chat': file:./projects/communication-chat.tgz
   '@rush-temp/communication-common': file:./projects/communication-common.tgz
@@ -543,7 +543,7 @@ dependencies:
   '@rush-temp/arm-workloads': file:projects/arm-workloads.tgz
   '@rush-temp/arm-workspaces': file:projects/arm-workspaces.tgz
   '@rush-temp/attestation': file:projects/attestation.tgz
-  '@rush-temp/azure-ai-translation-text': file:projects/azure-ai-translation-text.tgz
+  '@rush-temp/ai-translation-text': file:projects/ai-translation-text.tgz
   '@rush-temp/communication-alpha-ids': file:projects/communication-alpha-ids.tgz
   '@rush-temp/communication-chat': file:projects/communication-chat.tgz
   '@rush-temp/communication-common': file:projects/communication-common.tgz
@@ -15450,9 +15450,9 @@ packages:
       - utf-8-validate
     dev: false
 
-  file:projects/azure-ai-translation-text.tgz:
-    resolution: {integrity: sha512-t1vY6CnSsEovNxSSUxRia/62S0MvizhtA8sqFxpbQYqmk369JA3RcADZgFIJybT0nlOybtuI8IK7XjF33LGYdQ==, tarball: file:projects/azure-ai-translation-text.tgz}
-    name: '@rush-temp/azure-ai-translation-text'
+  file:projects/ai-translation-text.tgz:
+    resolution: {integrity: sha512-t1vY6CnSsEovNxSSUxRia/62S0MvizhtA8sqFxpbQYqmk369JA3RcADZgFIJybT0nlOybtuI8IK7XjF33LGYdQ==, tarball: file:projects/ai-translation-text.tgz}
+    name: '@rush-temp/ai-translation-text'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0

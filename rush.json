@@ -331,8 +331,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure-rest/azure-ai-translation-text",
-      "projectFolder": "sdk/translation/azure-ai-translation-text",
+      "packageName": "@azure-rest/ai-translation-text",
+      "projectFolder": "sdk/translation/ai-translation-text",
       "versionPolicyName": "client"
     },
     {
