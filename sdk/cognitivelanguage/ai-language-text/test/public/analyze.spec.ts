@@ -775,6 +775,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             ); // offset was 8 with UTF16
           });
 
+          // Skip the tests until hear back from services about offset
           it.skip("emoji with skin tone modifier", async function () {
             await checkOffsetAndLength(
               client,
