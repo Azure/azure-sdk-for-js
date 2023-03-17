@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   VpnServerConfigurationsAssociatedWithVirtualWanListOptionalParams,
   VpnServerConfigurationsAssociatedWithVirtualWanListResponse
@@ -42,8 +46,8 @@ export class VpnServerConfigurationsAssociatedWithVirtualWanImpl
     virtualWANName: string,
     options?: VpnServerConfigurationsAssociatedWithVirtualWanListOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         VpnServerConfigurationsAssociatedWithVirtualWanListResponse
       >,
       VpnServerConfigurationsAssociatedWithVirtualWanListResponse
@@ -55,7 +59,7 @@ export class VpnServerConfigurationsAssociatedWithVirtualWanImpl
     ): Promise<VpnServerConfigurationsAssociatedWithVirtualWanListResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -88,15 +92,20 @@ export class VpnServerConfigurationsAssociatedWithVirtualWanImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, virtualWANName, options },
-      listOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, virtualWANName, options },
+      spec: listOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VpnServerConfigurationsAssociatedWithVirtualWanListResponse,
+      OperationState<
+        VpnServerConfigurationsAssociatedWithVirtualWanListResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;

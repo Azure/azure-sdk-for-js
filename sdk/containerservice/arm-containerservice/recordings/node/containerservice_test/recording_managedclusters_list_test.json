@@ -1,15 +1,15 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerService/managedClusters?api-version=2023-01-02-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerService/managedClusters?api-version=2023-01-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-containerservice/17.4.0-beta.2 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "4c211950-2a2b-4ce8-af80-423ed80029b5"
+        "User-Agent": "azsdk-js-arm-containerservice/17.4.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "0ee6d588-7970-44b1-8ca3-c136c495e2fe"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Mon, 20 Feb 2023 03:17:00 GMT",
+        "Date": "Thu, 09 Mar 2023 08:12:47 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "nginx",
@@ -25,10 +25,10 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "06e0ce52-f4e8-4720-8878-05763ee1aef6",
-        "x-ms-ratelimit-remaining-subscription-reads": "11894",
-        "x-ms-request-id": "ebba2d26-51c9-4595-acb7-0232deb7140b",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230220T031700Z:06e0ce52-f4e8-4720-8878-05763ee1aef6"
+        "x-ms-correlation-request-id": "f43ee9db-72fa-4843-b89f-d51f356f7494",
+        "x-ms-ratelimit-remaining-subscription-reads": "11892",
+        "x-ms-request-id": "e286744f-00a8-484b-8013-3906adabc122",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230309T081247Z:f43ee9db-72fa-4843-b89f-d51f356f7494"
       },
       "ResponseBody": {
         "value": [
@@ -45,8 +45,8 @@
               "kubernetesVersion": "1.24.9",
               "currentKubernetesVersion": "1.24.9",
               "dnsPrefix": "aksjssdk",
-              "fqdn": "aksjssdk-32666853.hcp.eastus.azmk8s.io",
-              "azurePortalFQDN": "aksjssdk-32666853.portal.hcp.eastus.azmk8s.io",
+              "fqdn": "aksjssdk-7uofgmw3.hcp.eastus.azmk8s.io",
+              "azurePortalFQDN": "aksjssdk-7uofgmw3.portal.hcp.eastus.azmk8s.io",
               "agentPoolProfiles": [
                 {
                   "name": "aksagent",
@@ -69,7 +69,7 @@
                   "mode": "System",
                   "osType": "Linux",
                   "osSKU": "Ubuntu",
-                  "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2023.01.26",
+                  "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2023.02.15",
                   "enableFIPS": false
                 }
               ],
@@ -87,10 +87,9 @@
                   },
                   "effectiveOutboundIPs": [
                     {
-                      "id": "/subscriptions/azure_subscription_id/resourceGroups/MC_myjstest_myreourcexyz_eastus/providers/Microsoft.Network/publicIPAddresses/129cae20-1c69-46ae-b76c-4384079fb61c"
+                      "id": "/subscriptions/azure_subscription_id/resourceGroups/MC_myjstest_myreourcexyz_eastus/providers/Microsoft.Network/publicIPAddresses/3feda18d-e5fc-4c4e-be90-ab5af8265e41"
                     }
-                  ],
-                  "backendPoolType": "nodeIPConfiguration"
+                  ]
                 },
                 "podCidr": "10.244.0.0/16",
                 "serviceCidr": "10.0.0.0/16",
@@ -111,8 +110,7 @@
               "securityProfile": {},
               "storageProfile": {
                 "diskCSIDriver": {
-                  "enabled": true,
-                  "version": "v1"
+                  "enabled": true
                 },
                 "fileCSIDriver": {
                   "enabled": true
@@ -127,7 +125,7 @@
               "workloadAutoScalerProfile": {}
             },
             "sku": {
-              "name": "Base",
+              "name": "Basic",
               "tier": "Free"
             }
           }

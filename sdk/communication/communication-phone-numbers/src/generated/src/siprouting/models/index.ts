@@ -75,44 +75,56 @@ export interface SipRoutingError {
   readonly innerError?: SipRoutingError;
 }
 
-/** Represents a SIP configuration patch. */
-export interface SipConfigurationPatch {
+/** Represents a SIP configuration update. */
+export interface SipConfigurationUpdate {
   /**
    * SIP trunks for routing calls.
    * Map key is trunk's FQDN (1-249 characters).
    */
-  trunks?: { [propertyName: string]: TrunkPatch | null };
+  trunks?: { [propertyName: string]: TrunkUpdate | null };
   /** Trunk routes for routing calls. */
   routes?: SipTrunkRoute[];
 }
 
-/** Represents a SIP trunk patch. */
-export interface TrunkPatch {
+/** Represents a SIP trunk update. */
+export interface TrunkUpdate {
   /** Gets or sets SIP signaling port of the trunk. */
   sipSignalingPort?: number;
 }
 
+/** Defines headers for SipRouting_get operation. */
+export interface SipRoutingGetExceptionHeaders {
+  /** Error code */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for SipRouting_update operation. */
+export interface SipRoutingUpdateExceptionHeaders {
+  /** Error code */
+  xMsErrorCode?: string;
+}
+
 /** Optional parameters. */
-export interface GetSipConfigurationOptionalParams
+export interface SipRoutingGetOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the getSipConfiguration operation. */
-export type GetSipConfigurationResponse = SipConfiguration;
+/** Contains response data for the get operation. */
+export type SipRoutingGetResponse = SipConfiguration;
 
 /** Optional parameters. */
-export interface PatchSipConfigurationOptionalParams
+export interface SipRoutingUpdateOptionalParams
   extends coreClient.OperationOptions {
   /**
    * SIP trunks for routing calls.
    * Map key is trunk's FQDN (1-249 characters).
    */
-  trunks?: { [propertyName: string]: TrunkPatch | null };
+  trunks?: { [propertyName: string]: TrunkUpdate | null };
   /** Trunk routes for routing calls. */
   routes?: SipTrunkRoute[];
 }
 
-/** Contains response data for the patchSipConfiguration operation. */
-export type PatchSipConfigurationResponse = SipConfiguration;
+/** Contains response data for the update operation. */
+export type SipRoutingUpdateResponse = SipConfiguration;
 
 /** Optional parameters. */
 export interface SipRoutingClientOptionalParams

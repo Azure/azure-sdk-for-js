@@ -45,9 +45,9 @@ export class PartitionPump {
     this._isReceiving = true;
     try {
       await this._partitionProcessor.initialize();
-    } catch (err: any) {
+    } catch (err) {
       // swallow the error from the user-defined code
-      this._partitionProcessor.processError(err);
+      this._partitionProcessor.processError(err as Error);
     }
 
     // this is intentionally not await'd - the _receiveEvents loop will continue to
@@ -150,8 +150,8 @@ export class PartitionPump {
         logErrorStackTrace(err);
         // forward error to user's processError and swallow errors they may throw
         try {
-          await this._partitionProcessor.processError(err);
-        } catch (errorFromUser: any) {
+          await this._partitionProcessor.processError(err as Error);
+        } catch (errorFromUser) {
           // Using verbose over warning because this error is swallowed.
           logger.verbose("An error was thrown by user's processError method: ", errorFromUser);
         }
@@ -166,7 +166,7 @@ export class PartitionPump {
             }
             // this will close the pump and will break us out of the while loop
             return await this.stop(CloseReason.Shutdown);
-          } catch (errorFromStop: any) {
+          } catch (errorFromStop) {
             // Using verbose over warning because this error is swallowed.
             logger.verbose(
               `An error occurred while closing the receiver with reason ${CloseReason.Shutdown}: `,
@@ -189,10 +189,7 @@ export class PartitionPump {
       // otherwise the receiver will remove the listener on the abortSignal
       // before it has a chance to be emitted.
       this._abortController.abort();
-
-      if (this._receiver) {
-        await this._receiver.close();
-      }
+      await this._receiver?.close();
       await this._partitionProcessor.close(reason);
     } catch (err: any) {
       logger.warning(`An error occurred while closing the receiver: ${err?.name}: ${err?.message}`);

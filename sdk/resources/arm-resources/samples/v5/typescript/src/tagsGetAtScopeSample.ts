@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ResourceManagementClient } from "@azure/arm-resources";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the entire set of tags on a resource or subscription.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/GetTagsResource.json
  */
 async function getTagsOnAResource() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RESOURCES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/my-resource-group/providers/myPRNameSpace/VM/myVm";
   const credential = new DefaultAzureCredential();
@@ -27,8 +32,6 @@ async function getTagsOnAResource() {
   console.log(result);
 }
 
-getTagsOnAResource().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets the entire set of tags on a resource or subscription.
  *
@@ -36,7 +39,9 @@ getTagsOnAResource().catch(console.error);
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/GetTagsSubscription.json
  */
 async function getTagsOnASubscription() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RESOURCES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ResourceManagementClient(credential, subscriptionId);
@@ -44,4 +49,9 @@ async function getTagsOnASubscription() {
   console.log(result);
 }
 
-getTagsOnASubscription().catch(console.error);
+async function main() {
+  getTagsOnAResource();
+  getTagsOnASubscription();
+}
+
+main().catch(console.error);

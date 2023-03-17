@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.VoiceServices/communicationsGateways/mycgtest2?api-version=2023-01-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.VoiceServices/communicationsGateways/mycgtest5?api-version=2023-01-31",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "644",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-voiceservices/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "e33abfba-668a-4358-b0df-ed9854e202e9"
+        "User-Agent": "azsdk-js-arm-voiceservices/1.0.0-beta.1 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "055c1a4f-2733-4cc1-b26c-786f9ca54641"
       },
       "RequestBody": {
         "location": "westcentralus",
@@ -60,35 +60,35 @@
       },
       "StatusCode": 201,
       "ResponseHeaders": {
-        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VoiceServices/locations/WESTCENTRALUS/operationStatuses/8c10d37a-7c8a-4794-9656-e320645cd7c9*A0C0D6AD2F9B580396C50AC2C1F37688648D4F5AE069097DC33C1F7A4CBA5521?api-version=2023-01-31",
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VoiceServices/locations/WESTCENTRALUS/operationStatuses/1667bf94-7912-4b37-a595-79b13b1a40d6*07E26A3A50BB9A6493DED9E3B941F57D0E376C58E536BA0F9A9083AA440B494B?api-version=2023-01-31",
         "Cache-Control": "no-cache",
         "Content-Length": "1121",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 03 Mar 2023 05:55:40 GMT",
-        "ETag": "\u0022150029c8-0000-0600-0000-64018bdb0000\u0022",
+        "Date": "Tue, 07 Mar 2023 09:49:45 GMT",
+        "ETag": "\u00222400753c-0000-0600-0000-640708b80000\u0022",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "ffb54628-c059-4e01-a4eb-0fbef616be1d",
+        "x-ms-correlation-request-id": "83faaa60-0652-49be-8cbc-4df100d34149",
         "x-ms-providerhub-traffic": "True",
         "x-ms-ratelimit-remaining-subscription-writes": "1199",
-        "x-ms-request-id": "8c10d37a-7c8a-4794-9656-e320645cd7c9",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230303T055540Z:ffb54628-c059-4e01-a4eb-0fbef616be1d"
+        "x-ms-request-id": "1667bf94-7912-4b37-a595-79b13b1a40d6",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230307T094946Z:83faaa60-0652-49be-8cbc-4df100d34149"
       },
       "ResponseBody": {
-        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.VoiceServices/communicationsGateways/mycgtest2",
-        "name": "mycgtest2",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.VoiceServices/communicationsGateways/mycgtest5",
+        "name": "mycgtest5",
         "type": "microsoft.voiceservices/communicationsgateways",
         "location": "westcentralus",
         "systemData": {
           "createdBy": "azure_client_id",
           "createdByType": "Application",
-          "createdAt": "2023-03-03T05:55:37.6087429Z",
+          "createdAt": "2023-03-07T09:49:42.2283178Z",
           "lastModifiedBy": "azure_client_id",
           "lastModifiedByType": "Application",
-          "lastModifiedAt": "2023-03-03T05:55:37.6087429Z"
+          "lastModifiedAt": "2023-03-07T09:49:42.2283178Z"
         },
         "properties": {
           "serviceLocations": [
@@ -136,7 +136,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VoiceServices/locations/WESTCENTRALUS/operationStatuses/8c10d37a-7c8a-4794-9656-e320645cd7c9*A0C0D6AD2F9B580396C50AC2C1F37688648D4F5AE069097DC33C1F7A4CBA5521?api-version=2023-01-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VoiceServices/locations/WESTCENTRALUS/operationStatuses/1667bf94-7912-4b37-a595-79b13b1a40d6*07E26A3A50BB9A6493DED9E3B941F57D0E376C58E536BA0F9A9083AA440B494B?api-version=2023-01-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -144,8 +144,8 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-voiceservices/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "81dd154b-938f-4c14-89d2-13e9fab438e4"
+        "User-Agent": "azsdk-js-arm-voiceservices/1.0.0-beta.1 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "05f8b559-7ab7-4f93-bf5b-4ef979a64742"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -153,29 +153,29 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 03 Mar 2023 05:55:41 GMT",
-        "ETag": "\u00220f009864-0000-0600-0000-64018bdb0000\u0022",
+        "Date": "Tue, 07 Mar 2023 09:49:45 GMT",
+        "ETag": "\u00221b00cd34-0000-0600-0000-640708b80000\u0022",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "21ceed35-5b8b-4c63-99c4-a6c7a0947bce",
+        "x-ms-correlation-request-id": "f4324464-9896-48fc-9d04-e0bb6eb75dc8",
         "x-ms-ratelimit-remaining-subscription-reads": "11999",
-        "x-ms-request-id": "82dd8ea2-a1b7-4e74-ae78-b888ea3e265f",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230303T055541Z:21ceed35-5b8b-4c63-99c4-a6c7a0947bce"
+        "x-ms-request-id": "fdb3b09f-e072-428d-ad46-6554ba55b9eb",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230307T094946Z:f4324464-9896-48fc-9d04-e0bb6eb75dc8"
       },
       "ResponseBody": {
-        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.VoiceServices/locations/WESTCENTRALUS/operationStatuses/8c10d37a-7c8a-4794-9656-e320645cd7c9*A0C0D6AD2F9B580396C50AC2C1F37688648D4F5AE069097DC33C1F7A4CBA5521",
-        "name": "8c10d37a-7c8a-4794-9656-e320645cd7c9*A0C0D6AD2F9B580396C50AC2C1F37688648D4F5AE069097DC33C1F7A4CBA5521",
-        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.VoiceServices/communicationsGateways/mycgtest2",
+        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.VoiceServices/locations/WESTCENTRALUS/operationStatuses/1667bf94-7912-4b37-a595-79b13b1a40d6*07E26A3A50BB9A6493DED9E3B941F57D0E376C58E536BA0F9A9083AA440B494B",
+        "name": "1667bf94-7912-4b37-a595-79b13b1a40d6*07E26A3A50BB9A6493DED9E3B941F57D0E376C58E536BA0F9A9083AA440B494B",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.VoiceServices/communicationsGateways/mycgtest5",
         "status": "Accepted",
-        "startTime": "2023-03-03T05:55:39.3697873Z"
+        "startTime": "2023-03-07T09:49:44.2300137Z"
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VoiceServices/locations/WESTCENTRALUS/operationStatuses/8c10d37a-7c8a-4794-9656-e320645cd7c9*A0C0D6AD2F9B580396C50AC2C1F37688648D4F5AE069097DC33C1F7A4CBA5521?api-version=2023-01-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VoiceServices/locations/WESTCENTRALUS/operationStatuses/1667bf94-7912-4b37-a595-79b13b1a40d6*07E26A3A50BB9A6493DED9E3B941F57D0E376C58E536BA0F9A9083AA440B494B?api-version=2023-01-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -183,8 +183,8 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-voiceservices/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "5084d409-415d-4a5c-ae1f-0993d45918de"
+        "User-Agent": "azsdk-js-arm-voiceservices/1.0.0-beta.1 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "7b2f4551-3183-42fe-b37d-9108b4890e22"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -192,29 +192,29 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 03 Mar 2023 05:55:41 GMT",
-        "ETag": "\u00220f009864-0000-0600-0000-64018bdb0000\u0022",
+        "Date": "Tue, 07 Mar 2023 09:49:46 GMT",
+        "ETag": "\u00221b00cd34-0000-0600-0000-640708b80000\u0022",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "b1cb87ed-f791-4736-8a3a-c6f6cf5964aa",
+        "x-ms-correlation-request-id": "8d895210-87af-4212-969d-6af693950401",
         "x-ms-ratelimit-remaining-subscription-reads": "11998",
-        "x-ms-request-id": "a4b7af86-bea1-4386-9f54-c8472a2c09dd",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230303T055541Z:b1cb87ed-f791-4736-8a3a-c6f6cf5964aa"
+        "x-ms-request-id": "1ac0feae-a1f0-4e4f-9bde-b9ddd69cb889",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230307T094946Z:8d895210-87af-4212-969d-6af693950401"
       },
       "ResponseBody": {
-        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.VoiceServices/locations/WESTCENTRALUS/operationStatuses/8c10d37a-7c8a-4794-9656-e320645cd7c9*A0C0D6AD2F9B580396C50AC2C1F37688648D4F5AE069097DC33C1F7A4CBA5521",
-        "name": "8c10d37a-7c8a-4794-9656-e320645cd7c9*A0C0D6AD2F9B580396C50AC2C1F37688648D4F5AE069097DC33C1F7A4CBA5521",
-        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.VoiceServices/communicationsGateways/mycgtest2",
+        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.VoiceServices/locations/WESTCENTRALUS/operationStatuses/1667bf94-7912-4b37-a595-79b13b1a40d6*07E26A3A50BB9A6493DED9E3B941F57D0E376C58E536BA0F9A9083AA440B494B",
+        "name": "1667bf94-7912-4b37-a595-79b13b1a40d6*07E26A3A50BB9A6493DED9E3B941F57D0E376C58E536BA0F9A9083AA440B494B",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.VoiceServices/communicationsGateways/mycgtest5",
         "status": "Accepted",
-        "startTime": "2023-03-03T05:55:39.3697873Z"
+        "startTime": "2023-03-07T09:49:44.2300137Z"
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VoiceServices/locations/WESTCENTRALUS/operationStatuses/8c10d37a-7c8a-4794-9656-e320645cd7c9*A0C0D6AD2F9B580396C50AC2C1F37688648D4F5AE069097DC33C1F7A4CBA5521?api-version=2023-01-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VoiceServices/locations/WESTCENTRALUS/operationStatuses/1667bf94-7912-4b37-a595-79b13b1a40d6*07E26A3A50BB9A6493DED9E3B941F57D0E376C58E536BA0F9A9083AA440B494B?api-version=2023-01-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -222,8 +222,8 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-voiceservices/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "55560e62-0f57-4358-855c-d4dcc7e0826f"
+        "User-Agent": "azsdk-js-arm-voiceservices/1.0.0-beta.1 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "8b7e57a9-1e78-4036-b5b5-53d1347d1837"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -231,29 +231,29 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 03 Mar 2023 05:55:43 GMT",
-        "ETag": "\u00220f009864-0000-0600-0000-64018bdb0000\u0022",
+        "Date": "Tue, 07 Mar 2023 09:49:48 GMT",
+        "ETag": "\u00221b00cd34-0000-0600-0000-640708b80000\u0022",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "ef77bbfe-79c7-4435-b405-a8453fe879d1",
+        "x-ms-correlation-request-id": "d48d19e8-47ac-4b8e-95c4-4bddfde66c32",
         "x-ms-ratelimit-remaining-subscription-reads": "11997",
-        "x-ms-request-id": "bbde579b-e61e-4364-b2f9-8307a528f7a8",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230303T055543Z:ef77bbfe-79c7-4435-b405-a8453fe879d1"
+        "x-ms-request-id": "c79f3514-8932-4521-a96d-b56a4304fe35",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230307T094949Z:d48d19e8-47ac-4b8e-95c4-4bddfde66c32"
       },
       "ResponseBody": {
-        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.VoiceServices/locations/WESTCENTRALUS/operationStatuses/8c10d37a-7c8a-4794-9656-e320645cd7c9*A0C0D6AD2F9B580396C50AC2C1F37688648D4F5AE069097DC33C1F7A4CBA5521",
-        "name": "8c10d37a-7c8a-4794-9656-e320645cd7c9*A0C0D6AD2F9B580396C50AC2C1F37688648D4F5AE069097DC33C1F7A4CBA5521",
-        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.VoiceServices/communicationsGateways/mycgtest2",
+        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.VoiceServices/locations/WESTCENTRALUS/operationStatuses/1667bf94-7912-4b37-a595-79b13b1a40d6*07E26A3A50BB9A6493DED9E3B941F57D0E376C58E536BA0F9A9083AA440B494B",
+        "name": "1667bf94-7912-4b37-a595-79b13b1a40d6*07E26A3A50BB9A6493DED9E3B941F57D0E376C58E536BA0F9A9083AA440B494B",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.VoiceServices/communicationsGateways/mycgtest5",
         "status": "Accepted",
-        "startTime": "2023-03-03T05:55:39.3697873Z"
+        "startTime": "2023-03-07T09:49:44.2300137Z"
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VoiceServices/locations/WESTCENTRALUS/operationStatuses/8c10d37a-7c8a-4794-9656-e320645cd7c9*A0C0D6AD2F9B580396C50AC2C1F37688648D4F5AE069097DC33C1F7A4CBA5521?api-version=2023-01-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VoiceServices/locations/WESTCENTRALUS/operationStatuses/1667bf94-7912-4b37-a595-79b13b1a40d6*07E26A3A50BB9A6493DED9E3B941F57D0E376C58E536BA0F9A9083AA440B494B?api-version=2023-01-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -261,8 +261,8 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-voiceservices/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "dcc32083-4532-4ef0-a995-8b82abd8ceea"
+        "User-Agent": "azsdk-js-arm-voiceservices/1.0.0-beta.1 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "9227d93a-02b0-4aeb-8f61-a6bd351216ec"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -270,29 +270,29 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 03 Mar 2023 05:55:45 GMT",
-        "ETag": "\u00220f009864-0000-0600-0000-64018bdb0000\u0022",
+        "Date": "Tue, 07 Mar 2023 09:49:50 GMT",
+        "ETag": "\u00221b00cd34-0000-0600-0000-640708b80000\u0022",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "79de4d3b-d40c-47ad-bf71-e7ce8b0e59bc",
+        "x-ms-correlation-request-id": "ffe8b3dd-a7ae-4005-bd01-b7a22b8b43ee",
         "x-ms-ratelimit-remaining-subscription-reads": "11996",
-        "x-ms-request-id": "c91aa655-7575-4a52-9a27-bdd30f39ce0d",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230303T055546Z:79de4d3b-d40c-47ad-bf71-e7ce8b0e59bc"
+        "x-ms-request-id": "e5129888-0825-4fb7-882f-015b6c521959",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230307T094951Z:ffe8b3dd-a7ae-4005-bd01-b7a22b8b43ee"
       },
       "ResponseBody": {
-        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.VoiceServices/locations/WESTCENTRALUS/operationStatuses/8c10d37a-7c8a-4794-9656-e320645cd7c9*A0C0D6AD2F9B580396C50AC2C1F37688648D4F5AE069097DC33C1F7A4CBA5521",
-        "name": "8c10d37a-7c8a-4794-9656-e320645cd7c9*A0C0D6AD2F9B580396C50AC2C1F37688648D4F5AE069097DC33C1F7A4CBA5521",
-        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.VoiceServices/communicationsGateways/mycgtest2",
+        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.VoiceServices/locations/WESTCENTRALUS/operationStatuses/1667bf94-7912-4b37-a595-79b13b1a40d6*07E26A3A50BB9A6493DED9E3B941F57D0E376C58E536BA0F9A9083AA440B494B",
+        "name": "1667bf94-7912-4b37-a595-79b13b1a40d6*07E26A3A50BB9A6493DED9E3B941F57D0E376C58E536BA0F9A9083AA440B494B",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.VoiceServices/communicationsGateways/mycgtest5",
         "status": "Accepted",
-        "startTime": "2023-03-03T05:55:39.3697873Z"
+        "startTime": "2023-03-07T09:49:44.2300137Z"
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VoiceServices/locations/WESTCENTRALUS/operationStatuses/8c10d37a-7c8a-4794-9656-e320645cd7c9*A0C0D6AD2F9B580396C50AC2C1F37688648D4F5AE069097DC33C1F7A4CBA5521?api-version=2023-01-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.VoiceServices/locations/WESTCENTRALUS/operationStatuses/1667bf94-7912-4b37-a595-79b13b1a40d6*07E26A3A50BB9A6493DED9E3B941F57D0E376C58E536BA0F9A9083AA440B494B?api-version=2023-01-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -300,8 +300,8 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-voiceservices/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "6d851fb6-eccb-41fa-8f1e-4733b1954d85"
+        "User-Agent": "azsdk-js-arm-voiceservices/1.0.0-beta.1 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "e723e23a-721d-41f7-aeac-016703f4c1fe"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -309,30 +309,30 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 03 Mar 2023 05:55:48 GMT",
-        "ETag": "\u00220f00c364-0000-0600-0000-64018be30000\u0022",
+        "Date": "Tue, 07 Mar 2023 09:49:52 GMT",
+        "ETag": "\u00221b00dd34-0000-0600-0000-640708c00000\u0022",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "c1cfac34-c57f-4500-a8ec-197bfa48e770",
+        "x-ms-correlation-request-id": "1a9a7c32-c625-4ef5-aa39-4ebd61536a68",
         "x-ms-ratelimit-remaining-subscription-reads": "11995",
-        "x-ms-request-id": "cf651a2e-7cf0-43cb-bf13-c67bcdff12b0",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230303T055548Z:c1cfac34-c57f-4500-a8ec-197bfa48e770"
+        "x-ms-request-id": "b7f2adeb-989f-414c-88d9-fdda0e46cd22",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230307T094953Z:1a9a7c32-c625-4ef5-aa39-4ebd61536a68"
       },
       "ResponseBody": {
-        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.VoiceServices/locations/WESTCENTRALUS/operationStatuses/8c10d37a-7c8a-4794-9656-e320645cd7c9*A0C0D6AD2F9B580396C50AC2C1F37688648D4F5AE069097DC33C1F7A4CBA5521",
-        "name": "8c10d37a-7c8a-4794-9656-e320645cd7c9*A0C0D6AD2F9B580396C50AC2C1F37688648D4F5AE069097DC33C1F7A4CBA5521",
-        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.VoiceServices/communicationsGateways/mycgtest2",
+        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.VoiceServices/locations/WESTCENTRALUS/operationStatuses/1667bf94-7912-4b37-a595-79b13b1a40d6*07E26A3A50BB9A6493DED9E3B941F57D0E376C58E536BA0F9A9083AA440B494B",
+        "name": "1667bf94-7912-4b37-a595-79b13b1a40d6*07E26A3A50BB9A6493DED9E3B941F57D0E376C58E536BA0F9A9083AA440B494B",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.VoiceServices/communicationsGateways/mycgtest5",
         "status": "Succeeded",
-        "startTime": "2023-03-03T05:55:39.3697873Z",
+        "startTime": "2023-03-07T09:49:44.2300137Z",
         "properties": null
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.VoiceServices/communicationsGateways/mycgtest2?api-version=2023-01-31",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.VoiceServices/communicationsGateways/mycgtest5?api-version=2023-01-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -340,8 +340,8 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-voiceservices/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "abb97a16-473f-41e0-a416-680fb959c44d"
+        "User-Agent": "azsdk-js-arm-voiceservices/1.0.0-beta.1 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "ace961a9-030a-4c81-b66f-65f3f65e6aa6"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -349,8 +349,8 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 03 Mar 2023 05:55:48 GMT",
-        "ETag": "\u0022150038c8-0000-0600-0000-64018be30000\u0022",
+        "Date": "Tue, 07 Mar 2023 09:49:53 GMT",
+        "ETag": "\u00222400993c-0000-0600-0000-640708c00000\u0022",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
@@ -360,30 +360,30 @@
           "Accept-Encoding"
         ],
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "532f0e37-75a5-4284-9d2e-406c29768fbf",
+        "x-ms-correlation-request-id": "8ff6c776-ef0d-4fd8-bbfb-d97369ad2027",
         "x-ms-providerhub-traffic": "True",
         "x-ms-ratelimit-remaining-subscription-reads": "11994",
-        "x-ms-request-id": "a4b36f6b-d2e8-4914-b2c2-b44563a3dcfc",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230303T055549Z:532f0e37-75a5-4284-9d2e-406c29768fbf"
+        "x-ms-request-id": "090f0b7e-5a94-4ba5-b049-8593d1fb0676",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230307T094954Z:8ff6c776-ef0d-4fd8-bbfb-d97369ad2027"
       },
       "ResponseBody": {
-        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.VoiceServices/communicationsGateways/mycgtest2",
-        "name": "mycgtest2",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.VoiceServices/communicationsGateways/mycgtest5",
+        "name": "mycgtest5",
         "type": "microsoft.voiceservices/communicationsgateways",
         "location": "westcentralus",
         "systemData": {
           "createdBy": "azure_client_id",
           "createdByType": "Application",
-          "createdAt": "2023-03-03T05:55:37.6087429Z",
+          "createdAt": "2023-03-07T09:49:42.2283178Z",
           "lastModifiedBy": "azure_client_id",
           "lastModifiedByType": "Application",
-          "lastModifiedAt": "2023-03-03T05:55:37.6087429Z"
+          "lastModifiedAt": "2023-03-07T09:49:42.2283178Z"
         },
         "properties": {
           "status": "ChangePending",
           "apiBridge": null,
           "autoGeneratedDomainNameLabelScope": "NoReuse",
-          "autoGeneratedDomainNameLabel": "mycgtest2.gvd3e5b3gsbwg3a7",
+          "autoGeneratedDomainNameLabel": "mycgtest5.c6hrbfdqdpf7achz",
           "serviceLocations": [
             {
               "name": "westcentralus",
