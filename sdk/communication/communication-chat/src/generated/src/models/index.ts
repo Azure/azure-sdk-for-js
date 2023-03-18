@@ -161,6 +161,8 @@ export interface ChatMessageContent {
   topic?: string;
   /** Chat message content for messages of types participantAdded or participantRemoved. */
   participants?: ChatParticipant[];
+  /** List of attachments for this message */
+  attachments?: ChatAttachment[];
   /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set. */
   initiatorCommunicationIdentifier?: CommunicationIdentifierModel;
 }
@@ -173,6 +175,22 @@ export interface ChatParticipant {
   displayName?: string;
   /** Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   shareHistoryTime?: Date;
+}
+
+/** An attachment in a chat message. */
+export interface ChatAttachment {
+  /** Id of the attachment */
+  id: string;
+  /** The type of attachment. */
+  attachmentType: "teamsInlineImage";
+  /** The type of content of the attachment, if available */
+  contentType?: string;
+  /** The name of the attachment content. */
+  name?: string;
+  /** The URL where the attachment can be downloaded */
+  url: string;
+  /** The URL where the preview of attachment can be downloaded */
+  previewUrl?: string;
 }
 
 /** Request payload for updating a chat message. */
@@ -401,36 +419,21 @@ export interface ChatThreadSendTypingNotificationOptionalParams
 
 /** Optional parameters. */
 export interface ChatThreadListChatReadReceiptsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of chat message read receipts to be returned per page. */
-  maxPageSize?: number;
-  /** Skips chat message read receipts up to a specified position in response. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listChatReadReceiptsNext operation. */
 export type ChatThreadListChatReadReceiptsNextResponse = ChatMessageReadReceiptsCollection;
 
 /** Optional parameters. */
 export interface ChatThreadListChatMessagesNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of messages to be returned per page. */
-  maxPageSize?: number;
-  /** The earliest point in time to get messages up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
-  startTime?: Date;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listChatMessagesNext operation. */
 export type ChatThreadListChatMessagesNextResponse = ChatMessagesCollection;
 
 /** Optional parameters. */
 export interface ChatThreadListChatParticipantsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of participants to be returned per page. */
-  maxPageSize?: number;
-  /** Skips participants up to a specified position in response. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listChatParticipantsNext operation. */
 export type ChatThreadListChatParticipantsNextResponse = ChatParticipantsCollection;
@@ -463,12 +466,7 @@ export interface ChatDeleteChatThreadOptionalParams
 
 /** Optional parameters. */
 export interface ChatListChatThreadsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of chat threads returned per page. */
-  maxPageSize?: number;
-  /** The earliest point in time to get chat threads up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
-  startTime?: Date;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listChatThreadsNext operation. */
 export type ChatListChatThreadsNextResponse = ChatThreadsItemCollection;

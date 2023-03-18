@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3A5t6BZZhMhTG9yN54rMiVcs-kny91gVXsRP9Arl693UI1%40thread.v2/participants?api-version=2021-09-07",
+      "RequestUri": "https://endpoint/chat/threads/19%3A1_rDv-O7sJh7jqmHnbLjvQIO4YKaEK_2DIQ1R5J_oNw1%40thread.v2/participants?api-version=2023-04-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -17,50 +17,52 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/102.0.5002.0 Safari/537.36",
-        "x-ms-client-request-id": "0d5b3a9d-4d11-4fb2-ad34-dd0712d9d619",
-        "x-ms-useragent": "azsdk-js-communication-chat/1.2.0 core-rest-pipeline/1.8.2 OS/MacIntel"
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
+        "x-ms-client-request-id": "bed4ec68-ec97-4286-ac69-fe6c184d9710",
+        "x-ms-useragent": "azsdk-js-communication-chat/1.3.2-beta.1 core-rest-pipeline/1.10.3 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Accept-Ranges": "bytes",
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Expose-Headers": "Location",
-        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2021-10-01-preview7",
+        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview",
+        "Connection": "keep-alive",
+        "Content-Length": "824",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 26 May 2022 07:59:56 GMT",
-        "MS-CV": "wpeDtm/4j0Kg2TYEXpRuFQ.0",
+        "Date": "Sat, 18 Mar 2023 01:07:33 GMT",
+        "MS-CV": "V9wSFBs0JUC3BOICtVozDA.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0fDOPYgAAAABnkHBqw6TFQ5NDagHWPzkdUFJHMDFFREdFMDYwOQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "x-azure-ref": "20230318T010733Z-97wqt9gd4p3k1at2n17xqsnatw000000023g00000000y9vn",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "136ms"
+        "X-Processing-Time": "146ms"
       },
       "ResponseBody": {
         "value": [
           {
             "communicationIdentifier": {
-              "rawId": "8:acs:a5ba7870-ef05-4e2b-9901-7751faa29e20_00000011-9f42-a365-83fe-08482200b65a",
+              "rawId": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000017-9223-6771-92fd-8b3a0d006f05",
               "communicationUser": {
-                "id": "8:acs:a5ba7870-ef05-4e2b-9901-7751faa29e20_00000011-9f42-a365-83fe-08482200b65a"
+                "id": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000017-9223-6771-92fd-8b3a0d006f05"
               }
             },
             "shareHistoryTime": "1970-01-01T00:00:00Z"
           },
           {
             "communicationIdentifier": {
-              "rawId": "8:acs:a5ba7870-ef05-4e2b-9901-7751faa29e20_00000011-9f42-a45e-83fe-08482200b65c",
+              "rawId": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000017-9223-690e-e138-8e3a0d00767e",
               "communicationUser": {
-                "id": "8:acs:a5ba7870-ef05-4e2b-9901-7751faa29e20_00000011-9f42-a45e-83fe-08482200b65c"
+                "id": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000017-9223-690e-e138-8e3a0d00767e"
               }
             },
             "shareHistoryTime": "1970-01-01T00:00:00Z"
           },
           {
             "communicationIdentifier": {
-              "rawId": "8:acs:a5ba7870-ef05-4e2b-9901-7751faa29e20_00000011-9f42-bf6a-83fe-08482200b65f",
+              "rawId": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000017-9223-8f9e-9f3b-8e3a0d006c89",
               "communicationUser": {
-                "id": "8:acs:a5ba7870-ef05-4e2b-9901-7751faa29e20_00000011-9f42-bf6a-83fe-08482200b65f"
+                "id": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000017-9223-8f9e-9f3b-8e3a0d006c89"
               }
             },
             "shareHistoryTime": "1970-01-01T00:00:00Z"
