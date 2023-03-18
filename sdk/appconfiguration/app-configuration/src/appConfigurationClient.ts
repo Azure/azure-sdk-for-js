@@ -67,7 +67,6 @@ import {
   transformKeyValue,
   transformKeyValueResponse,
   transformKeyValueResponseWithStatusCode,
-  transformOperationDetails,
   transformSnapshotResponse,
 } from "./internal/helpers";
 import { AppConfiguration } from "./generated/src/appConfiguration";
@@ -76,7 +75,7 @@ import { SecretReferenceValue } from "./secretReference";
 import { appConfigKeyCredentialPolicy } from "./appConfigCredential";
 import { tracingClient } from "./internal/tracing";
 import { logger } from "./logger";
-import { createHttpPoller, LongRunningOperation, LroResponse, OperationState, SimplePollerLike } from "@azure/core-lro";
+import { OperationState, SimplePollerLike } from "@azure/core-lro";
 
 const apiVersion = "2022-11-01-preview";
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
@@ -515,121 +514,33 @@ export class AppConfigurationClient {
   }
 
   /**
-   * Create a snapshot for Azure App Configuration service, failing if it
+   * Begins creating a snapshot for Azure App Configuration service, fails if it
    * already exists.
-   *
-   * Example usage:
-   * ```ts
-   * const result = await client.createSnapshot("MySnapshot", { key: "MyKey", label: "MyLabel"});
-   * ```
-   * @param configurationSetting - A configuration setting.
-   * @param options - Optional parameters for the request.
    */
-  async beginCreateSnapshot(
+  beginCreateSnapshot(
     snapshot: SnapshotInfo,
     options: CreateSnapshotOptions = {}
   ): Promise<SimplePollerLike<OperationState<CreateSnapshotResponse>, CreateSnapshotResponse>> {
-    logger.info("[createSnapshot] Creating snapshot");
-    const self = this;
-    let statusOfThePoller:string;
-    function createLro(): LongRunningOperation<unknown> {
-      return {
-        async sendInitialRequest(): Promise<LroResponse<CreateSnapshotResponse>> {
-          return tracingClient.withSpan(
-            `${AppConfigurationClient.name}.createSnapshot`,
-            options,
-            async (updatedOptions) => {
-              const originalResponse = await self.client.createSnapshot(
-                snapshot.name,
-                { ...snapshot },
-                {
-                  ...updatedOptions,
-                }
-              );
-              const res = transformSnapshotResponse(originalResponse)
-              return {
-                flatResponse: res,
-                rawResponse: {
-                  statusCode: res._response.status,
-                  headers: res._response.headers.toJson(),
-                  body: res._response.parsedBody,
-                },
-              };
-            }
-          );
-        },
-        async sendPollRequest(): Promise<LroResponse<unknown>> {
-          return tracingClient.withSpan(
-            `${AppConfigurationClient.name}.getOperationDetails`,
-            options,
-            async (updatedOptions) => {
-              if (statusOfThePoller === "Succeeded") {
-                const response = await self.getSnapshot(snapshot.name, updatedOptions);
-                return {
-                  flatResponse: response,
-                  rawResponse: {
-                    statusCode: response._response.status,
-                    headers: response._response.headers.toJson(),
-                    body: response._response.parsedBody,
-                  },
-                }
-              }
-              const originalResponse = await self.client.getOperationDetails(
-                snapshot.name, updatedOptions
-              );
-              const res = transformOperationDetails(originalResponse)
-              statusOfThePoller = originalResponse.status;
-
-              return {
-                flatResponse: res,
-                rawResponse: {
-                  statusCode: res._response.status,
-                  headers: res._response.headers.toJson(),
-                  body: res._response.parsedBody,
-                },
-              };
-            }
-          );
-        },
-        requestMethod: "PUT",
-        requestPath: "/snapshots/{name}",
-      }
-    }
-    return createHttpPoller<CreateSnapshotResponse, OperationState<CreateSnapshotResponse>>(createLro());
+    return tracingClient.withSpan(
+      `${AppConfigurationClient.name}.beginCreateSnapshot`,
+      options,
+      updatedOptions => this.client.beginCreateSnapshot(snapshot.name, snapshot, { ...updatedOptions })
+    );
   }
 
 
   /**
-   * Create a snapshot for Azure App Configuration service, failing if it
-   * already exists.
-   *
-   * Example usage:
-   * ```ts
-   * const result = await client.createSnapshot("MySnapshot", { key: "MyKey", label: "MyLabel"});
-   * ```
-   * @param configurationSetting - A configuration setting.
-   * @param options - Optional parameters for the request.
+   * Begins creating a snapshot for Azure App Configuration service, waits until it is done,
+   * fails if it already exists.
    */
-  createSnapshot(
+  beginCreateSnapshotAndWait(
     snapshot: SnapshotInfo,
     options: CreateSnapshotOptions = {}
   ): Promise<CreateSnapshotResponse> {
     return tracingClient.withSpan(
-      "AppConfigurationClient.createSnapshot",
+      `${AppConfigurationClient.name}.beginCreateSnapshotAndWait`,
       options,
-      async (updatedOptions) => {
-        logger.info("[createSnapshot] Creating snapshot");
-        const originalResponse = await this.client.createSnapshot(
-          snapshot.name,
-          { ...snapshot },
-          {
-            ...updatedOptions,
-          }
-        );
-        const response = transformSnapshotResponse(originalResponse);
-        assertResponse(response);
-        return response;
-      }
+      updatedOptions => this.client.beginCreateSnapshotAndWait(snapshot.name, snapshot, { ...updatedOptions })
     );
   }
 

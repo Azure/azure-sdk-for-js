@@ -46,7 +46,7 @@ export async function main() {
   await client.addConfigurationSetting({ key: key2, value: "value2" });
 
   // creating a new snapshot
-  const newSnapshot = await client.createSnapshot(snapshot1);
+  const newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1);
   console.log(`New snapshot object added ${newSnapshot}`);
 
   // getting the configuration settting of the snapshot
@@ -61,7 +61,7 @@ export async function main() {
   await client.getSnapshot(newSnapshot.name);
 
   // creating a new snapshot
-  const newSnapshot2 = await client.createSnapshot(snapshot2);
+  const newSnapshot2 = await client.beginCreateSnapshotAndWait(snapshot2);
   console.log(`New snapshot object added ${newSnapshot2}`);
 
   // list all the snapshots

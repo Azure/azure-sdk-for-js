@@ -9,7 +9,9 @@
 import { CommonClientOptions } from '@azure/core-client';
 import { CompatResponse } from '@azure/core-http-compat';
 import { OperationOptions } from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { SimplePollerLike } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -29,8 +31,8 @@ export class AppConfigurationClient {
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: AppConfigurationClientOptions);
     addConfigurationSetting(configurationSetting: AddConfigurationSettingParam | AddConfigurationSettingParam<FeatureFlagValue> | AddConfigurationSettingParam<SecretReferenceValue>, options?: AddConfigurationSettingOptions): Promise<AddConfigurationSettingResponse>;
     archiveSnapshot(snapshotId: SnapshotId, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
-    beginCreateSnapshot(snapshot: SnapshotInfo, options?: CreateSnapshotOptions): Promise<CreateSnapshotResponse>;
-    createSnapshot(snapshot: SnapshotInfo, options?: CreateSnapshotOptions): Promise<CreateSnapshotResponse>;
+    beginCreateSnapshot(snapshot: SnapshotInfo, options?: CreateSnapshotOptions): Promise<SimplePollerLike<OperationState<CreateSnapshotResponse>, CreateSnapshotResponse>>;
+    beginCreateSnapshotAndWait(snapshot: SnapshotInfo, options?: CreateSnapshotOptions): Promise<CreateSnapshotResponse>;
     deleteConfigurationSetting(id: ConfigurationSettingId, options?: DeleteConfigurationSettingOptions): Promise<DeleteConfigurationSettingResponse>;
     getConfigurationSetting(id: ConfigurationSettingId, options?: GetConfigurationSettingOptions): Promise<GetConfigurationSettingResponse>;
     getSnapshot(name: string, options?: GetSnapshotOptions): Promise<GetSnapshotResponse>;
@@ -213,7 +215,7 @@ export interface ListSnapshotsPage extends HttpResponseField<SyncTokenHeaderFiel
 // Warning: (ae-forgotten-export) The symbol "OperationDetails" needs to be exported by the entry point index.d.ts
 //
 // @public
-export interface OperationDetailsResponse extends OperationDetails, HttpResponseField<{}> {
+export interface OperationDetailsResponse extends OperationDetails {
 }
 
 // @public
@@ -306,7 +308,7 @@ export interface SnapshotInfo {
 }
 
 // @public
-export interface SnapshotResponse extends Snapshot, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
+export interface SnapshotResponse extends Snapshot, SyncTokenHeaderField {
 }
 
 // @public

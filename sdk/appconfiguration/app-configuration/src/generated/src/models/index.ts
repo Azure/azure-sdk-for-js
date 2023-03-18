@@ -128,16 +128,6 @@ export interface KeyValueFilter {
   label?: string;
 }
 
-export interface OperationDetails {
-  id: string;
-  status: State;
-  /**
-   * Azure App Configuration error object.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly error?: ErrorModel;
-}
-
 /** Parameters used to update a snapshot. */
 export interface SnapshotUpdateParameters {
   /** The desired status of the snapshot. */
@@ -158,6 +148,36 @@ export interface Label {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
+}
+
+/** Details of a long running operation. */
+export interface OperationDetails {
+  /** The unique id of the operation. */
+  id: string;
+  /** The current status of the operation */
+  status: State;
+  /** An error, available when the status is `Failed`, describing why the operation failed. */
+  error?: ErrorDetail;
+}
+
+/** The details of an error. */
+export interface ErrorDetail {
+  /** One of a server-defined set of error codes. */
+  code: string;
+  /** A human-readable representation of the error. */
+  message: string;
+  /** An array of details about specific errors that led to this reported error. */
+  details?: ErrorDetail[];
+  /** An object containing more specific information than the current object about the error. */
+  innererror?: InnerError;
+}
+
+/** An object containing specific information about an error. */
+export interface InnerError {
+  /** One of a server-defined set of error codes. */
+  code?: string;
+  /** An object containing more specific information than the current object about the error. */
+  innererror?: InnerError;
 }
 
 /** Defines headers for AppConfiguration_getKeys operation. */
@@ -658,13 +678,6 @@ export interface CheckSnapshotsOptionalParams
 export type CheckSnapshotsResponse = AppConfigurationCheckSnapshotsHeaders;
 
 /** Optional parameters. */
-export interface GetOperationDetailsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getOperationDetails operation. */
-export type GetOperationDetailsResponse = OperationDetails;
-
-/** Optional parameters. */
 export interface GetSnapshotOptionalParams extends coreClient.OperationOptions {
   /** Used to perform an operation only if the targeted resource's etag matches the value provided. */
   ifMatch?: string;
@@ -679,7 +692,12 @@ export type GetSnapshotResponse = AppConfigurationGetSnapshotHeaders & Snapshot;
 
 /** Optional parameters. */
 export interface CreateSnapshotOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the createSnapshot operation. */
 export type CreateSnapshotResponse = AppConfigurationCreateSnapshotHeaders &
@@ -803,6 +821,13 @@ export interface CheckRevisionsOptionalParams
 
 /** Contains response data for the checkRevisions operation. */
 export type CheckRevisionsResponse = AppConfigurationCheckRevisionsHeaders;
+
+/** Optional parameters. */
+export interface GetOperationDetailsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getOperationDetails operation. */
+export type GetOperationDetailsResponse = OperationDetails;
 
 /** Optional parameters. */
 export interface GetKeysNextOptionalParams extends coreClient.OperationOptions {

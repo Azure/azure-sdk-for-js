@@ -325,43 +325,6 @@ export const KeyValueFilter: coreClient.CompositeMapper = {
   }
 };
 
-export const OperationDetails: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "OperationDetails",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      status: {
-        serializedName: "status",
-        required: true,
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "NotStarted",
-            "Running",
-            "Succeeded",
-            "Failed",
-            "Canceled"
-          ]
-        }
-      },
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ErrorModel"
-        }
-      }
-    }
-  }
-};
-
 export const SnapshotUpdateParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -414,6 +377,107 @@ export const Label: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OperationDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationDetails",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "NotStarted",
+            "Running",
+            "Succeeded",
+            "Failed",
+            "Canceled"
+          ]
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail"
+            }
+          }
+        }
+      },
+      innererror: {
+        serializedName: "innererror",
+        type: {
+          name: "Composite",
+          className: "InnerError"
+        }
+      }
+    }
+  }
+};
+
+export const InnerError: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "InnerError",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      innererror: {
+        serializedName: "innererror",
+        type: {
+          name: "Composite",
+          className: "InnerError"
         }
       }
     }

@@ -12,7 +12,7 @@ add-credentials: false
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/d02d037d9d20fdea5a615652364f4a2a41a54b9a/specification/appconfiguration/data-plane/Microsoft.AppConfiguration/preview/2022-11-01-preview/appconfiguration.json
+input-file: https://github.com/Azure/azure-rest-api-specs/blob/eb4dd876bf3d2fb84c9320f3e3ad4aff000b766f/specification/appconfiguration/data-plane/Microsoft.AppConfiguration/preview/2022-11-01-preview/appconfiguration.json
 model-date-time-as-string: false
 optional-response-headers: true
 sample-generation: false
@@ -122,19 +122,4 @@ directive:
     transform: >
       $.required = $.required || [];
       $.required.push('name');
-```
-
-# Disable LRO
-
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $["paths"][*]
-    transform: >
-      for (var op of Object.values($)) {
-          if (op["x-ms-long-running-operation"]) {
-              delete op["x-ms-long-running-operation"];
-          }
-      }
 ```

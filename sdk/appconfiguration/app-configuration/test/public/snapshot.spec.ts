@@ -83,12 +83,11 @@ describe("AppConfigurationClient snapshot", () => {
         1,
         "Unexpected filters in result from createSnapshot()."
       );
-      
     });
 
     it("service will throw error when try to create a snapshot of the same name", async () => {
       // creating a new snapshot
-      newSnapshot = await client.createSnapshot(snapshot1);
+      newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1);
       assert.equal(
         newSnapshot.name,
         "testSnapshot1",
@@ -111,7 +110,7 @@ describe("AppConfigurationClient snapshot", () => {
       };
 
       await assertThrowsAbortError(async () => {
-        await client.createSnapshot(
+        await client.beginCreateSnapshotAndWait(
           snapshot,
 
           {
@@ -140,7 +139,7 @@ describe("AppConfigurationClient snapshot", () => {
   describe("listSnapshots", () => {
     it("list all snapshots", async () => {
       // creating a new snapshot
-      const newSnapshot2 = await client.createSnapshot(snapshot2);
+      const newSnapshot2 = await client.beginCreateSnapshotAndWait(snapshot2);
       console.log(`New snapshot object added ${newSnapshot2}`);
 
       // list all the snapshots
@@ -164,7 +163,7 @@ describe("AppConfigurationClient snapshot", () => {
       };
 
       // creating a new snapshot
-      let newSnapshot = await client.createSnapshot(snapshot);
+      let newSnapshot = await client.beginCreateSnapshotAndWait(snapshot);
       assertEqualSnapshot(newSnapshot, snapshot);
 
       while (newSnapshot.status != "ready") {
@@ -199,7 +198,7 @@ describe("AppConfigurationClient snapshot", () => {
       };
 
       // creating a new snapshot
-      let newSnapshot = await client.createSnapshot(snapshot);
+      let newSnapshot = await client.beginCreateSnapshotAndWait(snapshot);
       assertEqualSnapshot(newSnapshot, snapshot);
 
       const errorExpected = {
@@ -239,7 +238,7 @@ describe("AppConfigurationClient snapshot", () => {
         filters: [filter1],
       };
 
-      let newSnapshot = await client.createSnapshot(snapshot);
+      let newSnapshot = await client.beginCreateSnapshotAndWait(snapshot);
       assertEqualSnapshot(newSnapshot, snapshot);
 
       await assertThrowsAbortError(async () => {
@@ -270,7 +269,7 @@ describe("AppConfigurationClient snapshot", () => {
       };
 
       // creating a new snapshot
-      let newSnapshot = await client.createSnapshot(snapshot);
+      let newSnapshot = await client.beginCreateSnapshotAndWait(snapshot);
       assertEqualSnapshot(newSnapshot, snapshot);
 
       newSnapshot = await client.getSnapshot(newSnapshot.name);
@@ -303,7 +302,7 @@ describe("AppConfigurationClient snapshot", () => {
         filters: [filter1],
       };
 
-      let newSnapshot = await client.createSnapshot(snapshot);
+      let newSnapshot = await client.beginCreateSnapshotAndWait(snapshot);
       assertEqualSnapshot(newSnapshot, snapshot);
 
       await assertThrowsAbortError(async () => {
@@ -354,9 +353,9 @@ describe("AppConfigurationClient snapshot", () => {
       };
 
       // creating a new snapshot
-      let newSnapshot = await client.createSnapshot(snapshot);
-      let newSnapshot2 = await client.createSnapshot(snapshot2);
-      let newSnapshot3 = await client.createSnapshot(snapshot3);
+      let newSnapshot = await client.beginCreateSnapshotAndWait(snapshot);
+      let newSnapshot2 = await client.beginCreateSnapshotAndWait(snapshot2);
+      let newSnapshot3 = await client.beginCreateSnapshotAndWait(snapshot3);
       const snapshots = await client.listSnapshots({ statusFilter: ["ready", "provisioning"] });
       const snapshotArray = await toSortedSnapshotArray(snapshots);
       assert.equal(

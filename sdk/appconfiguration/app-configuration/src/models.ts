@@ -408,15 +408,13 @@ export interface CreateSnapshotOptions extends OperationOptions { }
  */
 export interface SnapshotResponse
   extends Snapshot,
-  SyncTokenHeaderField,
-  HttpResponseField<SyncTokenHeaderField> { }
+  SyncTokenHeaderField { }
 
 /**
  * Response from adding a Snapshot.
  */
 export interface OperationDetailsResponse
-  extends OperationDetails,
-  HttpResponseField<{}> { }
+  extends OperationDetails { }
 
 /**
  * Options used when getting a Snapshot.
