@@ -13,17 +13,14 @@ import {
 import { assert } from "chai";
 import { CompositeMapper } from "@azure/core-client";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { v1 as uuid } from "uuid";
 
 const TestCompanyName: string = "Contoso";
 const TestProgramBriefName: string = "Contoso Loyalty Program";
 
-export function getTestUSProgramBrief(): USProgramBrief {
-  let programBriefId = uuid();
-
-  if (isPlaybackMode()) {
+export function getTestUSProgramBrief(programBriefId: string): USProgramBrief {
+  /* if (isPlaybackMode()) {
     programBriefId = "9d787bd6-07fc-4c7b-8e57-17f1fee41298";
-  }
+  }*/
 
   const testUSProgramBrief: USProgramBrief = {
     id: programBriefId,
@@ -184,7 +181,7 @@ export async function doesProgramBriefExist(
 }
 
 export async function runTestCleaningLeftovers(
-  testProgramBriefId: string,
+  testProgramBriefIds: string[],
   client: ShortCodesClient,
   testLogic: () => Promise<void>
 ): Promise<void> {
@@ -192,7 +189,9 @@ export async function runTestCleaningLeftovers(
     await tryDeleteLeftOversFromPreviousTests(client);
     await testLogic();
   } catch (error) {
-    await tryDeleteProgramBrief(testProgramBriefId, client);
+    for (const programBriefId of testProgramBriefIds) {
+      await tryDeleteProgramBrief(programBriefId, client);
+    }
     throw error;
   }
 }

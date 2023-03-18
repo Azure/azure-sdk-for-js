@@ -40,13 +40,6 @@ export const recorderOptions: RecorderStartOptions = {
         fakeConnString: envSetupForPlayback["COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"],
       },
     ],
-    generalSanitizers: [
-      {
-        regex: true,
-        target: `[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}`,
-        value: "9d787bd6-07fc-4c7b-8e57-17f1fee41298",
-      },
-    ],
   },
 };
 

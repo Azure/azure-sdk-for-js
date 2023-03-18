@@ -16,6 +16,7 @@ import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecordedClient } from "./utils/recordedClient";
+import { v1 as uuid } from "uuid";
 
 describe(`ShortCodesClient - manage Attachments`, function () {
   let recorder: Recorder;
@@ -32,9 +33,14 @@ describe(`ShortCodesClient - manage Attachments`, function () {
   });
 
   it("can manage Attachments", async function () {
-    const uspb = getTestUSProgramBrief();
+    // create a unique id for program brief
+    const programBriefId = recorder.variable(`test-brief`, uuid());
+    const attachmentId = recorder.variable(`attachment-var`, uuid());
+    // in record mode = this creates the test-brief-# = uuid() and returns this value
+    // in playback mode this will return the variable stored
+    const uspb = getTestUSProgramBrief(programBriefId);
 
-    await runTestCleaningLeftovers(uspb.id, client, async () => {
+    await runTestCleaningLeftovers([uspb.id], client, async () => {
       const programBriefRequest: ShortCodesUpsertUSProgramBriefOptionalParams = {
         body: uspb,
       };
@@ -54,7 +60,7 @@ describe(`ShortCodesClient - manage Attachments`, function () {
       const submitResult = await client.upsertUSProgramBrief(uspb.id, programBriefRequest);
       assert.isOk(submitResult);
 
-      const attachment = getTestProgramBriefAttachment();
+      const attachment = getTestProgramBriefAttachment(attachmentId);
 
       assert.isFalse(
         await doesProgramBriefContainAnyAttachment(client, uspb.id),
@@ -62,8 +68,8 @@ describe(`ShortCodesClient - manage Attachments`, function () {
       );
 
       const attachmentCreationResult = await client.createOrReplaceUSProgramBriefAttachment(
-        uspb.id,
-        attachment.id,
+        programBriefId,
+        attachmentId,
         attachment.fileName,
         attachment.fileType,
         attachment.fileContentBase64,
@@ -72,34 +78,37 @@ describe(`ShortCodesClient - manage Attachments`, function () {
 
       assert.isOk(attachmentCreationResult);
 
-      const existingAttachment = await client.getUSProgramBriefAttachment(uspb.id, attachment.id);
+      const existingAttachment = await client.getUSProgramBriefAttachment(
+        programBriefId,
+        attachmentId
+      );
 
-      assert.equal(existingAttachment.id, attachment.id);
+      assert.equal(existingAttachment.id, attachmentId);
       assert.equal(existingAttachment.fileName, attachment.fileName);
       assert.equal(existingAttachment.fileType, attachment.fileType);
       assert.equal(existingAttachment.type, attachment.type);
 
       const listedAttachment = await getProgramBriefAttachmentWithId(
         client,
-        uspb.id,
-        attachment.id
+        programBriefId,
+        attachmentId
       );
 
       assert.isOk(listedAttachment);
 
-      let delRes = await client.deleteUSProgramBriefAttachment(uspb.id, attachment.id);
+      let delRes = await client.deleteUSProgramBriefAttachment(programBriefId, attachmentId);
       assert.isOk(delRes, "Deleting Program Brief Attachment failed");
 
       assert.isFalse(
-        await doesProgramBriefContainAnyAttachment(client, uspb.id),
+        await doesProgramBriefContainAnyAttachment(client, programBriefId),
         "Failed to delete Program Brief Attachment"
       );
 
       // delete program brief, ensure it was removed
-      delRes = await client.deleteUSProgramBrief(uspb.id);
+      delRes = await client.deleteUSProgramBrief(programBriefId);
       assert.isOk(delRes, "Deleting program brief failed");
       assert.isFalse(
-        await doesProgramBriefExist(client, uspb.id),
+        await doesProgramBriefExist(client, programBriefId),
         "Delete program brief was unsuccessful, program brief is still returned"
       );
     });
