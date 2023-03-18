@@ -20,8 +20,8 @@ import { logger } from "../util/logging";
 import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import {
   TokenResponseParsedBody,
-  parseExpiresOn,
-  getRefreshAt,
+  parseExpirationTimestamp,
+  parseRefreshTimestamp,
 } from "../credentials/managedIdentityCredential/utils";
 
 const noCorrelationId = "noCorrelationId";
@@ -122,9 +122,9 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       const token = {
         accessToken: {
           token: parsedBody.access_token,
-          expiresOnTimestamp: parseExpiresOn(parsedBody),
+          expiresOnTimestamp: parseExpirationTimestamp(parsedBody),
         },
-        refreshesIn: getRefreshAt(parsedBody),
+        refreshesIn: parseRefreshTimestamp(parsedBody),
         refreshToken: parsedBody.refresh_token,
       };
 
