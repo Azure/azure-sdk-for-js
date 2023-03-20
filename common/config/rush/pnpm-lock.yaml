@@ -915,12 +915,11 @@ packages:
       - encoding
     dev: false
 
-  /@azure/core-lro/2.2.4:
-    resolution: {integrity: sha512-e1I2v2CZM0mQo8+RSix0x091Av493e4bnT22ds2fcQGslTHzM2oTbswkB65nP4iEpCxBrFxOSDPKExmTmjCVtQ==}
-    engines: {node: '>=12.0.0'}
+  /@azure/core-lro/2.5.0:
+    resolution: {integrity: sha512-Vsd5Sl04RG/p5ui/p0dAFMov5I/W4dmRjOrtWGXVs4vY/hNMPefiFH7cZEOr+1u0XrBKkpvt634IyUUD9bVRuQ==}
+    engines: {node: '>=14.0.0'}
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@azure/core-tracing': 1.0.0-preview.13
       '@azure/logger': 1.0.4
       tslib: 2.5.0
     dev: false
@@ -3873,7 +3872,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230313
+      typescript: 5.1.0-dev.20230316
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8723,14 +8722,14 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.5:
-    resolution: {integrity: sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==}
-    engines: {node: '>=4.2.0'}
+  /typescript/5.0.2:
+    resolution: {integrity: sha512-wVORMBGO/FAs/++blGNeAVdbNKtIh1rbBL2EyQ1+J9lClJ93KiiKe8PmFIVdXhHcyv44SL9oglmfeSsndo0jRw==}
+    engines: {node: '>=12.20'}
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230313:
-    resolution: {integrity: sha512-vveGdy/uNUyKJ/JbXsJTSP8Z8gfCRsiXdHBMbvJ2XzuzHsDQC3mR+ZPvIGrXoTWMn5XNbyJ8ufYuqGiCGTi6tg==}
+  /typescript/5.1.0-dev.20230316:
+    resolution: {integrity: sha512-XQP4u67mBfrcRRfdyT3yvOAlCYlC0fERQOt9wwinZVALcj0BNO+7d7U1SVxzbb6RhXGEQ+xUgSIXxKXuHBZ0xw==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -16736,7 +16735,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript/4.9.5
+      '@_ts/max': /typescript/5.0.2
       '@_ts/min': /typescript/4.2.4
       '@microsoft/api-extractor': 7.34.4_@types+node@14.18.37
       '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
@@ -18709,11 +18708,11 @@ packages:
     dev: false
 
   file:projects/purview-catalog.tgz:
-    resolution: {integrity: sha512-FTOfz+bUg5R7O0rznTLiLWwO0s/KjH4RyYRu7pc/MpJn55EzLd0AGSz5VS85SP0SRP4dMbylJLaJ77YXArsZWQ==, tarball: file:projects/purview-catalog.tgz}
+    resolution: {integrity: sha512-CDsjXqFGupMq0gzPE3/csKlbb8MNxiYJRR8xPFHN5gdBP/s/L1BFIorrkoQtMQlcP3P1kMZ55xYE2LjDhghoaA==, tarball: file:projects/purview-catalog.tgz}
     name: '@rush-temp/purview-catalog'
     version: 0.0.0
     dependencies:
-      '@azure/core-lro': 2.2.4
+      '@azure/core-lro': 2.5.0
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.34.4_@types+node@14.18.37
       '@types/chai': 4.3.4
