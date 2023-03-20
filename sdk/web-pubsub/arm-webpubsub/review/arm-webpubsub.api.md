@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type ACLAction = string;
@@ -573,15 +573,15 @@ export interface UserAssignedIdentityProperty {
 
 // @public
 export interface WebPubSub {
-    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, parameters: WebPubSubResource, options?: WebPubSubCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<WebPubSubCreateOrUpdateResponse>, WebPubSubCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, parameters: WebPubSubResource, options?: WebPubSubCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WebPubSubCreateOrUpdateResponse>, WebPubSubCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, parameters: WebPubSubResource, options?: WebPubSubCreateOrUpdateOptionalParams): Promise<WebPubSubCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, options?: WebPubSubDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, resourceName: string, options?: WebPubSubDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, resourceName: string, options?: WebPubSubDeleteOptionalParams): Promise<void>;
-    beginRegenerateKey(resourceGroupName: string, resourceName: string, parameters: RegenerateKeyParameters, options?: WebPubSubRegenerateKeyOptionalParams): Promise<PollerLike<PollOperationState<WebPubSubRegenerateKeyResponse>, WebPubSubRegenerateKeyResponse>>;
+    beginRegenerateKey(resourceGroupName: string, resourceName: string, parameters: RegenerateKeyParameters, options?: WebPubSubRegenerateKeyOptionalParams): Promise<SimplePollerLike<OperationState<WebPubSubRegenerateKeyResponse>, WebPubSubRegenerateKeyResponse>>;
     beginRegenerateKeyAndWait(resourceGroupName: string, resourceName: string, parameters: RegenerateKeyParameters, options?: WebPubSubRegenerateKeyOptionalParams): Promise<WebPubSubRegenerateKeyResponse>;
-    beginRestart(resourceGroupName: string, resourceName: string, options?: WebPubSubRestartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRestart(resourceGroupName: string, resourceName: string, options?: WebPubSubRestartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRestartAndWait(resourceGroupName: string, resourceName: string, options?: WebPubSubRestartOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, resourceName: string, parameters: WebPubSubResource, options?: WebPubSubUpdateOptionalParams): Promise<PollerLike<PollOperationState<WebPubSubUpdateResponse>, WebPubSubUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, resourceName: string, parameters: WebPubSubResource, options?: WebPubSubUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WebPubSubUpdateResponse>, WebPubSubUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, resourceName: string, parameters: WebPubSubResource, options?: WebPubSubUpdateOptionalParams): Promise<WebPubSubUpdateResponse>;
     checkNameAvailability(location: string, parameters: NameAvailabilityParameters, options?: WebPubSubCheckNameAvailabilityOptionalParams): Promise<WebPubSubCheckNameAvailabilityResponse>;
     get(resourceGroupName: string, resourceName: string, options?: WebPubSubGetOptionalParams): Promise<WebPubSubGetResponse>;
@@ -609,7 +609,7 @@ export type WebPubSubCreateOrUpdateResponse = WebPubSubResource;
 
 // @public
 export interface WebPubSubCustomCertificates {
-    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, certificateName: string, parameters: CustomCertificate, options?: WebPubSubCustomCertificatesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<WebPubSubCustomCertificatesCreateOrUpdateResponse>, WebPubSubCustomCertificatesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, certificateName: string, parameters: CustomCertificate, options?: WebPubSubCustomCertificatesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WebPubSubCustomCertificatesCreateOrUpdateResponse>, WebPubSubCustomCertificatesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, certificateName: string, parameters: CustomCertificate, options?: WebPubSubCustomCertificatesCreateOrUpdateOptionalParams): Promise<WebPubSubCustomCertificatesCreateOrUpdateResponse>;
     delete(resourceGroupName: string, resourceName: string, certificateName: string, options?: WebPubSubCustomCertificatesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, resourceName: string, certificateName: string, options?: WebPubSubCustomCertificatesGetOptionalParams): Promise<WebPubSubCustomCertificatesGetResponse>;
@@ -652,9 +652,9 @@ export type WebPubSubCustomCertificatesListResponse = CustomCertificateList;
 
 // @public
 export interface WebPubSubCustomDomains {
-    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, name: string, parameters: CustomDomain, options?: WebPubSubCustomDomainsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<WebPubSubCustomDomainsCreateOrUpdateResponse>, WebPubSubCustomDomainsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, name: string, parameters: CustomDomain, options?: WebPubSubCustomDomainsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WebPubSubCustomDomainsCreateOrUpdateResponse>, WebPubSubCustomDomainsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, name: string, parameters: CustomDomain, options?: WebPubSubCustomDomainsCreateOrUpdateOptionalParams): Promise<WebPubSubCustomDomainsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, name: string, options?: WebPubSubCustomDomainsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, resourceName: string, name: string, options?: WebPubSubCustomDomainsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, resourceName: string, name: string, options?: WebPubSubCustomDomainsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, resourceName: string, name: string, options?: WebPubSubCustomDomainsGetOptionalParams): Promise<WebPubSubCustomDomainsGetResponse>;
     list(resourceGroupName: string, resourceName: string, options?: WebPubSubCustomDomainsListOptionalParams): PagedAsyncIterableIterator<CustomDomain>;
@@ -730,9 +730,9 @@ export interface WebPubSubHubProperties {
 
 // @public
 export interface WebPubSubHubs {
-    beginCreateOrUpdate(hubName: string, resourceGroupName: string, resourceName: string, parameters: WebPubSubHub, options?: WebPubSubHubsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<WebPubSubHubsCreateOrUpdateResponse>, WebPubSubHubsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(hubName: string, resourceGroupName: string, resourceName: string, parameters: WebPubSubHub, options?: WebPubSubHubsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WebPubSubHubsCreateOrUpdateResponse>, WebPubSubHubsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(hubName: string, resourceGroupName: string, resourceName: string, parameters: WebPubSubHub, options?: WebPubSubHubsCreateOrUpdateOptionalParams): Promise<WebPubSubHubsCreateOrUpdateResponse>;
-    beginDelete(hubName: string, resourceGroupName: string, resourceName: string, options?: WebPubSubHubsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(hubName: string, resourceGroupName: string, resourceName: string, options?: WebPubSubHubsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(hubName: string, resourceGroupName: string, resourceName: string, options?: WebPubSubHubsDeleteOptionalParams): Promise<void>;
     get(hubName: string, resourceGroupName: string, resourceName: string, options?: WebPubSubHubsGetOptionalParams): Promise<WebPubSubHubsGetResponse>;
     list(resourceGroupName: string, resourceName: string, options?: WebPubSubHubsListOptionalParams): PagedAsyncIterableIterator<WebPubSubHub>;
@@ -869,7 +869,7 @@ export interface WebPubSubNetworkACLs {
 
 // @public
 export interface WebPubSubPrivateEndpointConnections {
-    beginDelete(privateEndpointConnectionName: string, resourceGroupName: string, resourceName: string, options?: WebPubSubPrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(privateEndpointConnectionName: string, resourceGroupName: string, resourceName: string, options?: WebPubSubPrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(privateEndpointConnectionName: string, resourceGroupName: string, resourceName: string, options?: WebPubSubPrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
     get(privateEndpointConnectionName: string, resourceGroupName: string, resourceName: string, options?: WebPubSubPrivateEndpointConnectionsGetOptionalParams): Promise<WebPubSubPrivateEndpointConnectionsGetResponse>;
     list(resourceGroupName: string, resourceName: string, options?: WebPubSubPrivateEndpointConnectionsListOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
@@ -978,9 +978,9 @@ export interface WebPubSubRestartOptionalParams extends coreClient.OperationOpti
 
 // @public
 export interface WebPubSubSharedPrivateLinkResources {
-    beginCreateOrUpdate(sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, parameters: SharedPrivateLinkResource, options?: WebPubSubSharedPrivateLinkResourcesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<WebPubSubSharedPrivateLinkResourcesCreateOrUpdateResponse>, WebPubSubSharedPrivateLinkResourcesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, parameters: SharedPrivateLinkResource, options?: WebPubSubSharedPrivateLinkResourcesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WebPubSubSharedPrivateLinkResourcesCreateOrUpdateResponse>, WebPubSubSharedPrivateLinkResourcesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, parameters: SharedPrivateLinkResource, options?: WebPubSubSharedPrivateLinkResourcesCreateOrUpdateOptionalParams): Promise<WebPubSubSharedPrivateLinkResourcesCreateOrUpdateResponse>;
-    beginDelete(sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, options?: WebPubSubSharedPrivateLinkResourcesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, options?: WebPubSubSharedPrivateLinkResourcesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, options?: WebPubSubSharedPrivateLinkResourcesDeleteOptionalParams): Promise<void>;
     get(sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, options?: WebPubSubSharedPrivateLinkResourcesGetOptionalParams): Promise<WebPubSubSharedPrivateLinkResourcesGetResponse>;
     list(resourceGroupName: string, resourceName: string, options?: WebPubSubSharedPrivateLinkResourcesListOptionalParams): PagedAsyncIterableIterator<SharedPrivateLinkResource>;

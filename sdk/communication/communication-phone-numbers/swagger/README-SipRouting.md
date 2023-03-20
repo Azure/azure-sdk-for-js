@@ -13,8 +13,8 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 source-code-folder-path: src/siprouting
 clear-output-folder: false
-tag: package-phonenumber-siprouting-2021-05-01-preview
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/15d66311cc2b64f04692fdf021d1b235b538e1bc/specification/communication/data-plane/SipRouting/preview/2021-05-01-preview/communicationservicessiprouting.json
+tag: package-2023-03
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/communication/data-plane/SipRouting/readme.md
 optional-response-headers: true
 payload-flattening-threshold: 10
 use-extension:
@@ -55,12 +55,12 @@ directive:
       $["x-ms-client-name"] = "SipRoutingError";
 ```
 
-### Directive changing "TrunkPatch" as nullable
+### Directive changing "TrunkUpdate" as nullable
 
 ```yaml
 directive:
   - from: swagger-document
-    where: "$.definitions.TrunkPatch"
+    where: "$.definitions.TrunkUpdate"
     transform: >
       $["x-nullable"] = true;
 ```

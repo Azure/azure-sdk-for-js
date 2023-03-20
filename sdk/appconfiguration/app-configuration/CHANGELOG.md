@@ -9,6 +9,9 @@
 
 ### Bugs Fixed
 
+- "\0" as the `labelFilter` in the listing methods `AppConfgurationClient#listConfigurationSettings` would return the settings without any labels. Docs were updated to reflect that.
+   [#21309](https://github.com/Azure/azure-sdk-for-js/pull/21039)
+
 ### Other Changes
 
 - Update `@azure/core-paging` dependency to the latest version (1.4.0). Notable changes include using the `getPagedAsyncIterator` method. [#23479](https://github.com/Azure/azure-sdk-for-js/pull/23479)

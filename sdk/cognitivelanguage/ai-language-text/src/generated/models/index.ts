@@ -15,8 +15,7 @@ export type AnalyzeActionUnion =
   | AnalyzeTextKeyPhraseExtractionInput
   | AnalyzeTextPiiEntitiesRecognitionInput
   | AnalyzeTextLanguageDetectionInput
-  | AnalyzeTextSentimentAnalysisInput
-  | AnalyzeTextDynamicClassificationInput;
+  | AnalyzeTextSentimentAnalysisInput;
 export type AnalyzeTextTaskResultUnion =
   | AnalyzeTextTaskResult
   | SentimentTaskResult
@@ -24,8 +23,7 @@ export type AnalyzeTextTaskResultUnion =
   | EntityLinkingTaskResult
   | PiiTaskResult
   | KeyPhraseTaskResult
-  | LanguageDetectionTaskResult
-  | DynamicClassificationTaskResult;
+  | LanguageDetectionTaskResult;
 export type BaseResolutionUnion =
   | BaseResolution
   | AgeResolution
@@ -78,8 +76,7 @@ export interface AnalyzeAction {
     | "KeyPhraseExtraction"
     | "PiiEntityRecognition"
     | "LanguageDetection"
-    | "SentimentAnalysis"
-    | "DynamicClassification";
+    | "SentimentAnalysis";
 }
 
 export interface AnalyzeTextTaskResult {
@@ -90,8 +87,7 @@ export interface AnalyzeTextTaskResult {
     | "EntityLinkingResults"
     | "PiiEntityRecognitionResults"
     | "KeyPhraseExtractionResults"
-    | "LanguageDetectionResults"
-    | "DynamicClassificationResults";
+    | "LanguageDetectionResults";
 }
 
 /** Error response. */
@@ -625,14 +621,6 @@ export interface AnalyzeTextSentimentAnalysisInput extends AnalyzeAction {
   parameters?: SentimentAnalysisAction;
 }
 
-export interface AnalyzeTextDynamicClassificationInput extends AnalyzeAction {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "DynamicClassification";
-  analysisInput?: MultiLanguageAnalysisInput;
-  /** Options for a dynamic classification action. */
-  parameters?: DynamicClassificationAction;
-}
-
 export interface SentimentTaskResult extends AnalyzeTextTaskResult {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "SentimentAnalysisResults";
@@ -667,12 +655,6 @@ export interface LanguageDetectionTaskResult extends AnalyzeTextTaskResult {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "LanguageDetectionResults";
   results: LanguageDetectionResult;
-}
-
-export interface DynamicClassificationTaskResult extends AnalyzeTextTaskResult {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "DynamicClassificationResults";
-  results: DynamicClassificationResult;
 }
 
 export interface AnalyzeBatchAction extends BatchActionState {
@@ -888,10 +870,6 @@ export interface ClassificationDocumentResult extends DocumentResult {
   classifications: ClassificationCategory[];
 }
 
-export interface DynamicClassificationDocumentResult extends DocumentResult {
-  classifications: ClassificationCategory[];
-}
-
 export interface HealthcareEntitiesDocumentResult extends DocumentResult {
   /** Healthcare entities. */
   entities: HealthcareEntity[];
@@ -1021,11 +999,6 @@ export interface KeyPhraseResult extends PreBuiltResult {
 export interface LanguageDetectionResult extends PreBuiltResult {
   /** Response by document */
   documents: LanguageDetectionDocumentResult[];
-}
-
-export interface DynamicClassificationResult extends PreBuiltResult {
-  /** Response by document */
-  documents: DynamicClassificationResultDocumentsItem[];
 }
 
 /** An object representing the pre-build summarization results of each document. */
@@ -1254,14 +1227,6 @@ export interface SentimentAnalysisAction extends ActionPrebuilt {
   stringIndexType?: StringIndexType;
 }
 
-/** Options for a dynamic classification action. */
-export interface DynamicClassificationAction extends ActionPrebuilt {
-  /** Specifies either one or multiple categories per document. Defaults to multi classification which may return more than one class for each document. */
-  classificationType?: ClassificationType;
-  /** a list of categories to which input is classified to. */
-  categories: string[];
-}
-
 /** Supported parameters for a Healthcare task. */
 export interface HealthcareAction extends ActionPrebuilt {
   /** The FHIR Spec version that the result will use to format the fhirBundle. For additional information see https://www.hl7.org/fhir/overview.html. */
@@ -1306,9 +1271,6 @@ export interface CustomSingleLabelClassificationAction extends ActionCustom {}
 /** Options for a multi-label classification custom action */
 export interface CustomMultiLabelClassificationAction extends ActionCustom {}
 
-export interface DynamicClassificationResultDocumentsItem
-  extends DynamicClassificationDocumentResult {}
-
 /** Defines headers for GeneratedClient_analyzeBatch operation. */
 export interface GeneratedClientAnalyzeBatchHeaders {
   operationLocation?: string;
@@ -1332,9 +1294,7 @@ export enum KnownAnalyzeTextTaskKind {
   /** LanguageDetection */
   LanguageDetection = "LanguageDetection",
   /** EntityLinking */
-  EntityLinking = "EntityLinking",
-  /** DynamicClassification */
-  DynamicClassification = "DynamicClassification"
+  EntityLinking = "EntityLinking"
 }
 
 /**
@@ -1347,8 +1307,7 @@ export enum KnownAnalyzeTextTaskKind {
  * **PiiEntityRecognition** \
  * **KeyPhraseExtraction** \
  * **LanguageDetection** \
- * **EntityLinking** \
- * **DynamicClassification**
+ * **EntityLinking**
  */
 export type AnalyzeTextTaskKind = string;
 
@@ -1365,9 +1324,7 @@ export enum KnownAnalyzeTextTaskResultsKind {
   /** LanguageDetectionResults */
   LanguageDetectionResults = "LanguageDetectionResults",
   /** EntityLinkingResults */
-  EntityLinkingResults = "EntityLinkingResults",
-  /** DynamicClassificationResults */
-  DynamicClassificationResults = "DynamicClassificationResults"
+  EntityLinkingResults = "EntityLinkingResults"
 }
 
 /**
@@ -1380,8 +1337,7 @@ export enum KnownAnalyzeTextTaskResultsKind {
  * **PiiEntityRecognitionResults** \
  * **KeyPhraseExtractionResults** \
  * **LanguageDetectionResults** \
- * **EntityLinkingResults** \
- * **DynamicClassificationResults**
+ * **EntityLinkingResults**
  */
 export type AnalyzeTextTaskResultsKind = string;
 
@@ -2227,24 +2183,6 @@ export enum KnownPiiEntityCategory {
  * **Default**
  */
 export type PiiEntityCategory = string;
-
-/** Known values of {@link ClassificationType} that the service accepts. */
-export enum KnownClassificationType {
-  /** Single */
-  Single = "Single",
-  /** Multi */
-  Multi = "Multi"
-}
-
-/**
- * Defines values for ClassificationType. \
- * {@link KnownClassificationType} can be used interchangeably with ClassificationType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Single** \
- * **Multi**
- */
-export type ClassificationType = string;
 
 /** Known values of {@link ResolutionKind} that the service accepts. */
 export enum KnownResolutionKind {

@@ -5,10 +5,7 @@
  * @summary Uses ContainerRepository and RegistryArtifact to work with manifests, tags, and artifacts.
  */
 
-const {
-  ContainerRegistryClient,
-  KnownContainerRegistryAudience,
-} = require("@azure/container-registry");
+const { ContainerRegistryClient } = require("@azure/container-registry");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
@@ -19,9 +16,7 @@ async function main() {
   const repositoryName = process.env.REPOSITORY_NAME || "<repository name>";
   const pageSize = 1;
 
-  const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential(), {
-    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
-  });
+  const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
   const repository = client.getRepository(repositoryName);
   await getProperties(repository);
 

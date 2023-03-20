@@ -1,8 +1,6 @@
 # Release History
 
-## 4.7.0 (Unreleased)
-
-### Features Added
+## 4.7.0 (2023-03-09)
 
 ### Breaking Changes
 
@@ -10,8 +8,6 @@
   - Removed `OKP` and `OKP-HSM` from `KnownKeyTypes`.
   - Removed `EdDSA` from `KnownSignatureAlgorithms`.
   - Removed `Ed25519` from `KnownKeyCurveNames`.
-
-### Bugs Fixed
 
 ### Other Changes
 

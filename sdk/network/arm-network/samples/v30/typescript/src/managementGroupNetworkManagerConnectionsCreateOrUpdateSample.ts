@@ -13,15 +13,20 @@ import {
   NetworkManagementClient
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create a network manager connection on this management group.
  *
  * @summary Create a network manager connection on this management group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkManagerConnectionManagementGroupPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkManagerConnectionManagementGroupPut.json
  */
 async function createOrUpdateManagementGroupNetworkManagerConnection() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["NETWORK_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const managementGroupId = "managementGroupA";
   const networkManagerConnectionName = "TestNMConnection";
   const parameters: NetworkManagerConnection = {
@@ -38,4 +43,8 @@ async function createOrUpdateManagementGroupNetworkManagerConnection() {
   console.log(result);
 }
 
-createOrUpdateManagementGroupNetworkManagerConnection().catch(console.error);
+async function main() {
+  createOrUpdateManagementGroupNetworkManagerConnection();
+}
+
+main().catch(console.error);
