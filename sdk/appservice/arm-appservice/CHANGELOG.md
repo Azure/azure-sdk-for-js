@@ -123,9 +123,6 @@
   - Added Enum KnownDefaultAction
   - Added Enum KnownProviderOsTypeSelected
   - Added Enum KnownProviderStackOsType
-
-**Breaking Changes**
-
   - Interface AppServiceEnvironmentsListUsagesNextOptionalParams no longer has parameter filter
   - Interface AppServiceEnvironmentsListWebAppsNextOptionalParams no longer has parameter propertiesToInclude
   - Interface AppServicePlansListNextOptionalParams no longer has parameter detailed
@@ -171,6 +168,9 @@
   - Interface WorkflowTriggersListNextOptionalParams no longer has parameter filter
   - Interface WorkflowTriggersListNextOptionalParams no longer has parameter top
   - Interface WorkflowVersionsListNextOptionalParams no longer has parameter top
+
+**Breaking Changes**
+
   - Type of parameter osTypeSelected of interface ProviderGetAvailableStacksOnPremOptionalParams is changed from Enum19 to ProviderOsTypeSelected
   - Type of parameter osTypeSelected of interface ProviderGetAvailableStacksOptionalParams is changed from Enum14 to ProviderOsTypeSelected
   - Type of parameter stackOsType of interface ProviderGetFunctionAppStacksForLocationOptionalParams is changed from Enum16 to ProviderStackOsType

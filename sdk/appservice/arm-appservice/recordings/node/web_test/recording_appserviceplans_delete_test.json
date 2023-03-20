@@ -9,21 +9,25 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-appservice/14.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "dd215bc9-f6fe-4def-9405-6895202441b2"
+        "x-ms-client-request-id": "994f4a0a-92b4-4674-b8b0-24bd0f29429a"
       },
       "RequestBody": null,
-      "StatusCode": 204,
+      "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Date": "Fri, 10 Mar 2023 07:05:48 GMT",
+        "Content-Length": "0",
+        "Date": "Mon, 20 Mar 2023 06:46:21 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
+        "Server": "Microsoft-IIS/10.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-AspNet-Version": "4.0.30319",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "15f438bf-48bc-43e3-9e34-2195ea1a1848",
+        "x-ms-correlation-request-id": "4648a155-1a78-4c85-9eaf-f905f5eeae92",
         "x-ms-ratelimit-remaining-subscription-deletes": "14998",
-        "x-ms-request-id": "15f438bf-48bc-43e3-9e34-2195ea1a1848",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230310T070548Z:15f438bf-48bc-43e3-9e34-2195ea1a1848"
+        "x-ms-request-id": "78ea8c36-4ec4-4ef6-9b31-fd456e5e939b",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230320T064621Z:4648a155-1a78-4c85-9eaf-f905f5eeae92",
+        "X-Powered-By": "ASP.NET"
       },
       "ResponseBody": null
     },
@@ -36,29 +40,28 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-appservice/14.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "b023889d-639f-4eed-8545-4786d08a7d44"
+        "x-ms-client-request-id": "a426b097-52e7-4f68-8492-af9f9be49565"
       },
       "RequestBody": null,
-      "StatusCode": 404,
+      "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Length": "500",
+        "Content-Encoding": "gzip",
+        "Content-Length": "12",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 10 Mar 2023 07:05:48 GMT",
+        "Date": "Mon, 20 Mar 2023 06:46:21 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "bd5c20e7-f568-448b-9136-1add9bc93d12",
-        "x-ms-failure-cause": "gateway",
-        "x-ms-request-id": "bd5c20e7-f568-448b-9136-1add9bc93d12",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230310T070548Z:bd5c20e7-f568-448b-9136-1add9bc93d12"
+        "x-ms-correlation-request-id": "a439490f-f98c-4e2c-8a86-06bc98d6c266",
+        "x-ms-ratelimit-remaining-subscription-reads": "11994",
+        "x-ms-request-id": "a439490f-f98c-4e2c-8a86-06bc98d6c266",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230320T064622Z:a439490f-f98c-4e2c-8a86-06bc98d6c266"
       },
       "ResponseBody": {
-        "error": {
-          "code": "InvalidResourceType",
-          "message": "The resource type \u0027serverFarms\u0027 could not be found in the namespace \u0027Microsoft.Web\u0027 for api version \u00272022-09-01\u0027. The supported api-versions are \u00272022-03-01,2021-03-01,2021-02-01,2021-01-15,2021-01-01,2020-12-01,2020-10-01,2020-09-01,2020-06-01,2019-08-01,2018-11-01,2018-02-01,2017-08-01,2016-09-01,2016-03-01,2015-08-01,2015-07-01,2015-06-01,2015-05-01,2015-04-01,2015-02-01,2014-11-01,2014-06-01,2014-04-01,2014-04-01-preview,2018-12-01-alpha\u0027."
-        }
+        "value": []
       }
     }
   ],

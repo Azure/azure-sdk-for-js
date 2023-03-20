@@ -9,29 +9,93 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-appservice/14.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "7c713c97-1e56-433b-a85b-c7ae59f08874"
+        "x-ms-client-request-id": "dcd3b514-8914-41b1-87c7-100a6e0aa438"
       },
       "RequestBody": null,
-      "StatusCode": 404,
+      "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Length": "500",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 10 Mar 2023 07:05:42 GMT",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json",
+        "Date": "Mon, 20 Mar 2023 06:45:52 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
+        "Server": "Microsoft-IIS/10.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-AspNet-Version": "4.0.30319",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "fd7f09a6-2664-4b5e-975f-6d5e5fb2c9ef",
-        "x-ms-failure-cause": "gateway",
-        "x-ms-request-id": "fd7f09a6-2664-4b5e-975f-6d5e5fb2c9ef",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230310T070542Z:fd7f09a6-2664-4b5e-975f-6d5e5fb2c9ef"
+        "x-ms-correlation-request-id": "eea0516a-cb3e-4397-b12f-2598de721496",
+        "x-ms-ratelimit-remaining-subscription-reads": "11997",
+        "x-ms-request-id": "2d32afe0-a1a5-4bb1-ba85-092f10be5f9f",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230320T064553Z:eea0516a-cb3e-4397-b12f-2598de721496",
+        "X-Powered-By": "ASP.NET"
       },
       "ResponseBody": {
-        "error": {
-          "code": "InvalidResourceType",
-          "message": "The resource type \u0027serverFarms\u0027 could not be found in the namespace \u0027Microsoft.Web\u0027 for api version \u00272022-09-01\u0027. The supported api-versions are \u00272022-03-01,2021-03-01,2021-02-01,2021-01-15,2021-01-01,2020-12-01,2020-10-01,2020-09-01,2020-06-01,2019-08-01,2018-11-01,2018-02-01,2017-08-01,2016-09-01,2016-03-01,2015-08-01,2015-07-01,2015-06-01,2015-05-01,2015-04-01,2015-02-01,2014-11-01,2014-06-01,2014-04-01,2014-04-01-preview,2018-12-01-alpha\u0027."
-        }
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Web/serverfarms/myappserviceplanxxx",
+            "name": "myappserviceplanxxx",
+            "type": "Microsoft.Web/serverfarms",
+            "kind": "app",
+            "location": "East US",
+            "properties": {
+              "serverFarmId": 8742,
+              "name": "myappserviceplanxxx",
+              "workerSize": "Default",
+              "workerSizeId": 0,
+              "workerTierName": null,
+              "numberOfWorkers": 1,
+              "currentWorkerSize": "Default",
+              "currentWorkerSizeId": 0,
+              "currentNumberOfWorkers": 1,
+              "status": "Ready",
+              "webSpace": "myjstest-EastUSwebspace",
+              "subscription": "azure_subscription_id",
+              "adminSiteName": null,
+              "hostingEnvironment": null,
+              "hostingEnvironmentProfile": null,
+              "maximumNumberOfWorkers": 10,
+              "planName": "VirtualDedicatedPlan",
+              "adminRuntimeSiteName": null,
+              "computeMode": "Dedicated",
+              "siteMode": null,
+              "geoRegion": "East US",
+              "perSiteScaling": false,
+              "elasticScaleEnabled": false,
+              "maximumElasticWorkerCount": 1,
+              "numberOfSites": 1,
+              "hostingEnvironmentId": null,
+              "isSpot": false,
+              "spotExpirationTime": null,
+              "freeOfferExpirationTime": null,
+              "tags": null,
+              "kind": "app",
+              "resourceGroup": "myjstest",
+              "reserved": false,
+              "isXenon": false,
+              "hyperV": false,
+              "mdmId": "waws-prod-blu-395_8742",
+              "targetWorkerCount": 0,
+              "targetWorkerSizeId": 0,
+              "provisioningState": "Succeeded",
+              "webSiteId": null,
+              "existingServerFarmIds": null,
+              "kubeEnvironmentProfile": null,
+              "zoneRedundant": false
+            },
+            "sku": {
+              "name": "S1",
+              "tier": "Standard",
+              "size": "S1",
+              "family": "S",
+              "capacity": 1
+            }
+          }
+        ],
+        "nextLink": null,
+        "id": null
       }
     }
   ],
