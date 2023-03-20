@@ -3,17 +3,35 @@
 
 import * as dotenv from "dotenv";
 import { isNode } from "@azure/core-util";
-import { Recorder, RecorderStartOptions, env, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import {
+  Recorder,
+  RecorderStartOptions,
+  env,
+  assertEnvironmentVariable,
+} from "@azure-tools/test-recorder";
 import { Test } from "mocha";
 import { generateToken } from "./connectionUtils";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
-import { CommunicationUserIdentifier, CommunicationIdentifier, serializeCommunicationIdentifier } from "@azure/communication-common";
-import { CallAutomationClient, CallAutomationClientOptions, CallAutomationEvent, CallAutomationEventParser } from "../../../src";
+import {
+  CommunicationUserIdentifier,
+  CommunicationIdentifier,
+  serializeCommunicationIdentifier,
+} from "@azure/communication-common";
+import {
+  CallAutomationClient,
+  CallAutomationClientOptions,
+  CallAutomationEvent,
+  CallAutomationEventParser,
+} from "../../../src";
 import { CommunicationIdentifierModel } from "../../../src/generated/src";
 import { assert } from "chai";
 import fetch from "node-fetch";
-import { ServiceBusClient, ServiceBusReceiver, ServiceBusReceivedMessage, ProcessErrorArgs } from "@azure/service-bus";
-
+import {
+  ServiceBusClient,
+  ServiceBusReceiver,
+  ServiceBusReceivedMessage,
+  ProcessErrorArgs,
+} from "@azure/service-bus";
 
 if (isNode) {
   dotenv.config();
@@ -25,22 +43,31 @@ const envSetupForPlayback: { [k: string]: string } = {
 
 const fakeToken = generateToken();
 
-export const dispatcherCallback: string = assertEnvironmentVariable("DISPATCHER_ENDPOINT") + "/api/servicebuscallback/events";
-export let serviceBusReceivers: Map<string, ServiceBusReceiver> = new Map<string, ServiceBusReceiver>();
+export const dispatcherCallback: string =
+  assertEnvironmentVariable("DISPATCHER_ENDPOINT") + "/api/servicebuscallback/events";
+export let serviceBusReceivers: Map<string, ServiceBusReceiver> = new Map<
+  string,
+  ServiceBusReceiver
+>();
 export let incomingCallContexts: Map<string, string> = new Map<string, string>();
-export let events: Map<string, Map<string, CallAutomationEvent>> = new Map<string, Map<string, CallAutomationEvent>>();
+export let events: Map<string, Map<string, CallAutomationEvent>> = new Map<
+  string,
+  Map<string, CallAutomationEvent>
+>();
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 function removeAllNonChar(input: string): string {
-  const regex = new RegExp("[^a-zA-Z0-9_-]", 'g');
-  return input.replace(regex, '');
+  const regex = new RegExp("[^a-zA-Z0-9_-]", "g");
+  return input.replace(regex, "");
 }
 
 function parseIdsFromIdentifier(identifier: CommunicationIdentifier): string {
-  const communicationIdentifierModel: CommunicationIdentifierModel = serializeCommunicationIdentifier(identifier);
+  const communicationIdentifierModel: CommunicationIdentifierModel =
+    serializeCommunicationIdentifier(identifier);
   assert.isDefined(communicationIdentifierModel?.rawId);
-  return communicationIdentifierModel?.rawId ? removeAllNonChar(communicationIdentifierModel.rawId) : "";
-
+  return communicationIdentifierModel?.rawId
+    ? removeAllNonChar(communicationIdentifierModel.rawId)
+    : "";
 }
 
 function createServiceBusClient(): ServiceBusClient {
@@ -84,35 +111,42 @@ export async function deleteTestUser(testUser: CommunicationUserIdentifier): Pro
   }
 }
 
-export function createCallAutomationClient(recorder: Recorder, sourceIdentity: CommunicationUserIdentifier): CallAutomationClient {
-  const connectionString = assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING");
-  let options: CallAutomationClientOptions = {
-    sourceIdentity: sourceIdentity
-    }
-  return new CallAutomationClient(
-    connectionString,
-    recorder.configureClientOptions(options)
+export function createCallAutomationClient(
+  recorder: Recorder,
+  sourceIdentity: CommunicationUserIdentifier
+): CallAutomationClient {
+  const connectionString = assertEnvironmentVariable(
+    "COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"
   );
+  let options: CallAutomationClientOptions = {
+    sourceIdentity: sourceIdentity,
+  };
+  return new CallAutomationClient(connectionString, recorder.configureClientOptions(options));
 }
 
-export async function serviceBusWithNewCall(caller: CommunicationIdentifier, receiver: CommunicationIdentifier): Promise<string> {
+export async function serviceBusWithNewCall(
+  caller: CommunicationIdentifier,
+  receiver: CommunicationIdentifier
+): Promise<string> {
   const callerId: string = parseIdsFromIdentifier(caller);
   const receiverId: string = parseIdsFromIdentifier(receiver);
   const uniqueId: string = callerId + receiverId;
 
   //subscribe to event dispatcher
-  const dispatcherUrl: string = assertEnvironmentVariable("DISPATCHER_ENDPOINT") + `/api/servicebuscallback/subscribe?q=${uniqueId}`;
+  const dispatcherUrl: string =
+    assertEnvironmentVariable("DISPATCHER_ENDPOINT") +
+    `/api/servicebuscallback/subscribe?q=${uniqueId}`;
 
   try {
     await fetch(dispatcherUrl, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify({}),
       headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      }
+        "Content-type": "application/json; charset=UTF-8",
+      },
     });
   } catch (e) {
-    console.log('Error occurred', e);
+    console.log("Error occurred", e);
   }
 
   //create a service bus processor
@@ -127,16 +161,14 @@ export async function serviceBusWithNewCall(caller: CommunicationIdentifier, rec
       const calleeRawId: string = messageReceived.body.to.rawId;
       const uniqueId: string = removeAllNonChar(callerRawId + calleeRawId);
       incomingCallContexts.set(uniqueId, incomingCallContext);
-    }
-    else {
+    } else {
       const eventParser: CallAutomationEventParser = new CallAutomationEventParser();
       const event: CallAutomationEvent = await eventParser.parse(messageReceived.body);
 
       if (event.callConnectionId) {
         if (events.has(event.callConnectionId)) {
           events.get(event.callConnectionId)?.set(event.kind, event);
-        }
-        else {
+        } else {
           let temp: Map<string, CallAutomationEvent> = new Map<string, CallAutomationEvent>();
           temp.set(event.kind, event);
           events.set(event.callConnectionId, temp);
@@ -153,7 +185,7 @@ export async function serviceBusWithNewCall(caller: CommunicationIdentifier, rec
   // subscribe and specify the message and error handlers
   serviceBusReceiver.subscribe({
     processMessage: messageHandler,
-    processError: errorHandler
+    processError: errorHandler,
   });
 
   serviceBusReceivers.set(uniqueId, serviceBusReceiver);
@@ -161,7 +193,10 @@ export async function serviceBusWithNewCall(caller: CommunicationIdentifier, rec
   return uniqueId;
 }
 
-export async function waitForIncomingCallContext(uniqueId: string, timeOut: number): Promise<string | undefined> {
+export async function waitForIncomingCallContext(
+  uniqueId: string,
+  timeOut: number
+): Promise<string | undefined> {
   let currentTime = new Date().getTime();
   const timeOutTime = currentTime + timeOut;
   while (currentTime < timeOutTime) {
@@ -175,7 +210,11 @@ export async function waitForIncomingCallContext(uniqueId: string, timeOut: numb
   return "";
 }
 
-export async function waitForEvent(eventName: string, callConnectionId: string, timeOut: number): Promise<CallAutomationEvent | undefined> {
+export async function waitForEvent(
+  eventName: string,
+  callConnectionId: string,
+  timeOut: number
+): Promise<CallAutomationEvent | undefined> {
   let currentTime = new Date().getTime();
   const timeOutTime = currentTime + timeOut;
   while (currentTime < timeOutTime) {
