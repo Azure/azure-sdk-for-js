@@ -13,16 +13,19 @@ import {
   NetworkManagementClient
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Prepares a subnet by applying network intent policies.
  *
  * @summary Prepares a subnet by applying network intent policies.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/SubnetPrepareNetworkPolicies.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/SubnetPrepareNetworkPolicies.json
  */
 async function prepareNetworkPolicies() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualNetworkName = "test-vnet";
   const subnetName = "subnet1";
   const prepareNetworkPoliciesRequestParameters: PrepareNetworkPoliciesRequest = {
@@ -39,4 +42,8 @@ async function prepareNetworkPolicies() {
   console.log(result);
 }
 
-prepareNetworkPolicies().catch(console.error);
+async function main() {
+  prepareNetworkPolicies();
+}
+
+main().catch(console.error);

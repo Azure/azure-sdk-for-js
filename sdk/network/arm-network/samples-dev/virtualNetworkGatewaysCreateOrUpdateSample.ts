@@ -13,16 +13,19 @@ import {
   NetworkManagementClient
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates a virtual network gateway in the specified resource group.
  *
  * @summary Creates or updates a virtual network gateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VirtualNetworkGatewayUpdate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VirtualNetworkGatewayUpdate.json
  */
 async function updateVirtualNetworkGateway() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualNetworkGatewayName = "vpngw";
   const parameters: VirtualNetworkGateway = {
     active: false,
@@ -97,4 +100,8 @@ async function updateVirtualNetworkGateway() {
   console.log(result);
 }
 
-updateVirtualNetworkGateway().catch(console.error);
+async function main() {
+  updateVirtualNetworkGateway();
+}
+
+main().catch(console.error);

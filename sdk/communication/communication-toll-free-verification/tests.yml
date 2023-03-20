@@ -22,3 +22,5 @@ stages:
           MatrixFilters:
             - TestType=^(?!(browser|sample)).*
       Clouds: Public,Int
+      TestResourceDirectories:
+        - communication/test-resources/

@@ -2570,11 +2570,11 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
 
         /**
          * DataMessage sequenceId.
-         * @member {number|Long} sequenceId
+         * @member {number|Long|null|undefined} sequenceId
          * @memberof DownstreamMessage.DataMessage
          * @instance
          */
-        DataMessage.prototype.sequenceId = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+        DataMessage.prototype.sequenceId = null;
 
         // OneOf field names bound to virtual getters and setters
         let $oneOfFields;
@@ -2587,6 +2587,17 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
          */
         Object.defineProperty(DataMessage.prototype, "_group", {
             get: $util.oneOfGetter($oneOfFields = ["group"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        /**
+         * DataMessage _sequenceId.
+         * @member {"sequenceId"|undefined} _sequenceId
+         * @memberof DownstreamMessage.DataMessage
+         * @instance
+         */
+        Object.defineProperty(DataMessage.prototype, "_sequenceId", {
+            get: $util.oneOfGetter($oneOfFields = ["sequenceId"]),
             set: $util.oneOfSetter($oneOfFields)
         });
 
@@ -2721,9 +2732,11 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                 if (error)
                     return "data." + error;
             }
-            if (message.sequenceId != null && message.hasOwnProperty("sequenceId"))
+            if (message.sequenceId != null && message.hasOwnProperty("sequenceId")) {
+                properties._sequenceId = 1;
                 if (!$util.isInteger(message.sequenceId) && !(message.sequenceId && $util.isInteger(message.sequenceId.low) && $util.isInteger(message.sequenceId.high)))
                     return "sequenceId: integer|Long expected";
+            }
             return null;
         };
 
@@ -2776,11 +2789,6 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
             if (options.defaults) {
                 object.from = "";
                 object.data = null;
-                if ($util.Long) {
-                    let long = new $util.Long(0, 0, true);
-                    object.sequenceId = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                } else
-                    object.sequenceId = options.longs === String ? "0" : 0;
             }
             if (message.from != null && message.hasOwnProperty("from"))
                 object.from = message.from;
@@ -2791,11 +2799,14 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
             }
             if (message.data != null && message.hasOwnProperty("data"))
                 object.data = $root.MessageData.toObject(message.data, options);
-            if (message.sequenceId != null && message.hasOwnProperty("sequenceId"))
+            if (message.sequenceId != null && message.hasOwnProperty("sequenceId")) {
                 if (typeof message.sequenceId === "number")
                     object.sequenceId = options.longs === String ? String(message.sequenceId) : message.sequenceId;
                 else
                     object.sequenceId = options.longs === String ? $util.Long.prototype.toString.call(message.sequenceId) : options.longs === Number ? new $util.LongBits(message.sequenceId.low >>> 0, message.sequenceId.high >>> 0).toNumber(true) : message.sequenceId;
+                if (options.oneofs)
+                    object._sequenceId = "sequenceId";
+            }
             return object;
         };
 

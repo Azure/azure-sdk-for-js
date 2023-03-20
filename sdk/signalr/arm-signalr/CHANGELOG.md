@@ -1,16 +1,6 @@
 # Release History
-
-## 5.2.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 5.2.0-beta.1 (2022-11-07)
+    
+## 5.2.0 (2023-03-08)
     
 **Features**
 
@@ -24,6 +14,7 @@
   - Added Interface SharedPrivateLinkResource
   - Added Interface SignalRResource
   - Added Interface TrackedResource
+  - Added function getContinuationToken
     
     
 ## 5.1.0 (2022-03-30)

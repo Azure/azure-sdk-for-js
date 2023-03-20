@@ -20,8 +20,8 @@ import {
   AgentPoolOperationsImpl,
   HybridContainerServiceImpl,
   OperationsImpl,
-  VirtualNetworksOperationsImpl,
-  StorageSpacesOperationsImpl
+  StorageSpacesOperationsImpl,
+  VirtualNetworksOperationsImpl
 } from "./operations";
 import {
   ProvisionedClustersOperations,
@@ -29,8 +29,8 @@ import {
   AgentPoolOperations,
   HybridContainerService,
   Operations,
-  VirtualNetworksOperations,
-  StorageSpacesOperations
+  StorageSpacesOperations,
+  VirtualNetworksOperations
 } from "./operationsInterfaces";
 import { HybridContainerServiceClientOptionalParams } from "./models";
 
@@ -119,7 +119,7 @@ export class HybridContainerServiceClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-05-01-preview";
+    this.apiVersion = options.apiVersion || "2022-09-01-preview";
     this.provisionedClustersOperations = new ProvisionedClustersOperationsImpl(
       this
     );
@@ -129,8 +129,8 @@ export class HybridContainerServiceClient extends coreClient.ServiceClient {
     this.agentPoolOperations = new AgentPoolOperationsImpl(this);
     this.hybridContainerService = new HybridContainerServiceImpl(this);
     this.operations = new OperationsImpl(this);
-    this.virtualNetworksOperations = new VirtualNetworksOperationsImpl(this);
     this.storageSpacesOperations = new StorageSpacesOperationsImpl(this);
+    this.virtualNetworksOperations = new VirtualNetworksOperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -167,6 +167,6 @@ export class HybridContainerServiceClient extends coreClient.ServiceClient {
   agentPoolOperations: AgentPoolOperations;
   hybridContainerService: HybridContainerService;
   operations: Operations;
-  virtualNetworksOperations: VirtualNetworksOperations;
   storageSpacesOperations: StorageSpacesOperations;
+  virtualNetworksOperations: VirtualNetworksOperations;
 }

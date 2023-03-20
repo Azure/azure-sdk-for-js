@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   NetworkInterfaceTapConfiguration,
   NetworkInterfaceTapConfigurationsListNextOptionalParams,
@@ -138,14 +142,14 @@ export class NetworkInterfaceTapConfigurationsImpl
     networkInterfaceName: string,
     tapConfigurationName: string,
     options?: NetworkInterfaceTapConfigurationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -178,20 +182,20 @@ export class NetworkInterfaceTapConfigurationsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         networkInterfaceName,
         tapConfigurationName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -259,10 +263,8 @@ export class NetworkInterfaceTapConfigurationsImpl
     tapConfigurationParameters: NetworkInterfaceTapConfiguration,
     options?: NetworkInterfaceTapConfigurationsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        NetworkInterfaceTapConfigurationsCreateOrUpdateResponse
-      >,
+    SimplePollerLike<
+      OperationState<NetworkInterfaceTapConfigurationsCreateOrUpdateResponse>,
       NetworkInterfaceTapConfigurationsCreateOrUpdateResponse
     >
   > {
@@ -272,7 +274,7 @@ export class NetworkInterfaceTapConfigurationsImpl
     ): Promise<NetworkInterfaceTapConfigurationsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -305,21 +307,24 @@ export class NetworkInterfaceTapConfigurationsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         networkInterfaceName,
         tapConfigurationName,
         tapConfigurationParameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      NetworkInterfaceTapConfigurationsCreateOrUpdateResponse,
+      OperationState<NetworkInterfaceTapConfigurationsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -504,7 +509,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

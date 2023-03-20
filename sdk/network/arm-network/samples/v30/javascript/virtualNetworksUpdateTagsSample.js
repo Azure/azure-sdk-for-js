@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates a virtual network tags.
  *
  * @summary Updates a virtual network tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VirtualNetworkUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VirtualNetworkUpdateTags.json
  */
 async function updateVirtualNetworkTags() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualNetworkName = "test-vnet";
   const parameters = { tags: { tag1: "value1", tag2: "value2" } };
   const credential = new DefaultAzureCredential();
@@ -32,4 +33,8 @@ async function updateVirtualNetworkTags() {
   console.log(result);
 }
 
-updateVirtualNetworkTags().catch(console.error);
+async function main() {
+  updateVirtualNetworkTags();
+}
+
+main().catch(console.error);

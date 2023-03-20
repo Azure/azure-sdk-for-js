@@ -396,6 +396,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/communication-call-automation",
+      "projectFolder": "sdk/communication/communication-call-automation",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/communication-chat",
       "projectFolder": "sdk/communication/communication-chat",
       "versionPolicyName": "client"
@@ -766,11 +771,6 @@
     {
       "packageName": "@azure/digital-twins-core",
       "projectFolder": "sdk/digitaltwins/digital-twins-core",
-      "versionPolicyName": "client"
-    },
-    {
-      "packageName": "@azure/video-analyzer-edge",
-      "projectFolder": "sdk/videoanalyzer/video-analyzer-edge",
       "versionPolicyName": "client"
     },
     {

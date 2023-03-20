@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PrivateLinkService,
   PrivateLinkServicesListOptionalParams,
@@ -96,7 +96,7 @@ export interface PrivateLinkServices {
     resourceGroupName: string,
     serviceName: string,
     options?: PrivateLinkServicesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified private link service.
    * @param resourceGroupName The name of the resource group.
@@ -132,8 +132,8 @@ export interface PrivateLinkServices {
     parameters: PrivateLinkService,
     options?: PrivateLinkServicesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateLinkServicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PrivateLinkServicesCreateOrUpdateResponse>,
       PrivateLinkServicesCreateOrUpdateResponse
     >
   >;
@@ -191,7 +191,7 @@ export interface PrivateLinkServices {
     serviceName: string,
     peConnectionName: string,
     options?: PrivateLinkServicesDeletePrivateEndpointConnectionOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete private end point connection for a private link service in a subscription.
    * @param resourceGroupName The name of the resource group.
@@ -216,8 +216,8 @@ export interface PrivateLinkServices {
     parameters: CheckPrivateLinkServiceVisibilityRequest,
     options?: PrivateLinkServicesCheckPrivateLinkServiceVisibilityOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         PrivateLinkServicesCheckPrivateLinkServiceVisibilityResponse
       >,
       PrivateLinkServicesCheckPrivateLinkServiceVisibilityResponse
@@ -247,8 +247,8 @@ export interface PrivateLinkServices {
     parameters: CheckPrivateLinkServiceVisibilityRequest,
     options?: PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupResponse
       >,
       PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupResponse

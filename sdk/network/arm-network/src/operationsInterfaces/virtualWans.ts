@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualWAN,
   VirtualWansListByResourceGroupOptionalParams,
@@ -65,8 +65,8 @@ export interface VirtualWans {
     wANParameters: VirtualWAN,
     options?: VirtualWansCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualWansCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualWansCreateOrUpdateResponse>,
       VirtualWansCreateOrUpdateResponse
     >
   >;
@@ -106,7 +106,7 @@ export interface VirtualWans {
     resourceGroupName: string,
     virtualWANName: string,
     options?: VirtualWansDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a VirtualWAN.
    * @param resourceGroupName The resource group name of the VirtualWan.

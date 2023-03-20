@@ -21,14 +21,14 @@ dotenv.config();
  * This sample demonstrates how to Synchronizes storage account keys for a storage account associated with the Media Service account.
  *
  * @summary Synchronizes storage account keys for a storage account associated with the Media Service account.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2023-01-01/examples/accounts-sync-storage-keys.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2021-11-01/examples/accounts-sync-storage-keys.json
  */
 async function synchronizesStorageAccountKeys() {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
-    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contososports";
   const parameters: SyncStorageKeysInput = { id: "contososportsstore" };
   const credential = new DefaultAzureCredential();
