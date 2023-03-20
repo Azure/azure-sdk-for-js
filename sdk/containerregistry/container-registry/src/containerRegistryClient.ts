@@ -132,14 +132,8 @@ export class ContainerRegistryClient {
         additionalAllowedQueryParameters: ["last", "n", "orderby", "digest"],
       },
     };
-    // Require audience now until we have a default ACR audience from the service.
-    if (!options.audience) {
-      throw new Error(
-        "ContainerRegistryClientOptions.audience must be set to initialize ContainerRegistryClient."
-      );
-    }
 
-    const defaultScope = `${options.audience}/.default`;
+    const defaultScope = `${options.audience ?? "https://containerregistry.azure.net"}/.default`;
     const serviceVersion = options.serviceVersion ?? LATEST_API_VERSION;
     const authClient = new GeneratedClient(endpoint, serviceVersion, internalPipelineOptions);
     this.client = new GeneratedClient(endpoint, serviceVersion, internalPipelineOptions);

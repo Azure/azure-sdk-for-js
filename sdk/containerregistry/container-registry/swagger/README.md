@@ -139,6 +139,7 @@ directive:
           "type": "integer",
           "description": "Schema version"
         };
+    $["required"] = ["config", "layers"];
 ```
 
 # Rename created to createdOn in OciAnnotations
@@ -195,6 +196,21 @@ directive:
       "Docker-Content-Digest": {
         "type": "string",
         "description": "Identifies the docker upload uuid for the current request."
+      },
+      "Content-Type": {
+        "type": "string",
+        "description": "Content type of the uploaded media",
+        "x-ms-client-name": "MediaType"
       }
     };
+```
+
+# Rename Descriptor.size to sizeInBytes
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.Descriptor
+  transform: >
+    $.properties.size["x-ms-client-name"] = "sizeInBytes";
 ```

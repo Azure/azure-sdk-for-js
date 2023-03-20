@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Patch NetworkManager.
  *
  * @summary Patch NetworkManager.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkManagerPatch.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkManagerPatch.json
  */
 async function networkManagesPatch() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "rg1";
+  const subscriptionId =
+    process.env["NETWORK_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkManagerName = "testNetworkManager";
   const parameters = { tags: { tag1: "value1", tag2: "value2" } };
   const credential = new DefaultAzureCredential();
@@ -32,4 +34,8 @@ async function networkManagesPatch() {
   console.log(result);
 }
 
-networkManagesPatch().catch(console.error);
+async function main() {
+  networkManagesPatch();
+}
+
+main().catch(console.error);

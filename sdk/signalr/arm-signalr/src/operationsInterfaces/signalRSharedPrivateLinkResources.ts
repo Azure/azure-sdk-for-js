@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SharedPrivateLinkResource,
   SignalRSharedPrivateLinkResourcesListOptionalParams,
@@ -63,10 +63,8 @@ export interface SignalRSharedPrivateLinkResources {
     parameters: SharedPrivateLinkResource,
     options?: SignalRSharedPrivateLinkResourcesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse
-      >,
+    SimplePollerLike<
+      OperationState<SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse>,
       SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse
     >
   >;
@@ -99,7 +97,7 @@ export interface SignalRSharedPrivateLinkResources {
     resourceGroupName: string,
     resourceName: string,
     options?: SignalRSharedPrivateLinkResourcesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the specified shared private link resource
    * @param sharedPrivateLinkResourceName The name of the shared private link resource
