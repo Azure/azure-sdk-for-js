@@ -162,16 +162,13 @@ export async function serviceBusWithNewCall(caller: CommunicationIdentifier, rec
 }
 
 export async function waitForIncomingCallContext(uniqueId: string, timeOut: number): Promise<string | undefined> {
-  console.log("looking for id: " + uniqueId);
   let currentTime = new Date().getTime();
   const timeOutTime = currentTime + timeOut;
   while (currentTime < timeOutTime) {
     let incomingCallContext = incomingCallContexts.get(uniqueId);
     if (incomingCallContext) {
-      console.log("found the context");
       return incomingCallContext;
     }
-    console.log("looking for incomingcall context");
     await sleep(1000);
     currentTime += 1000;
   }
@@ -179,16 +176,13 @@ export async function waitForIncomingCallContext(uniqueId: string, timeOut: numb
 }
 
 export async function waitForEvent(eventName: string, callConnectionId: string, timeOut: number): Promise<CallAutomationEvent | undefined> {
-  console.log("looking for id: " + callConnectionId);
   let currentTime = new Date().getTime();
   const timeOutTime = currentTime + timeOut;
   while (currentTime < timeOutTime) {
     let eventGroup = events.get(callConnectionId);
     if (eventGroup && eventGroup.has(eventName)) {
-      console.log("found the event" + eventName);
       return eventGroup.get(eventName);
     }
-    console.log("looking for event" + eventName);
     await sleep(1000);
     currentTime += 1000;
   }
