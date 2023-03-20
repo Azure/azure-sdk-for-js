@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   RouteFilter,
   RouteFiltersListByResourceGroupOptionalParams,
@@ -51,7 +51,7 @@ export interface RouteFilters {
     resourceGroupName: string,
     routeFilterName: string,
     options?: RouteFiltersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified route filter.
    * @param resourceGroupName The name of the resource group.
@@ -87,8 +87,8 @@ export interface RouteFilters {
     routeFilterParameters: RouteFilter,
     options?: RouteFiltersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<RouteFiltersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<RouteFiltersCreateOrUpdateResponse>,
       RouteFiltersCreateOrUpdateResponse
     >
   >;

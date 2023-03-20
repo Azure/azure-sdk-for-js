@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { NextHopParameters, NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the next hop from the specified VM.
  *
  * @summary Gets the next hop from the specified VM.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkWatcherNextHopGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkWatcherNextHopGet.json
  */
 async function getNextHop() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkWatcherName = "nw1";
   const parameters: NextHopParameters = {
     destinationIPAddress: "10.0.0.10",
@@ -39,4 +42,8 @@ async function getNextHop() {
   console.log(result);
 }
 
-getNextHop().catch(console.error);
+async function main() {
+  getNextHop();
+}
+
+main().catch(console.error);

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SecurityAdminConfiguration,
   SecurityAdminConfigurationsListOptionalParams,
@@ -73,7 +73,7 @@ export interface SecurityAdminConfigurations {
     networkManagerName: string,
     configurationName: string,
     options?: SecurityAdminConfigurationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a network manager security admin configuration.
    * @param resourceGroupName The name of the resource group.

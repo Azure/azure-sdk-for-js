@@ -33,7 +33,6 @@ export class WebPubSubProtobufProtocolBase {
    */
   public static parseMessages(input: ArrayBuffer): WebPubSubMessage | null {
     const downstream = DownstreamMessage.decode(new Uint8Array(input));
-    // logger.verbose(`Receiving: ${JSON.stringify(downstream)}`);
     if (downstream.ackMessage) {
       const ack = {
         kind: "ack",
@@ -72,7 +71,7 @@ export class WebPubSubProtobufProtocolBase {
         data = messageData.textData;
       } else if (messageData.jsonData) {
         dataType = "json";
-        data = messageData.jsonData;
+        data = JSON.parse(messageData.jsonData);
       } else if (messageData.binaryData) {
         dataType = "binary";
         data = messageData.binaryData.buffer.slice(
@@ -81,7 +80,6 @@ export class WebPubSubProtobufProtocolBase {
         );
       } else if (messageData.protobufData) {
         dataType = "protobuf";
-        // data = google.protobuf.Any.encode(messageData.protobufData).finish();
         data = messageData.protobufData;
       } else {
         return null;
@@ -115,7 +113,6 @@ export class WebPubSubProtobufProtocolBase {
    * @param message - The message to be written
    */
   public static writeMessage(message: WebPubSubMessage): ArrayBuffer {
-    // logger.verbose(`Writing: ${JSON.stringify(message)}`);
     let upstream: UpstreamMessage;
     switch (message.kind) {
       case "joinGroup": {

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   FlowLog,
   FlowLogsListOptionalParams,
@@ -50,8 +50,8 @@ export interface FlowLogs {
     parameters: FlowLog,
     options?: FlowLogsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<FlowLogsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<FlowLogsCreateOrUpdateResponse>,
       FlowLogsCreateOrUpdateResponse
     >
   >;
@@ -110,7 +110,7 @@ export interface FlowLogs {
     networkWatcherName: string,
     flowLogName: string,
     options?: FlowLogsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified flow log resource.
    * @param resourceGroupName The name of the resource group.

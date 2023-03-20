@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SecurityPartnerProvider,
   SecurityPartnerProvidersListByResourceGroupOptionalParams,
@@ -51,7 +51,7 @@ export interface SecurityPartnerProviders {
     resourceGroupName: string,
     securityPartnerProviderName: string,
     options?: SecurityPartnerProvidersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified Security Partner Provider.
    * @param resourceGroupName The name of the resource group.
@@ -87,8 +87,8 @@ export interface SecurityPartnerProviders {
     parameters: SecurityPartnerProvider,
     options?: SecurityPartnerProvidersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SecurityPartnerProvidersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SecurityPartnerProvidersCreateOrUpdateResponse>,
       SecurityPartnerProvidersCreateOrUpdateResponse
     >
   >;

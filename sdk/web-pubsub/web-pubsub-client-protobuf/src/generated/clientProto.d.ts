@@ -1036,10 +1036,13 @@ export namespace DownstreamMessage {
         public data?: (IMessageData|null);
 
         /** DataMessage sequenceId. */
-        public sequenceId: (number|Long);
+        public sequenceId?: (number|Long|null);
 
         /** DataMessage _group. */
         public _group?: "group";
+
+        /** DataMessage _sequenceId. */
+        public _sequenceId?: "sequenceId";
 
         /**
          * Creates a new DataMessage instance using the specified properties.

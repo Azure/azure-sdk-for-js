@@ -71,7 +71,7 @@ export class WebPubSubManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-webpubsub/1.1.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-webpubsub/1.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -124,7 +124,7 @@ export class WebPubSubManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-08-01-preview";
+    this.apiVersion = options.apiVersion || "2023-02-01";
     this.operations = new OperationsImpl(this);
     this.webPubSub = new WebPubSubImpl(this);
     this.usages = new UsagesImpl(this);
