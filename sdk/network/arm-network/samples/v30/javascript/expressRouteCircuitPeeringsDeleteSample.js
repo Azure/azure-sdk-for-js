@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deletes the specified peering from the specified express route circuit.
  *
  * @summary Deletes the specified peering from the specified express route circuit.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/ExpressRouteCircuitPeeringDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/ExpressRouteCircuitPeeringDelete.json
  */
 async function deleteExpressRouteCircuitPeerings() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const circuitName = "circuitName";
   const peeringName = "peeringName";
   const credential = new DefaultAzureCredential();
@@ -32,4 +33,8 @@ async function deleteExpressRouteCircuitPeerings() {
   console.log(result);
 }
 
-deleteExpressRouteCircuitPeerings().catch(console.error);
+async function main() {
+  deleteExpressRouteCircuitPeerings();
+}
+
+main().catch(console.error);

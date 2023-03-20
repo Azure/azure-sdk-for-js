@@ -22,3 +22,5 @@ stages:
             - $(sub-config-communication-int-test-resources-common)
             - $(sub-config-communication-int-test-resources-js)
       Clouds: Public,PPE,Int
+      TestResourceDirectories:
+        - communication/communication-email/

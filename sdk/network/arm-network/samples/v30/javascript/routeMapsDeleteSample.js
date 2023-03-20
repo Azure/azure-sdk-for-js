@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deletes a RouteMap.
  *
  * @summary Deletes a RouteMap.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/RouteMapDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/RouteMapDelete.json
  */
 async function routeMapDelete() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualHubName = "virtualHub1";
   const routeMapName = "routeMap1";
   const credential = new DefaultAzureCredential();
@@ -32,4 +33,8 @@ async function routeMapDelete() {
   console.log(result);
 }
 
-routeMapDelete().catch(console.error);
+async function main() {
+  routeMapDelete();
+}
+
+main().catch(console.error);

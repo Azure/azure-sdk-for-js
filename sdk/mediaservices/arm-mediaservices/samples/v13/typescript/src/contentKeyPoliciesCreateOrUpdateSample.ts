@@ -25,7 +25,7 @@ async function createsAContentKeyPolicyWithClearKeyOptionAndTokenRestriction() {
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
-    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const contentKeyPolicyName = "PolicyWithClearKeyOptionAndSwtTokenRestriction";
   const parameters: ContentKeyPolicy = {
@@ -71,7 +71,7 @@ async function createsAContentKeyPolicyWithPlayReadyOptionAndOpenRestriction() {
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
-    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const contentKeyPolicyName = "PolicyWithPlayReadyOptionAndOpenRestriction";
   const parameters: ContentKeyPolicy = {
@@ -130,7 +130,7 @@ async function createsAContentKeyPolicyWithWidevineOptionAndTokenRestriction() {
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
-    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const contentKeyPolicyName = "PolicyWithWidevineOptionAndJwtTokenRestriction";
   const parameters: ContentKeyPolicy = {
@@ -185,7 +185,7 @@ async function createsAContentKeyPolicyWithMultipleOptions() {
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
-    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const contentKeyPolicyName = "PolicyCreatedWithMultipleOptions";
   const parameters: ContentKeyPolicy = {

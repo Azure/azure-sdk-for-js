@@ -12,3 +12,5 @@ stages:
             - $(sub-config-communication-services-cloud-test-resources-common)
             - $(sub-config-communication-services-cloud-test-resources-js)
       Clouds: Public
+      TestResourceDirectories:
+        - communication/test-resources/
