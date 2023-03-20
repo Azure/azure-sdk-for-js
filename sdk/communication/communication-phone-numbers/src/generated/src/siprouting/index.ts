@@ -9,3 +9,4 @@
 export * from "./models";
 export { SipRoutingClient } from "./sipRoutingClient";
 export { SipRoutingClientContext } from "./sipRoutingClientContext";
+export * from "./operationsInterfaces";

@@ -14,16 +14,19 @@ import {
   NetworkManagementClient
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Starts packet capture on virtual network gateway in the specified resource group.
  *
  * @summary Starts packet capture on virtual network gateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VirtualNetworkGatewayStartPacketCaptureFilterData.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VirtualNetworkGatewayStartPacketCaptureFilterData.json
  */
 async function startPacketCaptureOnVirtualNetworkGatewayWithFilter() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualNetworkGatewayName = "vpngw";
   const parameters: VpnPacketCaptureStartParameters = {
     filterData:
@@ -42,17 +45,15 @@ async function startPacketCaptureOnVirtualNetworkGatewayWithFilter() {
   console.log(result);
 }
 
-startPacketCaptureOnVirtualNetworkGatewayWithFilter().catch(console.error);
-
 /**
  * This sample demonstrates how to Starts packet capture on virtual network gateway in the specified resource group.
  *
  * @summary Starts packet capture on virtual network gateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VirtualNetworkGatewayStartPacketCapture.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VirtualNetworkGatewayStartPacketCapture.json
  */
 async function startPacketCaptureOnVirtualNetworkGatewayWithoutFilter() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualNetworkGatewayName = "vpngw";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -63,4 +64,9 @@ async function startPacketCaptureOnVirtualNetworkGatewayWithoutFilter() {
   console.log(result);
 }
 
-startPacketCaptureOnVirtualNetworkGatewayWithoutFilter().catch(console.error);
+async function main() {
+  startPacketCaptureOnVirtualNetworkGatewayWithFilter();
+  startPacketCaptureOnVirtualNetworkGatewayWithoutFilter();
+}
+
+main().catch(console.error);

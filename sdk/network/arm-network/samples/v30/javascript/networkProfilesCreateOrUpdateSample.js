@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or updates a network profile.
  *
  * @summary Creates or updates a network profile.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkProfileCreateConfigOnly.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkProfileCreateConfigOnly.json
  */
 async function createNetworkProfileDefaults() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkProfileName = "networkProfile1";
   const parameters = {
     containerNetworkInterfaceConfigurations: [
@@ -47,4 +48,8 @@ async function createNetworkProfileDefaults() {
   console.log(result);
 }
 
-createNetworkProfileDefaults().catch(console.error);
+async function main() {
+  createNetworkProfileDefaults();
+}
+
+main().catch(console.error);

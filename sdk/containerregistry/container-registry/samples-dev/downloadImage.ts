@@ -8,7 +8,7 @@
 
 import {
   ContainerRegistryBlobClient,
-  KnownContainerRegistryAudience,
+  isDownloadOciImageManifestResult,
 } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -28,26 +28,28 @@ async function main() {
   const client = new ContainerRegistryBlobClient(
     endpoint,
     repository,
-    new DefaultAzureCredential(),
-    {
-      audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
-    }
+    new DefaultAzureCredential()
   );
 
   // Download the manifest to obtain the list of files in the image based on the tag
   const result = await client.downloadManifest("demo");
 
-  // The manifest is available as a strongly typed object, but can also be saved to a file.
-  const manifest = result.manifest;
-  const manifestFile = fs.createWriteStream("manifest.json");
-  result.manifestStream.pipe(manifestFile);
+  // If an OCI image manifest was downloaded, it is available as a strongly typed object via the `manifest` property.
+  if (!isDownloadOciImageManifestResult(result)) {
+    throw new Error("Expected an OCI image manifest");
+  }
 
-  const configResult = await client.downloadBlob(manifest.config!.digest);
+  const manifest = result.manifest;
+  // Manifests of all media types can be written to a file using the `content` stream.
+  const manifestFile = fs.createWriteStream("manifest.json");
+  result.content.pipe(manifestFile);
+
+  const configResult = await client.downloadBlob(manifest.config.digest);
   const configFile = fs.createWriteStream("config.json");
   configResult.content.pipe(configFile);
 
   // Download and write out the layers
-  for (const layer of manifest.layers!) {
+  for (const layer of manifest.layers) {
     const fileName = trimSha(layer.digest);
     const layerStream = fs.createWriteStream(fileName);
     const downloadLayerResult = await client.downloadBlob(layer.digest);

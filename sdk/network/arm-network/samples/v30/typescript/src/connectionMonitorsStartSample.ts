@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Starts the specified connection monitor.
  *
  * @summary Starts the specified connection monitor.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkWatcherConnectionMonitorStart.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkWatcherConnectionMonitorStart.json
  */
 async function startConnectionMonitor() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkWatcherName = "nw1";
   const connectionMonitorName = "cm1";
   const credential = new DefaultAzureCredential();
@@ -32,4 +35,8 @@ async function startConnectionMonitor() {
   console.log(result);
 }
 
-startConnectionMonitor().catch(console.error);
+async function main() {
+  startConnectionMonitor();
+}
+
+main().catch(console.error);

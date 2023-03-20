@@ -64,7 +64,7 @@ export class AzureDigitalTwinsManagementClient extends coreClient.ServiceClient 
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-digitaltwins/3.2.1`;
+    const packageDetails = `azsdk-js-arm-digitaltwins/3.3.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -117,7 +117,7 @@ export class AzureDigitalTwinsManagementClient extends coreClient.ServiceClient 
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-10-31";
+    this.apiVersion = options.apiVersion || "2023-01-31";
     this.digitalTwins = new DigitalTwinsImpl(this);
     this.digitalTwinsEndpoint = new DigitalTwinsEndpointImpl(this);
     this.operations = new OperationsImpl(this);
