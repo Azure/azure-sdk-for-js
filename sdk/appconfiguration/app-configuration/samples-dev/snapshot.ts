@@ -66,8 +66,10 @@ export async function main() {
 
   // list all the snapshots
   console.log(`List all the snapshots`);
-  await client.listSnapshots();
-
+  const snapshotsList = await client.listSnapshots();
+  for await (const snapshot of snapshotsList) {
+    console.log(`  Found snapshot: ${snapshot.name}`);
+  }
   // archive snapshot
   await client.archiveSnapshot(newSnapshot);
   console.log(`${newSnapshot.name} has been archived with the status ${newSnapshot.status}`);

@@ -322,7 +322,9 @@ export function transformSnapshotResponse<T extends Snapshot>(snapshot: T): Snap
 /**
  * @internal
  */
-export function transformOperationDetails<T extends OperationDetails>(res: T): OperationDetailsResponse {
+export function transformOperationDetails<T extends OperationDetails>(
+  res: T
+): OperationDetailsResponse {
   if (hasUnderscoreResponse(res)) {
     Object.defineProperty(res, "_response", {
       enumerable: false,

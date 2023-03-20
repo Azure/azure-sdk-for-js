@@ -38,8 +38,13 @@ export async function startRecorder(that: Mocha.Context): Promise<Recorder> {
       AZURE_TENANT_ID: "azuretenantid",
     },
     sanitizerOptions: {
-      connectionStringSanitizers: [{ fakeConnString: "Endpoint=https://myappconfig.azconfig.io;Id=123456;Secret=123456", actualConnString: env.APPCONFIG_CONNECTION_STRING }]
-    }
+      connectionStringSanitizers: [
+        {
+          fakeConnString: "Endpoint=https://myappconfig.azconfig.io;Id=123456;Secret=123456",
+          actualConnString: env.APPCONFIG_CONNECTION_STRING,
+        },
+      ],
+    },
   };
 
   const recorder = new Recorder(that.currentTest);

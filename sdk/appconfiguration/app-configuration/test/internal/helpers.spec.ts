@@ -23,7 +23,7 @@ import {
   transformKeyValueResponseWithStatusCode,
 } from "../../src/internal/helpers";
 import { FeatureFlagValue } from "../../src/featureFlag";
-import { WebResourceLike } from "@azure/core-http-compat"
+import { WebResourceLike } from "@azure/core-http-compat";
 import { SecretReferenceValue } from "../../src/secretReference";
 import { assert } from "chai";
 
@@ -179,9 +179,9 @@ describe("helper methods", () => {
         abortSignal: {
           aborted: true,
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          addEventListener: () => { },
+          addEventListener: () => {},
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          removeEventListener: () => { },
+          removeEventListener: () => {},
         },
         method: "GET",
         withCredentials: false,

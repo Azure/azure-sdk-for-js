@@ -95,7 +95,7 @@ const deserializationContentTypes = {
 /**
  * Provides configuration options for AppConfigurationClient.
  */
-export interface AppConfigurationClientOptions extends CommonClientOptions { }
+export interface AppConfigurationClientOptions extends CommonClientOptions {}
 
 /**
  * Provides internal configuration options for AppConfigurationClient.
@@ -333,24 +333,24 @@ export class AppConfigurationClient {
     options: ListConfigurationSettingsOptions = {}
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
     const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
-    {
-      firstPageLink: undefined,
-      getPage: async (pageLink: string | undefined) => {
-        const response = await this.sendConfigurationSettingsRequest(options, pageLink);
-        const currentResponse = {
-          ...response,
-          items: response.items != null ? response.items?.map(transformKeyValue) : [],
-          continuationToken: response.nextLink
-            ? extractAfterTokenFromNextLink(response.nextLink)
-            : undefined,
-        };
-        return {
-          page: currentResponse,
-          nextPageLink: currentResponse.continuationToken,
-        };
-      },
-      toElements: (page) => page.items,
-    };
+      {
+        firstPageLink: undefined,
+        getPage: async (pageLink: string | undefined) => {
+          const response = await this.sendConfigurationSettingsRequest(options, pageLink);
+          const currentResponse = {
+            ...response,
+            items: response.items != null ? response.items?.map(transformKeyValue) : [],
+            continuationToken: response.nextLink
+              ? extractAfterTokenFromNextLink(response.nextLink)
+              : undefined,
+          };
+          return {
+            page: currentResponse,
+            nextPageLink: currentResponse.continuationToken,
+          };
+        },
+        toElements: (page) => page.items,
+      };
     return getPagedAsyncIterator(pagedResult);
   }
 
@@ -524,10 +524,10 @@ export class AppConfigurationClient {
     return tracingClient.withSpan(
       `${AppConfigurationClient.name}.beginCreateSnapshot`,
       options,
-      updatedOptions => this.client.beginCreateSnapshot(snapshot.name, snapshot, { ...updatedOptions })
+      (updatedOptions) =>
+        this.client.beginCreateSnapshot(snapshot.name, snapshot, { ...updatedOptions })
     );
   }
-
 
   /**
    * Begins creating a snapshot for Azure App Configuration service, waits until it is done,
@@ -540,7 +540,8 @@ export class AppConfigurationClient {
     return tracingClient.withSpan(
       `${AppConfigurationClient.name}.beginCreateSnapshotAndWait`,
       options,
-      updatedOptions => this.client.beginCreateSnapshotAndWait(snapshot.name, snapshot, { ...updatedOptions })
+      (updatedOptions) =>
+        this.client.beginCreateSnapshotAndWait(snapshot.name, snapshot, { ...updatedOptions })
     );
   }
 

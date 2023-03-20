@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  AppConfigurationClient,
-  ConfigurationSetting,
-  ConfigurationSettingParam,
-} from "../../src";
+import { AppConfigurationClient, ConfigurationSetting, ConfigurationSettingParam } from "../../src";
 import { Recorder, delay, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   assertEqualSettings,
