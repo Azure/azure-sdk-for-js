@@ -12,8 +12,8 @@ import { CreateCallResult } from "../../src/models/responses";
 import { CALL_CALLBACK_URL, CALL_TARGET_ID } from "./utils/mockUtils";
 
 describe("Call Automation Client Unit Tests", () => {
-  var targets: CommunicationIdentifier[];
-  var client: SinonStubbedInstance<CallAutomationClient> & CallAutomationClient;
+  let targets: CommunicationIdentifier[];
+  let client: SinonStubbedInstance<CallAutomationClient> & CallAutomationClient;
 
   beforeEach(() => {
     // set up
@@ -40,7 +40,7 @@ describe("Call Automation Client Unit Tests", () => {
       })
     );
 
-    var promiseResult = client.createCall(targets, CALL_CALLBACK_URL);
+    const promiseResult = client.createCall(targets, CALL_CALLBACK_URL);
 
     // asserts
     promiseResult
@@ -48,6 +48,7 @@ describe("Call Automation Client Unit Tests", () => {
         assert.isNotNull(result);
         assert.isTrue(client.createCall.calledWith(targets, CALL_CALLBACK_URL));
         assert.equal(result, createCallResultMock);
+        return;
       })
       .catch((reject) => {
         fail(reject); // should not reach here

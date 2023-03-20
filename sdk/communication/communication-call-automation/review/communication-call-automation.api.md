@@ -4,7 +4,6 @@
 
 ```ts
 
-import { AzureLogger } from '@azure/logger';
 import { CommonClientOptions } from '@azure/core-client';
 import { CommunicationIdentifier } from '@azure/communication-common';
 import { CommunicationUserIdentifier } from '@azure/communication-common';
@@ -319,9 +318,6 @@ export interface ListParticipantsResult {
     nextLink?: string;
     values?: CallParticipant[];
 }
-
-// @public
-export const logger: AzureLogger;
 
 // @public
 export type MediaStreamingAudioChannelType = string;

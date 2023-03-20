@@ -45,16 +45,16 @@ const fakeToken = generateToken();
 
 export const dispatcherCallback: string =
   assertEnvironmentVariable("DISPATCHER_ENDPOINT") + "/api/servicebuscallback/events";
-export let serviceBusReceivers: Map<string, ServiceBusReceiver> = new Map<
+export const serviceBusReceivers: Map<string, ServiceBusReceiver> = new Map<
   string,
   ServiceBusReceiver
 >();
-export let incomingCallContexts: Map<string, string> = new Map<string, string>();
-export let events: Map<string, Map<string, CallAutomationEvent>> = new Map<
+export const incomingCallContexts: Map<string, string> = new Map<string, string>();
+export const events: Map<string, Map<string, CallAutomationEvent>> = new Map<
   string,
   Map<string, CallAutomationEvent>
 >();
-const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+const sleep = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
 
 function removeAllNonChar(input: string): string {
   const regex = new RegExp("[^a-zA-Z0-9_-]", "g");
@@ -118,7 +118,7 @@ export function createCallAutomationClient(
   const connectionString = assertEnvironmentVariable(
     "COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"
   );
-  let options: CallAutomationClientOptions = {
+  const options: CallAutomationClientOptions = {
     sourceIdentity: sourceIdentity,
   };
   return new CallAutomationClient(connectionString, recorder.configureClientOptions(options));
@@ -132,7 +132,7 @@ export async function serviceBusWithNewCall(
   const receiverId: string = parseIdsFromIdentifier(receiver);
   const uniqueId: string = callerId + receiverId;
 
-  //subscribe to event dispatcher
+  // subscribe to event dispatcher
   const dispatcherUrl: string =
     assertEnvironmentVariable("DISPATCHER_ENDPOINT") +
     `/api/servicebuscallback/subscribe?q=${uniqueId}`;
@@ -149,18 +149,18 @@ export async function serviceBusWithNewCall(
     console.log("Error occurred", e);
   }
 
-  //create a service bus processor
+  // create a service bus processor
   const serviceBusClient = createServiceBusClient();
   const serviceBusReceiver: ServiceBusReceiver = serviceBusClient.createReceiver(uniqueId);
 
   // function to handle messages
-  const messageHandler = async (messageReceived: ServiceBusReceivedMessage) => {
+  const messageHandler = async (messageReceived: ServiceBusReceivedMessage): Promise<void> => {
     if (messageReceived.body.incomingCallContext) {
       const incomingCallContext: string = messageReceived.body.incomingCallContext;
       const callerRawId: string = messageReceived.body.from.rawId;
       const calleeRawId: string = messageReceived.body.to.rawId;
-      const uniqueId: string = removeAllNonChar(callerRawId + calleeRawId);
-      incomingCallContexts.set(uniqueId, incomingCallContext);
+      const key: string = removeAllNonChar(callerRawId + calleeRawId);
+      incomingCallContexts.set(key, incomingCallContext);
     } else {
       const eventParser: CallAutomationEventParser = new CallAutomationEventParser();
       const event: CallAutomationEvent = await eventParser.parse(messageReceived.body);
@@ -169,7 +169,7 @@ export async function serviceBusWithNewCall(
         if (events.has(event.callConnectionId)) {
           events.get(event.callConnectionId)?.set(event.kind, event);
         } else {
-          let temp: Map<string, CallAutomationEvent> = new Map<string, CallAutomationEvent>();
+          const temp: Map<string, CallAutomationEvent> = new Map<string, CallAutomationEvent>();
           temp.set(event.kind, event);
           events.set(event.callConnectionId, temp);
         }
@@ -178,7 +178,7 @@ export async function serviceBusWithNewCall(
   };
 
   // function to handle any errors
-  const errorHandler = async (error: ProcessErrorArgs) => {
+  const errorHandler = async (error: ProcessErrorArgs): Promise<void> => {
     console.log(error);
   };
 
@@ -200,7 +200,7 @@ export async function waitForIncomingCallContext(
   let currentTime = new Date().getTime();
   const timeOutTime = currentTime + timeOut;
   while (currentTime < timeOutTime) {
-    let incomingCallContext = incomingCallContexts.get(uniqueId);
+    const incomingCallContext = incomingCallContexts.get(uniqueId);
     if (incomingCallContext) {
       return incomingCallContext;
     }
@@ -218,7 +218,7 @@ export async function waitForEvent(
   let currentTime = new Date().getTime();
   const timeOutTime = currentTime + timeOut;
   while (currentTime < timeOutTime) {
-    let eventGroup = events.get(callConnectionId);
+    const eventGroup = events.get(callConnectionId);
     if (eventGroup && eventGroup.has(eventName)) {
       return eventGroup.get(eventName);
     }

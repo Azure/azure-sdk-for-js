@@ -49,12 +49,11 @@ describe("CallAutomation Live Test", function () {
   });
 
   it("successfully creates a call", async function () {
-    let callInvite = new CallInvite(testUser2);
-    let uniqueId = await serviceBusWithNewCall(testUser, testUser2);
-    console.log("uniqueId: " + uniqueId);
-    let callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+    const callInvite = new CallInvite(testUser2);
+    const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
+    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
 
-    let result = await callAutomationClient.createCall(callInvite, callBackUrl);
+    const result = await callAutomationClient.createCall(callInvite, callBackUrl);
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
     assert.isDefined(incomingCallContext);
 
