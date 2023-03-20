@@ -3,7 +3,6 @@
 
 import {
   AnalyzeBatchResult,
-  DynamicClassificationResult,
   EntityLinkingResult,
   EntityRecognitionResult,
   KeyPhraseExtractionResult,
@@ -6918,96 +6917,6 @@ export const expectation62: EntityLinkingResult[] = [
     ],
   },
   { id: "2", warnings: [], entities: [] },
-];
-
-export const expectation67: DynamicClassificationResult[] = [
-  { id: "0", warnings: [], classifications: [{ category: "Travel", confidenceScore: 0.84 }] },
-  { id: "1", warnings: [], classifications: [{ category: "Travel", confidenceScore: 0.46 }] },
-  { id: "2", warnings: [], classifications: [{ category: "Location", confidenceScore: 0.39 }] },
-  { id: "3", warnings: [], classifications: [{ category: "Weather", confidenceScore: 0.4 }] },
-];
-export const expectation68: DynamicClassificationResult[] = [
-  { id: "1", warnings: [], classifications: [{ category: "Travel", confidenceScore: 0.84 }] },
-  { id: "2", warnings: [], classifications: [{ category: "Travel", confidenceScore: 0.46 }] },
-  { id: "3", warnings: [], classifications: [{ category: "Location", confidenceScore: 0.39 }] },
-  { id: "4", warnings: [], classifications: [{ category: "Weather", confidenceScore: 0.4 }] },
-];
-
-export const expectation69: DynamicClassificationResult[] = [
-  {
-    id: "0",
-    warnings: [],
-    classifications: [
-      { category: "Travel", confidenceScore: 0.84 },
-      { category: "Weather", confidenceScore: 0.08 },
-      { category: "Location", confidenceScore: 0.07 },
-    ],
-  },
-  {
-    id: "1",
-    warnings: [],
-    classifications: [
-      { category: "Travel", confidenceScore: 0.46 },
-      { category: "Weather", confidenceScore: 0.42 },
-      { category: "Location", confidenceScore: 0.12 },
-    ],
-  },
-  {
-    id: "2",
-    warnings: [],
-    classifications: [
-      { category: "Location", confidenceScore: 0.39 },
-      { category: "Weather", confidenceScore: 0.37 },
-      { category: "Travel", confidenceScore: 0.24 },
-    ],
-  },
-  {
-    id: "3",
-    warnings: [],
-    classifications: [
-      { category: "Weather", confidenceScore: 0.4 },
-      { category: "Travel", confidenceScore: 0.31 },
-      { category: "Location", confidenceScore: 0.29 },
-    ],
-  },
-];
-export const expectation70: DynamicClassificationResult[] = [
-  {
-    id: "1",
-    warnings: [],
-    classifications: [
-      { category: "Travel", confidenceScore: 0.84 },
-      { category: "Weather", confidenceScore: 0.08 },
-      { category: "Location", confidenceScore: 0.07 },
-    ],
-  },
-  {
-    id: "2",
-    warnings: [],
-    classifications: [
-      { category: "Travel", confidenceScore: 0.46 },
-      { category: "Weather", confidenceScore: 0.42 },
-      { category: "Location", confidenceScore: 0.12 },
-    ],
-  },
-  {
-    id: "3",
-    warnings: [],
-    classifications: [
-      { category: "Location", confidenceScore: 0.39 },
-      { category: "Weather", confidenceScore: 0.37 },
-      { category: "Travel", confidenceScore: 0.24 },
-    ],
-  },
-  {
-    id: "4",
-    warnings: [],
-    classifications: [
-      { category: "Weather", confidenceScore: 0.4 },
-      { category: "Travel", confidenceScore: 0.31 },
-      { category: "Location", confidenceScore: 0.29 },
-    ],
-  },
 ];
 
 export const expectation71: any = [

@@ -331,6 +331,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/purview-workflow",
+      "projectFolder": "sdk/purview/purview-workflow-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/ai-document-translator",
       "projectFolder": "sdk/documenttranslator/ai-document-translator-rest",
       "versionPolicyName": "client"
@@ -428,6 +433,11 @@
     {
       "packageName": "@azure-tools/communication-short-codes",
       "projectFolder": "sdk/communication/communication-short-codes",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-tools/communication-recipient-verification",
+      "projectFolder": "sdk/communication/communication-recipient-verification",
       "versionPolicyName": "client"
     },
     {
@@ -761,11 +771,6 @@
     {
       "packageName": "@azure/digital-twins-core",
       "projectFolder": "sdk/digitaltwins/digital-twins-core",
-      "versionPolicyName": "client"
-    },
-    {
-      "packageName": "@azure/video-analyzer-edge",
-      "projectFolder": "sdk/videoanalyzer/video-analyzer-edge",
       "versionPolicyName": "client"
     },
     {
@@ -1937,6 +1942,11 @@
       "packageName": "@azure/arm-voiceservices",
       "projectFolder": "sdk/voiceservices/arm-voiceservices",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/web-pubsub-client-protobuf",
+      "projectFolder": "sdk/web-pubsub/web-pubsub-client-protobuf",
+      "versionPolicyName": "client"
     }
   ]
 }

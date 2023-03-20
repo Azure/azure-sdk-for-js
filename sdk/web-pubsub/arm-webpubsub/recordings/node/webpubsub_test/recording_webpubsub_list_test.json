@@ -1,15 +1,15 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/webPubSub?api-version=2022-08-01-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/webPubSub?api-version=2023-02-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-webpubsub/1.1.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "b2c3c4ef-3f82-4555-8cba-310f05e3e86b"
+        "User-Agent": "azsdk-js-arm-webpubsub/1.1.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "5afcd302-f0c6-49cf-b4df-b676096a0a0f"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 08 Nov 2022 03:09:53 GMT",
+        "Date": "Thu, 09 Mar 2023 02:18:50 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Kestrel",
@@ -25,12 +25,12 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-client-request-id": "b2c3c4ef-3f82-4555-8cba-310f05e3e86b",
-        "x-ms-correlation-request-id": "4d402021-f4ea-4f6e-8989-297aa02738f1",
-        "x-ms-ratelimit-remaining-subscription-reads": "11982",
-        "x-ms-request-id": "7626a708-54be-48ba-92a9-fc7650b44854",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221108T030954Z:4d402021-f4ea-4f6e-8989-297aa02738f1",
-        "x-rp-server-mvid": "54bef194-19f7-4c41-9b83-6785272e94c3"
+        "x-ms-client-request-id": "5afcd302-f0c6-49cf-b4df-b676096a0a0f",
+        "x-ms-correlation-request-id": "f6675c0e-24bb-4459-a668-8f0ce0b8176d",
+        "x-ms-ratelimit-remaining-subscription-reads": "11981",
+        "x-ms-request-id": "cdee94fa-e4cf-4dd1-9d24-bcd0c4f143c3",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230309T021850Z:f6675c0e-24bb-4459-a668-8f0ce0b8176d",
+        "x-rp-server-mvid": "26297d37-2454-45c8-9935-f343e6f992c8"
       },
       "ResponseBody": {
         "value": [
@@ -43,7 +43,7 @@
             },
             "properties": {
               "provisioningState": "Succeeded",
-              "externalIP": "20.88.154.138",
+              "externalIP": "20.88.154.176",
               "hostName": "mywebpubsubservice1.webpubsub.azure.com",
               "publicPort": 443,
               "serverPort": 443,
@@ -83,16 +83,16 @@
             },
             "identity": {
               "type": "SystemAssigned",
-              "principalId": "5eb86d36-1a68-4d8f-8449-eb4eaaf9a877",
+              "principalId": "850ab440-9c3a-47ec-95a8-9937ecaf9237",
               "tenantId": "88888888-8888-8888-8888-888888888888"
             },
             "systemData": {
               "createdBy": "azure_client_id",
               "createdByType": "Application",
-              "createdAt": "2022-11-08T03:09:09.336521Z",
+              "createdAt": "2023-03-09T02:18:03.5557822Z",
               "lastModifiedBy": "azure_client_id",
               "lastModifiedByType": "Application",
-              "lastModifiedAt": "2022-11-08T03:09:09.336521Z"
+              "lastModifiedAt": "2023-03-09T02:18:03.5557822Z"
             },
             "location": "eastus",
             "tags": {

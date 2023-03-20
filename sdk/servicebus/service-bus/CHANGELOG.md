@@ -1,6 +1,6 @@
 # Release History
 
-## 7.8.2 (Unreleased)
+## 7.9.0 (Unreleased)
 
 ### Features Added
 
@@ -8,7 +8,12 @@
 
 ### Bugs Fixed
 
+- Fix an issue of over-adding credits when receiving messages in a batch [PR #25185](https://github.com/Azure/azure-sdk-for-js/pull/25185)
+- Fix a race condition in initializing management links [PR #25279](https://github.com/Azure/azure-sdk-for-js/pull/25279)
+
 ### Other Changes
+
+- upgrade dependency `rhea-promise` version to `^3.0.0`.
 
 ## 7.8.1 (2023-03-07)
 

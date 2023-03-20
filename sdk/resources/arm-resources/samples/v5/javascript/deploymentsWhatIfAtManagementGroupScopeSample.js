@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ResourceManagementClient } = require("@azure/arm-resources");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Returns changes that will be made by the deployment if executed at the scope of the management group.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/PostDeploymentWhatIfOnManagementGroup.json
  */
 async function predictTemplateChangesAtManagementGroupScope() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RESOURCES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const groupId = "myManagementGruop";
   const deploymentName = "exampleDeploymentName";
   const parameters = {
@@ -35,4 +37,8 @@ async function predictTemplateChangesAtManagementGroupScope() {
   console.log(result);
 }
 
-predictTemplateChangesAtManagementGroupScope().catch(console.error);
+async function main() {
+  predictTemplateChangesAtManagementGroupScope();
+}
+
+main().catch(console.error);

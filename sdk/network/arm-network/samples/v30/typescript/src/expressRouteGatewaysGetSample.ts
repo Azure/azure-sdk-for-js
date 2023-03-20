@@ -10,16 +10,20 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Fetches the details of a ExpressRoute gateway in a resource group.
  *
  * @summary Fetches the details of a ExpressRoute gateway in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/ExpressRouteGatewayGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/ExpressRouteGatewayGet.json
  */
 async function expressRouteGatewayGet() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "resourceGroupName";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["NETWORK_RESOURCE_GROUP"] || "resourceGroupName";
   const expressRouteGatewayName = "expressRouteGatewayName";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -30,4 +34,8 @@ async function expressRouteGatewayGet() {
   console.log(result);
 }
 
-expressRouteGatewayGet().catch(console.error);
+async function main() {
+  expressRouteGatewayGet();
+}
+
+main().catch(console.error);

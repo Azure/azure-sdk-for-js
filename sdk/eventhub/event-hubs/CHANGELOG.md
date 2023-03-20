@@ -1,6 +1,6 @@
 # Release History
 
-## 5.9.1 (Unreleased)
+## 5.10.0 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,8 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+- upgrade dependency `rhea-promise` version to `^3.0.0`.
 
 ## 5.9.0 (2023-03-07)
 

@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets a xml format representation for supported vpn devices.
  *
  * @summary Gets a xml format representation for supported vpn devices.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VirtualNetworkGatewaySupportedVpnDevice.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VirtualNetworkGatewaySupportedVpnDevice.json
  */
 async function listVirtualNetworkGatewaySupportedVpnDevices() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualNetworkGatewayName = "vpngw";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -30,4 +31,8 @@ async function listVirtualNetworkGatewaySupportedVpnDevices() {
   console.log(result);
 }
 
-listVirtualNetworkGatewaySupportedVpnDevices().catch(console.error);
+async function main() {
+  listVirtualNetworkGatewaySupportedVpnDevices();
+}
+
+main().catch(console.error);

@@ -8,19 +8,23 @@ import {
 } from "@azure/communication-common";
 import {
   CallConnectionStateModel,
+  KnownRecordingChannelType,
+  KnownRecordingContentType,
+  KnownRecordingFormatType,
+  KnownRecordingStorageType,
 } from "../generated/src";
 
 export {
+  CallConnectionStateModel,
   CallRejectReason,
   KnownCallRejectReason,
-  MediaStreamingConfiguration,
-  MediaStreamingTransportType,
-  KnownMediaStreamingTransportType,
-  MediaStreamingContentType,
-  KnownMediaStreamingContentType,
-  MediaStreamingAudioChannelType,
   KnownMediaStreamingAudioChannelType,
-  CallConnectionStateModel
+  KnownMediaStreamingContentType,
+  KnownMediaStreamingTransportType,
+  MediaStreamingAudioChannelType,
+  MediaStreamingConfiguration,
+  MediaStreamingContentType,
+  MediaStreamingTransportType,
 } from "../generated/src/models/index";
 
 /** Properties of a call connection */
@@ -56,17 +60,17 @@ export interface CallParticipant {
   isMuted?: boolean;
 }
 
+/** The locator used for joining or taking action on a server call. */
 export interface ServerCallLocator {
   id: string;
   readonly kind?: "serverCallLocator";
 }
 
+/** The locator used for joining or taking action on a group call. */
 export interface GroupCallLocator {
   id: string;
   readonly kind?: "groupCallLocator";
 }
-
-
 
 /** The PlaySource model. */
 export interface PlaySource {
@@ -77,26 +81,6 @@ export interface PlaySource {
 export interface FileSource extends PlaySource {
   uri: string;
   readonly kind?: "fileSource";
-}
-
-/** Options to configure the recognize operation. */
-export interface CallMediaRecognizeOptions {
-  recognizeInputType: RecognizeInputType,
-  playPrompt: FileSource,
-  interruptCallMediaOperation: boolean,
-  stopCurrentOperations: boolean,
-  operationContext: string,
-  interruptPrompt: boolean,
-  initialSilenceTimeoutInSeconds: number,
-  targetParticipant: CommunicationIdentifier
-}
-
-/** The recognize configuration specific to Dtmf. */
-export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions {
-  interToneTimeoutInSeconds: number,
-  maxTonesToCollect: number,
-  stopDtmfTones: DtmfTone[],
-  readonly kind?: "callMediaRecognizeDtmfOptions"
 }
 
 /** A Dtmf Tone. */
@@ -132,7 +116,7 @@ export enum DtmfTone {
   /** Pound */
   Pound = "pound",
   /** Asterisk */
-  Asterisk = "asterisk"
+  Asterisk = "asterisk",
 }
 
 /** The type of the recognition that the service accepts. */
@@ -140,15 +124,14 @@ export enum RecognizeInputType {
   /** Dtmf */
   Dtmf = "dtmf",
   /** Choices */
-  Choices = "choices"
+  Choices = "choices",
 }
 
-function instanceOfPhoneNumberIdentity(
-  object: any
-): object is PhoneNumberIdentifier {
+function instanceOfPhoneNumberIdentity(object: any): object is PhoneNumberIdentifier {
   return "phoneNumber" in object;
 }
 
+/** Call invitee details. */
 export class CallInvite {
   public readonly target: CommunicationIdentifier;
   public readonly sourceCallIdNumber?: PhoneNumberIdentifier;
@@ -196,9 +179,7 @@ export class CallInvite {
 
   constructor(
     targetIdentity: PhoneNumberIdentifier | CommunicationUserIdentifier,
-    callerIdNumberOrHeaders?:
-      | PhoneNumberIdentifier
-      | { [propertyName: string]: string },
+    callerIdNumberOrHeaders?: PhoneNumberIdentifier | { [propertyName: string]: string },
     maybeHeaders?: { [propertyName: string]: string }
   ) {
     this.target = targetIdentity;
@@ -213,4 +194,29 @@ export class CallInvite {
       }
     }
   }
+}
+
+/** The content type of a call recording. */
+export enum RecordingContent {
+  Audio = KnownRecordingContentType.Audio,
+  AudioVideo = KnownRecordingContentType.AudioVideo,
+}
+
+/** The channel type of a call recording. */
+export enum RecordingChannel {
+  Mixed = KnownRecordingChannelType.Mixed,
+  Unmixed = KnownRecordingChannelType.Unmixed,
+}
+
+/** The format type of a call recording. */
+export enum RecordingFormat {
+  Mp3 = KnownRecordingFormatType.Mp3,
+  Mp4 = KnownRecordingFormatType.Mp4,
+  Wav = KnownRecordingFormatType.Wav,
+}
+
+/** The storage type of a call recording. */
+export enum RecordingStorage {
+  Acs = KnownRecordingStorageType.Acs,
+  BlobStorage = KnownRecordingStorageType.BlobStorage,
 }

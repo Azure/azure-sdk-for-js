@@ -519,7 +519,7 @@ export const PlayRequest: coreClient.CompositeMapper = {
         serializedName: "playSourceInfo",
         type: {
           name: "Composite",
-          className: "PlaySource"
+          className: "PlaySourceInternal"
         }
       },
       playTo: {
@@ -538,7 +538,7 @@ export const PlayRequest: coreClient.CompositeMapper = {
         serializedName: "playOptions",
         type: {
           name: "Composite",
-          className: "PlayOptions"
+          className: "PlayOptionsInternal"
         }
       },
       operationContext: {
@@ -551,10 +551,10 @@ export const PlayRequest: coreClient.CompositeMapper = {
   }
 };
 
-export const PlaySource: coreClient.CompositeMapper = {
+export const PlaySourceInternal: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "PlaySource",
+    className: "PlaySourceInternal",
     modelProperties: {
       sourceType: {
         serializedName: "sourceType",
@@ -573,7 +573,7 @@ export const PlaySource: coreClient.CompositeMapper = {
         serializedName: "fileSource",
         type: {
           name: "Composite",
-          className: "FileSource"
+          className: "FileSourceInternal"
         }
       },
       textSource: {
@@ -587,10 +587,10 @@ export const PlaySource: coreClient.CompositeMapper = {
   }
 };
 
-export const FileSource: coreClient.CompositeMapper = {
+export const FileSourceInternal: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "FileSource",
+    className: "FileSourceInternal",
     modelProperties: {
       uri: {
         serializedName: "uri",
@@ -637,10 +637,10 @@ export const TextSource: coreClient.CompositeMapper = {
   }
 };
 
-export const PlayOptions: coreClient.CompositeMapper = {
+export const PlayOptionsInternal: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "PlayOptions",
+    className: "PlayOptionsInternal",
     modelProperties: {
       loop: {
         serializedName: "loop",
@@ -669,7 +669,7 @@ export const RecognizeRequest: coreClient.CompositeMapper = {
         serializedName: "playPrompt",
         type: {
           name: "Composite",
-          className: "PlaySource"
+          className: "PlaySourceInternal"
         }
       },
       interruptCallMediaOperation: {

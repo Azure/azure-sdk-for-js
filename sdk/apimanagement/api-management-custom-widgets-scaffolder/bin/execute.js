@@ -17,7 +17,6 @@ function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'defau
 var inquirer__default = /*#__PURE__*/_interopDefaultLegacy(inquirer);
 var Parser__default = /*#__PURE__*/_interopDefaultLegacy(Parser);
 var chalk__default = /*#__PURE__*/_interopDefaultLegacy(chalk);
-var glob__default = /*#__PURE__*/_interopDefaultLegacy(glob);
 var mustache__default = /*#__PURE__*/_interopDefaultLegacy(mustache);
 
 // Copyright (c) Microsoft Corporation.
@@ -835,14 +834,11 @@ async function getTemplates(template) {
     return [...sharedFiles, ...templateFiles];
 }
 async function getFiles(path) {
-    return new Promise((resolve, reject) => {
-        glob__default["default"](path, { dot: true }, (error, matches) => {
-            if (error) {
-                reject(error);
-            }
-            resolve(matches);
-        });
-    });
+    // Starting from glob v8 `\` is only used as an escape character, and never as a path separator in glob patterns.
+    // Glob pattern paths must use forward-slashes as path separators.
+    // See https://github.com/isaacs/node-glob/blob/af57da21c7722bb6edb687ccd4ad3b99d3e7a333/changelog.md#80
+    const normalizedPath = path.replace(/\\/g, "/");
+    return glob.glob(normalizedPath, { dot: true });
 }
 
 // Copyright (c) Microsoft Corporation.

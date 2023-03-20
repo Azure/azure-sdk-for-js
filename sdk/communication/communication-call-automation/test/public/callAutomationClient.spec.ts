@@ -37,7 +37,7 @@ describe("CallAutomation Live Test", function () {
 			});
 			events.forEach((callConnectionEvents) => {
 				callConnectionEvents.clear();
-			});
+  });
 			events.clear();
 			serviceBusReceivers.clear();
 			incomingCallContexts.clear();
@@ -66,5 +66,7 @@ describe("CallAutomation Live Test", function () {
 			assert.isDefined(properties);
 			assert.equal(properties.callConnectionState, "connected");
 		}).timeout(60000);
-	})
+      })
+      .catch((error) => console.error(error));
+  });
 });

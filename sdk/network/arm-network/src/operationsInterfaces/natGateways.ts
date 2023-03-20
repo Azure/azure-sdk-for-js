@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   NatGateway,
   NatGatewaysListAllOptionalParams,
@@ -51,7 +51,7 @@ export interface NatGateways {
     resourceGroupName: string,
     natGatewayName: string,
     options?: NatGatewaysDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified nat gateway.
    * @param resourceGroupName The name of the resource group.
@@ -87,8 +87,8 @@ export interface NatGateways {
     parameters: NatGateway,
     options?: NatGatewaysCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NatGatewaysCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<NatGatewaysCreateOrUpdateResponse>,
       NatGatewaysCreateOrUpdateResponse
     >
   >;

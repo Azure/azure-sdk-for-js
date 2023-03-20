@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ExpressRouteCircuit,
   ExpressRouteCircuitsListOptionalParams,
@@ -61,7 +61,7 @@ export interface ExpressRouteCircuits {
     resourceGroupName: string,
     circuitName: string,
     options?: ExpressRouteCircuitsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified express route circuit.
    * @param resourceGroupName The name of the resource group.
@@ -97,8 +97,8 @@ export interface ExpressRouteCircuits {
     parameters: ExpressRouteCircuit,
     options?: ExpressRouteCircuitsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ExpressRouteCircuitsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ExpressRouteCircuitsCreateOrUpdateResponse>,
       ExpressRouteCircuitsCreateOrUpdateResponse
     >
   >;
@@ -144,8 +144,8 @@ export interface ExpressRouteCircuits {
     devicePath: string,
     options?: ExpressRouteCircuitsListArpTableOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ExpressRouteCircuitsListArpTableResponse>,
+    SimplePollerLike<
+      OperationState<ExpressRouteCircuitsListArpTableResponse>,
       ExpressRouteCircuitsListArpTableResponse
     >
   >;
@@ -181,8 +181,8 @@ export interface ExpressRouteCircuits {
     devicePath: string,
     options?: ExpressRouteCircuitsListRoutesTableOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ExpressRouteCircuitsListRoutesTableResponse>,
+    SimplePollerLike<
+      OperationState<ExpressRouteCircuitsListRoutesTableResponse>,
       ExpressRouteCircuitsListRoutesTableResponse
     >
   >;
@@ -218,8 +218,8 @@ export interface ExpressRouteCircuits {
     devicePath: string,
     options?: ExpressRouteCircuitsListRoutesTableSummaryOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ExpressRouteCircuitsListRoutesTableSummaryResponse>,
+    SimplePollerLike<
+      OperationState<ExpressRouteCircuitsListRoutesTableSummaryResponse>,
       ExpressRouteCircuitsListRoutesTableSummaryResponse
     >
   >;

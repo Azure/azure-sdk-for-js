@@ -1,21 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PhoneNumberIdentifier } from "@azure/communication-common";
+import { PhoneNumberIdentifier, CommunicationIdentifier } from "@azure/communication-common";
 import { OperationOptions } from "@azure/core-client";
 import {
   MediaStreamingConfiguration,
   ServerCallLocator,
   GroupCallLocator,
-  CallRejectReason
+  CallRejectReason,
+  RecognizeInputType,
+  FileSource,
+  DtmfTone,
 } from "./models";
-import {
-  CommunicationIdentifierModel,
-  RecordingChannelType,
-  RecordingContentType,
-  RecordingFormatType,
-  RecordingStorageType,
-} from "../generated/src";
+
+/** Options to configure the recognize operation. */
+export interface CallMediaRecognizeOptions extends OperationOptions {
+  recognizeInputType: RecognizeInputType;
+  playPrompt?: FileSource;
+  interruptCallMediaOperation?: boolean;
+  stopCurrentOperations?: boolean;
+  operationContext?: string;
+  interruptPrompt?: boolean;
+  initialSilenceTimeoutInSeconds?: number;
+  targetParticipant: CommunicationIdentifier;
+}
+
+/** The recognize configuration specific to Dtmf. */
+export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions {
+  interToneTimeoutInSeconds?: number;
+  maxTonesToCollect: number;
+  stopDtmfTones?: DtmfTone[];
+  readonly kind?: "callMediaRecognizeDtmfOptions";
+}
 
 /**
  * Options to create a call.
@@ -113,29 +129,26 @@ export type GetParticipantOptions = OperationOptions;
  * Options to get a start a recording.
  */
 export interface StartRecordingOptions extends OperationOptions {
-
   /** The call locator. */
   callLocator: ServerCallLocator | GroupCallLocator;
   /** The uri to send notifications to. */
-  recordingStateCallbackUri?: string;
+  recordingStateCallbackEndpoint?: string;
   /** The content type of call recording. */
-  recordingContentType?: RecordingContentType;
+  recordingContent?: string;
   /** The channel type of call recording. */
-  recordingChannelType?: RecordingChannelType;
+  recordingChannel?: string;
   /** The format type of call recording. */
-  recordingFormatType?: RecordingFormatType;
+  recordingFormat?: string;
   /**
    * The sequential order in which audio channels are assigned to participants in the unmixed recording.
-   * When 'recordingChannelType' is set to 'unmixed' and `audioChannelParticipantOrdering is not specified,
+   * When 'recordingChannelType' is set to 'unmixed' and `audioChannelParticipantOrdering` is not specified,
    * the audio channel to participant mapping will be automatically assigned based on the order in which participant
    * first audio was detected.  Channel to participant mapping details can be found in the metadata of the recording.
    */
-  audioChannelParticipantOrdering?: CommunicationIdentifierModel[];
+  audioChannelParticipantOrdering?: CommunicationIdentifier[];
   /** Recording storage mode. `External` enables bring your own storage. */
-  recordingStorageType?: RecordingStorageType;
-
+  recordingStorageType?: string;
 }
-
 
 /**
  * Options to get a stop a recording.

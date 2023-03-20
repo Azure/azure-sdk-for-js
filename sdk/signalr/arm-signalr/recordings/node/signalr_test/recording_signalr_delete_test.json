@@ -1,45 +1,45 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/signalR/mySignalRService1?api-version=2022-08-01-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/signalR/mySignalRService1?api-version=2023-02-01",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-signalr/5.2.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "b1407d5d-7a53-4539-a43c-5963fc70e292"
+        "User-Agent": "azsdk-js-arm-signalr/5.2.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "72873930-d938-4836-be74-17d247660128"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Date": "Tue, 08 Nov 2022 02:06:43 GMT",
+        "Date": "Wed, 08 Mar 2023 09:12:09 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Kestrel",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-client-request-id": "b1407d5d-7a53-4539-a43c-5963fc70e292",
-        "x-ms-correlation-request-id": "6726e94f-8de1-4629-8e84-2f557459cc73",
+        "x-ms-client-request-id": "72873930-d938-4836-be74-17d247660128",
+        "x-ms-correlation-request-id": "7663f03f-f23b-4a7b-a5de-4c61aa96b4a0",
         "x-ms-ratelimit-remaining-subscription-deletes": "14999",
-        "x-ms-request-id": "b20c1632-2840-49cd-b508-0497b705c14d",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221108T020644Z:6726e94f-8de1-4629-8e84-2f557459cc73",
-        "x-rp-server-mvid": "54bef194-19f7-4c41-9b83-6785272e94c3"
+        "x-ms-request-id": "a719f308-273d-4106-bd8f-0e127e89cfac",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230308T091209Z:7663f03f-f23b-4a7b-a5de-4c61aa96b4a0",
+        "x-rp-server-mvid": "26297d37-2454-45c8-9935-f343e6f992c8"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/signalR?api-version=2022-08-01-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/signalR?api-version=2023-02-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-signalr/5.2.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "fc31bf4d-1d80-432c-b8c3-11d92e758682"
+        "User-Agent": "azsdk-js-arm-signalr/5.2.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "c4ca0d23-c4d2-4993-8bef-2ed3bb8f81da"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -48,16 +48,16 @@
         "Content-Encoding": "gzip",
         "Content-Length": "12",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 08 Nov 2022 02:06:43 GMT",
+        "Date": "Wed, 08 Mar 2023 09:12:09 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "e08c655d-cc33-4c42-b506-14f4e69d7d1e",
-        "x-ms-ratelimit-remaining-subscription-reads": "11981",
-        "x-ms-request-id": "e08c655d-cc33-4c42-b506-14f4e69d7d1e",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221108T020644Z:e08c655d-cc33-4c42-b506-14f4e69d7d1e"
+        "x-ms-correlation-request-id": "6c5fa515-c111-488e-90ef-5066e8a574aa",
+        "x-ms-ratelimit-remaining-subscription-reads": "11982",
+        "x-ms-request-id": "6c5fa515-c111-488e-90ef-5066e8a574aa",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230308T091209Z:6c5fa515-c111-488e-90ef-5066e8a574aa"
       },
       "ResponseBody": {
         "value": []
