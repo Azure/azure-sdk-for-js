@@ -97,8 +97,8 @@ export function getPropertyFromVSCode(property: string): string | undefined {
  * authenticating with {@link AzureCliCredential}.
  *
  * @deprecated This credential **is deprecated** and may be removed in a future version. The method that this credential
- * used to extract the `Azure.Account` access token has been out of date and non-functional since Feb. 14, 2022 (version
- * 0.10.0 of the Azure.Account extension for VS Code). As an alternative, please consider
+ * used to extract the Azure Account extension access token has been out of date and non-functional since Feb. 14, 2022 (version
+ * 0.10.0 of the Azure Account extension for VS Code). As an alternative, please consider
  * [using `AzureCliCredential` to authenticate via the Azure CLI](https://github.com/azure/azure-sdk-for-js/tree/main/sdk/identity/identity#authenticate-via-the-azure-cli).
  * In the future, if Visual Studio Code authentication becomes viable again, this credential type may be undeprecated or
  * reintroduced if it has been removed.
@@ -120,8 +120,8 @@ export class VisualStudioCodeCredential implements TokenCredential {
    * @param options - Options for configuring the client which makes the authentication request.
    *
    * @deprecated This credential **is deprecated** and may be removed in a future version. The method that this credential
-   * used to extract the `Azure.Account` access token has been out of date and non-functional since Feb. 14, 2022 (version
-   * 0.10.0 of the Azure.Account extension for VS Code). As an alternative, please consider
+   * used to extract the Azure Account extension access token has been out of date and non-functional since Feb. 14, 2022 (version
+   * 0.10.0 of the Azure Account extension for VS Code). As an alternative, please consider
    * [using `AzureCliCredential` to authenticate via the Azure CLI](https://github.com/azure/azure-sdk-for-js/tree/main/sdk/identity/identity#authenticate-via-the-azure-cli).
    * In the future, if Visual Studio Code authentication becomes viable again, this credential type may be undeprecated or
    * reintroduced if it has been removed.
@@ -206,8 +206,8 @@ export class VisualStudioCodeCredential implements TokenCredential {
       throw new CredentialUnavailableError(
         [
           "`VisualStudioCodeCredential` has no available implementation. Note that this credential type **is deprecated**",
-          "and may be removed in a future version. The method that this credential used to extract the `Azure.Account`",
-          "access token has been out of date and non-functional since Feb. 14, 2022 (version 0.10.0 of the Azure.Account",
+          "and may be removed in a future version. The method that this credential used to extract the Azure Account extension",
+          "access token has been out of date and non-functional since Feb. 14, 2022 (version 0.10.0 of the Azure Account",
           "extension for VS Code). As an alternative, please consider using `AzureCliCredential` to authenticate via the",
           "Azure CLI (see: https://github.com/azure/azure-sdk-for-js/tree/main/sdk/identity/identity#authenticate-via-the-azure-cli).",
           "In the future, if Visual Studio Code authentication becomes viable again, this credential type may be undeprecated or",
