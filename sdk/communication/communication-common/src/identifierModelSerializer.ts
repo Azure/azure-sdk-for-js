@@ -248,7 +248,10 @@ export const deserializeCommunicationIdentifier = (
     return {
       kind: "microsoftBot",
       botId: assertNotNullOrUndefined({ microsoftBot }, "botId"),
-      isResourceAccountConfigured: assertNotNullOrUndefined({ microsoftBot }, "isResourceAccountConfigured"),
+      isResourceAccountConfigured: assertNotNullOrUndefined(
+        { microsoftBot },
+        "isResourceAccountConfigured"
+      ),
       cloud: assertNotNullOrUndefined({ microsoftBot }, "cloud"),
       rawId: assertNotNullOrUndefined({ microsoftBot: serializedIdentifier }, "rawId"),
     };
