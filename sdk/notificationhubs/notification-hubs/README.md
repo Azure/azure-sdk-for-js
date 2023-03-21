@@ -663,12 +663,6 @@ React Native currently does not have support for [`URLSearchParams`] which is us
 import 'url-search-params-polyfill';
 ```
 
-This project requires the Web Crypto API to be available in the global scope.  If you are using React Native, you will need to install the [`isomorphic-webcrypto`](https://www.npmjs.com/package/isomorphic-webcrypto) package and import it before using the SDK.
-
-```typescript
-import crypto from 'isomorphic-webcrypto';
-```
-
 ### Diagnose Dropped Notifications
 
 Azure Notification Hubs has a complete guide to troubleshooting problems with dropped notifications in the [Diagnose dropped notifications in Azure Notification Hubs Guide](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-fixer).  
