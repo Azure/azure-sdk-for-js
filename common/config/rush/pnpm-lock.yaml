@@ -11533,7 +11533,7 @@ packages:
     dev: false
 
   file:projects/arm-desktopvirtualization.tgz:
-    resolution: {integrity: sha512-wOivlaND4pMP0x4wYQ8WhBcHjd+H7aEztzE2PvWrDpsXDKWCaJVCZCpBxc6mTsCKZLh0dvSAyvEyLVmfUFVDJQ==, tarball: file:projects/arm-desktopvirtualization.tgz}
+    resolution: {integrity: sha512-SBRcAmRrqCGazwPij38sJouptyT4HOUyDj9Kcl89S5Lmr7f5RE5d9BNxk+0JUN3I9AMpFrshEN4K5PD9ohw7Yg==, tarball: file:projects/arm-desktopvirtualization.tgz}
     name: '@rush-temp/arm-desktopvirtualization'
     version: 0.0.0
     dependencies:
@@ -11547,7 +11547,8 @@ packages:
       '@types/node': 14.18.38
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
