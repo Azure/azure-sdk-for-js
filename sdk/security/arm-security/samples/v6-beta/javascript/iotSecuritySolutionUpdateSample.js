@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SecurityCenter } = require("@azure/arm-security");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Use this method to update existing IoT Security solution tags or user defined resources. To update other fields use the CreateOrUpdate method.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2019-08-01/examples/IoTSecuritySolutions/UpdateIoTSecuritySolution.json
  */
 async function useThisMethodToUpdateExistingIoTSecuritySolution() {
-  const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] || "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
+  const resourceGroupName = process.env["SECURITY_RESOURCE_GROUP"] || "myRg";
   const solutionName = "default";
   const updateIotSecuritySolutionData = {
     recommendationsConfiguration: [
@@ -42,4 +44,8 @@ async function useThisMethodToUpdateExistingIoTSecuritySolution() {
   console.log(result);
 }
 
-useThisMethodToUpdateExistingIoTSecuritySolution().catch(console.error);
+async function main() {
+  useThisMethodToUpdateExistingIoTSecuritySolution();
+}
+
+main().catch(console.error);
