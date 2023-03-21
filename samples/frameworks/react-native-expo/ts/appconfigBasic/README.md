@@ -86,10 +86,10 @@ APPCONFIG_CONNECTION_STRING="<your app configuration connection string>"
 
 ### Add polyfills
 
-The `crypto` dependency of the JavaScript Client SDK library for Azure App Configuration are not available in React-Native, so we need to provide polyfills for them. We also need to polyfill the `TextEncoder` API. Add the following dependencies to the project
+The cryptography API used by the JavaScript Client SDK library for Azure App Configuration are not available in React-Native, so we need to provide polyfills for them. We also need to polyfill the `TextEncoder` API. Add the following dependencies to the project
 
 ```shell
-yarn add isomorphic-webcrypto react-native-get-random-values react-native-url-polyfill text-encoding-polyfill
+yarn add isomorphic-webcrypto react-native-get-random-values react-native-url-polyfill text-encoding-polyfill expo-modules-core
 ```
 
 Then add a `shims.ts` file in the project root with the following content
