@@ -98,7 +98,7 @@ export const isUnknownIdentifier: (identifier: CommunicationIdentifier) => ident
 export interface MicrosoftBotIdentifier {
     botId: string;
     cloud?: "public" | "dod" | "gcch";
-    isGlobal?: boolean;
+    isResourceAccountConfigured?: boolean;
     rawId?: string;
 }
 
@@ -162,7 +162,7 @@ export interface SerializedCommunicationUserIdentifier {
 export interface SerializedMicrosoftBotIdentifier {
     botId: string;
     cloud?: SerializedCommunicationCloudEnvironment;
-    isGlobal?: boolean;
+    isResourceAccountConfigured?: boolean;
 }
 
 // @public

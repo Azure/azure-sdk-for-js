@@ -90,9 +90,9 @@ export interface SerializedMicrosoftBotIdentifier {
    */
   botId: string;
   /**
-   * True if the bot is global and false (or missing) if the bot is tenantized.
+   * True (or missing) if the bot is global and no resource account is configured and false if the bot is tenantized.
    */
-  isGlobal?: boolean;
+  isResourceAccountConfigured?: boolean;
   /**
    * The cloud that the Microsoft bot belongs to. By default 'public' if missing.
    */
@@ -178,7 +178,7 @@ export const serializeCommunicationIdentifier = (
         rawId: identifierKind.rawId ?? getIdentifierRawId(identifierKind),
         microsoftBot: {
           botId: identifierKind.botId,
-          isGlobal: identifierKind.isGlobal ?? false,
+          isResourceAccountConfigured: identifierKind.isResourceAccountConfigured ?? true,
           cloud: identifierKind.cloud ?? "public",
         },
       };
@@ -248,7 +248,7 @@ export const deserializeCommunicationIdentifier = (
     return {
       kind: "microsoftBot",
       botId: assertNotNullOrUndefined({ microsoftBot }, "botId"),
-      isGlobal: assertNotNullOrUndefined({ microsoftBot }, "isGlobal"),
+      isResourceAccountConfigured: assertNotNullOrUndefined({ microsoftBot }, "isResourceAccountConfigured"),
       cloud: assertNotNullOrUndefined({ microsoftBot }, "cloud"),
       rawId: assertNotNullOrUndefined({ microsoftBot: serializedIdentifier }, "rawId"),
     };

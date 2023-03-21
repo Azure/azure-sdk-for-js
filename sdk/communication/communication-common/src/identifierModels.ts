@@ -75,9 +75,9 @@ export interface MicrosoftBotIdentifier {
   botId: string;
 
   /**
-   * True if the bot is global and false (or missing) if the bot is tenantized.
+   * True (or missing) if the bot is global and no resource account is configured and false if the bot is tenantized.
    */
-  isGlobal?: boolean;
+  isResourceAccountConfigured?: boolean;
 
   /**
    * The cloud that the Microsoft bot belongs to. If missing, the cloud is "public".
@@ -258,9 +258,9 @@ export const getIdentifierRawId = (identifier: CommunicationIdentifier): string 
       return `8:orgid:${microsoftTeamsUserId}`;
     }
     case "microsoftBot": {
-      const { botId, rawId, cloud, isGlobal } = identifierKind;
+      const { botId, rawId, cloud, isResourceAccountConfigured } = identifierKind;
       if (rawId) return rawId;
-      if (isGlobal) {
+      if (!isResourceAccountConfigured) {
         switch (cloud) {
           case "dod":
             return `28:dod-global:${botId}`;
@@ -291,13 +291,13 @@ export const getIdentifierRawId = (identifier: CommunicationIdentifier): string 
 const buildMicrosoftBotIdentifier = (
   id: string,
   cloud: "public" | "dod" | "gcch",
-  isGlobal: boolean
+  isResourceAccountConfigured: boolean
 ): CommunicationIdentifierKind => {
   return {
     kind: "microsoftBot",
     botId: id,
     cloud: cloud,
-    isGlobal: isGlobal,
+    isResourceAccountConfigured: isResourceAccountConfigured,
   };
 };
 
@@ -327,7 +327,7 @@ export const createIdentifierFromRawId = (rawId: string): CommunicationIdentifie
   const segments = rawId.split(":");
   if (segments.length !== 3) {
     if (segments.length === 2 && segments[0] === "28") {
-      return buildMicrosoftBotIdentifier(segments[1], "public", true);
+      return buildMicrosoftBotIdentifier(segments[1], "public", false);
     }
     return { kind: "unknown", id: rawId };
   }
@@ -350,15 +350,15 @@ export const createIdentifierFromRawId = (rawId: string): CommunicationIdentifie
     case "8:gcch-acs:":
       return { kind: "communicationUser", communicationUserId: rawId };
     case "28:gcch-global:":
-      return buildMicrosoftBotIdentifier(suffix, "gcch", true);
-    case "28:orgid:":
-      return buildMicrosoftBotIdentifier(suffix, "public", false);
-    case "28:dod-global:":
-      return buildMicrosoftBotIdentifier(suffix, "dod", true);
-    case "28:gcch:":
       return buildMicrosoftBotIdentifier(suffix, "gcch", false);
-    case "28:dod:":
+    case "28:orgid:":
+      return buildMicrosoftBotIdentifier(suffix, "public", true);
+    case "28:dod-global:":
       return buildMicrosoftBotIdentifier(suffix, "dod", false);
+    case "28:gcch:":
+      return buildMicrosoftBotIdentifier(suffix, "gcch", true);
+    case "28:dod:":
+      return buildMicrosoftBotIdentifier(suffix, "dod", true);
   }
   return { kind: "unknown", id: rawId };
 };
