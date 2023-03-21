@@ -13,3 +13,7 @@ export * from "./replications";
 export * from "./scopeMaps";
 export * from "./tokens";
 export * from "./webhooks";
+export * from "./agentPools";
+export * from "./runs";
+export * from "./taskRuns";
+export * from "./tasks";

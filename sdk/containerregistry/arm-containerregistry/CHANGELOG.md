@@ -1,6 +1,6 @@
 # Release History
     
-## 11.0.0 (2023-02-27)
+## 10.1.0 (2023-03-21)
     
 **Features**
 
@@ -9,7 +9,17 @@
   - Added operation Registries.beginGenerateCredentials
   - Added operation Registries.beginGenerateCredentialsAndWait
   - Added Interface ActiveDirectoryObject
+  - Added Interface AgentPool
+  - Added Interface DockerBuildRequest
+  - Added Interface DockerBuildStep
+  - Added Interface DockerBuildStepUpdateParameters
+  - Added Interface EncodedTaskRunRequest
+  - Added Interface EncodedTaskStep
+  - Added Interface EncodedTaskStepUpdateParameters
   - Added Interface Event_2
+  - Added Interface FileTaskRunRequest
+  - Added Interface FileTaskStep
+  - Added Interface FileTaskStepUpdateParameters
   - Added Interface GenerateCredentialsParameters
   - Added Interface GenerateCredentialsResult
   - Added Interface PrivateEndpointConnection
@@ -26,6 +36,7 @@
   - Added Interface ReplicationsCreateHeaders
   - Added Interface ReplicationsDeleteHeaders
   - Added Interface ReplicationsUpdateHeaders
+  - Added Interface Run
   - Added Interface ScopeMap
   - Added Interface ScopeMapListResult
   - Added Interface ScopeMapsCreateHeaders
@@ -38,6 +49,9 @@
   - Added Interface ScopeMapsUpdateHeaders
   - Added Interface ScopeMapsUpdateOptionalParams
   - Added Interface ScopeMapUpdateParameters
+  - Added Interface Task
+  - Added Interface TaskRun
+  - Added Interface TaskRunRequest
   - Added Interface Token
   - Added Interface TokenCertificate
   - Added Interface TokenCredentialsProperties
@@ -71,41 +85,12 @@
   - Added Type Alias TokensListResponse
   - Added Type Alias TokenStatus
   - Added Type Alias TokensUpdateResponse
-  - Interface ContainerRegistryManagementClientOptionalParams has a new optional parameter apiVersion
   - Added Enum KnownTokenCertificateName
   - Added Enum KnownTokenPasswordName
   - Added Enum KnownTokenStatus
   - Added function getContinuationToken
-
-**Breaking Changes**
-
-  - Removed operation group AgentPools
-  - Removed operation group Runs
-  - Removed operation group TaskRuns
-  - Removed operation group Tasks
-  - Removed operation Registries.beginScheduleRun
-  - Removed operation Registries.beginScheduleRunAndWait
-  - Removed operation Registries.getBuildSourceUploadUrl
-  - Class ContainerRegistryManagementClient no longer has parameter agentPools
-  - Class ContainerRegistryManagementClient no longer has parameter runs
-  - Class ContainerRegistryManagementClient no longer has parameter taskRuns
-  - Class ContainerRegistryManagementClient no longer has parameter tasks
-  - Removed Enum KnownArchitecture
-  - Removed Enum KnownBaseImageDependencyType
-  - Removed Enum KnownBaseImageTriggerType
-  - Removed Enum KnownOS
-  - Removed Enum KnownRunStatus
-  - Removed Enum KnownRunType
-  - Removed Enum KnownSecretObjectType
-  - Removed Enum KnownSourceControlType
-  - Removed Enum KnownSourceRegistryLoginMode
-  - Removed Enum KnownSourceTriggerEvent
-  - Removed Enum KnownStepType
-  - Removed Enum KnownTaskStatus
-  - Removed Enum KnownTokenType
-  - Removed Enum KnownTriggerStatus
-  - Removed Enum KnownUpdateTriggerPayloadType
-  - Removed Enum KnownVariant
+  - Interface RunsListNextOptionalParams no longer has parameter filter
+  - Interface RunsListNextOptionalParams no longer has parameter top
     
     
 ## 10.0.0 (2021-12-28)

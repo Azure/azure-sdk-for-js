@@ -56,6 +56,11 @@ import {
   GenerateCredentialsParameters,
   RegistriesGenerateCredentialsOptionalParams,
   RegistriesGenerateCredentialsResponse,
+  RunRequestUnion,
+  RegistriesScheduleRunOptionalParams,
+  RegistriesScheduleRunResponse,
+  RegistriesGetBuildSourceUploadUrlOptionalParams,
+  RegistriesGetBuildSourceUploadUrlResponse,
   RegistriesListNextResponse,
   RegistriesListByResourceGroupNextResponse,
   RegistriesListPrivateLinkResourcesNextResponse
@@ -904,6 +909,118 @@ export class RegistriesImpl implements Registries {
   }
 
   /**
+   * Schedules a new run based on the request parameters and add it to the run queue.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param runRequest The parameters of a run that needs to scheduled.
+   * @param options The options parameters.
+   */
+  async beginScheduleRun(
+    resourceGroupName: string,
+    registryName: string,
+    runRequest: RunRequestUnion,
+    options?: RegistriesScheduleRunOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<RegistriesScheduleRunResponse>,
+      RegistriesScheduleRunResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<RegistriesScheduleRunResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, registryName, runRequest, options },
+      spec: scheduleRunOperationSpec
+    });
+    const poller = await createHttpPoller<
+      RegistriesScheduleRunResponse,
+      OperationState<RegistriesScheduleRunResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Schedules a new run based on the request parameters and add it to the run queue.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param runRequest The parameters of a run that needs to scheduled.
+   * @param options The options parameters.
+   */
+  async beginScheduleRunAndWait(
+    resourceGroupName: string,
+    registryName: string,
+    runRequest: RunRequestUnion,
+    options?: RegistriesScheduleRunOptionalParams
+  ): Promise<RegistriesScheduleRunResponse> {
+    const poller = await this.beginScheduleRun(
+      resourceGroupName,
+      registryName,
+      runRequest,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Get the upload location for the user to be able to upload the source.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param options The options parameters.
+   */
+  getBuildSourceUploadUrl(
+    resourceGroupName: string,
+    registryName: string,
+    options?: RegistriesGetBuildSourceUploadUrlOptionalParams
+  ): Promise<RegistriesGetBuildSourceUploadUrlResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, registryName, options },
+      getBuildSourceUploadUrlOperationSpec
+    );
+  }
+
+  /**
    * ListNext
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -1248,6 +1365,61 @@ const generateCredentialsOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
+  serializer
+};
+const scheduleRunOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/scheduleRun",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Run
+    },
+    201: {
+      bodyMapper: Mappers.Run
+    },
+    202: {
+      bodyMapper: Mappers.Run
+    },
+    204: {
+      bodyMapper: Mappers.Run
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.runRequest,
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.registryName,
+    Parameters.resourceGroupName1
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
+const getBuildSourceUploadUrlOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/listBuildSourceUploadUrl",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SourceUploadDefinition
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.registryName,
+    Parameters.resourceGroupName1
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
