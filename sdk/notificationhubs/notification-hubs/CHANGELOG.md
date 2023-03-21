@@ -1,6 +1,23 @@
 # Release History
 
-## 1.0.0 (2023-02-16)
+## 1.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.0.0 (2023-03-15)
+
+### Features Added
+
+- Added Xiaomi support with the following:
+  - `XiaomiRegistrationDescription` and `XiaomiTemplateRegistrationDescription` for registrations with associated factory methods.
+  - `XiaomiInstallation` for installation operations and associated factory methods.
+  - `XiaomiNotification` for notification send support and associated factory methods.
 
 ### Bugs Fixed
 

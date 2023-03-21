@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Update a DDoS protection plan tags.
  *
  * @summary Update a DDoS protection plan tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/DdosProtectionPlanUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/DdosProtectionPlanUpdateTags.json
  */
 async function dDoSProtectionPlanUpdateTags() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const ddosProtectionPlanName = "test-plan";
   const parameters = { tags: { tag1: "value1", tag2: "value2" } };
   const credential = new DefaultAzureCredential();
@@ -32,4 +33,8 @@ async function dDoSProtectionPlanUpdateTags() {
   console.log(result);
 }
 
-dDoSProtectionPlanUpdateTags().catch(console.error);
+async function main() {
+  dDoSProtectionPlanUpdateTags();
+}
+
+main().catch(console.error);

@@ -6,9 +6,12 @@
 
 ### Breaking Changes
 
-- `VisualStudioCodeCredential` **is deprecated**. The method that this credential used to extract the "Azure Account" extension access token has been out of date and non-functional since Feb. 14, 2022. As an alternative, please consider [using `AzureCliCredential` to authenticate via the Azure CLI](https://github.com/azure/azure-sdk-for-js/tree/main/sdk/identity/identity#authenticate-via-the-azure-cli). In the future, if Visual Studio Code authentication becomes viable again, this credential type may be undeprecated or reintroduced if it has been removed.
+- `VisualStudioCodeCredential` **is deprecated**. The method that this credential used to extract the Azure Account extension access token has been out of date and non-functional since Feb. 14, 2022. As an alternative, please consider [using `AzureCliCredential` to authenticate via the Azure CLI](https://github.com/azure/azure-sdk-for-js/tree/main/sdk/identity/identity#authenticate-via-the-azure-cli). In the future, if Visual Studio Code authentication becomes viable again, this credential type may be undeprecated or reintroduced if it has been removed.
 
 ### Bugs Fixed
+
+- Fixed a bug in `WorkloadIdentity Credential`, to incorporate the case where the options can be `undefined` in a conditional check. Related issue [#25089](https://github.com/Azure/azure-sdk-for-js/issues/25089) with the fix [#25119](https://github.com/Azure/azure-sdk-for-js/pull/25119).
+- Exported `WorkloadIdentityDefaultCredentialOptions` which was previously not publicly exported in `index.ts`.
 
 ### Other Changes
 

@@ -16,7 +16,7 @@ export const logger = createClientLogger("event-hubs");
  * @internal
  */
 export function logErrorStackTrace(error: unknown): void {
-  if (isObjectWithProperties(error, ["stack"]) && error.stack) {
+  if (isObjectWithProperties(error, ["stack"])) {
     logger.verbose(error.stack);
   }
 }

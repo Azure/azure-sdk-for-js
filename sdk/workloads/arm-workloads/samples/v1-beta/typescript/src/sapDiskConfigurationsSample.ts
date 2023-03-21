@@ -10,32 +10,37 @@
 // Licensed under the MIT License.
 import { WorkloadsClient } from "@azure/arm-workloads";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
- * This sample demonstrates how to Get SAP Disk Configurations.
+ * This sample demonstrates how to Get the SAP Disk Configuration Layout prod/non-prod SAP System.
  *
- * @summary Get SAP Disk Configurations.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPDiskConfigurations_NonProd.json
+ * @summary Get the SAP Disk Configuration Layout prod/non-prod SAP System.
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPDiskConfigurations_NonProd.json
  */
 async function sapDiskConfigurationsNonProd() {
-  const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const location = "centralus";
   const credential = new DefaultAzureCredential();
   const client = new WorkloadsClient(credential, subscriptionId);
   const result = await client.sAPDiskConfigurations(location);
   console.log(result);
 }
-
-sapDiskConfigurationsNonProd().catch(console.error);
 
 /**
- * This sample demonstrates how to Get SAP Disk Configurations.
+ * This sample demonstrates how to Get the SAP Disk Configuration Layout prod/non-prod SAP System.
  *
- * @summary Get SAP Disk Configurations.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPDiskConfigurations_Prod.json
+ * @summary Get the SAP Disk Configuration Layout prod/non-prod SAP System.
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPDiskConfigurations_Prod.json
  */
 async function sapDiskConfigurationsProd() {
-  const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const location = "centralus";
   const credential = new DefaultAzureCredential();
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -43,4 +48,9 @@ async function sapDiskConfigurationsProd() {
   console.log(result);
 }
 
-sapDiskConfigurationsProd().catch(console.error);
+async function main() {
+  sapDiskConfigurationsNonProd();
+  sapDiskConfigurationsProd();
+}
+
+main().catch(console.error);

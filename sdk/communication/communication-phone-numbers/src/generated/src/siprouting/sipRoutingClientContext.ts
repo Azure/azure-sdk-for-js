@@ -50,6 +50,6 @@ export class SipRoutingClientContext extends coreClient.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2021-05-01-preview";
+    this.apiVersion = options.apiVersion || "2023-03-01";
   }
 }

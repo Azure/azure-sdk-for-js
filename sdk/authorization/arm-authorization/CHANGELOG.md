@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 9.0.0-beta.5 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 9.0.0-beta.4 (2023-02-08)
 
 The package of @azure/arm-authorization is using our next generation design principles since version 9.0.0-beta.4, which contains breaking changes.
