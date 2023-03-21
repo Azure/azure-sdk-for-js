@@ -61,7 +61,7 @@ function removeAllNonChar(input: string): string {
   return input.replace(regex, "");
 }
 
-function parseIdsFromIdentifier(identifier: CommunicationIdentifier): string {
+export function parseIdsFromIdentifier(identifier: CommunicationIdentifier): string {
   const communicationIdentifierModel: CommunicationIdentifierModel =
     serializeCommunicationIdentifier(identifier);
   assert.isDefined(communicationIdentifierModel?.rawId);
@@ -164,7 +164,7 @@ export async function serviceBusWithNewCall(
     } else {
       const eventParser: CallAutomationEventParser = new CallAutomationEventParser();
       const event: CallAutomationEvent = await eventParser.parse(messageReceived.body);
-
+      console.log(event.kind);
       if (event.callConnectionId) {
         if (events.has(event.callConnectionId)) {
           events.get(event.callConnectionId)?.set(event.kind, event);
@@ -218,6 +218,7 @@ export async function waitForEvent(
   let currentTime = new Date().getTime();
   const timeOutTime = currentTime + timeOut;
   while (currentTime < timeOutTime) {
+    console.log("Waiting for " + eventName);
     const eventGroup = events.get(callConnectionId);
     if (eventGroup && eventGroup.has(eventName)) {
       return eventGroup.get(eventName);

@@ -17,13 +17,13 @@ import {
 } from "./utils/recordedClient";
 import { events, serviceBusReceivers, incomingCallContexts } from "./utils/recordedClient";
 
-let recorder: Recorder;
-let callAutomationClient: CallAutomationClient;
-let callConnection: CallConnection;
-let testUser: CommunicationUserIdentifier;
-let testUser2: CommunicationUserIdentifier;
+describe("Call Automation Main Client Live Tests", function () {
+  let recorder: Recorder;
+  let callAutomationClient: CallAutomationClient;
+  let callConnection: CallConnection;
+  let testUser: CommunicationUserIdentifier;
+  let testUser2: CommunicationUserIdentifier;
 
-describe("CallAutomation Live Test", function () {
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this.currentTest);
     testUser = await createTestUser(recorder);
@@ -32,13 +32,8 @@ describe("CallAutomation Live Test", function () {
   });
 
   afterEach(async function (this: Context) {
-    if (callConnection) {
-      await callConnection.hangUp(true);
-      console.log("Call terminated");
-    }
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();
-      console.log("Service bus receiver closed");
     });
     events.forEach((callConnectionEvents) => {
       callConnectionEvents.clear();
@@ -48,31 +43,56 @@ describe("CallAutomation Live Test", function () {
     incomingCallContexts.clear();
   });
 
-  it("successfully creates a call", async function () {
+
+  it("Create a call to an ACS endpoint and hangup", async function () {
     const callInvite = new CallInvite(testUser2);
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
 
     const result = await callAutomationClient.createCall(callInvite, callBackUrl);
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
+    const callConnectionId: string = result.callConnectionProperties.callConnectionId ? result.callConnectionProperties.callConnectionId : "";
     assert.isDefined(incomingCallContext);
 
     if (incomingCallContext) {
       await callAutomationClient.answerCall(incomingCallContext, callBackUrl);
     }
+    const callConnectedEvent = await waitForEvent(
+      "CallConnected",
+      callConnectionId,
+      8000
+    );
+    assert.isDefined(callConnectedEvent);
+    callConnection = result.callConnection;
 
-    if (result.callConnectionProperties.callConnectionId) {
-      const eventWaited = await waitForEvent(
-        "CallConnected",
-        result.callConnectionProperties.callConnectionId,
-        8000
-      );
-      assert.isDefined(eventWaited);
+    await callConnection.hangUp(true);
+    const callDisconnectedEvent = await waitForEvent(
+      "CallDisconnected",
+      callConnectionId,
+      8000);
+    assert.isDefined(callDisconnectedEvent);
+  }).timeout(60000);
+
+
+  it("Reject an incoming call", async function () {
+    const callInvite = new CallInvite(testUser2);
+    const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
+    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+
+    const result = await callAutomationClient.createCall(callInvite, callBackUrl);
+    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
+    const callConnectionId: string = result.callConnectionProperties.callConnectionId ? result.callConnectionProperties.callConnectionId : "";
+    assert.isDefined(incomingCallContext);
+
+    if (incomingCallContext) {
+      await callAutomationClient.rejectCall(incomingCallContext);
     }
 
-    callConnection = result.callConnection;
-    const properties = await callConnection.getCallConnectionProperties();
-    assert.isDefined(properties);
-    assert.equal(properties.callConnectionState, "connected");
+    const callDisconnectedEvent = await waitForEvent(
+      "CallDisconnected",
+      callConnectionId,
+      8000
+    );
+    assert.isDefined(callDisconnectedEvent);
   }).timeout(60000);
 });
