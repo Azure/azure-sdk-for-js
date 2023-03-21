@@ -243,47 +243,45 @@ export class ManagedIdentityCredential implements TokenCredential {
           };
           // Added a check to see if SetAppTokenProvider was already defined.
           // Don't redefine it if it's already defined, since it should be static method.
-          if (!this.confidentialApp.SetAppTokenProvider) {
-            this.confidentialApp.SetAppTokenProvider(
-              async (appTokenProviderParameters = appTokenParameters) => {
+          this.confidentialApp.SetAppTokenProvider(
+            async (appTokenProviderParameters = appTokenParameters) => {
+              logger.info(
+                `SetAppTokenProvider invoked with parameters- ${JSON.stringify(
+                  appTokenProviderParameters
+                )}`
+              );
+
+              const resultToken = await this.authenticateManagedIdentity(scopes, {
+                ...updatedOptions,
+                ...appTokenProviderParameters,
+              });
+
+              if (resultToken) {
+                logger.info(`SetAppTokenProvider has saved the token in cache`);
+
+                const expiresInSeconds = resultToken?.expiresOnTimestamp
+                  ? Math.floor((resultToken.expiresOnTimestamp - Date.now()) / 1000)
+                  : 0;
+                const refreshInSeconds = resultToken?.refreshesIn
+                  ? Math.floor((resultToken.refreshesIn - Date.now()) / 1000)
+                  : 0;
+                return {
+                  accessToken: resultToken?.token,
+                  expiresInSeconds,
+                  refreshInSeconds,
+                };
+              } else {
                 logger.info(
-                  `SetAppTokenProvider invoked with parameters- ${JSON.stringify(
-                    appTokenProviderParameters
-                  )}`
+                  `SetAppTokenProvider token has "no_access_token_returned" as the saved token`
                 );
-
-                const resultToken = await this.authenticateManagedIdentity(scopes, {
-                  ...updatedOptions,
-                  ...appTokenProviderParameters,
-                });
-
-                if (resultToken) {
-                  logger.info(`SetAppTokenProvider has saved the token in cache`);
-
-                  const expiresInSeconds = resultToken?.expiresOnTimestamp
-                    ? Math.floor((resultToken.expiresOnTimestamp - Date.now()) / 1000)
-                    : 0;
-                  const refreshInSeconds = resultToken?.refreshesIn
-                    ? Math.floor((resultToken.refreshesIn - Date.now()) / 1000)
-                    : 0;
-                  return {
-                    accessToken: resultToken?.token,
-                    expiresInSeconds,
-                    refreshInSeconds,
-                  };
-                } else {
-                  logger.info(
-                    `SetAppTokenProvider token has "no_access_token_returned" as the saved token`
-                  );
-                  return {
-                    accessToken: "no_access_token_returned",
-                    expiresInSeconds: 0,
-                    refreshInSeconds: 0,
-                  };
-                }
+                return {
+                  accessToken: "no_access_token_returned",
+                  expiresInSeconds: 0,
+                  refreshInSeconds: 0,
+                };
               }
-            );
-          }
+            }
+          );
 
           const authenticationResult = await this.confidentialApp.acquireTokenByClientCredential({
             ...appTokenParameters,
