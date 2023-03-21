@@ -10,8 +10,6 @@
 
 - [#25316](https://github.com/Azure/azure-sdk-for-js/issues/25316) - Fix `isSendNotificationOptions` to check for `tagExpression` instead of `tags`.
 
-### Other Changes
-
 ## 1.0.0 (2023-03-15)
 
 ### Features Added
