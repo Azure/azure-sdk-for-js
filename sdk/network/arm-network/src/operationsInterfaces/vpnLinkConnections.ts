@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VpnSiteLinkConnection,
   VpnLinkConnectionsListByVpnConnectionOptionalParams,
@@ -46,7 +46,7 @@ export interface VpnLinkConnections {
     connectionName: string,
     linkConnectionName: string,
     options?: VpnLinkConnectionsResetConnectionOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Resets the VpnLink connection specified.
    * @param resourceGroupName The name of the resource group.
@@ -77,8 +77,8 @@ export interface VpnLinkConnections {
     linkConnectionName: string,
     options?: VpnLinkConnectionsGetIkeSasOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VpnLinkConnectionsGetIkeSasResponse>,
+    SimplePollerLike<
+      OperationState<VpnLinkConnectionsGetIkeSasResponse>,
       VpnLinkConnectionsGetIkeSasResponse
     >
   >;

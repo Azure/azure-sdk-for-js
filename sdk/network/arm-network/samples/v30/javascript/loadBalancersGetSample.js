@@ -10,34 +10,33 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the specified load balancer.
  *
  * @summary Gets the specified load balancer.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/LoadBalancerGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/LoadBalancerGet.json
  */
 async function getLoadBalancer() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const loadBalancerName = "lb";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.loadBalancers.get(resourceGroupName, loadBalancerName);
   console.log(result);
 }
-
-getLoadBalancer().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets the specified load balancer.
  *
  * @summary Gets the specified load balancer.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/LoadBalancerGetInboundNatRulePortMapping.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/LoadBalancerGetInboundNatRulePortMapping.json
  */
 async function getLoadBalancerWithInboundNatRulePortMapping() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const loadBalancerName = "lb";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -45,4 +44,9 @@ async function getLoadBalancerWithInboundNatRulePortMapping() {
   console.log(result);
 }
 
-getLoadBalancerWithInboundNatRulePortMapping().catch(console.error);
+async function main() {
+  getLoadBalancer();
+  getLoadBalancerWithInboundNatRulePortMapping();
+}
+
+main().catch(console.error);

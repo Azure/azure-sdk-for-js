@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import { PollerLike } from '@azure/core-lro';
+import { PollOperationState } from '@azure/core-lro';
 
 // @public
 export interface AacAudio extends Audio_2 {
@@ -1666,13 +1666,6 @@ export enum KnownLiveEventEncodingType {
 }
 
 // @public
-export enum KnownLiveEventHealthStatus {
-    Excellent = "Excellent",
-    Good = "Good",
-    Poor = "Poor"
-}
-
-// @public
 export enum KnownLiveEventInputProtocol {
     FragmentedMP4 = "FragmentedMP4",
     Rtmp = "RTMP"
@@ -1687,61 +1680,6 @@ export enum KnownLiveEventResourceState {
     Starting = "Starting",
     Stopped = "Stopped",
     Stopping = "Stopping"
-}
-
-// @public
-export enum KnownLiveEventState {
-    Running = "Running",
-    Stopped = "Stopped"
-}
-
-// @public
-export enum KnownLiveEventStreamEventLevel {
-    Critical = "Critical",
-    Error = "Error",
-    Information = "Information",
-    Warning = "Warning"
-}
-
-// @public
-export enum KnownLiveEventStreamEventMaxTimeMediaType {
-    Audio = "Audio",
-    Video = "Video"
-}
-
-// @public
-export enum KnownLiveEventStreamEventMediaType {
-    Audio = "audio",
-    Video = "video"
-}
-
-// @public
-export enum KnownLiveEventStreamEventMinTimeMediaType {
-    Audio = "Audio",
-    Video = "Video"
-}
-
-// @public
-export enum KnownLiveEventStreamEventType {
-    StreamEventBeginIngest = "StreamEvent/BeginIngest",
-    StreamEventChunkDropped = "StreamEvent/ChunkDropped",
-    StreamEventDiscontinuity = "StreamEvent/Discontinuity",
-    StreamEventEndIngest = "StreamEvent/EndIngest",
-    StreamEventFirstChunkReceived = "StreamEvent/FirstChunkReceived",
-    StreamEventInvalidConnection = "StreamEvent/InvalidConnection",
-    StreamEventUnalignedKeyFrames = "StreamEvent/UnalignedKeyFrames",
-    StreamEventUnalignedPresentation = "StreamEvent/UnalignedPresentation"
-}
-
-// @public
-export enum KnownLiveEventTrackEventType {
-    TrackEventIngestHeartbeat = "TrackEvent/IngestHeartbeat"
-}
-
-// @public
-export enum KnownLiveEventTrackType {
-    Audio = "audio",
-    Video = "video"
 }
 
 // @public
@@ -1763,14 +1701,6 @@ export enum KnownMetricUnit {
     Bytes = "Bytes",
     Count = "Count",
     Milliseconds = "Milliseconds"
-}
-
-// @public
-export enum KnownMinimumTlsVersion {
-    Tls10 = "Tls10",
-    Tls11 = "Tls11",
-    Tls12 = "Tls12",
-    Tls13 = "Tls13"
 }
 
 // @public
@@ -1990,48 +1920,12 @@ export interface LiveEventEndpoint {
 }
 
 // @public
-export interface LiveEventGetStatusResult {
-    value?: LiveEventStatus[];
-}
-
-// @public
-export interface LiveEventGetStreamEventsResult {
-    value?: LiveEventStreamEvent[];
-}
-
-// @public
-export interface LiveEventGetTrackIngestHeartbeatsResult {
-    value?: LiveEventTrackEvent[];
-}
-
-// @public
-export type LiveEventHealthStatus = string;
-
-// @public
-export interface LiveEventIngestInterruption {
-    begin?: Date;
-    duration?: string;
-    end?: Date;
-    reason?: string;
-}
-
-// @public
-export interface LiveEventIngestion {
-    begin?: Date;
-    end?: Date;
-    endReason?: string;
-    ingestInterruptions?: LiveEventIngestInterruption[];
-    streamName?: string;
-}
-
-// @public
 export interface LiveEventInput {
     accessControl?: LiveEventInputAccessControl;
     accessToken?: string;
     endpoints?: LiveEventEndpoint[];
     keyFrameIntervalDuration?: string;
     streamingProtocol: LiveEventInputProtocol;
-    timedMetadataEndpoints?: LiveEventTimedMetadataEndpoint[];
 }
 
 // @public
@@ -2081,22 +1975,19 @@ export type LiveEventResourceState = string;
 // @public
 export interface LiveEvents {
     asyncOperation(resourceGroupName: string, accountName: string, operationId: string, options?: LiveEventsAsyncOperationOptionalParams): Promise<LiveEventsAsyncOperationResponse>;
-    beginAllocate(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveEventsAllocateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginAllocate(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveEventsAllocateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginAllocateAndWait(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveEventsAllocateOptionalParams): Promise<void>;
-    beginCreate(resourceGroupName: string, accountName: string, liveEventName: string, parameters: LiveEvent, options?: LiveEventsCreateOptionalParams): Promise<SimplePollerLike<OperationState<LiveEventsCreateResponse>, LiveEventsCreateResponse>>;
+    beginCreate(resourceGroupName: string, accountName: string, liveEventName: string, parameters: LiveEvent, options?: LiveEventsCreateOptionalParams): Promise<PollerLike<PollOperationState<LiveEventsCreateResponse>, LiveEventsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, accountName: string, liveEventName: string, parameters: LiveEvent, options?: LiveEventsCreateOptionalParams): Promise<LiveEventsCreateResponse>;
-    beginDelete(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveEventsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveEventsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveEventsDeleteOptionalParams): Promise<void>;
-    beginListGetStatusAndWait(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveEventsListGetStatusOptionalParams): PagedAsyncIterableIterator<LiveEventStatus>;
-    beginListGetStreamEventsAndWait(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveEventsListGetStreamEventsOptionalParams): PagedAsyncIterableIterator<LiveEventStreamEvent>;
-    beginListGetTrackIngestHeartbeatsAndWait(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveEventsListGetTrackIngestHeartbeatsOptionalParams): PagedAsyncIterableIterator<LiveEventTrackEvent>;
-    beginReset(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveEventsResetOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginReset(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveEventsResetOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginResetAndWait(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveEventsResetOptionalParams): Promise<void>;
-    beginStart(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveEventsStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginStart(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveEventsStartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginStartAndWait(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveEventsStartOptionalParams): Promise<void>;
-    beginStop(resourceGroupName: string, accountName: string, liveEventName: string, parameters: LiveEventActionInput, options?: LiveEventsStopOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginStop(resourceGroupName: string, accountName: string, liveEventName: string, parameters: LiveEventActionInput, options?: LiveEventsStopOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginStopAndWait(resourceGroupName: string, accountName: string, liveEventName: string, parameters: LiveEventActionInput, options?: LiveEventsStopOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, accountName: string, liveEventName: string, parameters: LiveEvent, options?: LiveEventsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<LiveEventsUpdateResponse>, LiveEventsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, accountName: string, liveEventName: string, parameters: LiveEvent, options?: LiveEventsUpdateOptionalParams): Promise<PollerLike<PollOperationState<LiveEventsUpdateResponse>, LiveEventsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, accountName: string, liveEventName: string, parameters: LiveEvent, options?: LiveEventsUpdateOptionalParams): Promise<LiveEventsUpdateResponse>;
     get(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveEventsGetOptionalParams): Promise<LiveEventsGetResponse>;
     list(resourceGroupName: string, accountName: string, options?: LiveEventsListOptionalParams): PagedAsyncIterableIterator<LiveEvent>;
@@ -2140,51 +2031,6 @@ export interface LiveEventsGetOptionalParams extends coreClient.OperationOptions
 export type LiveEventsGetResponse = LiveEvent;
 
 // @public
-export interface LiveEventsListGetStatusHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface LiveEventsListGetStatusOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type LiveEventsListGetStatusResponse = LiveEventGetStatusResult;
-
-// @public
-export interface LiveEventsListGetStreamEventsHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface LiveEventsListGetStreamEventsOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type LiveEventsListGetStreamEventsResponse = LiveEventGetStreamEventsResult;
-
-// @public
-export interface LiveEventsListGetTrackIngestHeartbeatsHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface LiveEventsListGetTrackIngestHeartbeatsOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type LiveEventsListGetTrackIngestHeartbeatsResponse = LiveEventGetTrackIngestHeartbeatsResult;
-
-// @public
 export interface LiveEventsListNextOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -2224,75 +2070,6 @@ export interface LiveEventsStopOptionalParams extends coreClient.OperationOption
 }
 
 // @public
-export type LiveEventState = string;
-
-// @public
-export interface LiveEventStatus {
-    healthDescriptions?: string[];
-    healthStatus?: LiveEventHealthStatus;
-    ingestion?: LiveEventIngestion;
-    lastUpdatedTime?: Date;
-    state?: LiveEventState;
-    trackStatus?: LiveEventTrackStatus[];
-}
-
-// @public
-export interface LiveEventStreamEvent {
-    data?: LiveEventStreamEventData;
-    eventLevel?: LiveEventStreamEventLevel;
-    eventTime?: Date;
-    eventType?: LiveEventStreamEventType;
-}
-
-// @public
-export interface LiveEventStreamEventData {
-    bitrate?: number;
-    currentFragmentTimestamp?: string;
-    discontinuityGap?: number;
-    duration?: string;
-    fragmentDropReason?: string;
-    fragmentOneDuration?: string;
-    fragmentOneTimestamp?: string;
-    fragmentTwoDuration?: string;
-    fragmentTwoTimestamp?: string;
-    maxTime?: string;
-    maxTimeMediaType?: LiveEventStreamEventMaxTimeMediaType;
-    mediaTimestamp?: string;
-    mediaType?: LiveEventStreamEventMediaType;
-    minTime?: string;
-    minTimeMediaType?: LiveEventStreamEventMinTimeMediaType;
-    previousFragmentDuration?: string;
-    previousFragmentTimestamp?: string;
-    remoteIp?: string;
-    remotePort?: string;
-    resolution?: string;
-    resultCode?: string;
-    resultMessage?: string;
-    streamId?: string;
-    streamName?: string;
-    timescale?: string;
-    timescaleOfMaxTime?: string;
-    timescaleOfMinTime?: string;
-    trackId?: number;
-    trackName?: string;
-}
-
-// @public
-export type LiveEventStreamEventLevel = string;
-
-// @public
-export type LiveEventStreamEventMaxTimeMediaType = string;
-
-// @public
-export type LiveEventStreamEventMediaType = string;
-
-// @public
-export type LiveEventStreamEventMinTimeMediaType = string;
-
-// @public
-export type LiveEventStreamEventType = string;
-
-// @public
 export interface LiveEventsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2300,54 +2077,6 @@ export interface LiveEventsUpdateOptionalParams extends coreClient.OperationOpti
 
 // @public
 export type LiveEventsUpdateResponse = LiveEvent;
-
-// @public
-export interface LiveEventTimedMetadataEndpoint {
-    url?: string;
-}
-
-// @public
-export interface LiveEventTrackEvent {
-    data?: LiveEventTrackEventData;
-    eventTime?: Date;
-    eventType?: LiveEventTrackEventType;
-}
-
-// @public
-export interface LiveEventTrackEventData {
-    bitrate?: number;
-    discontinuityCount?: number;
-    healthy?: boolean;
-    incomingBitrate?: number;
-    ingestDriftValue?: string;
-    lastFragmentArrivalTime?: Date;
-    lastTimestamp?: string;
-    nonincreasingCount?: number;
-    overlapCount?: number;
-    state?: string;
-    timescale?: string;
-    trackName?: string;
-    trackType?: LiveEventTrackType;
-    transcriptionLanguage?: string;
-    transcriptionState?: string;
-    unexpectedBitrate?: boolean;
-}
-
-// @public
-export type LiveEventTrackEventType = string;
-
-// @public
-export interface LiveEventTrackStatus {
-    expectedBitrate?: number;
-    incomingBitrate?: number;
-    ingestDrift?: string;
-    requestReceived?: number;
-    requestSucceeded?: number;
-    trackId?: string;
-}
-
-// @public
-export type LiveEventTrackType = string;
 
 // @public
 export interface LiveEventTranscription {
@@ -2385,9 +2114,9 @@ export type LiveOutputResourceState = string;
 // @public
 export interface LiveOutputs {
     asyncOperation(resourceGroupName: string, accountName: string, operationId: string, options?: LiveOutputsAsyncOperationOptionalParams): Promise<LiveOutputsAsyncOperationResponse>;
-    beginCreate(resourceGroupName: string, accountName: string, liveEventName: string, liveOutputName: string, parameters: LiveOutput, options?: LiveOutputsCreateOptionalParams): Promise<SimplePollerLike<OperationState<LiveOutputsCreateResponse>, LiveOutputsCreateResponse>>;
+    beginCreate(resourceGroupName: string, accountName: string, liveEventName: string, liveOutputName: string, parameters: LiveOutput, options?: LiveOutputsCreateOptionalParams): Promise<PollerLike<PollOperationState<LiveOutputsCreateResponse>, LiveOutputsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, accountName: string, liveEventName: string, liveOutputName: string, parameters: LiveOutput, options?: LiveOutputsCreateOptionalParams): Promise<LiveOutputsCreateResponse>;
-    beginDelete(resourceGroupName: string, accountName: string, liveEventName: string, liveOutputName: string, options?: LiveOutputsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, accountName: string, liveEventName: string, liveOutputName: string, options?: LiveOutputsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, liveEventName: string, liveOutputName: string, options?: LiveOutputsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, accountName: string, liveEventName: string, liveOutputName: string, options?: LiveOutputsGetOptionalParams): Promise<LiveOutputsGetResponse>;
     list(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveOutputsListOptionalParams): PagedAsyncIterableIterator<LiveOutput>;
@@ -2469,7 +2198,6 @@ export interface MediaService extends TrackedResource {
     identity?: MediaServiceIdentity;
     keyDelivery?: KeyDelivery;
     readonly mediaServiceId?: string;
-    minimumTlsVersion?: MinimumTlsVersion;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -2507,9 +2235,9 @@ export interface MediaServiceOperationStatus {
 
 // @public
 export interface Mediaservices {
-    beginCreateOrUpdate(resourceGroupName: string, accountName: string, parameters: MediaService, options?: MediaservicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MediaservicesCreateOrUpdateResponse>, MediaservicesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, accountName: string, parameters: MediaService, options?: MediaservicesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<MediaservicesCreateOrUpdateResponse>, MediaservicesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, accountName: string, parameters: MediaService, options?: MediaservicesCreateOrUpdateOptionalParams): Promise<MediaservicesCreateOrUpdateResponse>;
-    beginUpdate(resourceGroupName: string, accountName: string, parameters: MediaServiceUpdate, options?: MediaservicesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MediaservicesUpdateResponse>, MediaservicesUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, accountName: string, parameters: MediaServiceUpdate, options?: MediaservicesUpdateOptionalParams): Promise<PollerLike<PollOperationState<MediaservicesUpdateResponse>, MediaservicesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, accountName: string, parameters: MediaServiceUpdate, options?: MediaservicesUpdateOptionalParams): Promise<MediaservicesUpdateResponse>;
     delete(resourceGroupName: string, accountName: string, options?: MediaservicesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, accountName: string, options?: MediaservicesGetOptionalParams): Promise<MediaservicesGetResponse>;
@@ -2638,7 +2366,6 @@ export interface MediaServiceUpdate {
     identity?: MediaServiceIdentity;
     keyDelivery?: KeyDelivery;
     readonly mediaServiceId?: string;
-    minimumTlsVersion?: MinimumTlsVersion;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -2678,9 +2405,6 @@ export interface MetricSpecification {
 
 // @public
 export type MetricUnit = string;
-
-// @public
-export type MinimumTlsVersion = string;
 
 // @public
 export interface Mp4Format extends MultiBitrateFormat {
@@ -3080,17 +2804,17 @@ export type StreamingEndpointResourceState = string;
 // @public
 export interface StreamingEndpoints {
     asyncOperation(resourceGroupName: string, accountName: string, operationId: string, options?: StreamingEndpointsAsyncOperationOptionalParams): Promise<StreamingEndpointsAsyncOperationResponse>;
-    beginCreate(resourceGroupName: string, accountName: string, streamingEndpointName: string, parameters: StreamingEndpoint, options?: StreamingEndpointsCreateOptionalParams): Promise<SimplePollerLike<OperationState<StreamingEndpointsCreateResponse>, StreamingEndpointsCreateResponse>>;
+    beginCreate(resourceGroupName: string, accountName: string, streamingEndpointName: string, parameters: StreamingEndpoint, options?: StreamingEndpointsCreateOptionalParams): Promise<PollerLike<PollOperationState<StreamingEndpointsCreateResponse>, StreamingEndpointsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, accountName: string, streamingEndpointName: string, parameters: StreamingEndpoint, options?: StreamingEndpointsCreateOptionalParams): Promise<StreamingEndpointsCreateResponse>;
-    beginDelete(resourceGroupName: string, accountName: string, streamingEndpointName: string, options?: StreamingEndpointsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, accountName: string, streamingEndpointName: string, options?: StreamingEndpointsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, streamingEndpointName: string, options?: StreamingEndpointsDeleteOptionalParams): Promise<void>;
-    beginScale(resourceGroupName: string, accountName: string, streamingEndpointName: string, parameters: StreamingEntityScaleUnit, options?: StreamingEndpointsScaleOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginScale(resourceGroupName: string, accountName: string, streamingEndpointName: string, parameters: StreamingEntityScaleUnit, options?: StreamingEndpointsScaleOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginScaleAndWait(resourceGroupName: string, accountName: string, streamingEndpointName: string, parameters: StreamingEntityScaleUnit, options?: StreamingEndpointsScaleOptionalParams): Promise<void>;
-    beginStart(resourceGroupName: string, accountName: string, streamingEndpointName: string, options?: StreamingEndpointsStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginStart(resourceGroupName: string, accountName: string, streamingEndpointName: string, options?: StreamingEndpointsStartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginStartAndWait(resourceGroupName: string, accountName: string, streamingEndpointName: string, options?: StreamingEndpointsStartOptionalParams): Promise<void>;
-    beginStop(resourceGroupName: string, accountName: string, streamingEndpointName: string, options?: StreamingEndpointsStopOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginStop(resourceGroupName: string, accountName: string, streamingEndpointName: string, options?: StreamingEndpointsStopOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginStopAndWait(resourceGroupName: string, accountName: string, streamingEndpointName: string, options?: StreamingEndpointsStopOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, accountName: string, streamingEndpointName: string, parameters: StreamingEndpoint, options?: StreamingEndpointsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<StreamingEndpointsUpdateResponse>, StreamingEndpointsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, accountName: string, streamingEndpointName: string, parameters: StreamingEndpoint, options?: StreamingEndpointsUpdateOptionalParams): Promise<PollerLike<PollOperationState<StreamingEndpointsUpdateResponse>, StreamingEndpointsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, accountName: string, streamingEndpointName: string, parameters: StreamingEndpoint, options?: StreamingEndpointsUpdateOptionalParams): Promise<StreamingEndpointsUpdateResponse>;
     get(resourceGroupName: string, accountName: string, streamingEndpointName: string, options?: StreamingEndpointsGetOptionalParams): Promise<StreamingEndpointsGetResponse>;
     list(resourceGroupName: string, accountName: string, options?: StreamingEndpointsListOptionalParams): PagedAsyncIterableIterator<StreamingEndpoint>;
@@ -3460,13 +3184,13 @@ export type TrackPropertyType = string;
 
 // @public
 export interface Tracks {
-    beginCreateOrUpdate(resourceGroupName: string, accountName: string, assetName: string, trackName: string, parameters: AssetTrack, options?: TracksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<TracksCreateOrUpdateResponse>, TracksCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, accountName: string, assetName: string, trackName: string, parameters: AssetTrack, options?: TracksCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<TracksCreateOrUpdateResponse>, TracksCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, accountName: string, assetName: string, trackName: string, parameters: AssetTrack, options?: TracksCreateOrUpdateOptionalParams): Promise<TracksCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, accountName: string, assetName: string, trackName: string, options?: TracksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<TracksDeleteResponse>, TracksDeleteResponse>>;
+    beginDelete(resourceGroupName: string, accountName: string, assetName: string, trackName: string, options?: TracksDeleteOptionalParams): Promise<PollerLike<PollOperationState<TracksDeleteResponse>, TracksDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, assetName: string, trackName: string, options?: TracksDeleteOptionalParams): Promise<TracksDeleteResponse>;
-    beginUpdate(resourceGroupName: string, accountName: string, assetName: string, trackName: string, parameters: AssetTrack, options?: TracksUpdateOptionalParams): Promise<SimplePollerLike<OperationState<TracksUpdateResponse>, TracksUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, accountName: string, assetName: string, trackName: string, parameters: AssetTrack, options?: TracksUpdateOptionalParams): Promise<PollerLike<PollOperationState<TracksUpdateResponse>, TracksUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, accountName: string, assetName: string, trackName: string, parameters: AssetTrack, options?: TracksUpdateOptionalParams): Promise<TracksUpdateResponse>;
-    beginUpdateTrackData(resourceGroupName: string, accountName: string, assetName: string, trackName: string, options?: TracksUpdateTrackDataOptionalParams): Promise<SimplePollerLike<OperationState<TracksUpdateTrackDataResponse>, TracksUpdateTrackDataResponse>>;
+    beginUpdateTrackData(resourceGroupName: string, accountName: string, assetName: string, trackName: string, options?: TracksUpdateTrackDataOptionalParams): Promise<PollerLike<PollOperationState<TracksUpdateTrackDataResponse>, TracksUpdateTrackDataResponse>>;
     beginUpdateTrackDataAndWait(resourceGroupName: string, accountName: string, assetName: string, trackName: string, options?: TracksUpdateTrackDataOptionalParams): Promise<TracksUpdateTrackDataResponse>;
     get(resourceGroupName: string, accountName: string, assetName: string, trackName: string, options?: TracksGetOptionalParams): Promise<TracksGetResponse>;
     list(resourceGroupName: string, accountName: string, assetName: string, options?: TracksListOptionalParams): PagedAsyncIterableIterator<AssetTrack>;

@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes a nat rule.
  *
  * @summary Deletes a nat rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VirtualNetworkGatewayNatRuleDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VirtualNetworkGatewayNatRuleDelete.json
  */
 async function virtualNetworkGatewayNatRuleDelete() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualNetworkGatewayName = "gateway1";
   const natRuleName = "natRule1";
   const credential = new DefaultAzureCredential();
@@ -32,4 +35,8 @@ async function virtualNetworkGatewayNatRuleDelete() {
   console.log(result);
 }
 
-virtualNetworkGatewayNatRuleDelete().catch(console.error);
+async function main() {
+  virtualNetworkGatewayNatRuleDelete();
+}
+
+main().catch(console.error);

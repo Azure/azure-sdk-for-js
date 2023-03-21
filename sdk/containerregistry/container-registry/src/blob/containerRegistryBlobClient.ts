@@ -94,7 +94,7 @@ export interface ContainerRegistryBlobClientOptions extends CommonClientOptions 
    * The authentication scope will be set from this audience.
    * See {@link KnownContainerRegistryAudience} for known audience values.
    */
-  audience: string;
+  audience?: string;
   /**
    * The version of service API to make calls against.
    */
@@ -142,7 +142,7 @@ export class ContainerRegistryBlobClient {
     endpoint: string,
     repositoryName: string,
     credential: TokenCredential,
-    options: ContainerRegistryBlobClientOptions
+    options: ContainerRegistryBlobClientOptions = {}
   ) {
     if (!endpoint) {
       throw new Error("invalid endpoint");
@@ -168,7 +168,7 @@ export class ContainerRegistryBlobClient {
       },
     };
 
-    const defaultScope = `${options.audience}/.default`;
+    const defaultScope = `${options.audience ?? "https://containerregistry.azure.net"}/.default`;
     const serviceVersion = options.serviceVersion ?? LATEST_API_VERSION;
     const authClient = new GeneratedClient(endpoint, serviceVersion, internalPipelineOptions);
     this.client = new GeneratedClient(endpoint, serviceVersion, internalPipelineOptions);
@@ -359,6 +359,8 @@ export class ContainerRegistryBlobClient {
         const chunks = readChunksFromStream(blobStream, CHUNK_SIZE);
         const hash = crypto.createHash("sha256");
 
+        let bytesUploaded = 0;
+
         for await (const chunk of chunks) {
           hash.write(chunk);
           const result = await this.client.containerRegistryBlob.uploadChunk(
@@ -366,6 +368,9 @@ export class ContainerRegistryBlobClient {
             chunk,
             updatedOptions
           );
+
+          bytesUploaded += chunk.byteLength;
+
           assertHasProperty(result, "location");
           location = result.location.substring(1);
         }
@@ -382,7 +387,7 @@ export class ContainerRegistryBlobClient {
           );
         }
 
-        return { digest };
+        return { digest, sizeInBytes: bytesUploaded };
       }
     );
   }

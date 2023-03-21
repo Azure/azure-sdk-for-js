@@ -420,7 +420,7 @@ export interface Descriptor {
   /** Layer media type */
   mediaType?: string;
   /** Layer size */
-  size?: number;
+  sizeInBytes?: number;
   /** Layer digest */
   digest?: string;
   /** Specifies a list of URIs from which this object may be downloaded. */

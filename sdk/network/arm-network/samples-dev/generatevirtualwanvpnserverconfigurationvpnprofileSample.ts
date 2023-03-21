@@ -13,16 +13,19 @@ import {
   NetworkManagementClient
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Generates a unique VPN profile for P2S clients for VirtualWan and associated VpnServerConfiguration combination in the specified resource group.
  *
  * @summary Generates a unique VPN profile for P2S clients for VirtualWan and associated VpnServerConfiguration combination in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/GenerateVirtualWanVpnServerConfigurationVpnProfile.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/GenerateVirtualWanVpnServerConfigurationVpnProfile.json
  */
 async function generateVirtualWanVpnServerConfigurationVpnProfile() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualWANName = "wan1";
   const vpnClientParams: VirtualWanVpnProfileParameters = {
     authenticationMethod: "EAPTLS",
@@ -39,4 +42,8 @@ async function generateVirtualWanVpnServerConfigurationVpnProfile() {
   console.log(result);
 }
 
-generateVirtualWanVpnServerConfigurationVpnProfile().catch(console.error);
+async function main() {
+  generateVirtualWanVpnServerConfigurationVpnProfile();
+}
+
+main().catch(console.error);

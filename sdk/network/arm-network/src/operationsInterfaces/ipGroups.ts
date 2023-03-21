@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   IpGroup,
   IpGroupsListByResourceGroupOptionalParams,
@@ -65,8 +65,8 @@ export interface IpGroups {
     parameters: IpGroup,
     options?: IpGroupsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IpGroupsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IpGroupsCreateOrUpdateResponse>,
       IpGroupsCreateOrUpdateResponse
     >
   >;
@@ -106,7 +106,7 @@ export interface IpGroups {
     resourceGroupName: string,
     ipGroupsName: string,
     options?: IpGroupsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified ipGroups.
    * @param resourceGroupName The name of the resource group.

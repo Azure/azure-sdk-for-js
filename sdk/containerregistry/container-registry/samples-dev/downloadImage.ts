@@ -9,7 +9,6 @@
 import {
   ContainerRegistryBlobClient,
   isDownloadOciImageManifestResult,
-  KnownContainerRegistryAudience,
 } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -29,10 +28,7 @@ async function main() {
   const client = new ContainerRegistryBlobClient(
     endpoint,
     repository,
-    new DefaultAzureCredential(),
-    {
-      audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
-    }
+    new DefaultAzureCredential()
   );
 
   // Download the manifest to obtain the list of files in the image based on the tag

@@ -26,6 +26,11 @@ export interface UploadBlobResult {
    * The digest of the uploaded blob.
    */
   digest: string;
+
+  /**
+   * The size of the uploaded blob in bytes.
+   */
+  sizeInBytes: number;
 }
 
 /**
@@ -89,11 +94,11 @@ export interface UploadManifestResult {
 }
 
 /** Docker V2 image layer descriptor including config and layers. */
-export interface OciBlobDescriptor {
+export interface OciDescriptor {
   /** Layer media type */
   mediaType: string;
   /** Layer size */
-  size: number;
+  sizeInBytes: number;
   /** Layer digest */
   digest: string;
   /** Specifies a list of URIs from which this object may be downloaded. */
@@ -105,11 +110,11 @@ export interface OciBlobDescriptor {
 /** Type representing an OCI image manifest (manifest of media type "application/vnd.oci.image.manifest.v1+json"). */
 export interface OciImageManifest {
   /** Schema version */
-  schemaVersion: number;
+  schemaVersion?: number;
   /** V2 image config descriptor */
-  config: OciBlobDescriptor;
+  config: OciDescriptor;
   /** List of V2 image layer information */
-  layers: OciBlobDescriptor[];
+  layers: OciDescriptor[];
   /** Additional information provided through arbitrary metadata. */
   annotations?: OciAnnotations;
 }
