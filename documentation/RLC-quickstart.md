@@ -92,7 +92,7 @@ We are working on to automatically generate everything right now, but currently 
     Assume **{SDK_REPO_ROOT}** is `D:/azure-sdk-for-js` and **{PROJECT_ROOT}** is `sdk/agrifood/agrifood-farming-rest` then we could run this command in **your local TypeSpec project** to generate the SDK: 
 
     ```shell
-    tsp compile . --emit=@azure-tools/typespec-ts --output-dir=D:/azure-sdk-for-js/sdk/agrifood/agrifood-farming-rest
+    npx tsp compile . --emit=@azure-tools/typespec-ts --output-dir=D:/azure-sdk-for-js/sdk/agrifood/agrifood-farming-rest
     ```
 
     After this finishes, you will see the generated code in `src` folder in your **{PROJECT_ROOT}**.  
