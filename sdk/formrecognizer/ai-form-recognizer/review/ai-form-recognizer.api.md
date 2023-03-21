@@ -174,6 +174,10 @@ export class DocumentAnalysisClient {
     beginAnalyzeDocument<Result>(model: DocumentModel<Result>, document: FormRecognizerRequestBody, options?: AnalyzeDocumentOptions<Result>): Promise<AnalysisPoller<Result>>;
     beginAnalyzeDocumentFromUrl(modelId: string, documentUrl: string, options?: AnalyzeDocumentOptions): Promise<AnalysisPoller>;
     beginAnalyzeDocumentFromUrl<Result>(model: DocumentModel<Result>, documentUrl: string, options?: AnalyzeDocumentOptions<Result>): Promise<AnalysisPoller<Result>>;
+    // (undocumented)
+    beginClassifyDocument(classifierId: string, document: FormRecognizerRequestBody, options?: AnalyzeDocumentOptions): Promise<AnalysisPoller>;
+    // (undocumented)
+    beginClassifyDocumentFromUrl(classifierId: string, documentUrl: string, options?: AnalyzeDocumentOptions): Promise<AnalysisPoller>;
 }
 
 // @public

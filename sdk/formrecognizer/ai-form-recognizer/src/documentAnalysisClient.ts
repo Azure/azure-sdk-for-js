@@ -415,11 +415,83 @@ export class DocumentAnalysisClient {
       );
     }
 
-    return this.createAnalysisPoller<unknown>(input, {
-      initialModelId,
+    return this.createUnifiedPoller<unknown>(
+      () => {
+        const [contentType, analyzeRequest] = toAnalyzeRequest(input);
+
+        return this._restClient.documentModels.analyzeDocument(initialModelId, contentType as any, {
+          ...options,
+          analyzeRequest,
+        });
+      },
+      {
+        initialModelId,
+        options,
+        transformResult: (result) => transformResult(toAnalyzeResultFromGenerated(result)),
+      }
+    );
+  }
+
+  public async beginClassifyDocument(
+    classifierId: string,
+    document: FormRecognizerRequestBody,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options?: AnalyzeDocumentOptions
+  ): Promise<AnalysisPoller>;
+  public async beginClassifyDocument(
+    classifierId: string,
+    document: FormRecognizerRequestBody,
+    options: AnalyzeDocumentOptions<unknown> = {}
+  ): Promise<AnalysisPoller> {
+    return this._tracing.withSpan(
+      "DocumentAnalysisClient.beginClassifyDocument",
       options,
-      transformResult: (result) => transformResult(toAnalyzeResultFromGenerated(result)),
-    });
+      this.classify.bind(this, classifierId, document)
+    );
+  }
+
+  public async beginClassifyDocumentFromUrl(
+    classifierId: string,
+    documentUrl: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options?: AnalyzeDocumentOptions
+  ): Promise<AnalysisPoller>;
+  public async beginClassifyDocumentFromUrl(
+    classifierId: string,
+    documentUrl: string,
+    options: AnalyzeDocumentOptions<unknown> = {}
+  ): Promise<AnalysisPoller> {
+    return this._tracing.withSpan(
+      "DocumentAnalysisClient.beginClassifyDocumentFromUrl",
+      options,
+      this.classify.bind(this, classifierId, documentUrl)
+    );
+  }
+
+  private classify(
+    classifierId: string,
+    input: string | FormRecognizerRequestBody,
+    options: AnalyzeDocumentOptions<unknown>
+  ): Promise<AnalysisPoller> {
+    return this.createUnifiedPoller(
+      async () => {
+        const [contentType, classifyRequest] = toAnalyzeRequest(input);
+
+        return this._restClient.documentClassifiers.classifyDocument(
+          classifierId,
+          contentType as any,
+          {
+            ...options,
+            classifyRequest,
+          }
+        );
+      },
+      {
+        initialModelId: classifierId,
+        options,
+        transformResult: toAnalyzeResultFromGenerated,
+      }
+    );
   }
 
   /**
@@ -545,6 +617,141 @@ export class DocumentAnalysisClient {
           ),
         serialize: ({ operationLocation, modelId }) =>
           JSON.stringify({ modelId, operationLocation }),
+      },
+      definition.options.updateIntervalInMs
+    );
+
+    if (definition.options.onProgress !== undefined) {
+      poller.onProgress(definition.options.onProgress);
+      definition.options.onProgress(poller.getOperationState());
+    }
+
+    return poller;
+  }
+
+  /**
+   * Create an LRO poller that handles analysis operations.
+   *
+   * This is the meat of all analysis polling operations.
+   *
+   * @param startOperation - function that starts the operation and returns the operation location
+   * @param definition - operation definition (initial model ID, operation transforms, request options)
+   * @returns - an analysis poller that produces the given return types according to the operation spec
+   */
+  private async createUnifiedPoller<Result>(
+    startOperation: () => Promise<{ operationLocation?: string }>,
+    definition: AnalysisOperationDefinition<Result>
+  ): Promise<AnalysisPoller<Result>> {
+    const { resumeFrom } = definition.options;
+
+    // TODO: what should we do if resumeFrom.modelId is different from initialModelId?
+    // And what do we do with the redundant input??
+
+    const getAnalyzeResult = (operationLocation: string): Promise<AnalyzeResultOperation> =>
+      this._tracing.withSpan(
+        "DocumentAnalysisClient.createClassificationPoller-getAnalyzeResult",
+        definition.options,
+        (finalOptions) =>
+          this._restClient.sendOperationRequest<AnalyzeResultOperation>(
+            {
+              options: finalOptions,
+            },
+            {
+              path: operationLocation,
+              httpMethod: "GET",
+              responses: {
+                200: {
+                  bodyMapper: Mappers.AnalyzeResultOperation,
+                },
+                default: {
+                  bodyMapper: Mappers.ErrorResponse,
+                },
+              },
+              // URL is fully-formed, so we don't need any query parameters
+              headerParameters: [accept1],
+              serializer: SERIALIZER,
+            }
+          )
+      );
+
+    const toInit =
+      // If the user gave us a stored token, we'll poll it again
+      resumeFrom !== undefined
+        ? async () =>
+            this._tracing.withSpan(
+              "DocumentAnalysisClient.createClassificationPoller-resume",
+              definition.options,
+              async () => {
+                const { clientVersion, operationLocation, modelId } = JSON.parse(resumeFrom) as {
+                  clientVersion?: string;
+                  operationLocation: string;
+                  modelId: string;
+                };
+
+                if (!clientVersion || clientVersion !== SDK_VERSION) {
+                  throw new Error(
+                    [
+                      "Cannot restore poller from a serialized state from a different version of the client",
+                      `library (restoreFrom: '${clientVersion}', current: '${SDK_VERSION}').`,
+                    ].join(" ")
+                  );
+                }
+
+                const result = await getAnalyzeResult(operationLocation);
+
+                return toDocumentAnalysisPollOperationState(
+                  definition,
+                  modelId,
+                  operationLocation,
+                  result
+                );
+              }
+            )
+        : // Otherwise, we'll start a new operation from the initialModelId
+          async () =>
+            this._tracing.withSpan(
+              "DocumentAnalysisClient.createClassificationPoller-start",
+              definition.options,
+              async () => {
+                const { operationLocation } = await startOperation();
+
+                if (operationLocation === undefined) {
+                  throw new Error(
+                    "Unable to start analysis operation: no Operation-Location received."
+                  );
+                }
+
+                const result = await getAnalyzeResult(operationLocation);
+
+                return toDocumentAnalysisPollOperationState(
+                  definition,
+                  definition.initialModelId,
+                  operationLocation,
+                  result
+                );
+              }
+            );
+
+    const poller = await lro<Result, DocumentAnalysisPollOperationState<Result>>(
+      {
+        init: toInit,
+        poll: async ({ operationLocation, modelId }) =>
+          this._tracing.withSpan(
+            "DocumentAnalysisClient.createAnalysisPoller-poll",
+            {},
+            async () => {
+              const result = await getAnalyzeResult(operationLocation);
+
+              return toDocumentAnalysisPollOperationState(
+                definition,
+                modelId,
+                operationLocation,
+                result
+              );
+            }
+          ),
+        serialize: ({ operationLocation, modelId }) =>
+          JSON.stringify({ clientVersion: SDK_VERSION, id: modelId, operationLocation }),
       },
       definition.options.updateIntervalInMs
     );
