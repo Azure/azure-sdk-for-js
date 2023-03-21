@@ -282,7 +282,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.resourceId],
   headerParameters: [Parameters.accept],
   serializer
