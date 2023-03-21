@@ -29,7 +29,7 @@ import {
 } from "./models";
 import * as Mappers from "../generated/models/mappers";
 import { CommonClientOptions, createSerializer } from "@azure/core-client";
-import { readChunksFromStream, readStreamToEnd } from "../utils/helpers";
+import { isDigest, readChunksFromStream, readStreamToEnd } from "../utils/helpers";
 import { Readable } from "stream";
 import { tracingClient } from "../tracing";
 import crypto from "crypto";
@@ -283,9 +283,15 @@ export class ContainerRegistryBlobClient {
 
         const expectedDigest = await calculateDigest(bodyData);
 
+        if (isDigest(tagOrDigest) && expectedDigest !== tagOrDigest) {
+          throw new DigestMismatchError(
+            "Digest of downloaded manifest does not match the input digest"
+          );
+        }
+
         if (response.dockerContentDigest !== expectedDigest) {
           throw new DigestMismatchError(
-            "Digest of blob to upload does not match the digest from the server."
+            "Computed digest of downloaded manifest does not match the value of the Docker-Content-Digest header"
           );
         }
 
