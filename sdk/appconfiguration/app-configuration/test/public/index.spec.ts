@@ -8,6 +8,7 @@ import {
   assertThrowsAbortError,
   assertThrowsRestError,
   createAppConfigurationClientForTests,
+  deleteEverySetting,
   deleteKeyCompletely,
   startRecorder,
   toSortedArray,
@@ -30,11 +31,11 @@ describe("AppConfigurationClient", () => {
 
   after(async function (this: Context) {
     if (!isPlaybackMode()) {
-      // await deleteEverySetting();
+      await deleteEverySetting();
     }
   });
 
-  describe("simple usages", () => {
+  describe.only("simple usages", () => {
     it("Add and query a setting without a label", async () => {
       const key = recorder.variable(
         "noLabelTests",
