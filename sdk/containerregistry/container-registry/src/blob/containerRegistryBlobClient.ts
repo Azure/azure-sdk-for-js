@@ -34,6 +34,7 @@ import { Readable } from "stream";
 import { tracingClient } from "../tracing";
 import crypto from "crypto";
 import { RetriableReadableStream } from "../utils/retriableReadableStream";
+import { DigestCalculatingTransform } from "../utils/digestCalculatingTransform";
 
 const LATEST_API_VERSION = "2021-07-01";
 
@@ -434,6 +435,14 @@ export class ContainerRegistryBlobClient {
             },
             0,
             initialResponse.contentLength
+          ).pipe(
+            new DigestCalculatingTransform((calculatedDigest) => {
+              if (calculatedDigest !== digest) {
+                throw new DigestMismatchError(
+                  "Calculated digest does not match digest requested by call to downloadBlob."
+                );
+              }
+            })
           ),
         };
       }
