@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import internal, { Transform } from "stream";
 import crypto from "crypto";
 
