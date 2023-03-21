@@ -1,12 +1,14 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 1.0.1 (2023-03-21)
 
 ### Features Added
 
-### Breaking Changes
+- Added section for React Native support in troubleshooting.
 
 ### Bugs Fixed
+
+- [#25316](https://github.com/Azure/azure-sdk-for-js/issues/25316) - Fix `isSendNotificationOptions` to check for `tagExpression` instead of `tags`.
 
 ### Other Changes
 
