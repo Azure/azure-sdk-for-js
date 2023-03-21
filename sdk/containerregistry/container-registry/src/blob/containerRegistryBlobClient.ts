@@ -205,7 +205,7 @@ export class ContainerRegistryBlobClient {
   /**
    * Upload a manifest for an OCI artifact.
    *
-   * @param manifest - the manifest to upload. If a resettable stream (a factory function that returns a stream) is provided, it may be called multiple times. Each time the function is called, a fresh stream should be returned.
+   * @param manifest - the manifest to upload.
    */
   public async uploadManifest(
     manifest: Buffer | NodeJS.ReadableStream | OciImageManifest,
@@ -277,11 +277,11 @@ export class ContainerRegistryBlobClient {
 
         assertHasProperty(response, "mediaType");
 
-        const bodyData = response.readableStreamBody
+        const content = response.readableStreamBody
           ? await readStreamToEnd(response.readableStreamBody)
           : Buffer.alloc(0);
 
-        const expectedDigest = await calculateDigest(bodyData);
+        const expectedDigest = await calculateDigest(content);
 
         if (isDigest(tagOrDigest) && expectedDigest !== tagOrDigest) {
           throw new DigestMismatchError(
@@ -298,7 +298,7 @@ export class ContainerRegistryBlobClient {
         if (response.mediaType === KnownManifestMediaType.OciManifest) {
           const manifest = serializer.deserialize(
             Mappers.OCIManifest,
-            JSON.parse(bodyData.toString()),
+            JSON.parse(content.toString()),
             "OCIManifest"
           );
 
@@ -306,14 +306,14 @@ export class ContainerRegistryBlobClient {
             digest: response.dockerContentDigest,
             mediaType: response.mediaType,
             manifest,
-            content: Readable.from(bodyData),
+            content,
           };
         }
 
         return {
           digest: response.dockerContentDigest,
           mediaType: response.mediaType,
-          content: Readable.from(bodyData),
+          content,
         };
       }
     );
