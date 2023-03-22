@@ -25,6 +25,7 @@ import {
   createSimpleLogger,
   logErrorStackTrace,
   logger,
+  logObj,
   SimpleLogger,
 } from "./log";
 import { ConnectionContext } from "./connectionContext";
@@ -214,7 +215,9 @@ export class EventHubReceiver {
   private _onAmqpError(context: EventContext): void {
     const rheaReceiver = this._receiver || context.receiver;
     const amqpError = rheaReceiver && rheaReceiver.error;
-    this.logger.verbose("'receiver_error' event occurred. The associated error is: %O", amqpError);
+    this.logger.verbose(
+      `'receiver_error' event occurred. The associated error is: ${logObj(amqpError)}`
+    );
 
     if (this._onError && amqpError) {
       const error = translate(amqpError);
@@ -226,8 +229,7 @@ export class EventHubReceiver {
   private _onAmqpSessionError(context: EventContext): void {
     const sessionError = context.session && context.session.error;
     this.logger.verbose(
-      "'session_error' event occurred. The associated error is: %O",
-      sessionError
+      `'session_error' event occurred. The associated error is:  ${logObj(sessionError)}`
     );
 
     if (this._onError && sessionError) {
@@ -240,15 +242,14 @@ export class EventHubReceiver {
   private async _onAmqpClose(context: EventContext): Promise<void> {
     const rheaReceiver = this._receiver || context.receiver;
     this.logger.verbose(
-      "'receiver_close' event occurred. Value for isItselfClosed on the receiver is: '%s' " +
-        "Value for isConnecting on the session is: '%s'",
-      rheaReceiver?.isItselfClosed().toString(),
-      this.isConnecting
+      `'receiver_close' event occurred. Value for isItselfClosed on the receiver is: '${rheaReceiver
+        ?.isItselfClosed()
+        .toString()}' Value for isConnecting on the session is: '${this.isConnecting}'`
     );
     if (rheaReceiver && !this.isConnecting) {
       // Call close to clean up timers & other resources
       await rheaReceiver.close().catch((err) => {
-        this.logger.verbose("error when closing after 'receiver_close' event: %O", err);
+        this.logger.verbose(`error when closing after 'receiver_close' event: ${logObj(err)}`);
       });
     }
   }
@@ -256,15 +257,14 @@ export class EventHubReceiver {
   private async _onAmqpSessionClose(context: EventContext): Promise<void> {
     const rheaReceiver = this._receiver || context.receiver;
     this.logger.verbose(
-      "'session_close' event occurred. Value for isSessionItselfClosed on the session is: '%s' " +
-        "Value for isConnecting on the session is: '%s'",
-      rheaReceiver?.isSessionItselfClosed().toString(),
-      this.isConnecting
+      `'session_close' event occurred. Value for isSessionItselfClosed on the session is: '${rheaReceiver
+        ?.isSessionItselfClosed()
+        .toString()}' Value for isConnecting on the session is: '${this.isConnecting}'`
     );
     if (rheaReceiver && !this.isConnecting) {
       // Call close to clean up timers & other resources
       await rheaReceiver.close().catch((err) => {
-        this.logger.verbose("error when closing after 'session_close' event: %O", err);
+        this.logger.verbose(`error when closing after 'session_close' event: ${logObj(err)}`);
       });
     }
   }
@@ -314,7 +314,7 @@ export class EventHubReceiver {
    */
   isOpen(): boolean {
     const result = Boolean(this._receiver && this._receiver.isOpen());
-    this.logger.verbose("is open? -> %s", result);
+    this.logger.verbose(`is open? -> ${logObj(result)}`);
     return result;
   }
 
@@ -361,7 +361,7 @@ export class EventHubReceiver {
         "apache.org:selector-filter:string": types.wrap_described(filterClause, 0x468c00000004),
       };
 
-      this.logger.verbose("trying to be created with options %O", options);
+      this.logger.verbose(`trying to be created with options ${logObj(options)}`);
       this._receiver = await this._context.connection.createReceiver({
         ...options,
         abortSignal,
@@ -375,9 +375,7 @@ export class EventHubReceiver {
       const isOpen = this.isOpen();
       if (this.isConnecting || isOpen) {
         this.logger.verbose(
-          "is open -> %s and is connecting -> %s. Hence not reconnecting",
-          isOpen,
-          this.isConnecting
+          `is open -> ${isOpen} and is connecting -> ${this.isConnecting}. Hence not reconnecting`
         );
         return;
       }
@@ -396,8 +394,7 @@ export class EventHubReceiver {
       this.isConnecting = false;
       const error = translate(err);
       this.logger.error(
-        "an error occurred while creating the receiver: %s",
-        `${error?.name}: ${error?.message}`
+        `an error occurred while creating the receiver: ${error?.name}: ${error?.message}`
       );
       logErrorStackTrace(err);
       throw error;
@@ -435,9 +432,7 @@ export class EventHubReceiver {
     const retrieveEvents = (): Promise<ReceivedEventData[]> => {
       const eventsToRetrieveCount = Math.max(maxMessageCount - this.queue.length, 0);
       this.logger.verbose(
-        "already has %d events and wants to receive %d more events",
-        this.queue.length,
-        eventsToRetrieveCount
+        `already has ${this.queue.length} events and wants to receive ${eventsToRetrieveCount} more events`
       );
       if (abortSignal?.aborted) {
         cleanupBeforeAbort();
@@ -460,7 +455,7 @@ export class EventHubReceiver {
                 const existingCredits = this._receiver?.credit ?? 0;
                 const creditsToAdd = Math.max(eventsToRetrieveCount - existingCredits, 0);
                 this._receiver?.addCredit(creditsToAdd);
-                this.logger.verbose("setting the wait timer for %d seconds", maxWaitTimeInSeconds);
+                this.logger.verbose(`setting the wait timer for ${maxWaitTimeInSeconds} seconds`);
                 return; // to make eslint happy
               })
               .then(() =>
@@ -474,20 +469,16 @@ export class EventHubReceiver {
                     cleanupBeforeAbort,
                     receivedAfterWait: () =>
                       this.logger.info(
-                        "%d messages received within %d seconds",
-                        Math.min(maxMessageCount, this.queue.length),
-                        maxWaitTimeInSeconds
+                        `${Math.min(
+                          maxMessageCount,
+                          this.queue.length
+                        )} messages received within ${maxWaitTimeInSeconds} seconds`
                       ),
                     receivedAlready: () =>
-                      this.logger.info(
-                        "%d messages already received",
-                        maxMessageCount,
-                        maxWaitTimeInSeconds
-                      ),
+                      this.logger.info(`${maxMessageCount} messages already received`),
                     receivedNone: () =>
                       this.logger.info(
-                        "no messages received when max wait time in seconds %d is over",
-                        maxWaitTimeInSeconds
+                        `no messages received when max wait time in seconds ${maxWaitTimeInSeconds} is over`
                       ),
                   }
                 )

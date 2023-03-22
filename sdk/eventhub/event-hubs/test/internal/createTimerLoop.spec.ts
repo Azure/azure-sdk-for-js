@@ -16,14 +16,16 @@ describe("createTimerLoop", function () {
   });
 
   it("loops the exact number of iterations and can be stopped", async function () {
-    const interval = Math.ceil(Math.random() * 1000);
-    const callCount = Math.ceil(Math.random() * 10);
+    const interval = 1000;
+    const callCount = 10;
     let curCallCount = 0;
     const loop = createTimerLoop(interval, async () => {
       ++curCallCount;
     });
+    assert.isFalse(loop.isRunning);
     assert.doesNotThrow(() => loop.stop()); // stopping an not yet started loop is a no-op
     loop.start();
+    assert.isTrue(loop.isRunning);
     await clock.tickAsync(interval * callCount);
     assert.strictEqual(
       curCallCount,
@@ -31,8 +33,23 @@ describe("createTimerLoop", function () {
       "Expected the loop to run the exact number of iterations"
     );
     loop.stop();
-    await clock.tickAsync(interval * Math.random() * 10);
+    assert.isFalse(loop.isRunning);
+    await clock.tickAsync(interval * 2);
     assert.doesNotThrow(() => loop.stop()); // stopping an already stopped loop is a no-op
     assert.strictEqual(curCallCount, callCount, "Expected the loop to stop after stop() is called");
+    assert.isFalse(loop.isRunning);
+  });
+
+  it("still loops in the presence of handled errors", async function () {
+    const interval = 1000;
+    const errMsg = "expected exception";
+    const loop = createTimerLoop(interval, () =>
+      new Promise((_, reject) => reject(errMsg)).catch(() => {})
+    );
+    loop.start();
+    assert.isTrue(loop.isRunning);
+    await clock.tickAsync(interval);
+    assert.isTrue(loop.isRunning);
+    loop.stop();
   });
 });

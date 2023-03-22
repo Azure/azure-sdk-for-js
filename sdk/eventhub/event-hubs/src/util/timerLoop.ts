@@ -16,6 +16,10 @@ export interface TimerLoop {
    * Stops the timer loop. If the loop is not running, it is a no-op.
    */
   stop: () => void;
+  /**
+   * Whether the loop is running.
+   */
+  isRunning: boolean;
 }
 
 /**
@@ -30,9 +34,14 @@ export function createTimerLoop(
   const loop = {
     start: () => {
       clearTimeout(token);
-      token = setTimeout(() => createTask().then(loop.start), timeoutInMs);
+      token = setTimeout(() => createTask().finally(loop.start), timeoutInMs);
+      loop.isRunning = true;
     },
-    stop: () => clearTimeout(token),
+    stop: () => {
+      clearTimeout(token);
+      loop.isRunning = false;
+    },
+    isRunning: false,
   };
   return loop;
 }

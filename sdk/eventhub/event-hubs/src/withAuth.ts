@@ -18,7 +18,7 @@ import { SimpleLogger } from "./log";
 
 /**
  *
- * @param cb - The callback to be executed after the token is obtained.
+ * @param callback - The callback to be executed after the token is obtained.
  * @param context - The connection context.
  * @param audience - The audience for which the token is needed.
  * @param timeoutInMs - The timeout in milliseconds.
@@ -27,7 +27,7 @@ import { SimpleLogger } from "./log";
  * @internal
  */
 export async function withAuth(
-  cb: () => Promise<void>,
+  callback: () => Promise<void>,
   context: ConnectionContext,
   audience: string,
   timeoutInMs: number,
@@ -38,20 +38,20 @@ export async function withAuth(
 ): Promise<TimerLoop> {
   const info = await getTokenInfo(context.tokenCredential, audience);
   await setupClaimNegotiation(context, audience, info, timeoutInMs, logger, options);
-  await cb();
-  const loop = createTimerLoop(info.timeoutInMs, () =>
-    setupClaimNegotiation(context, audience, info, timeoutInMs, logger, options)
-      .catch((err) => {
-        logger.verbose("an error occurred while renewing the token: %O", err);
-      })
-      .then(() =>
-        logger.verbose(
-          "next token renewal is in %d milliseconds @(%s).",
-          info.timeoutInMs,
-          new Date(Date.now() + info.timeoutInMs).toString()
-        )
-      )
-  );
+  await callback();
+  async function createTask() {
+    try {
+      await setupClaimNegotiation(context, audience, info, timeoutInMs, logger, options);
+      logger.verbose(
+        "next token renewal is in %d milliseconds @(%s).",
+        info.timeoutInMs,
+        new Date(Date.now() + info.timeoutInMs).toString()
+      );
+    } catch (err) {
+      logger.verbose("an error occurred while renewing the token: %O", err);
+    }
+  }
+  const loop = createTimerLoop(info.timeoutInMs, createTask);
   loop.start();
   return loop;
 }

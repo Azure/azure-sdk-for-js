@@ -47,9 +47,10 @@ import {
 } from "./util/constants";
 import { isDefined } from "@azure/core-util";
 import { translateError } from "./util/error";
-import { v4 as uuid } from "uuid";
 import { TimerLoop } from "./util/timerLoop";
 import { withAuth } from "./withAuth";
+import { getRandomName } from "./util/utils";
+import { SENDER_MAX_LISTENERS_COUNT } from "./constants";
 
 /**
  * @internal
@@ -79,7 +80,7 @@ export class EventHubSender {
    * The unique lock name per connection that is used to acquire the
    * lock for establishing a sender link by an entity on that connection.
    */
-  private readonly senderLock: string = `sender-${uuid()}`;
+  private readonly senderLock: string = getRandomName("sender");
   /**
    * The handler function to handle errors that happen on the
    * underlying sender.
@@ -613,7 +614,7 @@ export class EventHubSender {
       this.logger.verbose("trying to be created...");
 
       const sender = await this._context.connection.createAwaitableSender(options);
-      sender.setMaxListeners(1000);
+      sender.setMaxListeners(SENDER_MAX_LISTENERS_COUNT);
       this._sender = sender;
       this._populateLocalPublishingProperties(this._sender);
       this.isConnecting = false;

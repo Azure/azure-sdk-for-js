@@ -31,30 +31,25 @@ export function createLogPrefix(
   type?: "Sender" | "Receiver" | "Management",
   name?: string
 ): string {
-  let prefix = "";
+  const parts: string[] = [];
   if (connectionId) {
-    prefix = `[${connectionId}]`;
+    parts.push(`[${connectionId}]`);
   }
   if (type) {
-    prefix += ` ${type}`;
+    parts.push(type);
   }
   if (name) {
-    prefix += ` [${name}]`;
+    parts.push(name);
   }
-  return prefix;
+  return parts.join(" ");
 }
-
-type LogFunction = Debugger["log"];
 
 /**
  * @internal
  */
-export interface SimpleLogger {
-  readonly info: LogFunction;
-  readonly error: LogFunction;
-  readonly warning: LogFunction;
-  readonly verbose: LogFunction;
-}
+export type SimpleLogger = {
+  [Property in keyof AzureLogger]: Debugger["log"];
+};
 
 function createLogFunction(
   azureLogger: AzureLogger,
@@ -63,7 +58,7 @@ function createLogFunction(
 ): (arg: any, ...args: any[]) => void {
   return (arg: any, ...args: any[]) =>
     azureLogger[level](
-      ...(typeof arg === "string" ? [prefix + " " + arg] : [prefix, arg]),
+      ...(typeof arg === "string" ? [`${prefix}  ${arg}`] : [prefix, arg]),
       ...args
     );
 }
@@ -78,4 +73,9 @@ export function createSimpleLogger(azureLogger: AzureLogger, prefix: string): Si
     verbose: createLogFunction(azureLogger, prefix, "verbose"),
     warning: createLogFunction(azureLogger, prefix, "warning"),
   };
+}
+
+/** @internal */
+export function logObj(obj: unknown) {
+  JSON.stringify(obj, undefined, 2);
 }
