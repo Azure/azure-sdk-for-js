@@ -244,7 +244,7 @@ export class ManagedIdentityCredential implements TokenCredential {
           };
           // Added a check to see if SetAppTokenProvider was already defined.
           // Don't redefine it if it's already defined, since it should be static method.
-          if(!this.isAppTokenProviderInitialized){
+          if (!this.isAppTokenProviderInitialized) {
             this.confidentialApp.SetAppTokenProvider(
               async (appTokenProviderParameters = appTokenParameters) => {
                 logger.info(
@@ -252,15 +252,15 @@ export class ManagedIdentityCredential implements TokenCredential {
                     appTokenProviderParameters
                   )}`
                 );
-  
+
                 const resultToken = await this.authenticateManagedIdentity(scopes, {
                   ...updatedOptions,
                   ...appTokenProviderParameters,
                 });
-  
+
                 if (resultToken) {
                   logger.info(`SetAppTokenProvider has saved the token in cache`);
-  
+
                   const expiresInSeconds = resultToken?.expiresOnTimestamp
                     ? Math.floor((resultToken.expiresOnTimestamp - Date.now()) / 1000)
                     : 0;
@@ -286,7 +286,6 @@ export class ManagedIdentityCredential implements TokenCredential {
             );
             this.isAppTokenProviderInitialized = true;
           }
-        
 
           const authenticationResult = await this.confidentialApp.acquireTokenByClientCredential({
             ...appTokenParameters,
