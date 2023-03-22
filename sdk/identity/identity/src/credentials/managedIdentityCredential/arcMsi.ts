@@ -165,7 +165,7 @@ export const arcMsi: MSI = {
     });
     const tokenResponse = await identityClient.sendTokenRequest(request);
     return (
-      (tokenResponse && { ...tokenResponse.accessToken, refreshesIn: tokenResponse.refreshesIn }) ||
+      (tokenResponse && { ...tokenResponse.accessToken, refreshesOn: tokenResponse.refreshesIn }) ||
       null
     );
   },

@@ -262,8 +262,8 @@ export class ManagedIdentityCredential implements TokenCredential {
                 const expiresInSeconds = resultToken?.expiresOnTimestamp
                   ? Math.floor((resultToken.expiresOnTimestamp - Date.now()) / 1000)
                   : 0;
-                const refreshInSeconds = resultToken?.refreshesIn
-                  ? Math.floor((resultToken.refreshesIn - Date.now()) / 1000)
+                const refreshInSeconds = resultToken?.refreshesOn
+                  ? Math.floor((resultToken.refreshesOn - Date.now()) / 1000)
                   : 0;
                 return {
                   accessToken: resultToken?.token,

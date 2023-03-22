@@ -24,7 +24,7 @@ export declare interface MSIToken extends AccessToken {
    * The time in which token should refresh,
    * specified in milliseconds, UNIX epoch time.
    */
-  refreshesIn?: number;
+  refreshesOn?: number;
 }
 
 /**

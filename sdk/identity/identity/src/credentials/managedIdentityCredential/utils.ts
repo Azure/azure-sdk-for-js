@@ -80,26 +80,14 @@ export function parseExpirationTimestamp(body: TokenResponseParsedBody): number 
  */
 export function parseRefreshTimestamp(body: TokenResponseParsedBody): number {
   if (typeof body.refresh_in === "number") {
-    return Date.now() + body.refresh_in * 1000;
+    return Date.now() + (body.refresh_in * 1000);
   } else {
     const durationInMilliseconds = parseExpirationTimestamp(body) - Date.now();
-    const duration = formatTime(durationInMilliseconds);
-    if (duration.hours >= 2) {
+    const durationInHours = Math.floor(durationInMilliseconds/ 1000 / 60 / 60);
+    if (durationInHours >= 2) {
       return Date.now() + durationInMilliseconds / 2;
     } else {
       return Date.now() + durationInMilliseconds;
     }
   }
-}
-
-function formatTime(milliseconds: number) {
-  const seconds = Math.floor((milliseconds / 1000) % 60);
-  const minutes = Math.floor((milliseconds / 1000 / 60) % 60);
-  const hours = Math.floor((milliseconds / 1000 / 60 / 60) % 24);
-
-  return {
-    hours: hours,
-    minutes: minutes,
-    seconds: seconds,
-  };
 }

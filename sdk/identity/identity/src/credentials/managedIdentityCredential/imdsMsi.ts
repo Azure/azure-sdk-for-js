@@ -178,7 +178,7 @@ export const imdsMsi: MSI = {
         return (
           (tokenResponse && {
             ...tokenResponse.accessToken,
-            refreshesIn: tokenResponse.refreshesIn,
+            refreshesOn: tokenResponse.refreshesIn,
           }) ||
           null
         );
