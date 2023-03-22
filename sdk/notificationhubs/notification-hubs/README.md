@@ -655,6 +655,14 @@ console.log(`Notification ID: ${result.notificationId}`);
 
 ## Troubleshooting
 
+## React Native Support
+
+React Native currently does not have support for [`URLSearchParams`] which is used by the Azure Notification Hubs SDK.  In order to use the SDK in React Native, you will need to install the [`url-search-params-polyfill`](https://www.npmjs.com/package/url-search-params-polyfill) package and import it before using the SDK.
+
+```typescript
+import 'url-search-params-polyfill';
+```
+
 ### Diagnose Dropped Notifications
 
 Azure Notification Hubs has a complete guide to troubleshooting problems with dropped notifications in the [Diagnose dropped notifications in Azure Notification Hubs Guide](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-fixer).  

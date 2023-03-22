@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://someEndpoint/emails:send?api-version=2023-01-15-preview",
+      "RequestUri": "https://someEndpoint/emails:send?api-version=2023-03-31",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -18,11 +18,11 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/109.0.5412.0 Safari/537.36",
-        "x-ms-client-request-id": "84bc2494-e5bf-4dfa-8ba8-e9b3183e3b0a",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
+        "x-ms-client-request-id": "6dec3bd7-c18a-4705-99fd-c7f7ef63d868",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Wed, 22 Feb 2023 18:02:43 GMT",
-        "x-ms-useragent": "azsdk-js-communication-email/1.0.0-beta.2 core-rest-pipeline/1.10.1 OS/Win32"
+        "x-ms-date": "Thu, 16 Mar 2023 18:14:26 GMT",
+        "x-ms-useragent": "azsdk-js-communication-email/1.0.0 core-rest-pipeline/1.10.3 OS"
       },
       "RequestBody": {
         "senderAddress": "someSender@contoso.com",
@@ -58,14 +58,15 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-10-01-preview, 2023-01-15-preview",
+        "api-supported-versions": "2021-10-01-preview, 2023-01-15-preview, 2023-03-31",
+        "Connection": "keep-alive",
         "Content-Length": "47",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Feb 2023 18:02:43 GMT",
-        "mise-correlation-id": "268c0537-559e-4d66-9b17-7fc156323ea4",
-        "Operation-Location": "https://someEndpoint/emails/operations/someId?api-version=2023-01-15-preview",
+        "Date": "Thu, 16 Mar 2023 18:14:26 GMT",
+        "mise-correlation-id": "9f99718e-4626-4a2e-91d0-2efb05f6c1fe",
+        "Operation-Location": "https://someEndpoint/emails/operations/someId?api-version=2023-03-31",
         "Retry-After": "30",
-        "X-Azure-Ref": "0w1j2YwAAAAArtdLTaC1hQ7J1I2jL0GYPV1NURURHRTA4MTEAY2M5Mjc1OGQtMDVmNy00YWQ2LWFhNWUtMGZhOTcxOGQ4OTg1",
+        "x-azure-ref": "20230316T181426Z-w6fae7xp7x6n18nxzase2y1aan00000002p0000000003hm1",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -75,7 +76,7 @@
       }
     },
     {
-      "RequestUri": "https://someEndpoint/emails/operations/someId?api-version=2023-01-15-preview",
+      "RequestUri": "https://someEndpoint/emails/operations/someId?api-version=2023-03-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -91,22 +92,24 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/109.0.5412.0 Safari/537.36",
-        "x-ms-client-request-id": "bf4bde83-fece-40ed-8238-129a2943cee0",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
+        "x-ms-client-request-id": "e40b4865-1138-42ef-986d-f0181e68d552",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Wed, 22 Feb 2023 18:02:43 GMT",
-        "x-ms-useragent": "azsdk-js-communication-email/1.0.0-beta.2 core-rest-pipeline/1.10.1 OS/Win32"
+        "x-ms-date": "Thu, 16 Mar 2023 18:14:26 GMT",
+        "x-ms-useragent": "azsdk-js-communication-email/1.0.0 core-rest-pipeline/1.10.3 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-10-01-preview, 2023-01-15-preview",
+        "Accept-Ranges": "bytes",
+        "api-supported-versions": "2021-10-01-preview, 2023-01-15-preview, 2023-03-31",
+        "Connection": "keep-alive",
         "Content-Length": "47",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Feb 2023 18:02:43 GMT",
-        "mise-correlation-id": "d5e231fb-89d6-46d3-ac8c-d8cf8b788052",
+        "Date": "Thu, 16 Mar 2023 18:14:26 GMT",
+        "mise-correlation-id": "eb6785d0-e392-4a12-abd9-747aaa8f30f9",
         "Retry-After": "30",
-        "X-Azure-Ref": "0w1j2YwAAAAA/26IkssRvTqxzoVsGqFuWV1NURURHRTA4MTEAY2M5Mjc1OGQtMDVmNy00YWQ2LWFhNWUtMGZhOTcxOGQ4OTg1",
+        "x-azure-ref": "20230316T181426Z-w6fae7xp7x6n18nxzase2y1aan00000002p0000000003hm3",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -116,7 +119,7 @@
       }
     },
     {
-      "RequestUri": "https://someEndpoint/emails/operations/someId?api-version=2023-01-15-preview",
+      "RequestUri": "https://someEndpoint/emails/operations/someId?api-version=2023-03-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -132,22 +135,24 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/109.0.5412.0 Safari/537.36",
-        "x-ms-client-request-id": "f30e99c5-1436-45b7-ae5b-a6bf7a345fc5",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
+        "x-ms-client-request-id": "eb78c479-cb98-4700-bea1-4316e7b20c6f",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Wed, 22 Feb 2023 18:02:43 GMT",
-        "x-ms-useragent": "azsdk-js-communication-email/1.0.0-beta.2 core-rest-pipeline/1.10.1 OS/Win32"
+        "x-ms-date": "Thu, 16 Mar 2023 18:14:26 GMT",
+        "x-ms-useragent": "azsdk-js-communication-email/1.0.0 core-rest-pipeline/1.10.3 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-10-01-preview, 2023-01-15-preview",
+        "Accept-Ranges": "bytes",
+        "api-supported-versions": "2021-10-01-preview, 2023-01-15-preview, 2023-03-31",
+        "Connection": "keep-alive",
         "Content-Length": "47",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Feb 2023 18:02:43 GMT",
-        "mise-correlation-id": "24366199-e159-4242-b350-ff2060b34622",
+        "Date": "Thu, 16 Mar 2023 18:14:26 GMT",
+        "mise-correlation-id": "e690c402-afef-468f-aad5-0c609065fe29",
         "Retry-After": "30",
-        "X-Azure-Ref": "0w1j2YwAAAAAAdzog0I1iS5emOKcjy\u002BaBV1NURURHRTA4MTEAY2M5Mjc1OGQtMDVmNy00YWQ2LWFhNWUtMGZhOTcxOGQ4OTg1",
+        "x-azure-ref": "20230316T181426Z-w6fae7xp7x6n18nxzase2y1aan00000002p0000000003hm4",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -157,7 +162,7 @@
       }
     },
     {
-      "RequestUri": "https://someEndpoint/emails/operations/someId?api-version=2023-01-15-preview",
+      "RequestUri": "https://someEndpoint/emails/operations/someId?api-version=2023-03-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -173,21 +178,23 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/109.0.5412.0 Safari/537.36",
-        "x-ms-client-request-id": "3da8d73c-4bc4-4c42-8afa-33beb6bb4d8c",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
+        "x-ms-client-request-id": "3df5c7c3-8ad5-4f2c-a76c-b2aadbf9af92",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Wed, 22 Feb 2023 18:03:13 GMT",
-        "x-ms-useragent": "azsdk-js-communication-email/1.0.0-beta.2 core-rest-pipeline/1.10.1 OS/Win32"
+        "x-ms-date": "Thu, 16 Mar 2023 18:14:56 GMT",
+        "x-ms-useragent": "azsdk-js-communication-email/1.0.0 core-rest-pipeline/1.10.3 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-10-01-preview, 2023-01-15-preview",
+        "Accept-Ranges": "bytes",
+        "api-supported-versions": "2021-10-01-preview, 2023-01-15-preview, 2023-03-31",
+        "Connection": "keep-alive",
         "Content-Length": "49",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Feb 2023 18:03:13 GMT",
-        "mise-correlation-id": "1580d3e5-c3ff-49ed-8edc-c34266d7b03d",
-        "X-Azure-Ref": "04Vj2YwAAAAAbDeY3E7yVT7Vwye62cggAV1NURURHRTA4MTEAY2M5Mjc1OGQtMDVmNy00YWQ2LWFhNWUtMGZhOTcxOGQ4OTg1",
+        "Date": "Thu, 16 Mar 2023 18:14:57 GMT",
+        "mise-correlation-id": "f3f354eb-062b-431f-b62e-2cf01fc72c98",
+        "x-azure-ref": "20230316T181456Z-w6fae7xp7x6n18nxzase2y1aan00000002p0000000003hw7",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {

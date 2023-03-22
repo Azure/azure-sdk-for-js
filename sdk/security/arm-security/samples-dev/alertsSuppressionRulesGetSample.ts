@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get dismiss rule, with name: {alertsSuppressionRuleName}, for the given subscription
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2019-01-01-preview/examples/AlertsSuppressionRules/GetAlertsSuppressionRule_example.json
  */
 async function getSuppressionAlertRuleForSubscription() {
-  const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] ||
+    "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const alertsSuppressionRuleName = "dismissIpAnomalyAlerts";
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
@@ -28,4 +33,8 @@ async function getSuppressionAlertRuleForSubscription() {
   console.log(result);
 }
 
-getSuppressionAlertRuleForSubscription().catch(console.error);
+async function main() {
+  getSuppressionAlertRuleForSubscription();
+}
+
+main().catch(console.error);
