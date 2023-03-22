@@ -9,6 +9,22 @@ import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
 // @public
+export interface AgentUpdatePatchProperties {
+    maintenanceWindows?: MaintenanceWindowPatchProperties[];
+    maintenanceWindowTimeZone?: string;
+    type?: SessionHostComponentUpdateType;
+    useSessionHostLocalTime?: boolean;
+}
+
+// @public
+export interface AgentUpdateProperties {
+    maintenanceWindows?: MaintenanceWindowProperties[];
+    maintenanceWindowTimeZone?: string;
+    type?: SessionHostComponentUpdateType;
+    useSessionHostLocalTime?: boolean;
+}
+
+// @public
 export interface Application extends Resource {
     applicationType?: RemoteApplicationType;
     commandLineArguments?: string;
@@ -34,7 +50,6 @@ export interface ApplicationGroup extends ResourceModelWithAllowedPropertySet {
     description?: string;
     friendlyName?: string;
     hostPoolArmPath: string;
-    migrationRequest?: MigrationRequestProperties;
     readonly objectId?: string;
     readonly systemData?: SystemData;
     readonly workspaceArmPath?: string;
@@ -85,7 +100,6 @@ export type ApplicationGroupsGetResponse = ApplicationGroup;
 
 // @public
 export interface ApplicationGroupsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -94,6 +108,9 @@ export type ApplicationGroupsListByResourceGroupNextResponse = ApplicationGroupL
 // @public
 export interface ApplicationGroupsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
     filter?: string;
+    initialSkip?: number;
+    isDescending?: boolean;
+    pageSize?: number;
 }
 
 // @public
@@ -101,7 +118,6 @@ export type ApplicationGroupsListByResourceGroupResponse = ApplicationGroupList;
 
 // @public
 export interface ApplicationGroupsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -186,6 +202,9 @@ export type ApplicationsListNextResponse = ApplicationList;
 
 // @public
 export interface ApplicationsListOptionalParams extends coreClient.OperationOptions {
+    initialSkip?: number;
+    isDescending?: boolean;
+    pageSize?: number;
 }
 
 // @public
@@ -218,6 +237,9 @@ export type CommandLineSetting = string;
 
 // @public
 export type CreatedByType = string;
+
+// @public
+export type DayOfWeek = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
 
 // @public
 export interface Desktop extends Resource {
@@ -267,6 +289,9 @@ export type DesktopsListNextResponse = DesktopList;
 
 // @public
 export interface DesktopsListOptionalParams extends coreClient.OperationOptions {
+    initialSkip?: number;
+    isDescending?: boolean;
+    pageSize?: number;
 }
 
 // @public
@@ -302,9 +327,7 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
     // (undocumented)
     operations: Operations;
     // (undocumented)
-    privateEndpointConnections: PrivateEndpointConnections;
-    // (undocumented)
-    privateLinkResources: PrivateLinkResources;
+    scalingPlanPooledSchedules: ScalingPlanPooledSchedules;
     // (undocumented)
     scalingPlans: ScalingPlans;
     // (undocumented)
@@ -360,6 +383,7 @@ export type HealthCheckResult = string;
 
 // @public
 export interface HostPool extends ResourceModelWithAllowedPropertySet {
+    agentUpdate?: AgentUpdateProperties;
     readonly applicationGroupReferences?: string[];
     readonly cloudPcResource?: boolean;
     customRdpProperty?: string;
@@ -368,11 +392,9 @@ export interface HostPool extends ResourceModelWithAllowedPropertySet {
     hostPoolType: HostPoolType;
     loadBalancerType: LoadBalancerType;
     maxSessionLimit?: number;
-    migrationRequest?: MigrationRequestProperties;
     readonly objectId?: string;
     personalDesktopAssignmentType?: PersonalDesktopAssignmentType;
     preferredAppGroupType: PreferredAppGroupType;
-    publicNetworkAccess?: PublicNetworkAccess;
     registrationInfo?: RegistrationInfo;
     ring?: number;
     ssoadfsAuthority?: string;
@@ -393,6 +415,7 @@ export interface HostPoolList {
 
 // @public
 export interface HostPoolPatch extends Resource {
+    agentUpdate?: AgentUpdatePatchProperties;
     customRdpProperty?: string;
     description?: string;
     friendlyName?: string;
@@ -400,7 +423,6 @@ export interface HostPoolPatch extends Resource {
     maxSessionLimit?: number;
     personalDesktopAssignmentType?: PersonalDesktopAssignmentType;
     preferredAppGroupType?: PreferredAppGroupType;
-    publicNetworkAccess?: PublicNetworkAccess;
     registrationInfo?: RegistrationInfoPatch;
     ring?: number;
     ssoadfsAuthority?: string;
@@ -454,6 +476,9 @@ export type HostPoolsListByResourceGroupNextResponse = HostPoolList;
 
 // @public
 export interface HostPoolsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+    initialSkip?: number;
+    isDescending?: boolean;
+    pageSize?: number;
 }
 
 // @public
@@ -468,6 +493,9 @@ export type HostPoolsListNextResponse = HostPoolList;
 
 // @public
 export interface HostPoolsListOptionalParams extends coreClient.OperationOptions {
+    initialSkip?: number;
+    isDescending?: boolean;
+    pageSize?: number;
 }
 
 // @public
@@ -563,15 +591,6 @@ export enum KnownLoadBalancerType {
 }
 
 // @public
-export enum KnownOperation {
-    Complete = "Complete",
-    Hide = "Hide",
-    Revoke = "Revoke",
-    Start = "Start",
-    Unhide = "Unhide"
-}
-
-// @public
 export enum KnownPersonalDesktopAssignmentType {
     Automatic = "Automatic",
     Direct = "Direct"
@@ -582,27 +601,6 @@ export enum KnownPreferredAppGroupType {
     Desktop = "Desktop",
     None = "None",
     RailApplications = "RailApplications"
-}
-
-// @public
-export enum KnownPrivateEndpointConnectionProvisioningState {
-    Creating = "Creating",
-    Deleting = "Deleting",
-    Failed = "Failed",
-    Succeeded = "Succeeded"
-}
-
-// @public
-export enum KnownPrivateEndpointServiceConnectionStatus {
-    Approved = "Approved",
-    Pending = "Pending",
-    Rejected = "Rejected"
-}
-
-// @public
-export enum KnownPublicNetworkAccess {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
 }
 
 // @public
@@ -632,6 +630,12 @@ export enum KnownScalingScheduleDaysOfWeekItem {
     Thursday = "Thursday",
     Tuesday = "Tuesday",
     Wednesday = "Wednesday"
+}
+
+// @public
+export enum KnownSessionHostComponentUpdateType {
+    Default = "Default",
+    Scheduled = "Scheduled"
 }
 
 // @public
@@ -700,9 +704,15 @@ export interface LogSpecification {
 }
 
 // @public
-export interface MigrationRequestProperties {
-    migrationPath?: string;
-    operation?: Operation;
+export interface MaintenanceWindowPatchProperties {
+    dayOfWeek?: DayOfWeek;
+    hour?: number;
+}
+
+// @public
+export interface MaintenanceWindowProperties {
+    dayOfWeek?: DayOfWeek;
+    hour?: number;
 }
 
 // @public
@@ -812,6 +822,9 @@ export type MsixPackagesListNextResponse = MsixPackageList;
 
 // @public
 export interface MsixPackagesListOptionalParams extends coreClient.OperationOptions {
+    initialSkip?: number;
+    isDescending?: boolean;
+    pageSize?: number;
 }
 
 // @public
@@ -824,9 +837,6 @@ export interface MsixPackagesUpdateOptionalParams extends coreClient.OperationOp
 
 // @public
 export type MsixPackagesUpdateResponse = MsixPackage;
-
-// @public
-export type Operation = string;
 
 // @public
 export interface OperationProperties {
@@ -866,168 +876,6 @@ export interface Plan {
 
 // @public
 export type PreferredAppGroupType = string;
-
-// @public
-export interface PrivateEndpoint {
-    readonly id?: string;
-}
-
-// @public
-export interface PrivateEndpointConnection extends Resource {
-    privateEndpoint?: PrivateEndpoint;
-    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-    provisioningState?: PrivateEndpointConnectionProvisioningState;
-}
-
-// @public
-export interface PrivateEndpointConnectionListResultWithSystemData {
-    readonly nextLink?: string;
-    value?: PrivateEndpointConnectionWithSystemData[];
-}
-
-// @public
-export type PrivateEndpointConnectionProvisioningState = string;
-
-// @public
-export interface PrivateEndpointConnections {
-    deleteByHostPool(resourceGroupName: string, hostPoolName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteByHostPoolOptionalParams): Promise<void>;
-    deleteByWorkspace(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteByWorkspaceOptionalParams): Promise<void>;
-    getByHostPool(resourceGroupName: string, hostPoolName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetByHostPoolOptionalParams): Promise<PrivateEndpointConnectionsGetByHostPoolResponse>;
-    getByWorkspace(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetByWorkspaceOptionalParams): Promise<PrivateEndpointConnectionsGetByWorkspaceResponse>;
-    listByHostPool(resourceGroupName: string, hostPoolName: string, options?: PrivateEndpointConnectionsListByHostPoolOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnectionWithSystemData>;
-    listByWorkspace(resourceGroupName: string, workspaceName: string, options?: PrivateEndpointConnectionsListByWorkspaceOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnectionWithSystemData>;
-    updateByHostPool(resourceGroupName: string, hostPoolName: string, privateEndpointConnectionName: string, connection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateByHostPoolOptionalParams): Promise<PrivateEndpointConnectionsUpdateByHostPoolResponse>;
-    updateByWorkspace(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, connection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateByWorkspaceOptionalParams): Promise<PrivateEndpointConnectionsUpdateByWorkspaceResponse>;
-}
-
-// @public
-export interface PrivateEndpointConnectionsDeleteByHostPoolOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface PrivateEndpointConnectionsDeleteByWorkspaceOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface PrivateEndpointConnectionsGetByHostPoolOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateEndpointConnectionsGetByHostPoolResponse = PrivateEndpointConnectionWithSystemData;
-
-// @public
-export interface PrivateEndpointConnectionsGetByWorkspaceOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateEndpointConnectionsGetByWorkspaceResponse = PrivateEndpointConnectionWithSystemData;
-
-// @public
-export interface PrivateEndpointConnectionsListByHostPoolNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateEndpointConnectionsListByHostPoolNextResponse = PrivateEndpointConnectionListResultWithSystemData;
-
-// @public
-export interface PrivateEndpointConnectionsListByHostPoolOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateEndpointConnectionsListByHostPoolResponse = PrivateEndpointConnectionListResultWithSystemData;
-
-// @public
-export interface PrivateEndpointConnectionsListByWorkspaceNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateEndpointConnectionsListByWorkspaceNextResponse = PrivateEndpointConnectionListResultWithSystemData;
-
-// @public
-export interface PrivateEndpointConnectionsListByWorkspaceOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateEndpointConnectionsListByWorkspaceResponse = PrivateEndpointConnectionListResultWithSystemData;
-
-// @public
-export interface PrivateEndpointConnectionsUpdateByHostPoolOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateEndpointConnectionsUpdateByHostPoolResponse = PrivateEndpointConnectionWithSystemData;
-
-// @public
-export interface PrivateEndpointConnectionsUpdateByWorkspaceOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateEndpointConnectionsUpdateByWorkspaceResponse = PrivateEndpointConnectionWithSystemData;
-
-// @public
-export interface PrivateEndpointConnectionWithSystemData extends PrivateEndpointConnection {
-    readonly systemData?: SystemData;
-}
-
-// @public
-export type PrivateEndpointServiceConnectionStatus = string;
-
-// @public
-export interface PrivateLinkResource extends Resource {
-    readonly groupId?: string;
-    readonly requiredMembers?: string[];
-    requiredZoneNames?: string[];
-}
-
-// @public
-export interface PrivateLinkResourceListResult {
-    readonly nextLink?: string;
-    value?: PrivateLinkResource[];
-}
-
-// @public
-export interface PrivateLinkResources {
-    listByHostPool(resourceGroupName: string, hostPoolName: string, options?: PrivateLinkResourcesListByHostPoolOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
-    listByWorkspace(resourceGroupName: string, workspaceName: string, options?: PrivateLinkResourcesListByWorkspaceOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
-}
-
-// @public
-export interface PrivateLinkResourcesListByHostPoolNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateLinkResourcesListByHostPoolNextResponse = PrivateLinkResourceListResult;
-
-// @public
-export interface PrivateLinkResourcesListByHostPoolOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateLinkResourcesListByHostPoolResponse = PrivateLinkResourceListResult;
-
-// @public
-export interface PrivateLinkResourcesListByWorkspaceNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateLinkResourcesListByWorkspaceNextResponse = PrivateLinkResourceListResult;
-
-// @public
-export interface PrivateLinkResourcesListByWorkspaceOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateLinkResourcesListByWorkspaceResponse = PrivateLinkResourceListResult;
-
-// @public
-export interface PrivateLinkServiceConnectionState {
-    actionsRequired?: string;
-    description?: string;
-    status?: PrivateEndpointServiceConnectionStatus;
-}
-
-// @public
-export type PublicNetworkAccess = string;
 
 // @public
 export interface RegistrationInfo {
@@ -1128,7 +976,7 @@ export interface ScalingPlan extends ResourceModelWithAllowedPropertySet {
     readonly objectId?: string;
     schedules?: ScalingSchedule[];
     readonly systemData?: SystemData;
-    timeZone?: string;
+    timeZone: string;
 }
 
 // @public
@@ -1149,6 +997,107 @@ export interface ScalingPlanPatch {
     };
     timeZone?: string;
 }
+
+// @public
+export interface ScalingPlanPooledSchedule extends Resource {
+    daysOfWeek?: DayOfWeek[];
+    offPeakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
+    offPeakStartTime?: Time;
+    peakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
+    peakStartTime?: Time;
+    rampDownCapacityThresholdPct?: number;
+    rampDownForceLogoffUsers?: boolean;
+    rampDownLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
+    rampDownMinimumHostsPct?: number;
+    rampDownNotificationMessage?: string;
+    rampDownStartTime?: Time;
+    rampDownStopHostsWhen?: StopHostsWhen;
+    rampDownWaitTimeMinutes?: number;
+    rampUpCapacityThresholdPct?: number;
+    rampUpLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
+    rampUpMinimumHostsPct?: number;
+    rampUpStartTime?: Time;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface ScalingPlanPooledScheduleList {
+    readonly nextLink?: string;
+    value?: ScalingPlanPooledSchedule[];
+}
+
+// @public
+export interface ScalingPlanPooledSchedulePatch extends Resource {
+    daysOfWeek?: DayOfWeek[];
+    offPeakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
+    offPeakStartTime?: Time;
+    peakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
+    peakStartTime?: Time;
+    rampDownCapacityThresholdPct?: number;
+    rampDownForceLogoffUsers?: boolean;
+    rampDownLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
+    rampDownMinimumHostsPct?: number;
+    rampDownNotificationMessage?: string;
+    rampDownStartTime?: Time;
+    rampDownStopHostsWhen?: StopHostsWhen;
+    rampDownWaitTimeMinutes?: number;
+    rampUpCapacityThresholdPct?: number;
+    rampUpLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
+    rampUpMinimumHostsPct?: number;
+    rampUpStartTime?: Time;
+}
+
+// @public
+export interface ScalingPlanPooledSchedules {
+    create(resourceGroupName: string, scalingPlanName: string, scalingPlanScheduleName: string, scalingPlanSchedule: ScalingPlanPooledSchedule, options?: ScalingPlanPooledSchedulesCreateOptionalParams): Promise<ScalingPlanPooledSchedulesCreateResponse>;
+    delete(resourceGroupName: string, scalingPlanName: string, scalingPlanScheduleName: string, options?: ScalingPlanPooledSchedulesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, scalingPlanName: string, scalingPlanScheduleName: string, options?: ScalingPlanPooledSchedulesGetOptionalParams): Promise<ScalingPlanPooledSchedulesGetResponse>;
+    list(resourceGroupName: string, scalingPlanName: string, options?: ScalingPlanPooledSchedulesListOptionalParams): PagedAsyncIterableIterator<ScalingPlanPooledSchedule>;
+    update(resourceGroupName: string, scalingPlanName: string, scalingPlanScheduleName: string, options?: ScalingPlanPooledSchedulesUpdateOptionalParams): Promise<ScalingPlanPooledSchedulesUpdateResponse>;
+}
+
+// @public
+export interface ScalingPlanPooledSchedulesCreateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ScalingPlanPooledSchedulesCreateResponse = ScalingPlanPooledSchedule;
+
+// @public
+export interface ScalingPlanPooledSchedulesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ScalingPlanPooledSchedulesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ScalingPlanPooledSchedulesGetResponse = ScalingPlanPooledSchedule;
+
+// @public
+export interface ScalingPlanPooledSchedulesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ScalingPlanPooledSchedulesListNextResponse = ScalingPlanPooledScheduleList;
+
+// @public
+export interface ScalingPlanPooledSchedulesListOptionalParams extends coreClient.OperationOptions {
+    initialSkip?: number;
+    isDescending?: boolean;
+    pageSize?: number;
+}
+
+// @public
+export type ScalingPlanPooledSchedulesListResponse = ScalingPlanPooledScheduleList;
+
+// @public
+export interface ScalingPlanPooledSchedulesUpdateOptionalParams extends coreClient.OperationOptions {
+    scalingPlanSchedule?: ScalingPlanPooledSchedulePatch;
+}
+
+// @public
+export type ScalingPlanPooledSchedulesUpdateResponse = ScalingPlanPooledSchedule;
 
 // @public
 export interface ScalingPlans {
@@ -1188,6 +1137,9 @@ export type ScalingPlansListByHostPoolNextResponse = ScalingPlanList;
 
 // @public
 export interface ScalingPlansListByHostPoolOptionalParams extends coreClient.OperationOptions {
+    initialSkip?: number;
+    isDescending?: boolean;
+    pageSize?: number;
 }
 
 // @public
@@ -1202,6 +1154,9 @@ export type ScalingPlansListByResourceGroupNextResponse = ScalingPlanList;
 
 // @public
 export interface ScalingPlansListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+    initialSkip?: number;
+    isDescending?: boolean;
+    pageSize?: number;
 }
 
 // @public
@@ -1216,6 +1171,9 @@ export type ScalingPlansListBySubscriptionNextResponse = ScalingPlanList;
 
 // @public
 export interface ScalingPlansListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+    initialSkip?: number;
+    isDescending?: boolean;
+    pageSize?: number;
 }
 
 // @public
@@ -1270,6 +1228,7 @@ export interface SessionHost extends Resource {
     agentVersion?: string;
     allowNewSession?: boolean;
     assignedUser?: string;
+    friendlyName?: string;
     lastHeartBeat?: Date;
     readonly lastUpdateTime?: Date;
     readonly objectId?: string;
@@ -1285,6 +1244,9 @@ export interface SessionHost extends Resource {
     updateState?: UpdateState;
     readonly virtualMachineId?: string;
 }
+
+// @public
+export type SessionHostComponentUpdateType = string;
 
 // @public
 export interface SessionHostHealthCheckFailureDetails {
@@ -1313,6 +1275,7 @@ export type SessionHostLoadBalancingAlgorithm = string;
 export interface SessionHostPatch extends Resource {
     allowNewSession?: boolean;
     assignedUser?: string;
+    friendlyName?: string;
 }
 
 // @public
@@ -1344,6 +1307,9 @@ export type SessionHostsListNextResponse = SessionHostList;
 
 // @public
 export interface SessionHostsListOptionalParams extends coreClient.OperationOptions {
+    initialSkip?: number;
+    isDescending?: boolean;
+    pageSize?: number;
 }
 
 // @public
@@ -1405,6 +1371,9 @@ export type StartMenuItemsListNextResponse = StartMenuItemList;
 
 // @public
 export interface StartMenuItemsListOptionalParams extends coreClient.OperationOptions {
+    initialSkip?: number;
+    isDescending?: boolean;
+    pageSize?: number;
 }
 
 // @public
@@ -1480,7 +1449,6 @@ export type UserSessionsGetResponse = UserSession;
 
 // @public
 export interface UserSessionsListByHostPoolNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -1489,6 +1457,9 @@ export type UserSessionsListByHostPoolNextResponse = UserSessionList;
 // @public
 export interface UserSessionsListByHostPoolOptionalParams extends coreClient.OperationOptions {
     filter?: string;
+    initialSkip?: number;
+    isDescending?: boolean;
+    pageSize?: number;
 }
 
 // @public
@@ -1503,6 +1474,9 @@ export type UserSessionsListNextResponse = UserSessionList;
 
 // @public
 export interface UserSessionsListOptionalParams extends coreClient.OperationOptions {
+    initialSkip?: number;
+    isDescending?: boolean;
+    pageSize?: number;
 }
 
 // @public
@@ -1520,7 +1494,6 @@ export interface Workspace extends ResourceModelWithAllowedPropertySet {
     description?: string;
     friendlyName?: string;
     readonly objectId?: string;
-    publicNetworkAccess?: PublicNetworkAccess;
     readonly systemData?: SystemData;
 }
 
@@ -1535,7 +1508,6 @@ export interface WorkspacePatch {
     applicationGroupReferences?: string[];
     description?: string;
     friendlyName?: string;
-    publicNetworkAccess?: PublicNetworkAccess;
     tags?: {
         [propertyName: string]: string;
     };
@@ -1578,6 +1550,9 @@ export type WorkspacesListByResourceGroupNextResponse = WorkspaceList;
 
 // @public
 export interface WorkspacesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+    initialSkip?: number;
+    isDescending?: boolean;
+    pageSize?: number;
 }
 
 // @public
