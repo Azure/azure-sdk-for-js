@@ -1,15 +1,18 @@
 # Release History
+    
+## 9.0.0 (2023-03-08)
+    
+**Features**
 
-## 8.0.1 (Unreleased)
+  - Interface CatalogMsrp has a new optional parameter p3Y
+  - Interface CatalogMsrp has a new optional parameter p5Y
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Delete parameters of ReturnPostHeaders in TypeAlias ReturnPostResponse
+  - Delete parameters of RefundResponse in TypeAlias ReturnPostResponse
+    
+    
 ## 8.0.0 (2023-02-01)
     
 **Features**

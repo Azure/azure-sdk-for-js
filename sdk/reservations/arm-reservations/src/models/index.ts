@@ -121,6 +121,10 @@ export interface SkuProperty {
 export interface CatalogMsrp {
   /** Amount in pricing currency. Tax not included. */
   p1Y?: Price;
+  /** Amount in pricing currency. Tax not included. */
+  p3Y?: Price;
+  /** Amount in pricing currency. Tax not included. */
+  p5Y?: Price;
 }
 
 /** Pricing information containing the amount and the currency code */
@@ -196,7 +200,7 @@ export interface PurchaseRequest {
   displayName?: string;
   /** Type of the Applied Scope. */
   appliedScopeType?: AppliedScopeType;
-  /** List of the subscriptions that the benefit will be applied. Do not specify if AppliedScopeType is Shared. */
+  /** List of the subscriptions that the benefit will be applied. Do not specify if AppliedScopeType is Shared. This property will be deprecated and replaced by appliedScopeProperties instead for Single AppliedScopeType. */
   appliedScopes?: string[];
   /** Properties specific to applied scope type. Not required if not applicable. Required and need to provide tenantId and managementGroupId if AppliedScopeType is ManagementGroup */
   appliedScopeProperties?: AppliedScopeProperties;
@@ -610,7 +614,7 @@ export interface ReservationList {
 export interface Patch {
   /** Type of the Applied Scope. */
   appliedScopeType?: AppliedScopeType;
-  /** List of the subscriptions that the benefit will be applied. Do not specify if AppliedScopeType is Shared. */
+  /** List of the subscriptions that the benefit will be applied. Do not specify if AppliedScopeType is Shared. This property will be deprecated and replaced by appliedScopeProperties instead for Single AppliedScopeType. */
   appliedScopes?: string[];
   /** Properties specific to applied scope type. Not required if not applicable. Required and need to provide tenantId and managementGroupId if AppliedScopeType is ManagementGroup */
   appliedScopeProperties?: AppliedScopeProperties;
@@ -2621,7 +2625,7 @@ export interface ReturnPostOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Contains response data for the post operation. */
-export type ReturnPostResponse = ReturnPostHeaders & RefundResponse;
+export type ReturnPostResponse = ReservationOrderResponse;
 
 /** Optional parameters. */
 export interface CalculateExchangePostOptionalParams
