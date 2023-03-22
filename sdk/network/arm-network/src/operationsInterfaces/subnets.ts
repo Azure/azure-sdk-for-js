@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Subnet,
   SubnetsListOptionalParams,
@@ -48,7 +48,7 @@ export interface Subnets {
     virtualNetworkName: string,
     subnetName: string,
     options?: SubnetsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified subnet.
    * @param resourceGroupName The name of the resource group.
@@ -90,8 +90,8 @@ export interface Subnets {
     subnetParameters: Subnet,
     options?: SubnetsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SubnetsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SubnetsCreateOrUpdateResponse>,
       SubnetsCreateOrUpdateResponse
     >
   >;
@@ -125,7 +125,7 @@ export interface Subnets {
     subnetName: string,
     prepareNetworkPoliciesRequestParameters: PrepareNetworkPoliciesRequest,
     options?: SubnetsPrepareNetworkPoliciesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Prepares a subnet by applying network intent policies.
    * @param resourceGroupName The name of the resource group.
@@ -157,7 +157,7 @@ export interface Subnets {
     subnetName: string,
     unprepareNetworkPoliciesRequestParameters: UnprepareNetworkPoliciesRequest,
     options?: SubnetsUnprepareNetworkPoliciesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Unprepares a subnet by removing network intent policies.
    * @param resourceGroupName The name of the resource group.

@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   VirtualHub,
   VirtualHubsListByResourceGroupNextOptionalParams,
@@ -206,8 +210,8 @@ export class VirtualHubsImpl implements VirtualHubs {
     virtualHubParameters: VirtualHub,
     options?: VirtualHubsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualHubsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualHubsCreateOrUpdateResponse>,
       VirtualHubsCreateOrUpdateResponse
     >
   > {
@@ -217,7 +221,7 @@ export class VirtualHubsImpl implements VirtualHubs {
     ): Promise<VirtualHubsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -250,15 +254,23 @@ export class VirtualHubsImpl implements VirtualHubs {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, virtualHubName, virtualHubParameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        virtualHubName,
+        virtualHubParameters,
+        options
+      },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VirtualHubsCreateOrUpdateResponse,
+      OperationState<VirtualHubsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -315,14 +327,14 @@ export class VirtualHubsImpl implements VirtualHubs {
     resourceGroupName: string,
     virtualHubName: string,
     options?: VirtualHubsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -355,15 +367,15 @@ export class VirtualHubsImpl implements VirtualHubs {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, virtualHubName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, virtualHubName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -423,14 +435,14 @@ export class VirtualHubsImpl implements VirtualHubs {
     resourceGroupName: string,
     virtualHubName: string,
     options?: VirtualHubsGetEffectiveVirtualHubRoutesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -463,15 +475,15 @@ export class VirtualHubsImpl implements VirtualHubs {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, virtualHubName, options },
-      getEffectiveVirtualHubRoutesOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, virtualHubName, options },
+      spec: getEffectiveVirtualHubRoutesOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -509,14 +521,14 @@ export class VirtualHubsImpl implements VirtualHubs {
     virtualHubName: string,
     getInboundRoutesParameters: GetInboundRoutesParameters,
     options?: VirtualHubsGetInboundRoutesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -549,20 +561,20 @@ export class VirtualHubsImpl implements VirtualHubs {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         virtualHubName,
         getInboundRoutesParameters,
         options
       },
-      getInboundRoutesOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: getInboundRoutesOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -604,14 +616,14 @@ export class VirtualHubsImpl implements VirtualHubs {
     virtualHubName: string,
     getOutboundRoutesParameters: GetOutboundRoutesParameters,
     options?: VirtualHubsGetOutboundRoutesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -644,20 +656,20 @@ export class VirtualHubsImpl implements VirtualHubs {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         virtualHubName,
         getOutboundRoutesParameters,
         options
       },
-      getOutboundRoutesOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: getOutboundRoutesOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -947,7 +959,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -968,7 +979,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

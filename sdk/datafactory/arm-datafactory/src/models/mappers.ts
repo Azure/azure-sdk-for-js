@@ -10399,7 +10399,6 @@ export const AzureBlobFSLinkedService: coreClient.CompositeMapper = {
       ...LinkedService.type.modelProperties,
       url: {
         serializedName: "typeProperties.url",
-        required: true,
         type: {
           name: "any"
         }
@@ -10456,6 +10455,19 @@ export const AzureBlobFSLinkedService: coreClient.CompositeMapper = {
       },
       servicePrincipalCredential: {
         serializedName: "typeProperties.servicePrincipalCredential",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      },
+      sasUri: {
+        serializedName: "typeProperties.sasUri",
+        type: {
+          name: "any"
+        }
+      },
+      sasToken: {
+        serializedName: "typeProperties.sasToken",
         type: {
           name: "Composite",
           className: "SecretBase"

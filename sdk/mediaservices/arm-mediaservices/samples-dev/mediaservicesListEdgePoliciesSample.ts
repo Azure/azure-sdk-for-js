@@ -21,14 +21,14 @@ dotenv.config();
  * This sample demonstrates how to List all the media edge policies associated with the Media Services account.
  *
  * @summary List all the media edge policies associated with the Media Services account.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2023-01-01/examples/accounts-list-media-edge-policies.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2021-11-01/examples/accounts-list-media-edge-policies.json
  */
 async function listTheMediaEdgePolicies() {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
-    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contososports";
   const parameters: ListEdgePoliciesInput = {
     deviceId: "contosiothubhost_contosoiotdevice"

@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Stops packet capture on vpn gateway in the specified resource group.
  *
  * @summary Stops packet capture on vpn gateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VpnGatewayStopPacketCapture.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VpnGatewayStopPacketCapture.json
  */
 async function stopPacketCaptureOnVpnGateway() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const gatewayName = "vpngw";
   const parameters = {
     sasUrl:
@@ -36,4 +37,8 @@ async function stopPacketCaptureOnVpnGateway() {
   console.log(result);
 }
 
-stopPacketCaptureOnVpnGateway().catch(console.error);
+async function main() {
+  stopPacketCaptureOnVpnGateway();
+}
+
+main().catch(console.error);

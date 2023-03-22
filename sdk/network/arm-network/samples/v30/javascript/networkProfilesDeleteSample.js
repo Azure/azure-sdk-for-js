@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deletes the specified network profile.
  *
  * @summary Deletes the specified network profile.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkProfileDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkProfileDelete.json
  */
 async function deleteNetworkProfile() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkProfileName = "networkProfile1";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -30,4 +31,8 @@ async function deleteNetworkProfile() {
   console.log(result);
 }
 
-deleteNetworkProfile().catch(console.error);
+async function main() {
+  deleteNetworkProfile();
+}
+
+main().catch(console.error);

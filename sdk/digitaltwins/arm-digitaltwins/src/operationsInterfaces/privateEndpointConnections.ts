@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PrivateEndpointConnectionsListOptionalParams,
   PrivateEndpointConnectionsListResponse,
@@ -56,7 +56,7 @@ export interface PrivateEndpointConnections {
     resourceName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete private endpoint connection with the specified name.
    * @param resourceGroupName The name of the resource group that contains the DigitalTwinsInstance.
@@ -85,8 +85,8 @@ export interface PrivateEndpointConnections {
     privateEndpointConnection: PrivateEndpointConnection,
     options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>,
       PrivateEndpointConnectionsCreateOrUpdateResponse
     >
   >;

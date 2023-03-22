@@ -96,4 +96,8 @@ export interface FeedOptions extends SharedOptions {
    * but you still want to restrict it to a single partition. Example: an end user specified query.
    */
   partitionKey?: any;
+  /**
+   * Enable returning index metrics in response headers. Default: false
+   */
+  populateIndexMetrics?: boolean;
 }

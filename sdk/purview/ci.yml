@@ -40,3 +40,5 @@ extends:
         safeName: azurerestpurviewadministration
       - name: azure-rest-purview-sharing
         safeName: azurerestpurviewsharing
+      - name: azure-rest-purview-workflow
+        safeName: azurerestpurviewworkflow

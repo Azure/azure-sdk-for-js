@@ -95,7 +95,7 @@ export interface ManagementClientOptions {
 
 /**
  * @internal
- * Descibes the EventHubs Management Client that talks
+ * Describes the EventHubs Management Client that talks
  * to the $management endpoint over AMQP connection.
  */
 export class ManagementClient extends LinkEntity {
@@ -121,12 +121,12 @@ export class ManagementClient extends LinkEntity {
    * `/messages/events/$management`.
    */
   constructor(context: ConnectionContext, options?: ManagementClientOptions) {
-    super(context, {
-      address: options && options.address ? options.address : Constants.management,
-      audience:
-        options && options.audience ? options.audience : context.config.getManagementAudience(),
-    });
-    this._context = context;
+    super(
+      context,
+      options?.address ?? Constants.management,
+      options?.address ?? Constants.management,
+      options?.audience ?? context.config.getManagementAudience()
+    );
     this.entityPath = context.config.entityPath as string;
   }
 

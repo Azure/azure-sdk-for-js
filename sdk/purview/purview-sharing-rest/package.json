@@ -2,7 +2,7 @@
   "name": "@azure-rest/purview-sharing",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "A generated SDK for PurviewSharing.",
   "keywords": [
     "node",
@@ -85,7 +85,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "@azure/identity": "^2.0.1",
-    "@azure-tools/test-recorder": "^2.0.0",
+    "@azure-tools/test-recorder": "^3.0.0",
     "mocha": "^7.1.1",
     "@types/mocha": "^7.0.2",
     "mocha-junit-reporter": "^1.18.0",
