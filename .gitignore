@@ -171,5 +171,5 @@ code-model-*
 
 # CPU profiles
 *.cpuprofile
-# cadl sparse checkout
-TempCadlFiles/
+# Temp typespec files
+TempTypeSpecFiles/

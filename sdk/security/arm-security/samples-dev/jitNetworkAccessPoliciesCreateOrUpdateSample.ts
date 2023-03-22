@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { JitNetworkAccessPolicy, SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create a policy for protecting resources using Just-in-Time access control
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2020-01-01/examples/JitNetworkAccessPolicies/CreateJitNetworkAccessPolicy_example.json
  */
 async function createJitNetworkAccessPolicy() {
-  const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
-  const resourceGroupName = "myRg1";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] ||
+    "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
+  const resourceGroupName = process.env["SECURITY_RESOURCE_GROUP"] || "myRg1";
   const ascLocation = "westeurope";
   const jitNetworkAccessPolicyName = "default";
   const body: JitNetworkAccessPolicy = {
@@ -83,4 +88,8 @@ async function createJitNetworkAccessPolicy() {
   console.log(result);
 }
 
-createJitNetworkAccessPolicy().catch(console.error);
+async function main() {
+  createJitNetworkAccessPolicy();
+}
+
+main().catch(console.error);
