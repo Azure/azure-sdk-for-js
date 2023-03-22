@@ -217,12 +217,12 @@ export class ManagementClient {
             createdOn: new Date(info.created_at),
             partitionIds: info.partition_ids,
           };
-          logger.verbose("The hub runtime info is: %O", runtimeInfo);
+          logger.verbose("the hub runtime info is: %O", runtimeInfo);
 
           return runtimeInfo;
         } catch (error: any) {
           logger.warning(
-            `An error occurred while getting the hub runtime information: ${error?.name}: ${error?.message}`
+            `an error occurred while getting the hub runtime information: ${error?.name}: ${error?.message}`
           );
           logErrorStackTrace(error);
           throw error;
@@ -282,7 +282,7 @@ export class ManagementClient {
             partitionId: info.partition,
             isEmpty: info.is_partition_empty,
           };
-          logger.verbose("The partition info is: %O.", partitionInfo);
+          logger.verbose("the partition info is: %O.", partitionInfo);
           return partitionInfo;
         } catch (error: any) {
           logger.warning(
@@ -308,10 +308,10 @@ export class ManagementClient {
         const mgmtLink = this._mgmtReqResLink;
         this._mgmtReqResLink = undefined;
         await mgmtLink!.close();
-        logger.info("Successfully closed the management session.");
+        logger.info("successfully closed the management session.");
       }
     } catch (err: any) {
-      const msg = `An error occurred while closing the management session: ${err?.name}: ${err?.message}`;
+      const msg = `an error occurred while closing the management session: ${err?.name}: ${err?.message}`;
       logger.warning(msg);
       logErrorStackTrace(err);
       throw new Error(msg);
@@ -342,7 +342,7 @@ export class ManagementClient {
         target: { address: this.address },
       };
       logger.verbose(
-        "Creating sender/receiver links with " + "srOpts: %o, receiverOpts: %O.",
+        "creating sender/receiver links with " + "srOpts: %o, receiverOpts: %O.",
         sropt,
         rxopt
       );
@@ -361,7 +361,7 @@ export class ManagementClient {
         logger.verbose("an error occurred on the $management receiver link.. %O", ehError);
       });
       logger.verbose(
-        "Created sender '%s' and receiver '%s' links",
+        "created sender '%s' and receiver '%s' links",
         this._mgmtReqResLink.sender.name,
         this._mgmtReqResLink.receiver.name
       );
@@ -382,7 +382,7 @@ export class ManagementClient {
     } catch (err) {
       const translatedError = translate(err);
       logger.warning(
-        `[An error occurred while establishing the links: ${translatedError?.name}: ${translatedError?.message}`
+        `an error occurred while establishing the links: ${translatedError?.name}: ${translatedError?.message}`
       );
       logErrorStackTrace(translatedError);
       throw translatedError;
@@ -413,7 +413,7 @@ export class ManagementClient {
         let timeTakenByInit = 0;
 
         if (!this._isMgmtRequestResponseLinkOpen()) {
-          logger.verbose("Acquiring lock to get the management req res link.");
+          logger.verbose("acquiring lock to get the management req res link.");
 
           const initOperationStartTime = Date.now();
           try {
@@ -430,7 +430,7 @@ export class ManagementClient {
           } catch (err) {
             const translatedError = translate(err);
             logger.warning(
-              "An error occurred while creating the link: %s",
+              "an error occurred while creating the link: %s",
               `${translatedError?.name}: ${translatedError?.message}`
             );
             logErrorStackTrace(translatedError);

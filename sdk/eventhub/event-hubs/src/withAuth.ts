@@ -14,7 +14,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { AccessToken, TokenCredential } from "@azure/core-auth";
 import { ConnectionContext } from "./connectionContext";
 import { createTimerLoop, TimerLoop } from "./util/timerLoop";
-import { SimpleLogger } from "./log";
+import { SimpleLogger, logObj } from "./log";
 
 /**
  *
@@ -43,12 +43,12 @@ export async function withAuth(
     try {
       await setupClaimNegotiation(context, audience, info, timeoutInMs, logger, options);
       logger.verbose(
-        "next token renewal is in %d milliseconds @(%s).",
-        info.timeoutInMs,
-        new Date(Date.now() + info.timeoutInMs).toString()
+        `next token renewal is in ${info.timeoutInMs} milliseconds @(${new Date(
+          Date.now() + info.timeoutInMs
+        ).toString()}).`
       );
     } catch (err) {
-      logger.verbose("an error occurred while renewing the token: %O", err);
+      logger.verbose(`an error occurred while renewing the token: ${logObj(err)}`);
     }
   }
   const loop = createTimerLoop(info.timeoutInMs, createTask);
@@ -115,9 +115,7 @@ async function getTokenInfo(
   cred: SasTokenProvider | TokenCredential,
   audience: string
 ): Promise<TokenInfo> {
-  return isSasTokenProvider(cred)
-    ? getSharedKeyBasedToken(cred, audience)
-    : await getAadToken(cred); // eslint-disable-line no-return-await
+  return isSasTokenProvider(cred) ? getSharedKeyBasedToken(cred, audience) : getAadToken(cred);
 }
 
 function negotiateClaim(
@@ -126,7 +124,7 @@ function negotiateClaim(
   cbsSession: CbsClient,
   timeoutAfterStartTime: number,
   lock: string,
-  { abortSignal }: { abortSignal?: AbortSignalLike }
+  abortSignal?: AbortSignalLike
 ): Promise<CbsResponse> {
   return defaultCancellableLock.acquire(
     lock,
@@ -156,19 +154,18 @@ async function setupClaimNegotiation(
 ): Promise<void> {
   const startTime = Date.now();
   logger.verbose(
-    "Acquiring cbs lock: '%s' for creating the cbs session",
-    context.cbsSession.cbsLock
+    `acquiring cbs lock: '${context.cbsSession.cbsLock}' for creating the cbs session`
   );
 
   await openCbsSession(context.cbsSession, timeoutInMs + startTime, { abortSignal });
-  logger.verbose("Acquiring cbs lock: '%s' for cbs auth", context.negotiateClaimLock);
+  logger.verbose(`acquiring cbs lock: '${context.negotiateClaimLock}' for cbs auth`);
   await negotiateClaim(
     info,
     audience,
     context.cbsSession,
     timeoutInMs + startTime,
     context.negotiateClaimLock,
-    { abortSignal }
+    abortSignal
   );
-  logger.verbose("Claim negotiation succeeded");
+  logger.verbose("claim negotiation succeeded");
 }

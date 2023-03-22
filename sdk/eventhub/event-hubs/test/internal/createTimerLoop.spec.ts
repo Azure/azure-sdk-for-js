@@ -40,12 +40,11 @@ describe("createTimerLoop", function () {
     assert.isFalse(loop.isRunning);
   });
 
-  it("still loops in the presence of handled errors", async function () {
+  it("continues looping in the presence of errors", async function () {
     const interval = 1000;
-    const errMsg = "expected exception";
-    const loop = createTimerLoop(interval, () =>
-      new Promise((_, reject) => reject(errMsg)).catch(() => {})
-    );
+    const loop = createTimerLoop(interval, async () => {
+      throw new Error("expected exception");
+    });
     loop.start();
     assert.isTrue(loop.isRunning);
     await clock.tickAsync(interval);

@@ -76,6 +76,6 @@ export function createSimpleLogger(azureLogger: AzureLogger, prefix: string): Si
 }
 
 /** @internal */
-export function logObj(obj: unknown) {
+export function logObj(obj: unknown): void {
   JSON.stringify(obj, undefined, 2);
 }

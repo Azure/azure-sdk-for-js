@@ -34,7 +34,15 @@ export function createTimerLoop(
   const loop = {
     start: () => {
       clearTimeout(token);
-      token = setTimeout(() => createTask().finally(loop.start), timeoutInMs);
+      token = setTimeout(
+        () =>
+          createTask()
+            .catch(() => {
+              /** eats up any unhandled error */
+            })
+            .finally(loop.start),
+        timeoutInMs
+      );
       loop.isRunning = true;
     },
     stop: () => {

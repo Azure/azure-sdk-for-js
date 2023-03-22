@@ -50,7 +50,6 @@ import { translateError } from "./util/error";
 import { TimerLoop } from "./util/timerLoop";
 import { withAuth } from "./withAuth";
 import { getRandomName } from "./util/utils";
-import { SENDER_MAX_LISTENERS_COUNT } from "./constants";
 
 /**
  * @internal
@@ -614,7 +613,6 @@ export class EventHubSender {
       this.logger.verbose("trying to be created...");
 
       const sender = await this._context.connection.createAwaitableSender(options);
-      sender.setMaxListeners(SENDER_MAX_LISTENERS_COUNT);
       this._sender = sender;
       this._populateLocalPublishingProperties(this._sender);
       this.isConnecting = false;
