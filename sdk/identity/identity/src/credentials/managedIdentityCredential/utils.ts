@@ -80,7 +80,7 @@ export function parseExpirationTimestamp(body: TokenResponseParsedBody): number 
  */
 export function parseRefreshTimestamp(body: TokenResponseParsedBody): number {
   if (typeof body.refresh_in === "number") {
-    return Date.now() + (body.refresh_in * 1000);
+    return Date.now() + body.refresh_in * 1000;
   } else {
     const durationInMilliseconds = parseExpirationTimestamp(body) - Date.now();
     const durationInHours = Math.floor(durationInMilliseconds / 1000 / 60 / 60);
