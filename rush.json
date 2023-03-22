@@ -1952,6 +1952,11 @@
       "packageName": "@azure/arm-graphservices",
       "projectFolder": "sdk/graphservices/arm-graphservices",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-help",
+      "projectFolder": "sdk/help/arm-help",
+      "versionPolicyName": "management"
     }
   ]
 }
