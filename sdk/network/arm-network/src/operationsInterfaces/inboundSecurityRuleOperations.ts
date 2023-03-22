@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   InboundSecurityRule,
   InboundSecurityRuleCreateOrUpdateOptionalParams,
@@ -31,8 +31,8 @@ export interface InboundSecurityRuleOperations {
     parameters: InboundSecurityRule,
     options?: InboundSecurityRuleCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<InboundSecurityRuleCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<InboundSecurityRuleCreateOrUpdateResponse>,
       InboundSecurityRuleCreateOrUpdateResponse
     >
   >;

@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the currently advertised routes table associated with the express route cross connection in a resource group.
  *
  * @summary Gets the currently advertised routes table associated with the express route cross connection in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/ExpressRouteCrossConnectionsRouteTable.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/ExpressRouteCrossConnectionsRouteTable.json
  */
 async function getExpressRouteCrossConnectionsRouteTable() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "CrossConnection-SiliconValley";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["NETWORK_RESOURCE_GROUP"] || "CrossConnection-SiliconValley";
   const crossConnectionName = "<circuitServiceKey>";
   const peeringName = "AzurePrivatePeering";
   const devicePath = "primary";
@@ -34,4 +36,8 @@ async function getExpressRouteCrossConnectionsRouteTable() {
   console.log(result);
 }
 
-getExpressRouteCrossConnectionsRouteTable().catch(console.error);
+async function main() {
+  getExpressRouteCrossConnectionsRouteTable();
+}
+
+main().catch(console.error);

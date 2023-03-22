@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List all load balancers in a network interface.
  *
  * @summary List all load balancers in a network interface.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkInterfaceLoadBalancerList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkInterfaceLoadBalancerList.json
  */
 async function networkInterfaceLoadBalancerList() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "testrg";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "testrg";
   const networkInterfaceName = "nic1";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -33,4 +34,8 @@ async function networkInterfaceLoadBalancerList() {
   console.log(resArray);
 }
 
-networkInterfaceLoadBalancerList().catch(console.error);
+async function main() {
+  networkInterfaceLoadBalancerList();
+}
+
+main().catch(console.error);

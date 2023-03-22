@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ApplicationGateway,
   ApplicationGatewaysListOptionalParams,
@@ -79,7 +79,7 @@ export interface ApplicationGateways {
     resourceGroupName: string,
     applicationGatewayName: string,
     options?: ApplicationGatewaysDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified application gateway.
    * @param resourceGroupName The name of the resource group.
@@ -115,8 +115,8 @@ export interface ApplicationGateways {
     parameters: ApplicationGateway,
     options?: ApplicationGatewaysCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ApplicationGatewaysCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ApplicationGatewaysCreateOrUpdateResponse>,
       ApplicationGatewaysCreateOrUpdateResponse
     >
   >;
@@ -156,7 +156,7 @@ export interface ApplicationGateways {
     resourceGroupName: string,
     applicationGatewayName: string,
     options?: ApplicationGatewaysStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Starts the specified application gateway.
    * @param resourceGroupName The name of the resource group.
@@ -178,7 +178,7 @@ export interface ApplicationGateways {
     resourceGroupName: string,
     applicationGatewayName: string,
     options?: ApplicationGatewaysStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Stops the specified application gateway in a resource group.
    * @param resourceGroupName The name of the resource group.
@@ -201,8 +201,8 @@ export interface ApplicationGateways {
     applicationGatewayName: string,
     options?: ApplicationGatewaysBackendHealthOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ApplicationGatewaysBackendHealthResponse>,
+    SimplePollerLike<
+      OperationState<ApplicationGatewaysBackendHealthResponse>,
       ApplicationGatewaysBackendHealthResponse
     >
   >;
@@ -231,8 +231,8 @@ export interface ApplicationGateways {
     probeRequest: ApplicationGatewayOnDemandProbe,
     options?: ApplicationGatewaysBackendHealthOnDemandOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ApplicationGatewaysBackendHealthOnDemandResponse>,
+    SimplePollerLike<
+      OperationState<ApplicationGatewaysBackendHealthOnDemandResponse>,
       ApplicationGatewaysBackendHealthOnDemandResponse
     >
   >;

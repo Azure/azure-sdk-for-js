@@ -5,14 +5,9 @@
  * @summary Uploads a manifest to a repository.
  */
 
-import {
-  ContainerRegistryBlobClient,
-  KnownContainerRegistryAudience,
-  OciImageManifest,
-} from "@azure/container-registry";
+import { ContainerRegistryBlobClient, OciImageManifest } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
-import { Readable } from "stream";
 dotenv.config();
 
 async function main() {
@@ -23,14 +18,11 @@ async function main() {
   const client = new ContainerRegistryBlobClient(
     endpoint,
     repository,
-    new DefaultAzureCredential(),
-    {
-      audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
-    }
+    new DefaultAzureCredential()
   );
 
   const layer = Buffer.from("Hello, world");
-  const { digest: layerDigest } = await client.uploadBlob(Readable.from(layer));
+  const { digest: layerDigest, sizeInBytes: layerSize } = await client.uploadBlob(layer);
 
   const config = Buffer.from(
     JSON.stringify({
@@ -43,20 +35,19 @@ async function main() {
     })
   );
 
-  const { digest: configDigest } = await client.uploadBlob(Readable.from(config));
+  const { digest: configDigest, sizeInBytes: configSize } = await client.uploadBlob(config);
 
   const manifest: OciImageManifest = {
-    schemaVersion: 2,
     config: {
       mediaType: "application/vnd.oci.image.config.v1+json",
       digest: configDigest,
-      size: config.byteLength,
+      sizeInBytes: configSize,
     },
     layers: [
       {
         mediaType: "application/vnd.oci.image.layer.v1.tar",
         digest: layerDigest,
-        size: layer.byteLength,
+        sizeInBytes: layerSize,
         annotations: {
           title: "artifact.txt",
         },

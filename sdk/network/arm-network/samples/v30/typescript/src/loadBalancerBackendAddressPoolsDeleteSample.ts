@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes the specified load balancer backend address pool.
  *
  * @summary Deletes the specified load balancer backend address pool.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/LoadBalancerBackendAddressPoolDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/LoadBalancerBackendAddressPoolDelete.json
  */
 async function backendAddressPoolDelete() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "testrg";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "testrg";
   const loadBalancerName = "lb";
   const backendAddressPoolName = "backend";
   const credential = new DefaultAzureCredential();
@@ -32,4 +35,8 @@ async function backendAddressPoolDelete() {
   console.log(result);
 }
 
-backendAddressPoolDelete().catch(console.error);
+async function main() {
+  backendAddressPoolDelete();
+}
+
+main().catch(console.error);

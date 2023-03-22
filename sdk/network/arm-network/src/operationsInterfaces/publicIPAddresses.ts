@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PublicIPAddress,
   PublicIPAddressesListCloudServicePublicIPAddressesOptionalParams,
@@ -138,7 +138,7 @@ export interface PublicIPAddresses {
     resourceGroupName: string,
     publicIpAddressName: string,
     options?: PublicIPAddressesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified public IP address.
    * @param resourceGroupName The name of the resource group.
@@ -174,8 +174,8 @@ export interface PublicIPAddresses {
     parameters: PublicIPAddress,
     options?: PublicIPAddressesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PublicIPAddressesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PublicIPAddressesCreateOrUpdateResponse>,
       PublicIPAddressesCreateOrUpdateResponse
     >
   >;
@@ -216,8 +216,8 @@ export interface PublicIPAddresses {
     publicIpAddressName: string,
     options?: PublicIPAddressesDdosProtectionStatusOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PublicIPAddressesDdosProtectionStatusResponse>,
+    SimplePollerLike<
+      OperationState<PublicIPAddressesDdosProtectionStatusResponse>,
       PublicIPAddressesDdosProtectionStatusResponse
     >
   >;
