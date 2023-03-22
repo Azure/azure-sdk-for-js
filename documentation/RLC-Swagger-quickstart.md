@@ -300,7 +300,7 @@ You may meet the CI failures after submitting the PR, so please refer to [Troubl
 
 ## CC dpg-devs for review
 
-Please add below comment in your pr to include dpg-devs could review your pr timely.
+Please add below comment in your pr to include dpg-devs to review your pr timely.
 
 ```
 cc @Azure/dpg-devs for awareness
