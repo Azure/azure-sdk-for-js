@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SecurityCenter } = require("@azure/arm-security");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Delete metadata information on an assessment type in a specific subscription, will cause the deletion of all the assessments of that type in that subscription
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2021-06-01/examples/AssessmentsMetadata/DeleteAssessmentsMetadata_subscription_example.json
  */
 async function deleteASecurityAssessmentMetadataForSubscription() {
-  const subscriptionId = "0980887d-03d6-408c-9566-532f3456804e";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] || "0980887d-03d6-408c-9566-532f3456804e";
   const assessmentMetadataName = "ca039e75-a276-4175-aebc-bcd41e4b14b7";
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
@@ -26,4 +28,8 @@ async function deleteASecurityAssessmentMetadataForSubscription() {
   console.log(result);
 }
 
-deleteASecurityAssessmentMetadataForSubscription().catch(console.error);
+async function main() {
+  deleteASecurityAssessmentMetadataForSubscription();
+}
+
+main().catch(console.error);

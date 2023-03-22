@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Retrieves the details of a nat ruleGet.
  *
  * @summary Retrieves the details of a nat ruleGet.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NatRuleGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NatRuleGet.json
  */
 async function natRuleGet() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const gatewayName = "gateway1";
   const natRuleName = "natRule1";
   const credential = new DefaultAzureCredential();
@@ -32,4 +35,8 @@ async function natRuleGet() {
   console.log(result);
 }
 
-natRuleGet().catch(console.error);
+async function main() {
+  natRuleGet();
+}
+
+main().catch(console.error);

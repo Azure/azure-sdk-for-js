@@ -10,26 +10,36 @@
 // Licensed under the MIT License.
 import { HybridContainerServiceClient } from "@azure/arm-hybridcontainerservice";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get the hybrid identity metadata proxy resource.
  *
  * @summary Get the hybrid identity metadata proxy resource.
- * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-05-01-preview/examples/GetHybridIdentityMetadata.json
+ * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-09-01-preview/examples/GetHybridIdentityMetadata.json
  */
 async function getHybridIdentityMetadata() {
-  const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
-  const resourceGroupName = "testrg";
-  const provisionedClustersName = "ContosoTargetCluster";
+  const subscriptionId =
+    process.env["HYBRIDCONTAINERSERVICE_SUBSCRIPTION_ID"] ||
+    "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
+  const resourceGroupName =
+    process.env["HYBRIDCONTAINERSERVICE_RESOURCE_GROUP"] || "testrg";
+  const resourceName = "ContosoTargetCluster";
   const hybridIdentityMetadataResourceName = "default";
   const credential = new DefaultAzureCredential();
   const client = new HybridContainerServiceClient(credential, subscriptionId);
   const result = await client.hybridIdentityMetadataOperations.get(
     resourceGroupName,
-    provisionedClustersName,
+    resourceName,
     hybridIdentityMetadataResourceName
   );
   console.log(result);
 }
 
-getHybridIdentityMetadata().catch(console.error);
+async function main() {
+  getHybridIdentityMetadata();
+}
+
+main().catch(console.error);

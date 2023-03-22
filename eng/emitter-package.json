@@ -1,0 +1,7 @@
+{
+  "main": "dist/src/index.js",
+  "dependencies": {
+    "@azure-tools/typespec-ts": "0.11.0",
+    "@typespec/versioning": "0.42.0"
+  }
+}

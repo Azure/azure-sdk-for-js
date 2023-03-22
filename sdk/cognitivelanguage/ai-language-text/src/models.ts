@@ -12,7 +12,6 @@ import {
   DocumentDetectedLanguage,
   DocumentSentimentLabel,
   DocumentWarning,
-  DynamicClassificationAction,
   Entity,
   EntityDataSource,
   EntityLinkingAction,
@@ -106,7 +105,6 @@ export const AnalyzeActionNames = {
   PiiEntityRecognition: "PiiEntityRecognition",
   LanguageDetection: "LanguageDetection",
   SentimentAnalysis: "SentimentAnalysis",
-  DynamicClassification: "DynamicClassification",
 } as const;
 
 /**
@@ -140,7 +138,6 @@ export type AnalyzeActionParameters<ActionName extends AnalyzeActionName> = {
   PiiEntityRecognition: PiiEntityRecognitionAction;
   KeyPhraseExtraction: KeyPhraseExtractionAction;
   SentimentAnalysis: SentimentAnalysisAction;
-  DynamicClassification: DynamicClassificationAction;
   LanguageDetection: LanguageDetectionAction;
 }[ActionName];
 
@@ -153,7 +150,6 @@ export type AnalyzeResult<ActionName extends AnalyzeActionName> = {
   PiiEntityRecognition: PiiEntityRecognitionResult[];
   KeyPhraseExtraction: KeyPhraseExtractionResult[];
   SentimentAnalysis: SentimentAnalysisResult[];
-  DynamicClassification: DynamicClassificationResult[];
   LanguageDetection: LanguageDetectionResult[];
 }[ActionName];
 
@@ -469,29 +465,6 @@ export interface Opinion {
    */
   readonly assessments: AssessmentSentiment[];
 }
-
-/**
- * The result of a language detection action on a single document.
- */
-export type DynamicClassificationResult =
-  | DynamicClassificationSuccessResult
-  | DynamicClassificationErrorResult;
-
-/**
- * The result of a language detection action on a single document,
- * containing a prediction of what language the document is written in.
- */
-export interface DynamicClassificationSuccessResult extends TextAnalysisSuccessResult {
-  /**
-   * The collection of classifications in the input document.
-   */
-  readonly classifications: ClassificationCategory[];
-}
-
-/**
- * An error result from a language detection action on a single document.
- */
-export type DynamicClassificationErrorResult = TextAnalysisErrorResult;
 
 /**
  * A healthcare entity represented as a node in a directed graph where the edges are

@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes the specified network interface.
  *
  * @summary Deletes the specified network interface.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkInterfaceDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkInterfaceDelete.json
  */
 async function deleteNetworkInterface() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkInterfaceName = "test-nic";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -30,4 +33,8 @@ async function deleteNetworkInterface() {
   console.log(result);
 }
 
-deleteNetworkInterface().catch(console.error);
+async function main() {
+  deleteNetworkInterface();
+}
+
+main().catch(console.error);

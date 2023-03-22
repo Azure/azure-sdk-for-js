@@ -10,15 +10,16 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List all SKUs available for a virtual appliance.
  *
  * @summary List all SKUs available for a virtual appliance.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkVirtualApplianceSkuList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkVirtualApplianceSkuList.json
  */
 async function networkVirtualApplianceSkuListResult() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +29,8 @@ async function networkVirtualApplianceSkuListResult() {
   console.log(resArray);
 }
 
-networkVirtualApplianceSkuListResult().catch(console.error);
+async function main() {
+  networkVirtualApplianceSkuListResult();
+}
+
+main().catch(console.error);

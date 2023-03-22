@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PacketCaptureResult,
   PacketCapturesListOptionalParams,
@@ -51,8 +51,8 @@ export interface PacketCaptures {
     parameters: PacketCapture,
     options?: PacketCapturesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PacketCapturesCreateResponse>,
+    SimplePollerLike<
+      OperationState<PacketCapturesCreateResponse>,
       PacketCapturesCreateResponse
     >
   >;
@@ -96,7 +96,7 @@ export interface PacketCaptures {
     networkWatcherName: string,
     packetCaptureName: string,
     options?: PacketCapturesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified packet capture session.
    * @param resourceGroupName The name of the resource group.
@@ -122,7 +122,7 @@ export interface PacketCaptures {
     networkWatcherName: string,
     packetCaptureName: string,
     options?: PacketCapturesStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Stops a specified packet capture session.
    * @param resourceGroupName The name of the resource group.
@@ -149,8 +149,8 @@ export interface PacketCaptures {
     packetCaptureName: string,
     options?: PacketCapturesGetStatusOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PacketCapturesGetStatusResponse>,
+    SimplePollerLike<
+      OperationState<PacketCapturesGetStatusResponse>,
       PacketCapturesGetStatusResponse
     >
   >;

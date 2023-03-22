@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SecurityCenter } = require("@azure/arm-security");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Settings about where we should store your security data and logs
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2017-08-01-preview/examples/WorkspaceSettings/UpdateWorkspaceSetting_example.json
  */
 async function updateAWorkspaceSettingDataForSubscription() {
-  const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] || "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const workspaceSettingName = "default";
   const workspaceSetting = {
     name: "default",
@@ -33,4 +35,8 @@ async function updateAWorkspaceSettingDataForSubscription() {
   console.log(result);
 }
 
-updateAWorkspaceSettingDataForSubscription().catch(console.error);
+async function main() {
+  updateAWorkspaceSettingDataForSubscription();
+}
+
+main().catch(console.error);

@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://someEndpoint/emails:send?api-version=2023-01-15-preview",
+      "RequestUri": "https://someEndpoint/emails:send?api-version=2023-03-31",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,10 +10,10 @@
         "Connection": "keep-alive",
         "Content-Length": "240",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-communication-email/1.0.0-beta.2 core-rest-pipeline/1.10.1 Node/v16.14.2 OS/(x64-Windows_NT-10.0.25300)",
-        "x-ms-client-request-id": "89942b92-92d5-4818-94ef-92e3b34e030b",
+        "User-Agent": "azsdk-js-communication-email/1.0.0 core-rest-pipeline/1.10.3 Node/v16.14.2 OS/(x64-Windows_NT-10.0.25309)",
+        "x-ms-client-request-id": "9858ba7a-a992-429b-b0db-0d2e8f914e92",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Wed, 22 Feb 2023 17:24:03 GMT"
+        "x-ms-date": "Thu, 16 Mar 2023 18:11:47 GMT"
       },
       "RequestBody": {
         "senderAddress": "someSender@contoso.com",
@@ -33,14 +33,15 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-10-01-preview, 2023-01-15-preview",
+        "api-supported-versions": "2021-10-01-preview, 2023-01-15-preview, 2023-03-31",
+        "Connection": "keep-alive",
         "Content-Length": "47",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Feb 2023 17:24:04 GMT",
-        "mise-correlation-id": "d71a6bfa-7cb3-4f78-b5b4-119d32bddd9f",
-        "Operation-Location": "https://someEndpoint/emails/operations/someId?api-version=2023-01-15-preview",
+        "Date": "Thu, 16 Mar 2023 18:11:48 GMT",
+        "mise-correlation-id": "05f91af5-63b4-4b3c-b950-a2beb92f8879",
+        "Operation-Location": "https://someEndpoint/emails/operations/someId?api-version=2023-03-31",
         "Retry-After": "30",
-        "X-Azure-Ref": "0tE/2YwAAAACg5KBh\u002BhUARom6ZgWrxpKfV1NURURHRTAxMDkAY2M5Mjc1OGQtMDVmNy00YWQ2LWFhNWUtMGZhOTcxOGQ4OTg1",
+        "x-azure-ref": "20230316T181148Z-3mtd1fca5p4p79gyw9nfm6dur400000001d0000000001u48",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -50,7 +51,7 @@
       }
     },
     {
-      "RequestUri": "https://someEndpoint/emails/operations/someId?api-version=2023-01-15-preview",
+      "RequestUri": "https://someEndpoint/emails/operations/someId?api-version=2023-03-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -58,21 +59,23 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-communication-email/1.0.0-beta.2 core-rest-pipeline/1.10.1 Node/v16.14.2 OS/(x64-Windows_NT-10.0.25300)",
-        "x-ms-client-request-id": "c0cdb8ce-ec1c-402c-9802-0ddd1f60beff",
+        "User-Agent": "azsdk-js-communication-email/1.0.0 core-rest-pipeline/1.10.3 Node/v16.14.2 OS/(x64-Windows_NT-10.0.25309)",
+        "x-ms-client-request-id": "c51e1a32-cd6d-4bd1-a6e4-98184815a3a5",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Wed, 22 Feb 2023 17:24:04 GMT"
+        "x-ms-date": "Thu, 16 Mar 2023 18:11:48 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-10-01-preview, 2023-01-15-preview",
+        "Accept-Ranges": "bytes",
+        "api-supported-versions": "2021-10-01-preview, 2023-01-15-preview, 2023-03-31",
+        "Connection": "keep-alive",
         "Content-Length": "47",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Feb 2023 17:24:04 GMT",
-        "mise-correlation-id": "513ca824-57b6-4d84-82fc-37bd413dbcdf",
+        "Date": "Thu, 16 Mar 2023 18:11:48 GMT",
+        "mise-correlation-id": "0146e845-12fb-4784-90b2-1c7dedb6a276",
         "Retry-After": "30",
-        "X-Azure-Ref": "0tE/2YwAAAABbIP0Z3axUSbEtfvGAI88oV1NURURHRTAxMDkAY2M5Mjc1OGQtMDVmNy00YWQ2LWFhNWUtMGZhOTcxOGQ4OTg1",
+        "x-azure-ref": "20230316T181148Z-3mtd1fca5p4p79gyw9nfm6dur400000001d0000000001u56",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -82,7 +85,7 @@
       }
     },
     {
-      "RequestUri": "https://someEndpoint/emails/operations/someId?api-version=2023-01-15-preview",
+      "RequestUri": "https://someEndpoint/emails/operations/someId?api-version=2023-03-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -90,21 +93,23 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-communication-email/1.0.0-beta.2 core-rest-pipeline/1.10.1 Node/v16.14.2 OS/(x64-Windows_NT-10.0.25300)",
-        "x-ms-client-request-id": "599184d2-62f6-4baf-b5d5-db0e4e3dc09b",
+        "User-Agent": "azsdk-js-communication-email/1.0.0 core-rest-pipeline/1.10.3 Node/v16.14.2 OS/(x64-Windows_NT-10.0.25309)",
+        "x-ms-client-request-id": "c8aa870f-4f59-449c-8f12-64abfbe1fd46",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Wed, 22 Feb 2023 17:24:05 GMT"
+        "x-ms-date": "Thu, 16 Mar 2023 18:11:48 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-10-01-preview, 2023-01-15-preview",
+        "Accept-Ranges": "bytes",
+        "api-supported-versions": "2021-10-01-preview, 2023-01-15-preview, 2023-03-31",
+        "Connection": "keep-alive",
         "Content-Length": "47",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Feb 2023 17:24:05 GMT",
-        "mise-correlation-id": "d6c017f1-847a-4e96-86c3-72ac9f817db2",
+        "Date": "Thu, 16 Mar 2023 18:11:48 GMT",
+        "mise-correlation-id": "c8dd320b-6e5d-4be2-a857-7f92c9f0b38f",
         "Retry-After": "30",
-        "X-Azure-Ref": "0tU/2YwAAAAD7VLi01qP2Sq\u002BfMyBxDvm0V1NURURHRTAxMDkAY2M5Mjc1OGQtMDVmNy00YWQ2LWFhNWUtMGZhOTcxOGQ4OTg1",
+        "x-azure-ref": "20230316T181148Z-3mtd1fca5p4p79gyw9nfm6dur400000001d0000000001u5a",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -114,7 +119,7 @@
       }
     },
     {
-      "RequestUri": "https://someEndpoint/emails/operations/someId?api-version=2023-01-15-preview",
+      "RequestUri": "https://someEndpoint/emails/operations/someId?api-version=2023-03-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -122,20 +127,22 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-communication-email/1.0.0-beta.2 core-rest-pipeline/1.10.1 Node/v16.14.2 OS/(x64-Windows_NT-10.0.25300)",
-        "x-ms-client-request-id": "3ae67475-98c2-4119-8075-8ce8a6556c37",
+        "User-Agent": "azsdk-js-communication-email/1.0.0 core-rest-pipeline/1.10.3 Node/v16.14.2 OS/(x64-Windows_NT-10.0.25309)",
+        "x-ms-client-request-id": "38d53229-53e1-4da2-b41a-82726a1e64d1",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Wed, 22 Feb 2023 17:24:35 GMT"
+        "x-ms-date": "Thu, 16 Mar 2023 18:12:18 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-10-01-preview, 2023-01-15-preview",
+        "Accept-Ranges": "bytes",
+        "api-supported-versions": "2021-10-01-preview, 2023-01-15-preview, 2023-03-31",
+        "Connection": "keep-alive",
         "Content-Length": "49",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Feb 2023 17:24:35 GMT",
-        "mise-correlation-id": "82eabc11-5aca-49ac-a2cd-618fbfc452a6",
-        "X-Azure-Ref": "000/2YwAAAAD4QuBbNqVTR5gIXKWVXNTeV1NURURHRTAxMDkAY2M5Mjc1OGQtMDVmNy00YWQ2LWFhNWUtMGZhOTcxOGQ4OTg1",
+        "Date": "Thu, 16 Mar 2023 18:12:18 GMT",
+        "mise-correlation-id": "4be095e3-af25-4f5a-aeed-c98f1410b822",
+        "x-azure-ref": "20230316T181218Z-bhaqd186411uvff2uz1c1nu60s00000001b000000000guvx",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {

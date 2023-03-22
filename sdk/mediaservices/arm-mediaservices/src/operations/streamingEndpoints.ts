@@ -13,12 +13,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureMediaServices } from "../azureMediaServices";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   StreamingEndpoint,
   StreamingEndpointsListNextOptionalParams,
@@ -184,8 +180,8 @@ export class StreamingEndpointsImpl implements StreamingEndpoints {
     parameters: StreamingEndpoint,
     options?: StreamingEndpointsCreateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<StreamingEndpointsCreateResponse>,
+    PollerLike<
+      PollOperationState<StreamingEndpointsCreateResponse>,
       StreamingEndpointsCreateResponse
     >
   > {
@@ -195,7 +191,7 @@ export class StreamingEndpointsImpl implements StreamingEndpoints {
     ): Promise<StreamingEndpointsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -228,22 +224,19 @@ export class StreamingEndpointsImpl implements StreamingEndpoints {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
+    const lro = new LroImpl(
+      sendOperation,
+      {
         resourceGroupName,
         accountName,
         streamingEndpointName,
         parameters,
         options
       },
-      spec: createOperationSpec
-    });
-    const poller = await createHttpPoller<
-      StreamingEndpointsCreateResponse,
-      OperationState<StreamingEndpointsCreateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
+      createOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -290,8 +283,8 @@ export class StreamingEndpointsImpl implements StreamingEndpoints {
     parameters: StreamingEndpoint,
     options?: StreamingEndpointsUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<StreamingEndpointsUpdateResponse>,
+    PollerLike<
+      PollOperationState<StreamingEndpointsUpdateResponse>,
       StreamingEndpointsUpdateResponse
     >
   > {
@@ -301,7 +294,7 @@ export class StreamingEndpointsImpl implements StreamingEndpoints {
     ): Promise<StreamingEndpointsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -334,22 +327,19 @@ export class StreamingEndpointsImpl implements StreamingEndpoints {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
+    const lro = new LroImpl(
+      sendOperation,
+      {
         resourceGroupName,
         accountName,
         streamingEndpointName,
         parameters,
         options
       },
-      spec: updateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      StreamingEndpointsUpdateResponse,
-      OperationState<StreamingEndpointsUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
+      updateOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -393,14 +383,14 @@ export class StreamingEndpointsImpl implements StreamingEndpoints {
     accountName: string,
     streamingEndpointName: string,
     options?: StreamingEndpointsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -433,13 +423,13 @@ export class StreamingEndpointsImpl implements StreamingEndpoints {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, accountName, streamingEndpointName, options },
-      spec: deleteOperationSpec
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, accountName, streamingEndpointName, options },
+      deleteOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -499,14 +489,14 @@ export class StreamingEndpointsImpl implements StreamingEndpoints {
     accountName: string,
     streamingEndpointName: string,
     options?: StreamingEndpointsStartOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -539,13 +529,13 @@ export class StreamingEndpointsImpl implements StreamingEndpoints {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, accountName, streamingEndpointName, options },
-      spec: startOperationSpec
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, accountName, streamingEndpointName, options },
+      startOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -586,14 +576,14 @@ export class StreamingEndpointsImpl implements StreamingEndpoints {
     accountName: string,
     streamingEndpointName: string,
     options?: StreamingEndpointsStopOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -626,13 +616,13 @@ export class StreamingEndpointsImpl implements StreamingEndpoints {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, accountName, streamingEndpointName, options },
-      spec: stopOperationSpec
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, accountName, streamingEndpointName, options },
+      stopOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -675,14 +665,14 @@ export class StreamingEndpointsImpl implements StreamingEndpoints {
     streamingEndpointName: string,
     parameters: StreamingEntityScaleUnit,
     options?: StreamingEndpointsScaleOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -715,19 +705,19 @@ export class StreamingEndpointsImpl implements StreamingEndpoints {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
+    const lro = new LroImpl(
+      sendOperation,
+      {
         resourceGroupName,
         accountName,
         streamingEndpointName,
         parameters,
         options
       },
-      spec: scaleOperationSpec
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
+      scaleOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -839,7 +829,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -861,7 +851,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -894,7 +884,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters19,
-  queryParameters: [Parameters.apiVersion3, Parameters.autoStart],
+  queryParameters: [Parameters.apiVersion, Parameters.autoStart],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -928,7 +918,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters19,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -953,7 +943,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -976,7 +966,7 @@ const skusOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1000,7 +990,7 @@ const startOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1024,7 +1014,7 @@ const stopOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1049,7 +1039,7 @@ const scaleOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters20,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1073,7 +1063,7 @@ const asyncOperationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1097,7 +1087,7 @@ const operationLocationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

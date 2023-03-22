@@ -208,7 +208,7 @@ type EventEmitterLike<T extends RheaPromiseReceiver | Session> = Pick<
  */
 export type MinimalReceiver = Pick<
   RheaPromiseReceiver,
-  "name" | "isOpen" | "credit" | "addCredit" | "drain" | "drainCredit"
+  "name" | "isOpen" | "credit" | "addCredit" | "drain" | "drainCredit" | "close"
 > &
   EventEmitterLike<RheaPromiseReceiver> & {
     session: EventEmitterLike<Session>;
@@ -514,18 +514,26 @@ export class BatchingReceiverLite {
     };
 
     abortSignalCleanupFunction = checkAndRegisterWithAbortSignal((err) => {
+      if (receiver.drain) {
+        // If a drain is already in process and we cancel, the link state may be out of sync
+        // with remote. Reset the link so that we will have fresh start.
+        receiver.close();
+      }
       reject(err);
     }, args.abortSignal);
-
-    logger.verbose(
-      `${loggingPrefix} Adding credit for receiving ${args.maxMessageCount} messages.`
-    );
 
     // By adding credit here, we let the service know that at max we can handle `maxMessageCount`
     // number of messages concurrently. We will return the user an array of messages that can
     // be of size upto maxMessageCount. Then the user needs to accordingly dispose
     // (complete/abandon/defer/deadletter) the messages from the array.
-    receiver.addCredit(args.maxMessageCount);
+    const creditToAdd = args.maxMessageCount - receiver.credit;
+    logger.verbose(
+      `${loggingPrefix} Ensure enough credit for receiving ${args.maxMessageCount} messages. Current: ${receiver.credit}.  To add: ${creditToAdd}.`
+    );
+
+    if (creditToAdd > 0) {
+      receiver.addCredit(creditToAdd);
+    }
 
     logger.verbose(
       `${loggingPrefix} Setting the wait timer for ${args.maxWaitTimeInMs} milliseconds.`

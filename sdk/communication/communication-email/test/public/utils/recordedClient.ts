@@ -28,7 +28,7 @@ const sanitizerOptions: SanitizerOptions = {
     { key: "x-ms-content-sha256", value: "Sanitized" },
     {
       key: "Operation-Location",
-      value: "https://someEndpoint/emails/operations/someId?api-version=2023-01-15-preview",
+      value: "https://someEndpoint/emails/operations/someId?api-version=2023-03-31",
     },
   ],
   uriSanitizers: [
