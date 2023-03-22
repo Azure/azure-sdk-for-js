@@ -30,9 +30,11 @@ export class ContentDownloaderImpl {
     const signUrlPolicy = {
       name: "CustomSignUrlPolicy",
       async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-        request.url = `${request.headers.get("OriginalUrl")}`;
-        const originalRequest = new URL(request.url);
-        request.headers.set("Host", originalRequest.host);
+        if (request.headers.has("OriginalUrl")) {
+          request.url = `${request.headers.get("OriginalUrl")}`;
+          const originalRequest = new URL(request.url);
+          request.headers.set("Host", originalRequest.host);
+        }
         return next(request);
       },
     };
