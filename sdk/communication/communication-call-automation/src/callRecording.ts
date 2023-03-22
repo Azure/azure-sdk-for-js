@@ -118,6 +118,17 @@ export class CallRecording {
   }
 
   /**
+   * Deletes a recording.
+   * @param recordingLocation - The recording location uri. Required.
+   */
+  public async deleteRecording(
+    recordingLocation: string,
+    abortSignal?: AbortSignalLike
+  ): Promise<void> {
+    await this.contentDownloader.deleteRecording(recordingLocation, abortSignal);
+  }
+
+  /**
    * Returns a stream with a call recording.
    * @param sourceLocation - The source location uri. Required.
    * @param offset - Offset byte. Not required.

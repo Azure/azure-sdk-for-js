@@ -211,6 +211,7 @@ export class CallRecording {
     // Warning: (ae-forgotten-export) The symbol "CallRecordingImpl" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "ContentDownloaderImpl" needs to be exported by the entry point index.d.ts
     constructor(callRecordingImpl: CallRecordingImpl, contentDownloader: ContentDownloaderImpl);
+    deleteRecording(sourceLocation: string, abortSignal?: AbortSignalLike): Promise<void>;
     downloadStreaming(sourceLocation: string, offset?: number, length?: number, abortSignal?: AbortSignalLike): Promise<NodeJS.ReadableStream>;
     downloadTo(sourceLocation: string, destinationPath: string, offset?: number, length?: number, abortSignal?: AbortSignalLike): Promise<void>;
     getRecordingState(recordingId: string, options?: GetRecordingPropertiesOptions): Promise<RecordingStateResult>;

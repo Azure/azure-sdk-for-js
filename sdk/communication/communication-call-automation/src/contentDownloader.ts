@@ -45,6 +45,40 @@ export class ContentDownloaderImpl {
   }
 
   /**
+   * Deletes a recording.
+   * @param recordingLocation - The recording location uri. Required.
+   */
+  async deleteRecording(recordingLocation: string, abortSignal?: AbortSignalLike): Promise<void> {
+    const fileLocation = new URL(recordingLocation);
+    const endpoint = new URL(this.client.endpoint);
+    const modifiedUrlForSigning = endpoint.origin + fileLocation.pathname;
+
+    const opt: PipelineRequestOptions = {
+      url: modifiedUrlForSigning,
+      method: "DELETE",
+      headers: createHttpHeaders(),
+      body: "",
+      abortSignal: abortSignal,
+    };
+
+    opt.headers?.set("OriginalUrl", recordingLocation);
+    opt.headers?.set("x-ms-host", endpoint.host);
+    opt.headers?.set("accept", "application/json");
+
+    const req = createPipelineRequest(opt);
+
+    const results = await this.client.sendRequest(req);
+
+    if (results.status !== 200) {
+      if (results.bodyAsText) {
+        const jsonBody = JSON.parse(results.bodyAsText);
+        throw { status: jsonBody.status, message: jsonBody.message };
+      }
+      throw { status: results.status };
+    }
+  }
+
+  /**
    * Returns a stream with a call recording.
    * @param sourceLocation - The source location uri. Required.
    * @param offset - Offset byte. Not required.
