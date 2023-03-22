@@ -774,6 +774,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-cosmosdb/15.3.0:
+    resolution: {integrity: sha512-XT0tgDyrmEw7rO+SuTrUQkF9yqmp/TCEacnZJQM2xydu4chB49ES3KCtBBWdtdi1fYI1AE7z6XrEIvgL3ngVzg==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.4.0
+      '@azure/core-client': 1.7.2
+      '@azure/core-lro': 2.5.1
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.10.2
+      tslib: 2.5.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-network/26.0.0:
     resolution: {integrity: sha512-Hp0Q4ZzChs8C0DUdGZOChWKMrhzZ53V0Q681puREZ9S1E6o2yWM0Vb+cYuWoyPOylwuzP2fjNjJZGtB7WuFd3w==}
     engines: {node: '>=12.0.0'}
@@ -3893,7 +3908,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230320
+      typescript: 5.1.0-dev.20230321
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8749,8 +8764,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230320:
-    resolution: {integrity: sha512-UWob7IhN/k84vqndbUwXaUNuLfzpgaD3wYm2FAKCUjXE0sMn5rf0Z+A8N2glIfqQBnBObLzIitWepn3TRF9Sjg==}
+  /typescript/5.1.0-dev.20230321:
+    resolution: {integrity: sha512-GFq3xvjbJImoKgCDJEiB7Bsa1wQdu/9tlb8Qj475ydSraETbCLzy+Ao3cqQ+KWBM6Mqo+0b1rrpe2Gj0DZz2+w==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -10649,10 +10664,11 @@ packages:
     dev: false
 
   file:projects/arm-chaos.tgz:
-    resolution: {integrity: sha512-njjDx1kDxnztWCBBmTJ40+TWFRwcSBFvCRJTT+08lUKWLWx+GJyOb8osMNB8/OTQXXk+5hDIR7v6lpqoeT55Jg==, tarball: file:projects/arm-chaos.tgz}
+    resolution: {integrity: sha512-d6DfG5mp95Xc6jKCEfY+qURWZEYg3mbM4Fe2OKS+K5tC1PtU4oMaPRamLDW/GXNeC0M8UANqJ7YHDTB5zGxcFA==, tarball: file:projects/arm-chaos.tgz}
     name: '@rush-temp/arm-chaos'
     version: 0.0.0
     dependencies:
+      '@azure/arm-cosmosdb': 15.3.0
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.34.4_@types+node@14.18.38
       '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
@@ -12170,19 +12186,19 @@ packages:
     dev: false
 
   file:projects/arm-graphservices.tgz:
-    resolution: {integrity: sha512-FGMQq6BOIpb01GiMS1PDpo/y17Bb9bxNSMVtLJRoORxpGlTgbpDWB+1o65n5kZ4P2Sda2DScSr+Oml3uXoC3kg==, tarball: file:projects/arm-graphservices.tgz}
+    resolution: {integrity: sha512-W4Mpd/2C0oFq2ylu1h0QbdANHiy70H5DmfFjBxsY/9xE4X9IV9DlihvCO6i+VJNC0X7BTlvGmfa9JLVgFLjqxg==, tarball: file:projects/arm-graphservices.tgz}
     name: '@rush-temp/arm-graphservices'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 2.0.0
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.4_@types+node@14.18.37
+      '@microsoft/api-extractor': 7.34.4_@types+node@14.18.38
       '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
       '@rollup/plugin-json': 6.0.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
-      '@types/node': 14.18.37
+      '@types/node': 14.18.38
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
@@ -12190,12 +12206,11 @@ packages:
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_uvqxrz6xmh6o32kxhfeqlqrt5q
+      rollup-plugin-sourcemaps: 0.6.3_rrfo4ccoq6ga3fxzubpgdsawvq
       tslib: 2.5.0
       typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - encoding
       - supports-color
     dev: false
 
