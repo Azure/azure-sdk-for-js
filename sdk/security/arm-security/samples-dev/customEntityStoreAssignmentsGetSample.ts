@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets a single custom entity store assignment by name for the provided subscription and resource group.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2021-07-01-preview/examples/CustomEntityStoreAssignments/customEntityStoreAssignmentGet_example.json
  */
 async function getACustomEntityStoreAssignment() {
-  const subscriptionId = "e5d1b86c-3051-44d5-8802-aa65d45a279b";
-  const resourceGroupName = "TestResourceGroup";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] ||
+    "e5d1b86c-3051-44d5-8802-aa65d45a279b";
+  const resourceGroupName =
+    process.env["SECURITY_RESOURCE_GROUP"] || "TestResourceGroup";
   const customEntityStoreAssignmentName =
     "33e7cc6e-a139-4723-a0e5-76993aee0771";
   const credential = new DefaultAzureCredential();
@@ -31,4 +37,8 @@ async function getACustomEntityStoreAssignment() {
   console.log(result);
 }
 
-getACustomEntityStoreAssignment().catch(console.error);
+async function main() {
+  getACustomEntityStoreAssignment();
+}
+
+main().catch(console.error);
