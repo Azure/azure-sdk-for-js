@@ -14,8 +14,12 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "./lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "./lroImpl";
 import {
   BackupResourceStorageConfigsNonCRRImpl,
   ProtectionIntentOperationsImpl,
@@ -164,7 +168,7 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-recoveryservicesbackup/10.0.1`;
+    const packageDetails = `azsdk-js-arm-recoveryservicesbackup/10.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -217,7 +221,7 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-01-01";
+    this.apiVersion = options.apiVersion || "2023-02-01";
     this.backupResourceStorageConfigsNonCRR = new BackupResourceStorageConfigsNonCRRImpl(
       this
     );
@@ -357,14 +361,14 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
     resourceGroupName: string,
     parameters: PrepareDataMoveRequest,
     options?: BMSPrepareDataMoveOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -397,13 +401,13 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { vaultName, resourceGroupName, parameters, options },
-      bMSPrepareDataMoveOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { vaultName, resourceGroupName, parameters, options },
+      spec: bMSPrepareDataMoveOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -446,14 +450,14 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
     resourceGroupName: string,
     parameters: TriggerDataMoveRequest,
     options?: BMSTriggerDataMoveOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -486,13 +490,13 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { vaultName, resourceGroupName, parameters, options },
-      bMSTriggerDataMoveOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { vaultName, resourceGroupName, parameters, options },
+      spec: bMSTriggerDataMoveOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -543,14 +547,14 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
     recoveryPointId: string,
     parameters: MoveRPAcrossTiersRequest,
     options?: MoveRecoveryPointOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -583,9 +587,9 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         vaultName,
         resourceGroupName,
         fabricName,
@@ -595,10 +599,10 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
         parameters,
         options
       },
-      moveRecoveryPointOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: moveRecoveryPointOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
