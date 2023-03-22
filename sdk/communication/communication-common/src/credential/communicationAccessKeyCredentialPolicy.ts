@@ -37,7 +37,7 @@ export function createCommunicationAccessKeyCredentialPolicy(
 
       const url = new URL(request.url);
       const query = url.searchParams;
-      const urlPathAndQuery = query ? `${url.pathname}?${query}` : url.pathname;
+      const urlPathAndQuery = query.toString() ? `${url.pathname}?${query}` : url.pathname;
       const port = url.port;
       const hostAndPort = port ? `${url.host}:${port}` : url.host;
 
