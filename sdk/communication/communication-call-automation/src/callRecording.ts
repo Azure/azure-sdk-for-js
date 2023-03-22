@@ -13,7 +13,7 @@ import {
 import { communicationIdentifierModelConverter } from "./utli/converters";
 import { ContentDownloaderImpl } from "./contentDownloader";
 import { AbortSignalLike } from "@azure/abort-controller";
-const fs = require("fs");
+import * as fs from 'fs';
 
 /**
  * CallRecording class represents call recording related APIs.
@@ -129,8 +129,8 @@ export class CallRecording {
     length?: number,
     abortSignal?: AbortSignalLike
   ): Promise<NodeJS.ReadableStream> {
-    var result = this.contentDownloader.download(sourceLocation, offset, length, abortSignal);
-    var recordingStream = (await result).readableStreamBody;
+    const result = this.contentDownloader.download(sourceLocation, offset, length, abortSignal);
+    const recordingStream = (await result).readableStreamBody;
     if (recordingStream) {
       return recordingStream;
     } else {
@@ -153,8 +153,8 @@ export class CallRecording {
     abortSignal?: AbortSignalLike
   ): Promise<void> {
     console.log(destinationPath);
-    var result = this.contentDownloader.download(sourceLocation, offset, length, abortSignal);
-    var recordingStream = (await result).readableStreamBody;
+    const result = this.contentDownloader.download(sourceLocation, offset, length, abortSignal);
+    const recordingStream = (await result).readableStreamBody;
     if (recordingStream) {
       recordingStream.pipe(fs.createWriteStream(destinationPath));
     } else {

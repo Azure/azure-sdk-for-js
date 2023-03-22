@@ -19,7 +19,7 @@ export class ContentDownloaderImpl {
 
   /**
    * Initialize a new instance of the class ContentDownloader class.
-   * @param client Reference to the service client
+   * @param client - Reference to the service client
    */
   constructor(client: CallAutomationApiClient) {
     this.client = client;
@@ -31,13 +31,13 @@ export class ContentDownloaderImpl {
       name: "CustomSignUrlPolicy",
       async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
         request.url = `${request.headers.get("OriginalUrl")}`;
-        var originalRequest = new URL(request.url);
+        const originalRequest = new URL(request.url);
         request.headers.set("Host", originalRequest.host);
         return next(request);
       },
     };
 
-    var pipelineOptions: AddPipelineOptions = {};
+    const pipelineOptions: AddPipelineOptions = {};
     pipelineOptions.afterPhase = "Sign";
     this.client.pipeline.addPolicy(signUrlPolicy, pipelineOptions);
   }
@@ -54,9 +54,9 @@ export class ContentDownloaderImpl {
     length?: number,
     abortSignal?: AbortSignalLike
   ): Promise<PipelineResponse> {
-    var fileLocation = new URL(sourceLocation);
-    var endpoint = new URL(this.client.endpoint);
-    var modifiedUrlForSigning = endpoint.origin + fileLocation.pathname;
+    const fileLocation = new URL(sourceLocation);
+    const endpoint = new URL(this.client.endpoint);
+    const modifiedUrlForSigning = endpoint.origin + fileLocation.pathname;
 
     const opt: PipelineRequestOptions = {
       url: modifiedUrlForSigning,
@@ -73,7 +73,7 @@ export class ContentDownloaderImpl {
       length = offset + length - 1;
     }
 
-    var rangeHeader = "bytes=" + offset;
+    let rangeHeader = "bytes=" + offset;
     if (length) rangeHeader += "-" + length;
 
     opt.headers?.set("OriginalUrl", sourceLocation);
@@ -81,9 +81,9 @@ export class ContentDownloaderImpl {
     opt.headers?.set("accept", "application/json");
     opt.headers?.set("Range", rangeHeader);
 
-    var req = createPipelineRequest(opt);
+    const req = createPipelineRequest(opt);
 
-    var results = await this.client.sendRequest(req);
+    const results = await this.client.sendRequest(req);
 
     if (results.status !== 200 && results.status !== 206) {
       if (results.bodyAsText) {
