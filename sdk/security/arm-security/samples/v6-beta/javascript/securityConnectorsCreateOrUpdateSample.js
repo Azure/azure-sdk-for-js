@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SecurityCenter } = require("@azure/arm-security");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or updates a security connector. If a security connector is already created and a subsequent request is issued for the same security connector id, then it will be updated.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2022-08-01-preview/examples/SecurityConnectors/PutSecurityConnector_example.json
  */
 async function createOrUpdateASecurityConnector() {
-  const subscriptionId = "a5caac9c-5c04-49af-b3d0-e204f40345d5";
-  const resourceGroupName = "exampleResourceGroup";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] || "a5caac9c-5c04-49af-b3d0-e204f40345d5";
+  const resourceGroupName = process.env["SECURITY_RESOURCE_GROUP"] || "exampleResourceGroup";
   const securityConnectorName = "exampleSecurityConnectorName";
   const securityConnector = {
     environmentData: { environmentType: "AwsAccount" },
@@ -47,4 +49,8 @@ async function createOrUpdateASecurityConnector() {
   console.log(result);
 }
 
-createOrUpdateASecurityConnector().catch(console.error);
+async function main() {
+  createOrUpdateASecurityConnector();
+}
+
+main().catch(console.error);

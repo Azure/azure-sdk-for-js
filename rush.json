@@ -1947,6 +1947,11 @@
       "packageName": "@azure/web-pubsub-client-protobuf",
       "projectFolder": "sdk/web-pubsub/web-pubsub-client-protobuf",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-graphservices",
+      "projectFolder": "sdk/graphservices/arm-graphservices",
+      "versionPolicyName": "management"
     }
   ]
 }

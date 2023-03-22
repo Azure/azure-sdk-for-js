@@ -42,13 +42,13 @@ export type EmailContent = HtmlEmailContent | PlainTextEmailContent;
 export interface EmailMessage {
     attachments?: EmailAttachment[];
     content: EmailContent;
+    disableUserEngagementTracking?: boolean;
     headers?: {
         [propertyName: string]: string;
     };
     recipients: EmailRecipients;
     replyTo?: EmailAddress[];
     senderAddress: string;
-    userEngagementTrackingDisabled?: boolean;
 }
 
 // @public
