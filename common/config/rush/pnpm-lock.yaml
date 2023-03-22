@@ -3893,7 +3893,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230320
+      typescript: 5.1.0-dev.20230321
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8749,8 +8749,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230320:
-    resolution: {integrity: sha512-UWob7IhN/k84vqndbUwXaUNuLfzpgaD3wYm2FAKCUjXE0sMn5rf0Z+A8N2glIfqQBnBObLzIitWepn3TRF9Sjg==}
+  /typescript/5.1.0-dev.20230321:
+    resolution: {integrity: sha512-GFq3xvjbJImoKgCDJEiB7Bsa1wQdu/9tlb8Qj475ydSraETbCLzy+Ao3cqQ+KWBM6Mqo+0b1rrpe2Gj0DZz2+w==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -10787,7 +10787,7 @@ packages:
     dev: false
 
   file:projects/arm-communication.tgz:
-    resolution: {integrity: sha512-ZngMAKiaE2ZDOw6Yyyt5MYMKFaKUJE7g5sOqz/9wnD4aRQhCJ0CtgCBss6mIywzFHtZ79BL0zPOt1JBC38UW8w==, tarball: file:projects/arm-communication.tgz}
+    resolution: {integrity: sha512-9aggd5C8Ewf5AHKZ5PU/F7soofXTY0qUYZ1fJjNU07i/gGAX+4KKQhOKB7R3gzWfzL8eoHvD/Ho+E30/ZZ0pZA==, tarball: file:projects/arm-communication.tgz}
     name: '@rush-temp/arm-communication'
     version: 0.0.0
     dependencies:
@@ -10801,8 +10801,8 @@ packages:
       '@types/node': 14.18.38
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -12170,19 +12170,19 @@ packages:
     dev: false
 
   file:projects/arm-graphservices.tgz:
-    resolution: {integrity: sha512-FGMQq6BOIpb01GiMS1PDpo/y17Bb9bxNSMVtLJRoORxpGlTgbpDWB+1o65n5kZ4P2Sda2DScSr+Oml3uXoC3kg==, tarball: file:projects/arm-graphservices.tgz}
+    resolution: {integrity: sha512-W4Mpd/2C0oFq2ylu1h0QbdANHiy70H5DmfFjBxsY/9xE4X9IV9DlihvCO6i+VJNC0X7BTlvGmfa9JLVgFLjqxg==, tarball: file:projects/arm-graphservices.tgz}
     name: '@rush-temp/arm-graphservices'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 2.0.0
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.4_@types+node@14.18.37
+      '@microsoft/api-extractor': 7.34.4_@types+node@14.18.38
       '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
       '@rollup/plugin-json': 6.0.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
-      '@types/node': 14.18.37
+      '@types/node': 14.18.38
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
@@ -12190,12 +12190,11 @@ packages:
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_uvqxrz6xmh6o32kxhfeqlqrt5q
+      rollup-plugin-sourcemaps: 0.6.3_rrfo4ccoq6ga3fxzubpgdsawvq
       tslib: 2.5.0
       typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - encoding
       - supports-color
     dev: false
 
