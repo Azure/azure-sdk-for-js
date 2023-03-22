@@ -13,7 +13,7 @@ import {
 import { communicationIdentifierModelConverter } from "./utli/converters";
 import { ContentDownloaderImpl } from "./contentDownloader";
 import { AbortSignalLike } from "@azure/abort-controller";
-import * as fs from 'fs';
+import * as fs from "fs";
 
 /**
  * CallRecording class represents call recording related APIs.
