@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Starts an elastic job execution.
  *
  * @summary Starts an elastic job execution.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CreateJobExecution.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateJobExecution.json
  */
 async function startAJobExecution() {
   const subscriptionId =

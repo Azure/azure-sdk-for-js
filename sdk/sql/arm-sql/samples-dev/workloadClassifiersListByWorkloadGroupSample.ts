@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the list of workload classifiers for a workload group
  *
  * @summary Gets the list of workload classifiers for a workload group
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/GetWorkloadClassifierList.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/GetWorkloadClassifierList.json
  */
 async function getTheListOfWorkloadClassifiersForAWorkloadGroup() {
   const subscriptionId =

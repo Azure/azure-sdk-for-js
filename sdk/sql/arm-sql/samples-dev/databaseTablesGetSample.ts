@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get database table
  *
  * @summary Get database table
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DatabaseTableGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DatabaseTableGet.json
  */
 async function getDatabaseTable() {
   const subscriptionId =

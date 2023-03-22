@@ -15,10 +15,10 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Returns server usages.
+ * This sample demonstrates how to Gets server usages.
  *
- * @summary Returns server usages.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/stable/2014-04-01-legacy/examples/ServerUsageMetricsList.json
+ * @summary Gets server usages.
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerUsageList.json
  */
 async function listServersUsages() {
   const subscriptionId =

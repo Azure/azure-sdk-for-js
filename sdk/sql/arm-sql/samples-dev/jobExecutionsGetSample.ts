@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a job execution.
  *
  * @summary Gets a job execution.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/GetJobExecution.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/GetJobExecution.json
  */
 async function getAJobExecution() {
   const subscriptionId =

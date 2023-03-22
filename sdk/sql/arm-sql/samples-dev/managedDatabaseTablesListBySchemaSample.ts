@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List managed database tables
  *
  * @summary List managed database tables
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedDatabaseTableListBySchema.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseTableListBySchema.json
  */
 async function listManagedDatabaseTables() {
   const subscriptionId =

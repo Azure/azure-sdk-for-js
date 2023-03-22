@@ -15,12 +15,12 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Gets a geo backup policy.
+ * This sample demonstrates how to Gets a Geo backup policy for the given database resource.
  *
- * @summary Gets a geo backup policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/stable/2014-04-01/examples/GeoBackupPoliciesGet.json
+ * @summary Gets a Geo backup policy for the given database resource.
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/GeoBackupPoliciesGet.json
  */
-async function getGeoBackupPolicy() {
+async function getsTheSpecifiedGeoBackupPolicy() {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -41,7 +41,7 @@ async function getGeoBackupPolicy() {
 }
 
 async function main() {
-  getGeoBackupPolicy();
+  getsTheSpecifiedGeoBackupPolicy();
 }
 
 main().catch(console.error);

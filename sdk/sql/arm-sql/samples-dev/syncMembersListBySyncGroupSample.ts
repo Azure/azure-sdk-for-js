@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists sync members in the given sync group.
  *
  * @summary Lists sync members in the given sync group.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncMemberListBySyncGroup.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/SyncMemberListBySyncGroup.json
  */
 async function listSyncMembersUnderASyncGroup() {
   const subscriptionId =

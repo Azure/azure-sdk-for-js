@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the managed instance's Advanced Threat Protection settings.
  *
  * @summary Get the managed instance's Advanced Threat Protection settings.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-02-01-preview/examples/ManagedInstanceAdvancedThreatProtectionSettingsListByInstance.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceAdvancedThreatProtectionSettingsListByInstance.json
  */
 async function listTheManagedInstanceAdvancedThreatProtectionSettings() {
   const subscriptionId =

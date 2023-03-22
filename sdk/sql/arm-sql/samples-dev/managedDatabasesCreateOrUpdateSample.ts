@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/ManagedDatabaseCreateRestoreExternalBackup.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseCreateRestoreExternalBackup.json
  */
 async function createsANewManagedDatabaseByRestoringFromAnExternalBackup() {
   const subscriptionId =
@@ -52,7 +52,7 @@ async function createsANewManagedDatabaseByRestoringFromAnExternalBackup() {
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/ManagedDatabaseCreateRestoreExternalBackupManagedIdentity.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseCreateRestoreExternalBackupManagedIdentity.json
  */
 async function createsANewManagedDatabaseByRestoringFromAnExternalBackupUsingManagedIdentity() {
   const subscriptionId =
@@ -86,7 +86,7 @@ async function createsANewManagedDatabaseByRestoringFromAnExternalBackupUsingMan
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/ManagedDatabaseCreateRecovery.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseCreateRecovery.json
  */
 async function createsANewManagedDatabaseFromRestoringAGeoReplicatedBackup() {
   const subscriptionId =
@@ -117,7 +117,7 @@ async function createsANewManagedDatabaseFromRestoringAGeoReplicatedBackup() {
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/ManagedDatabaseCreateRestoreLtrBackup.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseCreateRestoreLtrBackup.json
  */
 async function createsANewManagedDatabaseFromRestoringALongTermRetentionBackup() {
   const subscriptionId =
@@ -149,7 +149,7 @@ async function createsANewManagedDatabaseFromRestoringALongTermRetentionBackup()
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/ManagedDatabaseCreateCrossSubscriptionPointInTimeRestore.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseCreateCrossSubscriptionPointInTimeRestore.json
  */
 async function createsANewManagedDatabaseUsingCrossSubscriptionPointInTimeRestore() {
   const subscriptionId =
@@ -183,7 +183,7 @@ async function createsANewManagedDatabaseUsingCrossSubscriptionPointInTimeRestor
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/ManagedDatabaseCreatePointInTimeRestore.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseCreatePointInTimeRestore.json
  */
 async function createsANewManagedDatabaseUsingPointInTimeRestore() {
   const subscriptionId =
@@ -215,7 +215,36 @@ async function createsANewManagedDatabaseUsingPointInTimeRestore() {
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/ManagedDatabaseCreateMax.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateManagedDatabaseLedger.json
+ */
+async function createsANewManagedDatabaseWithLedgerOn() {
+  const subscriptionId =
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+  const managedInstanceName = "managedInstance";
+  const databaseName = "managedDatabase";
+  const parameters: ManagedDatabase = {
+    isLedgerOn: true,
+    location: "southeastasia"
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new SqlManagementClient(credential, subscriptionId);
+  const result = await client.managedDatabases.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    managedInstanceName,
+    databaseName,
+    parameters
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates a new database or updates an existing database.
+ *
+ * @summary Creates a new database or updates an existing database.
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseCreateMax.json
  */
 async function createsANewManagedDatabaseWithMaximalProperties() {
   const subscriptionId =
@@ -244,7 +273,7 @@ async function createsANewManagedDatabaseWithMaximalProperties() {
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/ManagedDatabaseCreateMin.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseCreateMin.json
  */
 async function createsANewManagedDatabaseWithMinimalProperties() {
   const subscriptionId =
@@ -273,6 +302,7 @@ async function main() {
   createsANewManagedDatabaseFromRestoringALongTermRetentionBackup();
   createsANewManagedDatabaseUsingCrossSubscriptionPointInTimeRestore();
   createsANewManagedDatabaseUsingPointInTimeRestore();
+  createsANewManagedDatabaseWithLedgerOn();
   createsANewManagedDatabaseWithMaximalProperties();
   createsANewManagedDatabaseWithMinimalProperties();
 }

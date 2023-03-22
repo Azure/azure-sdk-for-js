@@ -178,6 +178,21 @@ export class DeletedServersImpl implements DeletedServers {
   }
 
   /**
+   * Gets a list of deleted servers for a location.
+   * @param locationName The name of the region where the resource is located.
+   * @param options The options parameters.
+   */
+  private _listByLocation(
+    locationName: string,
+    options?: DeletedServersListByLocationOptionalParams
+  ): Promise<DeletedServersListByLocationResponse> {
+    return this.client.sendOperationRequest(
+      { locationName, options },
+      listByLocationOperationSpec
+    );
+  }
+
+  /**
    * Gets a deleted server.
    * @param locationName The name of the region where the resource is located.
    * @param deletedServerName The name of the deleted server.
@@ -191,21 +206,6 @@ export class DeletedServersImpl implements DeletedServers {
     return this.client.sendOperationRequest(
       { locationName, deletedServerName, options },
       getOperationSpec
-    );
-  }
-
-  /**
-   * Gets a list of deleted servers for a location.
-   * @param locationName The name of the region where the resource is located.
-   * @param options The options parameters.
-   */
-  private _listByLocation(
-    locationName: string,
-    options?: DeletedServersListByLocationOptionalParams
-  ): Promise<DeletedServersListByLocationResponse> {
-    return this.client.sendOperationRequest(
-      { locationName, options },
-      listByLocationOperationSpec
     );
   }
 
@@ -344,28 +344,8 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/deletedServers/{deletedServerName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeletedServer
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.locationName,
-    Parameters.deletedServerName
-  ],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -379,11 +359,31 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.locationName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/deletedServers/{deletedServerName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeletedServer
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.locationName,
+    Parameters.deletedServerName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -407,7 +407,7 @@ const recoverOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

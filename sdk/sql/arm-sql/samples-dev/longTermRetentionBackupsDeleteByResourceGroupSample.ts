@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a long term retention backup.
  *
  * @summary Deletes a long term retention backup.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-05-01-preview/examples/ResourceGroupBasedLongTermRetentionBackupDelete.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ResourceGroupBasedLongTermRetentionBackupDelete.json
  */
 async function deleteTheLongTermRetentionBackup() {
   const subscriptionId =

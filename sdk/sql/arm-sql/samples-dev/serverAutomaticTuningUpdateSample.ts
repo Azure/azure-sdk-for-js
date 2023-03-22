@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Update automatic tuning options on server.
  *
  * @summary Update automatic tuning options on server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ServerAutomaticTuningUpdateMax.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerAutomaticTuningUpdateMax.json
  */
 async function updatesServerAutomaticTuningSettingsWithAllProperties() {
   const subscriptionId =
@@ -49,7 +49,7 @@ async function updatesServerAutomaticTuningSettingsWithAllProperties() {
  * This sample demonstrates how to Update automatic tuning options on server.
  *
  * @summary Update automatic tuning options on server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ServerAutomaticTuningUpdateMin.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerAutomaticTuningUpdateMin.json
  */
 async function updatesServerAutomaticTuningSettingsWithMinimalProperties() {
   const subscriptionId =

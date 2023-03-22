@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets an outbound firewall rule.
  *
  * @summary Gets an outbound firewall rule.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-02-01-preview/examples/OutboundFirewallRuleGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/OutboundFirewallRuleGet.json
  */
 async function getsOutboundFirewallRule() {
   const subscriptionId =

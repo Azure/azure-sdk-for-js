@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the long term retention backups for a given managed instance.
  *
  * @summary Lists the long term retention backups for a given managed instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-05-01-preview/examples/ResourceGroupBasedManagedInstanceLongTermRetentionBackupListByInstance.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ResourceGroupBasedManagedInstanceLongTermRetentionBackupListByInstance.json
  */
 async function getAllLongTermRetentionBackupsUnderTheManagedInstance() {
   const subscriptionId =

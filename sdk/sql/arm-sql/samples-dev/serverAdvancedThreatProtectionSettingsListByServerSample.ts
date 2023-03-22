@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a list of the server's Advanced Threat Protection states.
  *
  * @summary Get a list of the server's Advanced Threat Protection states.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/ServerAdvancedThreatProtectionSettingsListByServer.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerAdvancedThreatProtectionSettingsListByServer.json
  */
 async function listTheServerAdvancedThreatProtectionSettings() {
   const subscriptionId =

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists sync groups under a hub database.
  *
  * @summary Lists sync groups under a hub database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncGroupListByDatabase.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/SyncGroupListByDatabase.json
  */
 async function listSyncGroupsUnderAGivenDatabase() {
   const subscriptionId =

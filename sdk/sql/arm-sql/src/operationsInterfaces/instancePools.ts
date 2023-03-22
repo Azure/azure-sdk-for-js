@@ -10,8 +10,8 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   InstancePool,
-  InstancePoolsListByResourceGroupOptionalParams,
   InstancePoolsListOptionalParams,
+  InstancePoolsListByResourceGroupOptionalParams,
   InstancePoolsGetOptionalParams,
   InstancePoolsGetResponse,
   InstancePoolsCreateOrUpdateOptionalParams,
@@ -26,6 +26,13 @@ import {
 /** Interface representing a InstancePools. */
 export interface InstancePools {
   /**
+   * Gets a list of all instance pools in the subscription.
+   * @param options The options parameters.
+   */
+  list(
+    options?: InstancePoolsListOptionalParams
+  ): PagedAsyncIterableIterator<InstancePool>;
+  /**
    * Gets a list of instance pools in the resource group
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -34,13 +41,6 @@ export interface InstancePools {
   listByResourceGroup(
     resourceGroupName: string,
     options?: InstancePoolsListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<InstancePool>;
-  /**
-   * Gets a list of all instance pools in the subscription.
-   * @param options The options parameters.
-   */
-  list(
-    options?: InstancePoolsListOptionalParams
   ): PagedAsyncIterableIterator<InstancePool>;
   /**
    * Gets an instance pool.

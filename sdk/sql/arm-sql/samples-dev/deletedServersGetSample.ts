@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a deleted server.
  *
  * @summary Gets a deleted server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DeletedServerGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DeletedServerGet.json
  */
 async function getDeletedServer() {
   const subscriptionId =

@@ -170,11 +170,11 @@ const listByInstancePoolOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion5, Parameters.expandChildren],
+  queryParameters: [Parameters.apiVersion, Parameters.expandChildren],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.instancePoolName
   ],
   headerParameters: [Parameters.accept],
@@ -191,8 +191,8 @@ const listByInstancePoolNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.instancePoolName
   ],

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Refreshes a sync member database schema.
  *
  * @summary Refreshes a sync member database schema.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncMemberRefreshSchema.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/SyncMemberRefreshSchema.json
  */
 async function refreshASyncMemberDatabaseSchema() {
   const subscriptionId =

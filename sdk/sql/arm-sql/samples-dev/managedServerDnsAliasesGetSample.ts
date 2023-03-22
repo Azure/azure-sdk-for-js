@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a server DNS alias.
  *
  * @summary Gets a server DNS alias.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/ManagedServerDnsAliasGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedServerDnsAliasGet.json
  */
 async function getManagedServerDnsAlias() {
   const subscriptionId =

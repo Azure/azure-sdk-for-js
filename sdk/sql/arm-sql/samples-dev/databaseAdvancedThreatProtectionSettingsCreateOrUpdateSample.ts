@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a database's Advanced Threat Protection state.
  *
  * @summary Creates or updates a database's Advanced Threat Protection state.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/DatabaseAdvancedThreatProtectionSettingsCreateMax.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DatabaseAdvancedThreatProtectionSettingsCreateMax.json
  */
 async function updateADatabaseAdvancedThreatProtectionSettingsWithAllParameters() {
   const subscriptionId =
@@ -49,7 +49,7 @@ async function updateADatabaseAdvancedThreatProtectionSettingsWithAllParameters(
  * This sample demonstrates how to Creates or updates a database's Advanced Threat Protection state.
  *
  * @summary Creates or updates a database's Advanced Threat Protection state.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/DatabaseAdvancedThreatProtectionSettingsCreateMin.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DatabaseAdvancedThreatProtectionSettingsCreateMin.json
  */
 async function updateADatabaseAdvancedThreatProtectionSettingsWithMinimalParameters() {
   const subscriptionId =

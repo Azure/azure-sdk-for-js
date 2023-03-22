@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update recommended sensitivity labels states of a given database using an operations batch.
  *
  * @summary Update recommended sensitivity labels states of a given database using an operations batch.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SensitivityLabelsRecommendedUpdate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/SensitivityLabelsRecommendedUpdate.json
  */
 async function updateRecommendedSensitivityLabelsOfAGivenDatabaseUsingAnOperationsBatch() {
   const subscriptionId =

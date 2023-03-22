@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the sensitivity label of a given column
  *
  * @summary Deletes the sensitivity label of a given column
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ColumnSensitivityLabelDelete.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ColumnSensitivityLabelDelete.json
  */
 async function deletesTheSensitivityLabelOfAGivenColumn() {
   const subscriptionId =

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets an extended server's blob auditing policy.
  *
  * @summary Gets an extended server's blob auditing policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/ExtendedServerBlobAuditingGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ExtendedServerBlobAuditingGet.json
  */
 async function getAServerBlobExtendedAuditingPolicy() {
   const subscriptionId =

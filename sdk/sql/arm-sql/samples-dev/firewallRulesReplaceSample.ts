@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Replaces all firewall rules on the server.
  *
  * @summary Replaces all firewall rules on the server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/FirewallRuleReplace.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/FirewallRuleReplace.json
  */
 async function replaceFirewallRules() {
   const subscriptionId =

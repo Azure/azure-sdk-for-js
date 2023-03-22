@@ -29,6 +29,8 @@ import {
   ManagedInstanceLongTermRetentionPoliciesGetResponse,
   ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateOptionalParams,
   ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateResponse,
+  ManagedInstanceLongTermRetentionPoliciesDeleteOptionalParams,
+  ManagedInstanceLongTermRetentionPoliciesDeleteResponse,
   ManagedInstanceLongTermRetentionPoliciesListByDatabaseNextResponse
 } from "../models";
 
@@ -138,6 +140,26 @@ export class ManagedInstanceLongTermRetentionPoliciesImpl
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Gets a database's long term retention policy.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param databaseName The name of the database.
+   * @param options The options parameters.
+   */
+  private _listByDatabase(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    options?: ManagedInstanceLongTermRetentionPoliciesListByDatabaseOptionalParams
+  ): Promise<ManagedInstanceLongTermRetentionPoliciesListByDatabaseResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, managedInstanceName, databaseName, options },
+      listByDatabaseOperationSpec
+    );
   }
 
   /**
@@ -287,23 +309,111 @@ export class ManagedInstanceLongTermRetentionPoliciesImpl
   }
 
   /**
-   * Gets a database's long term retention policy.
+   * Deletes a managed database's long term retention policy.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
    * @param databaseName The name of the database.
+   * @param policyName The policy name. Should always be Default.
    * @param options The options parameters.
    */
-  private _listByDatabase(
+  async beginDelete(
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedInstanceLongTermRetentionPoliciesListByDatabaseOptionalParams
-  ): Promise<ManagedInstanceLongTermRetentionPoliciesListByDatabaseResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, managedInstanceName, databaseName, options },
-      listByDatabaseOperationSpec
+    policyName: ManagedInstanceLongTermRetentionPolicyName,
+    options?: ManagedInstanceLongTermRetentionPoliciesDeleteOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedInstanceLongTermRetentionPoliciesDeleteResponse>,
+      ManagedInstanceLongTermRetentionPoliciesDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ManagedInstanceLongTermRetentionPoliciesDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        managedInstanceName,
+        databaseName,
+        policyName,
+        options
+      },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ManagedInstanceLongTermRetentionPoliciesDeleteResponse,
+      OperationState<ManagedInstanceLongTermRetentionPoliciesDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes a managed database's long term retention policy.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param databaseName The name of the database.
+   * @param policyName The policy name. Should always be Default.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    policyName: ManagedInstanceLongTermRetentionPolicyName,
+    options?: ManagedInstanceLongTermRetentionPoliciesDeleteOptionalParams
+  ): Promise<ManagedInstanceLongTermRetentionPoliciesDeleteResponse> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      managedInstanceName,
+      databaseName,
+      policyName,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -339,6 +449,27 @@ export class ManagedInstanceLongTermRetentionPoliciesImpl
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByDatabaseOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/backupLongTermRetentionPolicies",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ManagedInstanceLongTermRetentionPolicyListResult
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.databaseName,
+    Parameters.subscriptionId,
+    Parameters.managedInstanceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/backupLongTermRetentionPolicies/{policyName}",
@@ -349,14 +480,14 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.managedInstanceName,
-    Parameters.policyName2
+    Parameters.policyName3
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -380,37 +511,47 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters39,
-  queryParameters: [Parameters.apiVersion3],
+  requestBody: Parameters.parameters66,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.managedInstanceName,
-    Parameters.policyName2
+    Parameters.policyName3
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
-const listByDatabaseOperationSpec: coreClient.OperationSpec = {
+const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/backupLongTermRetentionPolicies",
-  httpMethod: "GET",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/backupLongTermRetentionPolicies/{policyName}",
+  httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedInstanceLongTermRetentionPolicyListResult
+      bodyMapper: Mappers.ManagedInstanceLongTermRetentionPolicy
+    },
+    201: {
+      bodyMapper: Mappers.ManagedInstanceLongTermRetentionPolicy
+    },
+    202: {
+      bodyMapper: Mappers.ManagedInstanceLongTermRetentionPolicy
+    },
+    204: {
+      bodyMapper: Mappers.ManagedInstanceLongTermRetentionPolicy
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
-    Parameters.managedInstanceName
+    Parameters.subscriptionId,
+    Parameters.managedInstanceName,
+    Parameters.policyName3
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -426,9 +567,9 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.managedInstanceName
   ],

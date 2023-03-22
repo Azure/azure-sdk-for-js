@@ -53,14 +53,12 @@ export interface OutboundFirewallRules {
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param outboundRuleFqdn
-   * @param parameters An Azure SQL DB Server Outbound Firewall Rule.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     serverName: string,
     outboundRuleFqdn: string,
-    parameters: OutboundFirewallRule,
     options?: OutboundFirewallRulesCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
@@ -74,14 +72,12 @@ export interface OutboundFirewallRules {
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param outboundRuleFqdn
-   * @param parameters An Azure SQL DB Server Outbound Firewall Rule.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     serverName: string,
     outboundRuleFqdn: string,
-    parameters: OutboundFirewallRule,
     options?: OutboundFirewallRulesCreateOrUpdateOptionalParams
   ): Promise<OutboundFirewallRulesCreateOrUpdateResponse>;
   /**

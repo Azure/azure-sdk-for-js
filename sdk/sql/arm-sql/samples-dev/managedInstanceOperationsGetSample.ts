@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a management operation on a managed instance.
  *
  * @summary Gets a management operation on a managed instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/GetManagedInstanceOperation.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/GetManagedInstanceOperation.json
  */
 async function getsTheManagedInstanceManagementOperation() {
   const subscriptionId =

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a sync agent.
  *
  * @summary Creates or updates a sync agent.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncAgentCreate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/SyncAgentCreate.json
  */
 async function createANewSyncAgent() {
   const subscriptionId =
@@ -47,7 +47,7 @@ async function createANewSyncAgent() {
  * This sample demonstrates how to Creates or updates a sync agent.
  *
  * @summary Creates or updates a sync agent.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncAgentUpdate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/SyncAgentUpdate.json
  */
 async function updateASyncAgent() {
   const subscriptionId =

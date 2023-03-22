@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates an instance pool.
  *
  * @summary Creates or updates an instance pool.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CreateOrUpdateInstancePoolMax.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateOrUpdateInstancePoolMax.json
  */
 async function createAnInstancePoolWithAllProperties() {
   const subscriptionId =
@@ -49,7 +49,7 @@ async function createAnInstancePoolWithAllProperties() {
  * This sample demonstrates how to Creates or updates an instance pool.
  *
  * @summary Creates or updates an instance pool.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CreateOrUpdateInstancePoolMin.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateOrUpdateInstancePoolMin.json
  */
 async function createAnInstancePoolWithMinProperties() {
   const subscriptionId =

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of operations performed on the server.
  *
  * @summary Gets a list of operations performed on the server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ListServerOperations.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ListServerOperations.json
  */
 async function listTheServerManagementOperations() {
   const subscriptionId =

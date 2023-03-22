@@ -15,16 +15,16 @@ import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
 import {
   JobExecution,
-  JobTargetExecutionsListByJobExecutionNextOptionalParams,
-  JobTargetExecutionsListByJobExecutionOptionalParams,
-  JobTargetExecutionsListByJobExecutionResponse,
   JobTargetExecutionsListByStepNextOptionalParams,
   JobTargetExecutionsListByStepOptionalParams,
   JobTargetExecutionsListByStepResponse,
+  JobTargetExecutionsListByJobExecutionNextOptionalParams,
+  JobTargetExecutionsListByJobExecutionOptionalParams,
+  JobTargetExecutionsListByJobExecutionResponse,
   JobTargetExecutionsGetOptionalParams,
   JobTargetExecutionsGetResponse,
-  JobTargetExecutionsListByJobExecutionNextResponse,
-  JobTargetExecutionsListByStepNextResponse
+  JobTargetExecutionsListByStepNextResponse,
+  JobTargetExecutionsListByJobExecutionNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,118 +38,6 @@ export class JobTargetExecutionsImpl implements JobTargetExecutions {
    */
   constructor(client: SqlManagementClient) {
     this.client = client;
-  }
-
-  /**
-   * Lists target executions for all steps of a job execution.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param jobAgentName The name of the job agent.
-   * @param jobName The name of the job to get.
-   * @param jobExecutionId The id of the job execution
-   * @param options The options parameters.
-   */
-  public listByJobExecution(
-    resourceGroupName: string,
-    serverName: string,
-    jobAgentName: string,
-    jobName: string,
-    jobExecutionId: string,
-    options?: JobTargetExecutionsListByJobExecutionOptionalParams
-  ): PagedAsyncIterableIterator<JobExecution> {
-    const iter = this.listByJobExecutionPagingAll(
-      resourceGroupName,
-      serverName,
-      jobAgentName,
-      jobName,
-      jobExecutionId,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByJobExecutionPagingPage(
-          resourceGroupName,
-          serverName,
-          jobAgentName,
-          jobName,
-          jobExecutionId,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listByJobExecutionPagingPage(
-    resourceGroupName: string,
-    serverName: string,
-    jobAgentName: string,
-    jobName: string,
-    jobExecutionId: string,
-    options?: JobTargetExecutionsListByJobExecutionOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<JobExecution[]> {
-    let result: JobTargetExecutionsListByJobExecutionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByJobExecution(
-        resourceGroupName,
-        serverName,
-        jobAgentName,
-        jobName,
-        jobExecutionId,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listByJobExecutionNext(
-        resourceGroupName,
-        serverName,
-        jobAgentName,
-        jobName,
-        jobExecutionId,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listByJobExecutionPagingAll(
-    resourceGroupName: string,
-    serverName: string,
-    jobAgentName: string,
-    jobName: string,
-    jobExecutionId: string,
-    options?: JobTargetExecutionsListByJobExecutionOptionalParams
-  ): AsyncIterableIterator<JobExecution> {
-    for await (const page of this.listByJobExecutionPagingPage(
-      resourceGroupName,
-      serverName,
-      jobAgentName,
-      jobName,
-      jobExecutionId,
-      options
-    )) {
-      yield* page;
-    }
   }
 
   /**
@@ -283,25 +171,106 @@ export class JobTargetExecutionsImpl implements JobTargetExecutions {
    * @param jobExecutionId The id of the job execution
    * @param options The options parameters.
    */
-  private _listByJobExecution(
+  public listByJobExecution(
     resourceGroupName: string,
     serverName: string,
     jobAgentName: string,
     jobName: string,
     jobExecutionId: string,
     options?: JobTargetExecutionsListByJobExecutionOptionalParams
-  ): Promise<JobTargetExecutionsListByJobExecutionResponse> {
-    return this.client.sendOperationRequest(
-      {
+  ): PagedAsyncIterableIterator<JobExecution> {
+    const iter = this.listByJobExecutionPagingAll(
+      resourceGroupName,
+      serverName,
+      jobAgentName,
+      jobName,
+      jobExecutionId,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByJobExecutionPagingPage(
+          resourceGroupName,
+          serverName,
+          jobAgentName,
+          jobName,
+          jobExecutionId,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listByJobExecutionPagingPage(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    jobExecutionId: string,
+    options?: JobTargetExecutionsListByJobExecutionOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<JobExecution[]> {
+    let result: JobTargetExecutionsListByJobExecutionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByJobExecution(
         resourceGroupName,
         serverName,
         jobAgentName,
         jobName,
         jobExecutionId,
         options
-      },
-      listByJobExecutionOperationSpec
-    );
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByJobExecutionNext(
+        resourceGroupName,
+        serverName,
+        jobAgentName,
+        jobName,
+        jobExecutionId,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByJobExecutionPagingAll(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    jobExecutionId: string,
+    options?: JobTargetExecutionsListByJobExecutionOptionalParams
+  ): AsyncIterableIterator<JobExecution> {
+    for await (const page of this.listByJobExecutionPagingPage(
+      resourceGroupName,
+      serverName,
+      jobAgentName,
+      jobName,
+      jobExecutionId,
+      options
+    )) {
+      yield* page;
+    }
   }
 
   /**
@@ -376,25 +345,23 @@ export class JobTargetExecutionsImpl implements JobTargetExecutions {
   }
 
   /**
-   * ListByJobExecutionNext
+   * Lists target executions for all steps of a job execution.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param jobAgentName The name of the job agent.
    * @param jobName The name of the job to get.
    * @param jobExecutionId The id of the job execution
-   * @param nextLink The nextLink from the previous successful call to the ListByJobExecution method.
    * @param options The options parameters.
    */
-  private _listByJobExecutionNext(
+  private _listByJobExecution(
     resourceGroupName: string,
     serverName: string,
     jobAgentName: string,
     jobName: string,
     jobExecutionId: string,
-    nextLink: string,
-    options?: JobTargetExecutionsListByJobExecutionNextOptionalParams
-  ): Promise<JobTargetExecutionsListByJobExecutionNextResponse> {
+    options?: JobTargetExecutionsListByJobExecutionOptionalParams
+  ): Promise<JobTargetExecutionsListByJobExecutionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -402,10 +369,9 @@ export class JobTargetExecutionsImpl implements JobTargetExecutions {
         jobAgentName,
         jobName,
         jobExecutionId,
-        nextLink,
         options
       },
-      listByJobExecutionNextOperationSpec
+      listByJobExecutionOperationSpec
     );
   }
 
@@ -445,42 +411,44 @@ export class JobTargetExecutionsImpl implements JobTargetExecutions {
       listByStepNextOperationSpec
     );
   }
+
+  /**
+   * ListByJobExecutionNext
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param jobAgentName The name of the job agent.
+   * @param jobName The name of the job to get.
+   * @param jobExecutionId The id of the job execution
+   * @param nextLink The nextLink from the previous successful call to the ListByJobExecution method.
+   * @param options The options parameters.
+   */
+  private _listByJobExecutionNext(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    jobExecutionId: string,
+    nextLink: string,
+    options?: JobTargetExecutionsListByJobExecutionNextOptionalParams
+  ): Promise<JobTargetExecutionsListByJobExecutionNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serverName,
+        jobAgentName,
+        jobName,
+        jobExecutionId,
+        nextLink,
+        options
+      },
+      listByJobExecutionNextOperationSpec
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByJobExecutionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions/{jobExecutionId}/targets",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.JobExecutionListResult
-    },
-    default: {}
-  },
-  queryParameters: [
-    Parameters.skip,
-    Parameters.apiVersion3,
-    Parameters.createTimeMin,
-    Parameters.createTimeMax,
-    Parameters.endTimeMin,
-    Parameters.endTimeMax,
-    Parameters.isActive,
-    Parameters.top
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.jobAgentName,
-    Parameters.jobName,
-    Parameters.jobExecutionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listByStepOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions/{jobExecutionId}/steps/{stepName}/targets",
@@ -492,8 +460,8 @@ const listByStepOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.skip,
-    Parameters.apiVersion3,
     Parameters.createTimeMin,
     Parameters.createTimeMax,
     Parameters.endTimeMin,
@@ -503,9 +471,9 @@ const listByStepOperationSpec: coreClient.OperationSpec = {
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
+    Parameters.subscriptionId,
     Parameters.jobAgentName,
     Parameters.jobName,
     Parameters.jobExecutionId,
@@ -524,12 +492,12 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
+    Parameters.subscriptionId,
     Parameters.jobAgentName,
     Parameters.jobName,
     Parameters.jobExecutionId,
@@ -539,8 +507,9 @@ const getOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByJobExecutionNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
+const listByJobExecutionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions/{jobExecutionId}/targets",
   httpMethod: "GET",
   responses: {
     200: {
@@ -548,12 +517,21 @@ const listByJobExecutionNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.skip,
+    Parameters.createTimeMin,
+    Parameters.createTimeMax,
+    Parameters.endTimeMin,
+    Parameters.endTimeMax,
+    Parameters.isActive,
+    Parameters.top
+  ],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.jobAgentName,
     Parameters.jobName,
     Parameters.jobExecutionId
@@ -572,14 +550,36 @@ const listByStepNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
+    Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.jobAgentName,
     Parameters.jobName,
     Parameters.jobExecutionId,
     Parameters.stepName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByJobExecutionNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.JobExecutionListResult
+    },
+    default: {}
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.jobAgentName,
+    Parameters.jobName,
+    Parameters.jobExecutionId
   ],
   headerParameters: [Parameters.accept],
   serializer

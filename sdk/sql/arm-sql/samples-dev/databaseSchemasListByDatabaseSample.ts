@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List database schemas
  *
  * @summary List database schemas
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DatabaseSchemaListByDatabase.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DatabaseSchemaListByDatabase.json
  */
 async function listDatabaseSchemas() {
   const subscriptionId =

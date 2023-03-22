@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all synapselink workspaces for a database.
  *
  * @summary Gets all synapselink workspaces for a database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/SynapseLinkWorkspaceListByDatabase.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/SynapseLinkWorkspaceListByDatabase.json
  */
 async function listAllSynapselinkWorkspacesForTheGivenDatabase() {
   const subscriptionId =

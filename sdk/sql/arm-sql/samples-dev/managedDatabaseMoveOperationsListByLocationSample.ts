@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Lists managed database move operations.
  *
  * @summary Lists managed database move operations.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/ManagedDatabaseMoveOperationResultList.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseMoveOperationResultList.json
  */
 async function getsAllManagedDatabaseMoveOperationsForSpecifiedSubscriptionResourceGroupAndLocation() {
   const subscriptionId =
@@ -45,7 +45,7 @@ async function getsAllManagedDatabaseMoveOperationsForSpecifiedSubscriptionResou
  * This sample demonstrates how to Lists managed database move operations.
  *
  * @summary Lists managed database move operations.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/ManagedDatabaseMoveOperationResultListMax.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseMoveOperationResultListMax.json
  */
 async function getsTheLatestManagedDatabaseMoveOperationsForEachDatabaseUnderSpecifiedSubscriptionResourceGroupAndLocationFilteredByOperationType() {
   const subscriptionId =
@@ -74,7 +74,7 @@ async function getsTheLatestManagedDatabaseMoveOperationsForEachDatabaseUnderSpe
  * This sample demonstrates how to Lists managed database move operations.
  *
  * @summary Lists managed database move operations.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/ManagedDatabaseMoveOperationResultListLastOperations.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseMoveOperationResultListLastOperations.json
  */
 async function getsTheLatestManagedDatabaseMoveOperationsForEachDatabaseUnderSpecifiedSubscriptionResourceGroupAndLocation() {
   const subscriptionId =

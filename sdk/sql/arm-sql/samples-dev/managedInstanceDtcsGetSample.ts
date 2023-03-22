@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets managed instance DTC settings.
  *
  * @summary Gets managed instance DTC settings.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/ManagedInstanceDtcGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceDtcGet.json
  */
 async function getsManagedInstanceDtcSettings() {
   const subscriptionId =

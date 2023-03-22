@@ -7,21 +7,39 @@
  */
 
 import {
+  DataMaskingPolicyName,
+  DataMaskingPoliciesGetOptionalParams,
+  DataMaskingPoliciesGetResponse,
   DataMaskingPolicy,
   DataMaskingPoliciesCreateOrUpdateOptionalParams,
-  DataMaskingPoliciesCreateOrUpdateResponse,
-  DataMaskingPoliciesGetOptionalParams,
-  DataMaskingPoliciesGetResponse
+  DataMaskingPoliciesCreateOrUpdateResponse
 } from "../models";
 
 /** Interface representing a DataMaskingPolicies. */
 export interface DataMaskingPolicies {
   /**
-   * Creates or updates a database data masking policy
+   * Gets the database data masking policy.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param databaseName The name of the database.
+   * @param dataMaskingPolicyName The name of the database for which the data masking policy applies.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    dataMaskingPolicyName: DataMaskingPolicyName,
+    options?: DataMaskingPoliciesGetOptionalParams
+  ): Promise<DataMaskingPoliciesGetResponse>;
+  /**
+   * Creates or updates a database data masking policy.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param dataMaskingPolicyName The name of the database for which the data masking policy applies.
    * @param parameters Parameters for creating or updating a data masking policy.
    * @param options The options parameters.
    */
@@ -29,21 +47,8 @@ export interface DataMaskingPolicies {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
+    dataMaskingPolicyName: DataMaskingPolicyName,
     parameters: DataMaskingPolicy,
     options?: DataMaskingPoliciesCreateOrUpdateOptionalParams
   ): Promise<DataMaskingPoliciesCreateOrUpdateResponse>;
-  /**
-   * Gets a database data masking policy.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    options?: DataMaskingPoliciesGetOptionalParams
-  ): Promise<DataMaskingPoliciesGetResponse>;
 }

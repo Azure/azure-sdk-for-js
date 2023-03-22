@@ -103,13 +103,13 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3, Parameters.maintenanceWindowName],
+  queryParameters: [Parameters.apiVersion, Parameters.maintenanceWindowName],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName
+    Parameters.databaseName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -119,14 +119,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/maintenanceWindows/current",
   httpMethod: "PUT",
   responses: { 200: {}, default: {} },
-  requestBody: Parameters.parameters31,
-  queryParameters: [Parameters.apiVersion3, Parameters.maintenanceWindowName],
+  requestBody: Parameters.parameters46,
+  queryParameters: [Parameters.apiVersion, Parameters.maintenanceWindowName],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName
+    Parameters.databaseName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.contentType],
   mediaType: "json",

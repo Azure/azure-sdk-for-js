@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a managed instance administrator.
  *
  * @summary Deletes a managed instance administrator.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceAdministratorDelete.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceAdministratorDelete.json
  */
 async function deleteAdministratorOfManagedInstance() {
   const subscriptionId =

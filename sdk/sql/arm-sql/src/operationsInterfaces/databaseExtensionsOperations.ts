@@ -51,7 +51,7 @@ export interface DatabaseExtensionsOperations {
     options?: DatabaseExtensionsGetOptionalParams
   ): Promise<void>;
   /**
-   * Perform a database extension operation, like polybase import
+   * Perform a database extension operation, like database import, database export, or polybase import
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
@@ -74,7 +74,7 @@ export interface DatabaseExtensionsOperations {
     >
   >;
   /**
-   * Perform a database extension operation, like polybase import
+   * Perform a database extension operation, like database import, database export, or polybase import
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.

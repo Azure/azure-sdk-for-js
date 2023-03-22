@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a database data masking rule.
  *
  * @summary Creates or updates a database data masking rule.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/stable/2014-04-01/examples/DataMaskingRuleCreateOrUpdateDefaultMax.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DataMaskingRuleCreateOrUpdateDefaultMax.json
  */
 async function createOrUpdateDataMaskingRuleForDefaultMax() {
   const subscriptionId =
@@ -28,6 +28,7 @@ async function createOrUpdateDataMaskingRuleForDefaultMax() {
     process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-6852";
   const serverName = "sqlcrudtest-2080";
   const databaseName = "sqlcrudtest-331";
+  const dataMaskingPolicyName = "Default";
   const dataMaskingRuleName = "rule1";
   const parameters: DataMaskingRule = {
     aliasName: "nickname",
@@ -43,6 +44,7 @@ async function createOrUpdateDataMaskingRuleForDefaultMax() {
     resourceGroupName,
     serverName,
     databaseName,
+    dataMaskingPolicyName,
     dataMaskingRuleName,
     parameters
   );
@@ -53,7 +55,7 @@ async function createOrUpdateDataMaskingRuleForDefaultMax() {
  * This sample demonstrates how to Creates or updates a database data masking rule.
  *
  * @summary Creates or updates a database data masking rule.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/stable/2014-04-01/examples/DataMaskingRuleCreateOrUpdateDefaultMin.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DataMaskingRuleCreateOrUpdateDefaultMin.json
  */
 async function createOrUpdateDataMaskingRuleForDefaultMin() {
   const subscriptionId =
@@ -63,6 +65,7 @@ async function createOrUpdateDataMaskingRuleForDefaultMin() {
     process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-6852";
   const serverName = "sqlcrudtest-2080";
   const databaseName = "sqlcrudtest-331";
+  const dataMaskingPolicyName = "Default";
   const dataMaskingRuleName = "rule1";
   const parameters: DataMaskingRule = {
     columnName: "test1",
@@ -76,6 +79,7 @@ async function createOrUpdateDataMaskingRuleForDefaultMin() {
     resourceGroupName,
     serverName,
     databaseName,
+    dataMaskingPolicyName,
     dataMaskingRuleName,
     parameters
   );
@@ -86,7 +90,7 @@ async function createOrUpdateDataMaskingRuleForDefaultMin() {
  * This sample demonstrates how to Creates or updates a database data masking rule.
  *
  * @summary Creates or updates a database data masking rule.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/stable/2014-04-01/examples/DataMaskingRuleCreateOrUpdateNumber.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DataMaskingRuleCreateOrUpdateNumber.json
  */
 async function createOrUpdateDataMaskingRuleForNumbers() {
   const subscriptionId =
@@ -96,6 +100,7 @@ async function createOrUpdateDataMaskingRuleForNumbers() {
     process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-6852";
   const serverName = "sqlcrudtest-2080";
   const databaseName = "sqlcrudtest-331";
+  const dataMaskingPolicyName = "Default";
   const dataMaskingRuleName = "rule1";
   const parameters: DataMaskingRule = {
     columnName: "test1",
@@ -111,6 +116,7 @@ async function createOrUpdateDataMaskingRuleForNumbers() {
     resourceGroupName,
     serverName,
     databaseName,
+    dataMaskingPolicyName,
     dataMaskingRuleName,
     parameters
   );
@@ -121,7 +127,7 @@ async function createOrUpdateDataMaskingRuleForNumbers() {
  * This sample demonstrates how to Creates or updates a database data masking rule.
  *
  * @summary Creates or updates a database data masking rule.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/stable/2014-04-01/examples/DataMaskingRuleCreateOrUpdateText.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DataMaskingRuleCreateOrUpdateText.json
  */
 async function createOrUpdateDataMaskingRuleForText() {
   const subscriptionId =
@@ -131,6 +137,7 @@ async function createOrUpdateDataMaskingRuleForText() {
     process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-6852";
   const serverName = "sqlcrudtest-2080";
   const databaseName = "sqlcrudtest-331";
+  const dataMaskingPolicyName = "Default";
   const dataMaskingRuleName = "rule1";
   const parameters: DataMaskingRule = {
     columnName: "test1",
@@ -147,6 +154,7 @@ async function createOrUpdateDataMaskingRuleForText() {
     resourceGroupName,
     serverName,
     databaseName,
+    dataMaskingPolicyName,
     dataMaskingRuleName,
     parameters
   );

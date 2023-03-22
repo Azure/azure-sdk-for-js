@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Enables upload ledger digests to an Azure Storage account or an Azure Confidential Ledger instance.
  *
  * @summary Enables upload ledger digests to an Azure Storage account or an Azure Confidential Ledger instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-02-01-preview/examples/LedgerDigestUploadsEnable.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/LedgerDigestUploadsEnable.json
  */
 async function enablesLedgerDigestUploadConfigurationForADatabase() {
   const subscriptionId =

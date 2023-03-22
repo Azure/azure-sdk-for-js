@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a job step. This will implicitly create a new job version.
  *
  * @summary Deletes a job step. This will implicitly create a new job version.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DeleteJobStep.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DeleteJobStep.json
  */
 async function deleteAJobStep() {
   const subscriptionId =

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a managed database.
  *
  * @summary Deletes a managed database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/ManagedDatabaseDelete.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseDelete.json
  */
 async function deleteManagedDatabase() {
   const subscriptionId =

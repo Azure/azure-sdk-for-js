@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates an existing encryption protector.
  *
  * @summary Updates an existing encryption protector.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/EncryptionProtectorCreateOrUpdateKeyVault.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/EncryptionProtectorCreateOrUpdateKeyVault.json
  */
 async function updateTheEncryptionProtectorToKeyVault() {
   const subscriptionId =
@@ -48,7 +48,7 @@ async function updateTheEncryptionProtectorToKeyVault() {
  * This sample demonstrates how to Updates an existing encryption protector.
  *
  * @summary Updates an existing encryption protector.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/EncryptionProtectorCreateOrUpdateServiceManaged.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/EncryptionProtectorCreateOrUpdateServiceManaged.json
  */
 async function updateTheEncryptionProtectorToServiceManaged() {
   const subscriptionId =

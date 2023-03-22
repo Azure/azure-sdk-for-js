@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Requests cancellation of a job execution.
  *
  * @summary Requests cancellation of a job execution.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CancelJobExecution.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CancelJobExecution.json
  */
 async function cancelAJobExecution() {
   const subscriptionId =

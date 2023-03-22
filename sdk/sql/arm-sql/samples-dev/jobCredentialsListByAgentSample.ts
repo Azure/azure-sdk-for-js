@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of jobs credentials.
  *
  * @summary Gets a list of jobs credentials.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ListJobCredentialsByAgent.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ListJobCredentialsByAgent.json
  */
 async function listCredentialsInAJobAgent() {
   const subscriptionId =

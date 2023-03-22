@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of inaccessible managed databases in a managed instance
  *
  * @summary Gets a list of inaccessible managed databases in a managed instance
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/InaccessibleManagedDatabaseListByManagedInstance.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/InaccessibleManagedDatabaseListByManagedInstance.json
  */
 async function listInaccessibleManagedDatabasesByManagedInstances() {
   const subscriptionId =

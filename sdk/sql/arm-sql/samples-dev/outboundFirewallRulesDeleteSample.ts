@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a outbound firewall rule with a given name.
  *
  * @summary Deletes a outbound firewall rule with a given name.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-02-01-preview/examples/OutboundFirewallRuleDelete.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/OutboundFirewallRuleDelete.json
  */
 async function deletesAOutboundFirewallRuleWithAGivenName() {
   const subscriptionId =

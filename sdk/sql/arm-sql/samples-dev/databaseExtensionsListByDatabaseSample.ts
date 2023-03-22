@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List database extension. This will return an empty list as it is not supported.
  *
  * @summary List database extension. This will return an empty list as it is not supported.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-02-01-preview/examples/ListDatabaseExtensions.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ListDatabaseExtensions.json
  */
 async function listDatabaseExtensions() {
   const subscriptionId =

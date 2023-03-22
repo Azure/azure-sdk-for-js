@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a managed database's transparent data encryption.
  *
  * @summary Gets a managed database's transparent data encryption.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedTransparentDataEncryptionGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedTransparentDataEncryptionGet.json
  */
 async function getADatabaseTransparentDataEncryption() {
   const subscriptionId =

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all target groups in an agent.
  *
  * @summary Gets all target groups in an agent.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ListJobTargetGroups.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ListJobTargetGroups.json
  */
 async function getAllTargetGroupsInAnAgent() {
   const subscriptionId =

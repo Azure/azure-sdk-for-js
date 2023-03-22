@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a database's blob auditing policy.
  *
  * @summary Creates or updates a database's blob auditing policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/DatabaseAzureMonitorAuditingCreateMin.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DatabaseAzureMonitorAuditingCreateMin.json
  */
 async function createOrUpdateADatabaseAzureMonitorAuditingPolicyWithMinimalParameters() {
   const subscriptionId =
@@ -50,7 +50,7 @@ async function createOrUpdateADatabaseAzureMonitorAuditingPolicyWithMinimalParam
  * This sample demonstrates how to Creates or updates a database's blob auditing policy.
  *
  * @summary Creates or updates a database's blob auditing policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/DatabaseBlobAuditingCreateMax.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DatabaseBlobAuditingCreateMax.json
  */
 async function createOrUpdateADatabaseBlobAuditingPolicyWithAllParameters() {
   const subscriptionId =
@@ -91,7 +91,7 @@ async function createOrUpdateADatabaseBlobAuditingPolicyWithAllParameters() {
  * This sample demonstrates how to Creates or updates a database's blob auditing policy.
  *
  * @summary Creates or updates a database's blob auditing policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/DatabaseBlobAuditingCreateMin.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DatabaseBlobAuditingCreateMin.json
  */
 async function createOrUpdateADatabaseBlobAuditingPolicyWithMinimalParameters() {
   const subscriptionId =

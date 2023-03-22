@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of database restore points.
  *
  * @summary Gets a list of database restore points.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DatabaseRestorePointsListByDatabase.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DatabaseRestorePointsListByDatabase.json
  */
 async function listDatabaseRestorePoints() {
   const subscriptionId =
@@ -45,7 +45,7 @@ async function listDatabaseRestorePoints() {
  * This sample demonstrates how to Gets a list of database restore points.
  *
  * @summary Gets a list of database restore points.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DataWarehouseRestorePointsListByDatabase.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DataWarehouseRestorePointsListByDatabase.json
  */
 async function listDatawarehouseDatabaseRestorePoints() {
   const subscriptionId =

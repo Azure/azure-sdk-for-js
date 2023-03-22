@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a workload classifier.
  *
  * @summary Deletes a workload classifier.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DeleteWorkloadClassifier.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DeleteWorkloadClassifier.json
  */
 async function deleteAWorkloadClassifier() {
   const subscriptionId =

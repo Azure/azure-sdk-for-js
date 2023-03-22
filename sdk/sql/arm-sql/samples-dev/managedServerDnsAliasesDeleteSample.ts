@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the managed server DNS alias with the given name.
  *
  * @summary Deletes the managed server DNS alias with the given name.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/ManagedServerDnsAliasDelete.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedServerDnsAliasDelete.json
  */
 async function deleteManagedServerDnsAlias() {
   const subscriptionId =

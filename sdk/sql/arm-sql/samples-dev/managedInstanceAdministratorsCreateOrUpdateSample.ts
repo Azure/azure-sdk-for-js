@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a managed instance administrator.
  *
  * @summary Creates or updates a managed instance administrator.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceAdministratorCreate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceAdministratorCreate.json
  */
 async function createAdministratorOfManagedInstance() {
   const subscriptionId =
@@ -52,7 +52,7 @@ async function createAdministratorOfManagedInstance() {
  * This sample demonstrates how to Creates or updates a managed instance administrator.
  *
  * @summary Creates or updates a managed instance administrator.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceAdministratorUpdate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceAdministratorUpdate.json
  */
 async function updateAdministratorOfManagedInstance() {
   const subscriptionId =

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the step executions of a job execution.
  *
  * @summary Lists the step executions of a job execution.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ListJobExecutionSteps.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ListJobExecutionSteps.json
  */
 async function listJobStepExecutions() {
   const subscriptionId =

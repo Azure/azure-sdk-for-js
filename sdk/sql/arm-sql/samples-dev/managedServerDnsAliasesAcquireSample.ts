@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Acquires managed server DNS alias from another managed server.
  *
  * @summary Acquires managed server DNS alias from another managed server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/ManagedServerDnsAliasAcquire.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedServerDnsAliasAcquire.json
  */
 async function acquireManagedServerDnsAlias() {
   const subscriptionId =

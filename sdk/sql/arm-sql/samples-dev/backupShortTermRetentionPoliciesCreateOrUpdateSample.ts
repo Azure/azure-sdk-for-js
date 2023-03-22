@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates a database's short term retention policy.
  *
  * @summary Updates a database's short term retention policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-02-01-preview/examples/UpdateShortTermRetentionPolicy.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/UpdateShortTermRetentionPolicy.json
  */
 async function updateTheShortTermRetentionPolicyForTheDatabase() {
   const subscriptionId =

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets database usages.
  *
  * @summary Gets database usages.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-02-01-preview/examples/GetDatabaseUsages.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/GetDatabaseUsages.json
  */
 async function getsDatabaseUsages() {
   const subscriptionId =

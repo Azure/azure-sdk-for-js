@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a managed server DNS alias.
  *
  * @summary Creates a managed server DNS alias.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/ManagedServerDnsAliasCreateOrUpdate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedServerDnsAliasCreateOrUpdate.json
  */
 async function createManagedServerDnsAlias() {
   const subscriptionId =

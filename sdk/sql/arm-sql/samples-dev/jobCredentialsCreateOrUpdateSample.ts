@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a job credential.
  *
  * @summary Creates or updates a job credential.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CreateOrUpdateJobCredential.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateOrUpdateJobCredential.json
  */
 async function createOrUpdateACredential() {
   const subscriptionId =

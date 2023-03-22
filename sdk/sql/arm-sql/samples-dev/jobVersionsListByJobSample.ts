@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all versions of a job.
  *
  * @summary Gets all versions of a job.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ListJobVersions.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ListJobVersions.json
  */
 async function getAllVersionsOfAJob() {
   const subscriptionId =

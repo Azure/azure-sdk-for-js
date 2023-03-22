@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a threat detection policy.
  *
  * @summary Creates or updates a threat detection policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ServerSecurityAlertsCreateMax.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerSecurityAlertsCreateMax.json
  */
 async function updateAServerThreatDetectionPolicyWithAllParameters() {
   const subscriptionId =
@@ -53,7 +53,7 @@ async function updateAServerThreatDetectionPolicyWithAllParameters() {
  * This sample demonstrates how to Creates or updates a threat detection policy.
  *
  * @summary Creates or updates a threat detection policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ServerSecurityAlertsCreateMin.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerSecurityAlertsCreateMin.json
  */
 async function updateAServerThreatDetectionPolicyWithMinimalParameters() {
   const subscriptionId =

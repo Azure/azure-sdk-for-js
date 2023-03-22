@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a sync member.
  *
  * @summary Deletes a sync member.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncMemberDelete.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/SyncMemberDelete.json
  */
 async function deleteASyncMember() {
   const subscriptionId =

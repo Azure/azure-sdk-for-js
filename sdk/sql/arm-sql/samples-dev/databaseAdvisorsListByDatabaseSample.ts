@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of database advisors.
  *
  * @summary Gets a list of database advisors.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DatabaseAdvisorList.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DatabaseAdvisorList.json
  */
 async function listOfDatabaseAdvisors() {
   const subscriptionId =
@@ -45,7 +45,7 @@ async function listOfDatabaseAdvisors() {
  * This sample demonstrates how to Gets a list of database advisors.
  *
  * @summary Gets a list of database advisors.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DatabaseRecommendedActionListExpand.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DatabaseRecommendedActionListExpand.json
  */
 async function listOfDatabaseRecommendedActionsForAllAdvisors() {
   const subscriptionId =

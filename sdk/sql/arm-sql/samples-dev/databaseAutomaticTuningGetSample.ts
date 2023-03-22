@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a database's automatic tuning.
  *
  * @summary Gets a database's automatic tuning.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DatabaseAutomaticTuningGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DatabaseAutomaticTuningGet.json
  */
 async function getADatabaseAutomaticTuningSettings() {
   const subscriptionId =

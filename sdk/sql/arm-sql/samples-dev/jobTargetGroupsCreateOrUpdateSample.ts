@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a target group.
  *
  * @summary Creates or updates a target group.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CreateOrUpdateJobTargetGroupMax.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateOrUpdateJobTargetGroupMax.json
  */
 async function createOrUpdateATargetGroupWithAllProperties() {
   const subscriptionId =
@@ -77,7 +77,7 @@ async function createOrUpdateATargetGroupWithAllProperties() {
  * This sample demonstrates how to Creates or updates a target group.
  *
  * @summary Creates or updates a target group.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CreateOrUpdateJobTargetGroupMin.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateOrUpdateJobTargetGroupMin.json
  */
 async function createOrUpdateATargetGroupWithMinimalProperties() {
   const subscriptionId =

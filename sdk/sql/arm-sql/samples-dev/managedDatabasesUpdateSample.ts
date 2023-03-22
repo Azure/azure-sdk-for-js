@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates an existing database.
  *
  * @summary Updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/ManagedDatabaseUpdateMax.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseUpdateMax.json
  */
 async function updatesAManagedDatabaseWithMaximalProperties() {
   const subscriptionId =
@@ -44,7 +44,7 @@ async function updatesAManagedDatabaseWithMaximalProperties() {
  * This sample demonstrates how to Updates an existing database.
  *
  * @summary Updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/ManagedDatabaseUpdateMin.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseUpdateMin.json
  */
 async function updatesAManagedDatabaseWithMinimalProperties() {
   const subscriptionId =

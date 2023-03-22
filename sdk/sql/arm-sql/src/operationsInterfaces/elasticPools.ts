@@ -9,10 +9,6 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  Metric,
-  ElasticPoolsListMetricsOptionalParams,
-  MetricDefinition,
-  ElasticPoolsListMetricDefinitionsOptionalParams,
   ElasticPool,
   ElasticPoolsListByServerOptionalParams,
   ElasticPoolsGetOptionalParams,
@@ -29,36 +25,6 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ElasticPools. */
 export interface ElasticPools {
-  /**
-   * Returns elastic pool  metrics.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param elasticPoolName The name of the elastic pool.
-   * @param filter An OData filter expression that describes a subset of metrics to return.
-   * @param options The options parameters.
-   */
-  listMetrics(
-    resourceGroupName: string,
-    serverName: string,
-    elasticPoolName: string,
-    filter: string,
-    options?: ElasticPoolsListMetricsOptionalParams
-  ): PagedAsyncIterableIterator<Metric>;
-  /**
-   * Returns elastic pool metric definitions.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param elasticPoolName The name of the elastic pool.
-   * @param options The options parameters.
-   */
-  listMetricDefinitions(
-    resourceGroupName: string,
-    serverName: string,
-    elasticPoolName: string,
-    options?: ElasticPoolsListMetricDefinitionsOptionalParams
-  ): PagedAsyncIterableIterator<MetricDefinition>;
   /**
    * Gets all elastic pools in a server.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

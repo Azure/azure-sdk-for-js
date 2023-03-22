@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a distributed availability group info.
  *
  * @summary Gets a distributed availability group info.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/DistributedAvailabilityGroupsGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DistributedAvailabilityGroupsGet.json
  */
 async function getsTheDistributedAvailabilityGroupInfo() {
   const subscriptionId =

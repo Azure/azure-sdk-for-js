@@ -9,38 +9,54 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   GeoBackupPolicy,
-  GeoBackupPoliciesListByDatabaseOptionalParams,
+  GeoBackupPoliciesListOptionalParams,
   GeoBackupPolicyName,
-  GeoBackupPoliciesCreateOrUpdateOptionalParams,
-  GeoBackupPoliciesCreateOrUpdateResponse,
   GeoBackupPoliciesGetOptionalParams,
-  GeoBackupPoliciesGetResponse
+  GeoBackupPoliciesGetResponse,
+  GeoBackupPoliciesCreateOrUpdateOptionalParams,
+  GeoBackupPoliciesCreateOrUpdateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a GeoBackupPolicies. */
 export interface GeoBackupPolicies {
   /**
-   * Returns a list of geo backup policies.
+   * Gets a list of Geo backup policies for the given database resource.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param databaseName The name of the database.
    * @param options The options parameters.
    */
-  listByDatabase(
+  list(
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: GeoBackupPoliciesListByDatabaseOptionalParams
+    options?: GeoBackupPoliciesListOptionalParams
   ): PagedAsyncIterableIterator<GeoBackupPolicy>;
   /**
-   * Updates a database geo backup policy.
+   * Gets a Geo backup policy for the given database resource.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param databaseName The name of the database.
-   * @param geoBackupPolicyName The name of the geo backup policy.
+   * @param geoBackupPolicyName The name of the Geo backup policy. This should always be 'Default'.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    geoBackupPolicyName: GeoBackupPolicyName,
+    options?: GeoBackupPoliciesGetOptionalParams
+  ): Promise<GeoBackupPoliciesGetResponse>;
+  /**
+   * Create or update a database default Geo backup policy.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param geoBackupPolicyName The name of the Geo backup policy. This should always be 'Default'.
    * @param parameters The required parameters for creating or updating the geo backup policy.
    * @param options The options parameters.
    */
@@ -52,20 +68,4 @@ export interface GeoBackupPolicies {
     parameters: GeoBackupPolicy,
     options?: GeoBackupPoliciesCreateOrUpdateOptionalParams
   ): Promise<GeoBackupPoliciesCreateOrUpdateResponse>;
-  /**
-   * Gets a geo backup policy.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param geoBackupPolicyName The name of the geo backup policy.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    geoBackupPolicyName: GeoBackupPolicyName,
-    options?: GeoBackupPoliciesGetOptionalParams
-  ): Promise<GeoBackupPoliciesGetResponse>;
 }

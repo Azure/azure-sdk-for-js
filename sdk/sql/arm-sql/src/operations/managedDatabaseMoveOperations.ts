@@ -194,14 +194,14 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
-    Parameters.filter1,
-    Parameters.onlyLatestPerDatabase,
-    Parameters.apiVersion8
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.onlyLatestPerDatabase
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.locationName
   ],
   headerParameters: [Parameters.accept],
@@ -217,13 +217,13 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.locationName,
-    Parameters.operationId
+    Parameters.subscriptionId,
+    Parameters.operationId,
+    Parameters.locationName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -239,8 +239,8 @@ const listByLocationNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.locationName
   ],

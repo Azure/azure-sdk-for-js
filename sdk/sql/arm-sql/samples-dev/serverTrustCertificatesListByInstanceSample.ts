@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of server trust certificates that were uploaded from box to the given Sql Managed Instance.
  *
  * @summary Gets a list of server trust certificates that were uploaded from box to the given Sql Managed Instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/ServerTrustCertificatesListByInstance.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerTrustCertificatesListByInstance.json
  */
 async function getsAListOfServerTrustCertificatesOnAGivenServer() {
   const subscriptionId =

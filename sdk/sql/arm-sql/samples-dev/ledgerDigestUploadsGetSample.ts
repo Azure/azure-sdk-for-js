@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the current ledger digest upload configuration for a database.
  *
  * @summary Gets the current ledger digest upload configuration for a database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-02-01-preview/examples/LedgerDigestUploadsGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/LedgerDigestUploadsGet.json
  */
 async function getsTheCurrentLedgerDigestUploadConfigurationForADatabase() {
   const subscriptionId =

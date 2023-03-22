@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves server automatic tuning options.
  *
  * @summary Retrieves server automatic tuning options.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ServerAutomaticTuningGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerAutomaticTuningGet.json
  */
 async function getAServerAutomaticTuningSettings() {
   const subscriptionId =

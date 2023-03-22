@@ -11,23 +11,23 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SyncDatabaseIdProperties,
   SyncGroupsListSyncDatabaseIdsOptionalParams,
+  SyncGroup,
+  SyncGroupsListByDatabaseOptionalParams,
   SyncFullSchemaProperties,
   SyncGroupsListHubSchemasOptionalParams,
   SyncGroupLogProperties,
   SyncGroupsType,
   SyncGroupsListLogsOptionalParams,
-  SyncGroup,
-  SyncGroupsListByDatabaseOptionalParams,
-  SyncGroupsRefreshHubSchemaOptionalParams,
-  SyncGroupsCancelSyncOptionalParams,
-  SyncGroupsTriggerSyncOptionalParams,
   SyncGroupsGetOptionalParams,
   SyncGroupsGetResponse,
   SyncGroupsCreateOrUpdateOptionalParams,
   SyncGroupsCreateOrUpdateResponse,
   SyncGroupsDeleteOptionalParams,
   SyncGroupsUpdateOptionalParams,
-  SyncGroupsUpdateResponse
+  SyncGroupsUpdateResponse,
+  SyncGroupsCancelSyncOptionalParams,
+  SyncGroupsRefreshHubSchemaOptionalParams,
+  SyncGroupsTriggerSyncOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -42,6 +42,20 @@ export interface SyncGroups {
     locationName: string,
     options?: SyncGroupsListSyncDatabaseIdsOptionalParams
   ): PagedAsyncIterableIterator<SyncDatabaseIdProperties>;
+  /**
+   * Lists sync groups under a hub database.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database on which the sync group is hosted.
+   * @param options The options parameters.
+   */
+  listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: SyncGroupsListByDatabaseOptionalParams
+  ): PagedAsyncIterableIterator<SyncGroup>;
   /**
    * Gets a collection of hub database schemas.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -80,84 +94,6 @@ export interface SyncGroups {
     typeParam: SyncGroupsType,
     options?: SyncGroupsListLogsOptionalParams
   ): PagedAsyncIterableIterator<SyncGroupLogProperties>;
-  /**
-   * Lists sync groups under a hub database.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database on which the sync group is hosted.
-   * @param options The options parameters.
-   */
-  listByDatabase(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    options?: SyncGroupsListByDatabaseOptionalParams
-  ): PagedAsyncIterableIterator<SyncGroup>;
-  /**
-   * Refreshes a hub database schema.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database on which the sync group is hosted.
-   * @param syncGroupName The name of the sync group.
-   * @param options The options parameters.
-   */
-  beginRefreshHubSchema(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    syncGroupName: string,
-    options?: SyncGroupsRefreshHubSchemaOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Refreshes a hub database schema.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database on which the sync group is hosted.
-   * @param syncGroupName The name of the sync group.
-   * @param options The options parameters.
-   */
-  beginRefreshHubSchemaAndWait(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    syncGroupName: string,
-    options?: SyncGroupsRefreshHubSchemaOptionalParams
-  ): Promise<void>;
-  /**
-   * Cancels a sync group synchronization.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database on which the sync group is hosted.
-   * @param syncGroupName The name of the sync group.
-   * @param options The options parameters.
-   */
-  cancelSync(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    syncGroupName: string,
-    options?: SyncGroupsCancelSyncOptionalParams
-  ): Promise<void>;
-  /**
-   * Triggers a sync group synchronization.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database on which the sync group is hosted.
-   * @param syncGroupName The name of the sync group.
-   * @param options The options parameters.
-   */
-  triggerSync(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    syncGroupName: string,
-    options?: SyncGroupsTriggerSyncOptionalParams
-  ): Promise<void>;
   /**
    * Gets a sync group.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -288,4 +224,68 @@ export interface SyncGroups {
     parameters: SyncGroup,
     options?: SyncGroupsUpdateOptionalParams
   ): Promise<SyncGroupsUpdateResponse>;
+  /**
+   * Cancels a sync group synchronization.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database on which the sync group is hosted.
+   * @param syncGroupName The name of the sync group.
+   * @param options The options parameters.
+   */
+  cancelSync(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    options?: SyncGroupsCancelSyncOptionalParams
+  ): Promise<void>;
+  /**
+   * Refreshes a hub database schema.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database on which the sync group is hosted.
+   * @param syncGroupName The name of the sync group.
+   * @param options The options parameters.
+   */
+  beginRefreshHubSchema(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    options?: SyncGroupsRefreshHubSchemaOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Refreshes a hub database schema.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database on which the sync group is hosted.
+   * @param syncGroupName The name of the sync group.
+   * @param options The options parameters.
+   */
+  beginRefreshHubSchemaAndWait(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    options?: SyncGroupsRefreshHubSchemaOptionalParams
+  ): Promise<void>;
+  /**
+   * Triggers a sync group synchronization.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database on which the sync group is hosted.
+   * @param syncGroupName The name of the sync group.
+   * @param options The options parameters.
+   */
+  triggerSync(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    options?: SyncGroupsTriggerSyncOptionalParams
+  ): Promise<void>;
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Synchronizes the DNS server settings used by the managed instances inside the given virtual cluster.
  *
  * @summary Synchronizes the DNS server settings used by the managed instances inside the given virtual cluster.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/UpdateVirtualClusterDnsServers.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/UpdateVirtualClusterDnsServers.json
  */
 async function performsUpdateOfDnsServersOnManagedInstance() {
   const subscriptionId =

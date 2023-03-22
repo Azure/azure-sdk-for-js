@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a collection of sync database ids.
  *
  * @summary Gets a collection of sync database ids.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncGroupGetSyncDatabaseId.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/SyncGroupGetSyncDatabaseId.json
  */
 async function getASyncDatabaseId() {
   const subscriptionId =

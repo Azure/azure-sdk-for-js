@@ -21,18 +21,22 @@ import {
   SensitivityLabelsListRecommendedByDatabaseNextOptionalParams,
   SensitivityLabelsListRecommendedByDatabaseOptionalParams,
   SensitivityLabelsListRecommendedByDatabaseResponse,
+  SensitivityLabelsListByDatabaseNextOptionalParams,
+  SensitivityLabelsListByDatabaseOptionalParams,
+  SensitivityLabelsListByDatabaseResponse,
   SensitivityLabelUpdateList,
   SensitivityLabelsUpdateOptionalParams,
-  SensitivityLabelsEnableRecommendationOptionalParams,
-  SensitivityLabelsDisableRecommendationOptionalParams,
   SensitivityLabelSource,
   SensitivityLabelsGetOptionalParams,
   SensitivityLabelsGetResponse,
   SensitivityLabelsCreateOrUpdateOptionalParams,
   SensitivityLabelsCreateOrUpdateResponse,
   SensitivityLabelsDeleteOptionalParams,
+  SensitivityLabelsDisableRecommendationOptionalParams,
+  SensitivityLabelsEnableRecommendationOptionalParams,
   SensitivityLabelsListCurrentByDatabaseNextResponse,
-  SensitivityLabelsListRecommendedByDatabaseNextResponse
+  SensitivityLabelsListRecommendedByDatabaseNextResponse,
+  SensitivityLabelsListByDatabaseNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -244,6 +248,100 @@ export class SensitivityLabelsImpl implements SensitivityLabels {
    * @param databaseName The name of the database.
    * @param options The options parameters.
    */
+  public listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: SensitivityLabelsListByDatabaseOptionalParams
+  ): PagedAsyncIterableIterator<SensitivityLabel> {
+    const iter = this.listByDatabasePagingAll(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByDatabasePagingPage(
+          resourceGroupName,
+          serverName,
+          databaseName,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listByDatabasePagingPage(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: SensitivityLabelsListByDatabaseOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<SensitivityLabel[]> {
+    let result: SensitivityLabelsListByDatabaseResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByDatabase(
+        resourceGroupName,
+        serverName,
+        databaseName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByDatabaseNext(
+        resourceGroupName,
+        serverName,
+        databaseName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByDatabasePagingAll(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: SensitivityLabelsListByDatabaseOptionalParams
+  ): AsyncIterableIterator<SensitivityLabel> {
+    for await (const page of this.listByDatabasePagingPage(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Gets the sensitivity labels of a given database
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param options The options parameters.
+   */
   private _listCurrentByDatabase(
     resourceGroupName: string,
     serverName: string,
@@ -295,75 +393,6 @@ export class SensitivityLabelsImpl implements SensitivityLabels {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, options },
       listRecommendedByDatabaseOperationSpec
-    );
-  }
-
-  /**
-   * Enables sensitivity recommendations on a given column (recommendations are enabled by default on all
-   * columns)
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param schemaName The name of the schema.
-   * @param tableName The name of the table.
-   * @param columnName The name of the column.
-   * @param options The options parameters.
-   */
-  enableRecommendation(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    schemaName: string,
-    tableName: string,
-    columnName: string,
-    options?: SensitivityLabelsEnableRecommendationOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serverName,
-        databaseName,
-        schemaName,
-        tableName,
-        columnName,
-        options
-      },
-      enableRecommendationOperationSpec
-    );
-  }
-
-  /**
-   * Disables sensitivity recommendations on a given column
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param schemaName The name of the schema.
-   * @param tableName The name of the table.
-   * @param columnName The name of the column.
-   * @param options The options parameters.
-   */
-  disableRecommendation(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    schemaName: string,
-    tableName: string,
-    columnName: string,
-    options?: SensitivityLabelsDisableRecommendationOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serverName,
-        databaseName,
-        schemaName,
-        tableName,
-        columnName,
-        options
-      },
-      disableRecommendationOperationSpec
     );
   }
 
@@ -476,6 +505,95 @@ export class SensitivityLabelsImpl implements SensitivityLabels {
   }
 
   /**
+   * Disables sensitivity recommendations on a given column
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param schemaName The name of the schema.
+   * @param tableName The name of the table.
+   * @param columnName The name of the column.
+   * @param options The options parameters.
+   */
+  disableRecommendation(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    options?: SensitivityLabelsDisableRecommendationOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serverName,
+        databaseName,
+        schemaName,
+        tableName,
+        columnName,
+        options
+      },
+      disableRecommendationOperationSpec
+    );
+  }
+
+  /**
+   * Enables sensitivity recommendations on a given column (recommendations are enabled by default on all
+   * columns)
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param schemaName The name of the schema.
+   * @param tableName The name of the table.
+   * @param columnName The name of the column.
+   * @param options The options parameters.
+   */
+  enableRecommendation(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    options?: SensitivityLabelsEnableRecommendationOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serverName,
+        databaseName,
+        schemaName,
+        tableName,
+        columnName,
+        options
+      },
+      enableRecommendationOperationSpec
+    );
+  }
+
+  /**
+   * Gets the sensitivity labels of a given database
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param options The options parameters.
+   */
+  private _listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: SensitivityLabelsListByDatabaseOptionalParams
+  ): Promise<SensitivityLabelsListByDatabaseResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serverName, databaseName, options },
+      listByDatabaseOperationSpec
+    );
+  }
+
+  /**
    * ListCurrentByDatabaseNext
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -519,6 +637,28 @@ export class SensitivityLabelsImpl implements SensitivityLabels {
       listRecommendedByDatabaseNextOperationSpec
     );
   }
+
+  /**
+   * ListByDatabaseNext
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param nextLink The nextLink from the previous successful call to the ListByDatabase method.
+   * @param options The options parameters.
+   */
+  private _listByDatabaseNext(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    nextLink: string,
+    options?: SensitivityLabelsListByDatabaseNextOptionalParams
+  ): Promise<SensitivityLabelsListByDatabaseNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serverName, databaseName, nextLink, options },
+      listByDatabaseNextOperationSpec
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -534,17 +674,17 @@ const listCurrentByDatabaseOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
     Parameters.skipToken,
-    Parameters.filter1,
-    Parameters.apiVersion3,
     Parameters.count
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName
+    Parameters.databaseName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -554,14 +694,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/currentSensitivityLabels",
   httpMethod: "PATCH",
   responses: { 200: {}, default: {} },
-  requestBody: Parameters.parameters73,
-  queryParameters: [Parameters.apiVersion3],
+  requestBody: Parameters.parameters50,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName
+    Parameters.databaseName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.contentType],
   mediaType: "json",
@@ -578,57 +718,19 @@ const listRecommendedByDatabaseOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
     Parameters.skipToken,
-    Parameters.filter1,
-    Parameters.apiVersion3,
     Parameters.includeDisabledRecommendations
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName
+    Parameters.databaseName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const enableRecommendationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}/enable",
-  httpMethod: "POST",
-  responses: { 200: {}, default: {} },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.schemaName,
-    Parameters.tableName,
-    Parameters.columnName,
-    Parameters.sensitivityLabelSource2
-  ],
-  serializer
-};
-const disableRecommendationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}/disable",
-  httpMethod: "POST",
-  responses: { 200: {}, default: {} },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.schemaName,
-    Parameters.tableName,
-    Parameters.columnName,
-    Parameters.sensitivityLabelSource2
-  ],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
@@ -641,13 +743,13 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.schemaName,
     Parameters.tableName,
     Parameters.columnName,
@@ -669,20 +771,20 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters72,
-  queryParameters: [Parameters.apiVersion3],
+  requestBody: Parameters.parameters51,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.schemaName,
     Parameters.tableName,
     Parameters.columnName,
     Parameters.sensitivityLabelSource1
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -691,18 +793,77 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}",
   httpMethod: "DELETE",
   responses: { 200: {}, default: {} },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.schemaName,
     Parameters.tableName,
     Parameters.columnName,
     Parameters.sensitivityLabelSource1
   ],
+  serializer
+};
+const disableRecommendationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}/disable",
+  httpMethod: "POST",
+  responses: { 200: {}, default: {} },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName,
+    Parameters.subscriptionId,
+    Parameters.schemaName,
+    Parameters.tableName,
+    Parameters.columnName,
+    Parameters.sensitivityLabelSource2
+  ],
+  serializer
+};
+const enableRecommendationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}/enable",
+  httpMethod: "POST",
+  responses: { 200: {}, default: {} },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName,
+    Parameters.subscriptionId,
+    Parameters.schemaName,
+    Parameters.tableName,
+    Parameters.columnName,
+    Parameters.sensitivityLabelSource2
+  ],
+  serializer
+};
+const listByDatabaseOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/sensitivityLabels",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SensitivityLabelListResult
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName,
+    Parameters.subscriptionId
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listCurrentByDatabaseNextOperationSpec: coreClient.OperationSpec = {
@@ -716,10 +877,10 @@ const listCurrentByDatabaseNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
@@ -736,10 +897,30 @@ const listRecommendedByDatabaseNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SensitivityLabelListResult
+    },
+    default: {}
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

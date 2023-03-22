@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of virtual clusters in a resource group.
  *
  * @summary Gets a list of virtual clusters in a resource group.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/VirtualClusterListByResourceGroup.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/VirtualClusterListByResourceGroup.json
  */
 async function listVirtualClustersByResourceGroup() {
   const subscriptionId =

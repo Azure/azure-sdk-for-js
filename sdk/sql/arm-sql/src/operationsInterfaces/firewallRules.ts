@@ -10,14 +10,14 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   FirewallRule,
   FirewallRulesListByServerOptionalParams,
+  FirewallRuleList,
+  FirewallRulesReplaceOptionalParams,
+  FirewallRulesReplaceResponse,
   FirewallRulesGetOptionalParams,
   FirewallRulesGetResponse,
   FirewallRulesCreateOrUpdateOptionalParams,
   FirewallRulesCreateOrUpdateResponse,
-  FirewallRulesDeleteOptionalParams,
-  FirewallRuleList,
-  FirewallRulesReplaceOptionalParams,
-  FirewallRulesReplaceResponse
+  FirewallRulesDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,6 +35,20 @@ export interface FirewallRules {
     serverName: string,
     options?: FirewallRulesListByServerOptionalParams
   ): PagedAsyncIterableIterator<FirewallRule>;
+  /**
+   * Replaces all firewall rules on the server.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param parameters A list of server firewall rules.
+   * @param options The options parameters.
+   */
+  replace(
+    resourceGroupName: string,
+    serverName: string,
+    parameters: FirewallRuleList,
+    options?: FirewallRulesReplaceOptionalParams
+  ): Promise<FirewallRulesReplaceResponse>;
   /**
    * Gets a firewall rule.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -79,18 +93,4 @@ export interface FirewallRules {
     firewallRuleName: string,
     options?: FirewallRulesDeleteOptionalParams
   ): Promise<void>;
-  /**
-   * Replaces all firewall rules on the server.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param parameters A list of server firewall rules.
-   * @param options The options parameters.
-   */
-  replace(
-    resourceGroupName: string,
-    serverName: string,
-    parameters: FirewallRuleList,
-    options?: FirewallRulesReplaceOptionalParams
-  ): Promise<FirewallRulesReplaceResponse>;
 }

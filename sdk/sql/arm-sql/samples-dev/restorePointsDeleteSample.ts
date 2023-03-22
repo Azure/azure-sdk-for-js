@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a restore point.
  *
  * @summary Deletes a restore point.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DatabaseRestorePointsDelete.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DatabaseRestorePointsDelete.json
  */
 async function deletesARestorePoint() {
   const subscriptionId =

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a virtual network rule.
  *
  * @summary Gets a virtual network rule.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/VirtualNetworkRulesGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/VirtualNetworkRulesGet.json
  */
 async function getsAVirtualNetworkRule() {
   const subscriptionId =

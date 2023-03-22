@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List the user activities of a data warehouse which includes running and suspended queries
  *
  * @summary List the user activities of a data warehouse which includes running and suspended queries
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ListDataWarehouseUserActivities.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ListDataWarehouseUserActivities.json
  */
 async function listOfTheUserActivitiesOfADataWarehouse() {
   const subscriptionId =

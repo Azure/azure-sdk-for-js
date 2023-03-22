@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of Azure Active Directory administrators in a server.
  *
  * @summary Gets a list of Azure Active Directory administrators in a server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/AdministratorList.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/AdministratorList.json
  */
 async function getsAListOfAzureActiveDirectoryAdministrator() {
   const subscriptionId =

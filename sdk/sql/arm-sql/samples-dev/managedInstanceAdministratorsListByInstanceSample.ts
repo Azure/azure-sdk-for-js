@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of managed instance administrators.
  *
  * @summary Gets a list of managed instance administrators.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceAdministratorListByInstance.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceAdministratorListByInstance.json
  */
 async function listAdministratorsOfManagedInstance() {
   const subscriptionId =

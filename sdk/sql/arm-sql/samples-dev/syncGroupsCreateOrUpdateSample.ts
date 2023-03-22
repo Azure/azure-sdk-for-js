@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a sync group.
  *
  * @summary Creates or updates a sync group.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncGroupCreate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/SyncGroupCreate.json
  */
 async function createASyncGroup() {
   const subscriptionId =
@@ -53,7 +53,7 @@ async function createASyncGroup() {
  * This sample demonstrates how to Creates or updates a sync group.
  *
  * @summary Creates or updates a sync group.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncGroupUpdate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/SyncGroupUpdate.json
  */
 async function updateASyncGroup() {
   const subscriptionId =

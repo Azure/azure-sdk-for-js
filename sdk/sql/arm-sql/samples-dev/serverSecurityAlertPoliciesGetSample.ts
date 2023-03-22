@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a server's security alert policy.
  *
  * @summary Get a server's security alert policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ServerSecurityAlertsGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerSecurityAlertsGet.json
  */
 async function getAServerThreatDetectionPolicy() {
   const subscriptionId =

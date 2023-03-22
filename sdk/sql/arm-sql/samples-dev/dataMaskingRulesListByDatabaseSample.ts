@@ -18,9 +18,9 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of database data masking rules.
  *
  * @summary Gets a list of database data masking rules.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/stable/2014-04-01/examples/DataMaskingRuleList.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DataMaskingRuleListByDatabase.json
  */
-async function listDataMaskingRules() {
+async function getsAListOfDatabaseDataMaskingRules() {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -28,13 +28,15 @@ async function listDataMaskingRules() {
     process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-6852";
   const serverName = "sqlcrudtest-2080";
   const databaseName = "sqlcrudtest-331";
+  const dataMaskingPolicyName = "Default";
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.dataMaskingRules.listByDatabase(
     resourceGroupName,
     serverName,
-    databaseName
+    databaseName,
+    dataMaskingPolicyName
   )) {
     resArray.push(item);
   }
@@ -42,7 +44,7 @@ async function listDataMaskingRules() {
 }
 
 async function main() {
-  listDataMaskingRules();
+  getsAListOfDatabaseDataMaskingRules();
 }
 
 main().catch(console.error);

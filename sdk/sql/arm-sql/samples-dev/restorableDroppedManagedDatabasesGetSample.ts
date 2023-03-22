@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a restorable dropped managed database.
  *
  * @summary Gets a restorable dropped managed database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-05-01-preview/examples/GetRestorableDroppedManagedDatabase.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/GetRestorableDroppedManagedDatabase.json
  */
 async function getsARestorableDroppedManagedDatabase() {
   const subscriptionId =

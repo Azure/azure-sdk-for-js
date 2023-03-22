@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a job agent.
  *
  * @summary Deletes a job agent.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DeleteJobAgent.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DeleteJobAgent.json
  */
 async function deleteAJobAgent() {
   const subscriptionId =

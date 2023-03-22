@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a managed server's threat detection policy.
  *
  * @summary Get a managed server's threat detection policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedServerSecurityAlertGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedServerSecurityAlertGet.json
  */
 async function getAManagedServerThreatDetectionPolicy() {
   const subscriptionId =

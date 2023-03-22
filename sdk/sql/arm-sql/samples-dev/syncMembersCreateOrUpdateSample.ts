@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a sync member.
  *
  * @summary Creates or updates a sync member.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncMemberCreate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/SyncMemberCreate.json
  */
 async function createANewSyncMember() {
   const subscriptionId =
@@ -57,7 +57,7 @@ async function createANewSyncMember() {
  * This sample demonstrates how to Creates or updates a sync member.
  *
  * @summary Creates or updates a sync member.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncMemberUpdate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/SyncMemberUpdate.json
  */
 async function updateASyncMember() {
   const subscriptionId =

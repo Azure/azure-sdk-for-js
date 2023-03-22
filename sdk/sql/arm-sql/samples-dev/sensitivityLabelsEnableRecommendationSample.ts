@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Enables sensitivity recommendations on a given column (recommendations are enabled by default on all columns)
  *
  * @summary Enables sensitivity recommendations on a given column (recommendations are enabled by default on all columns)
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/RecommendedColumnSensitivityLabelEnable.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/RecommendedColumnSensitivityLabelEnable.json
  */
 async function enablesSensitivityRecommendationsOnAGivenColumn() {
   const subscriptionId =

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of jobs.
  *
  * @summary Gets a list of jobs.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ListJobsByAgent.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ListJobsByAgent.json
  */
 async function listJobsInAJobAgent() {
   const subscriptionId =

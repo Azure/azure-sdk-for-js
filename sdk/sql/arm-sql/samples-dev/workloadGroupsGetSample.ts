@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a workload group
  *
  * @summary Gets a workload group
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/GetWorkloadGroup.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/GetWorkloadGroup.json
  */
 async function getsAWorkloadGroupForADataWarehouse() {
   const subscriptionId =

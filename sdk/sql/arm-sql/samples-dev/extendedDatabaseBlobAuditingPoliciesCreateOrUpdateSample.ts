@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates an extended database's blob auditing policy.
  *
  * @summary Creates or updates an extended database's blob auditing policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/ExtendedDatabaseAzureMonitorAuditingCreateMin.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ExtendedDatabaseAzureMonitorAuditingCreateMin.json
  */
 async function createOrUpdateAnExtendedDatabaseAzureMonitorAuditingPolicyWithMinimalParameters() {
   const subscriptionId =
@@ -50,7 +50,7 @@ async function createOrUpdateAnExtendedDatabaseAzureMonitorAuditingPolicyWithMin
  * This sample demonstrates how to Creates or updates an extended database's blob auditing policy.
  *
  * @summary Creates or updates an extended database's blob auditing policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/ExtendedDatabaseBlobAuditingCreateMax.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ExtendedDatabaseBlobAuditingCreateMax.json
  */
 async function createOrUpdateAnExtendedDatabaseBlobAuditingPolicyWithAllParameters() {
   const subscriptionId =
@@ -92,7 +92,7 @@ async function createOrUpdateAnExtendedDatabaseBlobAuditingPolicyWithAllParamete
  * This sample demonstrates how to Creates or updates an extended database's blob auditing policy.
  *
  * @summary Creates or updates an extended database's blob auditing policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/ExtendedDatabaseBlobAuditingCreateMin.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ExtendedDatabaseBlobAuditingCreateMin.json
  */
 async function createOrUpdateAnExtendedDatabaseBlobAuditingPolicyWithMinimalParameters() {
   const subscriptionId =

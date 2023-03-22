@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a job.
  *
  * @summary Deletes a job.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DeleteJob.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DeleteJob.json
  */
 async function deleteAJob() {
   const subscriptionId =

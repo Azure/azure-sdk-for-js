@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to List database columns
  *
  * @summary List database columns
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ColumnsListByDatabaseMax.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ColumnsListByDatabaseMax.json
  */
 async function filterDatabaseColumns() {
   const subscriptionId =
@@ -58,7 +58,7 @@ async function filterDatabaseColumns() {
  * This sample demonstrates how to List database columns
  *
  * @summary List database columns
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ColumnsListByDatabaseMin.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ColumnsListByDatabaseMin.json
  */
 async function listDatabaseColumns() {
   const subscriptionId =

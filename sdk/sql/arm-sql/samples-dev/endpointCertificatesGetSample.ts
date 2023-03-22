@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a certificate used on the endpoint with the given id.
  *
  * @summary Gets a certificate used on the endpoint with the given id.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/EndpointCertificatesGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/EndpointCertificatesGet.json
  */
 async function getsAnEndpointCertificate() {
   const subscriptionId =

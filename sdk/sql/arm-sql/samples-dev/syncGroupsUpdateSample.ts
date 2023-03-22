@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates a sync group.
  *
  * @summary Updates a sync group.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncGroupPatch.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/SyncGroupPatch.json
  */
 async function updateASyncGroup() {
   const subscriptionId =

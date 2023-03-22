@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of deleted servers for a location.
  *
  * @summary Gets a list of deleted servers for a location.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DeletedServerList.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DeletedServerList.json
  */
 async function listDeletedServers() {
   const subscriptionId =

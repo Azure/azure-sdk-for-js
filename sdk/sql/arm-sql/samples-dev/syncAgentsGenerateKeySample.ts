@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Generates a sync agent key.
  *
  * @summary Generates a sync agent key.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncAgentGenerateKey.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/SyncAgentGenerateKey.json
  */
 async function generateASyncAgentKey() {
   const subscriptionId =

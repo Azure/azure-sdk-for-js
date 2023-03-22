@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all job steps in the specified job version.
  *
  * @summary Gets all job steps in the specified job version.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ListJobStepsByVersion.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ListJobStepsByVersion.json
  */
 async function listJobStepsForTheSpecifiedVersionOfAJob() {
   const subscriptionId =

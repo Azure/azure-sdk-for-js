@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a restore point.
  *
  * @summary Gets a restore point.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DatabaseRestorePointsGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DatabaseRestorePointsGet.json
  */
 async function getsADatabaseRestorePoint() {
   const subscriptionId =
@@ -44,7 +44,7 @@ async function getsADatabaseRestorePoint() {
  * This sample demonstrates how to Gets a restore point.
  *
  * @summary Gets a restore point.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DataWarehouseRestorePointsGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DataWarehouseRestorePointsGet.json
  */
 async function getsADatawarehouseDatabaseRestorePoint() {
   const subscriptionId =

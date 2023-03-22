@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of managed instance DTC settings.
  *
  * @summary Gets a list of managed instance DTC settings.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/ManagedInstanceDtcList.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceDtcList.json
  */
 async function getsAListOfManagedInstanceDtcSettings() {
   const subscriptionId =
