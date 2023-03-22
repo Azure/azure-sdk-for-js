@@ -13639,7 +13639,7 @@ packages:
     dev: false
 
   file:projects/arm-orbital.tgz:
-    resolution: {integrity: sha512-dcLOIaum9pMpJ5QnvltWoat8CuSiX4cMc1uEgmfhzrzVZaJmw0BlowMjIjVjpXztnDaM0zHXWK1ma9LQsxIt5A==, tarball: file:projects/arm-orbital.tgz}
+    resolution: {integrity: sha512-Adef+OPJvHO2TCGf0edqAty/uZeuXkKLlW8XrJEyyg4CAmdoslfva5RvdOiol5DNs9u3C0wi1QigEzYZXUynhg==, tarball: file:projects/arm-orbital.tgz}
     name: '@rush-temp/arm-orbital'
     version: 0.0.0
     dependencies:
@@ -13653,8 +13653,8 @@ packages:
       '@types/node': 14.18.38
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1

@@ -1,0 +1,383 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Orbital/contactProfiles/resourcetest?api-version=2022-11-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "836",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-orbital/2.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "e51ec567-5fb9-4c10-9d50-0fae1e456237"
+      },
+      "RequestBody": {
+        "location": "westus2",
+        "properties": {
+          "networkConfiguration": {
+            "subnetId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/myvirtualnetwork/subnets/testsubnets"
+          },
+          "links": [
+            {
+              "name": "contoso-uplink",
+              "polarization": "LHCP",
+              "direction": "Uplink",
+              "gainOverTemperature": 0,
+              "eirpdBW": 45,
+              "channels": [
+                {
+                  "name": "contoso-uplink-channel",
+                  "centerFrequencyMHz": 2250,
+                  "bandwidthMHz": 2,
+                  "endPoint": {
+                    "ipAddress": "10.1.0.4",
+                    "endPointName": "ContosoTest_Uplink",
+                    "port": "50000",
+                    "protocol": "TCP"
+                  }
+                }
+              ]
+            },
+            {
+              "name": "contoso-downlink",
+              "polarization": "RHCP",
+              "direction": "Downlink",
+              "gainOverTemperature": 25,
+              "eirpdBW": 0,
+              "channels": [
+                {
+                  "name": "contoso-downlink-channel",
+                  "centerFrequencyMHz": 8160,
+                  "bandwidthMHz": 15,
+                  "endPoint": {
+                    "ipAddress": "10.1.0.5",
+                    "endPointName": "ContosoTest_Downlink",
+                    "port": "50001",
+                    "protocol": "UDP"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Orbital/locations/westus2/operationResults/fcd7c221-1429-4a09-971a-690a121d801a?api-version=2022-11-01",
+        "Cache-Control": "no-cache",
+        "Content-Length": "1487",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 10 Mar 2023 02:05:20 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "bae9fe42-fc7c-4cde-b178-bf5c9627d4f1",
+        "x-ms-ratelimit-remaining-subscription-writes": "1199",
+        "x-ms-request-id": "bae9fe42-fc7c-4cde-b178-bf5c9627d4f1",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230310T020520Z:bae9fe42-fc7c-4cde-b178-bf5c9627d4f1"
+      },
+      "ResponseBody": {
+        "location": "westus2",
+        "tags": null,
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Orbital/contactProfiles/resourcetest",
+        "name": "resourcetest",
+        "type": "Microsoft.Orbital/contactProfiles",
+        "properties": {
+          "thirdPartyConfigurations": null,
+          "provisioningState": "creating",
+          "minimumViableContactDuration": "PT0S",
+          "minimumElevationDegrees": 0.0,
+          "autoTrackingConfiguration": "disabled",
+          "eventHubUri": null,
+          "networkConfiguration": {
+            "subnetId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/myvirtualnetwork/subnets/testsubnets"
+          },
+          "links": [
+            {
+              "name": "contoso-uplink",
+              "polarization": "LHCP",
+              "direction": "Uplink",
+              "gainOverTemperature": 0.0,
+              "eirpdBW": 45.0,
+              "channels": [
+                {
+                  "name": "contoso-uplink-channel",
+                  "centerFrequencyMHz": 2250.0,
+                  "bandwidthMHz": 2.0,
+                  "endPoint": {
+                    "ipAddress": "10.1.0.4",
+                    "endPointName": "ContosoTest_Uplink",
+                    "port": "50000",
+                    "protocol": "TCP"
+                  },
+                  "modulationConfiguration": null,
+                  "demodulationConfiguration": null,
+                  "encodingConfiguration": null,
+                  "decodingConfiguration": null
+                }
+              ]
+            },
+            {
+              "name": "contoso-downlink",
+              "polarization": "RHCP",
+              "direction": "Downlink",
+              "gainOverTemperature": 25.0,
+              "eirpdBW": 0.0,
+              "channels": [
+                {
+                  "name": "contoso-downlink-channel",
+                  "centerFrequencyMHz": 8160.0,
+                  "bandwidthMHz": 15.0,
+                  "endPoint": {
+                    "ipAddress": "10.1.0.5",
+                    "endPointName": "ContosoTest_Downlink",
+                    "port": "50001",
+                    "protocol": "UDP"
+                  },
+                  "modulationConfiguration": null,
+                  "demodulationConfiguration": null,
+                  "encodingConfiguration": null,
+                  "decodingConfiguration": null
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Orbital/locations/westus2/operationResults/fcd7c221-1429-4a09-971a-690a121d801a?api-version=2022-11-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-orbital/2.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "d019c255-44ee-477a-8aec-cb6a1711369b"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Orbital/locations/westus2/operationResults/fcd7c221-1429-4a09-971a-690a121d801a?api-version=2022-11-01",
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 10 Mar 2023 02:05:20 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "c01f3b4e-dd41-490d-accd-57c337724057",
+        "x-ms-ratelimit-remaining-subscription-reads": "11999",
+        "x-ms-request-id": "c01f3b4e-dd41-490d-accd-57c337724057",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230310T020520Z:c01f3b4e-dd41-490d-accd-57c337724057"
+      },
+      "ResponseBody": {
+        "status": "Creating",
+        "percentComplete": 0,
+        "startTime": "2023-03-10T02:05:18.6546201Z",
+        "endTime": "9999-12-31T23:59:59.9999999Z",
+        "error": null,
+        "properties": null,
+        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.Orbital/locations/westus2/operationResults/fcd7c221-1429-4a09-971a-690a121d801a",
+        "name": "fcd7c221-1429-4a09-971a-690a121d801a"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Orbital/locations/westus2/operationResults/fcd7c221-1429-4a09-971a-690a121d801a?api-version=2022-11-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-orbital/2.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "6f3fbedc-3413-452e-90c3-f319714dfd36"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Orbital/locations/westus2/operationResults/fcd7c221-1429-4a09-971a-690a121d801a?api-version=2022-11-01",
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 10 Mar 2023 02:05:20 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "6ae222dc-85de-4f04-816b-7dc02b4dc1bc",
+        "x-ms-ratelimit-remaining-subscription-reads": "11998",
+        "x-ms-request-id": "6ae222dc-85de-4f04-816b-7dc02b4dc1bc",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230310T020521Z:6ae222dc-85de-4f04-816b-7dc02b4dc1bc"
+      },
+      "ResponseBody": {
+        "status": "Creating",
+        "percentComplete": 0,
+        "startTime": "2023-03-10T02:05:18.6546201Z",
+        "endTime": "9999-12-31T23:59:59.9999999Z",
+        "error": null,
+        "properties": null,
+        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.Orbital/locations/westus2/operationResults/fcd7c221-1429-4a09-971a-690a121d801a",
+        "name": "fcd7c221-1429-4a09-971a-690a121d801a"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Orbital/locations/westus2/operationResults/fcd7c221-1429-4a09-971a-690a121d801a?api-version=2022-11-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-orbital/2.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "8b50fbf2-ed83-43cd-9d16-094ddca599f9"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Orbital/locations/westus2/operationResults/fcd7c221-1429-4a09-971a-690a121d801a?api-version=2022-11-01",
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 10 Mar 2023 02:05:22 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "34ed68a5-eb15-4d5a-a4af-9bfd69c1824a",
+        "x-ms-ratelimit-remaining-subscription-reads": "11997",
+        "x-ms-request-id": "34ed68a5-eb15-4d5a-a4af-9bfd69c1824a",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230310T020523Z:34ed68a5-eb15-4d5a-a4af-9bfd69c1824a"
+      },
+      "ResponseBody": {
+        "status": "Succeeded",
+        "percentComplete": 100,
+        "startTime": "2023-03-10T02:05:18.6546201Z",
+        "endTime": "2023-03-10T02:05:22.7328364Z",
+        "error": null,
+        "properties": null,
+        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.Orbital/locations/westus2/operationResults/fcd7c221-1429-4a09-971a-690a121d801a",
+        "name": "fcd7c221-1429-4a09-971a-690a121d801a"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Orbital/contactProfiles/resourcetest?api-version=2022-11-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-orbital/2.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "1cffdd83-6a27-434a-9d58-56ff5cb3574d"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 10 Mar 2023 02:05:23 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "3534d660-c685-49b0-a7fd-d8e07e3516c3",
+        "x-ms-ratelimit-remaining-subscription-reads": "11996",
+        "x-ms-request-id": "3534d660-c685-49b0-a7fd-d8e07e3516c3",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230310T020524Z:3534d660-c685-49b0-a7fd-d8e07e3516c3"
+      },
+      "ResponseBody": {
+        "location": "westus2",
+        "tags": null,
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Orbital/contactProfiles/resourcetest",
+        "name": "resourcetest",
+        "type": "Microsoft.Orbital/contactProfiles",
+        "properties": {
+          "thirdPartyConfigurations": null,
+          "provisioningState": "succeeded",
+          "minimumViableContactDuration": "PT0S",
+          "minimumElevationDegrees": 0.0,
+          "autoTrackingConfiguration": "disabled",
+          "eventHubUri": null,
+          "networkConfiguration": {
+            "subnetId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/myvirtualnetwork/subnets/testsubnets"
+          },
+          "links": [
+            {
+              "name": "contoso-uplink",
+              "polarization": "LHCP",
+              "direction": "Uplink",
+              "gainOverTemperature": 0.0,
+              "eirpdBW": 45.0,
+              "channels": [
+                {
+                  "name": "contoso-uplink-channel",
+                  "centerFrequencyMHz": 2250.0,
+                  "bandwidthMHz": 2.0,
+                  "endPoint": {
+                    "ipAddress": "10.1.0.4",
+                    "endPointName": "ContosoTest_Uplink",
+                    "port": "50000",
+                    "protocol": "TCP"
+                  },
+                  "modulationConfiguration": null,
+                  "demodulationConfiguration": null,
+                  "encodingConfiguration": null,
+                  "decodingConfiguration": null
+                }
+              ]
+            },
+            {
+              "name": "contoso-downlink",
+              "polarization": "RHCP",
+              "direction": "Downlink",
+              "gainOverTemperature": 25.0,
+              "eirpdBW": 0.0,
+              "channels": [
+                {
+                  "name": "contoso-downlink-channel",
+                  "centerFrequencyMHz": 8160.0,
+                  "bandwidthMHz": 15.0,
+                  "endPoint": {
+                    "ipAddress": "10.1.0.5",
+                    "endPointName": "ContosoTest_Downlink",
+                    "port": "50001",
+                    "protocol": "UDP"
+                  },
+                  "modulationConfiguration": null,
+                  "demodulationConfiguration": null,
+                  "encodingConfiguration": null,
+                  "decodingConfiguration": null
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

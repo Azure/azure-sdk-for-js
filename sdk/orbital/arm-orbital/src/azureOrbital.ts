@@ -64,7 +64,7 @@ export class AzureOrbital extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-orbital/1.2.1`;
+    const packageDetails = `azsdk-js-arm-orbital/2.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -117,7 +117,7 @@ export class AzureOrbital extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-03-01";
+    this.apiVersion = options.apiVersion || "2022-11-01";
     this.operations = new OperationsImpl(this);
     this.spacecrafts = new SpacecraftsImpl(this);
     this.contacts = new ContactsImpl(this);
