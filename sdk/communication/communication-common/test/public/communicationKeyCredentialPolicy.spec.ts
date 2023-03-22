@@ -65,7 +65,9 @@ describe("CommunicationKeyCredentialPolicy", function () {
     const communicationKeyCredentialPolicy =
       createCommunicationAccessKeyCredentialPolicy(credential);
 
-    const pipelineRequest = createPipelineRequest({ url: "https://example.com/testPath?testQuery" });
+    const pipelineRequest = createPipelineRequest({
+      url: "https://example.com/testPath?testQuery",
+    });
 
     const responses: PipelineResponse[] = [
       {
@@ -101,7 +103,7 @@ describe("CommunicationKeyCredentialPolicy", function () {
       credential.key,
       "/testPath?testQuery=",
       "example.com"
-    )
+    );
 
     assert.equal(authHeader, authHeaderExpected);
     assert.isNotEmpty(dateHeader);
@@ -154,7 +156,7 @@ describe("CommunicationKeyCredentialPolicy", function () {
       credential.key,
       "/testPath",
       "example.com"
-    )
+    );
 
     assert.equal(authHeader, authHeaderExpected);
     assert.isNotEmpty(dateHeader);
@@ -165,12 +167,18 @@ describe("CommunicationKeyCredentialPolicy", function () {
   });
 });
 
-async function generateAuthHeader(verb: string, dateHeader: string, key: string, pathAndQuery: string, hostAndPort: string): Promise<string> {
+async function generateAuthHeader(
+  verb: string,
+  dateHeader: string,
+  key: string,
+  pathAndQuery: string,
+  hostAndPort: string
+): Promise<string> {
   const signedHeaders = `x-ms-date;host;x-ms-content-sha256`;
   const contentHash = await shaHash("");
   const stringToSign = `${verb}\n${pathAndQuery}\n${dateHeader};${hostAndPort};${contentHash}`;
   const signature = await shaHMAC(key, stringToSign);
-  return `HMAC-SHA256 SignedHeaders=${signedHeaders}&Signature=${signature}`
+  return `HMAC-SHA256 SignedHeaders=${signedHeaders}&Signature=${signature}`;
 }
 
 class MockKeyCredential implements KeyCredential {
