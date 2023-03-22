@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SecurityCenter } = require("@azure/arm-security");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get metadata information on an assessment type
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2021-06-01/examples/AssessmentsMetadata/GetAssessmentsMetadata_example.json
  */
 async function getSecurityAssessmentMetadata() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const assessmentMetadataName = "21300918-b2e3-0346-785f-c77ff57d243b";
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
@@ -26,4 +28,8 @@ async function getSecurityAssessmentMetadata() {
   console.log(result);
 }
 
-getSecurityAssessmentMetadata().catch(console.error);
+async function main() {
+  getSecurityAssessmentMetadata();
+}
+
+main().catch(console.error);

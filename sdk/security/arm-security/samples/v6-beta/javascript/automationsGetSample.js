@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SecurityCenter } = require("@azure/arm-security");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Retrieves information about the model of a security automation.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2019-01-01-preview/examples/Automations/GetAutomationResourceGroup_example.json
  */
 async function retrieveASecurityAutomation() {
-  const subscriptionId = "a5caac9c-5c04-49af-b3d0-e204f40345d5";
-  const resourceGroupName = "exampleResourceGroup";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] || "a5caac9c-5c04-49af-b3d0-e204f40345d5";
+  const resourceGroupName = process.env["SECURITY_RESOURCE_GROUP"] || "exampleResourceGroup";
   const automationName = "exampleAutomation";
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
@@ -27,4 +29,8 @@ async function retrieveASecurityAutomation() {
   console.log(result);
 }
 
-retrieveASecurityAutomation().catch(console.error);
+async function main() {
+  retrieveASecurityAutomation();
+}
+
+main().catch(console.error);

@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Stops the specified connection monitor.
  *
  * @summary Stops the specified connection monitor.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkWatcherConnectionMonitorStop.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkWatcherConnectionMonitorStop.json
  */
 async function stopConnectionMonitor() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkWatcherName = "nw1";
   const connectionMonitorName = "cm1";
   const credential = new DefaultAzureCredential();
@@ -32,4 +35,8 @@ async function stopConnectionMonitor() {
   console.log(result);
 }
 
-stopConnectionMonitor().catch(console.error);
+async function main() {
+  stopConnectionMonitor();
+}
+
+main().catch(console.error);

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   IpAllocation,
   IpAllocationsListOptionalParams,
@@ -51,7 +51,7 @@ export interface IpAllocations {
     resourceGroupName: string,
     ipAllocationName: string,
     options?: IpAllocationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified IpAllocation.
    * @param resourceGroupName The name of the resource group.
@@ -87,8 +87,8 @@ export interface IpAllocations {
     parameters: IpAllocation,
     options?: IpAllocationsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IpAllocationsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IpAllocationsCreateOrUpdateResponse>,
       IpAllocationsCreateOrUpdateResponse
     >
   >;

@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Verify IP flow from the specified VM to a location given the currently configured NSG rules.
  *
  * @summary Verify IP flow from the specified VM to a location given the currently configured NSG rules.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkWatcherIpFlowVerify.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkWatcherIpFlowVerify.json
  */
 async function ipFlowVerify() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkWatcherName = "nw1";
   const parameters = {
     direction: "Outbound",
@@ -41,4 +42,8 @@ async function ipFlowVerify() {
   console.log(result);
 }
 
-ipFlowVerify().catch(console.error);
+async function main() {
+  ipFlowVerify();
+}
+
+main().catch(console.error);

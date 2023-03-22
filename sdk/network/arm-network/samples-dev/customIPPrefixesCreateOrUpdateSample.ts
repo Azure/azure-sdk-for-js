@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { CustomIpPrefix, NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates a custom IP prefix.
  *
  * @summary Creates or updates a custom IP prefix.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/CustomIpPrefixCreateCustomizedValues.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/CustomIpPrefixCreateCustomizedValues.json
  */
 async function createCustomIPPrefixAllocationMethod() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const customIpPrefixName = "test-customipprefix";
   const parameters: CustomIpPrefix = { cidr: "0.0.0.0/24", location: "westus" };
   const credential = new DefaultAzureCredential();
@@ -32,4 +35,8 @@ async function createCustomIPPrefixAllocationMethod() {
   console.log(result);
 }
 
-createCustomIPPrefixAllocationMethod().catch(console.error);
+async function main() {
+  createCustomIPPrefixAllocationMethod();
+}
+
+main().catch(console.error);

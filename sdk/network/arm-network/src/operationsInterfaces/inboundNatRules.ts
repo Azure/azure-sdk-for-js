@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   InboundNatRule,
   InboundNatRulesListOptionalParams,
@@ -44,7 +44,7 @@ export interface InboundNatRules {
     loadBalancerName: string,
     inboundNatRuleName: string,
     options?: InboundNatRulesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified load balancer inbound NAT rule.
    * @param resourceGroupName The name of the resource group.
@@ -87,8 +87,8 @@ export interface InboundNatRules {
     inboundNatRuleParameters: InboundNatRule,
     options?: InboundNatRulesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<InboundNatRulesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<InboundNatRulesCreateOrUpdateResponse>,
       InboundNatRulesCreateOrUpdateResponse
     >
   >;

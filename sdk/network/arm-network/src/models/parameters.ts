@@ -201,7 +201,7 @@ export const applicationGatewayName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-07-01",
+    defaultValue: "2022-09-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -2128,6 +2128,16 @@ export const vpnGatewayParameters: OperationParameter = {
 export const vpnGatewayParameters1: OperationParameter = {
   parameterPath: "vpnGatewayParameters",
   mapper: TagsObjectMapper
+};
+
+export const ipConfigurationId: OperationQueryParameter = {
+  parameterPath: ["options", "ipConfigurationId"],
+  mapper: {
+    serializedName: "ipConfigurationId",
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const parameters81: OperationParameter = {

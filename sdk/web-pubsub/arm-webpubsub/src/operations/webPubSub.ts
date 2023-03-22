@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { WebPubSubManagementClient } from "../webPubSubManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   WebPubSubResource,
   WebPubSubListBySubscriptionNextOptionalParams,
@@ -260,8 +264,8 @@ export class WebPubSubImpl implements WebPubSub {
     parameters: WebPubSubResource,
     options?: WebPubSubCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WebPubSubCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WebPubSubCreateOrUpdateResponse>,
       WebPubSubCreateOrUpdateResponse
     >
   > {
@@ -271,7 +275,7 @@ export class WebPubSubImpl implements WebPubSub {
     ): Promise<WebPubSubCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -304,13 +308,16 @@ export class WebPubSubImpl implements WebPubSub {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      WebPubSubCreateOrUpdateResponse,
+      OperationState<WebPubSubCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -351,14 +358,14 @@ export class WebPubSubImpl implements WebPubSub {
     resourceGroupName: string,
     resourceName: string,
     options?: WebPubSubDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -391,15 +398,15 @@ export class WebPubSubImpl implements WebPubSub {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -439,8 +446,8 @@ export class WebPubSubImpl implements WebPubSub {
     parameters: WebPubSubResource,
     options?: WebPubSubUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WebPubSubUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WebPubSubUpdateResponse>,
       WebPubSubUpdateResponse
     >
   > {
@@ -450,7 +457,7 @@ export class WebPubSubImpl implements WebPubSub {
     ): Promise<WebPubSubUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -483,13 +490,16 @@ export class WebPubSubImpl implements WebPubSub {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, parameters, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      WebPubSubUpdateResponse,
+      OperationState<WebPubSubUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -552,8 +562,8 @@ export class WebPubSubImpl implements WebPubSub {
     parameters: RegenerateKeyParameters,
     options?: WebPubSubRegenerateKeyOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WebPubSubRegenerateKeyResponse>,
+    SimplePollerLike<
+      OperationState<WebPubSubRegenerateKeyResponse>,
       WebPubSubRegenerateKeyResponse
     >
   > {
@@ -563,7 +573,7 @@ export class WebPubSubImpl implements WebPubSub {
     ): Promise<WebPubSubRegenerateKeyResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -596,15 +606,18 @@ export class WebPubSubImpl implements WebPubSub {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, parameters, options },
-      regenerateKeyOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, parameters, options },
+      spec: regenerateKeyOperationSpec
+    });
+    const poller = await createHttpPoller<
+      WebPubSubRegenerateKeyResponse,
+      OperationState<WebPubSubRegenerateKeyResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -645,14 +658,14 @@ export class WebPubSubImpl implements WebPubSub {
     resourceGroupName: string,
     resourceName: string,
     options?: WebPubSubRestartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -685,15 +698,15 @@ export class WebPubSubImpl implements WebPubSub {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, options },
-      restartOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, options },
+      spec: restartOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -1056,7 +1069,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -1076,7 +1088,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
