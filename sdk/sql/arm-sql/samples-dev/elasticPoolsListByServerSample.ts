@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all elastic pools in a server.
  *
  * @summary Gets all elastic pools in a server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ElasticPoolListByServer.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-08-01-preview/examples/ElasticPoolListByServer.json
  */
 async function getAllElasticPoolsInAServer() {
   const subscriptionId =

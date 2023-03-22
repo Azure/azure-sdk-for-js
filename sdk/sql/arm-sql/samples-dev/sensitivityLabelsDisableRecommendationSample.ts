@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Disables sensitivity recommendations on a given column
  *
  * @summary Disables sensitivity recommendations on a given column
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/RecommendedColumnSensitivityLabelDisable.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/RecommendedColumnSensitivityLabelDisable.json
  */
 async function disablesSensitivityRecommendationsOnAGivenColumn() {
   const subscriptionId =

@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Starts a managed database move operation.
  *
  * @summary Starts a managed database move operation.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseStartMoveMax.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/ManagedDatabaseStartMoveMax.json
  */
 async function startsAManagedDatabaseMoveWithAllOptionalParametersSpecified() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function startsAManagedDatabaseMoveWithAllOptionalParametersSpecified() {
   const databaseName = "testDatabase";
   const parameters: ManagedDatabaseStartMoveDefinition = {
     destinationManagedDatabaseId:
-      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/managedInstances/testInstanceTgt/databases/testDatabase",
+      "subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/managedInstances/testInstanceTgt/databases/testDatabase",
     operationMode: "Copy"
   };
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function startsAManagedDatabaseMoveWithAllOptionalParametersSpecified() {
  * This sample demonstrates how to Starts a managed database move operation.
  *
  * @summary Starts a managed database move operation.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseStartMoveMin.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/ManagedDatabaseStartMoveMin.json
  */
 async function startsAManagedDatabaseMoveWithNoOptionalParametersSpecified() {
   const subscriptionId =
@@ -61,7 +61,7 @@ async function startsAManagedDatabaseMoveWithNoOptionalParametersSpecified() {
   const databaseName = "testDatabase";
   const parameters: ManagedDatabaseStartMoveDefinition = {
     destinationManagedDatabaseId:
-      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/managedInstances/testInstanceTgt/databases/testDatabase"
+      "subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/managedInstances/testInstanceTgt/databases/testDatabase"
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);

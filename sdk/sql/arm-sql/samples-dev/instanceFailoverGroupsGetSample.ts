@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a failover group.
  *
  * @summary Gets a failover group.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/InstanceFailoverGroupGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/InstanceFailoverGroupGet.json
  */
 async function getFailoverGroup() {
   const subscriptionId =

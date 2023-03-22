@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a firewall rule.
  *
  * @summary Gets a firewall rule.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/FirewallRuleGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/FirewallRuleGet.json
  */
 async function getFirewallRule() {
   const subscriptionId =

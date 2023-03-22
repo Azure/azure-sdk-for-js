@@ -83,12 +83,12 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.subscriptionId
+    Parameters.serverName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -103,15 +103,15 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters79,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters46,
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.subscriptionId
+    Parameters.serverName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

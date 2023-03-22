@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a job step. This will implicitly create a new job version.
  *
  * @summary Creates or updates a job step. This will implicitly create a new job version.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateOrUpdateJobStepMax.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CreateOrUpdateJobStepMax.json
  */
 async function createOrUpdateAJobStepWithAllPropertiesSpecified() {
   const subscriptionId =
@@ -72,7 +72,7 @@ async function createOrUpdateAJobStepWithAllPropertiesSpecified() {
  * This sample demonstrates how to Creates or updates a job step. This will implicitly create a new job version.
  *
  * @summary Creates or updates a job step. This will implicitly create a new job version.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateOrUpdateJobStepMin.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CreateOrUpdateJobStepMin.json
  */
 async function createOrUpdateAJobStepWithMinimalPropertiesSpecified() {
   const subscriptionId =

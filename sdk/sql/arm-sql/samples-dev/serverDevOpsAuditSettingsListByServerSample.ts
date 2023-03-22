@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists DevOps audit settings of a server.
  *
  * @summary Lists DevOps audit settings of a server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerDevOpsAuditList.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-02-01-preview/examples/ServerDevOpsAuditList.json
  */
 async function listDevOpsAuditSettingsOfAServer() {
   const subscriptionId =

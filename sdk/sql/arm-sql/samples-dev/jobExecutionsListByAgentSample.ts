@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all executions in a job agent.
  *
  * @summary Lists all executions in a job agent.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ListJobExecutionsByAgentWithFilter.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ListJobExecutionsByAgentWithFilter.json
  */
 async function listAllJobExecutionsInAJobAgentWithFiltering() {
   const subscriptionId =
@@ -60,7 +60,7 @@ async function listAllJobExecutionsInAJobAgentWithFiltering() {
  * This sample demonstrates how to Lists all executions in a job agent.
  *
  * @summary Lists all executions in a job agent.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ListJobExecutionsByAgent.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ListJobExecutionsByAgent.json
  */
 async function listAllJobExecutionsInAJobAgent() {
   const subscriptionId =

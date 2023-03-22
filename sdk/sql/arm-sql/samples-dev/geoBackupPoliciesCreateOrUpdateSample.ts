@@ -15,12 +15,12 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Create or update a database default Geo backup policy.
+ * This sample demonstrates how to Updates a database geo backup policy.
  *
- * @summary Create or update a database default Geo backup policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/GeoBackupPoliciesCreateOrUpdate.json
+ * @summary Updates a database geo backup policy.
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/stable/2014-04-01/examples/GeoBackupPoliciesCreateOrUpdate.json
  */
-async function createOrUpdateADatabaseDefaultGeoBackupPolicy() {
+async function updateGeoBackupPolicy() {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -43,7 +43,7 @@ async function createOrUpdateADatabaseDefaultGeoBackupPolicy() {
 }
 
 async function main() {
-  createOrUpdateADatabaseDefaultGeoBackupPolicy();
+  updateGeoBackupPolicy();
 }
 
 main().catch(console.error);

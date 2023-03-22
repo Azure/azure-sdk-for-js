@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a target group.
  *
  * @summary Gets a target group.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/GetJobTargetGroup.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/GetJobTargetGroup.json
  */
 async function getATargetGroup() {
   const subscriptionId =

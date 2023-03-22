@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the Azure Active Directory administrator with the given name.
  *
  * @summary Deletes the Azure Active Directory administrator with the given name.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/AdministratorDelete.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/AdministratorDelete.json
  */
 async function deleteAzureActiveDirectoryAdministrator() {
   const subscriptionId =

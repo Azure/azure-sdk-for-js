@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets maintenance windows settings for a database.
  *
  * @summary Gets maintenance windows settings for a database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/GetMaintenanceWindows.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/GetMaintenanceWindows.json
  */
 async function getsMaintenanceWindowSettingsForASelectedDatabase() {
   const subscriptionId =

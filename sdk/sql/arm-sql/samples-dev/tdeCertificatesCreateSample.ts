@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a TDE certificate for a given server.
  *
  * @summary Creates a TDE certificate for a given server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/SqlTdeCertificateCreate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SqlTdeCertificateCreate.json
  */
 async function uploadATdeCertificate() {
   const subscriptionId =

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of recoverable managed databases.
  *
  * @summary Gets a list of recoverable managed databases.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ListRecoverableManagedDatabasesByServer.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ListRecoverableManagedDatabasesByServer.json
  */
 async function listRecoverableDatabasesByManagedInstances() {
   const subscriptionId =

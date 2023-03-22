@@ -207,13 +207,13 @@ const listByDatabaseOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  queryParameters: [Parameters.filter1, Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.subscriptionId
+    Parameters.databaseName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -228,13 +228,13 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.subscriptionId,
     Parameters.schemaName
   ],
   headerParameters: [Parameters.accept],
@@ -251,10 +251,10 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.subscriptionId,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

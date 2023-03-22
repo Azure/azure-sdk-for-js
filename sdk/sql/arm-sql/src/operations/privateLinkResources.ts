@@ -188,12 +188,12 @@ const listByServerOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.subscriptionId
+    Parameters.serverName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -208,12 +208,12 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.subscriptionId,
     Parameters.groupName
   ],
   headerParameters: [Parameters.accept],
@@ -230,9 +230,9 @@ const listByServerNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.subscriptionId,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

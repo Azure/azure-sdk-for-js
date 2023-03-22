@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Sets Server Active Directory only authentication property or updates an existing server Active Directory only authentication property.
  *
  * @summary Sets Server Active Directory only authentication property or updates an existing server Active Directory only authentication property.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/AzureADOnlyAuthCreateOrUpdate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/AzureADOnlyAuthCreateOrUpdate.json
  */
 async function createsOrUpdatesAzureActiveDirectoryOnlyAuthenticationObject() {
   const subscriptionId =

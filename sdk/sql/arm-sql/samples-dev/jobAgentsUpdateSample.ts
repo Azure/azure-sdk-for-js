@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates a job agent.
  *
  * @summary Updates a job agent.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/UpdateJobAgent.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/UpdateJobAgent.json
  */
 async function updateAJobAgentTags() {
   const subscriptionId =

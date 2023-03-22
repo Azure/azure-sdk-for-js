@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates an existing virtual cluster.
  *
  * @summary Updates an existing virtual cluster.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/VirtualClusterUpdate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/VirtualClusterUpdate.json
  */
 async function updateVirtualClusterWithTags() {
   const subscriptionId =

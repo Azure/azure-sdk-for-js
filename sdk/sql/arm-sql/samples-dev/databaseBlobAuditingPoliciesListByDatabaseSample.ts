@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists auditing settings of a database.
  *
  * @summary Lists auditing settings of a database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DatabaseAuditingSettingsList.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/DatabaseAuditingSettingsList.json
  */
 async function listAuditSettingsOfADatabase() {
   const subscriptionId =

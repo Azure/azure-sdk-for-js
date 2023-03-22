@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a managed instance key.
  *
  * @summary Gets a managed instance key.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceKeyGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceKeyGet.json
  */
 async function getTheManagedInstanceKey() {
   const subscriptionId =

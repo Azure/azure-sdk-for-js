@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates the sensitivity label of a given column
  *
  * @summary Creates or updates the sensitivity label of a given column
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseColumnSensitivityLabelCreate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedDatabaseColumnSensitivityLabelCreate.json
  */
 async function updatesOrCreatesASensitivityLabelOfAGivenColumnWithAllParametersInAManagedDatabase() {
   const subscriptionId =

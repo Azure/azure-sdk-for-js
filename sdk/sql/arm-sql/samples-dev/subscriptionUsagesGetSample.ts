@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a subscription usage metric.
  *
  * @summary Gets a subscription usage metric.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/SubscriptionUsageGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SubscriptionUsageGet.json
  */
 async function getSpecificSubscriptionUsageInTheGivenLocation() {
   const subscriptionId =

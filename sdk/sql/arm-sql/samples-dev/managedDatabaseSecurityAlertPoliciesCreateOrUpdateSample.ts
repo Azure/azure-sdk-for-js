@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a database's security alert policy.
  *
  * @summary Creates or updates a database's security alert policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseSecurityAlertCreateMax.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedDatabaseSecurityAlertCreateMax.json
  */
 async function updateADatabaseThreatDetectionPolicyWithAllParameters() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function updateADatabaseThreatDetectionPolicyWithAllParameters() {
     process.env["SQL_RESOURCE_GROUP"] || "securityalert-4799";
   const managedInstanceName = "securityalert-6440";
   const databaseName = "testdb";
-  const securityAlertPolicyName = "default";
+  const securityAlertPolicyName = "Default";
   const parameters: ManagedDatabaseSecurityAlertPolicy = {
     disabledAlerts: ["Sql_Injection", "Usage_Anomaly"],
     emailAccountAdmins: true,
@@ -58,7 +58,7 @@ async function updateADatabaseThreatDetectionPolicyWithAllParameters() {
  * This sample demonstrates how to Creates or updates a database's security alert policy.
  *
  * @summary Creates or updates a database's security alert policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseSecurityAlertCreateMin.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedDatabaseSecurityAlertCreateMin.json
  */
 async function updateADatabaseThreatDetectionPolicyWithMinimalParameters() {
   const subscriptionId =
@@ -68,7 +68,7 @@ async function updateADatabaseThreatDetectionPolicyWithMinimalParameters() {
     process.env["SQL_RESOURCE_GROUP"] || "securityalert-4799";
   const managedInstanceName = "securityalert-6440";
   const databaseName = "testdb";
-  const securityAlertPolicyName = "default";
+  const securityAlertPolicyName = "Default";
   const parameters: ManagedDatabaseSecurityAlertPolicy = { state: "Enabled" };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);

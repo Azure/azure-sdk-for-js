@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a managed database move operation.
  *
  * @summary Gets a managed database move operation.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseMoveOperationResultGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/ManagedDatabaseMoveOperationResultGet.json
  */
 async function getsAManagedDatabaseMoveOperation() {
   const subscriptionId =

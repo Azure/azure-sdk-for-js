@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of managed server DNS aliases for a managed server.
  *
  * @summary Gets a list of managed server DNS aliases for a managed server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedServerDnsAliasList.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/ManagedServerDnsAliasList.json
  */
 async function listManagedServerDnsAliases() {
   const subscriptionId =

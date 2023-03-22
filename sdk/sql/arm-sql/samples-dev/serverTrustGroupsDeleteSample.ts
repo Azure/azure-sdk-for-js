@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a server trust group.
  *
  * @summary Deletes a server trust group.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerTrustGroupDelete.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ServerTrustGroupDelete.json
  */
 async function dropServerTrustGroup() {
   const subscriptionId =

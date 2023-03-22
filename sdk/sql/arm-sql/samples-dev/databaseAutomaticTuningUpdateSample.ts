@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Update automatic tuning properties for target database.
  *
  * @summary Update automatic tuning properties for target database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DatabaseAutomaticTuningUpdateMax.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DatabaseAutomaticTuningUpdateMax.json
  */
 async function updatesDatabaseAutomaticTuningSettingsWithAllProperties() {
   const subscriptionId =
@@ -51,7 +51,7 @@ async function updatesDatabaseAutomaticTuningSettingsWithAllProperties() {
  * This sample demonstrates how to Update automatic tuning properties for target database.
  *
  * @summary Update automatic tuning properties for target database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DatabaseAutomaticTuningUpdateMin.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DatabaseAutomaticTuningUpdateMin.json
  */
 async function updatesDatabaseAutomaticTuningSettingsWithMinimalProperties() {
   const subscriptionId =

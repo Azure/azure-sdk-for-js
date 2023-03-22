@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists connection policy
  *
  * @summary Lists connection policy
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerConnectionPoliciesList.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-05-01-preview/examples/ServerConnectionPoliciesList.json
  */
 async function listsAServersConnectionPolicies() {
   const subscriptionId =

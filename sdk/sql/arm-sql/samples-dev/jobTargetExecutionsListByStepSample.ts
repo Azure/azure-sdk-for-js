@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the target executions of a job step execution.
  *
  * @summary Lists the target executions of a job step execution.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ListJobExecutionTargetsByStep.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ListJobExecutionTargetsByStep.json
  */
 async function listJobStepTargetExecutions() {
   const subscriptionId =

@@ -149,34 +149,6 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
   }
 
   /**
-   * Gets the list of workload classifiers for a workload group
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param workloadGroupName The name of the workload group from which to receive the classifiers from.
-   * @param options The options parameters.
-   */
-  private _listByWorkloadGroup(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    workloadGroupName: string,
-    options?: WorkloadClassifiersListByWorkloadGroupOptionalParams
-  ): Promise<WorkloadClassifiersListByWorkloadGroupResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serverName,
-        databaseName,
-        workloadGroupName,
-        options
-      },
-      listByWorkloadGroupOperationSpec
-    );
-  }
-
-  /**
    * Gets a workload classifier
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -434,6 +406,34 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
   }
 
   /**
+   * Gets the list of workload classifiers for a workload group
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param workloadGroupName The name of the workload group from which to receive the classifiers from.
+   * @param options The options parameters.
+   */
+  private _listByWorkloadGroup(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    workloadGroupName: string,
+    options?: WorkloadClassifiersListByWorkloadGroupOptionalParams
+  ): Promise<WorkloadClassifiersListByWorkloadGroupResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serverName,
+        databaseName,
+        workloadGroupName,
+        options
+      },
+      listByWorkloadGroupOperationSpec
+    );
+  }
+
+  /**
    * ListByWorkloadGroupNext
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -467,28 +467,6 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByWorkloadGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/workloadGroups/{workloadGroupName}/workloadClassifiers",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkloadClassifierListResult
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.subscriptionId,
-    Parameters.workloadGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/workloadGroups/{workloadGroupName}/workloadClassifiers/{workloadClassifierName}",
@@ -499,13 +477,13 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.subscriptionId,
     Parameters.workloadGroupName,
     Parameters.workloadClassifierName
   ],
@@ -531,18 +509,18 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters104,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters60,
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.subscriptionId,
     Parameters.workloadGroupName,
     Parameters.workloadClassifierName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -551,16 +529,38 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/workloadGroups/{workloadGroupName}/workloadClassifiers/{workloadClassifierName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.subscriptionId,
     Parameters.workloadGroupName,
     Parameters.workloadClassifierName
   ],
+  serializer
+};
+const listByWorkloadGroupOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/workloadGroups/{workloadGroupName}/workloadClassifiers",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkloadClassifierListResult
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName,
+    Parameters.workloadGroupName
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listByWorkloadGroupNextOperationSpec: coreClient.OperationSpec = {
@@ -574,10 +574,10 @@ const listByWorkloadGroupNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.workloadGroupName
   ],

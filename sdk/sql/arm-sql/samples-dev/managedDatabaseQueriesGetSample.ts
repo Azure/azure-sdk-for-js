@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get query by query id.
  *
  * @summary Get query by query id.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceQueryGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceQueryGet.json
  */
 async function obtainQueryProperties() {
   const subscriptionId =

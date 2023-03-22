@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of virtual network rules in a server.
  *
  * @summary Gets a list of virtual network rules in a server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/VirtualNetworkRulesList.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/VirtualNetworkRulesList.json
  */
 async function listVirtualNetworkRules() {
   const subscriptionId =

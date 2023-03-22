@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a managed instance administrator.
  *
  * @summary Gets a managed instance administrator.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceAdministratorGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceAdministratorGet.json
  */
 async function getAdministratorOfManagedInstance() {
   const subscriptionId =

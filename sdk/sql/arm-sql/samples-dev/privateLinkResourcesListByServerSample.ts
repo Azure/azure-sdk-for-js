@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the private link resources for SQL server.
  *
  * @summary Gets the private link resources for SQL server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/PrivateLinkResourcesList.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/PrivateLinkResourcesList.json
  */
 async function getsPrivateLinkResourcesForSql() {
   const subscriptionId =

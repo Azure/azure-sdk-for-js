@@ -143,26 +143,6 @@ export class ManagedBackupShortTermRetentionPoliciesImpl
   }
 
   /**
-   * Gets a managed database's short term retention policy list.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param managedInstanceName The name of the managed instance.
-   * @param databaseName The name of the database.
-   * @param options The options parameters.
-   */
-  private _listByDatabase(
-    resourceGroupName: string,
-    managedInstanceName: string,
-    databaseName: string,
-    options?: ManagedBackupShortTermRetentionPoliciesListByDatabaseOptionalParams
-  ): Promise<ManagedBackupShortTermRetentionPoliciesListByDatabaseResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, managedInstanceName, databaseName, options },
-      listByDatabaseOperationSpec
-    );
-  }
-
-  /**
    * Gets a managed database's short term retention policy.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -423,6 +403,26 @@ export class ManagedBackupShortTermRetentionPoliciesImpl
   }
 
   /**
+   * Gets a managed database's short term retention policy list.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param databaseName The name of the database.
+   * @param options The options parameters.
+   */
+  private _listByDatabase(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    options?: ManagedBackupShortTermRetentionPoliciesListByDatabaseOptionalParams
+  ): Promise<ManagedBackupShortTermRetentionPoliciesListByDatabaseResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, managedInstanceName, databaseName, options },
+      listByDatabaseOperationSpec
+    );
+  }
+
+  /**
    * ListByDatabaseNext
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -455,27 +455,6 @@ export class ManagedBackupShortTermRetentionPoliciesImpl
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByDatabaseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/backupShortTermRetentionPolicies",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ManagedBackupShortTermRetentionPolicyListResult
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.databaseName,
-    Parameters.subscriptionId,
-    Parameters.managedInstanceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/backupShortTermRetentionPolicies/{policyName}",
@@ -486,14 +465,14 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
-    Parameters.subscriptionId,
     Parameters.managedInstanceName,
-    Parameters.policyName2
+    Parameters.policyName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -517,17 +496,17 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters47,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters32,
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
-    Parameters.subscriptionId,
     Parameters.managedInstanceName,
-    Parameters.policyName2
+    Parameters.policyName1
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -550,18 +529,39 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters47,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters32,
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
-    Parameters.subscriptionId,
     Parameters.managedInstanceName,
-    Parameters.policyName2
+    Parameters.policyName1
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
+  serializer
+};
+const listByDatabaseOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/backupShortTermRetentionPolicies",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ManagedBackupShortTermRetentionPolicyListResult
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.databaseName,
+    Parameters.managedInstanceName
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
@@ -575,9 +575,9 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
-    Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.managedInstanceName
   ],

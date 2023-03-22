@@ -183,13 +183,13 @@ const listByDatabaseOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.subscriptionId
+    Parameters.databaseName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -205,10 +205,10 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.subscriptionId,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

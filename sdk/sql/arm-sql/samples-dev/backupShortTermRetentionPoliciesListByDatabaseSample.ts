@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a database's short term retention policy.
  *
  * @summary Gets a database's short term retention policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ListShortTermRetentionPoliciesByDatabase.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-02-01-preview/examples/ListShortTermRetentionPoliciesByDatabase.json
  */
 async function getTheShortTermRetentionPolicyForTheDatabase() {
   const subscriptionId =

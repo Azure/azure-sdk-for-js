@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the list of workload groups
  *
  * @summary Gets the list of workload groups
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/GetWorkloadGroupList.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/GetWorkloadGroupList.json
  */
 async function getTheListOfWorkloadGroupsForADataWarehouse() {
   const subscriptionId =

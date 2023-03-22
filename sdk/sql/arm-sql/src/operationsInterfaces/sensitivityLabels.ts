@@ -11,17 +11,16 @@ import {
   SensitivityLabel,
   SensitivityLabelsListCurrentByDatabaseOptionalParams,
   SensitivityLabelsListRecommendedByDatabaseOptionalParams,
-  SensitivityLabelsListByDatabaseOptionalParams,
   SensitivityLabelUpdateList,
   SensitivityLabelsUpdateOptionalParams,
+  SensitivityLabelsEnableRecommendationOptionalParams,
+  SensitivityLabelsDisableRecommendationOptionalParams,
   SensitivityLabelSource,
   SensitivityLabelsGetOptionalParams,
   SensitivityLabelsGetResponse,
   SensitivityLabelsCreateOrUpdateOptionalParams,
   SensitivityLabelsCreateOrUpdateResponse,
-  SensitivityLabelsDeleteOptionalParams,
-  SensitivityLabelsDisableRecommendationOptionalParams,
-  SensitivityLabelsEnableRecommendationOptionalParams
+  SensitivityLabelsDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,20 +55,6 @@ export interface SensitivityLabels {
     options?: SensitivityLabelsListRecommendedByDatabaseOptionalParams
   ): PagedAsyncIterableIterator<SensitivityLabel>;
   /**
-   * Gets the sensitivity labels of a given database
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param options The options parameters.
-   */
-  listByDatabase(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    options?: SensitivityLabelsListByDatabaseOptionalParams
-  ): PagedAsyncIterableIterator<SensitivityLabel>;
-  /**
    * Update sensitivity labels of a given database using an operations batch.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -84,6 +69,47 @@ export interface SensitivityLabels {
     databaseName: string,
     parameters: SensitivityLabelUpdateList,
     options?: SensitivityLabelsUpdateOptionalParams
+  ): Promise<void>;
+  /**
+   * Enables sensitivity recommendations on a given column (recommendations are enabled by default on all
+   * columns)
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param schemaName The name of the schema.
+   * @param tableName The name of the table.
+   * @param columnName The name of the column.
+   * @param options The options parameters.
+   */
+  enableRecommendation(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    options?: SensitivityLabelsEnableRecommendationOptionalParams
+  ): Promise<void>;
+  /**
+   * Disables sensitivity recommendations on a given column
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param schemaName The name of the schema.
+   * @param tableName The name of the table.
+   * @param columnName The name of the column.
+   * @param options The options parameters.
+   */
+  disableRecommendation(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    options?: SensitivityLabelsDisableRecommendationOptionalParams
   ): Promise<void>;
   /**
    * Gets the sensitivity label of a given column
@@ -148,46 +174,5 @@ export interface SensitivityLabels {
     tableName: string,
     columnName: string,
     options?: SensitivityLabelsDeleteOptionalParams
-  ): Promise<void>;
-  /**
-   * Disables sensitivity recommendations on a given column
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param schemaName The name of the schema.
-   * @param tableName The name of the table.
-   * @param columnName The name of the column.
-   * @param options The options parameters.
-   */
-  disableRecommendation(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    schemaName: string,
-    tableName: string,
-    columnName: string,
-    options?: SensitivityLabelsDisableRecommendationOptionalParams
-  ): Promise<void>;
-  /**
-   * Enables sensitivity recommendations on a given column (recommendations are enabled by default on all
-   * columns)
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param schemaName The name of the schema.
-   * @param tableName The name of the table.
-   * @param columnName The name of the column.
-   * @param options The options parameters.
-   */
-  enableRecommendation(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    schemaName: string,
-    tableName: string,
-    columnName: string,
-    options?: SensitivityLabelsEnableRecommendationOptionalParams
   ): Promise<void>;
 }

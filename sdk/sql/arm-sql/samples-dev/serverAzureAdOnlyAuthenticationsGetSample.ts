@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a specific Azure Active Directory only authentication property.
  *
  * @summary Gets a specific Azure Active Directory only authentication property.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/AzureADOnlyAuthGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/AzureADOnlyAuthGet.json
  */
 async function getsAAzureActiveDirectoryOnlyAuthenticationProperty() {
   const subscriptionId =

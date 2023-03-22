@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all ledger digest upload settings on a database.
  *
  * @summary Gets all ledger digest upload settings on a database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/LedgerDigestUploadsList.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-02-01-preview/examples/LedgerDigestUploadsList.json
  */
 async function getsListOfLedgerDigestUploadSettingsOnADatabase() {
   const subscriptionId =

@@ -336,13 +336,13 @@ const listByDatabaseOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.subscriptionId
+    Parameters.databaseName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -357,13 +357,13 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.subscriptionId,
     Parameters.tdeName
   ],
   headerParameters: [Parameters.accept],
@@ -388,17 +388,17 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters101,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters105,
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.subscriptionId,
     Parameters.tdeName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -413,10 +413,10 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.subscriptionId,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates an extended server's blob auditing policy.
  *
  * @summary Creates or updates an extended server's blob auditing policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ExtendedServerBlobAuditingCreateMax.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/ExtendedServerBlobAuditingCreateMax.json
  */
 async function updateAServerExtendedBlobAuditingPolicyWithAllParameters() {
   const subscriptionId =
@@ -61,7 +61,7 @@ async function updateAServerExtendedBlobAuditingPolicyWithAllParameters() {
  * This sample demonstrates how to Creates or updates an extended server's blob auditing policy.
  *
  * @summary Creates or updates an extended server's blob auditing policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ExtendedServerBlobAuditingCreateMin.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/ExtendedServerBlobAuditingCreateMin.json
  */
 async function updateAServerExtendedBlobAuditingPolicyWithMinimalParameters() {
   const subscriptionId =

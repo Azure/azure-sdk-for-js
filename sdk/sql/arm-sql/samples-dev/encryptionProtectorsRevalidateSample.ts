@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Revalidates an existing encryption protector.
  *
  * @summary Revalidates an existing encryption protector.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/EncryptionProtectorRevalidate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/EncryptionProtectorRevalidate.json
  */
 async function revalidatesTheEncryptionProtector() {
   const subscriptionId =

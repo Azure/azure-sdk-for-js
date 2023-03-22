@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a server trust group.
  *
  * @summary Gets a server trust group.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerTrustGroupGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ServerTrustGroupGet.json
  */
 async function getServerTrustGroup() {
   const subscriptionId =

@@ -18,39 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates an elastic pool.
  *
  * @summary Creates or updates an elastic pool.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateElasticPoolWithAvailabilityZone.json
- */
-async function createOrUpdateAnElasticPoolWithAvailabilityZone() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-2369";
-  const serverName = "sqlcrudtest-8069";
-  const elasticPoolName = "sqlcrudtest-8102";
-  const parameters: ElasticPool = {
-    availabilityZone: "1",
-    location: "Japan East",
-    perDatabaseSettings: { maxCapacity: 2, minCapacity: 0.25 },
-    sku: { name: "HS_Gen5_4" },
-    zoneRedundant: true
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.elasticPools.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    elasticPoolName,
-    parameters
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Creates or updates an elastic pool.
- *
- * @summary Creates or updates an elastic pool.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/HyperscaleElasticPoolCreateOrUpdateSetHighAvailabilityReplicaCount.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-08-01-preview/examples/HyperscaleElasticPoolCreateOrUpdateSetHighAvailabilityReplicaCount.json
  */
 async function createOrUpdateHyperscaleElasticPoolWithHighAvailabilityReplicaCountParameter() {
   const subscriptionId =
@@ -80,7 +48,7 @@ async function createOrUpdateHyperscaleElasticPoolWithHighAvailabilityReplicaCou
  * This sample demonstrates how to Creates or updates an elastic pool.
  *
  * @summary Creates or updates an elastic pool.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ElasticPoolCreateOrUpdateMax.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-08-01-preview/examples/ElasticPoolCreateOrUpdateMax.json
  */
 async function createOrUpdateElasticPoolWithAllParameter() {
   const subscriptionId =
@@ -110,7 +78,7 @@ async function createOrUpdateElasticPoolWithAllParameter() {
  * This sample demonstrates how to Creates or updates an elastic pool.
  *
  * @summary Creates or updates an elastic pool.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ElasticPoolCreateOrUpdateSetMaintenanceConfiguration.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-08-01-preview/examples/ElasticPoolCreateOrUpdateSetMaintenanceConfiguration.json
  */
 async function createOrUpdateElasticPoolWithMaintenanceConfigurationParameter() {
   const subscriptionId =
@@ -140,7 +108,7 @@ async function createOrUpdateElasticPoolWithMaintenanceConfigurationParameter() 
  * This sample demonstrates how to Creates or updates an elastic pool.
  *
  * @summary Creates or updates an elastic pool.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ElasticPoolCreateOrUpdateMin.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-08-01-preview/examples/ElasticPoolCreateOrUpdateMin.json
  */
 async function createOrUpdateElasticPoolWithMinimumParameters() {
   const subscriptionId =
@@ -162,74 +130,11 @@ async function createOrUpdateElasticPoolWithMinimumParameters() {
   console.log(result);
 }
 
-/**
- * This sample demonstrates how to Creates or updates an elastic pool.
- *
- * @summary Creates or updates an elastic pool.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ElasticPoolCreateWithDefaultPreferredEnclaveType.json
- */
-async function createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsDefault() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-2369";
-  const serverName = "sqlcrudtest-8069";
-  const elasticPoolName = "sqlcrudtest-8102";
-  const parameters: ElasticPool = {
-    location: "Japan East",
-    preferredEnclaveType: "Default",
-    sku: { name: "GP_Gen5_4" }
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.elasticPools.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    elasticPoolName,
-    parameters
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Creates or updates an elastic pool.
- *
- * @summary Creates or updates an elastic pool.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ElasticPoolCreateWithVBSPreferredEnclaveType.json
- */
-async function createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsVbs() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-2369";
-  const serverName = "sqlcrudtest-8069";
-  const elasticPoolName = "sqlcrudtest-8102";
-  const parameters: ElasticPool = {
-    location: "Japan East",
-    preferredEnclaveType: "VBS",
-    sku: { name: "GP_Gen5_4" }
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.elasticPools.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    elasticPoolName,
-    parameters
-  );
-  console.log(result);
-}
-
 async function main() {
-  createOrUpdateAnElasticPoolWithAvailabilityZone();
   createOrUpdateHyperscaleElasticPoolWithHighAvailabilityReplicaCountParameter();
   createOrUpdateElasticPoolWithAllParameter();
   createOrUpdateElasticPoolWithMaintenanceConfigurationParameter();
   createOrUpdateElasticPoolWithMinimumParameters();
-  createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsDefault();
-  createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsVbs();
 }
 
 main().catch(console.error);

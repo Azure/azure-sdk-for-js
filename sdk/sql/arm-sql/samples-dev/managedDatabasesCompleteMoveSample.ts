@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Completes a managed database move operation.
  *
  * @summary Completes a managed database move operation.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseCompleteMove.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/ManagedDatabaseCompleteMove.json
  */
 async function completesAManagedDatabaseMove() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function completesAManagedDatabaseMove() {
   const databaseName = "testDatabase";
   const parameters: ManagedDatabaseMoveDefinition = {
     destinationManagedDatabaseId:
-      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/managedInstances/testInstanceTgt/databases/testDatabase"
+      "subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/managedInstances/testInstanceTgt/databases/testDatabase"
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);

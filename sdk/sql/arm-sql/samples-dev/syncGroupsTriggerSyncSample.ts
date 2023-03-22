@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Triggers a sync group synchronization.
  *
  * @summary Triggers a sync group synchronization.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/SyncGroupTriggerSync.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncGroupTriggerSync.json
  */
 async function triggerASyncGroupSynchronization() {
   const subscriptionId =

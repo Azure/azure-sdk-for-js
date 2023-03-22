@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets an IPv6 firewall rule.
  *
  * @summary Gets an IPv6 firewall rule.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/IPv6FirewallRuleGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/IPv6FirewallRuleGet.json
  */
 async function getIPv6FirewallRule() {
   const subscriptionId =

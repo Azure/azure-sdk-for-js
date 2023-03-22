@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { SqlManagementClient } from "@azure/arm-sql";
+import { OutboundFirewallRule, SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create a outbound firewall rule with a given name.
  *
  * @summary Create a outbound firewall rule with a given name.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/OutboundFirewallRuleCreate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-02-01-preview/examples/OutboundFirewallRuleCreate.json
  */
 async function approveOrRejectAOutboundFirewallRuleWithAGivenName() {
   const subscriptionId =
@@ -28,12 +28,14 @@ async function approveOrRejectAOutboundFirewallRuleWithAGivenName() {
     process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-7398";
   const serverName = "sqlcrudtest-4645";
   const outboundRuleFqdn = "server.database.windows.net";
+  const parameters: OutboundFirewallRule = {};
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.outboundFirewallRules.beginCreateOrUpdateAndWait(
     resourceGroupName,
     serverName,
-    outboundRuleFqdn
+    outboundRuleFqdn,
+    parameters
   );
   console.log(result);
 }

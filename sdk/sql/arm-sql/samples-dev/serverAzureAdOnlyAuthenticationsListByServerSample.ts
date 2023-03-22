@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of server Azure Active Directory only authentications.
  *
  * @summary Gets a list of server Azure Active Directory only authentications.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/AzureADOnlyAuthList.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/AzureADOnlyAuthList.json
  */
 async function getsAListOfAzureActiveDirectoryOnlyAuthenticationObject() {
   const subscriptionId =

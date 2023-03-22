@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a server's DevOps audit settings.
  *
  * @summary Creates or updates a server's DevOps audit settings.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerDevOpsAuditCreateMax.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-02-01-preview/examples/ServerDevOpsAuditCreateMax.json
  */
 async function updateAServerDevOpsAuditSettingsWithAllParams() {
   const subscriptionId =
@@ -54,7 +54,7 @@ async function updateAServerDevOpsAuditSettingsWithAllParams() {
  * This sample demonstrates how to Creates or updates a server's DevOps audit settings.
  *
  * @summary Creates or updates a server's DevOps audit settings.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerDevOpsAuditCreateMin.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-02-01-preview/examples/ServerDevOpsAuditCreateMin.json
  */
 async function updateAServerDevOpsAuditSettingsWithMinimalInput() {
   const subscriptionId =

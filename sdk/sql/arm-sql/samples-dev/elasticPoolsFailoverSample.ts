@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Failovers an elastic pool.
  *
  * @summary Failovers an elastic pool.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/FailoverElasticPool.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-08-01-preview/examples/FailoverElasticPool.json
  */
 async function failoverAnElasticPool() {
   const subscriptionId =

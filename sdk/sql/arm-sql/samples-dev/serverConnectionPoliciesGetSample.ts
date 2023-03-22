@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a server connection policy
  *
  * @summary Gets a server connection policy
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerConnectionPoliciesGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-05-01-preview/examples/ServerConnectionPoliciesGet.json
  */
 async function getsAServerConnectionPolicy() {
   const subscriptionId =

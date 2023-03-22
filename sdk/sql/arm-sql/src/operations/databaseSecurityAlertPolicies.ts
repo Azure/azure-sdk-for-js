@@ -135,26 +135,6 @@ export class DatabaseSecurityAlertPoliciesImpl
   }
 
   /**
-   * Gets a list of database's security alert policies.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the  server.
-   * @param databaseName The name of the  database for which the security alert policy is defined.
-   * @param options The options parameters.
-   */
-  private _listByDatabase(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    options?: DatabaseSecurityAlertPoliciesListByDatabaseOptionalParams
-  ): Promise<DatabaseSecurityAlertPoliciesListByDatabaseResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, databaseName, options },
-      listByDatabaseOperationSpec
-    );
-  }
-
-  /**
    * Gets a database's security alert policy.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -214,6 +194,26 @@ export class DatabaseSecurityAlertPoliciesImpl
   }
 
   /**
+   * Gets a list of database's security alert policies.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the  server.
+   * @param databaseName The name of the  database for which the security alert policy is defined.
+   * @param options The options parameters.
+   */
+  private _listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: DatabaseSecurityAlertPoliciesListByDatabaseOptionalParams
+  ): Promise<DatabaseSecurityAlertPoliciesListByDatabaseResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serverName, databaseName, options },
+      listByDatabaseOperationSpec
+    );
+  }
+
+  /**
    * ListByDatabaseNext
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -238,27 +238,6 @@ export class DatabaseSecurityAlertPoliciesImpl
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByDatabaseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/securityAlertPolicies",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DatabaseSecurityAlertListResult
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/securityAlertPolicies/{securityAlertPolicyName}",
@@ -269,13 +248,13 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.subscriptionId,
     Parameters.securityAlertPolicyName
   ],
   headerParameters: [Parameters.accept],
@@ -294,18 +273,39 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters12,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters14,
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.subscriptionId,
     Parameters.securityAlertPolicyName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
+  serializer
+};
+const listByDatabaseOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/securityAlertPolicies",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatabaseSecurityAlertListResult
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
@@ -319,10 +319,10 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.subscriptionId,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

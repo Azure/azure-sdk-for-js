@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the server's threat detection policies.
  *
  * @summary Get the server's threat detection policies.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerSecurityAlertsListByServer.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ServerSecurityAlertsListByServer.json
  */
 async function listTheServerThreatDetectionPolicies() {
   const subscriptionId =

@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a distributed availability group between Sql On-Prem and Sql Managed Instance.
  *
  * @summary Creates a distributed availability group between Sql On-Prem and Sql Managed Instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DistributedAvailabilityGroupsCreate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/DistributedAvailabilityGroupsCreate.json
  */
 async function createADistributedAvailabilityGroup() {
   const subscriptionId =

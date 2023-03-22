@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the subscription capabilities available for the specified location.
  *
  * @summary Gets the subscription capabilities available for the specified location.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/LocationCapabilityListByLocation.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/LocationCapabilityListByLocation.json
  */
 async function listSubscriptionCapabilitiesInTheGivenLocation() {
   const subscriptionId =

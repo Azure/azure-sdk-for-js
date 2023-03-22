@@ -15,10 +15,10 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Perform a database extension operation, like database import, database export, or polybase import
+ * This sample demonstrates how to Perform a database extension operation, like polybase import
  *
- * @summary Perform a database extension operation, like database import, database export, or polybase import
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateOrUpdateDatabaseExtensions.json
+ * @summary Perform a database extension operation, like polybase import
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-02-01-preview/examples/CreateOrUpdateDatabaseExtensions.json
  */
 async function createOrUpdateDatabaseExtensions() {
   const subscriptionId =
@@ -50,88 +50,8 @@ async function createOrUpdateDatabaseExtensions() {
   console.log(result);
 }
 
-/**
- * This sample demonstrates how to Perform a database extension operation, like database import, database export, or polybase import
- *
- * @summary Perform a database extension operation, like database import, database export, or polybase import
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ExportDatabaseUsingDatabaseExtensions.json
- */
-async function exportDatabaseUsingDatabaseExtension() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "0ca8cd24-0b47-4ad5-bc7e-d70e35c44adf";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] ||
-    "rg_d1ef9eae-044d-4710-ba59-b82e84ad3157";
-  const serverName = "srv_9243d320-ac4e-4f97-8e06-b1167dae5f4c";
-  const databaseName = "db_7fe424c8-23cf-4ac3-bdc3-e21f424bdb68";
-  const extensionName = "Export";
-  const parameters: DatabaseExtensions = {
-    administratorLogin: "login",
-    administratorLoginPassword: "password",
-    authenticationType: "Sql",
-    operationMode: "Export",
-    storageKey:
-      "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-    storageKeyType: "StorageAccessKey",
-    storageUri:
-      "https://teststorage.blob.core.windows.net/testcontainer/Manifest.xml"
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.databaseExtensionsOperations.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    extensionName,
-    parameters
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Perform a database extension operation, like database import, database export, or polybase import
- *
- * @summary Perform a database extension operation, like database import, database export, or polybase import
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ImportDatabaseUsingDatabaseExtensions.json
- */
-async function importDatabaseUsingDatabaseExtension() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "17ca4d13-bf7d-4c33-a60e-b87a2820a325";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] ||
-    "rg_062866bf-c4f4-41f9-abf0-b59132ca7924";
-  const serverName = "srv_2d6be2d2-26c8-4930-8fb6-82a5e95e0e82";
-  const databaseName = "db_2a47e946-e414-4c00-94ac-ed886bb78302";
-  const extensionName = "Import";
-  const parameters: DatabaseExtensions = {
-    administratorLogin: "login",
-    administratorLoginPassword: "password",
-    authenticationType: "Sql",
-    operationMode: "Import",
-    storageKey:
-      "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-    storageKeyType: "StorageAccessKey",
-    storageUri:
-      "https://teststorage.blob.core.windows.net/testcontainer/Manifest.xml"
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.databaseExtensionsOperations.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    extensionName,
-    parameters
-  );
-  console.log(result);
-}
-
 async function main() {
   createOrUpdateDatabaseExtensions();
-  exportDatabaseUsingDatabaseExtension();
-  importDatabaseUsingDatabaseExtension();
 }
 
 main().catch(console.error);

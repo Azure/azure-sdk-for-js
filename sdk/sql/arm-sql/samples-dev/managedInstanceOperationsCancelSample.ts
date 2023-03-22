@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Cancels the asynchronous operation on the managed instance.
  *
  * @summary Cancels the asynchronous operation on the managed instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CancelManagedInstanceOperation.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CancelManagedInstanceOperation.json
  */
 async function cancelTheManagedInstanceManagementOperation() {
   const subscriptionId =

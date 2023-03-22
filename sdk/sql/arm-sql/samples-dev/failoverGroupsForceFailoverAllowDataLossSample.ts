@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Fails over from the current primary server to this server. This operation might result in data loss.
  *
  * @summary Fails over from the current primary server to this server. This operation might result in data loss.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/FailoverGroupForceFailoverAllowDataLoss.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/FailoverGroupForceFailoverAllowDataLoss.json
  */
 async function forcedFailoverOfAFailoverGroupAllowingDataLoss() {
   const subscriptionId =

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a database extension. This will return resource not found as it is not supported.
  *
  * @summary Gets a database extension. This will return resource not found as it is not supported.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/GetDatabaseExtensions.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-02-01-preview/examples/GetDatabaseExtensions.json
  */
 async function getDatabaseExtensions() {
   const subscriptionId =

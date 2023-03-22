@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Sets maintenance windows settings for a database.
  *
  * @summary Sets maintenance windows settings for a database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateOrUpdateMaintenanceWindows.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CreateOrUpdateMaintenanceWindows.json
  */
 async function setsMaintenanceWindowSettingsForASelectedDatabase() {
   const subscriptionId =

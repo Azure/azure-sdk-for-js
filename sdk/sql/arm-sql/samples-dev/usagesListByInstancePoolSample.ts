@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all instance pool usage metrics
  *
  * @summary Gets all instance pool usage metrics
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ListInstancePoolUsageExpanded.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-02-01-preview/examples/ListInstancePoolUsageExpanded.json
  */
 async function listInstancePoolUsagesExpandedWithChildren() {
   const subscriptionId =
@@ -48,7 +48,7 @@ async function listInstancePoolUsagesExpandedWithChildren() {
  * This sample demonstrates how to Gets all instance pool usage metrics
  *
  * @summary Gets all instance pool usage metrics
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ListInstancePoolUsage.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-02-01-preview/examples/ListInstancePoolUsage.json
  */
 async function listInstancePoolUsages() {
   const subscriptionId =

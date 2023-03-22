@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a sync member.
  *
  * @summary Gets a sync member.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/SyncMemberGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncMemberGet.json
  */
 async function getASyncMember() {
   const subscriptionId =

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get managed database column
  *
  * @summary Get managed database column
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseColumnGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedDatabaseColumnGet.json
  */
 async function getManagedDatabaseColumn() {
   const subscriptionId =

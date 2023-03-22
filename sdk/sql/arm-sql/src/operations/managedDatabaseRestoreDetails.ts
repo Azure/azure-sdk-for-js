@@ -71,12 +71,12 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
-    Parameters.subscriptionId,
     Parameters.managedInstanceName,
     Parameters.restoreDetailsName
   ],

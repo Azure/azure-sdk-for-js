@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of security events.
  *
  * @summary Gets a list of security events.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseSecurityEventsGetMax.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedDatabaseSecurityEventsGetMax.json
  */
 async function getTheManagedDatabaseSecurityEventsWithMaximalParameters() {
   const subscriptionId =
@@ -59,7 +59,7 @@ async function getTheManagedDatabaseSecurityEventsWithMaximalParameters() {
  * This sample demonstrates how to Gets a list of security events.
  *
  * @summary Gets a list of security events.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseSecurityEventsGetMin.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedDatabaseSecurityEventsGetMin.json
  */
 async function getTheManagedDatabaseSecurityEventsWithMinimalParameters() {
   const subscriptionId =

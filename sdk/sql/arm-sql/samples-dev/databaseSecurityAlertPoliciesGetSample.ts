@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a database's security alert policy.
  *
  * @summary Gets a database's security alert policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DatabaseSecurityAlertGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DatabaseSecurityAlertGet.json
  */
 async function getADatabaseThreatDetectionPolicy() {
   const subscriptionId =
@@ -28,7 +28,7 @@ async function getADatabaseThreatDetectionPolicy() {
     process.env["SQL_RESOURCE_GROUP"] || "securityalert-6852";
   const serverName = "securityalert-2080";
   const databaseName = "testdb";
-  const securityAlertPolicyName = "default";
+  const securityAlertPolicyName = "Default";
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databaseSecurityAlertPolicies.get(

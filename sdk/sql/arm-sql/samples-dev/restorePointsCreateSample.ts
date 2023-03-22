@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a restore point for a data warehouse.
  *
  * @summary Creates a restore point for a data warehouse.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DatabaseRestorePointsPost.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DatabaseRestorePointsPost.json
  */
 async function createsDatawarehouseDatabaseRestorePoint() {
   const subscriptionId =

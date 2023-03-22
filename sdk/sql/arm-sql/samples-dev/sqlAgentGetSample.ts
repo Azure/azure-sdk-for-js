@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets current instance sql agent configuration.
  *
  * @summary Gets current instance sql agent configuration.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/SqlAgentConfigurationGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SqlAgentConfigurationGet.json
  */
 async function getsCurrentInstanceSqlAgentConfiguration() {
   const subscriptionId =

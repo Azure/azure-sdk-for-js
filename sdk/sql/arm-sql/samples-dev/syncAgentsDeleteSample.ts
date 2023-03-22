@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a sync agent.
  *
  * @summary Deletes a sync agent.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/SyncAgentDelete.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncAgentDelete.json
  */
 async function deleteASyncAgent() {
   const subscriptionId =

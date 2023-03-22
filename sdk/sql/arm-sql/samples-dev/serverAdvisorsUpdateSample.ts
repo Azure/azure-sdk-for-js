@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates a server advisor.
  *
  * @summary Updates a server advisor.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerAdvisorUpdate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ServerAdvisorUpdate.json
  */
 async function updateServerAdvisor() {
   const subscriptionId =

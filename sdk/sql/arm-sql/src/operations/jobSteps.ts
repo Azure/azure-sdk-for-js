@@ -15,21 +15,21 @@ import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
 import {
   JobStep,
-  JobStepsListByJobNextOptionalParams,
-  JobStepsListByJobOptionalParams,
-  JobStepsListByJobResponse,
   JobStepsListByVersionNextOptionalParams,
   JobStepsListByVersionOptionalParams,
   JobStepsListByVersionResponse,
+  JobStepsListByJobNextOptionalParams,
+  JobStepsListByJobOptionalParams,
+  JobStepsListByJobResponse,
+  JobStepsGetByVersionOptionalParams,
+  JobStepsGetByVersionResponse,
   JobStepsGetOptionalParams,
   JobStepsGetResponse,
   JobStepsCreateOrUpdateOptionalParams,
   JobStepsCreateOrUpdateResponse,
   JobStepsDeleteOptionalParams,
-  JobStepsGetByVersionOptionalParams,
-  JobStepsGetByVersionResponse,
-  JobStepsListByJobNextResponse,
-  JobStepsListByVersionNextResponse
+  JobStepsListByVersionNextResponse,
+  JobStepsListByJobNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,109 +43,6 @@ export class JobStepsImpl implements JobSteps {
    */
   constructor(client: SqlManagementClient) {
     this.client = client;
-  }
-
-  /**
-   * Gets all job steps for a job's current version.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param jobAgentName The name of the job agent.
-   * @param jobName The name of the job to get.
-   * @param options The options parameters.
-   */
-  public listByJob(
-    resourceGroupName: string,
-    serverName: string,
-    jobAgentName: string,
-    jobName: string,
-    options?: JobStepsListByJobOptionalParams
-  ): PagedAsyncIterableIterator<JobStep> {
-    const iter = this.listByJobPagingAll(
-      resourceGroupName,
-      serverName,
-      jobAgentName,
-      jobName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByJobPagingPage(
-          resourceGroupName,
-          serverName,
-          jobAgentName,
-          jobName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listByJobPagingPage(
-    resourceGroupName: string,
-    serverName: string,
-    jobAgentName: string,
-    jobName: string,
-    options?: JobStepsListByJobOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<JobStep[]> {
-    let result: JobStepsListByJobResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByJob(
-        resourceGroupName,
-        serverName,
-        jobAgentName,
-        jobName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listByJobNext(
-        resourceGroupName,
-        serverName,
-        jobAgentName,
-        jobName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listByJobPagingAll(
-    resourceGroupName: string,
-    serverName: string,
-    jobAgentName: string,
-    jobName: string,
-    options?: JobStepsListByJobOptionalParams
-  ): AsyncIterableIterator<JobStep> {
-    for await (const page of this.listByJobPagingPage(
-      resourceGroupName,
-      serverName,
-      jobAgentName,
-      jobName,
-      options
-    )) {
-      yield* page;
-    }
   }
 
   /**
@@ -269,6 +166,174 @@ export class JobStepsImpl implements JobSteps {
    * @param jobName The name of the job to get.
    * @param options The options parameters.
    */
+  public listByJob(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    options?: JobStepsListByJobOptionalParams
+  ): PagedAsyncIterableIterator<JobStep> {
+    const iter = this.listByJobPagingAll(
+      resourceGroupName,
+      serverName,
+      jobAgentName,
+      jobName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByJobPagingPage(
+          resourceGroupName,
+          serverName,
+          jobAgentName,
+          jobName,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listByJobPagingPage(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    options?: JobStepsListByJobOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<JobStep[]> {
+    let result: JobStepsListByJobResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByJob(
+        resourceGroupName,
+        serverName,
+        jobAgentName,
+        jobName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByJobNext(
+        resourceGroupName,
+        serverName,
+        jobAgentName,
+        jobName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByJobPagingAll(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    options?: JobStepsListByJobOptionalParams
+  ): AsyncIterableIterator<JobStep> {
+    for await (const page of this.listByJobPagingPage(
+      resourceGroupName,
+      serverName,
+      jobAgentName,
+      jobName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Gets all job steps in the specified job version.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param jobAgentName The name of the job agent.
+   * @param jobName The name of the job to get.
+   * @param jobVersion The version of the job to get.
+   * @param options The options parameters.
+   */
+  private _listByVersion(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    jobVersion: number,
+    options?: JobStepsListByVersionOptionalParams
+  ): Promise<JobStepsListByVersionResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serverName,
+        jobAgentName,
+        jobName,
+        jobVersion,
+        options
+      },
+      listByVersionOperationSpec
+    );
+  }
+
+  /**
+   * Gets the specified version of a job step.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param jobAgentName The name of the job agent.
+   * @param jobName The name of the job.
+   * @param jobVersion The version of the job to get.
+   * @param stepName The name of the job step.
+   * @param options The options parameters.
+   */
+  getByVersion(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    jobVersion: number,
+    stepName: string,
+    options?: JobStepsGetByVersionOptionalParams
+  ): Promise<JobStepsGetByVersionResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serverName,
+        jobAgentName,
+        jobName,
+        jobVersion,
+        stepName,
+        options
+      },
+      getByVersionOperationSpec
+    );
+  }
+
+  /**
+   * Gets all job steps for a job's current version.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param jobAgentName The name of the job agent.
+   * @param jobName The name of the job to get.
+   * @param options The options parameters.
+   */
   private _listByJob(
     resourceGroupName: string,
     serverName: string,
@@ -379,23 +444,25 @@ export class JobStepsImpl implements JobSteps {
   }
 
   /**
-   * Gets all job steps in the specified job version.
+   * ListByVersionNext
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param jobAgentName The name of the job agent.
    * @param jobName The name of the job to get.
    * @param jobVersion The version of the job to get.
+   * @param nextLink The nextLink from the previous successful call to the ListByVersion method.
    * @param options The options parameters.
    */
-  private _listByVersion(
+  private _listByVersionNext(
     resourceGroupName: string,
     serverName: string,
     jobAgentName: string,
     jobName: string,
     jobVersion: number,
-    options?: JobStepsListByVersionOptionalParams
-  ): Promise<JobStepsListByVersionResponse> {
+    nextLink: string,
+    options?: JobStepsListByVersionNextOptionalParams
+  ): Promise<JobStepsListByVersionNextResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -403,43 +470,10 @@ export class JobStepsImpl implements JobSteps {
         jobAgentName,
         jobName,
         jobVersion,
+        nextLink,
         options
       },
-      listByVersionOperationSpec
-    );
-  }
-
-  /**
-   * Gets the specified version of a job step.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param jobAgentName The name of the job agent.
-   * @param jobName The name of the job.
-   * @param jobVersion The version of the job to get.
-   * @param stepName The name of the job step.
-   * @param options The options parameters.
-   */
-  getByVersion(
-    resourceGroupName: string,
-    serverName: string,
-    jobAgentName: string,
-    jobName: string,
-    jobVersion: number,
-    stepName: string,
-    options?: JobStepsGetByVersionOptionalParams
-  ): Promise<JobStepsGetByVersionResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serverName,
-        jobAgentName,
-        jobName,
-        jobVersion,
-        stepName,
-        options
-      },
-      getByVersionOperationSpec
+      listByVersionNextOperationSpec
     );
   }
 
@@ -473,44 +507,57 @@ export class JobStepsImpl implements JobSteps {
       listByJobNextOperationSpec
     );
   }
-
-  /**
-   * ListByVersionNext
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param jobAgentName The name of the job agent.
-   * @param jobName The name of the job to get.
-   * @param jobVersion The version of the job to get.
-   * @param nextLink The nextLink from the previous successful call to the ListByVersion method.
-   * @param options The options parameters.
-   */
-  private _listByVersionNext(
-    resourceGroupName: string,
-    serverName: string,
-    jobAgentName: string,
-    jobName: string,
-    jobVersion: number,
-    nextLink: string,
-    options?: JobStepsListByVersionNextOptionalParams
-  ): Promise<JobStepsListByVersionNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serverName,
-        jobAgentName,
-        jobName,
-        jobVersion,
-        nextLink,
-        options
-      },
-      listByVersionNextOperationSpec
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByVersionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/versions/{jobVersion}/steps",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.JobStepListResult
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.jobAgentName,
+    Parameters.jobName,
+    Parameters.jobVersion
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getByVersionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/versions/{jobVersion}/steps/{stepName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.JobStep
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.jobAgentName,
+    Parameters.jobName,
+    Parameters.stepName,
+    Parameters.jobVersion
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listByJobOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/steps",
@@ -521,12 +568,12 @@ const listByJobOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.subscriptionId,
     Parameters.jobAgentName,
     Parameters.jobName
   ],
@@ -543,12 +590,12 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.subscriptionId,
     Parameters.jobAgentName,
     Parameters.jobName,
     Parameters.stepName
@@ -569,18 +616,18 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters39,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters28,
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.subscriptionId,
     Parameters.jobAgentName,
     Parameters.jobName,
     Parameters.stepName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -589,21 +636,20 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/steps/{stepName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.subscriptionId,
     Parameters.jobAgentName,
     Parameters.jobName,
     Parameters.stepName
   ],
   serializer
 };
-const listByVersionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/versions/{jobVersion}/steps",
+const listByVersionNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -611,38 +657,14 @@ const listByVersionOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.jobAgentName,
     Parameters.jobName,
-    Parameters.jobVersion
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getByVersionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/versions/{jobVersion}/steps/{stepName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.JobStep
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.subscriptionId,
-    Parameters.jobAgentName,
-    Parameters.jobName,
-    Parameters.stepName,
     Parameters.jobVersion
   ],
   headerParameters: [Parameters.accept],
@@ -659,34 +681,12 @@ const listByJobNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.jobAgentName,
     Parameters.jobName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByVersionNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.JobStepListResult
-    },
-    default: {}
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.jobAgentName,
-    Parameters.jobName,
-    Parameters.jobVersion
   ],
   headerParameters: [Parameters.accept],
   serializer

@@ -11,9 +11,6 @@ import {
   SensitivityLabel,
   ManagedDatabaseSensitivityLabelsListCurrentByDatabaseOptionalParams,
   ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseOptionalParams,
-  ManagedDatabaseSensitivityLabelsListByDatabaseOptionalParams,
-  SensitivityLabelUpdateList,
-  ManagedDatabaseSensitivityLabelsUpdateOptionalParams,
   SensitivityLabelSource,
   ManagedDatabaseSensitivityLabelsGetOptionalParams,
   ManagedDatabaseSensitivityLabelsGetResponse,
@@ -21,7 +18,9 @@ import {
   ManagedDatabaseSensitivityLabelsCreateOrUpdateResponse,
   ManagedDatabaseSensitivityLabelsDeleteOptionalParams,
   ManagedDatabaseSensitivityLabelsDisableRecommendationOptionalParams,
-  ManagedDatabaseSensitivityLabelsEnableRecommendationOptionalParams
+  ManagedDatabaseSensitivityLabelsEnableRecommendationOptionalParams,
+  SensitivityLabelUpdateList,
+  ManagedDatabaseSensitivityLabelsUpdateOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -55,36 +54,6 @@ export interface ManagedDatabaseSensitivityLabels {
     databaseName: string,
     options?: ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseOptionalParams
   ): PagedAsyncIterableIterator<SensitivityLabel>;
-  /**
-   * Gets the sensitivity labels of a given database
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param managedInstanceName The name of the managed instance.
-   * @param databaseName The name of the database.
-   * @param options The options parameters.
-   */
-  listByDatabase(
-    resourceGroupName: string,
-    managedInstanceName: string,
-    databaseName: string,
-    options?: ManagedDatabaseSensitivityLabelsListByDatabaseOptionalParams
-  ): PagedAsyncIterableIterator<SensitivityLabel>;
-  /**
-   * Update sensitivity labels of a given database using an operations batch.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param managedInstanceName The name of the managed instance.
-   * @param databaseName The name of the database.
-   * @param parameters A list of sensitivity label update operations.
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    managedInstanceName: string,
-    databaseName: string,
-    parameters: SensitivityLabelUpdateList,
-    options?: ManagedDatabaseSensitivityLabelsUpdateOptionalParams
-  ): Promise<void>;
   /**
    * Gets the sensitivity label of a given column
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -189,5 +158,21 @@ export interface ManagedDatabaseSensitivityLabels {
     tableName: string,
     columnName: string,
     options?: ManagedDatabaseSensitivityLabelsEnableRecommendationOptionalParams
+  ): Promise<void>;
+  /**
+   * Update sensitivity labels of a given database using an operations batch.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param databaseName The name of the database.
+   * @param parameters A list of sensitivity label update operations.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    parameters: SensitivityLabelUpdateList,
+    options?: ManagedDatabaseSensitivityLabelsUpdateOptionalParams
   ): Promise<void>;
 }

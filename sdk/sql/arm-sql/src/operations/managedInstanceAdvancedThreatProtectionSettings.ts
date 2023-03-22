@@ -325,11 +325,11 @@ const listByInstanceOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.managedInstanceName
   ],
   headerParameters: [Parameters.accept],
@@ -345,13 +345,13 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.advancedThreatProtectionName,
-    Parameters.managedInstanceName
+    Parameters.resourceGroupName,
+    Parameters.managedInstanceName,
+    Parameters.advancedThreatProtectionName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -375,16 +375,16 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters61,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters86,
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.advancedThreatProtectionName,
-    Parameters.managedInstanceName
+    Parameters.resourceGroupName,
+    Parameters.managedInstanceName,
+    Parameters.advancedThreatProtectionName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -399,8 +399,8 @@ const listByInstanceNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.nextLink,
     Parameters.managedInstanceName
   ],

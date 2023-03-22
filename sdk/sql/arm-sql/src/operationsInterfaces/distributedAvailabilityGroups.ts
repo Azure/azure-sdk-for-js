@@ -17,10 +17,7 @@ import {
   DistributedAvailabilityGroupsCreateOrUpdateResponse,
   DistributedAvailabilityGroupsDeleteOptionalParams,
   DistributedAvailabilityGroupsUpdateOptionalParams,
-  DistributedAvailabilityGroupsUpdateResponse,
-  DistributedAvailabilityGroupSetRole,
-  DistributedAvailabilityGroupsSetRoleOptionalParams,
-  DistributedAvailabilityGroupsSetRoleResponse
+  DistributedAvailabilityGroupsUpdateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -154,41 +151,4 @@ export interface DistributedAvailabilityGroups {
     parameters: DistributedAvailabilityGroup,
     options?: DistributedAvailabilityGroupsUpdateOptionalParams
   ): Promise<DistributedAvailabilityGroupsUpdateResponse>;
-  /**
-   * Sets the role for managed instance in a distributed availability group.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param managedInstanceName The name of the managed instance.
-   * @param distributedAvailabilityGroupName The distributed availability group name.
-   * @param parameters The distributed availability group set role request parameters.
-   * @param options The options parameters.
-   */
-  beginSetRole(
-    resourceGroupName: string,
-    managedInstanceName: string,
-    distributedAvailabilityGroupName: string,
-    parameters: DistributedAvailabilityGroupSetRole,
-    options?: DistributedAvailabilityGroupsSetRoleOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<DistributedAvailabilityGroupsSetRoleResponse>,
-      DistributedAvailabilityGroupsSetRoleResponse
-    >
-  >;
-  /**
-   * Sets the role for managed instance in a distributed availability group.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param managedInstanceName The name of the managed instance.
-   * @param distributedAvailabilityGroupName The distributed availability group name.
-   * @param parameters The distributed availability group set role request parameters.
-   * @param options The options parameters.
-   */
-  beginSetRoleAndWait(
-    resourceGroupName: string,
-    managedInstanceName: string,
-    distributedAvailabilityGroupName: string,
-    parameters: DistributedAvailabilityGroupSetRole,
-    options?: DistributedAvailabilityGroupsSetRoleOptionalParams
-  ): Promise<DistributedAvailabilityGroupsSetRoleResponse>;
 }

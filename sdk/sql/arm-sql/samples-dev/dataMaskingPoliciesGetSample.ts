@@ -15,12 +15,12 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Gets the database data masking policy.
+ * This sample demonstrates how to Gets a database data masking policy.
  *
- * @summary Gets the database data masking policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DataMaskingPolicyGet.json
+ * @summary Gets a database data masking policy.
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/stable/2014-04-01/examples/DataMaskingPolicyGet.json
  */
-async function getsTheDatabaseDataMaskingPolicies() {
+async function getDataMaskingPolicy() {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -28,20 +28,18 @@ async function getsTheDatabaseDataMaskingPolicies() {
     process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-6852";
   const serverName = "sqlcrudtest-2080";
   const databaseName = "sqlcrudtest-331";
-  const dataMaskingPolicyName = "Default";
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.dataMaskingPolicies.get(
     resourceGroupName,
     serverName,
-    databaseName,
-    dataMaskingPolicyName
+    databaseName
   );
   console.log(result);
 }
 
 async function main() {
-  getsTheDatabaseDataMaskingPolicies();
+  getDataMaskingPolicy();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a server's blob auditing policy.
  *
  * @summary Creates or updates a server's blob auditing policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerBlobAuditingCreateMax.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/ServerBlobAuditingCreateMax.json
  */
 async function updateAServerBlobAuditingPolicyWithAllParameters() {
   const subscriptionId =
@@ -57,7 +57,7 @@ async function updateAServerBlobAuditingPolicyWithAllParameters() {
  * This sample demonstrates how to Creates or updates a server's blob auditing policy.
  *
  * @summary Creates or updates a server's blob auditing policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerBlobAuditingCreateMin.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/ServerBlobAuditingCreateMin.json
  */
 async function updateAServerBlobAuditingPolicyWithMinimalParameters() {
   const subscriptionId =

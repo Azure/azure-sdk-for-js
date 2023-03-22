@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a managed database.
  *
  * @summary Gets a managed database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/ManagedDatabaseGet.json
  */
 async function getsAManagedDatabase() {
   const subscriptionId =

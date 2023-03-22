@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of available maintenance windows.
  *
  * @summary Gets a list of available maintenance windows.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/GetMaintenanceWindowOptions.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/GetMaintenanceWindowOptions.json
  */
 async function getsAListOfAvailableMaintenanceWindowsForASelectedDatabase() {
   const subscriptionId =

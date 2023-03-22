@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists a job's executions.
  *
  * @summary Lists a job's executions.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ListJobExecutionsByJob.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ListJobExecutionsByJob.json
  */
 async function listAJobExecutions() {
   const subscriptionId =

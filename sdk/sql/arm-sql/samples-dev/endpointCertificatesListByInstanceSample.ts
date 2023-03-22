@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List certificates used on endpoints on the target instance.
  *
  * @summary List certificates used on endpoints on the target instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/EndpointCertificatesListByInstance.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/EndpointCertificatesListByInstance.json
  */
 async function getAListOfEndpointCertificates() {
   const subscriptionId =

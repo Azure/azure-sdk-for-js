@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a database advisor.
  *
  * @summary Gets a database advisor.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DatabaseAdvisorGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DatabaseAdvisorGet.json
  */
 async function getDatabaseAdvisor() {
   const subscriptionId =

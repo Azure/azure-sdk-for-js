@@ -15,10 +15,10 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Creates or updates a database data masking policy.
+ * This sample demonstrates how to Creates or updates a database data masking policy
  *
- * @summary Creates or updates a database data masking policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DataMaskingPolicyCreateOrUpdateMax.json
+ * @summary Creates or updates a database data masking policy
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/stable/2014-04-01/examples/DataMaskingPolicyCreateOrUpdateMax.json
  */
 async function createOrUpdateDataMaskingPolicyMax() {
   const subscriptionId =
@@ -28,7 +28,6 @@ async function createOrUpdateDataMaskingPolicyMax() {
     process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-6852";
   const serverName = "sqlcrudtest-2080";
   const databaseName = "sqlcrudtest-331";
-  const dataMaskingPolicyName = "Default";
   const parameters: DataMaskingPolicy = {
     dataMaskingState: "Enabled",
     exemptPrincipals: "testuser;"
@@ -39,17 +38,16 @@ async function createOrUpdateDataMaskingPolicyMax() {
     resourceGroupName,
     serverName,
     databaseName,
-    dataMaskingPolicyName,
     parameters
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a database data masking policy.
+ * This sample demonstrates how to Creates or updates a database data masking policy
  *
- * @summary Creates or updates a database data masking policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DataMaskingPolicyCreateOrUpdateMin.json
+ * @summary Creates or updates a database data masking policy
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/stable/2014-04-01/examples/DataMaskingPolicyCreateOrUpdateMin.json
  */
 async function createOrUpdateDataMaskingPolicyMin() {
   const subscriptionId =
@@ -59,7 +57,6 @@ async function createOrUpdateDataMaskingPolicyMin() {
     process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-6852";
   const serverName = "sqlcrudtest-2080";
   const databaseName = "sqlcrudtest-331";
-  const dataMaskingPolicyName = "Default";
   const parameters: DataMaskingPolicy = { dataMaskingState: "Enabled" };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -67,7 +64,6 @@ async function createOrUpdateDataMaskingPolicyMin() {
     resourceGroupName,
     serverName,
     databaseName,
-    dataMaskingPolicyName,
     parameters
   );
   console.log(result);

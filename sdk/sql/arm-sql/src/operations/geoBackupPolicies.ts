@@ -7,7 +7,6 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
 import { GeoBackupPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,15 +14,13 @@ import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
 import {
   GeoBackupPolicy,
-  GeoBackupPoliciesListNextOptionalParams,
-  GeoBackupPoliciesListOptionalParams,
-  GeoBackupPoliciesListResponse,
+  GeoBackupPoliciesListByDatabaseOptionalParams,
+  GeoBackupPoliciesListByDatabaseResponse,
   GeoBackupPolicyName,
-  GeoBackupPoliciesGetOptionalParams,
-  GeoBackupPoliciesGetResponse,
   GeoBackupPoliciesCreateOrUpdateOptionalParams,
   GeoBackupPoliciesCreateOrUpdateResponse,
-  GeoBackupPoliciesListNextResponse
+  GeoBackupPoliciesGetOptionalParams,
+  GeoBackupPoliciesGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,20 +37,20 @@ export class GeoBackupPoliciesImpl implements GeoBackupPolicies {
   }
 
   /**
-   * Gets a list of Geo backup policies for the given database resource.
+   * Returns a list of geo backup policies.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param databaseName The name of the database.
    * @param options The options parameters.
    */
-  public list(
+  public listByDatabase(
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: GeoBackupPoliciesListOptionalParams
+    options?: GeoBackupPoliciesListByDatabaseOptionalParams
   ): PagedAsyncIterableIterator<GeoBackupPolicy> {
-    const iter = this.listPagingAll(
+    const iter = this.listByDatabasePagingAll(
       resourceGroupName,
       serverName,
       databaseName,
@@ -70,7 +67,7 @@ export class GeoBackupPoliciesImpl implements GeoBackupPolicies {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
+        return this.listByDatabasePagingPage(
           resourceGroupName,
           serverName,
           databaseName,
@@ -81,49 +78,30 @@ export class GeoBackupPoliciesImpl implements GeoBackupPolicies {
     };
   }
 
-  private async *listPagingPage(
+  private async *listByDatabasePagingPage(
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: GeoBackupPoliciesListOptionalParams,
-    settings?: PageSettings
+    options?: GeoBackupPoliciesListByDatabaseOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<GeoBackupPolicy[]> {
-    let result: GeoBackupPoliciesListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        serverName,
-        databaseName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        serverName,
-        databaseName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result: GeoBackupPoliciesListByDatabaseResponse;
+    result = await this._listByDatabase(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      options
+    );
+    yield result.value || [];
   }
 
-  private async *listPagingAll(
+  private async *listByDatabasePagingAll(
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: GeoBackupPoliciesListOptionalParams
+    options?: GeoBackupPoliciesListByDatabaseOptionalParams
   ): AsyncIterableIterator<GeoBackupPolicy> {
-    for await (const page of this.listPagingPage(
+    for await (const page of this.listByDatabasePagingPage(
       resourceGroupName,
       serverName,
       databaseName,
@@ -134,60 +112,12 @@ export class GeoBackupPoliciesImpl implements GeoBackupPolicies {
   }
 
   /**
-   * Gets a list of Geo backup policies for the given database resource.
+   * Updates a database geo backup policy.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param databaseName The name of the database.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    options?: GeoBackupPoliciesListOptionalParams
-  ): Promise<GeoBackupPoliciesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, databaseName, options },
-      listOperationSpec
-    );
-  }
-
-  /**
-   * Gets a Geo backup policy for the given database resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param geoBackupPolicyName The name of the Geo backup policy. This should always be 'Default'.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    geoBackupPolicyName: GeoBackupPolicyName,
-    options?: GeoBackupPoliciesGetOptionalParams
-  ): Promise<GeoBackupPoliciesGetResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serverName,
-        databaseName,
-        geoBackupPolicyName,
-        options
-      },
-      getOperationSpec
-    );
-  }
-
-  /**
-   * Create or update a database default Geo backup policy.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param geoBackupPolicyName The name of the Geo backup policy. This should always be 'Default'.
+   * @param geoBackupPolicyName The name of the geo backup policy.
    * @param parameters The required parameters for creating or updating the geo backup policy.
    * @param options The options parameters.
    */
@@ -213,73 +143,56 @@ export class GeoBackupPoliciesImpl implements GeoBackupPolicies {
   }
 
   /**
-   * ListNext
+   * Gets a geo backup policy.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param databaseName The name of the database.
-   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param geoBackupPolicyName The name of the geo backup policy.
    * @param options The options parameters.
    */
-  private _listNext(
+  get(
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    nextLink: string,
-    options?: GeoBackupPoliciesListNextOptionalParams
-  ): Promise<GeoBackupPoliciesListNextResponse> {
+    geoBackupPolicyName: GeoBackupPolicyName,
+    options?: GeoBackupPoliciesGetOptionalParams
+  ): Promise<GeoBackupPoliciesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, databaseName, nextLink, options },
-      listNextOperationSpec
+      {
+        resourceGroupName,
+        serverName,
+        databaseName,
+        geoBackupPolicyName,
+        options
+      },
+      getOperationSpec
+    );
+  }
+
+  /**
+   * Returns a list of geo backup policies.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param options The options parameters.
+   */
+  private _listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: GeoBackupPoliciesListByDatabaseOptionalParams
+  ): Promise<GeoBackupPoliciesListByDatabaseResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serverName, databaseName, options },
+      listByDatabaseOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/geoBackupPolicies",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GeoBackupPolicyListResult
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/geoBackupPolicies/{geoBackupPolicyName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GeoBackupPolicy
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.subscriptionId,
-    Parameters.geoBackupPolicyName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/geoBackupPolicies/{geoBackupPolicyName}",
@@ -290,39 +203,59 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     201: {
       bodyMapper: Mappers.GeoBackupPolicy
-    },
-    default: {}
+    }
   },
-  requestBody: Parameters.parameters31,
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.subscriptionId,
     Parameters.geoBackupPolicyName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/geoBackupPolicies/{geoBackupPolicyName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GeoBackupPolicy
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName,
+    Parameters.geoBackupPolicyName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByDatabaseOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/geoBackupPolicies",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.GeoBackupPolicyListResult
-    },
-    default: {}
+    }
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.databaseName
   ],
   headerParameters: [Parameters.accept],
   serializer

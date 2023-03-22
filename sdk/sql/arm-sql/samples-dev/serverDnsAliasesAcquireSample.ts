@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Acquires server DNS alias from another server.
  *
  * @summary Acquires server DNS alias from another server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerDnsAliasAcquire.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ServerDnsAliasAcquire.json
  */
 async function acquireServerDnsAlias() {
   const subscriptionId =

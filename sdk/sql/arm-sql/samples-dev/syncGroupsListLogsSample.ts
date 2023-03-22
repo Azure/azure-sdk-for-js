@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a collection of sync group logs.
  *
  * @summary Gets a collection of sync group logs.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/SyncGroupGetLog.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncGroupGetLog.json
  */
 async function getSyncGroupLogs() {
   const subscriptionId =

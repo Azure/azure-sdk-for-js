@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of operations performed on the elastic pool.
  *
  * @summary Gets a list of operations performed on the elastic pool.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ListElasticPoolOperations.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ListElasticPoolOperations.json
  */
 async function listTheElasticPoolManagementOperations() {
   const subscriptionId =

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of managed instance time zones by location.
  *
  * @summary Gets a list of managed instance time zones by location.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceTimeZoneListByLocation.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceTimeZoneListByLocation.json
  */
 async function listManagedInstanceTimeZonesByLocation() {
   const subscriptionId =

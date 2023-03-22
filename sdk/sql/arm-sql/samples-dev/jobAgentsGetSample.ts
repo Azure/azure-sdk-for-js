@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a job agent.
  *
  * @summary Gets a job agent.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/GetJobAgent.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/GetJobAgent.json
  */
 async function getAJobAgent() {
   const subscriptionId =

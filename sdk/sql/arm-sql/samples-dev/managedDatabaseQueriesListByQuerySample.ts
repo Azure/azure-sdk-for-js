@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Get query execution statistics by query id.
  *
  * @summary Get query execution statistics by query id.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceQueryStatisticsList.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceQueryStatisticsList.json
  */
 async function obtainQueryExecutionStatistics() {
   const subscriptionId =
@@ -50,7 +50,7 @@ async function obtainQueryExecutionStatistics() {
  * This sample demonstrates how to Get query execution statistics by query id.
  *
  * @summary Get query execution statistics by query id.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceQueryStatisticsListMax.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceQueryStatisticsListMax.json
  */
 async function obtainQueryExecutionStatisticsExampleWithAllRequestParameters() {
   const subscriptionId =
@@ -88,7 +88,7 @@ async function obtainQueryExecutionStatisticsExampleWithAllRequestParameters() {
  * This sample demonstrates how to Get query execution statistics by query id.
  *
  * @summary Get query execution statistics by query id.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceQueryStatisticsListMin.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceQueryStatisticsListMin.json
  */
 async function obtainQueryExecutionStatisticsMinimalExampleWithOnlyMandatoryRequestParameters() {
   const subscriptionId =

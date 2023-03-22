@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Refreshes a hub database schema.
  *
  * @summary Refreshes a hub database schema.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/SyncGroupRefreshHubSchema.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncGroupRefreshHubSchema.json
  */
 async function refreshAHubDatabaseSchema() {
   const subscriptionId =

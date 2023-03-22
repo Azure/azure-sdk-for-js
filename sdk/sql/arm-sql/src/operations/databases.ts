@@ -20,6 +20,12 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
+  Metric,
+  DatabasesListMetricsOptionalParams,
+  DatabasesListMetricsResponse,
+  MetricDefinition,
+  DatabasesListMetricDefinitionsOptionalParams,
+  DatabasesListMetricDefinitionsResponse,
   Database,
   DatabasesListByServerNextOptionalParams,
   DatabasesListByServerOptionalParams,
@@ -68,6 +74,164 @@ export class DatabasesImpl implements Databases {
    */
   constructor(client: SqlManagementClient) {
     this.client = client;
+  }
+
+  /**
+   * Returns database metrics.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param filter An OData filter expression that describes a subset of metrics to return.
+   * @param options The options parameters.
+   */
+  public listMetrics(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    filter: string,
+    options?: DatabasesListMetricsOptionalParams
+  ): PagedAsyncIterableIterator<Metric> {
+    const iter = this.listMetricsPagingAll(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      filter,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listMetricsPagingPage(
+          resourceGroupName,
+          serverName,
+          databaseName,
+          filter,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listMetricsPagingPage(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    filter: string,
+    options?: DatabasesListMetricsOptionalParams,
+    _settings?: PageSettings
+  ): AsyncIterableIterator<Metric[]> {
+    let result: DatabasesListMetricsResponse;
+    result = await this._listMetrics(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      filter,
+      options
+    );
+    yield result.value || [];
+  }
+
+  private async *listMetricsPagingAll(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    filter: string,
+    options?: DatabasesListMetricsOptionalParams
+  ): AsyncIterableIterator<Metric> {
+    for await (const page of this.listMetricsPagingPage(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      filter,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Returns database metric definitions.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param options The options parameters.
+   */
+  public listMetricDefinitions(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: DatabasesListMetricDefinitionsOptionalParams
+  ): PagedAsyncIterableIterator<MetricDefinition> {
+    const iter = this.listMetricDefinitionsPagingAll(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listMetricDefinitionsPagingPage(
+          resourceGroupName,
+          serverName,
+          databaseName,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listMetricDefinitionsPagingPage(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: DatabasesListMetricDefinitionsOptionalParams,
+    _settings?: PageSettings
+  ): AsyncIterableIterator<MetricDefinition[]> {
+    let result: DatabasesListMetricDefinitionsResponse;
+    result = await this._listMetricDefinitions(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      options
+    );
+    yield result.value || [];
+  }
+
+  private async *listMetricDefinitionsPagingAll(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: DatabasesListMetricDefinitionsOptionalParams
+  ): AsyncIterableIterator<MetricDefinition> {
+    for await (const page of this.listMetricDefinitionsPagingPage(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      options
+    )) {
+      yield* page;
+    }
   }
 
   /**
@@ -328,6 +492,48 @@ export class DatabasesImpl implements Databases {
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Returns database metrics.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param filter An OData filter expression that describes a subset of metrics to return.
+   * @param options The options parameters.
+   */
+  private _listMetrics(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    filter: string,
+    options?: DatabasesListMetricsOptionalParams
+  ): Promise<DatabasesListMetricsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serverName, databaseName, filter, options },
+      listMetricsOperationSpec
+    );
+  }
+
+  /**
+   * Returns database metric definitions.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param options The options parameters.
+   */
+  private _listMetricDefinitions(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: DatabasesListMetricDefinitionsOptionalParams
+  ): Promise<DatabasesListMetricDefinitionsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serverName, databaseName, options },
+      listMetricDefinitionsOperationSpec
+    );
   }
 
   /**
@@ -1390,6 +1596,46 @@ export class DatabasesImpl implements Databases {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listMetricsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/metrics",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MetricListResult
+    }
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listMetricDefinitionsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/metricDefinitions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MetricDefinitionListResult
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listByServerOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases",
@@ -1400,12 +1646,12 @@ const listByServerOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skipToken],
+  queryParameters: [Parameters.skipToken, Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.subscriptionId
+    Parameters.serverName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1421,16 +1667,16 @@ const getOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion1,
     Parameters.expand,
-    Parameters.filter
+    Parameters.filter1
   ],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.subscriptionId
+    Parameters.databaseName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1454,16 +1700,16 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters17,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters3,
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.subscriptionId
+    Parameters.databaseName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1472,13 +1718,13 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.subscriptionId
+    Parameters.databaseName
   ],
   serializer
 };
@@ -1501,16 +1747,16 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters18,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters4,
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.subscriptionId
+    Parameters.databaseName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1533,16 +1779,16 @@ const exportOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters19,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters5,
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.subscriptionId
+    Parameters.databaseName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1551,13 +1797,13 @@ const failoverOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/failover",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion, Parameters.replicaType],
+  queryParameters: [Parameters.apiVersion1, Parameters.replicaType],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.subscriptionId
+    Parameters.databaseName
   ],
   serializer
 };
@@ -1580,16 +1826,16 @@ const importOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters20,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters6,
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.subscriptionId
+    Parameters.databaseName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1598,14 +1844,14 @@ const renameOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/move",
   httpMethod: "POST",
   responses: { 200: {}, default: {} },
-  requestBody: Parameters.parameters21,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters7,
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.subscriptionId
+    Parameters.databaseName
   ],
   headerParameters: [Parameters.contentType],
   mediaType: "json",
@@ -1630,13 +1876,13 @@ const pauseOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.subscriptionId
+    Parameters.databaseName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1660,13 +1906,13 @@ const resumeOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.subscriptionId
+    Parameters.databaseName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1676,13 +1922,13 @@ const upgradeDataWarehouseOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/upgradeDataWarehouse",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.subscriptionId
+    Parameters.databaseName
   ],
   serializer
 };
@@ -1696,12 +1942,12 @@ const listByElasticPoolOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.subscriptionId,
     Parameters.elasticPoolName
   ],
   headerParameters: [Parameters.accept],
@@ -1717,12 +1963,12 @@ const listInaccessibleByServerOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.subscriptionId
+    Parameters.serverName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1738,9 +1984,9 @@ const listByServerNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.subscriptionId,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
@@ -1757,11 +2003,11 @@ const listByElasticPoolNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.elasticPoolName
+    Parameters.elasticPoolName,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1777,9 +2023,9 @@ const listInaccessibleByServerNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.subscriptionId,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

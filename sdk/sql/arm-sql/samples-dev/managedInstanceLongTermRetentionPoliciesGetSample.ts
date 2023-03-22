@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a managed database's long term retention policy.
  *
  * @summary Gets a managed database's long term retention policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceLongTermRetentionPolicyGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceLongTermRetentionPolicyGet.json
  */
 async function getTheLongTermRetentionPolicyForTheManagedDatabase() {
   const subscriptionId =

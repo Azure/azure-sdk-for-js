@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a server trust certificate that was uploaded from box to Sql Managed Instance.
  *
  * @summary Gets a server trust certificate that was uploaded from box to Sql Managed Instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerTrustCertificatesGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/ServerTrustCertificatesGet.json
  */
 async function getsServerTrustCertificate() {
   const subscriptionId =

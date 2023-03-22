@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a server trust group.
  *
  * @summary Creates or updates a server trust group.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerTrustGroupCreate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ServerTrustGroupCreate.json
  */
 async function createServerTrustGroup() {
   const subscriptionId =

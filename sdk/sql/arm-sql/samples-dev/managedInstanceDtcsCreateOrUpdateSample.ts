@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates managed instance DTC settings.
  *
  * @summary Updates managed instance DTC settings.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceDtcUpdateEnableDtc.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/ManagedInstanceDtcUpdateEnableDtc.json
  */
 async function updatesManagedInstanceDtcSettingsByEnablingDtc() {
   const subscriptionId =
@@ -43,7 +43,7 @@ async function updatesManagedInstanceDtcSettingsByEnablingDtc() {
  * This sample demonstrates how to Updates managed instance DTC settings.
  *
  * @summary Updates managed instance DTC settings.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceDtcUpdateMax.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/ManagedInstanceDtcUpdateMax.json
  */
 async function updatesManagedInstanceDtcSettingsWithAllOptionalParametersSpecified() {
   const subscriptionId =

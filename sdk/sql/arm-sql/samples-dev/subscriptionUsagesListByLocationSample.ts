@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all subscription usage metrics in a given location.
  *
  * @summary Gets all subscription usage metrics in a given location.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/SubscriptionUsageListByLocation.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SubscriptionUsageListByLocation.json
  */
 async function listSubscriptionUsagesInTheGivenLocation() {
   const subscriptionId =

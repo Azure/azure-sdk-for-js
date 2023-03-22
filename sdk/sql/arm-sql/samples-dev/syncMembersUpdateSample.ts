@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates an existing sync member.
  *
  * @summary Updates an existing sync member.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/SyncMemberPatch.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncMemberPatch.json
  */
 async function updateAnExistingSyncMember() {
   const subscriptionId =

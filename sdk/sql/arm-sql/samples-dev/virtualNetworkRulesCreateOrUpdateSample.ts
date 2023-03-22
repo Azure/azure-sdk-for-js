@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates an existing virtual network rule.
  *
  * @summary Creates or updates an existing virtual network rule.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/VirtualNetworkRulesCreateOrUpdate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/VirtualNetworkRulesCreateOrUpdate.json
  */
 async function createOrUpdateAVirtualNetworkRule() {
   const subscriptionId =

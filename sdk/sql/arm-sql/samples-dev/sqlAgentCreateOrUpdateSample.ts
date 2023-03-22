@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Puts new sql agent configuration to instance.
  *
  * @summary Puts new sql agent configuration to instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/SqlAgentConfigurationPut.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SqlAgentConfigurationPut.json
  */
 async function putsNewSqlAgentConfigurationToInstance() {
   const subscriptionId =

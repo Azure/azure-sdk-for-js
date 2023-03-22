@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List database columns
  *
  * @summary List database columns
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/DatabaseColumnListByTable.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DatabaseColumnListByTable.json
  */
 async function listDatabaseColumns() {
   const subscriptionId =

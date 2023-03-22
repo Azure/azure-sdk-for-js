@@ -260,12 +260,12 @@ const listByDatabaseOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
-    Parameters.subscriptionId,
     Parameters.managedInstanceName
   ],
   headerParameters: [Parameters.accept],
@@ -281,14 +281,14 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
-    Parameters.subscriptionId,
-    Parameters.advancedThreatProtectionName,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
+    Parameters.advancedThreatProtectionName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -306,17 +306,17 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters48,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters85,
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
-    Parameters.subscriptionId,
-    Parameters.advancedThreatProtectionName,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
+    Parameters.advancedThreatProtectionName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -331,9 +331,9 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
-    Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.managedInstanceName
   ],

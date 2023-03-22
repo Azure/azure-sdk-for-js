@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a collection of hub database schemas.
  *
  * @summary Gets a collection of hub database schemas.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/SyncGroupGetHubSchema.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncGroupGetHubSchema.json
  */
 async function getAHubDatabaseSchema() {
   const subscriptionId =

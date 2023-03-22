@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a workload group.
  *
  * @summary Creates or updates a workload group.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateOrUpdateWorkloadGroupMax.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CreateOrUpdateWorkloadGroupMax.json
  */
 async function createAWorkloadGroupWithAllPropertiesSpecified() {
   const subscriptionId =
@@ -53,7 +53,7 @@ async function createAWorkloadGroupWithAllPropertiesSpecified() {
  * This sample demonstrates how to Creates or updates a workload group.
  *
  * @summary Creates or updates a workload group.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateOrUpdateWorkloadGroupMin.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CreateOrUpdateWorkloadGroupMin.json
  */
 async function createAWorkloadGroupWithTheRequiredPropertiesSpecified() {
   const subscriptionId =

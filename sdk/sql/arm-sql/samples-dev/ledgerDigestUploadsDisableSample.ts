@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Disables uploading ledger digests to an Azure Storage account or an Azure Confidential Ledger instance.
  *
  * @summary Disables uploading ledger digests to an Azure Storage account or an Azure Confidential Ledger instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/LedgerDigestUploadsDisable.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-02-01-preview/examples/LedgerDigestUploadsDisable.json
  */
 async function disablesUploadingLedgerDigestsForADatabase() {
   const subscriptionId =

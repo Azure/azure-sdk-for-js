@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Approve or reject a private endpoint connection with a given name.
  *
  * @summary Approve or reject a private endpoint connection with a given name.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/PrivateEndpointConnectionUpdate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/PrivateEndpointConnectionUpdate.json
  */
 async function approveOrRejectAPrivateEndpointConnectionWithAGivenName() {
   const subscriptionId =

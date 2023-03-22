@@ -134,24 +134,6 @@ export class FailoverGroupsImpl implements FailoverGroups {
   }
 
   /**
-   * Lists the failover groups in a server.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server containing the failover group.
-   * @param options The options parameters.
-   */
-  private _listByServer(
-    resourceGroupName: string,
-    serverName: string,
-    options?: FailoverGroupsListByServerOptionalParams
-  ): Promise<FailoverGroupsListByServerResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, options },
-      listByServerOperationSpec
-    );
-  }
-
-  /**
    * Gets a failover group.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -477,6 +459,24 @@ export class FailoverGroupsImpl implements FailoverGroups {
   }
 
   /**
+   * Lists the failover groups in a server.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server containing the failover group.
+   * @param options The options parameters.
+   */
+  private _listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options?: FailoverGroupsListByServerOptionalParams
+  ): Promise<FailoverGroupsListByServerResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serverName, options },
+      listByServerOperationSpec
+    );
+  }
+
+  /**
    * Fails over from the current primary server to this server.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -693,26 +693,6 @@ export class FailoverGroupsImpl implements FailoverGroups {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/failoverGroups",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.FailoverGroupListResult
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/failoverGroups/{failoverGroupName}",
@@ -723,12 +703,12 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.subscriptionId,
     Parameters.failoverGroupName
   ],
   headerParameters: [Parameters.accept],
@@ -753,16 +733,16 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters27,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters18,
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.subscriptionId,
     Parameters.failoverGroupName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -771,12 +751,12 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/failoverGroups/{failoverGroupName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.subscriptionId,
     Parameters.failoverGroupName
   ],
   serializer
@@ -800,17 +780,37 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters28,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters19,
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.subscriptionId,
     Parameters.failoverGroupName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
+  serializer
+};
+const listByServerOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/failoverGroups",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FailoverGroupListResult
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const failoverOperationSpec: coreClient.OperationSpec = {
@@ -832,12 +832,12 @@ const failoverOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.subscriptionId,
     Parameters.failoverGroupName
   ],
   headerParameters: [Parameters.accept],
@@ -862,12 +862,12 @@ const forceFailoverAllowDataLossOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.subscriptionId,
     Parameters.failoverGroupName
   ],
   headerParameters: [Parameters.accept],
@@ -884,9 +884,9 @@ const listByServerNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.subscriptionId,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

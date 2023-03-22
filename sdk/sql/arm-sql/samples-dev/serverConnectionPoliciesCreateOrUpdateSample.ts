@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates a server connection policy
  *
  * @summary Updates a server connection policy
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerConnectionPoliciesUpdate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-05-01-preview/examples/ServerConnectionPoliciesUpdate.json
  */
 async function updatesAServerConnectionPolicy() {
   const subscriptionId =

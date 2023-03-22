@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Sets a managed database's long term retention policy.
  *
  * @summary Sets a managed database's long term retention policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceLongTermRetentionPolicyCreateOrUpdate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceLongTermRetentionPolicyCreateOrUpdate.json
  */
 async function createOrUpdateTheLtrPolicyForTheManagedDatabase() {
   const subscriptionId =
