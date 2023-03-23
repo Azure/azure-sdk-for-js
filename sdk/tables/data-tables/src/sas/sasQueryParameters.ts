@@ -132,25 +132,25 @@ export class SasQueryParameters {
   public readonly correlationId?: string;
 
   /**
-   * Optional, but startPrimaryKey must accompany startRowKey. The minimum partition and row keys that are accessible with this shared access signature.
+   * Optional, but startPartitionKey must accompany startRowKey. The minimum partition and row keys that are accessible with this shared access signature.
    * Key values are inclusive. If they're omitted, there's no lower bound on the table entities that can be accessed.
    */
   public readonly startPartitionKey?: string;
 
   /**
-   * Optional, but startPrimaryKey must accompany startRowKey. The minimum partition and row keys that are accessible with this shared access signature.
+   * Optional, but startPartitionKey must accompany startRowKey. The minimum partition and row keys that are accessible with this shared access signature.
    * Key values are inclusive. If they're omitted, there's no lower bound on the table entities that can be accessed.
    */
   public readonly startRowKey?: string;
 
   /**
-   * Optional, but endPrimaryKey must accompany endRowKey. The maximum partition and row keys that are accessible with this shared access signature.
+   * Optional, but endPartitionKey must accompany endRowKey. The maximum partition and row keys that are accessible with this shared access signature.
    * Key values are inclusive. If they're omitted, there's no upper bound on the table entities that can be accessed.
    */
   public readonly endPartitionKey?: string;
 
   /**
-   * Optional, but endPrimaryKey must accompany endRowKey. The maximum partition and row keys that are accessible with this shared access signature.
+   * Optional, but endPartitionKey must accompany endRowKey. The maximum partition and row keys that are accessible with this shared access signature.
    * Key values are inclusive. If they're omitted, there's no upper bound on the table entities that can be accessed.
    */
   public readonly endRowKey?: string;
@@ -214,35 +214,35 @@ export class SasQueryParameters {
    */
   public toString(): string {
     const params: string[] = [
-      "sv",
-      "ss",
-      "srt",
-      "spr",
-      "st",
-      "se",
-      "sip",
-      "si",
+      "sv", // SignedVersion
+      "ss", // SignedServices
+      "srt", // SignedResourceTypes
+      "spr", // SignedProtocol
+      "st", // SignedStart
+      "se", // SignedExpiry
+      "sip", // SignedIP
+      "si", // SignedIdentifier
       "skoid", // Signed object ID
       "sktid", // Signed tenant ID
       "skt", // Signed key start time
       "ske", // Signed key expiry time
       "sks", // Signed key service
       "skv", // Signed key version
-      "sr",
-      "sp",
-      "sig",
-      "rscc",
-      "rscd",
-      "rsce",
-      "rscl",
-      "rsct",
-      "saoid",
-      "scid",
+      "sr", // signedResource
+      "sp", // SignedPermission
+      "sig", // Signature
+      "rscc", // Cache-Control
+      "rscd", // Content-Disposition
+      "rsce", // Content-Encoding
+      "rscl", // Content-Language
+      "rsct", // Content-Type
+      "saoid", // signedAuthorizedObjectId
+      "scid", // signedCorrelationId
       "tn", // TableName,
-      "srk",
-      "spk",
-      "epk",
-      "erk",
+      "srk", // StartRowKey
+      "spk", // StartPartitionKey
+      "epk", // EndPartitionKey
+      "erk", // EndRowKey
     ];
     const queries: string[] = [];
 
@@ -432,25 +432,25 @@ export interface SasQueryParametersOptions {
   correlationId?: string;
 
   /**
-   * Optional, but startPrimaryKey must accompany startRowKey. The minimum partition and row keys that are accessible with this shared access signature.
+   * Optional, but startPartitionKey must accompany startRowKey. The minimum partition and row keys that are accessible with this shared access signature.
    * Key values are inclusive. If they're omitted, there's no lower bound on the table entities that can be accessed.
    */
   startPartitionKey?: string;
 
   /**
-   * Optional, but startPrimaryKey must accompany startRowKey. The minimum partition and row keys that are accessible with this shared access signature.
+   * Optional, but startPartitionKey must accompany startRowKey. The minimum partition and row keys that are accessible with this shared access signature.
    * Key values are inclusive. If they're omitted, there's no lower bound on the table entities that can be accessed.
    */
   startRowKey?: string;
 
   /**
-   * Optional, but endPrimaryKey must accompany endRowKey. The maximum partition and row keys that are accessible with this shared access signature.
+   * Optional, but endPartitionKey must accompany endRowKey. The maximum partition and row keys that are accessible with this shared access signature.
    * Key values are inclusive. If they're omitted, there's no upper bound on the table entities that can be accessed.
    */
   endPartitionKey?: string;
 
   /**
-   * Optional, but endPrimaryKey must accompany endRowKey. The maximum partition and row keys that are accessible with this shared access signature.
+   * Optional, but endPartitionKey must accompany endRowKey. The maximum partition and row keys that are accessible with this shared access signature.
    * Key values are inclusive. If they're omitted, there's no upper bound on the table entities that can be accessed.
    */
   endRowKey?: string;
