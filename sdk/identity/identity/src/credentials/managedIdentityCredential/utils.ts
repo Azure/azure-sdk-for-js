@@ -41,13 +41,14 @@ export interface TokenResponseParsedBody {
   refresh_token?: string;
   expires_in: number;
   expires_on?: number | string;
+  refresh_in?: number;
 }
 
 /**
  * Given a token response, return the expiration timestamp as the number of milliseconds from the Unix epoch.
  * @param body - A parsed response body from the authentication endpoint.
  */
-export function parseExpiresOn(body: TokenResponseParsedBody): number {
+export function parseExpirationTimestamp(body: TokenResponseParsedBody): number {
   if (typeof body.expires_on === "number") {
     return body.expires_on * 1000;
   }
@@ -71,4 +72,22 @@ export function parseExpiresOn(body: TokenResponseParsedBody): number {
   throw new Error(
     `Failed to parse token expiration from body. expires_in="${body.expires_in}", expires_on="${body.expires_on}"`
   );
+}
+
+/**
+ * Given a token response, return the timestamp for refreshing token as the number of milliseconds from the Unix epoch.
+ * @param body - A parsed response body from the authentication endpoint.
+ */
+export function parseRefreshTimestamp(body: TokenResponseParsedBody): number {
+  if (typeof body.refresh_in === "number") {
+    return Date.now() + body.refresh_in * 1000;
+  } else {
+    const durationInMilliseconds = parseExpirationTimestamp(body) - Date.now();
+    const durationInHours = Math.floor(durationInMilliseconds / 1000 / 60 / 60);
+    if (durationInHours >= 2) {
+      return Date.now() + durationInMilliseconds / 2;
+    } else {
+      return Date.now() + durationInMilliseconds;
+    }
+  }
 }
