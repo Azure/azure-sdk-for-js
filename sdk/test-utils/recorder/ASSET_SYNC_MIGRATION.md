@@ -92,7 +92,7 @@ After onboarding your new package or after migrating your package to the asset-s
 graph TD
     subgraph p3 [New steps]
         subgraph p4 [Push recordings to asset sync repo]
-            push[[npx dev-tool test-proxy push]]
+            push[npx dev-tool test-proxy push]
         end
         p4-->assets[Commit <code>assets.json</code> change]
     end
@@ -100,11 +100,11 @@ graph TD
     assets --> pr[Push branch and\ncreate PR]
 
     subgraph p2 [Inspect recordings and test in playback]
-        playback[[TEST_MODE=playback rushx test]]
+        playback[TEST_MODE=playback rushx test]
     end
 
     subgraph p1 [Record tests]
-        record[[TEST_MODE=record rushx test]]
+        record[TEST_MODE=record rushx test]
     end
 
     p1 --> p2
