@@ -17,6 +17,10 @@ _If you are working on a new package and don't have any recorded tests, skip to 
 
 The package you are migrating needs to be using the new version of the recorder that uses the test proxy (`@azure-tools/test-recorder@^3.0.0`). If you're on an older version, follow [recorder 3.0 migration guide] first.
 
+### Migration
+
+Run the following command to migrate the recordings.
+
 ```bash
 $ npx dev-tool test-proxy migrate --initial-push
 ```
@@ -25,8 +29,7 @@ _Note: If you [install `dev-tool` globally], you don't need `npx` prefix in the 
 
 Once this is done, validate that your recorded tests still pass, and create a PR with the changes. That's it!
 
-The above `migrate` command produces an `assets.json`.
-with a tag pointing to your recordings in the `Azure/azure-sdk-assets` repository.
+The above `migrate` command produces an `assets.json`, with a tag pointing to your recordings in the `Azure/azure-sdk-assets` repository.
 
 Example `assets.json` from "keyvault-certificates" SDK.
 
@@ -45,13 +48,15 @@ And the recordings are located at https://github.com/Azure/azure-sdk-assets/tree
 
 _If you already have an `assets.json` file, skip to [Workflow with asset sync enabled](#workflow-with-asset-sync-enabled)._
 
+This section assumes that your package is new to the JS repo and that you're trying to onboard your tests with recorder, and the asset-sync workflow.
+
 From the root of the repo, navigate to your package
 
 ```
 cd sdk/<service-folder>/<package-name>
 ```
 
-Generate an `sdk/<service-folder>/<package-name>/assets.json` file.
+Generate an `sdk/<service-folder>/<package-name>/assets.json` file by running the following command.
 
 ```
 npx dev-tool test-proxy init
@@ -112,14 +117,16 @@ graph TD
     classDef green fill:#548235,stroke:#333,stroke-width:2px
     classDef orange fill:#C65911,stroke:#333,stroke-width:2px
     classDef blue fill:#305496,stroke:#333,stroke-width:2px
+    classDef purple fill:#6600cc,stroke:#333,stroke-width:2px
     class p1 orange
     class p2 green
     class p3 blue
+    class p4 purple
 ```
 
 ### Inspecting recordings with asset sync enabled
 
-Often, when re-recording tests, you will want to inspect the recordings that have been made, either to debug something or to make sure secrets have been sanitized properly. With asset sync enabled, the recordings are no longer stored in the same place as your SDK. You'll need to follow the following process to find them:
+Often, when re-recording tests, you will want to inspect the recordings that have been made, either to debug something or to make sure secrets have been sanitized properly. With asset sync workflow enabled, the recordings are no longer stored in the same place as your SDK. You'll need to follow the following process to find them:
 
 1. Navigate to the root of the `azure-sdk-for-js` repo.
 1. Go into the `.assets` directory. This will contain a file called `.breadcrumb`; open it and find the entry that matches your SDK. This will give you the name of the directory within `.assets` that your recordings are located in.
@@ -138,7 +145,8 @@ A few commands have been added to `dev-tool` to facilitate pushing and fetching 
 - `dev-tool test-proxy reset`: if you've made any changes to the recordings locally, you can use this to revert those local changes and reset to what is currently checked in to the assets repo. This is a destructive operation and if you have local changes it will prompt you before removing your work.
 - `dev-tool test-proxy migrate`: used for migrating existing recordings to the assets repo as described above.
 
-Useful commands while testing.
+**Refer to [testing-commands](./GoldenCommands.md) guide if you need help on the commands to run during testing.**
+
 ### Working offline
 
 Offline work is supported out-of-the-box. Of course, however, you won't be able to push or pull from the assets repo while offline. You can fetch recordings from the assets repo by running `npx dev-tool test-proxy restore`. This will download the recordings (and the test proxy executable, if you haven't got that already), making them ready for you to run tests with.
