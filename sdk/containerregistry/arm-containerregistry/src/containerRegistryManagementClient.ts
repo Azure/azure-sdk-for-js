@@ -68,7 +68,7 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-containerregistry/10.1.0`;
+    const packageDetails = `azsdk-js-arm-containerregistry/10.1.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
