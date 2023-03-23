@@ -89,14 +89,12 @@ You should stage and commit the `assets.json` update as part of your PR. If you 
 After the onboarding your new package or after migrating your package to asset-sync, the following diagram describes the new workflow (new steps highlighted):
 
 ```mermaid
-
 graph TD
     subgraph p3 [New steps]
         subgraph p4 [Push recordings to asset sync repo]
             push[[npx dev-tool test-proxy push]]
         end
         p4-->assets[Commit <code>assets.json</code> change]
-
     end
 
     assets --> pr[Push branch and\ncreate PR]
@@ -117,11 +115,9 @@ graph TD
     classDef green fill:#548235,stroke:#333,stroke-width:2px
     classDef orange fill:#C65911,stroke:#333,stroke-width:2px
     classDef blue fill:#305496,stroke:#333,stroke-width:2px
-    classDef purple fill:#6600cc,stroke:#333,stroke-width:2px
     class p1 orange
     class p2 green
     class p3 blue
-    class p4 purple
 ```
 
 ### Inspecting recordings with asset sync enabled
