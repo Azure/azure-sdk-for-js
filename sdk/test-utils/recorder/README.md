@@ -506,8 +506,7 @@ If you run into issues while running the tests in record/playback modes, some of
 `dev-tool` by default outputs logs from the test proxy to `test-proxy-output.log` in your package's root directory. These logs can be inspected to see what requests were made to the proxy tool.
 
 #### Switching ports
-
-If port 5000 is already being used in your machine, you can specify any other port such as 2345:5000 in the args, and make sure to have the environment variable `TEST_PROXY_HTTP_PORT` set as the specified port(2345 in this case).
+If port 5000 is already being used in your machine, you can specify the environment variable `TEST_PROXY_HTTP_PORT` and point to the port number that you wish. (Example, `export TEST_PROXY_HTTP_PORT=2345`)
 
 ### Inspecting recordings
 Refer to [asset sync workflow - inspect recordings](./ASSET_SYNC_MIGRATION.md#inspecting-recordings-with-asset-sync-enabled).
