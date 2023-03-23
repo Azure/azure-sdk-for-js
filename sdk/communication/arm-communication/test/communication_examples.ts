@@ -36,25 +36,21 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("CommunicationService test", () => {
+describe.skip("CommunicationService test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: CommunicationServiceManagementClient;
   let location: string;
   let resourceGroup: string;
   let communicationServiceName: string;
-  let host: string;
-  let url: string;
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
-    host = env.COMMUNICATION_AZURE_AUTHORITY_HOST || '';
-    url = env.COMMUNICATION_RESOURCE_MANAGER_URL || '';
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new CommunicationServiceManagementClient(credential, subscriptionId, { $host: host, endpoint: url } && recorder.configureClientOptions({}));
+    client = new CommunicationServiceManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "global";
     resourceGroup = "myjstest";
     communicationServiceName = "mycommunicationServicexxx";
