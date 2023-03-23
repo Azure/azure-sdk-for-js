@@ -15,8 +15,10 @@ import { ServiceBusMessageImpl } from "../serviceBusMessage";
 import { MessageReceiver, OnAmqpEventAsPromise, ReceiveOptions } from "./messageReceiver";
 import { ConnectionContext } from "../connectionContext";
 import { throwErrorIfConnectionClosed } from "../util/errors";
-import { AbortSignalLike } from "@azure/abort-controller";
+import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+import { delay } from "@azure/core-util";
 import { checkAndRegisterWithAbortSignal } from "../util/utils";
+import { receiveDrainTimeoutInMs } from "../util/constants";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { toProcessingSpanOptions } from "../diagnostics/instrumentServiceBusMessage";
 import { ReceiveMode } from "../models";
@@ -241,6 +243,8 @@ interface ReceiveMessageArgs extends OperationOptionsBase {
  * @internal
  */
 export class BatchingReceiverLite {
+  // testing hook
+  private _drainTimeoutInMs: number = receiveDrainTimeoutInMs;
   constructor(
     private _connectionContext: ConnectionContext,
     public entityPath: string,
@@ -338,6 +342,9 @@ export class BatchingReceiverLite {
     const loggingPrefix = `[${receiver.connection.id}|r:${receiver.name}]`;
 
     let totalWaitTimer: NodeJS.Timer | undefined;
+    let drainPromiseResolver: (value: unknown) => void;
+    const drainPromise = new Promise((resolve) => (drainPromiseResolver = resolve));
+    const drainTimeoutAborter = new AbortController();
 
     // eslint-disable-next-line prefer-const
     let cleanupBeforeResolveOrReject: () => void;
@@ -388,7 +395,7 @@ export class BatchingReceiverLite {
         logger.verbose(
           `${loggingPrefix} Closing. Resolving with ${brokeredMessages.length} messages.`
         );
-
+        drainTimeoutAborter.abort(); // unblock from waiting for draining
         return resolveAfterPendingMessageCallbacks(brokeredMessages);
       }
 
@@ -401,10 +408,11 @@ export class BatchingReceiverLite {
     // - maxMessageCount is reached or
     // - maxWaitTime is passed or
     // - newMessageWaitTimeoutInSeconds is passed since the last message was received
-    this._finalAction = (): void => {
+    this._finalAction = async (): Promise<void> => {
       if (receiver.drain) {
         // If a drain is already in process then we should let it complete. Some messages might still be in flight, but they will
         // arrive before the drain completes.
+        logger.verbose(`${loggingPrefix} Already draining.`);
         return;
       }
 
@@ -412,15 +420,34 @@ export class BatchingReceiverLite {
       if (receiver.isOpen() && receiver.credit > 0) {
         logger.verbose(`${loggingPrefix} Draining leftover credits(${receiver.credit}).`);
         receiver.drainCredit();
-      } else {
+
+        const drainTimeout = delay(this._drainTimeoutInMs, {
+          abortSignal: drainTimeoutAborter.signal,
+        }).then(() => {
+          throw "don't care";
+        });
+
+        try {
+          logger.verbose(`${loggingPrefix} Waiting for event_drained event, or timeout...`);
+          await Promise.race([drainPromise, drainTimeout]);
+        } catch (e) {
+          if ((e as Error)?.name !== "AbortError") {
+            logger.warning(`${loggingPrefix} Time out when draining credits.`);
+          }
+          // Close the receiver link since we have not received the receiver drain event
+          // to prevent out-of-sync state between local and remote
+          await receiver.close();
+        }
+
+        // Turn off draining.
+        if (receiver) {
+          receiver.drain = false;
+        }
         logger.verbose(
           `${loggingPrefix} Resolving receiveMessages() with ${brokeredMessages.length} messages.`
         );
-
-        // we can resolve immediately (ie, no setTimeout call) because we have no
-        // remaining messages (thus nothing to wait for)
-        resolveImmediately(brokeredMessages);
       }
+      resolveImmediately(brokeredMessages);
     };
 
     // Action to be performed on the "message" event.
@@ -486,11 +513,9 @@ export class BatchingReceiverLite {
       receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
       receiver.drain = false;
 
-      logger.verbose(
-        `${loggingPrefix} Drained, resolving receiveMessages() with ${brokeredMessages.length} messages.`
-      );
+      logger.verbose(`${loggingPrefix} Drained.`);
 
-      resolveAfterPendingMessageCallbacks(brokeredMessages);
+      drainPromiseResolver(undefined);
     };
 
     cleanupBeforeResolveOrReject = (): void => {

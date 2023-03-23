@@ -15,6 +15,13 @@ export const packageJsonInfo = {
 export const messageDispositionTimeout = 20000;
 
 /**
+ * The amount of time in milliseconds that a receiver
+ * will wait while draining credits before returning
+ * the received messages.
+ * @internal
+ */
+export const receiveDrainTimeoutInMs = 200;
+/**
  * @internal
  */
 export const max32BitNumber = Math.pow(2, 31) - 1;
