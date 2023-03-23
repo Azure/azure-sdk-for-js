@@ -78,6 +78,31 @@ describe("workloads test", () => {
     assert.equal(res.name, monitorName);
   });
 
+  it("providerInstances create test", async function () {
+    const res = await client.providerInstances.beginCreateAndWait(
+      resourceGroup,
+      monitorName,
+      "myProviderInstance",
+      {
+        providerSettings: {
+          dbName: "dbName",
+          dbPassword: "password",
+          dbPasswordUri: "",
+          dbPort: "dbPort",
+          dbUsername: "username",
+          hostname: "hostname",
+          providerType: "Db2",
+          sapSid: "SID",
+          sslCertificateUri:
+            "https://storageaccount.blob.core.windows.net/containername/filename",
+          sslPreference: "ServerCertificate"
+        }
+      },
+      testPollingOptions
+    );
+    assert.equal(res.name, monitorName);
+  });
+
   //create svi
   it.skip("svi create test", async function () {
     const subnetId = "/subscriptions/" + subscriptionId + "/resourceGroups/myjstest/providers/Microsoft.Networks/virtualNetworks/networknamex/subnets/subnetworknamex"
@@ -154,6 +179,15 @@ describe("workloads test", () => {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
+  });
+
+  it("providerInstances delete test", async function () {
+    const res = await client.providerInstances.beginDeleteAndWait(resourceGroup, monitorName, "myProviderInstance");
+    const resArray = new Array();
+    for await (let item of client.providerInstances.list(resourceGroup, monitorName)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 0);
   });
 
   //delete monitors
