@@ -30,6 +30,7 @@ This tool helps to record and playback the tests in the JS repo by leveraging th
   - [Installing the package](#installing-the-package)
   - [Configuring your project](#configuring-your-project)
   - [TEST_MODE](#test_mode)
+- [Onboard to asset-sync workflow](#onboard-to-asset---sync-workflow)
 - [Using the `Recorder`](#using-the-recorder)
   - [Recorder#variable()](#recordervariable)
   - [Environment Variables](#environment-variables)
@@ -158,6 +159,27 @@ Interactions with the test-proxy tool vary based on what the `TEST_MODE` environ
 | `playback` | Stored requests/responses are utilized by the test-proxy tool when the requests are redirected to it instead of reaching the service                                                            |
 | `live`     | Recorder and its methods are no-ops here, requests directly reach the service instead of being redirected at the test-proxy tool layer                                                          |
 
+## Onboard to asset-sync workflow
+
+This section assumes that your package is new to the JS repo and that you're trying to onboard your tests with recorder, and the asset-sync workflow.
+
+From the root of the repo, navigate to your package
+
+```
+cd sdk/<service-folder>/<package-name>
+```
+
+Generate an `sdk/<service-folder>/<package-name>/assets.json` file by running the following command.
+
+```
+npx dev-tool test-proxy init
+```
+
+This command would generate an `assets.json` file with an empty tag.
+Once you generate the recordings for your tests and push them to the assets repo, the tag gets populated here.
+
+For further understanding, please read the [asset sync migration and workflow](./ASSET_SYNC_MIGRATION.md).
+
 ## Using the `Recorder`
 
 Inside a mocha test (either in the `beforeEach` or in the test body itself), you will need to instantiate the `Recorder` as below to leverage its functionalities.
@@ -281,6 +303,8 @@ module.exports = function (config) {
 };
 ```
 
+## Onboard to asset-sync workflow
+
 ## Examples
 
 ### How to record
@@ -357,7 +381,13 @@ describe(`TableServiceClient tests`, () => {
 ```
 
 - After running this test with the `TEST_MODE` environment variable set to
-  `record`, the recorder assisted by the test-proxy tool will create a recording file located in `recordings/node/tableserviceclient_tests/recording_should_create_new_table_then_delete.json` with the contents of the HTTP requests as well as the responses.
+  `record`, the recorder assisted by the test-proxy tool will create a recording file with the contents of the HTTP requests as well as the responses.
+
+  If the package has been onboarded to asset-sync workflow, the recording will be loacted under the `.assets/` at the root of the repository. 
+    - To view the recording, refer to `.assets/.breadcrumb` to find the entry that matches your SDK. This will give you the name of the directory within `.assets` that your recordings are located in.
+    - Refer to [asset sync workflow](./ASSET_SYNC_MIGRATION.md#workflow-with-asset-sync-enabled) for more understanding and further steps.
+
+  Otherwise, the recording will be located at `recordings/node/tableserviceclient_tests/recording_should_create_new_table_then_delete.json`.
 
 - You'll see in the code above that we're invoking `recorder.stop`. This is so that, after each test, we can stop recording and the test file can be generated.
 
@@ -476,11 +506,16 @@ If you run into issues while running the tests in record/playback modes, some of
 `dev-tool` by default outputs logs from the test proxy to `test-proxy-output.log` in your package's root directory. These logs can be inspected to see what requests were made to the proxy tool.
 
 #### Switching ports
+
 If port 5000 is already being used in your machine, you can specify any other port such as 2345:5000 in the args, and make sure to have the environment variable `TEST_PROXY_HTTP_PORT` set as the specified port(2345 in this case).
+
+### Inspecting recordings
+Refer to [asset sync workflow - inspect recordings](./ASSET_SYNC_MIGRATION.md#inspecting-recordings-with-asset-sync-enabled).
 
 ### Next steps
 
-The test-recorder(v3.0) might not be used yet in each one of the libraries in the `azure-sdk-for-js` repository (we're working on it). In the mean time, an easy way to find where we're using this package is by going through the following search link:
+Almost all the libraries in the `azure-sdk-for-js` repository leverage test-recorder(v3.0). 
+If you want to refer to the tests that leverage this package, go through the following search link:
 <https://github.com/Azure/azure-sdk-for-js/search?q=test-recorder>
 
 ### Contributing
