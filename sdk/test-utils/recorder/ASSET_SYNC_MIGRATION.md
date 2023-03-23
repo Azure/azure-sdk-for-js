@@ -86,7 +86,7 @@ This command will:
 
 You should stage and commit the `assets.json` update as part of your PR. If you don't run the `push` command before creating a PR, the CI (and anyone else who tries to run your recorded tests) will use the old recordings, which will cause failures.
 
-After the onboarding your new package or after migrating your package to asset-sync, the following diagram describes the new workflow (new steps highlighted):
+After onboarding your new package or after migrating your package to the asset-sync workflow, the following diagram describes the new workflow (new steps highlighted):
 
 ```mermaid
 graph TD
