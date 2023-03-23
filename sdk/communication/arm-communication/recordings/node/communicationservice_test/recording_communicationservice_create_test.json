@@ -11,7 +11,7 @@
         "Content-Length": "66",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-arm-communication/4.0.0-beta.4 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "f56415e8-a766-4c1f-b60a-26fe2d498783"
+        "x-ms-client-request-id": "aeb1ab99-d437-4cb5-8c07-a632abcbb2be"
       },
       "RequestBody": {
         "location": "global",
@@ -24,15 +24,15 @@
         "Cache-Control": "no-cache",
         "Content-Length": "332",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Mar 2023 03:12:00 GMT",
+        "Date": "Thu, 23 Mar 2023 05:58:14 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "753572f2-089f-4e5a-b716-155b8d1e8757",
+        "x-ms-correlation-request-id": "2482a0f1-ce47-43e1-ac78-6d094479d5ac",
         "x-ms-failure-cause": "gateway",
-        "x-ms-request-id": "753572f2-089f-4e5a-b716-155b8d1e8757",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230322T031200Z:753572f2-089f-4e5a-b716-155b8d1e8757"
+        "x-ms-request-id": "2482a0f1-ce47-43e1-ac78-6d094479d5ac",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230323T055815Z:2482a0f1-ce47-43e1-ac78-6d094479d5ac"
       },
       "ResponseBody": {
         "error": {
