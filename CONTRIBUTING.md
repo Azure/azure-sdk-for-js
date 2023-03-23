@@ -150,13 +150,11 @@ By default, these npm scripts run previously recorded tests. The recordings have
 
 Most of the tests in our projects run in playback mode by default, i.e they make no network requests to the real services. For HTTP requests made in each test case, there is a recorded response that reproduces the service behavior. The readme file in the `test` folder of each package will indicate whether the package uses recorded tests or not.
 
-At the moment, tests in our repo depend on one of the two different versions of the recorder tool (`@azure-tools/test-recorder`) - `1.a.b` and `2.x.y`.
-Currently, version `2.x.y` is maintained in the repository which is built as part of a cross-language unification effort in terms of the tests and recordings.
-Eventually, all the tests will be migrated to depend on the `2.x.y` version of the recorder that depends on the language-agnostic [test proxy server].
+At the moment, tests in our repo depend on one of the two different versions of the recorder tool (`@azure-tools/test-recorder`) - `1.a.b` and `3.m.n`.
+Currently, version `3.m.n` is maintained in the repository which is built as part of a cross-language unification effort in terms of the tests and recordings.
+Eventually, all the tests will be migrated to depend on the `3.m.n` version of the recorder that depends on the language-agnostic [test proxy server].
 
-To record and playback the tests that depend on version `2.x.y` of `@azure-tools/test-recorder`, [docker] is required, as the [test proxy server] is run in a container during testing. When running the tests, ensure the Docker daemon is running and you have permission to use it. For WSL 2, running `sudo service docker start` and `sudo usermod -aG docker $USER` should be sufficient.
-
-Refer to the [Migration Guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md) for more information on migrating the tests from recorder v1 to v2.
+Refer to the [Migration Guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md) for more information on migrating the tests from recorder v1 to v3.
 
 #### Live tests
 
@@ -179,6 +177,8 @@ If you modify the network calls (both the number of calls or their shape) either
 Regenerating the recordings has the same requirements as running the live tests. You will be using the same `test` npm script with the environment variables pointing to previously created Azure resources. The only difference is that the `TEST_MODE` environment variable needs to be set to `record`. When this process finishes without errors, the recordings will be updated.
 
 For more information the recorder, please visit the [test-recorder's readme](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md).
+
+Here are a few [Useful Commands](./sdk/test-utils/recorder/GoldenCommands.md) that can be handy while testing your SDKs.
 
 ### Other NPM scripts
 

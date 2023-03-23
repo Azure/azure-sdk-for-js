@@ -6,25 +6,72 @@ Recordings take up a large amount of space in our repository and generate a lot 
 
 ## Performing the migration
 
-The package you are migrating needs to be using the new version of the recorder that uses the test proxy (`@azure-tools/test-recorder@^2.0.0`). Most packages are using the new recorder already; if yours is not you should migrate as soon as possible. More detail on migrating to the new recorder can be found in the [recorder 2.0 migration guide]. To run the migration script, you will need both [Powershell] and [`dev-tool`] installed. If you haven't installed `dev-tool` yet, you can install it as follows:
+### Prerequisites
 
-```bash
-$ cd common/tools/dev-tool # (from your azure-sdk-for-js repo root)
-$ npm install -g
-```
+To be able to leverage the asset-sync work, you will need
+
+- [Powershell] installed
+- `dev-tool` among your `devDependencies` in the `package.json`.
+
+_If you are working on a new package and don't have any recorded tests, skip to [New Package - No Recorded Tests](#new-package---no-recorded-tests)._
+
+The package you are migrating needs to be using the new version of the recorder that uses the test proxy (`@azure-tools/test-recorder@^3.0.0`). More detail on migrating to the new recorder can be found in the [recorder 3.0 migration guide].
 
 ```bash
 $ npx dev-tool test-proxy migrate --initial-push
 ```
 
+_Note: If you [install `dev-tool` globally], you don't need `npx` prefix in the above command_
+
 Once this is done, validate that your recorded tests still pass, and create a PR with the changes. That's it!
 
+The above `migrate` command produces an `assets.json`.
+with a tag pointing to your recordings in the `Azure/azure-sdk-assets` repository.
+
+Example `assets.json` from "keyvault-certificates" SDK.
+
+```json
+{
+  "AssetsRepo": "Azure/azure-sdk-assets",
+  "AssetsRepoPrefixPath": "js",
+  "TagPrefix": "js/keyvault/keyvault-certificates",
+  "Tag": "js/keyvault/keyvault-certificates_43821e21b3"
+}
+```
+
+And the recordings are located at https://github.com/Azure/azure-sdk-assets/tree/js/keyvault/keyvault-certificates_43821e21b3
+
+### New Package - No Recorded Tests
+
+_If you already have an `assets.json` file, skip to [Workflow with asset sync enabled](#workflow-with-asset-sync-enabled)._
+
+From the root of the repo, navigate to your package
+
+```
+cd sdk/<service-folder>/<package-name>
+```
+
+Generate an `sdk/<service-folder>/<package-name>/assets.json` file.
+
+```
+npx dev-tool test-proxy init
+```
+
+This command would generate an `assets.json` file with an empty tag.
+
 ## Workflow with asset sync enabled
+
+At this point, you should have an `assets.json` file under your SDK.
+`sdk/<service-folder>/<package-name>/assets.json`.
+
+Run your tests using the usual [package.json scripts].
+
+`rushx integration-test:node`, for example.
 
 With asset sync enabled, there is one extra step that must be taken before you create a PR with changes to recorded tests: you must push the new recordings to the assets repo. This is done with the following command:
 
 ```bash
-$ npx dev-tool test-proxy push
+npx dev-tool test-proxy push
 ```
 
 This command will:
@@ -34,22 +81,40 @@ This command will:
 
 You should stage and commit the `assets.json` update as part of your PR. If you don't run the `push` command before creating a PR, the CI (and anyone else who tries to run your recorded tests) will use the old recordings, which will cause failures.
 
-This diagram describes the new workflow (new steps highlighted):
+After the onboarding your new package or after migrating your package to asset-sync, the following diagram describes the new workflow (new steps highlighted):
 
 ```mermaid
+
 graph TD
-record[Record tests<pre>TEST_MODE=record rushx test</pre>] -->
-playback[Inspect recordings and test in playback<pre>TEST_MODE=playback rushx test</pre>]
+    subgraph p3 [New steps]
+        subgraph p4 [Push recordings to asset sync repo]
+            push[[npx dev-tool test-proxy push]]
+        end
+        p4-->assets[Commit <code>assets.json</code> change]
 
-playback -- Tests don't work, re-record --> record
-playback -- Tests pass in playback\nand are properly sanitized --> push
+    end
 
-subgraph New steps
-push[Push recordings to asset sync repo<pre>npx dev-tool test-proxy push</pre>] -->
-assets[Commit <code>assets.json</code> change]
-end
+    assets --> pr[Push branch and\ncreate PR]
 
-assets --> pr[Push branch and\ncreate PR]
+    subgraph p2 [Inspect recordings and test in playback]
+        playback[[TEST_MODE=playback rushx test]]
+    end
+
+    subgraph p1 [Record tests]
+        record[[TEST_MODE=record rushx test]]
+    end
+
+    p1 --> p2
+    p2 -- Tests don't work re-record --> p1
+    p2 -- Tests pass in playback\nand are properly sanitized --> p4
+
+
+    classDef green fill:#548235,stroke:#333,stroke-width:2px
+    classDef orange fill:#C65911,stroke:#333,stroke-width:2px
+    classDef blue fill:#305496,stroke:#333,stroke-width:2px
+    class p1 orange
+    class p2 green
+    class p3 blue
 ```
 
 ### Inspecting recordings with asset sync enabled
@@ -73,16 +138,15 @@ A few commands have been added to `dev-tool` to facilitate pushing and fetching 
 - `dev-tool test-proxy reset`: if you've made any changes to the recordings locally, you can use this to revert those local changes and reset to what is currently checked in to the assets repo. This is a destructive operation and if you have local changes it will prompt you before removing your work.
 - `dev-tool test-proxy migrate`: used for migrating existing recordings to the assets repo as described above.
 
+Useful commands while testing.
 ### Working offline
 
 Offline work is supported out-of-the-box. Of course, however, you won't be able to push or pull from the assets repo while offline. You can fetch recordings from the assets repo by running `npx dev-tool test-proxy restore`. This will download the recordings (and the test proxy executable, if you haven't got that already), making them ready for you to run tests with.
 
 ## Further reading
 
-- [Asset Sync reference in azure-sdk-tools][asset-sync-reference]
-- [Recorder 2.0 migration guide]
-
-[recorder 2.0 migration guide]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md
+[recorder 3.0 migration guide]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md
 [asset-sync-reference]: https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/documentation/asset-sync
 [powershell]: https://github.com/PowerShell/PowerShell
-[`dev-tool`]: https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/dev-tool#installation
+[install `dev-tool` globally]: https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/dev-tool#installation
+[package.json scripts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md#packagejson-scripts
