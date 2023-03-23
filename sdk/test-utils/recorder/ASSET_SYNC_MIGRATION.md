@@ -8,14 +8,14 @@ Recordings take up a large amount of space in our repository and generate a lot 
 
 ### Prerequisites
 
-To be able to leverage the asset-sync work, you will need
+To be able to leverage the asset-sync workflow, you will need
 
 - [Powershell] installed
 - `dev-tool` among your `devDependencies` in the `package.json`.
 
 _If you are working on a new package and don't have any recorded tests, skip to [New Package - No Recorded Tests](#new-package---no-recorded-tests)._
 
-The package you are migrating needs to be using the new version of the recorder that uses the test proxy (`@azure-tools/test-recorder@^3.0.0`). More detail on migrating to the new recorder can be found in the [recorder 3.0 migration guide].
+The package you are migrating needs to be using the new version of the recorder that uses the test proxy (`@azure-tools/test-recorder@^3.0.0`). If you're on an older version, follow [recorder 3.0 migration guide] first.
 
 ```bash
 $ npx dev-tool test-proxy migrate --initial-push
