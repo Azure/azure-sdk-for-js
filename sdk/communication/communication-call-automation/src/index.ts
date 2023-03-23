@@ -4,7 +4,6 @@ export * from "./callAutomationClient";
 export * from "./callConnection";
 export * from "./callMedia";
 export * from "./callRecording";
-export * from "./contentDownloader";
 export * from "./callAutomationEventParser";
 export * from "./models/models";
 export * from "./models/options";
