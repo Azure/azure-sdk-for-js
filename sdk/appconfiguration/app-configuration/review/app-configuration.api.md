@@ -37,6 +37,7 @@ export class AppConfigurationClient {
     getConfigurationSetting(id: ConfigurationSettingId, options?: GetConfigurationSettingOptions): Promise<GetConfigurationSettingResponse>;
     getSnapshot(name: string, options?: GetSnapshotOptions): Promise<GetSnapshotResponse>;
     listConfigurationSettings(options?: ListConfigurationSettingsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
+    listConfigurationSettingsForSnapshot(snapshotName: string, options?: ListSettingsSnapshotsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
     listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage, PageSettings>;
     // Warning: (ae-forgotten-export) The symbol "Snapshot_2" needs to be exported by the entry point index.d.ts
     listSnapshots(options?: ListSnapshotsOptions): PagedAsyncIterableIterator<Snapshot_2, ListSnapshotsPage, PageSettings>;
@@ -181,7 +182,7 @@ export interface ListConfigurationSettingsOptions extends OperationOptions, List
 }
 
 // @public
-export interface ListRevisionsOptions extends OperationOptions, ListSettingsOptions {
+export interface ListRevisionsOptions extends OperationOptions, SendSettingsOptions {
 }
 
 // @public
@@ -194,7 +195,11 @@ export interface ListSettingsOptions extends OptionalFields {
     acceptDateTime?: Date;
     keyFilter?: string;
     labelFilter?: string;
-    snapshotName?: string;
+}
+
+// @public
+export interface ListSettingsSnapshotsOptions extends OperationOptions, OptionalFields {
+    acceptDateTime?: Date;
 }
 
 // @public
@@ -251,6 +256,15 @@ export const secretReferenceContentType = "application/vnd.microsoft.appconfig.k
 // @public
 export interface SecretReferenceValue {
     secretId: string;
+}
+
+// @public
+export interface SendConfigurationSettingsOptions extends OperationOptions, SendSettingsOptions {
+}
+
+// @public
+export interface SendSettingsOptions extends ListSettingsOptions {
+    snapshotName?: string;
 }
 
 // @public
