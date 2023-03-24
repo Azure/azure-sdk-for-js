@@ -8,10 +8,10 @@ import {
   HttpOnlyIfUnchangedField,
   HttpResponseField,
   HttpResponseFields,
-  ListConfigurationSettingsOptions,
   ListRevisionsOptions,
   ListSnapshotsOptions,
   OperationDetailsResponse,
+  SendConfigurationSettingsOptions,
   Snapshot,
   SnapshotResponse,
 } from "../models";
@@ -94,7 +94,7 @@ export function checkAndFormatIfAndIfNoneMatch(
 }
 
 /**
- * Transforms some of the key fields in ListConfigurationSettingsOptions and ListRevisionsOptions
+ * Transforms some of the key fields in SendConfigurationSettingsOptions and ListRevisionsOptions
  * so they can be added to a request using AppConfigurationGetKeyValuesOptionalParams.
  * - `options.acceptDateTime` is converted into an ISO string
  * - `select` is populated with the proper field names from `options.fields`
@@ -103,7 +103,7 @@ export function checkAndFormatIfAndIfNoneMatch(
  * @internal
  */
 export function formatFiltersAndSelect(
-  listConfigOptions: ListConfigurationSettingsOptions | ListRevisionsOptions
+  listConfigOptions: SendConfigurationSettingsOptions | ListRevisionsOptions
 ): Pick<GetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime" | "snapshot"> {
   let acceptDatetime: string | undefined = undefined;
 

@@ -35,7 +35,7 @@ describe("AppConfigurationClient", () => {
     }
   });
 
-  describe.only("simple usages", () => {
+  describe("simple usages", () => {
     it("Add and query a setting without a label", async () => {
       const key = recorder.variable(
         "noLabelTests",

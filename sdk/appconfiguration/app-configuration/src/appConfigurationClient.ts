@@ -23,9 +23,11 @@ import {
   ListConfigurationSettingsOptions,
   ListRevisionsOptions,
   ListRevisionsPage,
+  ListSettingsSnapshotsOptions,
   ListSnapshotsOptions,
   ListSnapshotsPage,
   PageSettings,
+  SendConfigurationSettingsOptions,
   SetConfigurationSettingOptions,
   SetConfigurationSettingParam,
   SetConfigurationSettingResponse,
@@ -354,8 +356,47 @@ export class AppConfigurationClient {
     return getPagedAsyncIterator(pagedResult);
   }
 
+  /**
+   * Lists settings from the Azure App Configuration service for snapshots based on name, optionally
+   * filtered by key names, labels and accept datetime.
+   *
+   * Example code:
+   * ```ts
+   * const allSettingsWithLabel = client.listConfigurationSettingsForSnashots({ snapshotName: "MySnapshot" });
+   * ```
+   * @param options - Optional parameters for the request.
+   */
+  listConfigurationSettingsForSnapshot(
+    snapshotName: string,
+    options: ListSettingsSnapshotsOptions = {}
+  ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
+    const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
+      {
+        firstPageLink: undefined,
+        getPage: async (pageLink: string | undefined) => {
+          const response = await this.sendConfigurationSettingsRequest(
+            { snapshotName, ...options },
+            pageLink
+          );
+          const currentResponse = {
+            ...response,
+            items: response.items != null ? response.items?.map(transformKeyValue) : [],
+            continuationToken: response.nextLink
+              ? extractAfterTokenFromNextLink(response.nextLink)
+              : undefined,
+          };
+          return {
+            page: currentResponse,
+            nextPageLink: currentResponse.continuationToken,
+          };
+        },
+        toElements: (page) => page.items,
+      };
+    return getPagedAsyncIterator(pagedResult);
+  }
+
   private async sendConfigurationSettingsRequest(
-    options: ListConfigurationSettingsOptions & PageSettings = {},
+    options: SendConfigurationSettingsOptions & PageSettings = {},
     pageLink: string | undefined
   ): Promise<GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>> {
     return tracingClient.withSpan(

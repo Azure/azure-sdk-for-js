@@ -115,9 +115,7 @@ describe("AppConfigurationClient snapshot", () => {
       await client.setConfigurationSetting({ ...filter1, value: "value2" });
 
       // getting the configuration settting of the snapshot
-      const snapshotConfigurationSettings = await client.listConfigurationSettings({
-        snapshotName: newSnapshot.name,
-      });
+      const snapshotConfigurationSettings = await client.listConfigurationSettingsForSnapshot(newSnapshot.name);
 
       for await (const setting of snapshotConfigurationSettings) {
         assert.equal(setting.key, key1);
