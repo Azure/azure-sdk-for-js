@@ -172,13 +172,7 @@ export interface DownloadBlobOptions extends OperationOptions {}
 /**
  * Options for confguring the download manifest operation.
  */
-export interface GetManifestOptions extends OperationOptions {
-  /**
-   * Media type of the manifest to download. Refer to {@link KnownManifestMediaType} for known media types.
-   * Defaults to {@link KnownManifestMediaType.OciManifest}.
-   */
-  mediaType?: string | string[];
-}
+export interface GetManifestOptions extends OperationOptions {}
 
 /**
  * Known media type values for Docker and OCI manifests.

@@ -155,7 +155,6 @@ export interface DownloadBlobResult {
 
 // @public
 export interface GetManifestOptions extends OperationOptions {
-    mediaType?: string | string[];
 }
 
 // @public

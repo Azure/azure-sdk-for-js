@@ -38,7 +38,7 @@ const LATEST_API_VERSION = "2021-07-01";
 
 const CHUNK_SIZE = 4 * 1024 * 1024; // 4 MB
 
-const DEFAULT_ACCEPT_MANIFEST_MEDIA_TYPES = [
+const ACCEPTED_MANIFEST_MEDIA_TYPES = [
   KnownManifestMediaType.OciManifest,
   KnownManifestMediaType.DockerManifest,
   "application/vnd.oci.image.index.v1+json",
@@ -264,13 +264,11 @@ export class ContainerRegistryContentClient {
       "ContainerRegistryContentClient.downloadManifest",
       options,
       async (updatedOptions) => {
-        const acceptMediaType = options.mediaType ?? DEFAULT_ACCEPT_MANIFEST_MEDIA_TYPES;
-
         const response = await this.client.containerRegistry.getManifest(
           this.repositoryName,
           tagOrDigest,
           {
-            accept: Array.isArray(acceptMediaType) ? acceptMediaType.join(", ") : acceptMediaType,
+            accept: ACCEPTED_MANIFEST_MEDIA_TYPES.join(", "),
             ...updatedOptions,
           }
         );
