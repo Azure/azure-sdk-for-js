@@ -1570,6 +1570,13 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: false
 
+  /@jsdoc/salty/0.2.5:
+    resolution: {integrity: sha512-TfRP53RqunNe2HBobVBJ0VLhK1HbfvBYeTC1ahnN64PWvyYyGebmMiPkuwvD9fpw2ZbkoPb8Q7mwy0aR8Z9rvw==}
+    engines: {node: '>=v12.0.0'}
+    dependencies:
+      lodash: 4.17.21
+    dev: false
+
   /@microsoft/api-extractor-model/7.26.4:
     resolution: {integrity: sha512-PDCgCzXDo+SLY5bsfl4bS7hxaeEtnXj7XtuzEE+BtALp7B5mK/NrS2kHWU69pohgsRmEALycQdaQPXoyT2i5MQ==}
     dependencies:
@@ -3910,7 +3917,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230322
+      typescript: 5.1.0-dev.20230324
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -5775,12 +5782,13 @@ packages:
     resolution: {integrity: sha512-aBE4n43IPvjaddScbvWRA2YlTzKEynHzu7MqOyTipdHucf/VxS63ViCjxYRg86M8Rxwbt/GfzHl1kKERkt45fQ==}
     dev: false
 
-  /jsdoc/3.6.11:
-    resolution: {integrity: sha512-8UCU0TYeIYD9KeLzEcAu2q8N/mx9O3phAGl32nmHlE0LpaJL71mMkP4d+QE5zWfNt50qheHtOZ0qoxVrsX5TUg==}
+  /jsdoc/4.0.2:
+    resolution: {integrity: sha512-e8cIg2z62InH7azBBi3EsSEqrKx+nUtAS5bBcYTSpZFA+vhNPyhv8PTFZ0WsjOPDj04/dOLlm08EDcQJDqaGQg==}
     engines: {node: '>=12.0.0'}
     hasBin: true
     dependencies:
       '@babel/parser': 7.21.3
+      '@jsdoc/salty': 0.2.5
       '@types/markdown-it': 12.2.3
       bluebird: 3.7.2
       catharsis: 0.9.0
@@ -5793,7 +5801,6 @@ packages:
       mkdirp: 1.0.4
       requizzle: 0.2.4
       strip-json-comments: 3.1.1
-      taffydb: 2.6.2
       underscore: 1.13.6
     dev: false
 
@@ -7354,8 +7361,8 @@ packages:
     engines: {node: '>= 8'}
     dev: false
 
-  /protobufjs-cli/1.0.2_protobufjs@7.1.2:
-    resolution: {integrity: sha512-cz9Pq9p/Zs7okc6avH20W7QuyjTclwJPgqXG11jNaulfS3nbVisID8rC+prfgq0gbZE0w9LBFd1OKFF03kgFzg==}
+  /protobufjs-cli/1.1.1_protobufjs@7.2.2:
+    resolution: {integrity: sha512-VPWMgIcRNyQwWUv8OLPyGQ/0lQY/QTQAVN5fh+XzfDwsVw1FZ2L3DM/bcBf8WPiRz2tNpaov9lPZfNcmNo6LXA==}
     engines: {node: '>=12.0.0'}
     hasBin: true
     peerDependencies:
@@ -7366,16 +7373,16 @@ packages:
       espree: 9.5.0
       estraverse: 5.3.0
       glob: 8.1.0
-      jsdoc: 3.6.11
+      jsdoc: 4.0.2
       minimist: 1.2.8
-      protobufjs: 7.1.2
+      protobufjs: 7.2.2
       semver: 7.3.8
       tmp: 0.2.1
       uglify-js: 3.17.4
     dev: false
 
-  /protobufjs/7.1.2:
-    resolution: {integrity: sha512-4ZPTPkXCdel3+L81yw3dG6+Kq3umdWKh7Dc7GW/CpNk4SX3hK58iPCWeCyhVTDrbkNeKrYNZ7EojM5WDaEWTLQ==}
+  /protobufjs/7.2.2:
+    resolution: {integrity: sha512-++PrQIjrom+bFDPpfmqXfAGSQs40116JRrqqyf53dymUMvvb5d/LMRyicRoF1AUKoXVS1/IgJXlEgcpr4gTF3Q==}
     engines: {node: '>=12.0.0'}
     requiresBuild: true
     dependencies:
@@ -8430,10 +8437,6 @@ packages:
       strip-ansi: 6.0.1
     dev: false
 
-  /taffydb/2.6.2:
-    resolution: {integrity: sha512-y3JaeRSplks6NYQuCOj3ZFMO3j60rTwbuKCvZxsAraGYH2epusatvZ0baZYA01WsGqJBq/Dl6vOrMUJqyMj8kA==}
-    dev: false
-
   /tar-fs/2.1.1:
     resolution: {integrity: sha512-V0r2Y9scmbDRLCNex/+hYzvp/zyYjvFbHPNgVTKfQvVrb6guiE/fxP+XblDNR011utopbkex2nM4dHNV6GDsng==}
     dependencies:
@@ -8766,8 +8769,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230322:
-    resolution: {integrity: sha512-sRsSUZOCpLClaHzhRo1ZsoEnQe6+1FMEQzBzgtxC8f9rklwY5H4TcyKoa9wRpYvvJ34Farr8nEU/Uz+hnruyLw==}
+  /typescript/5.1.0-dev.20230324:
+    resolution: {integrity: sha512-DX3mRbGCw2aN4wvFExQaynoBxgDu+X3BzGRdhJFGo+ey78c5Y57EguGA0sDwdGCBDgPb7XO3Rrnq9mjOZbMdTw==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -19947,7 +19950,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub-client-protobuf.tgz:
-    resolution: {integrity: sha512-17AKnMrHM1QYJcu4JfcucR//o2Exrbe695Ksei8azvLUWQWBbuaQ/2KhXyAjBeacYcQ5TrlzZv5NsqA+YBm/yg==, tarball: file:projects/web-pubsub-client-protobuf.tgz}
+    resolution: {integrity: sha512-P9sshDKveJnKpSqeJhDuYlLz5NY+OEC85QsGTc7DEMuITHulc+DsqeR/bQD/DxIfGEbhhNzhdvIfxUd1TdY8og==, tarball: file:projects/web-pubsub-client-protobuf.tgz}
     name: '@rush-temp/web-pubsub-client-protobuf'
     version: 0.0.0
     dependencies:
@@ -19988,8 +19991,8 @@ packages:
       mock-socket: 9.2.1
       nyc: 15.1.0
       prettier: 2.8.5
-      protobufjs: 7.1.2
-      protobufjs-cli: 1.0.2_protobufjs@7.1.2
+      protobufjs: 7.2.2
+      protobufjs-cli: 1.1.1_protobufjs@7.2.2
       puppeteer: 19.7.5_typescript@4.8.4
       rimraf: 3.0.2
       sinon: 9.2.4
