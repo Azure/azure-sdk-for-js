@@ -421,14 +421,14 @@ In addition, KeyClient provides a method to rotate a key on-demand by creating a
 const { DefaultAzureCredential } = require("@azure/identity");
 const { KeyClient } = require("@azure/keyvault-keys");
 
-const vaultUrl = `https://<YOUR KEYVAULT NAME>.vault.azure.net`;
+const url = `https://<YOUR KEYVAULT NAME>.vault.azure.net`;
 const client = new KeyClient(url, new DefaultAzureCredential());
 
 async function main() {
   const keyName = "MyKeyName";
 
   // Set the key's automated rotation policy to rotate the key 30 days before expiry.
-  const policy = await client.updateKeyRotationPolicy(key.name, {
+  const policy = await client.updateKeyRotationPolicy(keyName, {
     lifetimeActions: [
       {
         action: "Rotate",
@@ -441,10 +441,10 @@ async function main() {
   });
 
   // You can get the current key rotation policy of a given key by calling the getKeyRotationPolicy method.
-  const currentPolicy = await client.getKeyRotationPolicy(key.name);
+  const currentPolicy = await client.getKeyRotationPolicy(keyName);
 
   // Finally, you can rotate a key on-demand by creating a new version of the given key.
-  const rotatedKey = await client.rotateKey(key.name);
+  const rotatedKey = await client.rotateKey(keyName);
 }
 
 main();
@@ -527,6 +527,8 @@ async function main() {
     }
   }
 }
+
+main();
 ```
 
 ## Cryptography
@@ -560,6 +562,8 @@ async function main() {
   // Lastly, create our cryptography client and connect to the service
   const cryptographyClient = new CryptographyClient(myKey, credential);
 }
+
+main();
 ```
 
 ### Encrypt

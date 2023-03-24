@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all the live events in the account.
  *
  * @summary Lists all the live events in the account.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-08-01/examples/liveevent-list-all.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-11-01/examples/liveevent-list-all.json
  */
 async function listAllLiveEvents() {
   const subscriptionId =

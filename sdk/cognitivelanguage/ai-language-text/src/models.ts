@@ -84,10 +84,6 @@ export interface BeginAnalyzeBatchOptions extends TextAnalysisOperationOptions {
    * The operation's display name.
    */
   displayName?: string;
-  /**
-   * Default language code to use for records requesting automatic language detection
-   */
-  defaultLanguage?: string;
 }
 
 /**
@@ -171,8 +167,8 @@ export enum KnownFhirVersion {
 
 /** Options for an Abstractive Summarization action. */
 export interface AbstractiveSummarizationAction {
-  /** The max number of sentences to be part of the summary. */
-  maxSentenceCount?: number;
+  /** The approximate number of sentences to be part of the summary. */
+  sentenceCount?: number;
   /**
    * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
    *

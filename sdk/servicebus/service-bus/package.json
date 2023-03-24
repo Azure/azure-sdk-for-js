@@ -2,7 +2,7 @@
   "name": "@azure/service-bus",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "7.8.1",
+  "version": "7.9.0",
   "license": "MIT",
   "description": "Azure Service Bus SDK for JavaScript",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus/",
@@ -126,7 +126,7 @@
     "long": "^5.2.0",
     "process": "^0.11.10",
     "tslib": "^2.2.0",
-    "rhea-promise": "^2.1.0"
+    "rhea-promise": "^3.0.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
@@ -161,10 +161,8 @@
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
-    "karma-edge-launcher": "^0.4.2",
     "karma-env-preprocessor": "^0.1.1",
     "karma-firefox-launcher": "^1.1.0",
-    "karma-ie-launcher": "^1.0.0",
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",

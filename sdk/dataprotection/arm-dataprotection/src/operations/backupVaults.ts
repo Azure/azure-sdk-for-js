@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataProtectionClient } from "../dataProtectionClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   BackupVaultResource,
   BackupVaultsGetInSubscriptionNextOptionalParams,
@@ -107,7 +111,7 @@ export class BackupVaultsImpl implements BackupVaults {
 
   /**
    * Returns resource collection belonging to a resource group.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listInResourceGroup(
@@ -189,7 +193,7 @@ export class BackupVaultsImpl implements BackupVaults {
 
   /**
    * Returns resource collection belonging to a resource group.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _getInResourceGroup(
@@ -204,7 +208,7 @@ export class BackupVaultsImpl implements BackupVaults {
 
   /**
    * Returns a resource belonging to a resource group.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param options The options parameters.
    */
@@ -221,7 +225,7 @@ export class BackupVaultsImpl implements BackupVaults {
 
   /**
    * Creates or updates a BackupVault resource belonging to a resource group.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param parameters Request body for operation
    * @param options The options parameters.
@@ -232,8 +236,8 @@ export class BackupVaultsImpl implements BackupVaults {
     parameters: BackupVaultResource,
     options?: BackupVaultsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BackupVaultsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BackupVaultsCreateOrUpdateResponse>,
       BackupVaultsCreateOrUpdateResponse
     >
   > {
@@ -243,7 +247,7 @@ export class BackupVaultsImpl implements BackupVaults {
     ): Promise<BackupVaultsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -276,13 +280,16 @@ export class BackupVaultsImpl implements BackupVaults {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vaultName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vaultName, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BackupVaultsCreateOrUpdateResponse,
+      OperationState<BackupVaultsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -291,7 +298,7 @@ export class BackupVaultsImpl implements BackupVaults {
 
   /**
    * Creates or updates a BackupVault resource belonging to a resource group.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param parameters Request body for operation
    * @param options The options parameters.
@@ -313,47 +320,22 @@ export class BackupVaultsImpl implements BackupVaults {
 
   /**
    * Deletes a BackupVault resource from the resource group.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param options The options parameters.
    */
-  delete(
+  async beginDelete(
     resourceGroupName: string,
     vaultName: string,
     options?: BackupVaultsDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, vaultName, options },
-      deleteOperationSpec
-    );
-  }
-
-  /**
-   * Updates a BackupVault resource belonging to a resource group. For example, updating tags for a
-   * resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
-   * @param vaultName The name of the backup vault.
-   * @param parameters Request body for operation
-   * @param options The options parameters.
-   */
-  async beginUpdate(
-    resourceGroupName: string,
-    vaultName: string,
-    parameters: PatchResourceRequestInput,
-    options?: BackupVaultsUpdateOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<BackupVaultsUpdateResponse>,
-      BackupVaultsUpdateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<BackupVaultsUpdateResponse> => {
+    ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -386,13 +368,106 @@ export class BackupVaultsImpl implements BackupVaults {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vaultName, parameters, options },
-      updateOperationSpec
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vaultName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes a BackupVault resource from the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the backup vault.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    vaultName: string,
+    options?: BackupVaultsDeleteOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      vaultName,
+      options
     );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Updates a BackupVault resource belonging to a resource group. For example, updating tags for a
+   * resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the backup vault.
+   * @param parameters Request body for operation
+   * @param options The options parameters.
+   */
+  async beginUpdate(
+    resourceGroupName: string,
+    vaultName: string,
+    parameters: PatchResourceRequestInput,
+    options?: BackupVaultsUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BackupVaultsUpdateResponse>,
+      BackupVaultsUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<BackupVaultsUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vaultName, parameters, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BackupVaultsUpdateResponse,
+      OperationState<BackupVaultsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -402,7 +477,7 @@ export class BackupVaultsImpl implements BackupVaults {
   /**
    * Updates a BackupVault resource belonging to a resource group. For example, updating tags for a
    * resource.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param parameters Request body for operation
    * @param options The options parameters.
@@ -424,7 +499,7 @@ export class BackupVaultsImpl implements BackupVaults {
 
   /**
    * API to check for resource name availability
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param location The location in which uniqueness will be verified.
    * @param parameters Check name availability request
    * @param options The options parameters.
@@ -458,7 +533,7 @@ export class BackupVaultsImpl implements BackupVaults {
 
   /**
    * GetInResourceGroupNext
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the GetInResourceGroup method.
    * @param options The options parameters.
    */
@@ -575,6 +650,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {},
+    201: {},
     202: {},
     204: {},
     default: {

@@ -1,0 +1,7 @@
+{
+  "main": "dist/src/index.js",
+  "dependencies": {
+    "@azure-tools/cadl-typescript": "1.0.0-beta.8",
+    "@cadl-lang/versioning": "0.38.0"
+  }
+}

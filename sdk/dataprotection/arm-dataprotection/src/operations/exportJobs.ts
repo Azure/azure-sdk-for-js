@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataProtectionClient } from "../dataProtectionClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ExportJobsTriggerOptionalParams,
   ExportJobsTriggerResponse
@@ -32,7 +36,7 @@ export class ExportJobsImpl implements ExportJobs {
 
   /**
    * Triggers export of jobs and returns an OperationID to track.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param options The options parameters.
    */
@@ -41,8 +45,8 @@ export class ExportJobsImpl implements ExportJobs {
     vaultName: string,
     options?: ExportJobsTriggerOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ExportJobsTriggerResponse>,
+    SimplePollerLike<
+      OperationState<ExportJobsTriggerResponse>,
       ExportJobsTriggerResponse
     >
   > {
@@ -52,7 +56,7 @@ export class ExportJobsImpl implements ExportJobs {
     ): Promise<ExportJobsTriggerResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -85,15 +89,18 @@ export class ExportJobsImpl implements ExportJobs {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vaultName, options },
-      triggerOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vaultName, options },
+      spec: triggerOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ExportJobsTriggerResponse,
+      OperationState<ExportJobsTriggerResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -101,7 +108,7 @@ export class ExportJobsImpl implements ExportJobs {
 
   /**
    * Triggers export of jobs and returns an OperationID to track.
-   * @param resourceGroupName The name of the resource group where the backup vault is present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
    * @param options The options parameters.
    */

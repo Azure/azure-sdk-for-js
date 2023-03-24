@@ -21,7 +21,7 @@ require("dotenv").config();
 async function createsAStreamingPolicyWithClearKeyEncryptionInCommonEncryptionCbcs() {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
   const accountName = "contosomedia";
   const streamingPolicyName = "UserCreatedSecureStreamingPolicyWithCommonEncryptionCbcsOnly";
   const parameters = {
@@ -59,7 +59,7 @@ async function createsAStreamingPolicyWithClearKeyEncryptionInCommonEncryptionCb
 async function createsAStreamingPolicyWithClearKeyEncryptionInCommonEncryptionCenc() {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
   const accountName = "contosomedia";
   const streamingPolicyName = "UserCreatedSecureStreamingPolicyWithCommonEncryptionCencOnly";
   const parameters = {
@@ -102,9 +102,9 @@ async function createsAStreamingPolicyWithClearKeyEncryptionInCommonEncryptionCe
 async function createsAStreamingPolicyWithClearStreaming() {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
   const accountName = "contosomedia";
-  const streamingPolicyName = "UserCreatedClearStreamingPolicy";
+  const streamingPolicyName = "clearStreamingPolicy";
   const parameters = {
     noEncryption: {
       enabledProtocols: {
@@ -135,7 +135,7 @@ async function createsAStreamingPolicyWithClearStreaming() {
 async function createsAStreamingPolicyWithCommonEncryptionCbcsOnly() {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
   const accountName = "contosomedia";
   const streamingPolicyName = "UserCreatedSecureStreamingPolicyWithCommonEncryptionCbcsOnly";
   const parameters = {
@@ -177,7 +177,7 @@ async function createsAStreamingPolicyWithCommonEncryptionCbcsOnly() {
 async function createsAStreamingPolicyWithCommonEncryptionCencOnly() {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
   const accountName = "contosomedia";
   const streamingPolicyName = "UserCreatedSecureStreamingPolicyWithCommonEncryptionCencOnly";
   const parameters = {
@@ -228,7 +228,7 @@ async function createsAStreamingPolicyWithCommonEncryptionCencOnly() {
 async function createsAStreamingPolicyWithEnvelopeEncryptionOnly() {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
   const accountName = "contosomedia";
   const streamingPolicyName = "UserCreatedSecureStreamingPolicyWithEnvelopeEncryptionOnly";
   const parameters = {
@@ -265,7 +265,7 @@ async function createsAStreamingPolicyWithEnvelopeEncryptionOnly() {
 async function createsAStreamingPolicyWithSecureStreaming() {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosorg";
   const accountName = "contosomedia";
   const streamingPolicyName = "UserCreatedSecureStreamingPolicy";
   const parameters = {

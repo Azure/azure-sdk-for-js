@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { WorkloadsClient } = require("@azure/arm-workloads");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets properties of a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
  * @summary Gets properties of a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/Db2ProviderInstances_Get.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/Db2ProviderInstances_Get.json
  */
 async function getPropertiesOfADb2Provider() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["WORKLOADS_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "mySapMonitor";
   const providerInstanceName = "myProviderInstance";
   const credential = new DefaultAzureCredential();
@@ -32,17 +34,16 @@ async function getPropertiesOfADb2Provider() {
   console.log(result);
 }
 
-getPropertiesOfADb2Provider().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets properties of a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
  * @summary Gets properties of a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/MsSqlServerProviderInstance_Get.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/MsSqlServerProviderInstance_Get.json
  */
 async function getPropertiesOfAMSSqlServerProvider() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["WORKLOADS_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "mySapMonitor";
   const providerInstanceName = "myProviderInstance";
   const credential = new DefaultAzureCredential();
@@ -55,17 +56,16 @@ async function getPropertiesOfAMSSqlServerProvider() {
   console.log(result);
 }
 
-getPropertiesOfAMSSqlServerProvider().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets properties of a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
  * @summary Gets properties of a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/PrometheusOSProviderInstances_Get.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/PrometheusOSProviderInstances_Get.json
  */
 async function getPropertiesOfAOSProvider() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["WORKLOADS_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "mySapMonitor";
   const providerInstanceName = "myProviderInstance";
   const credential = new DefaultAzureCredential();
@@ -78,17 +78,16 @@ async function getPropertiesOfAOSProvider() {
   console.log(result);
 }
 
-getPropertiesOfAOSProvider().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets properties of a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
  * @summary Gets properties of a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/PrometheusHaClusterProviderInstances_Get.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/PrometheusHaClusterProviderInstances_Get.json
  */
 async function getPropertiesOfAPrometheusHaClusterProvider() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["WORKLOADS_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "mySapMonitor";
   const providerInstanceName = "myProviderInstance";
   const credential = new DefaultAzureCredential();
@@ -101,17 +100,16 @@ async function getPropertiesOfAPrometheusHaClusterProvider() {
   console.log(result);
 }
 
-getPropertiesOfAPrometheusHaClusterProvider().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets properties of a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
  * @summary Gets properties of a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/ProviderInstances_Get.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/ProviderInstances_Get.json
  */
 async function getPropertiesOfASapMonitorHanaProvider() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["WORKLOADS_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "mySapMonitor";
   const providerInstanceName = "myProviderInstance";
   const credential = new DefaultAzureCredential();
@@ -123,18 +121,17 @@ async function getPropertiesOfASapMonitorHanaProvider() {
   );
   console.log(result);
 }
-
-getPropertiesOfASapMonitorHanaProvider().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets properties of a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  *
  * @summary Gets properties of a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/NetWeaverProviderInstances_Get.json
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/NetWeaverProviderInstances_Get.json
  */
 async function getPropertiesOfASapMonitorNetWeaverProvider() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["WORKLOADS_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "mySapMonitor";
   const providerInstanceName = "myProviderInstance";
   const credential = new DefaultAzureCredential();
@@ -147,4 +144,13 @@ async function getPropertiesOfASapMonitorNetWeaverProvider() {
   console.log(result);
 }
 
-getPropertiesOfASapMonitorNetWeaverProvider().catch(console.error);
+async function main() {
+  getPropertiesOfADb2Provider();
+  getPropertiesOfAMSSqlServerProvider();
+  getPropertiesOfAOSProvider();
+  getPropertiesOfAPrometheusHaClusterProvider();
+  getPropertiesOfASapMonitorHanaProvider();
+  getPropertiesOfASapMonitorNetWeaverProvider();
+}
+
+main().catch(console.error);

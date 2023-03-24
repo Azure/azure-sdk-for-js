@@ -6,7 +6,7 @@ import { isError } from "@azure/core-util";
 /**
  * Options for send logs operation
  */
-export interface UploadLogsOptions extends OperationOptions {
+export interface LogsUploadOptions extends OperationOptions {
   /**
    * Concurrency of parallel requests. Must be greater than or equal to 1.
    * The default value is 1.
@@ -14,16 +14,16 @@ export interface UploadLogsOptions extends OperationOptions {
   maxConcurrency?: number;
   /**
    * Callback function for error handling when logs fail to upload
-   * @param uploadLogsError - This is the {@link UploadLogsFailure} object
+   * @param uploadLogsError - This is the {@link LogsUploadFailure} object
    * @returns void
    */
-  onError?: (uploadLogsError: UploadLogsFailure) => void;
+  onError?: (uploadLogsError: LogsUploadFailure) => void;
 }
 
 /**
  * Error for each log upload request to service
  */
-export interface UploadLogsFailure {
+export interface LogsUploadFailure {
   /**
    * List of failed logs
    */
@@ -37,27 +37,27 @@ export interface UploadLogsFailure {
 /**
  * Aggregate Upload Logs Error Name
  */
-export const AggregateUploadLogsErrorName = "AggregateUploadLogsError";
+export const AggregateLogsUploadErrorName = "AggregateLogsUploadError";
 
 /**
  * Aggregate Error type for upload function
  */
-export class AggregateUploadLogsError extends Error {
+export class AggregateLogsUploadError extends Error {
   /**
-   * List of {@link UploadLogsFailure} returned from
+   * List of {@link LogsUploadFailure} returned from
    * individual upload requests to service
    */
-  errors: UploadLogsFailure[];
+  errors: LogsUploadFailure[];
 
   /**
    *
-   * @param errors - list of {@link UploadLogsFailure}
+   * @param errors - list of {@link LogsUploadFailure}
    * @param errorMessage - error message
    */
-  constructor(errors: UploadLogsFailure[], errorMessage?: string) {
+  constructor(errors: LogsUploadFailure[], errorMessage?: string) {
     super(`${errorMessage}\n}`);
     this.errors = errors;
-    this.name = AggregateUploadLogsErrorName;
+    this.name = AggregateLogsUploadErrorName;
   }
 }
 
@@ -65,9 +65,9 @@ export class AggregateUploadLogsError extends Error {
  * Typeguard for AggregateUploadLogsError
  * @param e - Something caught by a catch clause.
  */
-export function isAggregateUploadLogsError(e: unknown): e is AggregateUploadLogsError {
-  if (e instanceof AggregateUploadLogsError) {
+export function isAggregateLogsUploadError(e: unknown): e is AggregateLogsUploadError {
+  if (e instanceof AggregateLogsUploadError) {
     return true;
   }
-  return isError(e) && e.name === "AggregateUploadLogsError";
+  return isError(e) && e.name === AggregateLogsUploadErrorName;
 }

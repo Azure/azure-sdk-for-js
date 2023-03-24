@@ -67,6 +67,13 @@ export const BackupVault: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      featureSettings: {
+        serializedName: "featureSettings",
+        type: {
+          name: "Composite",
+          className: "FeatureSettings"
+        }
       }
     }
   }
@@ -222,10 +229,70 @@ export const StorageSetting: coreClient.CompositeMapper = {
   }
 };
 
-export const DppTrackedResource: coreClient.CompositeMapper = {
+export const FeatureSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DppTrackedResource",
+    className: "FeatureSettings",
+    modelProperties: {
+      crossSubscriptionRestoreSettings: {
+        serializedName: "crossSubscriptionRestoreSettings",
+        type: {
+          name: "Composite",
+          className: "CrossSubscriptionRestoreSettings"
+        }
+      }
+    }
+  }
+};
+
+export const CrossSubscriptionRestoreSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CrossSubscriptionRestoreSettings",
+    modelProperties: {
+      state: {
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DppIdentityDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DppIdentityDetails",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DppBaseTrackedResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DppBaseTrackedResource",
     modelProperties: {
       eTag: {
         serializedName: "eTag",
@@ -238,13 +305,6 @@ export const DppTrackedResource: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
-        }
-      },
-      identity: {
-        serializedName: "identity",
-        type: {
-          name: "Composite",
-          className: "DppIdentityDetails"
         }
       },
       location: {
@@ -279,35 +339,6 @@ export const DppTrackedResource: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SystemData"
-        }
-      }
-    }
-  }
-};
-
-export const DppIdentityDetails: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DppIdentityDetails",
-    modelProperties: {
-      principalId: {
-        serializedName: "principalId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      tenantId: {
-        serializedName: "tenantId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        type: {
-          name: "String"
         }
       }
     }
@@ -591,6 +622,13 @@ export const PatchBackupVaultInput: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SecuritySettings"
+        }
+      },
+      featureSettings: {
+        serializedName: "featureSettings",
+        type: {
+          name: "Composite",
+          className: "FeatureSettings"
         }
       }
     }
@@ -2244,6 +2282,22 @@ export const DppTrackedResourceList: coreClient.CompositeMapper = {
   }
 };
 
+export const PatchResourceGuardInput: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PatchResourceGuardInput",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
 export const DppBaseResourceList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2293,107 +2347,6 @@ export const DppBaseResource: coreClient.CompositeMapper = {
       type: {
         serializedName: "type",
         readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ResourceGuardProxyBase: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ResourceGuardProxyBase",
-    modelProperties: {
-      resourceGuardResourceId: {
-        serializedName: "resourceGuardResourceId",
-        type: {
-          name: "String"
-        }
-      },
-      resourceGuardOperationDetails: {
-        serializedName: "resourceGuardOperationDetails",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ResourceGuardOperationDetail"
-            }
-          }
-        }
-      },
-      lastUpdatedTime: {
-        serializedName: "lastUpdatedTime",
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ResourceGuardOperationDetail: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ResourceGuardOperationDetail",
-    modelProperties: {
-      vaultCriticalOperation: {
-        serializedName: "vaultCriticalOperation",
-        type: {
-          name: "String"
-        }
-      },
-      defaultResourceRequest: {
-        serializedName: "defaultResourceRequest",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const UnlockDeleteRequest: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "UnlockDeleteRequest",
-    modelProperties: {
-      resourceGuardOperationRequests: {
-        serializedName: "resourceGuardOperationRequests",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      resourceToBeDeleted: {
-        serializedName: "resourceToBeDeleted",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const UnlockDeleteResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "UnlockDeleteResponse",
-    modelProperties: {
-      unlockDeleteExpiryTime: {
-        serializedName: "unlockDeleteExpiryTime",
         type: {
           name: "String"
         }
@@ -2965,6 +2918,12 @@ export const TargetDetails: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      targetResourceArmId: {
+        serializedName: "targetResourceArmId",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -3040,17 +2999,17 @@ export const SecretStoreResource: coreClient.CompositeMapper = {
   }
 };
 
-export const BackupVaultResource: coreClient.CompositeMapper = {
+export const DppTrackedResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "BackupVaultResource",
+    className: "DppTrackedResource",
     modelProperties: {
-      ...DppTrackedResource.type.modelProperties,
-      properties: {
-        serializedName: "properties",
+      ...DppBaseTrackedResource.type.modelProperties,
+      identity: {
+        serializedName: "identity",
         type: {
           name: "Composite",
-          className: "BackupVault"
+          className: "DppIdentityDetails"
         }
       }
     }
@@ -3062,7 +3021,7 @@ export const ResourceGuardResource: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ResourceGuardResource",
     modelProperties: {
-      ...DppTrackedResource.type.modelProperties,
+      ...DppBaseTrackedResource.type.modelProperties,
       properties: {
         serializedName: "properties",
         type: {
@@ -3198,28 +3157,6 @@ export const DeletedBackupInstanceResourceList: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "DeletedBackupInstanceResource"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ResourceGuardProxyBaseResourceList: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ResourceGuardProxyBaseResourceList",
-    modelProperties: {
-      ...DppResourceList.type.modelProperties,
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ResourceGuardProxyBaseResource"
             }
           }
         }
@@ -3411,23 +3348,6 @@ export const DeletedBackupInstanceResource: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DeletedBackupInstance"
-        }
-      }
-    }
-  }
-};
-
-export const ResourceGuardProxyBaseResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ResourceGuardProxyBaseResource",
-    modelProperties: {
-      ...DppResource.type.modelProperties,
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "ResourceGuardProxyBase"
         }
       }
     }
@@ -3685,6 +3605,13 @@ export const AzureBackupDiscreteRecoveryPoint: coreClient.CompositeMapper = {
         serializedName: "retentionTagVersion",
         type: {
           name: "String"
+        }
+      },
+      expiryTime: {
+        serializedName: "expiryTime",
+        readOnly: true,
+        type: {
+          name: "DateTime"
         }
       }
     }
@@ -4361,6 +4288,23 @@ export const KubernetesClusterRestoreCriteria: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const BackupVaultResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BackupVaultResource",
+    modelProperties: {
+      ...DppTrackedResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "BackupVault"
         }
       }
     }

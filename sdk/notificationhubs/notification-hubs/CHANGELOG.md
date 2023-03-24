@@ -4,11 +4,14 @@
 
 ### Features Added
 
-### Breaking Changes
+- Added Xiaomi support with the following:
+  - `XiaomiRegistrationDescription` and `XiaomiTemplateRegistrationDescription` for registrations with associated factory methods.
+  - `XiaomiInstallation` for installation operations and associated factory methods.
+  - `XiaomiNotification` for notification send support and associated factory methods.
 
 ### Bugs Fixed
 
-### Other Changes
+- Rollup configuration fixed [#24839](https://github.com/Azure/azure-sdk-for-js/pull/24839)
 
 ## 1.0.0-beta.8 (2022-11-21)
 

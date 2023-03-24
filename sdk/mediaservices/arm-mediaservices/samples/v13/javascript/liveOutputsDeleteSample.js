@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes a live output. Deleting a live output does not delete the asset the live output is writing to.
  *
  * @summary Deletes a live output. Deleting a live output does not delete the asset the live output is writing to.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-08-01/examples/liveoutput-delete.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-11-01/examples/liveoutput-delete.json
  */
 async function deleteALiveOutput() {
   const subscriptionId =

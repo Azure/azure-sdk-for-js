@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 const { WorkloadsClient } = require("@azure/arm-workloads");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
- * This sample demonstrates how to Get SAP supported SKUs.
+ * This sample demonstrates how to Get a list of SAP supported SKUs for ASCS, Application and Database tier.
  *
- * @summary Get SAP supported SKUs.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPSupportedSkus_Distributed.json
+ * @summary Get a list of SAP supported SKUs for ASCS, Application and Database tier.
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPSupportedSkus_Distributed.json
  */
 async function sapSupportedSkusDistributed() {
-  const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] || "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const location = "centralus";
   const credential = new DefaultAzureCredential();
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -26,16 +28,15 @@ async function sapSupportedSkusDistributed() {
   console.log(result);
 }
 
-sapSupportedSkusDistributed().catch(console.error);
-
 /**
- * This sample demonstrates how to Get SAP supported SKUs.
+ * This sample demonstrates how to Get a list of SAP supported SKUs for ASCS, Application and Database tier.
  *
- * @summary Get SAP supported SKUs.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPSupportedSkus_DistributedHA_AvSet.json
+ * @summary Get a list of SAP supported SKUs for ASCS, Application and Database tier.
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPSupportedSkus_DistributedHA_AvSet.json
  */
 async function sapSupportedSkusDistributedHaAvSet() {
-  const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] || "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const location = "centralus";
   const credential = new DefaultAzureCredential();
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -43,33 +44,31 @@ async function sapSupportedSkusDistributedHaAvSet() {
   console.log(result);
 }
 
-sapSupportedSkusDistributedHaAvSet().catch(console.error);
-
 /**
- * This sample demonstrates how to Get SAP supported SKUs.
+ * This sample demonstrates how to Get a list of SAP supported SKUs for ASCS, Application and Database tier.
  *
- * @summary Get SAP supported SKUs.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPSupportedSkus_DistributedHA_AvZone.json
+ * @summary Get a list of SAP supported SKUs for ASCS, Application and Database tier.
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPSupportedSkus_DistributedHA_AvZone.json
  */
 async function sapSupportedSkusDistributedHaAvZone() {
-  const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] || "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const location = "centralus";
   const credential = new DefaultAzureCredential();
   const client = new WorkloadsClient(credential, subscriptionId);
   const result = await client.sAPSupportedSku(location);
   console.log(result);
 }
-
-sapSupportedSkusDistributedHaAvZone().catch(console.error);
 
 /**
- * This sample demonstrates how to Get SAP supported SKUs.
+ * This sample demonstrates how to Get a list of SAP supported SKUs for ASCS, Application and Database tier.
  *
- * @summary Get SAP supported SKUs.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPSupportedSkus_SingleServer.json
+ * @summary Get a list of SAP supported SKUs for ASCS, Application and Database tier.
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPSupportedSkus_SingleServer.json
  */
 async function sapSupportedSkusSingleServer() {
-  const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+  const subscriptionId =
+    process.env["WORKLOADS_SUBSCRIPTION_ID"] || "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const location = "centralus";
   const credential = new DefaultAzureCredential();
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -77,4 +76,11 @@ async function sapSupportedSkusSingleServer() {
   console.log(result);
 }
 
-sapSupportedSkusSingleServer().catch(console.error);
+async function main() {
+  sapSupportedSkusDistributed();
+  sapSupportedSkusDistributedHaAvSet();
+  sapSupportedSkusDistributedHaAvZone();
+  sapSupportedSkusSingleServer();
+}
+
+main().catch(console.error);

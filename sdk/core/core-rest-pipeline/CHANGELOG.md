@@ -1,6 +1,6 @@
 # Release History
 
-## 1.10.2 (Unreleased)
+## 1.10.3 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.10.2 (2023-03-02)
+
+### Bugs Fixed
+
+- Remove oscpu from OS sniffing [PR #24809](https://github.com/Azure/azure-sdk-for-js/pull/24809)
 
 ## 1.10.1 (2023-01-05)
 

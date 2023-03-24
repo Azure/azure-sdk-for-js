@@ -69,14 +69,14 @@ export interface ContainerRegistryBlob {
   /**
    * Mount a blob identified by the `mount` parameter from another repository.
    * @param name Name of the image (including the namespace)
-   * @param mount Digest of blob to mount from the source repository.
    * @param fromParam Name of the source repository.
+   * @param mount Digest of blob to mount from the source repository.
    * @param options The options parameters.
    */
   mountBlob(
     name: string,
-    mount: string,
     fromParam: string,
+    mount: string,
     options?: ContainerRegistryBlobMountBlobOptionalParams
   ): Promise<ContainerRegistryBlobMountBlobResponse>;
   /**
