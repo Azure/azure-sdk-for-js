@@ -145,7 +145,7 @@ export class CallRecording {
     if (recordingStream) {
       return recordingStream;
     } else {
-      throw "failed to get stream";
+      throw Error("failed to get stream");
     }
   }
 
@@ -169,7 +169,7 @@ export class CallRecording {
     if (recordingStream) {
       recordingStream.pipe(fs.createWriteStream(destinationPath));
     } else {
-      throw "failed to get stream";
+      throw Error("failed to get stream");
     }
   }
 }
