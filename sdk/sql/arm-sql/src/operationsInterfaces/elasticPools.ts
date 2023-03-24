@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Metric,
   ElasticPoolsListMetricsOptionalParams,
@@ -101,8 +101,8 @@ export interface ElasticPools {
     parameters: ElasticPool,
     options?: ElasticPoolsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ElasticPoolsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ElasticPoolsCreateOrUpdateResponse>,
       ElasticPoolsCreateOrUpdateResponse
     >
   >;
@@ -135,7 +135,7 @@ export interface ElasticPools {
     serverName: string,
     elasticPoolName: string,
     options?: ElasticPoolsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an elastic pool.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -166,8 +166,8 @@ export interface ElasticPools {
     parameters: ElasticPoolUpdate,
     options?: ElasticPoolsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ElasticPoolsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ElasticPoolsUpdateResponse>,
       ElasticPoolsUpdateResponse
     >
   >;
@@ -200,7 +200,7 @@ export interface ElasticPools {
     serverName: string,
     elasticPoolName: string,
     options?: ElasticPoolsFailoverOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Failovers an elastic pool.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

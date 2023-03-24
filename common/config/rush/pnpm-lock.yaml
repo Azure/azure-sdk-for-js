@@ -14786,7 +14786,7 @@ packages:
     dev: false
 
   file:projects/arm-sql.tgz:
-    resolution: {integrity: sha512-/U2gxGZ14JL6r2B4PDL1ZAhpGmcwCsV+7q0y/wGtQJmXAAD5G5WnZBqZRP+byC7o18CXQnRgFlR5nVA/zj6QKQ==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-/tBjWZJq4F0GRWtLPg1EJJSUnRXSFKH0iQwDiqg72Yf38il+hjeRtYIMXcR+/swv7tDy1fmNFXE8ougKu2mf7w==, tarball: file:projects/arm-sql.tgz}
     name: '@rush-temp/arm-sql'
     version: 0.0.0
     dependencies:
@@ -14800,7 +14800,8 @@ packages:
       '@types/node': 14.18.38
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1

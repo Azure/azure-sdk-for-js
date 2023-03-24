@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ImportExportExtensionsOperationResult,
   DatabaseExtensionsListByDatabaseOptionalParams,
@@ -68,8 +68,8 @@ export interface DatabaseExtensionsOperations {
     parameters: DatabaseExtensions,
     options?: DatabaseExtensionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DatabaseExtensionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DatabaseExtensionsCreateOrUpdateResponse>,
       DatabaseExtensionsCreateOrUpdateResponse
     >
   >;

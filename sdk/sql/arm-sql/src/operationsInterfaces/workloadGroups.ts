@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   WorkloadGroup,
   WorkloadGroupsListByDatabaseOptionalParams,
@@ -69,8 +69,8 @@ export interface WorkloadGroups {
     parameters: WorkloadGroup,
     options?: WorkloadGroupsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadGroupsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadGroupsCreateOrUpdateResponse>,
       WorkloadGroupsCreateOrUpdateResponse
     >
   >;
@@ -107,7 +107,7 @@ export interface WorkloadGroups {
     databaseName: string,
     workloadGroupName: string,
     options?: WorkloadGroupsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a workload group.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

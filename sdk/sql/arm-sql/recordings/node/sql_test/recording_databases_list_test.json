@@ -1,15 +1,15 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Sql/servers/myserverppp/databases?api-version=2021-05-01-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/czwTest/providers/Microsoft.Sql/servers/myserverppp/databases?api-version=2022-08-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-sql/9.1.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "ae40b508-1a48-42ac-938f-9bb279296d0c"
+        "User-Agent": "azsdk-js-arm-sql/10.0.0 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "24db7a58-14a0-48ba-aba1-d1bb1f649d1e"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 15 Dec 2022 06:16:04 GMT",
+        "Date": "Wed, 15 Mar 2023 09:20:05 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
@@ -25,10 +25,10 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "ac8b5204-1d22-4307-8e7c-a283c5bc24fe",
-        "x-ms-ratelimit-remaining-subscription-reads": "11980",
-        "x-ms-request-id": "031116d6-dbd7-4d46-bf78-b5adf091c73e",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221215T061605Z:ac8b5204-1d22-4307-8e7c-a283c5bc24fe"
+        "x-ms-correlation-request-id": "b619a8da-2c7d-4a30-b8e4-257f782e409f",
+        "x-ms-ratelimit-remaining-subscription-reads": "11979",
+        "x-ms-request-id": "b862d91c-d164-4dea-b2d8-b039ef59cec2",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230315T092006Z:b619a8da-2c7d-4a30-b8e4-257f782e409f"
       },
       "ResponseBody": {
         "value": [
@@ -44,8 +44,8 @@
               "collation": "SQL_Latin1_General_CP1_CI_AS",
               "maxSizeBytes": 34359738368,
               "status": "Online",
-              "databaseId": "128fc881-8e0e-4f67-8ca6-25cb58340f29",
-              "creationDate": "2022-12-15T06:15:56.653Z",
+              "databaseId": "04e30703-bfd1-4af3-ae01-4ae9cf96aadc",
+              "creationDate": "2023-03-15T09:19:44.6Z",
               "currentServiceObjectiveName": "GP_Gen5_2",
               "requestedServiceObjectiveName": "GP_Gen5_2",
               "defaultSecondaryLocation": "westus",
@@ -64,10 +64,11 @@
               "requestedBackupStorageRedundancy": "Geo",
               "maintenanceConfigurationId": "/subscriptions/azure_subscription_id/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default",
               "isLedgerOn": false,
-              "isInfraEncryptionEnabled": false
+              "isInfraEncryptionEnabled": false,
+              "availabilityZone": "NoPreference"
             },
             "location": "eastus",
-            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Sql/servers/myserverppp/databases/mydatabasezzzz",
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/czwTest/providers/Microsoft.Sql/servers/myserverppp/databases/mydatabasezzzz",
             "name": "mydatabasezzzz",
             "type": "Microsoft.Sql/servers/databases"
           },
@@ -78,13 +79,13 @@
               "capacity": 0
             },
             "kind": "v12.0,system",
-            "managedBy": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Sql/servers/myserverppp",
+            "managedBy": "/subscriptions/azure_subscription_id/resourceGroups/czwTest/providers/Microsoft.Sql/servers/myserverppp",
             "properties": {
               "collation": "SQL_Latin1_General_CP1_CI_AS",
               "maxSizeBytes": 53687091200,
               "status": "Online",
-              "databaseId": "058c5eed-b84b-4f70-a448-f4156b1d9e54",
-              "creationDate": "2022-12-15T06:15:00.027Z",
+              "databaseId": "5b44e84e-0aa6-4c40-8a7b-73ef86647312",
+              "creationDate": "2023-03-15T09:18:35.507Z",
               "currentServiceObjectiveName": "System2",
               "requestedServiceObjectiveName": "System2",
               "defaultSecondaryLocation": "westus",
@@ -100,10 +101,11 @@
               "requestedBackupStorageRedundancy": "Local",
               "maintenanceConfigurationId": "/subscriptions/azure_subscription_id/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default",
               "isLedgerOn": false,
-              "isInfraEncryptionEnabled": false
+              "isInfraEncryptionEnabled": false,
+              "availabilityZone": "NoPreference"
             },
             "location": "eastus",
-            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Sql/servers/myserverppp/databases/master",
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/czwTest/providers/Microsoft.Sql/servers/myserverppp/databases/master",
             "name": "master",
             "type": "Microsoft.Sql/servers/databases"
           }
