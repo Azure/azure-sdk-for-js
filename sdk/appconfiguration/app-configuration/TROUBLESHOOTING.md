@@ -54,11 +54,11 @@ For detailed instructions on how to enable logs, see the [@azure/logger package 
 
 ### Authentication issues
 
-In addtition to connection strings, Azure App Congifuration supports [role-based access control](https://learn.microsoft.com/en-us/azure/role-based-access-control/overview) (RBAC) using Azure Active Directory authentication. To provide a valid credential, you can use the `@azure/identity` dependency. For more details on getting started, see the [README](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration) of Azure App Configuration library. 
+In addtition to connection strings, Azure App Congifuration supports [role-based access control](https://learn.microsoft.com/azure/role-based-access-control/overview) (RBAC) using Azure Active Directory authentication. To provide a valid credential, you can use the `@azure/identity` dependency. For more details on getting started, see the [README](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration) of Azure App Configuration library. 
 
 #### Permission issues
 
-Calls to service clients resulting in an error with HTTP code of 401 or 403 often indicate the caller doesn't have sufficient permissions for the specified API. Check the service documentation to determine which RBAC roles are needed for the specific request, and ensure the authenticated user or service principal have been granted the appropriate roles on the resource. More information on App Configuration roles can be found [here](https://learn.microsoft.com/en-us/azure/azure-app-configuration/concept-enable-rbac#azure-built-in-roles-for-azure-app-configuration).
+Calls to service clients resulting in an error with HTTP code of 401 or 403 often indicate the caller doesn't have sufficient permissions for the specified API. Check the service documentation to determine which RBAC roles are needed for the specific request, and ensure the authenticated user or service principal have been granted the appropriate roles on the resource. More information on App Configuration roles can be found [here](https://learn.microsoft.com/azure/azure-app-configuration/concept-enable-rbac#azure-built-in-roles-for-azure-app-configuration).
 
 For more help with troubleshooting authentication errors, see the Azure Identity client library [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/TROUBLESHOOTING.md).
 
@@ -71,7 +71,7 @@ Azure App Configuration service methods throw a RestError or its subclass on fai
 * Excessive bandwidth usage.
 * Attempting to create or modify a key when the storage quota is exceeded.
 
-To reduce number of requests made to App Configuration service, please check out [this guide](https://learn.microsoft.com/en-us/azure/azure-app-configuration/howto-best-practices#reduce-requests-made-to-app-configuration).
+To reduce number of requests made to App Configuration service, please check out [this guide](https://learn.microsoft.com/azure/azure-app-configuration/howto-best-practices#reduce-requests-made-to-app-configuration).
 
 ## Get additional help
 
