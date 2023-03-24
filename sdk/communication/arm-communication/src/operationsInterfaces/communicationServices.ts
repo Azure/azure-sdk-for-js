@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   CommunicationServiceResource,
   CommunicationServicesListBySubscriptionOptionalParams,
@@ -78,25 +78,7 @@ export interface CommunicationServices {
    * @param parameters Parameters for the update operation
    * @param options The options parameters.
    */
-  beginUpdate(
-    resourceGroupName: string,
-    communicationServiceName: string,
-    parameters: CommunicationServiceResourceUpdate,
-    options?: CommunicationServicesUpdateOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<CommunicationServicesUpdateResponse>,
-      CommunicationServicesUpdateResponse
-    >
-  >;
-  /**
-   * Operation to update an existing CommunicationService.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param communicationServiceName The name of the CommunicationService resource.
-   * @param parameters Parameters for the update operation
-   * @param options The options parameters.
-   */
-  beginUpdateAndWait(
+  update(
     resourceGroupName: string,
     communicationServiceName: string,
     parameters: CommunicationServiceResourceUpdate,
@@ -126,8 +108,8 @@ export interface CommunicationServices {
     parameters: CommunicationServiceResource,
     options?: CommunicationServicesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CommunicationServicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CommunicationServicesCreateOrUpdateResponse>,
       CommunicationServicesCreateOrUpdateResponse
     >
   >;
@@ -154,7 +136,7 @@ export interface CommunicationServices {
     resourceGroupName: string,
     communicationServiceName: string,
     options?: CommunicationServicesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Operation to delete a CommunicationService.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -185,26 +167,7 @@ export interface CommunicationServices {
    * @param parameters Parameter that describes the Regenerate Key Operation.
    * @param options The options parameters.
    */
-  beginRegenerateKey(
-    resourceGroupName: string,
-    communicationServiceName: string,
-    parameters: RegenerateKeyParameters,
-    options?: CommunicationServicesRegenerateKeyOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<CommunicationServicesRegenerateKeyResponse>,
-      CommunicationServicesRegenerateKeyResponse
-    >
-  >;
-  /**
-   * Regenerate CommunicationService access key. PrimaryKey and SecondaryKey cannot be regenerated at the
-   * same time.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param communicationServiceName The name of the CommunicationService resource.
-   * @param parameters Parameter that describes the Regenerate Key Operation.
-   * @param options The options parameters.
-   */
-  beginRegenerateKeyAndWait(
+  regenerateKey(
     resourceGroupName: string,
     communicationServiceName: string,
     parameters: RegenerateKeyParameters,

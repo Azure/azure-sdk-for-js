@@ -143,6 +143,7 @@ specifiers:
   '@rush-temp/arm-network-1': file:./projects/arm-network-1.tgz
   '@rush-temp/arm-network-profile-2020-09-01-hybrid': file:./projects/arm-network-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-networkfunction': file:./projects/arm-networkfunction.tgz
+  '@rush-temp/arm-newrelicobservability': file:./projects/arm-newrelicobservability.tgz
   '@rush-temp/arm-nginx': file:./projects/arm-nginx.tgz
   '@rush-temp/arm-notificationhubs': file:./projects/arm-notificationhubs.tgz
   '@rush-temp/arm-oep': file:./projects/arm-oep.tgz
@@ -478,6 +479,7 @@ dependencies:
   '@rush-temp/arm-network-1': file:projects/arm-network-1.tgz
   '@rush-temp/arm-network-profile-2020-09-01-hybrid': file:projects/arm-network-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-networkfunction': file:projects/arm-networkfunction.tgz
+  '@rush-temp/arm-newrelicobservability': file:projects/arm-newrelicobservability.tgz
   '@rush-temp/arm-nginx': file:projects/arm-nginx.tgz
   '@rush-temp/arm-notificationhubs': file:projects/arm-notificationhubs.tgz
   '@rush-temp/arm-oep': file:projects/arm-oep.tgz
@@ -8771,6 +8773,7 @@ packages:
 
   /typescript/5.1.0-dev.20230323:
     resolution: {integrity: sha512-C/U2MNu/RkpNWJLPqo0q6ZimJLwBaQkd9ktJOjLDyV6/d/HgVfvVI15ga0UH4yj4bKRY0B8Yoth8pyn6jP+IUg==}
+
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -10809,7 +10812,7 @@ packages:
     dev: false
 
   file:projects/arm-communication.tgz:
-    resolution: {integrity: sha512-ZngMAKiaE2ZDOw6Yyyt5MYMKFaKUJE7g5sOqz/9wnD4aRQhCJ0CtgCBss6mIywzFHtZ79BL0zPOt1JBC38UW8w==, tarball: file:projects/arm-communication.tgz}
+    resolution: {integrity: sha512-9aggd5C8Ewf5AHKZ5PU/F7soofXTY0qUYZ1fJjNU07i/gGAX+4KKQhOKB7R3gzWfzL8eoHvD/Ho+E30/ZZ0pZA==, tarball: file:projects/arm-communication.tgz}
     name: '@rush-temp/arm-communication'
     version: 0.0.0
     dependencies:
@@ -10823,8 +10826,8 @@ packages:
       '@types/node': 14.18.38
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -13506,6 +13509,34 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-newrelicobservability.tgz:
+    resolution: {integrity: sha512-LmrvBWJ+OebmXjF6lOR1y6vJ046P5xTHpT2YmIkGFBCFMutjoap2SgJPlvfcTpITxnbJhQIboh+gfymCxNrzZA==, tarball: file:projects/arm-newrelicobservability.tgz}
+    name: '@rush-temp/arm-newrelicobservability'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.4_@types+node@14.18.38
+      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.38
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rrfo4ccoq6ga3fxzubpgdsawvq
+      tslib: 2.5.0
+      typescript: 4.8.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   file:projects/arm-nginx.tgz:
     resolution: {integrity: sha512-t46u42VI5HPyrYRNqN8V+0aUYplz3/EZ3a7nyv48lUwTBW8DdIUowTsIA34+GH2XlhuEh8Vm9mQq8exeow0Ymw==, tarball: file:projects/arm-nginx.tgz}
     name: '@rush-temp/arm-nginx'
@@ -14791,7 +14822,7 @@ packages:
     dev: false
 
   file:projects/arm-sql.tgz:
-    resolution: {integrity: sha512-/U2gxGZ14JL6r2B4PDL1ZAhpGmcwCsV+7q0y/wGtQJmXAAD5G5WnZBqZRP+byC7o18CXQnRgFlR5nVA/zj6QKQ==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-/tBjWZJq4F0GRWtLPg1EJJSUnRXSFKH0iQwDiqg72Yf38il+hjeRtYIMXcR+/swv7tDy1fmNFXE8ougKu2mf7w==, tarball: file:projects/arm-sql.tgz}
     name: '@rush-temp/arm-sql'
     version: 0.0.0
     dependencies:
@@ -14805,7 +14836,8 @@ packages:
       '@types/node': 14.18.38
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1

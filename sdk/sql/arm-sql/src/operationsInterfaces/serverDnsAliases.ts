@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ServerDnsAlias,
   ServerDnsAliasesListByServerOptionalParams,
@@ -64,8 +64,8 @@ export interface ServerDnsAliases {
     dnsAliasName: string,
     options?: ServerDnsAliasesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ServerDnsAliasesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ServerDnsAliasesCreateOrUpdateResponse>,
       ServerDnsAliasesCreateOrUpdateResponse
     >
   >;
@@ -96,7 +96,7 @@ export interface ServerDnsAliases {
     serverName: string,
     dnsAliasName: string,
     options?: ServerDnsAliasesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the server DNS alias with the given name.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -127,8 +127,8 @@ export interface ServerDnsAliases {
     parameters: ServerDnsAliasAcquisition,
     options?: ServerDnsAliasesAcquireOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ServerDnsAliasesAcquireResponse>,
+    SimplePollerLike<
+      OperationState<ServerDnsAliasesAcquireResponse>,
       ServerDnsAliasesAcquireResponse
     >
   >;
