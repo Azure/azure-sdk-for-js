@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   WorkflowTrigger,
   WorkflowTriggersListOptionalParams,
@@ -80,7 +80,7 @@ export interface WorkflowTriggers {
     workflowName: string,
     triggerName: string,
     options?: WorkflowTriggersRunOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Runs a workflow trigger.
    * @param resourceGroupName Name of the resource group to which the resource belongs.

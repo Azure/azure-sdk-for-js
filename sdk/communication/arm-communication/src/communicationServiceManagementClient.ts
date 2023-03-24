@@ -18,13 +18,15 @@ import {
   OperationsImpl,
   CommunicationServicesImpl,
   DomainsImpl,
-  EmailServicesImpl
+  EmailServicesImpl,
+  SenderUsernamesImpl
 } from "./operations";
 import {
   Operations,
   CommunicationServices,
   Domains,
-  EmailServices
+  EmailServices,
+  SenderUsernames
 } from "./operationsInterfaces";
 import { CommunicationServiceManagementClientOptionalParams } from "./models";
 
@@ -36,7 +38,7 @@ export class CommunicationServiceManagementClient extends coreClient.ServiceClie
   /**
    * Initializes a new instance of the CommunicationServiceManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
@@ -113,11 +115,12 @@ export class CommunicationServiceManagementClient extends coreClient.ServiceClie
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-07-01-preview";
+    this.apiVersion = options.apiVersion || "2023-03-01-preview";
     this.operations = new OperationsImpl(this);
     this.communicationServices = new CommunicationServicesImpl(this);
     this.domains = new DomainsImpl(this);
     this.emailServices = new EmailServicesImpl(this);
+    this.senderUsernames = new SenderUsernamesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -153,4 +156,5 @@ export class CommunicationServiceManagementClient extends coreClient.ServiceClie
   communicationServices: CommunicationServices;
   domains: Domains;
   emailServices: EmailServices;
+  senderUsernames: SenderUsernames;
 }

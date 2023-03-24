@@ -48,9 +48,9 @@ export interface DownloadManifestResult {
   mediaType: string;
 
   /**
-   * The manifest stream that was downloaded.
+   * The raw content of the manifest that was downloaded.
    */
-  content: NodeJS.ReadableStream;
+  content: Buffer;
 }
 
 /**

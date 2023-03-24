@@ -20,11 +20,11 @@ function Confirm-NodeInstallation
 }
 
 function Get-javascript-EmitterName() {
-  return "@azure-tools/cadl-typescript"
+  return "@azure-tools/typespec-ts"
 }
 
 function Get-javascript-EmitterAdditionalOptions([string]$projectDirectory) {
-  return "--option @azure-tools/cadl-typescript.emitter-output-dir=$projectDirectory/"
+  return "--option @azure-tools/typespec-ts.emitter-output-dir=$projectDirectory/"
 }
 
 function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory) {

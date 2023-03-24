@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Contact,
   ContactsListOptionalParams,
@@ -22,9 +22,9 @@ import {
 /** Interface representing a Contacts. */
 export interface Contacts {
   /**
-   * Returns list of contacts by spacecraftName
+   * Returns list of contacts by spacecraftName.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param spacecraftName Spacecraft ID
+   * @param spacecraftName Spacecraft ID.
    * @param options The options parameters.
    */
   list(
@@ -33,10 +33,10 @@ export interface Contacts {
     options?: ContactsListOptionalParams
   ): PagedAsyncIterableIterator<Contact>;
   /**
-   * Gets the specified contact in a specified resource group
+   * Gets the specified contact in a specified resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param spacecraftName Spacecraft ID
-   * @param contactName Contact Name
+   * @param spacecraftName Spacecraft ID.
+   * @param contactName Contact name.
    * @param options The options parameters.
    */
   get(
@@ -48,8 +48,8 @@ export interface Contacts {
   /**
    * Creates a contact.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param spacecraftName Spacecraft ID
-   * @param contactName Contact Name
+   * @param spacecraftName Spacecraft ID.
+   * @param contactName Contact name.
    * @param parameters The parameters to provide for the created contact.
    * @param options The options parameters.
    */
@@ -60,16 +60,16 @@ export interface Contacts {
     parameters: Contact,
     options?: ContactsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ContactsCreateResponse>,
+    SimplePollerLike<
+      OperationState<ContactsCreateResponse>,
       ContactsCreateResponse
     >
   >;
   /**
    * Creates a contact.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param spacecraftName Spacecraft ID
-   * @param contactName Contact Name
+   * @param spacecraftName Spacecraft ID.
+   * @param contactName Contact name.
    * @param parameters The parameters to provide for the created contact.
    * @param options The options parameters.
    */
@@ -81,10 +81,10 @@ export interface Contacts {
     options?: ContactsCreateOptionalParams
   ): Promise<ContactsCreateResponse>;
   /**
-   * Deletes a specified contact
+   * Deletes a specified contact.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param spacecraftName Spacecraft ID
-   * @param contactName Contact Name
+   * @param spacecraftName Spacecraft ID.
+   * @param contactName Contact name.
    * @param options The options parameters.
    */
   beginDelete(
@@ -92,12 +92,12 @@ export interface Contacts {
     spacecraftName: string,
     contactName: string,
     options?: ContactsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Deletes a specified contact
+   * Deletes a specified contact.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param spacecraftName Spacecraft ID
-   * @param contactName Contact Name
+   * @param spacecraftName Spacecraft ID.
+   * @param contactName Contact name.
    * @param options The options parameters.
    */
   beginDeleteAndWait(

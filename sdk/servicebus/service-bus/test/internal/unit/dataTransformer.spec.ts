@@ -38,6 +38,7 @@ describe("DataTransformer", function () {
   const emptyStringBody: string = "";
   const bufferBody: Buffer = Buffer.from("zzz", "utf8");
   const hexBufferBody: Buffer = Buffer.from("7468697320697320612074c3a97374", "hex");
+  const uint8ArrayBody = new Uint8Array([0x1, 0x2, 0x3, 0x4]);
   const transformer = defaultDataTransformer;
 
   it("should correctly encode/decode a string message body", function (done) {
@@ -127,6 +128,17 @@ describe("DataTransformer", function () {
     isBuffer(encoded.content).should.equal(true);
     const decoded: any = transformer.decode(encoded, false);
     assert.deepEqual(decoded, bufferBody);
+    done();
+  });
+
+  it("should correctly encode/decode a Uint8Array message body", function (done) {
+    const encoded: any = transformer.encode(uint8ArrayBody, "data");
+    encoded.typecode.should.equal(117);
+    console.dir({ encoded });
+    (encoded.content instanceof Uint8Array).should.equal(true);
+    (encoded.content as Uint8Array).length.should.equal(4);
+    const decoded: any = transformer.decode(encoded, false);
+    assert.deepEqual(decoded, uint8ArrayBody);
     done();
   });
 

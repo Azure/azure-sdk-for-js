@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Backup,
   AccountBackupsListOptionalParams,
@@ -21,7 +21,7 @@ import {
 export interface AccountBackups {
   /**
    * List all Backups for a Netapp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -32,7 +32,7 @@ export interface AccountBackups {
   ): PagedAsyncIterableIterator<Backup>;
   /**
    * Gets the specified backup for a Netapp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupName The name of the backup
    * @param options The options parameters.
@@ -45,7 +45,7 @@ export interface AccountBackups {
   ): Promise<AccountBackupsGetResponse>;
   /**
    * Delete the specified Backup for a Netapp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupName The name of the backup
    * @param options The options parameters.
@@ -55,10 +55,10 @@ export interface AccountBackups {
     accountName: string,
     backupName: string,
     options?: AccountBackupsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the specified Backup for a Netapp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupName The name of the backup
    * @param options The options parameters.

@@ -19,21 +19,21 @@ const authMethods: CreateClientMode[] = isNode
 
 if (isLiveMode()) {
   authMethods.forEach((authMethod) => {
-    describe(`AuthMethods Test ${authMethod} ${platform}`, () => {
+    describe(`AuthMethods Test ${authMethod} ${platform}`, function () {
       let serviceClient: TableServiceClient;
       let tableClient: TableClient;
       const tableClientTableName = `Auth${authMethod}${platform}`;
 
-      after(async () => {
+      after(async function () {
         await tableClient.deleteTable();
       });
 
-      describe("TableServiceClient", () => {
+      describe("TableServiceClient", function () {
         beforeEach(async function (this: Context) {
           serviceClient = await createTableServiceClient(authMethod);
         });
 
-        it("Create and Delete Table", async () => {
+        it("Create and Delete Table", async function () {
           const tableName = `AuthTable${authMethod}${platform}`;
           await serviceClient.createTable(tableName, {
             onResponse: (rawResponse) => {
@@ -48,12 +48,12 @@ if (isLiveMode()) {
         });
       });
 
-      describe("TableClient", () => {
+      describe("TableClient", function () {
         beforeEach(async function (this: Context) {
           tableClient = await createTableClient(tableClientTableName, authMethod);
         });
 
-        it("create, update and get entity", async () => {
+        it("create, update and get entity", async function () {
           await tableClient.createTable();
           await tableClient.createEntity({ partitionKey: "P1", rowKey: "R1", foo: "bar" });
           await tableClient.updateEntity({ partitionKey: "P1", rowKey: "R1", foo: "baz" });
@@ -61,7 +61,7 @@ if (isLiveMode()) {
           assert.equal(entity.foo, "baz");
         });
 
-        it("send a batch request", async () => {
+        it("send a batch request", async function () {
           const partitionKey = "P2";
           await tableClient.createTable();
 

@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Use this method to dismiss an aggregated IoT Security Solution Alert.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2019-08-01/examples/IoTSecuritySolutionsAnalytics/PostIoTSecuritySolutionsSecurityAggregatedAlertDismiss.json
  */
 async function dismissAnAggregatedIoTSecuritySolutionAlert() {
-  const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
-  const resourceGroupName = "IoTEdgeResources";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] ||
+    "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
+  const resourceGroupName =
+    process.env["SECURITY_RESOURCE_GROUP"] || "IoTEdgeResources";
   const solutionName = "default";
   const aggregatedAlertName = "IoT_Bruteforce_Fail/2019-02-02/dismiss";
   const credential = new DefaultAzureCredential();
@@ -32,4 +38,8 @@ async function dismissAnAggregatedIoTSecuritySolutionAlert() {
   console.log(result);
 }
 
-dismissAnAggregatedIoTSecuritySolutionAlert().catch(console.error);
+async function main() {
+  dismissAnAggregatedIoTSecuritySolutionAlert();
+}
+
+main().catch(console.error);
