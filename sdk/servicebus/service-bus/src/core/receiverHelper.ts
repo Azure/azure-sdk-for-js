@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortError } from "@azure/abort-controller";
+import { AbortController, AbortError } from "@azure/abort-controller";
+import { delay } from "@azure/core-util";
 import { Receiver, ReceiverEvents } from "rhea-promise";
 import { receiverLogger as logger } from "../log";
 import { ServiceBusError } from "../serviceBusError";
@@ -135,10 +136,52 @@ export class ReceiverHelper {
       receiver.drainCredit();
     });
 
-    return drainPromise;
+    return timeboxedPromise(drainPromise, 1000, async () => {
+      logger.warning(`${logPrefix} Time out when draining credits in suspend().`);
+      // Close the receiver link since we have not received the receiver_drained event
+      // to prevent out-of-sync link state between local and remote
+      await receiver?.close();
+    });
   }
 
   private _isValidReceiver(receiver: Receiver | undefined): receiver is Receiver {
     return receiver != null && receiver.isOpen();
+  }
+}
+
+const sym = Symbol();
+class TimeoutError extends Error {
+  constructor(public symbol: symbol, ...args: any[]) {
+    super(...args);
+  }
+}
+
+/**
+ * Takes a Promise and create a new Promise that resolves either the original promise
+ * resolves, or a timeout limit is reached. Optionally it can take callbacks for the case
+ * where the time expires.
+ * @param promise - the Promise instance to be time boxed.
+ * @param timeoutInMs - the time out limit in milliseconds.
+ * @param timeoutCallback - optional callback when time out happens.
+ * @internal
+ */
+async function timeboxedPromise(
+  promise: Promise<void>,
+  timeoutInMs: number,
+  timeoutCallback?: () => Promise<void>
+): Promise<void> {
+  const aborter = new AbortController();
+  const timeoutPromise = delay(timeoutInMs, { abortSignal: aborter.signal }).then(() => {
+    throw new TimeoutError(sym, "Timeout limited reached for time boxed promise");
+  });
+
+  try {
+    await Promise.race([promise, timeoutPromise]).finally(() => {
+      aborter.abort();
+    });
+  } catch (e) {
+    if (timeoutCallback && (e as TimeoutError).symbol === sym) {
+      await timeoutCallback();
+    }
   }
 }
