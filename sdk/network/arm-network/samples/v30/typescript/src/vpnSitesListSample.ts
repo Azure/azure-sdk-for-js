@@ -10,15 +10,18 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists all the VpnSites in a subscription.
  *
  * @summary Lists all the VpnSites in a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VpnSiteList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VpnSiteList.json
  */
 async function vpnSiteList() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +31,8 @@ async function vpnSiteList() {
   console.log(resArray);
 }
 
-vpnSiteList().catch(console.error);
+async function main() {
+  vpnSiteList();
+}
+
+main().catch(console.error);

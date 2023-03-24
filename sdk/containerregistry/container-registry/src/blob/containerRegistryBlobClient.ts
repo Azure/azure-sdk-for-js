@@ -29,7 +29,7 @@ import {
 } from "./models";
 import * as Mappers from "../generated/models/mappers";
 import { CommonClientOptions, createSerializer } from "@azure/core-client";
-import { readChunksFromStream, readStreamToEnd } from "../utils/helpers";
+import { isDigest, readChunksFromStream, readStreamToEnd } from "../utils/helpers";
 import { Readable } from "stream";
 import { tracingClient } from "../tracing";
 import crypto from "crypto";
@@ -205,7 +205,7 @@ export class ContainerRegistryBlobClient {
   /**
    * Upload a manifest for an OCI artifact.
    *
-   * @param manifest - the manifest to upload. If a resettable stream (a factory function that returns a stream) is provided, it may be called multiple times. Each time the function is called, a fresh stream should be returned.
+   * @param manifest - the manifest to upload.
    */
   public async uploadManifest(
     manifest: Buffer | NodeJS.ReadableStream | OciImageManifest,
@@ -277,22 +277,28 @@ export class ContainerRegistryBlobClient {
 
         assertHasProperty(response, "mediaType");
 
-        const bodyData = response.readableStreamBody
+        const content = response.readableStreamBody
           ? await readStreamToEnd(response.readableStreamBody)
           : Buffer.alloc(0);
 
-        const expectedDigest = await calculateDigest(bodyData);
+        const expectedDigest = await calculateDigest(content);
+
+        if (isDigest(tagOrDigest) && expectedDigest !== tagOrDigest) {
+          throw new DigestMismatchError(
+            "Digest of downloaded manifest does not match the input digest"
+          );
+        }
 
         if (response.dockerContentDigest !== expectedDigest) {
           throw new DigestMismatchError(
-            "Digest of blob to upload does not match the digest from the server."
+            "Computed digest of downloaded manifest does not match the value of the Docker-Content-Digest header"
           );
         }
 
         if (response.mediaType === KnownManifestMediaType.OciManifest) {
           const manifest = serializer.deserialize(
             Mappers.OCIManifest,
-            JSON.parse(bodyData.toString()),
+            JSON.parse(content.toString()),
             "OCIManifest"
           );
 
@@ -300,14 +306,14 @@ export class ContainerRegistryBlobClient {
             digest: response.dockerContentDigest,
             mediaType: response.mediaType,
             manifest,
-            content: Readable.from(bodyData),
+            content,
           };
         }
 
         return {
           digest: response.dockerContentDigest,
           mediaType: response.mediaType,
-          content: Readable.from(bodyData),
+          content,
         };
       }
     );
@@ -359,6 +365,8 @@ export class ContainerRegistryBlobClient {
         const chunks = readChunksFromStream(blobStream, CHUNK_SIZE);
         const hash = crypto.createHash("sha256");
 
+        let bytesUploaded = 0;
+
         for await (const chunk of chunks) {
           hash.write(chunk);
           const result = await this.client.containerRegistryBlob.uploadChunk(
@@ -366,6 +374,9 @@ export class ContainerRegistryBlobClient {
             chunk,
             updatedOptions
           );
+
+          bytesUploaded += chunk.byteLength;
+
           assertHasProperty(result, "location");
           location = result.location.substring(1);
         }
@@ -382,7 +393,7 @@ export class ContainerRegistryBlobClient {
           );
         }
 
-        return { digest };
+        return { digest, sizeInBytes: bytesUploaded };
       }
     );
   }

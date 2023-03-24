@@ -160,7 +160,7 @@ export interface DownloadManifestOptions extends OperationOptions {
 
 // @public
 export interface DownloadManifestResult {
-    content: NodeJS.ReadableStream;
+    content: Buffer;
     digest: string;
     mediaType: string;
 }
@@ -276,7 +276,7 @@ export interface OciDescriptor {
     annotations?: OciAnnotations;
     digest: string;
     mediaType: string;
-    size: number;
+    sizeInBytes: number;
     urls?: string[];
 }
 
@@ -285,7 +285,7 @@ export interface OciImageManifest {
     annotations?: OciAnnotations;
     config: OciDescriptor;
     layers: OciDescriptor[];
-    schemaVersion: number;
+    schemaVersion?: number;
 }
 
 // @public
@@ -343,6 +343,7 @@ export interface UploadBlobOptions extends OperationOptions {
 // @public
 export interface UploadBlobResult {
     digest: string;
+    sizeInBytes: number;
 }
 
 // @public

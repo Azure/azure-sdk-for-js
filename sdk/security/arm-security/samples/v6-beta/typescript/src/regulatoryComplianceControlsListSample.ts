@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to All supported regulatory compliance controls details and state for selected standard
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2019-01-01-preview/examples/RegulatoryCompliance/getRegulatoryComplianceControlList_example.json
  */
 async function getAllRegulatoryComplianceControlsDetailsAndStateForSelectedStandard() {
-  const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] ||
+    "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const regulatoryComplianceStandardName = "PCI-DSS-3.2";
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
@@ -31,6 +36,8 @@ async function getAllRegulatoryComplianceControlsDetailsAndStateForSelectedStand
   console.log(resArray);
 }
 
-getAllRegulatoryComplianceControlsDetailsAndStateForSelectedStandard().catch(
-  console.error
-);
+async function main() {
+  getAllRegulatoryComplianceControlsDetailsAndStateForSelectedStandard();
+}
+
+main().catch(console.error);

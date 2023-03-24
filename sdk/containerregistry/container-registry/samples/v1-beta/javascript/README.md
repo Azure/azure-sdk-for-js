@@ -19,7 +19,11 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [deleteImages.js][deleteimages]                       | Deletes all but the latest three images.                                                   |
 | [repositoryAndArtifact.js][repositoryandartifact]     | Uses ContainerRepository and RegistryArtifact to work with manifests, tags, and artifacts. |
 | [setImageProperties.js][setimageproperties]           | Updates the properties on the tag so it can't be overwritten or deleted.                   |
+| [deleteBlob.js][deleteblob]                           | Deletes the blobs associated with a given manifest from the repository.                    |
+| [deleteManifest.js][deletemanifest]                   | Deletes a given manifest from the repository.                                              |
+| [downloadCustomManifest.js][downloadcustommanifest]   | Downloads a manifest of custom media type.                                                 |
 | [downloadImage.js][downloadimage]                     | Downloads an image from the repository.                                                    |
+| [uploadCustomManifest.js][uploadcustommanifest]       | Uploads a manifest with custom manifest type, in this case a manifest list.                |
 | [uploadImage.js][uploadimage]                         | Uploads an image to the repository.                                                        |
 | [uploadManifest.js][uploadmanifest]                   | Uploads a manifest to a repository.                                                        |
 
@@ -68,7 +72,11 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [deleteimages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1-beta/javascript/deleteImages.js
 [repositoryandartifact]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1-beta/javascript/repositoryAndArtifact.js
 [setimageproperties]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1-beta/javascript/setImageProperties.js
+[deleteblob]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1-beta/javascript/deleteBlob.js
+[deletemanifest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1-beta/javascript/deleteManifest.js
+[downloadcustommanifest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1-beta/javascript/downloadCustomManifest.js
 [downloadimage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1-beta/javascript/downloadImage.js
+[uploadcustommanifest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1-beta/javascript/uploadCustomManifest.js
 [uploadimage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1-beta/javascript/uploadImage.js
 [uploadmanifest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1-beta/javascript/uploadManifest.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/container-registry

@@ -1,0 +1,117 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourcegroups/czwjstest/providers/Microsoft.StorageCache/caches/resourcetest?api-version=2023-03-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-storagecache/7.0.0-beta.1 core-rest-pipeline/1.10.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "9a2a0129-9a68-4e5c-b8f1-1f24cd850f09"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 17 Mar 2023 08:28:54 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": [
+          "Microsoft-HTTPAPI/2.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "1dadc8a3-d702-473b-b918-6b4861c27ad8",
+        "x-ms-ratelimit-remaining-resource": "Microsoft.Compute/GetCache1Min;117",
+        "x-ms-ratelimit-remaining-subscription-reads": "11711",
+        "x-ms-request-id": "83b2720d-34a6-452e-88e0-0d8d5a78014b",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230317T082855Z:1dadc8a3-d702-473b-b918-6b4861c27ad8",
+        "x-ms-served-by": "869029e6-ed20-44b2-af4c-53579e7e4749_133213199408246598,869029e6-ed20-44b2-af4c-53579e7e4749_133213199408246598"
+      },
+      "ResponseBody": {
+        "name": "resourcetest",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/czwjstest/providers/Microsoft.StorageCache/caches/resourcetest",
+        "type": "Microsoft.StorageCache/caches",
+        "location": "eastus",
+        "tags": {
+          "dept": "Contoso"
+        },
+        "sku": {
+          "name": "Standard_2G"
+        },
+        "properties": {
+          "networkSettings": {
+            "mtu": 1500,
+            "utilityAddresses": [
+              "10.0.1.10",
+              "10.0.1.11",
+              "10.0.1.12"
+            ],
+            "ntpServer": "time.windows.com"
+          },
+          "securitySettings": {
+            "accessPolicies": [
+              {
+                "name": "default",
+                "accessRules": [
+                  {
+                    "scope": "default",
+                    "access": "rw",
+                    "suid": false,
+                    "submountAccess": true,
+                    "rootSquash": false
+                  }
+                ]
+              }
+            ]
+          },
+          "directoryServicesSettings": {},
+          "zones": [
+            "1"
+          ],
+          "scalingFactor": 1.0,
+          "cacheSizeGB": 3072,
+          "health": {
+            "state": "Healthy",
+            "statusDescription": "The cache is in Running state",
+            "conditions": []
+          },
+          "mountAddresses": [
+            "10.0.1.7",
+            "10.0.1.8",
+            "10.0.1.9"
+          ],
+          "provisioningState": "Succeeded",
+          "subnet": "/subscriptions/azure_subscription_id/resourceGroups/czwjstest/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1",
+          "upgradeStatus": {
+            "currentFirmwareVersion": "2022.12.1",
+            "firmwareUpdateStatus": "unavailable",
+            "firmwareUpdateDeadline": "0001-01-01T00:00:00Z",
+            "lastFirmwareUpdate": "2023-03-17T08:17:30.7489959Z",
+            "pendingFirmwareVersion": ""
+          },
+          "upgradeSettings": {
+            "upgradeScheduleEnabled": false,
+            "scheduledTime": "0001-01-01T00:00:00Z"
+          }
+        },
+        "systemData": {
+          "createdBy": "azure_client_id",
+          "createdByType": "Application",
+          "createdAt": "2023-03-17T08:17:29.3774384Z",
+          "lastModifiedBy": "azure_client_id",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2023-03-17T08:17:29.3774384Z"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

@@ -13,16 +13,19 @@ import {
   NetworkManagementClient
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gives the sas-url to download the configurations for vpn-sites in a resource group.
  *
  * @summary Gives the sas-url to download the configurations for vpn-sites in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VpnSitesConfigurationDownload.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VpnSitesConfigurationDownload.json
  */
 async function vpnSitesConfigurationDownload() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualWANName = "wan1";
   const request: GetVpnSitesConfigurationRequest = {
     outputBlobSasUrl:
@@ -41,4 +44,8 @@ async function vpnSitesConfigurationDownload() {
   console.log(result);
 }
 
-vpnSitesConfigurationDownload().catch(console.error);
+async function main() {
+  vpnSitesConfigurationDownload();
+}
+
+main().catch(console.error);

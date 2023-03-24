@@ -12,8 +12,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetAppManagementClient } from "../netAppManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   BackupPolicy,
   BackupPoliciesListOptionalParams,
@@ -43,7 +47,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
 
   /**
    * List backup policies for Netapp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -101,7 +105,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
 
   /**
    * List backup policies for Netapp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -118,7 +122,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
 
   /**
    * Get a particular backup Policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupPolicyName Backup policy Name which uniquely identify backup policy.
    * @param options The options parameters.
@@ -137,7 +141,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
 
   /**
    * Create a backup policy for Netapp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupPolicyName Backup policy Name which uniquely identify backup policy.
    * @param body Backup policy object supplied in the body of the operation.
@@ -150,8 +154,8 @@ export class BackupPoliciesImpl implements BackupPolicies {
     body: BackupPolicy,
     options?: BackupPoliciesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BackupPoliciesCreateResponse>,
+    SimplePollerLike<
+      OperationState<BackupPoliciesCreateResponse>,
       BackupPoliciesCreateResponse
     >
   > {
@@ -161,7 +165,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
     ): Promise<BackupPoliciesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -194,15 +198,18 @@ export class BackupPoliciesImpl implements BackupPolicies {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, backupPolicyName, body, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, backupPolicyName, body, options },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BackupPoliciesCreateResponse,
+      OperationState<BackupPoliciesCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -210,7 +217,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
 
   /**
    * Create a backup policy for Netapp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupPolicyName Backup policy Name which uniquely identify backup policy.
    * @param body Backup policy object supplied in the body of the operation.
@@ -235,7 +242,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
 
   /**
    * Patch a backup policy for Netapp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupPolicyName Backup policy Name which uniquely identify backup policy.
    * @param body Backup policy object supplied in the body of the operation.
@@ -248,8 +255,8 @@ export class BackupPoliciesImpl implements BackupPolicies {
     body: BackupPolicyPatch,
     options?: BackupPoliciesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BackupPoliciesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BackupPoliciesUpdateResponse>,
       BackupPoliciesUpdateResponse
     >
   > {
@@ -259,7 +266,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
     ): Promise<BackupPoliciesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -292,15 +299,18 @@ export class BackupPoliciesImpl implements BackupPolicies {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, backupPolicyName, body, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, backupPolicyName, body, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BackupPoliciesUpdateResponse,
+      OperationState<BackupPoliciesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -308,7 +318,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
 
   /**
    * Patch a backup policy for Netapp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupPolicyName Backup policy Name which uniquely identify backup policy.
    * @param body Backup policy object supplied in the body of the operation.
@@ -333,7 +343,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
 
   /**
    * Delete backup policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupPolicyName Backup policy Name which uniquely identify backup policy.
    * @param options The options parameters.
@@ -343,14 +353,14 @@ export class BackupPoliciesImpl implements BackupPolicies {
     accountName: string,
     backupPolicyName: string,
     options?: BackupPoliciesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -383,15 +393,15 @@ export class BackupPoliciesImpl implements BackupPolicies {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, backupPolicyName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, backupPolicyName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -399,7 +409,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
 
   /**
    * Delete backup policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupPolicyName Backup policy Name which uniquely identify backup policy.
    * @param options The options parameters.
@@ -482,7 +492,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.body22,
+  requestBody: Parameters.body24,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -514,7 +524,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.body23,
+  requestBody: Parameters.body25,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

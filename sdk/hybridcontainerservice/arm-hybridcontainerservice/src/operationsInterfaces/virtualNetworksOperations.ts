@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualNetworks,
   VirtualNetworksListByResourceGroupOptionalParams,
@@ -65,8 +65,8 @@ export interface VirtualNetworksOperations {
     virtualNetworks: VirtualNetworks,
     options?: VirtualNetworksCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworksCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworksCreateOrUpdateResponse>,
       VirtualNetworksCreateOrUpdateResponse
     >
   >;
@@ -107,8 +107,8 @@ export interface VirtualNetworksOperations {
     virtualNetworks: VirtualNetworksPatch,
     options?: VirtualNetworksUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworksUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworksUpdateResponse>,
       VirtualNetworksUpdateResponse
     >
   >;

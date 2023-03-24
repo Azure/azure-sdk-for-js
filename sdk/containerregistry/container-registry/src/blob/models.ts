@@ -26,6 +26,11 @@ export interface UploadBlobResult {
    * The digest of the uploaded blob.
    */
   digest: string;
+
+  /**
+   * The size of the uploaded blob in bytes.
+   */
+  sizeInBytes: number;
 }
 
 /**
@@ -43,9 +48,9 @@ export interface DownloadManifestResult {
   mediaType: string;
 
   /**
-   * The manifest stream that was downloaded.
+   * The raw content of the manifest that was downloaded.
    */
-  content: NodeJS.ReadableStream;
+  content: Buffer;
 }
 
 /**
@@ -93,7 +98,7 @@ export interface OciDescriptor {
   /** Layer media type */
   mediaType: string;
   /** Layer size */
-  size: number;
+  sizeInBytes: number;
   /** Layer digest */
   digest: string;
   /** Specifies a list of URIs from which this object may be downloaded. */
@@ -105,7 +110,7 @@ export interface OciDescriptor {
 /** Type representing an OCI image manifest (manifest of media type "application/vnd.oci.image.manifest.v1+json"). */
 export interface OciImageManifest {
   /** Schema version */
-  schemaVersion: number;
+  schemaVersion?: number;
   /** V2 image config descriptor */
   config: OciDescriptor;
   /** List of V2 image layer information */

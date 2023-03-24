@@ -1,58 +1,15 @@
 # Release History
-    
-## 13.2.0 (2023-02-23)
-    
-**Features**
 
-  - Added operation LiveEvents.beginListGetStatusAndWait
-  - Added operation LiveEvents.beginListGetStreamEventsAndWait
-  - Added operation LiveEvents.beginListGetTrackIngestHeartbeatsAndWait
-  - Added Interface LiveEventGetStatusResult
-  - Added Interface LiveEventGetStreamEventsResult
-  - Added Interface LiveEventGetTrackIngestHeartbeatsResult
-  - Added Interface LiveEventIngestInterruption
-  - Added Interface LiveEventIngestion
-  - Added Interface LiveEventsListGetStatusHeaders
-  - Added Interface LiveEventsListGetStatusOptionalParams
-  - Added Interface LiveEventsListGetStreamEventsHeaders
-  - Added Interface LiveEventsListGetStreamEventsOptionalParams
-  - Added Interface LiveEventsListGetTrackIngestHeartbeatsHeaders
-  - Added Interface LiveEventsListGetTrackIngestHeartbeatsOptionalParams
-  - Added Interface LiveEventStatus
-  - Added Interface LiveEventStreamEvent
-  - Added Interface LiveEventStreamEventData
-  - Added Interface LiveEventTimedMetadataEndpoint
-  - Added Interface LiveEventTrackEvent
-  - Added Interface LiveEventTrackEventData
-  - Added Interface LiveEventTrackStatus
-  - Added Type Alias LiveEventHealthStatus
-  - Added Type Alias LiveEventsListGetStatusResponse
-  - Added Type Alias LiveEventsListGetStreamEventsResponse
-  - Added Type Alias LiveEventsListGetTrackIngestHeartbeatsResponse
-  - Added Type Alias LiveEventState
-  - Added Type Alias LiveEventStreamEventLevel
-  - Added Type Alias LiveEventStreamEventMaxTimeMediaType
-  - Added Type Alias LiveEventStreamEventMediaType
-  - Added Type Alias LiveEventStreamEventMinTimeMediaType
-  - Added Type Alias LiveEventStreamEventType
-  - Added Type Alias LiveEventTrackEventType
-  - Added Type Alias LiveEventTrackType
-  - Added Type Alias MinimumTlsVersion
-  - Interface LiveEventInput has a new optional parameter timedMetadataEndpoints
-  - Interface MediaService has a new optional parameter minimumTlsVersion
-  - Interface MediaServiceUpdate has a new optional parameter minimumTlsVersion
-  - Added Enum KnownLiveEventHealthStatus
-  - Added Enum KnownLiveEventState
-  - Added Enum KnownLiveEventStreamEventLevel
-  - Added Enum KnownLiveEventStreamEventMaxTimeMediaType
-  - Added Enum KnownLiveEventStreamEventMediaType
-  - Added Enum KnownLiveEventStreamEventMinTimeMediaType
-  - Added Enum KnownLiveEventStreamEventType
-  - Added Enum KnownLiveEventTrackEventType
-  - Added Enum KnownLiveEventTrackType
-  - Added Enum KnownMinimumTlsVersion
-    
-    
+## 13.1.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 13.1.0 (2023-01-16)
     
 **Features**

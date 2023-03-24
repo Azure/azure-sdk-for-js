@@ -401,6 +401,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/communication-call-automation",
+      "projectFolder": "sdk/communication/communication-call-automation",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/communication-chat",
       "projectFolder": "sdk/communication/communication-chat",
       "versionPolicyName": "client"
@@ -1947,6 +1952,16 @@
       "packageName": "@azure/web-pubsub-client-protobuf",
       "projectFolder": "sdk/web-pubsub/web-pubsub-client-protobuf",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-graphservices",
+      "projectFolder": "sdk/graphservices/arm-graphservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-newrelicobservability",
+      "projectFolder": "sdk/newrelicobservability/arm-newrelicobservability",
+      "versionPolicyName": "management"
     }
   ]
 }

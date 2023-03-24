@@ -19,7 +19,11 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [deleteImages.ts][deleteimages]                       | Deletes all but the latest three images.                                                   |
 | [repositoryAndArtifact.ts][repositoryandartifact]     | Uses ContainerRepository and RegistryArtifact to work with manifests, tags, and artifacts. |
 | [setImageProperties.ts][setimageproperties]           | Updates the properties on the tag so it can't be overwritten or deleted.                   |
+| [deleteBlob.ts][deleteblob]                           | Deletes the blobs associated with a given manifest from the repository.                    |
+| [deleteManifest.ts][deletemanifest]                   | Deletes a given manifest from the repository.                                              |
+| [downloadCustomManifest.ts][downloadcustommanifest]   | Downloads a manifest of custom media type.                                                 |
 | [downloadImage.ts][downloadimage]                     | Downloads an image from the repository.                                                    |
+| [uploadCustomManifest.ts][uploadcustommanifest]       | Uploads a manifest with custom manifest type, in this case a manifest list.                |
 | [uploadImage.ts][uploadimage]                         | Uploads an image to the repository.                                                        |
 | [uploadManifest.ts][uploadmanifest]                   | Uploads a manifest to a repository.                                                        |
 
@@ -80,7 +84,11 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [deleteimages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1-beta/typescript/src/deleteImages.ts
 [repositoryandartifact]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1-beta/typescript/src/repositoryAndArtifact.ts
 [setimageproperties]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1-beta/typescript/src/setImageProperties.ts
+[deleteblob]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1-beta/typescript/src/deleteBlob.ts
+[deletemanifest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1-beta/typescript/src/deleteManifest.ts
+[downloadcustommanifest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1-beta/typescript/src/downloadCustomManifest.ts
 [downloadimage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1-beta/typescript/src/downloadImage.ts
+[uploadcustommanifest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1-beta/typescript/src/uploadCustomManifest.ts
 [uploadimage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1-beta/typescript/src/uploadImage.ts
 [uploadmanifest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1-beta/typescript/src/uploadManifest.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/container-registry

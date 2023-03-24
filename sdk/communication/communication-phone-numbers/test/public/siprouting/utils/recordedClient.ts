@@ -130,8 +130,8 @@ export async function clearSipConfiguration(): Promise<void> {
 
 let fqdnNumber = 1;
 export function getUniqueFqdn(recorder: Recorder): string {
-  const uniqueDomain = uuid().replace(/-/g, "");
-  return recorder.variable(`fqdn-${fqdnNumber++}`, `test.${uniqueDomain}.com`);
+  const id = uuid().replace(/-/g, "");
+  return recorder.variable(`fqdn-${fqdnNumber++}`, `test${id}.${getAzureTestDomain()}`);
 }
 export function resetUniqueFqdns(): void {
   fqdnNumber = 1;
@@ -156,4 +156,8 @@ export async function listAllRoutes(client: SipRoutingClient): Promise<SipTrunkR
     }
   }
   return result;
+}
+
+function getAzureTestDomain() {
+  return env.AZURE_TEST_DOMAIN ?? "sanitized.sbc.test";
 }
