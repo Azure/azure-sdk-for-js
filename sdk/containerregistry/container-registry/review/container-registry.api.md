@@ -171,7 +171,7 @@ export interface GetManifestResult {
 // @public
 export interface GetOciImageManifestResult extends GetManifestResult {
     manifest: OciImageManifest;
-    mediaType: KnownManifestMediaType.OciManifest;
+    mediaType: KnownManifestMediaType.OciImageManifest;
 }
 
 // @public
@@ -231,7 +231,7 @@ export enum KnownContainerRegistryAudience {
 // @public
 export enum KnownManifestMediaType {
     DockerManifest = "application/vnd.docker.distribution.manifest.v2+json",
-    OciManifest = "application/vnd.oci.image.manifest.v1+json"
+    OciImageManifest = "application/vnd.oci.image.manifest.v1+json"
 }
 
 // @public

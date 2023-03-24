@@ -39,7 +39,7 @@ const LATEST_API_VERSION = "2021-07-01";
 const CHUNK_SIZE = 4 * 1024 * 1024; // 4 MB
 
 const ACCEPTED_MANIFEST_MEDIA_TYPES = [
-  KnownManifestMediaType.OciManifest,
+  KnownManifestMediaType.OciImageManifest,
   KnownManifestMediaType.DockerManifest,
   "application/vnd.oci.image.index.v1+json",
   "application/vnd.docker.distribution.manifest.list.v2+json",
@@ -80,7 +80,7 @@ export function isGetOciImageManifestResult(
   downloadResult: GetManifestResult
 ): downloadResult is GetOciImageManifestResult {
   return (
-    downloadResult.mediaType === KnownManifestMediaType.OciManifest &&
+    downloadResult.mediaType === KnownManifestMediaType.OciImageManifest &&
     Object.prototype.hasOwnProperty.call(downloadResult, "manifest")
   );
 }
@@ -235,7 +235,7 @@ export class ContainerRegistryContentClient {
           tagOrDigest,
           manifestBody,
           {
-            contentType: options?.mediaType ?? KnownManifestMediaType.OciManifest,
+            contentType: options?.mediaType ?? KnownManifestMediaType.OciImageManifest,
             ...updatedOptions,
           }
         );
@@ -250,7 +250,7 @@ export class ContainerRegistryContentClient {
   /**
    * Downloads the manifest for an OCI artifact.
    *
-   * If the manifest downloaded was of type {@link KnownManifestMediaType.OciManifest}, the downloaded manifest will be of type {@link GetOciImageManifestResult}.
+   * If the manifest downloaded was of type {@link KnownManifestMediaType.OciImageManifest}, the downloaded manifest will be of type {@link GetOciImageManifestResult}.
    * You can use {@link isGetOciImageManifestResult} to determine whether this is the case. If so, the strongly typed deserialized manifest will be available through the `manifest` property.
    *
    * @param tagOrDigest - a tag or digest that identifies the artifact
@@ -293,7 +293,7 @@ export class ContainerRegistryContentClient {
           );
         }
 
-        if (response.mediaType === KnownManifestMediaType.OciManifest) {
+        if (response.mediaType === KnownManifestMediaType.OciImageManifest) {
           const manifest = serializer.deserialize(
             Mappers.OCIManifest,
             JSON.parse(content.toString()),

@@ -54,13 +54,13 @@ export interface GetManifestResult {
 }
 
 /**
- * The result from downloading an OCI manifest (a manifest of type {@link KnownManifestMediaType.OciManifest}) from the registry.
+ * The result from downloading an OCI manifest (a manifest of type {@link KnownManifestMediaType.OciImageManifest}) from the registry.
  */
 export interface GetOciImageManifestResult extends GetManifestResult {
   /**
    * The media type of the downloaded manifest as indicated by the Content-Type response header is an OCI manifest.
    */
-  mediaType: KnownManifestMediaType.OciManifest;
+  mediaType: KnownManifestMediaType.OciImageManifest;
 
   /**
    * The OCI manifest that was downloaded. If the requested media type was not KnownMediaType.OciManifest, this will be left undefined.
@@ -181,7 +181,7 @@ export enum KnownManifestMediaType {
   /**
    * The media type for an OCI image manifest. This format is described at https://github.com/opencontainers/image-spec/blob/main/manifest.md.
    */
-  OciManifest = "application/vnd.oci.image.manifest.v1+json",
+  OciImageManifest = "application/vnd.oci.image.manifest.v1+json",
 
   /**
    * The media type for a Docker Image Manifest, Version 2, Schema 2. This format is described at https://docs.docker.com/registry/spec/manifest-v2-2/.
