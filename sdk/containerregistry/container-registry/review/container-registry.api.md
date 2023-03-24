@@ -58,25 +58,6 @@ export interface ArtifactTagProperties {
 }
 
 // @public
-export class ContainerRegistryBlobClient {
-    constructor(endpoint: string, repositoryName: string, credential: TokenCredential, options?: ContainerRegistryBlobClientOptions);
-    deleteBlob(digest: string, options?: DeleteBlobOptions): Promise<void>;
-    deleteManifest(digest: string, options?: DeleteManifestOptions): Promise<void>;
-    downloadBlob(digest: string, options?: DownloadBlobOptions): Promise<DownloadBlobResult>;
-    downloadManifest(tagOrDigest: string, options?: DownloadManifestOptions): Promise<DownloadManifestResult>;
-    readonly endpoint: string;
-    readonly repositoryName: string;
-    uploadBlob(blob: NodeJS.ReadableStream | Buffer, options?: UploadBlobOptions): Promise<UploadBlobResult>;
-    uploadManifest(manifest: Buffer | NodeJS.ReadableStream | OciImageManifest, options?: UploadManifestOptions): Promise<UploadManifestResult>;
-}
-
-// @public
-export interface ContainerRegistryBlobClientOptions extends CommonClientOptions {
-    audience?: string;
-    serviceVersion?: "2021-07-01";
-}
-
-// @public
 export class ContainerRegistryClient {
     constructor(endpoint: string, credential: TokenCredential, options?: ContainerRegistryClientOptions);
     constructor(endpoint: string, options?: ContainerRegistryClientOptions);
@@ -89,6 +70,25 @@ export class ContainerRegistryClient {
 
 // @public
 export interface ContainerRegistryClientOptions extends CommonClientOptions {
+    audience?: string;
+    serviceVersion?: "2021-07-01";
+}
+
+// @public
+export class ContainerRegistryContentClient {
+    constructor(endpoint: string, repositoryName: string, credential: TokenCredential, options?: ContainerRegistryContentClientOptions);
+    deleteBlob(digest: string, options?: DeleteBlobOptions): Promise<void>;
+    deleteManifest(digest: string, options?: DeleteManifestOptions): Promise<void>;
+    downloadBlob(digest: string, options?: DownloadBlobOptions): Promise<DownloadBlobResult>;
+    downloadManifest(tagOrDigest: string, options?: DownloadManifestOptions): Promise<DownloadManifestResult>;
+    readonly endpoint: string;
+    readonly repositoryName: string;
+    uploadBlob(blob: NodeJS.ReadableStream | Buffer, options?: UploadBlobOptions): Promise<UploadBlobResult>;
+    uploadManifest(manifest: Buffer | NodeJS.ReadableStream | OciImageManifest, options?: UploadManifestOptions): Promise<UploadManifestResult>;
+}
+
+// @public
+export interface ContainerRegistryContentClientOptions extends CommonClientOptions {
     audience?: string;
     serviceVersion?: "2021-07-01";
 }

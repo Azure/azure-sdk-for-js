@@ -71,7 +71,7 @@ export class DigestMismatchError extends Error {
 }
 
 /**
- * Used to determine whether a manifest downloaded via {@link ContainerRegistryBlobClient.downloadManifest} is an OCI image manifest.
+ * Used to determine whether a manifest downloaded via {@link ContainerRegistryContentClient.downloadManifest} is an OCI image manifest.
  * If it is an OCI image manifest, the `manifest` property will contain the manifest data as parsed JSON.
  * @param downloadResult - the download result to check.
  * @returns - whether the downloaded manifest is an OCI image manifest.
@@ -88,7 +88,7 @@ export function isDownloadOciImageManifestResult(
 /**
  * Client options used to configure Container Registry Blob API requests.
  */
-export interface ContainerRegistryBlobClientOptions extends CommonClientOptions {
+export interface ContainerRegistryContentClientOptions extends CommonClientOptions {
   /**
    * Gets or sets the audience to use for authentication with Azure Active Directory.
    * The authentication scope will be set from this audience.
@@ -106,7 +106,7 @@ const serializer = createSerializer(Mappers, /* isXML */ false);
 /**
  * The Azure Container Registry blob client, responsible for uploading and downloading blobs and manifests, the building blocks of artifacts.
  */
-export class ContainerRegistryBlobClient {
+export class ContainerRegistryContentClient {
   /**
    * The Azure Container Registry endpoint.
    */
@@ -120,14 +120,14 @@ export class ContainerRegistryBlobClient {
   private client: GeneratedClient;
 
   /**
-   * Creates an instance of a ContainerRegistryBlobClient for managing container images and artifacts.
+   * Creates an instance of a ContainerRegistryContentClient for managing container images and artifacts.
    *
    * Example usage:
    * ```ts
-   * import { ContainerRegistryBlobClient } from "@azure/container-registry";
+   * import { ContainerRegistryContentClient } from "@azure/container-registry";
    * import { DefaultAzureCredential} from "@azure/identity";
    *
-   * const client = new ContainerRegistryBlobClient(
+   * const client = new ContainerRegistryContentClient(
    *    "<container registry API endpoint>",
    *    "<repository name>",
    *    new DefaultAzureCredential()
@@ -142,7 +142,7 @@ export class ContainerRegistryBlobClient {
     endpoint: string,
     repositoryName: string,
     credential: TokenCredential,
-    options: ContainerRegistryBlobClientOptions = {}
+    options: ContainerRegistryContentClientOptions = {}
   ) {
     if (!endpoint) {
       throw new Error("invalid endpoint");
@@ -190,7 +190,7 @@ export class ContainerRegistryBlobClient {
    */
   public async deleteBlob(digest: string, options: DeleteBlobOptions = {}): Promise<void> {
     return tracingClient.withSpan(
-      "ContainerRegistryBlobClient.deleteBlob",
+      "ContainerRegistryContentClient.deleteBlob",
       options,
       async (updatedOptions) => {
         await this.client.containerRegistryBlob.deleteBlob(
@@ -212,7 +212,7 @@ export class ContainerRegistryBlobClient {
     options: UploadManifestOptions = {}
   ): Promise<UploadManifestResult> {
     return tracingClient.withSpan(
-      "ContainerRegistryBlobClient.uploadManifest",
+      "ContainerRegistryContentClient.uploadManifest",
       options,
       async (updatedOptions) => {
         let manifestBody: Buffer | (() => NodeJS.ReadableStream);
@@ -261,7 +261,7 @@ export class ContainerRegistryBlobClient {
     options: DownloadManifestOptions = {}
   ): Promise<DownloadManifestResult> {
     return tracingClient.withSpan(
-      "ContainerRegistryBlobClient.downloadManifest",
+      "ContainerRegistryContentClient.downloadManifest",
       options,
       async (updatedOptions) => {
         const acceptMediaType = options.mediaType ?? DEFAULT_ACCEPT_MANIFEST_MEDIA_TYPES;
@@ -327,7 +327,7 @@ export class ContainerRegistryBlobClient {
    */
   public async deleteManifest(digest: string, options: DeleteManifestOptions = {}): Promise<void> {
     return tracingClient.withSpan(
-      "ContainerRegistryBlobClient.deleteManifest",
+      "ContainerRegistryContentClient.deleteManifest",
       options,
       async (updatedOptions) => {
         await this.client.containerRegistry.deleteManifest(
@@ -349,7 +349,7 @@ export class ContainerRegistryBlobClient {
     options: UploadBlobOptions = {}
   ): Promise<UploadBlobResult> {
     return tracingClient.withSpan(
-      "ContainerRegistryBlobClient.uploadBlob",
+      "ContainerRegistryContentClient.uploadBlob",
       options,
       async (updatedOptions) => {
         const blobStream = Buffer.isBuffer(blob) ? Readable.from(blob) : blob;
@@ -410,7 +410,7 @@ export class ContainerRegistryBlobClient {
     options: DownloadBlobOptions = {}
   ): Promise<DownloadBlobResult> {
     return tracingClient.withSpan(
-      "ContainerRegistryBlobClient.downloadBlob",
+      "ContainerRegistryContentClient.downloadBlob",
       options,
       async (updatedOptions) => {
         const { readableStreamBody } = await this.client.containerRegistryBlob.getBlob(

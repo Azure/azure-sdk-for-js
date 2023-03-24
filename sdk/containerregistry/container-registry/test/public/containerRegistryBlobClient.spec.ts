@@ -8,7 +8,7 @@ import {
   isLiveMode,
 } from "@azure-tools/test-recorder";
 import {
-  ContainerRegistryBlobClient,
+  ContainerRegistryContentClient,
   DownloadManifestResult,
   DownloadOciImageManifestResult,
   isDownloadOciImageManifestResult,
@@ -29,10 +29,10 @@ function assertIsOciManifest(
 }
 
 versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
-  onVersions({ minVer: "2021-07-01" }).describe("ContainerRegistryBlobClient", function () {
+  onVersions({ minVer: "2021-07-01" }).describe("ContainerRegistryContentClient", function () {
     // Declare the client and recorder instances.  We will set them using the
     // beforeEach hook.
-    let client: ContainerRegistryBlobClient;
+    let client: ContainerRegistryContentClient;
     let recorder: Recorder;
     const repositoryName = "oci-artifact";
 
