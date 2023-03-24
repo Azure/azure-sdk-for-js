@@ -12,40 +12,43 @@ import { KeyCredential } from "@azure/core-auth";
 import { assert } from "chai";
 import { createCommunicationAccessKeyCredentialPolicy } from "../../src";
 import { isNode } from "@azure/core-util";
-import { set } from 'mockdate'
+import { set } from "mockdate";
 
-const date = '2022-04-13T18:09:12.451Z'
-set(date) // Any request to Date will return this date
+const date = "2022-04-13T18:09:12.451Z";
+set(date); // Any request to Date will return this date
 
 describe("CommunicationKeyCredentialPolicy", function () {
   it("signs the request", async function () {
-    const authHeader = await verifyHeadersForUrlReturnAuthHeader("https://example.com")
-    assert.isNotEmpty(authHeader)
+    const authHeader = await verifyHeadersForUrlReturnAuthHeader("https://example.com");
+    assert.isNotEmpty(authHeader);
   });
 });
 
 describe("CommunicationKeyCredentialPolicy", function () {
   it("signs the request correctly with path and query params", async function () {
-    const authHeader = await verifyHeadersForUrlReturnAuthHeader("https://example.com/testPath?testQuery=test")
-    assert.equal(authHeader, "HMAC-SHA256 SignedHeaders=x-ms-date;host;x-ms-content-sha256&Signature=DGdgwggJWnQyc6EHjR/Vbqg1ES64KpD6U2XwTDDj3tU=")
+    const authHeader = await verifyHeadersForUrlReturnAuthHeader(
+      "https://example.com/testPath?testQuery=test"
+    );
+    assert.equal(
+      authHeader,
+      "HMAC-SHA256 SignedHeaders=x-ms-date;host;x-ms-content-sha256&Signature=DGdgwggJWnQyc6EHjR/Vbqg1ES64KpD6U2XwTDDj3tU="
+    );
   });
 });
 
 describe("CommunicationKeyCredentialPolicy", function () {
   it("signs the request correctly with path and no query param", async function () {
-    const authHeader = await verifyHeadersForUrlReturnAuthHeader("https://example.com/testPath")
-    assert.equal(authHeader, "HMAC-SHA256 SignedHeaders=x-ms-date;host;x-ms-content-sha256&Signature=+6tWkg3lNKVjQHHmxkdGQcJjUgzclsWTMebnuCz1ngU=")
+    const authHeader = await verifyHeadersForUrlReturnAuthHeader("https://example.com/testPath");
+    assert.equal(
+      authHeader,
+      "HMAC-SHA256 SignedHeaders=x-ms-date;host;x-ms-content-sha256&Signature=+6tWkg3lNKVjQHHmxkdGQcJjUgzclsWTMebnuCz1ngU="
+    );
   });
 });
 
-
-async function verifyHeadersForUrlReturnAuthHeader(
-  urlToTest: string,
-
-): Promise<string> {
+async function verifyHeadersForUrlReturnAuthHeader(urlToTest: string): Promise<string> {
   const credential = new MockKeyCredential("pw==");
-  const communicationKeyCredentialPolicy =
-    createCommunicationAccessKeyCredentialPolicy(credential);
+  const communicationKeyCredentialPolicy = createCommunicationAccessKeyCredentialPolicy(credential);
 
   const pipelineRequest = createPipelineRequest({
     url: urlToTest,
@@ -85,9 +88,7 @@ async function verifyHeadersForUrlReturnAuthHeader(
     assert.isNotEmpty(hostHeader);
   }
   return authHeader;
-
 }
-
 
 class MockKeyCredential implements KeyCredential {
   key: string;
