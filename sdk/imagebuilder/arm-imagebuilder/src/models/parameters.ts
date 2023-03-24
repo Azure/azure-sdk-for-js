@@ -13,7 +13,8 @@ import {
 } from "@azure/core-client";
 import {
   ImageTemplate as ImageTemplateMapper,
-  ImageTemplateUpdateParameters as ImageTemplateUpdateParametersMapper
+  ImageTemplateUpdateParameters as ImageTemplateUpdateParametersMapper,
+  Trigger as TriggerMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -54,7 +55,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-02-14",
+    defaultValue: "2022-07-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -134,4 +135,23 @@ export const nextLink: OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+
+export const triggerName: OperationURLParameter = {
+  parameterPath: "triggerName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9-_.]{1,64}$")
+    },
+    serializedName: "triggerName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters2: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: TriggerMapper
 };

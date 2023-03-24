@@ -7,4 +7,5 @@
  */
 
 export * from "./virtualMachineImageTemplates";
+export * from "./triggers";
 export * from "./operations";

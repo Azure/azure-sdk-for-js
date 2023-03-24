@@ -8,35 +8,39 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ImageBuilderClient } from "@azure/arm-imagebuilder";
+import { Trigger, ImageBuilderClient } from "@azure/arm-imagebuilder";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 dotenv.config();
 
 /**
- * This sample demonstrates how to Delete a virtual machine image template
+ * This sample demonstrates how to Create or update a trigger for the specified virtual machine image template
  *
- * @summary Delete a virtual machine image template
- * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2022-07-01/examples/DeleteImageTemplate.json
+ * @summary Create or update a trigger for the specified virtual machine image template
+ * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2022-07-01/examples/CreateSourceImageTrigger.json
  */
-async function deleteAnImageTemplate() {
+async function createOrUpdateASourceImageTypeTrigger() {
   const subscriptionId =
     process.env["IMAGEBUILDER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
     process.env["IMAGEBUILDER_RESOURCE_GROUP"] || "myResourceGroup";
   const imageTemplateName = "myImageTemplate";
+  const triggerName = "source";
+  const parameters: Trigger = { kind: "SourceImage" };
   const credential = new DefaultAzureCredential();
   const client = new ImageBuilderClient(credential, subscriptionId);
-  const result = await client.virtualMachineImageTemplates.beginDeleteAndWait(
+  const result = await client.triggers.beginCreateOrUpdateAndWait(
     resourceGroupName,
-    imageTemplateName
+    imageTemplateName,
+    triggerName,
+    parameters
   );
   console.log(result);
 }
 
 async function main() {
-  deleteAnImageTemplate();
+  createOrUpdateASourceImageTypeTrigger();
 }
 
 main().catch(console.error);

@@ -3910,7 +3910,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230322
+      typescript: 5.1.0-dev.20230324
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8766,8 +8766,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230322:
-    resolution: {integrity: sha512-sRsSUZOCpLClaHzhRo1ZsoEnQe6+1FMEQzBzgtxC8f9rklwY5H4TcyKoa9wRpYvvJ34Farr8nEU/Uz+hnruyLw==}
+  /typescript/5.1.0-dev.20230324:
+    resolution: {integrity: sha512-DX3mRbGCw2aN4wvFExQaynoBxgDu+X3BzGRdhJFGo+ey78c5Y57EguGA0sDwdGCBDgPb7XO3Rrnq9mjOZbMdTw==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -12438,7 +12438,7 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-HA/EzMGwbBufygz6j77zvqeCJlJareH03JtdNQPzaMOdM49hjTyWPP6lAt59VU8fVW6dBPvt3pUsaxzp5d/J1A==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-OdC7wsXrjwFAkHcYU0Gg/nkAYM/9z2kgAHjnrPpZhWNmEImS0mP7PaVf11nxmhc8in9eNjNYw8dIsaAzcQBDCg==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
@@ -12453,8 +12453,8 @@ packages:
       '@types/node': 14.18.38
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1

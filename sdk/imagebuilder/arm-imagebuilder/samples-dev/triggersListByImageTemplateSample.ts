@@ -15,12 +15,12 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Delete a virtual machine image template
+ * This sample demonstrates how to List all triggers for the specified Image Template resource
  *
- * @summary Delete a virtual machine image template
- * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2022-07-01/examples/DeleteImageTemplate.json
+ * @summary List all triggers for the specified Image Template resource
+ * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2022-07-01/examples/ListTriggers.json
  */
-async function deleteAnImageTemplate() {
+async function listTriggersByImageTemplate() {
   const subscriptionId =
     process.env["IMAGEBUILDER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -28,15 +28,18 @@ async function deleteAnImageTemplate() {
   const imageTemplateName = "myImageTemplate";
   const credential = new DefaultAzureCredential();
   const client = new ImageBuilderClient(credential, subscriptionId);
-  const result = await client.virtualMachineImageTemplates.beginDeleteAndWait(
+  const resArray = new Array();
+  for await (let item of client.triggers.listByImageTemplate(
     resourceGroupName,
     imageTemplateName
-  );
-  console.log(result);
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
 async function main() {
-  deleteAnImageTemplate();
+  listTriggersByImageTemplate();
 }
 
 main().catch(console.error);
