@@ -57,7 +57,7 @@ async function main() {
   };
 
   // A manifest can be given a tag when uploading.
-  await client.uploadManifest(manifest, { tag: "1.0.0" });
+  await client.setManifest(manifest, { tag: "1.0.0" });
 }
 
 main().catch((err) => {

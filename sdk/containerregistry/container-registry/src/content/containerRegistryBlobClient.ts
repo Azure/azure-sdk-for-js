@@ -17,15 +17,15 @@ import {
   DeleteManifestOptions,
   DownloadBlobOptions,
   DownloadBlobResult,
-  DownloadManifestOptions,
-  DownloadManifestResult,
-  DownloadOciImageManifestResult,
+  GetManifestOptions,
+  GetManifestResult,
+  GetOciImageManifestResult,
   KnownManifestMediaType,
   OciImageManifest,
   UploadBlobOptions,
   UploadBlobResult,
-  UploadManifestOptions,
-  UploadManifestResult,
+  SetManifestOptions,
+  SetManifestResult,
 } from "./models";
 import * as Mappers from "../generated/models/mappers";
 import { CommonClientOptions, createSerializer } from "@azure/core-client";
@@ -71,14 +71,14 @@ export class DigestMismatchError extends Error {
 }
 
 /**
- * Used to determine whether a manifest downloaded via {@link ContainerRegistryContentClient.downloadManifest} is an OCI image manifest.
+ * Used to determine whether a manifest downloaded via {@link ContainerRegistryContentClient.getManifest} is an OCI image manifest.
  * If it is an OCI image manifest, the `manifest` property will contain the manifest data as parsed JSON.
  * @param downloadResult - the download result to check.
  * @returns - whether the downloaded manifest is an OCI image manifest.
  */
-export function isDownloadOciImageManifestResult(
-  downloadResult: DownloadManifestResult
-): downloadResult is DownloadOciImageManifestResult {
+export function isGetOciImageManifestResult(
+  downloadResult: GetManifestResult
+): downloadResult is GetOciImageManifestResult {
   return (
     downloadResult.mediaType === KnownManifestMediaType.OciManifest &&
     Object.prototype.hasOwnProperty.call(downloadResult, "manifest")
@@ -207,10 +207,10 @@ export class ContainerRegistryContentClient {
    *
    * @param manifest - the manifest to upload.
    */
-  public async uploadManifest(
+  public async setManifest(
     manifest: Buffer | NodeJS.ReadableStream | OciImageManifest,
-    options: UploadManifestOptions = {}
-  ): Promise<UploadManifestResult> {
+    options: SetManifestOptions = {}
+  ): Promise<SetManifestResult> {
     return tracingClient.withSpan(
       "ContainerRegistryContentClient.uploadManifest",
       options,
@@ -250,16 +250,16 @@ export class ContainerRegistryContentClient {
   /**
    * Downloads the manifest for an OCI artifact.
    *
-   * If the manifest downloaded was of type {@link KnownManifestMediaType.OciManifest}, the downloaded manifest will be of type {@link DownloadOciImageManifestResult}.
-   * You can use {@link isDownloadOciImageManifestResult} to determine whether this is the case. If so, the strongly typed deserialized manifest will be available through the `manifest` property.
+   * If the manifest downloaded was of type {@link KnownManifestMediaType.OciManifest}, the downloaded manifest will be of type {@link GetOciImageManifestResult}.
+   * You can use {@link isGetOciImageManifestResult} to determine whether this is the case. If so, the strongly typed deserialized manifest will be available through the `manifest` property.
    *
    * @param tagOrDigest - a tag or digest that identifies the artifact
    * @returns - the downloaded manifest
    */
-  public async downloadManifest(
+  public async getManifest(
     tagOrDigest: string,
-    options: DownloadManifestOptions = {}
-  ): Promise<DownloadManifestResult> {
+    options: GetManifestOptions = {}
+  ): Promise<GetManifestResult> {
     return tracingClient.withSpan(
       "ContainerRegistryContentClient.downloadManifest",
       options,

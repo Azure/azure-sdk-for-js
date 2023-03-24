@@ -80,11 +80,11 @@ export class ContainerRegistryContentClient {
     deleteBlob(digest: string, options?: DeleteBlobOptions): Promise<void>;
     deleteManifest(digest: string, options?: DeleteManifestOptions): Promise<void>;
     downloadBlob(digest: string, options?: DownloadBlobOptions): Promise<DownloadBlobResult>;
-    downloadManifest(tagOrDigest: string, options?: DownloadManifestOptions): Promise<DownloadManifestResult>;
     readonly endpoint: string;
+    getManifest(tagOrDigest: string, options?: GetManifestOptions): Promise<GetManifestResult>;
     readonly repositoryName: string;
+    setManifest(manifest: Buffer | NodeJS.ReadableStream | OciImageManifest, options?: SetManifestOptions): Promise<SetManifestResult>;
     uploadBlob(blob: NodeJS.ReadableStream | Buffer, options?: UploadBlobOptions): Promise<UploadBlobResult>;
-    uploadManifest(manifest: Buffer | NodeJS.ReadableStream | OciImageManifest, options?: UploadManifestOptions): Promise<UploadManifestResult>;
 }
 
 // @public
@@ -154,25 +154,25 @@ export interface DownloadBlobResult {
 }
 
 // @public
-export interface DownloadManifestOptions extends OperationOptions {
+export interface GetManifestOptions extends OperationOptions {
     mediaType?: string | string[];
 }
 
 // @public
-export interface DownloadManifestResult {
+export interface GetManifestPropertiesOptions extends OperationOptions {
+}
+
+// @public
+export interface GetManifestResult {
     content: Buffer;
     digest: string;
     mediaType: string;
 }
 
 // @public
-export interface DownloadOciImageManifestResult extends DownloadManifestResult {
+export interface GetOciImageManifestResult extends GetManifestResult {
     manifest: OciImageManifest;
     mediaType: KnownManifestMediaType.OciManifest;
-}
-
-// @public
-export interface GetManifestPropertiesOptions extends OperationOptions {
 }
 
 // @public
@@ -184,7 +184,7 @@ export interface GetTagPropertiesOptions extends OperationOptions {
 }
 
 // @public
-export function isDownloadOciImageManifestResult(downloadResult: DownloadManifestResult): downloadResult is DownloadOciImageManifestResult;
+export function isGetOciImageManifestResult(downloadResult: GetManifestResult): downloadResult is GetOciImageManifestResult;
 
 // @public
 export enum KnownArtifactArchitecture {
@@ -308,6 +308,17 @@ export interface RepositoryPageResponse extends Array<string> {
 }
 
 // @public
+export interface SetManifestOptions extends OperationOptions {
+    mediaType?: string;
+    tag?: string;
+}
+
+// @public
+export interface SetManifestResult {
+    digest: string;
+}
+
+// @public
 export interface TagPageResponse extends Array<ArtifactTagProperties> {
     continuationToken?: string;
 }
@@ -344,17 +355,6 @@ export interface UploadBlobOptions extends OperationOptions {
 export interface UploadBlobResult {
     digest: string;
     sizeInBytes: number;
-}
-
-// @public
-export interface UploadManifestOptions extends OperationOptions {
-    mediaType?: string;
-    tag?: string;
-}
-
-// @public
-export interface UploadManifestResult {
-    digest: string;
 }
 
 // (No @packageDocumentation comment for this package)

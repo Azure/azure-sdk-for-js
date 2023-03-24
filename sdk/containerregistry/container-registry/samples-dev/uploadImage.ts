@@ -43,7 +43,7 @@ async function main() {
     ],
   };
 
-  await client.uploadManifest(manifest, { tag: "demo" });
+  await client.setManifest(manifest, { tag: "demo" });
 }
 
 main().catch((err) => {

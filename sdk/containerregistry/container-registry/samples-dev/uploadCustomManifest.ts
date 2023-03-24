@@ -52,7 +52,7 @@ async function main() {
     })
   );
 
-  await client.uploadManifest(manifest, { mediaType });
+  await client.setManifest(manifest, { mediaType });
 }
 
 main().catch((err) => {

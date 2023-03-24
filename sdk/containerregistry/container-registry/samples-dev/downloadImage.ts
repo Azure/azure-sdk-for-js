@@ -8,7 +8,7 @@
 
 import {
   ContainerRegistryContentClient,
-  isDownloadOciImageManifestResult,
+  isGetOciImageManifestResult,
 } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -32,10 +32,10 @@ async function main() {
   );
 
   // Download the manifest to obtain the list of files in the image based on the tag
-  const result = await client.downloadManifest("demo");
+  const result = await client.getManifest("demo");
 
   // If an OCI image manifest was downloaded, it is available as a strongly typed object via the `manifest` property.
-  if (!isDownloadOciImageManifestResult(result)) {
+  if (!isGetOciImageManifestResult(result)) {
     throw new Error("Expected an OCI image manifest");
   }
 

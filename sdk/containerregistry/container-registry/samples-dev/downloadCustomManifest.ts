@@ -25,7 +25,7 @@ async function main() {
   const manifestListType = "application/vnd.docker.distribution.manifest.list.v2+json";
   const ociIndexType = "application/vnd.oci.image.index.v1+json";
 
-  const result = await client.downloadManifest("latest", {
+  const result = await client.getManifest("latest", {
     mediaType: [manifestListType, ociIndexType],
   });
 

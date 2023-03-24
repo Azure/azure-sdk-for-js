@@ -9,9 +9,9 @@ import {
 } from "@azure-tools/test-recorder";
 import {
   ContainerRegistryContentClient,
-  DownloadManifestResult,
-  DownloadOciImageManifestResult,
-  isDownloadOciImageManifestResult,
+  GetManifestResult,
+  GetOciImageManifestResult,
+  isGetOciImageManifestResult,
   KnownManifestMediaType,
   OciImageManifest,
 } from "../../src";
@@ -23,9 +23,9 @@ import { Readable } from "stream";
 import { readStreamToEnd } from "../../src/utils/helpers";
 
 function assertIsOciManifest(
-  downloadManifestResult: DownloadManifestResult
-): asserts downloadManifestResult is DownloadOciImageManifestResult {
-  assert.isTrue(isDownloadOciImageManifestResult(downloadManifestResult));
+  downloadManifestResult: GetManifestResult
+): asserts downloadManifestResult is GetOciImageManifestResult {
+  assert.isTrue(isGetOciImageManifestResult(downloadManifestResult));
 }
 
 versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
@@ -93,8 +93,8 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
     it("can upload OCI manifest", async () => {
       await uploadManifestPrerequisites();
 
-      const uploadResult = await client.uploadManifest(manifest);
-      const downloadResult = await client.downloadManifest(uploadResult.digest);
+      const uploadResult = await client.setManifest(manifest);
+      const downloadResult = await client.getManifest(uploadResult.digest);
       assertIsOciManifest(downloadResult);
 
       assert.equal(downloadResult.digest, uploadResult.digest);
@@ -112,8 +112,8 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       await uploadManifestPrerequisites();
 
       const manifestStream = fs.createReadStream("test/data/oci-artifact/manifest.json");
-      const uploadResult = await client.uploadManifest(manifestStream);
-      const downloadResult = await client.downloadManifest(uploadResult.digest);
+      const uploadResult = await client.setManifest(manifestStream);
+      const downloadResult = await client.getManifest(uploadResult.digest);
       assertIsOciManifest(downloadResult);
 
       assert.equal(downloadResult.digest, uploadResult.digest);
@@ -133,8 +133,8 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       const manifestBuffer = await readStreamToEnd(
         fs.createReadStream("test/data/oci-artifact/manifest.json")
       );
-      const uploadResult = await client.uploadManifest(manifestBuffer);
-      const downloadResult = await client.downloadManifest(uploadResult.digest);
+      const uploadResult = await client.setManifest(manifestBuffer);
+      const downloadResult = await client.getManifest(uploadResult.digest);
       assertIsOciManifest(downloadResult);
 
       assert.equal(downloadResult.digest, uploadResult.digest);
@@ -146,8 +146,8 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
     it("can upload OCI manifest with tag", async () => {
       await uploadManifestPrerequisites();
 
-      const uploadResult = await client.uploadManifest(manifest, { tag: "my_artifact" });
-      const downloadResult = await client.downloadManifest("my_artifact");
+      const uploadResult = await client.setManifest(manifest, { tag: "my_artifact" });
+      const downloadResult = await client.getManifest("my_artifact");
       assertIsOciManifest(downloadResult);
 
       assert.equal(downloadResult.digest, uploadResult.digest);
@@ -166,13 +166,13 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
 
       const manifestStream = () =>
         fs.createReadStream("test/data/docker/hello-world/manifest.json");
-      await helloWorldClient.uploadManifest(manifestStream(), {
+      await helloWorldClient.setManifest(manifestStream(), {
         mediaType: KnownManifestMediaType.DockerManifest,
       });
 
       try {
         // Need to provide the correct media type.
-        await helloWorldClient.uploadManifest(manifestStream());
+        await helloWorldClient.setManifest(manifestStream());
         assert.fail("Expected exception to be thrown");
       } catch {
         // ignore expected exception
@@ -194,7 +194,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
 
       const digest = "sha256:f54a58bc1aac5ea1a25d796ae155dc228b3f0e11d046ae276b39c4bf2f13d8c4";
 
-      const result = await helloWorldClient.downloadManifest(digest);
+      const result = await helloWorldClient.getManifest(digest);
 
       assert.equal(result.digest, digest);
 
@@ -211,8 +211,8 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       await uploadManifestPrerequisites();
 
       const manifestStream = fs.createReadStream("test/data/oci-artifact/manifest.json");
-      const uploadResult = await client.uploadManifest(manifestStream, { tag: "my_artifact" });
-      const downloadResult = await client.downloadManifest("my_artifact");
+      const uploadResult = await client.setManifest(manifestStream, { tag: "my_artifact" });
+      const downloadResult = await client.getManifest("my_artifact");
       assertIsOciManifest(downloadResult);
 
       assert.equal(downloadResult.digest, uploadResult.digest);

@@ -22,7 +22,7 @@ async function main() {
     new DefaultAzureCredential()
   );
 
-  const downloadResult = await client.downloadManifest("latest");
+  const downloadResult = await client.getManifest("latest");
   await client.deleteManifest(downloadResult.digest);
 }
 
