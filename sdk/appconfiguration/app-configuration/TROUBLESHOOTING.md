@@ -52,7 +52,7 @@ setLogLevel("info");
 
 For detailed instructions on how to enable logs, see the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
-### Authentication errors
+### Authentication issues
 
 In addtition to connection strings, Azure App Congifuration supports [role-based access control](https://learn.microsoft.com/en-us/azure/role-based-access-control/overview) (RBAC) using Azure Active Directory authentication. To provide a valid credential, you can use the `@azure/identity` dependency. For more details on getting started, see the [README](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration) of Azure App Configuration library. 
 
