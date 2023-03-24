@@ -433,10 +433,10 @@ export class BatchingReceiverLite {
         } catch (e) {
           if ((e as Error)?.name !== "AbortError") {
             logger.warning(`${loggingPrefix} Time out when draining credits.`);
+            // Close the receiver link since we have not received the receiver drain event
+            // to prevent out-of-sync state between local and remote
+            await receiver.close();
           }
-          // Close the receiver link since we have not received the receiver drain event
-          // to prevent out-of-sync state between local and remote
-          await receiver.close();
         }
 
         // Turn off draining.
