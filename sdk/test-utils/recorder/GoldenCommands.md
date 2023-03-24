@@ -1,8 +1,8 @@
 ## Useful Commands while Testing your packages
 
-If you're not familiar with the recorder refer to [recorder-readme](./README.md).
-If you're looking to migrate your existing package from recorder v1 to v3, refer to [migrate-v1-to-v3](./MIGRATION.md).
-If you're looking to be onboarded to the asset-sync workflow to push out the test recordings to `Azure/azure-sdk-assets` repository, refer to [asset-sync-migration](./ASSET_SYNC_MIGRATION.md).
+If you're not familiar with the recorder refer to [recorder-readme](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md).
+If you're looking to migrate your existing package from recorder v1 to v3, refer to [migrate-v1-to-v3](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md).
+If you're looking to be onboarded to the asset-sync workflow to push out the test recordings to `Azure/azure-sdk-assets` repository, refer to [asset-sync-migration](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_MIGRATION.md).
 
 ### `rush` Commands
 

@@ -141,7 +141,7 @@ A few commands have been added to `dev-tool` to facilitate pushing and fetching 
 - `dev-tool test-proxy reset`: if you've made any changes to the recordings locally, you can use this to revert those local changes and reset to what is currently checked in to the assets repo. This is a destructive operation and if you have local changes it will prompt you before removing your work.
 - `dev-tool test-proxy migrate`: used for migrating existing recordings to the assets repo as described above.
 
-**Refer to [testing-commands](./GoldenCommands.md) guide if you need help on the commands to run during testing.**
+**Refer to [testing-commands](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/GoldenCommands.md) guide if you need help on the commands to run during testing.**
 
 ### Working offline
 

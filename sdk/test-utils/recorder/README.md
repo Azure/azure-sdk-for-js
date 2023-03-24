@@ -13,9 +13,9 @@ Our recorder tool package `@azure-tools/test-recorder` attempts to provide an an
 
 **Note 1: In case you're depending on `@azure-tools/test-recorder@1.x.y` and want to migrate your tests to version 3, follow the [migration guide to recorder v3 from v1](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md)**
 
-**Note 2: If you're looking to onboard to the asset-sync workflow to push out the test recordings to `Azure/azure-sdk-assets` repository, refer to [asset-sync-migration](./ASSET_SYNC_MIGRATION.md).**
+**Note 2: If you're looking to onboard to the asset-sync workflow to push out the test recordings to `Azure/azure-sdk-assets` repository, refer to [asset-sync-migration](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_MIGRATION.md).**
 
-**Note 3: Refer to [testing-commands](./GoldenCommands.md) if you need help on commands to run during testing.**
+**Note 3: Refer to [testing-commands](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/GoldenCommands.md) if you need help on commands to run during testing.**
 
 This library provides interfaces and helper methods to equip the SDKs in the `azure-sdk-for-js` repo with the recording and playback capabilities for the tests, it targets HTTP requests in both Node.js and the Browsers.
 
@@ -178,7 +178,7 @@ npx dev-tool test-proxy init
 This command would generate an `assets.json` file with an empty tag.
 Once you generate the recordings for your tests and push them to the assets repo, the tag gets populated here.
 
-For further understanding, please read the [asset sync migration and workflow](./ASSET_SYNC_MIGRATION.md).
+For further understanding, please read the [asset sync migration and workflow](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_MIGRATION.md).
 
 ## Using the `Recorder`
 
@@ -385,7 +385,7 @@ describe(`TableServiceClient tests`, () => {
 
   If the package has been onboarded to asset-sync workflow, the recording will be loacted under the `.assets/` at the root of the repository. 
     - To view the recording, refer to `.assets/.breadcrumb` to find the entry that matches your SDK. This will give you the name of the directory within `.assets` that your recordings are located in.
-    - Refer to [asset sync workflow](./ASSET_SYNC_MIGRATION.md#workflow-with-asset-sync-enabled) for more understanding and further steps.
+    - Refer to [asset sync workflow](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_MIGRATION.md#workflow-with-asset-sync-enabled) for more understanding and further steps.
 
   Otherwise, the recording will be located at `recordings/node/tableserviceclient_tests/recording_should_create_new_table_then_delete.json`.
 
@@ -509,7 +509,7 @@ If you run into issues while running the tests in record/playback modes, some of
 If port 5000 is already being used in your machine, you can specify the environment variable `TEST_PROXY_HTTP_PORT` and point to the port number that you wish. (Example, `export TEST_PROXY_HTTP_PORT=2345`)
 
 ### Inspecting recordings
-Refer to [asset sync workflow - inspect recordings](./ASSET_SYNC_MIGRATION.md#inspecting-recordings-with-asset-sync-enabled).
+Refer to [asset sync workflow - inspect recordings](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_MIGRATION.md#inspecting-recordings-with-asset-sync-enabled).
 
 ### Next steps
 
