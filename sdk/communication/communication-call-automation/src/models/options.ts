@@ -178,3 +178,18 @@ export type GetRecordingPropertiesOptions = OperationOptions;
  * Options to resume recording.
  */
 export type ResumeRecordingOptions = OperationOptions;
+
+/**
+ * Options to delete recording.
+ */
+export type DeleteRecordingOptions = OperationOptions;
+
+/**
+ * Options to download recording.
+ */
+export interface DownloadRecordingOptions extends OperationOptions {
+  /** Offset byte to start download from. */
+  offset?: number;
+  /** Max content length in bytes. */
+  length?: number;
+}

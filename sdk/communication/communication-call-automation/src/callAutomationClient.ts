@@ -37,6 +37,7 @@ import {
   phoneNumberIdentifierConverter,
   PhoneNumberIdentifierModelConverter,
 } from "./utli/converters";
+import { ContentDownloaderImpl } from "./contentDownloader";
 
 /**
  * Client options used to configure CallAutomation Client API requests.
@@ -63,6 +64,7 @@ export class CallAutomationClient {
   private readonly callAutomationApiClient: CallAutomationApiClient;
   private readonly callConnectionImpl: CallConnectionImpl;
   private readonly callRecordingImpl: CallRecordingImpl;
+  private readonly contentDownloaderImpl: ContentDownloaderImpl;
   private readonly callMediaImpl: CallMediaImpl;
   private readonly sourceIdentity?: CommunicationIdentifierModel;
 
@@ -127,6 +129,7 @@ export class CallAutomationClient {
     this.callConnectionImpl = new CallConnectionImpl(this.callAutomationApiClient);
     this.callMediaImpl = new CallMediaImpl(this.callAutomationApiClient);
     this.callRecordingImpl = new CallRecordingImpl(this.callAutomationApiClient);
+    this.contentDownloaderImpl = new ContentDownloaderImpl(this.callAutomationApiClient);
     this.sourceIdentity = options.sourceIdentity
       ? communicationIdentifierModelConverter(options.sourceIdentity)
       : undefined;
@@ -144,7 +147,7 @@ export class CallAutomationClient {
    * Initializes a new instance of CallRecording.
    */
   public getCallRecording(): CallRecording {
-    return new CallRecording(this.callRecordingImpl);
+    return new CallRecording(this.callRecordingImpl, this.contentDownloaderImpl);
   }
 
   /**
