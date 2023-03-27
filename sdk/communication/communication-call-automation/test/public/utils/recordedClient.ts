@@ -3,11 +3,15 @@
 
 import * as dotenv from "dotenv";
 import { isNode } from "@azure/core-util";
+import fs from 'fs';
 import {
   Recorder,
   RecorderStartOptions,
   env,
   assertEnvironmentVariable,
+  isRecordMode,
+  isPlaybackMode,
+  relativeRecordingsPath
 } from "@azure-tools/test-recorder";
 import { Test } from "mocha";
 import { generateToken } from "./connectionUtils";
@@ -30,7 +34,7 @@ import {
   ServiceBusClient,
   ServiceBusReceiver,
   ServiceBusReceivedMessage,
-  ProcessErrorArgs,
+  ProcessErrorArgs
 } from "@azure/service-bus";
 
 if (isNode) {
@@ -53,7 +57,8 @@ export const incomingCallContexts: Map<string, string> = new Map<string, string>
 export const events: Map<string, Map<string, CallAutomationEvent>> = new Map<
   string,
   Map<string, CallAutomationEvent>
->();
+  >();
+export const eventsToPersist: string[] = [];
 const sleep = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
 
 function removeAllNonChar(input: string): string {
@@ -124,6 +129,29 @@ export function createCallAutomationClient(
   return new CallAutomationClient(connectionString, recorder.configureClientOptions(options));
 }
 
+async function eventBodyHandler(body: any): Promise<void> {
+  if (body.incomingCallContext) {
+    const incomingCallContext: string = body.incomingCallContext;
+    const callerRawId: string = body.from.rawId;
+    const calleeRawId: string = body.to.rawId;
+    const key: string = removeAllNonChar(callerRawId + calleeRawId);
+    incomingCallContexts.set(key, incomingCallContext);
+  } else {
+    const eventParser: CallAutomationEventParser = new CallAutomationEventParser();
+    const event: CallAutomationEvent = await eventParser.parse(body);
+    console.log(event.kind);
+    if (event.callConnectionId) {
+      if (events.has(event.callConnectionId)) {
+        events.get(event.callConnectionId)?.set(event.kind, event);
+      } else {
+        const temp: Map<string, CallAutomationEvent> = new Map<string, CallAutomationEvent>();
+        temp.set(event.kind, event);
+        events.set(event.callConnectionId, temp);
+      }
+    }
+  }
+}
+
 export async function serviceBusWithNewCall(
   caller: CommunicationIdentifier,
   receiver: CommunicationIdentifier
@@ -132,64 +160,50 @@ export async function serviceBusWithNewCall(
   const receiverId: string = parseIdsFromIdentifier(receiver);
   const uniqueId: string = callerId + receiverId;
 
-  // subscribe to event dispatcher
-  const dispatcherUrl: string =
-    assertEnvironmentVariable("DISPATCHER_ENDPOINT") +
-    `/api/servicebuscallback/subscribe?q=${uniqueId}`;
+  if (!isPlaybackMode()) {
+    // subscribe to event dispatcher
+    const dispatcherUrl: string =
+      assertEnvironmentVariable("DISPATCHER_ENDPOINT") +
+      `/api/servicebuscallback/subscribe?q=${uniqueId}`;
 
-  try {
-    await fetch(dispatcherUrl, {
-      method: "POST",
-      body: JSON.stringify({}),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    });
-  } catch (e) {
-    console.log("Error occurred", e);
-  }
-
-  // create a service bus processor
-  const serviceBusClient = createServiceBusClient();
-  const serviceBusReceiver: ServiceBusReceiver = serviceBusClient.createReceiver(uniqueId);
-
-  // function to handle messages
-  const messageHandler = async (messageReceived: ServiceBusReceivedMessage): Promise<void> => {
-    if (messageReceived.body.incomingCallContext) {
-      const incomingCallContext: string = messageReceived.body.incomingCallContext;
-      const callerRawId: string = messageReceived.body.from.rawId;
-      const calleeRawId: string = messageReceived.body.to.rawId;
-      const key: string = removeAllNonChar(callerRawId + calleeRawId);
-      incomingCallContexts.set(key, incomingCallContext);
-    } else {
-      const eventParser: CallAutomationEventParser = new CallAutomationEventParser();
-      const event: CallAutomationEvent = await eventParser.parse(messageReceived.body);
-      console.log(event.kind);
-      if (event.callConnectionId) {
-        if (events.has(event.callConnectionId)) {
-          events.get(event.callConnectionId)?.set(event.kind, event);
-        } else {
-          const temp: Map<string, CallAutomationEvent> = new Map<string, CallAutomationEvent>();
-          temp.set(event.kind, event);
-          events.set(event.callConnectionId, temp);
-        }
-      }
+    try {
+      await fetch(dispatcherUrl, {
+        method: "POST",
+        body: JSON.stringify({}),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+    } catch (e) {
+      console.log("Error occurred", e);
     }
-  };
 
-  // function to handle any errors
-  const errorHandler = async (error: ProcessErrorArgs): Promise<void> => {
-    console.log(error);
-  };
+    // create a service bus processor
+    const serviceBusClient = createServiceBusClient();
+    const serviceBusReceiver: ServiceBusReceiver = serviceBusClient.createReceiver(uniqueId);
 
-  // subscribe and specify the message and error handlers
-  serviceBusReceiver.subscribe({
-    processMessage: messageHandler,
-    processError: errorHandler,
-  });
+    // function to handle messages
+    const messageHandler = async (messageReceived: ServiceBusReceivedMessage): Promise<void> => {
+      if (isRecordMode()) {
+        const messageInString: string = JSON.stringify(messageReceived.body);
+        eventsToPersist.push(messageInString);
+      }
+      await eventBodyHandler(messageReceived.body);
+    };
 
-  serviceBusReceivers.set(uniqueId, serviceBusReceiver);
+    // function to handle any errors
+    const errorHandler = async (error: ProcessErrorArgs): Promise<void> => {
+      console.log(error);
+    };
 
+    // subscribe and specify the message and error handlers
+    serviceBusReceiver.subscribe({
+      processMessage: messageHandler,
+      processError: errorHandler,
+    });
+
+    serviceBusReceivers.set(uniqueId, serviceBusReceiver);
+  }
   return uniqueId;
 }
 
@@ -227,4 +241,27 @@ export async function waitForEvent(
     currentTime += 1000;
   }
   return undefined;
+}
+
+export function persistEvents(testName: string) {
+  if (isRecordMode()) {
+    fs.writeFile(relativeRecordingsPath() + `${testName}.txt`, eventsToPersist.join('\n'), (err) => {
+      if (err) throw err;
+      console.log('Data written to file');
+    })
+  }
+}
+
+export function loadPersistedEvents(testName: string): void {
+  if (isPlaybackMode()) {
+    const data = fs.readFileSync(relativeRecordingsPath() + `${testName}.txt`, 'utf-8');
+    const eventStrings = data.split('\n');
+
+    console.log(eventStrings);
+    eventStrings.forEach(async (eventString) => {
+      let event:any = JSON.parse(eventString);
+      console.log(event);
+      await eventBodyHandler(event);
+    })
+  }
 }
