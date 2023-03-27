@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.0-beta.1 (Unreleased)
+## 3.0.0-beta.1 (2023-03-27)
 
 ### Features Added
 
@@ -9,10 +9,6 @@
 ### Breaking Changes
 
 - Introduction of `MicrosoftBotIdentifier` is a breaking change. It will affect code that relied on using `UnknownIdentifier` with a rawID starting with `28:`
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 2.2.0 (2022-11-03)
 
