@@ -20,7 +20,7 @@ import {
   serviceBusReceivers,
   incomingCallContexts,
   loadPersistedEvents,
-  persistEvents
+  persistEvents,
 } from "./utils/recordedClient";
 
 describe("Call Automation Main Client Live Tests", function () {
@@ -60,39 +60,34 @@ describe("Call Automation Main Client Live Tests", function () {
     await recorder.stop();
   });
 
-
   it("Create a call and hangup", async function () {
-    testName = this.test?.fullTitle() ? this.test?.fullTitle().replace(/ /g, "_") : "create_call_and_hang_up";
+    testName = this.test?.fullTitle()
+      ? this.test?.fullTitle().replace(/ /g, "_")
+      : "create_call_and_hang_up";
     loadPersistedEvents(testName);
-    
+
     const callInvite = new CallInvite(testUser2);
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
 
     const result = await callAutomationClient.createCall(callInvite, callBackUrl);
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
-    const callConnectionId: string = result.callConnectionProperties.callConnectionId ? result.callConnectionProperties.callConnectionId : "";
+    const callConnectionId: string = result.callConnectionProperties.callConnectionId
+      ? result.callConnectionProperties.callConnectionId
+      : "";
     assert.isDefined(incomingCallContext);
 
     if (incomingCallContext) {
       await callAutomationClient.answerCall(incomingCallContext, callBackUrl);
     }
-    const callConnectedEvent = await waitForEvent(
-      "CallConnected",
-      callConnectionId,
-      8000
-    );
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
 
     await callConnection.hangUp(true);
-    const callDisconnectedEvent = await waitForEvent(
-      "CallDisconnected",
-      callConnectionId,
-      8000);
+    const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
     assert.isDefined(callDisconnectedEvent);
   }).timeout(60000);
-
 
   it("Reject call", async function () {
     testName = this.test?.fullTitle() ? this.test?.fullTitle().replace(/ /g, "_") : "reject_call";
@@ -104,18 +99,16 @@ describe("Call Automation Main Client Live Tests", function () {
 
     const result = await callAutomationClient.createCall(callInvite, callBackUrl);
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
-    const callConnectionId: string = result.callConnectionProperties.callConnectionId ? result.callConnectionProperties.callConnectionId : "";
+    const callConnectionId: string = result.callConnectionProperties.callConnectionId
+      ? result.callConnectionProperties.callConnectionId
+      : "";
     assert.isDefined(incomingCallContext);
 
     if (incomingCallContext) {
       await callAutomationClient.rejectCall(incomingCallContext);
     }
 
-    const callDisconnectedEvent = await waitForEvent(
-      "CallDisconnected",
-      callConnectionId,
-      8000
-    );
+    const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
     assert.isDefined(callDisconnectedEvent);
   }).timeout(60000);
 });

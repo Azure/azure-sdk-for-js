@@ -3,7 +3,7 @@
 
 import * as dotenv from "dotenv";
 import { isNode } from "@azure/core-util";
-import fs from 'fs';
+import fs from "fs";
 import {
   Recorder,
   RecorderStartOptions,
@@ -11,7 +11,7 @@ import {
   assertEnvironmentVariable,
   isRecordMode,
   isPlaybackMode,
-  relativeRecordingsPath
+  relativeRecordingsPath,
 } from "@azure-tools/test-recorder";
 import { Test } from "mocha";
 import { generateToken } from "./connectionUtils";
@@ -34,7 +34,7 @@ import {
   ServiceBusClient,
   ServiceBusReceiver,
   ServiceBusReceivedMessage,
-  ProcessErrorArgs
+  ProcessErrorArgs,
 } from "@azure/service-bus";
 
 if (isNode) {
@@ -57,7 +57,7 @@ export const incomingCallContexts: Map<string, string> = new Map<string, string>
 export const events: Map<string, Map<string, CallAutomationEvent>> = new Map<
   string,
   Map<string, CallAutomationEvent>
-  >();
+>();
 export const eventsToPersist: string[] = [];
 const sleep = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -243,25 +243,29 @@ export async function waitForEvent(
   return undefined;
 }
 
-export function persistEvents(testName: string) {
+export function persistEvents(testName: string): void {
   if (isRecordMode()) {
-    fs.writeFile(relativeRecordingsPath() + `${testName}.txt`, eventsToPersist.join('\n'), (err) => {
-      if (err) throw err;
-      console.log('Data written to file');
-    })
+    fs.writeFile(
+      relativeRecordingsPath() + `${testName}.txt`,
+      eventsToPersist.join("\n"),
+      (err) => {
+        if (err) throw err;
+        console.log("Data written to file");
+      }
+    );
   }
 }
 
 export function loadPersistedEvents(testName: string): void {
   if (isPlaybackMode()) {
-    const data = fs.readFileSync(relativeRecordingsPath() + `${testName}.txt`, 'utf-8');
-    const eventStrings = data.split('\n');
+    const data = fs.readFileSync(relativeRecordingsPath() + `${testName}.txt`, "utf-8");
+    const eventStrings = data.split("\n");
 
     console.log(eventStrings);
     eventStrings.forEach(async (eventString) => {
-      let event:any = JSON.parse(eventString);
+      const event: any = JSON.parse(eventString);
       console.log(event);
       await eventBodyHandler(event);
-    })
+    });
   }
 }

@@ -178,8 +178,10 @@ export class CallAutomationClient {
       azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl,
       mediaStreamingConfiguration: options.mediaStreamingConfiguration,
       customContext: {
-        sipHeaders: target instanceof CallInvite ? target.sipHeaders : options.sipHeaders ?? undefined,
-        voipHeaders: target instanceof CallInvite ? target.voipHeaders : options.voipHeaders ?? undefined
+        sipHeaders:
+          target instanceof CallInvite ? target.sipHeaders : options.sipHeaders ?? undefined,
+        voipHeaders:
+          target instanceof CallInvite ? target.voipHeaders : options.voipHeaders ?? undefined,
       },
       sourceCallerIdNumber:
         target instanceof CallInvite
@@ -285,9 +287,11 @@ export class CallAutomationClient {
       incomingCallContext: incomingCallContext,
       target: communicationIdentifierModelConverter(target.target),
       customContext: {
-        sipHeaders: target instanceof CallInvite ? target.sipHeaders : options.sipHeaders ?? undefined,
-        voipHeaders: target instanceof CallInvite ? target.voipHeaders : options.voipHeaders ?? undefined
-      }
+        sipHeaders:
+          target instanceof CallInvite ? target.sipHeaders : options.sipHeaders ?? undefined,
+        voipHeaders:
+          target instanceof CallInvite ? target.voipHeaders : options.voipHeaders ?? undefined,
+      },
     };
 
     return this.callAutomationApiClient.redirectCall(request, options);
