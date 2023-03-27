@@ -11,7 +11,7 @@ import {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { AbortSignalLike } from "@azure/abort-controller";
+import { DeleteRecordingOptions, DownloadRecordingOptions } from "./models/options";
 
 /** Class containing ContentDownloading operations. */
 export class ContentDownloaderImpl {
@@ -48,7 +48,10 @@ export class ContentDownloaderImpl {
    * Deletes a recording.
    * @param recordingLocation - The recording location uri. Required.
    */
-  async deleteRecording(recordingLocation: string, abortSignal?: AbortSignalLike): Promise<void> {
+  async deleteRecording(
+    recordingLocation: string,
+    options?: DeleteRecordingOptions
+  ): Promise<void> {
     const fileLocation = new URL(recordingLocation);
     const endpoint = new URL(this.client.endpoint);
     const modifiedUrlForSigning = endpoint.origin + fileLocation.pathname;
@@ -58,7 +61,8 @@ export class ContentDownloaderImpl {
       method: "DELETE",
       headers: createHttpHeaders(),
       body: "",
-      abortSignal: abortSignal,
+      abortSignal: options?.abortSignal,
+      tracingOptions: options?.tracingOptions,
     };
 
     opt.headers?.set("OriginalUrl", recordingLocation);
@@ -86,9 +90,7 @@ export class ContentDownloaderImpl {
    */
   async download(
     sourceLocation: string,
-    offset?: number,
-    length?: number,
-    abortSignal?: AbortSignalLike
+    options: DownloadRecordingOptions
   ): Promise<PipelineResponse> {
     const fileLocation = new URL(sourceLocation);
     const endpoint = new URL(this.client.endpoint);
@@ -100,17 +102,18 @@ export class ContentDownloaderImpl {
       headers: createHttpHeaders(),
       body: "",
       streamResponseStatusCodes: new Set([200, 206]),
-      abortSignal: abortSignal,
+      abortSignal: options.abortSignal,
+      tracingOptions: options?.tracingOptions,
     };
 
-    if (length && !offset) {
+    if (options.length && !options.offset) {
       throw Error("Download offset value must not be empty if length is set.");
-    } else if (length && offset) {
-      length = offset + length - 1;
+    } else if (options.length && options.offset) {
+      options.length = options.offset + options.length - 1;
     }
 
-    let rangeHeader = "bytes=" + offset;
-    if (length) rangeHeader += "-" + length;
+    let rangeHeader = "bytes=" + options.offset;
+    if (options.length) rangeHeader += "-" + options.length;
 
     opt.headers?.set("OriginalUrl", sourceLocation);
     opt.headers?.set("x-ms-host", endpoint.host);

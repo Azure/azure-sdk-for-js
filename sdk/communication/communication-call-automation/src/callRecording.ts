@@ -9,10 +9,11 @@ import {
   PauseRecordingOptions,
   GetRecordingPropertiesOptions,
   ResumeRecordingOptions,
+  DeleteRecordingOptions,
+  DownloadRecordingOptions,
 } from "./models/options";
 import { communicationIdentifierModelConverter } from "./utli/converters";
 import { ContentDownloaderImpl } from "./contentDownloader";
-import { AbortSignalLike } from "@azure/abort-controller";
 import * as fs from "fs";
 
 /**
@@ -120,27 +121,25 @@ export class CallRecording {
   /**
    * Deletes a recording.
    * @param recordingLocation - The recording location uri. Required.
+   * @param options - Additional request options contains deleteRecording api options.
    */
   public async deleteRecording(
     recordingLocation: string,
-    abortSignal?: AbortSignalLike
+    options: DeleteRecordingOptions = {}
   ): Promise<void> {
-    await this.contentDownloader.deleteRecording(recordingLocation, abortSignal);
+    await this.contentDownloader.deleteRecording(recordingLocation, options);
   }
 
   /**
    * Returns a stream with a call recording.
    * @param sourceLocation - The source location uri. Required.
-   * @param offset - Offset byte. Not required.
-   * @param length - how many bytes. Not required.
+   * @param options - Additional request options contains downloadRecording api options.
    */
   public async downloadStreaming(
     sourceLocation: string,
-    offset?: number,
-    length?: number,
-    abortSignal?: AbortSignalLike
+    options: DownloadRecordingOptions = {}
   ): Promise<NodeJS.ReadableStream> {
-    const result = this.contentDownloader.download(sourceLocation, offset, length, abortSignal);
+    const result = this.contentDownloader.download(sourceLocation, options);
     const recordingStream = (await result).readableStreamBody;
     if (recordingStream) {
       return recordingStream;
@@ -153,18 +152,15 @@ export class CallRecording {
    * Downloads a call recording file to the specified path.
    * @param sourceLocation - The source location uri. Required.
    * @param destinationPath - The destination path. Required.
-   * @param offset - Offset byte to start download from. Not required.
-   * @param length - Max content length in bytes. Not required.
+   * @param options - Additional request options contains downloadRecording api options.
    */
   public async downloadTo(
     sourceLocation: string,
     destinationPath: string,
-    offset?: number,
-    length?: number,
-    abortSignal?: AbortSignalLike
+    options: DownloadRecordingOptions = {}
   ): Promise<void> {
     console.log(destinationPath);
-    const result = this.contentDownloader.download(sourceLocation, offset, length, abortSignal);
+    const result = this.contentDownloader.download(sourceLocation, options);
     const recordingStream = (await result).readableStreamBody;
     if (recordingStream) {
       recordingStream.pipe(fs.createWriteStream(destinationPath));

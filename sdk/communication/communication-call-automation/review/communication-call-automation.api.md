@@ -6,7 +6,6 @@
 
 /// <reference types="node" />
 
-import { AbortSignalLike } from '@azure/abort-controller';
 import { CommonClientOptions } from '@azure/core-client';
 import { CommunicationIdentifier } from '@azure/communication-common';
 import { CommunicationUserIdentifier } from '@azure/communication-common';
@@ -211,9 +210,9 @@ export class CallRecording {
     // Warning: (ae-forgotten-export) The symbol "CallRecordingImpl" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "ContentDownloaderImpl" needs to be exported by the entry point index.d.ts
     constructor(callRecordingImpl: CallRecordingImpl, contentDownloader: ContentDownloaderImpl);
-    deleteRecording(recordingLocation: string, abortSignal?: AbortSignalLike): Promise<void>;
-    downloadStreaming(sourceLocation: string, offset?: number, length?: number, abortSignal?: AbortSignalLike): Promise<NodeJS.ReadableStream>;
-    downloadTo(sourceLocation: string, destinationPath: string, offset?: number, length?: number, abortSignal?: AbortSignalLike): Promise<void>;
+    deleteRecording(recordingLocation: string, options?: DeleteRecordingOptions): Promise<void>;
+    downloadStreaming(sourceLocation: string, options?: DownloadRecordingOptions): Promise<NodeJS.ReadableStream>;
+    downloadTo(sourceLocation: string, destinationPath: string, options?: DownloadRecordingOptions): Promise<void>;
     getRecordingState(recordingId: string, options?: GetRecordingPropertiesOptions): Promise<RecordingStateResult>;
     pauseRecording(recordingId: string, options?: PauseRecordingOptions): Promise<void>;
     resumeRecording(recordingId: string, options?: ResumeRecordingOptions): Promise<void>;
@@ -245,6 +244,15 @@ export interface CreateCallOptions extends OperationOptions {
 
 // @public
 export type CreateCallResult = CallResult;
+
+// @public
+export type DeleteRecordingOptions = OperationOptions;
+
+// @public
+export interface DownloadRecordingOptions extends OperationOptions {
+    length?: number;
+    offset?: number;
+}
 
 // @public
 export enum DtmfTone {
