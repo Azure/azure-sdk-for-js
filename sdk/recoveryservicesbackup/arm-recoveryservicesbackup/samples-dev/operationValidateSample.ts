@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Validate operation for specified backed up item. This is a synchronous operation.
  *
  * @summary Validate operation for specified backed up item. This is a synchronous operation.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/ValidateOperation_RestoreDisk.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/AzureIaasVm/ValidateOperation_RestoreDisk.json
  */
 async function validateOperation() {
   const subscriptionId =
@@ -65,7 +65,7 @@ async function validateOperation() {
  * This sample demonstrates how to Validate operation for specified backed up item. This is a synchronous operation.
  *
  * @summary Validate operation for specified backed up item. This is a synchronous operation.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/ValidateOperation_RestoreDisk_IdentityBasedRestoreDetails.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/AzureIaasVm/ValidateOperation_RestoreDisk_IdentityBasedRestoreDetails.json
  */
 async function validateOperationWithIdentityBasedRestoreDetails() {
   const subscriptionId =

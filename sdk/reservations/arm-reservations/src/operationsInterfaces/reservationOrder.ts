@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ReservationOrderResponse,
   ReservationOrderListOptionalParams,
@@ -53,8 +53,8 @@ export interface ReservationOrder {
     body: PurchaseRequest,
     options?: ReservationOrderPurchaseOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReservationOrderPurchaseResponse>,
+    SimplePollerLike<
+      OperationState<ReservationOrderPurchaseResponse>,
       ReservationOrderPurchaseResponse
     >
   >;

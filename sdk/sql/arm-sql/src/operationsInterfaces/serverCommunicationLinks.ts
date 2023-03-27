@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ServerCommunicationLink,
   ServerCommunicationLinksListByServerOptionalParams,
@@ -77,8 +77,8 @@ export interface ServerCommunicationLinks {
     parameters: ServerCommunicationLink,
     options?: ServerCommunicationLinksCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ServerCommunicationLinksCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ServerCommunicationLinksCreateOrUpdateResponse>,
       ServerCommunicationLinksCreateOrUpdateResponse
     >
   >;

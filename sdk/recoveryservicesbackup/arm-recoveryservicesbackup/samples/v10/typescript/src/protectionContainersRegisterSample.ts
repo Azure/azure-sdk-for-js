@@ -25,7 +25,7 @@ the operation.
  * @summary Registers the container with Recovery Services vault.
 This is an asynchronous operation. To track the operation status, use location header to call get latest status of
 the operation.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureStorage/ProtectionContainers_Register.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/AzureStorage/ProtectionContainers_Register.json
  */
 async function registerAzureStorageProtectionContainers() {
   const subscriptionId =
