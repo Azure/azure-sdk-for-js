@@ -78,7 +78,7 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed;
+export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed;
 
 // @public
 export class CallAutomationEventParser {
@@ -231,8 +231,14 @@ export interface CreateCallOptions extends OperationOptions {
     azureCognitiveServicesEndpointUrl?: string;
     mediaStreamingConfiguration?: MediaStreamingConfiguration;
     operationContext?: string;
+    sipHeaders?: {
+        [propertyName: string]: string;
+    };
     sourceCallIdNumber?: PhoneNumberIdentifier;
     sourceDisplayName?: string;
+    voipHeaders?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -448,11 +454,29 @@ export enum RecordingStorage {
 }
 
 // @public
-export type RedirectCallOptions = OperationOptions;
+export interface RedirectCallOptions extends OperationOptions {
+    sipHeaders?: {
+        [propertyName: string]: string;
+    };
+    voipHeaders?: {
+        [propertyName: string]: string;
+    };
+}
 
 // @public
 export interface RejectCallOptions extends OperationOptions {
     callRejectReason?: CallRejectReason;
+}
+
+// @public
+export interface RemoveParticipantFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    kind: "RemoveParticipantFailed";
+    operationContext?: string;
+    participant?: CommunicationIdentifier;
+    resultInformation?: ResultInformation;
+    serverCallId?: string;
 }
 
 // @public
@@ -463,6 +487,17 @@ export interface RemoveParticipantsOptions extends OperationOptions {
 // @public
 export interface RemoveParticipantsResult {
     operationContext?: string;
+}
+
+// @public
+export interface RemoveParticipantSucceeded {
+    callConnectionId?: string;
+    correlationId?: string;
+    kind: "RemoveParticipantSucceeded";
+    operationContext?: string;
+    participant?: CommunicationIdentifier;
+    resultInformation?: ResultInformation;
+    serverCallId?: string;
 }
 
 // @public
