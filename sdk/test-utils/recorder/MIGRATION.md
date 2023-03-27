@@ -2,11 +2,6 @@
 
 This document outlines key differences between the legacy recorder and the new Unified Recorder client. The Unified Recorder replaces the older `nock/nise`-based recorder(v1) with a solution that uses the language-agnostic [test proxy server].
 
-## No Prerequisites Like Before? How??
-
-- With recorder v2, Docker was required for to leverage the [test proxy server]. This is not needed anymore with recorder v3.
-- Using the [`dev-tool run ...` commands](changes-to-npm-scripts) would automatically download the [latest test proxy artifacts] from the [Azure/azure-sdk-tools] repo according to your operating system/architecture.
-
 ## Advantages of migration to v3
 
 - Recorder v3 handles secrets in the recordings better than v1 leveraging the new sanitizers/transformations approach.
