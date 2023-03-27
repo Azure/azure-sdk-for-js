@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ManagedBackupShortTermRetentionPolicy,
   ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseOptionalParams,
@@ -73,8 +73,8 @@ export interface ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicie
     parameters: ManagedBackupShortTermRetentionPolicy,
     options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse
       >,
       ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse
@@ -118,8 +118,8 @@ export interface ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicie
     parameters: ManagedBackupShortTermRetentionPolicy,
     options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse
       >,
       ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse

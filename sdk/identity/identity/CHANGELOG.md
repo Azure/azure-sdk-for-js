@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Enabled proactive token refresh for Managed Identity.
+
 ### Breaking Changes
 
 ### Bugs Fixed

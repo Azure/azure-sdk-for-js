@@ -16,16 +16,16 @@ require("dotenv").config();
  * This sample demonstrates how to Operation to update an existing Domains resource.
  *
  * @summary Operation to update an existing Domains resource.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/domains/update.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-03-01-preview/examples/domains/update.json
  */
 async function updateDomainsResource() {
-  const subscriptionId = process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "12345";
+  const subscriptionId =
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "11112222-3333-4444-5555-666677778888";
   const resourceGroupName = process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
   const emailServiceName = "MyEmailServiceResource";
   const domainName = "mydomain.com";
   const parameters = {
     userEngagementTracking: "Enabled",
-    validSenderUsernames: { info: "MyDomain Info", alerts: "MyDomain Alerts" },
   };
   const credential = new DefaultAzureCredential();
   const client = new CommunicationServiceManagementClient(credential, subscriptionId);

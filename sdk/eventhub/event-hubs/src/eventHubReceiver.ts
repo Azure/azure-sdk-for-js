@@ -20,12 +20,23 @@ import {
 } from "rhea-promise";
 import { EventDataInternal, ReceivedEventData, fromRheaMessage } from "./eventData";
 import { EventPosition, getEventPositionFilter } from "./eventPosition";
-import { logErrorStackTrace, logger } from "./log";
+import {
+  createLogPrefix,
+  createSimpleLogger,
+  logErrorStackTrace,
+  logger,
+  logObj,
+  SimpleLogger,
+} from "./log";
 import { ConnectionContext } from "./connectionContext";
 import { EventHubConsumerOptions } from "./models/private";
-import { LinkEntity } from "./linkEntity";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
 import { createAbortablePromise } from "@azure/core-util";
+import { TimerLoop } from "./util/timerLoop";
+import { getRandomName } from "./util/utils";
+import { withAuth } from "./withAuth";
+
+const abortLogMessage = "operation has been cancelled by the user";
 
 /**
  * A set of information about the last enqueued event of a partition, as observed by the consumer as
@@ -57,7 +68,7 @@ export interface LastEnqueuedEventProperties {
  * Describes the EventHubReceiver that will receive event data from EventHub.
  * @internal
  */
-export class EventHubReceiver extends LinkEntity {
+export class EventHubReceiver {
   /**
    * The Receiver ownerLevel.
    */
@@ -102,6 +113,33 @@ export class EventHubReceiver extends LinkEntity {
    * be enabled when `trackLastEnqueuedEventProperties` option is set to true
    */
   readonly lastEnqueuedEventProperties: LastEnqueuedEventProperties;
+  /**
+   * The unique name for the entity (mostly a guid).
+   */
+  private readonly name: string;
+  /**
+   * The link entity address in the following form:
+   * `"<event-hub-name>/ConsumerGroups/<consumer-group-name>/Partitions/<partition-id>"`.
+   */
+  private readonly address: string;
+  /**
+   * The token audience in the following form:
+   * `"sb://<your-namespace>.servicebus.windows.net/<event-hub-name>/ConsumerGroups/<consumer-group-name>/Partitions/<partition-id>"`.
+   */
+  private readonly audience: string;
+  /**
+   * Provides relevant information about the amqp connection,
+   * cbs and $management sessions, token provider, sender and receivers.
+   */
+  private readonly _context: ConnectionContext;
+  /**
+   * The auth loop.
+   */
+  private authLoop?: TimerLoop;
+  /**
+   * The logger.
+   */
+  private readonly logger: SimpleLogger;
 
   /**
    * Instantiates a receiver that can be used to receive events over an AMQP receiver link in
@@ -119,16 +157,16 @@ export class EventHubReceiver extends LinkEntity {
     eventPosition: EventPosition,
     options: EventHubConsumerOptions = {}
   ) {
-    super(
-      context,
-      context.config.getReceiverAddress(partitionId, consumerGroup),
-      context.config.getReceiverAddress(partitionId, consumerGroup),
-      context.config.getReceiverAudience(partitionId, consumerGroup)
-    );
+    this.address = context.config.getReceiverAddress(partitionId, consumerGroup);
+    this.name = getRandomName(this.address);
+    this.audience = context.config.getReceiverAudience(partitionId, consumerGroup);
+    this._context = context;
     this.ownerLevel = options.ownerLevel;
     this.eventPosition = eventPosition;
     this.options = options;
     this.lastEnqueuedEventProperties = {};
+    const logPrefix = createLogPrefix(context.connectionId, "Receiver", this.name);
+    this.logger = createSimpleLogger(logger, logPrefix);
   }
 
   private _onAmqpMessage(context: EventContext): void {
@@ -177,13 +215,8 @@ export class EventHubReceiver extends LinkEntity {
   private _onAmqpError(context: EventContext): void {
     const rheaReceiver = this._receiver || context.receiver;
     const amqpError = rheaReceiver && rheaReceiver.error;
-    logger.verbose(
-      "[%s] 'receiver_error' event occurred on the receiver '%s' with address '%s'. " +
-        "The associated error is: %O",
-      this._context.connectionId,
-      this.name,
-      this.address,
-      amqpError
+    this.logger.verbose(
+      `'receiver_error' event occurred. The associated error is: ${logObj(amqpError)}`
     );
 
     if (this._onError && amqpError) {
@@ -195,13 +228,8 @@ export class EventHubReceiver extends LinkEntity {
 
   private _onAmqpSessionError(context: EventContext): void {
     const sessionError = context.session && context.session.error;
-    logger.verbose(
-      "[%s] 'session_error' event occurred on the session of receiver '%s' with address '%s'. " +
-        "The associated error is: %O",
-      this._context.connectionId,
-      this.name,
-      this.address,
-      sessionError
+    this.logger.verbose(
+      `'session_error' event occurred. The associated error is:  ${logObj(sessionError)}`
     );
 
     if (this._onError && sessionError) {
@@ -213,57 +241,37 @@ export class EventHubReceiver extends LinkEntity {
 
   private async _onAmqpClose(context: EventContext): Promise<void> {
     const rheaReceiver = this._receiver || context.receiver;
-    logger.verbose(
-      "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s'. " +
-        "Value for isItselfClosed on the receiver is: '%s' " +
-        "Value for isConnecting on the session is: '%s'.",
-      this._context.connectionId,
-      this.name,
-      this.address,
-      rheaReceiver ? rheaReceiver.isItselfClosed().toString() : undefined,
-      this.isConnecting
+    this.logger.verbose(
+      `'receiver_close' event occurred. Value for isItselfClosed on the receiver is: '${rheaReceiver
+        ?.isItselfClosed()
+        .toString()}' Value for isConnecting on the session is: '${this.isConnecting}'`
     );
     if (rheaReceiver && !this.isConnecting) {
       // Call close to clean up timers & other resources
       await rheaReceiver.close().catch((err) => {
-        logger.verbose(
-          "[%s] Error when closing receiver [%s] after 'receiver_close' event: %O",
-          this._context.connectionId,
-          this.name,
-          err
-        );
+        this.logger.verbose(`error when closing after 'receiver_close' event: ${logObj(err)}`);
       });
     }
   }
 
   private async _onAmqpSessionClose(context: EventContext): Promise<void> {
     const rheaReceiver = this._receiver || context.receiver;
-    logger.verbose(
-      "[%s] 'session_close' event occurred on the session of receiver '%s' with address '%s'. " +
-        "Value for isSessionItselfClosed on the session is: '%s' " +
-        "Value for isConnecting on the session is: '%s'.",
-      this._context.connectionId,
-      this.name,
-      this.address,
-      rheaReceiver?.isSessionItselfClosed().toString(),
-      this.isConnecting
+    this.logger.verbose(
+      `'session_close' event occurred. Value for isSessionItselfClosed on the session is: '${rheaReceiver
+        ?.isSessionItselfClosed()
+        .toString()}' Value for isConnecting on the session is: '${this.isConnecting}'`
     );
     if (rheaReceiver && !this.isConnecting) {
       // Call close to clean up timers & other resources
       await rheaReceiver.close().catch((err) => {
-        logger.verbose(
-          "[%s] Error when closing receiver [%s] after 'session_close' event: %O",
-          this._context.connectionId,
-          this.name,
-          err
-        );
+        this.logger.verbose(`error when closing after 'session_close' event: ${logObj(err)}`);
       });
     }
   }
 
   abort(): Promise<void> {
     this._onError?.(new AbortError(StandardAbortMessage));
-    logAbort(this._context.connectionId, this.name, this.address);
+    this.logger.info(abortLogMessage);
     return this.close();
   }
 
@@ -279,23 +287,20 @@ export class EventHubReceiver extends LinkEntity {
    * Closes the underlying AMQP receiver.
    */
   async close(): Promise<void> {
-    this.clearHandlers();
     if (!this._receiver) {
       return;
     }
+    this.clearHandlers();
     const receiverLink = this._receiver;
     this._receiver = undefined;
     delete this._context.receivers[this.name];
-    logger.verbose(
-      "[%s] Deleted the receiver '%s' from the client cache.",
-      this._context.connectionId,
-      this.name
-    );
-    return this._closeLink(receiverLink)
+    this.logger.verbose("deleted the receiver from the client cache");
+    this.authLoop?.stop();
+    return receiverLink
+      .close()
+      .then(() => this.logger.verbose("is closed"))
       .catch((err) => {
-        logger.warning(
-          `[${this._context.connectionId}] An error occurred while closing receiver ${this.name}: ${err?.name}: ${err?.message}`
-        );
+        this.logger.warning(`an error occurred while closing: ${err?.name}: ${err?.message}`);
         logErrorStackTrace(err);
         throw err;
       })
@@ -309,13 +314,7 @@ export class EventHubReceiver extends LinkEntity {
    */
   isOpen(): boolean {
     const result = Boolean(this._receiver && this._receiver.isOpen());
-    logger.verbose(
-      "[%s] Receiver '%s' with address '%s' is open? -> %s",
-      this._context.connectionId,
-      this.name,
-      this.address,
-      result
-    );
+    this.logger.verbose(`is open? -> ${logObj(result)}`);
     return result;
   }
 
@@ -329,32 +328,7 @@ export class EventHubReceiver extends LinkEntity {
     abortSignal: AbortSignalLike | undefined;
     timeoutInMs: number;
   }): Promise<void> {
-    try {
-      const isOpen = this.isOpen();
-      if (this.isConnecting || isOpen) {
-        logger.verbose(
-          "[%s] The receiver '%s' with address '%s' is open -> %s and is connecting -> %s. Hence not reconnecting.",
-          this._context.connectionId,
-          this.name,
-          this.address,
-          isOpen,
-          this.isConnecting
-        );
-        return;
-      }
-      this.isConnecting = true;
-
-      logger.verbose(
-        "[%s] The receiver '%s' with address '%s' is trying to connect",
-        this._context.connectionId,
-        this.name,
-        this.address
-      );
-
-      // Wait for the connectionContext to be ready to open the link.
-      await this._context.readyToOpenLink({ abortSignal });
-      await this._negotiateClaim({ setTokenRenewal: false, abortSignal, timeoutInMs });
-
+    const createReceiver = async () => {
       const options: RheaReceiverOptions = {
         name: this.name,
         autoaccept: true,
@@ -387,31 +361,40 @@ export class EventHubReceiver extends LinkEntity {
         "apache.org:selector-filter:string": types.wrap_described(filterClause, 0x468c00000004),
       };
 
-      logger.verbose(
-        "[%s] Trying to create receiver '%s' with options %O",
-        this._context.connectionId,
-        this.name,
-        options
-      );
-      this._receiver = await this._context.connection.createReceiver({ ...options, abortSignal });
+      this.logger.verbose(`trying to be created with options ${logObj(options)}`);
+      this._receiver = await this._context.connection.createReceiver({
+        ...options,
+        abortSignal,
+      });
       this.isConnecting = false;
-      logger.verbose(
-        "[%s] Receiver '%s' was created successfully",
-        this._context.connectionId,
-        this.name
-      );
+      this.logger.verbose("is created successfully");
       // store the underlying link in a cache
       this._context.receivers[this.name] = this;
-
-      this._ensureTokenRenewal();
+    };
+    try {
+      const isOpen = this.isOpen();
+      if (this.isConnecting || isOpen) {
+        this.logger.verbose(
+          `is open -> ${isOpen} and is connecting -> ${this.isConnecting}. Hence not reconnecting`
+        );
+        return;
+      }
+      this.isConnecting = true;
+      this.logger.verbose("trying to connect");
+      await this._context.readyToOpenLink({ abortSignal });
+      this.authLoop = await withAuth(
+        createReceiver,
+        this._context,
+        this.audience,
+        timeoutInMs,
+        this.logger,
+        { abortSignal }
+      );
     } catch (err) {
       this.isConnecting = false;
       const error = translate(err);
-      logger.error(
-        "[%s] An error occurred while creating the receiver '%s': %s",
-        this._context.connectionId,
-        this.name,
-        `${error?.name}: ${error?.message}`
+      this.logger.error(
+        `an error occurred while creating the receiver: ${error?.name}: ${error?.message}`
       );
       logErrorStackTrace(err);
       throw error;
@@ -439,7 +422,7 @@ export class EventHubReceiver extends LinkEntity {
     abortSignal?: AbortSignalLike
   ): Promise<ReceivedEventData[]> {
     const cleanupBeforeAbort = (): Promise<void> => {
-      logAbort(this._context.connectionId, this.name, this.address);
+      this.logger.info(abortLogMessage);
       return this.close();
     };
 
@@ -448,12 +431,8 @@ export class EventHubReceiver extends LinkEntity {
 
     const retrieveEvents = (): Promise<ReceivedEventData[]> => {
       const eventsToRetrieveCount = Math.max(maxMessageCount - this.queue.length, 0);
-      logger.verbose(
-        "[%s] Receiver '%s' already has %d events and wants to receive %d more events.",
-        this._context.connectionId,
-        this.name,
-        this.queue.length,
-        eventsToRetrieveCount
+      this.logger.verbose(
+        `already has ${this.queue.length} events and wants to receive ${eventsToRetrieveCount} more events`
       );
       if (abortSignal?.aborted) {
         cleanupBeforeAbort();
@@ -476,12 +455,7 @@ export class EventHubReceiver extends LinkEntity {
                 const existingCredits = this._receiver?.credit ?? 0;
                 const creditsToAdd = Math.max(eventsToRetrieveCount - existingCredits, 0);
                 this._receiver?.addCredit(creditsToAdd);
-                logger.verbose(
-                  "[%s] Setting the wait timer for %d seconds for receiver '%s'.",
-                  this._context.connectionId,
-                  maxWaitTimeInSeconds,
-                  this.name
-                );
+                this.logger.verbose(`setting the wait timer for ${maxWaitTimeInSeconds} seconds`);
                 return; // to make eslint happy
               })
               .then(() =>
@@ -494,27 +468,17 @@ export class EventHubReceiver extends LinkEntity {
                     abortSignal,
                     cleanupBeforeAbort,
                     receivedAfterWait: () =>
-                      logger.info(
-                        "[%s] Batching Receiver '%s', %d messages received within %d seconds.",
-                        this._context.connectionId,
-                        this.name,
-                        Math.min(maxMessageCount, this.queue.length),
-                        maxWaitTimeInSeconds
+                      this.logger.info(
+                        `${Math.min(
+                          maxMessageCount,
+                          this.queue.length
+                        )} messages received within ${maxWaitTimeInSeconds} seconds`
                       ),
                     receivedAlready: () =>
-                      logger.info(
-                        "[%s] Batching Receiver '%s', %d messages already received.",
-                        this._context.connectionId,
-                        this.name,
-                        maxMessageCount,
-                        maxWaitTimeInSeconds
-                      ),
+                      this.logger.info(`${maxMessageCount} messages already received`),
                     receivedNone: () =>
-                      logger.info(
-                        "[%s] Batching Receiver '%s', no messages received when max wait time in seconds %d is over.",
-                        this._context.connectionId,
-                        this.name,
-                        maxWaitTimeInSeconds
+                      this.logger.info(
+                        `no messages received when max wait time in seconds ${maxWaitTimeInSeconds} is over`
                       ),
                   }
                 )
@@ -637,10 +601,4 @@ export function waitForEvents(
           .then(receivedAfterWait),
         delay(maxWaitTimeInMs, updatedOptions).then(receivedNone),
       ]).finally(() => aborter.abort());
-}
-
-function logAbort(connectionId: string, name: string, address: string): void {
-  logger.info(
-    `[${connectionId}] The request operation on the Receiver "${name}" with address "${address}" has been cancelled by the user.`
-  );
 }

@@ -6,11 +6,11 @@ import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { isNode, isNode8 } from "@azure/test-utils";
 
 import { Context } from "mocha";
-import { FullOperationResponse } from "@azure/core-client";
+import { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { assert } from "@azure/test-utils";
 import { createTableClient } from "./utils/recordedClient";
 
-describe("special characters", () => {
+describe("special characters", function () {
   const tableName = `SpecialChars`;
   let recorder: Recorder;
   let client: TableClient;
@@ -47,7 +47,7 @@ describe("special characters", () => {
 });
 
 // Run the test against each of the supported auth modes
-describe(`TableClient`, () => {
+describe(`TableClient`, function () {
   let client: TableClient;
   let unRecordedClient: TableClient;
   let recorder: Recorder;
@@ -60,7 +60,7 @@ describe(`TableClient`, () => {
     client = await createTableClient(tableName, "SASConnectionString", recorder);
   });
 
-  before(async () => {
+  before(async function () {
     if (!isPlaybackMode()) {
       unRecordedClient = await createTableClient(tableName, "SASConnectionString");
       await unRecordedClient.createTable();
@@ -71,14 +71,14 @@ describe(`TableClient`, () => {
     await recorder.stop();
   });
 
-  after(async () => {
+  after(async function () {
     if (!isPlaybackMode()) {
       unRecordedClient = await createTableClient(tableName, "SASConnectionString");
       await unRecordedClient.deleteTable();
     }
   });
 
-  describe("listEntities", () => {
+  describe("listEntities", function () {
     // Create required entities for testing list operations
     before(async function (this: Context) {
       unRecordedClient = await createTableClient(tableName, "SASConnectionString");
@@ -236,8 +236,8 @@ describe(`TableClient`, () => {
     });
   });
 
-  describe("createEntity, getEntity and delete", () => {
-    it("should createEntity with only primitives", async () => {
+  describe("createEntity, getEntity and delete", function () {
+    it("should createEntity with only primitives", async function () {
       type TestType = { testField: string };
       const testEntity: TableEntity<TestType> = {
         partitionKey: `P2_${suffix}`,
@@ -259,7 +259,7 @@ describe(`TableClient`, () => {
       assert.equal(result.testField, testEntity.testField);
     });
 
-    it("should createEntity empty partition and row keys", async () => {
+    it("should createEntity empty partition and row keys", async function () {
       type TestType = { testField: string };
       const testEntity: TableEntity<TestType> = {
         partitionKey: "",
@@ -281,7 +281,7 @@ describe(`TableClient`, () => {
       assert.equal(result.testField, testEntity.testField);
     });
 
-    it("should create binary entities as primitive and metadata", async () => {
+    it("should create binary entities as primitive and metadata", async function () {
       const primitive = new Uint8Array([66, 97, 114]);
       interface TestEntity extends TableEntity {
         binary: Uint8Array;
@@ -318,7 +318,7 @@ describe(`TableClient`, () => {
       }
     });
 
-    it("should create binary entities without automatic type conversion", async () => {
+    it("should create binary entities without automatic type conversion", async function () {
       const primitive = new Uint8Array([66, 97, 114]);
       const base64Value = "QmFy";
       interface TestEntity extends TableEntity {
@@ -351,7 +351,7 @@ describe(`TableClient`, () => {
       assert.deepEqual(result.binaryMetadata.value, base64Value);
     });
 
-    it("should select specific properties", async () => {
+    it("should select specific properties", async function () {
       const testEntity = {
         partitionKey: `P2_${suffix}`,
         rowKey: "R1",
@@ -376,7 +376,7 @@ describe(`TableClient`, () => {
       assert.isUndefined(result.foo);
     });
 
-    it("should createEntity with Date", async () => {
+    it("should createEntity with Date", async function () {
       const testDate = "2020-09-17T00:00:00.111Z";
       const testEntity = {
         partitionKey: `P2_${suffix}`,
@@ -398,7 +398,7 @@ describe(`TableClient`, () => {
       assert.deepEqual(result.testField, new Date(testDate));
     });
 
-    it("should createEntity with Guid", async () => {
+    it("should createEntity with Guid", async function () {
       type TestType = {
         testField: Edm<"Guid">;
       };
@@ -458,7 +458,7 @@ describe(`TableClient`, () => {
       assert.deepEqual(result.testField, BigInt(testInt64.value));
     });
 
-    it("should createEntity with Int32", async () => {
+    it("should createEntity with Int32", async function () {
       type TestType = {
         testField: Edm<"Int32">;
       };
@@ -495,7 +495,7 @@ describe(`TableClient`, () => {
       assert.deepEqual(result.testField, 123);
     });
 
-    it("should createEntity with Boolean", async () => {
+    it("should createEntity with Boolean", async function () {
       type TestType = {
         testField: Edm<"Boolean">;
       };
@@ -531,7 +531,7 @@ describe(`TableClient`, () => {
       assert.equal(result.testField, true);
     });
 
-    it("should createEntity with DateTime", async () => {
+    it("should createEntity with DateTime", async function () {
       type TestType = {
         testField: Edm<"DateTime">;
       };
@@ -562,7 +562,7 @@ describe(`TableClient`, () => {
       assert.deepEqual(result.testField.value, testDate);
     });
 
-    it("should createEntity with primitive int and float", async () => {
+    it("should createEntity with primitive int and float", async function () {
       type TestType = { integerNumber: number; floatingPointNumber: number };
       const testEntity: TableEntity<TestType> = {
         partitionKey: `P8_${suffix}`,
@@ -586,7 +586,7 @@ describe(`TableClient`, () => {
       assert.equal(result.floatingPointNumber, 3.14);
     });
 
-    it("should createEntity with double number in scientific notation", async () => {
+    it("should createEntity with double number in scientific notation", async function () {
       const inputEntity = {
         partitionKey: "doubleSci",
         rowKey: "0",
@@ -602,7 +602,7 @@ describe(`TableClient`, () => {
       assert.deepEqual(result.Value, inputEntity.Value);
     });
 
-    it("should createEntity with empty string", async () => {
+    it("should createEntity with empty string", async function () {
       const inputEntity = {
         partitionKey: "emptyString",
         rowKey: "0",
@@ -618,7 +618,7 @@ describe(`TableClient`, () => {
       assert.deepEqual(result.value, inputEntity.value);
     });
 
-    it("should createEntity with primitive int and float without automatic type conversion", async () => {
+    it("should createEntity with primitive int and float without automatic type conversion", async function () {
       type TestType = {
         integerNumber: number;
         floatingPointNumber: number;
@@ -662,10 +662,10 @@ describe(`TableClient`, () => {
     });
   });
 
-  describe("tracing", () => {
-    it("should trace through the various operations", async () => {
+  describe("tracing", function () {
+    it("should trace through the various operations", async function () {
       await assert.supportsTracing(
-        async (options) => {
+        async (options: OperationOptions) => {
           await client.createTable(options);
           const entity = {
             partitionKey: "A'aaa_bbbb2\"",
