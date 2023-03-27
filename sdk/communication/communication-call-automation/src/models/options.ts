@@ -50,6 +50,10 @@ export interface CreateCallOptions extends OperationOptions {
   azureCognitiveServicesEndpointUrl?: string;
   /** Configuration of Media streaming. */
   mediaStreamingConfiguration?: MediaStreamingConfiguration;
+  /** Headers for SIP calls */
+  sipHeaders?: { [propertyName: string]: string };
+  /** Headers for VOIP calls */
+  voipHeaders?: { [propertyName: string]: string };
 }
 
 /**
@@ -65,7 +69,12 @@ export interface AnswerCallOptions extends OperationOptions {
 /**
  * Options to redirect call.
  */
-export type RedirectCallOptions = OperationOptions;
+export interface RedirectCallOptions extends OperationOptions{
+  /** Headers for SIP calls */
+  sipHeaders ?: { [propertyName: string]: string };
+  /** Headers for VOIP calls */
+  voipHeaders ?: { [propertyName: string]: string };
+}
 
 /**
  * Options to reject call.
