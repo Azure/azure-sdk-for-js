@@ -111,7 +111,7 @@
     "mock-socket": "^9.1.5",
     "util": "^0.12.1",
     "@types/ws": "^7.4.5",
-    "protobufjs-cli": "1.1.1",
+    "protobufjs-cli": "^1.1.1",
     "copyfiles": "2.4.1"
   },
   "//sampleConfiguration": {
