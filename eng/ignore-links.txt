@@ -10,3 +10,4 @@ https://docs.microsoft.com/javascript/api/@azure/arm-voiceservices
 https://docs.microsoft.com/javascript/api/@azure/arm-voiceservices?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-graphservices?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-newrelicobservability?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-paloaltonetworksngfw?view=azure-node-preview
