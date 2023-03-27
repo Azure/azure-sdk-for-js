@@ -26,7 +26,7 @@ and sometimes include corrective actions to fix issues. The Azure SDK client lib
 
 To see a log of HTTP requests and responses:
 
- 1. Set the `AZURE_LOG_LEVEL` environment variable to `info` in your *.env* file:
+ Set the `AZURE_LOG_LEVEL` environment variable to `info`:
 
   ```text
   // Windows
