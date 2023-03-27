@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, isRecordMode } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { CommunicationUserIdentifier } from "@azure/communication-common";
 import { assert } from "chai";
 import { Context } from "mocha";
