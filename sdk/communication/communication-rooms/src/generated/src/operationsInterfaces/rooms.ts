@@ -6,106 +6,56 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  CreateRoomRequest,
-  RoomsCreateRoomOptionalParams,
-  RoomsCreateRoomResponse,
-  RoomsGetRoomOptionalParams,
-  RoomsGetRoomResponse,
-  RoomsUpdateRoomOptionalParams,
-  RoomsUpdateRoomResponse,
-  RoomsDeleteRoomOptionalParams,
-  RoomsGetParticipantsOptionalParams,
-  RoomsGetParticipantsResponse,
-  AddParticipantsRequest,
-  RoomsAddParticipantsOptionalParams,
-  RoomsAddParticipantsResponse,
-  UpdateParticipantsRequest,
-  RoomsUpdateParticipantsOptionalParams,
-  RoomsUpdateParticipantsResponse,
-  RemoveParticipantsRequest,
-  RoomsRemoveParticipantsOptionalParams,
-  RoomsRemoveParticipantsResponse
+  RoomModel,
+  RoomsListOptionalParams,
+  RoomsCreateOptionalParams,
+  RoomsCreateResponse,
+  RoomsGetOptionalParams,
+  RoomsGetResponse,
+  RoomsUpdateOptionalParams,
+  RoomsUpdateResponse,
+  RoomsDeleteOptionalParams
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a Rooms. */
 export interface Rooms {
   /**
-   * Creates a new room.
-   * @param createRoomRequest The create room request body.
+   * Retrieves all created rooms.
    * @param options The options parameters.
    */
-  createRoom(
-    createRoomRequest: CreateRoomRequest,
-    options?: RoomsCreateRoomOptionalParams
-  ): Promise<RoomsCreateRoomResponse>;
+  list(
+    options?: RoomsListOptionalParams
+  ): PagedAsyncIterableIterator<RoomModel>;
+  /**
+   * Creates a new room.
+   * @param options The options parameters.
+   */
+  create(options?: RoomsCreateOptionalParams): Promise<RoomsCreateResponse>;
   /**
    * Retrieves an existing room by id.
-   * @param roomId The id of the room requested
+   * @param roomId The id of the room requested.
    * @param options The options parameters.
    */
-  getRoom(
+  get(
     roomId: string,
-    options?: RoomsGetRoomOptionalParams
-  ): Promise<RoomsGetRoomResponse>;
+    options?: RoomsGetOptionalParams
+  ): Promise<RoomsGetResponse>;
   /**
    * Update a room with given changes.
-   * @param roomId The id of the room requested
+   * @param roomId The id of the room requested.
    * @param options The options parameters.
    */
-  updateRoom(
+  update(
     roomId: string,
-    options?: RoomsUpdateRoomOptionalParams
-  ): Promise<RoomsUpdateRoomResponse>;
+    options?: RoomsUpdateOptionalParams
+  ): Promise<RoomsUpdateResponse>;
   /**
    * Delete a room.
-   * @param roomId The id of the room to be deleted
+   * @param roomId The id of the room to be deleted.
    * @param options The options parameters.
    */
-  deleteRoom(
-    roomId: string,
-    options?: RoomsDeleteRoomOptionalParams
-  ): Promise<void>;
-  /**
-   * Get participants in a room.
-   * @param roomId The id of the room to get participants from
-   * @param options The options parameters.
-   */
-  getParticipants(
-    roomId: string,
-    options?: RoomsGetParticipantsOptionalParams
-  ): Promise<RoomsGetParticipantsResponse>;
-  /**
-   * Adds participants to a room. If participants already exist, no change occurs.
-   * @param roomId Room id to add participants.
-   * @param addParticipantsRequest Participants to be added to the room.
-   * @param options The options parameters.
-   */
-  addParticipants(
-    roomId: string,
-    addParticipantsRequest: AddParticipantsRequest,
-    options?: RoomsAddParticipantsOptionalParams
-  ): Promise<RoomsAddParticipantsResponse>;
-  /**
-   * Update participants in a room.
-   * @param roomId The room id.
-   * @param updateParticipantsRequest Participants in a room to be updated.
-   * @param options The options parameters.
-   */
-  updateParticipants(
-    roomId: string,
-    updateParticipantsRequest: UpdateParticipantsRequest,
-    options?: RoomsUpdateParticipantsOptionalParams
-  ): Promise<RoomsUpdateParticipantsResponse>;
-  /**
-   * Remove participants from a room.
-   * @param roomId Room id to remove the participants from.
-   * @param removeParticipantsRequest Participants in a room to be removed.
-   * @param options The options parameters.
-   */
-  removeParticipants(
-    roomId: string,
-    removeParticipantsRequest: RemoveParticipantsRequest,
-    options?: RoomsRemoveParticipantsOptionalParams
-  ): Promise<RoomsRemoveParticipantsResponse>;
+  delete(roomId: string, options?: RoomsDeleteOptionalParams): Promise<void>;
 }
