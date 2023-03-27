@@ -15,7 +15,7 @@ Our recorder tool package `@azure-tools/test-recorder` attempts to provide an an
 
 **Note 2: If you're looking to onboard to the asset-sync workflow to push out the test recordings to `Azure/azure-sdk-assets` repository, refer to [asset-sync-migration](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_MIGRATION.md).**
 
-**Note 3: Refer to [testing-commands](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/GoldenCommands.md) if you need help on commands to run during testing.**
+**Note 3: Refer to [testing-commands](https://github.com/Azure/azure-sdk-for-js/wiki/Golden-Testing-Commands) if you need help on commands to run during testing.**
 
 This library provides interfaces and helper methods to equip the SDKs in the `azure-sdk-for-js` repo with the recording and playback capabilities for the tests, it targets HTTP requests in both Node.js and the Browsers.
 
