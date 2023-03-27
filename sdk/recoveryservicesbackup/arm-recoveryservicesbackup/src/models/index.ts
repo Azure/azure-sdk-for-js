@@ -1103,6 +1103,8 @@ export interface RecoveryPointProperties {
   expiryTime?: string;
   /** Rule name tagged on Recovery Point that governs life cycle */
   ruleName?: string;
+  /** Bool to indicate whether RP is in soft delete state or not */
+  isSoftDeleted?: boolean;
 }
 
 /** Restore file specs like file path, type and target folder path info. */
@@ -1466,6 +1468,8 @@ export interface BmsrpQueryObject {
   extendedInfo?: boolean;
   /** Whether the RP can be moved to another tier */
   moveReadyRPOnly?: boolean;
+  /** Flag to indicate whether Soft Deleted RPs should be included/excluded from result. */
+  includeSoftDeletedRP?: boolean;
 }
 
 /** Disk information */
@@ -1671,6 +1675,28 @@ export interface RecoveryPointDiskConfiguration {
   includedDiskList?: DiskInformation[];
   /** Information of disks excluded from backup */
   excludedDiskList?: DiskInformation[];
+}
+
+/** The extended location of Recovery point where VM was present. */
+export interface ExtendedLocation {
+  /** Name of the extended location. */
+  name?: string;
+  /** Type of the extended location. Possible values include: 'EdgeZone' */
+  type?: string;
+}
+
+/** Restore request parameters for Secured VMs */
+export interface SecuredVMDetails {
+  /** Gets or Sets Disk Encryption Set Id for Secured VM OS Disk */
+  securedVMOsDiskEncryptionSetId?: string;
+}
+
+/** Specifies target network access settings for disks of VM to be restored. */
+export interface TargetDiskNetworkAccessSettings {
+  /** Network access settings to be used for restored disks */
+  targetDiskNetworkAccessOption?: TargetDiskNetworkAccessOption;
+  /** Gets or sets the ARM resource ID of the target disk access to be used when TargetDiskNetworkAccessOption is set to TargetDiskNetworkAccessOption.UseNew */
+  targetDiskAccessId?: string;
 }
 
 /** Filters to list the jobs. */
@@ -2628,8 +2654,12 @@ export interface IaasVMRecoveryPoint extends RecoveryPoint {
   recoveryPointMoveReadinessInfo?: {
     [propertyName: string]: RecoveryPointMoveReadinessInfo;
   };
+  /** Security Type of the Disk */
+  securityType?: string;
   /** Properties of Recovery Point */
   recoveryPointProperties?: RecoveryPointProperties;
+  /** This flag denotes if any of the disks in the VM are using Private access network setting */
+  isPrivateAccessEnabledOnAnyDisk?: boolean;
 }
 
 /** AzureFileShare Restore Request */
@@ -2744,6 +2774,15 @@ export interface IaasVMRestoreRequest extends RestoreRequest {
   identityInfo?: IdentityInfo;
   /** IaaS VM workload specific restore details for restores using managed identity. */
   identityBasedRestoreDetails?: IdentityBasedRestoreDetails;
+  /**
+   * Target extended location where the VM should be restored,
+   * should be null if restore is to be done in public cloud
+   */
+  extendedLocation?: ExtendedLocation;
+  /** Stores Secured VM Details */
+  securedVMDetails?: SecuredVMDetails;
+  /** Specifies target network access settings for disks of VM to be restored, */
+  targetDiskNetworkAccessSettings?: TargetDiskNetworkAccessSettings;
 }
 
 /** Azure VM (Mercury) workload-specific backup policy. */
@@ -5483,6 +5522,11 @@ export type DayOfWeek =
   | "Thursday"
   | "Friday"
   | "Saturday";
+/** Defines values for TargetDiskNetworkAccessOption. */
+export type TargetDiskNetworkAccessOption =
+  | "SameAsOnSourceDisks"
+  | "EnablePrivateAccessForAllDisks"
+  | "EnablePublicAccessForAllDisks";
 /** Defines values for WeekOfMonth. */
 export type WeekOfMonth =
   | "First"

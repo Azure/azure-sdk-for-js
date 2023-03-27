@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BackupPolicy,
   BackupPoliciesListOptionalParams,
@@ -26,7 +26,7 @@ import {
 export interface BackupPolicies {
   /**
    * List backup policies for Netapp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -37,7 +37,7 @@ export interface BackupPolicies {
   ): PagedAsyncIterableIterator<BackupPolicy>;
   /**
    * Get a particular backup Policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupPolicyName Backup policy Name which uniquely identify backup policy.
    * @param options The options parameters.
@@ -50,7 +50,7 @@ export interface BackupPolicies {
   ): Promise<BackupPoliciesGetResponse>;
   /**
    * Create a backup policy for Netapp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupPolicyName Backup policy Name which uniquely identify backup policy.
    * @param body Backup policy object supplied in the body of the operation.
@@ -63,14 +63,14 @@ export interface BackupPolicies {
     body: BackupPolicy,
     options?: BackupPoliciesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BackupPoliciesCreateResponse>,
+    SimplePollerLike<
+      OperationState<BackupPoliciesCreateResponse>,
       BackupPoliciesCreateResponse
     >
   >;
   /**
    * Create a backup policy for Netapp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupPolicyName Backup policy Name which uniquely identify backup policy.
    * @param body Backup policy object supplied in the body of the operation.
@@ -85,7 +85,7 @@ export interface BackupPolicies {
   ): Promise<BackupPoliciesCreateResponse>;
   /**
    * Patch a backup policy for Netapp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupPolicyName Backup policy Name which uniquely identify backup policy.
    * @param body Backup policy object supplied in the body of the operation.
@@ -98,14 +98,14 @@ export interface BackupPolicies {
     body: BackupPolicyPatch,
     options?: BackupPoliciesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BackupPoliciesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BackupPoliciesUpdateResponse>,
       BackupPoliciesUpdateResponse
     >
   >;
   /**
    * Patch a backup policy for Netapp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupPolicyName Backup policy Name which uniquely identify backup policy.
    * @param body Backup policy object supplied in the body of the operation.
@@ -120,7 +120,7 @@ export interface BackupPolicies {
   ): Promise<BackupPoliciesUpdateResponse>;
   /**
    * Delete backup policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupPolicyName Backup policy Name which uniquely identify backup policy.
    * @param options The options parameters.
@@ -130,10 +130,10 @@ export interface BackupPolicies {
     accountName: string,
     backupPolicyName: string,
     options?: BackupPoliciesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete backup policy
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupPolicyName Backup policy Name which uniquely identify backup policy.
    * @param options The options parameters.

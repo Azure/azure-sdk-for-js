@@ -143,6 +143,7 @@ specifiers:
   '@rush-temp/arm-network-1': file:./projects/arm-network-1.tgz
   '@rush-temp/arm-network-profile-2020-09-01-hybrid': file:./projects/arm-network-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-networkfunction': file:./projects/arm-networkfunction.tgz
+  '@rush-temp/arm-newrelicobservability': file:./projects/arm-newrelicobservability.tgz
   '@rush-temp/arm-nginx': file:./projects/arm-nginx.tgz
   '@rush-temp/arm-notificationhubs': file:./projects/arm-notificationhubs.tgz
   '@rush-temp/arm-oep': file:./projects/arm-oep.tgz
@@ -478,6 +479,7 @@ dependencies:
   '@rush-temp/arm-network-1': file:projects/arm-network-1.tgz
   '@rush-temp/arm-network-profile-2020-09-01-hybrid': file:projects/arm-network-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-networkfunction': file:projects/arm-networkfunction.tgz
+  '@rush-temp/arm-newrelicobservability': file:projects/arm-newrelicobservability.tgz
   '@rush-temp/arm-nginx': file:projects/arm-nginx.tgz
   '@rush-temp/arm-notificationhubs': file:projects/arm-notificationhubs.tgz
   '@rush-temp/arm-oep': file:projects/arm-oep.tgz
@@ -711,6 +713,7 @@ packages:
   /@azure-tools/test-recorder/2.0.0:
     resolution: {integrity: sha512-OTic1OwOk25B8ecdMQ4wgyDaUNMMw0qzO4/0sy9ScPXWLmUFGMlkS0+BOQ2K9t8WCksM/wU+NjUZo/5T4zaG6A==}
     engines: {node: '>=12.0.0'}
+    deprecated: Bug introduced in v2.0.0, fixed in 3.0.0
     dependencies:
       '@azure/core-auth': 1.4.0
       '@azure/core-http': 2.3.1
@@ -762,6 +765,21 @@ packages:
   /@azure/arm-compute/17.3.1:
     resolution: {integrity: sha512-Yk2griZ/NiWzYCd5X6jS9dmKckp2A9f4LO57v8uQalqJNhgAZtSK8IvIYZEDQdPSinF3a1VHD4M5sfGSpl9hMw==}
     engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.4.0
+      '@azure/core-client': 1.7.2
+      '@azure/core-lro': 2.5.1
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.10.2
+      tslib: 2.5.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@azure/arm-cosmosdb/15.3.0:
+    resolution: {integrity: sha512-XT0tgDyrmEw7rO+SuTrUQkF9yqmp/TCEacnZJQM2xydu4chB49ES3KCtBBWdtdi1fYI1AE7z6XrEIvgL3ngVzg==}
+    engines: {node: '>=14.0.0'}
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.4.0
@@ -3893,7 +3911,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230321
+      typescript: 5.1.0-dev.20230327
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -6605,6 +6623,10 @@ packages:
     engines: {node: '>= 8'}
     dev: false
 
+  /mockdate/3.0.5:
+    resolution: {integrity: sha512-iniQP4rj1FhBdBYS/+eQv7j1tadJ9lJtdzgOpvsOHng/GbcDh2Fhdeq+ZRldrPYdXvCyfFUmFeEwEGXZB5I/AQ==}
+    dev: false
+
   /module-details-from-path/1.0.3:
     resolution: {integrity: sha512-ySViT69/76t8VhE1xXHK6Ch4NcDd26gx0MzKXLO+F7NOtnqH68d9zF94nT8ZWSxXh8ELOERsnJO/sWt1xZYw5A==}
     dev: false
@@ -8749,8 +8771,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230321:
-    resolution: {integrity: sha512-GFq3xvjbJImoKgCDJEiB7Bsa1wQdu/9tlb8Qj475ydSraETbCLzy+Ao3cqQ+KWBM6Mqo+0b1rrpe2Gj0DZz2+w==}
+  /typescript/5.1.0-dev.20230327:
+    resolution: {integrity: sha512-tzeS6vmUF8qC4zFdvos88Oer1oNVrg0CVlIaxfI//pDrq8rur4nIUTLRWRlEMCeLQporHhD+z9sESoSr5GL+lw==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -10115,7 +10137,7 @@ packages:
     dev: false
 
   file:projects/arm-appservice-1.tgz:
-    resolution: {integrity: sha512-Uf11brTpSmZY3Zsj4RZ5gVaTMWOOni6WrFQyLkrb3Sl0MD1m0F2jxaroxMUAGS3hhGRw6AYyBMTsWgBCOSTksw==, tarball: file:projects/arm-appservice-1.tgz}
+    resolution: {integrity: sha512-Ym0QiyDOZKB1Lya6Z1GBJR8YN6nc5UVO4WHL+vYhC5M+L0FpWGfVClg0x0eFCRE0xh1G4BKnTg2kmbMzzry3iw==, tarball: file:projects/arm-appservice-1.tgz}
     name: '@rush-temp/arm-appservice-1'
     version: 0.0.0
     dependencies:
@@ -10129,7 +10151,8 @@ packages:
       '@types/node': 14.18.38
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -10649,10 +10672,11 @@ packages:
     dev: false
 
   file:projects/arm-chaos.tgz:
-    resolution: {integrity: sha512-njjDx1kDxnztWCBBmTJ40+TWFRwcSBFvCRJTT+08lUKWLWx+GJyOb8osMNB8/OTQXXk+5hDIR7v6lpqoeT55Jg==, tarball: file:projects/arm-chaos.tgz}
+    resolution: {integrity: sha512-d6DfG5mp95Xc6jKCEfY+qURWZEYg3mbM4Fe2OKS+K5tC1PtU4oMaPRamLDW/GXNeC0M8UANqJ7YHDTB5zGxcFA==, tarball: file:projects/arm-chaos.tgz}
     name: '@rush-temp/arm-chaos'
     version: 0.0.0
     dependencies:
+      '@azure/arm-cosmosdb': 15.3.0
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.34.4_@types+node@14.18.38
       '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
@@ -10787,7 +10811,7 @@ packages:
     dev: false
 
   file:projects/arm-communication.tgz:
-    resolution: {integrity: sha512-ZngMAKiaE2ZDOw6Yyyt5MYMKFaKUJE7g5sOqz/9wnD4aRQhCJ0CtgCBss6mIywzFHtZ79BL0zPOt1JBC38UW8w==, tarball: file:projects/arm-communication.tgz}
+    resolution: {integrity: sha512-9aggd5C8Ewf5AHKZ5PU/F7soofXTY0qUYZ1fJjNU07i/gGAX+4KKQhOKB7R3gzWfzL8eoHvD/Ho+E30/ZZ0pZA==, tarball: file:projects/arm-communication.tgz}
     name: '@rush-temp/arm-communication'
     version: 0.0.0
     dependencies:
@@ -10801,8 +10825,8 @@ packages:
       '@types/node': 14.18.38
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -13333,7 +13357,7 @@ packages:
     dev: false
 
   file:projects/arm-netapp.tgz:
-    resolution: {integrity: sha512-0R4EZsqHZ1A3rtmvbre96RpXAa6oZU/qPXXwpy5lmM/am2H39u48/rOsr1htXlwTRzgHjWCvlsyuZ2aA/V7YFQ==, tarball: file:projects/arm-netapp.tgz}
+    resolution: {integrity: sha512-DW78AFloIAfE7fEWZj07fYKhMQDke9ztmCi5SBIpJS7J6AjevKMw5nwxUUZWyzE6R6dpXPe/OcQptTN1ubdOsw==, tarball: file:projects/arm-netapp.tgz}
     name: '@rush-temp/arm-netapp'
     version: 0.0.0
     dependencies:
@@ -13347,8 +13371,8 @@ packages:
       '@types/node': 14.18.38
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -13473,6 +13497,34 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rrfo4ccoq6ga3fxzubpgdsawvq
+      tslib: 2.5.0
+      typescript: 4.8.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-newrelicobservability.tgz:
+    resolution: {integrity: sha512-LmrvBWJ+OebmXjF6lOR1y6vJ046P5xTHpT2YmIkGFBCFMutjoap2SgJPlvfcTpITxnbJhQIboh+gfymCxNrzZA==, tarball: file:projects/arm-newrelicobservability.tgz}
+    name: '@rush-temp/arm-newrelicobservability'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.4_@types+node@14.18.38
+      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.38
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -13622,7 +13674,7 @@ packages:
     dev: false
 
   file:projects/arm-orbital.tgz:
-    resolution: {integrity: sha512-dcLOIaum9pMpJ5QnvltWoat8CuSiX4cMc1uEgmfhzrzVZaJmw0BlowMjIjVjpXztnDaM0zHXWK1ma9LQsxIt5A==, tarball: file:projects/arm-orbital.tgz}
+    resolution: {integrity: sha512-Adef+OPJvHO2TCGf0edqAty/uZeuXkKLlW8XrJEyyg4CAmdoslfva5RvdOiol5DNs9u3C0wi1QigEzYZXUynhg==, tarball: file:projects/arm-orbital.tgz}
     name: '@rush-temp/arm-orbital'
     version: 0.0.0
     dependencies:
@@ -13636,8 +13688,8 @@ packages:
       '@types/node': 14.18.38
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -14034,7 +14086,7 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservicesbackup.tgz:
-    resolution: {integrity: sha512-aoOhK2ZrHvNN8i08OnZUB7SV6RHcrPoYc2gaVJSqBdQ1XsNTCY6XHbUYZ7nhHhgyUSAghI5S1sRcbog7i6A2QQ==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
+    resolution: {integrity: sha512-b1GGhdL6ZedPXOhvMeeEC3eSa6VtmvqPN59kWPbCx/IsshJ84urboVqYhMGMzfZ96avoHaMPrRfjqIXVdP/7NQ==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
     name: '@rush-temp/arm-recoveryservicesbackup'
     version: 0.0.0
     dependencies:
@@ -14049,7 +14101,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
-      mkdirp: 1.0.4
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -14146,7 +14198,7 @@ packages:
     dev: false
 
   file:projects/arm-reservations.tgz:
-    resolution: {integrity: sha512-bH0kWF/WMJ3fK2rW+Zv1s73gm0iKcuDVUTu/H8ESgwsCN6d/TiZTN+wo40eKfniNj3nEbUAZr9atvoKKxu7INg==, tarball: file:projects/arm-reservations.tgz}
+    resolution: {integrity: sha512-zmlp2HldWkclHyOaiy3HvPiS7ueL0yc6yHjPGDOyRfGCRa8lSzJJ42j+Z5RTNIf6Cr4Q5hCSosful67HeQhAbQ==, tarball: file:projects/arm-reservations.tgz}
     name: '@rush-temp/arm-reservations'
     version: 0.0.0
     dependencies:
@@ -14160,8 +14212,8 @@ packages:
       '@types/node': 14.18.38
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -14769,7 +14821,7 @@ packages:
     dev: false
 
   file:projects/arm-sql.tgz:
-    resolution: {integrity: sha512-/U2gxGZ14JL6r2B4PDL1ZAhpGmcwCsV+7q0y/wGtQJmXAAD5G5WnZBqZRP+byC7o18CXQnRgFlR5nVA/zj6QKQ==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-/tBjWZJq4F0GRWtLPg1EJJSUnRXSFKH0iQwDiqg72Yf38il+hjeRtYIMXcR+/swv7tDy1fmNFXE8ougKu2mf7w==, tarball: file:projects/arm-sql.tgz}
     name: '@rush-temp/arm-sql'
     version: 0.0.0
     dependencies:
@@ -14783,7 +14835,8 @@ packages:
       '@types/node': 14.18.38
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.5
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -15644,7 +15697,7 @@ packages:
     dev: false
 
   file:projects/communication-common.tgz:
-    resolution: {integrity: sha512-nU0ouJtqzY3pvILb0j3CbdYcFyjd4lelzx2OCYKchq+xIs58Ki+f8bEplXZkTDEaXzt4+Jv61jDyegFF9v2zTQ==, tarball: file:projects/communication-common.tgz}
+    resolution: {integrity: sha512-BMcHTIicLMA2r2QDqFIY5QMtUN80EnXY4Bw3tjqzpdIZTvln4l7+7nmyzA84A+PgqsZSUtmxJEmUS30yQBdSFw==, tarball: file:projects/communication-common.tgz}
     name: '@rush-temp/communication-common'
     version: 0.0.0
     dependencies:
@@ -15672,6 +15725,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.2.0_mocha@7.2.0
+      mockdate: 3.0.5
       nyc: 15.1.0
       prettier: 2.8.5
       rimraf: 3.0.2

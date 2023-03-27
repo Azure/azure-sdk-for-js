@@ -19,8 +19,6 @@ import {
   CapabilityParameter,
   AvailableGroundStationsListByCapabilityOptionalParams,
   AvailableGroundStationsListByCapabilityResponse,
-  AvailableGroundStationsGetOptionalParams,
-  AvailableGroundStationsGetResponse,
   AvailableGroundStationsListByCapabilityNextResponse
 } from "../models";
 
@@ -38,8 +36,8 @@ export class AvailableGroundStationsImpl implements AvailableGroundStations {
   }
 
   /**
-   * Returns list of available ground stations
-   * @param capability Ground Station Capability
+   * Returns list of available ground stations.
+   * @param capability Ground Station Capability.
    * @param options The options parameters.
    */
   public listByCapability(
@@ -99,8 +97,8 @@ export class AvailableGroundStationsImpl implements AvailableGroundStations {
   }
 
   /**
-   * Returns list of available ground stations
-   * @param capability Ground Station Capability
+   * Returns list of available ground stations.
+   * @param capability Ground Station Capability.
    * @param options The options parameters.
    */
   private _listByCapability(
@@ -110,21 +108,6 @@ export class AvailableGroundStationsImpl implements AvailableGroundStations {
     return this.client.sendOperationRequest(
       { capability, options },
       listByCapabilityOperationSpec
-    );
-  }
-
-  /**
-   * Gets the specified  available ground station
-   * @param groundStationName Ground Station name
-   * @param options The options parameters.
-   */
-  get(
-    groundStationName: string,
-    options?: AvailableGroundStationsGetOptionalParams
-  ): Promise<AvailableGroundStationsGetResponse> {
-    return this.client.sendOperationRequest(
-      { groundStationName, options },
-      getOperationSpec
     );
   }
 
@@ -155,32 +138,11 @@ const listByCapabilityOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AvailableGroundStationListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.capability],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Orbital/availableGroundStations/{groundStationName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AvailableGroundStation
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.groundStationName1
-  ],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -192,7 +154,7 @@ const listByCapabilityNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AvailableGroundStationListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [

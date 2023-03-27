@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { WebSiteManagementClient } from "../webSiteManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   AppServiceEnvironmentResource,
   AppServiceEnvironmentsListNextOptionalParams,
@@ -2063,8 +2067,8 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
     hostingEnvironmentEnvelope: AppServiceEnvironmentResource,
     options?: AppServiceEnvironmentsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AppServiceEnvironmentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AppServiceEnvironmentsCreateOrUpdateResponse>,
       AppServiceEnvironmentsCreateOrUpdateResponse
     >
   > {
@@ -2074,7 +2078,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
     ): Promise<AppServiceEnvironmentsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -2107,13 +2111,16 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, name, hostingEnvironmentEnvelope, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, name, hostingEnvironmentEnvelope, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AppServiceEnvironmentsCreateOrUpdateResponse,
+      OperationState<AppServiceEnvironmentsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -2152,14 +2159,14 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
     resourceGroupName: string,
     name: string,
     options?: AppServiceEnvironmentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -2192,13 +2199,13 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, name, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, name, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -2286,8 +2293,8 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
     vnetInfo: VirtualNetworkProfile,
     options?: AppServiceEnvironmentsChangeVnetOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AppServiceEnvironmentsChangeVnetResponse>,
+    SimplePollerLike<
+      OperationState<AppServiceEnvironmentsChangeVnetResponse>,
       AppServiceEnvironmentsChangeVnetResponse
     >
   > {
@@ -2297,7 +2304,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
     ): Promise<AppServiceEnvironmentsChangeVnetResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -2330,13 +2337,16 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, name, vnetInfo, options },
-      changeVnetOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, name, vnetInfo, options },
+      spec: changeVnetOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AppServiceEnvironmentsChangeVnetResponse,
+      OperationState<AppServiceEnvironmentsChangeVnetResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -2538,10 +2548,8 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
     multiRolePoolEnvelope: WorkerPoolResource,
     options?: AppServiceEnvironmentsCreateOrUpdateMultiRolePoolOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        AppServiceEnvironmentsCreateOrUpdateMultiRolePoolResponse
-      >,
+    SimplePollerLike<
+      OperationState<AppServiceEnvironmentsCreateOrUpdateMultiRolePoolResponse>,
       AppServiceEnvironmentsCreateOrUpdateMultiRolePoolResponse
     >
   > {
@@ -2551,7 +2559,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
     ): Promise<AppServiceEnvironmentsCreateOrUpdateMultiRolePoolResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -2584,13 +2592,16 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, name, multiRolePoolEnvelope, options },
-      createOrUpdateMultiRolePoolOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, name, multiRolePoolEnvelope, options },
+      spec: createOrUpdateMultiRolePoolOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AppServiceEnvironmentsCreateOrUpdateMultiRolePoolResponse,
+      OperationState<AppServiceEnvironmentsCreateOrUpdateMultiRolePoolResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -2721,14 +2732,14 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
     resourceGroupName: string,
     name: string,
     options?: AppServiceEnvironmentsUpgradeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -2761,13 +2772,13 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, name, options },
-      upgradeOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, name, options },
+      spec: upgradeOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -2894,8 +2905,8 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
     privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource,
     options?: AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse
       >,
       AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse
@@ -2907,7 +2918,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
     ): Promise<AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -2940,19 +2951,24 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         name,
         privateEndpointConnectionName,
         privateEndpointWrapper,
         options
       },
-      approveOrRejectPrivateEndpointConnectionOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: approveOrRejectPrivateEndpointConnectionOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse,
+      OperationState<
+        AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -2999,8 +3015,8 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
     privateEndpointConnectionName: string,
     options?: AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse
       >,
       AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse
@@ -3012,7 +3028,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
     ): Promise<AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -3045,13 +3061,18 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, name, privateEndpointConnectionName, options },
-      deletePrivateEndpointConnectionOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, name, privateEndpointConnectionName, options },
+      spec: deletePrivateEndpointConnectionOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse,
+      OperationState<
+        AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -3125,8 +3146,8 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
     name: string,
     options?: AppServiceEnvironmentsResumeOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AppServiceEnvironmentsResumeResponse>,
+    SimplePollerLike<
+      OperationState<AppServiceEnvironmentsResumeResponse>,
       AppServiceEnvironmentsResumeResponse
     >
   > {
@@ -3136,7 +3157,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
     ): Promise<AppServiceEnvironmentsResumeResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -3169,13 +3190,16 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, name, options },
-      resumeOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, name, options },
+      spec: resumeOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AppServiceEnvironmentsResumeResponse,
+      OperationState<AppServiceEnvironmentsResumeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -3227,8 +3251,8 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
     name: string,
     options?: AppServiceEnvironmentsSuspendOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AppServiceEnvironmentsSuspendResponse>,
+    SimplePollerLike<
+      OperationState<AppServiceEnvironmentsSuspendResponse>,
       AppServiceEnvironmentsSuspendResponse
     >
   > {
@@ -3238,7 +3262,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
     ): Promise<AppServiceEnvironmentsSuspendResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -3271,13 +3295,16 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, name, options },
-      suspendOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, name, options },
+      spec: suspendOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AppServiceEnvironmentsSuspendResponse,
+      OperationState<AppServiceEnvironmentsSuspendResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -3352,10 +3379,8 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
     workerPoolEnvelope: WorkerPoolResource,
     options?: AppServiceEnvironmentsCreateOrUpdateWorkerPoolOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        AppServiceEnvironmentsCreateOrUpdateWorkerPoolResponse
-      >,
+    SimplePollerLike<
+      OperationState<AppServiceEnvironmentsCreateOrUpdateWorkerPoolResponse>,
       AppServiceEnvironmentsCreateOrUpdateWorkerPoolResponse
     >
   > {
@@ -3365,7 +3390,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
     ): Promise<AppServiceEnvironmentsCreateOrUpdateWorkerPoolResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -3398,13 +3423,22 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, name, workerPoolName, workerPoolEnvelope, options },
-      createOrUpdateWorkerPoolOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        name,
+        workerPoolName,
+        workerPoolEnvelope,
+        options
+      },
+      spec: createOrUpdateWorkerPoolOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AppServiceEnvironmentsCreateOrUpdateWorkerPoolResponse,
+      OperationState<AppServiceEnvironmentsCreateOrUpdateWorkerPoolResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -5190,7 +5224,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5210,7 +5243,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5231,7 +5263,6 @@ const listCapacitiesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5256,7 +5287,6 @@ const changeVnetNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5279,7 +5309,6 @@ const getInboundNetworkDependenciesEndpointsNextOperationSpec: coreClient.Operat
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5301,7 +5330,6 @@ const listMultiRolePoolsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5323,7 +5351,6 @@ const listMultiRolePoolInstanceMetricDefinitionsNextOperationSpec: coreClient.Op
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5346,7 +5373,6 @@ const listMultiRoleMetricDefinitionsNextOperationSpec: coreClient.OperationSpec 
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5368,7 +5394,6 @@ const listMultiRolePoolSkusNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5390,7 +5415,6 @@ const listMultiRoleUsagesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5412,7 +5436,6 @@ const getOutboundNetworkDependenciesEndpointsNextOperationSpec: coreClient.Opera
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5434,7 +5457,6 @@ const getPrivateEndpointConnectionListNextOperationSpec: coreClient.OperationSpe
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5459,7 +5481,6 @@ const resumeNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5481,7 +5502,6 @@ const listAppServicePlansNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5503,7 +5523,6 @@ const listWebAppsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.propertiesToInclude],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5528,7 +5547,6 @@ const suspendNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5550,7 +5568,6 @@ const listUsagesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5572,7 +5589,6 @@ const listWorkerPoolsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5594,7 +5610,6 @@ const listWorkerPoolInstanceMetricDefinitionsNextOperationSpec: coreClient.Opera
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5618,7 +5633,6 @@ const listWebWorkerMetricDefinitionsNextOperationSpec: coreClient.OperationSpec 
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5641,7 +5655,6 @@ const listWorkerPoolSkusNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5664,7 +5677,6 @@ const listWebWorkerUsagesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

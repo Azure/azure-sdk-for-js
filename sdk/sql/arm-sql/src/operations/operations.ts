@@ -125,7 +125,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
   serializer

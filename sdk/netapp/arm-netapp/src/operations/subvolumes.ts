@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetAppManagementClient } from "../netAppManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SubvolumeInfo,
   SubvolumesListByVolumeNextOptionalParams,
@@ -48,7 +52,7 @@ export class SubvolumesImpl implements Subvolumes {
 
   /**
    * Returns a list of the subvolumes in the volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -150,7 +154,7 @@ export class SubvolumesImpl implements Subvolumes {
 
   /**
    * Returns a list of the subvolumes in the volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -171,7 +175,7 @@ export class SubvolumesImpl implements Subvolumes {
 
   /**
    * Returns the path associated with the subvolumeName provided
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -201,7 +205,7 @@ export class SubvolumesImpl implements Subvolumes {
 
   /**
    * Creates a subvolume in the path or clones the subvolume mentioned in the parentPath
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -218,8 +222,8 @@ export class SubvolumesImpl implements Subvolumes {
     body: SubvolumeInfo,
     options?: SubvolumesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SubvolumesCreateResponse>,
+    SimplePollerLike<
+      OperationState<SubvolumesCreateResponse>,
       SubvolumesCreateResponse
     >
   > {
@@ -229,7 +233,7 @@ export class SubvolumesImpl implements Subvolumes {
     ): Promise<SubvolumesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -262,9 +266,9 @@ export class SubvolumesImpl implements Subvolumes {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         accountName,
         poolName,
@@ -273,12 +277,15 @@ export class SubvolumesImpl implements Subvolumes {
         body,
         options
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SubvolumesCreateResponse,
+      OperationState<SubvolumesCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -286,7 +293,7 @@ export class SubvolumesImpl implements Subvolumes {
 
   /**
    * Creates a subvolume in the path or clones the subvolume mentioned in the parentPath
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -317,7 +324,7 @@ export class SubvolumesImpl implements Subvolumes {
 
   /**
    * Patch a subvolume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -334,8 +341,8 @@ export class SubvolumesImpl implements Subvolumes {
     body: SubvolumePatchRequest,
     options?: SubvolumesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SubvolumesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SubvolumesUpdateResponse>,
       SubvolumesUpdateResponse
     >
   > {
@@ -345,7 +352,7 @@ export class SubvolumesImpl implements Subvolumes {
     ): Promise<SubvolumesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -378,9 +385,9 @@ export class SubvolumesImpl implements Subvolumes {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         accountName,
         poolName,
@@ -389,12 +396,15 @@ export class SubvolumesImpl implements Subvolumes {
         body,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SubvolumesUpdateResponse,
+      OperationState<SubvolumesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -402,7 +412,7 @@ export class SubvolumesImpl implements Subvolumes {
 
   /**
    * Patch a subvolume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -433,7 +443,7 @@ export class SubvolumesImpl implements Subvolumes {
 
   /**
    * Delete subvolume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -447,14 +457,14 @@ export class SubvolumesImpl implements Subvolumes {
     volumeName: string,
     subvolumeName: string,
     options?: SubvolumesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -487,9 +497,9 @@ export class SubvolumesImpl implements Subvolumes {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         accountName,
         poolName,
@@ -497,12 +507,12 @@ export class SubvolumesImpl implements Subvolumes {
         subvolumeName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -510,7 +520,7 @@ export class SubvolumesImpl implements Subvolumes {
 
   /**
    * Delete subvolume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -538,7 +548,7 @@ export class SubvolumesImpl implements Subvolumes {
 
   /**
    * Get details of the specified subvolume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -553,8 +563,8 @@ export class SubvolumesImpl implements Subvolumes {
     subvolumeName: string,
     options?: SubvolumesGetMetadataOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SubvolumesGetMetadataResponse>,
+    SimplePollerLike<
+      OperationState<SubvolumesGetMetadataResponse>,
       SubvolumesGetMetadataResponse
     >
   > {
@@ -564,7 +574,7 @@ export class SubvolumesImpl implements Subvolumes {
     ): Promise<SubvolumesGetMetadataResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -597,9 +607,9 @@ export class SubvolumesImpl implements Subvolumes {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         accountName,
         poolName,
@@ -607,12 +617,15 @@ export class SubvolumesImpl implements Subvolumes {
         subvolumeName,
         options
       },
-      getMetadataOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: getMetadataOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SubvolumesGetMetadataResponse,
+      OperationState<SubvolumesGetMetadataResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -620,7 +633,7 @@ export class SubvolumesImpl implements Subvolumes {
 
   /**
    * Get details of the specified subvolume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -648,7 +661,7 @@ export class SubvolumesImpl implements Subvolumes {
 
   /**
    * ListByVolumeNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -743,7 +756,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.body27,
+  requestBody: Parameters.body29,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -777,7 +790,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.body28,
+  requestBody: Parameters.body30,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

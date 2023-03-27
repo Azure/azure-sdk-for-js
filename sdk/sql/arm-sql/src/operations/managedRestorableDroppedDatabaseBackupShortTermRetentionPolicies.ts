@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ManagedBackupShortTermRetentionPolicy,
   ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseNextOptionalParams,
@@ -186,8 +190,8 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
     parameters: ManagedBackupShortTermRetentionPolicy,
     options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse
       >,
       ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse
@@ -199,7 +203,7 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
     ): Promise<ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -232,9 +236,9 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         managedInstanceName,
         restorableDroppedDatabaseId,
@@ -242,10 +246,15 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse,
+      OperationState<
+        ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -301,8 +310,8 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
     parameters: ManagedBackupShortTermRetentionPolicy,
     options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse
       >,
       ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse
@@ -314,7 +323,7 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
     ): Promise<ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -347,9 +356,9 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         managedInstanceName,
         restorableDroppedDatabaseId,
@@ -357,10 +366,15 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
         parameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse,
+      OperationState<
+        ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -469,7 +483,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -500,8 +514,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters38,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters32,
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -510,7 +524,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.policyName1,
     Parameters.restorableDroppedDatabaseId
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -533,8 +547,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters38,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters32,
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -543,7 +557,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.policyName1,
     Parameters.restorableDroppedDatabaseId
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -557,7 +571,7 @@ const listByRestorableDroppedDatabaseOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
