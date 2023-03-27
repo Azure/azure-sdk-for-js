@@ -733,6 +733,7 @@ packages:
   /@azure/ai-form-recognizer/3.1.0-beta.3:
     resolution: {integrity: sha512-+4QtFKNyxAmdqpcYjuAtmWKm/MuOe9kZsbpS9jA9h0YHzngNj5gc67AA4egV9BXOq9x+1phjYTNC/rxiOUr1uQ==}
     engines: {node: '>=8.0.0'}
+    deprecated: Please migrate to a supported (non-beta) version of this package
     dependencies:
       '@azure/core-auth': 1.4.0
       '@azure/core-http': 1.2.6
@@ -3910,7 +3911,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230322
+      typescript: 5.1.0-dev.20230323
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -6622,6 +6623,10 @@ packages:
     engines: {node: '>= 8'}
     dev: false
 
+  /mockdate/3.0.5:
+    resolution: {integrity: sha512-iniQP4rj1FhBdBYS/+eQv7j1tadJ9lJtdzgOpvsOHng/GbcDh2Fhdeq+ZRldrPYdXvCyfFUmFeEwEGXZB5I/AQ==}
+    dev: false
+
   /module-details-from-path/1.0.3:
     resolution: {integrity: sha512-ySViT69/76t8VhE1xXHK6Ch4NcDd26gx0MzKXLO+F7NOtnqH68d9zF94nT8ZWSxXh8ELOERsnJO/sWt1xZYw5A==}
     dev: false
@@ -8766,8 +8771,9 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230322:
-    resolution: {integrity: sha512-sRsSUZOCpLClaHzhRo1ZsoEnQe6+1FMEQzBzgtxC8f9rklwY5H4TcyKoa9wRpYvvJ34Farr8nEU/Uz+hnruyLw==}
+  /typescript/5.1.0-dev.20230323:
+    resolution: {integrity: sha512-C/U2MNu/RkpNWJLPqo0q6ZimJLwBaQkd9ktJOjLDyV6/d/HgVfvVI15ga0UH4yj4bKRY0B8Yoth8pyn6jP+IUg==}
+
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -15692,7 +15698,7 @@ packages:
     dev: false
 
   file:projects/communication-common.tgz:
-    resolution: {integrity: sha512-nU0ouJtqzY3pvILb0j3CbdYcFyjd4lelzx2OCYKchq+xIs58Ki+f8bEplXZkTDEaXzt4+Jv61jDyegFF9v2zTQ==, tarball: file:projects/communication-common.tgz}
+    resolution: {integrity: sha512-BMcHTIicLMA2r2QDqFIY5QMtUN80EnXY4Bw3tjqzpdIZTvln4l7+7nmyzA84A+PgqsZSUtmxJEmUS30yQBdSFw==, tarball: file:projects/communication-common.tgz}
     name: '@rush-temp/communication-common'
     version: 0.0.0
     dependencies:
@@ -15720,6 +15726,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.2.0_mocha@7.2.0
+      mockdate: 3.0.5
       nyc: 15.1.0
       prettier: 2.8.5
       rimraf: 3.0.2
