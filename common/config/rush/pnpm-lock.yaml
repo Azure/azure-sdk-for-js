@@ -150,7 +150,6 @@ specifiers:
   '@rush-temp/arm-operationalinsights': file:./projects/arm-operationalinsights.tgz
   '@rush-temp/arm-operations': file:./projects/arm-operations.tgz
   '@rush-temp/arm-orbital': file:./projects/arm-orbital.tgz
-  '@rush-temp/arm-paloaltonetworksngfw': file:./projects/arm-paloaltonetworksngfw.tgz
   '@rush-temp/arm-peering': file:./projects/arm-peering.tgz
   '@rush-temp/arm-policy': file:./projects/arm-policy.tgz
   '@rush-temp/arm-policy-profile-2020-09-01-hybrid': file:./projects/arm-policy-profile-2020-09-01-hybrid.tgz
@@ -487,7 +486,6 @@ dependencies:
   '@rush-temp/arm-operationalinsights': file:projects/arm-operationalinsights.tgz
   '@rush-temp/arm-operations': file:projects/arm-operations.tgz
   '@rush-temp/arm-orbital': file:projects/arm-orbital.tgz
-  '@rush-temp/arm-paloaltonetworksngfw': file:projects/arm-paloaltonetworksngfw.tgz
   '@rush-temp/arm-peering': file:projects/arm-peering.tgz
   '@rush-temp/arm-policy': file:projects/arm-policy.tgz
   '@rush-temp/arm-policy-profile-2020-09-01-hybrid': file:projects/arm-policy-profile-2020-09-01-hybrid.tgz
@@ -715,7 +713,6 @@ packages:
   /@azure-tools/test-recorder/2.0.0:
     resolution: {integrity: sha512-OTic1OwOk25B8ecdMQ4wgyDaUNMMw0qzO4/0sy9ScPXWLmUFGMlkS0+BOQ2K9t8WCksM/wU+NjUZo/5T4zaG6A==}
     engines: {node: '>=12.0.0'}
-    deprecated: Bug introduced in v2.0.0, fixed in 3.0.0
     dependencies:
       '@azure/core-auth': 1.4.0
       '@azure/core-http': 2.3.1
@@ -736,6 +733,7 @@ packages:
   /@azure/ai-form-recognizer/3.1.0-beta.3:
     resolution: {integrity: sha512-+4QtFKNyxAmdqpcYjuAtmWKm/MuOe9kZsbpS9jA9h0YHzngNj5gc67AA4egV9BXOq9x+1phjYTNC/rxiOUr1uQ==}
     engines: {node: '>=8.0.0'}
+    deprecated: Please migrate to a supported (non-beta) version of this package
     dependencies:
       '@azure/core-auth': 1.4.0
       '@azure/core-http': 1.2.6
@@ -3913,7 +3911,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230326
+      typescript: 5.1.0-dev.20230323
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -6625,6 +6623,10 @@ packages:
     engines: {node: '>= 8'}
     dev: false
 
+  /mockdate/3.0.5:
+    resolution: {integrity: sha512-iniQP4rj1FhBdBYS/+eQv7j1tadJ9lJtdzgOpvsOHng/GbcDh2Fhdeq+ZRldrPYdXvCyfFUmFeEwEGXZB5I/AQ==}
+    dev: false
+
   /module-details-from-path/1.0.3:
     resolution: {integrity: sha512-ySViT69/76t8VhE1xXHK6Ch4NcDd26gx0MzKXLO+F7NOtnqH68d9zF94nT8ZWSxXh8ELOERsnJO/sWt1xZYw5A==}
     dev: false
@@ -8769,8 +8771,9 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230326:
-    resolution: {integrity: sha512-qyVhH6ncazjP48EMUqy8i9K85BTSbGKdXVFab0+7Srvu9UXjn2Qq3X/eHAV6vVVAXNYHR94OXdqtkD8DhkzEcw==}
+  /typescript/5.1.0-dev.20230323:
+    resolution: {integrity: sha512-C/U2MNu/RkpNWJLPqo0q6ZimJLwBaQkd9ktJOjLDyV6/d/HgVfvVI15ga0UH4yj4bKRY0B8Yoth8pyn6jP+IUg==}
+
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -13699,34 +13702,6 @@ packages:
       - supports-color
     dev: false
 
-  file:projects/arm-paloaltonetworksngfw.tgz:
-    resolution: {integrity: sha512-96L+yETa/gHNRR/AsppnHYVztMymcTsIF+8YKi/FJS0VvZFlyKrtY+ZqrHr+Tuh4QM1yVNvtP/IV8jGnZeOXnw==, tarball: file:projects/arm-paloaltonetworksngfw.tgz}
-    name: '@rush-temp/arm-paloaltonetworksngfw'
-    version: 0.0.0
-    dependencies:
-      '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.4_@types+node@14.18.38
-      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
-      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
-      '@types/chai': 4.3.4
-      '@types/node': 14.18.38
-      chai: 4.3.7
-      cross-env: 7.0.3
-      dotenv: 16.0.3
-      mkdirp: 2.1.5
-      mocha: 7.2.0
-      rimraf: 3.0.2
-      rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rrfo4ccoq6ga3fxzubpgdsawvq
-      tslib: 2.5.0
-      typescript: 4.8.4
-      uglify-js: 3.17.4
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   file:projects/arm-peering.tgz:
     resolution: {integrity: sha512-kwmgarSgeIlNMuAblgCSksZgPk7RPEnQ9Z7WPXVbEBL4UKRQ9EtwUN101uW8B03dqZ6XVntT8Mzuqd0roCOyjw==, tarball: file:projects/arm-peering.tgz}
     name: '@rush-temp/arm-peering'
@@ -15723,7 +15698,7 @@ packages:
     dev: false
 
   file:projects/communication-common.tgz:
-    resolution: {integrity: sha512-nU0ouJtqzY3pvILb0j3CbdYcFyjd4lelzx2OCYKchq+xIs58Ki+f8bEplXZkTDEaXzt4+Jv61jDyegFF9v2zTQ==, tarball: file:projects/communication-common.tgz}
+    resolution: {integrity: sha512-BMcHTIicLMA2r2QDqFIY5QMtUN80EnXY4Bw3tjqzpdIZTvln4l7+7nmyzA84A+PgqsZSUtmxJEmUS30yQBdSFw==, tarball: file:projects/communication-common.tgz}
     name: '@rush-temp/communication-common'
     version: 0.0.0
     dependencies:
@@ -15751,6 +15726,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.2.0_mocha@7.2.0
+      mockdate: 3.0.5
       nyc: 15.1.0
       prettier: 2.8.5
       rimraf: 3.0.2
