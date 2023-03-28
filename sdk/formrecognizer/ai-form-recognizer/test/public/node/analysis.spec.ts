@@ -26,16 +26,9 @@ import { createValidator } from "../../utils/fieldValidator";
 
 import { PrebuiltModels } from "../../utils/prebuilts";
 import { PrebuiltIdDocumentDocument } from "../../../samples-dev/prebuilt/prebuilt-idDocument";
+import { ASSET_PATH, makeTestUrl } from "../../utils/etc";
 
 const endpoint = (): string => assertEnvironmentVariable("FORM_RECOGNIZER_ENDPOINT");
-
-function makeTestUrl(urlPath: string): string {
-  const testingContainerUrl = assertEnvironmentVariable(
-    "FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL"
-  );
-  const parts = testingContainerUrl.split("?");
-  return `${parts[0]}${urlPath}?${parts[1]}`;
-}
 
 function assertDefined(value: unknown, message?: string): asserts value {
   return assert.ok(value, message);
@@ -43,7 +36,6 @@ function assertDefined(value: unknown, message?: string): asserts value {
 
 matrix([[/* true, */ false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}] analysis (Node)`, () => {
-    const ASSET_PATH = path.resolve(path.join(process.cwd(), "assets"));
     let client: DocumentAnalysisClient;
     let recorder: Recorder;
 
@@ -1104,7 +1096,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
         },
       });
 
-      it.only("png file stream", async function (this: Mocha.Context) {
+      it("png file stream", async function (this: Mocha.Context) {
         const filePath = path.join(ASSET_PATH, "healthInsuranceCard", "insurance.png");
         const stream = fs.createReadStream(filePath);
 
