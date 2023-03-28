@@ -24,9 +24,8 @@ import {
   createLogPrefix,
   createSimpleLogger,
   logErrorStackTrace,
-  logger,
   logObj,
-  SimpleLogger,
+  logger as azureLogger,
 } from "./log";
 import { ConnectionContext } from "./connectionContext";
 import { EventHubConsumerOptions } from "./models/private";
@@ -36,7 +35,15 @@ import { TimerLoop } from "./util/timerLoop";
 import { getRandomName } from "./util/utils";
 import { withAuth } from "./withAuth";
 
+type Writable<T> = {
+  -readonly [P in keyof T]: T[P];
+};
+/** @internal */
+export type WritableReceiver = Writable<PartitionReceiver>;
+
 const abortLogMessage = "operation has been cancelled by the user";
+/** The time to wait in ms before attempting to read from the queue */
+const qReadIntervalInMs = 20;
 
 /**
  * A set of information about the last enqueued event of a partition, as observed by the consumer as
@@ -64,118 +71,60 @@ export interface LastEnqueuedEventProperties {
   retrievedOn?: Date;
 }
 
-/**
- * Describes the EventHubReceiver that will receive event data from EventHub.
- * @internal
- */
-export class EventHubReceiver {
-  /**
-   * The Receiver ownerLevel.
-   */
-  private readonly ownerLevel?: number;
-  /**
-   * The event position in the partition at which to start receiving messages.
-   */
-  private readonly eventPosition: EventPosition;
-  /**
-   * Optional properties that can be set while creating
-   * the EventHubConsumer.
-   */
-  private readonly options: EventHubConsumerOptions;
-  /**
-   * The RHEA AMQP-based receiver link.
-   */
-  private _receiver?: Receiver;
-  /**
-   * A callback to be called on errors.
-   */
-  private _onError?: (error: MessagingError | Error) => void;
-  /**
-   * The queue of received messages that have not yet been returned to the customer.
-   */
-  private readonly queue: ReceivedEventData[] = [];
-  /**
-   * Indicates whether the link is in the process of connecting
-   * (establishing) itself. Default value: `false`.
-   */
-  private isConnecting: boolean = false;
-  /**
-   * Returns sequenceNumber of the last event received from the service. This will not match the
-   * last event received by `EventHubConsumer` when the `queue` is not empty
-   */
-  checkpoint: number = -1;
-  /**
-   * Indicates if the receiver has been closed.
-   */
-  isClosed: boolean = false;
-  /**
-   * The last enqueued event information. This property will only
-   * be enabled when `trackLastEnqueuedEventProperties` option is set to true
-   */
+/** @internal */
+export interface PartitionReceiver {
+  readonly checkpoint: number;
   readonly lastEnqueuedEventProperties: LastEnqueuedEventProperties;
-  /**
-   * The unique name for the entity (mostly a guid).
-   */
-  private readonly name: string;
-  /**
-   * The link entity address in the following form:
-   * `"<event-hub-name>/ConsumerGroups/<consumer-group-name>/Partitions/<partition-id>"`.
-   */
-  private readonly address: string;
-  /**
-   * The token audience in the following form:
-   * `"sb://<your-namespace>.servicebus.windows.net/<event-hub-name>/ConsumerGroups/<consumer-group-name>/Partitions/<partition-id>"`.
-   */
-  private readonly audience: string;
-  /**
-   * Provides relevant information about the amqp connection,
-   * cbs and $management sessions, token provider, sender and receivers.
-   */
-  private readonly _context: ConnectionContext;
-  /**
-   * The auth loop.
-   */
-  private authLoop?: TimerLoop;
-  /**
-   * The logger.
-   */
-  private readonly logger: SimpleLogger;
+  readonly isClosed: boolean;
+  readonly close: () => Promise<void>;
+  readonly abort: () => Promise<void>;
+  readonly isOpen: () => boolean;
+  readonly receiveBatch: (
+    maxMessageCount: number,
+    maxWaitTimeInSeconds?: number,
+    abortSignal?: AbortSignalLike
+  ) => Promise<ReceivedEventData[]>;
+  /** Needed for tests only */
+  readonly _onError?: (error: MessagingError | Error) => void;
+  readonly connect: (options: InitializeOptions) => Promise<void>;
+}
 
-  /**
-   * Instantiates a receiver that can be used to receive events over an AMQP receiver link in
-   * either batching or streaming mode.
-   * @param context -        The connection context corresponding to the EventHubClient instance
-   * @param consumerGroup -  The consumer group from which the receiver should receive events from.
-   * @param partitionId -    The Partition ID from which to receive.
-   * @param eventPosition -  The position in the stream from where to start receiving events.
-   * @param options -      Receiver options.
-   */
-  constructor(
-    context: ConnectionContext,
-    consumerGroup: string,
-    partitionId: string,
-    eventPosition: EventPosition,
-    options: EventHubConsumerOptions = {}
-  ) {
-    this.address = context.config.getReceiverAddress(partitionId, consumerGroup);
-    this.name = getRandomName(this.address);
-    this.audience = context.config.getReceiverAudience(partitionId, consumerGroup);
-    this._context = context;
-    this.ownerLevel = options.ownerLevel;
-    this.eventPosition = eventPosition;
-    this.options = options;
-    this.lastEnqueuedEventProperties = {};
-    const logPrefix = createLogPrefix(context.connectionId, "Receiver", this.name);
-    this.logger = createSimpleLogger(logger, logPrefix);
+interface InitializeOptions {
+  abortSignal: AbortSignalLike | undefined;
+  timeoutInMs: number;
+}
+
+/** @internal */
+export function createReceiver(
+  ctx: ConnectionContext,
+  consumerGroup: string,
+  partitionId: string,
+  eventPosition: EventPosition,
+  options: EventHubConsumerOptions = {}
+): PartitionReceiver {
+  const address = ctx.config.getReceiverAddress(partitionId, consumerGroup);
+  const name = getRandomName(address);
+  const audience = ctx.config.getReceiverAudience(partitionId, consumerGroup);
+  const ownerLevel = options.ownerLevel;
+  const logPrefix = createLogPrefix(ctx.connectionId, "Receiver", name);
+  const logger = createSimpleLogger(azureLogger, logPrefix);
+
+  let receiver: Receiver | undefined = undefined;
+  let authLoop: TimerLoop;
+  let isConnecting = false;
+  const queue: ReceivedEventData[] = [];
+
+  function clearHandlers(obj: WritableReceiver): void {
+    obj._onError = undefined;
   }
 
-  private _onAmqpMessage(context: EventContext): void {
+  function onMessage(context: EventContext, obj: WritableReceiver): void {
     if (!context.message) {
       return;
     }
     const data: EventDataInternal = fromRheaMessage(
       context.message,
-      !!this.options.skipParsingBodyAsJson
+      !!options.skipParsingBodyAsJson
     );
     const rawMessage = data.getRawAmqpMessage();
     const receivedEventData: ReceivedEventData = {
@@ -199,318 +148,269 @@ export class EventHubReceiver {
     if (data.messageId != null) {
       receivedEventData.messageId = data.messageId;
     }
-
-    this.checkpoint = receivedEventData.sequenceNumber;
-
-    if (this.options.trackLastEnqueuedEventProperties && data) {
-      this.lastEnqueuedEventProperties.sequenceNumber = data.lastSequenceNumber;
-      this.lastEnqueuedEventProperties.enqueuedOn = data.lastEnqueuedTime;
-      this.lastEnqueuedEventProperties.offset = data.lastEnqueuedOffset;
-      this.lastEnqueuedEventProperties.retrievedOn = data.retrievalTime;
+    obj.checkpoint = receivedEventData.sequenceNumber;
+    if (options.trackLastEnqueuedEventProperties && data) {
+      obj.lastEnqueuedEventProperties.sequenceNumber = data.lastSequenceNumber;
+      obj.lastEnqueuedEventProperties.enqueuedOn = data.lastEnqueuedTime;
+      obj.lastEnqueuedEventProperties.offset = data.lastEnqueuedOffset;
+      obj.lastEnqueuedEventProperties.retrievedOn = data.retrievalTime;
     }
-
-    this.queue.push(receivedEventData);
+    queue.push(receivedEventData);
   }
 
-  private _onAmqpError(context: EventContext): void {
-    const rheaReceiver = this._receiver || context.receiver;
+  function onError(context: EventContext, obj: PartitionReceiver): void {
+    const rheaReceiver = receiver || context.receiver;
     const amqpError = rheaReceiver && rheaReceiver.error;
-    this.logger.verbose(
+    logger.verbose(
       `'receiver_error' event occurred. The associated error is: ${logObj(amqpError)}`
     );
-
-    if (this._onError && amqpError) {
+    if (obj._onError && amqpError) {
       const error = translate(amqpError);
       logErrorStackTrace(error);
-      this._onError(error);
+      obj._onError(error);
     }
   }
 
-  private _onAmqpSessionError(context: EventContext): void {
+  function onSessionError(context: EventContext, obj: PartitionReceiver): void {
     const sessionError = context.session && context.session.error;
-    this.logger.verbose(
+    logger.verbose(
       `'session_error' event occurred. The associated error is:  ${logObj(sessionError)}`
     );
-
-    if (this._onError && sessionError) {
+    if (obj._onError && sessionError) {
       const error = translate(sessionError);
       logErrorStackTrace(error);
-      this._onError(error);
+      obj._onError(error);
     }
   }
 
-  private async _onAmqpClose(context: EventContext): Promise<void> {
-    const rheaReceiver = this._receiver || context.receiver;
-    this.logger.verbose(
+  async function onClose(context: EventContext): Promise<void> {
+    const rheaReceiver = receiver || context.receiver;
+    logger.verbose(
       `'receiver_close' event occurred. Value for isItselfClosed on the receiver is: '${rheaReceiver
         ?.isItselfClosed()
-        .toString()}' Value for isConnecting on the session is: '${this.isConnecting}'`
+        .toString()}' Value for isConnecting on the session is: '${isConnecting}'`
     );
-    if (rheaReceiver && !this.isConnecting) {
-      // Call close to clean up timers & other resources
-      await rheaReceiver.close().catch((err) => {
-        this.logger.verbose(`error when closing after 'receiver_close' event: ${logObj(err)}`);
+    if (rheaReceiver && !isConnecting) {
+      return rheaReceiver.close().catch((err) => {
+        logger.verbose(`error when closing after 'receiver_close' event: ${logObj(err)}`);
       });
     }
   }
 
-  private async _onAmqpSessionClose(context: EventContext): Promise<void> {
-    const rheaReceiver = this._receiver || context.receiver;
-    this.logger.verbose(
+  async function onSessionClose(context: EventContext): Promise<void> {
+    const rheaReceiver = receiver || context.receiver;
+    logger.verbose(
       `'session_close' event occurred. Value for isSessionItselfClosed on the session is: '${rheaReceiver
         ?.isSessionItselfClosed()
-        .toString()}' Value for isConnecting on the session is: '${this.isConnecting}'`
+        .toString()}' Value for isConnecting on the session is: '${isConnecting}'`
     );
-    if (rheaReceiver && !this.isConnecting) {
-      // Call close to clean up timers & other resources
-      await rheaReceiver.close().catch((err) => {
-        this.logger.verbose(`error when closing after 'session_close' event: ${logObj(err)}`);
+    if (rheaReceiver && !isConnecting) {
+      return rheaReceiver.close().catch((err) => {
+        logger.verbose(`error when closing after 'session_close' event: ${logObj(err)}`);
       });
     }
   }
 
-  abort(): Promise<void> {
-    this._onError?.(new AbortError(StandardAbortMessage));
-    this.logger.info(abortLogMessage);
-    return this.close();
-  }
-
-  /**
-   * Clears the _onError callback.
-   */
-  clearHandlers(): void {
-    if (!this) return;
-    this._onError = undefined;
-  }
-
-  /**
-   * Closes the underlying AMQP receiver.
-   */
-  async close(): Promise<void> {
-    if (!this._receiver) {
-      return;
-    }
-    this.clearHandlers();
-    const receiverLink = this._receiver;
-    this._receiver = undefined;
-    delete this._context.receivers[this.name];
-    this.logger.verbose("deleted the receiver from the client cache");
-    this.authLoop?.stop();
-    return receiverLink
-      .close()
-      .then(() => this.logger.verbose("is closed"))
-      .catch((err) => {
-        this.logger.warning(`an error occurred while closing: ${err?.name}: ${err?.message}`);
-        logErrorStackTrace(err);
-        throw err;
-      })
-      .finally(() => {
-        this.isClosed = true;
-      });
-  }
-
-  /**
-   * Returns whether the AMQP receiver link is open.
-   */
-  isOpen(): boolean {
-    const result = Boolean(this._receiver && this._receiver.isOpen());
-    this.logger.verbose(`is open? -> ${logObj(result)}`);
-    return result;
-  }
-
-  /**
-   * Creates a new AMQP receiver under a new AMQP session.
-   */
-  async initialize({
-    abortSignal,
-    timeoutInMs,
-  }: {
-    abortSignal: AbortSignalLike | undefined;
-    timeoutInMs: number;
-  }): Promise<void> {
-    const createReceiver = async () => {
-      const options: RheaReceiverOptions = {
-        name: this.name,
-        autoaccept: true,
-        source: {
-          address: this.address,
-        },
-        credit_window: 0,
-        onClose: (context) => this._onAmqpClose(context),
-        onError: (context) => this._onAmqpError(context),
-        onMessage: (context) => this._onAmqpMessage(context),
-        onSessionClose: (context) => this._onAmqpSessionClose(context),
-        onSessionError: (context) => this._onAmqpSessionError(context),
-      };
-
-      if (typeof this.ownerLevel === "number") {
-        options.properties = {
-          [Constants.attachEpoch]: types.wrap_long(this.ownerLevel),
-        };
-      }
-
-      if (this.options.trackLastEnqueuedEventProperties) {
-        options.desired_capabilities = Constants.enableReceiverRuntimeMetricName;
-      }
-
-      const eventPosition =
-        this.checkpoint > -1 ? { sequenceNumber: this.checkpoint } : this.eventPosition;
-      // Set filter on the receiver if event position is specified.
-      const filterClause = getEventPositionFilter(eventPosition);
-      (options.source as Source).filter = {
-        "apache.org:selector-filter:string": types.wrap_described(filterClause, 0x468c00000004),
-      };
-
-      this.logger.verbose(`trying to be created with options ${logObj(options)}`);
-      this._receiver = await this._context.connection.createReceiver({
-        ...options,
-        abortSignal,
-      });
-      this.isConnecting = false;
-      this.logger.verbose("is created successfully");
-      // store the underlying link in a cache
-      this._context.receivers[this.name] = this;
+  async function createLink(obj: PartitionReceiver, abortSignal?: AbortSignalLike): Promise<void> {
+    const rheaOptions: RheaReceiverOptions = {
+      name,
+      autoaccept: true,
+      source: {
+        address,
+      },
+      credit_window: 0,
+      onClose,
+      onSessionClose,
+      onError: (context) => onError(context, obj),
+      onMessage: (context) => onMessage(context, obj),
+      onSessionError: (context) => onSessionError(context, obj),
     };
-    try {
-      const isOpen = this.isOpen();
-      if (this.isConnecting || isOpen) {
-        this.logger.verbose(
-          `is open -> ${isOpen} and is connecting -> ${this.isConnecting}. Hence not reconnecting`
+    if (typeof ownerLevel === "number") {
+      rheaOptions.properties = {
+        [Constants.attachEpoch]: types.wrap_long(ownerLevel),
+      };
+    }
+    if (options.trackLastEnqueuedEventProperties) {
+      rheaOptions.desired_capabilities = Constants.enableReceiverRuntimeMetricName;
+    }
+    const filterClause = getEventPositionFilter(
+      obj.checkpoint > -1 ? { sequenceNumber: obj.checkpoint } : eventPosition
+    );
+    (rheaOptions.source as Source).filter = {
+      "apache.org:selector-filter:string": types.wrap_described(filterClause, 0x468c00000004),
+    };
+    logger.verbose(`trying to be created with options ${logObj(rheaOptions)}`);
+    receiver = await ctx.connection.createReceiver({
+      ...rheaOptions,
+      abortSignal,
+    });
+    isConnecting = false;
+    logger.verbose("is created successfully");
+    // store the underlying link in a cache
+    ctx.receivers[name] = obj;
+  }
+
+  const obj: WritableReceiver = {
+    _onError: undefined,
+    checkpoint: -1,
+    lastEnqueuedEventProperties: {},
+    isClosed: false,
+    close: async () => {
+      if (!receiver) {
+        return;
+      }
+      clearHandlers(obj);
+      const receiverLink = receiver;
+      receiver = undefined;
+      delete ctx.receivers[name];
+      logger.verbose("deleted the receiver from the client cache");
+      authLoop?.stop();
+      return receiverLink
+        .close()
+        .then(() => logger.verbose("is closed"))
+        .catch((err) => {
+          logger.warning(`an error occurred while closing: ${err?.name}: ${err?.message}`);
+          logErrorStackTrace(err);
+          throw err;
+        })
+        .finally(() => {
+          obj.isClosed = true;
+        });
+    },
+    abort: () => {
+      obj._onError?.(new AbortError(StandardAbortMessage));
+      logger.info(abortLogMessage);
+      return obj.close();
+    },
+    isOpen: () => {
+      const result = !!receiver?.isOpen();
+      logger.verbose(`is open? -> ${logObj(result)}`);
+      return result;
+    },
+    async connect({ abortSignal, timeoutInMs }: InitializeOptions): Promise<void> {
+      const isOpen = obj.isOpen();
+      if (isConnecting || isOpen) {
+        logger.verbose(
+          `is open -> ${isOpen} and is connecting -> ${isConnecting}. Hence not reconnecting`
         );
         return;
       }
-      this.isConnecting = true;
-      this.logger.verbose("trying to connect");
-      await this._context.readyToOpenLink({ abortSignal });
-      this.authLoop = await withAuth(
-        createReceiver,
-        this._context,
-        this.audience,
-        timeoutInMs,
-        this.logger,
-        { abortSignal }
-      );
-    } catch (err) {
-      this.isConnecting = false;
-      const error = translate(err);
-      this.logger.error(
-        `an error occurred while creating the receiver: ${error?.name}: ${error?.message}`
-      );
-      logErrorStackTrace(err);
-      throw error;
-    }
-  }
-
-  /**
-   * Returns a promise that resolves to an array of events received from the service.
-   *
-   * @param maxMessageCount - The maximum number of messages to receive.
-   * @param maxWaitTimeInSeconds - The maximum amount of time to wait to build up the requested message count;
-   * If not provided, it defaults to 60 seconds.
-   * @param abortSignal - An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
-   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @throws AbortError if the operation is cancelled via the abortSignal.
-   * @throws MessagingError if an error is encountered while receiving a message.
-   * @throws Error if the underlying connection or receiver has been closed.
-   * Create a new EventHubConsumer using the EventHubClient createConsumer method.
-   * @throws Error if the receiver is already receiving messages.
-   */
-  async receiveBatch(
-    maxMessageCount: number,
-    maxWaitTimeInSeconds: number = 60,
-    abortSignal?: AbortSignalLike
-  ): Promise<ReceivedEventData[]> {
-    const cleanupBeforeAbort = (): Promise<void> => {
-      this.logger.info(abortLogMessage);
-      return this.close();
-    };
-
-    /** The time to wait in ms before attempting to read from the queue */
-    const readIntervalWaitTimeInMs = 20;
-
-    const retrieveEvents = (): Promise<ReceivedEventData[]> => {
-      const eventsToRetrieveCount = Math.max(maxMessageCount - this.queue.length, 0);
-      this.logger.verbose(
-        `already has ${this.queue.length} events and wants to receive ${eventsToRetrieveCount} more events`
-      );
-      if (abortSignal?.aborted) {
-        cleanupBeforeAbort();
-        return Promise.reject(new AbortError(StandardAbortMessage));
+      isConnecting = true;
+      logger.verbose("trying to connect");
+      try {
+        await ctx.readyToOpenLink({ abortSignal });
+        authLoop = await withAuth(
+          () => createLink(obj, abortSignal),
+          ctx,
+          audience,
+          timeoutInMs,
+          logger,
+          {
+            abortSignal,
+          }
+        );
+      } catch (err) {
+        isConnecting = false;
+        const error = translate(err);
+        logger.error(
+          `an error occurred while creating the receiver: ${error?.name}: ${error?.message}`
+        );
+        logErrorStackTrace(err);
+        throw error;
       }
-      return this.isClosed || this._context.wasConnectionCloseCalled
-        ? Promise.resolve(this.queue.splice(0))
-        : eventsToRetrieveCount === 0
-        ? Promise.resolve(this.queue.splice(0, maxMessageCount))
-        : new Promise<void>((resolve, reject) => {
-            this._onError = reject;
-
-            // eslint-disable-next-line promise/catch-or-return
-            this.initialize({
-              abortSignal,
-              timeoutInMs: getRetryAttemptTimeoutInMs(this.options.retryOptions),
-            })
-              .then(() => {
-                // add credits
-                const existingCredits = this._receiver?.credit ?? 0;
-                const creditsToAdd = Math.max(eventsToRetrieveCount - existingCredits, 0);
-                this._receiver?.addCredit(creditsToAdd);
-                this.logger.verbose(`setting the wait timer for ${maxWaitTimeInSeconds} seconds`);
-                return; // to make eslint happy
-              })
-              .then(() =>
-                waitForEvents(
-                  maxMessageCount,
-                  maxWaitTimeInSeconds * 1000,
-                  readIntervalWaitTimeInMs,
-                  this.queue,
-                  {
-                    abortSignal,
-                    cleanupBeforeAbort,
-                    receivedAfterWait: () =>
-                      this.logger.info(
-                        `${Math.min(
-                          maxMessageCount,
-                          this.queue.length
-                        )} messages received within ${maxWaitTimeInSeconds} seconds`
-                      ),
-                    receivedAlready: () =>
-                      this.logger.info(`${maxMessageCount} messages already received`),
-                    receivedNone: () =>
-                      this.logger.info(
-                        `no messages received when max wait time in seconds ${maxWaitTimeInSeconds} is over`
-                      ),
-                  }
-                )
-              )
-              .catch(reject)
-              .then(resolve);
-          })
-            .then(() => this.queue.splice(0, maxMessageCount))
-            .finally(this.clearHandlers);
-    };
-
-    return retry(
-      Object.defineProperties(
-        {
-          operation: retrieveEvents,
-          operationType: RetryOperationType.receiveMessage,
-          abortSignal: abortSignal,
-          retryOptions: this.options.retryOptions ?? {},
-        },
-        {
-          connectionId: {
-            enumerable: true,
-            get: () => this._context.connectionId,
-          },
-          connectionHost: {
-            enumerable: true,
-            get: () => this._context.config.host,
-          },
+    },
+    receiveBatch: async (
+      maxMessageCount: number,
+      maxWaitTimeInSeconds: number = 60,
+      abortSignal?: AbortSignalLike
+    ) => {
+      const cleanupBeforeAbort = (): Promise<void> => {
+        logger.info(abortLogMessage);
+        return obj.close();
+      };
+      const retrieveEvents = (): Promise<ReceivedEventData[]> => {
+        const eventsToRetrieveCount = Math.max(maxMessageCount - queue.length, 0);
+        logger.verbose(
+          `already has ${queue.length} events and wants to receive ${eventsToRetrieveCount} more events`
+        );
+        if (abortSignal?.aborted) {
+          cleanupBeforeAbort();
+          return Promise.reject(new AbortError(StandardAbortMessage));
         }
-      ) as RetryConfig<ReceivedEventData[]>
-    );
-  }
+        return obj.isClosed || ctx.wasConnectionCloseCalled
+          ? Promise.resolve(queue.splice(0))
+          : eventsToRetrieveCount === 0
+          ? Promise.resolve(queue.splice(0, maxMessageCount))
+          : new Promise<void>((resolve, reject) => {
+              obj._onError = reject;
+              // eslint-disable-next-line promise/catch-or-return
+              obj
+                .connect({
+                  abortSignal,
+                  timeoutInMs: getRetryAttemptTimeoutInMs(options.retryOptions),
+                })
+                .then(() => {
+                  // add credits
+                  const existingCredits = receiver?.credit ?? 0;
+                  const creditsToAdd = Math.max(eventsToRetrieveCount - existingCredits, 0);
+                  receiver?.addCredit(creditsToAdd);
+                  logger.verbose(`setting the wait timer for ${maxWaitTimeInSeconds} seconds`);
+                  return; // to make eslint happy
+                })
+                .then(() =>
+                  waitForEvents(
+                    maxMessageCount,
+                    maxWaitTimeInSeconds * 1000,
+                    qReadIntervalInMs,
+                    queue,
+                    {
+                      abortSignal,
+                      cleanupBeforeAbort,
+                      receivedAfterWait: () =>
+                        logger.info(
+                          `${Math.min(
+                            maxMessageCount,
+                            queue.length
+                          )} messages received within ${maxWaitTimeInSeconds} seconds`
+                        ),
+                      receivedAlready: () =>
+                        logger.info(`${maxMessageCount} messages already received`),
+                      receivedNone: () =>
+                        logger.info(
+                          `no messages received when max wait time in seconds ${maxWaitTimeInSeconds} is over`
+                        ),
+                    }
+                  )
+                )
+                .catch(reject)
+                .then(resolve);
+            })
+              .then(() => queue.splice(0, maxMessageCount))
+              .finally(() => clearHandlers(obj));
+      };
+      return retry(
+        Object.defineProperties(
+          {
+            operation: retrieveEvents,
+            operationType: RetryOperationType.receiveMessage,
+            abortSignal: abortSignal,
+            retryOptions: options.retryOptions ?? {},
+          },
+          {
+            connectionId: {
+              enumerable: true,
+              get: () => ctx.connectionId,
+            },
+            connectionHost: {
+              enumerable: true,
+              get: () => ctx.config.host,
+            },
+          }
+        ) as RetryConfig<ReceivedEventData[]>
+      );
+    },
+  };
+  return obj;
 }
 
 function delay(
