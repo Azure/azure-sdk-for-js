@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { v4 } from "uuid";
-import { Constants } from "../common";
-import { CosmosHeaders } from "../queryExecutionContext";
+import { Location } from "../documents";
+import { CosmosDiagnosticContext } from "./CosmosDiagnosticsContext";
 
 /**
  * Cosmos Diagnostic type. It contains diagnostic information during a client operation. ie. Item.read().
@@ -16,29 +16,40 @@ import { CosmosHeaders } from "../queryExecutionContext";
  * i.e. for item.read(id), if the client makes server call to discover endpoints it would be considered
  * as metadata call.
  */
-export interface CosmosDiagnostics {
-  id: string;
-  clientSideRequestStatistics: ClientSideRequestStatistics;
+export class CosmosDiagnostics {
+  /**
+   * @internal
+   */
+  constructor(
+    public readonly id: string,
+    public readonly clientSideRequestStatistics: ClientSideRequestStatistics,
+    private readonly cosmosDiagnosticContext: CosmosDiagnosticContext
+  ) {}
+
+  public get getContactedRegionNames(): Set<string> {
+    const locations = this.cosmosDiagnosticContext.locationEndpointsContacted.values();
+    return new Set([...locations].map((location) => location.name));
+  }
 }
 
 /**
  * This type contains diagnostic information regarding all metadata request to server during an CosmosDB client operation.
  */
 export type MetadataDiagnostics = {
-  metadataLookups: MetadataLookup[];
+  metadataLookups: MetadataLookupDiagnostic[];
 };
 
 /**
  * This type captures diagnostic information regarding retries attempty during an CosmosDB client operation.
  */
 export type RetryDiagnostics = {
-  failedAttempts: FailedRequestAttempt[];
+  failedAttempts: FailedRequestAttemptDiagnostic[];
 };
 
 /**
  * This type contains diagnostic information regarding a single metadata request to server.
  */
-export interface MetadataLookup {
+export interface MetadataLookupDiagnostic {
   id: string;
   startTimeUTC: number;
   endTimeUTC: number;
@@ -49,7 +60,7 @@ export interface MetadataLookup {
 /**
  * This type captures diagnostic information regarding a failed request to server api.
  */
-export interface FailedRequestAttempt {
+export interface FailedRequestAttemptDiagnostic {
   id: string;
   attemptNumber: number;
   startTimeUTC: number;
@@ -68,25 +79,21 @@ export type ClientSideRequestStatistics = {
   requestStartTimeUTC: number;
   requestEndTimeUTC: number;
   activityId: string;
-  locationEndpointsContacted: string[];
+  locationEndpointsContacted: Location[];
   retryDiagnostics: RetryDiagnostics;
   metadataDiagnostics: MetadataDiagnostics;
   requestPayloadLength: number;
   responsePayloadLength: number;
 };
 
-export function getCurrentTimestamp(): number {
-  return Date.now();
-}
-
 /**
  * Utility function to create an Empty CosmosDiagnostic object.
  * @returns
  */
 export function getEmptyCosmosDiagnostics(): CosmosDiagnostics {
-  return {
-    id: v4(),
-    clientSideRequestStatistics: {
+  return new CosmosDiagnostics(
+    v4(),
+    {
       activityId: "",
       requestEndTimeUTC: 0,
       requestStartTimeUTC: 0,
@@ -100,113 +107,6 @@ export function getEmptyCosmosDiagnostics(): CosmosDiagnostics {
       requestPayloadLength: 0,
       responsePayloadLength: 0,
     },
-  };
-}
-/**
- * @hidden
- * Internal class to hold CosmosDiagnostic information all through the lifecycle of a request.
- * This object gathers diagnostic information throughout Client operation which may span across multiple
- * Server call, retries etc.
- * Functions - recordFailedAttempt, recordMetaDataQuery, recordEndpointContactEvent are used to ingest
- * data into the context. At the end of operation, getDiagnostics() is used to
- * get final CosmosDiagnostic object.
- */
-export class CosmosDiagnosticContext {
-  private requestStartTimeUTC: number;
-  private requestEndTimeUTC: number;
-  private retryStartTimeUTC: number;
-  private headers: CosmosHeaders = {};
-  private retryAttempNumber: number;
-  private failedAttempts: FailedRequestAttempt[] = [];
-  private locationEndpointsContacted: Set<string> = new Set();
-  private metadataLookups: MetadataLookup[] = [];
-  private requestPayloadLength: number;
-  private responsePayloadLength: number;
-  public constructor() {
-    this.requestStartTimeUTC = getCurrentTimestamp();
-    this.retryStartTimeUTC = this.requestStartTimeUTC;
-  }
-
-  public recordRequestPayload(payload: string): void {
-    this.requestPayloadLength = payload.length;
-  }
-
-  public recordResponseStats(payload: string, headers: CosmosHeaders): void {
-    this.responsePayloadLength = typeof payload === "string" ? payload.length : 0;
-    this.headers = { ...this.headers, ...headers };
-  }
-
-  public recordFailedAttempt(statusCode: string): void {
-    const attempt: FailedRequestAttempt = {
-      id: v4(),
-      attemptNumber: this.retryAttempNumber,
-      startTimeUTC: this.retryStartTimeUTC,
-      endTimeUTC: getCurrentTimestamp(),
-      statusCode,
-    };
-    this.retryStartTimeUTC = getCurrentTimestamp();
-    this.retryAttempNumber++;
-    this.failedAttempts.push(attempt);
-  }
-
-  public recordMetaDataLookup(diagnostics: CosmosDiagnostics, metaDataType: MetadataType): void {
-    const metaDataRequest = {
-      startTimeUTC: diagnostics.clientSideRequestStatistics.requestStartTimeUTC,
-      endTimeUTC: diagnostics.clientSideRequestStatistics.requestEndTimeUTC,
-      activityId: diagnostics.clientSideRequestStatistics.activityId,
-      metaDataType,
-      id: v4(),
-    };
-    this.metadataLookups.push(metaDataRequest);
-  }
-
-  //   public recordSerializationEvent() {}
-
-  //   public recordResponse() {}
-
-  public mergeDiagnostics(diagnostics: CosmosDiagnostics): void {
-    diagnostics.clientSideRequestStatistics.locationEndpointsContacted.forEach((endpoint) =>
-      this.locationEndpointsContacted.add(endpoint)
-    );
-    diagnostics.clientSideRequestStatistics.metadataDiagnostics.metadataLookups.forEach((lookup) =>
-      this.metadataLookups.push(lookup)
-    );
-    diagnostics.clientSideRequestStatistics.retryDiagnostics.failedAttempts.forEach((lookup) =>
-      this.failedAttempts.push(lookup)
-    );
-  }
-
-  public recordEndpointContactEvent(location: string): void {
-    this.locationEndpointsContacted.add(location);
-  }
-
-  public getDiagnostics(): CosmosDiagnostics {
-    this.recordSessionEnd();
-    return {
-      id: v4(),
-
-      clientSideRequestStatistics: {
-        activityId: this.getActivityId(),
-        requestStartTimeUTC: this.requestStartTimeUTC,
-        requestEndTimeUTC: this.requestEndTimeUTC,
-        locationEndpointsContacted: [...this.locationEndpointsContacted],
-        metadataDiagnostics: {
-          metadataLookups: [...this.metadataLookups],
-        },
-        retryDiagnostics: {
-          failedAttempts: [...this.failedAttempts],
-        },
-        requestPayloadLength: this.requestPayloadLength,
-        responsePayloadLength: this.responsePayloadLength,
-      },
-    };
-  }
-
-  private recordSessionEnd() {
-    this.requestEndTimeUTC = getCurrentTimestamp();
-  }
-
-  private getActivityId(): string {
-    return this.headers[Constants.HttpHeaders.ActivityId] as string;
-  }
+    new CosmosDiagnosticContext()
+  );
 }
