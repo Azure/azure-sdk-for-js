@@ -26,6 +26,7 @@ import {
   logErrorStackTrace,
   logObj,
   logger as azureLogger,
+  SimpleLogger,
 } from "./log";
 import { ConnectionContext } from "./connectionContext";
 import { EventHubConsumerOptions } from "./models/private";
@@ -86,10 +87,10 @@ export interface PartitionReceiver {
   ) => Promise<ReceivedEventData[]>;
   /** Needed for tests only */
   readonly _onError?: (error: MessagingError | Error) => void;
-  readonly connect: (options: InitializeOptions) => Promise<void>;
+  readonly connect: (options: ConnectOptions) => Promise<void>;
 }
 
-interface InitializeOptions {
+interface ConnectOptions {
   abortSignal: AbortSignalLike | undefined;
   timeoutInMs: number;
 }
@@ -108,80 +109,11 @@ export function createReceiver(
   const ownerLevel = options.ownerLevel;
   const logPrefix = createLogPrefix(ctx.connectionId, "Receiver", name);
   const logger = createSimpleLogger(azureLogger, logPrefix);
-
-  let receiver: Receiver | undefined = undefined;
-  let authLoop: TimerLoop;
-  let isConnecting = false;
   const queue: ReceivedEventData[] = [];
 
-  function clearHandlers(obj: WritableReceiver): void {
-    obj._onError = undefined;
-  }
-
-  function onMessage(context: EventContext, obj: WritableReceiver): void {
-    if (!context.message) {
-      return;
-    }
-    const data: EventDataInternal = fromRheaMessage(
-      context.message,
-      !!options.skipParsingBodyAsJson
-    );
-    const rawMessage = data.getRawAmqpMessage();
-    const receivedEventData: ReceivedEventData = {
-      body: data.body,
-      properties: data.properties,
-      offset: data.offset!,
-      sequenceNumber: data.sequenceNumber!,
-      enqueuedTimeUtc: data.enqueuedTimeUtc!,
-      partitionKey: data.partitionKey!,
-      systemProperties: data.systemProperties,
-      getRawAmqpMessage() {
-        return rawMessage;
-      },
-    };
-    if (data.correlationId != null) {
-      receivedEventData.correlationId = data.correlationId;
-    }
-    if (data.contentType != null) {
-      receivedEventData.contentType = data.contentType;
-    }
-    if (data.messageId != null) {
-      receivedEventData.messageId = data.messageId;
-    }
-    obj.checkpoint = receivedEventData.sequenceNumber;
-    if (options.trackLastEnqueuedEventProperties && data) {
-      obj.lastEnqueuedEventProperties.sequenceNumber = data.lastSequenceNumber;
-      obj.lastEnqueuedEventProperties.enqueuedOn = data.lastEnqueuedTime;
-      obj.lastEnqueuedEventProperties.offset = data.lastEnqueuedOffset;
-      obj.lastEnqueuedEventProperties.retrievedOn = data.retrievalTime;
-    }
-    queue.push(receivedEventData);
-  }
-
-  function onError(context: EventContext, obj: PartitionReceiver): void {
-    const rheaReceiver = receiver || context.receiver;
-    const amqpError = rheaReceiver && rheaReceiver.error;
-    logger.verbose(
-      `'receiver_error' event occurred. The associated error is: ${logObj(amqpError)}`
-    );
-    if (obj._onError && amqpError) {
-      const error = translate(amqpError);
-      logErrorStackTrace(error);
-      obj._onError(error);
-    }
-  }
-
-  function onSessionError(context: EventContext, obj: PartitionReceiver): void {
-    const sessionError = context.session && context.session.error;
-    logger.verbose(
-      `'session_error' event occurred. The associated error is:  ${logObj(sessionError)}`
-    );
-    if (obj._onError && sessionError) {
-      const error = translate(sessionError);
-      logErrorStackTrace(error);
-      obj._onError(error);
-    }
-  }
+  let receiver: Receiver | undefined = undefined;
+  let authLoop: TimerLoop | undefined = undefined;
+  let isConnecting = false;
 
   async function onClose(context: EventContext): Promise<void> {
     const rheaReceiver = receiver || context.receiver;
@@ -212,7 +144,7 @@ export function createReceiver(
   }
 
   async function createLink(obj: PartitionReceiver, abortSignal?: AbortSignalLike): Promise<void> {
-    const rheaOptions: RheaReceiverOptions = {
+    const rheaOptions: RheaReceiverOptions & { source: Source } = {
       name,
       autoaccept: true,
       source: {
@@ -221,9 +153,9 @@ export function createReceiver(
       credit_window: 0,
       onClose,
       onSessionClose,
-      onError: (context) => onError(context, obj),
-      onMessage: (context) => onMessage(context, obj),
-      onSessionError: (context) => onSessionError(context, obj),
+      onError: (context) => onError(context, obj, receiver, logger),
+      onMessage: (context) => onMessage(context, obj, queue, options),
+      onSessionError: (context) => onSessionError(context, obj, logger),
     };
     if (typeof ownerLevel === "number") {
       rheaOptions.properties = {
@@ -236,7 +168,7 @@ export function createReceiver(
     const filterClause = getEventPositionFilter(
       obj.checkpoint > -1 ? { sequenceNumber: obj.checkpoint } : eventPosition
     );
-    (rheaOptions.source as Source).filter = {
+    rheaOptions.source.filter = {
       "apache.org:selector-filter:string": types.wrap_described(filterClause, 0x468c00000004),
     };
     logger.verbose(`trying to be created with options ${logObj(rheaOptions)}`);
@@ -246,7 +178,6 @@ export function createReceiver(
     });
     isConnecting = false;
     logger.verbose("is created successfully");
-    // store the underlying link in a cache
     ctx.receivers[name] = obj;
   }
 
@@ -256,18 +187,12 @@ export function createReceiver(
     lastEnqueuedEventProperties: {},
     isClosed: false,
     close: async () => {
-      if (!receiver) {
-        return;
-      }
       clearHandlers(obj);
-      const receiverLink = receiver;
-      receiver = undefined;
       delete ctx.receivers[name];
       logger.verbose("deleted the receiver from the client cache");
       authLoop?.stop();
-      return receiverLink
-        .close()
-        .then(() => logger.verbose("is closed"))
+      return receiver
+        ?.close()
         .catch((err) => {
           logger.warning(`an error occurred while closing: ${err?.name}: ${err?.message}`);
           logErrorStackTrace(err);
@@ -275,6 +200,9 @@ export function createReceiver(
         })
         .finally(() => {
           obj.isClosed = true;
+          logger.verbose("is closed");
+          receiver = undefined;
+          authLoop = undefined;
         });
     },
     abort: () => {
@@ -283,20 +211,16 @@ export function createReceiver(
       return obj.close();
     },
     isOpen: () => {
-      const result = !!receiver?.isOpen();
-      logger.verbose(`is open? -> ${logObj(result)}`);
-      return result;
+      const isOpen = !!receiver?.isOpen();
+      logger.verbose(`is open? -> ${isOpen}`);
+      return isOpen;
     },
-    async connect({ abortSignal, timeoutInMs }: InitializeOptions): Promise<void> {
-      const isOpen = obj.isOpen();
-      if (isConnecting || isOpen) {
-        logger.verbose(
-          `is open -> ${isOpen} and is connecting -> ${isConnecting}. Hence not reconnecting`
-        );
+    async connect({ abortSignal, timeoutInMs }: ConnectOptions): Promise<void> {
+      if (isConnecting || obj.isOpen()) {
         return;
       }
       isConnecting = true;
-      logger.verbose("trying to connect");
+      logger.verbose("is trying to connect");
       try {
         await ctx.readyToOpenLink({ abortSignal });
         authLoop = await withAuth(
@@ -319,7 +243,7 @@ export function createReceiver(
         throw error;
       }
     },
-    receiveBatch: async (
+    receiveBatch: (
       maxMessageCount: number,
       maxWaitTimeInSeconds: number = 60,
       abortSignal?: AbortSignalLike
@@ -343,19 +267,17 @@ export function createReceiver(
           ? Promise.resolve(queue.splice(0, maxMessageCount))
           : new Promise<void>((resolve, reject) => {
               obj._onError = reject;
-              // eslint-disable-next-line promise/catch-or-return
-              obj
+              obj // eslint-disable-line promise/catch-or-return
                 .connect({
                   abortSignal,
                   timeoutInMs: getRetryAttemptTimeoutInMs(options.retryOptions),
                 })
                 .then(() => {
-                  // add credits
-                  const existingCredits = receiver?.credit ?? 0;
-                  const creditsToAdd = Math.max(eventsToRetrieveCount - existingCredits, 0);
-                  receiver?.addCredit(creditsToAdd);
-                  logger.verbose(`setting the wait timer for ${maxWaitTimeInSeconds} seconds`);
-                  return; // to make eslint happy
+                  if (addCredits(receiver, eventsToRetrieveCount) > 0) {
+                    return logger.verbose(
+                      `setting the wait timer for ${maxWaitTimeInSeconds} seconds`
+                    );
+                  } else return;
                 })
                 .then(() =>
                   waitForEvents(
@@ -501,4 +423,93 @@ export function waitForEvents(
           .then(receivedAfterWait),
         delay(maxWaitTimeInMs, updatedOptions).then(receivedNone),
       ]).finally(() => aborter.abort());
+}
+
+function convertAMQPMesage(data: EventDataInternal): ReceivedEventData {
+  const rawMessage = data.getRawAmqpMessage();
+  const receivedEventData: ReceivedEventData = {
+    body: data.body,
+    properties: data.properties,
+    offset: data.offset!,
+    sequenceNumber: data.sequenceNumber!,
+    enqueuedTimeUtc: data.enqueuedTimeUtc!,
+    partitionKey: data.partitionKey!,
+    systemProperties: data.systemProperties,
+    getRawAmqpMessage() {
+      return rawMessage;
+    },
+  };
+  if (data.correlationId != null) {
+    receivedEventData.correlationId = data.correlationId;
+  }
+  if (data.contentType != null) {
+    receivedEventData.contentType = data.contentType;
+  }
+  if (data.messageId != null) {
+    receivedEventData.messageId = data.messageId;
+  }
+  return receivedEventData;
+}
+
+function setEventProps(eventProps: LastEnqueuedEventProperties, data: EventDataInternal): void {
+  eventProps.sequenceNumber = data.lastSequenceNumber;
+  eventProps.enqueuedOn = data.lastEnqueuedTime;
+  eventProps.offset = data.lastEnqueuedOffset;
+  eventProps.retrievedOn = data.retrievalTime;
+}
+
+function addCredits(receiver: Receiver | undefined, eventsToRetrieveCount: number): number {
+  const creditsToAdd = eventsToRetrieveCount - (receiver?.credit ?? 0);
+  if (creditsToAdd > 0) {
+    receiver?.addCredit(creditsToAdd);
+  }
+  return creditsToAdd;
+}
+
+function clearHandlers(obj: WritableReceiver): void {
+  obj._onError = undefined;
+}
+
+function onMessage(
+  context: EventContext,
+  obj: WritableReceiver,
+  queue: ReceivedEventData[],
+  options: EventHubConsumerOptions
+): void {
+  if (!context.message) {
+    return;
+  }
+  const data = fromRheaMessage(context.message, !!options.skipParsingBodyAsJson);
+  const receivedEventData = convertAMQPMesage(data);
+  obj.checkpoint = receivedEventData.sequenceNumber;
+  if (options.trackLastEnqueuedEventProperties) {
+    setEventProps(obj.lastEnqueuedEventProperties, data);
+  }
+  queue.push(receivedEventData);
+}
+
+function onError(
+  context: EventContext,
+  obj: PartitionReceiver,
+  receiver: Receiver | undefined,
+  logger: SimpleLogger
+): void {
+  const rheaReceiver = receiver || context.receiver;
+  const amqpError = rheaReceiver?.error;
+  logger.verbose(`'receiver_error' event occurred: ${logObj(amqpError)}`);
+  if (obj._onError && amqpError) {
+    const error = translate(amqpError);
+    logErrorStackTrace(error);
+    obj._onError(error);
+  }
+}
+
+function onSessionError(context: EventContext, obj: PartitionReceiver, logger: SimpleLogger): void {
+  const sessionError = context.session?.error;
+  logger.verbose(`'session_error' event occurred: ${logObj(sessionError)}`);
+  if (obj._onError && sessionError) {
+    const error = translate(sessionError);
+    logErrorStackTrace(error);
+    obj._onError(error);
+  }
 }
