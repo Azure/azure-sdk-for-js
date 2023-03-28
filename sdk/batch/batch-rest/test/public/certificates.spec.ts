@@ -8,6 +8,7 @@ import { Context } from "mocha";
 import { BatchServiceClient, CertificatesAddParameters, isUnexpected } from "../../src";
 import { fail } from "assert";
 import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets";
+import { create } from "domain";
 
 describe("Certificate Operations Test", () => {
   const certThumb = "cff2ab63c8c955aaf71989efa641b906558d9fb7";
@@ -72,7 +73,7 @@ describe("Certificate Operations Test", () => {
     assert.equal(certificates[0].thumbprintAlgorithm, "sha1");
   });
 
-  it.only("should get certificate reference successfully", async () => {
+  it("should get certificate reference successfully", async () => {
     const getCertResult = await batchClient.path("/certificates(thumbprintAlgorithm={thumbprintAlgorithm},thumbprint={thumbprint})", certAlgorithm, certThumb).get({
       contentType: "application/json; odata=minimalmetadata"
     });
@@ -92,7 +93,5 @@ describe("Certificate Operations Test", () => {
     });
 
     assert.equal(deleteResult.status, "202");
-
-
   })
 });
