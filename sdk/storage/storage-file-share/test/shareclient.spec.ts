@@ -328,7 +328,9 @@ describe("ShareClient - OAuth", () => {
   });
 
   afterEach(async function () {
-    await shareClientWithKeyCredential.delete();
+    if (shareClientWithKeyCredential) {
+      await shareClientWithKeyCredential.delete();
+    }
     await recorder.stop();
   });
 
