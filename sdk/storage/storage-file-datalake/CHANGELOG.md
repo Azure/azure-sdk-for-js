@@ -4,6 +4,9 @@
 
 ### Features Added
 
+- Added support for service version 2022-11-02.
+- Added support for Encryption Context.
+
 ### Breaking Changes
 
 ### Bugs Fixed

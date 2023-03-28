@@ -49,6 +49,7 @@ export interface Path {
   encryptionScope?: string;
   creationTime?: string;
   expiryTime?: string;
+  encryptionContext?: string;
 }
 
 /** An enumeration of blobs */
@@ -994,6 +995,8 @@ export interface PathCreateOptionalParams extends coreHttp.OperationOptions {
   expiryOptions?: PathExpiryOptions;
   /** The time to set the blob to expiry */
   expiresOn?: string;
+  /** Specifies the encryption context to set on the file. */
+  encryptionContext?: string;
 }
 
 /** Contains response data for the create operation. */
