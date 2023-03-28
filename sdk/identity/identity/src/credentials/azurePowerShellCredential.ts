@@ -40,7 +40,7 @@ async function runCommands(commands: string[][]): Promise<string[]> {
 
   for (const command of commands) {
     const [file, ...parameters] = command;
-    const result = (await processUtils.execFile(file, parameters, { encoding: "utf8" })) as string;
+    const result = (await processUtils.execFile(file, parameters, { encoding: "utf8", timeout: <> })) as string;
     results.push(result);
   }
 

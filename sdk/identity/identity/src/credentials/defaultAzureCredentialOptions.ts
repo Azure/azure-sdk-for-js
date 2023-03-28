@@ -47,4 +47,9 @@ export interface DefaultAzureCredentialOptions
    * By default it may use a generic tenant ID depending on the underlying credential.
    */
   tenantId?: string;
+
+  /**
+   * In Milliseconds
+   */
+  developerCredentialTimeOut?: number;
 }
