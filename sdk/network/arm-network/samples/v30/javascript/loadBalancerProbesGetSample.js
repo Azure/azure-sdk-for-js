@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets load balancer probe.
  *
  * @summary Gets load balancer probe.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerProbeGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/LoadBalancerProbeGet.json
  */
 async function loadBalancerProbeGet() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "testrg";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "testrg";
   const loadBalancerName = "lb";
   const probeName = "probe1";
   const credential = new DefaultAzureCredential();
@@ -32,4 +33,8 @@ async function loadBalancerProbeGet() {
   console.log(result);
 }
 
-loadBalancerProbeGet().catch(console.error);
+async function main() {
+  loadBalancerProbeGet();
+}
+
+main().catch(console.error);

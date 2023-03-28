@@ -8,15 +8,16 @@ import {
   paginate,
 } from "@azure-rest/developer-devcenter";
 import createClient from "@azure-rest/developer-devcenter";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 /**
  * @summary Demonstrates creating, accessing, and deleting a Dev Box
  */
 async function createDevBox() {
   // Build client and fetch required parameters
-  const tenantId = process.env.AZURE_TENANT_ID || "<tenant id>";
-  const devCenter = process.env.AZURE_DEVCENTER_NAME || "<devcenter name>";
-  const client = createClient(tenantId, devCenter, new DefaultAzureCredential());
+  const endpoint = process.env.DEVCENTER_ENDPOINT || "<endpoint>";
+  const client = createClient(endpoint, new DefaultAzureCredential());
 
   // Get all projects
   const projectList = await client.path("/projects").get();

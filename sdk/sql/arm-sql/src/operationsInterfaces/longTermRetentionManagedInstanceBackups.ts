@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ManagedInstanceLongTermRetentionBackup,
   LongTermRetentionManagedInstanceBackupsListByDatabaseOptionalParams,
@@ -131,7 +131,7 @@ export interface LongTermRetentionManagedInstanceBackups {
     databaseName: string,
     backupName: string,
     options?: LongTermRetentionManagedInstanceBackupsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a long term retention backup.
    * @param locationName The location of the database.
@@ -182,7 +182,7 @@ export interface LongTermRetentionManagedInstanceBackups {
     databaseName: string,
     backupName: string,
     options?: LongTermRetentionManagedInstanceBackupsDeleteByResourceGroupOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a long term retention backup.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

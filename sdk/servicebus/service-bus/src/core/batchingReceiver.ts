@@ -77,7 +77,8 @@ export class BatchingReceiver extends MessageReceiver {
         return this.link;
       },
       this.receiveMode,
-      options.skipParsingBodyAsJson ?? false
+      options.skipParsingBodyAsJson ?? false,
+      options.skipConvertingDate ?? false
     );
   }
 
@@ -121,12 +122,6 @@ export class BatchingReceiver extends MessageReceiver {
   ): Promise<ServiceBusMessageImpl[]> {
     throwErrorIfConnectionClosed(this._context);
     try {
-      logger.verbose(
-        "[%s] Receiver '%s', setting max concurrent calls to 0.",
-        this.logPrefix,
-        this.name
-      );
-
       const messages = await this._batchingReceiverLite.receiveMessages({
         maxMessageCount,
         maxWaitTimeInMs,
@@ -213,7 +208,7 @@ type EventEmitterLike<T extends RheaPromiseReceiver | Session> = Pick<
  */
 export type MinimalReceiver = Pick<
   RheaPromiseReceiver,
-  "name" | "isOpen" | "credit" | "addCredit" | "drain" | "drainCredit"
+  "name" | "isOpen" | "credit" | "addCredit" | "drain" | "drainCredit" | "close"
 > &
   EventEmitterLike<RheaPromiseReceiver> & {
     session: EventEmitterLike<Session>;
@@ -253,7 +248,8 @@ export class BatchingReceiverLite {
       abortSignal?: AbortSignalLike
     ) => Promise<MinimalReceiver | undefined>,
     private _receiveMode: ReceiveMode,
-    _skipParsingBodyAsJson: boolean
+    _skipParsingBodyAsJson: boolean,
+    _skipConvertingDate: boolean
   ) {
     this._createServiceBusMessage = (context: MessageAndDelivery) => {
       return new ServiceBusMessageImpl(
@@ -261,7 +257,8 @@ export class BatchingReceiverLite {
         context.delivery!,
         true,
         this._receiveMode,
-        _skipParsingBodyAsJson
+        _skipParsingBodyAsJson,
+        _skipConvertingDate
       );
     };
 
@@ -517,18 +514,26 @@ export class BatchingReceiverLite {
     };
 
     abortSignalCleanupFunction = checkAndRegisterWithAbortSignal((err) => {
+      if (receiver.drain) {
+        // If a drain is already in process and we cancel, the link state may be out of sync
+        // with remote. Reset the link so that we will have fresh start.
+        receiver.close();
+      }
       reject(err);
     }, args.abortSignal);
-
-    logger.verbose(
-      `${loggingPrefix} Adding credit for receiving ${args.maxMessageCount} messages.`
-    );
 
     // By adding credit here, we let the service know that at max we can handle `maxMessageCount`
     // number of messages concurrently. We will return the user an array of messages that can
     // be of size upto maxMessageCount. Then the user needs to accordingly dispose
     // (complete/abandon/defer/deadletter) the messages from the array.
-    receiver.addCredit(args.maxMessageCount);
+    const creditToAdd = args.maxMessageCount - receiver.credit;
+    logger.verbose(
+      `${loggingPrefix} Ensure enough credit for receiving ${args.maxMessageCount} messages. Current: ${receiver.credit}.  To add: ${creditToAdd}.`
+    );
+
+    if (creditToAdd > 0) {
+      receiver.addCredit(creditToAdd);
+    }
 
     logger.verbose(
       `${loggingPrefix} Setting the wait timer for ${args.maxWaitTimeInMs} milliseconds.`

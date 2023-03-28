@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { WorkflowRuns } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -62,12 +63,16 @@ export class WorkflowRunsImpl implements WorkflowRuns {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           name,
           workflowName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -77,16 +82,18 @@ export class WorkflowRunsImpl implements WorkflowRuns {
     resourceGroupName: string,
     name: string,
     workflowName: string,
-    options?: WorkflowRunsListOptionalParams
+    options?: WorkflowRunsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<WorkflowRun[]> {
-    let result = await this._list(
-      resourceGroupName,
-      name,
-      workflowName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: WorkflowRunsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, name, workflowName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -96,7 +103,9 @@ export class WorkflowRunsImpl implements WorkflowRuns {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -219,7 +228,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.workflowName
+    Parameters.workflowName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -242,7 +251,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.workflowName,
+    Parameters.workflowName1,
     Parameters.runName
   ],
   headerParameters: [Parameters.accept],
@@ -264,7 +273,7 @@ const cancelOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.workflowName,
+    Parameters.workflowName1,
     Parameters.runName
   ],
   headerParameters: [Parameters.accept],
@@ -281,14 +290,13 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top1, Parameters.filter1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.nextLink,
-    Parameters.workflowName
+    Parameters.workflowName1
   ],
   headerParameters: [Parameters.accept],
   serializer

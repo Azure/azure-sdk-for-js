@@ -352,11 +352,11 @@ export interface ApplicationGatewayConnectionDraining {
   drainTimeoutInSec: number;
 }
 
-/** Customer error of an application gateway. */
+/** Custom error of an application gateway. */
 export interface ApplicationGatewayCustomError {
-  /** Status code of the application gateway customer error. */
+  /** Status code of the application gateway custom error. */
   statusCode?: ApplicationGatewayCustomErrorStatusCode;
-  /** Error page URL of the application gateway customer error. */
+  /** Error page URL of the application gateway custom error. */
   customErrorPageUrl?: string;
 }
 
@@ -1126,6 +1126,38 @@ export interface PublicIPAddressListResult {
   nextLink?: string;
 }
 
+/** SwapResource to represent slot type on the specified cloud service. */
+export interface SwapResource {
+  /**
+   * Resource Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Resource name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** Swap resource properties */
+  properties?: SwapResourceProperties;
+}
+
+/** Swap resource properties */
+export interface SwapResourceProperties {
+  /** Specifies slot info on a cloud service */
+  slotType?: SlotType;
+}
+
+/** SwapResource List with single entry to represent slot type on the specified cloud service. */
+export interface SwapResourceListResult {
+  value?: SwapResource[];
+}
+
 /** Response for ListCustomIpPrefixes API service call. */
 export interface CustomIpPrefixListResult {
   /** A list of Custom IP prefixes that exists in a resource group. */
@@ -1171,15 +1203,15 @@ export interface DdosProtectionPlan {
    */
   readonly provisioningState?: ProvisioningState;
   /**
-   * The list of public IPs associated with the DDoS protection plan resource. This list is read-only.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly publicIpAddresses?: SubResource[];
-  /**
    * The list of virtual networks associated with the DDoS protection plan resource. This list is read-only.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly virtualNetworks?: SubResource[];
+  /**
+   * The list of public IPs associated with the DDoS protection plan resource. This list is read-only.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publicIpAddresses?: SubResource[];
 }
 
 /** A list of DDoS protection plans. */
@@ -2555,6 +2587,36 @@ export interface VirtualApplianceNicProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateIpAddress?: string;
+}
+
+/** Properties of the delegation. */
+export interface DelegationProperties {
+  /** The service name to which the NVA is delegated. */
+  serviceName?: string;
+  /**
+   * The current provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** Properties of the partner managed resource. */
+export interface PartnerManagedResourceProperties {
+  /**
+   * The partner managed resource id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The partner managed ILB resource id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly internalLoadBalancerId?: string;
+  /**
+   * The partner managed SLB resource id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly standardLoadBalancerId?: string;
 }
 
 /** Response for ListNetworkVirtualAppliances API service call. */
@@ -5504,6 +5566,10 @@ export interface PolicySettings {
   maxRequestBodySizeInKb?: number;
   /** Maximum file upload size in Mb for WAF. */
   fileUploadLimitInMb?: number;
+  /** If the action type is block, customer can override the response status code. */
+  customBlockResponseStatusCode?: number;
+  /** If the action type is block, customer can override the response body. The body must be specified in base64 encoding. */
+  customBlockResponseBody?: string;
 }
 
 /** Defines contents of a web application rule. */
@@ -5517,6 +5583,8 @@ export interface WebApplicationFirewallCustomRule {
   readonly etag?: string;
   /** Priority of the rule. Rules with a lower value will be evaluated before rules with a higher value. */
   priority: number;
+  /** Describes if the custom rule is in enabled or disabled state. Defaults to Enabled if not specified. */
+  state?: WebApplicationFirewallState;
   /** The rule type. */
   ruleType: WebApplicationFirewallRuleType;
   /** List of match conditions. */
@@ -5617,38 +5685,6 @@ export interface ManagedRuleOverride {
   state?: ManagedRuleEnabledState;
   /** Describes the override action to be applied when rule matches. */
   action?: ActionType;
-}
-
-/** SwapResource to represent slot type on the specified cloud service. */
-export interface SwapResource {
-  /**
-   * Resource Id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Resource name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Swap resource properties */
-  properties?: SwapResourceProperties;
-}
-
-/** Swap resource properties */
-export interface SwapResourceProperties {
-  /** Specifies slot info on a cloud service */
-  slotType?: SlotType;
-}
-
-/** SwapResource List with single entry to represent slot type on the specified cloud service. */
-export interface SwapResourceListResult {
-  value?: SwapResource[];
 }
 
 /** Properties of the FirewallPolicyNatRuleCollectionAction. */
@@ -6492,6 +6528,8 @@ export interface BackendAddressPool extends SubResource {
   readonly provisioningState?: ProvisioningState;
   /** Amount of seconds Load Balancer waits for before sending RESET to client and backend address. */
   drainPeriodInSeconds?: number;
+  /** A reference to a virtual network. */
+  virtualNetwork?: SubResource;
 }
 
 /** Inbound NAT rule of the load balancer. */
@@ -9512,6 +9550,11 @@ export interface ExpressRouteCircuit extends Resource {
   globalReachEnabled?: boolean;
   /** The authorizationKey. */
   authorizationKey?: string;
+  /**
+   * The authorization status of the Circuit.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly authorizationStatus?: string;
 }
 
 /** A ExpressRouteResourceProvider object. */
@@ -9907,7 +9950,7 @@ export interface NetworkVirtualAppliance extends Resource {
   cloudInitConfigurationBlobs?: string[];
   /** CloudInitConfiguration string in plain text. */
   cloudInitConfiguration?: string;
-  /** VirtualAppliance ASN. */
+  /** VirtualAppliance ASN. Microsoft private, public and IANA reserved ASN are not supported. */
   virtualApplianceAsn?: number;
   /** Public key for SSH login. */
   sshPublicKey?: string;
@@ -9931,6 +9974,15 @@ export interface NetworkVirtualAppliance extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * The deployment type. PartnerManaged for the SaaS NVA
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deploymentType?: string;
+  /** The delegation for the Virtual Appliance */
+  delegation?: DelegationProperties;
+  /** The delegation for the Virtual Appliance */
+  partnerManagedResource?: PartnerManagedResourceProperties;
 }
 
 /** Definition of the NetworkVirtualApplianceSkus resource. */
@@ -10116,6 +10168,11 @@ export interface VirtualNetwork extends Resource {
   encryption?: VirtualNetworkEncryption;
   /** Array of IpAllocation which reference this VNET. */
   ipAllocations?: SubResource[];
+  /**
+   * A collection of references to flow log resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly flowLogs?: FlowLog[];
 }
 
 /** Network Intent Policy resource. */
@@ -11268,6 +11325,24 @@ export interface DefaultAdminRule extends BaseAdminRule {
   readonly provisioningState?: ProvisioningState;
 }
 
+/** Defines headers for PublicIPAddresses_delete operation. */
+export interface PublicIPAddressesDeleteHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for PublicIPAddresses_ddosProtectionStatus operation. */
+export interface PublicIPAddressesDdosProtectionStatusHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for DdosProtectionPlans_delete operation. */
+export interface DdosProtectionPlansDeleteHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+}
+
 /** Defines headers for NetworkManagers_delete operation. */
 export interface NetworkManagersDeleteHeaders {
   /** The URL of the resource used to check the status of the asynchronous operation. */
@@ -12098,10 +12173,26 @@ export type ApplicationGatewayCookieBasedAffinity = string;
 
 /** Known values of {@link ApplicationGatewayCustomErrorStatusCode} that the service accepts. */
 export enum KnownApplicationGatewayCustomErrorStatusCode {
+  /** HttpStatus400 */
+  HttpStatus400 = "HttpStatus400",
   /** HttpStatus403 */
   HttpStatus403 = "HttpStatus403",
+  /** HttpStatus404 */
+  HttpStatus404 = "HttpStatus404",
+  /** HttpStatus405 */
+  HttpStatus405 = "HttpStatus405",
+  /** HttpStatus408 */
+  HttpStatus408 = "HttpStatus408",
+  /** HttpStatus499 */
+  HttpStatus499 = "HttpStatus499",
+  /** HttpStatus500 */
+  HttpStatus500 = "HttpStatus500",
   /** HttpStatus502 */
-  HttpStatus502 = "HttpStatus502"
+  HttpStatus502 = "HttpStatus502",
+  /** HttpStatus503 */
+  HttpStatus503 = "HttpStatus503",
+  /** HttpStatus504 */
+  HttpStatus504 = "HttpStatus504"
 }
 
 /**
@@ -12109,8 +12200,16 @@ export enum KnownApplicationGatewayCustomErrorStatusCode {
  * {@link KnownApplicationGatewayCustomErrorStatusCode} can be used interchangeably with ApplicationGatewayCustomErrorStatusCode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **HttpStatus400** \
  * **HttpStatus403** \
- * **HttpStatus502**
+ * **HttpStatus404** \
+ * **HttpStatus405** \
+ * **HttpStatus408** \
+ * **HttpStatus499** \
+ * **HttpStatus500** \
+ * **HttpStatus502** \
+ * **HttpStatus503** \
+ * **HttpStatus504**
  */
 export type ApplicationGatewayCustomErrorStatusCode = string;
 
@@ -15300,6 +15399,24 @@ export enum KnownWebApplicationFirewallMode {
  */
 export type WebApplicationFirewallMode = string;
 
+/** Known values of {@link WebApplicationFirewallState} that the service accepts. */
+export enum KnownWebApplicationFirewallState {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled"
+}
+
+/**
+ * Defines values for WebApplicationFirewallState. \
+ * {@link KnownWebApplicationFirewallState} can be used interchangeably with WebApplicationFirewallState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled**
+ */
+export type WebApplicationFirewallState = string;
+
 /** Known values of {@link WebApplicationFirewallRuleType} that the service accepts. */
 export enum KnownWebApplicationFirewallRuleType {
   /** MatchRule */
@@ -15851,6 +15968,8 @@ export type ResourceIdentityType =
   | "UserAssigned"
   | "SystemAssigned, UserAssigned"
   | "None";
+/** Defines values for SlotType. */
+export type SlotType = "Production" | "Staging";
 /** Defines values for FirewallPolicyIdpsSignatureMode. */
 export type FirewallPolicyIdpsSignatureMode = 0 | 1 | 2;
 /** Defines values for FirewallPolicyIdpsSignatureSeverity. */
@@ -15859,8 +15978,6 @@ export type FirewallPolicyIdpsSignatureSeverity = 1 | 2 | 3;
 export type FirewallPolicyIdpsSignatureDirection = 0 | 1 | 2;
 /** Defines values for PacketCaptureTargetType. */
 export type PacketCaptureTargetType = "AzureVM" | "AzureVMSS";
-/** Defines values for SlotType. */
-export type SlotType = "Production" | "Staging";
 
 /** Optional parameters. */
 export interface ApplicationGatewaysDeleteOptionalParams
@@ -16754,10 +16871,7 @@ export type NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesNextResp
 
 /** Optional parameters. */
 export interface NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Expands referenced resources. */
-  expand?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listVirtualMachineScaleSetIpConfigurationsNext operation. */
 export type NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsNextResponse = NetworkInterfaceIPConfigurationListResult;
@@ -16915,6 +17029,28 @@ export interface PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesN
 
 /** Contains response data for the listVirtualMachineScaleSetVMPublicIPAddressesNext operation. */
 export type PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesNextResponse = PublicIPAddressListResult;
+
+/** Optional parameters. */
+export interface VipSwapGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type VipSwapGetResponse = SwapResource;
+
+/** Optional parameters. */
+export interface VipSwapCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface VipSwapListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type VipSwapListResponse = SwapResourceListResult;
 
 /** Optional parameters. */
 export interface CustomIPPrefixesDeleteOptionalParams
@@ -18474,24 +18610,14 @@ export type NetworkManagersListResponse = NetworkManagerListResult;
 
 /** Optional parameters. */
 export interface NetworkManagersListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** An optional query parameter which specifies the maximum number of records to be returned by the server. */
-  top?: number;
-  /** SkipToken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type NetworkManagersListBySubscriptionNextResponse = NetworkManagerListResult;
 
 /** Optional parameters. */
 export interface NetworkManagersListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** An optional query parameter which specifies the maximum number of records to be returned by the server. */
-  top?: number;
-  /** SkipToken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type NetworkManagersListNextResponse = NetworkManagerListResult;
@@ -18550,12 +18676,7 @@ export type SubscriptionNetworkManagerConnectionsListResponse = NetworkManagerCo
 
 /** Optional parameters. */
 export interface SubscriptionNetworkManagerConnectionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** An optional query parameter which specifies the maximum number of records to be returned by the server. */
-  top?: number;
-  /** SkipToken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SubscriptionNetworkManagerConnectionsListNextResponse = NetworkManagerConnectionListResult;
@@ -18592,12 +18713,7 @@ export type ManagementGroupNetworkManagerConnectionsListResponse = NetworkManage
 
 /** Optional parameters. */
 export interface ManagementGroupNetworkManagerConnectionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** An optional query parameter which specifies the maximum number of records to be returned by the server. */
-  top?: number;
-  /** SkipToken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ManagementGroupNetworkManagerConnectionsListNextResponse = NetworkManagerConnectionListResult;
@@ -18641,12 +18757,7 @@ export type ConnectivityConfigurationsListResponse = ConnectivityConfigurationLi
 
 /** Optional parameters. */
 export interface ConnectivityConfigurationsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** An optional query parameter which specifies the maximum number of records to be returned by the server. */
-  top?: number;
-  /** SkipToken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ConnectivityConfigurationsListNextResponse = ConnectivityConfigurationListResult;
@@ -18694,12 +18805,7 @@ export type NetworkGroupsListResponse = NetworkGroupListResult;
 
 /** Optional parameters. */
 export interface NetworkGroupsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** An optional query parameter which specifies the maximum number of records to be returned by the server. */
-  top?: number;
-  /** SkipToken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type NetworkGroupsListNextResponse = NetworkGroupListResult;
@@ -18736,12 +18842,7 @@ export type StaticMembersListResponse = StaticMemberListResult;
 
 /** Optional parameters. */
 export interface StaticMembersListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** An optional query parameter which specifies the maximum number of records to be returned by the server. */
-  top?: number;
-  /** SkipToken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type StaticMembersListNextResponse = StaticMemberListResult;
@@ -18778,12 +18879,7 @@ export type ScopeConnectionsListResponse = ScopeConnectionListResult;
 
 /** Optional parameters. */
 export interface ScopeConnectionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** An optional query parameter which specifies the maximum number of records to be returned by the server. */
-  top?: number;
-  /** SkipToken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ScopeConnectionsListNextResponse = ScopeConnectionListResult;
@@ -18827,12 +18923,7 @@ export interface SecurityAdminConfigurationsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface SecurityAdminConfigurationsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** An optional query parameter which specifies the maximum number of records to be returned by the server. */
-  top?: number;
-  /** SkipToken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SecurityAdminConfigurationsListNextResponse = SecurityAdminConfigurationListResult;
@@ -18876,12 +18967,7 @@ export interface AdminRuleCollectionsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface AdminRuleCollectionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** An optional query parameter which specifies the maximum number of records to be returned by the server. */
-  top?: number;
-  /** SkipToken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type AdminRuleCollectionsListNextResponse = AdminRuleCollectionListResult;
@@ -18925,12 +19011,7 @@ export interface AdminRulesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface AdminRulesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** An optional query parameter which specifies the maximum number of records to be returned by the server. */
-  top?: number;
-  /** SkipToken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type AdminRulesListNextResponse = AdminRuleListResult;
@@ -20408,12 +20489,7 @@ export type ServiceTagInformationListResponse = ServiceTagInformationListResult;
 
 /** Optional parameters. */
 export interface ServiceTagInformationListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Do not return address prefixes for the tag(s). */
-  noAddressPrefixes?: boolean;
-  /** Return tag information for a particular tag. */
-  tagName?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ServiceTagInformationListNextResponse = ServiceTagInformationListResult;
@@ -20536,12 +20612,7 @@ export type VirtualNetworksListUsageNextResponse = VirtualNetworkListUsageResult
 
 /** Optional parameters. */
 export interface VirtualNetworksListDdosProtectionStatusNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The max number of ip addresses to return. */
-  top?: number;
-  /** The skipToken that is given with nextLink. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDdosProtectionStatusNext operation. */
 export type VirtualNetworksListDdosProtectionStatusNextResponse = VirtualNetworkDdosProtectionStatusResult;
@@ -21813,6 +21884,8 @@ export interface VpnGatewaysDeleteOptionalParams
 /** Optional parameters. */
 export interface VpnGatewaysResetOptionalParams
   extends coreClient.OperationOptions {
+  /** VpnGateway ipConfigurationId to specify the gateway instance. */
+  ipConfigurationId?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -22557,28 +22630,6 @@ export interface WebApplicationFirewallPoliciesListAllNextOptionalParams
 
 /** Contains response data for the listAllNext operation. */
 export type WebApplicationFirewallPoliciesListAllNextResponse = WebApplicationFirewallPolicyListResult;
-
-/** Optional parameters. */
-export interface VipSwapGetOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type VipSwapGetResponse = SwapResource;
-
-/** Optional parameters. */
-export interface VipSwapCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface VipSwapListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type VipSwapListResponse = SwapResourceListResult;
 
 /** Optional parameters. */
 export interface NetworkManagementClientOptionalParams

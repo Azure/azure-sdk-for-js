@@ -6,22 +6,22 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { RoleEligibilityScheduleRequests } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AuthorizationManagementClientContext } from "../authorizationManagementClientContext";
+import { AuthorizationManagementClient } from "../authorizationManagementClient";
 import {
   RoleEligibilityScheduleRequest,
   RoleEligibilityScheduleRequestsListForScopeNextOptionalParams,
   RoleEligibilityScheduleRequestsListForScopeOptionalParams,
+  RoleEligibilityScheduleRequestsListForScopeResponse,
   RoleEligibilityScheduleRequestsCreateOptionalParams,
   RoleEligibilityScheduleRequestsCreateResponse,
   RoleEligibilityScheduleRequestsGetOptionalParams,
   RoleEligibilityScheduleRequestsGetResponse,
-  RoleEligibilityScheduleRequestsListForScopeResponse,
   RoleEligibilityScheduleRequestsCancelOptionalParams,
   RoleEligibilityScheduleRequestsListForScopeNextResponse
 } from "../models";
@@ -30,13 +30,13 @@ import {
 /** Class containing RoleEligibilityScheduleRequests operations. */
 export class RoleEligibilityScheduleRequestsImpl
   implements RoleEligibilityScheduleRequests {
-  private readonly client: AuthorizationManagementClientContext;
+  private readonly client: AuthorizationManagementClient;
 
   /**
    * Initialize a new instance of the class RoleEligibilityScheduleRequests class.
    * @param client Reference to the service client
    */
-  constructor(client: AuthorizationManagementClientContext) {
+  constructor(client: AuthorizationManagementClient) {
     this.client = client;
   }
 
@@ -57,23 +57,35 @@ export class RoleEligibilityScheduleRequestsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listForScopePagingPage(scope, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listForScopePagingPage(scope, options, settings);
       }
     };
   }
 
   private async *listForScopePagingPage(
     scope: string,
-    options?: RoleEligibilityScheduleRequestsListForScopeOptionalParams
+    options?: RoleEligibilityScheduleRequestsListForScopeOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<RoleEligibilityScheduleRequest[]> {
-    let result = await this._listForScope(scope, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RoleEligibilityScheduleRequestsListForScopeResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listForScope(scope, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listForScopeNext(scope, continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -273,7 +285,6 @@ const listForScopeNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [Parameters.$host, Parameters.scope, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

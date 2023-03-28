@@ -10,16 +10,20 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Retrieves all the ExpressRouteCrossConnections in a resource group.
  *
  * @summary Retrieves all the ExpressRouteCrossConnections in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteCrossConnectionListByResourceGroup.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/ExpressRouteCrossConnectionListByResourceGroup.json
  */
 async function expressRouteCrossConnectionListByResourceGroup() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "CrossConnection-SiliconValley";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["NETWORK_RESOURCE_GROUP"] || "CrossConnection-SiliconValley";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -31,4 +35,8 @@ async function expressRouteCrossConnectionListByResourceGroup() {
   console.log(resArray);
 }
 
-expressRouteCrossConnectionListByResourceGroup().catch(console.error);
+async function main() {
+  expressRouteCrossConnectionListByResourceGroup();
+}
+
+main().catch(console.error);

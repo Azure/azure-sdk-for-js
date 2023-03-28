@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   RoutingIntent,
   RoutingIntentListOptionalParams,
@@ -47,8 +47,8 @@ export interface RoutingIntentOperations {
     routingIntentParameters: RoutingIntent,
     options?: RoutingIntentCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<RoutingIntentCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<RoutingIntentCreateOrUpdateResponse>,
       RoutingIntentCreateOrUpdateResponse
     >
   >;
@@ -92,7 +92,7 @@ export interface RoutingIntentOperations {
     virtualHubName: string,
     routingIntentName: string,
     options?: RoutingIntentDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a RoutingIntent.
    * @param resourceGroupName The resource group name of the RoutingIntent.

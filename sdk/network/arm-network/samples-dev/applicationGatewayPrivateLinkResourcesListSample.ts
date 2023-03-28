@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists all private link resources on an application gateway.
  *
  * @summary Lists all private link resources on an application gateway.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ApplicationGatewayPrivateLinkResourceList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/ApplicationGatewayPrivateLinkResourceList.json
  */
 async function listsAllPrivateLinkResourcesOnApplicationGateway() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const applicationGatewayName = "appgw";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -33,4 +36,8 @@ async function listsAllPrivateLinkResourcesOnApplicationGateway() {
   console.log(resArray);
 }
 
-listsAllPrivateLinkResourcesOnApplicationGateway().catch(console.error);
+async function main() {
+  listsAllPrivateLinkResourcesOnApplicationGateway();
+}
+
+main().catch(console.error);

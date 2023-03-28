@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 1.1.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,24 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.1.1 (2023-03-02)
+
+### Bug Fixed
+
+- Fix issue where multiple parameters within same path segment are not replaced correctly [24997](https://github.com/Azure/azure-sdk-for-js/pull/24997)
+
+## 1.1.0 (2023-02-02)
+
+### Features Added
+
+- Add basic types from cadl azure core.
+
+## 1.0.1 (2023-01-05)
+
+### Fixes
+
+- Fix the `api-version` precedence issue in apiVersionPolicy. [23990](https://github.com/Azure/azure-sdk-for-js/pull/23990)
 
 ## 1.0.0 (2022-08-04)
 

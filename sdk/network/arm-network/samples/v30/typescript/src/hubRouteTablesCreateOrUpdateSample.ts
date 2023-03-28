@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { HubRouteTable, NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates a RouteTable resource if it doesn't exist else updates the existing RouteTable.
  *
  * @summary Creates a RouteTable resource if it doesn't exist else updates the existing RouteTable.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/HubRouteTablePut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/HubRouteTablePut.json
  */
 async function routeTablePut() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualHubName = "virtualHub1";
   const routeTableName = "hubRouteTable1";
   const routeTableParameters: HubRouteTable = {
@@ -46,4 +49,8 @@ async function routeTablePut() {
   console.log(result);
 }
 
-routeTablePut().catch(console.error);
+async function main() {
+  routeTablePut();
+}
+
+main().catch(console.error);

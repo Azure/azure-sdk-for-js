@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Retrieves the details of a HubVirtualNetworkConnection.
  *
  * @summary Retrieves the details of a HubVirtualNetworkConnection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/HubVirtualNetworkConnectionGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/HubVirtualNetworkConnectionGet.json
  */
 async function hubVirtualNetworkConnectionGet() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualHubName = "virtualHub1";
   const connectionName = "connection1";
   const credential = new DefaultAzureCredential();
@@ -32,4 +33,8 @@ async function hubVirtualNetworkConnectionGet() {
   console.log(result);
 }
 
-hubVirtualNetworkConnectionGet().catch(console.error);
+async function main() {
+  hubVirtualNetworkConnectionGet();
+}
+
+main().catch(console.error);

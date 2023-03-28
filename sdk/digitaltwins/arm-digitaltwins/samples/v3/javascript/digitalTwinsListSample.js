@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 const { AzureDigitalTwinsManagementClient } = require("@azure/arm-digitaltwins");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get all the DigitalTwinsInstances in a subscription.
  *
  * @summary Get all the DigitalTwinsInstances in a subscription.
- * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2022-05-31/examples/DigitalTwinsList_example.json
+ * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2023-01-31/examples/DigitalTwinsList_example.json
  */
 async function getDigitalTwinsInstanceResourcesBySubscription() {
-  const subscriptionId = "50016170-c839-41ba-a724-51e9df440b9e";
+  const subscriptionId =
+    process.env["DIGITALTWINS_SUBSCRIPTION_ID"] || "50016170-c839-41ba-a724-51e9df440b9e";
   const credential = new DefaultAzureCredential();
   const client = new AzureDigitalTwinsManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +30,8 @@ async function getDigitalTwinsInstanceResourcesBySubscription() {
   console.log(resArray);
 }
 
-getDigitalTwinsInstanceResourcesBySubscription().catch(console.error);
+async function main() {
+  getDigitalTwinsInstanceResourcesBySubscription();
+}
+
+main().catch(console.error);

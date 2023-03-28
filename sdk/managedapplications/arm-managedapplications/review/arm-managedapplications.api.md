@@ -11,15 +11,15 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
-export type Application = GenericResource & {
-    plan?: Plan;
+export interface Application extends GenericResource {
+    applicationDefinitionId?: string;
     kind: string;
     managedResourceGroupId: string;
-    applicationDefinitionId?: string;
-    parameters?: Record<string, unknown>;
     readonly outputs?: Record<string, unknown>;
+    parameters?: Record<string, unknown>;
+    plan?: Plan;
     readonly provisioningState?: ProvisioningState;
-};
+}
 
 // @public
 export interface ApplicationArtifact {
@@ -55,17 +55,17 @@ export interface ApplicationClientOptionalParams extends coreClient.ServiceClien
 }
 
 // @public
-export type ApplicationDefinition = GenericResource & {
-    lockLevel: ApplicationLockLevel;
+export interface ApplicationDefinition extends GenericResource {
+    artifacts?: ApplicationArtifact[];
+    authorizations: ApplicationProviderAuthorization[];
+    createUiDefinition?: Record<string, unknown>;
+    description?: string;
     displayName?: string;
     isEnabled?: string;
-    authorizations: ApplicationProviderAuthorization[];
-    artifacts?: ApplicationArtifact[];
-    description?: string;
-    packageFileUri?: string;
+    lockLevel: ApplicationLockLevel;
     mainTemplate?: Record<string, unknown>;
-    createUiDefinition?: Record<string, unknown>;
-};
+    packageFileUri?: string;
+}
 
 // @public
 export interface ApplicationDefinitionListResult {
@@ -156,15 +156,15 @@ export interface ApplicationListResult {
 export type ApplicationLockLevel = "CanNotDelete" | "ReadOnly" | "None";
 
 // @public
-export type ApplicationPatchable = GenericResource & {
-    plan?: PlanPatchable;
+export interface ApplicationPatchable extends GenericResource {
+    applicationDefinitionId?: string;
     kind?: string;
     managedResourceGroupId?: string;
-    applicationDefinitionId?: string;
-    parameters?: Record<string, unknown>;
     readonly outputs?: Record<string, unknown>;
+    parameters?: Record<string, unknown>;
+    plan?: PlanPatchable;
     readonly provisioningState?: ProvisioningState;
-};
+}
 
 // @public
 export interface ApplicationProviderAuthorization {
@@ -286,11 +286,14 @@ export interface ErrorResponse {
 }
 
 // @public
-export type GenericResource = Resource & {
+export interface GenericResource extends Resource {
+    identity?: Identity;
     managedBy?: string;
     sku?: Sku;
-    identity?: Identity;
-};
+}
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface Identity {
@@ -301,27 +304,16 @@ export interface Identity {
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Created = "Created",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Ready = "Ready",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 

@@ -10,15 +10,16 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Checks whether the subscription is visible to private link service.
  *
  * @summary Checks whether the subscription is visible to private link service.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/CheckPrivateLinkServiceVisibility.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/CheckPrivateLinkServiceVisibility.json
  */
 async function checkPrivateLinkServiceVisibility() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const location = "westus";
   const parameters = {
     privateLinkServiceAlias: "mypls.00000000-0000-0000-0000-000000000000.azure.privatelinkservice",
@@ -32,4 +33,8 @@ async function checkPrivateLinkServiceVisibility() {
   console.log(result);
 }
 
-checkPrivateLinkServiceVisibility().catch(console.error);
+async function main() {
+  checkPrivateLinkServiceVisibility();
+}
+
+main().catch(console.error);

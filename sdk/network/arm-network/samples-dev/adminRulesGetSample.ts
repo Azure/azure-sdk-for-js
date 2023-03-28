@@ -10,16 +10,21 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets a network manager security configuration admin rule.
  *
  * @summary Gets a network manager security configuration admin rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerAdminRuleGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkManagerAdminRuleGet.json
  */
 async function getsSecurityAdminRule() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "rg1";
+  const subscriptionId =
+    process.env["NETWORK_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkManagerName = "testNetworkManager";
   const configurationName = "myTestSecurityConfig";
   const ruleCollectionName = "testRuleCollection";
@@ -36,17 +41,17 @@ async function getsSecurityAdminRule() {
   console.log(result);
 }
 
-getsSecurityAdminRule().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets a network manager security configuration admin rule.
  *
  * @summary Gets a network manager security configuration admin rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerDefaultAdminRuleGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkManagerDefaultAdminRuleGet.json
  */
 async function getsSecurityDefaultAdminRule() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "rg1";
+  const subscriptionId =
+    process.env["NETWORK_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkManagerName = "testNetworkManager";
   const configurationName = "myTestSecurityConfig";
   const ruleCollectionName = "testRuleCollection";
@@ -63,4 +68,9 @@ async function getsSecurityDefaultAdminRule() {
   console.log(result);
 }
 
-getsSecurityDefaultAdminRule().catch(console.error);
+async function main() {
+  getsSecurityAdminRule();
+  getsSecurityDefaultAdminRule();
+}
+
+main().catch(console.error);

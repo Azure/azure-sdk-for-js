@@ -6,22 +6,30 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Reservation } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureReservationAPI } from "../azureReservationAPI";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ReservationResponse,
   ReservationListNextOptionalParams,
   ReservationListOptionalParams,
+  ReservationListResponse,
   ReservationListRevisionsNextOptionalParams,
   ReservationListRevisionsOptionalParams,
+  ReservationListRevisionsResponse,
   ReservationListAllNextOptionalParams,
   ReservationListAllOptionalParams,
+  ReservationListAllResponse,
   AvailableScopeRequest,
   ReservationAvailableScopesOptionalParams,
   ReservationAvailableScopesResponse,
@@ -31,7 +39,6 @@ import {
   MergeRequest,
   ReservationMergeOptionalParams,
   ReservationMergeResponse,
-  ReservationListResponse,
   ReservationGetOptionalParams,
   ReservationGetResponse,
   Patch,
@@ -39,8 +46,6 @@ import {
   ReservationUpdateResponse,
   ReservationArchiveOptionalParams,
   ReservationUnarchiveOptionalParams,
-  ReservationListRevisionsResponse,
-  ReservationListAllResponse,
   ReservationListNextResponse,
   ReservationListRevisionsNextResponse,
   ReservationListAllNextResponse
@@ -76,19 +81,29 @@ export class ReservationImpl implements Reservation {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(reservationOrderId, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(reservationOrderId, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     reservationOrderId: string,
-    options?: ReservationListOptionalParams
+    options?: ReservationListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ReservationResponse[]> {
-    let result = await this._list(reservationOrderId, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ReservationListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(reservationOrderId, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         reservationOrderId,
@@ -96,7 +111,9 @@ export class ReservationImpl implements Reservation {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -111,18 +128,18 @@ export class ReservationImpl implements Reservation {
 
   /**
    * List of all the revisions for the `Reservation`.
-   * @param reservationId Id of the Reservation Item
    * @param reservationOrderId Order Id of the reservation
+   * @param reservationId Id of the reservation item
    * @param options The options parameters.
    */
   public listRevisions(
-    reservationId: string,
     reservationOrderId: string,
+    reservationId: string,
     options?: ReservationListRevisionsOptionalParams
   ): PagedAsyncIterableIterator<ReservationResponse> {
     const iter = this.listRevisionsPagingAll(
-      reservationId,
       reservationOrderId,
+      reservationId,
       options
     );
     return {
@@ -132,48 +149,61 @@ export class ReservationImpl implements Reservation {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listRevisionsPagingPage(
-          reservationId,
           reservationOrderId,
-          options
+          reservationId,
+          options,
+          settings
         );
       }
     };
   }
 
   private async *listRevisionsPagingPage(
-    reservationId: string,
     reservationOrderId: string,
-    options?: ReservationListRevisionsOptionalParams
+    reservationId: string,
+    options?: ReservationListRevisionsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ReservationResponse[]> {
-    let result = await this._listRevisions(
-      reservationId,
-      reservationOrderId,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ReservationListRevisionsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listRevisions(
+        reservationOrderId,
+        reservationId,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listRevisionsNext(
-        reservationId,
         reservationOrderId,
+        reservationId,
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
   private async *listRevisionsPagingAll(
-    reservationId: string,
     reservationOrderId: string,
+    reservationId: string,
     options?: ReservationListRevisionsOptionalParams
   ): AsyncIterableIterator<ReservationResponse> {
     for await (const page of this.listRevisionsPagingPage(
-      reservationId,
       reservationOrderId,
+      reservationId,
       options
     )) {
       yield* page;
@@ -196,22 +226,34 @@ export class ReservationImpl implements Reservation {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listAllPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listAllPagingPage(options, settings);
       }
     };
   }
 
   private async *listAllPagingPage(
-    options?: ReservationListAllOptionalParams
+    options?: ReservationListAllOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ReservationResponse[]> {
-    let result = await this._listAll(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ReservationListAllResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAll(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAllNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -224,11 +266,11 @@ export class ReservationImpl implements Reservation {
   }
 
   /**
-   * Get Available Scopes for `Reservation`.
+   * Check whether the scopes from request is valid for `Reservation`.
    *
    * @param reservationOrderId Order Id of the reservation
-   * @param reservationId Id of the Reservation Item
-   * @param body Available scope
+   * @param reservationId Id of the reservation item
+   * @param body Scopes to be checked for eligibility.
    * @param options The options parameters.
    */
   async beginAvailableScopes(
@@ -237,8 +279,8 @@ export class ReservationImpl implements Reservation {
     body: AvailableScopeRequest,
     options?: ReservationAvailableScopesOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReservationAvailableScopesResponse>,
+    SimplePollerLike<
+      OperationState<ReservationAvailableScopesResponse>,
       ReservationAvailableScopesResponse
     >
   > {
@@ -248,7 +290,7 @@ export class ReservationImpl implements Reservation {
     ): Promise<ReservationAvailableScopesResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -281,13 +323,16 @@ export class ReservationImpl implements Reservation {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { reservationOrderId, reservationId, body, options },
-      availableScopesOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { reservationOrderId, reservationId, body, options },
+      spec: availableScopesOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReservationAvailableScopesResponse,
+      OperationState<ReservationAvailableScopesResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -295,11 +340,11 @@ export class ReservationImpl implements Reservation {
   }
 
   /**
-   * Get Available Scopes for `Reservation`.
+   * Check whether the scopes from request is valid for `Reservation`.
    *
    * @param reservationOrderId Order Id of the reservation
-   * @param reservationId Id of the Reservation Item
-   * @param body Available scope
+   * @param reservationId Id of the reservation item
+   * @param body Scopes to be checked for eligibility.
    * @param options The options parameters.
    */
   async beginAvailableScopesAndWait(
@@ -328,8 +373,8 @@ export class ReservationImpl implements Reservation {
     body: SplitRequest,
     options?: ReservationSplitOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReservationSplitResponse>,
+    SimplePollerLike<
+      OperationState<ReservationSplitResponse>,
       ReservationSplitResponse
     >
   > {
@@ -339,7 +384,7 @@ export class ReservationImpl implements Reservation {
     ): Promise<ReservationSplitResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -372,15 +417,18 @@ export class ReservationImpl implements Reservation {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { reservationOrderId, body, options },
-      splitOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { reservationOrderId, body, options },
+      spec: splitOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReservationSplitResponse,
+      OperationState<ReservationSplitResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -413,8 +461,8 @@ export class ReservationImpl implements Reservation {
     body: MergeRequest,
     options?: ReservationMergeOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReservationMergeResponse>,
+    SimplePollerLike<
+      OperationState<ReservationMergeResponse>,
       ReservationMergeResponse
     >
   > {
@@ -424,7 +472,7 @@ export class ReservationImpl implements Reservation {
     ): Promise<ReservationMergeResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -457,15 +505,18 @@ export class ReservationImpl implements Reservation {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { reservationOrderId, body, options },
-      mergeOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { reservationOrderId, body, options },
+      spec: mergeOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReservationMergeResponse,
+      OperationState<ReservationMergeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -504,17 +555,17 @@ export class ReservationImpl implements Reservation {
 
   /**
    * Get specific `Reservation` details.
-   * @param reservationId Id of the Reservation Item
    * @param reservationOrderId Order Id of the reservation
+   * @param reservationId Id of the reservation item
    * @param options The options parameters.
    */
   get(
-    reservationId: string,
     reservationOrderId: string,
+    reservationId: string,
     options?: ReservationGetOptionalParams
   ): Promise<ReservationGetResponse> {
     return this.client.sendOperationRequest(
-      { reservationId, reservationOrderId, options },
+      { reservationOrderId, reservationId, options },
       getOperationSpec
     );
   }
@@ -522,7 +573,7 @@ export class ReservationImpl implements Reservation {
   /**
    * Updates the applied scopes of the `Reservation`.
    * @param reservationOrderId Order Id of the reservation
-   * @param reservationId Id of the Reservation Item
+   * @param reservationId Id of the reservation item
    * @param parameters Information needed to patch a reservation item
    * @param options The options parameters.
    */
@@ -532,8 +583,8 @@ export class ReservationImpl implements Reservation {
     parameters: Patch,
     options?: ReservationUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReservationUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ReservationUpdateResponse>,
       ReservationUpdateResponse
     >
   > {
@@ -543,7 +594,7 @@ export class ReservationImpl implements Reservation {
     ): Promise<ReservationUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -576,14 +627,18 @@ export class ReservationImpl implements Reservation {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { reservationOrderId, reservationId, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { reservationOrderId, reservationId, parameters, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReservationUpdateResponse,
+      OperationState<ReservationUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -592,7 +647,7 @@ export class ReservationImpl implements Reservation {
   /**
    * Updates the applied scopes of the `Reservation`.
    * @param reservationOrderId Order Id of the reservation
-   * @param reservationId Id of the Reservation Item
+   * @param reservationId Id of the reservation item
    * @param parameters Information needed to patch a reservation item
    * @param options The options parameters.
    */
@@ -614,7 +669,7 @@ export class ReservationImpl implements Reservation {
   /**
    * Archiving a `Reservation` moves it to `Archived` state.
    * @param reservationOrderId Order Id of the reservation
-   * @param reservationId Id of the Reservation Item
+   * @param reservationId Id of the reservation item
    * @param options The options parameters.
    */
   archive(
@@ -629,10 +684,10 @@ export class ReservationImpl implements Reservation {
   }
 
   /**
-   * Unarchiving a `Reservation` moves it to the state it was before archiving.
+   * Restores a `Reservation` to the state it was before archiving.
    *
    * @param reservationOrderId Order Id of the reservation
-   * @param reservationId Id of the Reservation Item
+   * @param reservationId Id of the reservation item
    * @param options The options parameters.
    */
   unarchive(
@@ -648,17 +703,17 @@ export class ReservationImpl implements Reservation {
 
   /**
    * List of all the revisions for the `Reservation`.
-   * @param reservationId Id of the Reservation Item
    * @param reservationOrderId Order Id of the reservation
+   * @param reservationId Id of the reservation item
    * @param options The options parameters.
    */
   private _listRevisions(
-    reservationId: string,
     reservationOrderId: string,
+    reservationId: string,
     options?: ReservationListRevisionsOptionalParams
   ): Promise<ReservationListRevisionsResponse> {
     return this.client.sendOperationRequest(
-      { reservationId, reservationOrderId, options },
+      { reservationOrderId, reservationId, options },
       listRevisionsOperationSpec
     );
   }
@@ -693,19 +748,19 @@ export class ReservationImpl implements Reservation {
 
   /**
    * ListRevisionsNext
-   * @param reservationId Id of the Reservation Item
    * @param reservationOrderId Order Id of the reservation
+   * @param reservationId Id of the reservation item
    * @param nextLink The nextLink from the previous successful call to the ListRevisions method.
    * @param options The options parameters.
    */
   private _listRevisionsNext(
-    reservationId: string,
     reservationOrderId: string,
+    reservationId: string,
     nextLink: string,
     options?: ReservationListRevisionsNextOptionalParams
   ): Promise<ReservationListRevisionsNextResponse> {
     return this.client.sendOperationRequest(
-      { reservationId, reservationOrderId, nextLink, options },
+      { reservationOrderId, reservationId, nextLink, options },
       listRevisionsNextOperationSpec
     );
   }
@@ -1036,7 +1091,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.reservationOrderId,
@@ -1056,7 +1110,6 @@ const listRevisionsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.reservationOrderId,
@@ -1077,15 +1130,6 @@ const listAllNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.orderby,
-    Parameters.refreshSummary,
-    Parameters.skiptoken,
-    Parameters.selectedState,
-    Parameters.take
-  ],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

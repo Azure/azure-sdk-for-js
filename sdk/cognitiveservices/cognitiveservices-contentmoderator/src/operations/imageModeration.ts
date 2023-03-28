@@ -294,21 +294,21 @@ export class ImageModeration {
 
   /**
    * Returns probabilities of the image containing racy or adult content.
-   * @param contentType The content type.
-   * @param imageUrl The image url.
+   * @param contentType The content type of the payload being sent to the server. Example: 'application/json'
+   * @param imageUrl The image url. Example: { value: 'https://yourdomain.com/sample.jpg', dataRepresentation: 'URL' }
    * @param [options] The optional parameters
    * @returns Promise<Models.ImageModerationEvaluateUrlInputResponse>
    */
   evaluateUrlInput(contentType: string, imageUrl: Models.ImageUrl, options?: Models.ImageModerationEvaluateUrlInputOptionalParams): Promise<Models.ImageModerationEvaluateUrlInputResponse>;
   /**
-   * @param contentType The content type.
-   * @param imageUrl The image url.
+   * @param contentType The content type returned. Example: 'application/json'
+   * @param imageUrl The image url. Example: { value: 'https://yourdomain.com/sample.jpg', dataRepresentation: 'URL' }
    * @param callback The callback
    */
   evaluateUrlInput(contentType: string, imageUrl: Models.ImageUrl, callback: msRest.ServiceCallback<Models.Evaluate>): void;
   /**
-   * @param contentType The content type.
-   * @param imageUrl The image url.
+   * @param contentType The content type returned. Example: 'application/json'
+   * @param imageUrl The image url. Example: { value: 'https://yourdomain.com/sample.jpg', dataRepresentation: 'URL' }
    * @param options The optional parameters
    * @param callback The callback
    */

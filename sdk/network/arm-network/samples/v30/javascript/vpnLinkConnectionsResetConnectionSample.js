@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Resets the VpnLink connection specified.
  *
  * @summary Resets the VpnLink connection specified.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnSiteLinkConnectionReset.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VpnSiteLinkConnectionReset.json
  */
 async function resetVpnLinkConnection() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const gatewayName = "gateway1";
   const connectionName = "vpnConnection1";
   const linkConnectionName = "Connection-Link1";
@@ -34,4 +35,8 @@ async function resetVpnLinkConnection() {
   console.log(result);
 }
 
-resetVpnLinkConnection().catch(console.error);
+async function main() {
+  resetVpnLinkConnection();
+}
+
+main().catch(console.error);

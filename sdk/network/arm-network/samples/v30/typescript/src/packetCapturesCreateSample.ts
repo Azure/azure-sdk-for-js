@@ -10,23 +10,26 @@
 // Licensed under the MIT License.
 import { PacketCapture, NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create and start a packet capture on the specified VM.
  *
  * @summary Create and start a packet capture on the specified VM.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkWatcherPacketCaptureCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkWatcherPacketCaptureCreate.json
  */
 async function createPacketCapture() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkWatcherName = "nw1";
   const packetCaptureName = "pc1";
   const parameters: PacketCapture = {
     bytesToCapturePerPacket: 10000,
     filters: [{ localIPAddress: "10.0.0.4", localPort: "80", protocol: "TCP" }],
     storageLocation: {
-      filePath: "D:capturepc1.cap",
+      filePath: "D:\\capture\\pc1.cap",
       storageId:
         "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Storage/storageAccounts/pcstore",
       storagePath:
@@ -48,4 +51,8 @@ async function createPacketCapture() {
   console.log(result);
 }
 
-createPacketCapture().catch(console.error);
+async function main() {
+  createPacketCapture();
+}
+
+main().catch(console.error);

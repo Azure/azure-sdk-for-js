@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets a list of resource navigation links for a subnet.
  *
  * @summary Gets a list of resource navigation links for a subnet.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGetResourceNavigationLinks.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VirtualNetworkGetResourceNavigationLinks.json
  */
 async function getResourceNavigationLinks() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualNetworkName = "vnet";
   const subnetName = "subnet";
   const credential = new DefaultAzureCredential();
@@ -32,4 +33,8 @@ async function getResourceNavigationLinks() {
   console.log(result);
 }
 
-getResourceNavigationLinks().catch(console.error);
+async function main() {
+  getResourceNavigationLinks();
+}
+
+main().catch(console.error);

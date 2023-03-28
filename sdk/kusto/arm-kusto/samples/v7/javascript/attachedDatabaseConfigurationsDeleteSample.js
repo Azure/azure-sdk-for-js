@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deletes the attached database configuration with the given name.
  *
  * @summary Deletes the attached database configuration with the given name.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoAttachedDatabaseConfigurationsDelete.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoAttachedDatabaseConfigurationsDelete.json
  */
 async function attachedDatabaseConfigurationsDelete() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = "kustorptest";
+  const subscriptionId =
+    process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
+  const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
   const clusterName = "kustoCluster";
   const attachedDatabaseConfigurationName = "attachedDatabaseConfigurationsTest";
   const credential = new DefaultAzureCredential();
@@ -32,4 +34,8 @@ async function attachedDatabaseConfigurationsDelete() {
   console.log(result);
 }
 
-attachedDatabaseConfigurationsDelete().catch(console.error);
+async function main() {
+  attachedDatabaseConfigurationsDelete();
+}
+
+main().catch(console.error);

@@ -6,24 +6,29 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { NatRules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   VpnGatewayNatRule,
   NatRulesListByVpnGatewayNextOptionalParams,
   NatRulesListByVpnGatewayOptionalParams,
+  NatRulesListByVpnGatewayResponse,
   NatRulesGetOptionalParams,
   NatRulesGetResponse,
   NatRulesCreateOrUpdateOptionalParams,
   NatRulesCreateOrUpdateResponse,
   NatRulesDeleteOptionalParams,
-  NatRulesListByVpnGatewayResponse,
   NatRulesListByVpnGatewayNextResponse
 } from "../models";
 
@@ -63,11 +68,15 @@ export class NatRulesImpl implements NatRules {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByVpnGatewayPagingPage(
           resourceGroupName,
           gatewayName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -76,15 +85,22 @@ export class NatRulesImpl implements NatRules {
   private async *listByVpnGatewayPagingPage(
     resourceGroupName: string,
     gatewayName: string,
-    options?: NatRulesListByVpnGatewayOptionalParams
+    options?: NatRulesListByVpnGatewayOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<VpnGatewayNatRule[]> {
-    let result = await this._listByVpnGateway(
-      resourceGroupName,
-      gatewayName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: NatRulesListByVpnGatewayResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByVpnGateway(
+        resourceGroupName,
+        gatewayName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByVpnGatewayNext(
         resourceGroupName,
@@ -93,7 +109,9 @@ export class NatRulesImpl implements NatRules {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -146,8 +164,8 @@ export class NatRulesImpl implements NatRules {
     natRuleParameters: VpnGatewayNatRule,
     options?: NatRulesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NatRulesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<NatRulesCreateOrUpdateResponse>,
       NatRulesCreateOrUpdateResponse
     >
   > {
@@ -157,7 +175,7 @@ export class NatRulesImpl implements NatRules {
     ): Promise<NatRulesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -190,21 +208,24 @@ export class NatRulesImpl implements NatRules {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         gatewayName,
         natRuleName,
         natRuleParameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      NatRulesCreateOrUpdateResponse,
+      OperationState<NatRulesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -248,14 +269,14 @@ export class NatRulesImpl implements NatRules {
     gatewayName: string,
     natRuleName: string,
     options?: NatRulesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -288,15 +309,15 @@ export class NatRulesImpl implements NatRules {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, gatewayName, natRuleName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, gatewayName, natRuleName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -477,7 +498,6 @@ const listByVpnGatewayNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

@@ -51,7 +51,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-09-01",
+    defaultValue: "2023-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -241,6 +241,11 @@ export const parameters4: OperationParameter = {
 export const agentPoolName: OperationURLParameter = {
   parameterPath: "agentPoolName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9]{0,11}$"),
+      MaxLength: 12,
+      MinLength: 1
+    },
     serializedName: "agentPoolName",
     required: true,
     type: {
@@ -252,6 +257,17 @@ export const agentPoolName: OperationURLParameter = {
 export const parameters5: OperationParameter = {
   parameterPath: "parameters",
   mapper: AgentPoolMapper
+};
+
+export const agentPoolName1: OperationURLParameter = {
+  parameterPath: "agentPoolName",
+  mapper: {
+    serializedName: "agentPoolName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const privateEndpointConnectionName: OperationURLParameter = {

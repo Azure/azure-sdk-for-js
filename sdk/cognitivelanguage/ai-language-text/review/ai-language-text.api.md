@@ -15,7 +15,7 @@ import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AbstractiveSummarizationAction {
-    maxSentenceCount?: number;
+    sentenceCount?: number;
     stringIndexType?: StringIndexType;
 }
 
@@ -40,7 +40,7 @@ export interface AbstractiveSummarizationSuccessResult extends TextAnalysisSucce
 
 // @public
 export interface AbstractiveSummary {
-    contexts?: SummaryContext[];
+    contexts: SummaryContext[];
     text: string;
 }
 
@@ -85,7 +85,6 @@ export const AnalyzeActionNames: {
     readonly PiiEntityRecognition: "PiiEntityRecognition";
     readonly LanguageDetection: "LanguageDetection";
     readonly SentimentAnalysis: "SentimentAnalysis";
-    readonly DynamicClassification: "DynamicClassification";
 };
 
 // @public
@@ -95,7 +94,6 @@ export type AnalyzeActionParameters<ActionName extends AnalyzeActionName> = {
     PiiEntityRecognition: PiiEntityRecognitionAction;
     KeyPhraseExtraction: KeyPhraseExtractionAction;
     SentimentAnalysis: SentimentAnalysisAction;
-    DynamicClassification: DynamicClassificationAction;
     LanguageDetection: LanguageDetectionAction;
 }[ActionName];
 
@@ -154,7 +152,6 @@ export type AnalyzeResult<ActionName extends AnalyzeActionName> = {
     PiiEntityRecognition: PiiEntityRecognitionResult[];
     KeyPhraseExtraction: KeyPhraseExtractionResult[];
     SentimentAnalysis: SentimentAnalysisResult[];
-    DynamicClassification: DynamicClassificationResult[];
     LanguageDetection: LanguageDetectionResult[];
 }[ActionName];
 
@@ -212,7 +209,6 @@ export interface BatchActionSuccessResult<T, Kind extends AnalyzeBatchActionName
 
 // @public
 export interface BeginAnalyzeBatchOptions extends TextAnalysisOperationOptions {
-    defaultLanguage?: string;
     displayName?: string;
     updateIntervalInMs?: number;
 }
@@ -229,9 +225,6 @@ export interface ClassificationCategory {
     category: string;
     confidenceScore: number;
 }
-
-// @public
-export type ClassificationType = string;
 
 // @public
 export interface CurrencyResolution extends BaseResolution, QuantityResolution {
@@ -348,23 +341,6 @@ export type DocumentSentimentLabel = "positive" | "neutral" | "negative" | "mixe
 export interface DocumentWarning {
     code: WarningCode;
     message: string;
-}
-
-// @public
-export interface DynamicClassificationAction extends ActionPrebuilt {
-    categories: string[];
-    classificationType?: ClassificationType;
-}
-
-// @public
-export type DynamicClassificationErrorResult = TextAnalysisErrorResult;
-
-// @public
-export type DynamicClassificationResult = DynamicClassificationSuccessResult | DynamicClassificationErrorResult;
-
-// @public
-export interface DynamicClassificationSuccessResult extends TextAnalysisSuccessResult {
-    readonly classifications: ClassificationCategory[];
 }
 
 // @public
@@ -598,12 +574,6 @@ export enum KnownAreaUnit {
     SquareMillimeter = "SquareMillimeter",
     SquareYard = "SquareYard",
     Unspecified = "Unspecified"
-}
-
-// @public
-export enum KnownClassificationType {
-    Multi = "Multi",
-    Single = "Single"
 }
 
 // @public
@@ -1012,20 +982,20 @@ export enum KnownScriptKind {
 
 // @public
 export enum KnownSpeedUnit {
-    CentimetersPerMillisecond = "CentimetersPerMillisecond",
+    CentimeterPerMillisecond = "CentimeterPerMillisecond",
     FootPerMinute = "FootPerMinute",
     FootPerSecond = "FootPerSecond",
-    KilometersPerHour = "KilometersPerHour",
-    KilometersPerMillisecond = "KilometersPerMillisecond",
-    KilometersPerMinute = "KilometersPerMinute",
-    KilometersPerSecond = "KilometersPerSecond",
+    KilometerPerHour = "KilometerPerHour",
+    KilometerPerMillisecond = "KilometerPerMillisecond",
+    KilometerPerMinute = "KilometerPerMinute",
+    KilometerPerSecond = "KilometerPerSecond",
     Knot = "Knot",
-    MetersPerMillisecond = "MetersPerMillisecond",
-    MetersPerSecond = "MetersPerSecond",
-    MilesPerHour = "MilesPerHour",
+    MeterPerMillisecond = "MeterPerMillisecond",
+    MeterPerSecond = "MeterPerSecond",
+    MilePerHour = "MilePerHour",
     Unspecified = "Unspecified",
-    YardsPerMinute = "YardsPerMinute",
-    YardsPerSecond = "YardsPerSecond"
+    YardPerMinute = "YardPerMinute",
+    YardPerSecond = "YardPerSecond"
 }
 
 // @public
@@ -1208,7 +1178,7 @@ export type NumberKind = string;
 export interface NumberResolution extends BaseResolution {
     numberKind: NumberKind;
     resolutionKind: "NumberResolution";
-    value: string;
+    value: number;
 }
 
 // @public

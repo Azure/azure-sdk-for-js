@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates tags of an Azure Firewall resource.
  *
  * @summary Updates tags of an Azure Firewall resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AzureFirewallUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/AzureFirewallUpdateTags.json
  */
 async function updateAzureFirewallTags() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "azfwtest";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "azfwtest";
   const azureFirewallName = "fw1";
   const parameters = { tags: { tag1: "value1", tag2: "value2" } };
   const credential = new DefaultAzureCredential();
@@ -32,4 +33,8 @@ async function updateAzureFirewallTags() {
   console.log(result);
 }
 
-updateAzureFirewallTags().catch(console.error);
+async function main() {
+  updateAzureFirewallTags();
+}
+
+main().catch(console.error);

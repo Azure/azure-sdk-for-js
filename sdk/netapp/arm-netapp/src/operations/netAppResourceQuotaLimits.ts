@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { NetAppResourceQuotaLimits } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -36,7 +36,7 @@ export class NetAppResourceQuotaLimitsImpl
 
   /**
    * Get the default and current limits for quotas
-   * @param location The location
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   public list(
@@ -51,17 +51,22 @@ export class NetAppResourceQuotaLimitsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(location, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(location, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     location: string,
-    options?: NetAppResourceQuotaLimitsListOptionalParams
+    options?: NetAppResourceQuotaLimitsListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<SubscriptionQuotaItem[]> {
-    let result = await this._list(location, options);
+    let result: NetAppResourceQuotaLimitsListResponse;
+    result = await this._list(location, options);
     yield result.value || [];
   }
 
@@ -76,7 +81,7 @@ export class NetAppResourceQuotaLimitsImpl
 
   /**
    * Get the default and current limits for quotas
-   * @param location The location
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   private _list(
@@ -91,7 +96,7 @@ export class NetAppResourceQuotaLimitsImpl
 
   /**
    * Get the default and current subscription quota limit
-   * @param location The location
+   * @param location The name of Azure region.
    * @param quotaLimitName The name of the Quota Limit
    * @param options The options parameters.
    */

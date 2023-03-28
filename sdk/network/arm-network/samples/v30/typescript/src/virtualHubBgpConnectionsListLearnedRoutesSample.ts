@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Retrieves a list of routes the virtual hub bgp connection has learned.
  *
  * @summary Retrieves a list of routes the virtual hub bgp connection has learned.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualRouterPeerListLearnedRoute.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VirtualRouterPeerListLearnedRoute.json
  */
 async function virtualRouterPeerListLearnedRoutes() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const hubName = "virtualRouter1";
   const connectionName = "peer1";
   const credential = new DefaultAzureCredential();
@@ -32,4 +35,8 @@ async function virtualRouterPeerListLearnedRoutes() {
   console.log(result);
 }
 
-virtualRouterPeerListLearnedRoutes().catch(console.error);
+async function main() {
+  virtualRouterPeerListLearnedRoutes();
+}
+
+main().catch(console.error);

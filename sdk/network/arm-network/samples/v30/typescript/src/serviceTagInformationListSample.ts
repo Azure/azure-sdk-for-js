@@ -13,15 +13,18 @@ import {
   NetworkManagementClient
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets a list of service tag information resources with pagination.
  *
  * @summary Gets a list of service tag information resources with pagination.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ServiceTagInformationListResult.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/ServiceTagInformationListResult.json
  */
 async function getListOfServiceTags() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const location = "westeurope";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -34,16 +37,14 @@ async function getListOfServiceTags() {
   console.log(resArray);
 }
 
-getListOfServiceTags().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets a list of service tag information resources with pagination.
  *
  * @summary Gets a list of service tag information resources with pagination.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ServiceTagInformationListResultWithNoAddressPrefixes.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/ServiceTagInformationListResultWithNoAddressPrefixes.json
  */
 async function getListOfServiceTagsWithNoAddressPrefixes() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const location = "westeurope";
   const noAddressPrefixes = true;
   const options: ServiceTagInformationListOptionalParams = {
@@ -61,16 +62,14 @@ async function getListOfServiceTagsWithNoAddressPrefixes() {
   console.log(resArray);
 }
 
-getListOfServiceTagsWithNoAddressPrefixes().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets a list of service tag information resources with pagination.
  *
  * @summary Gets a list of service tag information resources with pagination.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ServiceTagInformationListResultWithTagname.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/ServiceTagInformationListResultWithTagname.json
  */
 async function getListOfServiceTagsWithTagName() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const location = "westeurope";
   const tagName = "ApiManagement";
   const options: ServiceTagInformationListOptionalParams = { tagName };
@@ -86,4 +85,10 @@ async function getListOfServiceTagsWithTagName() {
   console.log(resArray);
 }
 
-getListOfServiceTagsWithTagName().catch(console.error);
+async function main() {
+  getListOfServiceTags();
+  getListOfServiceTagsWithNoAddressPrefixes();
+  getListOfServiceTagsWithTagName();
+}
+
+main().catch(console.error);

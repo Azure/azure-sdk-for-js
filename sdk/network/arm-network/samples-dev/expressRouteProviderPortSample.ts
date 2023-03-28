@@ -10,15 +10,18 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Retrieves detail of a provider port.
  *
  * @summary Retrieves detail of a provider port.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/expressRouteProviderPort.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/expressRouteProviderPort.json
  */
 async function expressRouteProviderPort() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const providerport = "abc";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -26,4 +29,8 @@ async function expressRouteProviderPort() {
   console.log(result);
 }
 
-expressRouteProviderPort().catch(console.error);
+async function main() {
+  expressRouteProviderPort();
+}
+
+main().catch(console.error);

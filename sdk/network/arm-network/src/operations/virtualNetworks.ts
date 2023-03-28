@@ -6,26 +6,35 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { VirtualNetworks } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   VirtualNetwork,
   VirtualNetworksListAllNextOptionalParams,
   VirtualNetworksListAllOptionalParams,
+  VirtualNetworksListAllResponse,
   VirtualNetworksListNextOptionalParams,
   VirtualNetworksListOptionalParams,
+  VirtualNetworksListResponse,
   VirtualNetworkUsage,
   VirtualNetworksListUsageNextOptionalParams,
   VirtualNetworksListUsageOptionalParams,
+  VirtualNetworksListUsageResponse,
   PublicIpDdosProtectionStatusResult,
   VirtualNetworksListDdosProtectionStatusNextOptionalParams,
   VirtualNetworksListDdosProtectionStatusOptionalParams,
+  VirtualNetworksListDdosProtectionStatusResponse,
   VirtualNetworksDeleteOptionalParams,
   VirtualNetworksGetOptionalParams,
   VirtualNetworksGetResponse,
@@ -34,12 +43,8 @@ import {
   TagsObject,
   VirtualNetworksUpdateTagsOptionalParams,
   VirtualNetworksUpdateTagsResponse,
-  VirtualNetworksListAllResponse,
-  VirtualNetworksListResponse,
   VirtualNetworksCheckIPAddressAvailabilityOptionalParams,
   VirtualNetworksCheckIPAddressAvailabilityResponse,
-  VirtualNetworksListUsageResponse,
-  VirtualNetworksListDdosProtectionStatusResponse,
   VirtualNetworksListAllNextResponse,
   VirtualNetworksListNextResponse,
   VirtualNetworksListUsageNextResponse,
@@ -74,22 +79,34 @@ export class VirtualNetworksImpl implements VirtualNetworks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listAllPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listAllPagingPage(options, settings);
       }
     };
   }
 
   private async *listAllPagingPage(
-    options?: VirtualNetworksListAllOptionalParams
+    options?: VirtualNetworksListAllOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<VirtualNetwork[]> {
-    let result = await this._listAll(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VirtualNetworksListAllResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAll(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAllNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -118,19 +135,29 @@ export class VirtualNetworksImpl implements VirtualNetworks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceGroupName, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    options?: VirtualNetworksListOptionalParams
+    options?: VirtualNetworksListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<VirtualNetwork[]> {
-    let result = await this._list(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VirtualNetworksListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -138,7 +165,9 @@ export class VirtualNetworksImpl implements VirtualNetworks {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -174,11 +203,15 @@ export class VirtualNetworksImpl implements VirtualNetworks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listUsagePagingPage(
           resourceGroupName,
           virtualNetworkName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -187,15 +220,22 @@ export class VirtualNetworksImpl implements VirtualNetworks {
   private async *listUsagePagingPage(
     resourceGroupName: string,
     virtualNetworkName: string,
-    options?: VirtualNetworksListUsageOptionalParams
+    options?: VirtualNetworksListUsageOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<VirtualNetworkUsage[]> {
-    let result = await this._listUsage(
-      resourceGroupName,
-      virtualNetworkName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VirtualNetworksListUsageResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listUsage(
+        resourceGroupName,
+        virtualNetworkName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listUsageNext(
         resourceGroupName,
@@ -204,7 +244,9 @@ export class VirtualNetworksImpl implements VirtualNetworks {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -245,11 +287,15 @@ export class VirtualNetworksImpl implements VirtualNetworks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listDdosProtectionStatusPagingPage(
           resourceGroupName,
           virtualNetworkName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -258,16 +304,23 @@ export class VirtualNetworksImpl implements VirtualNetworks {
   private async *listDdosProtectionStatusPagingPage(
     resourceGroupName: string,
     virtualNetworkName: string,
-    options?: VirtualNetworksListDdosProtectionStatusOptionalParams
+    options?: VirtualNetworksListDdosProtectionStatusOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PublicIpDdosProtectionStatusResult[]> {
-    const poller = await this._listDdosProtectionStatus(
-      resourceGroupName,
-      virtualNetworkName,
-      options
-    );
-    let result: any = await poller.pollUntilDone();
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VirtualNetworksListDdosProtectionStatusResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      const poller = await this._listDdosProtectionStatus(
+        resourceGroupName,
+        virtualNetworkName,
+        options
+      );
+      result = await poller.pollUntilDone();
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listDdosProtectionStatusNext(
         resourceGroupName,
@@ -276,7 +329,9 @@ export class VirtualNetworksImpl implements VirtualNetworks {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -304,14 +359,14 @@ export class VirtualNetworksImpl implements VirtualNetworks {
     resourceGroupName: string,
     virtualNetworkName: string,
     options?: VirtualNetworksDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -344,15 +399,15 @@ export class VirtualNetworksImpl implements VirtualNetworks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, virtualNetworkName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, virtualNetworkName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -407,8 +462,8 @@ export class VirtualNetworksImpl implements VirtualNetworks {
     parameters: VirtualNetwork,
     options?: VirtualNetworksCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworksCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworksCreateOrUpdateResponse>,
       VirtualNetworksCreateOrUpdateResponse
     >
   > {
@@ -418,7 +473,7 @@ export class VirtualNetworksImpl implements VirtualNetworks {
     ): Promise<VirtualNetworksCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -451,15 +506,18 @@ export class VirtualNetworksImpl implements VirtualNetworks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, virtualNetworkName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, virtualNetworkName, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VirtualNetworksCreateOrUpdateResponse,
+      OperationState<VirtualNetworksCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -578,8 +636,8 @@ export class VirtualNetworksImpl implements VirtualNetworks {
     virtualNetworkName: string,
     options?: VirtualNetworksListDdosProtectionStatusOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworksListDdosProtectionStatusResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworksListDdosProtectionStatusResponse>,
       VirtualNetworksListDdosProtectionStatusResponse
     >
   > {
@@ -589,7 +647,7 @@ export class VirtualNetworksImpl implements VirtualNetworks {
     ): Promise<VirtualNetworksListDdosProtectionStatusResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -622,15 +680,18 @@ export class VirtualNetworksImpl implements VirtualNetworks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, virtualNetworkName, options },
-      listDdosProtectionStatusOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, virtualNetworkName, options },
+      spec: listDdosProtectionStatusOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VirtualNetworksListDdosProtectionStatusResponse,
+      OperationState<VirtualNetworksListDdosProtectionStatusResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -776,7 +837,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters67,
+  requestBody: Parameters.parameters68,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -940,7 +1001,6 @@ const listAllNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -960,7 +1020,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -981,7 +1040,6 @@ const listUsageNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1004,11 +1062,6 @@ const listDdosProtectionStatusNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top1,
-    Parameters.skipToken1
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

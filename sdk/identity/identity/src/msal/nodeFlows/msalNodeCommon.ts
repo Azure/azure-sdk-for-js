@@ -4,6 +4,7 @@
 import * as msalCommon from "@azure/msal-common";
 import * as msalNode from "@azure/msal-node";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import { getLogLevel } from "@azure/logger";
 import {
   MsalBaseUtilities,
   defaultLoggerCallback,
@@ -11,6 +12,7 @@ import {
   getKnownAuthorities,
   msalToPublic,
   publicToMsal,
+  getMSALLogLevel,
 } from "../utils";
 import { MsalFlow, MsalFlowOptions } from "../flows";
 import {
@@ -155,7 +157,11 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       auth: {
         clientId,
         authority,
-        knownAuthorities: getKnownAuthorities(tenantId, authority),
+        knownAuthorities: getKnownAuthorities(
+          tenantId,
+          authority,
+          options.disableInstanceDiscovery
+        ),
         clientCapabilities,
       },
       // Cache is defined in this.prepare();
@@ -163,6 +169,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
         networkClient: this.identityClient,
         loggerOptions: {
           loggerCallback: defaultLoggerCallback(options.logger),
+          logLevel: getMSALLogLevel(getLogLevel()),
         },
       },
     };

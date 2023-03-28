@@ -31,6 +31,7 @@
     "sdk/purview/purview-administration-rest/review/*.md",
     "sdk/purview/purview-catalog-rest/review/*.md",
     "sdk/purview/purview-scanning-rest/review/*.md",
+    "sdk/purview/purview-sharing-rest/review/*.md",
     "sdk/quantum/quantum-jobs/review/*.md",
     "sdk/synapse/synapse-access-control/review/*.md",
     "sdk/synapse/synapse-access-control-rest/review/*.md",
@@ -126,7 +127,8 @@
     "Usuk",
     "USUK",
     "Vertica",
-    "westus"
+    "westus",
+    "Xiaomi"
   ],
   "allowCompoundWords": true,
   "overrides": [
@@ -273,12 +275,28 @@
       "words": ["bbox", "UTURN", "Hundredkm"]
     },
     {
+      "filename": "sdk/maps/maps-render-rest/review/maps-render.api.md",
+      "words": ["bbox"]
+    },
+    {
+      "filename": "sdk/maps/maps-search-rest/review/maps-search.api.md",
+      "words": ["Neighbourhood", "Xstr"]
+    },
+    {
       "filename": "sdk/apimanagement/api-management-custom-widgets-scaffolder/review/api-management-custom-widgets-scaffolder.api.md",
       "words": ["scaffolder", "APIM"]
     },
     {
       "filename": "sdk/loadtestservice/load-testing-rest/review/load-testing.api.md",
       "words": ["vusers"]
+    },
+    {
+      "filename": "sdk/web-pubsub/web-pubsub-client/review/web-pubsub-client.api.md",
+      "words": ["protobuf"]
+    },
+    {
+      "filename": "sdk/web-pubsub/web-pubsub-client-protobuf/review/web-pubsub-client-protobuf.api.md",
+      "words": ["protobuf"]
     }
   ]
 }

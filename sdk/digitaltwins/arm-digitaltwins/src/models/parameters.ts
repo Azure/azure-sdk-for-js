@@ -47,7 +47,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-05-31",
+    defaultValue: "2023-01-31",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -218,4 +218,14 @@ export const timeSeriesDatabaseConnectionName: OperationURLParameter = {
 export const timeSeriesDatabaseConnectionDescription: OperationParameter = {
   parameterPath: "timeSeriesDatabaseConnectionDescription",
   mapper: TimeSeriesDatabaseConnectionMapper
+};
+
+export const cleanupConnectionArtifacts: OperationQueryParameter = {
+  parameterPath: ["options", "cleanupConnectionArtifacts"],
+  mapper: {
+    serializedName: "cleanupConnectionArtifacts",
+    type: {
+      name: "String"
+    }
+  }
 };

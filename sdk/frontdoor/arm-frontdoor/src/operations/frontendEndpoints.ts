@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { FrontendEndpoints } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -63,11 +64,15 @@ export class FrontendEndpointsImpl implements FrontendEndpoints {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByFrontDoorPagingPage(
           resourceGroupName,
           frontDoorName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -76,15 +81,22 @@ export class FrontendEndpointsImpl implements FrontendEndpoints {
   private async *listByFrontDoorPagingPage(
     resourceGroupName: string,
     frontDoorName: string,
-    options?: FrontendEndpointsListByFrontDoorOptionalParams
+    options?: FrontendEndpointsListByFrontDoorOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<FrontendEndpoint[]> {
-    let result = await this._listByFrontDoor(
-      resourceGroupName,
-      frontDoorName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: FrontendEndpointsListByFrontDoorResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByFrontDoor(
+        resourceGroupName,
+        frontDoorName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByFrontDoorNext(
         resourceGroupName,
@@ -93,7 +105,9 @@ export class FrontendEndpointsImpl implements FrontendEndpoints {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

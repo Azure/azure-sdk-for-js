@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VpnGatewayNatRule,
   NatRulesListByVpnGatewayOptionalParams,
@@ -61,8 +61,8 @@ export interface NatRules {
     natRuleParameters: VpnGatewayNatRule,
     options?: NatRulesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NatRulesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<NatRulesCreateOrUpdateResponse>,
       NatRulesCreateOrUpdateResponse
     >
   >;
@@ -94,7 +94,7 @@ export interface NatRules {
     gatewayName: string,
     natRuleName: string,
     options?: NatRulesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a nat rule.
    * @param resourceGroupName The resource group name of the VpnGateway.

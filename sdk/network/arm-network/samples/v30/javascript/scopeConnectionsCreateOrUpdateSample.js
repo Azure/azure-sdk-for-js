@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or updates scope connection from Network Manager
  *
  * @summary Creates or updates scope connection from Network Manager
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerScopeConnectionPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkManagerScopeConnectionPut.json
  */
 async function createOrUpdateNetworkManagerScopeConnection() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "rg1";
+  const subscriptionId =
+    process.env["NETWORK_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkManagerName = "testNetworkManager";
   const scopeConnectionName = "TestScopeConnection";
   const parameters = {
@@ -38,4 +40,8 @@ async function createOrUpdateNetworkManagerScopeConnection() {
   console.log(result);
 }
 
-createOrUpdateNetworkManagerScopeConnection().catch(console.error);
+async function main() {
+  createOrUpdateNetworkManagerScopeConnection();
+}
+
+main().catch(console.error);

@@ -17,6 +17,7 @@ import {
 import {
   ConditionErrorNameMapper,
   Constants,
+  defaultCancellableLock,
   MessagingError,
   RequestResponseLink,
   SendRequestOptions,
@@ -48,11 +49,11 @@ import {
 import { max32BitNumber } from "../util/constants";
 import { Buffer } from "buffer";
 import { OperationOptionsBase } from "./../modelsToBeSharedWithEventHubs";
-import { AbortSignalLike } from "@azure/abort-controller";
+import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { ReceiveMode } from "../models";
 import { translateServiceBusError } from "../serviceBusError";
 import { defaultDataTransformer, tryToJsonDecode } from "../dataTransformer";
-import { isDefined, isObjectWithProperties } from "@azure/core-util";
+import { delay, isDefined, isObjectWithProperties } from "@azure/core-util";
 import {
   RuleProperties,
   SqlRuleAction,
@@ -75,6 +76,13 @@ export interface SendManagementRequestOptions extends SendRequestOptions {
    * prefer to work directly with the bytes present in the message body than have the client attempt to parse it.
    */
   skipParsingBodyAsJson?: boolean;
+  /**
+   * Whether to skip converting Date type on properties of message annotations
+   * or application properties into numbers when receiving the message. By
+   * default, properties of Date type is converted into UNIX epoch number for
+   * compatibility.
+   */
+  skipConvertingDate?: boolean;
 }
 
 /**
@@ -212,7 +220,10 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * Provides the sequence number of the last peeked message.
    */
   private _lastPeekedSequenceNumber: Long = Long.ZERO;
-
+  /**
+   * lock token for init operation
+   */
+  private _initLock: string = generate_uuid();
   /**
    * Instantiates the management client.
    * @param context - The connection context
@@ -230,6 +241,62 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           : `${context.config.endpoint}${entityPath}/$management`,
     });
     this._context = context;
+  }
+
+  /**
+   * initialize link with unique this.replyTo address.
+   * @param options -
+   * @returns updated options bag that has adjusted `timeoutInMs` to account for init time
+   */
+  private async initWithUniqueReplyTo(
+    options: SendManagementRequestOptions = {}
+  ): Promise<SendManagementRequestOptions> {
+    const retryTimeoutInMs = options.timeoutInMs ?? Constants.defaultOperationTimeoutInMs;
+    const initOperationStartTime = Date.now();
+    return defaultCancellableLock.acquire(
+      this._initLock,
+      async () => {
+        managementClientLogger.verbose(
+          `{this._logPrefix} lock acquired for initializing replyTo address and link`
+        );
+        if (!this.isOpen()) {
+          this.replyTo = generate_uuid();
+          managementClientLogger.verbose(
+            `{this._logPrefix} new replyTo address: ${this.replyTo} generated`
+          );
+        }
+        const { abortSignal } = options ?? {};
+        const aborter = new AbortController();
+        const { signal } = new AbortController([
+          aborter.signal,
+          ...(abortSignal ? [abortSignal] : []),
+        ]);
+
+        if (!this.isOpen()) {
+          await Promise.race([
+            this._init(signal),
+            delay(retryTimeoutInMs, { abortSignal: aborter.signal }).then(() => {
+              throw {
+                name: "OperationTimeoutError",
+                message: "The management request timed out. Please try again later.",
+              };
+            }),
+          ]).finally(() => aborter.abort());
+        }
+
+        // time taken by the init operation
+        const timeTakenByInit = Date.now() - initOperationStartTime;
+        return {
+          ...options,
+          // Left over time
+          timeoutInMs: retryTimeoutInMs - timeTakenByInit,
+        };
+      },
+      {
+        abortSignal: options.abortSignal,
+        timeoutInMs: retryTimeoutInMs,
+      }
+    );
   }
 
   private async _init(abortSignal?: AbortSignalLike): Promise<void> {
@@ -334,41 +401,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     if (request.message_id === undefined) {
       request.message_id = generate_uuid();
     }
-    const retryTimeoutInMs =
-      sendRequestOptions.timeoutInMs ?? Constants.defaultOperationTimeoutInMs;
-    const initOperationStartTime = Date.now();
-    const actionAfterTimeout = (reject: (reason?: any) => void): void => {
-      const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
-      const e: Error = {
-        name: "OperationTimeoutError",
-        message: desc,
-      };
-
-      reject(e);
-    };
-
-    let waitTimer: ReturnType<typeof setTimeout>;
-    // eslint-disable-next-line promise/param-names
-    const operationTimeout = new Promise<void>((_, reject) => {
-      waitTimer = setTimeout(() => actionAfterTimeout(reject), retryTimeoutInMs);
-    });
-    internalLogger.verbose(`${this.logPrefix} Acquiring lock to get the management req res link.`);
 
     try {
-      if (!this.isOpen()) {
-        await Promise.race([this._init(sendRequestOptions?.abortSignal), operationTimeout]);
-      }
-    } finally {
-      clearTimeout(waitTimer!);
-    }
-
-    // time taken by the init operation
-    const timeTakenByInit = Date.now() - initOperationStartTime;
-    // Left over time
-    sendRequestOptions.timeoutInMs = retryTimeoutInMs - timeTakenByInit;
-
-    try {
-      if (!request.message_id) request.message_id = generate_uuid();
       return await this.link!.sendRequest(request, sendRequestOptions);
     } catch (err: any) {
       const translatedError = translateServiceBusError(err);
@@ -514,6 +548,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         const omitMessageBodyKey = "omit-message-body"; // TODO: Service Bus specific. Put it somewhere
         messageBody[omitMessageBodyKey] = types.wrap_boolean(omitMessageBody);
       }
+      const updatedOptions = await this.initWithUniqueReplyTo(options);
       const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
@@ -521,8 +556,9 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           operation: Constants.operations.peekMessage,
         },
       };
-      if (options?.associatedLinkName) {
-        request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
+      if (updatedOptions?.associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] =
+          updatedOptions?.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
 
@@ -534,15 +570,15 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         request.body
       );
 
-      const result = await this._makeManagementRequest(request, receiverLogger, options);
+      const result = await this._makeManagementRequest(request, receiverLogger, updatedOptions);
       if (result.application_properties!.statusCode !== 204) {
         const messages = result.body.messages as { message: Buffer }[];
         for (const msg of messages) {
           const decodedMessage = RheaMessageUtil.decode(msg.message);
-          const message = fromRheaMessage(
-            decodedMessage as any,
-            options?.skipParsingBodyAsJson ?? false
-          );
+          const message = fromRheaMessage(decodedMessage as any, {
+            skipParsingBodyAsJson: updatedOptions?.skipParsingBodyAsJson ?? false,
+            skipConvertingDate: updatedOptions?.skipConvertingDate ?? false,
+          });
           messageList.push(message);
           this._lastPeekedSequenceNumber = message.sequenceNumber!;
         }
@@ -589,6 +625,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         0x98,
         undefined
       );
+      const updatedOptions = await this.initWithUniqueReplyTo(options);
       const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
@@ -597,8 +634,9 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         },
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
-      if (options.associatedLinkName) {
-        request.application_properties![Constants.associatedLinkName] = options.associatedLinkName;
+      if (updatedOptions.associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] =
+          updatedOptions.associatedLinkName;
       }
       receiverLogger.verbose(
         "[%s] Renew message Lock request: %O.",
@@ -606,7 +644,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         request
       );
       const result = await this._makeManagementRequest(request, receiverLogger, {
-        abortSignal: options?.abortSignal,
+        abortSignal: updatedOptions?.abortSignal,
         requestName: "renewLock",
       });
       const lockedUntilUtc = new Date(result.body.expirations[0]);
@@ -680,6 +718,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         throw error;
       }
     }
+    const updatedOptions = await this.initWithUniqueReplyTo(options);
     try {
       const request: RheaMessage = {
         body: { messages: messageBody },
@@ -688,12 +727,13 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           operation: Constants.operations.scheduleMessage,
         },
       };
-      if (options?.associatedLinkName) {
-        request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
+      if (updatedOptions?.associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] =
+          updatedOptions?.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
       senderLogger.verbose("%s Schedule messages request body: %O.", this.logPrefix, request.body);
-      const result = await this._makeManagementRequest(request, senderLogger, options);
+      const result = await this._makeManagementRequest(request, senderLogger, updatedOptions);
       const sequenceNumbers = result.body[Constants.sequenceNumbers];
       const sequenceNumbersAsLong = [];
       for (let i = 0; i < sequenceNumbers.length; i++) {
@@ -748,6 +788,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         0x81,
         undefined
       );
+      const updatedOptions = await this.initWithUniqueReplyTo(options);
       const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
@@ -756,8 +797,9 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         },
       };
 
-      if (options?.associatedLinkName) {
-        request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
+      if (updatedOptions?.associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] =
+          updatedOptions?.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
       senderLogger.verbose(
@@ -766,7 +808,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         request.body
       );
 
-      await this._makeManagementRequest(request, senderLogger, options);
+      await this._makeManagementRequest(request, senderLogger, updatedOptions);
       return;
     } catch (err: any) {
       const error = translateServiceBusError(err);
@@ -826,6 +868,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       if (sessionId != null) {
         messageBody[Constants.sessionIdMapKey] = sessionId;
       }
+      const updatedOptions = await this.initWithUniqueReplyTo(options);
       const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
@@ -833,8 +876,9 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           operation: Constants.operations.receiveBySequenceNumber,
         },
       };
-      if (options?.associatedLinkName) {
-        request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
+      if (updatedOptions?.associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] =
+          updatedOptions?.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
       receiverLogger.verbose(
@@ -843,7 +887,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         request.body
       );
 
-      const result = await this._makeManagementRequest(request, receiverLogger, options);
+      const result = await this._makeManagementRequest(request, receiverLogger, updatedOptions);
       const messages = result.body.messages as {
         message: Buffer;
         "lock-token": Buffer;
@@ -855,7 +899,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           { tag: msg["lock-token"] } as any,
           false,
           receiveMode,
-          options?.skipParsingBodyAsJson ?? false
+          updatedOptions?.skipParsingBodyAsJson ?? false,
+          false
         );
         messageList.push(message);
       }
@@ -911,6 +956,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       if (options.sessionId != null) {
         messageBody[Constants.sessionIdMapKey] = options.sessionId;
       }
+      const updatedOptions = await this.initWithUniqueReplyTo(options);
       const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
@@ -918,8 +964,9 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           operation: Constants.operations.updateDisposition,
         },
       };
-      if (options.associatedLinkName) {
-        request.application_properties![Constants.associatedLinkName] = options.associatedLinkName;
+      if (updatedOptions.associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] =
+          updatedOptions.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
       receiverLogger.verbose(
@@ -927,7 +974,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         this.logPrefix,
         request.body
       );
-      await this._makeManagementRequest(request, receiverLogger, options);
+      await this._makeManagementRequest(request, receiverLogger, updatedOptions);
     } catch (err: any) {
       const error = translateServiceBusError(err);
       receiverLogger.logError(
@@ -953,6 +1000,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     try {
       const messageBody: any = {};
       messageBody[Constants.sessionIdMapKey] = sessionId;
+      const updatedOptions = await this.initWithUniqueReplyTo(options);
       const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
@@ -961,15 +1009,16 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         },
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
-      if (options?.associatedLinkName) {
-        request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
+      if (updatedOptions?.associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] =
+          updatedOptions?.associatedLinkName;
       }
       receiverLogger.verbose(
         "%s Renew Session Lock request body: %O.",
         this.logPrefix,
         request.body
       );
-      const result = await this._makeManagementRequest(request, receiverLogger, options);
+      const result = await this._makeManagementRequest(request, receiverLogger, updatedOptions);
       const lockedUntilUtc = new Date(result.body.expiration);
       receiverLogger.verbose(
         "%s Lock for session '%s' will expire at %s.",
@@ -1005,6 +1054,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       const messageBody: any = {};
       messageBody[Constants.sessionIdMapKey] = sessionId;
       messageBody["session-state"] = toBuffer(state);
+      const updatedOptions = await this.initWithUniqueReplyTo(options);
       const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
@@ -1012,8 +1062,9 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           operation: Constants.operations.setSessionState,
         },
       };
-      if (options?.associatedLinkName) {
-        request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
+      if (updatedOptions?.associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] =
+          updatedOptions?.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
       receiverLogger.verbose(
@@ -1021,7 +1072,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         this.logPrefix,
         request.body
       );
-      await this._makeManagementRequest(request, receiverLogger, options);
+      await this._makeManagementRequest(request, receiverLogger, updatedOptions);
     } catch (err: any) {
       const error = translateServiceBusError(err);
       receiverLogger.logError(
@@ -1046,6 +1097,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     try {
       const messageBody: any = {};
       messageBody[Constants.sessionIdMapKey] = sessionId;
+      const updatedOptions = await this.initWithUniqueReplyTo(options);
       const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
@@ -1053,8 +1105,9 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           operation: Constants.operations.getSessionState,
         },
       };
-      if (options?.associatedLinkName) {
-        request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
+      if (updatedOptions?.associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] =
+          updatedOptions?.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
       receiverLogger.verbose(
@@ -1062,7 +1115,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         this.logPrefix,
         request.body
       );
-      const result = await this._makeManagementRequest(request, receiverLogger, options);
+      const result = await this._makeManagementRequest(request, receiverLogger, updatedOptions);
       return result.body["session-state"]
         ? tryToJsonDecode(result.body["session-state"])
         : result.body["session-state"];
@@ -1108,6 +1161,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       messageBody["last-updated-time"] = lastUpdatedTime;
       messageBody["skip"] = types.wrap_int(skip);
       messageBody["top"] = types.wrap_int(top);
+      const updatedOptions = await this.initWithUniqueReplyTo(options);
       const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
@@ -1121,7 +1175,11 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         this.logPrefix,
         request.body
       );
-      const response = await this._makeManagementRequest(request, managementClientLogger, options);
+      const response = await this._makeManagementRequest(
+        request,
+        managementClientLogger,
+        updatedOptions
+      );
 
       return (response && response.body && response.body["sessions-ids"]) || [];
     } catch (err: any) {
@@ -1143,12 +1201,15 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   ): Promise<RuleProperties[]> {
     throwErrorIfConnectionClosed(this._context);
     try {
+      const updatedOptions = (await this.initWithUniqueReplyTo(options)) as ListRequestOptions &
+        OperationOptionsBase &
+        SendManagementRequestOptions;
       const request: RheaMessage = {
         body: {
-          top: options?.maxCount
-            ? types.wrap_int(options.maxCount)
+          top: updatedOptions?.maxCount
+            ? types.wrap_int(updatedOptions.maxCount)
             : types.wrap_int(max32BitNumber),
-          skip: options?.skip ? types.wrap_int(options.skip) : types.wrap_int(0),
+          skip: updatedOptions?.skip ? types.wrap_int(updatedOptions.skip) : types.wrap_int(0),
         },
         reply_to: this.replyTo,
         application_properties: {
@@ -1162,7 +1223,11 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         this.logPrefix,
         request.body
       );
-      const response = await this._makeManagementRequest(request, managementClientLogger, options);
+      const response = await this._makeManagementRequest(
+        request,
+        managementClientLogger,
+        updatedOptions
+      );
       if (
         response.application_properties!.statusCode === 204 ||
         !response.body ||
@@ -1276,6 +1341,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     throwTypeErrorIfParameterIsEmptyString(this._context.connectionId, "ruleName", ruleName);
 
     try {
+      const updatedOptions = await this.initWithUniqueReplyTo(options);
       const request: RheaMessage = {
         body: {
           "rule-name": types.wrap_string(ruleName),
@@ -1292,7 +1358,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         this.logPrefix,
         request.body
       );
-      await this._makeManagementRequest(request, managementClientLogger, options);
+      await this._makeManagementRequest(request, managementClientLogger, updatedOptions);
     } catch (err: any) {
       const error = translateServiceBusError(err);
       managementClientLogger.logError(
@@ -1353,6 +1419,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           expression: String(sqlRuleActionExpression),
         };
       }
+      const updatedOptions = await this.initWithUniqueReplyTo(options);
       const request: RheaMessage = {
         body: {
           "rule-name": types.wrap_string(ruleName),
@@ -1366,7 +1433,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       request.application_properties![Constants.trackingId] = generate_uuid();
 
       managementClientLogger.verbose("%s Add Rule request body: %O.", this.logPrefix, request.body);
-      await this._makeManagementRequest(request, managementClientLogger, options);
+      await this._makeManagementRequest(request, managementClientLogger, updatedOptions);
     } catch (err: any) {
       const error = translateServiceBusError(err);
       managementClientLogger.logError(

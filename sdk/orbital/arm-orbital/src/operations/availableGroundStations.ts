@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { AvailableGroundStations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -14,12 +15,10 @@ import * as Parameters from "../models/parameters";
 import { AzureOrbital } from "../azureOrbital";
 import {
   AvailableGroundStation,
-  CapabilityParameter,
   AvailableGroundStationsListByCapabilityNextOptionalParams,
+  CapabilityParameter,
   AvailableGroundStationsListByCapabilityOptionalParams,
   AvailableGroundStationsListByCapabilityResponse,
-  AvailableGroundStationsGetOptionalParams,
-  AvailableGroundStationsGetResponse,
   AvailableGroundStationsListByCapabilityNextResponse
 } from "../models";
 
@@ -37,8 +36,8 @@ export class AvailableGroundStationsImpl implements AvailableGroundStations {
   }
 
   /**
-   * Returns list of available ground stations
-   * @param capability Ground Station Capability
+   * Returns list of available ground stations.
+   * @param capability Ground Station Capability.
    * @param options The options parameters.
    */
   public listByCapability(
@@ -53,27 +52,35 @@ export class AvailableGroundStationsImpl implements AvailableGroundStations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByCapabilityPagingPage(capability, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByCapabilityPagingPage(capability, options, settings);
       }
     };
   }
 
   private async *listByCapabilityPagingPage(
     capability: CapabilityParameter,
-    options?: AvailableGroundStationsListByCapabilityOptionalParams
+    options?: AvailableGroundStationsListByCapabilityOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AvailableGroundStation[]> {
-    let result = await this._listByCapability(capability, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listByCapabilityNext(
-        capability,
-        continuationToken,
-        options
-      );
+    let result: AvailableGroundStationsListByCapabilityResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByCapability(capability, options);
+      let page = result.value || [];
       continuationToken = result.nextLink;
-      yield result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByCapabilityNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -90,8 +97,8 @@ export class AvailableGroundStationsImpl implements AvailableGroundStations {
   }
 
   /**
-   * Returns list of available ground stations
-   * @param capability Ground Station Capability
+   * Returns list of available ground stations.
+   * @param capability Ground Station Capability.
    * @param options The options parameters.
    */
   private _listByCapability(
@@ -105,33 +112,16 @@ export class AvailableGroundStationsImpl implements AvailableGroundStations {
   }
 
   /**
-   * Gets the specified  available ground station
-   * @param groundStationName Ground Station name
-   * @param options The options parameters.
-   */
-  get(
-    groundStationName: string,
-    options?: AvailableGroundStationsGetOptionalParams
-  ): Promise<AvailableGroundStationsGetResponse> {
-    return this.client.sendOperationRequest(
-      { groundStationName, options },
-      getOperationSpec
-    );
-  }
-
-  /**
    * ListByCapabilityNext
-   * @param capability Ground Station Capability
    * @param nextLink The nextLink from the previous successful call to the ListByCapability method.
    * @param options The options parameters.
    */
   private _listByCapabilityNext(
-    capability: CapabilityParameter,
     nextLink: string,
     options?: AvailableGroundStationsListByCapabilityNextOptionalParams
   ): Promise<AvailableGroundStationsListByCapabilityNextResponse> {
     return this.client.sendOperationRequest(
-      { capability, nextLink, options },
+      { nextLink, options },
       listByCapabilityNextOperationSpec
     );
   }
@@ -148,32 +138,11 @@ const listByCapabilityOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AvailableGroundStationListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.capability],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Orbital/availableGroundStations/{groundStationName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AvailableGroundStation
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.groundStationName1
-  ],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -185,10 +154,9 @@ const listByCapabilityNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AvailableGroundStationListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.capability],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

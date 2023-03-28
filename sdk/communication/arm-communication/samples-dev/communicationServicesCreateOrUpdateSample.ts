@@ -13,16 +13,22 @@ import {
   CommunicationServiceManagementClient
 } from "@azure/arm-communication";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create a new CommunicationService or update an existing CommunicationService.
  *
  * @summary Create a new CommunicationService or update an existing CommunicationService.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/communicationServices/createOrUpdate.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-03-01-preview/examples/communicationServices/createOrUpdate.json
  */
 async function createOrUpdateResource() {
-  const subscriptionId = "12345";
-  const resourceGroupName = "MyResourceGroup";
+  const subscriptionId =
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
+    "11112222-3333-4444-5555-666677778888";
+  const resourceGroupName =
+    process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
   const communicationServiceName = "MyCommunicationResource";
   const parameters: CommunicationServiceResource = {
     dataLocation: "United States",
@@ -41,4 +47,8 @@ async function createOrUpdateResource() {
   console.log(result);
 }
 
-createOrUpdateResource().catch(console.error);
+async function main() {
+  createOrUpdateResource();
+}
+
+main().catch(console.error);

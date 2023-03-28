@@ -6,14 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { TimeSeriesDatabaseConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureDigitalTwinsManagementClient } from "../azureDigitalTwinsManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   TimeSeriesDatabaseConnection,
   TimeSeriesDatabaseConnectionsListNextOptionalParams,
@@ -61,8 +66,16 @@ export class TimeSeriesDatabaseConnectionsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, resourceName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          resourceName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -70,11 +83,18 @@ export class TimeSeriesDatabaseConnectionsImpl
   private async *listPagingPage(
     resourceGroupName: string,
     resourceName: string,
-    options?: TimeSeriesDatabaseConnectionsListOptionalParams
+    options?: TimeSeriesDatabaseConnectionsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<TimeSeriesDatabaseConnection[]> {
-    let result = await this._list(resourceGroupName, resourceName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: TimeSeriesDatabaseConnectionsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, resourceName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -83,7 +103,9 @@ export class TimeSeriesDatabaseConnectionsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -157,8 +179,8 @@ export class TimeSeriesDatabaseConnectionsImpl
     timeSeriesDatabaseConnectionDescription: TimeSeriesDatabaseConnection,
     options?: TimeSeriesDatabaseConnectionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TimeSeriesDatabaseConnectionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<TimeSeriesDatabaseConnectionsCreateOrUpdateResponse>,
       TimeSeriesDatabaseConnectionsCreateOrUpdateResponse
     >
   > {
@@ -168,7 +190,7 @@ export class TimeSeriesDatabaseConnectionsImpl
     ): Promise<TimeSeriesDatabaseConnectionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -201,19 +223,22 @@ export class TimeSeriesDatabaseConnectionsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         resourceName,
         timeSeriesDatabaseConnectionName,
         timeSeriesDatabaseConnectionDescription,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      TimeSeriesDatabaseConnectionsCreateOrUpdateResponse,
+      OperationState<TimeSeriesDatabaseConnectionsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -258,8 +283,8 @@ export class TimeSeriesDatabaseConnectionsImpl
     timeSeriesDatabaseConnectionName: string,
     options?: TimeSeriesDatabaseConnectionsDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TimeSeriesDatabaseConnectionsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<TimeSeriesDatabaseConnectionsDeleteResponse>,
       TimeSeriesDatabaseConnectionsDeleteResponse
     >
   > {
@@ -269,7 +294,7 @@ export class TimeSeriesDatabaseConnectionsImpl
     ): Promise<TimeSeriesDatabaseConnectionsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -302,18 +327,21 @@ export class TimeSeriesDatabaseConnectionsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         resourceName,
         timeSeriesDatabaseConnectionName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      TimeSeriesDatabaseConnectionsDeleteResponse,
+      OperationState<TimeSeriesDatabaseConnectionsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -464,7 +492,10 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.cleanupConnectionArtifacts
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -486,7 +517,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

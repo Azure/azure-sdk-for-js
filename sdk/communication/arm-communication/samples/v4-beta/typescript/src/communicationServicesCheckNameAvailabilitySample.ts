@@ -13,15 +13,20 @@ import {
   CommunicationServiceManagementClient
 } from "@azure/arm-communication";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Checks that the CommunicationService name is valid and is not already in use.
  *
  * @summary Checks that the CommunicationService name is valid and is not already in use.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/communicationServices/checkNameAvailabilityAvailable.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-03-01-preview/examples/communicationServices/checkNameAvailabilityAvailable.json
  */
 async function checkNameAvailabilityAvailable() {
-  const subscriptionId = "12345";
+  const subscriptionId =
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
+    "11112222-3333-4444-5555-666677778888";
   const nameAvailabilityParameters: NameAvailabilityParameters = {
     name: "MyCommunicationService",
     type: "Microsoft.Communication/CommunicationServices"
@@ -36,17 +41,17 @@ async function checkNameAvailabilityAvailable() {
   );
   console.log(result);
 }
-
-checkNameAvailabilityAvailable().catch(console.error);
 
 /**
  * This sample demonstrates how to Checks that the CommunicationService name is valid and is not already in use.
  *
  * @summary Checks that the CommunicationService name is valid and is not already in use.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/communicationServices/checkNameAvailabilityUnavailable.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-03-01-preview/examples/communicationServices/checkNameAvailabilityUnavailable.json
  */
 async function checkNameAvailabilityUnavailable() {
-  const subscriptionId = "12345";
+  const subscriptionId =
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
+    "11112222-3333-4444-5555-666677778888";
   const nameAvailabilityParameters: NameAvailabilityParameters = {
     name: "MyCommunicationService",
     type: "Microsoft.Communication/CommunicationServices"
@@ -62,4 +67,9 @@ async function checkNameAvailabilityUnavailable() {
   console.log(result);
 }
 
-checkNameAvailabilityUnavailable().catch(console.error);
+async function main() {
+  checkNameAvailabilityAvailable();
+  checkNameAvailabilityUnavailable();
+}
+
+main().catch(console.error);

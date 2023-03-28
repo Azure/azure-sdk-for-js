@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { DdosCustomPolicy, NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates a DDoS custom policy.
  *
  * @summary Creates or updates a DDoS custom policy.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/DdosCustomPolicyCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/DdosCustomPolicyCreate.json
  */
 async function createDDoSCustomPolicy() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const ddosCustomPolicyName = "test-ddos-custom-policy";
   const parameters: DdosCustomPolicy = { location: "centraluseuap" };
   const credential = new DefaultAzureCredential();
@@ -32,4 +35,8 @@ async function createDDoSCustomPolicy() {
   console.log(result);
 }
 
-createDDoSCustomPolicy().catch(console.error);
+async function main() {
+  createDDoSCustomPolicy();
+}
+
+main().catch(console.error);

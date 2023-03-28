@@ -1,6 +1,16 @@
 # Release History
-    
-## 1.1.0-beta.1 (2022-11-08)
+
+## 1.1.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.1.0 (2023-03-09)
     
 **Features**
 
@@ -47,10 +57,9 @@
   - Added Type Alias WebPubSubCustomDomainsListNextResponse
   - Added Type Alias WebPubSubCustomDomainsListResponse
   - Interface WebPubSubHubProperties has a new optional parameter eventListeners
-  - Class WebPubSubManagementClient has a new parameter webPubSubCustomCertificates
-  - Class WebPubSubManagementClient has a new parameter webPubSubCustomDomains
   - Added Enum KnownEventListenerEndpointDiscriminator
   - Added Enum KnownEventListenerFilterDiscriminator
+  - Added function getContinuationToken
     
     
 ## 1.0.0 (2021-12-16)

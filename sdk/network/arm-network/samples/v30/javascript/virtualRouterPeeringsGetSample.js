@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the specified Virtual Router Peering.
  *
  * @summary Gets the specified Virtual Router Peering.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualRouterPeeringGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VirtualRouterPeeringGet.json
  */
 async function getVirtualRouterPeering() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualRouterName = "virtualRouter";
   const peeringName = "peering1";
   const credential = new DefaultAzureCredential();
@@ -32,4 +33,8 @@ async function getVirtualRouterPeering() {
   console.log(result);
 }
 
-getVirtualRouterPeering().catch(console.error);
+async function main() {
+  getVirtualRouterPeering();
+}
+
+main().catch(console.error);

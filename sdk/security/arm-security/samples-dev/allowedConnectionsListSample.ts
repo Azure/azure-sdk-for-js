@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the list of all possible traffic between resources for the subscription
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2020-01-01/examples/AllowedConnections/GetAllowedConnectionsSubscription_example.json
  */
 async function getAllowedConnectionsOnASubscription() {
-  const subscriptionId = "3eeab341-f466-499c-a8be-85427e154bad";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] ||
+    "3eeab341-f466-499c-a8be-85427e154bad";
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +33,8 @@ async function getAllowedConnectionsOnASubscription() {
   console.log(resArray);
 }
 
-getAllowedConnectionsOnASubscription().catch(console.error);
+async function main() {
+  getAllowedConnectionsOnASubscription();
+}
+
+main().catch(console.error);

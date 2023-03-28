@@ -12,6 +12,7 @@ import { AbortError } from "@azure/abort-controller";
 import { MsalFlowOptions } from "./flows";
 import { isNode } from "@azure/core-util";
 import { v4 as uuidv4 } from "uuid";
+import { AzureLogLevel } from "@azure/logger";
 
 /**
  * Latest AuthenticationRecord version
@@ -73,8 +74,12 @@ export function getAuthority(tenantId: string, host?: string): string {
  * by sending it within the known authorities in the MSAL configuration.
  * @internal
  */
-export function getKnownAuthorities(tenantId: string, authorityHost: string): string[] {
-  if (tenantId === "adfs" && authorityHost) {
+export function getKnownAuthorities(
+  tenantId: string,
+  authorityHost: string,
+  disableInstanceDiscovery?: boolean
+): string[] {
+  if ((tenantId === "adfs" && authorityHost) || disableInstanceDiscovery) {
     return [authorityHost];
   }
   return [];
@@ -109,6 +114,25 @@ export const defaultLoggerCallback: (
         return;
     }
   };
+
+/**
+ * @internal
+ */
+export function getMSALLogLevel(logLevel: AzureLogLevel | undefined): msalCommon.LogLevel {
+  switch (logLevel) {
+    case "error":
+      return msalCommon.LogLevel.Error;
+    case "info":
+      return msalCommon.LogLevel.Info;
+    case "verbose":
+      return msalCommon.LogLevel.Verbose;
+    case "warning":
+      return msalCommon.LogLevel.Warning;
+    default:
+      // default msal logging level should be Info
+      return msalCommon.LogLevel.Info;
+  }
+}
 
 /**
  * The common utility functions for the MSAL clients.

@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Post to List of Network Manager Deployment Status.
  *
  * @summary Post to List of Network Manager Deployment Status.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerDeploymentStatusList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkManagerDeploymentStatusList.json
  */
 async function networkManagerDeploymentStatusList() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "resoureGroupSample";
+  const subscriptionId =
+    process.env["NETWORK_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "resoureGroupSample";
   const networkManagerName = "testNetworkManager";
   const parameters = {
     deploymentTypes: ["Connectivity", "AdminPolicy"],
@@ -36,4 +38,8 @@ async function networkManagerDeploymentStatusList() {
   console.log(result);
 }
 
-networkManagerDeploymentStatusList().catch(console.error);
+async function main() {
+  networkManagerDeploymentStatusList();
+}
+
+main().catch(console.error);

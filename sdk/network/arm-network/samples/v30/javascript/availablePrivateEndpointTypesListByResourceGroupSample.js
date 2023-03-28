@@ -10,17 +10,18 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Returns all of the resource types that can be linked to a Private Endpoint in this subscription in this region.
  *
  * @summary Returns all of the resource types that can be linked to a Private Endpoint in this subscription in this region.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AvailablePrivateEndpointTypesResourceGroupGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/AvailablePrivateEndpointTypesResourceGroupGet.json
  */
 async function getAvailablePrivateEndpointTypesInTheResourceGroup() {
-  const subscriptionId = "subId";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
   const location = "regionName";
-  const resourceGroupName = "rg1";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -33,4 +34,8 @@ async function getAvailablePrivateEndpointTypesInTheResourceGroup() {
   console.log(resArray);
 }
 
-getAvailablePrivateEndpointTypesInTheResourceGroup().catch(console.error);
+async function main() {
+  getAvailablePrivateEndpointTypesInTheResourceGroup();
+}
+
+main().catch(console.error);

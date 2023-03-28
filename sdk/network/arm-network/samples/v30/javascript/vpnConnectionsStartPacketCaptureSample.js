@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Starts packet capture on Vpn connection in the specified resource group.
  *
  * @summary Starts packet capture on Vpn connection in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnConnectionStartPacketCaptureFilterData.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VpnConnectionStartPacketCaptureFilterData.json
  */
 async function startPacketCaptureOnVpnConnectionWithFilter() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const gatewayName = "gateway1";
   const vpnConnectionName = "vpnConnection1";
   const parameters = {
@@ -41,17 +42,15 @@ async function startPacketCaptureOnVpnConnectionWithFilter() {
   console.log(result);
 }
 
-startPacketCaptureOnVpnConnectionWithFilter().catch(console.error);
-
 /**
  * This sample demonstrates how to Starts packet capture on Vpn connection in the specified resource group.
  *
  * @summary Starts packet capture on Vpn connection in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnConnectionStartPacketCapture.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VpnConnectionStartPacketCapture.json
  */
 async function startPacketCaptureOnVpnConnectionWithoutFilter() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const gatewayName = "gateway1";
   const vpnConnectionName = "vpnConnection1";
   const parameters = {
@@ -71,4 +70,9 @@ async function startPacketCaptureOnVpnConnectionWithoutFilter() {
   console.log(result);
 }
 
-startPacketCaptureOnVpnConnectionWithoutFilter().catch(console.error);
+async function main() {
+  startPacketCaptureOnVpnConnectionWithFilter();
+  startPacketCaptureOnVpnConnectionWithoutFilter();
+}
+
+main().catch(console.error);

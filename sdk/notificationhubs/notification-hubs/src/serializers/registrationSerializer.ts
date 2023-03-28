@@ -17,6 +17,8 @@ import {
   RegistrationDescription,
   RegistrationDescriptionCommon,
   TemplateRegistrationDescription,
+  XiaomiRegistrationDescription,
+  XiaomiTemplateRegistrationDescription,
   WindowsRegistrationDescription,
   WindowsTemplateRegistrationDescription,
 } from "../models/registration.js";
@@ -131,6 +133,20 @@ export interface RegistrationDescriptionParser {
   ) => MpnsTemplateRegistrationDescription;
   /**
    * @internal
+   * Creates a Xiaomi registration description from the incoming parsed XML.
+   */
+  createXiaomiRegistrationDescription: (
+    rawRegistrationDescription: Record<string, any>
+  ) => XiaomiRegistrationDescription;
+  /**
+   * @internal
+   * Creates a Xiaomi template registration description from the incoming parsed XML.
+   */
+  createXiaomiTemplateRegistrationDescription: (
+    rawRegistrationDescription: Record<string, any>
+  ) => XiaomiTemplateRegistrationDescription;
+  /**
+   * @internal
    * Creates a Windows Notification Services (WNS) registration description from the incoming parsed XML.
    */
   createWindowsRegistrationDescription: (
@@ -152,6 +168,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
    */
   async parseRegistrationEntry(bodyText: string): Promise<RegistrationDescription> {
     const xml = await parseXML(bodyText, { includeRoot: true });
+    delete xml.entry.content["$"];
     const keyName = Object.keys(xml.entry.content)[0];
     const content = xml.entry.content[keyName];
     const methodName = `create${keyName}`;
@@ -376,6 +393,37 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
 
   /**
    * @internal
+   * Creates a Xiaomi registration description from incoming XML property bag.
+   */
+  createXiaomiRegistrationDescription(
+    rawRegistrationDescription: Record<string, any>
+  ): XiaomiRegistrationDescription {
+    return {
+      xiaomiRegistrationId: getString(
+        rawRegistrationDescription["XiaomiRegistrationId"],
+        "xiaomiRegistrationId"
+      ),
+      ...createRegistrationDescription(rawRegistrationDescription),
+      kind: "Xiaomi",
+    };
+  },
+
+  /**
+   * @internal
+   * Creates a Xiaomi template registration description from incoming XML property bag.
+   */
+  createXiaomiTemplateRegistrationDescription(
+    rawRegistrationDescription: Record<string, any>
+  ): XiaomiTemplateRegistrationDescription {
+    return {
+      ...this.createXiaomiRegistrationDescription(rawRegistrationDescription),
+      ...createTemplateRegistrationDescription(rawRegistrationDescription),
+      kind: "XiaomiTemplate",
+    };
+  },
+
+  /**
+   * @internal
    * Creates a Windows registration description from incoming XML property bag.
    */
   createWindowsRegistrationDescription(
@@ -540,6 +588,20 @@ export interface RegistrationDescriptionSerializer {
    */
   serializeMpnsTemplateRegistrationDescription(
     description: Omit<MpnsTemplateRegistrationDescription, "kind">
+  ): Record<string, any>;
+  /**
+   * @internal
+   * Serializes a Xiaomi registration description into an XML object for serialization.
+   */
+  serializeXiaomiRegistrationDescription(
+    description: Omit<XiaomiRegistrationDescription, "kind">
+  ): Record<string, any>;
+  /**
+   * @internal
+   * Serializes a Xiaomi template registration description into an XML object for serialization.
+   */
+  serializeXiaomiTemplateRegistrationDescription(
+    description: Omit<XiaomiTemplateRegistrationDescription, "kind">
   ): Record<string, any>;
   /**
    * @internal
@@ -769,6 +831,32 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
       ...this.serializeMpnsRegistrationDescription(description),
       ...serializeTemplateRegistrationDescription(description),
       MpnsHeaders: mpnsHeaders,
+    };
+  },
+
+  /**
+   * @internal
+   * Serializes an existing Xiaomi registration description to an object for serialization.
+   */
+  serializeXiaomiRegistrationDescription(
+    description: Omit<XiaomiRegistrationDescription, "kind">
+  ): Record<string, any> {
+    return {
+      ...serializeRegistrationDescription(description),
+      XiaomiRegistrationId: getString(description.xiaomiRegistrationId, "xiaomiRegistrationId"),
+    };
+  },
+
+  /**
+   * @internal
+   * Serializes an existing Xiaomi template registration description to an object for serialization.
+   */
+  serializeXiaomiTemplateRegistrationDescription(
+    description: Omit<XiaomiTemplateRegistrationDescription, "kind">
+  ): Record<string, any> {
+    return {
+      ...this.serializeXiaomiRegistrationDescription(description),
+      ...serializeTemplateRegistrationDescription(description),
     };
   },
 

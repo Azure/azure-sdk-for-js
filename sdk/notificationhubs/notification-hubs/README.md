@@ -1,6 +1,6 @@
 # Azure Notification Hubs SDK for JavaScript
 
-Azure Notification Hubs provide a scaled-out push engine that enables you to send notifications to any platform (Apple, Amazon Kindle, Android, Baidu, Web, Windows, etc.) from any back-end (cloud or on-premises). Notification Hubs works well for both enterprise and consumer scenarios. Here are a few example scenarios:
+Azure Notification Hubs provide a scaled-out push engine that enables you to send notifications to any platform (Apple, Amazon Kindle, Android, Baidu, Xiaomi, Web, Windows, etc.) from any back-end (cloud or on-premises). Notification Hubs works well for both enterprise and consumer scenarios. Here are a few example scenarios:
 
 - Send breaking news notifications to millions with low latency.
 - Send location-based coupons to interested user segments.
@@ -53,7 +53,7 @@ This SDK for JavaScript offers two ways of interacting with Azure Notification H
 
 ```typescript
 import { 
-  NotificationHubsServiceClient
+  NotificationHubsClient,
   createAppleInstallation 
 } from "@azure/notification-hubs";
 
@@ -81,6 +81,7 @@ The above code snippet then becomes the following:
 
 ```typescript
 import { createClientContext, createOrUpdateInstallation } from "@azure/notification-hubs/api";
+import { createAppleInstallation } from "@azure/notification-hubs/models";
 
 const context = createClientContext("<connection string>", "<hub name>");
 
@@ -193,7 +194,7 @@ Using the modular approach, the code would be as follows:
 
 ```typescript
 import { createClientContext, updateInstallation } from "@azure/notification-hubs/api";
-import { JsonPatch, createAppleInstallation } from "@azure/notification-hubs/models";
+import { JsonPatch } from "@azure/notification-hubs/models";
 
 const context = createClientContext("<connection string>", "<hub name>");
 
@@ -653,6 +654,14 @@ console.log(`Notification ID: ${result.notificationId}`);
 ```
 
 ## Troubleshooting
+
+## React Native Support
+
+React Native currently does not have support for [`URLSearchParams`] which is used by the Azure Notification Hubs SDK.  In order to use the SDK in React Native, you will need to install the [`url-search-params-polyfill`](https://www.npmjs.com/package/url-search-params-polyfill) package and import it before using the SDK.
+
+```typescript
+import 'url-search-params-polyfill';
+```
 
 ### Diagnose Dropped Notifications
 

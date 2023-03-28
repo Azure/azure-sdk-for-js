@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { PostgreSQLManagementFlexibleServerClient } = require("@azure/arm-postgresql-flexible");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates a new database or updates an existing database.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2021-06-01/examples/DatabaseCreate.json
  */
 async function createADatabase() {
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = "TestGroup";
+  const subscriptionId =
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
   const serverName = "testserver";
   const databaseName = "db1";
   const parameters = { charset: "utf8", collation: "en_US.utf8" };
@@ -34,4 +36,8 @@ async function createADatabase() {
   console.log(result);
 }
 
-createADatabase().catch(console.error);
+async function main() {
+  createADatabase();
+}
+
+main().catch(console.error);

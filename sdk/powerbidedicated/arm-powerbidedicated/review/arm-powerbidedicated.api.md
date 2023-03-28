@@ -275,6 +275,9 @@ export interface ErrorResponseError {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export type IdentityType = string;
 
 // @public

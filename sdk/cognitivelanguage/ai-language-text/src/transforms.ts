@@ -6,12 +6,10 @@ import {
   AnalyzeResponse,
   AnalyzeTextLROResultUnion,
   AssessmentSentiment,
-  ClassificationDocumentResult,
   CustomEntityRecognitionLROResult,
   CustomMultiLabelClassificationLROResult,
   CustomSingleLabelClassificationLROResult,
   DocumentError,
-  DynamicClassificationTaskResult,
   EntitiesTaskResult,
   EntityLinkingLROResult,
   EntityLinkingTaskResult,
@@ -19,8 +17,6 @@ import {
   ErrorModel,
   ErrorResponse,
   ExtractiveSummarizationLROResult,
-  CustomLabelClassificationResult as GeneratedCustomClassificationResult,
-  DynamicClassificationResult as GeneratedDynamicClassification,
   EntityLinkingResult as GeneratedEntityLinkingResult,
   EntitiesResult as GeneratedEntityRecognitionResult,
   HealthcareEntity as GeneratedHealthcareEntity,
@@ -44,21 +40,17 @@ import {
   SentimentLROResult,
   SentimentTaskResult,
   TargetRelation,
-  DynamicClassificationResultDocumentsItem,
-  ClassificationCategory,
   CustomEntitiesResultDocumentsItem,
   ExtractedSummaryDocumentResultWithDetectedLanguage,
   AbstractiveSummaryDocumentResultWithDetectedLanguage,
-  HealthcareResultDocumentsItem,
-  DetectedLanguage,
+  HealthcareEntitiesDocumentResultWithDocumentDetectedLanguage,
+  CustomLabelClassificationResultDocumentsItem,
 } from "./generated";
 import {
   AnalyzeActionName,
+  AnalyzeBatchActionName,
   AnalyzeBatchResult,
   AnalyzeResult,
-  CustomSingleLabelClassificationResult,
-  CustomSingleLabelClassificationSuccessResult,
-  DynamicClassificationResult,
   EntityLinkingResult,
   EntityRecognitionResult,
   HealthcareEntity,
@@ -79,6 +71,7 @@ import {
 } from "./models";
 import {
   AssessmentIndex,
+  extractErrorPointerIndex,
   parseAssessmentIndex,
   parseHealthcareEntityIndex,
   sortResponseIdObjects,
@@ -169,29 +162,6 @@ function toSentimentAnalysisResult(
       sentences: sentences.map((sentence) =>
         convertGeneratedSentenceSentiment(sentence, sentences)
       ),
-    }),
-  });
-}
-
-function toDynamicClassificationResult(
-  docIds: string[],
-  results: GeneratedDynamicClassification
-): DynamicClassificationResult[] {
-  return transformDocumentResults(docIds, results, {
-    // FIXME: Fixing a service bug, see https://github.com/Azure/azure-sdk-for-js/issues/23617
-    processSuccess: ({
-      class: classes,
-      id,
-      warnings,
-      statistics,
-      classifications,
-    }: DynamicClassificationResultDocumentsItem & {
-      classifications?: ClassificationCategory[];
-    }) => ({
-      id,
-      warnings,
-      classifications: classes ? classes : classifications ?? [],
-      ...(statistics ? { statistics } : {}),
     }),
   });
 }
@@ -297,12 +267,6 @@ export function transformActionResult<ActionName extends AnalyzeActionName>(
     case "LanguageDetectionResults": {
       return toLanguageDetectionResult(docIds, (response as LanguageDetectionTaskResult).results);
     }
-    case "DynamicClassificationResults": {
-      return toDynamicClassificationResult(
-        docIds,
-        (response as DynamicClassificationTaskResult).results
-      );
-    }
     default: {
       const __exhaust: never = response;
       throw new Error(`Unsupported results kind: ${__exhaust} for an action of type ${actionName}`);
@@ -365,18 +329,6 @@ export async function throwError<T>(p: Promise<T>): Promise<T> {
   }
 }
 
-export function deserializeDetectedLanguage(input: string): DetectedLanguage {
-  function helper(str: string): undefined {
-    try {
-      return JSON.parse(str);
-    } catch (e) {
-      return undefined;
-    }
-  }
-  const obj = helper(input);
-  return obj !== undefined ? obj : ({ iso6391Name: input } as any);
-}
-
 function toHealthcareResult(
   docIds: string[],
   results: GeneratedHealthcareResult
@@ -407,7 +359,7 @@ function toHealthcareResult(
     });
   }
   return transformDocumentResults<
-    HealthcareResultDocumentsItem,
+    HealthcareEntitiesDocumentResultWithDocumentDetectedLanguage,
     WithDetectedLanguage<HealthcareSuccessResult>
   >(docIds, results, {
     processSuccess: ({ entities, relations, detectedLanguage, ...rest }) => {
@@ -416,26 +368,7 @@ function toHealthcareResult(
         entities: newEntities,
         entityRelations: relations.map(makeHealthcareRelation(newEntities)),
         // FIXME: remove this mitigation when the API fixes the representation on their end
-        ...(detectedLanguage
-          ? { detectedLanguage: deserializeDetectedLanguage(detectedLanguage) }
-          : {}),
-        ...rest,
-      };
-    },
-  });
-}
-
-function toCustomSingleLabelClassificationResult(
-  docIds: string[],
-  results: GeneratedCustomClassificationResult
-): CustomSingleLabelClassificationResult[] {
-  return transformDocumentResults<
-    ClassificationDocumentResult,
-    CustomSingleLabelClassificationSuccessResult
-  >(docIds, results, {
-    processSuccess: ({ class: classification, ...rest }) => {
-      return {
-        classifications: classification,
+        ...(detectedLanguage ? { detectedLanguage: { iso6391Name: detectedLanguage } as any } : {}),
         ...rest,
       };
     },
@@ -447,16 +380,23 @@ function toCustomSingleLabelClassificationResult(
  */
 export function transformAnalyzeBatchResults(
   docIds: string[],
-  response: AnalyzeTextLROResultUnion[] = []
+  response: AnalyzeTextLROResultUnion[] = [],
+  errors: ErrorModel[] = []
 ): AnalyzeBatchResult[] {
-  return response.map((actionData) => {
-    const { lastUpdateDateTime: completedOn, actionName, kind } = actionData;
-    switch (kind as KnownAnalyzeTextLROResultsKind) {
+  const errorMap = toIndexErrorMap(errors);
+  return response.map((actionData, idx): AnalyzeBatchResult => {
+    const { lastUpdateDateTime: completedOn, actionName, kind: resultKind } = actionData;
+    const error = errorMap.get(idx);
+    switch (resultKind as KnownAnalyzeTextLROResultsKind) {
       case "SentimentAnalysisLROResults": {
+        const kind = "SentimentAnalysis";
+        if (actionData.status === "failed") {
+          return returnErrorTask(kind, error, completedOn);
+        }
         const { results } = actionData as SentimentLROResult;
         const { modelVersion, statistics } = results;
         return {
-          kind: "SentimentAnalysis",
+          kind,
           results: toSentimentAnalysisResult(docIds, results),
           completedOn,
           ...(actionName ? { actionName } : {}),
@@ -465,6 +405,10 @@ export function transformAnalyzeBatchResults(
         };
       }
       case "EntityRecognitionLROResults": {
+        const kind = "EntityRecognition";
+        if (actionData.status === "failed") {
+          return returnErrorTask(kind, error, completedOn);
+        }
         const { results } = actionData as EntityRecognitionLROResult;
         const { modelVersion, statistics } = results;
         return {
@@ -477,10 +421,14 @@ export function transformAnalyzeBatchResults(
         };
       }
       case "PiiEntityRecognitionLROResults": {
+        const kind = "PiiEntityRecognition";
+        if (actionData.status === "failed") {
+          return returnErrorTask(kind, error, completedOn);
+        }
         const { results } = actionData as PiiEntityRecognitionLROResult;
         const { modelVersion, statistics } = results;
         return {
-          kind: "PiiEntityRecognition",
+          kind,
           results: toPiiEntityRecognitionResult(docIds, results),
           completedOn,
           ...(actionName ? { actionName } : {}),
@@ -489,10 +437,14 @@ export function transformAnalyzeBatchResults(
         };
       }
       case "KeyPhraseExtractionLROResults": {
+        const kind = "KeyPhraseExtraction";
+        if (actionData.status === "failed") {
+          return returnErrorTask(kind, error, completedOn);
+        }
         const { results } = actionData as KeyPhraseExtractionLROResult;
         const { modelVersion, statistics } = results;
         return {
-          kind: "KeyPhraseExtraction",
+          kind,
           results: toKeyPhraseExtractionResult(docIds, results),
           completedOn,
           ...(actionName ? { actionName } : {}),
@@ -501,10 +453,14 @@ export function transformAnalyzeBatchResults(
         };
       }
       case "EntityLinkingLROResults": {
+        const kind = "EntityLinking";
+        if (actionData.status === "failed") {
+          return returnErrorTask(kind, error, completedOn);
+        }
         const { results } = actionData as EntityLinkingLROResult;
         const { modelVersion, statistics } = results;
         return {
-          kind: "EntityLinking",
+          kind,
           results: toEntityLinkingResult(docIds, results),
           completedOn,
           ...(actionName ? { actionName } : {}),
@@ -513,10 +469,14 @@ export function transformAnalyzeBatchResults(
         };
       }
       case "HealthcareLROResults": {
+        const kind = "Healthcare";
+        if (actionData.status === "failed") {
+          return returnErrorTask(kind, error, completedOn);
+        }
         const { results } = actionData as HealthcareLROResult;
         const { modelVersion, statistics } = results;
         return {
-          kind: "Healthcare",
+          kind,
           results: toHealthcareResult(docIds, results),
           completedOn,
           ...(actionName ? { actionName } : {}),
@@ -525,10 +485,14 @@ export function transformAnalyzeBatchResults(
         };
       }
       case "CustomEntityRecognitionLROResults": {
+        const kind = "CustomEntityRecognition";
+        if (actionData.status === "failed") {
+          return returnErrorCustomTask(kind, error, completedOn);
+        }
         const { results } = actionData as CustomEntityRecognitionLROResult;
         const { deploymentName, projectName, statistics } = results;
         return {
-          kind: "CustomEntityRecognition",
+          kind,
           results: transformDocumentResults<CustomEntitiesResultDocumentsItem>(docIds, results),
           completedOn,
           ...(actionName ? { actionName } : {}),
@@ -538,11 +502,18 @@ export function transformAnalyzeBatchResults(
         };
       }
       case "CustomSingleLabelClassificationLROResults": {
+        const kind = "CustomSingleLabelClassification";
+        if (actionData.status === "failed") {
+          return returnErrorCustomTask(kind, error, completedOn);
+        }
         const { results } = actionData as CustomSingleLabelClassificationLROResult;
         const { deploymentName, projectName, statistics } = results;
         return {
-          kind: "CustomSingleLabelClassification",
-          results: toCustomSingleLabelClassificationResult(docIds, results),
+          kind,
+          results: transformDocumentResults<CustomLabelClassificationResultDocumentsItem>(
+            docIds,
+            results
+          ),
           completedOn,
           ...(actionName ? { actionName } : {}),
           ...(statistics ? { statistics } : {}),
@@ -551,11 +522,18 @@ export function transformAnalyzeBatchResults(
         };
       }
       case "CustomMultiLabelClassificationLROResults": {
+        const kind = "CustomMultiLabelClassification";
+        if (actionData.status === "failed") {
+          return returnErrorCustomTask(kind, error, completedOn);
+        }
         const { results } = actionData as CustomMultiLabelClassificationLROResult;
         const { deploymentName, projectName, statistics } = results;
         return {
-          kind: "CustomMultiLabelClassification",
-          results: toCustomSingleLabelClassificationResult(docIds, results),
+          kind,
+          results: transformDocumentResults<CustomLabelClassificationResultDocumentsItem>(
+            docIds,
+            results
+          ),
           completedOn,
           ...(actionName ? { actionName } : {}),
           ...(statistics ? { statistics } : {}),
@@ -564,10 +542,14 @@ export function transformAnalyzeBatchResults(
         };
       }
       case "ExtractiveSummarizationLROResults": {
+        const kind = "ExtractiveSummarization";
+        if (actionData.status === "failed") {
+          return returnErrorTask(kind, error, completedOn);
+        }
         const { results } = actionData as ExtractiveSummarizationLROResult;
         const { modelVersion, statistics } = results;
         return {
-          kind: "ExtractiveSummarization",
+          kind,
           results: transformDocumentResults<ExtractedSummaryDocumentResultWithDetectedLanguage>(
             docIds,
             results
@@ -579,10 +561,14 @@ export function transformAnalyzeBatchResults(
         };
       }
       case "AbstractiveSummarizationLROResults": {
+        const kind = "AbstractiveSummarization";
+        if (actionData.status === "failed") {
+          return returnErrorTask(kind, error, completedOn);
+        }
         const { results } = actionData as AbstractiveSummarizationLROResult;
         const { modelVersion, statistics } = results;
         return {
-          kind: "AbstractiveSummarization",
+          kind,
           results: transformDocumentResults<AbstractiveSummaryDocumentResultWithDetectedLanguage>(
             docIds,
             results
@@ -594,8 +580,69 @@ export function transformAnalyzeBatchResults(
         };
       }
       default: {
-        throw new Error(`Unsupported results kind: ${kind}`);
+        throw new Error(`Unsupported results kind: ${resultKind}`);
       }
     }
   });
+}
+/**
+ * @internal
+ * Transform a list of error into index and error Map
+ */
+function toIndexErrorMap(errors: ErrorModel[]): Map<number, TextAnalysisError> {
+  const errorMap = new Map<number, TextAnalysisError>();
+  for (const error of errors) {
+    const position = extractErrorPointerIndex(error);
+    const { target, ...errorWithoutTarget } = error;
+    errorMap.set(position, toTextAnalysisError(errorWithoutTarget));
+  }
+  return errorMap;
+}
+
+/**
+ * Return the error for non-custom task
+ *
+ * @param kind - non custom task kind
+ * @param error - error returned from the service
+ * @param failedOn - the LastUpdateDateTime from the service
+ * @returns - AnalyzeBatchResult with error
+ */
+function returnErrorTask(
+  kind: AnalyzeBatchActionName,
+  error: TextAnalysisError | undefined,
+  failedOn: Date
+): AnalyzeBatchResult {
+  if (!error) {
+    throw new Error("Unexpected response from service - no errors for missing action results.");
+  }
+  return {
+    kind,
+    modelVersion: "",
+    failedOn,
+    error,
+  } as AnalyzeBatchResult;
+}
+/**
+ * Return the error for non-custom task
+ *
+ * @param kind - non custom task kind
+ * @param error - error returned from the service
+ * @param failedOn - the LastUpdateDateTime from the service
+ * @returns AnalyzeBatchResult for custom task with error
+ */
+function returnErrorCustomTask(
+  kind: AnalyzeBatchActionName,
+  error: TextAnalysisError | undefined,
+  failedOn: Date
+): AnalyzeBatchResult {
+  if (!error) {
+    throw new Error("Unexpected response from service - no errors for missing action results.");
+  }
+  return {
+    kind,
+    projectName: "",
+    deploymentName: "",
+    failedOn,
+    error,
+  } as AnalyzeBatchResult;
 }

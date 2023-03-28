@@ -6,13 +6,13 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import { GetTokenOptions } from "@azure/core-auth";
 import { readFile } from "fs";
 import { AuthenticationError } from "../../errors";
 import { credentialLogger } from "../../util/logging";
 import { IdentityClient } from "../../client/identityClient";
 import { mapScopesToResource } from "./utils";
-import { MSI, MSIConfiguration } from "./models";
+import { MSI, MSIConfiguration, MSIToken } from "./models";
 import { azureArcAPIVersion } from "./constants";
 
 const msiName = "ManagedIdentityCredential - Azure Arc MSI";
@@ -107,6 +107,7 @@ async function filePathRequest(
  * Defines how to determine whether the Azure Arc MSI is available, and also how to retrieve a token from the Azure Arc MSI.
  */
 export const arcMsi: MSI = {
+  name: "arc",
   async isAvailable({ scopes }): Promise<boolean> {
     const resource = mapScopesToResource(scopes);
     if (!resource) {
@@ -124,7 +125,7 @@ export const arcMsi: MSI = {
   async getToken(
     configuration: MSIConfiguration,
     getTokenOptions: GetTokenOptions = {}
-  ): Promise<AccessToken | null> {
+  ): Promise<MSIToken | null> {
     const { identityClient, scopes, clientId, resourceId } = configuration;
 
     if (clientId) {
@@ -163,6 +164,9 @@ export const arcMsi: MSI = {
       allowInsecureConnection: true,
     });
     const tokenResponse = await identityClient.sendTokenRequest(request);
-    return (tokenResponse && tokenResponse.accessToken) || null;
+    return (
+      (tokenResponse && { ...tokenResponse.accessToken, refreshesOn: tokenResponse.refreshesIn }) ||
+      null
+    );
   },
 };

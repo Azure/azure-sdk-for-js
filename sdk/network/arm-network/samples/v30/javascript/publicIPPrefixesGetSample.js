@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the specified public IP prefix in a specified resource group.
  *
  * @summary Gets the specified public IP prefix in a specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PublicIpPrefixGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/PublicIpPrefixGet.json
  */
 async function getPublicIPPrefix() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const publicIpPrefixName = "test-ipprefix";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -27,4 +28,8 @@ async function getPublicIPPrefix() {
   console.log(result);
 }
 
-getPublicIPPrefix().catch(console.error);
+async function main() {
+  getPublicIPPrefix();
+}
+
+main().catch(console.error);

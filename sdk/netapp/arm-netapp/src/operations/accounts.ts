@@ -6,21 +6,26 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Accounts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetAppManagementClient } from "../netAppManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   NetAppAccount,
   AccountsListBySubscriptionNextOptionalParams,
   AccountsListBySubscriptionOptionalParams,
+  AccountsListBySubscriptionResponse,
   AccountsListNextOptionalParams,
   AccountsListOptionalParams,
-  AccountsListBySubscriptionResponse,
   AccountsListResponse,
   AccountsGetOptionalParams,
   AccountsGetResponse,
@@ -63,22 +68,34 @@ export class AccountsImpl implements Accounts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: AccountsListBySubscriptionOptionalParams
+    options?: AccountsListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<NetAppAccount[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AccountsListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -92,7 +109,7 @@ export class AccountsImpl implements Accounts {
 
   /**
    * List and describe all NetApp accounts in the resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public list(
@@ -107,19 +124,29 @@ export class AccountsImpl implements Accounts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceGroupName, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    options?: AccountsListOptionalParams
+    options?: AccountsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<NetAppAccount[]> {
-    let result = await this._list(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AccountsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -127,7 +154,9 @@ export class AccountsImpl implements Accounts {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -155,7 +184,7 @@ export class AccountsImpl implements Accounts {
 
   /**
    * List and describe all NetApp accounts in the resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _list(
@@ -170,7 +199,7 @@ export class AccountsImpl implements Accounts {
 
   /**
    * Get the NetApp account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -187,7 +216,7 @@ export class AccountsImpl implements Accounts {
 
   /**
    * Create or update the specified NetApp account within the resource group
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param body NetApp Account object supplied in the body of the operation.
    * @param options The options parameters.
@@ -198,8 +227,8 @@ export class AccountsImpl implements Accounts {
     body: NetAppAccount,
     options?: AccountsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AccountsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AccountsCreateOrUpdateResponse>,
       AccountsCreateOrUpdateResponse
     >
   > {
@@ -209,7 +238,7 @@ export class AccountsImpl implements Accounts {
     ): Promise<AccountsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -242,15 +271,18 @@ export class AccountsImpl implements Accounts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, body, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, body, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AccountsCreateOrUpdateResponse,
+      OperationState<AccountsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -258,7 +290,7 @@ export class AccountsImpl implements Accounts {
 
   /**
    * Create or update the specified NetApp account within the resource group
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param body NetApp Account object supplied in the body of the operation.
    * @param options The options parameters.
@@ -280,7 +312,7 @@ export class AccountsImpl implements Accounts {
 
   /**
    * Delete the specified NetApp account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -288,14 +320,14 @@ export class AccountsImpl implements Accounts {
     resourceGroupName: string,
     accountName: string,
     options?: AccountsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -328,15 +360,15 @@ export class AccountsImpl implements Accounts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -344,7 +376,7 @@ export class AccountsImpl implements Accounts {
 
   /**
    * Delete the specified NetApp account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -363,7 +395,7 @@ export class AccountsImpl implements Accounts {
 
   /**
    * Patch the specified NetApp account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param body NetApp Account object supplied in the body of the operation.
    * @param options The options parameters.
@@ -374,8 +406,8 @@ export class AccountsImpl implements Accounts {
     body: NetAppAccountPatch,
     options?: AccountsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AccountsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AccountsUpdateResponse>,
       AccountsUpdateResponse
     >
   > {
@@ -385,7 +417,7 @@ export class AccountsImpl implements Accounts {
     ): Promise<AccountsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -418,15 +450,18 @@ export class AccountsImpl implements Accounts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, body, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, body, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AccountsUpdateResponse,
+      OperationState<AccountsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -434,7 +469,7 @@ export class AccountsImpl implements Accounts {
 
   /**
    * Patch the specified NetApp account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param body NetApp Account object supplied in the body of the operation.
    * @param options The options parameters.
@@ -458,7 +493,7 @@ export class AccountsImpl implements Accounts {
    * Renew identity credentials that are used to authenticate to key vault, for customer-managed key
    * encryption. If encryption.identity.principalId does not match identity.principalId, running this
    * operation will fix it.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -466,14 +501,14 @@ export class AccountsImpl implements Accounts {
     resourceGroupName: string,
     accountName: string,
     options?: AccountsRenewCredentialsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -506,15 +541,15 @@ export class AccountsImpl implements Accounts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, options },
-      renewCredentialsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, options },
+      spec: renewCredentialsOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -524,7 +559,7 @@ export class AccountsImpl implements Accounts {
    * Renew identity credentials that are used to authenticate to key vault, for customer-managed key
    * encryption. If encryption.identity.principalId does not match identity.principalId, running this
    * operation will fix it.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -558,7 +593,7 @@ export class AccountsImpl implements Accounts {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -713,6 +748,7 @@ const renewCredentialsOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/renewCredentials",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -730,7 +766,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -748,7 +783,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -13,16 +13,20 @@ import {
   NetworkManagementClient
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates a ExpressRoute gateway in a specified resource group.
  *
  * @summary Creates or updates a ExpressRoute gateway in a specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteGatewayCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/ExpressRouteGatewayCreate.json
  */
 async function expressRouteGatewayCreate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "resourceGroupName";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["NETWORK_RESOURCE_GROUP"] || "resourceGroupName";
   const expressRouteGatewayName = "gateway-2";
   const putExpressRouteGatewayParameters: ExpressRouteGateway = {
     allowNonVirtualWanTraffic: false,
@@ -43,4 +47,8 @@ async function expressRouteGatewayCreate() {
   console.log(result);
 }
 
-expressRouteGatewayCreate().catch(console.error);
+async function main() {
+  expressRouteGatewayCreate();
+}
+
+main().catch(console.error);

@@ -117,8 +117,8 @@ export interface VirtualMachineScaleSetsListByLocationQueryParam {
   queryParameters: VirtualMachineScaleSetsListByLocationQueryParamProperties;
 }
 
-export type VirtualMachineScaleSetsListByLocationParameters = VirtualMachineScaleSetsListByLocationQueryParam &
-  RequestParameters;
+export type VirtualMachineScaleSetsListByLocationParameters =
+  VirtualMachineScaleSetsListByLocationQueryParam & RequestParameters;
 
 export interface VirtualMachineScaleSetsCreateOrUpdateBodyParam {
   /** The scale set object. */
@@ -139,10 +139,11 @@ export interface VirtualMachineScaleSetsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type VirtualMachineScaleSetsCreateOrUpdateParameters = VirtualMachineScaleSetsCreateOrUpdateQueryParam &
-  VirtualMachineScaleSetsCreateOrUpdateMediaTypesParam &
-  VirtualMachineScaleSetsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type VirtualMachineScaleSetsCreateOrUpdateParameters =
+  VirtualMachineScaleSetsCreateOrUpdateQueryParam &
+    VirtualMachineScaleSetsCreateOrUpdateMediaTypesParam &
+    VirtualMachineScaleSetsCreateOrUpdateBodyParam &
+    RequestParameters;
 
 export interface VirtualMachineScaleSetsUpdateBodyParam {
   /** The scale set object. */
@@ -215,10 +216,11 @@ export interface VirtualMachineScaleSetsDeallocateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type VirtualMachineScaleSetsDeallocateParameters = VirtualMachineScaleSetsDeallocateQueryParam &
-  VirtualMachineScaleSetsDeallocateMediaTypesParam &
-  VirtualMachineScaleSetsDeallocateBodyParam &
-  RequestParameters;
+export type VirtualMachineScaleSetsDeallocateParameters =
+  VirtualMachineScaleSetsDeallocateQueryParam &
+    VirtualMachineScaleSetsDeallocateMediaTypesParam &
+    VirtualMachineScaleSetsDeallocateBodyParam &
+    RequestParameters;
 
 export interface VirtualMachineScaleSetsDeleteInstancesBodyParam {
   /** A list of virtual machine instance IDs from the VM scale set. */
@@ -241,10 +243,11 @@ export interface VirtualMachineScaleSetsDeleteInstancesMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type VirtualMachineScaleSetsDeleteInstancesParameters = VirtualMachineScaleSetsDeleteInstancesQueryParam &
-  VirtualMachineScaleSetsDeleteInstancesMediaTypesParam &
-  VirtualMachineScaleSetsDeleteInstancesBodyParam &
-  RequestParameters;
+export type VirtualMachineScaleSetsDeleteInstancesParameters =
+  VirtualMachineScaleSetsDeleteInstancesQueryParam &
+    VirtualMachineScaleSetsDeleteInstancesMediaTypesParam &
+    VirtualMachineScaleSetsDeleteInstancesBodyParam &
+    RequestParameters;
 
 export interface VirtualMachineScaleSetsGetInstanceViewQueryParamProperties {
   /** Api Version */
@@ -255,8 +258,8 @@ export interface VirtualMachineScaleSetsGetInstanceViewQueryParam {
   queryParameters: VirtualMachineScaleSetsGetInstanceViewQueryParamProperties;
 }
 
-export type VirtualMachineScaleSetsGetInstanceViewParameters = VirtualMachineScaleSetsGetInstanceViewQueryParam &
-  RequestParameters;
+export type VirtualMachineScaleSetsGetInstanceViewParameters =
+  VirtualMachineScaleSetsGetInstanceViewQueryParam & RequestParameters;
 
 export interface VirtualMachineScaleSetsListQueryParamProperties {
   /** Api Version */
@@ -303,8 +306,8 @@ export interface VirtualMachineScaleSetsGetOSUpgradeHistoryQueryParam {
   queryParameters: VirtualMachineScaleSetsGetOSUpgradeHistoryQueryParamProperties;
 }
 
-export type VirtualMachineScaleSetsGetOSUpgradeHistoryParameters = VirtualMachineScaleSetsGetOSUpgradeHistoryQueryParam &
-  RequestParameters;
+export type VirtualMachineScaleSetsGetOSUpgradeHistoryParameters =
+  VirtualMachineScaleSetsGetOSUpgradeHistoryQueryParam & RequestParameters;
 
 export interface VirtualMachineScaleSetsPowerOffBodyParam {
   /** A list of virtual machine instance IDs from the VM scale set. */
@@ -423,10 +426,11 @@ export interface VirtualMachineScaleSetsPerformMaintenanceMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type VirtualMachineScaleSetsPerformMaintenanceParameters = VirtualMachineScaleSetsPerformMaintenanceQueryParam &
-  VirtualMachineScaleSetsPerformMaintenanceMediaTypesParam &
-  VirtualMachineScaleSetsPerformMaintenanceBodyParam &
-  RequestParameters;
+export type VirtualMachineScaleSetsPerformMaintenanceParameters =
+  VirtualMachineScaleSetsPerformMaintenanceQueryParam &
+    VirtualMachineScaleSetsPerformMaintenanceMediaTypesParam &
+    VirtualMachineScaleSetsPerformMaintenanceBodyParam &
+    RequestParameters;
 
 export interface VirtualMachineScaleSetsUpdateInstancesBodyParam {
   /** A list of virtual machine instance IDs from the VM scale set. */
@@ -447,10 +451,11 @@ export interface VirtualMachineScaleSetsUpdateInstancesMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type VirtualMachineScaleSetsUpdateInstancesParameters = VirtualMachineScaleSetsUpdateInstancesQueryParam &
-  VirtualMachineScaleSetsUpdateInstancesMediaTypesParam &
-  VirtualMachineScaleSetsUpdateInstancesBodyParam &
-  RequestParameters;
+export type VirtualMachineScaleSetsUpdateInstancesParameters =
+  VirtualMachineScaleSetsUpdateInstancesQueryParam &
+    VirtualMachineScaleSetsUpdateInstancesMediaTypesParam &
+    VirtualMachineScaleSetsUpdateInstancesBodyParam &
+    RequestParameters;
 
 export interface VirtualMachineScaleSetsReimageBodyParam {
   /** Parameters for Reimaging VM ScaleSet. */
@@ -495,10 +500,11 @@ export interface VirtualMachineScaleSetsReimageAllMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type VirtualMachineScaleSetsReimageAllParameters = VirtualMachineScaleSetsReimageAllQueryParam &
-  VirtualMachineScaleSetsReimageAllMediaTypesParam &
-  VirtualMachineScaleSetsReimageAllBodyParam &
-  RequestParameters;
+export type VirtualMachineScaleSetsReimageAllParameters =
+  VirtualMachineScaleSetsReimageAllQueryParam &
+    VirtualMachineScaleSetsReimageAllMediaTypesParam &
+    VirtualMachineScaleSetsReimageAllBodyParam &
+    RequestParameters;
 
 export interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkQueryParamProperties {
   /** Api Version */
@@ -515,8 +521,9 @@ export interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdate
   queryParameters: VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkQueryParamProperties;
 }
 
-export type VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkParameters = VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkQueryParam &
-  RequestParameters;
+export type VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkParameters =
+  VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkQueryParam &
+    RequestParameters;
 
 export interface VirtualMachineScaleSetsConvertToSinglePlacementGroupBodyParam {
   /** The input object for ConvertToSinglePlacementGroup API. */
@@ -537,10 +544,11 @@ export interface VirtualMachineScaleSetsConvertToSinglePlacementGroupMediaTypesP
   contentType?: "application/json";
 }
 
-export type VirtualMachineScaleSetsConvertToSinglePlacementGroupParameters = VirtualMachineScaleSetsConvertToSinglePlacementGroupQueryParam &
-  VirtualMachineScaleSetsConvertToSinglePlacementGroupMediaTypesParam &
-  VirtualMachineScaleSetsConvertToSinglePlacementGroupBodyParam &
-  RequestParameters;
+export type VirtualMachineScaleSetsConvertToSinglePlacementGroupParameters =
+  VirtualMachineScaleSetsConvertToSinglePlacementGroupQueryParam &
+    VirtualMachineScaleSetsConvertToSinglePlacementGroupMediaTypesParam &
+    VirtualMachineScaleSetsConvertToSinglePlacementGroupBodyParam &
+    RequestParameters;
 
 export interface VirtualMachineScaleSetsSetOrchestrationServiceStateBodyParam {
   /** The input object for SetOrchestrationServiceState API. */
@@ -561,10 +569,11 @@ export interface VirtualMachineScaleSetsSetOrchestrationServiceStateMediaTypesPa
   contentType?: "application/json";
 }
 
-export type VirtualMachineScaleSetsSetOrchestrationServiceStateParameters = VirtualMachineScaleSetsSetOrchestrationServiceStateQueryParam &
-  VirtualMachineScaleSetsSetOrchestrationServiceStateMediaTypesParam &
-  VirtualMachineScaleSetsSetOrchestrationServiceStateBodyParam &
-  RequestParameters;
+export type VirtualMachineScaleSetsSetOrchestrationServiceStateParameters =
+  VirtualMachineScaleSetsSetOrchestrationServiceStateQueryParam &
+    VirtualMachineScaleSetsSetOrchestrationServiceStateMediaTypesParam &
+    VirtualMachineScaleSetsSetOrchestrationServiceStateBodyParam &
+    RequestParameters;
 
 export interface VirtualMachineScaleSetExtensionsCreateOrUpdateBodyParam {
   /** Parameters supplied to the Create VM scale set Extension operation. */
@@ -585,10 +594,11 @@ export interface VirtualMachineScaleSetExtensionsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type VirtualMachineScaleSetExtensionsCreateOrUpdateParameters = VirtualMachineScaleSetExtensionsCreateOrUpdateQueryParam &
-  VirtualMachineScaleSetExtensionsCreateOrUpdateMediaTypesParam &
-  VirtualMachineScaleSetExtensionsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type VirtualMachineScaleSetExtensionsCreateOrUpdateParameters =
+  VirtualMachineScaleSetExtensionsCreateOrUpdateQueryParam &
+    VirtualMachineScaleSetExtensionsCreateOrUpdateMediaTypesParam &
+    VirtualMachineScaleSetExtensionsCreateOrUpdateBodyParam &
+    RequestParameters;
 
 export interface VirtualMachineScaleSetExtensionsUpdateBodyParam {
   /** Parameters supplied to the Update VM scale set Extension operation. */
@@ -609,10 +619,11 @@ export interface VirtualMachineScaleSetExtensionsUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type VirtualMachineScaleSetExtensionsUpdateParameters = VirtualMachineScaleSetExtensionsUpdateQueryParam &
-  VirtualMachineScaleSetExtensionsUpdateMediaTypesParam &
-  VirtualMachineScaleSetExtensionsUpdateBodyParam &
-  RequestParameters;
+export type VirtualMachineScaleSetExtensionsUpdateParameters =
+  VirtualMachineScaleSetExtensionsUpdateQueryParam &
+    VirtualMachineScaleSetExtensionsUpdateMediaTypesParam &
+    VirtualMachineScaleSetExtensionsUpdateBodyParam &
+    RequestParameters;
 
 export interface VirtualMachineScaleSetExtensionsDeleteQueryParamProperties {
   /** Api Version */
@@ -623,8 +634,8 @@ export interface VirtualMachineScaleSetExtensionsDeleteQueryParam {
   queryParameters: VirtualMachineScaleSetExtensionsDeleteQueryParamProperties;
 }
 
-export type VirtualMachineScaleSetExtensionsDeleteParameters = VirtualMachineScaleSetExtensionsDeleteQueryParam &
-  RequestParameters;
+export type VirtualMachineScaleSetExtensionsDeleteParameters =
+  VirtualMachineScaleSetExtensionsDeleteQueryParam & RequestParameters;
 
 export interface VirtualMachineScaleSetExtensionsGetQueryParamProperties {
   /** The expand expression to apply on the operation. */
@@ -637,8 +648,8 @@ export interface VirtualMachineScaleSetExtensionsGetQueryParam {
   queryParameters: VirtualMachineScaleSetExtensionsGetQueryParamProperties;
 }
 
-export type VirtualMachineScaleSetExtensionsGetParameters = VirtualMachineScaleSetExtensionsGetQueryParam &
-  RequestParameters;
+export type VirtualMachineScaleSetExtensionsGetParameters =
+  VirtualMachineScaleSetExtensionsGetQueryParam & RequestParameters;
 
 export interface VirtualMachineScaleSetExtensionsListQueryParamProperties {
   /** Api Version */
@@ -649,8 +660,8 @@ export interface VirtualMachineScaleSetExtensionsListQueryParam {
   queryParameters: VirtualMachineScaleSetExtensionsListQueryParamProperties;
 }
 
-export type VirtualMachineScaleSetExtensionsListParameters = VirtualMachineScaleSetExtensionsListQueryParam &
-  RequestParameters;
+export type VirtualMachineScaleSetExtensionsListParameters =
+  VirtualMachineScaleSetExtensionsListQueryParam & RequestParameters;
 
 export interface VirtualMachineScaleSetRollingUpgradesCancelQueryParamProperties {
   /** Api Version */
@@ -661,8 +672,8 @@ export interface VirtualMachineScaleSetRollingUpgradesCancelQueryParam {
   queryParameters: VirtualMachineScaleSetRollingUpgradesCancelQueryParamProperties;
 }
 
-export type VirtualMachineScaleSetRollingUpgradesCancelParameters = VirtualMachineScaleSetRollingUpgradesCancelQueryParam &
-  RequestParameters;
+export type VirtualMachineScaleSetRollingUpgradesCancelParameters =
+  VirtualMachineScaleSetRollingUpgradesCancelQueryParam & RequestParameters;
 
 export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgradeQueryParamProperties {
   /** Api Version */
@@ -673,8 +684,8 @@ export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgradeQueryParam {
   queryParameters: VirtualMachineScaleSetRollingUpgradesStartOSUpgradeQueryParamProperties;
 }
 
-export type VirtualMachineScaleSetRollingUpgradesStartOSUpgradeParameters = VirtualMachineScaleSetRollingUpgradesStartOSUpgradeQueryParam &
-  RequestParameters;
+export type VirtualMachineScaleSetRollingUpgradesStartOSUpgradeParameters =
+  VirtualMachineScaleSetRollingUpgradesStartOSUpgradeQueryParam & RequestParameters;
 
 export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeQueryParamProperties {
   /** Api Version */
@@ -685,8 +696,8 @@ export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeQuery
   queryParameters: VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeQueryParamProperties;
 }
 
-export type VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeParameters = VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeQueryParam &
-  RequestParameters;
+export type VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeParameters =
+  VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeQueryParam & RequestParameters;
 
 export interface VirtualMachineScaleSetRollingUpgradesGetLatestQueryParamProperties {
   /** Api Version */
@@ -697,8 +708,8 @@ export interface VirtualMachineScaleSetRollingUpgradesGetLatestQueryParam {
   queryParameters: VirtualMachineScaleSetRollingUpgradesGetLatestQueryParamProperties;
 }
 
-export type VirtualMachineScaleSetRollingUpgradesGetLatestParameters = VirtualMachineScaleSetRollingUpgradesGetLatestQueryParam &
-  RequestParameters;
+export type VirtualMachineScaleSetRollingUpgradesGetLatestParameters =
+  VirtualMachineScaleSetRollingUpgradesGetLatestQueryParam & RequestParameters;
 
 export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdateBodyParam {
   /** Parameters supplied to the Create Virtual Machine Extension operation. */
@@ -719,10 +730,11 @@ export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdateMediaTypesParam
   contentType?: "application/json";
 }
 
-export type VirtualMachineScaleSetVMExtensionsCreateOrUpdateParameters = VirtualMachineScaleSetVMExtensionsCreateOrUpdateQueryParam &
-  VirtualMachineScaleSetVMExtensionsCreateOrUpdateMediaTypesParam &
-  VirtualMachineScaleSetVMExtensionsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type VirtualMachineScaleSetVMExtensionsCreateOrUpdateParameters =
+  VirtualMachineScaleSetVMExtensionsCreateOrUpdateQueryParam &
+    VirtualMachineScaleSetVMExtensionsCreateOrUpdateMediaTypesParam &
+    VirtualMachineScaleSetVMExtensionsCreateOrUpdateBodyParam &
+    RequestParameters;
 
 export interface VirtualMachineScaleSetVMExtensionsUpdateBodyParam {
   /** Parameters supplied to the Update Virtual Machine Extension operation. */
@@ -743,10 +755,11 @@ export interface VirtualMachineScaleSetVMExtensionsUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type VirtualMachineScaleSetVMExtensionsUpdateParameters = VirtualMachineScaleSetVMExtensionsUpdateQueryParam &
-  VirtualMachineScaleSetVMExtensionsUpdateMediaTypesParam &
-  VirtualMachineScaleSetVMExtensionsUpdateBodyParam &
-  RequestParameters;
+export type VirtualMachineScaleSetVMExtensionsUpdateParameters =
+  VirtualMachineScaleSetVMExtensionsUpdateQueryParam &
+    VirtualMachineScaleSetVMExtensionsUpdateMediaTypesParam &
+    VirtualMachineScaleSetVMExtensionsUpdateBodyParam &
+    RequestParameters;
 
 export interface VirtualMachineScaleSetVMExtensionsDeleteQueryParamProperties {
   /** Api Version */
@@ -757,8 +770,8 @@ export interface VirtualMachineScaleSetVMExtensionsDeleteQueryParam {
   queryParameters: VirtualMachineScaleSetVMExtensionsDeleteQueryParamProperties;
 }
 
-export type VirtualMachineScaleSetVMExtensionsDeleteParameters = VirtualMachineScaleSetVMExtensionsDeleteQueryParam &
-  RequestParameters;
+export type VirtualMachineScaleSetVMExtensionsDeleteParameters =
+  VirtualMachineScaleSetVMExtensionsDeleteQueryParam & RequestParameters;
 
 export interface VirtualMachineScaleSetVMExtensionsGetQueryParamProperties {
   /** The expand expression to apply on the operation. */
@@ -771,8 +784,8 @@ export interface VirtualMachineScaleSetVMExtensionsGetQueryParam {
   queryParameters: VirtualMachineScaleSetVMExtensionsGetQueryParamProperties;
 }
 
-export type VirtualMachineScaleSetVMExtensionsGetParameters = VirtualMachineScaleSetVMExtensionsGetQueryParam &
-  RequestParameters;
+export type VirtualMachineScaleSetVMExtensionsGetParameters =
+  VirtualMachineScaleSetVMExtensionsGetQueryParam & RequestParameters;
 
 export interface VirtualMachineScaleSetVMExtensionsListQueryParamProperties {
   /** The expand expression to apply on the operation. */
@@ -785,8 +798,8 @@ export interface VirtualMachineScaleSetVMExtensionsListQueryParam {
   queryParameters: VirtualMachineScaleSetVMExtensionsListQueryParamProperties;
 }
 
-export type VirtualMachineScaleSetVMExtensionsListParameters = VirtualMachineScaleSetVMExtensionsListQueryParam &
-  RequestParameters;
+export type VirtualMachineScaleSetVMExtensionsListParameters =
+  VirtualMachineScaleSetVMExtensionsListQueryParam & RequestParameters;
 
 export interface VirtualMachineScaleSetVMsReimageBodyParam {
   /** Parameters for the Reimaging Virtual machine in ScaleSet. */
@@ -807,10 +820,11 @@ export interface VirtualMachineScaleSetVMsReimageMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type VirtualMachineScaleSetVMsReimageParameters = VirtualMachineScaleSetVMsReimageQueryParam &
-  VirtualMachineScaleSetVMsReimageMediaTypesParam &
-  VirtualMachineScaleSetVMsReimageBodyParam &
-  RequestParameters;
+export type VirtualMachineScaleSetVMsReimageParameters =
+  VirtualMachineScaleSetVMsReimageQueryParam &
+    VirtualMachineScaleSetVMsReimageMediaTypesParam &
+    VirtualMachineScaleSetVMsReimageBodyParam &
+    RequestParameters;
 
 export interface VirtualMachineScaleSetVMsReimageAllQueryParamProperties {
   /** Api Version */
@@ -821,8 +835,8 @@ export interface VirtualMachineScaleSetVMsReimageAllQueryParam {
   queryParameters: VirtualMachineScaleSetVMsReimageAllQueryParamProperties;
 }
 
-export type VirtualMachineScaleSetVMsReimageAllParameters = VirtualMachineScaleSetVMsReimageAllQueryParam &
-  RequestParameters;
+export type VirtualMachineScaleSetVMsReimageAllParameters =
+  VirtualMachineScaleSetVMsReimageAllQueryParam & RequestParameters;
 
 export interface VirtualMachineScaleSetVMsDeallocateQueryParamProperties {
   /** Api Version */
@@ -833,8 +847,8 @@ export interface VirtualMachineScaleSetVMsDeallocateQueryParam {
   queryParameters: VirtualMachineScaleSetVMsDeallocateQueryParamProperties;
 }
 
-export type VirtualMachineScaleSetVMsDeallocateParameters = VirtualMachineScaleSetVMsDeallocateQueryParam &
-  RequestParameters;
+export type VirtualMachineScaleSetVMsDeallocateParameters =
+  VirtualMachineScaleSetVMsDeallocateQueryParam & RequestParameters;
 
 export interface VirtualMachineScaleSetVMsUpdateBodyParam {
   /** Parameters supplied to the Update Virtual Machine Scale Sets VM operation. */
@@ -897,8 +911,8 @@ export interface VirtualMachineScaleSetVMsGetInstanceViewQueryParam {
   queryParameters: VirtualMachineScaleSetVMsGetInstanceViewQueryParamProperties;
 }
 
-export type VirtualMachineScaleSetVMsGetInstanceViewParameters = VirtualMachineScaleSetVMsGetInstanceViewQueryParam &
-  RequestParameters;
+export type VirtualMachineScaleSetVMsGetInstanceViewParameters =
+  VirtualMachineScaleSetVMsGetInstanceViewQueryParam & RequestParameters;
 
 export interface VirtualMachineScaleSetVMsListQueryParamProperties {
   /** The filter to apply to the operation. Allowed values are 'startswith(instanceView/statuses/code, 'PowerState') eq true', 'properties/latestModelApplied eq true', 'properties/latestModelApplied eq false'. */
@@ -929,8 +943,8 @@ export interface VirtualMachineScaleSetVMsPowerOffQueryParam {
   queryParameters: VirtualMachineScaleSetVMsPowerOffQueryParamProperties;
 }
 
-export type VirtualMachineScaleSetVMsPowerOffParameters = VirtualMachineScaleSetVMsPowerOffQueryParam &
-  RequestParameters;
+export type VirtualMachineScaleSetVMsPowerOffParameters =
+  VirtualMachineScaleSetVMsPowerOffQueryParam & RequestParameters;
 
 export interface VirtualMachineScaleSetVMsRestartQueryParamProperties {
   /** Api Version */
@@ -941,8 +955,8 @@ export interface VirtualMachineScaleSetVMsRestartQueryParam {
   queryParameters: VirtualMachineScaleSetVMsRestartQueryParamProperties;
 }
 
-export type VirtualMachineScaleSetVMsRestartParameters = VirtualMachineScaleSetVMsRestartQueryParam &
-  RequestParameters;
+export type VirtualMachineScaleSetVMsRestartParameters =
+  VirtualMachineScaleSetVMsRestartQueryParam & RequestParameters;
 
 export interface VirtualMachineScaleSetVMsStartQueryParamProperties {
   /** Api Version */
@@ -965,8 +979,8 @@ export interface VirtualMachineScaleSetVMsRedeployQueryParam {
   queryParameters: VirtualMachineScaleSetVMsRedeployQueryParamProperties;
 }
 
-export type VirtualMachineScaleSetVMsRedeployParameters = VirtualMachineScaleSetVMsRedeployQueryParam &
-  RequestParameters;
+export type VirtualMachineScaleSetVMsRedeployParameters =
+  VirtualMachineScaleSetVMsRedeployQueryParam & RequestParameters;
 
 export interface VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataQueryParamProperties {
   /** Expiration duration in minutes for the SAS URIs with a value between 1 to 1440 minutes. <br><br>NOTE: If not specified, SAS URIs will be generated with a default expiration duration of 120 minutes. */
@@ -979,8 +993,8 @@ export interface VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataQueryParam 
   queryParameters: VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataQueryParamProperties;
 }
 
-export type VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataParameters = VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataQueryParam &
-  RequestParameters;
+export type VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataParameters =
+  VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataQueryParam & RequestParameters;
 
 export interface VirtualMachineScaleSetVMsPerformMaintenanceQueryParamProperties {
   /** Api Version */
@@ -991,8 +1005,8 @@ export interface VirtualMachineScaleSetVMsPerformMaintenanceQueryParam {
   queryParameters: VirtualMachineScaleSetVMsPerformMaintenanceQueryParamProperties;
 }
 
-export type VirtualMachineScaleSetVMsPerformMaintenanceParameters = VirtualMachineScaleSetVMsPerformMaintenanceQueryParam &
-  RequestParameters;
+export type VirtualMachineScaleSetVMsPerformMaintenanceParameters =
+  VirtualMachineScaleSetVMsPerformMaintenanceQueryParam & RequestParameters;
 
 export interface VirtualMachineScaleSetVMsSimulateEvictionQueryParamProperties {
   /** Api Version */
@@ -1003,8 +1017,8 @@ export interface VirtualMachineScaleSetVMsSimulateEvictionQueryParam {
   queryParameters: VirtualMachineScaleSetVMsSimulateEvictionQueryParamProperties;
 }
 
-export type VirtualMachineScaleSetVMsSimulateEvictionParameters = VirtualMachineScaleSetVMsSimulateEvictionQueryParam &
-  RequestParameters;
+export type VirtualMachineScaleSetVMsSimulateEvictionParameters =
+  VirtualMachineScaleSetVMsSimulateEvictionQueryParam & RequestParameters;
 
 export interface VirtualMachineScaleSetVMsRunCommandBodyParam {
   /** Parameters supplied to the Run command operation. */
@@ -1025,10 +1039,11 @@ export interface VirtualMachineScaleSetVMsRunCommandMediaTypesParam {
   contentType?: "application/json" | "text/json";
 }
 
-export type VirtualMachineScaleSetVMsRunCommandParameters = VirtualMachineScaleSetVMsRunCommandQueryParam &
-  VirtualMachineScaleSetVMsRunCommandMediaTypesParam &
-  VirtualMachineScaleSetVMsRunCommandBodyParam &
-  RequestParameters;
+export type VirtualMachineScaleSetVMsRunCommandParameters =
+  VirtualMachineScaleSetVMsRunCommandQueryParam &
+    VirtualMachineScaleSetVMsRunCommandMediaTypesParam &
+    VirtualMachineScaleSetVMsRunCommandBodyParam &
+    RequestParameters;
 
 export interface VirtualMachineExtensionsCreateOrUpdateBodyParam {
   /** Parameters supplied to the Create Virtual Machine Extension operation. */
@@ -1049,10 +1064,11 @@ export interface VirtualMachineExtensionsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type VirtualMachineExtensionsCreateOrUpdateParameters = VirtualMachineExtensionsCreateOrUpdateQueryParam &
-  VirtualMachineExtensionsCreateOrUpdateMediaTypesParam &
-  VirtualMachineExtensionsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type VirtualMachineExtensionsCreateOrUpdateParameters =
+  VirtualMachineExtensionsCreateOrUpdateQueryParam &
+    VirtualMachineExtensionsCreateOrUpdateMediaTypesParam &
+    VirtualMachineExtensionsCreateOrUpdateBodyParam &
+    RequestParameters;
 
 export interface VirtualMachineExtensionsUpdateBodyParam {
   /** Parameters supplied to the Update Virtual Machine Extension operation. */
@@ -1249,8 +1265,8 @@ export interface VirtualMachinesConvertToManagedDisksQueryParam {
   queryParameters: VirtualMachinesConvertToManagedDisksQueryParamProperties;
 }
 
-export type VirtualMachinesConvertToManagedDisksParameters = VirtualMachinesConvertToManagedDisksQueryParam &
-  RequestParameters;
+export type VirtualMachinesConvertToManagedDisksParameters =
+  VirtualMachinesConvertToManagedDisksQueryParam & RequestParameters;
 
 export interface VirtualMachinesDeallocateQueryParamProperties {
   /** Optional parameter to hibernate a virtual machine. (Feature in Preview) */
@@ -1315,8 +1331,8 @@ export interface VirtualMachinesListAvailableSizesQueryParam {
   queryParameters: VirtualMachinesListAvailableSizesQueryParamProperties;
 }
 
-export type VirtualMachinesListAvailableSizesParameters = VirtualMachinesListAvailableSizesQueryParam &
-  RequestParameters;
+export type VirtualMachinesListAvailableSizesParameters =
+  VirtualMachinesListAvailableSizesQueryParam & RequestParameters;
 
 export interface VirtualMachinesPowerOffQueryParamProperties {
   /** The parameter to request non-graceful VM shutdown. True value for this flag indicates non-graceful shutdown whereas false indicates otherwise. Default value for this flag is false if not specified */
@@ -1412,8 +1428,8 @@ export interface VirtualMachinesRetrieveBootDiagnosticsDataQueryParam {
   queryParameters: VirtualMachinesRetrieveBootDiagnosticsDataQueryParamProperties;
 }
 
-export type VirtualMachinesRetrieveBootDiagnosticsDataParameters = VirtualMachinesRetrieveBootDiagnosticsDataQueryParam &
-  RequestParameters;
+export type VirtualMachinesRetrieveBootDiagnosticsDataParameters =
+  VirtualMachinesRetrieveBootDiagnosticsDataQueryParam & RequestParameters;
 
 export interface VirtualMachinesPerformMaintenanceQueryParamProperties {
   /** Api Version */
@@ -1424,8 +1440,8 @@ export interface VirtualMachinesPerformMaintenanceQueryParam {
   queryParameters: VirtualMachinesPerformMaintenanceQueryParamProperties;
 }
 
-export type VirtualMachinesPerformMaintenanceParameters = VirtualMachinesPerformMaintenanceQueryParam &
-  RequestParameters;
+export type VirtualMachinesPerformMaintenanceParameters =
+  VirtualMachinesPerformMaintenanceQueryParam & RequestParameters;
 
 export interface VirtualMachinesSimulateEvictionQueryParamProperties {
   /** Api Version */
@@ -1548,8 +1564,8 @@ export interface VirtualMachineImagesListPublishersQueryParam {
   queryParameters: VirtualMachineImagesListPublishersQueryParamProperties;
 }
 
-export type VirtualMachineImagesListPublishersParameters = VirtualMachineImagesListPublishersQueryParam &
-  RequestParameters;
+export type VirtualMachineImagesListPublishersParameters =
+  VirtualMachineImagesListPublishersQueryParam & RequestParameters;
 
 export interface VirtualMachineImagesListSkusQueryParamProperties {
   /** Api Version */
@@ -1572,8 +1588,8 @@ export interface VirtualMachineImagesListByEdgeZoneQueryParam {
   queryParameters: VirtualMachineImagesListByEdgeZoneQueryParamProperties;
 }
 
-export type VirtualMachineImagesListByEdgeZoneParameters = VirtualMachineImagesListByEdgeZoneQueryParam &
-  RequestParameters;
+export type VirtualMachineImagesListByEdgeZoneParameters =
+  VirtualMachineImagesListByEdgeZoneQueryParam & RequestParameters;
 
 export interface VirtualMachineImagesEdgeZoneGetQueryParamProperties {
   /** Api Version */
@@ -1602,8 +1618,8 @@ export interface VirtualMachineImagesEdgeZoneListQueryParam {
   queryParameters: VirtualMachineImagesEdgeZoneListQueryParamProperties;
 }
 
-export type VirtualMachineImagesEdgeZoneListParameters = VirtualMachineImagesEdgeZoneListQueryParam &
-  RequestParameters;
+export type VirtualMachineImagesEdgeZoneListParameters =
+  VirtualMachineImagesEdgeZoneListQueryParam & RequestParameters;
 
 export interface VirtualMachineImagesEdgeZoneListOffersQueryParamProperties {
   /** Api Version */
@@ -1614,8 +1630,8 @@ export interface VirtualMachineImagesEdgeZoneListOffersQueryParam {
   queryParameters: VirtualMachineImagesEdgeZoneListOffersQueryParamProperties;
 }
 
-export type VirtualMachineImagesEdgeZoneListOffersParameters = VirtualMachineImagesEdgeZoneListOffersQueryParam &
-  RequestParameters;
+export type VirtualMachineImagesEdgeZoneListOffersParameters =
+  VirtualMachineImagesEdgeZoneListOffersQueryParam & RequestParameters;
 
 export interface VirtualMachineImagesEdgeZoneListPublishersQueryParamProperties {
   /** Api Version */
@@ -1626,8 +1642,8 @@ export interface VirtualMachineImagesEdgeZoneListPublishersQueryParam {
   queryParameters: VirtualMachineImagesEdgeZoneListPublishersQueryParamProperties;
 }
 
-export type VirtualMachineImagesEdgeZoneListPublishersParameters = VirtualMachineImagesEdgeZoneListPublishersQueryParam &
-  RequestParameters;
+export type VirtualMachineImagesEdgeZoneListPublishersParameters =
+  VirtualMachineImagesEdgeZoneListPublishersQueryParam & RequestParameters;
 
 export interface VirtualMachineImagesEdgeZoneListSkusQueryParamProperties {
   /** Api Version */
@@ -1638,8 +1654,8 @@ export interface VirtualMachineImagesEdgeZoneListSkusQueryParam {
   queryParameters: VirtualMachineImagesEdgeZoneListSkusQueryParamProperties;
 }
 
-export type VirtualMachineImagesEdgeZoneListSkusParameters = VirtualMachineImagesEdgeZoneListSkusQueryParam &
-  RequestParameters;
+export type VirtualMachineImagesEdgeZoneListSkusParameters =
+  VirtualMachineImagesEdgeZoneListSkusQueryParam & RequestParameters;
 
 export interface VirtualMachineExtensionImagesGetQueryParamProperties {
   /** Api Version */
@@ -1650,8 +1666,8 @@ export interface VirtualMachineExtensionImagesGetQueryParam {
   queryParameters: VirtualMachineExtensionImagesGetQueryParamProperties;
 }
 
-export type VirtualMachineExtensionImagesGetParameters = VirtualMachineExtensionImagesGetQueryParam &
-  RequestParameters;
+export type VirtualMachineExtensionImagesGetParameters =
+  VirtualMachineExtensionImagesGetQueryParam & RequestParameters;
 
 export interface VirtualMachineExtensionImagesListTypesQueryParamProperties {
   /** Api Version */
@@ -1662,8 +1678,8 @@ export interface VirtualMachineExtensionImagesListTypesQueryParam {
   queryParameters: VirtualMachineExtensionImagesListTypesQueryParamProperties;
 }
 
-export type VirtualMachineExtensionImagesListTypesParameters = VirtualMachineExtensionImagesListTypesQueryParam &
-  RequestParameters;
+export type VirtualMachineExtensionImagesListTypesParameters =
+  VirtualMachineExtensionImagesListTypesQueryParam & RequestParameters;
 
 export interface VirtualMachineExtensionImagesListVersionsQueryParamProperties {
   /** The filter to apply on the operation. */
@@ -1678,8 +1694,8 @@ export interface VirtualMachineExtensionImagesListVersionsQueryParam {
   queryParameters: VirtualMachineExtensionImagesListVersionsQueryParamProperties;
 }
 
-export type VirtualMachineExtensionImagesListVersionsParameters = VirtualMachineExtensionImagesListVersionsQueryParam &
-  RequestParameters;
+export type VirtualMachineExtensionImagesListVersionsParameters =
+  VirtualMachineExtensionImagesListVersionsQueryParam & RequestParameters;
 
 export interface AvailabilitySetsCreateOrUpdateBodyParam {
   /** Parameters supplied to the Create Availability Set operation. */
@@ -1762,8 +1778,8 @@ export interface AvailabilitySetsListBySubscriptionQueryParam {
   queryParameters: AvailabilitySetsListBySubscriptionQueryParamProperties;
 }
 
-export type AvailabilitySetsListBySubscriptionParameters = AvailabilitySetsListBySubscriptionQueryParam &
-  RequestParameters;
+export type AvailabilitySetsListBySubscriptionParameters =
+  AvailabilitySetsListBySubscriptionQueryParam & RequestParameters;
 
 export interface AvailabilitySetsListQueryParamProperties {
   /** Api Version */
@@ -1785,8 +1801,8 @@ export interface AvailabilitySetsListAvailableSizesQueryParam {
   queryParameters: AvailabilitySetsListAvailableSizesQueryParamProperties;
 }
 
-export type AvailabilitySetsListAvailableSizesParameters = AvailabilitySetsListAvailableSizesQueryParam &
-  RequestParameters;
+export type AvailabilitySetsListAvailableSizesParameters =
+  AvailabilitySetsListAvailableSizesQueryParam & RequestParameters;
 
 export interface ProximityPlacementGroupsCreateOrUpdateBodyParam {
   /** Parameters supplied to the Create Proximity Placement Group operation. */
@@ -1807,10 +1823,11 @@ export interface ProximityPlacementGroupsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ProximityPlacementGroupsCreateOrUpdateParameters = ProximityPlacementGroupsCreateOrUpdateQueryParam &
-  ProximityPlacementGroupsCreateOrUpdateMediaTypesParam &
-  ProximityPlacementGroupsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type ProximityPlacementGroupsCreateOrUpdateParameters =
+  ProximityPlacementGroupsCreateOrUpdateQueryParam &
+    ProximityPlacementGroupsCreateOrUpdateMediaTypesParam &
+    ProximityPlacementGroupsCreateOrUpdateBodyParam &
+    RequestParameters;
 
 export interface ProximityPlacementGroupsUpdateBodyParam {
   /** Parameters supplied to the Update Proximity Placement Group operation. */
@@ -1871,8 +1888,8 @@ export interface ProximityPlacementGroupsListBySubscriptionQueryParam {
   queryParameters: ProximityPlacementGroupsListBySubscriptionQueryParamProperties;
 }
 
-export type ProximityPlacementGroupsListBySubscriptionParameters = ProximityPlacementGroupsListBySubscriptionQueryParam &
-  RequestParameters;
+export type ProximityPlacementGroupsListBySubscriptionParameters =
+  ProximityPlacementGroupsListBySubscriptionQueryParam & RequestParameters;
 
 export interface ProximityPlacementGroupsListByResourceGroupQueryParamProperties {
   /** Api Version */
@@ -1883,8 +1900,8 @@ export interface ProximityPlacementGroupsListByResourceGroupQueryParam {
   queryParameters: ProximityPlacementGroupsListByResourceGroupQueryParamProperties;
 }
 
-export type ProximityPlacementGroupsListByResourceGroupParameters = ProximityPlacementGroupsListByResourceGroupQueryParam &
-  RequestParameters;
+export type ProximityPlacementGroupsListByResourceGroupParameters =
+  ProximityPlacementGroupsListByResourceGroupQueryParam & RequestParameters;
 
 export interface DedicatedHostGroupsCreateOrUpdateBodyParam {
   /** Parameters supplied to the Create Dedicated Host Group. */
@@ -1905,10 +1922,11 @@ export interface DedicatedHostGroupsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type DedicatedHostGroupsCreateOrUpdateParameters = DedicatedHostGroupsCreateOrUpdateQueryParam &
-  DedicatedHostGroupsCreateOrUpdateMediaTypesParam &
-  DedicatedHostGroupsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type DedicatedHostGroupsCreateOrUpdateParameters =
+  DedicatedHostGroupsCreateOrUpdateQueryParam &
+    DedicatedHostGroupsCreateOrUpdateMediaTypesParam &
+    DedicatedHostGroupsCreateOrUpdateBodyParam &
+    RequestParameters;
 
 export interface DedicatedHostGroupsUpdateBodyParam {
   /** Parameters supplied to the Update Dedicated Host Group operation. */
@@ -1968,8 +1986,8 @@ export interface DedicatedHostGroupsListByResourceGroupQueryParam {
   queryParameters: DedicatedHostGroupsListByResourceGroupQueryParamProperties;
 }
 
-export type DedicatedHostGroupsListByResourceGroupParameters = DedicatedHostGroupsListByResourceGroupQueryParam &
-  RequestParameters;
+export type DedicatedHostGroupsListByResourceGroupParameters =
+  DedicatedHostGroupsListByResourceGroupQueryParam & RequestParameters;
 
 export interface DedicatedHostGroupsListBySubscriptionQueryParamProperties {
   /** Api Version */
@@ -1980,8 +1998,8 @@ export interface DedicatedHostGroupsListBySubscriptionQueryParam {
   queryParameters: DedicatedHostGroupsListBySubscriptionQueryParamProperties;
 }
 
-export type DedicatedHostGroupsListBySubscriptionParameters = DedicatedHostGroupsListBySubscriptionQueryParam &
-  RequestParameters;
+export type DedicatedHostGroupsListBySubscriptionParameters =
+  DedicatedHostGroupsListBySubscriptionQueryParam & RequestParameters;
 
 export interface DedicatedHostsCreateOrUpdateBodyParam {
   /** Parameters supplied to the Create Dedicated Host. */
@@ -2099,8 +2117,8 @@ export interface SshPublicKeysListByResourceGroupQueryParam {
   queryParameters: SshPublicKeysListByResourceGroupQueryParamProperties;
 }
 
-export type SshPublicKeysListByResourceGroupParameters = SshPublicKeysListByResourceGroupQueryParam &
-  RequestParameters;
+export type SshPublicKeysListByResourceGroupParameters =
+  SshPublicKeysListByResourceGroupQueryParam & RequestParameters;
 
 export interface SshPublicKeysCreateBodyParam {
   /** Parameters supplied to create the SSH public key. */
@@ -2298,10 +2316,11 @@ export interface RestorePointCollectionsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type RestorePointCollectionsCreateOrUpdateParameters = RestorePointCollectionsCreateOrUpdateQueryParam &
-  RestorePointCollectionsCreateOrUpdateMediaTypesParam &
-  RestorePointCollectionsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type RestorePointCollectionsCreateOrUpdateParameters =
+  RestorePointCollectionsCreateOrUpdateQueryParam &
+    RestorePointCollectionsCreateOrUpdateMediaTypesParam &
+    RestorePointCollectionsCreateOrUpdateBodyParam &
+    RequestParameters;
 
 export interface RestorePointCollectionsUpdateBodyParam {
   /** Parameters supplied to the Update restore point collection operation. */
@@ -2444,10 +2463,11 @@ export interface CapacityReservationGroupsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type CapacityReservationGroupsCreateOrUpdateParameters = CapacityReservationGroupsCreateOrUpdateQueryParam &
-  CapacityReservationGroupsCreateOrUpdateMediaTypesParam &
-  CapacityReservationGroupsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type CapacityReservationGroupsCreateOrUpdateParameters =
+  CapacityReservationGroupsCreateOrUpdateQueryParam &
+    CapacityReservationGroupsCreateOrUpdateMediaTypesParam &
+    CapacityReservationGroupsCreateOrUpdateBodyParam &
+    RequestParameters;
 
 export interface CapacityReservationGroupsUpdateBodyParam {
   /** Parameters supplied to the Update capacity reservation Group operation. */
@@ -2510,8 +2530,8 @@ export interface CapacityReservationGroupsListByResourceGroupQueryParam {
   queryParameters: CapacityReservationGroupsListByResourceGroupQueryParamProperties;
 }
 
-export type CapacityReservationGroupsListByResourceGroupParameters = CapacityReservationGroupsListByResourceGroupQueryParam &
-  RequestParameters;
+export type CapacityReservationGroupsListByResourceGroupParameters =
+  CapacityReservationGroupsListByResourceGroupQueryParam & RequestParameters;
 
 export interface CapacityReservationGroupsListBySubscriptionQueryParamProperties {
   /** Api Version */
@@ -2524,8 +2544,8 @@ export interface CapacityReservationGroupsListBySubscriptionQueryParam {
   queryParameters: CapacityReservationGroupsListBySubscriptionQueryParamProperties;
 }
 
-export type CapacityReservationGroupsListBySubscriptionParameters = CapacityReservationGroupsListBySubscriptionQueryParam &
-  RequestParameters;
+export type CapacityReservationGroupsListBySubscriptionParameters =
+  CapacityReservationGroupsListBySubscriptionQueryParam & RequestParameters;
 
 export interface CapacityReservationsCreateOrUpdateBodyParam {
   /** Parameters supplied to the Create capacity reservation. */
@@ -2546,10 +2566,11 @@ export interface CapacityReservationsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type CapacityReservationsCreateOrUpdateParameters = CapacityReservationsCreateOrUpdateQueryParam &
-  CapacityReservationsCreateOrUpdateMediaTypesParam &
-  CapacityReservationsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type CapacityReservationsCreateOrUpdateParameters =
+  CapacityReservationsCreateOrUpdateQueryParam &
+    CapacityReservationsCreateOrUpdateMediaTypesParam &
+    CapacityReservationsCreateOrUpdateBodyParam &
+    RequestParameters;
 
 export interface CapacityReservationsUpdateBodyParam {
   /** Parameters supplied to the Update capacity reservation operation. */
@@ -2610,8 +2631,8 @@ export interface CapacityReservationsListByCapacityReservationGroupQueryParam {
   queryParameters: CapacityReservationsListByCapacityReservationGroupQueryParamProperties;
 }
 
-export type CapacityReservationsListByCapacityReservationGroupParameters = CapacityReservationsListByCapacityReservationGroupQueryParam &
-  RequestParameters;
+export type CapacityReservationsListByCapacityReservationGroupParameters =
+  CapacityReservationsListByCapacityReservationGroupQueryParam & RequestParameters;
 
 export interface LogAnalyticsExportRequestRateByIntervalBodyParam {
   /** Parameters supplied to the LogAnalytics getRequestRateByInterval Api. */
@@ -2632,10 +2653,11 @@ export interface LogAnalyticsExportRequestRateByIntervalMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type LogAnalyticsExportRequestRateByIntervalParameters = LogAnalyticsExportRequestRateByIntervalQueryParam &
-  LogAnalyticsExportRequestRateByIntervalMediaTypesParam &
-  LogAnalyticsExportRequestRateByIntervalBodyParam &
-  RequestParameters;
+export type LogAnalyticsExportRequestRateByIntervalParameters =
+  LogAnalyticsExportRequestRateByIntervalQueryParam &
+    LogAnalyticsExportRequestRateByIntervalMediaTypesParam &
+    LogAnalyticsExportRequestRateByIntervalBodyParam &
+    RequestParameters;
 
 export interface LogAnalyticsExportThrottledRequestsBodyParam {
   /** Parameters supplied to the LogAnalytics getThrottledRequests Api. */
@@ -2656,10 +2678,11 @@ export interface LogAnalyticsExportThrottledRequestsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type LogAnalyticsExportThrottledRequestsParameters = LogAnalyticsExportThrottledRequestsQueryParam &
-  LogAnalyticsExportThrottledRequestsMediaTypesParam &
-  LogAnalyticsExportThrottledRequestsBodyParam &
-  RequestParameters;
+export type LogAnalyticsExportThrottledRequestsParameters =
+  LogAnalyticsExportThrottledRequestsQueryParam &
+    LogAnalyticsExportThrottledRequestsMediaTypesParam &
+    LogAnalyticsExportThrottledRequestsBodyParam &
+    RequestParameters;
 
 export interface VirtualMachineRunCommandsListQueryParamProperties {
   /** Api Version */
@@ -2704,10 +2727,11 @@ export interface VirtualMachineRunCommandsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json" | "text/json";
 }
 
-export type VirtualMachineRunCommandsCreateOrUpdateParameters = VirtualMachineRunCommandsCreateOrUpdateQueryParam &
-  VirtualMachineRunCommandsCreateOrUpdateMediaTypesParam &
-  VirtualMachineRunCommandsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type VirtualMachineRunCommandsCreateOrUpdateParameters =
+  VirtualMachineRunCommandsCreateOrUpdateQueryParam &
+    VirtualMachineRunCommandsCreateOrUpdateMediaTypesParam &
+    VirtualMachineRunCommandsCreateOrUpdateBodyParam &
+    RequestParameters;
 
 export interface VirtualMachineRunCommandsUpdateBodyParam {
   /** Parameters supplied to the Update Virtual Machine RunCommand operation. */
@@ -2756,8 +2780,8 @@ export interface VirtualMachineRunCommandsGetByVirtualMachineQueryParam {
   queryParameters: VirtualMachineRunCommandsGetByVirtualMachineQueryParamProperties;
 }
 
-export type VirtualMachineRunCommandsGetByVirtualMachineParameters = VirtualMachineRunCommandsGetByVirtualMachineQueryParam &
-  RequestParameters;
+export type VirtualMachineRunCommandsGetByVirtualMachineParameters =
+  VirtualMachineRunCommandsGetByVirtualMachineQueryParam & RequestParameters;
 
 export interface VirtualMachineRunCommandsListByVirtualMachineQueryParamProperties {
   /** The expand expression to apply on the operation. */
@@ -2770,8 +2794,8 @@ export interface VirtualMachineRunCommandsListByVirtualMachineQueryParam {
   queryParameters: VirtualMachineRunCommandsListByVirtualMachineQueryParamProperties;
 }
 
-export type VirtualMachineRunCommandsListByVirtualMachineParameters = VirtualMachineRunCommandsListByVirtualMachineQueryParam &
-  RequestParameters;
+export type VirtualMachineRunCommandsListByVirtualMachineParameters =
+  VirtualMachineRunCommandsListByVirtualMachineQueryParam & RequestParameters;
 
 export interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdateBodyParam {
   /** Parameters supplied to the Create Virtual Machine RunCommand operation. */
@@ -2792,10 +2816,11 @@ export interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdateMediaTypesPara
   contentType?: "application/json" | "text/json";
 }
 
-export type VirtualMachineScaleSetVMRunCommandsCreateOrUpdateParameters = VirtualMachineScaleSetVMRunCommandsCreateOrUpdateQueryParam &
-  VirtualMachineScaleSetVMRunCommandsCreateOrUpdateMediaTypesParam &
-  VirtualMachineScaleSetVMRunCommandsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type VirtualMachineScaleSetVMRunCommandsCreateOrUpdateParameters =
+  VirtualMachineScaleSetVMRunCommandsCreateOrUpdateQueryParam &
+    VirtualMachineScaleSetVMRunCommandsCreateOrUpdateMediaTypesParam &
+    VirtualMachineScaleSetVMRunCommandsCreateOrUpdateBodyParam &
+    RequestParameters;
 
 export interface VirtualMachineScaleSetVMRunCommandsUpdateBodyParam {
   /** Parameters supplied to the Update Virtual Machine RunCommand operation. */
@@ -2816,10 +2841,11 @@ export interface VirtualMachineScaleSetVMRunCommandsUpdateMediaTypesParam {
   contentType?: "application/json" | "text/json";
 }
 
-export type VirtualMachineScaleSetVMRunCommandsUpdateParameters = VirtualMachineScaleSetVMRunCommandsUpdateQueryParam &
-  VirtualMachineScaleSetVMRunCommandsUpdateMediaTypesParam &
-  VirtualMachineScaleSetVMRunCommandsUpdateBodyParam &
-  RequestParameters;
+export type VirtualMachineScaleSetVMRunCommandsUpdateParameters =
+  VirtualMachineScaleSetVMRunCommandsUpdateQueryParam &
+    VirtualMachineScaleSetVMRunCommandsUpdateMediaTypesParam &
+    VirtualMachineScaleSetVMRunCommandsUpdateBodyParam &
+    RequestParameters;
 
 export interface VirtualMachineScaleSetVMRunCommandsDeleteQueryParamProperties {
   /** Api Version */
@@ -2830,8 +2856,8 @@ export interface VirtualMachineScaleSetVMRunCommandsDeleteQueryParam {
   queryParameters: VirtualMachineScaleSetVMRunCommandsDeleteQueryParamProperties;
 }
 
-export type VirtualMachineScaleSetVMRunCommandsDeleteParameters = VirtualMachineScaleSetVMRunCommandsDeleteQueryParam &
-  RequestParameters;
+export type VirtualMachineScaleSetVMRunCommandsDeleteParameters =
+  VirtualMachineScaleSetVMRunCommandsDeleteQueryParam & RequestParameters;
 
 export interface VirtualMachineScaleSetVMRunCommandsGetQueryParamProperties {
   /** The expand expression to apply on the operation. */
@@ -2844,8 +2870,8 @@ export interface VirtualMachineScaleSetVMRunCommandsGetQueryParam {
   queryParameters: VirtualMachineScaleSetVMRunCommandsGetQueryParamProperties;
 }
 
-export type VirtualMachineScaleSetVMRunCommandsGetParameters = VirtualMachineScaleSetVMRunCommandsGetQueryParam &
-  RequestParameters;
+export type VirtualMachineScaleSetVMRunCommandsGetParameters =
+  VirtualMachineScaleSetVMRunCommandsGetQueryParam & RequestParameters;
 
 export interface VirtualMachineScaleSetVMRunCommandsListQueryParamProperties {
   /** The expand expression to apply on the operation. */
@@ -2858,8 +2884,8 @@ export interface VirtualMachineScaleSetVMRunCommandsListQueryParam {
   queryParameters: VirtualMachineScaleSetVMRunCommandsListQueryParamProperties;
 }
 
-export type VirtualMachineScaleSetVMRunCommandsListParameters = VirtualMachineScaleSetVMRunCommandsListQueryParam &
-  RequestParameters;
+export type VirtualMachineScaleSetVMRunCommandsListParameters =
+  VirtualMachineScaleSetVMRunCommandsListQueryParam & RequestParameters;
 
 export interface DisksCreateOrUpdateBodyParam {
   /** Disk object supplied in the body of the Put disk operation. */
@@ -3091,8 +3117,8 @@ export interface DiskAccessesGetPrivateLinkResourcesQueryParam {
   queryParameters: DiskAccessesGetPrivateLinkResourcesQueryParamProperties;
 }
 
-export type DiskAccessesGetPrivateLinkResourcesParameters = DiskAccessesGetPrivateLinkResourcesQueryParam &
-  RequestParameters;
+export type DiskAccessesGetPrivateLinkResourcesParameters =
+  DiskAccessesGetPrivateLinkResourcesQueryParam & RequestParameters;
 
 export interface DiskAccessesUpdateAPrivateEndpointConnectionBodyParam {
   /** private endpoint connection object supplied in the body of the Put private endpoint connection operation. */
@@ -3113,10 +3139,11 @@ export interface DiskAccessesUpdateAPrivateEndpointConnectionMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type DiskAccessesUpdateAPrivateEndpointConnectionParameters = DiskAccessesUpdateAPrivateEndpointConnectionQueryParam &
-  DiskAccessesUpdateAPrivateEndpointConnectionMediaTypesParam &
-  DiskAccessesUpdateAPrivateEndpointConnectionBodyParam &
-  RequestParameters;
+export type DiskAccessesUpdateAPrivateEndpointConnectionParameters =
+  DiskAccessesUpdateAPrivateEndpointConnectionQueryParam &
+    DiskAccessesUpdateAPrivateEndpointConnectionMediaTypesParam &
+    DiskAccessesUpdateAPrivateEndpointConnectionBodyParam &
+    RequestParameters;
 
 export interface DiskAccessesGetAPrivateEndpointConnectionQueryParamProperties {
   /** Api Version */
@@ -3127,8 +3154,8 @@ export interface DiskAccessesGetAPrivateEndpointConnectionQueryParam {
   queryParameters: DiskAccessesGetAPrivateEndpointConnectionQueryParamProperties;
 }
 
-export type DiskAccessesGetAPrivateEndpointConnectionParameters = DiskAccessesGetAPrivateEndpointConnectionQueryParam &
-  RequestParameters;
+export type DiskAccessesGetAPrivateEndpointConnectionParameters =
+  DiskAccessesGetAPrivateEndpointConnectionQueryParam & RequestParameters;
 
 export interface DiskAccessesDeleteAPrivateEndpointConnectionQueryParamProperties {
   /** Api Version */
@@ -3139,8 +3166,8 @@ export interface DiskAccessesDeleteAPrivateEndpointConnectionQueryParam {
   queryParameters: DiskAccessesDeleteAPrivateEndpointConnectionQueryParamProperties;
 }
 
-export type DiskAccessesDeleteAPrivateEndpointConnectionParameters = DiskAccessesDeleteAPrivateEndpointConnectionQueryParam &
-  RequestParameters;
+export type DiskAccessesDeleteAPrivateEndpointConnectionParameters =
+  DiskAccessesDeleteAPrivateEndpointConnectionQueryParam & RequestParameters;
 
 export interface DiskAccessesListPrivateEndpointConnectionsQueryParamProperties {
   /** Api Version */
@@ -3151,8 +3178,8 @@ export interface DiskAccessesListPrivateEndpointConnectionsQueryParam {
   queryParameters: DiskAccessesListPrivateEndpointConnectionsQueryParamProperties;
 }
 
-export type DiskAccessesListPrivateEndpointConnectionsParameters = DiskAccessesListPrivateEndpointConnectionsQueryParam &
-  RequestParameters;
+export type DiskAccessesListPrivateEndpointConnectionsParameters =
+  DiskAccessesListPrivateEndpointConnectionsQueryParam & RequestParameters;
 
 export interface DiskEncryptionSetsCreateOrUpdateBodyParam {
   /** disk encryption set object supplied in the body of the Put disk encryption set operation. */
@@ -3173,10 +3200,11 @@ export interface DiskEncryptionSetsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type DiskEncryptionSetsCreateOrUpdateParameters = DiskEncryptionSetsCreateOrUpdateQueryParam &
-  DiskEncryptionSetsCreateOrUpdateMediaTypesParam &
-  DiskEncryptionSetsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type DiskEncryptionSetsCreateOrUpdateParameters =
+  DiskEncryptionSetsCreateOrUpdateQueryParam &
+    DiskEncryptionSetsCreateOrUpdateMediaTypesParam &
+    DiskEncryptionSetsCreateOrUpdateBodyParam &
+    RequestParameters;
 
 export interface DiskEncryptionSetsUpdateBodyParam {
   /** disk encryption set object supplied in the body of the Patch disk encryption set operation. */
@@ -3234,8 +3262,8 @@ export interface DiskEncryptionSetsListByResourceGroupQueryParam {
   queryParameters: DiskEncryptionSetsListByResourceGroupQueryParamProperties;
 }
 
-export type DiskEncryptionSetsListByResourceGroupParameters = DiskEncryptionSetsListByResourceGroupQueryParam &
-  RequestParameters;
+export type DiskEncryptionSetsListByResourceGroupParameters =
+  DiskEncryptionSetsListByResourceGroupQueryParam & RequestParameters;
 
 export interface DiskEncryptionSetsListQueryParamProperties {
   /** Api Version */
@@ -3257,8 +3285,8 @@ export interface DiskEncryptionSetsListAssociatedResourcesQueryParam {
   queryParameters: DiskEncryptionSetsListAssociatedResourcesQueryParamProperties;
 }
 
-export type DiskEncryptionSetsListAssociatedResourcesParameters = DiskEncryptionSetsListAssociatedResourcesQueryParam &
-  RequestParameters;
+export type DiskEncryptionSetsListAssociatedResourcesParameters =
+  DiskEncryptionSetsListAssociatedResourcesQueryParam & RequestParameters;
 
 export interface DiskRestorePointGetQueryParamProperties {
   /** Api Version */
@@ -3280,8 +3308,8 @@ export interface DiskRestorePointListByRestorePointQueryParam {
   queryParameters: DiskRestorePointListByRestorePointQueryParamProperties;
 }
 
-export type DiskRestorePointListByRestorePointParameters = DiskRestorePointListByRestorePointQueryParam &
-  RequestParameters;
+export type DiskRestorePointListByRestorePointParameters =
+  DiskRestorePointListByRestorePointQueryParam & RequestParameters;
 
 export interface DiskRestorePointGrantAccessBodyParam {
   /** Access data object supplied in the body of the get disk access operation. */
@@ -3660,10 +3688,11 @@ export interface GalleryImageVersionsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type GalleryImageVersionsCreateOrUpdateParameters = GalleryImageVersionsCreateOrUpdateQueryParam &
-  GalleryImageVersionsCreateOrUpdateMediaTypesParam &
-  GalleryImageVersionsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type GalleryImageVersionsCreateOrUpdateParameters =
+  GalleryImageVersionsCreateOrUpdateQueryParam &
+    GalleryImageVersionsCreateOrUpdateMediaTypesParam &
+    GalleryImageVersionsCreateOrUpdateBodyParam &
+    RequestParameters;
 
 export interface GalleryImageVersionsUpdateBodyParam {
   /** Parameters supplied to the update gallery image version operation. */
@@ -3724,8 +3753,8 @@ export interface GalleryImageVersionsListByGalleryImageQueryParam {
   queryParameters: GalleryImageVersionsListByGalleryImageQueryParamProperties;
 }
 
-export type GalleryImageVersionsListByGalleryImageParameters = GalleryImageVersionsListByGalleryImageQueryParam &
-  RequestParameters;
+export type GalleryImageVersionsListByGalleryImageParameters =
+  GalleryImageVersionsListByGalleryImageQueryParam & RequestParameters;
 
 export interface GalleryApplicationsCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update gallery Application operation. */
@@ -3746,10 +3775,11 @@ export interface GalleryApplicationsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type GalleryApplicationsCreateOrUpdateParameters = GalleryApplicationsCreateOrUpdateQueryParam &
-  GalleryApplicationsCreateOrUpdateMediaTypesParam &
-  GalleryApplicationsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type GalleryApplicationsCreateOrUpdateParameters =
+  GalleryApplicationsCreateOrUpdateQueryParam &
+    GalleryApplicationsCreateOrUpdateMediaTypesParam &
+    GalleryApplicationsCreateOrUpdateBodyParam &
+    RequestParameters;
 
 export interface GalleryApplicationsUpdateBodyParam {
   /** Parameters supplied to the update gallery Application operation. */
@@ -3807,8 +3837,8 @@ export interface GalleryApplicationsListByGalleryQueryParam {
   queryParameters: GalleryApplicationsListByGalleryQueryParamProperties;
 }
 
-export type GalleryApplicationsListByGalleryParameters = GalleryApplicationsListByGalleryQueryParam &
-  RequestParameters;
+export type GalleryApplicationsListByGalleryParameters =
+  GalleryApplicationsListByGalleryQueryParam & RequestParameters;
 
 export interface GalleryApplicationVersionsCreateOrUpdateBodyParam {
   /** Parameters supplied to the create or update gallery Application Version operation. */
@@ -3829,10 +3859,11 @@ export interface GalleryApplicationVersionsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type GalleryApplicationVersionsCreateOrUpdateParameters = GalleryApplicationVersionsCreateOrUpdateQueryParam &
-  GalleryApplicationVersionsCreateOrUpdateMediaTypesParam &
-  GalleryApplicationVersionsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type GalleryApplicationVersionsCreateOrUpdateParameters =
+  GalleryApplicationVersionsCreateOrUpdateQueryParam &
+    GalleryApplicationVersionsCreateOrUpdateMediaTypesParam &
+    GalleryApplicationVersionsCreateOrUpdateBodyParam &
+    RequestParameters;
 
 export interface GalleryApplicationVersionsUpdateBodyParam {
   /** Parameters supplied to the update gallery Application Version operation. */
@@ -3853,10 +3884,11 @@ export interface GalleryApplicationVersionsUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type GalleryApplicationVersionsUpdateParameters = GalleryApplicationVersionsUpdateQueryParam &
-  GalleryApplicationVersionsUpdateMediaTypesParam &
-  GalleryApplicationVersionsUpdateBodyParam &
-  RequestParameters;
+export type GalleryApplicationVersionsUpdateParameters =
+  GalleryApplicationVersionsUpdateQueryParam &
+    GalleryApplicationVersionsUpdateMediaTypesParam &
+    GalleryApplicationVersionsUpdateBodyParam &
+    RequestParameters;
 
 export interface GalleryApplicationVersionsGetQueryParamProperties {
   /** The expand expression to apply on the operation. */
@@ -3881,8 +3913,8 @@ export interface GalleryApplicationVersionsDeleteQueryParam {
   queryParameters: GalleryApplicationVersionsDeleteQueryParamProperties;
 }
 
-export type GalleryApplicationVersionsDeleteParameters = GalleryApplicationVersionsDeleteQueryParam &
-  RequestParameters;
+export type GalleryApplicationVersionsDeleteParameters =
+  GalleryApplicationVersionsDeleteQueryParam & RequestParameters;
 
 export interface GalleryApplicationVersionsListByGalleryApplicationQueryParamProperties {
   /** Api Version */
@@ -3893,8 +3925,8 @@ export interface GalleryApplicationVersionsListByGalleryApplicationQueryParam {
   queryParameters: GalleryApplicationVersionsListByGalleryApplicationQueryParamProperties;
 }
 
-export type GalleryApplicationVersionsListByGalleryApplicationParameters = GalleryApplicationVersionsListByGalleryApplicationQueryParam &
-  RequestParameters;
+export type GalleryApplicationVersionsListByGalleryApplicationParameters =
+  GalleryApplicationVersionsListByGalleryApplicationQueryParam & RequestParameters;
 
 export interface GallerySharingProfileUpdateBodyParam {
   /** Parameters supplied to the update gallery sharing profile. */
@@ -4039,8 +4071,8 @@ export interface CommunityGalleryImageVersionsGetQueryParam {
   queryParameters: CommunityGalleryImageVersionsGetQueryParamProperties;
 }
 
-export type CommunityGalleryImageVersionsGetParameters = CommunityGalleryImageVersionsGetQueryParam &
-  RequestParameters;
+export type CommunityGalleryImageVersionsGetParameters =
+  CommunityGalleryImageVersionsGetQueryParam & RequestParameters;
 
 export interface CommunityGalleryImageVersionsListQueryParamProperties {
   /** Api Version */
@@ -4051,8 +4083,8 @@ export interface CommunityGalleryImageVersionsListQueryParam {
   queryParameters: CommunityGalleryImageVersionsListQueryParamProperties;
 }
 
-export type CommunityGalleryImageVersionsListParameters = CommunityGalleryImageVersionsListQueryParam &
-  RequestParameters;
+export type CommunityGalleryImageVersionsListParameters =
+  CommunityGalleryImageVersionsListQueryParam & RequestParameters;
 
 export interface CloudServiceRoleInstancesDeleteQueryParamProperties {
   /** Api Version */
@@ -4089,8 +4121,8 @@ export interface CloudServiceRoleInstancesGetInstanceViewQueryParam {
   queryParameters: CloudServiceRoleInstancesGetInstanceViewQueryParamProperties;
 }
 
-export type CloudServiceRoleInstancesGetInstanceViewParameters = CloudServiceRoleInstancesGetInstanceViewQueryParam &
-  RequestParameters;
+export type CloudServiceRoleInstancesGetInstanceViewParameters =
+  CloudServiceRoleInstancesGetInstanceViewQueryParam & RequestParameters;
 
 export interface CloudServiceRoleInstancesListQueryParamProperties {
   /** Api Version */
@@ -4115,8 +4147,8 @@ export interface CloudServiceRoleInstancesRestartQueryParam {
   queryParameters: CloudServiceRoleInstancesRestartQueryParamProperties;
 }
 
-export type CloudServiceRoleInstancesRestartParameters = CloudServiceRoleInstancesRestartQueryParam &
-  RequestParameters;
+export type CloudServiceRoleInstancesRestartParameters =
+  CloudServiceRoleInstancesRestartQueryParam & RequestParameters;
 
 export interface CloudServiceRoleInstancesReimageQueryParamProperties {
   /** Api Version */
@@ -4127,8 +4159,8 @@ export interface CloudServiceRoleInstancesReimageQueryParam {
   queryParameters: CloudServiceRoleInstancesReimageQueryParamProperties;
 }
 
-export type CloudServiceRoleInstancesReimageParameters = CloudServiceRoleInstancesReimageQueryParam &
-  RequestParameters;
+export type CloudServiceRoleInstancesReimageParameters =
+  CloudServiceRoleInstancesReimageQueryParam & RequestParameters;
 
 export interface CloudServiceRoleInstancesRebuildQueryParamProperties {
   /** Api Version */
@@ -4139,8 +4171,8 @@ export interface CloudServiceRoleInstancesRebuildQueryParam {
   queryParameters: CloudServiceRoleInstancesRebuildQueryParamProperties;
 }
 
-export type CloudServiceRoleInstancesRebuildParameters = CloudServiceRoleInstancesRebuildQueryParam &
-  RequestParameters;
+export type CloudServiceRoleInstancesRebuildParameters =
+  CloudServiceRoleInstancesRebuildQueryParam & RequestParameters;
 
 export interface CloudServiceRoleInstancesGetRemoteDesktopFileQueryParamProperties {
   /** Api Version */
@@ -4151,8 +4183,8 @@ export interface CloudServiceRoleInstancesGetRemoteDesktopFileQueryParam {
   queryParameters: CloudServiceRoleInstancesGetRemoteDesktopFileQueryParamProperties;
 }
 
-export type CloudServiceRoleInstancesGetRemoteDesktopFileParameters = CloudServiceRoleInstancesGetRemoteDesktopFileQueryParam &
-  RequestParameters;
+export type CloudServiceRoleInstancesGetRemoteDesktopFileParameters =
+  CloudServiceRoleInstancesGetRemoteDesktopFileQueryParam & RequestParameters;
 
 export interface CloudServiceRolesGetQueryParamProperties {
   /** Api Version */
@@ -4417,10 +4449,11 @@ export interface CloudServicesUpdateDomainWalkUpdateDomainMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type CloudServicesUpdateDomainWalkUpdateDomainParameters = CloudServicesUpdateDomainWalkUpdateDomainQueryParam &
-  CloudServicesUpdateDomainWalkUpdateDomainMediaTypesParam &
-  CloudServicesUpdateDomainWalkUpdateDomainBodyParam &
-  RequestParameters;
+export type CloudServicesUpdateDomainWalkUpdateDomainParameters =
+  CloudServicesUpdateDomainWalkUpdateDomainQueryParam &
+    CloudServicesUpdateDomainWalkUpdateDomainMediaTypesParam &
+    CloudServicesUpdateDomainWalkUpdateDomainBodyParam &
+    RequestParameters;
 
 export interface CloudServicesUpdateDomainGetUpdateDomainQueryParamProperties {
   /** Api Version */
@@ -4431,8 +4464,8 @@ export interface CloudServicesUpdateDomainGetUpdateDomainQueryParam {
   queryParameters: CloudServicesUpdateDomainGetUpdateDomainQueryParamProperties;
 }
 
-export type CloudServicesUpdateDomainGetUpdateDomainParameters = CloudServicesUpdateDomainGetUpdateDomainQueryParam &
-  RequestParameters;
+export type CloudServicesUpdateDomainGetUpdateDomainParameters =
+  CloudServicesUpdateDomainGetUpdateDomainQueryParam & RequestParameters;
 
 export interface CloudServicesUpdateDomainListUpdateDomainsQueryParamProperties {
   /** Api Version */
@@ -4443,8 +4476,8 @@ export interface CloudServicesUpdateDomainListUpdateDomainsQueryParam {
   queryParameters: CloudServicesUpdateDomainListUpdateDomainsQueryParamProperties;
 }
 
-export type CloudServicesUpdateDomainListUpdateDomainsParameters = CloudServicesUpdateDomainListUpdateDomainsQueryParam &
-  RequestParameters;
+export type CloudServicesUpdateDomainListUpdateDomainsParameters =
+  CloudServicesUpdateDomainListUpdateDomainsQueryParam & RequestParameters;
 
 export interface CloudServiceOperatingSystemsGetOSVersionQueryParamProperties {
   /** Api Version */
@@ -4455,8 +4488,8 @@ export interface CloudServiceOperatingSystemsGetOSVersionQueryParam {
   queryParameters: CloudServiceOperatingSystemsGetOSVersionQueryParamProperties;
 }
 
-export type CloudServiceOperatingSystemsGetOSVersionParameters = CloudServiceOperatingSystemsGetOSVersionQueryParam &
-  RequestParameters;
+export type CloudServiceOperatingSystemsGetOSVersionParameters =
+  CloudServiceOperatingSystemsGetOSVersionQueryParam & RequestParameters;
 
 export interface CloudServiceOperatingSystemsListOSVersionsQueryParamProperties {
   /** Api Version */
@@ -4467,8 +4500,8 @@ export interface CloudServiceOperatingSystemsListOSVersionsQueryParam {
   queryParameters: CloudServiceOperatingSystemsListOSVersionsQueryParamProperties;
 }
 
-export type CloudServiceOperatingSystemsListOSVersionsParameters = CloudServiceOperatingSystemsListOSVersionsQueryParam &
-  RequestParameters;
+export type CloudServiceOperatingSystemsListOSVersionsParameters =
+  CloudServiceOperatingSystemsListOSVersionsQueryParam & RequestParameters;
 
 export interface CloudServiceOperatingSystemsGetOSFamilyQueryParamProperties {
   /** Api Version */
@@ -4479,8 +4512,8 @@ export interface CloudServiceOperatingSystemsGetOSFamilyQueryParam {
   queryParameters: CloudServiceOperatingSystemsGetOSFamilyQueryParamProperties;
 }
 
-export type CloudServiceOperatingSystemsGetOSFamilyParameters = CloudServiceOperatingSystemsGetOSFamilyQueryParam &
-  RequestParameters;
+export type CloudServiceOperatingSystemsGetOSFamilyParameters =
+  CloudServiceOperatingSystemsGetOSFamilyQueryParam & RequestParameters;
 
 export interface CloudServiceOperatingSystemsListOSFamiliesQueryParamProperties {
   /** Api Version */
@@ -4491,5 +4524,5 @@ export interface CloudServiceOperatingSystemsListOSFamiliesQueryParam {
   queryParameters: CloudServiceOperatingSystemsListOSFamiliesQueryParamProperties;
 }
 
-export type CloudServiceOperatingSystemsListOSFamiliesParameters = CloudServiceOperatingSystemsListOSFamiliesQueryParam &
-  RequestParameters;
+export type CloudServiceOperatingSystemsListOSFamiliesParameters =
+  CloudServiceOperatingSystemsListOSFamiliesQueryParam & RequestParameters;

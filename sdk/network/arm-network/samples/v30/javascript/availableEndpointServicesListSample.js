@@ -10,15 +10,16 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List what values of endpoint services are available for use.
  *
  * @summary List what values of endpoint services are available for use.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/EndpointServicesList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/EndpointServicesList.json
  */
 async function endpointServicesList() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const location = "westus";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -29,4 +30,8 @@ async function endpointServicesList() {
   console.log(resArray);
 }
 
-endpointServicesList().catch(console.error);
+async function main() {
+  endpointServicesList();
+}
+
+main().catch(console.error);

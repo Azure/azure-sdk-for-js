@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { AvailablePrivateEndpointTypes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,9 +17,9 @@ import {
   AvailablePrivateEndpointType,
   AvailablePrivateEndpointTypesListNextOptionalParams,
   AvailablePrivateEndpointTypesListOptionalParams,
+  AvailablePrivateEndpointTypesListResponse,
   AvailablePrivateEndpointTypesListByResourceGroupNextOptionalParams,
   AvailablePrivateEndpointTypesListByResourceGroupOptionalParams,
-  AvailablePrivateEndpointTypesListResponse,
   AvailablePrivateEndpointTypesListByResourceGroupResponse,
   AvailablePrivateEndpointTypesListNextResponse,
   AvailablePrivateEndpointTypesListByResourceGroupNextResponse
@@ -56,23 +57,35 @@ export class AvailablePrivateEndpointTypesImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(location, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(location, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     location: string,
-    options?: AvailablePrivateEndpointTypesListOptionalParams
+    options?: AvailablePrivateEndpointTypesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AvailablePrivateEndpointType[]> {
-    let result = await this._list(location, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AvailablePrivateEndpointTypesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(location, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(location, continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -109,11 +122,15 @@ export class AvailablePrivateEndpointTypesImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByResourceGroupPagingPage(
           location,
           resourceGroupName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -122,15 +139,22 @@ export class AvailablePrivateEndpointTypesImpl
   private async *listByResourceGroupPagingPage(
     location: string,
     resourceGroupName: string,
-    options?: AvailablePrivateEndpointTypesListByResourceGroupOptionalParams
+    options?: AvailablePrivateEndpointTypesListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AvailablePrivateEndpointType[]> {
-    let result = await this._listByResourceGroup(
-      location,
-      resourceGroupName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AvailablePrivateEndpointTypesListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(
+        location,
+        resourceGroupName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         location,
@@ -139,7 +163,9 @@ export class AvailablePrivateEndpointTypesImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -284,7 +310,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -305,7 +330,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

@@ -1152,7 +1152,7 @@ export interface OperationInfo {
 }
 
 /** An Application Insights web test definition. */
-export type WebTest = WebtestsResource & {
+export interface WebTest extends WebtestsResource {
   /** The kind of web test that this web test watches. Choices are ping and multistep. */
   kind?: WebTestKind;
   /** Unique ID of this WebTest. This is typically the same value as the Name field. */
@@ -1180,10 +1180,10 @@ export type WebTest = WebtestsResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-};
+}
 
 /** An Application Insights workbook template definition. */
-export type WorkbookTemplate = WorkbookTemplateResource & {
+export interface WorkbookTemplate extends WorkbookTemplateResource {
   /** Priority of the template. Determines which template to open when a workbook gallery is opened in viewer mode. */
   priority?: number;
   /** Information about the author of the workbook template. */
@@ -1194,10 +1194,10 @@ export type WorkbookTemplate = WorkbookTemplateResource & {
   galleries?: WorkbookTemplateGallery[];
   /** Key value pair of localized gallery. Each key is the locale code of languages supported by the Azure portal. */
   localized?: { [propertyName: string]: WorkbookTemplateLocalizedGallery[] };
-};
+}
 
 /** An Application Insights private workbook definition. */
-export type MyWorkbook = MyWorkbookResource & {
+export interface MyWorkbook extends MyWorkbookResource {
   /** The kind of workbook. Choices are user and shared. */
   kind?: Kind;
   /**
@@ -1229,24 +1229,24 @@ export type MyWorkbook = MyWorkbookResource & {
   sourceId?: string;
   /** BYOS Storage Account URI */
   storageUri?: string;
-};
+}
 
 /** Identity used for BYOS */
-export type WorkbookResourceIdentity = ManagedServiceIdentity;
+export interface WorkbookResourceIdentity extends ManagedServiceIdentity {}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource;
+export interface ProxyResource extends Resource {}
 
 /** An Application Insights component definition. */
-export type ApplicationInsightsComponent = ComponentsResource & {
+export interface ApplicationInsightsComponent extends ComponentsResource {
   /** The kind of application that this component refers to, used to customize UI. This value is a freeform string, values should typically be one of the following: web, ios, other, store, java, phone. */
   kind: string;
   /** Resource etag */
@@ -1334,26 +1334,26 @@ export type ApplicationInsightsComponent = ComponentsResource & {
   disableLocalAuth?: boolean;
   /** Force users to create their own storage account for profiler and debugger. */
   forceCustomerStorageForProfiler?: boolean;
-};
+}
 
 /** An azure resource object */
-export type WorkbookResource = TrackedResource & {
+export interface WorkbookResource extends TrackedResource {
   /** Identity used for BYOS */
   identity?: WorkbookResourceIdentity;
   /** The kind of workbook. Only valid value is shared. */
   kind?: WorkbookSharedTypeKind;
   /** Resource etag */
   etag?: string;
-};
+}
 
 /** An Application Insights component linked storage accounts */
-export type ComponentLinkedStorageAccounts = ProxyResource & {
+export interface ComponentLinkedStorageAccounts extends ProxyResource {
   /** Linked storage account resource ID */
   linkedStorageAccount?: string;
-};
+}
 
 /** A workbook definition. */
-export type Workbook = WorkbookResource & {
+export interface Workbook extends WorkbookResource {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1390,17 +1390,25 @@ export type Workbook = WorkbookResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly revision?: string;
-};
+}
 
 /** Known values of {@link FavoriteSourceType} that the service accepts. */
 export enum KnownFavoriteSourceType {
+  /** Retention */
   Retention = "retention",
+  /** Notebook */
   Notebook = "notebook",
+  /** Sessions */
   Sessions = "sessions",
+  /** Events */
   Events = "events",
+  /** Userflows */
   Userflows = "userflows",
+  /** Funnel */
   Funnel = "funnel",
+  /** Impact */
   Impact = "impact",
+  /** Segmentation */
   Segmentation = "segmentation"
 }
 
@@ -1422,7 +1430,9 @@ export type FavoriteSourceType = string;
 
 /** Known values of {@link ItemScopePath} that the service accepts. */
 export enum KnownItemScopePath {
+  /** AnalyticsItems */
   AnalyticsItems = "analyticsItems",
+  /** MyanalyticsItems */
   MyanalyticsItems = "myanalyticsItems"
 }
 
@@ -1438,7 +1448,9 @@ export type ItemScopePath = string;
 
 /** Known values of {@link ItemScope} that the service accepts. */
 export enum KnownItemScope {
+  /** Shared */
   Shared = "shared",
+  /** User */
   User = "user"
 }
 
@@ -1454,10 +1466,15 @@ export type ItemScope = string;
 
 /** Known values of {@link ItemTypeParameter} that the service accepts. */
 export enum KnownItemTypeParameter {
+  /** None */
   None = "none",
+  /** Query */
   Query = "query",
+  /** Function */
   Function = "function",
+  /** Folder */
   Folder = "folder",
+  /** Recent */
   Recent = "recent"
 }
 
@@ -1476,9 +1493,13 @@ export type ItemTypeParameter = string;
 
 /** Known values of {@link ItemType} that the service accepts. */
 export enum KnownItemType {
+  /** None */
   None = "none",
+  /** Query */
   Query = "query",
+  /** Recent */
   Recent = "recent",
+  /** Function */
   Function = "function"
 }
 
@@ -1496,9 +1517,13 @@ export type ItemType = string;
 
 /** Known values of {@link CategoryType} that the service accepts. */
 export enum KnownCategoryType {
+  /** Workbook */
   Workbook = "workbook",
+  /** TSG */
   TSG = "TSG",
+  /** Performance */
   Performance = "performance",
+  /** Retention */
   Retention = "retention"
 }
 
@@ -1516,7 +1541,9 @@ export type CategoryType = string;
 
 /** Known values of {@link Kind} that the service accepts. */
 export enum KnownKind {
+  /** User */
   User = "user",
+  /** Shared */
   Shared = "shared"
 }
 
@@ -1532,9 +1559,13 @@ export type Kind = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -1552,7 +1583,9 @@ export type CreatedByType = string;
 
 /** Known values of {@link MyWorkbookManagedIdentityType} that the service accepts. */
 export enum KnownMyWorkbookManagedIdentityType {
+  /** UserAssigned */
   UserAssigned = "UserAssigned",
+  /** None */
   None = "None"
 }
 
@@ -1568,9 +1601,13 @@ export type MyWorkbookManagedIdentityType = string;
 
 /** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
 export enum KnownManagedServiceIdentityType {
+  /** None */
   None = "None",
+  /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
   UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
   SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
 }
 
@@ -1588,6 +1625,7 @@ export type ManagedServiceIdentityType = string;
 
 /** Known values of {@link WorkbookSharedTypeKind} that the service accepts. */
 export enum KnownWorkbookSharedTypeKind {
+  /** Shared */
   Shared = "shared"
 }
 
@@ -1602,6 +1640,7 @@ export type WorkbookSharedTypeKind = string;
 
 /** Known values of {@link WorkbookUpdateSharedTypeKind} that the service accepts. */
 export enum KnownWorkbookUpdateSharedTypeKind {
+  /** Shared */
   Shared = "shared"
 }
 
@@ -1616,7 +1655,9 @@ export type WorkbookUpdateSharedTypeKind = string;
 
 /** Known values of {@link ApplicationType} that the service accepts. */
 export enum KnownApplicationType {
+  /** Web */
   Web = "web",
+  /** Other */
   Other = "other"
 }
 
@@ -1632,6 +1673,7 @@ export type ApplicationType = string;
 
 /** Known values of {@link FlowType} that the service accepts. */
 export enum KnownFlowType {
+  /** Bluefield */
   Bluefield = "Bluefield"
 }
 
@@ -1646,6 +1688,7 @@ export type FlowType = string;
 
 /** Known values of {@link RequestSource} that the service accepts. */
 export enum KnownRequestSource {
+  /** Rest */
   Rest = "rest"
 }
 
@@ -1678,8 +1721,11 @@ export type PublicNetworkAccessType = string;
 
 /** Known values of {@link IngestionMode} that the service accepts. */
 export enum KnownIngestionMode {
+  /** ApplicationInsights */
   ApplicationInsights = "ApplicationInsights",
+  /** ApplicationInsightsWithDiagnosticSettings */
   ApplicationInsightsWithDiagnosticSettings = "ApplicationInsightsWithDiagnosticSettings",
+  /** LogAnalytics */
   LogAnalytics = "LogAnalytics"
 }
 
@@ -1696,7 +1742,9 @@ export type IngestionMode = string;
 
 /** Known values of {@link PurgeState} that the service accepts. */
 export enum KnownPurgeState {
+  /** Pending */
   Pending = "pending",
+  /** Completed */
   Completed = "completed"
 }
 
@@ -1712,6 +1760,7 @@ export type PurgeState = string;
 
 /** Known values of {@link StorageType} that the service accepts. */
 export enum KnownStorageType {
+  /** ServiceProfiler */
   ServiceProfiler = "ServiceProfiler"
 }
 

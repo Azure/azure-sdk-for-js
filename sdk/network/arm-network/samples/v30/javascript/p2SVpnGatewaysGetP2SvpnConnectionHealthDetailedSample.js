@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the sas url to get the connection health detail of P2S clients of the virtual wan P2SVpnGateway in the specified resource group.
  *
  * @summary Gets the sas url to get the connection health detail of P2S clients of the virtual wan P2SVpnGateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/P2SVpnGatewayGetConnectionHealthDetailed.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/P2SVpnGatewayGetConnectionHealthDetailed.json
  */
 async function p2SVpnGatewayGetConnectionHealthDetailed() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "p2s-vpn-gateway-test";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "p2s-vpn-gateway-test";
   const gatewayName = "p2svpngateway";
   const request = {
     outputBlobSasUrl:
@@ -36,4 +37,8 @@ async function p2SVpnGatewayGetConnectionHealthDetailed() {
   console.log(result);
 }
 
-p2SVpnGatewayGetConnectionHealthDetailed().catch(console.error);
+async function main() {
+  p2SVpnGatewayGetConnectionHealthDetailed();
+}
+
+main().catch(console.error);

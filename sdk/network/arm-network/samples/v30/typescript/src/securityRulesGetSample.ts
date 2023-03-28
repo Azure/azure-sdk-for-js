@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get the specified network security rule.
  *
  * @summary Get the specified network security rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkSecurityGroupRuleGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkSecurityGroupRuleGet.json
  */
 async function getNetworkSecurityRuleInNetworkSecurityGroup() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkSecurityGroupName = "testnsg";
   const securityRuleName = "rule1";
   const credential = new DefaultAzureCredential();
@@ -32,4 +35,8 @@ async function getNetworkSecurityRuleInNetworkSecurityGroup() {
   console.log(result);
 }
 
-getNetworkSecurityRuleInNetworkSecurityGroup().catch(console.error);
+async function main() {
+  getNetworkSecurityRuleInNetworkSecurityGroup();
+}
+
+main().catch(console.error);

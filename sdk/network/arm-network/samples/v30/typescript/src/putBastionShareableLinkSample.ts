@@ -13,16 +13,19 @@ import {
   NetworkManagementClient
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates a Bastion Shareable Links for all the VMs specified in the request.
  *
  * @summary Creates a Bastion Shareable Links for all the VMs specified in the request.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/BastionShareableLinkCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/BastionShareableLinkCreate.json
  */
 async function createBastionShareableLinksForTheRequestVMS() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const bastionHostName = "bastionhosttenant";
   const bslRequest: BastionShareableLinkListRequest = {
     vms: [
@@ -53,4 +56,8 @@ async function createBastionShareableLinksForTheRequestVMS() {
   console.log(resArray);
 }
 
-createBastionShareableLinksForTheRequestVMS().catch(console.error);
+async function main() {
+  createBastionShareableLinksForTheRequestVMS();
+}
+
+main().catch(console.error);

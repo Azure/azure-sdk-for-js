@@ -1,4 +1,63 @@
 # Release History
+
+## 17.4.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 17.4.0 (2023-03-09)
+    
+**Features**
+
+  - Added operation AgentPools.beginAbortLatestOperation
+  - Added operation AgentPools.beginAbortLatestOperationAndWait
+  - Added operation ManagedClusters.beginAbortLatestOperation
+  - Added operation ManagedClusters.beginAbortLatestOperationAndWait
+  - Added Interface AgentPoolsAbortLatestOperationHeaders
+  - Added Interface AgentPoolsAbortLatestOperationOptionalParams
+  - Added Interface ManagedClusterAzureMonitorProfile
+  - Added Interface ManagedClusterAzureMonitorProfileKubeStateMetrics
+  - Added Interface ManagedClusterAzureMonitorProfileMetrics
+  - Added Interface ManagedClustersAbortLatestOperationHeaders
+  - Added Interface ManagedClustersAbortLatestOperationOptionalParams
+  - Added Type Alias AgentPoolsAbortLatestOperationResponse
+  - Added Type Alias ManagedClustersAbortLatestOperationResponse
+  - Interface ManagedCluster has a new optional parameter azureMonitorProfile
+  - Enum KnownManagedClusterSKUName has a new value Base
+  - Enum KnownManagedClusterSKUTier has a new value Standard
+    
+    
+## 17.3.0 (2023-01-06)
+    
+**Features**
+
+  - Added Interface AgentPoolsDeleteHeaders
+  - Added Interface ManagedClustersDeleteHeaders
+  - Added Interface ManagedClustersGetCommandResultHeaders
+  - Added Interface ManagedClustersResetAADProfileHeaders
+  - Added Interface ManagedClustersResetServicePrincipalProfileHeaders
+  - Added Interface ManagedClustersRotateClusterCertificatesHeaders
+  - Added Interface ManagedClustersRunCommandHeaders
+  - Added Interface ManagedClustersStartHeaders
+  - Added Interface ManagedClustersStopHeaders
+  - Added Interface ManagedClusterWorkloadAutoScalerProfile
+  - Added Interface ManagedClusterWorkloadAutoScalerProfileKeda
+  - Added Type Alias AgentPoolsDeleteResponse
+  - Added Type Alias ManagedClustersDeleteResponse
+  - Added Type Alias ManagedClustersRotateClusterCertificatesResponse
+  - Added Type Alias ManagedClustersStartResponse
+  - Added Type Alias ManagedClustersStopResponse
+  - Interface ManagedCluster has a new optional parameter workloadAutoScalerProfile
+  - Enum KnownManagedClusterPodIdentityProvisioningState has a new value Canceled
+  - Enum KnownManagedClusterPodIdentityProvisioningState has a new value Succeeded
+  - Enum KnownPrivateEndpointConnectionProvisioningState has a new value Canceled
+  - Added function getContinuationToken
+    
     
 ## 17.2.0 (2022-11-02)
     

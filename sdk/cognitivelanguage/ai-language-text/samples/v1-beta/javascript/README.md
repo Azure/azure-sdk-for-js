@@ -17,11 +17,14 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
 | [entityLinking.js][entitylinking]                                     | detects entities that have links to more information on the web                     |
 | [entityRecognition.js][entityrecognition]                             | detects entities in a piece of text                                                 |
+| [entityResolutions.js][entityresolutions]                             | detects entities in a piece of text                                                 |
 | [keyPhraseExtraction.js][keyphraseextraction]                         | extracts key phrases from a piece of text                                           |
 | [languageDetection.js][languagedetection]                             | detects the language of a piece of text                                             |
 | [piiEntityRecognition.js][piientityrecognition]                       | detects personally-identifiable information                                         |
 | [sentimentAnalysis.js][sentimentanalysis]                             | analyzes the sentiment of a piece of text                                           |
 | [stats.js][stats]                                                     | access statistics about documents and transactions                                  |
+| [abstractiveSummarization.js][abstractivesummarization]               | generates a summary for an article                                                  |
+| [autoLanguageDetection.js][autolanguagedetection]                     | return detected language with the task                                              |
 | [customEntityRecognition.js][customentityrecognition]                 | detects custom text in a piece of text                                              |
 | [customMultiLabelClassification.js][custommultilabelclassification]   | multi-label classification of pieces of text                                        |
 | [customSingleLabelClassification.js][customsinglelabelclassification] | single-label classification of pieces of text                                       |
@@ -76,11 +79,14 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [entitylinking]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/javascript/entityLinking.js
 [entityrecognition]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/javascript/entityRecognition.js
+[entityresolutions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/javascript/entityResolutions.js
 [keyphraseextraction]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/javascript/keyPhraseExtraction.js
 [languagedetection]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/javascript/languageDetection.js
 [piientityrecognition]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/javascript/piiEntityRecognition.js
 [sentimentanalysis]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/javascript/sentimentAnalysis.js
 [stats]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/javascript/stats.js
+[abstractivesummarization]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/javascript/abstractiveSummarization.js
+[autolanguagedetection]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/javascript/autoLanguageDetection.js
 [customentityrecognition]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/javascript/customEntityRecognition.js
 [custommultilabelclassification]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/javascript/customMultiLabelClassification.js
 [customsinglelabelclassification]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/javascript/customSingleLabelClassification.js
@@ -92,7 +98,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [modelversion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/javascript/modelVersion.js
 [paging]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/javascript/paging.js
 [rehydratepolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/javascript/rehydratePolling.js
-[apiref]: https://aka.ms/ai-language-text-js-api
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-language-text
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesinstance]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-text/README.md

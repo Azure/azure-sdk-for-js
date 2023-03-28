@@ -9,23 +9,6 @@ import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
 // @public
-export interface AssociatedResourcesListResult {
-    readonly nextLink?: string;
-    readonly totalCount?: number;
-    readonly value?: AzureResource[];
-}
-
-// @public
-export interface AzureResource {
-    readonly id?: string;
-    readonly name?: string;
-    readonly resourceGroup?: string;
-    readonly subscriptionDisplayName?: string;
-    readonly subscriptionId?: string;
-    readonly type?: string;
-}
-
-// @public
 export interface CloudError {
     error?: CloudErrorBody;
 }
@@ -37,6 +20,9 @@ export interface CloudErrorBody {
     message?: string;
     target?: string;
 }
+
+// @public
+export type CreatedByType = string;
 
 // @public
 export interface FederatedIdentityCredential extends ProxyResource {
@@ -73,8 +59,6 @@ export type FederatedIdentityCredentialsGetResponse = FederatedIdentityCredentia
 
 // @public
 export interface FederatedIdentityCredentialsListNextOptionalParams extends coreClient.OperationOptions {
-    skiptoken?: string;
-    top?: number;
 }
 
 // @public
@@ -96,6 +80,9 @@ export interface FederatedIdentityCredentialsListResult {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface Identity extends TrackedResource {
     readonly clientId?: string;
     readonly principalId?: string;
@@ -111,6 +98,14 @@ export interface IdentityUpdate extends Resource {
         [propertyName: string]: string;
     };
     readonly tenantId?: string;
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
 }
 
 // @public (undocumented)
@@ -186,6 +181,7 @@ export interface ProxyResource extends Resource {
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -214,6 +210,16 @@ export interface SystemAssignedIdentity extends ProxyResource {
 }
 
 // @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
 export interface TrackedResource extends Resource {
     location: string;
     tags?: {
@@ -226,7 +232,6 @@ export interface UserAssignedIdentities {
     createOrUpdate(resourceGroupName: string, resourceName: string, parameters: Identity, options?: UserAssignedIdentitiesCreateOrUpdateOptionalParams): Promise<UserAssignedIdentitiesCreateOrUpdateResponse>;
     delete(resourceGroupName: string, resourceName: string, options?: UserAssignedIdentitiesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, resourceName: string, options?: UserAssignedIdentitiesGetOptionalParams): Promise<UserAssignedIdentitiesGetResponse>;
-    listAssociatedResources(resourceGroupName: string, resourceName: string, options?: UserAssignedIdentitiesListAssociatedResourcesOptionalParams): PagedAsyncIterableIterator<AzureResource>;
     listByResourceGroup(resourceGroupName: string, options?: UserAssignedIdentitiesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Identity>;
     listBySubscription(options?: UserAssignedIdentitiesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Identity>;
     update(resourceGroupName: string, resourceName: string, parameters: IdentityUpdate, options?: UserAssignedIdentitiesUpdateOptionalParams): Promise<UserAssignedIdentitiesUpdateResponse>;
@@ -249,30 +254,6 @@ export interface UserAssignedIdentitiesGetOptionalParams extends coreClient.Oper
 
 // @public
 export type UserAssignedIdentitiesGetResponse = Identity;
-
-// @public
-export interface UserAssignedIdentitiesListAssociatedResourcesNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    skip?: number;
-    skiptoken?: string;
-    top?: number;
-}
-
-// @public
-export type UserAssignedIdentitiesListAssociatedResourcesNextResponse = AssociatedResourcesListResult;
-
-// @public
-export interface UserAssignedIdentitiesListAssociatedResourcesOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    skip?: number;
-    skiptoken?: string;
-    top?: number;
-}
-
-// @public
-export type UserAssignedIdentitiesListAssociatedResourcesResponse = AssociatedResourcesListResult;
 
 // @public
 export interface UserAssignedIdentitiesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {

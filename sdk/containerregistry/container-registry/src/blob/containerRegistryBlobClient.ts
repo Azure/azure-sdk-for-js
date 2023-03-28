@@ -19,22 +19,32 @@ import {
   DownloadBlobResult,
   DownloadManifestOptions,
   DownloadManifestResult,
-  OciManifest,
+  DownloadOciImageManifestResult,
+  KnownManifestMediaType,
+  OciImageManifest,
+  UploadBlobOptions,
   UploadBlobResult,
   UploadManifestOptions,
   UploadManifestResult,
 } from "./models";
 import * as Mappers from "../generated/models/mappers";
 import { CommonClientOptions, createSerializer } from "@azure/core-client";
-import { readStreamToEnd } from "../utils/helpers";
+import { isDigest, readChunksFromStream, readStreamToEnd } from "../utils/helpers";
 import { Readable } from "stream";
 import { tracingClient } from "../tracing";
+import crypto from "crypto";
 
 const LATEST_API_VERSION = "2021-07-01";
 
-enum KnownManifestMediaType {
-  OciManifestMediaType = "application/vnd.oci.image.manifest.v1+json",
-}
+const CHUNK_SIZE = 4 * 1024 * 1024; // 4 MB
+
+const DEFAULT_ACCEPT_MANIFEST_MEDIA_TYPES = [
+  KnownManifestMediaType.OciManifest,
+  KnownManifestMediaType.DockerManifest,
+  "application/vnd.oci.image.index.v1+json",
+  "application/vnd.docker.distribution.manifest.list.v2+json",
+  "application/vnd.docker.container.image.v1+json",
+];
 
 function isReadableStream(body: any): body is NodeJS.ReadableStream {
   return body && typeof body.pipe === "function";
@@ -61,6 +71,21 @@ export class DigestMismatchError extends Error {
 }
 
 /**
+ * Used to determine whether a manifest downloaded via {@link ContainerRegistryBlobClient.downloadManifest} is an OCI image manifest.
+ * If it is an OCI image manifest, the `manifest` property will contain the manifest data as parsed JSON.
+ * @param downloadResult - the download result to check.
+ * @returns - whether the downloaded manifest is an OCI image manifest.
+ */
+export function isDownloadOciImageManifestResult(
+  downloadResult: DownloadManifestResult
+): downloadResult is DownloadOciImageManifestResult {
+  return (
+    downloadResult.mediaType === KnownManifestMediaType.OciManifest &&
+    Object.prototype.hasOwnProperty.call(downloadResult, "manifest")
+  );
+}
+
+/**
  * Client options used to configure Container Registry Blob API requests.
  */
 export interface ContainerRegistryBlobClientOptions extends CommonClientOptions {
@@ -69,7 +94,7 @@ export interface ContainerRegistryBlobClientOptions extends CommonClientOptions 
    * The authentication scope will be set from this audience.
    * See {@link KnownContainerRegistryAudience} for known audience values.
    */
-  audience: string;
+  audience?: string;
   /**
    * The version of service API to make calls against.
    */
@@ -117,7 +142,7 @@ export class ContainerRegistryBlobClient {
     endpoint: string,
     repositoryName: string,
     credential: TokenCredential,
-    options: ContainerRegistryBlobClientOptions
+    options: ContainerRegistryBlobClientOptions = {}
   ) {
     if (!endpoint) {
       throw new Error("invalid endpoint");
@@ -143,7 +168,7 @@ export class ContainerRegistryBlobClient {
       },
     };
 
-    const defaultScope = `${options.audience}/.default`;
+    const defaultScope = `${options.audience ?? "https://containerregistry.azure.net"}/.default`;
     const serviceVersion = options.serviceVersion ?? LATEST_API_VERSION;
     const authClient = new GeneratedClient(endpoint, serviceVersion, internalPipelineOptions);
     this.client = new GeneratedClient(endpoint, serviceVersion, internalPipelineOptions);
@@ -180,34 +205,39 @@ export class ContainerRegistryBlobClient {
   /**
    * Upload a manifest for an OCI artifact.
    *
-   * @param manifest - the manifest to upload. If a resettable stream (a factory function that returns a stream) is provided, it may be called multiple times. Each time the function is called, a fresh stream should be returned.
+   * @param manifest - the manifest to upload.
    */
   public async uploadManifest(
-    manifest: (() => NodeJS.ReadableStream) | NodeJS.ReadableStream | OciManifest,
-    options?: UploadManifestOptions
+    manifest: Buffer | NodeJS.ReadableStream | OciImageManifest,
+    options: UploadManifestOptions = {}
   ): Promise<UploadManifestResult> {
     return tracingClient.withSpan(
       "ContainerRegistryBlobClient.uploadManifest",
-      options ?? {},
+      options,
       async (updatedOptions) => {
-        let manifestBody: Buffer | NodeJS.ReadableStream;
+        let manifestBody: Buffer | (() => NodeJS.ReadableStream);
+        let tagOrDigest: string | undefined = options?.tag;
 
-        if (isReadableStream(manifest)) {
+        if (Buffer.isBuffer(manifest)) {
+          manifestBody = manifest;
+          tagOrDigest ??= await calculateDigest(manifest);
+        } else if (isReadableStream(manifest)) {
           manifestBody = await readStreamToEnd(manifest);
-        } else if (typeof manifest === "function") {
-          manifestBody = await readStreamToEnd(manifest());
+          tagOrDigest ??= await calculateDigest(manifestBody);
         } else {
           const serialized = serializer.serialize(Mappers.OCIManifest, manifest);
           manifestBody = Buffer.from(JSON.stringify(serialized));
+          tagOrDigest ??= await calculateDigest(manifestBody);
         }
-
-        const tagOrDigest = options?.tag ?? (await calculateDigest(manifestBody));
 
         const createManifestResult = await this.client.containerRegistry.createManifest(
           this.repositoryName,
           tagOrDigest,
           manifestBody,
-          { contentType: KnownManifestMediaType.OciManifestMediaType, ...updatedOptions }
+          {
+            contentType: options?.mediaType ?? KnownManifestMediaType.OciManifest,
+            ...updatedOptions,
+          }
         );
 
         assertHasProperty(createManifestResult, "dockerContentDigest");
@@ -218,7 +248,10 @@ export class ContainerRegistryBlobClient {
   }
 
   /**
-   * Downloads the manifest for an OCI artifact
+   * Downloads the manifest for an OCI artifact.
+   *
+   * If the manifest downloaded was of type {@link KnownManifestMediaType.OciManifest}, the downloaded manifest will be of type {@link DownloadOciImageManifestResult}.
+   * You can use {@link isDownloadOciImageManifestResult} to determine whether this is the case. If so, the strongly typed deserialized manifest will be available through the `manifest` property.
    *
    * @param tagOrDigest - a tag or digest that identifies the artifact
    * @returns - the downloaded manifest
@@ -231,34 +264,56 @@ export class ContainerRegistryBlobClient {
       "ContainerRegistryBlobClient.downloadManifest",
       options,
       async (updatedOptions) => {
-        const { dockerContentDigest, readableStreamBody } =
-          await this.client.containerRegistry.getManifest(this.repositoryName, tagOrDigest, {
-            accept: KnownManifestMediaType.OciManifestMediaType,
-            ...updatedOptions,
-          });
+        const acceptMediaType = options.mediaType ?? DEFAULT_ACCEPT_MANIFEST_MEDIA_TYPES;
 
-        const bodyData = readableStreamBody
-          ? await readStreamToEnd(readableStreamBody)
+        const response = await this.client.containerRegistry.getManifest(
+          this.repositoryName,
+          tagOrDigest,
+          {
+            accept: Array.isArray(acceptMediaType) ? acceptMediaType.join(", ") : acceptMediaType,
+            ...updatedOptions,
+          }
+        );
+
+        assertHasProperty(response, "mediaType");
+
+        const content = response.readableStreamBody
+          ? await readStreamToEnd(response.readableStreamBody)
           : Buffer.alloc(0);
 
-        const expectedDigest = await calculateDigest(bodyData);
+        const expectedDigest = await calculateDigest(content);
 
-        if (dockerContentDigest !== expectedDigest) {
+        if (isDigest(tagOrDigest) && expectedDigest !== tagOrDigest) {
           throw new DigestMismatchError(
-            "Digest of blob to upload does not match the digest from the server."
+            "Digest of downloaded manifest does not match the input digest"
           );
         }
 
-        const manifest = serializer.deserialize(
-          Mappers.OCIManifest,
-          JSON.parse(bodyData.toString()),
-          "OCIManifest"
-        );
+        if (response.dockerContentDigest !== expectedDigest) {
+          throw new DigestMismatchError(
+            "Computed digest of downloaded manifest does not match the value of the Docker-Content-Digest header"
+          );
+        }
+
+        if (response.mediaType === KnownManifestMediaType.OciManifest) {
+          const manifest = serializer.deserialize(
+            Mappers.OCIManifest,
+            JSON.parse(content.toString()),
+            "OCIManifest"
+          );
+
+          return {
+            digest: response.dockerContentDigest,
+            mediaType: response.mediaType,
+            manifest,
+            content,
+          };
+        }
 
         return {
-          digest: dockerContentDigest,
-          manifest,
-          manifestStream: Readable.from(bodyData),
+          digest: response.dockerContentDigest,
+          mediaType: response.mediaType,
+          content,
         };
       }
     );
@@ -287,59 +342,50 @@ export class ContainerRegistryBlobClient {
   /**
    * Upload an artifact blob.
    *
-   * @param blobStreamFactory - a factory which produces a stream containing the blob data. This function may be called multiple times; each time the function is called a fresh stream should be returned.
-
-   */
-  public async uploadBlob(
-    blobStreamFactory: () => NodeJS.ReadableStream
-  ): Promise<UploadBlobResult>;
-
-  /**
-   * Upload an artifact blob.
-   *
    * @param blobStream - the stream containing the blob data.
    */
-  public async uploadBlob(blobStream: NodeJS.ReadableStream): Promise<UploadBlobResult>;
-
   public async uploadBlob(
-    blobStreamOrFactory: (() => NodeJS.ReadableStream) | NodeJS.ReadableStream
+    blob: NodeJS.ReadableStream | Buffer,
+    options: UploadBlobOptions = {}
   ): Promise<UploadBlobResult> {
     return tracingClient.withSpan(
       "ContainerRegistryBlobClient.uploadBlob",
-      {},
+      options,
       async (updatedOptions) => {
+        const blobStream = Buffer.isBuffer(blob) ? Readable.from(blob) : blob;
+
         const startUploadResult = await this.client.containerRegistryBlob.startUpload(
           this.repositoryName,
           updatedOptions
         );
 
         assertHasProperty(startUploadResult, "location");
+        let location = startUploadResult.location.substring(1);
 
-        let requestBody: NodeJS.ReadableStream | Buffer;
-        let digest: string;
+        const chunks = readChunksFromStream(blobStream, CHUNK_SIZE);
+        const hash = crypto.createHash("sha256");
 
-        if (typeof blobStreamOrFactory === "function") {
-          requestBody = blobStreamOrFactory();
-          digest = await calculateDigest(blobStreamOrFactory());
-        } else {
-          requestBody = await readStreamToEnd(blobStreamOrFactory);
-          digest = await calculateDigest(requestBody);
-        }
+        let bytesUploaded = 0;
 
-        const uploadChunkResult = await this.client.containerRegistryBlob.uploadChunk(
-          startUploadResult.location.substring(1),
-          requestBody,
-          updatedOptions
-        );
-
-        assertHasProperty(uploadChunkResult, "location");
-
-        const { dockerContentDigest: digestFromResponse } =
-          await this.client.containerRegistryBlob.completeUpload(
-            digest,
-            uploadChunkResult.location.substring(1),
+        for await (const chunk of chunks) {
+          hash.write(chunk);
+          const result = await this.client.containerRegistryBlob.uploadChunk(
+            location,
+            chunk,
             updatedOptions
           );
+
+          bytesUploaded += chunk.byteLength;
+
+          assertHasProperty(result, "location");
+          location = result.location.substring(1);
+        }
+
+        hash.end();
+        const digest = `sha256:${hash.digest("hex")}`;
+
+        const { dockerContentDigest: digestFromResponse } =
+          await this.client.containerRegistryBlob.completeUpload(digest, location, updatedOptions);
 
         if (digest !== digestFromResponse) {
           throw new DigestMismatchError(
@@ -347,7 +393,7 @@ export class ContainerRegistryBlobClient {
           );
         }
 
-        return { digest };
+        return { digest, sizeInBytes: bytesUploaded };
       }
     );
   }

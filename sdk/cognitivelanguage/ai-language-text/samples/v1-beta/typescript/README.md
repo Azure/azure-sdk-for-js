@@ -17,11 +17,14 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
 | [entityLinking.ts][entitylinking]                                     | detects entities that have links to more information on the web                     |
 | [entityRecognition.ts][entityrecognition]                             | detects entities in a piece of text                                                 |
+| [entityResolutions.ts][entityresolutions]                             | detects entities in a piece of text                                                 |
 | [keyPhraseExtraction.ts][keyphraseextraction]                         | extracts key phrases from a piece of text                                           |
 | [languageDetection.ts][languagedetection]                             | detects the language of a piece of text                                             |
 | [piiEntityRecognition.ts][piientityrecognition]                       | detects personally-identifiable information                                         |
 | [sentimentAnalysis.ts][sentimentanalysis]                             | analyzes the sentiment of a piece of text                                           |
 | [stats.ts][stats]                                                     | access statistics about documents and transactions                                  |
+| [abstractiveSummarization.ts][abstractivesummarization]               | generates a summary for an article                                                  |
+| [autoLanguageDetection.ts][autolanguagedetection]                     | return detected language with the task                                              |
 | [customEntityRecognition.ts][customentityrecognition]                 | detects custom text in a piece of text                                              |
 | [customMultiLabelClassification.ts][custommultilabelclassification]   | multi-label classification of pieces of text                                        |
 | [customSingleLabelClassification.ts][customsinglelabelclassification] | single-label classification of pieces of text                                       |
@@ -88,11 +91,14 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [entitylinking]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/entityLinking.ts
 [entityrecognition]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/entityRecognition.ts
+[entityresolutions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/entityResolutions.ts
 [keyphraseextraction]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/keyPhraseExtraction.ts
 [languagedetection]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/languageDetection.ts
 [piientityrecognition]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/piiEntityRecognition.ts
 [sentimentanalysis]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/sentimentAnalysis.ts
 [stats]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/stats.ts
+[abstractivesummarization]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/abstractiveSummarization.ts
+[autolanguagedetection]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/autoLanguageDetection.ts
 [customentityrecognition]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/customEntityRecognition.ts
 [custommultilabelclassification]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/customMultiLabelClassification.ts
 [customsinglelabelclassification]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/customSingleLabelClassification.ts
@@ -104,7 +110,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [modelversion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/modelVersion.ts
 [paging]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/paging.ts
 [rehydratepolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1-beta/typescript/src/rehydratePolling.ts
-[apiref]: https://aka.ms/ai-language-text-js-api
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-language-text
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesinstance]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-text/README.md

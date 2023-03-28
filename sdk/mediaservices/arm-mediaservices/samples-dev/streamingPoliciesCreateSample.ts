@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { StreamingPolicy, AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create a Streaming Policy in the Media Services account
  *
  * @summary Create a Streaming Policy in the Media Services account
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/streaming-policies-create-commonEncryptionCbcs-clearKeyEncryption.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/streaming-policies-create-commonEncryptionCbcs-clearKeyEncryption.json
  */
 async function createsAStreamingPolicyWithClearKeyEncryptionInCommonEncryptionCbcs() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contoso";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const streamingPolicyName =
     "UserCreatedSecureStreamingPolicyWithCommonEncryptionCbcsOnly";
@@ -50,19 +56,18 @@ async function createsAStreamingPolicyWithClearKeyEncryptionInCommonEncryptionCb
   console.log(result);
 }
 
-createsAStreamingPolicyWithClearKeyEncryptionInCommonEncryptionCbcs().catch(
-  console.error
-);
-
 /**
  * This sample demonstrates how to Create a Streaming Policy in the Media Services account
  *
  * @summary Create a Streaming Policy in the Media Services account
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/streaming-policies-create-commonEncryptionCenc-clearKeyEncryption.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/streaming-policies-create-commonEncryptionCenc-clearKeyEncryption.json
  */
 async function createsAStreamingPolicyWithClearKeyEncryptionInCommonEncryptionCenc() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contoso";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const streamingPolicyName =
     "UserCreatedSecureStreamingPolicyWithCommonEncryptionCencOnly";
@@ -100,19 +105,18 @@ async function createsAStreamingPolicyWithClearKeyEncryptionInCommonEncryptionCe
   console.log(result);
 }
 
-createsAStreamingPolicyWithClearKeyEncryptionInCommonEncryptionCenc().catch(
-  console.error
-);
-
 /**
  * This sample demonstrates how to Create a Streaming Policy in the Media Services account
  *
  * @summary Create a Streaming Policy in the Media Services account
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/streaming-policies-create-clear.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/streaming-policies-create-clear.json
  */
 async function createsAStreamingPolicyWithClearStreaming() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contoso";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const streamingPolicyName = "UserCreatedClearStreamingPolicy";
   const parameters: StreamingPolicy = {
@@ -136,17 +140,18 @@ async function createsAStreamingPolicyWithClearStreaming() {
   console.log(result);
 }
 
-createsAStreamingPolicyWithClearStreaming().catch(console.error);
-
 /**
  * This sample demonstrates how to Create a Streaming Policy in the Media Services account
  *
  * @summary Create a Streaming Policy in the Media Services account
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/streaming-policies-create-commonEncryptionCbcs-only.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/streaming-policies-create-commonEncryptionCbcs-only.json
  */
 async function createsAStreamingPolicyWithCommonEncryptionCbcsOnly() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contoso";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const streamingPolicyName =
     "UserCreatedSecureStreamingPolicyWithCommonEncryptionCbcsOnly";
@@ -180,17 +185,18 @@ async function createsAStreamingPolicyWithCommonEncryptionCbcsOnly() {
   console.log(result);
 }
 
-createsAStreamingPolicyWithCommonEncryptionCbcsOnly().catch(console.error);
-
 /**
  * This sample demonstrates how to Create a Streaming Policy in the Media Services account
  *
  * @summary Create a Streaming Policy in the Media Services account
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/streaming-policies-create-commonEncryptionCenc-only.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/streaming-policies-create-commonEncryptionCenc-only.json
  */
 async function createsAStreamingPolicyWithCommonEncryptionCencOnly() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contoso";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const streamingPolicyName =
     "UserCreatedSecureStreamingPolicyWithCommonEncryptionCencOnly";
@@ -235,17 +241,18 @@ async function createsAStreamingPolicyWithCommonEncryptionCencOnly() {
   console.log(result);
 }
 
-createsAStreamingPolicyWithCommonEncryptionCencOnly().catch(console.error);
-
 /**
  * This sample demonstrates how to Create a Streaming Policy in the Media Services account
  *
  * @summary Create a Streaming Policy in the Media Services account
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/streaming-policies-create-envelopeEncryption-only.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/streaming-policies-create-envelopeEncryption-only.json
  */
 async function createsAStreamingPolicyWithEnvelopeEncryptionOnly() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contoso";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const streamingPolicyName =
     "UserCreatedSecureStreamingPolicyWithEnvelopeEncryptionOnly";
@@ -274,17 +281,18 @@ async function createsAStreamingPolicyWithEnvelopeEncryptionOnly() {
   console.log(result);
 }
 
-createsAStreamingPolicyWithEnvelopeEncryptionOnly().catch(console.error);
-
 /**
  * This sample demonstrates how to Create a Streaming Policy in the Media Services account
  *
  * @summary Create a Streaming Policy in the Media Services account
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/streaming-policies-create-secure-streaming.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/streaming-policies-create-secure-streaming.json
  */
 async function createsAStreamingPolicyWithSecureStreaming() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contoso";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const streamingPolicyName = "UserCreatedSecureStreamingPolicy";
   const parameters: StreamingPolicy = {
@@ -355,4 +363,14 @@ async function createsAStreamingPolicyWithSecureStreaming() {
   console.log(result);
 }
 
-createsAStreamingPolicyWithSecureStreaming().catch(console.error);
+async function main() {
+  createsAStreamingPolicyWithClearKeyEncryptionInCommonEncryptionCbcs();
+  createsAStreamingPolicyWithClearKeyEncryptionInCommonEncryptionCenc();
+  createsAStreamingPolicyWithClearStreaming();
+  createsAStreamingPolicyWithCommonEncryptionCbcsOnly();
+  createsAStreamingPolicyWithCommonEncryptionCencOnly();
+  createsAStreamingPolicyWithEnvelopeEncryptionOnly();
+  createsAStreamingPolicyWithSecureStreaming();
+}
+
+main().catch(console.error);

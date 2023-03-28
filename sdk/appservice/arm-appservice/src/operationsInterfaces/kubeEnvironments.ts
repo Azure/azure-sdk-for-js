@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   KubeEnvironment,
   KubeEnvironmentsListBySubscriptionOptionalParams,
@@ -65,8 +65,8 @@ export interface KubeEnvironments {
     kubeEnvironmentEnvelope: KubeEnvironment,
     options?: KubeEnvironmentsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<KubeEnvironmentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<KubeEnvironmentsCreateOrUpdateResponse>,
       KubeEnvironmentsCreateOrUpdateResponse
     >
   >;
@@ -93,7 +93,7 @@ export interface KubeEnvironments {
     resourceGroupName: string,
     name: string,
     options?: KubeEnvironmentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Description for Delete a Kubernetes Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.

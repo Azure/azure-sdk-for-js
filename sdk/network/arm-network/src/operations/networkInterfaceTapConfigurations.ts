@@ -6,24 +6,29 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { NetworkInterfaceTapConfigurations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   NetworkInterfaceTapConfiguration,
   NetworkInterfaceTapConfigurationsListNextOptionalParams,
   NetworkInterfaceTapConfigurationsListOptionalParams,
+  NetworkInterfaceTapConfigurationsListResponse,
   NetworkInterfaceTapConfigurationsDeleteOptionalParams,
   NetworkInterfaceTapConfigurationsGetOptionalParams,
   NetworkInterfaceTapConfigurationsGetResponse,
   NetworkInterfaceTapConfigurationsCreateOrUpdateOptionalParams,
   NetworkInterfaceTapConfigurationsCreateOrUpdateResponse,
-  NetworkInterfaceTapConfigurationsListResponse,
   NetworkInterfaceTapConfigurationsListNextResponse
 } from "../models";
 
@@ -64,11 +69,15 @@ export class NetworkInterfaceTapConfigurationsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           networkInterfaceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -77,15 +86,22 @@ export class NetworkInterfaceTapConfigurationsImpl
   private async *listPagingPage(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfaceTapConfigurationsListOptionalParams
+    options?: NetworkInterfaceTapConfigurationsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<NetworkInterfaceTapConfiguration[]> {
-    let result = await this._list(
-      resourceGroupName,
-      networkInterfaceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: NetworkInterfaceTapConfigurationsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        networkInterfaceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -94,7 +110,9 @@ export class NetworkInterfaceTapConfigurationsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -124,14 +142,14 @@ export class NetworkInterfaceTapConfigurationsImpl
     networkInterfaceName: string,
     tapConfigurationName: string,
     options?: NetworkInterfaceTapConfigurationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -164,20 +182,20 @@ export class NetworkInterfaceTapConfigurationsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         networkInterfaceName,
         tapConfigurationName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -245,10 +263,8 @@ export class NetworkInterfaceTapConfigurationsImpl
     tapConfigurationParameters: NetworkInterfaceTapConfiguration,
     options?: NetworkInterfaceTapConfigurationsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        NetworkInterfaceTapConfigurationsCreateOrUpdateResponse
-      >,
+    SimplePollerLike<
+      OperationState<NetworkInterfaceTapConfigurationsCreateOrUpdateResponse>,
       NetworkInterfaceTapConfigurationsCreateOrUpdateResponse
     >
   > {
@@ -258,7 +274,7 @@ export class NetworkInterfaceTapConfigurationsImpl
     ): Promise<NetworkInterfaceTapConfigurationsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -291,21 +307,24 @@ export class NetworkInterfaceTapConfigurationsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         networkInterfaceName,
         tapConfigurationName,
         tapConfigurationParameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      NetworkInterfaceTapConfigurationsCreateOrUpdateResponse,
+      OperationState<NetworkInterfaceTapConfigurationsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -490,7 +509,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

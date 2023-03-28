@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the specified rule from a route filter.
  *
  * @summary Gets the specified rule from a route filter.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/RouteFilterRuleGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/RouteFilterRuleGet.json
  */
 async function routeFilterRuleGet() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const routeFilterName = "filterName";
   const ruleName = "filterName";
   const credential = new DefaultAzureCredential();
@@ -28,4 +29,8 @@ async function routeFilterRuleGet() {
   console.log(result);
 }
 
-routeFilterRuleGet().catch(console.error);
+async function main() {
+  routeFilterRuleGet();
+}
+
+main().catch(console.error);

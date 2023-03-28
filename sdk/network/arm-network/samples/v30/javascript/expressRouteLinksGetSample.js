@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Retrieves the specified ExpressRouteLink resource.
  *
  * @summary Retrieves the specified ExpressRouteLink resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteLinkGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/ExpressRouteLinkGet.json
  */
 async function expressRouteLinkGet() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const expressRoutePortName = "portName";
   const linkName = "linkName";
   const credential = new DefaultAzureCredential();
@@ -32,4 +33,8 @@ async function expressRouteLinkGet() {
   console.log(result);
 }
 
-expressRouteLinkGet().catch(console.error);
+async function main() {
+  expressRouteLinkGet();
+}
+
+main().catch(console.error);

@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the currently advertised routes table associated with the express route circuit in a resource group.
  *
  * @summary Gets the currently advertised routes table associated with the express route circuit in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteCircuitRouteTableList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/ExpressRouteCircuitRouteTableList.json
  */
 async function listRouteTables() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const circuitName = "circuitName";
   const peeringName = "peeringName";
   const devicePath = "devicePath";
@@ -34,4 +35,8 @@ async function listRouteTables() {
   console.log(result);
 }
 
-listRouteTables().catch(console.error);
+async function main() {
+  listRouteTables();
+}
+
+main().catch(console.error);

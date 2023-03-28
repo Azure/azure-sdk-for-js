@@ -6,17 +6,22 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { PacketCaptures } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   PacketCaptureResult,
   PacketCapturesListOptionalParams,
+  PacketCapturesListResponse,
   PacketCapture,
   PacketCapturesCreateOptionalParams,
   PacketCapturesCreateResponse,
@@ -25,8 +30,7 @@ import {
   PacketCapturesDeleteOptionalParams,
   PacketCapturesStopOptionalParams,
   PacketCapturesGetStatusOptionalParams,
-  PacketCapturesGetStatusResponse,
-  PacketCapturesListResponse
+  PacketCapturesGetStatusResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -65,11 +69,15 @@ export class PacketCapturesImpl implements PacketCaptures {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           networkWatcherName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -78,13 +86,11 @@ export class PacketCapturesImpl implements PacketCaptures {
   private async *listPagingPage(
     resourceGroupName: string,
     networkWatcherName: string,
-    options?: PacketCapturesListOptionalParams
+    options?: PacketCapturesListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<PacketCaptureResult[]> {
-    let result = await this._list(
-      resourceGroupName,
-      networkWatcherName,
-      options
-    );
+    let result: PacketCapturesListResponse;
+    result = await this._list(resourceGroupName, networkWatcherName, options);
     yield result.value || [];
   }
 
@@ -117,8 +123,8 @@ export class PacketCapturesImpl implements PacketCaptures {
     parameters: PacketCapture,
     options?: PacketCapturesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PacketCapturesCreateResponse>,
+    SimplePollerLike<
+      OperationState<PacketCapturesCreateResponse>,
       PacketCapturesCreateResponse
     >
   > {
@@ -128,7 +134,7 @@ export class PacketCapturesImpl implements PacketCaptures {
     ): Promise<PacketCapturesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -161,21 +167,24 @@ export class PacketCapturesImpl implements PacketCaptures {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         networkWatcherName,
         packetCaptureName,
         parameters,
         options
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PacketCapturesCreateResponse,
+      OperationState<PacketCapturesCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -237,14 +246,14 @@ export class PacketCapturesImpl implements PacketCaptures {
     networkWatcherName: string,
     packetCaptureName: string,
     options?: PacketCapturesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -277,15 +286,20 @@ export class PacketCapturesImpl implements PacketCaptures {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, networkWatcherName, packetCaptureName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        networkWatcherName,
+        packetCaptureName,
+        options
+      },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -325,14 +339,14 @@ export class PacketCapturesImpl implements PacketCaptures {
     networkWatcherName: string,
     packetCaptureName: string,
     options?: PacketCapturesStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -365,15 +379,20 @@ export class PacketCapturesImpl implements PacketCaptures {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, networkWatcherName, packetCaptureName, options },
-      stopOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        networkWatcherName,
+        packetCaptureName,
+        options
+      },
+      spec: stopOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -414,8 +433,8 @@ export class PacketCapturesImpl implements PacketCaptures {
     packetCaptureName: string,
     options?: PacketCapturesGetStatusOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PacketCapturesGetStatusResponse>,
+    SimplePollerLike<
+      OperationState<PacketCapturesGetStatusResponse>,
       PacketCapturesGetStatusResponse
     >
   > {
@@ -425,7 +444,7 @@ export class PacketCapturesImpl implements PacketCaptures {
     ): Promise<PacketCapturesGetStatusResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -458,15 +477,23 @@ export class PacketCapturesImpl implements PacketCaptures {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, networkWatcherName, packetCaptureName, options },
-      getStatusOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        networkWatcherName,
+        packetCaptureName,
+        options
+      },
+      spec: getStatusOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PacketCapturesGetStatusResponse,
+      OperationState<PacketCapturesGetStatusResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -535,7 +562,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters55,
+  requestBody: Parameters.parameters56,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

@@ -13,16 +13,21 @@ import {
   ContainerServiceClient
 } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
- * This sample demonstrates how to Reset the AAD Profile of a managed cluster.
+ * This sample demonstrates how to **WARNING**: This API will be deprecated. Please see [AKS-managed Azure Active Directory integration](https://aka.ms/aks-managed-aad) to update your cluster with AKS-managed Azure AD.
  *
- * @summary Reset the AAD Profile of a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-09-01/examples/ManagedClustersResetAADProfile.json
+ * @summary **WARNING**: This API will be deprecated. Please see [AKS-managed Azure Active Directory integration](https://aka.ms/aks-managed-aad) to update your cluster with AKS-managed Azure AD.
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-01-01/examples/ManagedClustersResetAADProfile.json
  */
 async function resetAadProfile() {
-  const subscriptionId = "subid1";
-  const resourceGroupName = "rg1";
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const resourceGroupName =
+    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedClusterAADProfile = {
     clientAppID: "clientappid",
@@ -40,4 +45,8 @@ async function resetAadProfile() {
   console.log(result);
 }
 
-resetAadProfile().catch(console.error);
+async function main() {
+  resetAadProfile();
+}
+
+main().catch(console.error);

@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets all subnets in a virtual network.
  *
  * @summary Gets all subnets in a virtual network.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/SubnetList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/SubnetList.json
  */
 async function listSubnets() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "subnet-test";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "subnet-test";
   const virtualNetworkName = "vnetname";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -30,4 +31,8 @@ async function listSubnets() {
   console.log(resArray);
 }
 
-listSubnets().catch(console.error);
+async function main() {
+  listSubnets();
+}
+
+main().catch(console.error);

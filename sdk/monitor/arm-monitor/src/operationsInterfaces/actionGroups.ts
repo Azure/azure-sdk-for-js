@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ActionGroupResource,
   ActionGroupsListBySubscriptionIdOptionalParams,
@@ -113,8 +113,8 @@ export interface ActionGroups {
     notificationRequest: NotificationRequestBody,
     options?: ActionGroupsPostTestNotificationsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ActionGroupsPostTestNotificationsResponse>,
+    SimplePollerLike<
+      OperationState<ActionGroupsPostTestNotificationsResponse>,
       ActionGroupsPostTestNotificationsResponse
     >
   >;
@@ -138,8 +138,8 @@ export interface ActionGroups {
     notificationRequest: NotificationRequestBody,
     options?: ActionGroupsCreateNotificationsAtResourceGroupLevelOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         ActionGroupsCreateNotificationsAtResourceGroupLevelResponse
       >,
       ActionGroupsCreateNotificationsAtResourceGroupLevelResponse
@@ -169,8 +169,8 @@ export interface ActionGroups {
     notificationRequest: NotificationRequestBody,
     options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse
       >,
       ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse

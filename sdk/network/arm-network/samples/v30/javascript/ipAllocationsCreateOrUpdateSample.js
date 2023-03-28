@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or updates an IpAllocation in the specified resource group.
  *
  * @summary Creates or updates an IpAllocation in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/IpAllocationCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/IpAllocationCreate.json
  */
 async function createIPAllocation() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const ipAllocationName = "test-ipallocation";
   const parameters = {
     typePropertiesType: "Hypernet",
@@ -40,4 +41,8 @@ async function createIPAllocation() {
   console.log(result);
 }
 
-createIPAllocation().catch(console.error);
+async function main() {
+  createIPAllocation();
+}
+
+main().catch(console.error);

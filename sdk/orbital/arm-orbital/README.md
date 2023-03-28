@@ -2,7 +2,7 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for AzureOrbital client.
 
-Azure Orbital service
+Azure Orbital service.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/orbital/arm-orbital) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-orbital) |

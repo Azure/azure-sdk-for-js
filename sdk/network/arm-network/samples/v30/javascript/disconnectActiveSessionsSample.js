@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Returns the list of currently active sessions on the Bastion.
  *
  * @summary Returns the list of currently active sessions on the Bastion.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/BastionSessionDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/BastionSessionDelete.json
  */
 async function deletesTheSpecifiedActiveSession() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const bastionHostName = "bastionhosttenant";
   const sessionIds = {};
   const credential = new DefaultAzureCredential();
@@ -35,4 +36,8 @@ async function deletesTheSpecifiedActiveSession() {
   console.log(resArray);
 }
 
-deletesTheSpecifiedActiveSession().catch(console.error);
+async function main() {
+  deletesTheSpecifiedActiveSession();
+}
+
+main().catch(console.error);

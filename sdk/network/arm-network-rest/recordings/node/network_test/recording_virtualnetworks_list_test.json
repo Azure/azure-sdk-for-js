@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks?api-version=2022-05-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/azure_resource_group/providers/Microsoft.Network/virtualNetworks?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -38,7 +38,7 @@
         "value": [
           {
             "name": "networknamexx22",
-            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/networknamexx22",
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/azure_resource_group/providers/Microsoft.Network/virtualNetworks/networknamexx22",
             "etag": "W/\u002209bf24a9-cbce-43b3-8563-9a0925b2a76f\u0022",
             "type": "Microsoft.Network/virtualNetworks",
             "location": "eastus",
@@ -53,13 +53,13 @@
               "subnets": [
                 {
                   "name": "subnetnamexx11",
-                  "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/networknamexx22/subnets/subnetnamexx11",
+                  "id": "/subscriptions/azure_subscription_id/resourceGroups/azure_resource_group/providers/Microsoft.Network/virtualNetworks/networknamexx22/subnets/subnetnamexx11",
                   "etag": "W/\u002209bf24a9-cbce-43b3-8563-9a0925b2a76f\u0022",
                   "properties": {
                     "provisioningState": "Succeeded",
                     "addressPrefix": "10.0.0.0/24",
                     "networkSecurityGroup": {
-                      "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/networkSecurityGroups/NRMS-r6bfxtjgahq52networknamexx22"
+                      "id": "/subscriptions/azure_subscription_id/resourceGroups/azure_resource_group/providers/Microsoft.Network/networkSecurityGroups/NRMS-r6bfxtjgahq52networknamexx22"
                     },
                     "delegations": [],
                     "privateEndpointNetworkPolicies": "Disabled",
@@ -74,7 +74,7 @@
           },
           {
             "name": "virtualnetworkzzz",
-            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/virtualnetworkzzz",
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/azure_resource_group/providers/Microsoft.Network/virtualNetworks/virtualnetworkzzz",
             "etag": "W/\u0022132cd587-bc2f-43cb-aabf-89f9f589f7a3\u0022",
             "type": "Microsoft.Network/virtualNetworks",
             "location": "eastus",
@@ -89,7 +89,7 @@
               "subnets": [
                 {
                   "name": "subnetnamexx",
-                  "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/virtualnetworkzzz/subnets/subnetnamexx",
+                  "id": "/subscriptions/azure_subscription_id/resourceGroups/azure_resource_group/providers/Microsoft.Network/virtualNetworks/virtualnetworkzzz/subnets/subnetnamexx",
                   "etag": "W/\u0022132cd587-bc2f-43cb-aabf-89f9f589f7a3\u0022",
                   "properties": {
                     "provisioningState": "Succeeded",

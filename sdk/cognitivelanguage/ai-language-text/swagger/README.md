@@ -12,9 +12,9 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://github.com/Azure/azure-rest-api-specs/blob/ac205086f477776e8d9aa4ff771e98f174afbea2/specification/cognitiveservices/data-plane/Language/preview/2022-10-01-preview/analyzetext.json
+input-file: https://github.com/Azure/azure-rest-api-specs/blob/919b10618189371bf471965b47af9a43478ad86d/specification/cognitiveservices/data-plane/Language/preview/2022-10-01-preview/analyzetext.json
 add-credentials: false
-package-version: 1.1.0-beta.1
+package-version: 1.1.0-beta.3
 v3: true
 hide-clients: true
 typescript: true
@@ -174,9 +174,7 @@ directive:
   - where-model: PiiCategories
     transform: $.items["x-ms-enum"].name = "PiiEntityCategory";
 
-  - where-model: SingleClassificationDocumentResult
-    transform: $.properties.class["x-ms-client-name"] = "classification";
-  - where-model: MultiClassificationDocumentResult
+  - where-model: ClassificationDocumentResult
     transform: $.properties.class["x-ms-client-name"] = "classifications";
   - rename-model:
       from: ClassificationResult
@@ -215,6 +213,13 @@ directive:
     where: $.parameters.ShowStats
     transform: >
       $["x-ms-client-name"] = "includeStatistics";
+
+  - from: swagger-document
+    where: $.definitions.AbstractiveSummary.required
+    transform: >
+      if (!$.find((x) => x === "contexts")) {
+          $.push("contexts");
+      }
 
   - from: swagger-document
     where: $.definitions[*]
@@ -276,6 +281,11 @@ directive:
       $["x-ms-enum"].name = "WarningCode";
 
   - from: swagger-document
+    where: $.definitions.AnalyzeTextJobsInput.properties
+    transform: >
+      delete $["defaultLanguage"];
+
+  - from: swagger-document
     where: $.definitions.DocumentWarning.properties
     transform: >
       delete $["targetRef"];
@@ -319,20 +329,6 @@ directive:
     where: $.definitions.JobState
     transform: $.properties.lastUpdatedDateTime["x-ms-client-name"] = "modifiedOn";
 
-  - from: swagger-document
-    where: $.definitions
-    transform: >
-      if (!$.DocumentDetectedLanguageForHealthcare) {
-          $.DocumentDetectedLanguageForHealthcare = { "type": "object", "properties": { "detectedLanguage": { "type": "string" } } };
-      }
-
-  - from: swagger-document
-    where: $.definitions.HealthcareResult.properties.documents.items.allOf
-    transform: >
-      if ($[1]["$ref"] === "#/definitions/DocumentDetectedLanguage") {
-          $[1]["$ref"] = "#/definitions/DocumentDetectedLanguageForHealthcare";
-      }
-
 # Enhance documentation strings for some exported swagger types
 
   - from: swagger-document
@@ -374,10 +370,6 @@ directive:
   - where-model: DynamicClassificationAction
     transform:
       $.description = "Options for a dynamic classification action.";
-  - where-model: AbstractiveSummarizationTaskParametersBase
-    transform:
-      $.properties.sentenceCount.description = "The max number of sentences to be part of the summary.";
-      $.properties.sentenceCount["x-ms-client-name"] = "maxSentenceCount";
   - rename-model:
       from: AbstractiveSummarizationTaskParameters
       to: AbstractiveSummarizationAction

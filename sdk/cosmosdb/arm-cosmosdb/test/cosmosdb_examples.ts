@@ -24,19 +24,19 @@ const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
 };
 
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: replaceableVariables
-}; queryParametersToSkip: []
+};
 
 
 export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("Cosmosdb test", () => {
+describe.only("Cosmosdb test", () => {
   let recorder: Recorder;
   let client: CosmosDBManagementClient;
   let subscriptionId: string;
@@ -52,7 +52,7 @@ describe("Cosmosdb test", () => {
     const credential = createTestCredential();
     client = new CosmosDBManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
-    resourceGroupName = "myjstest";
+    resourceGroupName = "czwjstest";
     accountName = "myaccountxxyy2";
   });
 

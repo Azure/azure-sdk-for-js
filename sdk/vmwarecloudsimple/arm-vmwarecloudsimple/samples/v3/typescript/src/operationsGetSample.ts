@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { VMwareCloudSimple } from "@azure/arm-vmwarecloudsimple";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Return an async operation
@@ -18,7 +21,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/GetFailedOperationResult.json
  */
 async function getFailedOperationResult() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId =
+    process.env["VMWARECLOUDSIMPLE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const regionId = "westus2";
   const referer = "https://management.azure.com/";
   const operationId = "d030bb3f-7d53-11e9-8e09-9a86872085ff";
@@ -28,8 +32,6 @@ async function getFailedOperationResult() {
   console.log(result);
 }
 
-getFailedOperationResult().catch(console.error);
-
 /**
  * This sample demonstrates how to Return an async operation
  *
@@ -37,7 +39,8 @@ getFailedOperationResult().catch(console.error);
  * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/GetOperationResult.json
  */
 async function getOperationResult() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId =
+    process.env["VMWARECLOUDSIMPLE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const regionId = "westus2";
   const referer = "https://management.azure.com/";
   const operationId = "f8e1c8f1-7d52-11e9-8e07-9a86872085ff";
@@ -47,4 +50,9 @@ async function getOperationResult() {
   console.log(result);
 }
 
-getOperationResult().catch(console.error);
+async function main() {
+  getFailedOperationResult();
+  getOperationResult();
+}
+
+main().catch(console.error);

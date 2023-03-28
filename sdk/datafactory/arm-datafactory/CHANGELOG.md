@@ -1,5 +1,74 @@
 # Release History
+
+## 11.1.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 11.1.0 (2023-03-02)
     
+**Features**
+
+  - Interface AzureBlobFSLinkedService has a new optional parameter sasToken
+  - Interface AzureBlobFSLinkedService has a new optional parameter sasUri
+    
+    
+## 11.0.0 (2023-02-10)
+    
+**Features**
+
+  - Added operation group CredentialOperations
+  - Added Interface CopyComputeScaleProperties
+  - Added Interface CredentialListResponse
+  - Added Interface CredentialOperationsCreateOrUpdateOptionalParams
+  - Added Interface CredentialOperationsDeleteOptionalParams
+  - Added Interface CredentialOperationsGetOptionalParams
+  - Added Interface CredentialOperationsListByFactoryNextOptionalParams
+  - Added Interface CredentialOperationsListByFactoryOptionalParams
+  - Added Interface ManagedIdentityCredentialResource
+  - Added Interface PipelineExternalComputeScaleProperties
+  - Added Interface SparkConfigurationParametrizationReference
+  - Added Type Alias AzureStorageAuthenticationType
+  - Added Type Alias ConfigurationType
+  - Added Type Alias CredentialOperationsCreateOrUpdateResponse
+  - Added Type Alias CredentialOperationsGetResponse
+  - Added Type Alias CredentialOperationsListByFactoryNextResponse
+  - Added Type Alias CredentialOperationsListByFactoryResponse
+  - Added Type Alias SparkConfigurationReferenceType
+  - Interface AzureBlobStorageLinkedService has a new optional parameter authenticationType
+  - Interface AzureBlobStorageLinkedService has a new optional parameter containerUri
+  - Interface IntegrationRuntimeComputeProperties has a new optional parameter copyComputeScaleProperties
+  - Interface IntegrationRuntimeComputeProperties has a new optional parameter pipelineExternalComputeScaleProperties
+  - Interface SynapseSparkJobDefinitionActivity has a new optional parameter configurationType
+  - Interface SynapseSparkJobDefinitionActivity has a new optional parameter scanFolder
+  - Interface SynapseSparkJobDefinitionActivity has a new optional parameter sparkConfig
+  - Interface SynapseSparkJobDefinitionActivity has a new optional parameter targetSparkConfiguration
+  - Type of parameter type of interface Credential_2 is changed from "ServicePrincipal" | "ManagedIdentity" to "ManagedIdentity" | "ServicePrincipal"
+  - Added Enum KnownAzureStorageAuthenticationType
+  - Added Enum KnownConfigurationType
+  - Added Enum KnownSparkConfigurationReferenceType
+  - Type of parameter numExecutors of interface SynapseSparkJobDefinitionActivity is changed from number to any
+
+**Breaking Changes**
+
+  - Parameter exportSettings of interface SnowflakeSource is now required
+
+    
+## 10.10.1 (2023-01-04)
+
+**Features**
+
+-  Exposes `getContinuationToken` helper function to extract continuation token
+
+**Bugs Fixed**
+
+- A series of small bug fixs relevant to authentication and apiVersion policy
+
 ## 10.10.0 (2022-11-04)
     
 **Features**

@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to This operation retrieves a list of routes the virtual network gateway is advertising to the specified peer.
  *
  * @summary This operation retrieves a list of routes the virtual network gateway is advertising to the specified peer.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGatewayGetAdvertisedRoutes.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VirtualNetworkGatewayGetAdvertisedRoutes.json
  */
 async function getVirtualNetworkGatewayAdvertisedRoutes() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualNetworkGatewayName = "vpngw";
   const peer = "test";
   const credential = new DefaultAzureCredential();
@@ -32,4 +35,8 @@ async function getVirtualNetworkGatewayAdvertisedRoutes() {
   console.log(result);
 }
 
-getVirtualNetworkGatewayAdvertisedRoutes().catch(console.error);
+async function main() {
+  getVirtualNetworkGatewayAdvertisedRoutes();
+}
+
+main().catch(console.error);

@@ -13,15 +13,18 @@ import {
   NetworkManagementClient
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Swaps VIPs between two load balancers.
  *
  * @summary Swaps VIPs between two load balancers.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancersSwapPublicIpAddresses.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/LoadBalancersSwapPublicIpAddresses.json
  */
 async function swapViPsBetweenTwoLoadBalancers() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const location = "westus";
   const parameters: LoadBalancerVipSwapRequest = {
     frontendIPConfigurations: [
@@ -52,4 +55,8 @@ async function swapViPsBetweenTwoLoadBalancers() {
   console.log(result);
 }
 
-swapViPsBetweenTwoLoadBalancers().catch(console.error);
+async function main() {
+  swapViPsBetweenTwoLoadBalancers();
+}
+
+main().catch(console.error);

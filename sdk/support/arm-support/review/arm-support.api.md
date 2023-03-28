@@ -73,8 +73,6 @@ export type CommunicationsGetResponse = CommunicationDetails;
 
 // @public
 export interface CommunicationsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -115,6 +113,9 @@ export interface ContactProfile {
 export interface ExceptionResponse {
     error?: ServiceError;
 }
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export enum KnownCommunicationDirection {
@@ -385,8 +386,6 @@ export type SupportTicketsGetResponse = SupportTicketDetails;
 
 // @public
 export interface SupportTicketsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public

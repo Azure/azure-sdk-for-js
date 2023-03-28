@@ -13,16 +13,19 @@ import {
   NetworkManagementClient
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Generates VPN profile for P2S client of the P2SVpnGateway in the specified resource group.
  *
  * @summary Generates VPN profile for P2S client of the P2SVpnGateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/P2SVpnGatewayGenerateVpnProfile.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/P2SVpnGatewayGenerateVpnProfile.json
  */
 async function generateP2SVpnGatewayVpnprofile() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const gatewayName = "p2sVpnGateway1";
   const parameters: P2SVpnProfileParameters = {
     authenticationMethod: "EAPTLS"
@@ -37,4 +40,8 @@ async function generateP2SVpnGatewayVpnprofile() {
   console.log(result);
 }
 
-generateP2SVpnGatewayVpnprofile().catch(console.error);
+async function main() {
+  generateP2SVpnGatewayVpnprofile();
+}
+
+main().catch(console.error);

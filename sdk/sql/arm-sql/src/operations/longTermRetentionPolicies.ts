@@ -6,24 +6,29 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { LongTermRetentionPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   LongTermRetentionPolicy,
   LongTermRetentionPoliciesListByDatabaseNextOptionalParams,
   LongTermRetentionPoliciesListByDatabaseOptionalParams,
+  LongTermRetentionPoliciesListByDatabaseResponse,
   LongTermRetentionPolicyName,
   LongTermRetentionPoliciesGetOptionalParams,
   LongTermRetentionPoliciesGetResponse,
   LongTermRetentionPoliciesCreateOrUpdateOptionalParams,
   LongTermRetentionPoliciesCreateOrUpdateResponse,
-  LongTermRetentionPoliciesListByDatabaseResponse,
   LongTermRetentionPoliciesListByDatabaseNextResponse
 } from "../models";
 
@@ -68,12 +73,16 @@ export class LongTermRetentionPoliciesImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDatabasePagingPage(
           resourceGroupName,
           serverName,
           databaseName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -83,16 +92,23 @@ export class LongTermRetentionPoliciesImpl
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: LongTermRetentionPoliciesListByDatabaseOptionalParams
+    options?: LongTermRetentionPoliciesListByDatabaseOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<LongTermRetentionPolicy[]> {
-    let result = await this._listByDatabase(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: LongTermRetentionPoliciesListByDatabaseResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByDatabase(
+        resourceGroupName,
+        serverName,
+        databaseName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByDatabaseNext(
         resourceGroupName,
@@ -102,7 +118,9 @@ export class LongTermRetentionPoliciesImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -162,8 +180,8 @@ export class LongTermRetentionPoliciesImpl
     parameters: LongTermRetentionPolicy,
     options?: LongTermRetentionPoliciesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LongTermRetentionPoliciesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<LongTermRetentionPoliciesCreateOrUpdateResponse>,
       LongTermRetentionPoliciesCreateOrUpdateResponse
     >
   > {
@@ -173,7 +191,7 @@ export class LongTermRetentionPoliciesImpl
     ): Promise<LongTermRetentionPoliciesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -206,9 +224,9 @@ export class LongTermRetentionPoliciesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serverName,
         databaseName,
@@ -216,10 +234,13 @@ export class LongTermRetentionPoliciesImpl
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LongTermRetentionPoliciesCreateOrUpdateResponse,
+      OperationState<LongTermRetentionPoliciesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -310,7 +331,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -341,8 +362,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters36,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters30,
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -351,7 +372,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.databaseName,
     Parameters.policyName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -365,7 +386,7 @@ const listByDatabaseOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -385,7 +406,6 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

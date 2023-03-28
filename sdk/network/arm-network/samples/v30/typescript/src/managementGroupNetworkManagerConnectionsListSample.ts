@@ -10,15 +10,20 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List all network manager connections created by this management group.
  *
  * @summary List all network manager connections created by this management group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerConnectionManagementGroupList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkManagerConnectionManagementGroupList.json
  */
 async function listManagementGroupNetworkManagerConnection() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["NETWORK_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const managementGroupId = "managementGroupA";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -31,4 +36,8 @@ async function listManagementGroupNetworkManagerConnection() {
   console.log(resArray);
 }
 
-listManagementGroupNetworkManagerConnection().catch(console.error);
+async function main() {
+  listManagementGroupNetworkManagerConnection();
+}
+
+main().catch(console.error);

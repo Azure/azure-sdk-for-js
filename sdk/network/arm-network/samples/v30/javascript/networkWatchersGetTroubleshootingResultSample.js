@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get the last completed troubleshooting result on a specified resource.
  *
  * @summary Get the last completed troubleshooting result on a specified resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkWatcherTroubleshootResultQuery.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkWatcherTroubleshootResultQuery.json
  */
 async function getTroubleshootResult() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkWatcherName = "nw1";
   const parameters = {
     targetResourceId:
@@ -35,4 +36,8 @@ async function getTroubleshootResult() {
   console.log(result);
 }
 
-getTroubleshootResult().catch(console.error);
+async function main() {
+  getTroubleshootResult();
+}
+
+main().catch(console.error);

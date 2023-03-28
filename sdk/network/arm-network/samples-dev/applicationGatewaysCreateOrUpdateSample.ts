@@ -13,16 +13,19 @@ import {
   NetworkManagementClient
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates the specified application gateway.
  *
  * @summary Creates or updates the specified application gateway.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ApplicationGatewayCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/ApplicationGatewayCreate.json
  */
 async function createApplicationGateway() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const applicationGatewayName = "appgw";
   const parameters: ApplicationGateway = {
     backendAddressPools: [
@@ -293,4 +296,8 @@ async function createApplicationGateway() {
   console.log(result);
 }
 
-createApplicationGateway().catch(console.error);
+async function main() {
+  createApplicationGateway();
+}
+
+main().catch(console.error);

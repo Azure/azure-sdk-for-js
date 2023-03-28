@@ -6,25 +6,30 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { JobExecutions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   JobExecution,
   JobExecutionsListByAgentNextOptionalParams,
   JobExecutionsListByAgentOptionalParams,
+  JobExecutionsListByAgentResponse,
   JobExecutionsListByJobNextOptionalParams,
   JobExecutionsListByJobOptionalParams,
-  JobExecutionsListByAgentResponse,
+  JobExecutionsListByJobResponse,
   JobExecutionsCancelOptionalParams,
   JobExecutionsCreateOptionalParams,
   JobExecutionsCreateResponse,
-  JobExecutionsListByJobResponse,
   JobExecutionsGetOptionalParams,
   JobExecutionsGetResponse,
   JobExecutionsCreateOrUpdateOptionalParams,
@@ -73,12 +78,16 @@ export class JobExecutionsImpl implements JobExecutions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByAgentPagingPage(
           resourceGroupName,
           serverName,
           jobAgentName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -88,16 +97,23 @@ export class JobExecutionsImpl implements JobExecutions {
     resourceGroupName: string,
     serverName: string,
     jobAgentName: string,
-    options?: JobExecutionsListByAgentOptionalParams
+    options?: JobExecutionsListByAgentOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<JobExecution[]> {
-    let result = await this._listByAgent(
-      resourceGroupName,
-      serverName,
-      jobAgentName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: JobExecutionsListByAgentResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByAgent(
+        resourceGroupName,
+        serverName,
+        jobAgentName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByAgentNext(
         resourceGroupName,
@@ -107,7 +123,9 @@ export class JobExecutionsImpl implements JobExecutions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -157,13 +175,17 @@ export class JobExecutionsImpl implements JobExecutions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByJobPagingPage(
           resourceGroupName,
           serverName,
           jobAgentName,
           jobName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -174,17 +196,24 @@ export class JobExecutionsImpl implements JobExecutions {
     serverName: string,
     jobAgentName: string,
     jobName: string,
-    options?: JobExecutionsListByJobOptionalParams
+    options?: JobExecutionsListByJobOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<JobExecution[]> {
-    let result = await this._listByJob(
-      resourceGroupName,
-      serverName,
-      jobAgentName,
-      jobName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: JobExecutionsListByJobResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByJob(
+        resourceGroupName,
+        serverName,
+        jobAgentName,
+        jobName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByJobNext(
         resourceGroupName,
@@ -195,7 +224,9 @@ export class JobExecutionsImpl implements JobExecutions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -284,8 +315,8 @@ export class JobExecutionsImpl implements JobExecutions {
     jobName: string,
     options?: JobExecutionsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<JobExecutionsCreateResponse>,
+    SimplePollerLike<
+      OperationState<JobExecutionsCreateResponse>,
       JobExecutionsCreateResponse
     >
   > {
@@ -295,7 +326,7 @@ export class JobExecutionsImpl implements JobExecutions {
     ): Promise<JobExecutionsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -328,13 +359,16 @@ export class JobExecutionsImpl implements JobExecutions {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serverName, jobAgentName, jobName, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, serverName, jobAgentName, jobName, options },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      JobExecutionsCreateResponse,
+      OperationState<JobExecutionsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -438,8 +472,8 @@ export class JobExecutionsImpl implements JobExecutions {
     jobExecutionId: string,
     options?: JobExecutionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<JobExecutionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<JobExecutionsCreateOrUpdateResponse>,
       JobExecutionsCreateOrUpdateResponse
     >
   > {
@@ -449,7 +483,7 @@ export class JobExecutionsImpl implements JobExecutions {
     ): Promise<JobExecutionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -482,9 +516,9 @@ export class JobExecutionsImpl implements JobExecutions {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serverName,
         jobAgentName,
@@ -492,10 +526,13 @@ export class JobExecutionsImpl implements JobExecutions {
         jobExecutionId,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      JobExecutionsCreateOrUpdateResponse,
+      OperationState<JobExecutionsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -599,7 +636,7 @@ const listByAgentOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.skip,
-    Parameters.apiVersion2,
+    Parameters.apiVersion3,
     Parameters.createTimeMin,
     Parameters.createTimeMax,
     Parameters.endTimeMin,
@@ -622,7 +659,7 @@ const cancelOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions/{jobExecutionId}/cancel",
   httpMethod: "POST",
   responses: { 200: {}, default: {} },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -653,7 +690,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -677,7 +714,7 @@ const listByJobOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.skip,
-    Parameters.apiVersion2,
+    Parameters.apiVersion3,
     Parameters.createTimeMin,
     Parameters.createTimeMax,
     Parameters.endTimeMin,
@@ -706,7 +743,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -738,7 +775,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -760,16 +797,6 @@ const listByAgentNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [
-    Parameters.skip,
-    Parameters.apiVersion2,
-    Parameters.createTimeMin,
-    Parameters.createTimeMax,
-    Parameters.endTimeMin,
-    Parameters.endTimeMax,
-    Parameters.isActive,
-    Parameters.top
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -790,16 +817,6 @@ const listByJobNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [
-    Parameters.skip,
-    Parameters.apiVersion2,
-    Parameters.createTimeMin,
-    Parameters.createTimeMax,
-    Parameters.endTimeMin,
-    Parameters.endTimeMax,
-    Parameters.isActive,
-    Parameters.top
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

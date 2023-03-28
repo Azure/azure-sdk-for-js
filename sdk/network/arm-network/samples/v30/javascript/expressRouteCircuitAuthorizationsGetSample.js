@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the specified authorization from the specified express route circuit.
  *
  * @summary Gets the specified authorization from the specified express route circuit.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteCircuitAuthorizationGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/ExpressRouteCircuitAuthorizationGet.json
  */
 async function getExpressRouteCircuitAuthorization() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const circuitName = "circuitName";
   const authorizationName = "authorizationName";
   const credential = new DefaultAzureCredential();
@@ -32,4 +33,8 @@ async function getExpressRouteCircuitAuthorization() {
   console.log(result);
 }
 
-getExpressRouteCircuitAuthorization().catch(console.error);
+async function main() {
+  getExpressRouteCircuitAuthorization();
+}
+
+main().catch(console.error);

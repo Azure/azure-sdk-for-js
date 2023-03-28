@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { VirtualHub, NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates a VirtualHub resource if it doesn't exist else updates the existing VirtualHub.
  *
  * @summary Creates a VirtualHub resource if it doesn't exist else updates the existing VirtualHub.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualHubPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VirtualHubPut.json
  */
 async function virtualHubPut() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualHubName = "virtualHub2";
   const virtualHubParameters: VirtualHub = {
     addressPrefix: "10.168.0.0/24",
@@ -41,4 +44,8 @@ async function virtualHubPut() {
   console.log(result);
 }
 
-virtualHubPut().catch(console.error);
+async function main() {
+  virtualHubPut();
+}
+
+main().catch(console.error);

@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the specified virtual network by resource group.
  *
  * @summary Gets the specified virtual network by resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VirtualNetworkGet.json
  */
 async function getVirtualNetwork() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualNetworkName = "test-vnet";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -27,35 +28,31 @@ async function getVirtualNetwork() {
   console.log(result);
 }
 
-getVirtualNetwork().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets the specified virtual network by resource group.
  *
  * @summary Gets the specified virtual network by resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGetWithSubnetDelegation.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VirtualNetworkGetWithSubnetDelegation.json
  */
 async function getVirtualNetworkWithADelegatedSubnet() {
-  const subscriptionId = "subId";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualNetworkName = "test-vnet";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.virtualNetworks.get(resourceGroupName, virtualNetworkName);
   console.log(result);
 }
-
-getVirtualNetworkWithADelegatedSubnet().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets the specified virtual network by resource group.
  *
  * @summary Gets the specified virtual network by resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGetWithServiceAssociationLink.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VirtualNetworkGetWithServiceAssociationLink.json
  */
 async function getVirtualNetworkWithServiceAssociationLinks() {
-  const subscriptionId = "subId";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualNetworkName = "test-vnet";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -63,4 +60,10 @@ async function getVirtualNetworkWithServiceAssociationLinks() {
   console.log(result);
 }
 
-getVirtualNetworkWithServiceAssociationLinks().catch(console.error);
+async function main() {
+  getVirtualNetwork();
+  getVirtualNetworkWithADelegatedSubnet();
+  getVirtualNetworkWithServiceAssociationLinks();
+}
+
+main().catch(console.error);

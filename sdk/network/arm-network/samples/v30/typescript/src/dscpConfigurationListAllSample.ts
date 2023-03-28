@@ -10,15 +10,18 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets all dscp configurations in a subscription.
  *
  * @summary Gets all dscp configurations in a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/DscpConfigurationListAll.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/DscpConfigurationListAll.json
  */
 async function listAllNetworkInterfaces() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +31,8 @@ async function listAllNetworkInterfaces() {
   console.log(resArray);
 }
 
-listAllNetworkInterfaces().catch(console.error);
+async function main() {
+  listAllNetworkInterfaces();
+}
+
+main().catch(console.error);

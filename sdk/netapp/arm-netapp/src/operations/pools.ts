@@ -6,14 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Pools } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetAppManagementClient } from "../netAppManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   CapacityPool,
   PoolsListNextOptionalParams,
@@ -45,7 +50,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * List all capacity pools in the NetApp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -62,8 +67,16 @@ export class PoolsImpl implements Pools {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, accountName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          accountName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -71,11 +84,18 @@ export class PoolsImpl implements Pools {
   private async *listPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: PoolsListOptionalParams
+    options?: PoolsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<CapacityPool[]> {
-    let result = await this._list(resourceGroupName, accountName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PoolsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, accountName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -84,7 +104,9 @@ export class PoolsImpl implements Pools {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -104,7 +126,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * List all capacity pools in the NetApp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -121,7 +143,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Get details of the specified capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param options The options parameters.
@@ -140,7 +162,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Create or Update a capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param body Capacity pool object supplied in the body of the operation.
@@ -153,8 +175,8 @@ export class PoolsImpl implements Pools {
     body: CapacityPool,
     options?: PoolsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PoolsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PoolsCreateOrUpdateResponse>,
       PoolsCreateOrUpdateResponse
     >
   > {
@@ -164,7 +186,7 @@ export class PoolsImpl implements Pools {
     ): Promise<PoolsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -197,15 +219,18 @@ export class PoolsImpl implements Pools {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, poolName, body, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, poolName, body, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PoolsCreateOrUpdateResponse,
+      OperationState<PoolsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -213,7 +238,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Create or Update a capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param body Capacity pool object supplied in the body of the operation.
@@ -238,7 +263,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Patch the specified capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param body Capacity pool object supplied in the body of the operation.
@@ -251,7 +276,7 @@ export class PoolsImpl implements Pools {
     body: CapacityPoolPatch,
     options?: PoolsUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<PoolsUpdateResponse>, PoolsUpdateResponse>
+    SimplePollerLike<OperationState<PoolsUpdateResponse>, PoolsUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -259,7 +284,7 @@ export class PoolsImpl implements Pools {
     ): Promise<PoolsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -292,15 +317,18 @@ export class PoolsImpl implements Pools {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, poolName, body, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, poolName, body, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PoolsUpdateResponse,
+      OperationState<PoolsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -308,7 +336,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Patch the specified capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param body Capacity pool object supplied in the body of the operation.
@@ -333,7 +361,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Delete the specified capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param options The options parameters.
@@ -343,14 +371,14 @@ export class PoolsImpl implements Pools {
     accountName: string,
     poolName: string,
     options?: PoolsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -383,15 +411,15 @@ export class PoolsImpl implements Pools {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, poolName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, poolName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -399,7 +427,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Delete the specified capacity pool
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param options The options parameters.
@@ -421,7 +449,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -570,7 +598,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

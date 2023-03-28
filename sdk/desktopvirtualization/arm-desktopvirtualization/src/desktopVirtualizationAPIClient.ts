@@ -8,11 +8,17 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest
+} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
   WorkspacesImpl,
   ScalingPlansImpl,
+  ScalingPlanPooledSchedulesImpl,
   ApplicationGroupsImpl,
   StartMenuItemsImpl,
   ApplicationsImpl,
@@ -21,14 +27,13 @@ import {
   UserSessionsImpl,
   SessionHostsImpl,
   MsixPackagesImpl,
-  MsixImagesImpl,
-  PrivateEndpointConnectionsImpl,
-  PrivateLinkResourcesImpl
+  MsixImagesImpl
 } from "./operations";
 import {
   Operations,
   Workspaces,
   ScalingPlans,
+  ScalingPlanPooledSchedules,
   ApplicationGroups,
   StartMenuItems,
   Applications,
@@ -37,9 +42,7 @@ import {
   UserSessions,
   SessionHosts,
   MsixPackages,
-  MsixImages,
-  PrivateEndpointConnections,
-  PrivateLinkResources
+  MsixImages
 } from "./operationsInterfaces";
 import { DesktopVirtualizationAPIClientOptionalParams } from "./models";
 
@@ -75,57 +78,64 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-desktopvirtualization/1.0.0-beta.4`;
+    const packageDetails = `azsdk-js-arm-desktopvirtualization/1.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
-    if (!options.credentialScopes) {
-      options.credentialScopes = ["https://management.azure.com/.default"];
-    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
+      endpoint:
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
 
+    let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
       const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+      bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
           coreRestPipeline.bearerTokenAuthenticationPolicyName
       );
-      if (!bearerTokenAuthenticationPolicyFound) {
-        this.pipeline.removePolicy({
-          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-        });
-        this.pipeline.addPolicy(
-          coreRestPipeline.bearerTokenAuthenticationPolicy({
-            scopes: `${optionsWithDefaults.baseUri}/.default`,
-            challengeCallbacks: {
-              authorizeRequestOnChallenge:
-                coreClient.authorizeRequestOnClaimChallenge
-            }
-          })
-        );
-      }
+    }
+    if (
+      !options ||
+      !options.pipeline ||
+      options.pipeline.getOrderedPolicies().length == 0 ||
+      !bearerTokenAuthenticationPolicyFound
+    ) {
+      this.pipeline.removePolicy({
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+      });
+      this.pipeline.addPolicy(
+        coreRestPipeline.bearerTokenAuthenticationPolicy({
+          credential: credentials,
+          scopes:
+            optionsWithDefaults.credentialScopes ??
+            `${optionsWithDefaults.endpoint}/.default`,
+          challengeCallbacks: {
+            authorizeRequestOnChallenge:
+              coreClient.authorizeRequestOnClaimChallenge
+          }
+        })
+      );
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-09-03-preview";
+    this.apiVersion = options.apiVersion || "2022-09-09";
     this.operations = new OperationsImpl(this);
     this.workspaces = new WorkspacesImpl(this);
     this.scalingPlans = new ScalingPlansImpl(this);
+    this.scalingPlanPooledSchedules = new ScalingPlanPooledSchedulesImpl(this);
     this.applicationGroups = new ApplicationGroupsImpl(this);
     this.startMenuItems = new StartMenuItemsImpl(this);
     this.applications = new ApplicationsImpl(this);
@@ -135,13 +145,41 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
     this.sessionHosts = new SessionHostsImpl(this);
     this.msixPackages = new MsixPackagesImpl(this);
     this.msixImages = new MsixImagesImpl(this);
-    this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
-    this.privateLinkResources = new PrivateLinkResourcesImpl(this);
+    this.addCustomApiVersionPolicy(options.apiVersion);
+  }
+
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return "api-version=" + apiVersion;
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      }
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   operations: Operations;
   workspaces: Workspaces;
   scalingPlans: ScalingPlans;
+  scalingPlanPooledSchedules: ScalingPlanPooledSchedules;
   applicationGroups: ApplicationGroups;
   startMenuItems: StartMenuItems;
   applications: Applications;
@@ -151,6 +189,4 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
   sessionHosts: SessionHosts;
   msixPackages: MsixPackages;
   msixImages: MsixImages;
-  privateEndpointConnections: PrivateEndpointConnections;
-  privateLinkResources: PrivateLinkResources;
 }

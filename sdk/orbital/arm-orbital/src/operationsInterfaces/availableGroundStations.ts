@@ -10,30 +10,19 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   AvailableGroundStation,
   CapabilityParameter,
-  AvailableGroundStationsListByCapabilityOptionalParams,
-  AvailableGroundStationsGetOptionalParams,
-  AvailableGroundStationsGetResponse
+  AvailableGroundStationsListByCapabilityOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AvailableGroundStations. */
 export interface AvailableGroundStations {
   /**
-   * Returns list of available ground stations
-   * @param capability Ground Station Capability
+   * Returns list of available ground stations.
+   * @param capability Ground Station Capability.
    * @param options The options parameters.
    */
   listByCapability(
     capability: CapabilityParameter,
     options?: AvailableGroundStationsListByCapabilityOptionalParams
   ): PagedAsyncIterableIterator<AvailableGroundStation>;
-  /**
-   * Gets the specified  available ground station
-   * @param groundStationName Ground Station name
-   * @param options The options parameters.
-   */
-  get(
-    groundStationName: string,
-    options?: AvailableGroundStationsGetOptionalParams
-  ): Promise<AvailableGroundStationsGetResponse>;
 }

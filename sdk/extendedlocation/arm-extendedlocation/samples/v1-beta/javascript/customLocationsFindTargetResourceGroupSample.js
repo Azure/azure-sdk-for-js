@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { CustomLocationsManagementClient } = require("@azure/arm-extendedlocation");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Returns the target resource group associated with the resource sync rules of the Custom Location that match the rules passed in with the Find Target Resource Group Request.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2021-08-31-preview/examples/CustomLocationsFindTargetResourceGroup.json
  */
 async function postCustomLocationFindTargetResourceGroup() {
-  const subscriptionId = "11111111-2222-3333-4444-555555555555";
-  const resourceGroupName = "testresourcegroup";
+  const subscriptionId =
+    process.env["EXTENDEDLOCATION_SUBSCRIPTION_ID"] || "11111111-2222-3333-4444-555555555555";
+  const resourceGroupName = process.env["EXTENDEDLOCATION_RESOURCE_GROUP"] || "testresourcegroup";
   const resourceName = "customLocation01";
   const parameters = {
     labels: { key1: "value1", key2: "value2" },
@@ -34,4 +36,8 @@ async function postCustomLocationFindTargetResourceGroup() {
   console.log(result);
 }
 
-postCustomLocationFindTargetResourceGroup().catch(console.error);
+async function main() {
+  postCustomLocationFindTargetResourceGroup();
+}
+
+main().catch(console.error);

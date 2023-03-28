@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or updates an express route circuit.
  *
  * @summary Creates or updates an express route circuit.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteCircuitCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/ExpressRouteCircuitCreate.json
  */
 async function createExpressRouteCircuit() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const circuitName = "circuitName";
   const parameters = {
     allowClassicOperations: false,
@@ -47,17 +48,15 @@ async function createExpressRouteCircuit() {
   console.log(result);
 }
 
-createExpressRouteCircuit().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates an express route circuit.
  *
  * @summary Creates or updates an express route circuit.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteCircuitCreateOnExpressRoutePort.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/ExpressRouteCircuitCreateOnExpressRoutePort.json
  */
 async function createExpressRouteCircuitOnExpressRoutePort() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const circuitName = "expressRouteCircuit1";
   const parameters = {
     authorizationKey: "b0be57f5-1fba-463b-adec-ffe767354cdd",
@@ -78,4 +77,9 @@ async function createExpressRouteCircuitOnExpressRoutePort() {
   console.log(result);
 }
 
-createExpressRouteCircuitOnExpressRoutePort().catch(console.error);
+async function main() {
+  createExpressRouteCircuit();
+  createExpressRouteCircuitOnExpressRoutePort();
+}
+
+main().catch(console.error);

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { delay, isError } from "@azure/core-util";
-import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import { GetTokenOptions } from "@azure/core-auth";
 import {
   PipelineRequestOptions,
   createHttpHeaders,
@@ -12,7 +12,7 @@ import { credentialLogger } from "../../util/logging";
 import { AuthenticationError } from "../../errors";
 import { tracingClient } from "../../util/tracing";
 import { imdsApiVersion, imdsEndpointPath, imdsHost } from "./constants";
-import { MSI, MSIConfiguration } from "./models";
+import { MSI, MSIConfiguration, MSIToken } from "./models";
 import { mapScopesToResource } from "./utils";
 
 const msiName = "ManagedIdentityCredential - IMDS";
@@ -86,6 +86,7 @@ export const imdsMsiRetryConfig = {
  * Defines how to determine whether the Azure IMDS MSI is available, and also how to retrieve a token from the Azure IMDS MSI.
  */
 export const imdsMsi: MSI = {
+  name: "imdsMsi",
   async isAvailable({
     scopes,
     identityClient,
@@ -153,7 +154,7 @@ export const imdsMsi: MSI = {
   async getToken(
     configuration: MSIConfiguration,
     getTokenOptions: GetTokenOptions = {}
-  ): Promise<AccessToken | null> {
+  ): Promise<MSIToken | null> {
     const { identityClient, scopes, clientId, resourceId } = configuration;
 
     if (process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST) {
@@ -173,7 +174,14 @@ export const imdsMsi: MSI = {
           allowInsecureConnection: true,
         });
         const tokenResponse = await identityClient.sendTokenRequest(request);
-        return (tokenResponse && tokenResponse.accessToken) || null;
+
+        return (
+          (tokenResponse && {
+            ...tokenResponse.accessToken,
+            refreshesOn: tokenResponse.refreshesIn,
+          }) ||
+          null
+        );
       } catch (error: any) {
         if (error.statusCode === 404) {
           await delay(nextDelayInMs);

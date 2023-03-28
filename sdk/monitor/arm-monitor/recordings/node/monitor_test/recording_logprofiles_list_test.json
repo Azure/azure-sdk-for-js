@@ -8,8 +8,8 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-monitor/8.0.0-beta.2 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "032c4ed8-cebc-43de-b455-d945c73d323b"
+        "User-Agent": "azsdk-js-arm-monitor/8.0.0-beta.4 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "50a850fe-e8d4-48d9-a6e6-5be05c344748"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 29 Jul 2022 02:34:02 GMT",
+        "Date": "Mon, 13 Feb 2023 03:18:28 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-IIS/10.0",
@@ -25,10 +25,10 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "2640c757-b4e5-470c-b1d7-3103c19daecf",
-        "x-ms-ratelimit-remaining-subscription-reads": "11998",
-        "x-ms-request-id": "9ab70257-f2c7-497e-8c7f-56f4772678b0",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220729T023403Z:2640c757-b4e5-470c-b1d7-3103c19daecf"
+        "x-ms-correlation-request-id": "ca8dede3-34a8-4b84-90f4-eb4697bc8a1a",
+        "x-ms-ratelimit-remaining-subscription-reads": "11974",
+        "x-ms-request-id": "e35a0a72-3d6a-4fbf-83a8-968e19ef200c",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230213T031829Z:ca8dede3-34a8-4b84-90f4-eb4697bc8a1a"
       },
       "ResponseBody": {
         "value": [

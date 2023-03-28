@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get the specified network interface in a cloud service.
  *
  * @summary Get the specified network interface in a cloud service.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/CloudServiceNetworkInterfaceGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/CloudServiceNetworkInterfaceGet.json
  */
 async function getCloudServiceNetworkInterface() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const cloudServiceName = "cs1";
   const roleInstanceName = "TestVMRole_IN_0";
   const networkInterfaceName = "nic1";
@@ -34,4 +35,8 @@ async function getCloudServiceNetworkInterface() {
   console.log(result);
 }
 
-getCloudServiceNetworkInterface().catch(console.error);
+async function main() {
+  getCloudServiceNetworkInterface();
+}
+
+main().catch(console.error);

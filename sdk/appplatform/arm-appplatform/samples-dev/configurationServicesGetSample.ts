@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { AppPlatformManagementClient } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get the Application Configuration Service and its properties.
  *
  * @summary Get the Application Configuration Service and its properties.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-09-01-preview/examples/ConfigurationServices_Get.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/ConfigurationServices_Get.json
  */
 async function configurationServicesGet() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const configurationServiceName = "default";
   const credential = new DefaultAzureCredential();
@@ -32,4 +38,8 @@ async function configurationServicesGet() {
   console.log(result);
 }
 
-configurationServicesGet().catch(console.error);
+async function main() {
+  configurationServicesGet();
+}
+
+main().catch(console.error);

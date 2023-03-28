@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { CommunicationServiceManagementClient } = require("@azure/arm-communication");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Operation to update an existing EmailService.
  *
  * @summary Operation to update an existing EmailService.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/emailServices/update.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-03-01-preview/examples/emailServices/update.json
  */
 async function updateEmailServiceResource() {
-  const subscriptionId = "12345";
-  const resourceGroupName = "MyResourceGroup";
+  const subscriptionId =
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "11112222-3333-4444-5555-666677778888";
+  const resourceGroupName = process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
   const emailServiceName = "MyEmailServiceResource";
   const parameters = { tags: { newTag: "newVal" } };
   const credential = new DefaultAzureCredential();
@@ -32,4 +34,8 @@ async function updateEmailServiceResource() {
   console.log(result);
 }
 
-updateEmailServiceResource().catch(console.error);
+async function main() {
+  updateEmailServiceResource();
+}
+
+main().catch(console.error);

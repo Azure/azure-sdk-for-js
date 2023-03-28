@@ -6,24 +6,29 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ManagedInstanceLongTermRetentionPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ManagedInstanceLongTermRetentionPolicy,
   ManagedInstanceLongTermRetentionPoliciesListByDatabaseNextOptionalParams,
   ManagedInstanceLongTermRetentionPoliciesListByDatabaseOptionalParams,
+  ManagedInstanceLongTermRetentionPoliciesListByDatabaseResponse,
   ManagedInstanceLongTermRetentionPolicyName,
   ManagedInstanceLongTermRetentionPoliciesGetOptionalParams,
   ManagedInstanceLongTermRetentionPoliciesGetResponse,
   ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateOptionalParams,
   ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateResponse,
-  ManagedInstanceLongTermRetentionPoliciesListByDatabaseResponse,
   ManagedInstanceLongTermRetentionPoliciesListByDatabaseNextResponse
 } from "../models";
 
@@ -68,12 +73,16 @@ export class ManagedInstanceLongTermRetentionPoliciesImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDatabasePagingPage(
           resourceGroupName,
           managedInstanceName,
           databaseName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -83,16 +92,23 @@ export class ManagedInstanceLongTermRetentionPoliciesImpl
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedInstanceLongTermRetentionPoliciesListByDatabaseOptionalParams
+    options?: ManagedInstanceLongTermRetentionPoliciesListByDatabaseOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ManagedInstanceLongTermRetentionPolicy[]> {
-    let result = await this._listByDatabase(
-      resourceGroupName,
-      managedInstanceName,
-      databaseName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ManagedInstanceLongTermRetentionPoliciesListByDatabaseResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByDatabase(
+        resourceGroupName,
+        managedInstanceName,
+        databaseName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByDatabaseNext(
         resourceGroupName,
@@ -102,7 +118,9 @@ export class ManagedInstanceLongTermRetentionPoliciesImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -168,8 +186,8 @@ export class ManagedInstanceLongTermRetentionPoliciesImpl
     parameters: ManagedInstanceLongTermRetentionPolicy,
     options?: ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateResponse
       >,
       ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateResponse
@@ -181,7 +199,7 @@ export class ManagedInstanceLongTermRetentionPoliciesImpl
     ): Promise<ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -214,9 +232,9 @@ export class ManagedInstanceLongTermRetentionPoliciesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         managedInstanceName,
         databaseName,
@@ -224,10 +242,15 @@ export class ManagedInstanceLongTermRetentionPoliciesImpl
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateResponse,
+      OperationState<
+        ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -326,7 +349,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -357,8 +380,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters51,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters39,
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -367,7 +390,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.managedInstanceName,
     Parameters.policyName2
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -381,7 +404,7 @@ const listByDatabaseOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -401,7 +424,6 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

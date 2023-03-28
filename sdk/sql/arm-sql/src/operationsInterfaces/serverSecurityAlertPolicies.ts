@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ServerSecurityAlertPolicy,
   ServerSecurityAlertPoliciesListByServerOptionalParams,
@@ -63,8 +63,8 @@ export interface ServerSecurityAlertPolicies {
     parameters: ServerSecurityAlertPolicy,
     options?: ServerSecurityAlertPoliciesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ServerSecurityAlertPoliciesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ServerSecurityAlertPoliciesCreateOrUpdateResponse>,
       ServerSecurityAlertPoliciesCreateOrUpdateResponse
     >
   >;

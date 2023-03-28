@@ -20,7 +20,8 @@ import { logger } from "../util/logging";
 import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import {
   TokenResponseParsedBody,
-  parseExpiresOn,
+  parseExpirationTimestamp,
+  parseRefreshTimestamp,
 } from "../credentials/managedIdentityCredential/utils";
 
 const noCorrelationId = "noCorrelationId";
@@ -34,7 +35,11 @@ export interface TokenResponse {
    * The AccessToken to be returned from getToken.
    */
   accessToken: AccessToken;
-
+  /**
+   * The time in which the access token should be refreshed,
+   * specified in milliseconds, UNIX epoch time
+   */
+  refreshesIn?: number;
   /**
    * The refresh token if the 'offline_access' scope was used.
    */
@@ -68,6 +73,8 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
   public authorityHost: string;
   private allowLoggingAccountIdentifiers?: boolean;
   private abortControllers: Map<string, AbortController[] | undefined>;
+  // used for WorkloadIdentity
+  private tokenCredentialOptions: TokenCredentialOptions;
 
   constructor(options?: TokenCredentialOptions) {
     const packageDetails = `azsdk-js-identity/${SDK_VERSION}`;
@@ -95,6 +102,8 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     this.authorityHost = baseUri;
     this.abortControllers = new Map();
     this.allowLoggingAccountIdentifiers = options?.loggingOptions?.allowLoggingAccountIdentifiers;
+    // used for WorkloadIdentity
+    this.tokenCredentialOptions = { ...options };
   }
 
   async sendTokenRequest(request: PipelineRequest): Promise<TokenResponse | null> {
@@ -113,8 +122,9 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       const token = {
         accessToken: {
           token: parsedBody.access_token,
-          expiresOnTimestamp: parseExpiresOn(parsedBody),
+          expiresOnTimestamp: parseExpirationTimestamp(parsedBody),
         },
+        refreshesIn: parseRefreshTimestamp(parsedBody),
         refreshToken: parsedBody.refresh_token,
       };
 
@@ -292,6 +302,13 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     };
   }
 
+  /**
+   *
+   * @internal
+   */
+  getTokenCredentialOptions(): TokenCredentialOptions {
+    return this.tokenCredentialOptions;
+  }
   /**
    * If allowLoggingAccountIdentifiers was set on the constructor options
    * we try to log the account identifiers by parsing the received access token.

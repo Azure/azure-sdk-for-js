@@ -6,18 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { AgentPools } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   AgentPool,
   AgentPoolsListNextOptionalParams,
   AgentPoolsListOptionalParams,
+  AgentPoolsListResponse,
   AgentPoolsGetOptionalParams,
   AgentPoolsGetResponse,
   AgentPoolsCreateOptionalParams,
@@ -26,7 +32,6 @@ import {
   AgentPoolUpdateParameters,
   AgentPoolsUpdateOptionalParams,
   AgentPoolsUpdateResponse,
-  AgentPoolsListResponse,
   AgentPoolsGetQueueStatusOptionalParams,
   AgentPoolsGetQueueStatusResponse,
   AgentPoolsListNextResponse
@@ -64,8 +69,16 @@ export class AgentPoolsImpl implements AgentPools {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, registryName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          registryName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -73,11 +86,18 @@ export class AgentPoolsImpl implements AgentPools {
   private async *listPagingPage(
     resourceGroupName: string,
     registryName: string,
-    options?: AgentPoolsListOptionalParams
+    options?: AgentPoolsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AgentPool[]> {
-    let result = await this._list(resourceGroupName, registryName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AgentPoolsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, registryName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -86,7 +106,9 @@ export class AgentPoolsImpl implements AgentPools {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -138,8 +160,8 @@ export class AgentPoolsImpl implements AgentPools {
     agentPool: AgentPool,
     options?: AgentPoolsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AgentPoolsCreateResponse>,
+    SimplePollerLike<
+      OperationState<AgentPoolsCreateResponse>,
       AgentPoolsCreateResponse
     >
   > {
@@ -149,7 +171,7 @@ export class AgentPoolsImpl implements AgentPools {
     ): Promise<AgentPoolsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -182,13 +204,22 @@ export class AgentPoolsImpl implements AgentPools {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, registryName, agentPoolName, agentPool, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        registryName,
+        agentPoolName,
+        agentPool,
+        options
+      },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AgentPoolsCreateResponse,
+      OperationState<AgentPoolsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -232,14 +263,14 @@ export class AgentPoolsImpl implements AgentPools {
     registryName: string,
     agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -272,13 +303,13 @@ export class AgentPoolsImpl implements AgentPools {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, registryName, agentPoolName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, registryName, agentPoolName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -322,8 +353,8 @@ export class AgentPoolsImpl implements AgentPools {
     updateParameters: AgentPoolUpdateParameters,
     options?: AgentPoolsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AgentPoolsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AgentPoolsUpdateResponse>,
       AgentPoolsUpdateResponse
     >
   > {
@@ -333,7 +364,7 @@ export class AgentPoolsImpl implements AgentPools {
     ): Promise<AgentPoolsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -366,19 +397,22 @@ export class AgentPoolsImpl implements AgentPools {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         registryName,
         agentPoolName,
         updateParameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AgentPoolsUpdateResponse,
+      OperationState<AgentPoolsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -484,8 +518,8 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.registryName,
+    Parameters.resourceGroupName1,
     Parameters.agentPoolName
   ],
   headerParameters: [Parameters.accept],
@@ -517,11 +551,11 @@ const createOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.registryName,
+    Parameters.resourceGroupName1,
     Parameters.agentPoolName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -542,8 +576,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.registryName,
+    Parameters.resourceGroupName1,
     Parameters.agentPoolName
   ],
   headerParameters: [Parameters.accept],
@@ -575,11 +609,11 @@ const updateOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.registryName,
+    Parameters.resourceGroupName1,
     Parameters.agentPoolName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -599,8 +633,8 @@ const listOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName
+    Parameters.registryName,
+    Parameters.resourceGroupName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -621,8 +655,8 @@ const getQueueStatusOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.registryName,
+    Parameters.resourceGroupName1,
     Parameters.agentPoolName
   ],
   headerParameters: [Parameters.accept],
@@ -639,12 +673,11 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.registryName,
+    Parameters.resourceGroupName1,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

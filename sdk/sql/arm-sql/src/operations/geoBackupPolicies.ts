@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { GeoBackupPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,12 +15,12 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   GeoBackupPolicy,
   GeoBackupPoliciesListByDatabaseOptionalParams,
+  GeoBackupPoliciesListByDatabaseResponse,
   GeoBackupPolicyName,
   GeoBackupPoliciesCreateOrUpdateOptionalParams,
   GeoBackupPoliciesCreateOrUpdateResponse,
   GeoBackupPoliciesGetOptionalParams,
-  GeoBackupPoliciesGetResponse,
-  GeoBackupPoliciesListByDatabaseResponse
+  GeoBackupPoliciesGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -63,12 +63,16 @@ export class GeoBackupPoliciesImpl implements GeoBackupPolicies {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDatabasePagingPage(
           resourceGroupName,
           serverName,
           databaseName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -78,9 +82,11 @@ export class GeoBackupPoliciesImpl implements GeoBackupPolicies {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: GeoBackupPoliciesListByDatabaseOptionalParams
+    options?: GeoBackupPoliciesListByDatabaseOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<GeoBackupPolicy[]> {
-    let result = await this._listByDatabase(
+    let result: GeoBackupPoliciesListByDatabaseResponse;
+    result = await this._listByDatabase(
       resourceGroupName,
       serverName,
       databaseName,
@@ -209,7 +215,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.databaseName,
     Parameters.geoBackupPolicyName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

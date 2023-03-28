@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes a HubVirtualNetworkConnection.
  *
  * @summary Deletes a HubVirtualNetworkConnection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/HubVirtualNetworkConnectionDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/HubVirtualNetworkConnectionDelete.json
  */
 async function hubVirtualNetworkConnectionDelete() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualHubName = "virtualHub1";
   const connectionName = "connection1";
   const credential = new DefaultAzureCredential();
@@ -32,4 +35,8 @@ async function hubVirtualNetworkConnectionDelete() {
   console.log(result);
 }
 
-hubVirtualNetworkConnectionDelete().catch(console.error);
+async function main() {
+  hubVirtualNetworkConnectionDelete();
+}
+
+main().catch(console.error);

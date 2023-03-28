@@ -6,27 +6,32 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ServerTrustGroups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ServerTrustGroup,
   ServerTrustGroupsListByLocationNextOptionalParams,
   ServerTrustGroupsListByLocationOptionalParams,
+  ServerTrustGroupsListByLocationResponse,
   ServerTrustGroupsListByInstanceNextOptionalParams,
   ServerTrustGroupsListByInstanceOptionalParams,
+  ServerTrustGroupsListByInstanceResponse,
   ServerTrustGroupsGetOptionalParams,
   ServerTrustGroupsGetResponse,
   ServerTrustGroupsCreateOrUpdateOptionalParams,
   ServerTrustGroupsCreateOrUpdateResponse,
   ServerTrustGroupsDeleteOptionalParams,
-  ServerTrustGroupsListByLocationResponse,
-  ServerTrustGroupsListByInstanceResponse,
   ServerTrustGroupsListByLocationNextResponse,
   ServerTrustGroupsListByInstanceNextResponse
 } from "../models";
@@ -68,11 +73,15 @@ export class ServerTrustGroupsImpl implements ServerTrustGroups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByLocationPagingPage(
           resourceGroupName,
           locationName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -81,15 +90,22 @@ export class ServerTrustGroupsImpl implements ServerTrustGroups {
   private async *listByLocationPagingPage(
     resourceGroupName: string,
     locationName: string,
-    options?: ServerTrustGroupsListByLocationOptionalParams
+    options?: ServerTrustGroupsListByLocationOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ServerTrustGroup[]> {
-    let result = await this._listByLocation(
-      resourceGroupName,
-      locationName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ServerTrustGroupsListByLocationResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByLocation(
+        resourceGroupName,
+        locationName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByLocationNext(
         resourceGroupName,
@@ -98,7 +114,9 @@ export class ServerTrustGroupsImpl implements ServerTrustGroups {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -140,11 +158,15 @@ export class ServerTrustGroupsImpl implements ServerTrustGroups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByInstancePagingPage(
           resourceGroupName,
           managedInstanceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -153,15 +175,22 @@ export class ServerTrustGroupsImpl implements ServerTrustGroups {
   private async *listByInstancePagingPage(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ServerTrustGroupsListByInstanceOptionalParams
+    options?: ServerTrustGroupsListByInstanceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ServerTrustGroup[]> {
-    let result = await this._listByInstance(
-      resourceGroupName,
-      managedInstanceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ServerTrustGroupsListByInstanceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByInstance(
+        resourceGroupName,
+        managedInstanceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByInstanceNext(
         resourceGroupName,
@@ -170,7 +199,9 @@ export class ServerTrustGroupsImpl implements ServerTrustGroups {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -224,8 +255,8 @@ export class ServerTrustGroupsImpl implements ServerTrustGroups {
     parameters: ServerTrustGroup,
     options?: ServerTrustGroupsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ServerTrustGroupsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ServerTrustGroupsCreateOrUpdateResponse>,
       ServerTrustGroupsCreateOrUpdateResponse
     >
   > {
@@ -235,7 +266,7 @@ export class ServerTrustGroupsImpl implements ServerTrustGroups {
     ): Promise<ServerTrustGroupsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -268,19 +299,22 @@ export class ServerTrustGroupsImpl implements ServerTrustGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         locationName,
         serverTrustGroupName,
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ServerTrustGroupsCreateOrUpdateResponse,
+      OperationState<ServerTrustGroupsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -326,14 +360,14 @@ export class ServerTrustGroupsImpl implements ServerTrustGroups {
     locationName: string,
     serverTrustGroupName: string,
     options?: ServerTrustGroupsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -366,13 +400,13 @@ export class ServerTrustGroupsImpl implements ServerTrustGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, locationName, serverTrustGroupName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, locationName, serverTrustGroupName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -491,7 +525,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -521,8 +555,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters65,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters53,
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -530,7 +564,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.locationName,
     Parameters.serverTrustGroupName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -539,7 +573,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/serverTrustGroups/{serverTrustGroupName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -559,7 +593,7 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -579,7 +613,7 @@ const listByInstanceOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -598,7 +632,6 @@ const listByLocationNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -618,7 +651,6 @@ const listByInstanceNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the specified ExpressRouteConnection.
  *
  * @summary Gets the specified ExpressRouteConnection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteConnectionGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/ExpressRouteConnectionGet.json
  */
 async function expressRouteConnectionGet() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "resourceGroupName";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "resourceGroupName";
   const expressRouteGatewayName = "expressRouteGatewayName";
   const connectionName = "connectionName";
   const credential = new DefaultAzureCredential();
@@ -32,4 +33,8 @@ async function expressRouteConnectionGet() {
   console.log(result);
 }
 
-expressRouteConnectionGet().catch(console.error);
+async function main() {
+  expressRouteConnectionGet();
+}
+
+main().catch(console.error);

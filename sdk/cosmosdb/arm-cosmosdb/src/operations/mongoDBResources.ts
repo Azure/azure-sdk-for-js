@@ -6,30 +6,38 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { MongoDBResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   MongoDBDatabaseGetResults,
   MongoDBResourcesListMongoDBDatabasesOptionalParams,
+  MongoDBResourcesListMongoDBDatabasesResponse,
   MongoDBCollectionGetResults,
   MongoDBResourcesListMongoDBCollectionsOptionalParams,
+  MongoDBResourcesListMongoDBCollectionsResponse,
   MongoRoleDefinitionGetResults,
   MongoDBResourcesListMongoRoleDefinitionsOptionalParams,
+  MongoDBResourcesListMongoRoleDefinitionsResponse,
   MongoUserDefinitionGetResults,
   MongoDBResourcesListMongoUserDefinitionsOptionalParams,
-  MongoDBResourcesListMongoDBDatabasesResponse,
+  MongoDBResourcesListMongoUserDefinitionsResponse,
   MongoDBResourcesGetMongoDBDatabaseOptionalParams,
   MongoDBResourcesGetMongoDBDatabaseResponse,
   MongoDBDatabaseCreateUpdateParameters,
   MongoDBResourcesCreateUpdateMongoDBDatabaseOptionalParams,
   MongoDBResourcesCreateUpdateMongoDBDatabaseResponse,
   MongoDBResourcesDeleteMongoDBDatabaseOptionalParams,
+  MongoDBResourcesDeleteMongoDBDatabaseResponse,
   MongoDBResourcesGetMongoDBDatabaseThroughputOptionalParams,
   MongoDBResourcesGetMongoDBDatabaseThroughputResponse,
   ThroughputSettingsUpdateParameters,
@@ -49,13 +57,13 @@ import {
   MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse,
   MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams,
   MongoDBResourcesMongoDBContainerRedistributeThroughputResponse,
-  MongoDBResourcesListMongoDBCollectionsResponse,
   MongoDBResourcesGetMongoDBCollectionOptionalParams,
   MongoDBResourcesGetMongoDBCollectionResponse,
   MongoDBCollectionCreateUpdateParameters,
   MongoDBResourcesCreateUpdateMongoDBCollectionOptionalParams,
   MongoDBResourcesCreateUpdateMongoDBCollectionResponse,
   MongoDBResourcesDeleteMongoDBCollectionOptionalParams,
+  MongoDBResourcesDeleteMongoDBCollectionResponse,
   MergeParameters,
   MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams,
   MongoDBResourcesListMongoDBCollectionPartitionMergeResponse,
@@ -73,14 +81,12 @@ import {
   MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams,
   MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse,
   MongoDBResourcesDeleteMongoRoleDefinitionOptionalParams,
-  MongoDBResourcesListMongoRoleDefinitionsResponse,
   MongoDBResourcesGetMongoUserDefinitionOptionalParams,
   MongoDBResourcesGetMongoUserDefinitionResponse,
   MongoUserDefinitionCreateUpdateParameters,
   MongoDBResourcesCreateUpdateMongoUserDefinitionOptionalParams,
   MongoDBResourcesCreateUpdateMongoUserDefinitionResponse,
   MongoDBResourcesDeleteMongoUserDefinitionOptionalParams,
-  MongoDBResourcesListMongoUserDefinitionsResponse,
   ContinuousBackupRestoreLocation,
   MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams,
   MongoDBResourcesRetrieveContinuousBackupInformationResponse
@@ -122,11 +128,15 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMongoDBDatabasesPagingPage(
           resourceGroupName,
           accountName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -135,9 +145,11 @@ export class MongoDBResourcesImpl implements MongoDBResources {
   private async *listMongoDBDatabasesPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesListMongoDBDatabasesOptionalParams
+    options?: MongoDBResourcesListMongoDBDatabasesOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<MongoDBDatabaseGetResults[]> {
-    let result = await this._listMongoDBDatabases(
+    let result: MongoDBResourcesListMongoDBDatabasesResponse;
+    result = await this._listMongoDBDatabases(
       resourceGroupName,
       accountName,
       options
@@ -185,12 +197,16 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMongoDBCollectionsPagingPage(
           resourceGroupName,
           accountName,
           databaseName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -200,9 +216,11 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: MongoDBResourcesListMongoDBCollectionsOptionalParams
+    options?: MongoDBResourcesListMongoDBCollectionsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<MongoDBCollectionGetResults[]> {
-    let result = await this._listMongoDBCollections(
+    let result: MongoDBResourcesListMongoDBCollectionsResponse;
+    result = await this._listMongoDBCollections(
       resourceGroupName,
       accountName,
       databaseName,
@@ -250,11 +268,15 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMongoRoleDefinitionsPagingPage(
           resourceGroupName,
           accountName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -263,9 +285,11 @@ export class MongoDBResourcesImpl implements MongoDBResources {
   private async *listMongoRoleDefinitionsPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesListMongoRoleDefinitionsOptionalParams
+    options?: MongoDBResourcesListMongoRoleDefinitionsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<MongoRoleDefinitionGetResults[]> {
-    let result = await this._listMongoRoleDefinitions(
+    let result: MongoDBResourcesListMongoRoleDefinitionsResponse;
+    result = await this._listMongoRoleDefinitions(
       resourceGroupName,
       accountName,
       options
@@ -310,11 +334,15 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMongoUserDefinitionsPagingPage(
           resourceGroupName,
           accountName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -323,9 +351,11 @@ export class MongoDBResourcesImpl implements MongoDBResources {
   private async *listMongoUserDefinitionsPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesListMongoUserDefinitionsOptionalParams
+    options?: MongoDBResourcesListMongoUserDefinitionsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<MongoUserDefinitionGetResults[]> {
-    let result = await this._listMongoUserDefinitions(
+    let result: MongoDBResourcesListMongoUserDefinitionsResponse;
+    result = await this._listMongoUserDefinitions(
       resourceGroupName,
       accountName,
       options
@@ -400,8 +430,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     createUpdateMongoDBDatabaseParameters: MongoDBDatabaseCreateUpdateParameters,
     options?: MongoDBResourcesCreateUpdateMongoDBDatabaseOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MongoDBResourcesCreateUpdateMongoDBDatabaseResponse>,
+    SimplePollerLike<
+      OperationState<MongoDBResourcesCreateUpdateMongoDBDatabaseResponse>,
       MongoDBResourcesCreateUpdateMongoDBDatabaseResponse
     >
   > {
@@ -411,7 +441,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     ): Promise<MongoDBResourcesCreateUpdateMongoDBDatabaseResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -444,19 +474,22 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         accountName,
         databaseName,
         createUpdateMongoDBDatabaseParameters,
         options
       },
-      createUpdateMongoDBDatabaseOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createUpdateMongoDBDatabaseOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MongoDBResourcesCreateUpdateMongoDBDatabaseResponse,
+      OperationState<MongoDBResourcesCreateUpdateMongoDBDatabaseResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -501,14 +534,19 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     accountName: string,
     databaseName: string,
     options?: MongoDBResourcesDeleteMongoDBDatabaseOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MongoDBResourcesDeleteMongoDBDatabaseResponse>,
+      MongoDBResourcesDeleteMongoDBDatabaseResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<MongoDBResourcesDeleteMongoDBDatabaseResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -541,13 +579,16 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, databaseName, options },
-      deleteMongoDBDatabaseOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, databaseName, options },
+      spec: deleteMongoDBDatabaseOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MongoDBResourcesDeleteMongoDBDatabaseResponse,
+      OperationState<MongoDBResourcesDeleteMongoDBDatabaseResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -566,7 +607,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     accountName: string,
     databaseName: string,
     options?: MongoDBResourcesDeleteMongoDBDatabaseOptionalParams
-  ): Promise<void> {
+  ): Promise<MongoDBResourcesDeleteMongoDBDatabaseResponse> {
     const poller = await this.beginDeleteMongoDBDatabase(
       resourceGroupName,
       accountName,
@@ -612,10 +653,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
     options?: MongoDBResourcesUpdateMongoDBDatabaseThroughputOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        MongoDBResourcesUpdateMongoDBDatabaseThroughputResponse
-      >,
+    SimplePollerLike<
+      OperationState<MongoDBResourcesUpdateMongoDBDatabaseThroughputResponse>,
       MongoDBResourcesUpdateMongoDBDatabaseThroughputResponse
     >
   > {
@@ -625,7 +664,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     ): Promise<MongoDBResourcesUpdateMongoDBDatabaseThroughputResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -658,19 +697,22 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         accountName,
         databaseName,
         updateThroughputParameters,
         options
       },
-      updateMongoDBDatabaseThroughputOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateMongoDBDatabaseThroughputOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MongoDBResourcesUpdateMongoDBDatabaseThroughputResponse,
+      OperationState<MongoDBResourcesUpdateMongoDBDatabaseThroughputResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -716,10 +758,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     databaseName: string,
     options?: MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse
-      >,
+    SimplePollerLike<
+      OperationState<MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse>,
       MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse
     >
   > {
@@ -729,7 +769,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     ): Promise<MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -762,13 +802,16 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, databaseName, options },
-      migrateMongoDBDatabaseToAutoscaleOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, databaseName, options },
+      spec: migrateMongoDBDatabaseToAutoscaleOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse,
+      OperationState<MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -810,8 +853,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     databaseName: string,
     options?: MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse
       >,
       MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse
@@ -823,7 +866,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     ): Promise<MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -856,13 +899,18 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, databaseName, options },
-      migrateMongoDBDatabaseToManualThroughputOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, databaseName, options },
+      spec: migrateMongoDBDatabaseToManualThroughputOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse,
+      OperationState<
+        MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -907,8 +955,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     retrieveThroughputParameters: RetrieveThroughputParameters,
     options?: MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse
       >,
       MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse
@@ -920,7 +968,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     ): Promise<MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -953,21 +1001,26 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         accountName,
         databaseName,
         retrieveThroughputParameters,
         options
       },
-      mongoDBDatabaseRetrieveThroughputDistributionOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: mongoDBDatabaseRetrieveThroughputDistributionOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse,
+      OperationState<
+        MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -1017,8 +1070,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     redistributeThroughputParameters: RedistributeThroughputParameters,
     options?: MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse
       >,
       MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse
@@ -1030,7 +1083,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     ): Promise<MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1063,21 +1116,26 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         accountName,
         databaseName,
         redistributeThroughputParameters,
         options
       },
-      mongoDBDatabaseRedistributeThroughputOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: mongoDBDatabaseRedistributeThroughputOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse,
+      OperationState<
+        MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -1127,8 +1185,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     retrieveThroughputParameters: RetrieveThroughputParameters,
     options?: MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse
       >,
       MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse
@@ -1140,7 +1198,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     ): Promise<MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1173,9 +1231,9 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         accountName,
         databaseName,
@@ -1183,12 +1241,17 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         retrieveThroughputParameters,
         options
       },
-      mongoDBContainerRetrieveThroughputDistributionOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: mongoDBContainerRetrieveThroughputDistributionOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse,
+      OperationState<
+        MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -1243,8 +1306,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     redistributeThroughputParameters: RedistributeThroughputParameters,
     options?: MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         MongoDBResourcesMongoDBContainerRedistributeThroughputResponse
       >,
       MongoDBResourcesMongoDBContainerRedistributeThroughputResponse
@@ -1256,7 +1319,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     ): Promise<MongoDBResourcesMongoDBContainerRedistributeThroughputResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1289,9 +1352,9 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         accountName,
         databaseName,
@@ -1299,12 +1362,17 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         redistributeThroughputParameters,
         options
       },
-      mongoDBContainerRedistributeThroughputOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: mongoDBContainerRedistributeThroughputOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MongoDBResourcesMongoDBContainerRedistributeThroughputResponse,
+      OperationState<
+        MongoDBResourcesMongoDBContainerRedistributeThroughputResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -1397,8 +1465,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     createUpdateMongoDBCollectionParameters: MongoDBCollectionCreateUpdateParameters,
     options?: MongoDBResourcesCreateUpdateMongoDBCollectionOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MongoDBResourcesCreateUpdateMongoDBCollectionResponse>,
+    SimplePollerLike<
+      OperationState<MongoDBResourcesCreateUpdateMongoDBCollectionResponse>,
       MongoDBResourcesCreateUpdateMongoDBCollectionResponse
     >
   > {
@@ -1408,7 +1476,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     ): Promise<MongoDBResourcesCreateUpdateMongoDBCollectionResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1441,9 +1509,9 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         accountName,
         databaseName,
@@ -1451,10 +1519,13 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         createUpdateMongoDBCollectionParameters,
         options
       },
-      createUpdateMongoDBCollectionOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createUpdateMongoDBCollectionOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MongoDBResourcesCreateUpdateMongoDBCollectionResponse,
+      OperationState<MongoDBResourcesCreateUpdateMongoDBCollectionResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1504,14 +1575,19 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     databaseName: string,
     collectionName: string,
     options?: MongoDBResourcesDeleteMongoDBCollectionOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MongoDBResourcesDeleteMongoDBCollectionResponse>,
+      MongoDBResourcesDeleteMongoDBCollectionResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<MongoDBResourcesDeleteMongoDBCollectionResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1544,13 +1620,22 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, databaseName, collectionName, options },
-      deleteMongoDBCollectionOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        collectionName,
+        options
+      },
+      spec: deleteMongoDBCollectionOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MongoDBResourcesDeleteMongoDBCollectionResponse,
+      OperationState<MongoDBResourcesDeleteMongoDBCollectionResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1571,7 +1656,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     databaseName: string,
     collectionName: string,
     options?: MongoDBResourcesDeleteMongoDBCollectionOptionalParams
-  ): Promise<void> {
+  ): Promise<MongoDBResourcesDeleteMongoDBCollectionResponse> {
     const poller = await this.beginDeleteMongoDBCollection(
       resourceGroupName,
       accountName,
@@ -1599,8 +1684,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     mergeParameters: MergeParameters,
     options?: MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         MongoDBResourcesListMongoDBCollectionPartitionMergeResponse
       >,
       MongoDBResourcesListMongoDBCollectionPartitionMergeResponse
@@ -1612,7 +1697,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     ): Promise<MongoDBResourcesListMongoDBCollectionPartitionMergeResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1645,9 +1730,9 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         accountName,
         databaseName,
@@ -1655,12 +1740,17 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         mergeParameters,
         options
       },
-      listMongoDBCollectionPartitionMergeOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: listMongoDBCollectionPartitionMergeOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MongoDBResourcesListMongoDBCollectionPartitionMergeResponse,
+      OperationState<
+        MongoDBResourcesListMongoDBCollectionPartitionMergeResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -1734,10 +1824,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
     options?: MongoDBResourcesUpdateMongoDBCollectionThroughputOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        MongoDBResourcesUpdateMongoDBCollectionThroughputResponse
-      >,
+    SimplePollerLike<
+      OperationState<MongoDBResourcesUpdateMongoDBCollectionThroughputResponse>,
       MongoDBResourcesUpdateMongoDBCollectionThroughputResponse
     >
   > {
@@ -1747,7 +1835,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     ): Promise<MongoDBResourcesUpdateMongoDBCollectionThroughputResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1780,9 +1868,9 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         accountName,
         databaseName,
@@ -1790,10 +1878,13 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         updateThroughputParameters,
         options
       },
-      updateMongoDBCollectionThroughputOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateMongoDBCollectionThroughputOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MongoDBResourcesUpdateMongoDBCollectionThroughputResponse,
+      OperationState<MongoDBResourcesUpdateMongoDBCollectionThroughputResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1844,8 +1935,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     collectionName: string,
     options?: MongoDBResourcesMigrateMongoDBCollectionToAutoscaleOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse
       >,
       MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse
@@ -1857,7 +1948,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     ): Promise<MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1890,13 +1981,24 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, databaseName, collectionName, options },
-      migrateMongoDBCollectionToAutoscaleOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        collectionName,
+        options
+      },
+      spec: migrateMongoDBCollectionToAutoscaleOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse,
+      OperationState<
+        MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1943,8 +2045,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     collectionName: string,
     options?: MongoDBResourcesMigrateMongoDBCollectionToManualThroughputOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse
       >,
       MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse
@@ -1956,7 +2058,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     ): Promise<MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1989,13 +2091,24 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, databaseName, collectionName, options },
-      migrateMongoDBCollectionToManualThroughputOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        collectionName,
+        options
+      },
+      spec: migrateMongoDBCollectionToManualThroughputOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse,
+      OperationState<
+        MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -2064,10 +2177,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     createUpdateMongoRoleDefinitionParameters: MongoRoleDefinitionCreateUpdateParameters,
     options?: MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse
-      >,
+    SimplePollerLike<
+      OperationState<MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse>,
       MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse
     >
   > {
@@ -2077,7 +2188,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     ): Promise<MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -2110,19 +2221,22 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         mongoRoleDefinitionId,
         resourceGroupName,
         accountName,
         createUpdateMongoRoleDefinitionParameters,
         options
       },
-      createUpdateMongoRoleDefinitionOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createUpdateMongoRoleDefinitionOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse,
+      OperationState<MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -2167,14 +2281,14 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     options?: MongoDBResourcesDeleteMongoRoleDefinitionOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -2207,13 +2321,13 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { mongoRoleDefinitionId, resourceGroupName, accountName, options },
-      deleteMongoRoleDefinitionOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { mongoRoleDefinitionId, resourceGroupName, accountName, options },
+      spec: deleteMongoRoleDefinitionOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -2294,10 +2408,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     createUpdateMongoUserDefinitionParameters: MongoUserDefinitionCreateUpdateParameters,
     options?: MongoDBResourcesCreateUpdateMongoUserDefinitionOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        MongoDBResourcesCreateUpdateMongoUserDefinitionResponse
-      >,
+    SimplePollerLike<
+      OperationState<MongoDBResourcesCreateUpdateMongoUserDefinitionResponse>,
       MongoDBResourcesCreateUpdateMongoUserDefinitionResponse
     >
   > {
@@ -2307,7 +2419,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     ): Promise<MongoDBResourcesCreateUpdateMongoUserDefinitionResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -2340,19 +2452,22 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         mongoUserDefinitionId,
         resourceGroupName,
         accountName,
         createUpdateMongoUserDefinitionParameters,
         options
       },
-      createUpdateMongoUserDefinitionOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createUpdateMongoUserDefinitionOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MongoDBResourcesCreateUpdateMongoUserDefinitionResponse,
+      OperationState<MongoDBResourcesCreateUpdateMongoUserDefinitionResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -2397,14 +2512,14 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     options?: MongoDBResourcesDeleteMongoUserDefinitionOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -2437,13 +2552,13 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { mongoUserDefinitionId, resourceGroupName, accountName, options },
-      deleteMongoUserDefinitionOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { mongoUserDefinitionId, resourceGroupName, accountName, options },
+      spec: deleteMongoUserDefinitionOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -2506,8 +2621,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     location: ContinuousBackupRestoreLocation,
     options?: MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         MongoDBResourcesRetrieveContinuousBackupInformationResponse
       >,
       MongoDBResourcesRetrieveContinuousBackupInformationResponse
@@ -2519,7 +2634,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     ): Promise<MongoDBResourcesRetrieveContinuousBackupInformationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -2552,9 +2667,9 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         accountName,
         databaseName,
@@ -2562,12 +2677,17 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         location,
         options
       },
-      retrieveContinuousBackupInformationOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: retrieveContinuousBackupInformationOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MongoDBResourcesRetrieveContinuousBackupInformationResponse,
+      OperationState<
+        MongoDBResourcesRetrieveContinuousBackupInformationResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -2678,7 +2798,20 @@ const deleteMongoDBDatabaseOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
+  responses: {
+    200: {
+      headersMapper: Mappers.MongoDBResourcesDeleteMongoDBDatabaseHeaders
+    },
+    201: {
+      headersMapper: Mappers.MongoDBResourcesDeleteMongoDBDatabaseHeaders
+    },
+    202: {
+      headersMapper: Mappers.MongoDBResourcesDeleteMongoDBDatabaseHeaders
+    },
+    204: {
+      headersMapper: Mappers.MongoDBResourcesDeleteMongoDBDatabaseHeaders
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -3022,7 +3155,20 @@ const deleteMongoDBCollectionOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
+  responses: {
+    200: {
+      headersMapper: Mappers.MongoDBResourcesDeleteMongoDBCollectionHeaders
+    },
+    201: {
+      headersMapper: Mappers.MongoDBResourcesDeleteMongoDBCollectionHeaders
+    },
+    202: {
+      headersMapper: Mappers.MongoDBResourcesDeleteMongoDBCollectionHeaders
+    },
+    204: {
+      headersMapper: Mappers.MongoDBResourcesDeleteMongoDBCollectionHeaders
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

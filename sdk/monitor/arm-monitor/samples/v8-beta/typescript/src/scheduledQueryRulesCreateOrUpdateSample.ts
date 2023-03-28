@@ -8,103 +8,69 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { LogSearchRuleResource, MonitorClient } from "@azure/arm-monitor";
+import { ScheduledQueryRuleResource, MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
- * This sample demonstrates how to Creates or updates an log search rule.
+ * This sample demonstrates how to Creates or updates a scheduled query rule.
  *
- * @summary Creates or updates an log search rule.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-04-16/examples/createOrUpdateScheduledQueryRules.json
+ * @summary Creates or updates a scheduled query rule.
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2022-08-01-preview/examples/createOrUpdateScheduledQueryRule.json
  */
-async function createOrUpdateRuleAlertingAction() {
-  const subscriptionId = "b67f7fec-69fc-4974-9099-a26bd6ffeda3";
-  const resourceGroupName = "Rac46PostSwapRG";
-  const ruleName = "logalertfoo";
-  const parameters: LogSearchRuleResource = {
-    description: "log alert description",
-    action: {
-      aznsAction: {
-        actionGroup: [],
-        customWebhookPayload: "{}",
-        emailSubject: "Email Header"
-      },
-      odataType:
-        "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction",
-      severity: "1",
-      trigger: {
-        metricTrigger: {
-          metricColumn: "Computer",
-          metricTriggerType: "Consecutive",
-          threshold: 5,
-          thresholdOperator: "GreaterThan"
-        },
-        threshold: 3,
-        thresholdOperator: "GreaterThan"
-      }
-    },
-    enabled: "true",
-    location: "eastus",
-    schedule: { frequencyInMinutes: 15, timeWindowInMinutes: 15 },
-    source: {
-      dataSourceId:
-        "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/Microsoft.OperationalInsights/workspaces/sampleWorkspace",
-      query:
-        "Heartbeat | summarize AggregatedValue = count() by bin(TimeGenerated, 5m)",
-      queryType: "ResultCount"
-    },
-    tags: {}
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new MonitorClient(credential, subscriptionId);
-  const result = await client.scheduledQueryRules.createOrUpdate(
-    resourceGroupName,
-    ruleName,
-    parameters
-  );
-  console.log(result);
-}
-
-createOrUpdateRuleAlertingAction().catch(console.error);
-
-/**
- * This sample demonstrates how to Creates or updates an log search rule.
- *
- * @summary Creates or updates an log search rule.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-04-16/examples/createOrUpdateScheduledQueryRuleswithCrossResource.json
- */
-async function createOrUpdateRuleAlertingActionWithCrossResource() {
-  const subscriptionId = "b67f7fec-69fc-4974-9099-a26bd6ffeda3";
-  const resourceGroupName = "Rac46PostSwapRG";
-  const ruleName = "SampleCrossResourceAlert";
-  const parameters: LogSearchRuleResource = {
-    description: "Sample Cross Resource alert",
-    action: {
-      aznsAction: {
-        actionGroup: [
-          "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/actiongroups/test-ag"
-        ],
-        emailSubject: "Cross Resource Mail!!"
-      },
-      odataType:
-        "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction",
-      severity: "3",
-      trigger: { threshold: 5000, thresholdOperator: "GreaterThan" }
-    },
-    enabled: "true",
-    location: "eastus",
-    schedule: { frequencyInMinutes: 60, timeWindowInMinutes: 60 },
-    source: {
-      authorizedResources: [
-        "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/Microsoft.OperationalInsights/workspaces/sampleWorkspace",
-        "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/components/sampleAI"
+async function createOrUpdateAScheduledQueryRuleForSingleResource() {
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] ||
+    "dd4bfc94-a096-412b-9c43-4bd13e35afbc";
+  const resourceGroupName =
+    process.env["MONITOR_RESOURCE_GROUP"] || "QueryResourceGroupName";
+  const ruleName = "perf";
+  const parameters: ScheduledQueryRuleResource = {
+    description: "Performance rule",
+    actions: {
+      actionGroups: [
+        "/subscriptions/1cf177ed-1330-4692-80ea-fd3d7783b147/resourcegroups/sqrapi/providers/microsoft.insights/actiongroups/myactiongroup"
       ],
-      dataSourceId:
-        "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/components/sampleAI",
-      query: 'union requests, workspace("sampleWorkspace").Update',
-      queryType: "ResultCount"
+      customProperties: { key11: "value11", key12: "value12" }
     },
-    tags: {}
+    checkWorkspaceAlertsStorageConfigured: true,
+    criteria: {
+      allOf: [
+        {
+          dimensions: [
+            {
+              name: "ComputerIp",
+              operator: "Exclude",
+              values: ["192.168.1.1"]
+            },
+            { name: "OSType", operator: "Include", values: ["*"] }
+          ],
+          failingPeriods: {
+            minFailingPeriodsToAlert: 1,
+            numberOfEvaluationPeriods: 1
+          },
+          metricMeasureColumn: "% Processor Time",
+          operator: "GreaterThan",
+          query: 'Perf | where ObjectName == "Processor"',
+          resourceIdColumn: "resourceId",
+          threshold: 70,
+          timeAggregation: "Average"
+        }
+      ]
+    },
+    enabled: true,
+    evaluationFrequency: "PT5M",
+    location: "eastus",
+    muteActionsDuration: "PT30M",
+    ruleResolveConfiguration: { autoResolved: true, timeToResolve: "PT10M" },
+    scopes: [
+      "/subscriptions/aaf177ed-1330-a9f2-80ea-fd3d7783b147/resourceGroups/scopeResourceGroup1/providers/Microsoft.Compute/virtualMachines/vm1"
+    ],
+    severity: 4,
+    skipQueryValidation: true,
+    windowSize: "PT10M"
   };
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
@@ -115,33 +81,56 @@ async function createOrUpdateRuleAlertingActionWithCrossResource() {
   );
   console.log(result);
 }
-
-createOrUpdateRuleAlertingActionWithCrossResource().catch(console.error);
 
 /**
- * This sample demonstrates how to Creates or updates an log search rule.
+ * This sample demonstrates how to Creates or updates a scheduled query rule.
  *
- * @summary Creates or updates an log search rule.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-04-16/examples/createOrUpdateScheduledQueryRule-LogToMetricAction.json
+ * @summary Creates or updates a scheduled query rule.
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2022-08-01-preview/examples/createOrUpdateScheduledQueryRuleResourceGroup.json
  */
-async function createOrUpdateRuleLogToMetricAction() {
-  const subscriptionId = "af52d502-a447-4bc6-8cb7-4780fbb00490";
-  const resourceGroupName = "alertsweu";
-  const ruleName = "logtometricfoo";
-  const parameters: LogSearchRuleResource = {
-    description: "log to metric description",
-    action: {
-      criteria: [{ dimensions: [], metricName: "Average_% Idle Time" }],
-      odataType:
-        "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.LogToMetricAction"
+async function createOrUpdateAScheduledQueryRuleOnResourceGroupS() {
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] ||
+    "dd4bfc94-a096-412b-9c43-4bd13e35afbc";
+  const resourceGroupName =
+    process.env["MONITOR_RESOURCE_GROUP"] || "QueryResourceGroupName";
+  const ruleName = "heartbeat";
+  const parameters: ScheduledQueryRuleResource = {
+    description: "Health check rule",
+    actions: {
+      actionGroups: [
+        "/subscriptions/1cf177ed-1330-4692-80ea-fd3d7783b147/resourcegroups/sqrapi/providers/microsoft.insights/actiongroups/myactiongroup"
+      ],
+      customProperties: { key11: "value11", key12: "value12" }
     },
-    enabled: "true",
-    location: "West Europe",
-    source: {
-      dataSourceId:
-        "/subscriptions/af52d502-a447-4bc6-8cb7-4780fbb00490/resourceGroups/alertsweu/providers/Microsoft.OperationalInsights/workspaces/alertsweu"
+    checkWorkspaceAlertsStorageConfigured: true,
+    criteria: {
+      allOf: [
+        {
+          dimensions: [],
+          failingPeriods: {
+            minFailingPeriodsToAlert: 1,
+            numberOfEvaluationPeriods: 1
+          },
+          operator: "GreaterThan",
+          query: "Heartbeat",
+          threshold: 360,
+          timeAggregation: "Count"
+        }
+      ]
     },
-    tags: {}
+    enabled: true,
+    evaluationFrequency: "PT5M",
+    location: "eastus",
+    muteActionsDuration: "PT30M",
+    ruleResolveConfiguration: { autoResolved: true, timeToResolve: "PT10M" },
+    scopes: [
+      "/subscriptions/aaf177ed-1330-a9f2-80ea-fd3d7783b147/resourceGroups/scopeResourceGroup1"
+    ],
+    severity: 4,
+    skipQueryValidation: true,
+    targetResourceTypes: ["Microsoft.Compute/virtualMachines"],
+    windowSize: "PT10M"
   };
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
@@ -153,4 +142,77 @@ async function createOrUpdateRuleLogToMetricAction() {
   console.log(result);
 }
 
-createOrUpdateRuleLogToMetricAction().catch(console.error);
+/**
+ * This sample demonstrates how to Creates or updates a scheduled query rule.
+ *
+ * @summary Creates or updates a scheduled query rule.
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2022-08-01-preview/examples/createOrUpdateScheduledQueryRuleSubscription.json
+ */
+async function createOrUpdateAScheduledQueryRuleOnSubscription() {
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] ||
+    "dd4bfc94-a096-412b-9c43-4bd13e35afbc";
+  const resourceGroupName =
+    process.env["MONITOR_RESOURCE_GROUP"] || "QueryResourceGroupName";
+  const ruleName = "perf";
+  const parameters: ScheduledQueryRuleResource = {
+    description: "Performance rule",
+    actions: {
+      actionGroups: [
+        "/subscriptions/1cf177ed-1330-4692-80ea-fd3d7783b147/resourcegroups/sqrapi/providers/microsoft.insights/actiongroups/myactiongroup"
+      ],
+      customProperties: { key11: "value11", key12: "value12" }
+    },
+    checkWorkspaceAlertsStorageConfigured: true,
+    criteria: {
+      allOf: [
+        {
+          dimensions: [
+            {
+              name: "ComputerIp",
+              operator: "Exclude",
+              values: ["192.168.1.1"]
+            },
+            { name: "OSType", operator: "Include", values: ["*"] }
+          ],
+          failingPeriods: {
+            minFailingPeriodsToAlert: 1,
+            numberOfEvaluationPeriods: 1
+          },
+          metricMeasureColumn: "% Processor Time",
+          operator: "GreaterThan",
+          query: 'Perf | where ObjectName == "Processor"',
+          resourceIdColumn: "resourceId",
+          threshold: 70,
+          timeAggregation: "Average"
+        }
+      ]
+    },
+    enabled: true,
+    evaluationFrequency: "PT5M",
+    location: "eastus",
+    muteActionsDuration: "PT30M",
+    ruleResolveConfiguration: { autoResolved: true, timeToResolve: "PT10M" },
+    scopes: ["/subscriptions/aaf177ed-1330-a9f2-80ea-fd3d7783b147"],
+    severity: 4,
+    skipQueryValidation: true,
+    targetResourceTypes: ["Microsoft.Compute/virtualMachines"],
+    windowSize: "PT10M"
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new MonitorClient(credential, subscriptionId);
+  const result = await client.scheduledQueryRules.createOrUpdate(
+    resourceGroupName,
+    ruleName,
+    parameters
+  );
+  console.log(result);
+}
+
+async function main() {
+  createOrUpdateAScheduledQueryRuleForSingleResource();
+  createOrUpdateAScheduledQueryRuleOnResourceGroupS();
+  createOrUpdateAScheduledQueryRuleOnSubscription();
+}
+
+main().catch(console.error);

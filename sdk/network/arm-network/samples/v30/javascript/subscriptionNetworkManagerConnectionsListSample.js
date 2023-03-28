@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List all network manager connections created by this subscription.
  *
  * @summary List all network manager connections created by this subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerConnectionSubscriptionList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkManagerConnectionSubscriptionList.json
  */
 async function listSubscriptionNetworkManagerConnection() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["NETWORK_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +30,8 @@ async function listSubscriptionNetworkManagerConnection() {
   console.log(resArray);
 }
 
-listSubscriptionNetworkManagerConnection().catch(console.error);
+async function main() {
+  listSubscriptionNetworkManagerConnection();
+}
+
+main().catch(console.error);

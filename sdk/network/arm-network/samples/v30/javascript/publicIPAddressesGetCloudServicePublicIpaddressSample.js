@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get the specified public IP address in a cloud service.
  *
  * @summary Get the specified public IP address in a cloud service.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/CloudServicePublicIpGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/CloudServicePublicIpGet.json
  */
 async function getVmssPublicIP() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "cs-tester";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "cs-tester";
   const cloudServiceName = "cs1";
   const roleInstanceName = "Test_VM_0";
   const networkInterfaceName = "nic1";
@@ -38,4 +39,8 @@ async function getVmssPublicIP() {
   console.log(result);
 }
 
-getVmssPublicIP().catch(console.error);
+async function main() {
+  getVmssPublicIP();
+}
+
+main().catch(console.error);

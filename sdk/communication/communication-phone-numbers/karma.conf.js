@@ -24,9 +24,7 @@ module.exports = function (config) {
       "karma-mocha",
       "karma-mocha-reporter",
       "karma-chrome-launcher",
-      "karma-edge-launcher",
       "karma-firefox-launcher",
-      "karma-ie-launcher",
       "karma-env-preprocessor",
       "karma-coverage",
       "karma-sourcemap-loader",
@@ -54,6 +52,7 @@ module.exports = function (config) {
     envPreprocessor: [
       "TEST_MODE",
       "COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING",
+      "COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING",
       "INCLUDE_PHONENUMBER_LIVE_TESTS",
       "AZURE_PHONE_NUMBER",
       "COMMUNICATION_ENDPOINT",
@@ -65,6 +64,7 @@ module.exports = function (config) {
       "AZURE_TEST_AGENT",
       "AZURE_USERAGENT_OVERRIDE",
       "RECORDINGS_RELATIVE_PATH",
+      "AZURE_TEST_DOMAIN",
       ...getPhoneNumberPoolEnvVars(),
     ],
 

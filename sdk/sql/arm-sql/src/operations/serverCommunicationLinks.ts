@@ -6,23 +6,27 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ServerCommunicationLinks } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ServerCommunicationLink,
   ServerCommunicationLinksListByServerOptionalParams,
+  ServerCommunicationLinksListByServerResponse,
   ServerCommunicationLinksDeleteOptionalParams,
   ServerCommunicationLinksGetOptionalParams,
   ServerCommunicationLinksGetResponse,
   ServerCommunicationLinksCreateOrUpdateOptionalParams,
-  ServerCommunicationLinksCreateOrUpdateResponse,
-  ServerCommunicationLinksListByServerResponse
+  ServerCommunicationLinksCreateOrUpdateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -62,11 +66,15 @@ export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByServerPagingPage(
           resourceGroupName,
           serverName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -75,13 +83,11 @@ export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
   private async *listByServerPagingPage(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerCommunicationLinksListByServerOptionalParams
+    options?: ServerCommunicationLinksListByServerOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ServerCommunicationLink[]> {
-    let result = await this._listByServer(
-      resourceGroupName,
-      serverName,
-      options
-    );
+    let result: ServerCommunicationLinksListByServerResponse;
+    result = await this._listByServer(resourceGroupName, serverName, options);
     yield result.value || [];
   }
 
@@ -155,8 +161,8 @@ export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
     parameters: ServerCommunicationLink,
     options?: ServerCommunicationLinksCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ServerCommunicationLinksCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ServerCommunicationLinksCreateOrUpdateResponse>,
       ServerCommunicationLinksCreateOrUpdateResponse
     >
   > {
@@ -166,7 +172,7 @@ export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
     ): Promise<ServerCommunicationLinksCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -199,19 +205,22 @@ export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serverName,
         communicationLinkName,
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ServerCommunicationLinksCreateOrUpdateResponse,
+      OperationState<ServerCommunicationLinksCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -318,7 +327,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ServerCommunicationLink
     }
   },
-  requestBody: Parameters.parameters11,
+  requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -327,7 +336,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.serverName,
     Parameters.communicationLinkName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

@@ -143,7 +143,7 @@ export interface CertificatePolicy {
 
 /** Properties of the key pair backing a certificate. */
 export interface KeyProperties {
-  /** Indicates if the private key can be exported. */
+  /** Indicates if the private key can be exported. Release policy must be provided when creating the first version of an exportable key. */
   exportable?: boolean;
   /** The type of key pair to be used for the certificate. */
   keyType?: JsonWebKeyType;
@@ -169,7 +169,7 @@ export interface X509CertificateProperties {
   ekus?: string[];
   /** The subject alternative names. */
   subjectAlternativeNames?: SubjectAlternativeNames;
-  /** List of key usages. */
+  /** Defines how the certificate's key may be used. */
   keyUsage?: KeyUsageType[];
   /** The duration that the certificate is valid in months. */
   validityInMonths?: number;
@@ -504,20 +504,20 @@ export type DeletedCertificateBundle = CertificateBundle & {
   readonly deletedDate?: Date;
 };
 
-/** Known values of {@link ApiVersion73} that the service accepts. */
-export enum KnownApiVersion73 {
-  /** Api Version '7.3' */
-  Seven3 = "7.3"
+/** Known values of {@link ApiVersion74} that the service accepts. */
+export enum KnownApiVersion74 {
+  /** Api Version '7.4' */
+  Seven4 = "7.4"
 }
 
 /**
- * Defines values for ApiVersion73. \
- * {@link KnownApiVersion73} can be used interchangeably with ApiVersion73,
+ * Defines values for ApiVersion74. \
+ * {@link KnownApiVersion74} can be used interchangeably with ApiVersion74,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **7.3**: Api Version '7.3'
+ * **7.4**: Api Version '7.4'
  */
-export type ApiVersion73 = string;
+export type ApiVersion74 = string;
 
 /** Known values of {@link DeletionRecoveryLevel} that the service accepts. */
 export enum KnownDeletionRecoveryLevel {

@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 const { AzureDigitalTwinsManagementClient } = require("@azure/arm-digitaltwins");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Check if a DigitalTwinsInstance name is available.
  *
  * @summary Check if a DigitalTwinsInstance name is available.
- * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2022-05-31/examples/DigitalTwinsCheckNameAvailability_example.json
+ * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2023-01-31/examples/DigitalTwinsCheckNameAvailability_example.json
  */
 async function checkNameAvailability() {
-  const subscriptionId = "50016170-c839-41ba-a724-51e9df440b9e";
+  const subscriptionId =
+    process.env["DIGITALTWINS_SUBSCRIPTION_ID"] || "50016170-c839-41ba-a724-51e9df440b9e";
   const location = "WestUS2";
   const digitalTwinsInstanceCheckName = {
     name: "myadtinstance",
@@ -33,4 +35,8 @@ async function checkNameAvailability() {
   console.log(result);
 }
 
-checkNameAvailability().catch(console.error);
+async function main() {
+  checkNameAvailability();
+}
+
+main().catch(console.error);

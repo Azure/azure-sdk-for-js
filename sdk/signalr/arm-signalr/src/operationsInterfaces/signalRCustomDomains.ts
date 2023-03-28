@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   CustomDomain,
   SignalRCustomDomainsListOptionalParams,
@@ -63,8 +63,8 @@ export interface SignalRCustomDomains {
     parameters: CustomDomain,
     options?: SignalRCustomDomainsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SignalRCustomDomainsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SignalRCustomDomainsCreateOrUpdateResponse>,
       SignalRCustomDomainsCreateOrUpdateResponse
     >
   >;
@@ -97,7 +97,7 @@ export interface SignalRCustomDomains {
     resourceName: string,
     name: string,
     options?: SignalRCustomDomainsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a custom domain.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

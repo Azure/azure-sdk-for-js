@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
 /** List of job details. */
 export interface JobDetailsList {
@@ -34,7 +34,7 @@ export interface JobDetails {
   /** The format of the input data. */
   inputDataFormat: string;
   /** The input parameters for the job. JSON object used by the target solver. It is expected that the size of this object is small and only used to specify parameters for the execution target, not the input data. */
-  inputParams?: any;
+  inputParams?: Record<string, unknown>;
   /** The unique identifier for the provider. */
   providerId: string;
   /** The target identifier to run the job. */
@@ -186,11 +186,16 @@ export interface Quota {
 }
 
 /** Known values of {@link JobStatus} that the service accepts. */
-export const enum KnownJobStatus {
+export enum KnownJobStatus {
+  /** Waiting */
   Waiting = "Waiting",
+  /** Executing */
   Executing = "Executing",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Cancelled */
   Cancelled = "Cancelled"
 }
 
@@ -198,7 +203,7 @@ export const enum KnownJobStatus {
  * Defines values for JobStatus. \
  * {@link KnownJobStatus} can be used interchangeably with JobStatus,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **Waiting** \
  * **Executing** \
  * **Succeeded** \
@@ -208,9 +213,12 @@ export const enum KnownJobStatus {
 export type JobStatus = string;
 
 /** Known values of {@link ProviderAvailability} that the service accepts. */
-export const enum KnownProviderAvailability {
+export enum KnownProviderAvailability {
+  /** Available */
   Available = "Available",
+  /** Degraded */
   Degraded = "Degraded",
+  /** Unavailable */
   Unavailable = "Unavailable"
 }
 
@@ -218,7 +226,7 @@ export const enum KnownProviderAvailability {
  * Defines values for ProviderAvailability. \
  * {@link KnownProviderAvailability} can be used interchangeably with ProviderAvailability,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **Available** \
  * **Degraded** \
  * **Unavailable**
@@ -226,9 +234,12 @@ export const enum KnownProviderAvailability {
 export type ProviderAvailability = string;
 
 /** Known values of {@link TargetAvailability} that the service accepts. */
-export const enum KnownTargetAvailability {
+export enum KnownTargetAvailability {
+  /** Available */
   Available = "Available",
+  /** Degraded */
   Degraded = "Degraded",
+  /** Unavailable */
   Unavailable = "Unavailable"
 }
 
@@ -236,7 +247,7 @@ export const enum KnownTargetAvailability {
  * Defines values for TargetAvailability. \
  * {@link KnownTargetAvailability} can be used interchangeably with TargetAvailability,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **Available** \
  * **Degraded** \
  * **Unavailable**
@@ -244,8 +255,10 @@ export const enum KnownTargetAvailability {
 export type TargetAvailability = string;
 
 /** Known values of {@link DimensionScope} that the service accepts. */
-export const enum KnownDimensionScope {
+export enum KnownDimensionScope {
+  /** Workspace */
   Workspace = "Workspace",
+  /** Subscription */
   Subscription = "Subscription"
 }
 
@@ -253,15 +266,17 @@ export const enum KnownDimensionScope {
  * Defines values for DimensionScope. \
  * {@link KnownDimensionScope} can be used interchangeably with DimensionScope,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **Workspace** \
  * **Subscription**
  */
 export type DimensionScope = string;
 
 /** Known values of {@link MeterPeriod} that the service accepts. */
-export const enum KnownMeterPeriod {
+export enum KnownMeterPeriod {
+  /** None */
   None = "None",
+  /** Monthly */
   Monthly = "Monthly"
 }
 
@@ -269,123 +284,77 @@ export const enum KnownMeterPeriod {
  * Defines values for MeterPeriod. \
  * {@link KnownMeterPeriod} can be used interchangeably with MeterPeriod,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **None** \
  * **Monthly**
  */
 export type MeterPeriod = string;
 
-/** Contains response data for the list operation. */
-export type JobsListResponse = JobDetailsList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
+/** Optional parameters. */
+export interface JobsListOptionalParams extends coreClient.OperationOptions {}
 
-    /** The response body as parsed JSON or XML */
-    parsedBody: JobDetailsList;
-  };
-};
+/** Contains response data for the list operation. */
+export type JobsListResponse = JobDetailsList;
+
+/** Optional parameters. */
+export interface JobsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type JobsGetResponse = JobDetails & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
+export type JobsGetResponse = JobDetails;
 
-    /** The response body as parsed JSON or XML */
-    parsedBody: JobDetails;
-  };
-};
+/** Optional parameters. */
+export interface JobsCreateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
-export type JobsCreateResponse = JobDetails & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
+export type JobsCreateResponse = JobDetails;
 
-    /** The response body as parsed JSON or XML */
-    parsedBody: JobDetails;
-  };
-};
+/** Optional parameters. */
+export interface JobsCancelOptionalParams extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface JobsListNextOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type JobsListNextResponse = JobDetailsList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
+export type JobsListNextResponse = JobDetailsList;
 
-    /** The response body as parsed JSON or XML */
-    parsedBody: JobDetailsList;
-  };
-};
+/** Optional parameters. */
+export interface ProvidersGetStatusOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getStatus operation. */
-export type ProvidersGetStatusResponse = ProviderStatusList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
+export type ProvidersGetStatusResponse = ProviderStatusList;
 
-    /** The response body as parsed JSON or XML */
-    parsedBody: ProviderStatusList;
-  };
-};
+/** Optional parameters. */
+export interface ProvidersGetStatusNextOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getStatusNext operation. */
-export type ProvidersGetStatusNextResponse = ProviderStatusList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
+export type ProvidersGetStatusNextResponse = ProviderStatusList;
 
-    /** The response body as parsed JSON or XML */
-    parsedBody: ProviderStatusList;
-  };
-};
+/** Optional parameters. */
+export interface StorageSasUriOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the sasUri operation. */
-export type StorageSasUriResponse = SasUriResponse & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
+export type StorageSasUriResponse = SasUriResponse;
 
-    /** The response body as parsed JSON or XML */
-    parsedBody: SasUriResponse;
-  };
-};
+/** Optional parameters. */
+export interface QuotasListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type QuotasListResponse = QuotaList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
+export type QuotasListResponse = QuotaList;
 
-    /** The response body as parsed JSON or XML */
-    parsedBody: QuotaList;
-  };
-};
+/** Optional parameters. */
+export interface QuotasListNextOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type QuotasListNextResponse = QuotaList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: QuotaList;
-  };
-};
+export type QuotasListNextResponse = QuotaList;
 
 /** Optional parameters. */
 export interface QuantumJobClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+  extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Overrides client endpoint. */

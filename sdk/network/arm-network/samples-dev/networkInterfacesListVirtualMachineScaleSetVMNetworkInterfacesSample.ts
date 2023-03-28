@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets information about all network interfaces in a virtual machine in a virtual machine scale set.
  *
  * @summary Gets information about all network interfaces in a virtual machine in a virtual machine scale set.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VmssVmNetworkInterfaceList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VmssVmNetworkInterfaceList.json
  */
 async function listVirtualMachineScaleSetVMNetworkInterfaces() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualMachineScaleSetName = "vmss1";
   const virtualmachineIndex = "1";
   const credential = new DefaultAzureCredential();
@@ -35,4 +38,8 @@ async function listVirtualMachineScaleSetVMNetworkInterfaces() {
   console.log(resArray);
 }
 
-listVirtualMachineScaleSetVMNetworkInterfaces().catch(console.error);
+async function main() {
+  listVirtualMachineScaleSetVMNetworkInterfaces();
+}
+
+main().catch(console.error);

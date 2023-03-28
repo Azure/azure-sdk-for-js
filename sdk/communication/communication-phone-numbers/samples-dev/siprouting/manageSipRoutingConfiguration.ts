@@ -3,6 +3,8 @@
 
 import { SipRoutingClient } from "@azure/communication-phone-numbers";
 
+import { v4 as uuid } from "uuid";
+
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -13,19 +15,28 @@ const connectionString =
   "endpoint=https://resourceName.communication.azure.net/;accessKey=test-key";
 
 export async function main() {
-  console.log("\n== SIP Routing Client Example ==\n");
+  console.log("\n== Update SIP Routing Client Example ==\n");
 
   // Build client
   const client = new SipRoutingClient(connectionString);
 
+  // TODO replace with real FQDN
+  const firstTrunkFqdn = `sample.${uuid()}.com`;
+  // TODO replace with real FQDN
+  const secondTrunkFqdn = `sample.${uuid()}.com`;
+
+  // Clear configuration
+  await client.setRoutes([]);
+  await client.setTrunks([]);
+
   // Set trunks
   await client.setTrunks([
     {
-      fqdn: "<first trunk fqdn>",
+      fqdn: firstTrunkFqdn,
       sipSignalingPort: 1234,
     },
     {
-      fqdn: "<second trunk fqdn>",
+      fqdn: secondTrunkFqdn,
       sipSignalingPort: 1234,
     },
   ]);
@@ -36,34 +47,38 @@ export async function main() {
       name: "First Route",
       description: "<first route description>",
       numberPattern: "^+[1-9][0-9]{3,23}$",
-      trunks: ["<first trunk fqdn>"],
+      trunks: [firstTrunkFqdn],
     },
     {
       name: "Second Route",
       description: "<second route description>",
       numberPattern: "^.*$",
-      trunks: ["<second trunk fqdn>", "<first trunk fqdn>"],
+      trunks: [secondTrunkFqdn, firstTrunkFqdn],
     },
   ]);
 
   // Update a trunk
   await client.setTrunk({
-    fqdn: "<first trunk fqdn>",
+    fqdn: firstTrunkFqdn,
     sipSignalingPort: 4321,
   });
 
   // Get trunks
-  const trunks = await client.getTrunks();
-  for (const trunk of trunks) {
+  const trunks = await client.listTrunks();
+  for await (const trunk of trunks) {
     console.log(`Trunk ${trunk.fqdn}:${trunk.sipSignalingPort}`);
   }
 
   // Get routes
-  const routes = await client.getRoutes();
-  for (const route of routes) {
+  const routes = await client.listRoutes();
+  for await (const route of routes) {
     console.log(`Route ${route.name} with pattern ${route.numberPattern}`);
     console.log(`Route's trunks: ${route.trunks?.join()}`);
   }
+
+  // Clear configuration
+  await client.setRoutes([]);
+  await client.setTrunks([]);
 }
 
 main().catch((error) => {

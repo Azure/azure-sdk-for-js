@@ -6,14 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { Snapshots } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetAppManagementClient } from "../netAppManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Snapshot,
   SnapshotsListOptionalParams,
@@ -44,7 +48,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * List all snapshots associated with the volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -71,13 +75,17 @@ export class SnapshotsImpl implements Snapshots {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           accountName,
           poolName,
           volumeName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -88,9 +96,11 @@ export class SnapshotsImpl implements Snapshots {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: SnapshotsListOptionalParams
+    options?: SnapshotsListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Snapshot[]> {
-    let result = await this._list(
+    let result: SnapshotsListResponse;
+    result = await this._list(
       resourceGroupName,
       accountName,
       poolName,
@@ -120,7 +130,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * List all snapshots associated with the volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -141,7 +151,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * Get details of the specified snapshot
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -171,7 +181,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * Create the specified snapshot within the given volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -188,8 +198,8 @@ export class SnapshotsImpl implements Snapshots {
     body: Snapshot,
     options?: SnapshotsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SnapshotsCreateResponse>,
+    SimplePollerLike<
+      OperationState<SnapshotsCreateResponse>,
       SnapshotsCreateResponse
     >
   > {
@@ -199,7 +209,7 @@ export class SnapshotsImpl implements Snapshots {
     ): Promise<SnapshotsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -232,9 +242,9 @@ export class SnapshotsImpl implements Snapshots {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         accountName,
         poolName,
@@ -243,12 +253,15 @@ export class SnapshotsImpl implements Snapshots {
         body,
         options
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SnapshotsCreateResponse,
+      OperationState<SnapshotsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -256,7 +269,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * Create the specified snapshot within the given volume
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -287,7 +300,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * Patch a snapshot
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -304,8 +317,8 @@ export class SnapshotsImpl implements Snapshots {
     body: Record<string, unknown>,
     options?: SnapshotsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SnapshotsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SnapshotsUpdateResponse>,
       SnapshotsUpdateResponse
     >
   > {
@@ -315,7 +328,7 @@ export class SnapshotsImpl implements Snapshots {
     ): Promise<SnapshotsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -348,9 +361,9 @@ export class SnapshotsImpl implements Snapshots {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         accountName,
         poolName,
@@ -359,12 +372,15 @@ export class SnapshotsImpl implements Snapshots {
         body,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SnapshotsUpdateResponse,
+      OperationState<SnapshotsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -372,7 +388,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * Patch a snapshot
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -403,7 +419,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * Delete snapshot
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -417,14 +433,14 @@ export class SnapshotsImpl implements Snapshots {
     volumeName: string,
     snapshotName: string,
     options?: SnapshotsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -457,9 +473,9 @@ export class SnapshotsImpl implements Snapshots {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         accountName,
         poolName,
@@ -467,12 +483,12 @@ export class SnapshotsImpl implements Snapshots {
         snapshotName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -480,7 +496,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * Delete snapshot
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -508,7 +524,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * Restore the specified files from the specified snapshot to the active filesystem
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -524,14 +540,14 @@ export class SnapshotsImpl implements Snapshots {
     snapshotName: string,
     body: SnapshotRestoreFiles,
     options?: SnapshotsRestoreFilesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -564,9 +580,9 @@ export class SnapshotsImpl implements Snapshots {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         accountName,
         poolName,
@@ -575,10 +591,10 @@ export class SnapshotsImpl implements Snapshots {
         body,
         options
       },
-      restoreFilesOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: restoreFilesOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -587,7 +603,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * Restore the specified files from the specified snapshot to the active filesystem
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
@@ -683,7 +699,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.body15,
+  requestBody: Parameters.body16,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -717,7 +733,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.body16,
+  requestBody: Parameters.body17,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -754,7 +770,7 @@ const restoreFilesOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/snapshots/{snapshotName}/restoreFiles",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  requestBody: Parameters.body17,
+  requestBody: Parameters.body18,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

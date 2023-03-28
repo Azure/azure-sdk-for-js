@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Starts packet capture on vpn gateway in the specified resource group.
  *
  * @summary Starts packet capture on vpn gateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnGatewayStartPacketCaptureFilterData.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VpnGatewayStartPacketCaptureFilterData.json
  */
 async function startPacketCaptureOnVpnGatewayWithFilter() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const gatewayName = "vpngw";
   const parameters = {
     filterData:
@@ -36,17 +37,15 @@ async function startPacketCaptureOnVpnGatewayWithFilter() {
   console.log(result);
 }
 
-startPacketCaptureOnVpnGatewayWithFilter().catch(console.error);
-
 /**
  * This sample demonstrates how to Starts packet capture on vpn gateway in the specified resource group.
  *
  * @summary Starts packet capture on vpn gateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnGatewayStartPacketCapture.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/VpnGatewayStartPacketCapture.json
  */
 async function startPacketCaptureOnVpnGatewayWithoutFilter() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const gatewayName = "vpngw";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -57,4 +56,9 @@ async function startPacketCaptureOnVpnGatewayWithoutFilter() {
   console.log(result);
 }
 
-startPacketCaptureOnVpnGatewayWithoutFilter().catch(console.error);
+async function main() {
+  startPacketCaptureOnVpnGatewayWithFilter();
+  startPacketCaptureOnVpnGatewayWithoutFilter();
+}
+
+main().catch(console.error);

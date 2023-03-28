@@ -75,7 +75,8 @@ export interface DataNetworks {
     options?: DataNetworksGetOptionalParams
   ): Promise<DataNetworksGetResponse>;
   /**
-   * Creates or updates a data network.
+   * Creates or updates a data network. Must be created in the same location as its parent mobile
+   * network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param dataNetworkName The name of the data network.
@@ -95,7 +96,8 @@ export interface DataNetworks {
     >
   >;
   /**
-   * Creates or updates a data network.
+   * Creates or updates a data network. Must be created in the same location as its parent mobile
+   * network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param dataNetworkName The name of the data network.

@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or updates the specified Network Virtual Appliance Inbound Security Rules.
  *
  * @summary Creates or updates the specified Network Virtual Appliance Inbound Security Rules.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/InboundSecurityRulePut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/InboundSecurityRulePut.json
  */
 async function createNetworkVirtualApplianceInboundSecurityRules() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkVirtualApplianceName = "nva";
   const ruleCollectionName = "rule1";
   const parameters = {
@@ -42,4 +43,8 @@ async function createNetworkVirtualApplianceInboundSecurityRules() {
   console.log(result);
 }
 
-createNetworkVirtualApplianceInboundSecurityRules().catch(console.error);
+async function main() {
+  createNetworkVirtualApplianceInboundSecurityRules();
+}
+
+main().catch(console.error);

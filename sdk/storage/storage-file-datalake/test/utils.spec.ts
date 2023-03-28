@@ -2,22 +2,16 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { HttpHeaders } from "../src";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import {
   sanitizeHeaders,
   sanitizeURL,
   extractConnectionStringParts,
 } from "../src/utils/utils.common";
-import { record, Recorder } from "@azure-tools/test-recorder";
-import { recorderEnvSetup } from "./utils";
-import { Context } from "mocha";
 
 describe("Utility Helpers", () => {
-  let recorder: Recorder;
-  const protocol = "https";
-  const endpointSuffix = "core.windows.net";
   const accountName = "myaccount";
-  const blobEndpoint = `${protocol}://${accountName}.blob.${endpointSuffix}`;
+  const blobEndpoint = `https://${accountName}.blob.core.windows.net`;
   const sharedAccessSignature = "sasToken";
 
   function verifySASConnectionString(sasConnectionString: string) {
@@ -39,14 +33,6 @@ describe("Utility Helpers", () => {
     );
   }
 
-  beforeEach(function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-  });
-
-  afterEach(async function () {
-    await recorder.stop();
-  });
-
   it("sanitizeURL redacts SAS token", () => {
     const url = "https://some.url.com/container/blob?sig=sasstring";
     const sanitized = sanitizeURL(url);
@@ -56,7 +42,7 @@ describe("Utility Helpers", () => {
 
   it("sanitizeHeaders redacts SAS token", () => {
     const url = "https://some.url.com/container/blob?sig=sasstring";
-    const headers = new HttpHeaders();
+    const headers = createHttpHeaders();
     headers.set("authorization", "Bearer abcdefg");
     headers.set("x-ms-copy-source", url);
     headers.set("otherheader", url);

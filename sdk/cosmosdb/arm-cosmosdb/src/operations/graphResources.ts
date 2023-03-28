@@ -6,14 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { GraphResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   GraphResourceGetResults,
   GraphResourcesListGraphsOptionalParams,
@@ -62,11 +66,15 @@ export class GraphResourcesImpl implements GraphResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listGraphsPagingPage(
           resourceGroupName,
           accountName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -75,13 +83,11 @@ export class GraphResourcesImpl implements GraphResources {
   private async *listGraphsPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: GraphResourcesListGraphsOptionalParams
+    options?: GraphResourcesListGraphsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<GraphResourceGetResults[]> {
-    let result = await this._listGraphs(
-      resourceGroupName,
-      accountName,
-      options
-    );
+    let result: GraphResourcesListGraphsResponse;
+    result = await this._listGraphs(resourceGroupName, accountName, options);
     yield result.value || [];
   }
 
@@ -150,8 +156,8 @@ export class GraphResourcesImpl implements GraphResources {
     createUpdateGraphParameters: GraphResourceCreateUpdateParameters,
     options?: GraphResourcesCreateUpdateGraphOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<GraphResourcesCreateUpdateGraphResponse>,
+    SimplePollerLike<
+      OperationState<GraphResourcesCreateUpdateGraphResponse>,
       GraphResourcesCreateUpdateGraphResponse
     >
   > {
@@ -161,7 +167,7 @@ export class GraphResourcesImpl implements GraphResources {
     ): Promise<GraphResourcesCreateUpdateGraphResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -194,19 +200,22 @@ export class GraphResourcesImpl implements GraphResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         accountName,
         graphName,
         createUpdateGraphParameters,
         options
       },
-      createUpdateGraphOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createUpdateGraphOperationSpec
+    });
+    const poller = await createHttpPoller<
+      GraphResourcesCreateUpdateGraphResponse,
+      OperationState<GraphResourcesCreateUpdateGraphResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -250,14 +259,14 @@ export class GraphResourcesImpl implements GraphResources {
     accountName: string,
     graphName: string,
     options?: GraphResourcesDeleteGraphResourceOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -290,13 +299,13 @@ export class GraphResourcesImpl implements GraphResources {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, graphName, options },
-      deleteGraphResourceOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, graphName, options },
+      spec: deleteGraphResourceOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

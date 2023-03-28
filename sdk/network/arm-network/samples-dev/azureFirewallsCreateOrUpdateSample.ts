@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { AzureFirewall, NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates the specified Azure Firewall.
  *
  * @summary Creates or updates the specified Azure Firewall.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AzureFirewallPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/AzureFirewallPut.json
  */
 async function createAzureFirewall() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const azureFirewallName = "azurefirewall";
   const parameters: AzureFirewall = {
     applicationRuleCollections: [
@@ -125,17 +128,15 @@ async function createAzureFirewall() {
   console.log(result);
 }
 
-createAzureFirewall().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates the specified Azure Firewall.
  *
  * @summary Creates or updates the specified Azure Firewall.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AzureFirewallPutWithAdditionalProperties.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/AzureFirewallPutWithAdditionalProperties.json
  */
 async function createAzureFirewallWithAdditionalProperties() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const azureFirewallName = "azurefirewall";
   const parameters: AzureFirewall = {
     additionalProperties: { key1: "value1", key2: "value2" },
@@ -243,17 +244,15 @@ async function createAzureFirewallWithAdditionalProperties() {
   console.log(result);
 }
 
-createAzureFirewallWithAdditionalProperties().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates the specified Azure Firewall.
  *
  * @summary Creates or updates the specified Azure Firewall.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AzureFirewallPutWithIpGroups.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/AzureFirewallPutWithIpGroups.json
  */
 async function createAzureFirewallWithIPGroups() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const azureFirewallName = "azurefirewall";
   const parameters: AzureFirewall = {
     applicationRuleCollections: [
@@ -359,17 +358,15 @@ async function createAzureFirewallWithIPGroups() {
   console.log(result);
 }
 
-createAzureFirewallWithIPGroups().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates the specified Azure Firewall.
  *
  * @summary Creates or updates the specified Azure Firewall.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AzureFirewallPutWithZones.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/AzureFirewallPutWithZones.json
  */
 async function createAzureFirewallWithZones() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const azureFirewallName = "azurefirewall";
   const parameters: AzureFirewall = {
     applicationRuleCollections: [
@@ -475,17 +472,15 @@ async function createAzureFirewallWithZones() {
   console.log(result);
 }
 
-createAzureFirewallWithZones().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates the specified Azure Firewall.
  *
  * @summary Creates or updates the specified Azure Firewall.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AzureFirewallPutWithMgmtSubnet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/AzureFirewallPutWithMgmtSubnet.json
  */
 async function createAzureFirewallWithManagementSubnet() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const azureFirewallName = "azurefirewall";
   const parameters: AzureFirewall = {
     applicationRuleCollections: [
@@ -602,17 +597,15 @@ async function createAzureFirewallWithManagementSubnet() {
   console.log(result);
 }
 
-createAzureFirewallWithManagementSubnet().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates the specified Azure Firewall.
  *
  * @summary Creates or updates the specified Azure Firewall.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AzureFirewallPutInHub.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/AzureFirewallPutInHub.json
  */
 async function createAzureFirewallInVirtualHub() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const azureFirewallName = "azurefirewall";
   const parameters: AzureFirewall = {
     firewallPolicy: {
@@ -640,4 +633,13 @@ async function createAzureFirewallInVirtualHub() {
   console.log(result);
 }
 
-createAzureFirewallInVirtualHub().catch(console.error);
+async function main() {
+  createAzureFirewall();
+  createAzureFirewallWithAdditionalProperties();
+  createAzureFirewallWithIPGroups();
+  createAzureFirewallWithZones();
+  createAzureFirewallWithManagementSubnet();
+  createAzureFirewallInVirtualHub();
+}
+
+main().catch(console.error);

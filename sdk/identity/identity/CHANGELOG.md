@@ -1,5 +1,50 @@
 # Release History
 
+## 3.2.0-beta.2 (Unreleased)
+
+### Features Added
+
+- Enabled proactive token refresh for Managed Identity.
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed a bug in `WorkloadIdentity Credential`, to incorporate the case where the options can be `undefined` in a conditional check. Related issue [#25089](https://github.com/Azure/azure-sdk-for-js/issues/25089) with the fix [#25119](https://github.com/Azure/azure-sdk-for-js/pull/25119).
+- Exported `WorkloadIdentityDefaultCredentialOptions` which was previously not publicly exported in `index.ts`.
+
+### Other Changes
+
+## 3.2.0-beta.1 (2023-02-28)
+
+### Features Added
+
+- Added support to disable instance discovery on AAD credentials.
+- Added `AzureDeveloperCliCredential` [#24180](https://github.com/Azure/azure-sdk-for-js/pull/24180) and added it to the `DefaultAzureCredential` [#24826](https://github.com/Azure/azure-sdk-for-js/pull/24826) auth flow
+- Added support for `WokloadIdentityCredential`[#24830](https://github.com/Azure/azure-sdk-for-js/pull/24830), added it to `DefaultAzureCredential` auth flow and replaced the in-house implementation of `Token Exchange MSI` in `ManagedIdentity` with `WorkloadIdentityCredential`.
+
+## 3.1.3 (2023-01-12)
+
+### Other Changes
+
+- Upgraded versions of @azure/msal-node, @azure/msal-common and @azure/msal-browser to remove any dependency versions that were depending on old version of jsonwebtoken which had a [security issue](https://nvd.nist.gov/vuln/detail/CVE-2022-23529)
+
+## 3.1.2 (2022-12-05)
+
+### Bugs Fixed
+
+- Fixed bug in `ManagedIdentity Credential` where "expiresInSeconds" was taking the absolute timestamp instead of relative expiration time period in seconds.
+### Other Changes
+
+- Enable msal logging based on log level specified by user for Azure SDK.
+- Upgraded version dependencies on msal libraries, since they have additional logging added.
+
+## 3.1.1 (2022-11-18)
+
+### Bugs Fixed
+
+- Fixed bug to update "expiresOnTimestamp" field in Managed Identity to be in seconds and not milliseconds.
+
 ## 3.1.0 (2022-11-08)
 
 ### Other Changes

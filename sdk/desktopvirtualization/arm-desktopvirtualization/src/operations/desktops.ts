@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Desktops } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,11 +17,11 @@ import {
   Desktop,
   DesktopsListNextOptionalParams,
   DesktopsListOptionalParams,
+  DesktopsListResponse,
   DesktopsGetOptionalParams,
   DesktopsGetResponse,
   DesktopsUpdateOptionalParams,
   DesktopsUpdateResponse,
-  DesktopsListResponse,
   DesktopsListNextResponse
 } from "../models";
 
@@ -60,11 +61,15 @@ export class DesktopsImpl implements Desktops {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           applicationGroupName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -73,15 +78,22 @@ export class DesktopsImpl implements Desktops {
   private async *listPagingPage(
     resourceGroupName: string,
     applicationGroupName: string,
-    options?: DesktopsListOptionalParams
+    options?: DesktopsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Desktop[]> {
-    let result = await this._list(
-      resourceGroupName,
-      applicationGroupName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DesktopsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        applicationGroupName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -90,7 +102,9 @@ export class DesktopsImpl implements Desktops {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -245,7 +259,12 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.pageSize,
+    Parameters.isDescending,
+    Parameters.initialSkip
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -266,7 +285,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

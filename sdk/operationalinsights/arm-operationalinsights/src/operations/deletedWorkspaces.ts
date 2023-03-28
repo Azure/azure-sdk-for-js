@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { DeletedWorkspaces } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,8 +15,8 @@ import { OperationalInsightsManagementClient } from "../operationalInsightsManag
 import {
   Workspace,
   DeletedWorkspacesListOptionalParams,
-  DeletedWorkspacesListByResourceGroupOptionalParams,
   DeletedWorkspacesListResponse,
+  DeletedWorkspacesListByResourceGroupOptionalParams,
   DeletedWorkspacesListByResourceGroupResponse
 } from "../models";
 
@@ -48,16 +48,21 @@ export class DeletedWorkspacesImpl implements DeletedWorkspaces {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: DeletedWorkspacesListOptionalParams
+    options?: DeletedWorkspacesListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Workspace[]> {
-    let result = await this._list(options);
+    let result: DeletedWorkspacesListResponse;
+    result = await this._list(options);
     yield result.value || [];
   }
 
@@ -86,17 +91,26 @@ export class DeletedWorkspacesImpl implements DeletedWorkspaces {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: DeletedWorkspacesListByResourceGroupOptionalParams
+    options?: DeletedWorkspacesListByResourceGroupOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Workspace[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
+    let result: DeletedWorkspacesListByResourceGroupResponse;
+    result = await this._listByResourceGroup(resourceGroupName, options);
     yield result.value || [];
   }
 

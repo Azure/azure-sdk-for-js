@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { EventGridManagementClient } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List all aggregated global event subscriptions under a specific Azure subscription.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_ListGlobalBySubscription.json
  */
 async function eventSubscriptionsListGlobalBySubscription() {
-  const subscriptionId = "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
+    "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +33,8 @@ async function eventSubscriptionsListGlobalBySubscription() {
   console.log(resArray);
 }
 
-eventSubscriptionsListGlobalBySubscription().catch(console.error);
+async function main() {
+  eventSubscriptionsListGlobalBySubscription();
+}
+
+main().catch(console.error);

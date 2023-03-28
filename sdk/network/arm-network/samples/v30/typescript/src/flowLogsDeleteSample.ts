@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes the specified flow log resource.
  *
  * @summary Deletes the specified flow log resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkWatcherFlowLogDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkWatcherFlowLogDelete.json
  */
 async function deleteFlowLog() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkWatcherName = "nw1";
   const flowLogName = "fl";
   const credential = new DefaultAzureCredential();
@@ -32,4 +35,8 @@ async function deleteFlowLog() {
   console.log(result);
 }
 
-deleteFlowLog().catch(console.error);
+async function main() {
+  deleteFlowLog();
+}
+
+main().catch(console.error);

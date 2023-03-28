@@ -13,16 +13,22 @@ import {
   KustoManagementClient
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Detaches all followers of a database owned by this cluster.
  *
  * @summary Detaches all followers of a database owned by this cluster.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoClusterDetachFollowerDatabases.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoClusterDetachFollowerDatabases.json
  */
 async function kustoClusterDetachFollowerDatabases() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = "kustorptest";
+  const subscriptionId =
+    process.env["KUSTO_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-123456789098";
+  const resourceGroupName =
+    process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
   const clusterName = "kustoCluster";
   const followerDatabaseToRemove: FollowerDatabaseDefinition = {
     attachedDatabaseConfigurationName: "attachedDatabaseConfigurationsTest",
@@ -39,4 +45,8 @@ async function kustoClusterDetachFollowerDatabases() {
   console.log(result);
 }
 
-kustoClusterDetachFollowerDatabases().catch(console.error);
+async function main() {
+  kustoClusterDetachFollowerDatabases();
+}
+
+main().catch(console.error);

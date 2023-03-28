@@ -40,6 +40,34 @@ describe("Group client working with a group", function () {
     assert.equal(lastResponse?.status, 202);
   });
 
+  it("can broadcast to group with filter", async () => {
+    await client.sendToAll("hello", {
+      contentType: "text/plain",
+      filter: "userId ne 'user1'",
+      onResponse,
+    });
+    assert.equal(lastResponse?.status, 202);
+
+    let error;
+    try {
+      await client.sendToAll("hello", {
+        contentType: "text/plain",
+        filter: "invalid filter",
+      });
+    } catch (e: any) {
+      if (e.name !== "RestError") {
+        throw e;
+      }
+
+      error = e;
+    }
+    assert.equal(error.statusCode, 400);
+    assert.equal(
+      JSON.parse(error.message).message,
+      "Invalid syntax for 'invalid filter': Syntax error at position 14 in 'invalid filter'. (Parameter 'filter')"
+    );
+  });
+
   it("can manage connections", async () => {
     // this endpoint returns 404 for connections not on the hub
     let error: RestError | undefined;

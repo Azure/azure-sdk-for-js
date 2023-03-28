@@ -1,0 +1,669 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DigitalTwins/digitalTwinsInstances/myDigitalTwinsService?api-version=2023-01-31",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "21",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-digitaltwins/3.3.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "b878db24-a13a-48cd-abf2-6dc4ddd0eafc"
+      },
+      "RequestBody": {
+        "location": "eastus"
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Azure-AsyncOperation": "https://management.azure.com:443/subscriptions/azure_subscription_id/providers/Microsoft.DigitalTwins/locations/eastus/operationsStatuses/ab8cd519-8e4d-4c70-8947-1d7bf6366881?api-version=2023-01-31",
+        "Cache-Control": "no-cache",
+        "Content-Length": "703",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 01 Mar 2023 03:12:37 GMT",
+        "Expires": "-1",
+        "Location": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DigitalTwins/locations/eastus/operationResults/eyJvcGVyYXRpb25LaW5kIjoiQ3JlYXRlIiwicmVzb3VyY2VLaW5kIjoiRGlnaXRhbFR3aW5zSW5zdGFuY2UiLCJyZXNvdXJjZUdyb3VwTmFtZSI6Im15anN0ZXN0IiwicmVzb3VyY2VOYW1lIjoibXlEaWdpdGFsVHdpbnNTZXJ2aWNlIn0%3d?api-version=2023-01-31",
+        "Pragma": "no-cache",
+        "Retry-After": "10",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "traceresponse": "00-f396a54b88becbd860ab73d16eff0316-28b6f62600089589-01",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "6ebd4e69-7c2f-4871-99ff-978ea0f0fcfe",
+        "x-ms-ratelimit-remaining-subscription-writes": "1198",
+        "x-ms-request-id": "6ebd4e69-7c2f-4871-99ff-978ea0f0fcfe",
+        "x-ms-routing-request-id": "JAPANEAST:20230301T031238Z:6ebd4e69-7c2f-4871-99ff-978ea0f0fcfe"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DigitalTwins/digitalTwinsInstances/myDigitalTwinsService",
+        "name": "myDigitalTwinsService",
+        "type": "Microsoft.DigitalTwins/digitalTwinsInstances",
+        "properties": {
+          "provisioningState": "Provisioning",
+          "createdTime": "2023-03-01T03:12:37.07094Z",
+          "lastUpdatedTime": "2023-03-01T03:12:37.07094Z",
+          "hostName": null,
+          "publicNetworkAccess": "Enabled"
+        },
+        "location": "eastus",
+        "identity": null,
+        "tags": null,
+        "systemData": {
+          "createdBy": "azure_client_id",
+          "createdByType": "Application",
+          "createdAt": "2023-03-01T03:12:36.9600051Z",
+          "lastModifiedBy": "azure_client_id",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2023-03-01T03:12:36.9600051Z"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DigitalTwins/locations/eastus/operationsStatuses/ab8cd519-8e4d-4c70-8947-1d7bf6366881?api-version=2023-01-31",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-digitaltwins/3.3.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "46e32ad6-dcc5-42cd-a213-a5a1d851d37b"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 01 Mar 2023 03:12:37 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "traceresponse": "00-a0a207d1ec796e0e498afba3f5d1c99d-dde7c948452f2051-01",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "2c94d5c3-2e8d-4f18-9ca9-b945eb4d0152",
+        "x-ms-ratelimit-remaining-subscription-reads": "11999",
+        "x-ms-request-id": "2c94d5c3-2e8d-4f18-9ca9-b945eb4d0152",
+        "x-ms-routing-request-id": "JAPANEAST:20230301T031238Z:2c94d5c3-2e8d-4f18-9ca9-b945eb4d0152"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/locations/eastus/operationsStatuses/ab8cd519-8e4d-4c70-8947-1d7bf6366881",
+        "name": "ab8cd519-8e4d-4c70-8947-1d7bf6366881",
+        "status": "Running",
+        "startTime": "2023-03-01T03:12:37.0844276Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DigitalTwins/locations/eastus/operationsStatuses/ab8cd519-8e4d-4c70-8947-1d7bf6366881?api-version=2023-01-31",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-digitaltwins/3.3.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "99631f45-8929-4d97-8e11-7ca915fbb2b5"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 01 Mar 2023 03:12:38 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "traceresponse": "00-54f263e6707ffac280c26f6332a802f5-469eaf4b1bf734a6-01",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "e539242e-23b6-487c-89ef-536ed6765785",
+        "x-ms-ratelimit-remaining-subscription-reads": "11998",
+        "x-ms-request-id": "e539242e-23b6-487c-89ef-536ed6765785",
+        "x-ms-routing-request-id": "JAPANEAST:20230301T031238Z:e539242e-23b6-487c-89ef-536ed6765785"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/locations/eastus/operationsStatuses/ab8cd519-8e4d-4c70-8947-1d7bf6366881",
+        "name": "ab8cd519-8e4d-4c70-8947-1d7bf6366881",
+        "status": "Running",
+        "startTime": "2023-03-01T03:12:37.0844276Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DigitalTwins/locations/eastus/operationsStatuses/ab8cd519-8e4d-4c70-8947-1d7bf6366881?api-version=2023-01-31",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-digitaltwins/3.3.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "cf09b280-edf4-4f90-81ad-5c3fb86b90d1"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 01 Mar 2023 03:12:40 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "traceresponse": "00-6a5d5922adff7ea0f4841b2667875f59-a76ca15aa1edef32-01",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "57b48f73-2118-4dd7-b190-865d9898c91e",
+        "x-ms-ratelimit-remaining-subscription-reads": "11997",
+        "x-ms-request-id": "57b48f73-2118-4dd7-b190-865d9898c91e",
+        "x-ms-routing-request-id": "JAPANEAST:20230301T031241Z:57b48f73-2118-4dd7-b190-865d9898c91e"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/locations/eastus/operationsStatuses/ab8cd519-8e4d-4c70-8947-1d7bf6366881",
+        "name": "ab8cd519-8e4d-4c70-8947-1d7bf6366881",
+        "status": "Running",
+        "startTime": "2023-03-01T03:12:37.0844276Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DigitalTwins/locations/eastus/operationsStatuses/ab8cd519-8e4d-4c70-8947-1d7bf6366881?api-version=2023-01-31",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-digitaltwins/3.3.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "04bda8ca-fbce-43ee-a6b3-f5b04c59ff18"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 01 Mar 2023 03:12:42 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "traceresponse": "00-02763e7b40e90b9dc6699c9451ca912a-39b5a67f8fc3f4a9-01",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "410f5ac1-f507-46f3-b0fe-1bd432363c91",
+        "x-ms-ratelimit-remaining-subscription-reads": "11996",
+        "x-ms-request-id": "410f5ac1-f507-46f3-b0fe-1bd432363c91",
+        "x-ms-routing-request-id": "JAPANEAST:20230301T031243Z:410f5ac1-f507-46f3-b0fe-1bd432363c91"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/locations/eastus/operationsStatuses/ab8cd519-8e4d-4c70-8947-1d7bf6366881",
+        "name": "ab8cd519-8e4d-4c70-8947-1d7bf6366881",
+        "status": "Running",
+        "startTime": "2023-03-01T03:12:37.0844276Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DigitalTwins/locations/eastus/operationsStatuses/ab8cd519-8e4d-4c70-8947-1d7bf6366881?api-version=2023-01-31",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-digitaltwins/3.3.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "9472a7f5-9399-450b-92ca-e4658a91da14"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 01 Mar 2023 03:12:45 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "traceresponse": "00-a184b41b0ad5eab518c42ec145039f6a-197978ff3fc022fd-01",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "c9de8223-a8ad-4e5d-9cef-6914a24f5508",
+        "x-ms-ratelimit-remaining-subscription-reads": "11995",
+        "x-ms-request-id": "c9de8223-a8ad-4e5d-9cef-6914a24f5508",
+        "x-ms-routing-request-id": "JAPANEAST:20230301T031245Z:c9de8223-a8ad-4e5d-9cef-6914a24f5508"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/locations/eastus/operationsStatuses/ab8cd519-8e4d-4c70-8947-1d7bf6366881",
+        "name": "ab8cd519-8e4d-4c70-8947-1d7bf6366881",
+        "status": "Running",
+        "startTime": "2023-03-01T03:12:37.0844276Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DigitalTwins/locations/eastus/operationsStatuses/ab8cd519-8e4d-4c70-8947-1d7bf6366881?api-version=2023-01-31",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-digitaltwins/3.3.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "7317a425-b3c0-4d32-a013-3c8edfa91fec"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 01 Mar 2023 03:12:47 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "traceresponse": "00-989b2d99f5876ae2b00208fe9d8b7340-83c18adaded01417-01",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "577e81a1-cff0-4ae2-a5a2-8ea7318145c8",
+        "x-ms-ratelimit-remaining-subscription-reads": "11994",
+        "x-ms-request-id": "577e81a1-cff0-4ae2-a5a2-8ea7318145c8",
+        "x-ms-routing-request-id": "JAPANEAST:20230301T031247Z:577e81a1-cff0-4ae2-a5a2-8ea7318145c8"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/locations/eastus/operationsStatuses/ab8cd519-8e4d-4c70-8947-1d7bf6366881",
+        "name": "ab8cd519-8e4d-4c70-8947-1d7bf6366881",
+        "status": "Running",
+        "startTime": "2023-03-01T03:12:37.0844276Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DigitalTwins/locations/eastus/operationsStatuses/ab8cd519-8e4d-4c70-8947-1d7bf6366881?api-version=2023-01-31",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-digitaltwins/3.3.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "b4f033ba-bf0a-4d59-83e0-e5c1e3ae1861"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 01 Mar 2023 03:12:49 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "traceresponse": "00-d2c92399ab06a803764f401b5ebd06de-e3e7c926b9fcaeda-01",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "33f7f176-638d-4497-af43-417437c8d3f9",
+        "x-ms-ratelimit-remaining-subscription-reads": "11993",
+        "x-ms-request-id": "33f7f176-638d-4497-af43-417437c8d3f9",
+        "x-ms-routing-request-id": "JAPANEAST:20230301T031250Z:33f7f176-638d-4497-af43-417437c8d3f9"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/locations/eastus/operationsStatuses/ab8cd519-8e4d-4c70-8947-1d7bf6366881",
+        "name": "ab8cd519-8e4d-4c70-8947-1d7bf6366881",
+        "status": "Running",
+        "startTime": "2023-03-01T03:12:37.0844276Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DigitalTwins/locations/eastus/operationsStatuses/ab8cd519-8e4d-4c70-8947-1d7bf6366881?api-version=2023-01-31",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-digitaltwins/3.3.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "d32c076a-fd51-414f-b27d-f6c98a80cb0d"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 01 Mar 2023 03:12:51 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "traceresponse": "00-23d157ae13d16b1a4843db341aaee284-80fce8b6a0e77119-01",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "ac63548b-1ddb-4ff9-95a4-12f5d8ccecac",
+        "x-ms-ratelimit-remaining-subscription-reads": "11992",
+        "x-ms-request-id": "ac63548b-1ddb-4ff9-95a4-12f5d8ccecac",
+        "x-ms-routing-request-id": "JAPANEAST:20230301T031252Z:ac63548b-1ddb-4ff9-95a4-12f5d8ccecac"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/locations/eastus/operationsStatuses/ab8cd519-8e4d-4c70-8947-1d7bf6366881",
+        "name": "ab8cd519-8e4d-4c70-8947-1d7bf6366881",
+        "status": "Running",
+        "startTime": "2023-03-01T03:12:37.0844276Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DigitalTwins/locations/eastus/operationsStatuses/ab8cd519-8e4d-4c70-8947-1d7bf6366881?api-version=2023-01-31",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-digitaltwins/3.3.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "4a253159-0120-49d7-9421-7779dc08fa4d"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 01 Mar 2023 03:12:54 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "traceresponse": "00-b2b1ae2e553227a3de98284235733edf-2df990cb2f1f0681-01",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "4020e907-7d33-494e-8aed-fd275d60bc29",
+        "x-ms-ratelimit-remaining-subscription-reads": "11991",
+        "x-ms-request-id": "4020e907-7d33-494e-8aed-fd275d60bc29",
+        "x-ms-routing-request-id": "JAPANEAST:20230301T031254Z:4020e907-7d33-494e-8aed-fd275d60bc29"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/locations/eastus/operationsStatuses/ab8cd519-8e4d-4c70-8947-1d7bf6366881",
+        "name": "ab8cd519-8e4d-4c70-8947-1d7bf6366881",
+        "status": "Running",
+        "startTime": "2023-03-01T03:12:37.0844276Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DigitalTwins/locations/eastus/operationsStatuses/ab8cd519-8e4d-4c70-8947-1d7bf6366881?api-version=2023-01-31",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-digitaltwins/3.3.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "7bc60523-ecb7-4c85-85b3-b4b85636c6e0"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 01 Mar 2023 03:12:56 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "traceresponse": "00-142a0eb32ab95966e158f83dc483773f-8e70c3e1dc373734-01",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "50dc7e93-b5b0-4478-9081-2e6dc96e9dde",
+        "x-ms-ratelimit-remaining-subscription-reads": "11990",
+        "x-ms-request-id": "50dc7e93-b5b0-4478-9081-2e6dc96e9dde",
+        "x-ms-routing-request-id": "JAPANEAST:20230301T031257Z:50dc7e93-b5b0-4478-9081-2e6dc96e9dde"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/locations/eastus/operationsStatuses/ab8cd519-8e4d-4c70-8947-1d7bf6366881",
+        "name": "ab8cd519-8e4d-4c70-8947-1d7bf6366881",
+        "status": "Running",
+        "startTime": "2023-03-01T03:12:37.0844276Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DigitalTwins/locations/eastus/operationsStatuses/ab8cd519-8e4d-4c70-8947-1d7bf6366881?api-version=2023-01-31",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-digitaltwins/3.3.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "a085450f-d2e1-4263-8766-38035b99cdf2"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 01 Mar 2023 03:12:58 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "traceresponse": "00-bfe8ee40dee75670eda4b604a54c43ee-8288e013263fcd70-01",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "ee310d4b-ec09-4cbc-aad7-e2e3ae0655f8",
+        "x-ms-ratelimit-remaining-subscription-reads": "11989",
+        "x-ms-request-id": "ee310d4b-ec09-4cbc-aad7-e2e3ae0655f8",
+        "x-ms-routing-request-id": "JAPANEAST:20230301T031259Z:ee310d4b-ec09-4cbc-aad7-e2e3ae0655f8"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/locations/eastus/operationsStatuses/ab8cd519-8e4d-4c70-8947-1d7bf6366881",
+        "name": "ab8cd519-8e4d-4c70-8947-1d7bf6366881",
+        "status": "Running",
+        "startTime": "2023-03-01T03:12:37.0844276Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DigitalTwins/locations/eastus/operationsStatuses/ab8cd519-8e4d-4c70-8947-1d7bf6366881?api-version=2023-01-31",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-digitaltwins/3.3.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "d2020da1-e4c1-4df3-9d44-7f0873d6282e"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 01 Mar 2023 03:13:01 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "traceresponse": "00-1b03e8c0fdade2ac7e9c94d9420738fa-d7c5fff65b5c481f-01",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "296ccc12-d905-4dee-83b0-06dd4aa2ca2d",
+        "x-ms-ratelimit-remaining-subscription-reads": "11988",
+        "x-ms-request-id": "296ccc12-d905-4dee-83b0-06dd4aa2ca2d",
+        "x-ms-routing-request-id": "JAPANEAST:20230301T031301Z:296ccc12-d905-4dee-83b0-06dd4aa2ca2d"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/locations/eastus/operationsStatuses/ab8cd519-8e4d-4c70-8947-1d7bf6366881",
+        "name": "ab8cd519-8e4d-4c70-8947-1d7bf6366881",
+        "status": "Running",
+        "startTime": "2023-03-01T03:12:37.0844276Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DigitalTwins/locations/eastus/operationsStatuses/ab8cd519-8e4d-4c70-8947-1d7bf6366881?api-version=2023-01-31",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-digitaltwins/3.3.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "5d411e05-2ea5-45ce-bd63-e3d544ddd855"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 01 Mar 2023 03:13:03 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "traceresponse": "00-9a20e4bddde98c8aa584fcc01291eb52-235410a4389af86d-01",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "6b573cfa-46c1-4a14-aebf-759c30609115",
+        "x-ms-ratelimit-remaining-subscription-reads": "11987",
+        "x-ms-request-id": "6b573cfa-46c1-4a14-aebf-759c30609115",
+        "x-ms-routing-request-id": "JAPANEAST:20230301T031304Z:6b573cfa-46c1-4a14-aebf-759c30609115"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/locations/eastus/operationsStatuses/ab8cd519-8e4d-4c70-8947-1d7bf6366881",
+        "name": "ab8cd519-8e4d-4c70-8947-1d7bf6366881",
+        "status": "Running",
+        "startTime": "2023-03-01T03:12:37.0844276Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DigitalTwins/locations/eastus/operationsStatuses/ab8cd519-8e4d-4c70-8947-1d7bf6366881?api-version=2023-01-31",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-digitaltwins/3.3.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "b4713884-25f4-4b46-b626-280e1b8dcb17"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 01 Mar 2023 03:13:05 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "traceresponse": "00-90f8df3310af6878ebc29525cac17e40-b1a721abe10fbc52-01",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "ccc7b34d-0abd-40e2-acc1-7e8c407b9c35",
+        "x-ms-ratelimit-remaining-subscription-reads": "11986",
+        "x-ms-request-id": "ccc7b34d-0abd-40e2-acc1-7e8c407b9c35",
+        "x-ms-routing-request-id": "JAPANEAST:20230301T031306Z:ccc7b34d-0abd-40e2-acc1-7e8c407b9c35"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/locations/eastus/operationsStatuses/ab8cd519-8e4d-4c70-8947-1d7bf6366881",
+        "name": "ab8cd519-8e4d-4c70-8947-1d7bf6366881",
+        "status": "Succeeded",
+        "startTime": "2023-03-01T03:12:37.0844276Z",
+        "endTime": "2023-03-01T03:13:05.2419191Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DigitalTwins/digitalTwinsInstances/myDigitalTwinsService?api-version=2023-01-31",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-digitaltwins/3.3.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "6c004d66-a33b-4a61-b148-3f0c74c06a82"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 01 Mar 2023 03:13:06 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "traceresponse": "00-674a65ef5cf3c18c267ed459d8934e20-14163550d090c22c-01",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "1ef788fe-7f74-4db0-9645-77de036c70f7",
+        "x-ms-ratelimit-remaining-subscription-reads": "11985",
+        "x-ms-request-id": "1ef788fe-7f74-4db0-9645-77de036c70f7",
+        "x-ms-routing-request-id": "JAPANEAST:20230301T031306Z:1ef788fe-7f74-4db0-9645-77de036c70f7"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DigitalTwins/digitalTwinsInstances/myDigitalTwinsService",
+        "name": "myDigitalTwinsService",
+        "type": "Microsoft.DigitalTwins/digitalTwinsInstances",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "createdTime": "2023-03-01T03:12:37.07094Z",
+          "lastUpdatedTime": "2023-03-01T03:13:04.8338689Z",
+          "hostName": "myDigitalTwinsService.api.eus.digitaltwins.azure.net",
+          "privateEndpointConnections": [],
+          "publicNetworkAccess": "Enabled"
+        },
+        "location": "eastus",
+        "identity": null,
+        "tags": null,
+        "systemData": {
+          "createdBy": "azure_client_id",
+          "createdByType": "Application",
+          "createdAt": "2023-03-01T03:12:36.9600051Z",
+          "lastModifiedBy": "azure_client_id",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2023-03-01T03:12:36.9600051Z"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

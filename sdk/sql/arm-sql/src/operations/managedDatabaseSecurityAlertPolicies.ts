@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ManagedDatabaseSecurityAlertPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,12 +17,12 @@ import {
   ManagedDatabaseSecurityAlertPolicy,
   ManagedDatabaseSecurityAlertPoliciesListByDatabaseNextOptionalParams,
   ManagedDatabaseSecurityAlertPoliciesListByDatabaseOptionalParams,
+  ManagedDatabaseSecurityAlertPoliciesListByDatabaseResponse,
   SecurityAlertPolicyName,
   ManagedDatabaseSecurityAlertPoliciesGetOptionalParams,
   ManagedDatabaseSecurityAlertPoliciesGetResponse,
   ManagedDatabaseSecurityAlertPoliciesCreateOrUpdateOptionalParams,
   ManagedDatabaseSecurityAlertPoliciesCreateOrUpdateResponse,
-  ManagedDatabaseSecurityAlertPoliciesListByDatabaseResponse,
   ManagedDatabaseSecurityAlertPoliciesListByDatabaseNextResponse
 } from "../models";
 
@@ -67,12 +68,16 @@ export class ManagedDatabaseSecurityAlertPoliciesImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDatabasePagingPage(
           resourceGroupName,
           managedInstanceName,
           databaseName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -82,16 +87,23 @@ export class ManagedDatabaseSecurityAlertPoliciesImpl
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedDatabaseSecurityAlertPoliciesListByDatabaseOptionalParams
+    options?: ManagedDatabaseSecurityAlertPoliciesListByDatabaseOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ManagedDatabaseSecurityAlertPolicy[]> {
-    let result = await this._listByDatabase(
-      resourceGroupName,
-      managedInstanceName,
-      databaseName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ManagedDatabaseSecurityAlertPoliciesListByDatabaseResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByDatabase(
+        resourceGroupName,
+        managedInstanceName,
+        databaseName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByDatabaseNext(
         resourceGroupName,
@@ -101,7 +113,9 @@ export class ManagedDatabaseSecurityAlertPoliciesImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -243,7 +257,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -268,8 +282,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters42,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters33,
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -278,7 +292,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.securityAlertPolicyName,
     Parameters.managedInstanceName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -292,7 +306,7 @@ const listByDatabaseOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -312,7 +326,6 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

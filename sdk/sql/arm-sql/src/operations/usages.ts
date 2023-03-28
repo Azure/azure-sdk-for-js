@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Usages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -57,11 +58,15 @@ export class UsagesImpl implements Usages {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByInstancePoolPagingPage(
           resourceGroupName,
           instancePoolName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -70,15 +75,22 @@ export class UsagesImpl implements Usages {
   private async *listByInstancePoolPagingPage(
     resourceGroupName: string,
     instancePoolName: string,
-    options?: UsagesListByInstancePoolOptionalParams
+    options?: UsagesListByInstancePoolOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Usage[]> {
-    let result = await this._listByInstancePool(
-      resourceGroupName,
-      instancePoolName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: UsagesListByInstancePoolResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByInstancePool(
+        resourceGroupName,
+        instancePoolName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByInstancePoolNext(
         resourceGroupName,
@@ -87,7 +99,9 @@ export class UsagesImpl implements Usages {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -156,7 +170,7 @@ const listByInstancePoolOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3, Parameters.expandChildren],
+  queryParameters: [Parameters.apiVersion5, Parameters.expandChildren],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -175,7 +189,6 @@ const listByInstancePoolNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3, Parameters.expandChildren],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

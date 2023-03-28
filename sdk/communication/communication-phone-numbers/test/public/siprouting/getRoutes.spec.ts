@@ -7,13 +7,24 @@ import { Context } from "mocha";
 import { SipRoutingClient } from "../../../src";
 
 import { matrix } from "@azure/test-utils";
-import { Recorder } from "@azure-tools/test-recorder";
-import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import {
+  clearSipConfiguration,
+  createRecordedClient,
+  createRecordedClientWithToken,
+  listAllRoutes,
+} from "./utils/recordedClient";
 
 matrix([[true, false]], async function (useAad) {
   describe(`SipRoutingClient - get routes${useAad ? " [AAD]" : ""}`, function () {
     let client: SipRoutingClient;
     let recorder: Recorder;
+
+    before(async function (this: Context) {
+      if (!isPlaybackMode()) {
+        await clearSipConfiguration();
+      }
+    });
 
     beforeEach(async function (this: Context) {
       ({ client, recorder } = useAad
@@ -28,13 +39,13 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("can retrieve routes", async () => {
-      assert.isArray(await client.getRoutes());
+      assert.isArray(await listAllRoutes(client));
     });
 
     it("can retrieve empty routes", async () => {
       await client.setRoutes([]);
 
-      const routes = await client.getRoutes();
+      const routes = await listAllRoutes(client);
 
       assert.isNotNull(routes);
       assert.isArray(routes);
@@ -58,7 +69,7 @@ matrix([[true, false]], async function (useAad) {
       ];
       await client.setRoutes(expectedRoutes);
 
-      const routes = await client.getRoutes();
+      const routes = await listAllRoutes(client);
 
       assert.isNotNull(routes);
       assert.isArray(routes);

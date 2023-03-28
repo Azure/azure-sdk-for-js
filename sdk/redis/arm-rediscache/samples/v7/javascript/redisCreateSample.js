@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { RedisManagementClient } = require("@azure/arm-rediscache");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCacheCreate.json
  */
 async function redisCacheCreate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";
   const name = "cache1";
   const parameters = {
     enableNonSslPort: true,
@@ -41,8 +42,6 @@ async function redisCacheCreate() {
   console.log(result);
 }
 
-redisCacheCreate().catch(console.error);
-
 /**
  * This sample demonstrates how to Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
  *
@@ -50,8 +49,8 @@ redisCacheCreate().catch(console.error);
  * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCacheCreateDefaultVersion.json
  */
 async function redisCacheCreateDefaultVersion() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";
   const name = "cache1";
   const parameters = {
     enableNonSslPort: true,
@@ -72,8 +71,6 @@ async function redisCacheCreateDefaultVersion() {
   console.log(result);
 }
 
-redisCacheCreateDefaultVersion().catch(console.error);
-
 /**
  * This sample demonstrates how to Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
  *
@@ -81,8 +78,8 @@ redisCacheCreateDefaultVersion().catch(console.error);
  * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCacheCreateLatestVersion.json
  */
 async function redisCacheCreateLatestVersion() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";
   const name = "cache1";
   const parameters = {
     enableNonSslPort: true,
@@ -104,4 +101,10 @@ async function redisCacheCreateLatestVersion() {
   console.log(result);
 }
 
-redisCacheCreateLatestVersion().catch(console.error);
+async function main() {
+  redisCacheCreate();
+  redisCacheCreateDefaultVersion();
+  redisCacheCreateLatestVersion();
+}
+
+main().catch(console.error);

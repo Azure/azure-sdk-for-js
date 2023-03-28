@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deletes a network manager connectivity configuration, specified by the resource group, network manager name, and connectivity configuration name
  *
  * @summary Deletes a network manager connectivity configuration, specified by the resource group, network manager name, and connectivity configuration name
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerConnectivityConfigurationDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkManagerConnectivityConfigurationDelete.json
  */
 async function connectivityConfigurationsDelete() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["NETWORK_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "myResourceGroup";
   const networkManagerName = "testNetworkManager";
   const configurationName = "myTestConnectivityConfig";
   const force = false;
@@ -35,4 +37,8 @@ async function connectivityConfigurationsDelete() {
   console.log(result);
 }
 
-connectivityConfigurationsDelete().catch(console.error);
+async function main() {
+  connectivityConfigurationsDelete();
+}
+
+main().catch(console.error);

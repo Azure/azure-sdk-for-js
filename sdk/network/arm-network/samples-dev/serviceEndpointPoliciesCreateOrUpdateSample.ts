@@ -13,16 +13,19 @@ import {
   NetworkManagementClient
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates a service Endpoint Policies.
  *
  * @summary Creates or updates a service Endpoint Policies.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ServiceEndpointPolicyCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/ServiceEndpointPolicyCreate.json
  */
 async function createServiceEndpointPolicy() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const serviceEndpointPolicyName = "testPolicy";
   const parameters: ServiceEndpointPolicy = { location: "westus" };
   const credential = new DefaultAzureCredential();
@@ -35,17 +38,15 @@ async function createServiceEndpointPolicy() {
   console.log(result);
 }
 
-createServiceEndpointPolicy().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates a service Endpoint Policies.
  *
  * @summary Creates or updates a service Endpoint Policies.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ServiceEndpointPolicyCreateWithDefinition.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/ServiceEndpointPolicyCreateWithDefinition.json
  */
 async function createServiceEndpointPolicyWithDefinition() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const serviceEndpointPolicyName = "testPolicy";
   const parameters: ServiceEndpointPolicy = {
     location: "westus",
@@ -72,4 +73,9 @@ async function createServiceEndpointPolicyWithDefinition() {
   console.log(result);
 }
 
-createServiceEndpointPolicyWithDefinition().catch(console.error);
+async function main() {
+  createServiceEndpointPolicy();
+  createServiceEndpointPolicyWithDefinition();
+}
+
+main().catch(console.error);

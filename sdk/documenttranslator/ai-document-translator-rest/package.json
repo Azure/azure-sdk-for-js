@@ -89,7 +89,7 @@
     "@azure/core-rest-pipeline": "^1.1.0",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0",
-    "@azure-tools/test-recorder": "^2.0.0"
+    "@azure-tools/test-recorder": "^3.0.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
@@ -102,14 +102,12 @@
     "@types/node": "^14.0.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
-    "dotenv": "^8.2.0",
+    "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
-    "karma-edge-launcher": "^0.4.2",
     "karma-env-preprocessor": "^0.1.1",
     "karma-firefox-launcher": "^1.1.0",
-    "karma-ie-launcher": "^1.0.0",
     "karma-json-preprocessor": "^0.3.3",
     "karma-json-to-file-reporter": "^1.0.1",
     "karma-junit-reporter": "^2.0.1",
@@ -121,7 +119,7 @@
     "mocha-junit-reporter": "^2.0.0",
     "mocha": "^7.1.1",
     "nyc": "^15.0.0",
-    "prettier": "2.2.1",
+    "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.9",
     "typescript": "~4.8.0"

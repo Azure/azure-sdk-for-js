@@ -13,16 +13,19 @@ import {
   NetworkManagementClient
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes the Bastion Shareable Links for all the VMs specified in the request.
  *
  * @summary Deletes the Bastion Shareable Links for all the VMs specified in the request.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/BastionShareableLinkDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/BastionShareableLinkDelete.json
  */
 async function deleteBastionShareableLinksForTheRequestVMS() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const bastionHostName = "bastionhosttenant";
   const bslRequest: BastionShareableLinkListRequest = {
     vms: [
@@ -50,4 +53,8 @@ async function deleteBastionShareableLinksForTheRequestVMS() {
   console.log(result);
 }
 
-deleteBastionShareableLinksForTheRequestVMS().catch(console.error);
+async function main() {
+  deleteBastionShareableLinksForTheRequestVMS();
+}
+
+main().catch(console.error);

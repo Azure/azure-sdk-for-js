@@ -83,9 +83,9 @@ const myComponent = {
     {
       "@type": "Property",
       name: "ComponentProp1",
-      schema: "string"
-    }
-  ]
+      schema: "string",
+    },
+  ],
 };
 
 const models = await serviceClient.createModels([myComponent]);
@@ -145,8 +145,8 @@ We can get a digital twin using `getDigitalTwin` with the digital twin ID.
 ```javascript
 const digitalTwinId = "myTwin";
 const twin = await serviceClient.getDigitalTwin(digitalTwinId);
-console.log(`DigitalTwin's etag: ${twin.eTag}`);
-console.log(`DigitalTwin: ${twin.body}`);
+console.log(`DigitalTwin's etag: ${twin.etag}`);
+console.log(`DigitalTwin: ${twin}`);
 ```
 
 #### Query digital twins
@@ -196,10 +196,10 @@ const componentPath = "Component1";
 const patch = {
   op: "replace",
   path: "/ComponentProp1",
-  value: "value2"
+  value: "value2",
 };
 const updateComponentResponse = await serviceClient.updateComponent(digitalTwinId, componentPath, [
-  patch
+  patch,
 ]);
 ```
 
@@ -216,7 +216,7 @@ const relationship = {
   $sourceId: "BuildingTwin",
   $relationshipName: "has",
   $targetId: "FloorTwin",
-  isAccessRestricted: false
+  isAccessRestricted: false,
 };
 
 await serviceClient.upsertRelationship(

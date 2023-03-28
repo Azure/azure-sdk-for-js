@@ -10,15 +10,16 @@
 // Licensed under the MIT License.
 const { NetworkManagementClient } = require("@azure/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Retrieves a single available sku for network virtual appliance.
  *
  * @summary Retrieves a single available sku for network virtual appliance.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkVirtualApplianceSkuGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkVirtualApplianceSkuGet.json
  */
 async function networkVirtualApplianceSkuGet() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const skuName = "ciscoSdwan";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -26,4 +27,8 @@ async function networkVirtualApplianceSkuGet() {
   console.log(result);
 }
 
-networkVirtualApplianceSkuGet().catch(console.error);
+async function main() {
+  networkVirtualApplianceSkuGet();
+}
+
+main().catch(console.error);

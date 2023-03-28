@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes the specified site from a Virtual Appliance.
  *
  * @summary Deletes the specified site from a Virtual Appliance.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkVirtualApplianceSiteDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkVirtualApplianceSiteDelete.json
  */
 async function deleteNetworkVirtualApplianceSite() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkVirtualApplianceName = "nva";
   const siteName = "site1";
   const credential = new DefaultAzureCredential();
@@ -32,4 +35,8 @@ async function deleteNetworkVirtualApplianceSite() {
   console.log(result);
 }
 
-deleteNetworkVirtualApplianceSite().catch(console.error);
+async function main() {
+  deleteNetworkVirtualApplianceSite();
+}
+
+main().catch(console.error);

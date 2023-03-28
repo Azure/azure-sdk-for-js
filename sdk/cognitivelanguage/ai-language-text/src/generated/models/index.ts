@@ -15,8 +15,7 @@ export type AnalyzeActionUnion =
   | AnalyzeTextKeyPhraseExtractionInput
   | AnalyzeTextPiiEntitiesRecognitionInput
   | AnalyzeTextLanguageDetectionInput
-  | AnalyzeTextSentimentAnalysisInput
-  | AnalyzeTextDynamicClassificationInput;
+  | AnalyzeTextSentimentAnalysisInput;
 export type AnalyzeTextTaskResultUnion =
   | AnalyzeTextTaskResult
   | SentimentTaskResult
@@ -24,8 +23,7 @@ export type AnalyzeTextTaskResultUnion =
   | EntityLinkingTaskResult
   | PiiTaskResult
   | KeyPhraseTaskResult
-  | LanguageDetectionTaskResult
-  | DynamicClassificationTaskResult;
+  | LanguageDetectionTaskResult;
 export type BaseResolutionUnion =
   | BaseResolution
   | AgeResolution
@@ -78,8 +76,7 @@ export interface AnalyzeAction {
     | "KeyPhraseExtraction"
     | "PiiEntityRecognition"
     | "LanguageDetection"
-    | "SentimentAnalysis"
-    | "DynamicClassification";
+    | "SentimentAnalysis";
 }
 
 export interface AnalyzeTextTaskResult {
@@ -90,8 +87,7 @@ export interface AnalyzeTextTaskResult {
     | "EntityLinkingResults"
     | "PiiEntityRecognitionResults"
     | "KeyPhraseExtractionResults"
-    | "LanguageDetectionResults"
-    | "DynamicClassificationResults";
+    | "LanguageDetectionResults";
 }
 
 /** Error response. */
@@ -133,8 +129,6 @@ export interface InnerErrorModel {
 export interface AnalyzeTextJobsInput {
   /** Optional display name for the analysis job. */
   displayName?: string;
-  /** Default language to use for records requesting automatic language detection. */
-  defaultLanguage?: string;
   analysisInput: MultiLanguageAnalysisInput;
   /** The set of tasks to execute on the input documents. */
   tasks: AnalyzeBatchActionUnion[];
@@ -397,7 +391,8 @@ export interface HealthcareRelationEntity {
   role: string;
 }
 
-export interface DocumentDetectedLanguageForHealthcare {
+export interface DocumentDetectedLanguageString {
+  /** If 'language' is set to 'auto' for the document in the request this field will contain a 2 letter ISO 639-1 representation of the language detected for this document. */
   detectedLanguage?: string;
 }
 
@@ -522,6 +517,12 @@ export interface Match {
   length: number;
 }
 
+/** Represents resolutions for quantities. */
+export interface QuantityResolution {
+  /** The numeric value that the extracted text denotes. */
+  value: number;
+}
+
 /** A sentence that is part of the extracted summary. */
 export interface SummarySentence {
   /** The extracted sentence text. */
@@ -540,8 +541,8 @@ export interface Pagination {
 
 /** Supported parameters for an Abstractive Summarization task. */
 export interface AbstractiveSummarizationTaskParametersBase {
-  /** The max number of sentences to be part of the summary. */
-  maxSentenceCount?: number;
+  /** It controls the approximate number of sentences in the output summaries. */
+  sentenceCount?: number;
   /**
    * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
    *
@@ -561,7 +562,7 @@ export interface AbstractiveSummary {
   /** The text of the summary. */
   text: string;
   /** The context list of the summary. */
-  contexts?: SummaryContext[];
+  contexts: SummaryContext[];
 }
 
 /** The context of the summary. */
@@ -570,12 +571,6 @@ export interface SummaryContext {
   offset: number;
   /** The length of the context. Use of different 'stringIndexType' values can affect the length returned. */
   length: number;
-}
-
-/** Represents resolutions for quantities. */
-export interface QuantityResolution {
-  /** The numeric value that the extracted text denotes. */
-  value: number;
 }
 
 export interface AnalyzeTextEntityLinkingInput extends AnalyzeAction {
@@ -626,14 +621,6 @@ export interface AnalyzeTextSentimentAnalysisInput extends AnalyzeAction {
   parameters?: SentimentAnalysisAction;
 }
 
-export interface AnalyzeTextDynamicClassificationInput extends AnalyzeAction {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "DynamicClassification";
-  analysisInput?: MultiLanguageAnalysisInput;
-  /** Options for a dynamic classification action. */
-  parameters?: DynamicClassificationAction;
-}
-
 export interface SentimentTaskResult extends AnalyzeTextTaskResult {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "SentimentAnalysisResults";
@@ -668,12 +655,6 @@ export interface LanguageDetectionTaskResult extends AnalyzeTextTaskResult {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "LanguageDetectionResults";
   results: LanguageDetectionResult;
-}
-
-export interface DynamicClassificationTaskResult extends AnalyzeTextTaskResult {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "DynamicClassificationResults";
-  results: DynamicClassificationResult;
 }
 
 export interface AnalyzeBatchAction extends BatchActionState {
@@ -831,7 +812,7 @@ export interface NumberResolution extends BaseResolution {
   /** The type of the extracted number entity. */
   numberKind: NumberKind;
   /** A numeric representation of what the extracted text denotes. */
-  value: string;
+  value: number;
 }
 
 /** A resolution for ordinal numbers entity instances. */
@@ -886,7 +867,7 @@ export interface EntitiesDocumentResult extends DocumentResult {
 }
 
 export interface ClassificationDocumentResult extends DocumentResult {
-  class: ClassificationCategory[];
+  classifications: ClassificationCategory[];
 }
 
 export interface HealthcareEntitiesDocumentResult extends DocumentResult {
@@ -952,15 +933,15 @@ export interface SentimentResponseDocumentsItem
   extends SentimentDocumentResult,
     DocumentDetectedLanguage {}
 
-export interface EntitiesResultDocumentsItem
+export interface EntitiesResultWithDetectedLanguage
   extends EntitiesDocumentResult,
     DocumentDetectedLanguage {}
 
-export interface EntityLinkingResultDocumentsItem
+export interface EntityLinkingResultWithDetectedLanguage
   extends LinkedEntitiesDocumentResult,
     DocumentDetectedLanguage {}
 
-export interface PiiResultDocumentsItem
+export interface PIIResultWithDetectedLanguage
   extends PiiEntitiesDocumentResult,
     DocumentDetectedLanguage {}
 
@@ -977,12 +958,12 @@ export interface AbstractiveSummaryDocumentResultWithDetectedLanguage
   extends AbstractiveSummaryDocumentResult,
     DocumentDetectedLanguage {}
 
-export interface HealthcareResultDocumentsItem
+export interface HealthcareEntitiesDocumentResultWithDocumentDetectedLanguage
   extends HealthcareEntitiesDocumentResult,
-    DocumentDetectedLanguageForHealthcare {}
+    DocumentDetectedLanguageString {}
 
 export interface HealthcareResult extends PreBuiltResult {
-  documents: HealthcareResultDocumentsItem[];
+  documents: HealthcareEntitiesDocumentResultWithDocumentDetectedLanguage[];
 }
 
 export interface SentimentResponse extends PreBuiltResult {
@@ -992,17 +973,17 @@ export interface SentimentResponse extends PreBuiltResult {
 
 export interface EntitiesResult extends PreBuiltResult {
   /** Response by document */
-  documents: EntitiesResultDocumentsItem[];
+  documents: EntitiesResultWithDetectedLanguage[];
 }
 
 export interface EntityLinkingResult extends PreBuiltResult {
   /** Response by document */
-  documents: EntityLinkingResultDocumentsItem[];
+  documents: EntityLinkingResultWithDetectedLanguage[];
 }
 
 export interface PiiResult extends PreBuiltResult {
   /** Response by document */
-  documents: PiiResultDocumentsItem[];
+  documents: PIIResultWithDetectedLanguage[];
 }
 
 export interface ExtractiveSummarizationResult extends PreBuiltResult {
@@ -1018,11 +999,6 @@ export interface KeyPhraseResult extends PreBuiltResult {
 export interface LanguageDetectionResult extends PreBuiltResult {
   /** Response by document */
   documents: LanguageDetectionDocumentResult[];
-}
-
-export interface DynamicClassificationResult extends PreBuiltResult {
-  /** Response by document */
-  documents: DynamicClassificationResultDocumentsItem[];
 }
 
 /** An object representing the pre-build summarization results of each document. */
@@ -1251,14 +1227,6 @@ export interface SentimentAnalysisAction extends ActionPrebuilt {
   stringIndexType?: StringIndexType;
 }
 
-/** Options for a dynamic classification action. */
-export interface DynamicClassificationAction extends ActionPrebuilt {
-  /** Specifies either one or multiple categories per document. Defaults to multi classification which may return more than one class for each document. */
-  classificationType?: ClassificationType;
-  /** a list of categories to which input is classified to. */
-  categories: string[];
-}
-
 /** Supported parameters for a Healthcare task. */
 export interface HealthcareAction extends ActionPrebuilt {
   /** The FHIR Spec version that the result will use to format the fhirBundle. For additional information see https://www.hl7.org/fhir/overview.html. */
@@ -1303,9 +1271,6 @@ export interface CustomSingleLabelClassificationAction extends ActionCustom {}
 /** Options for a multi-label classification custom action */
 export interface CustomMultiLabelClassificationAction extends ActionCustom {}
 
-export interface DynamicClassificationResultDocumentsItem
-  extends ClassificationDocumentResult {}
-
 /** Defines headers for GeneratedClient_analyzeBatch operation. */
 export interface GeneratedClientAnalyzeBatchHeaders {
   operationLocation?: string;
@@ -1329,9 +1294,7 @@ export enum KnownAnalyzeTextTaskKind {
   /** LanguageDetection */
   LanguageDetection = "LanguageDetection",
   /** EntityLinking */
-  EntityLinking = "EntityLinking",
-  /** DynamicClassification */
-  DynamicClassification = "DynamicClassification"
+  EntityLinking = "EntityLinking"
 }
 
 /**
@@ -1344,8 +1307,7 @@ export enum KnownAnalyzeTextTaskKind {
  * **PiiEntityRecognition** \
  * **KeyPhraseExtraction** \
  * **LanguageDetection** \
- * **EntityLinking** \
- * **DynamicClassification**
+ * **EntityLinking**
  */
 export type AnalyzeTextTaskKind = string;
 
@@ -1362,9 +1324,7 @@ export enum KnownAnalyzeTextTaskResultsKind {
   /** LanguageDetectionResults */
   LanguageDetectionResults = "LanguageDetectionResults",
   /** EntityLinkingResults */
-  EntityLinkingResults = "EntityLinkingResults",
-  /** DynamicClassificationResults */
-  DynamicClassificationResults = "DynamicClassificationResults"
+  EntityLinkingResults = "EntityLinkingResults"
 }
 
 /**
@@ -1377,8 +1337,7 @@ export enum KnownAnalyzeTextTaskResultsKind {
  * **PiiEntityRecognitionResults** \
  * **KeyPhraseExtractionResults** \
  * **LanguageDetectionResults** \
- * **EntityLinkingResults** \
- * **DynamicClassificationResults**
+ * **EntityLinkingResults**
  */
 export type AnalyzeTextTaskResultsKind = string;
 
@@ -2225,24 +2184,6 @@ export enum KnownPiiEntityCategory {
  */
 export type PiiEntityCategory = string;
 
-/** Known values of {@link ClassificationType} that the service accepts. */
-export enum KnownClassificationType {
-  /** Single */
-  Single = "Single",
-  /** Multi */
-  Multi = "Multi"
-}
-
-/**
- * Defines values for ClassificationType. \
- * {@link KnownClassificationType} can be used interchangeably with ClassificationType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Single** \
- * **Multi**
- */
-export type ClassificationType = string;
-
 /** Known values of {@link ResolutionKind} that the service accepts. */
 export enum KnownResolutionKind {
   /** BooleanResolution */
@@ -2552,24 +2493,6 @@ export enum KnownRelationType {
  */
 export type RelationType = string;
 
-/** Known values of {@link ExtractiveSummarizationOrderingCriteria} that the service accepts. */
-export enum KnownExtractiveSummarizationOrderingCriteria {
-  /** Indicates that results should be sorted in order of appearance in the text. */
-  Offset = "Offset",
-  /** Indicates that results should be sorted in order of importance (i.e. rank score) according to the model. */
-  Rank = "Rank"
-}
-
-/**
- * Defines values for ExtractiveSummarizationOrderingCriteria. \
- * {@link KnownExtractiveSummarizationOrderingCriteria} can be used interchangeably with ExtractiveSummarizationOrderingCriteria,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Offset**: Indicates that results should be sorted in order of appearance in the text. \
- * **Rank**: Indicates that results should be sorted in order of importance (i.e. rank score) according to the model.
- */
-export type ExtractiveSummarizationOrderingCriteria = string;
-
 /** Known values of {@link AgeUnit} that the service accepts. */
 export enum KnownAgeUnit {
   /** Unspecified */
@@ -2697,32 +2620,32 @@ export type VolumeUnit = string;
 export enum KnownSpeedUnit {
   /** Unspecified */
   Unspecified = "Unspecified",
-  /** MetersPerSecond */
-  MetersPerSecond = "MetersPerSecond",
-  /** KilometersPerHour */
-  KilometersPerHour = "KilometersPerHour",
-  /** KilometersPerMinute */
-  KilometersPerMinute = "KilometersPerMinute",
-  /** KilometersPerSecond */
-  KilometersPerSecond = "KilometersPerSecond",
-  /** MilesPerHour */
-  MilesPerHour = "MilesPerHour",
+  /** MeterPerSecond */
+  MeterPerSecond = "MeterPerSecond",
+  /** KilometerPerHour */
+  KilometerPerHour = "KilometerPerHour",
+  /** KilometerPerMinute */
+  KilometerPerMinute = "KilometerPerMinute",
+  /** KilometerPerSecond */
+  KilometerPerSecond = "KilometerPerSecond",
+  /** MilePerHour */
+  MilePerHour = "MilePerHour",
   /** Knot */
   Knot = "Knot",
   /** FootPerSecond */
   FootPerSecond = "FootPerSecond",
   /** FootPerMinute */
   FootPerMinute = "FootPerMinute",
-  /** YardsPerMinute */
-  YardsPerMinute = "YardsPerMinute",
-  /** YardsPerSecond */
-  YardsPerSecond = "YardsPerSecond",
-  /** MetersPerMillisecond */
-  MetersPerMillisecond = "MetersPerMillisecond",
-  /** CentimetersPerMillisecond */
-  CentimetersPerMillisecond = "CentimetersPerMillisecond",
-  /** KilometersPerMillisecond */
-  KilometersPerMillisecond = "KilometersPerMillisecond"
+  /** YardPerMinute */
+  YardPerMinute = "YardPerMinute",
+  /** YardPerSecond */
+  YardPerSecond = "YardPerSecond",
+  /** MeterPerMillisecond */
+  MeterPerMillisecond = "MeterPerMillisecond",
+  /** CentimeterPerMillisecond */
+  CentimeterPerMillisecond = "CentimeterPerMillisecond",
+  /** KilometerPerMillisecond */
+  KilometerPerMillisecond = "KilometerPerMillisecond"
 }
 
 /**
@@ -2731,19 +2654,19 @@ export enum KnownSpeedUnit {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Unspecified** \
- * **MetersPerSecond** \
- * **KilometersPerHour** \
- * **KilometersPerMinute** \
- * **KilometersPerSecond** \
- * **MilesPerHour** \
+ * **MeterPerSecond** \
+ * **KilometerPerHour** \
+ * **KilometerPerMinute** \
+ * **KilometerPerSecond** \
+ * **MilePerHour** \
  * **Knot** \
  * **FootPerSecond** \
  * **FootPerMinute** \
- * **YardsPerMinute** \
- * **YardsPerSecond** \
- * **MetersPerMillisecond** \
- * **CentimetersPerMillisecond** \
- * **KilometersPerMillisecond**
+ * **YardPerMinute** \
+ * **YardPerSecond** \
+ * **MeterPerMillisecond** \
+ * **CentimeterPerMillisecond** \
+ * **KilometerPerMillisecond**
  */
 export type SpeedUnit = string;
 
@@ -3184,6 +3107,24 @@ export enum KnownRangeKind {
  * **Currency**
  */
 export type RangeKind = string;
+
+/** Known values of {@link ExtractiveSummarizationOrderingCriteria} that the service accepts. */
+export enum KnownExtractiveSummarizationOrderingCriteria {
+  /** Indicates that results should be sorted in order of appearance in the text. */
+  Offset = "Offset",
+  /** Indicates that results should be sorted in order of importance (i.e. rank score) according to the model. */
+  Rank = "Rank"
+}
+
+/**
+ * Defines values for ExtractiveSummarizationOrderingCriteria. \
+ * {@link KnownExtractiveSummarizationOrderingCriteria} can be used interchangeably with ExtractiveSummarizationOrderingCriteria,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Offset**: Indicates that results should be sorted in order of appearance in the text. \
+ * **Rank**: Indicates that results should be sorted in order of importance (i.e. rank score) according to the model.
+ */
+export type ExtractiveSummarizationOrderingCriteria = string;
 /** Defines values for EntityConditionality. */
 export type EntityConditionality = "hypothetical" | "conditional";
 /** Defines values for EntityCertainty. */

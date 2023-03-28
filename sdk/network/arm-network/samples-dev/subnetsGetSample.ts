@@ -10,16 +10,20 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the specified subnet by virtual network and resource group.
  *
  * @summary Gets the specified subnet by virtual network and resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/SubnetGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/SubnetGet.json
  */
 async function getSubnet() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "subnet-test";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["NETWORK_RESOURCE_GROUP"] || "subnet-test";
   const virtualNetworkName = "vnetname";
   const subnetName = "subnet1";
   const credential = new DefaultAzureCredential();
@@ -31,18 +35,17 @@ async function getSubnet() {
   );
   console.log(result);
 }
-
-getSubnet().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets the specified subnet by virtual network and resource group.
  *
  * @summary Gets the specified subnet by virtual network and resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/SubnetGetWithDelegation.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/SubnetGetWithDelegation.json
  */
 async function getSubnetWithADelegation() {
-  const subscriptionId = "subId";
-  const resourceGroupName = "subnet-test";
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
+  const resourceGroupName =
+    process.env["NETWORK_RESOURCE_GROUP"] || "subnet-test";
   const virtualNetworkName = "vnetname";
   const subnetName = "subnet1";
   const credential = new DefaultAzureCredential();
@@ -55,4 +58,9 @@ async function getSubnetWithADelegation() {
   console.log(result);
 }
 
-getSubnetWithADelegation().catch(console.error);
+async function main() {
+  getSubnet();
+  getSubnetWithADelegation();
+}
+
+main().catch(console.error);

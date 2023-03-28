@@ -10,16 +10,21 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists all the rule collections in a security admin configuration, in a paginated format.
  *
  * @summary Lists all the rule collections in a security admin configuration, in a paginated format.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerAdminRuleCollectionList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkManagerAdminRuleCollectionList.json
  */
 async function listSecurityAdminRuleCollections() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "rg1";
+  const subscriptionId =
+    process.env["NETWORK_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkManagerName = "testNetworkManager";
   const configurationName = "myTestSecurityConfig";
   const credential = new DefaultAzureCredential();
@@ -35,4 +40,8 @@ async function listSecurityAdminRuleCollections() {
   console.log(resArray);
 }
 
-listSecurityAdminRuleCollections().catch(console.error);
+async function main() {
+  listSecurityAdminRuleCollections();
+}
+
+main().catch(console.error);

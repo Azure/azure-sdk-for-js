@@ -16,7 +16,6 @@ import { parseXML } from "@azure/core-xml";
 export async function parseNotificationDetails(bodyText: string): Promise<NotificationDetails> {
   const xml = await parseXML(bodyText, {
     includeRoot: true,
-    stopNodes: ["NotificationDetails.NotificationBody"],
   });
   const notificationDetails = xml["NotificationDetails"];
 
@@ -40,6 +39,11 @@ export async function parseNotificationDetails(bodyText: string): Promise<Notifi
     fcmOutcomeCounts = parseOutcomeCounts(notificationDetails["GcmOutcomeCounts"]["Outcome"]);
   }
 
+  let xiaomiOutcomeCounts: NotificationOutcome[] | undefined;
+  if (isDefined(notificationDetails["XiaomiOutcomeCounts"])) {
+    xiaomiOutcomeCounts = parseOutcomeCounts(notificationDetails["XiaomiOutcomeCounts"]["Outcome"]);
+  }
+
   let wnsOutcomeCounts: NotificationOutcome[] | undefined;
   if (isDefined(notificationDetails["WnsOutcomeCounts"])) {
     wnsOutcomeCounts = parseOutcomeCounts(notificationDetails["WnsOutcomeCounts"]["Outcome"]);
@@ -54,10 +58,12 @@ export async function parseNotificationDetails(bodyText: string): Promise<Notifi
     endTime: getDateOrUndefined(notificationDetails["EndTime"]),
     pnsErrorDetailsUrl: getStringOrUndefined(notificationDetails["PnsErrorDetailsUri"]),
     targetPlatforms: getStringOrUndefined(notificationDetails["TargetPlatforms"]),
+    notificationBody: getStringOrUndefined(notificationDetails["NotificationBody"]),
     apnsOutcomeCounts,
     admOutcomeCounts,
     baiduOutcomeCounts,
     fcmOutcomeCounts,
+    xiaomiOutcomeCounts,
     wnsOutcomeCounts,
   };
 }

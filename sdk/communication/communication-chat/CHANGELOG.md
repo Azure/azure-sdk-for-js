@@ -1,5 +1,22 @@
 # Release History
 
+## 1.3.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.3.1 (2023-02-28)
+
+### Features Added
+
+- Updated to `@azure/communication-common` 2.2.0.
+- Updated to @azure/communication-signaling@1.0.0-beta.16. Added GCCM real-time notification support.
+
 ## 1.3.0 (2022-10-13)
 
 ### Features Added

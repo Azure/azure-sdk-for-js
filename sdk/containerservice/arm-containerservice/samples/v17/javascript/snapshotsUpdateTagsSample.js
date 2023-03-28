@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { ContainerServiceClient } = require("@azure/arm-containerservice");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates tags on a snapshot.
  *
  * @summary Updates tags on a snapshot.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-09-01/examples/SnapshotsUpdateTags.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-01-01/examples/SnapshotsUpdateTags.json
  */
 async function updateSnapshotTags() {
-  const subscriptionId = "subid1";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "snapshot1";
   const parameters = { tags: { key2: "new-val2", key3: "val3" } };
   const credential = new DefaultAzureCredential();
@@ -28,4 +29,8 @@ async function updateSnapshotTags() {
   console.log(result);
 }
 
-updateSnapshotTags().catch(console.error);
+async function main() {
+  updateSnapshotTags();
+}
+
+main().catch(console.error);

@@ -6,29 +6,29 @@
 
 import { CommonClientOptions } from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
+import { OperationOptions } from '@azure/core-client';
+import { PollerLike } from '@azure/core-lro';
+import { PollOperationState } from '@azure/core-lro';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface EmailAddress {
+    address: string;
     displayName?: string;
-    email: string;
 }
 
 // @public
 export interface EmailAttachment {
-    attachmentType: EmailAttachmentType;
-    contentBytesBase64: string;
+    contentInBase64: string;
+    contentType: string;
     name: string;
 }
 
 // @public
-export type EmailAttachmentType = string;
-
-// @public
 export class EmailClient {
     constructor(connectionString: string, options?: EmailClientOptions);
-    constructor(endpoint: string, credential: KeyCredential, options?: EmailClientOptions);
-    getSendStatus(messageId: string): Promise<SendStatusResult>;
-    send(emailMessage: EmailMessage): Promise<SendEmailResult>;
+    constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: EmailClientOptions);
+    beginSend(message: EmailMessage, options?: EmailSendOptionalParams): Promise<PollerLike<PollOperationState<EmailSendResponse>, EmailSendResponse>>;
 }
 
 // @public
@@ -36,52 +36,90 @@ export interface EmailClientOptions extends CommonClientOptions {
 }
 
 // @public
-export interface EmailContent {
-    html?: string;
-    plainText?: string;
-    subject: string;
-}
-
-// @public
-export interface EmailCustomHeader {
-    name: string;
-    value: string;
-}
-
-// @public
-export type EmailImportance = string;
+export type EmailContent = HtmlEmailContent | PlainTextEmailContent;
 
 // @public
 export interface EmailMessage {
     attachments?: EmailAttachment[];
     content: EmailContent;
-    customHeaders?: EmailCustomHeader[];
     disableUserEngagementTracking?: boolean;
-    importance?: EmailImportance;
+    headers?: {
+        [propertyName: string]: string;
+    };
     recipients: EmailRecipients;
     replyTo?: EmailAddress[];
-    sender: string;
+    senderAddress: string;
 }
 
 // @public
 export interface EmailRecipients {
     bcc?: EmailAddress[];
     cc?: EmailAddress[];
-    to: EmailAddress[];
+    to?: EmailAddress[];
 }
 
 // @public
-export interface SendEmailResult {
-    messageId: string;
+export interface EmailSendHeaders {
+    operationLocation?: string;
+    retryAfter?: number;
 }
 
 // @public
-export type SendStatus = string;
+export interface EmailSendOptionalParams extends OperationOptions {
+    operationId?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
 
 // @public
-export interface SendStatusResult {
-    messageId: string;
-    status: SendStatus;
+export type EmailSendResponse = EmailSendHeaders & EmailSendResult;
+
+// @public
+export interface EmailSendResult {
+    error?: ErrorDetail;
+    id: string;
+    status: EmailSendStatus;
+}
+
+// @public
+export type EmailSendStatus = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface HtmlEmailContent {
+    html: string;
+    plainText?: string;
+    subject: string;
+}
+
+// @public
+export enum KnownEmailSendStatus {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    NotStarted = "NotStarted",
+    Running = "Running",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export interface PlainTextEmailContent {
+    html?: string;
+    plainText: string;
+    subject: string;
 }
 
 // (No @packageDocumentation comment for this package)

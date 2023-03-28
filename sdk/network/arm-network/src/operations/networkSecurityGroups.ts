@@ -6,20 +6,27 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { NetworkSecurityGroups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   NetworkSecurityGroup,
   NetworkSecurityGroupsListAllNextOptionalParams,
   NetworkSecurityGroupsListAllOptionalParams,
+  NetworkSecurityGroupsListAllResponse,
   NetworkSecurityGroupsListNextOptionalParams,
   NetworkSecurityGroupsListOptionalParams,
+  NetworkSecurityGroupsListResponse,
   NetworkSecurityGroupsDeleteOptionalParams,
   NetworkSecurityGroupsGetOptionalParams,
   NetworkSecurityGroupsGetResponse,
@@ -28,8 +35,6 @@ import {
   TagsObject,
   NetworkSecurityGroupsUpdateTagsOptionalParams,
   NetworkSecurityGroupsUpdateTagsResponse,
-  NetworkSecurityGroupsListAllResponse,
-  NetworkSecurityGroupsListResponse,
   NetworkSecurityGroupsListAllNextResponse,
   NetworkSecurityGroupsListNextResponse
 } from "../models";
@@ -62,22 +67,34 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listAllPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listAllPagingPage(options, settings);
       }
     };
   }
 
   private async *listAllPagingPage(
-    options?: NetworkSecurityGroupsListAllOptionalParams
+    options?: NetworkSecurityGroupsListAllOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<NetworkSecurityGroup[]> {
-    let result = await this._listAll(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: NetworkSecurityGroupsListAllResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAll(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAllNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -106,19 +123,29 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceGroupName, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    options?: NetworkSecurityGroupsListOptionalParams
+    options?: NetworkSecurityGroupsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<NetworkSecurityGroup[]> {
-    let result = await this._list(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: NetworkSecurityGroupsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -126,7 +153,9 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -149,14 +178,14 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
     resourceGroupName: string,
     networkSecurityGroupName: string,
     options?: NetworkSecurityGroupsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -189,15 +218,15 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, networkSecurityGroupName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, networkSecurityGroupName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -252,8 +281,8 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
     parameters: NetworkSecurityGroup,
     options?: NetworkSecurityGroupsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NetworkSecurityGroupsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<NetworkSecurityGroupsCreateOrUpdateResponse>,
       NetworkSecurityGroupsCreateOrUpdateResponse
     >
   > {
@@ -263,7 +292,7 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
     ): Promise<NetworkSecurityGroupsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -296,15 +325,23 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, networkSecurityGroupName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        networkSecurityGroupName,
+        parameters,
+        options
+      },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      NetworkSecurityGroupsCreateOrUpdateResponse,
+      OperationState<NetworkSecurityGroupsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -477,7 +514,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters38,
+  requestBody: Parameters.parameters39,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -562,7 +599,6 @@ const listAllNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -582,7 +618,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
