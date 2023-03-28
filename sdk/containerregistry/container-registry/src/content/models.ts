@@ -6,7 +6,7 @@ import { OperationOptions } from "@azure/core-client";
 /**
  * Options for configuring the upload manifest operation.
  */
-export interface UploadManifestOptions extends OperationOptions {
+export interface SetManifestOptions extends OperationOptions {
   /**
    * Media type of the uploaded manifest
    */
@@ -36,7 +36,7 @@ export interface UploadBlobResult {
 /**
  * The result from downloading a manifest from the registry.
  */
-export interface DownloadManifestResult {
+export interface GetManifestResult {
   /**
    * The digest of the downloaded manifest as calculated by the registry.
    */
@@ -54,13 +54,13 @@ export interface DownloadManifestResult {
 }
 
 /**
- * The result from downloading an OCI manifest (a manifest of type {@link KnownManifestMediaType.OciManifest}) from the registry.
+ * The result from downloading an OCI manifest (a manifest of type {@link KnownManifestMediaType.OciImageManifest}) from the registry.
  */
-export interface DownloadOciImageManifestResult extends DownloadManifestResult {
+export interface GetOciImageManifestResult extends GetManifestResult {
   /**
    * The media type of the downloaded manifest as indicated by the Content-Type response header is an OCI manifest.
    */
-  mediaType: KnownManifestMediaType.OciManifest;
+  mediaType: KnownManifestMediaType.OciImageManifest;
 
   /**
    * The OCI manifest that was downloaded. If the requested media type was not KnownMediaType.OciManifest, this will be left undefined.
@@ -86,7 +86,7 @@ export interface DownloadBlobResult {
 /**
  * The result from uploading a manifest to the registry.
  */
-export interface UploadManifestResult {
+export interface SetManifestResult {
   /**
    * The digest of the uploaded manifest, calculated by the registry.
    */
@@ -172,13 +172,7 @@ export interface DownloadBlobOptions extends OperationOptions {}
 /**
  * Options for confguring the download manifest operation.
  */
-export interface DownloadManifestOptions extends OperationOptions {
-  /**
-   * Media type of the manifest to download. Refer to {@link KnownManifestMediaType} for known media types.
-   * Defaults to {@link KnownManifestMediaType.OciManifest}.
-   */
-  mediaType?: string | string[];
-}
+export interface GetManifestOptions extends OperationOptions {}
 
 /**
  * Known media type values for Docker and OCI manifests.
@@ -187,7 +181,7 @@ export enum KnownManifestMediaType {
   /**
    * The media type for an OCI image manifest. This format is described at https://github.com/opencontainers/image-spec/blob/main/manifest.md.
    */
-  OciManifest = "application/vnd.oci.image.manifest.v1+json",
+  OciImageManifest = "application/vnd.oci.image.manifest.v1+json",
 
   /**
    * The media type for a Docker Image Manifest, Version 2, Schema 2. This format is described at https://docs.docker.com/registry/spec/manifest-v2-2/.
